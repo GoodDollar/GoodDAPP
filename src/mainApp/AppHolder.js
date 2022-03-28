@@ -62,18 +62,16 @@ const AppHolder = () => {
   }
 
   return (
-    <ActionSheetProvider>
-      <LanguageProvider>
+    <LanguageProvider>
+      <ActionSheetProvider>
         <AppHot />
-      </LanguageProvider>
-    </ActionSheetProvider>
+      </ActionSheetProvider>
+    </LanguageProvider>
   )
 }
 
 export default () => (
   <SimpleStore.Container>
-    <LanguageProvider>
-      <AppHolder />
-    </LanguageProvider>
+    <AppHolder />
   </SimpleStore.Container>
 )

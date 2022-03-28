@@ -2,7 +2,7 @@
 import React from 'react'
 
 // components
-import { t } from '@lingui/macro'
+import { t, Trans } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 // assets
@@ -14,7 +14,11 @@ import Config from '../../../config/config'
 export default ({ onDismiss }) => (
   <ExplanationDialog
     title={t`Oops! Your iOS is outdated`}
-    text={t`Please update your iOS to access GoodDollar.\nMinimum version required: iOS ${Config.minimalIOSVersion}.`}
+    text={
+      <Trans>
+        {'Please update your iOS to access GoodDollar.\nMinimum version required: iOS ' + Config.minimalIOSVersion}
+      </Trans>
+    }
     image={illustration}
     imageHeight={124}
     buttons={[

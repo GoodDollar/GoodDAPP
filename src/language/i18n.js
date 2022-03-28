@@ -1,12 +1,21 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import { assign, flatten, intersection, isFunction, uniq } from 'lodash'
+import * as RNLocalize from 'react-native-localize'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
-import { detect } from '@lingui/detect-locale'
-import { assign } from 'lodash'
+
+import logger from '../lib/logger/js-logger'
 import AsyncStorage from '../lib/utils/asyncStorage'
+import { fallback } from '../lib/utils/async'
 import { messages as defaultMessages } from './locales/en/catalog'
+
+const log = logger.child({ from: 'I18n' })
+
+// This array should equal the array set in .linguirc
+export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
+export const defaultLocale = 'en'
 
 export const localeFiles = {
   de: () => import(`./locales/de/catalog.js`),
@@ -23,10 +32,6 @@ export const localeFiles = {
   ja: () => import(`./locales/ja/catalog.js`),
 }
 
-// This array should equal the array set in .linguirc
-export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
-export const defaultLocale = 'en'
-
 const I18n = new class {
   constructor(i18n, options) {
     assign(this, { i18n, ...options })
@@ -40,6 +45,8 @@ const I18n = new class {
     i18n.loadLocaleData(defaultLocale, { plurals: () => null })
     i18n.load(defaultLocale, defaultMessages)
     i18n.activate(defaultLocale)
+
+    log.debug('Default locale activated', { defaultLocale, defaultMessages })
   }
 
   isLocaleValid(locale) {
@@ -47,18 +54,57 @@ const I18n = new class {
   }
 
   async getInitialLocale() {
-    const { defaultLocale } = this
+    const { defaultLocale, locales } = this
 
-    const detectedLocale = await detect(
+    const detectedLocale = await this._detect(
       // eslint-disable-next-line require-await
-      async () => AsyncStorage.getItem('lang'),
+      async () => {
+        const lang = await AsyncStorage.getItem('lang')
 
-      // TODO: insert platform-specific (web/android) system locale detection here
-      // eslint-disable-next-line require-await
-      async () => defaultLocale,
+        log.debug('Delect locale - AsyncStorage', { lang })
+        return lang
+      },
+
+      () => {
+        const sysLocales = uniq(
+          flatten(RNLocalize.getLocales().map(locale => ['Code', 'Tag'].map(prop => locale[`language${prop}`]))),
+        )
+
+        log.debug('Delect locale - System', { sysLocales })
+
+        const { languageTag } = RNLocalize.findBestAvailableLanguage(intersection(locales, sysLocales))
+
+        if (this.isLocaleValid(languageTag)) {
+          log.debug('Delect locale - System', { languageTag })
+          return languageTag
+        }
+
+        if (languageTag.includes('-')) {
+          const [language] = languageTag.split('-')
+
+          if (this.isLocaleValid(language)) {
+            log.debug('Delect locale - System', { language })
+            return language
+          }
+        }
+      },
+
+      () => {
+        log.debug('Delect locale - Fallback', { defaultLocale })
+        return defaultLocale
+      },
     )
 
-    return detectedLocale && this.isLocaleValid(detectedLocale) ? detectedLocale : defaultLocale
+    if (detectedLocale) {
+      log.debug('Detected locale', { detectedLocale })
+
+      if (this.isLocaleValid(detectedLocale)) {
+        return detectedLocale
+      }
+    }
+
+    log.debug('Delect locale - Fallback', { defaultLocale })
+    return defaultLocale
   }
 
   async dynamicActivate(locale) {
@@ -67,8 +113,26 @@ const I18n = new class {
 
     i18n.load(locale, messages)
     i18n.activate(locale)
+    log.debug('Activated locale', { locale, messages })
 
     await AsyncStorage.setItem('lang', locale)
+    log.debug('AsyncStorage updated', { locale })
+  }
+
+  /** @private */
+  // eslint-disable-next-line require-await
+  async _detect(...detectors) {
+    return fallback(
+      detectors.map(detector => async () => {
+        const detectedValue = await Promise.resolve(isFunction(detector) ? detector() : detector)
+
+        if (!detectedValue) {
+          throw new Error('No locale has been detected, falling back to the next one resolver')
+        }
+
+        return detectedValue
+      }),
+    )
   }
 }(i18n, { locales, defaultLocale, localeFiles })
 

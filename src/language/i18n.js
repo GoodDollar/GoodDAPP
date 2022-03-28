@@ -70,10 +70,12 @@ const I18n = new class {
 
     await AsyncStorage.setItem('lang', locale)
   }
-}()(i18n, { locales, defaultLocale, localeFiles })
+}(i18n, { locales, defaultLocale, localeFiles })
 
 export const LanguageContext = React.createContext({
-  setLanguage: _ => null,
+  // eslint-disable-next-line require-await
+  setLanguage: async () => null,
+  defaultLocale: '',
   language: '',
 })
 

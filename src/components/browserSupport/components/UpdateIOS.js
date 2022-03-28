@@ -15,10 +15,10 @@ export default ({ onDismiss }) => (
   <ExplanationDialog
     title={t`Oops! Your iOS is outdated`}
     text={
-      <Trans>
-        {'Please update your iOS to access GoodDollar.\nMinimum version required: iOS '}
+      <>
+        <Trans>{'Please update your iOS to access GoodDollar.\nMinimum version required: iOS '}</Trans>
         {Config.minimalIOSVersion}
-      </Trans>
+      </>
     }
     image={illustration}
     imageHeight={124}

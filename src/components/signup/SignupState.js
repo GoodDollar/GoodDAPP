@@ -39,7 +39,7 @@ import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
 import AuthStateWrapper from '../auth/components/AuthStateWrapper'
-import { useProfileContext } from '../../lib/hooks/useProfileContext'
+import useUserContext from '../../lib/hooks/useUserContext'
 import type { SMSRecord } from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
@@ -120,7 +120,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
   const checkExisting = useCheckExisting(navigation)
-  const { updateUserState } = useProfileContext()
+  const { updateUserState } = useUserContext()
 
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!torusUserFromProps.email

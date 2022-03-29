@@ -5,7 +5,7 @@ import userStorage from '../userStorage/UserStorage'
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
 import AsyncStorage from '../utils/asyncStorage'
-import { useProfileContext } from './useProfileContext'
+import useUserContext from './useUserContext'
 
 const useAvatar = avatar => {
   const cachedDataUrl = useMemo(() => {
@@ -51,10 +51,7 @@ const useAvatar = avatar => {
 }
 
 export const useUploadedAvatar = () => {
-  const {
-    userState: { uploadedAvatar },
-    updateUserState,
-  } = useProfileContext()
+  const { uploadedAvatar, updateUserState } = useUserContext()
   const [avatarPassed, setAvatarPassed] = useState(() => uploadedAvatar)
   const initialAvatarPassedRef = useRef(avatarPassed)
 

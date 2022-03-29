@@ -25,7 +25,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
-import { useProfileContext } from '../../lib/hooks/useProfileContext'
+import useUserContext from '../../lib/hooks/useUserContext'
 
 type LoadingProps = {
   navigation: any,
@@ -66,10 +66,7 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
-  const {
-    userState: { account },
-    updateUserState,
-  } = useProfileContext()
+  const { account, updateUserState } = useUserContext()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation

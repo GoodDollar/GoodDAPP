@@ -24,12 +24,12 @@ import {
 } from '../../../../lib/analytics/analytics'
 
 import { tryUntil } from '../../../../lib/utils/async'
-import { useProfileContext } from '../../../../lib/hooks/useProfileContext'
+import useUserContext from '../../../../lib/hooks/useUserContext'
 
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
-  const { updateUserState } = useProfileContext()
+  const { updateUserState } = useUserContext()
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception

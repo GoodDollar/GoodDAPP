@@ -9,15 +9,14 @@ import AsyncStorage from '../lib/utils/asyncStorage'
 
 import Config from '../config/config'
 
-import { UserContext } from '../lib/contexts/userContext'
-import SimpleStore, { useCurriedSetters } from '../lib/undux/SimpleStore'
+import SimpleStore from '../lib/undux/SimpleStore'
 import LanguageProvider from '../language/i18n'
-import { useProfileContext } from '../lib/hooks/useProfileContext'
+import useUserContext from '../lib/hooks/useUserContext'
 import AppHot from './AppHot'
 
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
-  const { updateUserState } = useProfileContext()
+  const { updateUserState } = useUserContext()
 
   useEffect(() => {
     /**

@@ -38,7 +38,7 @@ import { withTimeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
 
 import AuthContext from '../context/AuthContext'
-import { useProfileContext } from '../../../lib/hooks/useProfileContext'
+import useUserContext from '../../../lib/hooks/useUserContext'
 import mustache from '../../../lib/utils/mustache'
 import useTorus from './hooks/useTorus'
 
@@ -51,7 +51,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const { navigate } = navigation
-  const { updateUserState } = useProfileContext()
+  const { updateUserState } = useUserContext()
 
   const getTorusUserRedirect = async () => {
     if (!sdkInitialized || torusSDK.popupMode) {

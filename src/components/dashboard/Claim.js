@@ -49,7 +49,7 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
-import { useProfileContext } from '../../lib/hooks/useProfileContext'
+import useUserContext from '../../lib/hooks/useUserContext'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -220,12 +220,10 @@ const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
   const {
-    userState: {
-      isLoggedInCitizen: isCitizen,
-      account: { entitlement },
-    },
+    isLoggedInCitizen: isCitizen,
+    account: { entitlement },
     updateUserState,
-  } = useProfileContext()
+  } = useUserContext()
 
   const { appState } = useAppState()
   const store = SimpleStore.useStore()

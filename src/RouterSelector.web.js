@@ -22,7 +22,7 @@ import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
 import { UserContext } from './lib/contexts/userContext'
-import { useProfileContext } from './lib/hooks/useProfileContext'
+import useUserContext from './lib/hooks/useUserContext'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -91,9 +91,7 @@ const SplashSelector = isAuthReload
 
 const RouterSelector = () => {
   // we use global state for signup process to signal user has registered
-  const {
-    userState: { isLoggedIn },
-  } = useProfileContext(UserContext)
+  const { isLoggedIn } = useUserContext(UserContext)
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 

@@ -5,7 +5,9 @@ import { defaultUserState } from '../constants/user'
 export const useProfileContext = () => {
   const [userState, setUserState] = useState(defaultUserState)
 
-  const { userState: userStateContext, updateUserState, resetUserContext } = useContext(UserContext)
+  const context = useContext(UserContext)
+
+  const { userState: userStateContext, updateUserState, resetUserContext } = context
 
   useEffect(() => {
     setUserState(userStateContext)

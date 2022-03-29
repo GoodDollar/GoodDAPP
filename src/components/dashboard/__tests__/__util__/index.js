@@ -4,6 +4,7 @@ import { createBrowserApp } from '@react-navigation/web'
 import * as libShare from '../../../../lib/share'
 import GDStore from '../../../../lib/undux/GDStore'
 import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
+import { UserContextProvider } from '../../../../lib/contexts/userContext'
 const { Container } = GDStore
 
 export const getComponentWithMocks = componentPath => {
@@ -23,7 +24,9 @@ const withContainer = Component => props => {
   const WrappedComponent = withThemeAndLocalizationProvider(Component)
   return (
     <Container>
-      <WrappedComponent {...props} />
+      <UserContextProvider>
+        <WrappedComponent {...props} />
+      </UserContextProvider>
     </Container>
   )
 }

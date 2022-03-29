@@ -25,8 +25,11 @@ const TopBar = ({
   avatarSize,
 }) => {
   const {
-    accountData: { balance },
+    userState: {
+      account: { balance },
+    },
   } = useProfileContext()
+
   const { smallAvatar: avatar } = useProfile()
 
   const redirectToProfile = useCallback(() => {

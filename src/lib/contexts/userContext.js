@@ -10,7 +10,7 @@ export const UserContextProvider = props => {
     setUserState(prev => ({ ...prev, ...value }))
   }, [])
 
-  const resetUserContext = useCallback(value => {
+  const resetUserContext = useCallback(() => {
     setUserState(defaultUserState)
   }, [])
 

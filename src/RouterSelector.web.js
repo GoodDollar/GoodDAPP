@@ -1,5 +1,5 @@
 // libraries
-import React, { memo, useContext, useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { pick } from 'lodash'
 
 // components
@@ -22,6 +22,7 @@ import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import handleLinks from './lib/utils/handleLinks'
 import { UserContext } from './lib/contexts/userContext'
+import { useProfileContext } from './lib/hooks/useProfileContext'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -92,7 +93,7 @@ const RouterSelector = () => {
   // we use global state for signup process to signal user has registered
   const {
     userState: { isLoggedIn },
-  } = useContext(UserContext)
+  } = useProfileContext(UserContext)
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 

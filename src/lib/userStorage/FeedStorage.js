@@ -10,6 +10,7 @@ import { updateFeedEventAvatar } from '../updates/utils/feed'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import type { UserStorage } from './UserStorageClass'
+import type { FeedFilter } from './UserStorage'
 import { asLogRecord } from './utlis'
 
 const log = logger.child({ from: 'FeedStorage' })
@@ -749,14 +750,14 @@ export class FeedStorage {
     }
   }
 
-  async getFeedPage(numResult: number, reset?: boolean, filterCallback?: (item: any) => boolean) {
+  async getFeedPage(numResult: number, reset?: boolean, filter?: FeedFilter) {
     if (reset || isUndefined(this.cursor)) {
       this.cursor = 0
     }
 
     await this.ready
 
-    const items = await this.storage.getFeedPage(numResult, this.cursor, filterCallback)
+    const items = await this.storage.getFeedPage(numResult, this.cursor, filter)
 
     this.cursor += items.length
 

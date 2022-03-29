@@ -44,6 +44,8 @@ export type FieldPrivacy = 'private' | 'public' | 'masked'
 
 type EncryptedField = any
 
+export type FeedFilter = { include?: string[], exclude?: string[] }
+
 /**
  * User's profile field data
  */
@@ -698,12 +700,8 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(
-    numResults: number,
-    reset?: boolean,
-    filterCallback?: (item: any) => boolean,
-  ): Promise<Array<FeedEvent>> {
-    return this.feedStorage.getFeedPage(numResults, reset, filterCallback)
+  async getFeedPage(numResults: number, reset?: boolean, filter?: FeedFilter): Promise<Array<FeedEvent>> {
+    return this.feedStorage.getFeedPage(numResults, reset, filter)
   }
 
   /**
@@ -711,12 +709,8 @@ export class UserStorage {
    * @returns {Promise} Promise with array of standardized feed events
    * @todo Add pagination
    */
-  async getFormattedEvents(
-    numResults: number,
-    reset?: boolean,
-    filterCallback?: (item: any) => boolean,
-  ): Promise<Array<StandardFeed>> {
-    const feed = await this.getFeedPage(numResults, reset, filterCallback)
+  async getFormattedEvents(numResults: number, reset?: boolean, filter?: FeedFilter): Promise<Array<StandardFeed>> {
+    const feed = await this.getFeedPage(numResults, reset, filter)
 
     logger.debug('getFormattedEvents page result:', {
       numResults,
@@ -883,6 +877,9 @@ export class UserStorage {
       sellerWebsite,
       sellerName,
       picture,
+      link,
+      sponsoredLink,
+      sponsoredLogo,
     } = data
     const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
@@ -924,6 +921,9 @@ export class UserStorage {
         smallReadMore,
         withdrawCode,
         picture,
+        link,
+        sponsoredLink,
+        sponsoredLogo,
       },
     }
 

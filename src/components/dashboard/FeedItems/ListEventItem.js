@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { Image, Linking, Platform, Pressable, View } from 'react-native'
 import { get } from 'lodash'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
@@ -11,12 +11,18 @@ import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import { Icon, Section, Text } from '../../common'
+import useOnPress from '../../../lib/hooks/useOnPress'
+import logger from '../../../lib/logger/js-logger'
+import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
+import { SvgImage } from './SvgImage'
+
+const log = logger.child({ from: 'ListEventItem' })
 
 const InviteItem = ({ item, theme }) => (
   <Section.Row style={{ flex: 1, paddingVertical: theme.sizes.default * 1.5 }}>
@@ -53,47 +59,65 @@ const InviteItem = ({ item, theme }) => (
   </Section.Row>
 )
 
-const NewsItem: React.FC = ({ item, eventSettings, styles }) => (
-  <View style={styles.rowContent}>
-    <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
+const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
+  const {
+    data: { sponsoredLink, sponsoredLogo },
+  } = item
+  const onSponsorPress = useOnPress(() => {
+    fireEvent(GOTO_SPONSOR)
+    Linking.openURL(sponsoredLink).catch(e => log.error('Open news feed error', e))
+  }, [sponsoredLink])
+  return (
+    <View style={styles.rowContent}>
+      <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
 
-    <View style={styles.newsContent}>
-      {item.data.picture && <Image source={{ uri: item.data.picture }} style={styles.newsPicture} />}
+      <View style={styles.newsContent}>
+        {item.data.picture && <Image source={{ uri: item.data.picture }} style={styles.newsPicture} />}
 
-      <View style={styles.innerRow}>
-        <View grow style={styles.mainContents}>
-          <View style={{ ...styles.transferInfo, height: undefined }} alignItems="flex-start">
-            <View style={[styles.mainInfo, item.type === 'claiming' && styles.claimingCardFeedText]}>
-              <EventCounterParty
-                style={styles.feedItem}
-                feedItem={item}
-                subtitle
-                isSmallDevice={isMobile && getScreenWidth() < 353}
-                numberOfLines={2}
-              />
+        <View style={styles.innerRow}>
+          <View grow style={styles.mainContents}>
+            <View style={{ ...styles.transferInfo, height: undefined }} alignItems="flex-start">
+              <View style={[styles.mainInfo, item.type === 'claiming' && styles.claimingCardFeedText]}>
+                <EventCounterParty
+                  style={styles.feedItem}
+                  feedItem={item}
+                  subtitle
+                  isSmallDevice={isMobile && getScreenWidth() < 353}
+                  numberOfLines={2}
+                />
 
-              <Text
-                lineHeight={20}
-                numberOfLines={3}
-                color="gray80Percent"
-                fontSize={12}
-                textTransform="capitalize"
-                style={styles.newsMessage}
-              >
-                {get(item, 'data.message')}
-              </Text>
+                <Text
+                  lineHeight={20}
+                  numberOfLines={3}
+                  color="gray80Percent"
+                  fontSize={12}
+                  textTransform="capitalize"
+                  style={styles.newsMessage}
+                >
+                  {get(item, 'data.message')}
+                </Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.dateContainer}>
-            <Text fontSize={10} color="gray80Percent" lineHeight={17}>
-              {getFormattedDateTime(item.date)}
-            </Text>
+            <View style={styles.dateContainer}>
+              <Text fontSize={10} color="gray80Percent" lineHeight={17}>
+                {getFormattedDateTime(item.date)}
+              </Text>
+
+              {!!sponsoredLink && !!sponsoredLogo && (
+                <Pressable style={styles.sponsorContainer} onPress={onSponsorPress}>
+                  <Text fontSize={10} color="gray80Percent" lineHeight={17} textAlign="left">
+                    Sponsored by{' '}
+                  </Text>
+                  <SvgImage src={sponsoredLogo} height="15" width="47" />
+                </Pressable>
+              )}
+            </View>
           </View>
         </View>
       </View>
     </View>
-  </View>
-)
+  )
+}
 
 /**
  * Render list withdraw item for feed list
@@ -404,6 +428,12 @@ const getStylesFromProps = ({ theme }) => ({
     textAlign: 'left',
     paddingTop: 9,
     marginBottom: 15,
+  },
+  sponsorContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 24,
   },
 })
 

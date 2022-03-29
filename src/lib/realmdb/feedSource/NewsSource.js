@@ -4,14 +4,14 @@ import FeedSource from './FeedSource'
 
 export default class NewsSource extends FeedSource {
   // format from ceramic format to TreadDB format
-  formatCeramicPost(ceramicPost) {
+  static formatCeramicPost(ceramicPost) {
     return {
       _id: ceramicPost.id,
       id: ceramicPost.id,
       createdDate: moment(ceramicPost.published).format(),
       date: moment(ceramicPost.published).format(),
       displayType: 'news',
-      status: 'completed',
+      status: ceramicPost.hidden ? 'deleted' : 'published',
       type: 'news',
       data: {
         reason: ceramicPost.content,
@@ -19,6 +19,9 @@ export default class NewsSource extends FeedSource {
         subtitle: ceramicPost.title,
         picture: ceramicPost.picture,
         readMore: true,
+        link: ceramicPost.link,
+        sponsoredLink: ceramicPost.sponsored_link,
+        sponsoredLogo: ceramicPost.sponsored_logo,
       },
     }
   }
@@ -32,7 +35,7 @@ export default class NewsSource extends FeedSource {
       const ceramicPosts = await CeramicFeed.getPosts()
       log.debug('Ceramic fetched posts', ceramicPosts)
 
-      const formatedCeramicPosts = ceramicPosts.map(this.formatCeramicPost)
+      const formatedCeramicPosts = ceramicPosts.map(NewsSource.formatCeramicPost)
 
       await Feed.save(...formatedCeramicPosts)
 
@@ -50,7 +53,7 @@ export default class NewsSource extends FeedSource {
             case 'added':
             case 'updated': {
               const post = await CeramicFeed.getPost(postId)
-              await Feed.save(this.formatCeramicPost(post))
+              await Feed.save(NewsSource.formatCeramicPost(post))
               break
             }
             default: {

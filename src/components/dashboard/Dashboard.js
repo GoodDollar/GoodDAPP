@@ -14,7 +14,7 @@ import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
-import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
+import { fireEvent, GOTO_TAB_FEED, INVITE_BANNER, SCROLL_FEED } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -83,14 +83,14 @@ const { isCryptoLiteracy } = Config
 
 const FeedTabs = {
   All: 'All',
-  Transactions: 'Transactions',
   News: 'News',
+  Transactions: 'Transactions',
 }
 
 const tabFilter = {
-  [FeedTabs.All]: () => true,
-  [FeedTabs.Transactions]: feedItem => feedItem.type !== 'news',
-  [FeedTabs.News]: feedItem => feedItem.type === 'news',
+  [FeedTabs.All]: undefined,
+  [FeedTabs.News]: { include: ['news'] },
+  [FeedTabs.Transactions]: { exclude: ['news'] },
 }
 
 export type DashboardProps = {
@@ -563,6 +563,14 @@ const Dashboard = props => {
 
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
+      const {
+        type,
+        data: { link },
+      } = receipt
+      if (type === 'news') {
+        link && Linking.openURL(link).catch(e => log.error('Open news feed error', e))
+        return
+      }
       showEventModal(horizontal ? receipt : null)
       setDialogBlur(horizontal)
     },
@@ -596,6 +604,7 @@ const Dashboard = props => {
 
   const handleScrollEnd = useCallback(
     ({ nativeEvent }) => {
+      fireEvent(SCROLL_FEED)
       const minScrollRequired = 150
       const scrollPosition = nativeEvent.contentOffset.y
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
@@ -721,6 +730,7 @@ const Dashboard = props => {
           {TABS_ARRAY.map((tab, index) => {
             const onTabPress = () => {
               log.debug('feed category selected', { tab })
+              fireEvent(GOTO_TAB_FEED, { name: tab })
               setActiveTab(tab)
               getFeedPage(true, tab)
             }

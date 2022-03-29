@@ -13,7 +13,7 @@ import logger from '../logger/js-logger'
 import type { ThreadDB } from '../textile/ThreadDB'
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
-import type { Profile } from '../userStorage/UserStorageClass'
+import type { FeedFilter, Profile } from '../userStorage/UserStorageClass'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { retry } from '../utils/async'
 import { NewsSource, TransactionsSource } from './sources'
@@ -383,9 +383,18 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults, offset, filterCallback = () => true): Promise<any> {
+  async getFeedPage(numResults, offset, filter?: FeedFilter): Promise<any> {
     try {
       // use dexie directly because mongoify only sorts results and not all documents
+      const filterByType = item => {
+        if (!filter) {
+          return true
+        }
+        const isExclude = filter.exclude ? filter.exclude.includes(item.type) === false : true
+        const isInclude = filter.include ? filter.include.includes(item.type) : true
+        return isExclude && isInclude
+      }
+
       const res = await this.db.Feed.table
         .orderBy('date')
         .reverse()
@@ -394,7 +403,7 @@ class RealmDB implements DB, ProfileDB {
           i =>
             ['deleted', 'cancelled', 'canceled'].includes(i.status) === false &&
             ['deleted', 'cancelled', 'canceled'].includes(i.otplStatus) === false &&
-            filterCallback(i),
+            filterByType(i),
         )
         .limit(numResults)
         .toArray()

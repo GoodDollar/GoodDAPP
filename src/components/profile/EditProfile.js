@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { isEqualWith, pickBy } from 'lodash'
+import { t } from '@lingui/macro'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -113,7 +114,7 @@ const EditProfile = ({ screenProps, styles }) => {
       await userStorage.setProfile(toupdate, true)
     } catch (e) {
       log.error('Error saving profile', e.message, e, { profile, dialogShown: true })
-      showErrorDialog('Could not save profile. Please try again.')
+      showErrorDialog(t`Could not save profile. Please try again.`)
     } finally {
       setSaving(false)
     }

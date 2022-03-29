@@ -2,6 +2,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/js-logger'
 import {
@@ -137,11 +138,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         android: 'Chrome',
       })
 
-      suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
+      suggestion = t`Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
     }
 
     setWalletPreparing(false)
-    showErrorDialog(`We were unable to load the wallet. ${suggestion}`)
+    showErrorDialog(t`We were unable to load the wallet. ${suggestion}`)
   }
 
   const selfCustodyLogin = useCallback(() => {

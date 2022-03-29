@@ -76,15 +76,10 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         category: ExceptionCategory.Human,
         dialogShown: true,
       })
-      showErrorDialog(
-        t`Your pass phrase appears
-      to be incorrect.`,
-        undefined,
-        {
-          title: t`Ooops ...`,
-          boldMessage: t`Please check it and try again.`,
-        },
-      )
+      showErrorDialog(t`Your pass phrase appears` + '\n' + t`to be incorrect.`, undefined, {
+        title: t`Ooops ...`,
+        boldMessage: t`Please check it and try again.`,
+      })
     }
 
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
@@ -115,7 +110,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         showDialog({
           visible: true,
           image: <SuccessAnimation />,
-          buttons: [{ text: 'Yay!' }],
+          buttons: [{ text: t`Yay!` }],
           children: (
             <Text
               fontFamily={theme.fonts.slab}
@@ -123,10 +118,10 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               fontSize={Platform.select({ web: 46, default: 34 })}
               style={styles.dialogTitle}
             >
-              Welcome back!
+              {t`Welcome back!`}
             </Text>
           ),
-          message: `Hi ${firstName},\nyour wallet was recovered successfully`,
+          message: t`Hi ${firstName},` + '\n' + t`your wallet was recovered successfully`,
           onDismiss: () => restart(incomingRedirectUrl),
         })
         fireEvent(RECOVER_SUCCESS)
@@ -167,7 +162,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       <Section grow={5} style={styles.wrapper}>
         <Section.Stack grow style={styles.instructions} justifyContent="space-around">
           <Text fontWeight="medium" fontSize={22}>
-            {'Please enter your\n12-word pass phrase:'}
+            {t`Please enter your`}
+            {'\n'}
+            {t`12-word pass phrase:`}
           </Text>
         </Section.Stack>
         <Section.Stack grow={4} justifyContent="space-between">
@@ -195,7 +192,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         </Section.Row>
         <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
           <CustomButton style={styles.buttonLayout} onPress={recover} disabled={isSubmitBlocked || isRecovering}>
-            Recover my wallet
+            {t`Recover my wallet`}
           </CustomButton>
         </Section.Stack>
       </Section>

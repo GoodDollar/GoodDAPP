@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { withTheme } from 'react-native-paper'
+import { t } from '@lingui/macro'
 import { useWrappedUserStorage } from '../../lib/userStorage/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/js-logger'
@@ -39,7 +40,7 @@ const EditAvatar = ({ theme, screenProps }) => {
       const { message } = exception
 
       log.error('saving image failed:', message, exception, { dialogShown: true })
-      showErrorDialog('We could not capture all your beauty. Please try again.')
+      showErrorDialog(t`We could not capture all your beauty. Please try again.`)
       return
     } finally {
       setProcessing(false)

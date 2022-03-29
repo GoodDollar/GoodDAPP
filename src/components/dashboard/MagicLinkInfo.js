@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
+import { t, Trans } from '@lingui/macro'
 import { fireEvent, RESENDING_MAGICLINK_SUCCESS } from '../../lib/analytics/analytics'
 import API, { getErrorMessage } from '../../lib/API/api'
 import userStorage from '../../lib/userStorage/UserStorage'
@@ -27,8 +28,8 @@ const MagicLinkInfoComponent = props => {
         log.info('Resending magiclink')
         fireEvent(RESENDING_MAGICLINK_SUCCESS)
         showDialog({
-          title: 'Hocus Pocus!',
-          message: 'We sent you an email with your Magic Link',
+          title: t`Hocus Pocus!`,
+          message: t`We sent you an email with your Magic Link`,
           onDismiss: () => screenProps.goToRoot(),
         })
       })
@@ -37,7 +38,7 @@ const MagicLinkInfoComponent = props => {
         const exception = new Error(message)
 
         log.error('failed Resending magiclink', message, exception, { dialogShown: true })
-        showErrorDialog('Could not send magic-link email. Please try again.')
+        showErrorDialog(t`'Could not send magic-link email. Please try again.`)
       })
   }, [screenProps, showErrorDialog, showDialog])
 
@@ -50,19 +51,21 @@ const MagicLinkInfoComponent = props => {
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <View style={styles.bottomContainer}>
               <Text fontWeight="bold" fontSize={28} fontFamily={theme.fonts.slab} color="primary">
-                {'Abracadabra\nAnd you’re in!'}
+                {t`Abracadabra\nAnd you’re in!`}
               </Text>
             </View>
           </Section.Row>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <View style={styles.bottomContainer}>
-              <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-                {'By clicking your '}
-                <Text fontWeight="bold" fontSize={22} fontFamily="Roboto">
-                  {'Magic Link\n'}
+              <Trans>
+                <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
+                  {'By clicking your '}
+                  <Text fontWeight="bold" fontSize={22} fontFamily="Roboto">
+                    {'Magic Link\n'}
+                  </Text>
+                  {'you can sign in from any device '}
                 </Text>
-                {'you can sign in from any device '}
-              </Text>
+              </Trans>
             </View>
           </Section.Row>
           <View style={styles.illustration}>
@@ -72,10 +75,10 @@ const MagicLinkInfoComponent = props => {
       </Section>
       <Section.Stack alignItems="stretch">
         <CustomButton mode="outlined" dark={false} onPress={sendMagicEmail}>
-          EMAIL ME THE MAGIC LINK
+          {t`EMAIL ME THE MAGIC LINK`}
         </CustomButton>
         <CustomButton style={styles.downBtn} onPress={onPressOk}>
-          OK
+          {t`OK`}
         </CustomButton>
       </Section.Stack>
     </Wrapper>

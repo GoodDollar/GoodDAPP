@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 
+import { t } from '@lingui/macro'
 import logger from '../logger/js-logger'
 
 import DeleteAccountDialog from '../../components/common/dialogs/DeleteAccountDialog'
@@ -7,7 +8,6 @@ import DeleteAccountDialog from '../../components/common/dialogs/DeleteAccountDi
 import AsyncStorage from '../utils/asyncStorage'
 import retryImport from '../utils/retryImport'
 import restart from '../utils/restart'
-
 import { theme } from '../../components/theme/styles'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
@@ -16,7 +16,7 @@ export default showErrorDialog =>
   useCallback(() => {
     const deleteHandler = async () => {
       showErrorDialog('', '', {
-        title: 'ARE YOU SURE?',
+        title: t`ARE YOU SURE?`,
         content: <DeleteAccountDialog icon="loading" />,
         showButtons: false,
       })

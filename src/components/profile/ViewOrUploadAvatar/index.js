@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
+import { t } from '@lingui/macro'
 import { CustomButton, Section, Wrapper } from '../../common'
 import UserAvatar from '../../common/view/UserAvatar'
 import { withStyles } from '../../../lib/styles'
@@ -56,7 +57,7 @@ const ViewOrUploadAvatar = props => {
       refreshProfile()
     } catch (e) {
       log.error('delete image failed:', e.message, e, { dialogShown: true })
-      showErrorDialog('Could not delete image. Please try again.')
+      showErrorDialog(t`Could not delete image. Please try again.`)
     }
   }, [showErrorDialog, refreshProfile])
 
@@ -81,7 +82,7 @@ const ViewOrUploadAvatar = props => {
         })
         .catch(e => {
           log.error('save image failed:', e.message, e, { dialogShown: true })
-          showErrorDialog('Could not save image. Please try again.')
+          showErrorDialog(t`Could not save image. Please try again.`)
         })
     },
     [screenProps, refreshProfile],

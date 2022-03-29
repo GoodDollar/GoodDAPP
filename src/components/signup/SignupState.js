@@ -7,6 +7,7 @@ import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import moment from 'moment'
 
+import { t } from '@lingui/macro'
 import useCheckExisting from '../auth/hooks/useCheckExisting'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
@@ -402,7 +403,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           return navigateWithFocus(nextRoute.key)
         } catch (e) {
           log.error('Send mobile code failed', e.message, e, { dialogShown: true })
-          return showErrorDialog('Could not send verification code. Please try again')
+          return showErrorDialog(t`Could not send verification code. Please try again`)
         } finally {
           setLoading(false)
         }
@@ -426,7 +427,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               dialogShown: true,
             })
 
-            return showErrorDialog('Could not send verification email. Please try again')
+            return showErrorDialog(t`Could not send verification email. Please try again`)
           }
 
           log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
@@ -448,7 +449,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           decorate(e, ExceptionCode.E9)
 
           log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
-          return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
+          return showErrorDialog(t`Could not send verification email. Please try again`, ExceptionCode.E9)
         } finally {
           setLoading(false)
         }
@@ -617,7 +618,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
 
     // eslint-disable-next-line no-restricted-globals
-    showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: restart })
+    showErrorDialog(t`Wallet could not be loaded. Please refresh.`, '', { onDismiss: restart })
   }, [unrecoverableError, showErrorDialog])
 
   // listening to the email changes in the state

@@ -38,6 +38,7 @@ import { withTimeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
 
 import AuthContext from '../context/AuthContext'
+import mustache from '../../../lib/utils/mustache'
 import useTorus from './hooks/useTorus'
 
 const log = logger.child({ from: 'AuthTorus' })
@@ -138,11 +139,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         android: 'Chrome',
       })
 
-      suggestion = t`Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
+      suggestion = mustache(
+        t`Your default browser isn't supported. Please, set {suggestedBrowser} as default and try again.`,
+        { suggestedBrowser },
+      )
     }
 
     setWalletPreparing(false)
-    showErrorDialog(t`We were unable to load the wallet. ${suggestion}`)
+
+    showErrorDialog(t`We were unable to load the wallet.` + ` ${suggestion}`)
   }
 
   const selfCustodyLogin = useCallback(() => {

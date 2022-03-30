@@ -13,8 +13,6 @@ jest.doMock('../../../lib/wallet/GoodWallet', () => {
   }
 })
 
-jest.setTimeout(30000)
-
 describe('ReceiveToAddress', () => {
   beforeAll(async () => {
     await initUserStorage()

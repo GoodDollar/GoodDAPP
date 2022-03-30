@@ -5,6 +5,7 @@ import { get } from 'lodash'
 
 //components
 // import Separator from '../../../common/layout/Separator'
+import { t } from '@lingui/macro'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
 
@@ -44,6 +45,8 @@ import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotosho
 import useProfile from '../../../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../../../lib/contexts/togglesContext'
 
+// Localization
+
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 // const { useABTesting } = createABTesting('FV_Intro_Screen')
@@ -59,14 +62,14 @@ const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>
     <View style={styles.title}>
       <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
-        {'New Wallet?\nYou’ll need to wait 24 hours'}
+        {t`New Wallet?`}
+        {t`You’ll need to wait 24 hours`}
       </Text>
     </View>
     <View style={styles.paddingVertical20}>
       <Text style={styles.textStyle}>
-        {
-          'We see you recently deleted your wallet and have opened a new one.\nThis delay is to prevent misuse, thanks for understanding!'
-        }
+        {t`We see you recently deleted your wallet and have opened a new one.`}
+        {t`This delay is to prevent misuse, thanks for understanding!`}
       </Text>
     </View>
   </View>
@@ -121,8 +124,7 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
           </Section.Text>
         </Section.Title>
         <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainTextB}>
-          Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any
-          third party
+          {t`Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any third party`}
         </Section.Text>
         <Section.Text
           fontWeight="bold"
@@ -132,13 +134,13 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
           style={styles.learnMore}
           onPress={onLearnMore}
         >
-          Learn More
+          {t`Learn More`}
         </Section.Text>
         <View style={styles.illustrationB}>
           <FashionShootSVG />
         </View>
         <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
-          OK, VERIFY ME
+          {t`OK, VERIFY ME`}
         </CustomButton>
       </View>
     </Section>

@@ -2,6 +2,7 @@
 import React, { useCallback, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 import { BN } from 'web3-utils'
+import { t } from '@lingui/macro'
 import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -55,12 +56,12 @@ const Amount = (props: AmountProps) => {
       }
 
       // setError(`Sorry, you don't have enough G$ to send ${weiToGd(amountWithFee)} (${txFeePercents}% transaction fee)`)
-      setError(`Sorry, you don't have enough G$s`)
+      setError(t`Sorry, you don't have enough G$s`)
 
       return false
     } catch (e) {
       log.warn('Failed canContiniue', e.message, e)
-      setError(`Sorry, Something unexpected happened, please try again.`)
+      setError(t`Sorry, Something unexpected happened, please try again.`)
       return false
     }
   }
@@ -98,13 +99,13 @@ const Amount = (props: AmountProps) => {
               amount={GDAmount}
               handleAmountChange={handleAmountChange}
               error={error}
-              title="How much?"
+              title={t`How much?`}
             />
           </Section.Stack>
           <Section.Row>
             <Section.Row grow={1} justifyContent="flex-start">
               <BackButton mode="text" screenProps={screenProps}>
-                Cancel
+                {t`Cancel`}
               </BackButton>
             </Section.Row>
             <Section.Stack grow={3}>

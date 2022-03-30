@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { debounce } from 'lodash'
+import { t } from '@lingui/macro'
 import Config from '../../../config/config'
 import LoadingIcon from '../modal/LoadingIcon'
 import {
@@ -32,7 +33,7 @@ const InternetConnection = props => {
     debounce((message, showDialog, setShowDisconnect) => {
       setShowDisconnect(true)
       showDialog({
-        title: 'Waiting for network',
+        title: t`Waiting for network`,
         image: <LoadingIcon />,
         message,
         showButtons: false,
@@ -61,7 +62,7 @@ const InternetConnection = props => {
 
       let message
       if (isConnection === false) {
-        message = 'Check your internet connection'
+        message = t`Check your internet connection`
       } else {
         const servers = []
         if (isAPIConnection === false) {
@@ -74,7 +75,7 @@ const InternetConnection = props => {
         // if (isConnectionGun === false) {
         //   servers.push('GunDB')
         // }
-        message = `Waiting for GoodDollar's server (${servers.join(', ')})`
+        message = t`Waiting for GoodDollar's server (${servers.join(', ')})`
       }
 
       showDialogWindow(message, showDialog, setShowDisconnect)

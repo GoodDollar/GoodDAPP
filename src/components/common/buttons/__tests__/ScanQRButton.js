@@ -3,10 +3,12 @@ import renderer from 'react-test-renderer'
 
 import GDStore from '../../../../lib/undux/GDStore'
 import ImportedScanQRButton from '../ScanQRButton'
-import { withThemeProvider } from '../../../../__tests__/__util__'
-const ScanQRButton = withThemeProvider(ImportedScanQRButton)
+import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
+const ScanQRButton = withThemeAndLocalizationProvider(ImportedScanQRButton)
 
 const { Container } = GDStore
+
+jest.setTimeout(20000)
 
 describe('ScanQRButton', () => {
   it(`should render without errors`, () => {

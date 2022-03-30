@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../__tests__/__util__'
+import { withThemeAndLocalizationProvider } from '../../../__tests__/__util__'
 import ImportedSplash from '../SplashDesktop'
 
-const SplashDesktop = withThemeProvider(ImportedSplash)
+const SplashDesktop = withThemeAndLocalizationProvider(ImportedSplash)
 
 const emptyHandler = () => {}
 const mockUrl = 'http://localhost:8000'

@@ -5,6 +5,7 @@ import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 
+import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -45,6 +46,7 @@ import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import Separator from '../common/layout/Separator'
+import { useInviteCode } from '../invite/useInvites'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -142,6 +144,8 @@ const Dashboard = props => {
   const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const [price, showPrice] = useGoodDollarPrice()
+
+  useInviteCode() //preload user invite code
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -586,14 +590,14 @@ const Dashboard = props => {
           showEventModal(item)
         } else {
           showDialog({
-            title: 'Error',
-            message: 'Event does not exist',
+            title: t`Error`,
+            message: t`Event does not exist`,
           })
         }
       } catch (e) {
         showDialog({
-          title: 'Error',
-          message: 'Event does not exist',
+          title: t`Error`,
+          message: t`Event does not exist`,
         })
       }
     },

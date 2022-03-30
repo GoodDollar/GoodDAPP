@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
+import { t } from '@lingui/macro'
 import { withStyles } from '../../lib/styles'
 import { Section } from '../common'
 import Text from '../common/view/Text'
@@ -14,7 +15,7 @@ export type AmountProps = {
   screenProps: any,
 }
 
-const surveyOptions = ['A product', 'A service', 'Other']
+const surveyOptions = [t`A product`, t`A service`, t`Other`]
 
 /**
  * Screen that shows transaction summary for a send link action
@@ -35,7 +36,7 @@ const SurveySend = ({ handleCheckSurvey, styles, onDismiss }: any) => {
         buttons: [
           {
             style: styles.OkButton,
-            text: 'Ok',
+            text: t`Ok`,
             onPress: dismiss => {
               dismiss()
             },
@@ -61,17 +62,17 @@ const Content = ({ handleCheckSurvey, styles }: any) => {
       <Section.Row justifyContent="center">
         <View style={styles.titleContainerSurveySend}>
           <Text textAlign="center" fontSize={24} fontWeight="bold">
-            Just a quick question…
+            {t`Just a quick question…`}
           </Text>
           <Text textAlign="center" fontSize={16}>
-            (In order for us to improve)
+            {t`(In order for us to improve)`}
           </Text>
         </View>
       </Section.Row>
       <Section.Row justifyContent="center" style={styles.contentBlock}>
         <View>
           <Text textAlign="center" textDecorationLine="underline" fontSize={16} fontWeight="bold">
-            What are you paying for?
+            {t`What are you paying for?`}
           </Text>
         </View>
       </Section.Row>

@@ -3,6 +3,7 @@
 // libraries
 import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
+import { t } from '@lingui/macro'
 
 // components
 import Section from '../common/layout/Section'
@@ -20,10 +21,10 @@ type Props = {
   navigation: any,
 }
 
-const TERMS_OF_USE_TITLE = 'Terms of Use'
+const TERMS_OF_USE_TITLE = t`Terms of Use`
 const TERMS_OF_USE_KEY = 'tou'
 
-const PRIVACY_POLICY_TITLE = 'Privacy Policy'
+const PRIVACY_POLICY_TITLE = t`Privacy Policy`
 const PRIVACY_POLICY_KEY = 'pp'
 
 const scenesMap = [

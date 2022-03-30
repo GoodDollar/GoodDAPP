@@ -1,5 +1,6 @@
+//@flow
 import { useEffect, useState } from 'react'
-import { get, once } from 'lodash'
+import { get, once, pick } from 'lodash'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import AsyncStorage from '../utils/asyncStorage'
@@ -38,14 +39,41 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
         const { ab } = test
         void (event && fireEvent(event, { ab }))
         setTest(test)
-        log.debug('hook ready', { test })
+        log.debug('useABTesting ready', { test })
       })
     }, [])
 
     return [component, get(test, 'ab'), initialized]
   }
 
-  return { useABTesting }
+  const useOption = (options: [{ value: any, chance: number }], event = null) => {
+    const [option, setOption] = useState()
+    const [optionIndex, setOptionIndex] = useState(-1)
+
+    useEffect(() => {
+      getTestVariant().then(test => {
+        const optionIndex = options.findIndex((opt, idx) => idx === options.length - 1 || test.random <= opt.chance)
+
+        if (event) {
+          fireEvent(event, pick(test, 'ab'))
+        }
+
+        log.debug('useOption ready', { optionIndex, test })
+        setOptionIndex(optionIndex)
+      })
+    }, [setOptionIndex])
+
+    useEffect(() => {
+      const option = options[optionIndex]
+
+      log.debug('useOption updated', { option })
+      setOption(option)
+    }, [options, optionIndex])
+
+    return option
+  }
+
+  return { useABTesting, useOption }
 }
 
 export default createABTesting

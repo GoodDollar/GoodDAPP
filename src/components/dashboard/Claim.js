@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
 import { noop } from 'lodash'
+import { t, Trans } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
@@ -347,9 +348,9 @@ const Claim = props => {
 
       showDialog({
         image: <LoadingAnimation />,
-        message: 'please wait while processing...\n ',
+        message: t`please wait while processing...` + `\n`,
         buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
-        title: `YOUR MONEY\nIS ON ITS WAY...`,
+        title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
         showCloseButtons: false,
       })
 
@@ -394,9 +395,9 @@ const Claim = props => {
 
         showDialog({
           image: <LoadingAnimation success speed={2} />,
-          buttons: [{ text: 'Yay!' }],
-          message: `You've claimed your daily G$\nsee you tomorrow.`,
-          title: 'CHA-CHING!',
+          buttons: [{ text: t`Yay!` }],
+          message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
+          title: t`CHA-CHING!`,
           onDismiss: noop,
         })
 
@@ -407,7 +408,7 @@ const Claim = props => {
         }
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
+        showErrorDialog(t`Claim transaction failed`, '', { boldMessage: t`Try again later.` })
 
         log.error('Claim transaction failed', '', new Error('Failed to execute claim transaction'), {
           txHash: receipt.transactionHash,
@@ -419,7 +420,7 @@ const Claim = props => {
       }
     } catch (e) {
       fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
-      showErrorDialog('Claim request failed', '', { boldMessage: 'Try again later.' })
+      showErrorDialog(t`Claim request failed`, '', { boldMessage: t`Try again later.` })
 
       log.error('claiming failed', e.message, e, { dialogShown: true })
     } finally {
@@ -500,7 +501,7 @@ const Claim = props => {
             fontSize={28}
             style={styles.headerText}
           >
-            {dailyUbi ? `Claim Your Share` : `Just A Little Longer...\nMore G$'s Coming Soon`}
+            {dailyUbi ? t`Claim Your Share` : t`Just A Little Longer...` + `\n` + t`More G$'s Coming Soon`}
           </Section.Text>
           <ClaimAmountBox dailyUbi={dailyUbi} />
         </View>
@@ -511,12 +512,14 @@ const Claim = props => {
               contentStyle={styles.wavesBoxContent}
               style={styles.wavesBox}
             >
-              <Section.Text fontSize={15} lineHeight={20}>
-                Claim cycle restart every day
-              </Section.Text>
-              <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
-                at {claimCycleTime}
-              </Section.Text>
+              <Trans>
+                <Section.Text fontSize={15} lineHeight={20}>
+                  Claim cycle restart every day
+                </Section.Text>
+                <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
+                  at {claimCycleTime}
+                </Section.Text>
+              </Trans>
             </WavesBox>
           )}
           <WavesBox

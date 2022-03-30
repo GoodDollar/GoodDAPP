@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text } from 'react-native'
 
+import { t } from '@lingui/macro'
 import IconWrapper from '../modal/IconWrapper'
 import LoadingIcon from '../modal/LoadingIcon'
 
@@ -12,7 +13,9 @@ const TrashIcon = () => <IconWrapper iconName="trash" color={theme.colors.error}
 
 const MessageTextComponent = () => (
   <Text style={{ color: theme.colors.error, fontSize: normalizeText(18) }}>
-    If you delete your account {'\n'} <Text style={{ fontWeight: 'bold' }}> you might lose access to your G$!</Text>
+    {t`If you delete your account`}
+    {'\n'}
+    <Text style={{ fontWeight: 'bold' }}>{t`you might lose access to your G$!`}</Text>
   </Text>
 )
 
@@ -20,7 +23,7 @@ const DeleteAccountDialog = ({ icon = 'trash' }) => (
   <ExplanationDialog
     image={icon === 'trash' ? TrashIcon : LoadingIcon}
     label={<MessageTextComponent />}
-    text={'For security reasons, it might take up to 48 hours for your data to be completely removed.'}
+    text={t`For security reasons, it might take up to 48 hours for your data to be completely removed.`}
     textStyle={{
       fontSize: normalizeText(16),
       color: theme.colors.lighterGray,

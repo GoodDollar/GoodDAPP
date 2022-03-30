@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { t } from '@lingui/macro'
 import SplashSVG from '../../assets/Splash/logo.svg'
 import GoodDollarSVG from '../../assets/Splash/goodDollar.svg'
 import Wrapper from '../common/layout/Wrapper'
@@ -14,7 +15,7 @@ const About = () => (
       <WavesBackground>
         <Section.Stack style={styles.content} grow justifyContent="space-between">
           <Section.Text fontSize={22} color="darkBlue">
-            Welcome to
+            {t`Welcome to`}
           </Section.Text>
           <Section.Row style={styles.imageContainer}>
             <View style={styles.logo}>
@@ -28,9 +29,10 @@ const About = () => (
             </Section.Text>
           </Section.Row>
           <Section.Text fontSize={18} color="surface" style={styles.aboutDescription}>
-            GoodDollar is a payment system with a built-in small basic income based on blockchain technology.
+            {t`GoodDollar is a payment system with a built-in small basic income based on blockchain technology.`}
             <Section.Text fontSize={18} fontWeight="bold" color="surface">
-              {`\nLet's change the world, for good.`}
+              {`\n`}
+              {t`Let's change the world, for good.`}
             </Section.Text>
           </Section.Text>
         </Section.Stack>
@@ -40,7 +42,7 @@ const About = () => (
 )
 
 About.navigationOptions = {
-  title: 'About',
+  title: t`About`,
 }
 
 const styles = StyleSheet.create({

@@ -2,6 +2,7 @@ import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
 
+import { t } from '@lingui/macro'
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
@@ -27,7 +28,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
           fontSize={28}
           textAlign="center"
         >
-          In Queue
+          {t`In Queue`}
         </Text>
       ) : (
         <>
@@ -39,7 +40,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
             fontSize={28}
             textAlign="center"
           >
-            CLAIM
+            {t`CLAIM`}
           </Text>
           <Text
             style={{ letterSpacing: 0.28 }}
@@ -49,7 +50,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
             fontSize={28}
             textAlign="center"
           >
-            NOW
+            {t`NOW`}
           </Text>
         </>
       )
@@ -95,7 +96,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
       lineHeight={17}
       fontSize={14}
     >
-      Your Next Claim:
+      {t`Your Next Claim:`}
     </Text>
     {/* for some reason passing styles.countDownTimer doesnt work */}
     <Section.Row style={styles.countDownTimer}>

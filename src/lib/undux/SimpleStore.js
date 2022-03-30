@@ -41,7 +41,6 @@ type LoadingIndicator = {
    {currentScreen: CurrentScreen},
    {destinationPath: string},
    {loadingIndicator: LoadingIndicator},
-   {isLoggedInCitizen: boolean},
    {isLoggedIn: boolean},
    {sidemenu: { visible: boolean }}
   }
@@ -50,7 +49,6 @@ export type State = {
   currentScreen: CurrentScreen,
   destinationPath: string,
   loadingIndicator: LoadingIndicator,
-  isLoggedInCitizen: boolean,
   isLoggedIn: boolean,
   feedLoadAnimShown: boolean,
   wallet: any,
@@ -73,7 +71,6 @@ export type State = {
  * @constant
  */
 const initialState: State = {
-  isLoggedInCitizen: false,
   isLoggedIn: false,
   feedLoadAnimShown: false,
   currentScreen: {

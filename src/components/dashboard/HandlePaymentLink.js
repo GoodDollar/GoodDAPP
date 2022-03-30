@@ -18,7 +18,7 @@ import {
 } from '../../lib/wallet/GoodWalletClass'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { delay } from '../../lib/utils/async'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
@@ -37,6 +37,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
   const [showErrorDialog] = useErrorDialog()
   const store = SimpleStore.useStore()
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const isTheSameUser = code => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
@@ -68,7 +69,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           })
 
           try {
-            const { route, params } = await routeAndPathForCode('send', code, goodWallet)
+            const { route, params } = await routeAndPathForCode('send', code, goodWallet, userStorage)
 
             hideDialog()
             screenProps.push(route, params)
@@ -90,7 +91,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         log.error('checkCode unexpected error:', e.message, e)
       }
     },
-    [screenProps, showErrorDialog, goodWallet],
+    [screenProps, showErrorDialog, goodWallet, userStorage],
   )
 
   const handleAppLinks = () => {
@@ -137,6 +138,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           paymentParams.reason,
           paymentParams.category,
           goodWallet,
+          userStorage,
         )
 
         if (transactionHash) {
@@ -208,7 +210,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         navigation.setParams({ paymentCode: undefined })
       }
     },
-    [showDialog, hideDialog, showErrorDialog, store, navigation, goodWallet],
+    [showDialog, hideDialog, showErrorDialog, store, navigation, goodWallet, userStorage],
   )
 
   useEffect(() => {

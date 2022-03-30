@@ -1,20 +1,29 @@
 import { pick } from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import userStorage from './UserStorage'
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 
 const defaultPublicFields = ['fullName', 'smallAvatar']
 
-const getProfile = (fields, display) => {
-  const profile = display ? userStorage.getDisplayProfile() : userStorage.getPrivateProfile()
-
-  return fields ? pick(profile, fields) : profile
-}
-
 const useProfileHook = (fields, allowRefresh = false, display = false) => {
+  const userStorage = useUserStorage()
+
+  const getProfile = useCallback(
+    (fields, display) => {
+      const profile = display ? userStorage.getDisplayProfile() : userStorage.getPrivateProfile()
+
+      return fields ? pick(profile, fields) : profile
+    },
+    [userStorage],
+  )
   const [profile, setProfile] = useState(() => getProfile(fields, display))
 
-  const refreshProfile = useCallback(() => setProfile(getProfile(fields, display)), [fields, display, setProfile])
+  const refreshProfile = useCallback(() => setProfile(getProfile(fields, display)), [
+    fields,
+    display,
+    setProfile,
+    getProfile,
+  ])
 
   // auto refresh provide each time fields and private changes
   useEffect(() => void refreshProfile(), [refreshProfile])
@@ -27,6 +36,7 @@ export const usePublicProfile = (allowRefresh = false, fields = null) => useProf
 
 export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) => {
   const [profile, setProfile] = useState(null)
+  const userStorage = useUserStorage()
 
   useEffect(() => {
     userStorage
@@ -38,7 +48,9 @@ export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) 
 }
 
 export const useUserProperty = property => {
-  const [propertyValue, setPropertyValue] = useState(userStorage.userProperties.get(property))
+  const userStorage = useUserStorage()
+
+  const [propertyValue, setPropertyValue] = useState(() => userStorage.userProperties.get(property))
 
   useEffect(() => {
     const { userProperties } = userStorage

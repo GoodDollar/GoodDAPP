@@ -4,12 +4,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
-import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
+import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { retry } from '../../lib/utils/async'
 import API from '../../lib/API/api'
 
@@ -32,6 +32,7 @@ export type AmountProps = {
  * @param {any} props.screenProps
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
+  const userStorage = useUserStorage()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
@@ -150,7 +151,19 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         return paymentLink
       }
     },
-    [amount, reason, category, inviteCode, showErrorDialog, setLink, link, goToRoot, navigateTo, goodWallet],
+    [
+      amount,
+      reason,
+      category,
+      inviteCode,
+      showErrorDialog,
+      setLink,
+      link,
+      goToRoot,
+      navigateTo,
+      goodWallet,
+      userStorage,
+    ],
   )
 
   const sendViaAddress = useCallback(
@@ -229,7 +242,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         })
       }
     },
-    [address, amount, reason, showDialog, showErrorDialog, goToRoot, goodWallet],
+    [address, amount, reason, showDialog, showErrorDialog, goToRoot, goodWallet, userStorage],
   )
 
   const sendViaLink = useCallback(() => {
@@ -280,6 +293,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     sendViaLink,
     sendViaAddress,
     setShared,
+    userStorage,
   ])
 
   const handleConfirm = useCallback(

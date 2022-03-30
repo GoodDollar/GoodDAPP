@@ -1,3 +1,5 @@
+import { t } from '@lingui/macro'
+
 export const navigationOptions = ({ navigation }) => {
   const action = navigation.getParam(PARAM_ACTION)
   return {
@@ -5,8 +7,8 @@ export const navigationOptions = ({ navigation }) => {
   }
 }
 
-export const RECEIVE_TITLE = 'Receive G$'
-export const SEND_TITLE = 'Send G$'
+export const RECEIVE_TITLE = t`Receive G$`
+export const SEND_TITLE = t`Send G$`
 export const ACTION_RECEIVE = 'Receive'
 export const ACTION_SEND = 'Send'
 export const ACTION_SEND_TO_ADDRESS = 'SendToAddress'

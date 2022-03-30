@@ -76,7 +76,7 @@ class LoginService {
     this.storeCredentials(creds)
     log.info('signed message', creds)
 
-    // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
+    // TODO: use date as nonce and validate on backend
     creds = await this.requestJWT(creds)
 
     await this.storeJWT(creds.jwt)

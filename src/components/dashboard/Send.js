@@ -2,7 +2,7 @@ import web3Utils from 'web3-utils'
 import React, { useCallback, useState } from 'react'
 import isEmail from '../../lib/validators/isEmail'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import InputRecipient from '../common/form/InputRecipient'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
@@ -29,12 +29,11 @@ const GenerateLinkButton = ({ push, disabled }) => {
   return <IconButton name="qrcode" text="Generate Link" disabled={disabled} onPress={onPress} />
 }
 
-const validate = async to => {
+const validate = async (to, userStorage) => {
   if (!to) {
     return null
   }
 
-  //TODO: fix usage of isUsername
   if (isMobilePhone(to) || isEmail(to) || (await userStorage.isUsername(to))) {
     return null
   }
@@ -47,6 +46,8 @@ const validate = async to => {
 }
 
 const ContinueButton = ({ push, to, disabled, checkError }) => {
+  const userStorage = useUserStorage()
+
   const onContinue = useCallback(async () => {
     if (await checkError()) {
       return
@@ -73,10 +74,12 @@ const Send = ({ screenProps }) => {
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { push, navigateTo } = screenProps
   const [error, setError] = useState()
+  const userStorage = useUserStorage()
+
   const { to } = screenState
 
   const checkError = async () => {
-    const response = await validate(to)
+    const response = await validate(to, userStorage)
     setError(response)
     return response
   }

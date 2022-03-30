@@ -10,7 +10,7 @@ import { Icon, Text } from '../../components/common'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import { useInvited } from '../invite/useInvites'
 import { theme } from '../theme/styles'
 const { isEToro, enableInvites, showRewards } = config
@@ -73,6 +73,7 @@ const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : 
 const RewardButton = React.memo(({ onPress, style }) => {
   const [, , , inviteState] = useInvited()
   const [updatesCount, setUpdatesCount] = useState(0)
+  const userStorage = useUserStorage()
 
   useEffect(() => {
     const lastState = userStorage.userProperties.get('lastInviteState') || { pending: 0, approved: 0, total: 0 }

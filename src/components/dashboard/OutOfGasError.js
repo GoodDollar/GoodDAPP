@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { AwaitButton, CustomButton, Section, Wrapper } from '../common'
@@ -15,12 +16,13 @@ const log = logger.child({ from: 'OutOfGasError' })
 const OutOfGasError = props => {
   const { styles, theme } = props
   const isValid = get(props, 'screenProps.screenState.isValid', undefined)
-  const ERROR = `In order for transactions to go through,
+  const ERROR = t`In order for transactions to go through,
 you need ‘Gas’ which is a virtual money.
 Don’t worry, we’ll take care off you.\n`
-  const ERROR_BOLD = "We're giving it to you for FREE, FOREVER."
-  const TITLE = "Ooops,\nYou're out of gas..."
-  const ERROR_CHEAT = 'Something went wrong try again later'
+  const ERROR_BOLD = t`We're giving it to you for FREE, FOREVER.`
+  const TITLE = t`Ooops,
+  You're out of gas...`
+  const ERROR_CHEAT = `Something went wrong try again later`
   if (isValid) {
     props.screenProps.pop({ isValid })
   }

@@ -7,6 +7,8 @@ import { StoresWrapper, withThemeProvider } from '../../../__tests__/__util__'
 import { initUserStorage } from '../../../lib/userStorage/__tests__/__util__'
 import { getComponentWithMocks } from './__util__'
 
+jest.setTimeout(25000)
+
 const routes = {
   Dashboard: getComponentWithMocks('../Dashboard'),
 }
@@ -27,7 +29,6 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
 
 describe('Dashboard', () => {
   beforeAll(async () => {
-    jest.setTimeout(15000)
     await initUserStorage()
   })
 

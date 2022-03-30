@@ -12,7 +12,7 @@ import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import useAvatar, { useUploadedAvatar } from '../../../lib/hooks/useAvatar'
 import useProfile from '../../../lib/userStorage/useProfile'
-import userStorage from '../../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
 import openCropper from './openCropper'
 
 export const pickerOptions = {
@@ -38,6 +38,7 @@ const ViewOrUploadAvatar = props => {
   const [showErrorDialog] = useErrorDialog()
   const avatar = useAvatar(profile.avatar)
   const [, setUploadedAvatar] = useUploadedAvatar()
+  const userStorage = useUserStorage()
 
   const handleCameraPress = useDebouncedOnPress(() => {
     openCropper({
@@ -48,7 +49,7 @@ const ViewOrUploadAvatar = props => {
       log,
       avatar,
     })
-  }, [screenProps, showErrorDialog, profile, avatar])
+  }, [screenProps, showErrorDialog, profile, avatar, userStorage])
 
   const handleClosePress = useCallback(async () => {
     try {
@@ -58,7 +59,7 @@ const ViewOrUploadAvatar = props => {
       log.error('delete image failed:', e.message, e, { dialogShown: true })
       showErrorDialog('Could not delete image. Please try again.')
     }
-  }, [showErrorDialog, refreshProfile])
+  }, [showErrorDialog, refreshProfile, userStorage])
 
   const handleAddAvatar = useCallback(
     avatar => {
@@ -84,7 +85,7 @@ const ViewOrUploadAvatar = props => {
           showErrorDialog('Could not save image. Please try again.')
         })
     },
-    [screenProps, refreshProfile],
+    [screenProps, refreshProfile, userStorage],
   )
 
   const goToProfile = useCallback(() => screenProps.pop(), [screenProps])

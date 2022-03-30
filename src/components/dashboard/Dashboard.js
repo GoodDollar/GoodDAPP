@@ -7,20 +7,17 @@ import type { Store } from 'undux'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
-import GDStore from '../../lib/undux/GDStore'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
-import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { initTransferEvents } from '../../lib/undux/utils/account'
 
-import userStorage from '../../lib/userStorage/UserStorage'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
@@ -43,6 +40,8 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import { useInviteCode } from '../invite/useInvites'
+import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -106,7 +105,6 @@ const Dashboard = props => {
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
-  const gdstore = GDStore.useStore()
   const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
@@ -116,15 +114,18 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
-  const { balance, entitlement } = gdstore.get('account')
+  const { balance, dailyUBI: entitlement } = useWalletData()
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
-
+  const userStorage = useUserStorage()
+  const goodWallet = useWallet()
   const [price, showPrice] = useGoodDollarPrice()
+
+  useInviteCode() //preload user invite code
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -217,7 +218,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [loadAnimShown, store, setFeeds, feedRef],
+    [loadAnimShown, store, setFeeds, feedRef, userStorage],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -352,14 +353,12 @@ const Dashboard = props => {
 
     // setTimeout(animateItems, marketAnimationDuration)
 
-    initTransferEvents(gdstore)
-
     log.debug('initDashboard subscribed to feed')
 
     // InteractionManager.runAfterInteractions(handleFeedEvent)
     resizeSubscriptionRef.current = Dimensions.addEventListener('change', handleResize)
 
-    initBGFetch()
+    initBGFetch(goodWallet, userStorage)
   }
 
   useEffect(() => {
@@ -570,7 +569,7 @@ const Dashboard = props => {
         })
       }
     },
-    [showDialog, showEventModal],
+    [showDialog, showEventModal, userStorage],
   )
 
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])

@@ -36,18 +36,18 @@ const jwtSignin = async login => {
 }
 
 export const useCheckAuthStatus = () => {
-  const { login, goodWallet } = useContext(GoodWalletContext)
+  const { login, goodWallet, isCitizen } = useContext(GoodWalletContext)
   const [authStatus, setAuthStatus] = useState([])
 
   const check = useCallback(async () => {
-    const [jwt, isCitizen]: any = await Promise.all([jwtSignin(login), goodWallet.isCitizen()])
+    const jwt = await jwtSignin(login)
     const isAuthorized = jwt !== undefined
     const isLoggedIn = isAuthorized
     const isLoggedInCitizen = isLoggedIn && isCitizen
 
     log.debug('checkAuthStatus result:', { jwt, isCitizen, isLoggedInCitizen, isLoggedIn })
     setAuthStatus([isLoggedInCitizen, isLoggedIn])
-  }, [login, goodWallet])
+  }, [login, goodWallet, isCitizen])
 
   useEffect(() => {
     // when wallet is ready perform login to server (sign message with wallet and send to server)

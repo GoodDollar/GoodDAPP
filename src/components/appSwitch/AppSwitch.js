@@ -9,11 +9,8 @@ import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../
 
 import logger from '../../lib/logger/js-logger'
 import { getErrorMessage } from '../../lib/API/api'
-import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
-import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import { identifyWith } from '../../lib/analytics/analytics'
@@ -23,9 +20,8 @@ import { delay } from '../../lib/utils/async'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
-import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 type LoadingProps = {
   navigation: any,
@@ -62,7 +58,6 @@ let unsuccessfulLaunchAttempts = 0
  */
 const AppSwitch = (props: LoadingProps) => {
   const { router, state } = props.navigation
-  const gdstore = GDStore.useStore()
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
@@ -71,6 +66,7 @@ const AppSwitch = (props: LoadingProps) => {
     refresh,
   } = useCheckAuthStatus()
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -169,13 +165,9 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      updateWalletStatus(gdstore)
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
       const initReg = userStorage.initRegistered()
-
-      gdstore.set('isLoggedIn')(isLoggedIn)
-      gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
@@ -185,7 +177,8 @@ const AppSwitch = (props: LoadingProps) => {
 
       await initReg
       initialize()
-      runUpdates() //this needs to wait after initreg where we initialize the database
+      runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
+      log.debug('initialize done')
 
       setReady(true)
     } catch (e) {
@@ -232,7 +225,7 @@ const AppSwitch = (props: LoadingProps) => {
       deepLinkingRef.current = null
     }
 
-    if (ready && gdstore) {
+    if (ready && userStorage && goodWallet) {
       // TODO: do not call private methods, create single method sync()
       // in user storage class designed to be called from outside
       userStorage.database._syncFromRemote()
@@ -240,18 +233,16 @@ const AppSwitch = (props: LoadingProps) => {
       refresh() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError({ navigation: props.navigation, goodWallet })
     }
-  }, [gdstore, ready, refresh, props, goodWallet])
+  }, [ready, refresh, props, goodWallet, userStorage])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
-
-  useInviteCode()
 
   useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
 
   useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   useEffect(() => {
-    if (isLoggedIn == null || isLoggedInCitizen == null) {
+    if (isLoggedIn == null || isLoggedInCitizen == null || userStorage == null) {
       return
     }
     init()
@@ -272,7 +263,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return () => DeepLinking.unsubscribe()
-  }, [isLoggedIn, isLoggedInCitizen])
+  }, [isLoggedIn, isLoggedInCitizen, userStorage])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

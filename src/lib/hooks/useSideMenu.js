@@ -1,5 +1,6 @@
 // @flow
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { t } from '@lingui/macro'
 import AsyncStorage from '../utils/asyncStorage'
 import restart from '../utils/restart'
 
@@ -68,7 +69,7 @@ export default (props = {}) => {
     let items = [
       {
         icon: 'profile',
-        name: 'My profile',
+        name: t`My profile`,
         action: () => {
           navigation.navigate({
             routeName: 'Profile',
@@ -80,7 +81,7 @@ export default (props = {}) => {
       {
         icon: 'add',
         size: 18,
-        name: 'Add App To Home',
+        name: t`Add App To Home`,
         hidden: !installPrompt && !isMobileSafari,
         action: () => {
           store.set('addWebApp')({ showAddWebAppDialog: true })
@@ -105,7 +106,7 @@ export default (props = {}) => {
       {
         icon: 'export-wallet',
         size: 18,
-        name: 'Export Wallet',
+        name: t`Export Wallet`,
         action: () => {
           navigation.navigate({
             routeName: 'ExportWallet',
@@ -116,7 +117,7 @@ export default (props = {}) => {
       },
       {
         icon: 'lock',
-        name: 'Backup Wallet',
+        name: t`Backup Wallet`,
         hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
@@ -129,7 +130,7 @@ export default (props = {}) => {
       {
         icon: 'statistics',
         centered: true,
-        name: 'Statistics',
+        name: t`Statistics`,
         size: 18,
         action: () => {
           slideOut()
@@ -148,7 +149,7 @@ export default (props = {}) => {
       {
         icon: 'faq',
         size: 18,
-        name: 'Help & Feedback',
+        name: t`Help & Feedback`,
         action: () => {
           navigation.navigate('Support')
           slideOut()
@@ -156,7 +157,7 @@ export default (props = {}) => {
       },
       {
         icon: 'terms-of-use',
-        name: 'Privacy Policy & Terms',
+        name: t`Privacy Policy & Terms`,
         action: () => {
           navigation.navigate('TOU')
           slideOut()
@@ -164,7 +165,7 @@ export default (props = {}) => {
       },
       {
         icon: 'logout',
-        name: 'Logout',
+        name: t`Logout`,
         action: async () => {
           fireEvent(LOGOUT)
           try {

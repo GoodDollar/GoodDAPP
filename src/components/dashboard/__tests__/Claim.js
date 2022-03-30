@@ -9,7 +9,6 @@ const screenState = {
 
 describe('Claim', () => {
   beforeAll(async () => {
-    jest.setTimeout(15000)
     await initUserStorage()
   })
 

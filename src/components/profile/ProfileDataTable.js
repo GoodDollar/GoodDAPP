@@ -3,6 +3,7 @@ import { Image, Platform, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
+import { t } from '@lingui/macro'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
@@ -102,7 +103,7 @@ const ProfileDataTable = ({
             iconColor={theme.colors.primary}
             iconSize={22}
             onChange={onUserNameChange}
-            placeholder="Choose a Username"
+            placeholder={t`Choose a Username`}
             value={profile.username}
           />
         </Section.Row>

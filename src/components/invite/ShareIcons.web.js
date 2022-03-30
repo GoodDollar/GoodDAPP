@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -6,62 +6,73 @@ import {
   TwitterShareButton,
   WhatsappShareButton,
 } from 'react-share'
+
 import { theme } from '../theme/styles'
 import { fireEvent, INVITE_SHARE } from '../../lib/analytics/analytics'
 
 import { IconButton, Section } from '../common'
-import { shareMessage, shareTitle, shortShareMessage } from './constants'
+import useShareMessages from './useShareMessages'
 
 export default ({ shareUrl }) => {
-  const buttons = [
-    {
-      name: 'whatsapp-1',
-      service: 'whatsapp',
-      Component: WhatsappShareButton,
-      color: theme.colors.darkBlue,
-      size: 20,
-      title: shareMessage,
-      separator: '',
-    },
-    {
-      name: 'facebook-1',
-      service: 'facebook',
-      Component: FacebookShareButton,
-      color: theme.colors.darkBlue,
-      size: 20,
-      quote: shareMessage,
-      hashtag: '#GoodDollar',
-    },
-    {
-      name: 'twitter-1',
-      service: 'twitter',
-      Component: TwitterShareButton,
-      color: theme.colors.darkBlue,
-      title: shortShareMessage,
-    },
+  const [messages, loaded] = useShareMessages()
 
-    {
-      name: 'telegram',
-      service: 'telegram',
-      Component: TelegramShareButton,
-      color: theme.colors.darkBlue,
-      title: shareMessage,
-    },
-    {
-      name: 'envelope',
-      service: 'email',
-      Component: EmailShareButton,
-      color: theme.colors.darkBlue,
-      size: 20,
-      subject: shareTitle,
-      body: shareMessage,
-      separator: '',
-    },
-  ]
+  const buttons = useMemo(() => {
+    if (!loaded) {
+      return []
+    }
 
-  const onShare = service => {
+    const { shareMessage, shortShareMessage, shareTitle } = messages
+
+    return [
+      {
+        name: 'whatsapp-1',
+        service: 'whatsapp',
+        Component: WhatsappShareButton,
+        color: theme.colors.darkBlue,
+        size: 20,
+        title: shareMessage,
+        separator: '',
+      },
+      {
+        name: 'facebook-1',
+        service: 'facebook',
+        Component: FacebookShareButton,
+        color: theme.colors.darkBlue,
+        size: 20,
+        quote: shareMessage,
+        hashtag: '#GoodDollar',
+      },
+      {
+        name: 'twitter-1',
+        service: 'twitter',
+        Component: TwitterShareButton,
+        color: theme.colors.darkBlue,
+        title: shortShareMessage,
+      },
+
+      {
+        name: 'telegram',
+        service: 'telegram',
+        Component: TelegramShareButton,
+        color: theme.colors.darkBlue,
+        title: shareMessage,
+      },
+      {
+        name: 'envelope',
+        service: 'email',
+        Component: EmailShareButton,
+        color: theme.colors.darkBlue,
+        size: 20,
+        subject: shareTitle,
+        body: shareMessage,
+        separator: '',
+      },
+    ]
+  }, [messages, loaded])
+
+  const onShare = useCallback(service => {
     fireEvent(INVITE_SHARE, { method: service })
-  }
+  }, [])
 
   return (
     <Section.Row style={{ marginTop: theme.paddings.defaultMargin * 2, justifyContent: 'flex-start' }}>

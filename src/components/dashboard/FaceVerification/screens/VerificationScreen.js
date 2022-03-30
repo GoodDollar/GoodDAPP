@@ -3,9 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
 
-import UserStorage from '../../../../lib/userStorage/UserStorage'
-import { useCurriedSetters } from '../../../../lib/undux/GDStore'
-import { useWallet } from '../../../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../../lib/logger/js-logger'
 
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
@@ -29,9 +27,9 @@ import { tryUntil } from '../../../../lib/utils/async'
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
-  const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -116,13 +114,13 @@ const FaceVerification = ({ screenProps }) => {
       resetAttempts()
 
       // 2. whitelisting user
-      setIsCitizen(isCitizen)
+      // setIsCitizen(isCitizen)
 
       // 3. returning success to the caller
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
-    [screenProps, setIsCitizen, resetAttempts, exceptionHandler, goodWallet],
+    [screenProps, resetAttempts, exceptionHandler, goodWallet],
   )
 
   // calculating retries allowed for FV session
@@ -134,7 +132,7 @@ const FaceVerification = ({ screenProps }) => {
 
   // Using zoom verification hook, passing completion callback
   const startVerification = useFaceTecVerification({
-    enrollmentIdentifier: UserStorage.getFaceIdentifier(),
+    enrollmentIdentifier: userStorage.getFaceIdentifier(),
     onUIReady: uiReadyHandler,
     onCaptureDone: captureDoneHandler,
     onRetry: retryHandler,

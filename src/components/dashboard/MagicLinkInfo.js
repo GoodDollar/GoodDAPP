@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
 import { fireEvent, RESENDING_MAGICLINK_SUCCESS } from '../../lib/analytics/analytics'
 import API, { getErrorMessage } from '../../lib/API/api'
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { CustomButton } from '../common'
@@ -21,6 +21,8 @@ const MagicLinkInfoComponent = props => {
   const { styles, screenProps } = props
   const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
+  const userStorage = useUserStorage()
+
   const sendMagicEmail = useCallback(() => {
     API.sendMagicLinkByEmail(userStorage.getMagicLink())
       .then(r => {

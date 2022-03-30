@@ -12,9 +12,10 @@ import { hideRedBox } from '../utils/redBox'
 
 const log = logger.child({ from: 'useVerificationAttempts' })
 
+//TODO: dont use store
 export default () => {
-  const store = GDStore.useStore()
-  const [getAttemptsState, updateAttemptsState, attemptsState] = useRealtimeStoreState(store, 'verification')
+  const gdstore = GDStore.useStore()
+  const [getAttemptsState, updateAttemptsState, attemptsState] = useRealtimeStoreState(gdstore, 'verification')
   const resetAttempts = useCallback(() => updateAttemptsState(defaultVerificationState), [updateAttemptsState])
   const { attemptsCount, attemptsHistory } = attemptsState
 

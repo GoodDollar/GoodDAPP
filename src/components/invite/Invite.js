@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Image, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
+import { t, Trans } from '@lingui/macro'
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import Avatar from '../common/view/Avatar'
 import { WavesBox } from '../common/view/WavesBox'
@@ -10,15 +11,16 @@ import logger from '../../lib/logger/js-logger'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
-import userStorage from '../../lib/userStorage/UserStorage'
 import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
+import createABTesting from '../../lib/hooks/useABTesting'
 
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { extractQueryParams } from '../../lib/utils/uri'
+import mustache from '../../lib/utils/mustache'
 import {
   registerForInvites,
   useCollectBounty,
@@ -30,13 +32,15 @@ import {
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
-import { shareMessage, shareTitle } from './constants'
+import useShareMessages from './useShareMessages'
 
 const log = logger.child({ from: 'Invite' })
 
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
 const { isCryptoLiteracy } = Config
+
+const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const InvitedUser = ({ address, status }) => {
   const profile = usePublicProfileOf(address)
@@ -78,24 +82,52 @@ const InvitedUser = ({ address, status }) => {
 }
 
 const ShareBox = ({ level }) => {
+  const [{ shareMessage, shareTitle }] = useShareMessages()
+  const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'basic' }], [shareMessage])
+
   const inviteCode = useInviteCode()
-  const shareUrl = inviteCode ? `${Config.invitesUrl}?inviteCode=${inviteCode}` : ''
-  const bounty = level?.bounty ? parseInt(level.bounty) / 100 : ''
-  const share = useMemo(() => generateShareObject(shareTitle, shareMessage, shareUrl), [shareUrl])
+  const abTestOption = useOption(abTestOptions)
+  const bounty = useMemo(() => (level?.bounty ? parseInt(level.bounty) / 100 : ''), [level])
+
+  const shareUrl = useMemo(
+    () =>
+      inviteCode && abTestOption ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id}` : '',
+    [inviteCode, abTestOption],
+  )
+
+  const abTestMessage = useMemo(() => {
+    const { value } = abTestOption || {}
+
+    if (value) {
+      const reward = bounty / 2
+
+      return mustache(value, { bounty, reward })
+    }
+  }, [abTestOption, bounty])
+
+  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
+    shareTitle,
+    shareUrl,
+    abTestMessage,
+  ])
+
+  useEffect(() => log.debug('Generated share object', { share }), [share])
 
   return (
-    <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Share Your Invite Link'}>
+    <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Share Your Invite Link`}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
-        <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
-          {`You’ll get `}
-          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
-            {`${bounty}G$`}
+        <Trans>
+          <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
+            You’ll get{' '}
+            <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
+              {` ${bounty}G$ `}
+            </Section.Text>
+            and they will get{' '}
+            <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
+              {` ${bounty / 2}G$`}
+            </Section.Text>
           </Section.Text>
-          {` and they will get `}
-          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
-            {`${bounty / 2}G$`}
-          </Section.Text>
-        </Section.Text>
+        </Trans>
       </Section.Stack>
       <Section.Row style={{ alignItems: 'flex-start' }}>
         <Text
@@ -136,6 +168,7 @@ const InputCodeBox = ({ navigateTo }) => {
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
@@ -151,13 +184,13 @@ const InputCodeBox = ({ navigateTo }) => {
 
     showDialog({
       image: <InfoIcon />,
-      title: isCitizen ? 'Your inviter is not verified yet' : 'Claim your first G$s',
+      title: isCitizen ? t`Your inviter is not verified yet` : t`Claim your first G$s`,
       message: isCitizen
-        ? 'Ask your inviter to get verified by Claiming his first G$s'
-        : 'In order to receive the reward',
+        ? t`Ask your inviter to get verified by Claiming his first G$s`
+        : t`In order to receive the reward`,
       buttons: !isCitizen && [
         {
-          text: 'Later',
+          text: t`Later`,
           mode: 'text',
           color: theme.colors.gray80Percent,
           onPress: dismiss => {
@@ -165,7 +198,7 @@ const InputCodeBox = ({ navigateTo }) => {
           },
         },
         {
-          text: 'Claim Now',
+          text: t`Claim Now`,
           onPress: dismiss => {
             dismiss()
             navigateTo('Claim')
@@ -179,21 +212,21 @@ const InputCodeBox = ({ navigateTo }) => {
     showDialog({
       image: <LoadingIcon />,
       loading: true,
-      message: 'Please wait\nThis might take a few seconds...',
+      message: t`Please wait\nThis might take a few seconds...`,
       showButtons: false,
-      title: `Collecting Invite Reward`,
+      title: t`Collecting Invite Reward`,
       showCloseButtons: false,
       onDismiss: noop,
     })
 
     try {
-      await registerForInvites(extractedCode, goodWallet)
+      await registerForInvites(extractedCode, goodWallet, userStorage)
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, goodWallet])
+  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, goodWallet, userStorage])
 
   //manages the get reward button state (disabled/enabled)
   useEffect(() => {
@@ -261,7 +294,7 @@ const InputCodeBox = ({ navigateTo }) => {
             onPress={onSubmit}
             disabled={disabled}
           >
-            Get Reward
+            {t`Get Reward`}
           </CustomButton>
         </Section.Row>
       </Section.Stack>
@@ -280,14 +313,14 @@ const InvitesBox = React.memo(({ invitees, refresh }) => {
   log.debug({ invitees })
   return (
     <>
-      <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={'Friends Who Joined'}>
+      <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Friends Who Joined`}>
         <Section.Text
           fontSize={11}
           textAlign={'left'}
           color={'secondary'}
           style={{ marginTop: theme.paddings.defaultMargin, marginBottom: theme.paddings.defaultMargin * 2 }}
         >
-          * Remind them to claim G$’s so you could earn your reward
+          {t`* Remind them to claim G$’s so you could earn your reward`}
         </Section.Text>
         {invitees.map((data, i) => (
           <Section.Stack key={i}>
@@ -328,7 +361,7 @@ const TotalEarnedBox = ({ totalEarned = 0 }) => (
         textAlign={'left'}
         lineHeight={32}
       >
-        Total Rewards Earned
+        {t`Total Rewards Earned`}
       </Section.Text>
       <ModalLeftBorder
         borderColor={theme.colors.green}
@@ -349,7 +382,7 @@ const TotalEarnedBox = ({ totalEarned = 0 }) => (
             {totalEarned}
           </Section.Text>
           <Section.Text fontWeight={'bold'} color={theme.colors.white} lineHeight={26} fontSize={14}>
-            G$
+            {t`G$`}
           </Section.Text>
         </Section.Row>
       </ModalLeftBorder>
@@ -398,7 +431,7 @@ const InvitesHowTO = () => {
           fontSize={12}
           textAlign={'center'}
         >
-          Rewards pool is sponsored by
+          {t`Rewards pool is sponsored by`}
         </Section.Text>
         <Image
           source={EtoroPNG}
@@ -436,6 +469,7 @@ const Invite = ({ screenProps }) => {
   const { wasOpened } = useInviteScreenOpened()
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
+  const userStorage = useUserStorage()
 
   const totalEarned = parseInt(get(inviteState, 'totalEarned', 0))
   const bounty = parseInt(get(level, 'bounty', 0)) / 100
@@ -470,37 +504,45 @@ const Invite = ({ screenProps }) => {
         >
           {`Get ${bounty}G$`}
         </Section.Text>
-        {isCryptoLiteracy ? (
-          <Section.Text letterSpacing={0.1} fontWeight={'bold'} fontSize={20} color={theme.colors.text} lineHeight={34}>
-            For{' '}
+        <Trans>
+          {isCryptoLiteracy ? (
             <Section.Text
               letterSpacing={0.1}
               fontWeight={'bold'}
               fontSize={20}
-              color={theme.colors.red}
+              color={theme.colors.text}
               lineHeight={34}
             >
-              EVERY FRIEND
-            </Section.Text>{' '}
-            you invite during {'\n'}
-            Crypto Literacy November
-          </Section.Text>
-        ) : (
-          <Section.Text
-            letterSpacing={0.1}
-            fontWeight={'bold'}
-            fontFamily={theme.fonts.slab}
-            fontSize={20}
-            color={theme.colors.primary}
-            lineHeight={34}
-          >
-            For Each Friend You Invite!
-          </Section.Text>
-        )}
+              For{' '}
+              <Section.Text
+                letterSpacing={0.1}
+                fontWeight={'bold'}
+                fontSize={20}
+                color={theme.colors.red}
+                lineHeight={34}
+              >
+                EVERY FRIEND
+              </Section.Text>{' '}
+              you invite during {'\n'}
+              Crypto Literacy November
+            </Section.Text>
+          ) : (
+            <Section.Text
+              letterSpacing={0.1}
+              fontWeight={'bold'}
+              fontFamily={theme.fonts.slab}
+              fontSize={20}
+              color={theme.colors.primary}
+              lineHeight={34}
+            >
+              For Each Friend You Invite!
+            </Section.Text>
+          )}
+        </Trans>
       </Section.Stack>
       <Divider size={theme.sizes.defaultDouble} />
       <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
-        {`Make sure they claim to get your reward`}
+        {t`Make sure they claim to get your reward`}
       </Section.Text>
       <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
       <CustomButton
@@ -513,7 +555,7 @@ const Invite = ({ screenProps }) => {
         textStyle={{ fontWeight: 'bold', letterSpacing: 0, textDecorationLine: 'underline' }}
         onPress={toggleHowTo}
       >
-        {`How Do I Invite People?`}
+        {t`How Do I Invite People?`}
       </CustomButton>
       {showHowTo && <InvitesHowTO />}
       <InvitesData {...{ invitees, refresh, level, totalEarned, navigateTo: screenProps.navigateTo }} />

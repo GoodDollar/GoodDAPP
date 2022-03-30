@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
+import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/js-logger'
@@ -75,10 +76,15 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         category: ExceptionCategory.Human,
         dialogShown: true,
       })
-      showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
-        title: 'Ooops ...',
-        boldMessage: 'Please check it and try again.',
-      })
+      showErrorDialog(
+        t`Your pass phrase appears
+      to be incorrect.`,
+        undefined,
+        {
+          title: t`Ooops ...`,
+          boldMessage: t`Please check it and try again.`,
+        },
+      )
     }
 
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {

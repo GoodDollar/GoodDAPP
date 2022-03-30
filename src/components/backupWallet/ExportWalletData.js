@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native'
 import { get, noop } from 'lodash'
 
 // components
+import { t } from '@lingui/macro'
 import Wrapper from '../common/layout/Wrapper'
 import { Section } from '../common'
 import BorderedBox from '../common/view/BorderedBox'
@@ -22,6 +23,8 @@ import config from '../../config/config'
 // assets
 import Checkmark from '../../assets/checkmark.svg'
 import ExportWarningPopup from './ExportWarningPopup'
+
+// localization
 
 type ExportWalletProps = {
   styles: {},
@@ -68,11 +71,11 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
       <ScrollView style={styles.container}>
         <Divider size={30} />
         <Section.Text fontSize={28} fontWeight="bold" fontFamily={theme.fonts.slab} color="black">
-          My account details
+          {t`My account details`}
         </Section.Text>
         <Divider size={10} />
         <Section.Text fontSize={15} fontWeight="medium" fontFamily="Roboto" color="black">
-          All your information at a glance to easily import GoodDollar to MetaMask
+          {t`All your information at a glance to easily import GoodDollar to MetaMask`}
         </Section.Text>
         <Divider size={30} />
         <BorderedBox

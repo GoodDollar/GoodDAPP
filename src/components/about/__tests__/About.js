@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../__tests__/__util__'
+import { withThemeAndLocalizationProvider } from '../../../__tests__/__util__'
 import ImportedAbout from '../About'
 
-const About = withThemeProvider(ImportedAbout)
+const About = withThemeAndLocalizationProvider(ImportedAbout)
 
 describe('About', () => {
   it('renders without errors', () => {

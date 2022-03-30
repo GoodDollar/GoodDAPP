@@ -3,6 +3,7 @@ import React from 'react'
 import { Animated, Platform, View } from 'react-native'
 import { noop } from 'lodash'
 
+import { t } from '@lingui/macro'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 
@@ -60,7 +61,7 @@ const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style
       style={[styles.claimButton, isPending ? styles.inQueue : undefined, style]}
       contentStyle={styles.removeMargin}
     >
-      {isPending ? 'Queue' : 'Claim'}
+      {isPending ? t`Queue` : t`Claim`}
     </PushButton>
   )
 })

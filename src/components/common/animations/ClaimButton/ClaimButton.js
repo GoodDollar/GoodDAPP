@@ -2,9 +2,11 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, TouchableOpacity } from 'react-native'
 import { set } from 'lodash'
+import { t } from '@lingui/macro'
 import AnimationBase from '../Base'
 import { weiToMask } from '../../../../lib/wallet/utils'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+
 const { animationData } = getAnimationData('ClaimButton', require('./data'))
 
 class ClaimButton extends AnimationBase {
@@ -21,7 +23,7 @@ class ClaimButton extends AnimationBase {
 
     // set amount of G$ text to animation
 
-    set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${entitlement ? ` - ${entitlement}` : ''} `)
+    set(animationData, 'layers[5].t.d.k[0].s.t', t`CLAIM YOUR SHARE${entitlement ? ` - ${entitlement}` : ''} `)
 
     const gap = this.getGap(length)
 

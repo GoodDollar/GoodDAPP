@@ -4,6 +4,7 @@ import { Platform, StyleSheet } from 'react-native'
 import moment from 'moment'
 
 // components
+import { t, Trans } from '@lingui/macro'
 import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
@@ -14,6 +15,8 @@ import Config from '../../config/config'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
+
+// localization
 
 // assets
 // import wavePattern from '../../assets/splashWaves.svg'
@@ -74,14 +77,16 @@ const Splash = ({ animation, isLoggedIn }) => {
                   lineHeight={32}
                   style={styles.title}
                 >
-                  GoodDollar Demo
+                  {t`GoodDollar Demo`}
                 </Section.Text>
-                <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
-                  {'All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n'}
-                  <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
-                    all demo G$ coins will be deleted.
+                <Trans>
+                  <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
+                    {'All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n'}
+                    <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
+                      all demo G$ coins will be deleted.
+                    </Section.Text>
                   </Section.Text>
-                </Section.Text>
+                </Trans>
               </Section.Stack>
             )}
             <AnimationsLogo

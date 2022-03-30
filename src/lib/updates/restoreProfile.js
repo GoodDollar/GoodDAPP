@@ -1,11 +1,10 @@
 import { get } from 'lodash'
 
 import API from '../API/api'
-import userStorage from '../userStorage/UserStorage'
 
 const fromDate = new Date('2021/09/09')
 
-const restoreProfile = async (lastUpdate, prevVersion, log) => {
+const restoreProfile = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
   let { fullName, walletAddress } = userStorage.getDisplayProfile()
 
   log.info('start restoreProfile')

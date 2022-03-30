@@ -1,15 +1,15 @@
 // @flow
-import GoodDollarABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/IGoodDollar.json'
-import IdentityABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/IIdentity.json'
-import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
+import GoodDollarABI from '@gooddollar/goodprotocol/artifacts/abis/IGoodDollar.min.json'
+import IdentityABI from '@gooddollar/goodprotocol/artifacts/abis/IIdentity.min.json'
+import cERC20ABI from '@gooddollar/goodprotocol/artifacts/abis/cERC20.min.json'
+import GoodReserveCDai from '@gooddollar/goodprotocol/artifacts/abis/GoodReserveCDai.min.json'
+import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/abis/SimpleStakingV2.min.json'
+import UBIABI from '@gooddollar/goodprotocol/artifacts/abis/UBIScheme.min.json'
+import FundManagerABI from '@gooddollar/goodprotocol/artifacts/abis/GoodFundManager.min.json'
+import GOODToken from '@gooddollar/goodprotocol/artifacts/abis/GReputation.min.json'
 import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
+import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
-import cERC20ABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/cERC20.json'
-import GoodReserveCDai from '@gooddollar/goodprotocol/artifacts/contracts/reserve/GoodReserveCDai.sol/GoodReserveCDai.json'
-import ERC20ABI from '@gooddollar/goodprotocol/artifacts/contracts/Interfaces.sol/ERC20.json'
-import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
-import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/contracts/staking/SimpleStaking.sol/SimpleStaking.json'
-import FundManagerABI from '@gooddollar/goodprotocol/artifacts/contracts/staking/GoodFundManager.sol/GoodFundManager.json'
 import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'
 import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/FuseFaucet.min.json'
 import { MultiCall } from 'eth-multicall'
@@ -199,11 +199,11 @@ export class GoodWallet {
 
         // ERC20 Contract
         this.erc20Contract = new this.wallet.eth.Contract(
-          ERC20ABI.abi,
+          cERC20ABI.abi,
           get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
           { from: this.account },
         )
-        abiDecoder.addABI(ERC20ABI.abi)
+        abiDecoder.addABI(cERC20ABI.abi)
 
         // UBI Contract
         this.UBIContract = new this.wallet.eth.Contract(
@@ -242,6 +242,14 @@ export class GoodWallet {
         )
         abiDecoder.addABI(FaucetABI.abi)
 
+        // GOOD Contract
+        this.GOODContract = new this.wallet.eth.Contract(
+          GOODToken.abi,
+          get(ContractsAddress, `${this.network}.GReputation` /*UBIABI.networks[this.networkId].address*/),
+          { from: this.account },
+        )
+        abiDecoder.addABI(GOODToken.abi)
+
         // debug print contracts addresses
         {
           const { network, networkId } = this
@@ -276,12 +284,16 @@ export class GoodWallet {
       get(StakingModelAddress, `${this.network}.UBIScheme`),
       get(StakingModelAddress, `${this.network}.UBISchemeOld`),
       get(ContractsAddress, `${this.network}.UBIScheme`),
+      get(ContractsAddress, `production-bug.UBIScheme`),
     ]
     return addrs.filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
   }
 
   setIsPollEvents(active) {
     this.isPollEvents = active
+    if (!active) {
+      this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
+    }
   }
 
   async pollEvents(fn, time, lastBlockCallback) {
@@ -319,11 +331,12 @@ export class GoodWallet {
     } catch (e) {
       log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }
-    setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
+    this.pollEventsTimeout = setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
   }
 
   //eslint-disable-next-line require-await
   async watchEvents(fromBlock, lastBlockCallback) {
+    this.setIsPollEvents(true)
     const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
     lastBlockCallback(lastBlock)
     this.lastEventsBlock = lastBlock

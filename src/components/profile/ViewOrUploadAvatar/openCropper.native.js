@@ -1,12 +1,10 @@
 import { Platform } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 
-import userStorage from '../../../lib/userStorage/UserStorage'
-
 import { assembleDataUrl } from '../../../lib/utils/base64'
 import { withTemporaryFile } from '../../../lib/utils/fs'
 
-export default async ({ pickerOptions, showErrorDialog, avatar, log }) => {
+export default async ({ pickerOptions, showErrorDialog, avatar, userStorage, log }) => {
   // eslint-disable-next-line require-await
   const crop = async path => ImagePicker.openCropper({ ...pickerOptions, path })
 

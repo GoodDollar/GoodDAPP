@@ -5185,10 +5185,10 @@
     joi "^17.4.2"
     rxjs "^7.5.2"
 
-"@web3-onboard/core@^2.0.11":
-  version "2.0.11"
-  resolved "https://registry.npmjs.org/@web3-onboard/core/-/core-2.0.11.tgz#cb6e4ed47dad8520bf81a3a7b0b286252e1abb49"
-  integrity sha512-6sSRk1gWOQ/UJUr4Y9gjFAjpyf3AJ24rtZzO4tlxlIfoS+1Y/zUVoakqOMyBuRVj/9/7EgUQAwV6vbu//ycI+A==
+"@web3-onboard/core@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@web3-onboard/core/-/core-2.1.0.tgz#2675cfecd200c0028c7a11cd04e77ddd506bcd4a"
+  integrity sha512-WPVOrxWSnYXCQ0Ahen5dMjR2Q3G+g/dRSjLSqUn3dBzb6bzmN6v8O2yxMy9R9bM/wp89xzTwyRpaxKGT/4xvyQ==
   dependencies:
     "@web3-onboard/common" "^2.0.2"
     bowser "^2.11.0"
@@ -5210,13 +5210,13 @@
     joi "^17.4.2"
     lodash.uniqby "^4.7.0"
 
-"@web3-onboard/react@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.npmjs.org/@web3-onboard/react/-/react-2.0.4.tgz#7f4f51e0c75605c56f3258b8e4346e2be3757e69"
-  integrity sha512-dYWl8F2Tiv+WHYagtaZUqgXrd6S8aSSPuxJLx2V3Oh11XU24XjdW6hovhoLZOLMOevhfjVg4tXQG6qAVzAW5fQ==
+"@web3-onboard/react@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/@web3-onboard/react/-/react-2.0.6.tgz#337fe2c7a6500260ba01dc6dec20fa248f997917"
+  integrity sha512-ww3UdPnezXtITfCpQDP2QMEn61CiWM5V72XJdLNpRm/4U/R1a6gjoap5++UDLKUJ6WJkJtXU5QNuAFqhv60dsw==
   dependencies:
     "@web3-onboard/common" "^2.0.3"
-    "@web3-onboard/core" "^2.0.11"
+    "@web3-onboard/core" "^2.1.0"
 
 "@web3-onboard/walletconnect@^2.0.1":
   version "2.0.1"
@@ -5228,6 +5228,14 @@
     "@walletconnect/qrcode-modal" "^1.7.1"
     "@web3-onboard/common" "^2.0.0"
     rxjs "^7.5.2"
+
+"@web3-onboard/walletlink@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@web3-onboard/walletlink/-/walletlink-2.0.0.tgz#4f81ca6e1e2e7538f075e2590f5805f92fc3ce5d"
+  integrity sha512-w0qCuZzC37qRmtgNpiRPnSdHRD/OJ8RDeGyEyKw7ucmpTc1KmhwIYZTncgQag7KP0xj7MIrV7OQxZamkQmbxYw==
+  dependencies:
+    "@web3-onboard/common" "^2.0.0"
+    walletlink "^2.5.0"
 
 "@web3-react/abstract-connector@^6.0.7":
   version "6.0.7"
@@ -15892,6 +15900,11 @@ postcss@^8.1.0, postcss@^8.2.1:
     nanoid "^3.1.22"
     source-map "^0.6.1"
 
+postinstall-postinstall@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/postinstall-postinstall/-/postinstall-postinstall-2.1.0.tgz#4f7f77441ef539d1512c40bd04c71b06a4704ca3"
+  integrity sha512-7hQX6ZlZXIoRiWNrbMQaLzUUfH+sSx39u8EJ9HYuDc1kLo9IXKWjM5RSquZN1ad5GnH8CGFM78fsAAQi3OKEEQ==
+
 preact@10.4.1:
   version "10.4.1"
   resolved "https://registry.npmjs.org/preact/-/preact-10.4.1.tgz"
@@ -19886,7 +19899,7 @@ walker@^1.0.7, walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
-walletlink@^2.1.10:
+walletlink@^2.1.10, walletlink@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/walletlink/-/walletlink-2.5.0.tgz#b8db10f4d9f124084feb16d1e2b2d08ba8c20d21"
   integrity sha512-PBJmK5tZmonwKPABBI2/optaZ11O4kKmkmnU5eLKhk4XRlal5qJ1igZ4U5j3w6w8wxxdhCWpLMHzGWt3n/p7mw==

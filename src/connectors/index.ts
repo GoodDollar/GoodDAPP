@@ -10,6 +10,7 @@ import Logo from '../assets/images/logo.png'
 import Onboard from '@web3-onboard/core'
 import injectedModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
 import walletConnectModule from '@web3-onboard/walletconnect'
+import walletLinkModule from '@web3-onboard/walletlink'
 import type { InitOptions } from '@web3-onboard/core'
 // ** blockNative update **//
 import { init } from '@web3-onboard/react'
@@ -50,7 +51,8 @@ export const network = new NetworkConnector({
 
 let networkLibrary: Web3Provider | undefined
 export function getNetworkLibrary(): Web3Provider {
-    return (networkLibrary = networkLibrary ?? new Web3Provider(network.provider as any))
+  const [{provider}] = onboard.state.get().wallets
+  return (networkLibrary = networkLibrary ?? new Web3Provider(provider as any))
 }
 
 export const injected = new InjectedConnector({
@@ -86,15 +88,19 @@ export const portis = {}
 // ** blocknative update ** //
 const injectedBN = injectedModule({
   filter: {
-    ["Binance Smart Wallet"]: false
+    ["Binance Smart Wallet"]: false,
+    ["Coinbase Wallet"]: false // if supported, use walletLink module for coinbase
   }
 })
+
 const walletConnectBN = walletConnectModule({
   bridge: 'https://bridge.walletconnect.org',
   qrcodeModalOptions: {
     mobileLinks: ['metamask', 'trust']
   }
 })
+
+const walletLink = walletLinkModule({ darkMode: true })
 
 export const onboard = init({
   wallets: [injectedBN, walletConnectBN],
@@ -158,5 +164,5 @@ export const onboard = init({
   }
 })
 
-// TODO: connect i18n options to the specific ui areas!
+// TODO: Add localization
 // ** blocknative update **//

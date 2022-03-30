@@ -14,7 +14,8 @@ interface RequestArguments {
 }
 
 interface Window {
-    walletLinkExtension?: any,
+    walletLinkExtension?: any, 
+    BinanceChain?: any,
     ethereum?: {
         isMetaMask?: boolean, 
         on?: (...args: any[]) => void,

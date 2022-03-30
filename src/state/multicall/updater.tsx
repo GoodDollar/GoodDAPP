@@ -165,6 +165,7 @@ export default function Updater(): null {
                 })
                 promise
                     .then(({ results: returnData, blockNumber: fetchBlockNumber }) => {
+                      // console.log('multicall updater -->', {chainId})
                         cancellations.current = { cancellations: [], blockNumber: latestBlockNumber }
 
                         // accumulates the length of all previous indices
@@ -187,6 +188,7 @@ export default function Updater(): null {
                         )
                     })
                     .catch((error: any) => {
+                      // console.log('chainId catched error multicall', {chainId, error})
                         if (error instanceof CancelledError) {
                             console.debug('Cancelled fetch for blockNumber', latestBlockNumber)
                             return

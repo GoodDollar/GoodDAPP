@@ -1,7 +1,5 @@
-// export {}
 import React, { useEffect } from 'react'
 import { ChainId } from '@sushiswap/sdk'
-
 
 export type MetaMaskInfo = {
   isMetaMask: boolean,
@@ -14,16 +12,9 @@ export type MetaMaskInfo = {
 * returns boolean metaMask exists at all
 */
 
-export default function useSelectedProvider():MetaMaskInfo {
+export default function useMetaMask():MetaMaskInfo {
   const { ethereum } = window
   const isMultiple = ethereum && ethereum.providers?.length > 1
-  useEffect(() => {
-    let provider:any 
-    if (window.ethereum && isMultiple && !ethereum.selectedProvider) { 
-      provider = ethereum.providers.find((provider: any) => provider.isMetaMask)
-      window.ethereum.selectedProvider = provider
-    }
-  }, [ethereum, isMultiple])
 
   const isMetaMask = ethereum && (isMultiple ? ethereum.selectedProvider?.isMetaMask : ethereum.isMetaMask)
   return {

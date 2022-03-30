@@ -10,10 +10,10 @@ import styled from 'styled-components'
 import { AdditionalChainId } from '../../constants'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { getNetworkEnv } from 'sdk/constants/addresses'
 import useMetaMask, { metaMaskRequests } from 'hooks/useMetaMask'
+import { UnsupportedChainId } from 'sdk/utils/errors'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -163,8 +163,7 @@ const TextWrapper = styled.div`
 
 export default function NetworkModal(): JSX.Element | null {
     const { i18n } = useLingui()
-    const { account, chainId, error } = useActiveWeb3React()
-    const { library } = useActiveWeb3React()
+    const { account, chainId, error, library } = useActiveWeb3React()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
 
@@ -183,13 +182,13 @@ export default function NetworkModal(): JSX.Element | null {
             case network === 'production' && !error:
                 return [ChainId.MAINNET, AdditionalChainId.FUSE]
 
-            case network === 'production' && error instanceof UnsupportedChainIdError:
+            case network === 'production' && error instanceof UnsupportedChainId:
                 return [ChainId.MAINNET]
 
             case network === 'staging' && !error:
                 return [ChainId.KOVAN, AdditionalChainId.FUSE, ChainId.ROPSTEN]
 
-            case network === 'staging' && error instanceof UnsupportedChainIdError:
+            case network === 'staging' && error instanceof UnsupportedChainId:
                 return [ChainId.KOVAN, ChainId.ROPSTEN]
 
             default:

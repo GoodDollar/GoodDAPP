@@ -4,7 +4,6 @@ import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import useDebounce from '../../hooks/useDebounce'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { updateBlockNumber } from './actions'
-import { Web3Provider } from '@ethersproject/providers'
 
 export default function Updater(): null {
     const { library, chainId, account } = useActiveWeb3React()
@@ -33,8 +32,6 @@ export default function Updater(): null {
     // attach/detach listeners
     useEffect(() => {
         if (!account || !library || !chainId || !windowVisible) return undefined
-
-        // console.log('library -->', library)
 
         setState({ chainId, blockNumber: null })
         library

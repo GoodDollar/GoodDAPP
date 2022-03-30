@@ -18,9 +18,9 @@ import WalletModal from '../WalletModal'
 import { ReactComponent as Chef } from '../../assets/images/chef.svg'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { useActiveOnboard } from '../../hooks/useActiveOnboard'
 import { BlockNativeStatus } from '../BlockNativeOnboard'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
+import { UnsupportedChainId } from 'sdk/utils/errors'
 
 const IconWrapper = styled.div<{ size?: number }>`
     ${({ theme }) => theme.flexColumnNoWrap};
@@ -111,7 +111,7 @@ const Web3StatusInnerSC = styled.div`
 function Web3StatusInner() {
     const { i18n } = useLingui()
     // const { error } = useWeb3React()
-    const { account, error } = useActiveOnboard() 
+    const { account, error } = useActiveWeb3React()
 
     const { ENSName } = useENSName(account ?? undefined)
 
@@ -128,7 +128,7 @@ function Web3StatusInner() {
 
     const toggleWalletModal = useWalletModalToggle()
 
-    if (account) {
+    if (account && !error) {
         return (
             <Web3StatusInnerSC
                 id="web3-status-connected"
@@ -153,7 +153,7 @@ function Web3StatusInner() {
                 <NetworkIcon />
                 <Text>
                     {
-                    error instanceof UnsupportedChainIdError
+                    error instanceof UnsupportedChainId
                         ? i18n._(t`You are on the wrong network`)
                         : i18n._(t`Error`)}
                 </Text>
@@ -162,17 +162,12 @@ function Web3StatusInner() {
     } else {
         return (
           <BlockNativeStatus />
-            // <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
-            //     <Text>{i18n._(t`Connect to a wallet`)}</Text>
-            // </Web3StatusConnect>
         )
     }
 }
 
 export default function Web3Status() {
-    // const { active, account } = useWeb3React()
-    const { active, account } = useActiveOnboard()
-    // const contextNetwork = useWeb3React(NetworkContextName)
+    const { active, account } = useActiveWeb3React()
 
     const { ENSName } = useENSName(account ?? undefined)
 
@@ -185,10 +180,6 @@ export default function Web3Status() {
 
     const pending = sortedRecentTransactions.filter((tx) => !tx.receipt).map((tx) => tx.hash)
     const confirmed = sortedRecentTransactions.filter((tx) => tx.receipt).map((tx) => tx.hash)
-    
-    // if (!active) {
-    //     return null
-    // }
 
     return (
         <>

@@ -198,8 +198,8 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
             allTokens.map(
                 token =>
                 metaMaskInfo.isMultiple ?
-                    ethereum?.selectedProvider?.request &&
-                    ethereum.selectedProvider.request({
+                  ethereum?.selectedProvider?.request &&
+                  ethereum.selectedProvider.request({
                         method: 'wallet_watchAsset',
                         params: token
                     })

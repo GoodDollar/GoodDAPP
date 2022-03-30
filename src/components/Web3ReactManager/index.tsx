@@ -23,19 +23,9 @@ const Message = styled.h2`
 
 export default function Web3ReactManager({ children }: { children: JSX.Element }) {
     const { i18n } = useLingui()
-    const { active } = useWeb3React()
     const { active: networkActive, error: networkError } = useActiveWeb3React()
-    // try to eagerly connect to an injected provider, if it exists and has granted access already
-    // const triedEager = useEagerConnect()
-    const { tried, activated } = useOnboardConnect()
+    const { tried, activated } = useOnboardConnect() 
 
-
-    // // after eagerly trying injected, if the network connect ever isn't active or in an error state, activate itd
-    // useEffect(() => {
-    //     if (tried && !networkActive && !networkError && !activated) {
-    //         activateNetwork(network) // activate network untill user connects
-    //     }
-    // }, [tried, networkActive, networkError, activateNetwork])
 
     // always listen for events, also when account is connected
     useInactiveListener()
@@ -59,7 +49,7 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
 
     // if the account context isn't active, and there's an error on the network context, it's an irrecoverable error
     // TODO: Create the fallback network context
-    if (!active && networkError) {
+    if (!networkActive && networkError) {
         return (
             <MessageWrapper>
                 <Message>
@@ -69,15 +59,6 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
                 </Message>
             </MessageWrapper>
         )
-    }
-
-    // if neither context is active, spin
-    if (!active && !networkActive) {
-        return showLoader ? (
-            <MessageWrapper>
-                <Loader />
-            </MessageWrapper>
-        ) : null
     }
 
     return children

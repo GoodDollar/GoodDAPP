@@ -11,7 +11,6 @@ import Web3Faucet from './Web3Faucet'
 import { Disclosure } from '@headlessui/react'
 import { useLingui } from '@lingui/react'
 import styled, { css } from 'styled-components'
-import { ButtonOutlined } from './gd/Button'
 import MoreMenu from './Menu'
 import { useApplicationTheme } from '../state/application/hooks'
 import { ReactComponent as Burger } from '../assets/images/burger.svg'
@@ -60,12 +59,41 @@ const AppBarWrapper = styled.header`
         }
     }
 `
+// TODO: Move and combine with styling for ButtonOutlined
+export const DivOutlined = styled.div<{
+  size?: 'default' | 'sm'
+  error?: boolean
+  width?: string
+  borderRadius?: string
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: ${({ size }) => (size === 'sm' ? '32px' : '42px')};
+  width: ${({ width = '100%' }) => width};
+  border-radius: ${({ borderRadius = '6px' }) => borderRadius};
+  color: ${({ theme }) => theme.color.text2};
+  background: transparent;
+  border: 1px solid ${({ theme }) => theme.color.text2};
+  cursor: pointer;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: ${({ size }) => (size === 'sm' ? '14px' : '16px')};
+  line-height: 16px;
+  text-align: center;
+  user-select: none;
+
+  :disabled {
+      opacity: 0.5;
+      cursor: auto;
+  }
+`
 
 function AppBar(): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
     const { account, chainId, library } = useActiveWeb3React()
-    // const cLibrary = library?.provider as ExternalProvider // this to add access to isWalletLink on type
     const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
     const [G$Price] = usePromise(async () => {
         try {
@@ -119,15 +147,15 @@ function AppBar(): JSX.Element {
                                                 </div>
                                             )}
                                             {account && chainId && userEthBalance ? (
-                                                <ButtonOutlined className="pr-1">
-                                                    <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto">
-                                                        <div className="px-3 py-2 bold">
-                                                            {userEthBalance?.toSignificant(4)}{' '}
-                                                            {Currency.getNativeCurrencySymbol(chainId)}
-                                                        </div>
-                                                        <Web3Status />
-                                                    </div>
-                                                </ButtonOutlined>
+                                                <DivOutlined className="pr-1">
+                                                  <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto">
+                                                      <div className="px-3 py-2 bold">
+                                                          {userEthBalance?.toSignificant(4)}{' '}
+                                                          {Currency.getNativeCurrencySymbol(chainId)}
+                                                      </div>
+                                                      <Web3Status />
+                                                  </div>
+                                                </DivOutlined>
                                             ) : (
                                                 <div className="pr-1">
                                                     <Web3Status />

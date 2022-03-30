@@ -13,7 +13,8 @@ import logger from '../logger/js-logger'
 import type { ThreadDB } from '../textile/ThreadDB'
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
-import type { FeedFilter, Profile } from '../userStorage/UserStorageClass'
+import { Profile } from '../userStorage/UserStorageClass'
+import { FeedCategories, FeedCategory } from '../userStorage/FeedCategory'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { retry } from '../utils/async'
 import { NewsSource, TransactionsSource } from './sources'
@@ -383,28 +384,30 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults, offset, filter?: FeedFilter): Promise<any> {
+  async getFeedPage(numResults, offset, category: FeedCategory = FeedCategories.Alls): Promise<any> {
     try {
-      // use dexie directly because mongoify only sorts results and not all documents
-      const filterByType = item => {
-        if (!filter) {
-          return true
-        }
-        const isExclude = filter.exclude ? filter.exclude.includes(item.type) === false : true
-        const isInclude = filter.include ? filter.include.includes(item.type) : true
-        return isExclude && isInclude
-      }
+      const hiddenStates = ['deleted', 'cancelled', 'canceled']
 
       const res = await this.db.Feed.table
         .orderBy('date')
         .reverse()
         .offset(offset)
-        .filter(
-          i =>
-            ['deleted', 'cancelled', 'canceled'].includes(i.status) === false &&
-            ['deleted', 'cancelled', 'canceled'].includes(i.otplStatus) === false &&
-            filterByType(i),
-        )
+        .filter(({ status, otplStatus, type }) => {
+          const isNews = 'news' === type
+
+          if ([status, otplStatus].some(state => hiddenStates.includes(state))) {
+            return false
+          }
+
+          switch (category) {
+            case FeedCategories.News:
+              return isNews
+            case FeedCategories.Transactions:
+              return !isNews
+            default:
+              return true
+          }
+        })
         .limit(numResults)
         .toArray()
 

@@ -47,6 +47,7 @@ import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
+import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -83,18 +84,6 @@ const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
 const { isCryptoLiteracy } = Config
 
-const FeedTabs = {
-  All: 'All',
-  News: 'News',
-  Transactions: 'Transactions',
-}
-
-const tabFilter = {
-  [FeedTabs.All]: undefined,
-  [FeedTabs.News]: { include: ['news'] },
-  [FeedTabs.Transactions]: { exclude: ['news'] },
-}
-
 export type DashboardProps = {
   navigation: any,
   screenProps: any,
@@ -102,11 +91,35 @@ export type DashboardProps = {
   styles?: any,
 }
 
-const TABS_ARRAY = [FeedTabs.All, FeedTabs.Transactions, FeedTabs.News]
-
 const feedMutex = new Mutex()
 
 const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance), 2)
+
+const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
+  const onTabPress = useCallback(() => {
+    log.debug('feed category selected', { tab })
+
+    fireEvent(GOTO_TAB_FEED, { name: tab })
+    setActiveTab(tab)
+    getFeedPage(true, tab)
+  }, [setActiveTab, getFeedPage, tab])
+
+  const isAll = tab === FeedCategories.All
+  const isTransactions = tab === FeedCategories.Transactions
+
+  return (
+    <TabButton
+      onPress={onTabPress}
+      isActive={tab === activeTab}
+      hasLeftBorder={!isAll}
+      flex={isTransactions ? 2 : 1}
+      roundnessLeft={isAll ? 5 : 0}
+      roundnessRight={isTransactions ? 5 : 0}
+    >
+      {FeedCategories.label(tab)}
+    </TabButton>
+  )
+}
 
 const Dashboard = props => {
   const balanceRef = useRef()
@@ -140,7 +153,7 @@ const Dashboard = props => {
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
-  const [activeTab, setActiveTab] = useState(FeedTabs.All)
+  const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
 
   const [price, showPrice] = useGoodDollarPrice()
@@ -202,14 +215,16 @@ const Dashboard = props => {
 
   const getFeedPage = useCallback(
     async (reset = false, tab = activeTab) => {
+      let res = []
       const release = await feedMutex.lock()
+
       try {
-        log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender, activeTab })
+        log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender, tab })
+
         const feedPromise = userStorage
-          .getFormattedEvents(PAGE_SIZE, reset, tabFilter[tab])
+          .getFormattedEvents(PAGE_SIZE, reset, tab)
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
 
-        let res = []
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
           //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
@@ -228,6 +243,7 @@ const Dashboard = props => {
           feedRef.current = newFeed
           res.length > 0 && setFeeds(newFeed)
         }
+
         log.debug('getFeedPage getFormattedEvents result:', {
           reset,
           res,
@@ -731,27 +747,15 @@ const Dashboard = props => {
 
       <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
         <Section.Row>
-          {TABS_ARRAY.map((tab, index) => {
-            const onTabPress = () => {
-              log.debug('feed category selected', { tab })
-              fireEvent(GOTO_TAB_FEED, { name: tab })
-              setActiveTab(tab)
-              getFeedPage(true, tab)
-            }
-            return (
-              <TabButton
-                key={tab}
-                flex={tab === FeedTabs.Transactions ? 2 : 1}
-                isActive={tab === activeTab}
-                roundnessLeft={index === 0 ? 5 : 0}
-                roundnessRight={TABS_ARRAY.length - 1 === index ? 5 : 0}
-                hasLeftBorder={index !== 0}
-                onPress={onTabPress}
-              >
-                {tab}
-              </TabButton>
-            )
-          })}
+          {FeedCategories.all.map(tab => (
+            <FeedTab
+              tab={tab}
+              key={tab || 'all'}
+              setActiveTab={setActiveTab}
+              getFeedPage={getFeedPage}
+              activeTab={activeTab}
+            />
+          ))}
         </Section.Row>
       </Section>
 

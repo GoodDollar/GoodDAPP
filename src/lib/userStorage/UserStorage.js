@@ -2,7 +2,8 @@
 import { default as goodWallet } from '../wallet/GoodWallet'
 import getDB from '../realmdb/RealmDB'
 import { ThreadDB } from '../textile/ThreadDB'
-import { FeedFilter, UserStorage } from './UserStorageClass'
+import { UserStorage } from './UserStorageClass'
+import { FeedCategory } from './FeedCategory'
 import UserProperties from './UserProperties'
 
 const db = getDB()
@@ -17,7 +18,7 @@ export interface DB {
   readByPaymentId(paymentId: string): Promise<any>;
   encryptSettings(settings: object): Promise<any>;
   decryptSettings(): Promise<object>;
-  getFeedPage(numResults, offset, filter?: FeedFilter): Promise<Array<object>>;
+  getFeedPage(numResults, offset, category?: FeedCategory): Promise<Array<object>>;
 }
 
 export default userStorage

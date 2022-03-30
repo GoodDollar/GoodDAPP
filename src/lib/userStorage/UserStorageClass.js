@@ -33,6 +33,7 @@ import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
 import createAssetStorage, { type UserAssetStorage } from './UserAssetStorage'
 import { prepareInviteCard } from './utlis'
+import { FeedCategories, FeedCategory } from './FeedCategory'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -44,8 +45,6 @@ const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 export type FieldPrivacy = 'private' | 'public' | 'masked'
 
 type EncryptedField = any
-
-export type FeedFilter = { include?: string[], exclude?: string[] }
 
 /**
  * User's profile field data
@@ -94,7 +93,7 @@ export const welcomeMessage = {
       outside of this pilot, and will be destroyed
       upon completion of the demo period.`
       : t`Right here is where you will claim your basic income in GoodDollar coins every day.
-      
+
       Together, we will build a better financial future for all of us!`,
   },
 }
@@ -166,7 +165,7 @@ export const startClaiming = {
       Remember, claim for 14 days and secure
       a spot for GoodDollar’s live launch.`
       : t`GoodDollar gives every active member a small daily income.
-      
+
       Every day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
   },
 }
@@ -713,8 +712,12 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults: number, reset?: boolean, filter?: FeedFilter): Promise<Array<FeedEvent>> {
-    return this.feedStorage.getFeedPage(numResults, reset, filter)
+  async getFeedPage(
+    numResults: number,
+    reset?: boolean,
+    category: FeedCategory = FeedCategories.All,
+  ): Promise<Array<FeedEvent>> {
+    return this.feedStorage.getFeedPage(numResults, reset, category)
   }
 
   /**
@@ -722,8 +725,12 @@ export class UserStorage {
    * @returns {Promise} Promise with array of standardized feed events
    * @todo Add pagination
    */
-  async getFormattedEvents(numResults: number, reset?: boolean, filter?: FeedFilter): Promise<Array<StandardFeed>> {
-    const feed = await this.getFeedPage(numResults, reset, filter)
+  async getFormattedEvents(
+    numResults: number,
+    reset?: boolean,
+    category: FeedCategory = FeedCategories.All,
+  ): Promise<Array<StandardFeed>> {
+    const feed = await this.getFeedPage(numResults, reset, category)
 
     logger.debug('getFormattedEvents page result:', {
       numResults,

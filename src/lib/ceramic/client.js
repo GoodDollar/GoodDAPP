@@ -9,14 +9,6 @@ import { once } from 'lodash'
 
 import Config from '../../config/config'
 
-export type SimplePaginatorContract<T> = {
-  items: T[],
-  page: number,
-  perPage: number,
-  totalPages: number,
-  totalItems: number,
-}
-
 export const getCeramicClient = once(() => new CeramicClient(Config.ceramicNodeURL))
 
 export const serializeDocument = (document: any) => {
@@ -42,9 +34,11 @@ export class CeramicModel {
   }
 
   static async all(): Promise<TileDocument[]> {
-    const { content } = await this._getIndex()
+    const {
+      content: { items = [] },
+    } = await this._getIndex()
 
-    return this._loadEntities(content.items)
+    return this._loadEntities(items)
   }
 
   static async find(id: any): Promise<TileDocument> {

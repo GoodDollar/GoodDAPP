@@ -11,9 +11,9 @@ export class FeedCategories {
   static Transactions = 'tx'
 
   static get all() {
-    const { All, News, Transactions } = this
+    const { All, Transactions, News } = this
 
-    return [All, News, Transactions]
+    return [All, Transactions, News]
   }
 
   static label(category) {

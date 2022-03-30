@@ -2,6 +2,7 @@
 import React from 'react'
 import { Image, Linking, Platform, Pressable, View } from 'react-native'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -64,7 +65,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
     data: { sponsoredLink, sponsoredLogo },
   } = item
   const onSponsorPress = useOnPress(() => {
-    fireEvent(GOTO_SPONSOR)
+    fireEvent(GOTO_SPONSOR, { link: sponsoredLink })
     Linking.openURL(sponsoredLink).catch(e => log.error('Open news feed error', e))
   }, [sponsoredLink])
   return (
@@ -106,7 +107,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
               {!!sponsoredLink && !!sponsoredLogo && (
                 <Pressable style={styles.sponsorContainer} onPress={onSponsorPress}>
                   <Text fontSize={10} color="gray80Percent" lineHeight={17} textAlign="left">
-                    Sponsored by{' '}
+                    {t`Sponsored by`}{' '}
                   </Text>
                   <SvgImage src={sponsoredLogo} height="15" width="47" />
                 </Pressable>

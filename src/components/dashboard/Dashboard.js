@@ -96,7 +96,7 @@ const feedMutex = new Mutex()
 const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance), 2)
 
 const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
-  const onTabPress = useCallback(() => {
+  const onTabPress = useOnPress(() => {
     log.debug('feed category selected', { tab })
 
     fireEvent(GOTO_TAB_FEED, { name: tab })
@@ -105,6 +105,7 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   }, [setActiveTab, getFeedPage, tab])
 
   const isAll = tab === FeedCategories.All
+  const isNews = tab === FeedCategories.News
   const isTransactions = tab === FeedCategories.Transactions
 
   return (
@@ -114,7 +115,7 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
       hasLeftBorder={!isAll}
       flex={isTransactions ? 2 : 1}
       roundnessLeft={isAll ? 5 : 0}
-      roundnessRight={isTransactions ? 5 : 0}
+      roundnessRight={isNews ? 5 : 0}
     >
       {FeedCategories.label(tab)}
     </TabButton>

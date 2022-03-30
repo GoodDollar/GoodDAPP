@@ -37,7 +37,13 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
   const disableAnimForTests = Config.env === 'test'
   const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
-  const { id, type, displayType, action } = item
+  const {
+    id,
+    type,
+    displayType,
+    action,
+    data: { link },
+  } = item
 
   const itemType = displayType || type
   const isItemEmpty = itemType === 'empty'
@@ -56,10 +62,12 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
 
   const onPress = useOnPress(() => {
     if (type !== 'empty') {
-      fireEvent(CARD_OPEN, { cardId: id })
+      const isNews = type === 'news'
+      const newsParams = isNews && !!link ? { link } : {}
+      fireEvent(CARD_OPEN, { cardId: id, ...newsParams })
       onItemPress()
     }
-  }, [fireEvent, type, onItemPress, id])
+  }, [fireEvent, type, onItemPress, id, link])
 
   if (isItemEmpty) {
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')

@@ -107,7 +107,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
     if (receiveLink) {
       try {
-        const receipt = await executeWithdraw(store, receiveLink, undefined, undefined, goodWallet, userStorage)
+        const receipt = await executeWithdraw(receiveLink, undefined, undefined, goodWallet, userStorage)
 
         navigateTo('Home', {
           event: receipt.transactionHash,

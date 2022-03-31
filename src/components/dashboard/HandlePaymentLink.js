@@ -8,7 +8,6 @@ import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import { fireEvent, WITHDRAW } from '../../lib/analytics/analytics'
 import { withStyles } from '../../lib/styles'
 import {
@@ -35,7 +34,6 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
   const { params } = navigation.state || {}
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const store = SimpleStore.useStore()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 
@@ -133,7 +131,6 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         })
 
         const { status, transactionHash } = await executeWithdraw(
-          store,
           paymentParams.paymentCode,
           paymentParams.reason,
           paymentParams.category,
@@ -210,7 +207,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         navigation.setParams({ paymentCode: undefined })
       }
     },
-    [showDialog, hideDialog, showErrorDialog, store, navigation, goodWallet, userStorage],
+    [showDialog, hideDialog, showErrorDialog, navigation, goodWallet, userStorage],
   )
 
   useEffect(() => {

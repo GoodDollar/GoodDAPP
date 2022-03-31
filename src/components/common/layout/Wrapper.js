@@ -8,7 +8,7 @@ import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 const Wrapper = props => {
   const { isMobileSafariKeyboardShown } = useContext(GlobalTogglesContext)
 
-  const growStyle = { flexGrow: isMobileSafariKeyboardShown ? 1 : 0 }
+  const growStyle = { flexGrow: isMobileSafariKeyboardShown ? 0 : 1 }
 
   const { withGradient, backgroundColor, children, style, styles, ...rest } = props
 

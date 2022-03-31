@@ -590,7 +590,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const { scrollableContainer, contentContainer } = styles
 
   return (
-    <View style={{ flexGrow: isMobileSafariKeyboardShown ? 1 : 0 }}>
+    <View style={{ flexGrow: isMobileSafariKeyboardShown ? 0 : 1 }}>
       <NavBar logo />
       <AuthStateWrapper>
         <AuthProgressBar step={activeStep} done={signupSuccess} />

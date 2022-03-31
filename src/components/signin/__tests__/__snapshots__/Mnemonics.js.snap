@@ -40,7 +40,9 @@ exports[`SignIn - Mnemonics matches snapshot 1`] = `
           dir="auto"
         >
           Please enter your
-12-word pass phrase:
+          
+
+          12-word pass phrase:
         </div>
       </div>
       <div

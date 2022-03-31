@@ -95,8 +95,7 @@ exports[`SendQRSummary matches snapshot 1`] = `
           className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
-          * the transaction may take
-a few seconds to complete
+          * the transaction may take\\na few seconds to complete
         </div>
       </div>
       <div

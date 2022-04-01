@@ -33,7 +33,8 @@ import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import type { DB } from './UserStorage'
 import createAssetStorage, { type UserAssetStorage } from './UserAssetStorage'
 import { prepareInviteCard } from './utlis'
-import { FeedCategories, FeedCategory } from './FeedCategory'
+import type { FeedCategory } from './FeedCategory'
+import { FeedCategories } from './FeedCategory'
 
 const logger = pino.child({ from: 'UserStorage' })
 

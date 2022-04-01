@@ -3,7 +3,7 @@ import { default as goodWallet } from '../wallet/GoodWallet'
 import getDB from '../realmdb/RealmDB'
 import { ThreadDB } from '../textile/ThreadDB'
 import { UserStorage } from './UserStorageClass'
-import { FeedCategory } from './FeedCategory'
+import type { FeedCategory } from './FeedCategory'
 import UserProperties from './UserProperties'
 
 const db = getDB()

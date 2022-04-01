@@ -33,7 +33,7 @@ const InviteItem = ({ item, theme }) => (
     <Section.Stack style={{ marginLeft: getDesignRelativeWidth(theme.sizes.default) }}>
       <Text
         color={theme.colors.white}
-        textAlign={'left'}
+        textAlign="left"
         fontSize={18}
         lineHeight={18}
         fontWeight="bold"
@@ -43,7 +43,7 @@ const InviteItem = ({ item, theme }) => (
       </Text>
       <Text
         color={theme.colors.white}
-        textAlign={'left'}
+        textAlign="left"
         fontSize={13}
         lineHeight={18}
         fontWeight="regular"
@@ -182,11 +182,11 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               {isErrorCard ? (
                 <>
                   <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
-                    {`We're sorry.`}
+                    {t`We're sorry.`}
                   </Text>
                   <ReadMoreText
-                    text="This transaction failed"
-                    buttonText="Read why..."
+                    text={t`This transaction failed`}
+                    buttonText={t`Read why...`}
                     style={styles.failTransaction}
                     color="primary"
                   />
@@ -422,7 +422,7 @@ const getStylesFromProps = ({ theme }) => ({
     resizeMode: 'contain',
   },
   newsContent: {
-    flex: 1,
+    width: '100%',
     paddingLeft: 2,
   },
   newsMessage: {

@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable require-await */
 
-import { isArray, isEmpty, negate } from 'lodash'
+import { filter, groupBy, isArray, isEmpty, keys, last, negate } from 'lodash'
 import Config from '../../config/config'
 
 import IPFS from '../ipfs/IpfsStorage'
@@ -78,33 +78,56 @@ class CeramicFeed {
 
       log.debug('Got commit document:', { commitId: String(commitId), content })
       return content
-    }).then(documents => documents.filter(nonEmpty))
+    })
 
     log.debug('Got commits:', { commits })
 
-    // prepare state map
-    const map = commits.reduce((itemStates, { item, action }) => {
-      const itemState = item in itemStates ? { ...itemStates[item] } : {}
+    const aggregated = groupBy(filter(commits, nonEmpty), 'item')
 
-      itemState[action] = true
-      return { ...itemStates, [item]: itemState }
-    }, {})
+    history = filter(
+      keys(aggregated).map(item => {
+        const records = history[item]
+        const lastRecord = last(records)
 
-    history = commits.filter(({ item, action }) => {
-      log.debug('commits filter', { item, action })
+        log.debug('picking status for', { item, lastRecord })
 
-      switch (action) {
-        case 'added':
-          // if item was added then removed during last changes - don't need to fetch it
-          return !map[item].removed
-        case 'updated':
-          // getting item will return latest content - don't need to refetch it on each update
-          return !map[item].added
-        default:
-          // always return 'removed' actions
-          return true
-      }
-    })
+        // if last status is updated - scrolling through previous statuses
+        if (lastRecord.action === 'updated') {
+          let index = records.length - 2
+
+          while (index >= 0) {
+            const record = records[index]
+
+            log.debug('scrolling history for updated item', { item, record })
+
+            switch (record.action) {
+              case 'added':
+                // if found 'added' - return 'added'
+                log.debug('picked status for', { item, record })
+                return record
+              case 'removed':
+                // if found 'removed' - ignore the item,
+                // this is impossible maybe some error
+                log.debug('skipping status for', { item })
+                // eslint-disable-next-line array-callback-return
+                return
+              default:
+                // skipping other 'updated'
+                break
+            }
+
+            index -= 1
+          }
+
+          // if we hadn't found any 'added' or 'deleted'
+          // going out of the loop to return the last status
+        }
+
+        // if last status is 'removed' or 'added' - return it
+        log.debug('picked status for', { item, record: lastRecord })
+        return lastRecord
+      }),
+    )
 
     return { historyId, history }
   }

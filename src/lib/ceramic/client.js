@@ -8,8 +8,11 @@ import { TileDocument } from '@ceramicnetwork/stream-tile'
 import { once } from 'lodash'
 
 import Config from '../../config/config'
+import { batch } from '../../lib/utils/async'
 
-export const getCeramicClient = once(() => new CeramicClient(Config.ceramicNodeURL))
+const { ceramicNodeURL, ceramicBatchSize } = Config
+
+export const getCeramicClient = once(() => new CeramicClient(ceramicNodeURL))
 
 export const serializeDocument = (document: any) => {
   const { id, content } = document
@@ -72,6 +75,6 @@ export class CeramicModel {
 
   /** @private */
   static async _loadEntities(ids: string[]): Promise<TileDocument[]> {
-    return Promise.all(ids.map(async id => this.loadDocument(id)))
+    return batch(ids, ceramicBatchSize, async id => this.loadDocument(id))
   }
 }

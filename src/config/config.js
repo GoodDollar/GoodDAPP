@@ -174,6 +174,7 @@ const Config = {
   ceramicNodeURL: env.REACT_APP_CERAMIC_NODE_URL || 'https://ceramic-clay.3boxlabs.com',
   ceramicIndex: env.REACT_APP_CERAMIC_INDEX,
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
+  ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
 }
 
 //get and override settings from server

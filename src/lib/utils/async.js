@@ -1,9 +1,22 @@
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { assign, identity, isError, isFunction, isObject, isString, once } from 'lodash'
+import { assign, chunk, identity, isError, isFunction, isObject, isString, once } from 'lodash'
 
 // eslint-disable-next-line require-await
 export const noopAsync = async () => true
+
+// eslint-disable-next-line require-await
+export const batch = async (items, chunkSize, onItem) =>
+  chunk(items, chunkSize).reduce(
+    // eslint-disable-next-line require-await
+    async (promise, itemsChunk) =>
+      promise.then(async results => {
+        const chunkResults = await Promise.all(itemsChunk.map(onItem))
+
+        return results.concat(chunkResults)
+      }),
+    Promise.resolve([]),
+  )
 
 // eslint-disable-next-line require-await
 export const delay = async (millis, resolveWithValue = null) =>

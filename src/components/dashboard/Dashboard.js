@@ -19,7 +19,6 @@ import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { initTransferEvents } from '../../lib/undux/utils/account'
 
 import userStorage from '../../lib/userStorage/UserStorage'
 import useAppState from '../../lib/hooks/useAppState'
@@ -46,6 +45,7 @@ import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import useUserContext from '../../lib/hooks/useUserContext'
 import { useInviteCode } from '../invite/useInvites'
+import useTransferEvents from '../../lib/wallet/useTransferEvents'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -108,7 +108,7 @@ const Dashboard = props => {
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const { account } = useUserContext()
+  const { balance, entitlement } = useUserContext()
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog] = useDialog()
@@ -120,13 +120,13 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
-  const { balance, entitlement } = account
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
+  const initTransferEvents = useTransferEvents()
 
   const [price, showPrice] = useGoodDollarPrice()
 

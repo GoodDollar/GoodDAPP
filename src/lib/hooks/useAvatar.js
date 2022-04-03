@@ -51,13 +51,13 @@ const useAvatar = avatar => {
 }
 
 export const useUploadedAvatar = () => {
-  const { uploadedAvatar, updateUserState } = useUserContext()
+  const { uploadedAvatar, update } = useUserContext()
   const [avatarPassed, setAvatarPassed] = useState(() => uploadedAvatar)
   const initialAvatarPassedRef = useRef(avatarPassed)
 
   const setAvatarJustUploaded = useCallback(async avatar => {
     setAvatarPassed(avatar)
-    updateUserState({ avatar })
+    update({ avatar })
     await AsyncStorage.setItem('GD_uploadedAvatar', avatar)
   }, [])
 

@@ -16,7 +16,7 @@ import AppHot from './AppHot'
 
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
-  const { updateUserState } = useUserContext()
+  const { update } = useUserContext()
 
   useEffect(() => {
     /**
@@ -39,7 +39,7 @@ const AppHolder = () => {
     const initStore = async () => {
       const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
 
-      updateUserState({ isLoggedIn })
+      update({ isLoggedIn })
     }
 
     const initializeApp = async () => {

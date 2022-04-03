@@ -12,7 +12,6 @@ import { getErrorMessage } from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
@@ -26,6 +25,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
 import useUserContext from '../../lib/hooks/useUserContext'
+import useTransferEvents from '../../lib/wallet/useTransferEvents'
 
 type LoadingProps = {
   navigation: any,
@@ -66,7 +66,8 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
-  const { account, updateUserState } = useUserContext()
+  const { updateUserState } = useUserContext()
+  const [, updateWalletStatus] = useTransferEvents()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -164,7 +165,7 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      updateWalletStatus(gdstore, updateUserState, account)
+      updateWalletStatus()
 
       const [isLoggedInCitizen, isLoggedIn] = await getLoginState()
 

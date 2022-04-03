@@ -6,17 +6,13 @@ export const UserContext = createContext()
 export const UserContextProvider = props => {
   const [userState, setUserState] = useState(defaultUserState)
 
-  const updateUserState = useCallback(value => {
+  const update = useCallback(value => {
     setUserState(prev => ({ ...prev, ...value }))
   }, [])
 
-  const resetUserContext = useCallback(() => {
+  const reset = useCallback(() => {
     setUserState(defaultUserState)
   }, [])
 
-  return (
-    <UserContext.Provider value={{ ...userState, updateUserState, resetUserContext }}>
-      {props.children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={{ ...userState, update, reset }}>{props.children}</UserContext.Provider>
 }

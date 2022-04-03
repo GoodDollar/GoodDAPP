@@ -120,7 +120,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
   const checkExisting = useCheckExisting(navigation)
-  const { updateUserState } = useUserContext()
+  const { update } = useUserContext()
 
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!torusUserFromProps.email
@@ -378,7 +378,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         const ok = await finishRegistration(_signupData)
 
         if (ok) {
-          setSuccessfull(() => updateUserState(true))
+          setSuccessfull(() => update(true))
         }
       } else if (nextRoute && nextRoute.key === 'SMS') {
         try {

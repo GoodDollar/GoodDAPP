@@ -222,7 +222,7 @@ const Claim = props => {
   const {
     isLoggedInCitizen: isCitizen,
     account: { entitlement },
-    updateUserState,
+    update,
   } = useUserContext()
 
   const { appState } = useAppState()
@@ -472,7 +472,7 @@ const Claim = props => {
         } else {
           // opened claim page (non-returned from FV)
           if (isCitizen === false) {
-            goodWallet.isCitizen().then(value => updateUserState({ isLoggedInCitizen: value }))
+            goodWallet.isCitizen().then(value => update({ isLoggedInCitizen: value }))
           }
         }
       } catch (exception) {

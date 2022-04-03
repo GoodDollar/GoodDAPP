@@ -29,7 +29,7 @@ import useUserContext from '../../../../lib/hooks/useUserContext'
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
-  const { updateUserState } = useUserContext()
+  const { update } = useUserContext()
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception
@@ -115,7 +115,7 @@ const FaceVerification = ({ screenProps }) => {
       resetAttempts()
 
       // 2. whitelisting user
-      updateUserState(isCitizen)
+      update(isCitizen)
 
       // 3. returning success to the caller
       screenProps.pop({ isValid: true })

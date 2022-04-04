@@ -24,9 +24,7 @@ const TopBar = ({
   contentStyle,
   avatarSize,
 }) => {
-  const {
-    account: { balance },
-  } = useUserContext()
+  const { balance } = useUserContext()
 
   const { smallAvatar: avatar } = useProfile()
 

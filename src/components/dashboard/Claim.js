@@ -219,11 +219,7 @@ const cbStyles = {
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
-  const {
-    isLoggedInCitizen: isCitizen,
-    account: { entitlement },
-    update,
-  } = useUserContext()
+  const { isLoggedInCitizen: isCitizen, entitlement, update } = useUserContext()
 
   const { appState } = useAppState()
   const store = SimpleStore.useStore()

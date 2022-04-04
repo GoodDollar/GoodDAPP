@@ -73,7 +73,7 @@ class CeramicFeed {
 
     log.debug('Got commit IDs:', { commitIds })
 
-    const commits = batch(commitIds, ceramicBatchSize, async cid => {
+    const commits = await batch(commitIds, ceramicBatchSize, async cid => {
       const { content, commitId } = await CeramicModel.loadDocument(cid)
 
       log.debug('Got commit document:', { commitId: String(commitId), content })

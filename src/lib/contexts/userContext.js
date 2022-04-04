@@ -1,18 +1,24 @@
-import React, { createContext, useCallback, useState } from 'react'
+import { isFunction } from 'lodash'
+import React, { createContext, useCallback, useMemo, useState } from 'react'
 import { defaultUserState } from '../constants/user'
 
 export const UserContext = createContext()
 
-export const UserContextProvider = props => {
+export const UserContextProvider = ({ children }) => {
   const [userState, setUserState] = useState(defaultUserState)
 
-  const update = useCallback(value => {
-    setUserState(prev => ({ ...prev, ...value }))
-  }, [])
+  const update = useCallback(
+    value =>
+      setUserState(prevValue => {
+        const newValue = isFunction(value) ? value(prevValue) : value
 
-  const reset = useCallback(() => {
-    setUserState(defaultUserState)
-  }, [])
+        return { ...prevValue, ...newValue }
+      }),
+    [setUserState],
+  )
 
-  return <UserContext.Provider value={{ ...userState, update, reset }}>{props.children}</UserContext.Provider>
+  const reset = useCallback(() => setUserState(defaultUserState), [setUserState])
+  const contextValue = useMemo(() => ({ ...userState, update, reset }), [userState, update, reset])
+
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
 }

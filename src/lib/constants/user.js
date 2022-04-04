@@ -1,3 +1,9 @@
+export const defaultVerificationState = {
+  attemptsCount: 0,
+  attemptsHistory: [],
+  reachedMaxAttempts: false,
+}
+
 export const defaultUserState = {
   isLoggedIn: false,
   isLoggedInCitizen: false,
@@ -5,7 +11,5 @@ export const defaultUserState = {
   balance: undefined,
   entitlement: undefined,
   ready: false,
-  attemptsCount: 0,
-  attemptsHistory: [],
-  reachedMaxAttempts: false,
+  ...defaultVerificationState,
 }

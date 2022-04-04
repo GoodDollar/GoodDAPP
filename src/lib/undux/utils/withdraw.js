@@ -1,5 +1,4 @@
 // @flow
-import type { Store } from 'undux'
 import pino from '../../logger/js-logger'
 import { ExceptionCategory } from '../../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
@@ -20,14 +19,12 @@ type ReceiptType = {
 /**
  * Execute withdraw from a transaction hash, and handle dialogs with process information using Undux
  *
- * @param {Store} store - Undux store
  * @param {string} code - code that unlocks the escrowed payment
  * @param {string} reason - the reason of payment
  * @param {string} category - the category of payment
  * @returns {Promise} Returns the receipt of the transaction
  */
 export const executeWithdraw = async (
-  store: Store,
   code: string,
   reason: string,
   category: string,

@@ -3,8 +3,6 @@ import React, { useContext, useMemo } from 'react'
 import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
 
-import SimpleStore from './lib/undux/SimpleStore'
-
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import handleLinks from './lib/utils/handleLinks'
@@ -14,7 +12,7 @@ import Config from './config/config'
 import logger from './lib/logger/js-logger'
 import './lib/utils/debugUserAgent'
 import { GoodWalletContext } from './lib/wallet/GoodWalletProvider'
-
+import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 const log = logger.child({ from: 'RouterSelector' })
 
 log.debug({ Config })
@@ -50,22 +48,23 @@ let AppRouter = React.lazy(() => {
 })
 
 const RouterSelector = () => {
-  const store = SimpleStore.useStore()
   const { initWalletAndStorage } = useContext(GoodWalletContext)
-
+  const { isLoggedInRouter } = useContext(GlobalTogglesContext)
   useUpdateDialog()
 
   //we use global state for signup process to signal user has registered
-  const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem(IS_LOGGED_IN))
 
   const Router = useMemo(() => {
-    log.debug('RouterSelector Rendered', { isLoggedIn })
+    log.debug('RouterSelector Rendered', { isLoggedInRouter })
 
-    if (isLoggedIn) {
+    if (isLoggedInRouter) {
       initWalletAndStorage(undefined, 'SEED').then(() => log.debug('storage and wallet ready'))
     }
-    return isLoggedIn ? AppRouter : SignupRouter
-  }, [isLoggedIn])
+    if (isLoggedInRouter === undefined) {
+      return null
+    }
+    return isLoggedInRouter ? AppRouter : SignupRouter
+  }, [isLoggedInRouter])
 
   return (
     <React.Suspense fallback={<Splash animation />}>

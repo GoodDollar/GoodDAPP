@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { debounce } from 'lodash'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/userStorage/UserModel'
 
@@ -153,4 +152,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(SimpleStore.withStore(EmailForm))
+export default withStyles(getStylesFromProps)(EmailForm)

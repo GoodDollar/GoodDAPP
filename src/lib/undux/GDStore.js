@@ -5,7 +5,6 @@ import type { StandardFeed } from '../userStorage/StandardFeed'
 import { appEnv } from '../utils/env'
 
 import withPinoLogger from './plugins/logger'
-import { createUseCurriedSettersHook, createUseStorePropHook } from './utils/props'
 
 /**
  * Account data
@@ -87,9 +86,5 @@ const GDStore: StoreDefinition<State> = createConnectedStore(
     appEnv && withReduxDevtools,
   ),
 )
-
-export const useCurriedSetters = createUseCurriedSettersHook(() => GDStore)
-
-export const useStoreProp = createUseStorePropHook(() => GDStore)
 
 export default GDStore

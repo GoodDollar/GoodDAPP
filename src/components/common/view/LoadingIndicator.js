@@ -1,22 +1,9 @@
 // @flow
-import React from 'react'
+import React, { useContext } from 'react'
 import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
 import { View } from 'react-native'
-import type { Store } from 'undux'
 import { withStyles } from '../../../lib/styles'
-import SimpleStore from '../../../lib/undux/SimpleStore'
-
-/**
- * Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component
- * @param {Store} store - undux store
- * @returns {function(to:boolean): void}  Sets `loading` to what `to` states. It requires `loadingIndicator` to be set in the Store's state
- */
-export const setLoadingWithStore = (store: Store) => (to: boolean) => {
-  const loadingIndicator = store.get('loadingIndicator')
-
-  loadingIndicator.loading = to
-  store.set('loadingIndicator')(loadingIndicator)
-}
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 
 const getStylesFromProps = ({ theme }) => {
   let backgroundColor = 'transparent'
@@ -60,8 +47,8 @@ export const Indicator = withStyles(getStylesFromProps)(({ styles, loading }) =>
  * @constructor
  */
 const LoadingIndicator = ({ force }) => {
-  const store = SimpleStore.useStore()
-  const loading = store.get('loadingIndicator').loading || force
+  const { isLoadingIndicator } = useContext(GlobalTogglesContext)
+  const loading = isLoadingIndicator || force
   return <Indicator loading={loading} />
 }
 

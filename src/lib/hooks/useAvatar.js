@@ -4,7 +4,6 @@ import { useUserStorage } from '../wallet/GoodWalletProvider'
 
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
-import { useStoreProp } from '../undux/GDStore'
 import AsyncStorage from '../utils/asyncStorage'
 
 const useAvatar = avatar => {
@@ -51,19 +50,17 @@ const useAvatar = avatar => {
   return dataUrl
 }
 
-//TODO: dont use store
+//TODO: dont use store, what is going on here?
 export const useUploadedAvatar = () => {
-  const [uploadedAvatar, setUploadedAvatar] = useStoreProp('uploadedAvatar')
-  const [avatarPassed, setAvatarPassed] = useState(() => uploadedAvatar)
+  const [avatarPassed, setAvatarPassed] = useState()
   const initialAvatarPassedRef = useRef(avatarPassed)
 
   const setAvatarJustUploaded = useCallback(
     async avatar => {
       setAvatarPassed(avatar)
-      setUploadedAvatar(avatar)
       await AsyncStorage.setItem('GD_uploadedAvatar', avatar)
     },
-    [setAvatarPassed, setUploadedAvatar],
+    [setAvatarPassed],
   )
 
   useEffect(() => {
@@ -72,14 +69,12 @@ export const useUploadedAvatar = () => {
         if (!avatar) {
           return
         }
-
+        initialAvatarPassedRef.current = avatar
         setAvatarPassed(avatar)
       })
     }
-
-    setUploadedAvatar(null)
     AsyncStorage.removeItem('GD_uploadedAvatar')
-  }, [setUploadedAvatar, setAvatarPassed])
+  }, [setAvatarPassed])
 
   return [avatarPassed, setAvatarJustUploaded]
 }

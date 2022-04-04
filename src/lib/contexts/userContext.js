@@ -14,7 +14,7 @@ export const UserContextProvider = ({ children }) => {
 
         return { ...prevValue, ...newValue }
       }),
-    [],
+    [setUserState],
   )
 
   const reset = useCallback(() => setUserState(defaultUserState), [setUserState])

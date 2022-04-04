@@ -66,7 +66,7 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
-  const { updateUserState } = useUserContext()
+  const { update } = useUserContext()
   const [, updateWalletStatus] = useTransferEvents()
 
   /*
@@ -173,7 +173,7 @@ const AppSwitch = (props: LoadingProps) => {
 
       const initReg = userStorage.initRegistered()
 
-      updateUserState({ isLoggedIn, isLoggedInCitizen })
+      update({ isLoggedIn, isLoggedInCitizen })
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')

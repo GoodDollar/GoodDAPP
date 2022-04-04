@@ -197,7 +197,7 @@
     "react-native-sqlite-2": "^3.3.0",
     "react-native-svg": "^9.13.6",
     "react-native-svg-transformer": "^0.14.3",
-    "react-native-svg-uri": "^1.2.3",
+    "react-native-svg-uri-updated": "^1.0.11",
     "react-native-swipeable-lists-gd": "0.0.3",
     "react-native-tcp": "^4.0.0",
     "react-native-udp": "^4.1.3",

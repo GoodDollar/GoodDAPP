@@ -20631,12 +20631,12 @@ react-native-svg-transformer@^0.14.3:
     path-dirname "^1.0.2"
     semver "^5.6.0"
 
-react-native-svg-uri@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/react-native-svg-uri/-/react-native-svg-uri-1.2.3.tgz#2f67f30564068a0fee68a751845332a5185a1aab"
-  integrity sha1-L2fzBWQGig/uaKdRhFMypRhaGqs=
+react-native-svg-uri-updated@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/react-native-svg-uri-updated/-/react-native-svg-uri-updated-1.0.11.tgz#796822bc5447ac9f89b92eb026f9b92c604b7ece"
+  integrity sha512-Fa0nMLket4WTAOt0M7eiRlw6I38LIaBbwPY+C6YWwyEeUxQCpf1ogNqq8m1aTHQu4/s+0NfR40FdjuUdKR6mnQ==
   dependencies:
-    xmldom "^0.1.22"
+    xmldom-reborn "^1.0.1"
 
 react-native-svg@^9.13.6:
   version "9.13.6"
@@ -26169,10 +26169,10 @@ xmldoc@^1.1.2:
   dependencies:
     sax "^1.2.1"
 
-xmldom@^0.1.22:
-  version "0.1.31"
-  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.31.tgz#b76c9a1bd9f0a9737e5a72dc37231cf38375e2ff"
-  integrity sha512-yS2uJflVQs6n+CyjHoaBmVSqIDevTAWrzMmjG1Gc7h1qQ7uVozNhEPJAwZXWyGQ/Gafo3fCwrcaokezLPupVyQ==
+xmldom-reborn@^1.0.1:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/xmldom-reborn/-/xmldom-reborn-1.0.5.tgz#87dfff687f6c6c0640e81c62a025ff8d11212195"
+  integrity sha512-jaLGNceb9ELo7lkQwBGUg9HqVgidqUMcG3d4gFHq+uKZSCnWH2zo+vdMzJoQtzNKzgX7yD+Ibp4mKEy1oZiBNg==
 
 xmlhttprequest-ssl@~1.6.2:
   version "1.6.3"

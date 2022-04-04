@@ -14,7 +14,6 @@ import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserSt
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
-import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
@@ -50,6 +49,7 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
+import useUserContext from '../../lib/hooks/useUserContext'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -71,7 +71,7 @@ const LoadingAnimation = ({ success, speed = 3 }) => (
 
 const EmulateButtonSpace = () => <View style={{ paddingTop: 16, minHeight: 44, visibility: 'hidden' }} />
 
-const GrayBox = ({ title, value, symbol, theme, style }) => {
+const GrayBox = ({ title, value, symbol, style }) => {
   return (
     <Section.Stack style={[{ flex: 1 }, style]}>
       <Section.Text
@@ -219,14 +219,12 @@ const cbStyles = {
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
+  const { isLoggedInCitizen: isCitizen, entitlement, update } = useUserContext()
 
   const { appState } = useAppState()
   const store = SimpleStore.useStore()
-  const gdstore = GDStore.useStore()
 
-  const { entitlement } = gdstore.get('account')
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
-  const isCitizen = gdstore.get('isLoggedInCitizen')
   const { isValid } = screenState
 
   const [showDialog, , showErrorDialog] = useDialog()
@@ -470,7 +468,7 @@ const Claim = props => {
         } else {
           // opened claim page (non-returned from FV)
           if (isCitizen === false) {
-            goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+            goodWallet.isCitizen().then(value => update({ isLoggedInCitizen: value }))
           }
         }
       } catch (exception) {

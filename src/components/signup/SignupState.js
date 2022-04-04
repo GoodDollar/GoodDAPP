@@ -39,6 +39,7 @@ import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
 import AuthStateWrapper from '../auth/components/AuthStateWrapper'
+import useUserContext from '../../lib/hooks/useUserContext'
 import type { SMSRecord } from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
@@ -119,6 +120,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
   const checkExisting = useCheckExisting(navigation)
+  const { update } = useUserContext()
 
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!torusUserFromProps.email
@@ -376,7 +378,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         const ok = await finishRegistration(_signupData)
 
         if (ok) {
-          setSuccessfull(() => store.set('isLoggedIn')(true))
+          setSuccessfull(() => update(true))
         }
       } else if (nextRoute && nextRoute.key === 'SMS') {
         try {

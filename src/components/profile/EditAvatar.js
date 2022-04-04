@@ -75,6 +75,10 @@ const EditAvatar = ({ theme, screenProps }) => {
     croppedRef.current = avatar
   }, [avatar, markAsDirty])
 
+  useEffect(() => {
+    setAvatar(avatarJustUploaded)
+  }, [avatarJustUploaded])
+
   return (
     <Wrapper>
       <Section style={styles.section}>

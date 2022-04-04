@@ -39,7 +39,6 @@ type LoadingIndicator = {
    {currentScreen: CurrentScreen},
    {destinationPath: string},
    {loadingIndicator: LoadingIndicator},
-   {isLoggedInCitizen: boolean},
    {isLoggedIn: boolean},
    {sidemenu: { visible: boolean }}
   }
@@ -48,8 +47,6 @@ export type State = {
   currentScreen: CurrentScreen,
   destinationPath: string,
   loadingIndicator: LoadingIndicator,
-  isLoggedInCitizen: boolean,
-  isLoggedIn: boolean,
   feedLoadAnimShown: boolean,
   wallet: any,
   userStorage: any,
@@ -72,8 +69,6 @@ export type State = {
  */
 const initialState: State = {
   installPrompt: null,
-  isLoggedInCitizen: false,
-  isLoggedIn: false,
   feedLoadAnimShown: false,
   currentScreen: {
     dialogData: {

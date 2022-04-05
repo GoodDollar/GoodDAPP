@@ -10,7 +10,7 @@ We use [<img valign="middle" src="/bugsnag_logo.svg?raw=true&sanitize=1" width="
 
 ## Installation Web
 
-Important: Use node version 10.15.0
+Important: Use node version specified in .nvmrc
 
 ### Run web in dev mode with local ganache
 

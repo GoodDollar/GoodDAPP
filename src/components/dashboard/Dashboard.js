@@ -126,7 +126,7 @@ const Dashboard = props => {
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
-  const initTransferEvents = useTransferEvents()
+  const [initTransferEvents] = useTransferEvents()
 
   const [price, showPrice] = useGoodDollarPrice()
 

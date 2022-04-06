@@ -27,7 +27,7 @@ import API from '../API/api'
 import { delay } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
-import { getTxLogArgs } from './utils'
+import { getProviderSupplier, getTxLogArgs } from './utils'
 
 const log = logger.child({ from: 'GoodWalletV2' })
 
@@ -268,7 +268,7 @@ export class GoodWallet {
         log.info('GoodWallet Ready.', { account: this.account })
       })
       .catch(e => {
-        log.error('Failed initializing GoodWallet', e.message, e, { category: ExceptionCategory.Blockhain })
+        log.error('Failed initializing GoodWallet', e.message, e, { category: ExceptionCategory.Blockchain })
         throw e
       })
     return this.ready
@@ -779,6 +779,10 @@ export class GoodWallet {
 
   getAccountForType(type: AccountUsage): string {
     const { defaultAccount } = get(this.wallet, 'eth', {})
+
+    if (type === 'gd' && ['metamask', 'walletconnect'].includes(getProviderSupplier(this.wallet.currentProvider))) {
+      return defaultAccount ?? ''
+    }
     const accountPath = GoodWallet.AccountUsageToPath[type]
     const account = get(this.accounts, [accountPath, 'address'], defaultAccount)
 
@@ -786,8 +790,13 @@ export class GoodWallet {
   }
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
+    const signMethod =
+      accountType === 'gd' && getProviderSupplier(this.wallet.currentProvider) === 'metamask'
+        ? this.wallet.eth.personal.sign
+        : this.wallet.eth.sign
+
     let account = this.getAccountForType(accountType)
-    let signed = await this.wallet.eth.sign(toSign, account)
+    let signed = await signMethod(toSign, account)
 
     return signed
   }

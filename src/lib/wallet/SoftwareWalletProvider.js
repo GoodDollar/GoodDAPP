@@ -9,6 +9,7 @@ import logger from '../logger/js-logger'
 import { isMobileNative } from '../utils/platform'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
+import { getProviderSupplier, isMetamaskProvider } from './utils'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 const { WebsocketProvider, HttpProvider } = Web3.providers
@@ -85,10 +86,7 @@ class SoftwareWalletProvider {
     if (web3) {
       // https://github.com/ChainSafe/web3.js/issues/4780
       // use web3.eth.personal.sign as workaround for metamask
-      const sign =
-        web3.currentProvider?.isMetaMask || web3.currentProvider.walletMeta?.name?.toLowerCase() === 'metamask'
-          ? web3.eth.personal.sign
-          : web3.eth.sign
+      const sign = isMetamaskProvider(web3.currentProvider) ? web3.eth.personal.sign : web3.eth.sign
       pkey = await sign('GD_IDENTIFIERS', web3.eth.defaultAccount).then(_ => _.slice(2, 66)) //32 bytes psuedo key
     } else {
       pkey = this.conf.mnemonic || (await getMnemonics())
@@ -116,7 +114,17 @@ class SoftwareWalletProvider {
       let wallet = web3.eth.accounts.privateKeyToAccount(pkey)
       web3.eth.accounts.wallet.add(wallet)
     })
-    web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
+
+    switch (getProviderSupplier(web3.currentProvider)) {
+      case 'walletconnect':
+        web3.eth.defaultAccount = web3.eth.currentProvider.accounts[0]
+        break
+      case 'metamask':
+        web3.eth.defaultAccount = web3.eth.currentProvider.selectedAddress
+        break
+      default:
+        web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
+    }
     return web3
   }
 

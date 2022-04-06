@@ -19,7 +19,6 @@ import { fireEvent, GOTO_TAB_FEED, INVITE_BANNER, SCROLL_FEED } from '../../lib/
 import Config from '../../config/config'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { initTransferEvents } from '../../lib/undux/utils/account'
 
 import userStorage from '../../lib/userStorage/UserStorage'
 import useAppState from '../../lib/hooks/useAppState'
@@ -48,6 +47,8 @@ import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
+import useUserContext from '../../lib/hooks/useUserContext'
+import useTransferEvents from '../../lib/wallet/useTransferEvents'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -137,6 +138,7 @@ const Dashboard = props => {
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
+  const { balance, entitlement } = useUserContext()
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog] = useDialog()
@@ -148,7 +150,6 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
-  const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
@@ -156,6 +157,7 @@ const Dashboard = props => {
   const [animateMarket, setAnimateMarket] = useState(false)
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
+  const [initTransferEvents] = useTransferEvents()
 
   const [price, showPrice] = useGoodDollarPrice()
 

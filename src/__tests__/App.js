@@ -4,6 +4,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import { App } from '../mainApp/App'
 import SimpleStore from '../lib/undux/SimpleStore'
+import { UserContextProvider } from '../lib/contexts/userContext'
 
 const { Container } = SimpleStore
 
@@ -11,7 +12,9 @@ describe('App', () => {
   it('renders without errors', () => {
     const tree = renderer.create(
       <Container>
-        <App />
+        <UserContextProvider>
+          <App />
+        </UserContextProvider>
       </Container>,
     )
     expect(tree.toJSON()).toBeTruthy()

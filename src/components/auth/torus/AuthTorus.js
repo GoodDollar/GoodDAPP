@@ -38,6 +38,7 @@ import { withTimeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
 
 import AuthContext from '../context/AuthContext'
+import useUserContext from '../../../lib/hooks/useUserContext'
 import mustache from '../../../lib/utils/mustache'
 import useTorus from './hooks/useTorus'
 
@@ -50,6 +51,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const { navigate } = navigation
+  const { update } = useUserContext()
 
   const getTorusUserRedirect = async () => {
     if (!sdkInitialized || torusSDK.popupMode) {
@@ -247,7 +249,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
           setWalletPreparing(false)
-          setSuccessfull(() => store.set('isLoggedIn')(true))
+          setSuccessfull(() => update(true))
           return
         }
         case 'signup': {

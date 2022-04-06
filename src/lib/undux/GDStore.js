@@ -9,7 +9,7 @@ import { createUseCurriedSettersHook, createUseStorePropHook } from './utils/pro
  * Account data
  * @type {{balance: ?string}, {entitlement: ?string}, {ready: false}}
  */
-type Account = {
+export type Account = {
   balance: ?string,
   entitlement: ?string,
   ready: false,
@@ -33,18 +33,10 @@ export type VerificationState = {
  */
 export type State = {
   balanceUpdate: boolean,
-  account: Account,
   destinationPath: string,
   feeds: StandardFeed[],
   feedLoading: boolean,
   currentFeed: any,
-  verification: VerificationState,
-}
-
-export const defaultVerificationState: VerificationState = {
-  attemptsCount: 0,
-  attemptsHistory: [],
-  reachedMaxAttempts: false,
 }
 
 /**
@@ -53,26 +45,10 @@ export const defaultVerificationState: VerificationState = {
  */
 const initialState: State = {
   balanceUpdate: false,
-  account: {
-    balance: undefined,
-    entitlement: undefined,
-    ready: false,
-  },
-  verification: {
-    ...defaultVerificationState,
-  },
-  isLoggedInCitizen: false,
-  isLoggedIn: false,
   destinationPath: '',
   feeds: [],
   currentFeed: undefined,
   feedLoading: false,
-  inviteCode: undefined,
-  invitesData: {
-    level: {},
-    totalEarned: 0,
-  },
-  uploadedAvatar: null,
 }
 
 /**

@@ -1,29 +1,18 @@
-import { AbstractConnector } from '@web3-react/abstract-connector'
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import React, { useCallback, useEffect, useState } from 'react'
-import { isMobile } from 'react-device-detect'
 import styled from 'styled-components'
-import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { injected, walletlink } from '../../connectors'
-import { SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/types'
 import { useModalOpen, useNetworkModalToggle, useWalletModalToggle } from '../../state/application/hooks'
 import AccountDetails from '../AccountDetails'
 import Modal from '../Modal'
-import Option from './Option'
-import PendingView from './PendingView'
-import Title from '../gd/Title'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { ButtonAction } from 'components/gd/Button'
 import NetworkModal from 'components/NetworkModal'
-import { ChainId } from '@sushiswap/sdk'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import useMetaMask, { metaMaskRequests } from '../../hooks/useMetaMask'
 import { UnsupportedChainId } from '../../sdk/utils/errors'
+import { useSetChain } from '@web3-onboard/react'
 
 const CloseIcon = styled.div`
     position: absolute;
@@ -131,28 +120,23 @@ const ModalContent = (props: any) => {
         setWalletView,
     } = props
 
-    const { ethereum } = window
     const toggleNetworkModal = useNetworkModalToggle()
-    const metaMaskInfo = useMetaMask()
-    const handleEthereumNetworkSwitch = useCallback(() => {
+    const [ {chains, connectedChain, settingChain}, setChain] = useSetChain()
+    const handleEthereumNetworkSwitch = useCallback(async () => {
         const networkType = process.env.REACT_APP_NETWORK || 'staging'
         if (networkType === 'staging') {
             toggleNetworkModal()
         } else if (networkType === 'production') {
-            metaMaskRequests(metaMaskInfo, 'switch')
+            setChain({chainId: '0x1'})
             toggleWalletModal()
         }
-    }, [ethereum, toggleNetworkModal, toggleWalletModal])
+    }, [toggleNetworkModal, toggleWalletModal, setChain])
 
-    const handleFuseNetworkSwitch = useCallback(() => {
-        metaMaskRequests(metaMaskInfo, 'add', account)
+    const handleFuseNetworkSwitch = useCallback(async () => {
+        setChain({chainId: '0x7a'})
         toggleWalletModal()
-    }, [account, ethereum, toggleWalletModal])
+    }, [toggleWalletModal, setChain])
 
-
-
-
-    console.log('walletmodal metaMask Info -->', {metaMaskInfo})
     if (error) {
         return (
             <UpperSection>
@@ -166,8 +150,8 @@ const ModalContent = (props: any) => {
                     {error instanceof UnsupportedChainId ? (
                         <>
                             <h5 className="text-center">{i18n._(t`Please connect to the appropriate network.`)}</h5>
-                            {(metaMaskInfo.isMetaMask || window.walletLinkExtension) && (
-                                <div className="flex flex-row align-center justify-around mt-5 pt-2">
+                            {/* Todo: Need to test how this will be handled with upcoming supported wallets*/} 
+                                <div className="flex flex-row justify-around pt-2 mt-5 align-center">
                                     <ButtonAction
                                         size="sm"
                                         width="40%"
@@ -185,7 +169,6 @@ const ModalContent = (props: any) => {
                                         {i18n._(t`FUSE`)}
                                     </ButtonAction>
                                 </div>
-                            )}
                         </>
                     ) : (
                         i18n._(t`Error connecting. Try refreshing the page.`)
@@ -221,7 +204,7 @@ export default function WalletModal({
 }): React.ReactElement {
     const { i18n } = useLingui()
 
-    const { active, account, error } = useActiveWeb3React()
+    const { account, error } = useActiveWeb3React()
 
     const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT)
 

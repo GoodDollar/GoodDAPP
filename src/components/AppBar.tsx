@@ -93,8 +93,8 @@ export const DivOutlined = styled.div<{
 function AppBar(): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
-    const { account, chainId, library } = useActiveWeb3React()
-    const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+    const { account, chainId } = useActiveWeb3React()
+    const userEthBalance = useETHBalances((account ? [account] : []), chainId)?.[account ?? '']
     const [G$Price] = usePromise(async () => {
         try {
             const data = await g$Price()
@@ -141,11 +141,9 @@ function AppBar(): JSX.Element {
                                     </div>
                                     <div className="fixed bottom-0 left-0 flex flex-row items-center justify-center w-full p-4 lg:w-auto lg:relative lg:p-0 actions-wrapper ">
                                         <div className="flex items-center justify-end w-full space-x-2 sm:justify-end">
-                                            {library && library.provider.isMetaMask && (
-                                                <div className="hidden sm:inline-block">
-                                                    <Web3Network />
-                                                </div>
-                                            )}
+                                            <div className="hidden sm:inline-block">
+                                              <Web3Network />
+                                            </div>
                                             {account && chainId && userEthBalance ? (
                                                 <DivOutlined className="pr-1">
                                                   <div className="w-auto flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto">

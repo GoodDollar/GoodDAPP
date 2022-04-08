@@ -1,10 +1,6 @@
-import { useWeb3React } from '@web3-react/core'
 import React, { useEffect, useState } from 'react'
 import { t } from '@lingui/macro'
 import styled from 'styled-components'
-import { network } from '../../connectors'
-import { NetworkContextName } from '../../constants'
-import { useInactiveListener } from '../../hooks'
 import Loader from '../Loader'
 import { useLingui } from '@lingui/react'
 import { useOnboardConnect } from 'hooks/useActiveOnboard'
@@ -24,12 +20,7 @@ const Message = styled.h2`
 export default function Web3ReactManager({ children }: { children: JSX.Element }) {
     const { i18n } = useLingui()
     const { active: networkActive, error: networkError } = useActiveWeb3React()
-    const { tried, activated } = useOnboardConnect() 
-
-
-    // always listen for events, also when account is connected
-    useInactiveListener()
-
+    const { tried } = useOnboardConnect() 
     // handle delayed loader state
     const [showLoader, setShowLoader] = useState(false)
     useEffect(() => {
@@ -42,13 +33,16 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
         }
     }, [])
 
-    // on page load, do nothing until we've tried to connect to the injected connector
+    // on page load, do nothing until we've tried to connect a previously connected wallet
     if (!tried) {
-        return null
+      return showLoader ? (
+        <MessageWrapper>
+            <Loader />
+        </MessageWrapper>
+      ) : null
     }
 
     // if the account context isn't active, and there's an error on the network context, it's an irrecoverable error
-    // TODO: Create the fallback network context
     if (!networkActive && networkError) {
         return (
             <MessageWrapper>

@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import styled, { useTheme } from 'styled-components'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { injected, walletconnect } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { AppDispatch } from '../../state'
@@ -18,7 +17,6 @@ import Title from '../gd/Title'
 import { ButtonOutlined } from '../gd/Button'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-// import useSelectedProvider from 'hooks/useSelectedProvider'
 
 const UpperSection = styled.div`
     position: relative;
@@ -238,25 +236,15 @@ export default function AccountDetails({
                             <AccountGroupingRow>
                                 {formatConnectorName()}
                                 <div>
-                                    {/*{connector !== injected && connector !== walletlink && (
-                                        <WalletAction
-                                            style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
-                                            onClick={() => {
-                                                ;(connector as any).close()
-                                            }}
-                                        >
-                                            Disconnect
-                                        </WalletAction>
-                                    )}*/}
-                                    <WalletAction
-                                        width={'75px'}
-                                        size="sm"
-                                        onClick={() => {
-                                            openOptions()
-                                        }}
-                                    >
-                                        {i18n._(t`Change`)}
-                                    </WalletAction>
+                                  <WalletAction
+                                      width={'75px'}
+                                      size="sm"
+                                      onClick={() => {
+                                          openOptions()
+                                      }}
+                                  >
+                                      {i18n._(t`Change`)}
+                                  </WalletAction>
                                 </div>
                             </AccountGroupingRow>
                             <AccountGroupingRow id="web3-account-identifier-row">

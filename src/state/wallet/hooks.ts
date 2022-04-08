@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@sushiswap/sdk'
+import { ChainId, Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@sushiswap/sdk'
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
@@ -12,7 +12,8 @@ import { FUSE, SUSHI } from '../../constants'
  * Returns a map of the given addresses to their eventually consistent ETH balances.
  */
 export function useETHBalances(
-    uncheckedAddresses?: (string | undefined)[]
+    uncheckedAddresses?: (string | undefined)[],
+    chainId?: ChainId
 ): { [address: string]: CurrencyAmount | undefined } {
     const multicallContract = useMulticallContract()
 
@@ -40,7 +41,7 @@ export function useETHBalances(
                 if (value) memo[address] = CurrencyAmount.ether(JSBI.BigInt(value.toString()))
                 return memo
             }, {}),
-        [addresses, results]
+        [addresses, results, chainId]
     )
 }
 

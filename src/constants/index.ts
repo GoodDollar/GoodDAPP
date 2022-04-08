@@ -1,5 +1,4 @@
 import { ChainId, Currency, JSBI, Percent, Token, WETH } from '@sushiswap/sdk'
-import { injected, walletconnect, walletlink } from '../connectors'
 
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
@@ -362,24 +361,21 @@ export type ExternalProvider = {
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     METAMASK: {
-        // connector: injected,
-        name: 'MetaMask',
-        iconName: 'metamask.png',
-        description: 'Easy-to-use browser extension.',
-        href: null,
-        color: '#E8831D'
+      name: 'MetaMask',
+      iconName: 'metamask.png',
+      description: 'Easy-to-use browser extension.',
+      href: null,
+      color: '#E8831D'
     },
     WALLET_CONNECT: {
-        // connector: walletconnect,
-        name: 'WalletConnect',
-        iconName: 'walletConnectIcon.svg',
-        description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
-        href: null,
-        color: '#4196FC',
-        mobile: true
+      name: 'WalletConnect',
+      iconName: 'walletConnectIcon.svg',
+      description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
+      href: null,
+      color: '#4196FC',
+      mobile: true
     },
     WALLET_LINK: {
-      // connector: walletlink,
       name: 'Coinbase',
       iconName: 'coinbaseWalletIcon.svg',
       description: 'Use Coinbase Wallet app on mobile device',

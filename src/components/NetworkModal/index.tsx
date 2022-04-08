@@ -12,8 +12,8 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { getNetworkEnv } from 'sdk/constants/addresses'
-import useMetaMask, { metaMaskRequests } from 'hooks/useMetaMask'
 import { UnsupportedChainId } from 'sdk/utils/errors'
+import { useSetChain, useWallets } from '@web3-onboard/react'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -163,18 +163,13 @@ const TextWrapper = styled.div`
 
 export default function NetworkModal(): JSX.Element | null {
     const { i18n } = useLingui()
-    const { account, chainId, error, library } = useActiveWeb3React()
+    const {chainId, error} = useActiveWeb3React()
+
+    const [ {chains, connectedChain}, setChain] = useSetChain()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
 
-    const metaMaskInfo = useMetaMask()
-    const { ethereum } = window
-
-    const networkLabel: string | null = (NETWORK_LABEL as any)
-    [chainId ||
-        (metaMaskInfo.isMetaMask &&
-            (metaMaskInfo.isMultiple ? ethereum?.selectedProvider as any
-                : ethereum as any)?.networkVersion)] || null
+    const networkLabel: string | null = error ? null : (NETWORK_LABEL as any)[chainId]
     const network = getNetworkEnv()
 
     const allowedNetworks = useMemo(() => {
@@ -222,7 +217,6 @@ export default function NetworkModal(): JSX.Element | null {
                             key={key}
                             onClick={() => {
                                 toggleNetworkModal()
-                                const params = PARAMS[key]
                                 if (
                                     [
                                         ChainId.MAINNET,
@@ -232,21 +226,9 @@ export default function NetworkModal(): JSX.Element | null {
                                         ChainId.ROPSTEN
                                     ].includes(key as any)
                                 ) {
-                                    console.log(key.toString(16))
-                                    if (metaMaskInfo.isMetaMask) {
-                                        metaMaskRequests(metaMaskInfo, 'switch')
-                                    }
-                                    else {
-                                        library?.send('wallet_switchEthereumChain', [
-                                            { chainId: `0x${key.toString(16)}` }
-                                        ])
-                                    }
+                                  setChain({chainId: `0x${key.toString(16)}`})
                                 } else {
-                                    if (metaMaskInfo.isMetaMask) {
-                                        metaMaskRequests(metaMaskInfo, 'add', account)
-                                    } else {
-                                        library?.send('wallet_addEthereumChain', [params, account])
-                                    }
+                                  setChain({chainId: `0x7a`})
                                 }
                             }}
                         />

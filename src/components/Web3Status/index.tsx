@@ -1,12 +1,7 @@
-import { AbstractConnector } from '@web3-react/abstract-connector'
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken, lighten } from 'polished'
 import React, { useMemo } from 'react'
 import { Activity } from 'react-feather'
 import styled from 'styled-components'
-import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
-import { injected, walletconnect } from '../../connectors'
-import { NetworkContextName } from '../../constants'
 import useENSName from '../../hooks/useENSName'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
@@ -14,11 +9,10 @@ import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
 import { ButtonSecondary } from '../ButtonLegacy'
 import Loader from '../Loader'
-import WalletModal from '../WalletModal'
-import { ReactComponent as Chef } from '../../assets/images/chef.svg'
+import WalletModal from '../WalletModal' 
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { BlockNativeStatus } from '../BlockNativeOnboard'
+import { OnboardConnectButton } from '../BlockNativeOnboard'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import { UnsupportedChainId } from 'sdk/utils/errors'
 
@@ -110,7 +104,6 @@ const Web3StatusInnerSC = styled.div`
 
 function Web3StatusInner() {
     const { i18n } = useLingui()
-    // const { error } = useWeb3React()
     const { account, error } = useActiveWeb3React()
 
     const { ENSName } = useENSName(account ?? undefined)
@@ -161,7 +154,7 @@ function Web3StatusInner() {
         )
     } else {
         return (
-          <BlockNativeStatus />
+          <OnboardConnectButton />
         )
     }
 }

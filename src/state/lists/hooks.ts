@@ -9,6 +9,7 @@ import sortByListPriority from 'utils/listSort'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { AdditionalChainId } from '../../constants'
+import { isAddressString } from 'utils'
 
 type TagDetails = Tags[keyof Tags]
 export interface TagInfo extends TagDetails {
@@ -22,7 +23,7 @@ export class WrappedTokenInfo extends Token {
     public readonly tokenInfo: TokenInfo
     public readonly tags: TagInfo[]
     constructor(tokenInfo: TokenInfo, tags: TagInfo[]) {
-        super(tokenInfo.chainId, tokenInfo.address, tokenInfo.decimals, tokenInfo.symbol, tokenInfo.name)
+        super(tokenInfo.chainId, isAddressString(tokenInfo.address), tokenInfo.decimals, tokenInfo.symbol, tokenInfo.name)
         this.tokenInfo = tokenInfo
         this.tags = tags
     }

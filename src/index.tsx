@@ -3,14 +3,12 @@ import '@fontsource/dm-sans/index.css'
 import 'react-tabs/style/react-tabs.css'
 import './bootstrap'
 
-import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 
 import { Provider } from 'react-redux'
 import { HashRouter as Router } from 'react-router-dom'
 import Blocklist from './components/Blocklist'
-import { NetworkContextName } from './constants'
 import App from './pages/App'
 import store from './state'
 import ApplicationUpdater from './state/application/updater'
@@ -18,12 +16,9 @@ import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import UserUpdater from './state/user/updater'
 import ThemeProvider from './theme'
-import getLibrary from './utils/getLibrary'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
-
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 if (!!window.ethereum) {
     window.ethereum.autoRefreshOnNetworkChange = false

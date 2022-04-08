@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useConnectWallet } from '@web3-onboard/react'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const OnboardButton = styled.button`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -35,11 +37,12 @@ const OnboardButton = styled.button`
 
 export function OnboardConnectButton():JSX.Element {
   const [{wallet, connecting}, connect, disconnect] = useConnectWallet()
+  const { i18n } = useLingui()
   if (wallet) {
     return (<></>)
   }
 
   return (
-    <OnboardButton onClick={() => connect({})}>Connect Wallet V2</OnboardButton>
+    <OnboardButton onClick={() => connect({})}>{i18n._(t`Connect to a wallet`)}</OnboardButton>
   )
 }

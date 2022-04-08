@@ -1,7 +1,5 @@
 import { ChainId, Currency, JSBI, Percent, Token, WETH } from '@sushiswap/sdk'
 
-import { AbstractConnector } from '@web3-react/abstract-connector'
-
 export const POOL_DENY = ['14', '29', '45', '30']
 
 export const FUSE = (Object.assign({}, Currency, {
@@ -333,7 +331,6 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId | AdditionalChainId]?:
 }
 
 export interface WalletInfo {
-    connector?: AbstractConnector
     name: string
     iconName: string
     description: string

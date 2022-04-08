@@ -62,7 +62,7 @@ const injectedBN = injectedModule({
   filter: {
     ["Binance Smart Wallet"]: false,
     ["MetaMask"]: true,
-    ["Coinbase Wallet"]: false, // if supported, use walletLink module for coinbase
+    ["Coinbase Wallet"]: true,
     ["detected"]: true,
     ["trust"]: false,
     ["opera"]: false,
@@ -98,7 +98,7 @@ const walletConnectBN = walletConnectModule({
   }
 })
 
-const walletLink = walletLinkModule({ darkMode: true })
+// const walletLink = walletLinkModule({ darkMode: true })
 
 export const onboard = init({
   wallets: [injectedBN, walletConnectBN],
@@ -140,11 +140,11 @@ export const onboard = init({
     en: {
       "connect": {
         "selectingWallet": {
-          "header": "Available Wallets",
+          "header": 'Connect Wallet',
           "sidebar": {
-            "heading": "Get Started",
-            "subheading": "Connect your wallet",
-            "paragraph": "Connecting your wallet is like “logging in” to Web3. Select your wallet from the options to get started."
+            "heading": 'Get Started',
+            "subheading": "Select your wallet",
+            "paragraph": "Connecting your wallet is like “logging in” to Web3. Select your wallet from the options available."
           },
           "recommendedWalletsPart1": "{app} only supports",
           "recommendedWalletsPart2": "on this platform. Please use or install one of the supported wallets to continue",
@@ -157,7 +157,7 @@ export const onboard = init({
           }
         },
         "connectingWallet": {
-          "header": "{connectionRejected, select, false {Connecting to {wallet}...} other {Connection Rejected}}",
+          "header": "Connect Wallet",
           "sidebar": {
             "subheading": "Approve Connection",
             "paragraph": "Please approve the connection in your wallet and authorize access to continue."
@@ -169,7 +169,7 @@ export const onboard = init({
           "primaryButton": "Back to wallets"
         },
         "connectedWallet": {
-          "header": "Connection Successful",
+          "header": "Connect Wallet",
           "sidebar": {
             "subheading": "Connection Successful!",
             "paragraph": "Your wallet is now connected to {app}"
@@ -212,7 +212,6 @@ export const onboard = init({
         "disconnectWallet": "Disconnect Wallet"
       }
     }
-    
   }
 })
 

@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable require-await */
 
-import { filter, groupBy, isArray, isEmpty, keys, last, negate } from 'lodash'
+import { countBy, filter, groupBy, isArray, isEmpty, keys, last, negate } from 'lodash'
 import Config from '../../config/config'
 
 import IPFS from '../ipfs/IpfsStorage'
@@ -86,46 +86,55 @@ class CeramicFeed {
 
     history = filter(
       keys(aggregated).map(item => {
+        let action
         const records = history[item]
-        const lastRecord = last(records)
 
-        log.debug('picking status for', { item, lastRecord })
+        // read history of specific document, aggredate by the event count
+        const { added, removed, updated } = countBy(records, 'action')
 
-        // if last status is updated - scrolling through previous statuses
-        if (lastRecord.action === 'updated') {
-          let index = records.length - 2
+        log.debug('picking status for', { item, records, added, removed, updated })
 
-          while (index >= 0) {
-            const record = records[index]
+        switch (Math.sign(added - removed)) {
+          case -1:
+            // if removed actions > added actions - remove item
+            action = 'removed'
+            break
+          case 1:
+            // if removed actions < added actions - add item
+            action = 'added'
+            break
+          default: {
+            // if removed equal added OR both removed/added were 0
+            let shouldUpdate = false
 
-            log.debug('scrolling history for updated item', { item, record })
+            if (added > 0) {
+              // if there were 'added' and 'removed' - picking them
+              const lastRecord = last(records.filter(({ action }) => 'updated' !== action))
 
-            switch (record.action) {
-              case 'added':
-                // if found 'added' - return 'added'
-                log.debug('picked status for', { item, record })
-                return record
-              case 'removed':
-                // if found 'removed' - ignore the item,
-                // this is impossible maybe some error
-                log.debug('skipping status for', { item })
-                // eslint-disable-next-line array-callback-return
-                return
-              default:
-                // skipping other 'updated'
-                break
+              // if last action was added - the document may changed, so we need to update it
+              shouldUpdate = lastRecord.action === 'added'
             }
 
-            index -= 1
-          }
+            // if there were added and we should re-fetch
+            // or there weren't added but there were updates
+            if (shouldUpdate || updated > 0) {
+              // we have to update item.
+              action = 'updated'
+              break
+            }
 
-          // if we hadn't found any 'added' or 'deleted'
-          // going out of the loop to return the last status
+            // otherwise do nothing, return empty record to be ignored
+            log.debug('skipping status change for', { item })
+
+            // eslint-disable-next-line array-callback-return
+            return
+          }
         }
 
-        // if last status is 'removed' or 'added' - return it
-        log.debug('picked status for', { item, record: lastRecord })
-        return lastRecord
+        const record = { item, action }
+
+        log.debug('picked status for', record)
+        return record
       }),
     )
 

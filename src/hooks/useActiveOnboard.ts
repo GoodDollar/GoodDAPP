@@ -141,28 +141,17 @@ export function useOnboardConnect():OnboardConnectProps {
   const [{ wallet, connecting}, connect, disconnect] = useConnectWallet()
   const [ {chains, connectedChain, settingChain}, setChain] = useSetChain()
   const connectedWallets = useWallets()
-  const balance = connectedWallets[0]?.accounts[0]?.balance
 
   const previouslyConnected:any = JSON.parse(
     localStorage.getItem('connectedWallets') ?? '{}'
   )
   
-  const updateStorage = (newChainId:string, currentWallet:WalletState[], type:string) => {
+  const updateStorage = (newChainId:string, currentWallet:WalletState[]) => {
     const { chainId } = IsSupportedChain(newChainId)
-
-    if (type === 'init') setChain({chainId})
+    setChain({chainId: newChainId})
     StoreOnboardState(currentWallet, chainId)
     setActivated(true)
   }
-
-  const chainChanged = useCallback((newChainId:string) => {
-    if (balance){
-      const isUpdated = Object.keys(balance)[0] === OnboardChainIds[parseInt(newChainId)]
-      if (isUpdated) {
-        updateStorage(newChainId, connectedWallets, 'switch')
-      }
-    }
-  }, [balance])
 
   // TODO: Handle user rejection (patch fixed in @web3-onboard/core for now)
 
@@ -192,14 +181,9 @@ export function useOnboardConnect():OnboardConnectProps {
   useEffect(() => {
     const previousChain = previouslyConnected[0]?.chains ?? null
     const isConnected = connectedWallets.length > 0
-    // switch chains
-    if (isConnected && previousChain && connectedChain && previousChain !== connectedChain.id) {
-      chainChanged(connectedChain.id) 
-    }
 
-    // new wallet connected
-    if (isConnected && connectedChain && balance && !activated){
-      updateStorage(connectedChain.id, connectedWallets, 'init')
+    if (isConnected && connectedChain && previousChain !== connectedChain.id){
+      updateStorage(connectedChain.id, connectedWallets)
     }
 
     // disconnect

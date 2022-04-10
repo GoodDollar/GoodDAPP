@@ -182,7 +182,7 @@ export function useOnboardConnect():OnboardConnectProps {
     const previousChain = previouslyConnected[0]?.chains ?? null
     const isConnected = connectedWallets.length > 0
 
-    if (isConnected && connectedChain && previousChain !== connectedChain.id){
+    if (isConnected && connectedChain){
       updateStorage(connectedChain.id, connectedWallets)
     }
 

@@ -111,7 +111,7 @@ export function useActiveOnboard<T = any>():ActiveOnboardInterface<T> {
  */
  export function StoreOnboardState(wallets:WalletState[], activeChainId:string | undefined):void {
   if (wallets.length === 0){
-    localStorage.removeItem('connectedWallets') 
+    localStorage.removeItem('currentConnectWallet') 
   } else {
     const walletLabel = wallets.map(({ label }) => label)
     const connectedAccount = wallets.map(({accounts}) => accounts[0])
@@ -122,7 +122,7 @@ export function useActiveOnboard<T = any>():ActiveOnboardInterface<T> {
       label: walletLabel}
     ]
     localStorage.setItem(
-      'connectedWallets',
+      'currentConnectWallet',
       JSON.stringify(connected)
     )
   }
@@ -143,7 +143,7 @@ export function useOnboardConnect():OnboardConnectProps {
   const connectedWallets = useWallets()
 
   const previouslyConnected:any = JSON.parse(
-    localStorage.getItem('connectedWallets') ?? '{}'
+    localStorage.getItem('currentConnectWallet') ?? '{}'
   )
   
   const updateStorage = (newChainId:string, currentWallet:WalletState[]) => {
@@ -162,7 +162,7 @@ export function useOnboardConnect():OnboardConnectProps {
       if (previouslyConnected[0].label[0] === 'Coinbase'){ 
         const isStillActive = localStorage.getItem('-walletlink:https://www.walletlink.org:Addresses')
         if (!isStillActive){
-          localStorage.removeItem('connectedWallets')
+          localStorage.removeItem('currentConnectWallet')
           setTried(true)
           return
         }
@@ -179,7 +179,6 @@ export function useOnboardConnect():OnboardConnectProps {
   }, [activated, tried, connect, previouslyConnected])
 
   useEffect(() => {
-    const previousChain = previouslyConnected[0]?.chains ?? null
     const isConnected = connectedWallets.length > 0
 
     if (isConnected && connectedChain){

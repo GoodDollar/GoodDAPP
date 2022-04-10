@@ -297,9 +297,10 @@ export async function getMeta(
     slippageTolerance = 0.5
 ): Promise<BuyInfo | null> {
     const chainId = await getChainId(web3)
-    console.log('CHAIN ID:', chainId)
 
     debugGroup(`Get meta ${amount} ${fromSymbol} to G$`)
+
+    debug('CHAIN ID:', chainId)
 
     const G$ = (await getToken(chainId, 'G$')) as Token
 

@@ -119,7 +119,7 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
 `
 
 const ExternalLink: React.FC<{ label: string; url: string }> = ({ label, url }) => (
-    <a className="line p-2 md:p-3 whitespace-nowrap" href={url} target="_blank" rel="noreferrer">
+    <a className="p-2 line md:p-3 whitespace-nowrap" href={url} target="_blank" rel="noreferrer">
         <span>{label}</span>
         <svg className="ml-2" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -198,8 +198,8 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
             allTokens.map(
                 token =>
                 metaMaskInfo.isMultiple ?
-                    ethereum?.selectedProvider?.request &&
-                    ethereum.selectedProvider.request({
+                  ethereum?.selectedProvider?.request &&
+                  ethereum.selectedProvider.request({
                         method: 'wallet_watchAsset',
                         params: token
                     })
@@ -232,7 +232,7 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
             </nav>
             <div>
                 <div className="balance">
-                    <div className="title flex justify-between items-center">
+                    <div className="flex items-center justify-between title">
                         <span>{i18n._(t`Wallet balance`)}</span>
                         <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="17" cy="17" r="17" fill="url(#paint0_radial)" />
@@ -278,7 +278,7 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                         )}
                     </div>
                 </div>
-                <div className="social flex justify-between">
+                <div className="flex justify-between social">
                     <a
                         href="https://twitter.com/gooddollarorg"
                         target="_blank"

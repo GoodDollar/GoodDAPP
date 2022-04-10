@@ -4,41 +4,33 @@ import { useNetworkModalToggle } from '../../state/application/hooks'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
 import NetworkModal from '../NetworkModal'
 import { ButtonOutlined } from '../gd/Button'
-import useMetaMask from 'hooks/useMetaMask'
 
 function Web3Network(): JSX.Element | null {
-    const { chainId } = useActiveWeb3React()
-    const isMetaMask = useMetaMask() 
+    const { chainId, error, active } = useActiveWeb3React()
 
     const toggleNetworkModal = useNetworkModalToggle()
 
-    if (!chainId) return null
+    if (!chainId || error || !active) return null
 
     return (
       <>      
-        { isMetaMask && (
-              <div
-              className="flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto"
-              onClick={() => toggleNetworkModal()}
-          >
-              <ButtonOutlined>
-                  <div className="grid grid-flow-col auto-cols-max items-center rounded-lg   py-2 px-3 pointer-events-auto">
-                      <img
-                          src={NETWORK_ICON[chainId]}
-                          alt="Switch Network"
-                          className="rounded-md mr-2"
-                          style={{ width: 22, height: 22 }}
-                      />
-                      <div className="">{NETWORK_LABEL[chainId]}</div>
-                  </div>
-              </ButtonOutlined>
-              {/* <div
-                  className="bg-cover bg-no-repeat bg-chain-static hover:bg-chain-animated"
-                  style={{ width: 22, height: 22 }}
-              /> */}
-                <NetworkModal />
-          </div>
-        )}
+        <div
+          className="flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto"
+          onClick={() => toggleNetworkModal()}
+        >
+          <ButtonOutlined>
+              <div className="grid items-center grid-flow-col px-3 py-2 rounded-lg pointer-events-auto auto-cols-max">
+                  <img
+                      src={NETWORK_ICON[chainId]}
+                      alt="Switch Network"
+                      className="mr-2 rounded-md"
+                      style={{ width: 22, height: 22 }}
+                  />
+                  <div className="">{NETWORK_LABEL[chainId]}</div>
+              </div>
+          </ButtonOutlined>
+          <NetworkModal />
+        </div>
       </>
     )
 }

@@ -1,8 +1,14 @@
 import moment from 'moment'
+
 import CeramicFeed from '../../ceramic/CeramicFeed'
+
+import Config from '../../../config/config'
+import { batch } from '../../utils/async'
 import FeedSource from './FeedSource'
 
 export default class NewsSource extends FeedSource {
+  static historyCacheId = 'GD_CERAMIC_HISTORY'
+
   // format from ceramic format to TreadDB format
   static formatCeramicPost(ceramicPost) {
     return {
@@ -27,46 +33,64 @@ export default class NewsSource extends FeedSource {
   }
 
   async syncFromRemote() {
-    const { log, Feed, storage } = this
-    const ceramicCachedHistoryId = await storage.getItem('GD_CERAMIC_HISTORY')
-    log.info('ceramic sync from remote started', { ceramicCachedHistoryId })
+    const { log, storage } = this
+    const { historyCacheId } = NewsSource
 
-    if (!ceramicCachedHistoryId) {
-      const ceramicPosts = await CeramicFeed.getPosts()
-      log.debug('Ceramic fetched posts', ceramicPosts)
+    const historyId = await storage.getItem(historyCacheId)
 
-      const formatedCeramicPosts = ceramicPosts.map(NewsSource.formatCeramicPost)
+    log.info('ceramic sync from remote started', { historyId })
 
-      await Feed.save(...formatedCeramicPosts)
-
-      const historyId = await CeramicFeed.getHistoryId()
-      await storage.setItem('GD_CERAMIC_HISTORY', historyId)
-    } else {
-      const { history, historyId } = await CeramicFeed.getHistory(ceramicCachedHistoryId)
-      log.debug('Ceramic history', { history, historyId })
-
-      await Promise.all(
-        history.map(async ({ item: postId, action }) => {
-          log.debug('ceramic feed item action', { postId, action })
-
-          switch (action) {
-            case 'added':
-            case 'updated': {
-              const post = await CeramicFeed.getPost(postId)
-              await Feed.save(NewsSource.formatCeramicPost(post))
-              break
-            }
-            default: {
-              await Feed.delete(postId)
-              break
-            }
-          }
-        }),
-      )
-
-      await storage.setItem('GD_CERAMIC_HISTORY', historyId)
-    }
+    await (historyId ? this._applyChangeLog(historyId) : this._loadRemoteFeed())
 
     log.info('ceramic sync from remote done')
+  }
+
+  /** @private */
+  async _loadRemoteFeed() {
+    const { log, Feed, storage } = this
+    const { formatCeramicPost, historyCacheId } = NewsSource
+
+    const ceramicPosts = await CeramicFeed.getPosts()
+    const historyId = await CeramicFeed.getHistoryId()
+    const formatedCeramicPosts = ceramicPosts.map(formatCeramicPost)
+
+    log.debug('Ceramic fetched posts', { ceramicPosts, formatedCeramicPosts })
+
+    await Feed.save(...formatedCeramicPosts)
+    await storage.setItem(historyCacheId, historyId)
+  }
+
+  /** @private */
+  async _applyChangeLog(ceramicCachedHistoryId) {
+    const { formatCeramicPost, historyCacheId } = NewsSource
+    const { ceramicBatchSize } = Config
+    const { log, Feed, storage } = this
+
+    const { history, historyId } = await CeramicFeed.getHistory(ceramicCachedHistoryId)
+
+    log.debug('Ceramic history', { history, historyId })
+
+    await batch(history, ceramicBatchSize, async ({ item: postId, action }) => {
+      switch (action) {
+        case 'added':
+        case 'updated': {
+          const post = await CeramicFeed.getPost(postId)
+
+          log.debug('fetching ceramic feed item', { postId, action })
+          await Feed.save(formatCeramicPost(post))
+          break
+        }
+        case 'removed': {
+          log.debug('removing ceramic feed item', { postId, action })
+          await Feed.delete(postId)
+          break
+        }
+        default: {
+          log.warn('invalid ceramic feed item action received', { postId, action })
+        }
+      }
+    })
+
+    await storage.setItem(historyCacheId, historyId)
   }
 }

@@ -10,6 +10,7 @@ import InternetConnection from './components/common/connectionDialog/internetCon
 import About from './components/about/AboutState'
 import BackupWallet from './components/backupWallet/BackupWalletState'
 import ExportWallet from './components/backupWallet/ExportWalletData'
+import WalletConnect from './components/walletConnect/WalletConnectState'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
 import Splash from './components/splash/Splash'
@@ -30,6 +31,7 @@ const AppNavigator = createNavigator(
       About,
       BackupWallet,
       ExportWallet,
+      WalletConnect,
       AppNavigation,
     },
     {

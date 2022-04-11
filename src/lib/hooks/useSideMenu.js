@@ -131,6 +131,17 @@ export default (props = {}) => {
         },
       },
       {
+        icon: 'qrcode',
+        name: t`WalletConnect`,
+        action: () => {
+          navigation.navigate({
+            routeName: 'WalletConnect',
+            type: 'Navigation/NAVIGATE',
+          })
+          slideOut()
+        },
+      },
+      {
         icon: 'statistics',
         centered: true,
         name: t`Statistics`,

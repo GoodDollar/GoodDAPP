@@ -91,6 +91,9 @@ const initialState: State = {
     showAddWebAppDialog: false,
   },
   wallet: null,
+  walletConnect: {
+    uri: null,
+  },
   userStorage: null,
   serviceWorkerUpdated: null,
   regMethod: 'torus',

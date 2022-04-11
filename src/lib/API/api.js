@@ -294,9 +294,9 @@ export class APIService {
   /**
    * `/verify/topwallet` post api call. Tops users wallet
    */
-  verifyTopWallet(): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/topwallet')
-  }
+  verifyTopWallet: Promise<$AxiosXHR<any>> = throttle(() => this.client.post('/verify/topwallet'), 60000, {
+    trailing: false,
+  })
 
   /**
    * `/verify/sendemail` post api call

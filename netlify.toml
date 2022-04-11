@@ -75,6 +75,12 @@ REACT_APP_IPFS_GATEWAYS = "https://gateway.pinata.cloud/ipfs/{cid},https://{cid}
 REACT_APP_IPFS_LAZY_UPLOAD = "false"
 REACT_APP_REALM_APP_ID = "wallet_dev-dhiht"
 REACT_APP_PUBLIC_URL = "https://gooddev.netlify.app"
+REACT_APP_CERAMIC_NODE_URL = "https://ceramic.gooddollar.org"
+
+[context.master.environment]
+REACT_APP_CERAMIC_NODE_URL = "https://ceramic-clay.3boxlabs.com"
+REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pg1e0koxq485jc8hxnq8nwfqqn7zmu9y3afbez2zt999yogohtdk"
+REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg2wnebmqd2fx4t7wes73qx0nu14kuof1wcg8jumhcawlgdu7tvn"
 
 [context.staging.environment]
 NODE_ENV = "staging"

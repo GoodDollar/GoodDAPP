@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { throttle as throttleCallTo } from 'lodash'
+import { isPlainObject, throttle as throttleCallTo } from 'lodash'
 
 const { adapter } = axios.defaults
 
-export const throttleAdapter = throttleInverval => {
+export const throttleAdapter = (throttleInverval, throttleOptions = {}) => {
   const throttled = {
     get: {},
     put: {},
@@ -16,12 +16,25 @@ export const throttleAdapter = throttleInverval => {
     const { url, method, throttle } = config
     const throttledCalls = throttled[method]
 
+    let callInterval = throttleInverval
+    let callOptions = throttleOptions
+
     if (false === throttle) {
       return adapter(config)
     }
 
+    if (isPlainObject(throttle)) {
+      const { interval, ...options } = throttle
+
+      if (interval) {
+        callInterval = interval
+      }
+
+      callOptions = options || {}
+    }
+
     if (!(url in throttledCalls)) {
-      throttledCalls[url] = throttleCallTo(adapter, throttleInverval)
+      throttledCalls[url] = throttleCallTo(adapter, callInterval, callOptions)
     }
 
     return throttledCalls[url](config)

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Platform, TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
@@ -7,10 +7,10 @@ import type { FeedEvent } from '../../../lib/userStorage/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import useNavigationMacro from '../../../lib/hooks/useNavigationMacro'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 import { CARD_OPEN, fireEvent } from '../../../lib/analytics/analytics'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import { useNativeDriverForAnimation } from '../../../lib/utils/platform'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import Config from '../../../config/config'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
@@ -34,8 +34,8 @@ type FeedListItemProps = {
  * @returns {React.Node}
  */
 const FeedListItem = React.memo((props: FeedListItemProps) => {
+  const { feedLoadAnimShown } = useContext(GlobalTogglesContext)
   const disableAnimForTests = Config.env === 'test'
-  const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
   const { id, type, displayType, action } = item
 
@@ -62,7 +62,6 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
   }, [fireEvent, type, onItemPress, id])
 
   if (isItemEmpty) {
-    const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
     const showLoadAnim = !feedLoadAnimShown && !disableAnimForTests
     const duration = 1250
     const animScheme = {

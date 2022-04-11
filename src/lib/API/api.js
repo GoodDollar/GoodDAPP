@@ -280,7 +280,7 @@ export class APIService {
    * `ip-api.com/json` get location api call
    */
   getLocation(): AxiosPromise<any> {
-    return this.sharedClient.get('https://get.geojs.io/v1/ip/country.json', { throttle: false })
+    return this.sharedClient.get('https://get.geojs.io/v1/ip/country.json')
   }
 
   /**
@@ -294,9 +294,11 @@ export class APIService {
   /**
    * `/verify/topwallet` post api call. Tops users wallet
    */
-  verifyTopWallet: Promise<$AxiosXHR<any>> = throttleAdapter(() => this.client.post('/verify/topwallet'), 60000, {
-    trailing: false,
-  })
+  verifyTopWallet(): Promise<$AxiosXHR<any>> {
+    const throttle = { interval: 60000, trailing: false }
+
+    return this.client.post('/verify/topwallet', {}, { throttle })
+  }
 
   /**
    * `/verify/sendemail` post api call

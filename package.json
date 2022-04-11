@@ -43,7 +43,10 @@
     "lingui-extract": "lingui extract",
     "lingui-compile": "lingui compile",
     "lingui": "lingui extract && lingui compile",
-    "postinstall": "patch-package && cp patches/realm+1.3.0-package-patched.json node_modules/realm-web/package.json"
+    "postinstall": "patch-package && cp patches/realm+1.3.0-package-patched.json node_modules/realm-web/package.json",
+    "code-push:dev": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-development -d Staging",
+    "code-push:stage": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-staging -d Staging",
+    "code-push:prod": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-production -d Production"
   },
   "repository": {
     "type": "git",

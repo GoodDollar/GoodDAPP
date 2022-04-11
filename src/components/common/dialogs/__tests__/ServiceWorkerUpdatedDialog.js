@@ -5,12 +5,12 @@ import renderer from 'react-test-renderer'
 import { forIn } from 'lodash'
 
 import { NewReleaseDialog, RegularDialog } from '../ServiceWorkerUpdatedDialog'
-import { withThemeProvider } from '../../../../__tests__/__util__'
+import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
 
 describe('ServiceWorkerUpdatedDialog', () => {
   forIn({ RegularDialog, NewReleaseDialog }, (component, name) =>
     describe(name, () => {
-      const WrappedComponent = withThemeProvider(component)
+      const WrappedComponent = withThemeAndLocalizationProvider(component)
 
       it(`renders without errors`, () => {
         let tree

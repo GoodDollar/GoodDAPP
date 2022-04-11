@@ -9,7 +9,21 @@ export const LoginStrategy = {
   Auth0: 'auth0',
   PaswordlessEmail: 'auth0-pwdless-email',
   PaswordlessSMS: 'auth0-pwdless-sms',
-
+  getTestId(strategy) {
+    switch (strategy) {
+      case this.Facebook:
+        return 'login_with_facebook'
+      case this.Google:
+      case this.GoogleLegacy:
+        return 'login_with_google'
+      case this.PaswordlessEmail:
+        return 'Passwordless Email'
+      case this.PaswordlessSMS:
+        return 'login_with_auth0'
+      default:
+        return strategy || 'login_with_auth0'
+    }
+  },
   getTitle(strategy) {
     switch (strategy) {
       case this.Facebook:

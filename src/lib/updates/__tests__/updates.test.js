@@ -14,7 +14,7 @@ describe('Updates', () => {
     expect(updatesDataBefore.lastVersionUpdate).toBeUndefined()
     expect(updatesDataBefore.status).toBeUndefined()
 
-    await update()
+    await update(userStorage.wallet, userStorage)
 
     const updatesDataAfter = (await userStorage.userProperties.get('updates')) || {}
     expect(typeof updatesDataAfter.lastUpdate === 'string').toBeTruthy()

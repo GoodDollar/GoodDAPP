@@ -60,16 +60,14 @@ GoodDollar Wallet
                   className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
-                  By clicking the 'Create a wallet' button,
-you are accepting our
-
+                  By clicking the 'Create a wallet' button,you are accepting our
                   <span
                     className="css-text-901oao css-textHasAncestor-16my406 r-color-vaa0vc r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                     onClick={[Function]}
                   >
                     Terms of Use
                   </span>
-                   and 
+                  and 
                   <span
                     className="css-text-901oao css-textHasAncestor-16my406 r-color-vaa0vc r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-b88u0q r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                     onClick={[Function]}
@@ -243,7 +241,7 @@ you are accepting our
                             <span
                               className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1vr29t4 r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-paddingTop-njp1lv r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                             >
-                               SIGN IN
+                              SIGN IN
                             </span>
                           </div>
                         </div>

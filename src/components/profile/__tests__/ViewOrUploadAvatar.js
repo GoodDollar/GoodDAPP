@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../__tests__/__util__'
 import ViewOrUploadAvatar from '../ViewOrUploadAvatar'
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 describe('ViewAvatar', () => {
   const WrappedViewOrUploadAvatar = withThemeProvider(ViewOrUploadAvatar)

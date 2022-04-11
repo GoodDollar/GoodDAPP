@@ -16,7 +16,6 @@ export const {
   identifyWith,
   identifyOnUserSignup,
   fireEvent,
-  fireMauticEvent,
   fireEventFromNavigation,
   fireGoogleAnalyticsEvent,
 } = analytics

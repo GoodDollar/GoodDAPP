@@ -143,7 +143,7 @@ exports[`Dashboard matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-height-1pi2tsx r-justifyContent-1wtj0ep r-paddingBottom-1l7z4oj"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-height-1pi2tsx r-justifyContent-1wtj0ep r-paddingBottom-iphfwy"
             >
               <div
                 className="css-view-1dbjc4n r-left-1d2f490"
@@ -206,7 +206,7 @@ exports[`Dashboard matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1d09ksm r-bottom-1p0dtai"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai"
                 style={
                   Object {
                     "marginLeft": "0px",

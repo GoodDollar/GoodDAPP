@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
 import { noop } from 'lodash'
+import { t, Trans } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
@@ -13,10 +14,10 @@ import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserSt
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
-import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
+import API from '../../lib/API/api'
 
 // import { openLink } from '../../lib/utils/linking'
 import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
@@ -36,7 +37,6 @@ import {
   CLAIM_SUCCESS,
   fireEvent,
   fireGoogleAnalyticsEvent,
-  fireMauticEvent,
   INVITE_BOUNTY,
 } from '../../lib/analytics/analytics'
 
@@ -49,6 +49,7 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
+import useUserContext from '../../lib/hooks/useUserContext'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -70,7 +71,7 @@ const LoadingAnimation = ({ success, speed = 3 }) => (
 
 const EmulateButtonSpace = () => <View style={{ paddingTop: 16, minHeight: 44, visibility: 'hidden' }} />
 
-const GrayBox = ({ title, value, symbol, theme, style }) => {
+const GrayBox = ({ title, value, symbol, style }) => {
   return (
     <Section.Stack style={[{ flex: 1 }, style]}>
       <Section.Text
@@ -218,14 +219,12 @@ const cbStyles = {
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
+  const { isLoggedInCitizen: isCitizen, entitlement, update } = useUserContext()
 
   const { appState } = useAppState()
   const store = SimpleStore.useStore()
-  const gdstore = GDStore.useStore()
 
-  const { entitlement } = gdstore.get('account')
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
-  const isCitizen = gdstore.get('isLoggedInCitizen')
   const { isValid } = screenState
 
   const [showDialog, , showErrorDialog] = useDialog()
@@ -347,9 +346,9 @@ const Claim = props => {
 
       showDialog({
         image: <LoadingAnimation />,
-        message: 'please wait while processing...\n ',
+        message: t`please wait while processing...` + `\n`,
         buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
-        title: `YOUR MONEY\nIS ON ITS WAY...`,
+        title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
         showCloseButtons: false,
       })
 
@@ -375,7 +374,7 @@ const Claim = props => {
 
         const claimsSoFar = await advanceClaimsCounter()
 
-        fireMauticEvent({ claim: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
+        API.updateClaims({ claim_counter: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),
           eventLabel: goodWallet.UBIContract._address,
@@ -394,9 +393,9 @@ const Claim = props => {
 
         showDialog({
           image: <LoadingAnimation success speed={2} />,
-          buttons: [{ text: 'Yay!' }],
-          message: `You've claimed your daily G$\nsee you tomorrow.`,
-          title: 'CHA-CHING!',
+          buttons: [{ text: t`Yay!` }],
+          message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
+          title: t`CHA-CHING!`,
           onDismiss: noop,
         })
 
@@ -407,7 +406,7 @@ const Claim = props => {
         }
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
+        showErrorDialog(t`Claim transaction failed`, '', { boldMessage: t`Try again later.` })
 
         log.error('Claim transaction failed', '', new Error('Failed to execute claim transaction'), {
           txHash: receipt.transactionHash,
@@ -419,7 +418,7 @@ const Claim = props => {
       }
     } catch (e) {
       fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
-      showErrorDialog('Claim request failed', '', { boldMessage: 'Try again later.' })
+      showErrorDialog(t`Claim request failed`, '', { boldMessage: t`Try again later.` })
 
       log.error('claiming failed', e.message, e, { dialogShown: true })
     } finally {
@@ -469,7 +468,7 @@ const Claim = props => {
         } else {
           // opened claim page (non-returned from FV)
           if (isCitizen === false) {
-            goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+            goodWallet.isCitizen().then(value => update({ isLoggedInCitizen: value }))
           }
         }
       } catch (exception) {
@@ -500,7 +499,7 @@ const Claim = props => {
             fontSize={28}
             style={styles.headerText}
           >
-            {dailyUbi ? `Claim Your Share` : `Just A Little Longer...\nMore G$'s Coming Soon`}
+            {dailyUbi ? t`Claim Your Share` : t`Just A Little Longer...` + `\n` + t`More G$'s Coming Soon`}
           </Section.Text>
           <ClaimAmountBox dailyUbi={dailyUbi} />
         </View>
@@ -511,12 +510,14 @@ const Claim = props => {
               contentStyle={styles.wavesBoxContent}
               style={styles.wavesBox}
             >
-              <Section.Text fontSize={15} lineHeight={20}>
-                Claim cycle restart every day
-              </Section.Text>
-              <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
-                at {claimCycleTime}
-              </Section.Text>
+              <Trans>
+                <Section.Text fontSize={15} lineHeight={20}>
+                  Claim cycle restart every day
+                </Section.Text>
+                <Section.Text fontWeight="bold" fontSize={15} lineHeight={20}>
+                  at {claimCycleTime}
+                </Section.Text>
+              </Trans>
             </WavesBox>
           )}
           <WavesBox

@@ -2,15 +2,15 @@
 import { initUserStorage } from '../../../../lib/userStorage/__tests__/__util__'
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../../__tests__/__util__'
+import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
 import ImportedIntroScreen from '../screens/IntroScreen'
 
-const IntroScreen = withThemeProvider(ImportedIntroScreen)
+const IntroScreen = withThemeAndLocalizationProvider(ImportedIntroScreen)
 const screenState = {
   isValid: true,
 }
 
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 describe('FaceVerification IntroScreen', () => {
   beforeAll(async () => {

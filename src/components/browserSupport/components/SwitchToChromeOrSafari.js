@@ -2,6 +2,7 @@
 import React from 'react'
 
 // components
+import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 // utils
@@ -12,12 +13,16 @@ import { isIOSWeb } from '../../../lib/utils/platform'
 // assets
 import illustration from '../../../assets/UnsuportedBrowser.svg'
 
+// localization
+
 export default () => (
   <ExplanationDialog
     title={
-      isIOSWeb ? 'Please switch to\nSafari browser' : 'For best user\nexperience switch to\nChrome or Safari browsers'
+      isIOSWeb
+        ? t`Please switch to` + `\n` + t`Safari browser`
+        : t`For best user` + `\n` + t`experience switch to` + `\n` + t`Chrome or Safari browsers`
     }
-    text={isIOSWeb ? 'This browser doesn’t support\ncamera access on iOS devices. Sorry!' : null}
+    text={isIOSWeb ? t`This browser doesn't support` + `\n` + t`camera access on iOS devices. Sorry!` : null}
     textStyle={{
       fontSize: normalizeText(16),
       marginVertical: getDesignRelativeHeight(25, false),

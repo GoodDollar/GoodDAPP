@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
+import { t } from '@lingui/macro'
 import { RegularDialog } from '../common/dialogs/ServiceWorkerUpdatedDialog'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -13,7 +14,7 @@ const WhatsNewButtonComponent = ({ onOpenUrl }) => {
   return (
     <TouchableOpacity onPress={handlePress} style={styles.serviceWorkerDialogWhatsNew}>
       <Text fontSize={14} lineHeight={20} fontWeight="medium" color="gray80Percent">
-        WHAT’S NEW?
+        {t`WHAT’S NEW?`}
       </Text>
     </TouchableOpacity>
   )

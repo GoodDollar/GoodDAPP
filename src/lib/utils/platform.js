@@ -7,6 +7,7 @@ import {
   isAndroid as isAndroidWeb,
   isBrowser as isBrowserWeb,
   isChrome,
+  isFirefox,
   isIOS as isIOSWeb,
   isMobileOnly as isMobileOnlyWeb,
   isMobileSafari,
@@ -78,7 +79,21 @@ export const useNativeDriverForAnimation = Platform.select({
   native: true,
 })
 
-export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet, isMobileSafari, isChrome }
+const iosSupportedWeb =
+  isSafari ||
+  ((osVersionInfo.major > 14 || (osVersionInfo.major === 14 && osVersionInfo.minor >= 4)) && (isChrome || isFirefox))
+
+export {
+  isMobileWeb,
+  isIOSWeb,
+  isAndroidWeb,
+  isMobileOnlyWeb,
+  isTablet,
+  isMobileSafari,
+  isChrome,
+  isFirefox,
+  iosSupportedWeb,
+}
 
 //from https://github.com/f2etw/detect-inapp/blob/master/src/inapp.js
 export class DetectWebview {

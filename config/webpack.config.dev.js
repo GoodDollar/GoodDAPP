@@ -17,6 +17,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt')
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const CopyPlugin = require("copy-webpack-plugin")
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -383,6 +384,12 @@ module.exports = {
     ],
   },
   plugins: [
+    // copy FaceTec SDK resources
+    new CopyPlugin(['images', 'resources'].map(from => {
+      const context = 'node_modules/@gooddollar/react-native-facetec/web/sdk'
+
+      return { context, from, to: 'facetec/' + from }
+    })),
     env.raw.REACT_APP_SERVICE_WORKER === 'true' &&
       new WorkboxWebpackPlugin.GenerateSW({
         clientsClaim: true,

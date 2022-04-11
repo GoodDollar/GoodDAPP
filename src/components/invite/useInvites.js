@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { groupBy, keyBy, noop } from 'lodash'
+import { t } from '@lingui/macro'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/userStorage/UserStorage'
 import logger from '../../lib/logger/js-logger'
@@ -35,7 +36,7 @@ export const registerForInvites = async inviterInviteCode => {
     userStorage.userProperties.set('inviteCode', inviteCode)
 
     //in case we were invited fire event
-    if (inviterInviteCode) {
+    if (inviterInviteCode && !usedInviterCode) {
       fireEvent(INVITE_JOIN, { inviterInviteCode })
       userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: inviterInviteCode })
     }
@@ -110,9 +111,9 @@ export const useInviteBonus = () => {
       showDialog({
         image: <LoadingIcon />,
         loading: true,
-        message: 'Please wait\nThis might take a few seconds...',
+        message: t`Please wait` + '\n' + t`This might take a few seconds...`,
         showButtons: false,
-        title: `Collecting Invite Reward`,
+        title: t`Collecting Invite Reward`,
         showCloseButtons: false,
         onDismiss: noop,
       })
@@ -123,11 +124,11 @@ export const useInviteBonus = () => {
       log.debug(`useInviteBonus: invite bonty collected`)
 
       showDialog({
-        title: `Reward Collected!`,
+        title: t`Reward Collected!`,
         image: <SuccessIcon />,
         buttons: [
           {
-            text: 'YAY!',
+            text: t`YAY!`,
           },
         ],
       })
@@ -147,8 +148,8 @@ export const useCollectBounty = () => {
   const collect = async () => {
     try {
       showDialog({
-        title: 'Collecting Bonus',
-        message: `Collecting invite bonus for ${canCollect} invited friends`,
+        title: t`Collecting Bonus`,
+        message: t`Collecting invite bonus for ${canCollect} invited friends`,
         loading: true,
       })
 
@@ -161,7 +162,7 @@ export const useCollectBounty = () => {
 
       showDialog({
         title: 'Collecting Bonus',
-        message: `Collecting invite bonus for ${canCollect} invited friends`,
+        message: t`Collecting invite bonus for ${canCollect} invited friends`,
         loading: false,
       })
     } catch (e) {
@@ -174,7 +175,7 @@ export const useCollectBounty = () => {
         dialogShown: true,
       })
 
-      showErrorDialog('Failed collecting invite bounty.', uiMessage)
+      showErrorDialog(t`Failed collecting invite bounty.`, uiMessage)
     }
   }
 
@@ -185,7 +186,7 @@ export const useCollectBounty = () => {
 
       if (pending.length > 0 && (await goodWallet.isCitizen()) === false) {
         log.debug('checkBounties inviter not whitelisted')
-        showErrorDialog(`Can't collect invite bonus. You need to first complete your Face Verification.`)
+        showErrorDialog(t`Can't collect invite bonus. You need to first complete your Face Verification.`)
         return
       }
 

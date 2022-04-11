@@ -8,6 +8,7 @@ import { withStyles } from '../../lib/styles'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
+import Text from '../common/view/Text'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -127,18 +128,45 @@ class EmailConfirmation extends React.Component<Props, State> {
 
   render() {
     const { errorMessage, loading, code, resentCode, renderButton, sendingCode } = this.state
-    const { styles } = this.props
+    const { styles, theme } = this.props
 
     return (
       <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
         <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
           <Section grow justifyContent="flex-start">
             <Section.Stack justifyContent="flex-start" style={styles.container}>
-              <Section.Row justifyContent="center">
-                <Section.Title color="darkGray" fontSize={22} fontWeight="medium" textTransform="none">
-                  {'You’ve got mail!\nA verification code\nwas emailed to you'}
+              <Text
+                color={'primary'}
+                fontSize={getDesignRelativeHeight(12)}
+                lineHeight={getDesignRelativeHeight(21)}
+                letterSpacing={0.26}
+                fontFamily="Roboto"
+                fontWeight="bold"
+                textTransform="uppercase"
+                style={{ marginBottom: getDesignRelativeHeight(14) }}
+              >
+                Email Verification
+              </Text>
+              <Section.Stack justifyContent="center">
+                <Section.Title
+                  color="darkIndigo"
+                  fontSize={18}
+                  fontWeight="400"
+                  textTransform="none"
+                  style={{ marginVertical: 0 }}
+                >
+                  Got it, thanks.
                 </Section.Title>
-              </Section.Row>
+                <Section.Title
+                  color="darkIndigo"
+                  fontSize={getDesignRelativeHeight(18)}
+                  fontWeight="500"
+                  textTransform="none"
+                  style={{ marginVertical: 0 }}
+                >
+                  {`Please enter the verification code sent\n to your e-mail.`}
+                </Section.Title>
+              </Section.Stack>
               <Section.Stack justifyContent="center" style={styles.bottomContent}>
                 <OtpInput
                   shouldAutoFocus
@@ -148,10 +176,18 @@ class EmailConfirmation extends React.Component<Props, State> {
                   errorStyle={styles.errorStyle}
                   value={code}
                   placeholder="*"
+                  placeholderTextColor={theme.colors.darkIndigo}
                   isInputNum={true}
                   aside={[3]}
+                  inputStyle={styles.otpInput}
                 />
-                <ErrorText error={errorMessage} />
+                {errorMessage ? (
+                  <ErrorText error={errorMessage} />
+                ) : (
+                  <Section.Text fontSize={14} color="darkIndigo" style={{ marginTop: 12 }}>
+                    Please wait a few seconds until the email arrives
+                  </Section.Text>
+                )}
               </Section.Stack>
             </Section.Stack>
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
@@ -173,25 +209,31 @@ class EmailConfirmation extends React.Component<Props, State> {
 
 const CodeAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFinish }) => {
   const _handleRetry = useOnPress(handleRetry)
-  if (renderButton) {
+
+  const renderRetryButton = () => {
     return (
       <SpinnerCheckMark loading={sendingCode} success={resentCode} onFinish={onFinish} height={150} width={150}>
         <Section.Text
           textDecorationLine="underline"
           fontWeight="medium"
           fontSize={14}
+          lineHeight={30}
           color="primary"
           onPress={_handleRetry}
         >
-          email me the code again
+          Send me the code again
         </Section.Text>
       </SpinnerCheckMark>
     )
   }
+
   return (
-    <Section.Text fontSize={14} color="gray80Percent">
-      Please wait a few seconds until the email arrives
-    </Section.Text>
+    <Section.Stack>
+      <Section.Text fontSize={14} lineHeight={30} color="extraLighterGray">
+        (0:00)
+      </Section.Text>
+      {renderRetryButton()}
+    </Section.Stack>
   )
 }
 
@@ -200,21 +242,22 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   row: {
-    marginTop: theme.sizes.defaultDouble,
-    marginBottom: theme.sizes.defaultDouble,
+    marginTop: theme.sizes.defaultQuadruple,
+    marginBottom: theme.sizes.defaultQuadruple,
   },
   errorStyle: {
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.red,
-    color: theme.colors.red,
+    borderBottomColor: theme.colors.googleRed,
+    color: theme.colors.googleRed,
   },
-  container: {
-    minHeight: getDesignRelativeHeight(200),
-    height: getDesignRelativeHeight(200),
-  },
+  container: {},
   bottomContent: {
-    marginTop: 'auto',
+    marginTop: getDesignRelativeHeight(35),
     marginBottom: theme.sizes.defaultDouble,
+  },
+  otpInput: {
+    color: theme.colors.lightBlue,
+    borderBottomColor: theme.colors.lightBlue,
   },
 })
 

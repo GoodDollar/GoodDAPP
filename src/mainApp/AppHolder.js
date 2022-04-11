@@ -9,12 +9,14 @@ import AsyncStorage from '../lib/utils/asyncStorage'
 
 import Config from '../config/config'
 
-import SimpleStore, { useCurriedSetters } from '../lib/undux/SimpleStore'
+import SimpleStore from '../lib/undux/SimpleStore'
+import LanguageProvider from '../language/i18n'
+import useUserContext from '../lib/hooks/useUserContext'
 import AppHot from './AppHot'
 
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
-  const [setIsLoggedIn] = useCurriedSetters(['isLoggedIn'])
+  const { update } = useUserContext()
 
   useEffect(() => {
     /**
@@ -37,7 +39,7 @@ const AppHolder = () => {
     const initStore = async () => {
       const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
 
-      setIsLoggedIn(!!isLoggedIn)
+      update({ isLoggedIn })
     }
 
     const initializeApp = async () => {
@@ -54,16 +56,18 @@ const AppHolder = () => {
     }
 
     initializeApp()
-  }, [ready, setReady, setIsLoggedIn])
+  }, [ready])
 
   if (!ready) {
     return null
   }
 
   return (
-    <ActionSheetProvider>
-      <AppHot />
-    </ActionSheetProvider>
+    <LanguageProvider>
+      <ActionSheetProvider>
+        <AppHot />
+      </ActionSheetProvider>
+    </LanguageProvider>
   )
 }
 

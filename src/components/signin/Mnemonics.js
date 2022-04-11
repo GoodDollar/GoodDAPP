@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
+import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/js-logger'
@@ -75,9 +76,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         category: ExceptionCategory.Human,
         dialogShown: true,
       })
-      showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
-        title: 'Ooops ...',
-        boldMessage: 'Please check it and try again.',
+      showErrorDialog(t`Your pass phrase appears` + '\n' + t`to be incorrect.`, undefined, {
+        title: t`Ooops ...`,
+        boldMessage: t`Please check it and try again.`,
       })
     }
 
@@ -109,7 +110,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         showDialog({
           visible: true,
           image: <SuccessAnimation />,
-          buttons: [{ text: 'Yay!' }],
+          buttons: [{ text: t`Yay!` }],
           children: (
             <Text
               fontFamily={theme.fonts.slab}
@@ -117,10 +118,10 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               fontSize={Platform.select({ web: 46, default: 34 })}
               style={styles.dialogTitle}
             >
-              Welcome back!
+              {t`Welcome back!`}
             </Text>
           ),
-          message: `Hi ${firstName},\nyour wallet was recovered successfully`,
+          message: t`Hi ${firstName},` + '\n' + t`your wallet was recovered successfully`,
           onDismiss: () => restart(incomingRedirectUrl),
         })
         fireEvent(RECOVER_SUCCESS)
@@ -161,7 +162,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       <Section grow={5} style={styles.wrapper}>
         <Section.Stack grow style={styles.instructions} justifyContent="space-around">
           <Text fontWeight="medium" fontSize={22}>
-            {'Please enter your\n12-word pass phrase:'}
+            {t`Please enter your`}
+            {'\n'}
+            {t`12-word pass phrase:`}
           </Text>
         </Section.Stack>
         <Section.Stack grow={4} justifyContent="space-between">
@@ -189,7 +192,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         </Section.Row>
         <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
           <CustomButton style={styles.buttonLayout} onPress={recover} disabled={isSubmitBlocked || isRecovering}>
-            Recover my wallet
+            {t`Recover my wallet`}
           </CustomButton>
         </Section.Stack>
       </Section>

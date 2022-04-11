@@ -63,8 +63,8 @@ const Button = ({
 
   if (mode === 'contained') {
     if (disabled) {
-      backgroundColor = color(theme.dark ? white : black)
-        .alpha(0.12)
+      backgroundColor = color(theme.dark ? white : theme.colors.darkIndigo)
+        .alpha(0.4)
         .rgb()
         .string()
     } else if (buttonColor) {

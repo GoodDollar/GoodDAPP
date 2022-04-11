@@ -5,6 +5,7 @@ import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
+import { t } from '@lingui/macro'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -77,7 +78,7 @@ const FeedList = ({
   // const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])
 
   const scrollToTop = useCallback(() => {
-    const list = get(flRef, 'current._component._flatListRef', {})
+    const list = get(flRef, 'current._flatListRef', {})
 
     if (isFunction(list.scrollToOffset)) {
       list.scrollToOffset({ offset: 0 })
@@ -147,7 +148,7 @@ const FeedList = ({
           },
         )
 
-        showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
+        showErrorDialog(t`Current transaction is still pending, it can't be cancelled right now`)
       }
 
       userStorage.userProperties.setLocal('showQuickActionHint', false)

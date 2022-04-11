@@ -12,7 +12,6 @@ import { getErrorMessage } from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/userStorage/UserStorage'
 import runUpdates from '../../lib/updates'
@@ -24,8 +23,9 @@ import { delay } from '../../lib/utils/async'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
-import { useInviteCode } from '../invite/useInvites'
 import restart from '../../lib/utils/restart'
+import useUserContext from '../../lib/hooks/useUserContext'
+import useTransferEvents from '../../lib/wallet/useTransferEvents'
 
 type LoadingProps = {
   navigation: any,
@@ -66,6 +66,8 @@ const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
+  const { update } = useUserContext()
+  const [, updateWalletStatus] = useTransferEvents()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -143,12 +145,19 @@ const AppSwitch = (props: LoadingProps) => {
     identifyWith(email, undefined)
   }
 
-  //TODO: should be removed once issue is resolved
-  const logoutTorusIssue = id => {
-    if (id.toLowerCase() === '0xb5f2f134a543d55c24eaa9ef441c2a699d660b6b') {
-      throw new Error('bad torus account bug')
-    }
-  }
+  const restartWithMessage = useCallback(
+    async (message, withLogout = true) => {
+      if (false !== withLogout) {
+        await AsyncStorage.clear()
+      }
+
+      showErrorDialog(message, '', {
+        onDismiss: () => restart('/'),
+      })
+    },
+    [showErrorDialog],
+  )
+
   const init = async () => {
     log.debug('initializing')
 
@@ -156,31 +165,33 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      updateWalletStatus(gdstore)
-      const { isLoggedInCitizen, isLoggedIn } = await getLoginState()
+      updateWalletStatus()
+
+      const [isLoggedInCitizen, isLoggedIn] = await getLoginState()
+
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
+
       const initReg = userStorage.initRegistered()
-      gdstore.set('isLoggedIn')(isLoggedIn)
-      gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
+
+      update({ isLoggedIn, isLoggedInCitizen })
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
-      logoutTorusIssue(identifier)
+
       identifyWith(undefined, identifier)
       showOutOfGasError(props)
+
       await initReg
       initialize()
-      runUpdates() //this needs to wait after initreg where we initialize the database
+      runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
 
       setReady(true)
     } catch (e) {
-      //TODO: remove once bug is resolvedß
-      if (e.message.includes('bad torus')) {
-        log.error('bad torus account bug', e.message, e, { seed: await localStorage.getItem('GD_masterSeed') })
-        await AsyncStorage.clear()
-        return showErrorDialog('We are sorry, please try to login again. We are working to resolve this issue.', '', {
-          onDismiss: () => restart('/'),
-        })
+      if ('UnsignedJWTError' === e.name) {
+        return restartWithMessage(
+          "You haven't used GoodDollar app on this device for a long time. " +
+            'You need to sign in again. Make sure to use the same account you previously signed in with.',
+        )
       }
 
       const dialogShown = unsuccessfulLaunchAttempts > 3
@@ -190,15 +201,15 @@ const AppSwitch = (props: LoadingProps) => {
       if (dialogShown) {
         //if error in realmdb logout the user, he needs to signin/signup again
         log.error('failed initializing app', e.message, e, { dialogShown })
+
         if (e.message.includes('realmdb')) {
-          await AsyncStorage.clear()
-          return showErrorDialog(
-            'We are sorry, but due to database upgrade, you need to perform the Signup process again. Make sure to use the same account you previously signed in with.',
-            '',
-            { onDismiss: () => restart('/') },
+          return restartWithMessage(
+            'We are sorry, but due to database upgrade, you need to perform the Signup process again. ' +
+              'Make sure to use the same account you previously signed in with.',
           )
         }
-        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => restart('/') })
+
+        restartWithMessage('Wallet could not be loaded. Please refresh.', false)
       } else {
         await delay(1500)
         init()
@@ -230,8 +241,6 @@ const AppSwitch = (props: LoadingProps) => {
   }, [gdstore, ready])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
-
-  useInviteCode()
 
   useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
 

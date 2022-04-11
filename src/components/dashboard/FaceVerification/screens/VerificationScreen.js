@@ -4,7 +4,6 @@ import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
 
 import UserStorage from '../../../../lib/userStorage/UserStorage'
-import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
 import logger from '../../../../lib/logger/js-logger'
 
@@ -23,12 +22,14 @@ import {
   FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
 } from '../../../../lib/analytics/analytics'
+
 import { tryUntil } from '../../../../lib/utils/async'
+import useUserContext from '../../../../lib/hooks/useUserContext'
 
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
-  const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
+  const { update } = useUserContext()
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception
@@ -93,8 +94,9 @@ const FaceVerification = ({ screenProps }) => {
     async status => {
       log.debug('FaceVerification completed', { status })
 
-      // polling contracts for the whitelisted flag up to 15sec or until got true
-      const isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000)
+      // polling contracts for the whitelisted flag up to 30sec or until got true
+      // fix: if still false, do not throw excetion, just return falsy status
+      const isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000).catch(() => false)
 
       // if still non whitelisted - showing error screen
       if (!isCitizen) {
@@ -113,13 +115,13 @@ const FaceVerification = ({ screenProps }) => {
       resetAttempts()
 
       // 2. whitelisting user
-      setIsCitizen(isCitizen)
+      update(isCitizen)
 
       // 3. returning success to the caller
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
-    [screenProps, setIsCitizen, resetAttempts, exceptionHandler],
+    [screenProps, resetAttempts, exceptionHandler],
   )
 
   // calculating retries allowed for FV session

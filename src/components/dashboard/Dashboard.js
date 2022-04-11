@@ -5,6 +5,7 @@ import { concat, debounce, get, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 
+import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -13,15 +14,15 @@ import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
-import { formatWithAbbreviations } from '../../lib/utils/formatNumber'
+import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { initTransferEvents } from '../../lib/undux/utils/account'
 
 import userStorage from '../../lib/userStorage/UserStorage'
 import useAppState from '../../lib/hooks/useAppState'
+import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
 import { useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
@@ -42,6 +43,9 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import useUserContext from '../../lib/hooks/useUserContext'
+import { useInviteCode } from '../invite/useInvites'
+import useTransferEvents from '../../lib/wallet/useTransferEvents'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -68,6 +72,7 @@ import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyDecemberBanner'
+import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -103,6 +108,7 @@ const Dashboard = props => {
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
+  const { balance, entitlement } = useUserContext()
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog] = useDialog()
@@ -114,13 +120,17 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const loadAnimShown = store.get('feedLoadAnimShown')
-  const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
+  const [initTransferEvents] = useTransferEvents()
+
+  const [price, showPrice] = useGoodDollarPrice()
+
+  useInviteCode() //preload user invite code
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -555,14 +565,14 @@ const Dashboard = props => {
           showEventModal(item)
         } else {
           showDialog({
-            title: 'Error',
-            message: 'Event does not exist',
+            title: t`Error`,
+            message: t`Event does not exist`,
           })
         }
       } catch (e) {
         showDialog({
-          title: 'Error',
-          message: 'Event does not exist',
+          title: t`Error`,
+          message: t`Event does not exist`,
         })
       }
     },
@@ -597,6 +607,11 @@ const Dashboard = props => {
       fontSize: normalizeByLength(weiToGd(balance), 42, 10),
     }),
     [balance],
+  )
+
+  const calculateUSDWorthOfBalance = useMemo(
+    () => (showPrice ? formatWithFixedValueDigits(price * weiToGd(balance)) : null),
+    [showPrice, price, balance],
   )
 
   // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
@@ -641,6 +656,11 @@ const Dashboard = props => {
                   style={styles.bigGoodDollar}
                 />
               </View>
+              {headerLarge && showPrice && (
+                <Section.Text style={styles.gdPrice}>
+                  ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
+                </Section.Text>
+              )}
             </Animated.View>
           </Section.Stack>
         </Animated.View>
@@ -714,7 +734,7 @@ const getStylesFromProps = ({ theme }) => ({
   headerWrapper: {
     height: '100%',
     paddingBottom: Platform.select({
-      web: theme.sizes.defaultDouble,
+      web: theme.sizes.defaultHalf,
       default: theme.sizes.default,
     }),
   },
@@ -778,6 +798,14 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
     marginTop: 1,
   },
+  gdPrice: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 14,
+    color: theme.colors.secondary,
+    fontWeight: 'bold',
+  },
   leftButton: {
     flex: 1,
     height: 44,
@@ -809,7 +837,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberWrapper: {
-    alignItems: 'baseline',
+    alignItems: 'center',
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),

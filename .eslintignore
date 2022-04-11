@@ -5,6 +5,5 @@ assets
 /config
 flow-typed
 scripts
-src/lib/facetec
 /*.js
 /node_modules/**

@@ -1,6 +1,5 @@
 import { filter } from 'lodash'
 
-import userStorage from '../userStorage/UserStorage'
 import Config from '../../config/config'
 import { fireEvent, UPDATE_FAILED, UPDATE_SUCCESS } from '../analytics/analytics'
 import logger from '../logger/js-logger'
@@ -9,12 +8,14 @@ import uploadAvatars from './avatar'
 import upgradeRealmDB from './upgradeRealmdb'
 import upgradeProfileRealmDB from './upgradeProfileRealmdb'
 import upgradeProfile from './restoreProfile'
+import claimGOOD from './claimGOOD'
+import verifyCRM from './verifycrm'
 
 const log = logger.child({ from: 'updates' })
 
-const updates = [upgradeRealmDB, upgradeProfileRealmDB, upgradeProfile, uploadAvatars]
+const updates = [upgradeRealmDB, upgradeProfileRealmDB, upgradeProfile, uploadAvatars, claimGOOD, verifyCRM]
 
-const update = async () => {
+const update = async (goodWallet, userStorage) => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {
     lastUpdate: new Date(0),
     status: {},
@@ -34,7 +35,7 @@ const update = async () => {
       if (upd.fromDate > lastUpdate || !doneUpdates[updateKey]) {
         acc.push(() =>
           upd
-            .update(lastUpdate, prevVersion, log)
+            .update(lastUpdate, prevVersion, log, goodWallet, userStorage)
             .then(_ => {
               doneUpdates[updateKey] = true
               log.info('update done:', updateKey)

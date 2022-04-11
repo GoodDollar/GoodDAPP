@@ -135,26 +135,32 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-justifyContent-17s6mgv r-marginBottom-p1pxzi r-marginRight-1kb76zh r-marginTop-1mnahxq"
           >
             <div
-              className="css-text-901oao css-textMultiLine-cens5h r-alignItems-obd0qt r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-marginTop-kc8jnq r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitLineClamp": 1,
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1q142lx r-marginTop-kc8jnq"
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                dir="auto"
+                style={
+                  Object {
+                    "minWidth": "10px",
+                  }
+                }
               >
                 From
                 :
                  
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              </div>
+              <div
+                className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                dir="auto"
+                style={
+                  Object {
+                    "WebkitLineClamp": 1,
+                  }
+                }
               >
                 Misao Matimbo
-              </span>
+              </div>
             </div>
             <div
               className="css-text-901oao css-textMultiLine-cens5h r-color-vaa0vc r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
@@ -313,26 +319,32 @@ exports[`ListEventItem send matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-justifyContent-17s6mgv r-marginBottom-p1pxzi r-marginRight-1kb76zh r-marginTop-1mnahxq"
           >
             <div
-              className="css-text-901oao css-textMultiLine-cens5h r-alignItems-obd0qt r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-marginTop-kc8jnq r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitLineClamp": 1,
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1q142lx r-marginTop-kc8jnq"
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                dir="auto"
+                style={
+                  Object {
+                    "minWidth": "10px",
+                  }
+                }
               >
                 To
                 :
                  
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              </div>
+              <div
+                className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                dir="auto"
+                style={
+                  Object {
+                    "WebkitLineClamp": 1,
+                  }
+                }
               >
                 Misao Matimbo
-              </span>
+              </div>
             </div>
             <div
               className="css-text-901oao css-textMultiLine-cens5h r-color-vaa0vc r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
@@ -491,26 +503,32 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-justifyContent-17s6mgv r-marginBottom-p1pxzi r-marginRight-1kb76zh r-marginTop-1mnahxq"
           >
             <div
-              className="css-text-901oao css-textMultiLine-cens5h r-alignItems-obd0qt r-color-cddv6f r-display-6koalj r-flex-13awgt0 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-height-1pi2tsx r-lineHeight-qvk6io r-marginTop-kc8jnq r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitLineClamp": 1,
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1q142lx r-marginTop-kc8jnq"
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                dir="auto"
+                style={
+                  Object {
+                    "minWidth": "10px",
+                  }
+                }
               >
                 From
                 :
                  
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-1cwl3u0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              </div>
+              <div
+                className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                dir="auto"
+                style={
+                  Object {
+                    "WebkitLineClamp": 1,
+                  }
+                }
               >
                 Misao Matimbo
-              </span>
+              </div>
             </div>
             <div
               className="css-text-901oao css-textMultiLine-cens5h r-color-vaa0vc r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"

@@ -66,9 +66,20 @@ export class APIService {
 
   client: AxiosInstance
 
-  mauticJS: any
+  sharedClient: AxiosInstance
 
   constructor(jwt = null) {
+    const shared = axios.create()
+
+    shared.interceptors.response.use(
+      ({ data }) => data,
+      // eslint-disable-next-line require-await
+      async exception => {
+        throw exception
+      },
+    )
+
+    this.sharedClient = shared
     this.init(jwt)
   }
 
@@ -87,6 +98,7 @@ export class APIService {
         jwt = await AsyncStorage.getItem(JWT)
         this.jwt = jwt
       }
+
       log.info('initializing api...', serverUrl, jwt)
 
       // eslint-disable-next-line require-await
@@ -159,6 +171,10 @@ export class APIService {
     return this.client.post('/user/start', { user })
   }
 
+  updateClaims(claimData: { claim_counter: number, last_claim: string }): AxiosPromise<any> {
+    return this.client.post('/user/claim', { ...claimData })
+  }
+
   /**
    * `/user/delete` post api call
    */
@@ -196,44 +212,62 @@ export class APIService {
     return this.client.post('/verify/user', { verificationData })
   }
 
+  /**
+   * `/user/verifyCRM` post api call
+   * @param {any} profile - user email/mobile/name to be added to CRM if doesnt exists
+   */
+  verifyCRM(profile): AxiosPromise<any> {
+    return this.client.post('/user/verifyCRM', { user: profile })
+  }
+
   async verifyCaptcha(token: string): AxiosPromise<any> {
-    const { client } = this
+    const { client, sharedClient } = this
     const payload = { token }
 
-    const parseCFResponse = ({ data }) => {
-      const [address] = (data || '').match(/ip=(.+?)\n/)
-
+    const validateIpV6 = address => {
       if (!address) {
-        throw new Error('Clouflare trace util returned empty IP.')
+        throw new Error('Empty IP has been returned.')
+      }
+
+      if (!address.includes(':')) {
+        throw new Error("Client's ISP doesn't supports IPv6.")
       }
 
       return address
     }
 
-    const fallbackToIpify = async () => {
-      const ipv6Response = await axios.get('https://api64.ipify.org/?format=json')
+    const requestCloudflare = async () => {
+      const trace = await sharedClient.get('https://www.cloudflare.com/cdn-cgi/trace')
+      const [, address] = /ip=(.+?)\n/.exec(trace || '') || []
 
-      return get(ipv6Response, 'data.ip', '')
+      log.info('CF response', { trace })
+
+      return address
+    }
+
+    const fallbackToIpify = async () => {
+      const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
+
+      log.info('Ipify response', { ipv6Response })
+      return get(ipv6Response, 'ip', '')
     }
 
     try {
-      const ip = await axios
-        .get('https://www.cloudflare.com/cdn-cgi/trace')
-        .then(parseCFResponse)
+      const ip = await requestCloudflare()
+        .then(validateIpV6)
         .catch(fallbackToIpify)
 
       log.info('ip for captcha:', { ip })
 
-      if (!ip.includes(':')) {
-        throw new Error("Client's ISP doesn't supports IPv6.")
-      }
-
+      validateIpV6(ip)
       payload.ipv6 = ip
     } catch (errorOrStatus) {
       let exception = errorOrStatus
 
       if (!isError(errorOrStatus)) {
-        exception = new Error(isString(errorOrStatus) ? errorOrStatus : 'Http exception during Ipify API call')
+        exception = new Error(
+          isString(errorOrStatus) ? errorOrStatus : 'Unexpected exception while getting IPv6 address',
+        )
       }
 
       log.warn('Failed to determine client IPv6:', exception.message, exception)
@@ -246,7 +280,7 @@ export class APIService {
    * `ip-api.com/json` get location api call
    */
   getLocation(): AxiosPromise<any> {
-    return axios.get('https://get.geojs.io/v1/ip/country.json', { throttle: false })
+    return this.sharedClient.get('https://get.geojs.io/v1/ip/country.json', { throttle: false })
   }
 
   /**
@@ -260,9 +294,9 @@ export class APIService {
   /**
    * `/verify/topwallet` post api call. Tops users wallet
    */
-  verifyTopWallet(): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/topwallet')
-  }
+  verifyTopWallet: Promise<$AxiosXHR<any>> = throttleAdapter(() => this.client.post('/verify/topwallet'), 60000, {
+    trailing: false,
+  })
 
   /**
    * `/verify/sendemail` post api call
@@ -393,41 +427,6 @@ export class APIService {
     return this.client.post('/user/enqueue')
   }
 
-  /**
-   * adds a first time registering user to mautic
-   * @param {*} userData usually just {email}
-   */
-  addMauticContact(userData: { email: string }) {
-    const { email } = userData
-    const { MauticJS } = global
-    const { mauticAddContractFormID, mauticUrl } = Config
-
-    if (!MauticJS || !mauticUrl || !email) {
-      log.warn('addMauticContact not called:', {
-        hasMauticAPI: !!MauticJS,
-        mautic: mauticUrl,
-        hasEmail: !!email,
-      })
-
-      return
-    }
-
-    const payload = {
-      'mauticform[formId]': mauticAddContractFormID,
-      'mauticform[email]': email,
-      'mauticform[messenger]': 1,
-    }
-
-    MauticJS.makeCORSRequest(
-      'POST',
-      `${mauticUrl}/form/submit`,
-      payload,
-      () => log.info('addMauticContact success'),
-      ({ content }, xhr) =>
-        log.error('addMauticContact call failed:', '', new Error('Error received from Mautic API'), { content }),
-    )
-  }
-
   async getActualPhase() {
     const { data } = await this.client.get('/verify/phase')
 
@@ -443,6 +442,11 @@ export class APIService {
     }
 
     return this.client.post(callbackUrl, { invoiceId, transactionId, senderEmail, senderName })
+  }
+
+  // eslint-disable-next-line require-await
+  async getMessageStrings() {
+    return this.client.get('/strings')
   }
 }
 

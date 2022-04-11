@@ -8,7 +8,7 @@ import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 
 import logger from '../../lib/logger/js-logger'
 import { getErrorMessage } from '../../lib/API/api'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
@@ -56,7 +56,7 @@ let unsuccessfulLaunchAttempts = 0
  */
 const AppSwitch = (props: LoadingProps) => {
   const { router, state } = props.navigation
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const [ready, setReady] = useState(false)
   const {
     authStatus: [isLoggedInCitizen, isLoggedIn],

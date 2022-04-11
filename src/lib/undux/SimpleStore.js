@@ -3,7 +3,6 @@ import { createConnectedStore } from 'undux'
 import { isString } from 'lodash'
 
 import pinoLogger from '../logger/js-logger'
-import createStoreEffects, { unduxLogger } from './plugins'
 
 /**
  * Dialog data. This is being used to show a dialog across the app
@@ -71,13 +70,11 @@ const initialState: State = {
   regMethod: 'torus',
 }
 
-const { storeAccessor, storeEffects } = createStoreEffects()
-
 /**
  * default exported instance of our global Undux Store
  * @module
  */
-let SimpleStore: UnduxStore = createConnectedStore(initialState, storeEffects) // default value for tests
+let SimpleStore: UnduxStore = createConnectedStore(initialState) // default value for tests
 
 // functions which set userStorage and wallet to simple storage in init.js
 
@@ -96,16 +93,15 @@ const storeAssertion = (condition, logger, message) => {
   return !assertionFailed
 }
 
-const assertStore = (store, logger = unduxLogger, message = 'Operation failed') =>
-  storeAssertion(() => !store, logger, message)
+const assertStore = (store, logger, message = 'Operation failed') => storeAssertion(() => !store, logger, message)
 
-const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation failed') =>
+const assertStoreSnapshot = (store, logger, message = 'Operation failed') =>
   storeAssertion(() => !store || !store.storeSnapshot, logger, message)
 
 const initStore = () => {
   const newState = { ...initialState }
-  SimpleStore = createConnectedStore(newState, storeEffects)
+  SimpleStore = createConnectedStore(newState)
   return SimpleStore
 }
 
-export { initStore, storeAccessor as store, assertStore, assertStoreSnapshot, SimpleStore as default }
+export { initStore, assertStore, assertStoreSnapshot, SimpleStore as default }

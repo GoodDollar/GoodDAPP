@@ -25,8 +25,7 @@ import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import API, { getErrorMessage } from '../../lib/API/api'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import BackButtonHandler from '../../lib/utils/handleBackButton'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/userStorage/UserModel'
@@ -111,7 +110,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     get(navigation, 'state.params.torusProvider') ||
     get(navigation.state.routes.find(route => get(route, 'params.torusProvider')), 'params.torusProvider', undefined)
 
-  const store = SimpleStore.useStore()
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
@@ -143,7 +141,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [, hideDialog, showErrorDialog] = useDialog()
+  const { hideDialog, showErrorDialog } = useDialog()
 
   const { success: signupSuccess, setWalletPreparing, setSuccessfull, activeStep, setActiveStep } = useContext(
     AuthContext,
@@ -472,7 +470,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       signupData,
       isRegMethodSelfCustody,
       ready,
-      store,
       torusProvider,
       navigation.state.index,
       navigation.state.routes,

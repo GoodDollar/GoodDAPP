@@ -1,14 +1,12 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Linking, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, debounce, get, noop, uniqBy } from 'lodash'
+import { concat, debounce, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
-import type { Store } from 'undux'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
@@ -81,7 +79,6 @@ const { isCryptoLiteracy } = Config
 export type DashboardProps = {
   navigation: any,
   screenProps: any,
-  store: Store,
   styles?: any,
 }
 
@@ -104,22 +101,18 @@ const Dashboard = props => {
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const store = SimpleStore.useStore()
-  const [showDialog] = useDialog()
-  const [showErrorDialog] = useErrorDialog()
+  const { isDialogShown, showDialog, showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
-  const currentScreen = store.get('currentScreen')
-  const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, dailyUBI: entitlement } = useWalletData()
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
-  const { setDialogBlur, setAddWebApp, isLoadingIndicator } = useContext(GlobalTogglesContext)
+  const { setDialogBlur, setAddWebApp, isLoadingIndicator, setFeedLoadAnimShown } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
   const [price, showPrice] = useGoodDollarPrice()
@@ -181,7 +174,7 @@ const Dashboard = props => {
     async (reset = false) => {
       const release = await feedMutex.lock()
       try {
-        log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
+        log.debug('getFeedPage:', { reset, feeds, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
@@ -196,7 +189,7 @@ const Dashboard = props => {
             didRender = true
           }
           res = (await feedPromise) || []
-          res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
+          res.length > 0 && !didRender && setFeedLoadAnimShown(true)
           feedRef.current = res
           res.length > 0 && setFeeds(res)
         } else {
@@ -217,7 +210,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [loadAnimShown, store, setFeeds, feedRef, userStorage],
+    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -503,20 +496,20 @@ const Dashboard = props => {
    * don't show delayed items such as add to home popup if some other dialog is showing
    */
   useEffect(() => {
-    const showingSomething = get(currentScreen, 'dialogData.visible') || isLoadingIndicator || itemModal
+    const showingSomething = isDialogShown || isLoadingIndicator || itemModal
 
     if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
       setShowDelayedTimer(clearTimeout(showDelayedTimer))
     } else if (!showDelayedTimer) {
       showDelayed()
     }
-  }, [get(currentScreen, 'dialogData.visible'), isLoadingIndicator, itemModal])
+  }, [isDialogShown, isLoadingIndicator, itemModal])
 
   const showEventModal = useCallback(
     currentFeed => {
       setItemModal(currentFeed)
     },
-    [store],
+    [setItemModal],
   )
 
   const getNotificationItem = async () => {

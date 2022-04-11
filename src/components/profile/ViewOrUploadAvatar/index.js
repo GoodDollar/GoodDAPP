@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 import { CustomButton, Section, Wrapper } from '../../common'
 import UserAvatar from '../../common/view/UserAvatar'
 import { withStyles } from '../../../lib/styles'
-import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
@@ -35,7 +35,7 @@ const TITLE = 'My Profile'
 const ViewOrUploadAvatar = props => {
   const { styles, screenProps } = props
   const [profile, refreshProfile] = useProfile(true)
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const avatar = useAvatar(profile.avatar)
   const [, setUploadedAvatar] = useUploadedAvatar()
   const userStorage = useUserStorage()

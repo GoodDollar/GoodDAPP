@@ -13,7 +13,7 @@ import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import API from '../../lib/API/api'
 
 // import { openLink } from '../../lib/utils/linking'
@@ -223,7 +223,7 @@ const Claim = props => {
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const { isValid } = screenState
 
-  const [showDialog, , showErrorDialog] = useDialog()
+  const { showDialog, showErrorDialog } = useDialog()
 
   // use loading variable if required
   const [, setLoading] = useState(false)

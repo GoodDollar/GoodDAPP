@@ -8,7 +8,7 @@ import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { retry } from '../../lib/utils/async'
 import API from '../../lib/API/api'
@@ -35,7 +35,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const userStorage = useUserStorage()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
-  const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const { showDialog, hideDialog, showErrorDialog } = useDialog()
 
   const [shared, setShared] = useState(false)
   const [link, setLink] = useState('')

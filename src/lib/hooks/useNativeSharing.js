@@ -2,11 +2,11 @@ import { assign, isString, noop } from 'lodash'
 import { useCallback, useEffect, useRef } from 'react'
 
 import { shareAction } from '../../lib/share/index'
-import { useErrorDialog } from '../undux/utils/dialog'
+import { useDialog } from '../dialog/useDialog'
 import { preventPressed } from './useOnPress'
 
 export default (shareObject, options = null) => {
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const shareOptions = isString(options) ? { customErrorMessage: options } : options
   const { customErrorMessage, onSharePress = noop, onSharingDone = noop } = shareOptions || {}
 

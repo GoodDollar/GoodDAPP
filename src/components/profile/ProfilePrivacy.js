@@ -15,7 +15,7 @@ import BorderedBox from '../common/view/BorderedBox'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
@@ -79,7 +79,7 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
 
   const [privacy, setPrivacy] = useState(initialPrivacy)
   const [loading, setLoading] = useState(false)
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
 
   // bordered box required data
   const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])

@@ -13,7 +13,7 @@ import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 import createABTesting from '../../lib/hooks/useABTesting'
@@ -164,7 +164,7 @@ const ShareBox = ({ level }) => {
 
 const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
-  const [showDialog, hideDialog] = useDialog()
+  const { hideDialog, showDialog } = useDialog()
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
   const goodWallet = useWallet()

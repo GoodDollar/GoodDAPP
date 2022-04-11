@@ -5,7 +5,7 @@ import { fireEvent, RESENDING_MAGICLINK_SUCCESS } from '../../lib/analytics/anal
 import API, { getErrorMessage } from '../../lib/API/api'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
@@ -19,8 +19,7 @@ const log = logger.child({ from: 'MagicLinkInfo' })
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps } = props
-  const [showDialog] = useDialog()
-  const [showErrorDialog] = useErrorDialog()
+  const { showDialog, showErrorDialog } = useDialog()
   const userStorage = useUserStorage()
 
   const sendMagicEmail = useCallback(() => {

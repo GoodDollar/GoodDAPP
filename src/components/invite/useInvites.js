@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { groupBy, keyBy, noop } from 'lodash'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -81,7 +81,7 @@ export const useInviteCode = () => {
 }
 
 export const useInviteBonus = () => {
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
   const collected = useUserProperty(collectedProp)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
@@ -143,7 +143,7 @@ export const useInviteBonus = () => {
 }
 
 export const useCollectBounty = () => {
-  const [showDialog, , showErrorDialog] = useDialog()
+  const { showDialog, showErrorDialog } = useDialog()
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
   const goodWallet = useWallet()

@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import { isEqualWith, pickBy } from 'lodash'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
 import UserAvatar from '../common/view/UserAvatar'
@@ -29,7 +29,7 @@ const EditProfile = ({ screenProps, styles }) => {
   const [isPristine, setIsPristine] = useState(true)
   const [errors, setErrors] = useState({})
   const [lockSubmit, setLockSubmit] = useState(false)
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const { push, pop } = screenProps
 
   const onProfileSaved = useCallback(() => pop(), [pop])

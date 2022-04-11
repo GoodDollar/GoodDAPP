@@ -19,7 +19,7 @@ import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../
 import { withStyles } from '../../../lib/styles'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
-import { useDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/exceptions/utils'
 
@@ -41,7 +41,7 @@ const log = logger.child({ from: 'AuthTorus' })
 const AuthTorus = ({ screenProps, navigation, styles }) => {
   const { initWalletAndStorage } = useContext(GoodWalletContext)
   const { setLoggedInRouter } = useContext(GlobalTogglesContext)
-  const [, hideDialog, showErrorDialog] = useDialog()
+  const { hideDialog, showErrorDialog } = useDialog()
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()

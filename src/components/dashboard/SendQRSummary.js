@@ -7,7 +7,7 @@ import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 
@@ -35,7 +35,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const goodWallet = useWrappedGoodWallet()
   const userStorage = useUserStorage()
 
-  const [showDialog, , showErrorDialog] = useDialog()
+  const { showDialog, showErrorDialog } = useDialog()
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState

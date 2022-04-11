@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/userStorage/useWrappedStorage'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import logger from '../../lib/logger/js-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 import ImageCropper from '../common/form/ImageCropper'
@@ -16,7 +16,7 @@ const TITLE = 'Edit Avatar'
 
 const EditAvatar = ({ theme, screenProps }) => {
   const [avatarJustUploaded] = useUploadedAvatar()
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
 
   const user = useWrappedUserStorage()
   const profile = useProfile()

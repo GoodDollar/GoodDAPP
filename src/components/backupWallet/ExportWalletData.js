@@ -13,7 +13,7 @@ import BorderedBox from '../common/view/BorderedBox'
 import NavBar from '../appNavigation/NavBar'
 
 // hooks
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import { withStyles } from '../../lib/styles'
@@ -39,7 +39,7 @@ const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width=
 //TODO: handle 3rd party wallet
 const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
   const goodWallet = useWallet()
 
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])

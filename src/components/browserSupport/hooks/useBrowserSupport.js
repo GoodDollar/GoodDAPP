@@ -10,7 +10,7 @@ import UpdateIOS from '../components/UpdateIOS'
 
 // hooks
 import useMountedState from '../../../lib/hooks/useMountedState'
-import { useDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 
 // utils
 import logger from '../../../lib/logger/js-logger'
@@ -39,7 +39,7 @@ export default (options = {}) => {
     checkOutdated = true,
   } = options
 
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
   const mountedState = useMountedState()
   const [isSupported, setSupported] = useState(false)
   const UnsupportedPopup = unsupportedPopup || SwitchToChromeOrSafari

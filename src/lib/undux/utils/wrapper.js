@@ -15,7 +15,7 @@ const wrapperFunction = (origMethod, target, handler) => {
   }
 }
 
-function Handler(store, params) {
+function Handler(showDialog, params) {
   const { onDismiss } = params || {}
 
   this.errorHandler = error => {
@@ -27,19 +27,17 @@ function Handler(store, params) {
     } else if (error.err) {
       message = error.err
     }
-    store.set('currentScreen')({
-      dialogData: { visible: true, title: 'Error', message, onDismiss, type: 'error' },
-    })
+    showDialog({ visible: true, title: 'Error', message, onDismiss, type: 'error' })
   }
 }
 
-export const wrapFunction = (fn, store, params) => {
-  const handler = new Handler(store, params)
+export const wrapFunction = (fn, showDialog, params) => {
+  const handler = new Handler(showDialog, params)
   return wrapperFunction(fn, null, handler)
 }
 
-const wrapper = (target, store, params) => {
-  const handler = new Handler(store, params)
+const wrapper = (target, showDialog, params) => {
+  const handler = new Handler(showDialog, params)
   return new Proxy(target, {
     get: function(target, name, receiver) {
       const origMethod = target[name]

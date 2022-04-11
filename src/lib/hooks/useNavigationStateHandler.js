@@ -1,14 +1,12 @@
 import { useCallback, useContext } from 'react'
 import { noop } from 'lodash'
-import SimpleStore from '../undux/SimpleStore.js'
-import { useDialog } from '../undux/utils/dialog'
+import { useDialog } from '../dialog/useDialog'
 import { fireEventFromNavigation } from '../analytics/analytics'
 import { getRoutePath } from '../../components/appNavigation/stackNavigation'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
 
 export default (options = {}) => {
-  const [, hideDialog] = useDialog()
-  const store = SimpleStore.useStore()
+  const { hideDialog, isDialogShown } = useDialog()
 
   const { setMenu, setDialogBlur } = useContext(GlobalTogglesContext)
   const { resetFeed = true, resetMenu = true, resetPopups = true, fireEvent = true, onChange = noop } = options
@@ -25,8 +23,7 @@ export default (options = {}) => {
       }
 
       if (resetPopups) {
-        const { visible } = store.get('currentScreen').dialogData
-        visible && hideDialog()
+        isDialogShown && hideDialog()
       }
 
       if (resetFeed) {
@@ -41,6 +38,6 @@ export default (options = {}) => {
         fireEventFromNavigation(action)
       }
     },
-    [hideDialog, setMenu, setDialogBlur, resetFeed, resetMenu, resetPopups, fireEvent, onChange, store],
+    [hideDialog, setMenu, setDialogBlur, resetFeed, resetMenu, resetPopups, fireEvent, onChange, isDialogShown],
   )
 }

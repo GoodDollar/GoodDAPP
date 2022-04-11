@@ -10,8 +10,7 @@ import TopBar from '../common/view/TopBar'
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
 import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import logger from '../../lib/logger/js-logger'
@@ -33,8 +32,7 @@ const log = logger.child({ from: 'ReceiveByQR.web' })
 const ReceiveByQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
-  const store = SimpleStore.useStore()
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 
@@ -126,7 +124,7 @@ const ReceiveByQR = ({ screenProps }) => {
         showErrorDialog(uiMessage)
       }
     }
-  }, [navigateTo, withdrawParams, store, showErrorDialog, goodWallet, userStorage])
+  }, [navigateTo, withdrawParams, showErrorDialog, goodWallet, userStorage])
 
   useEffect(() => {
     runWithdraw()
@@ -166,7 +164,7 @@ const ReceiveByQR = ({ screenProps }) => {
               <QrReader
                 delay={qrDelay}
                 onError={handleError}
-                onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+                onScan={wrapFunction(handleScan, { onDismiss: onDismissDialog })}
                 style={{ width: '100%' }}
               />
             )}

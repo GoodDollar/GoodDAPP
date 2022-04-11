@@ -4,7 +4,7 @@ import { noop } from 'lodash'
 import { Wrapper } from '../common'
 import logger from '../../lib/logger/js-logger'
 import { parsePaymentLinkParams, readCode } from '../../lib/share'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
@@ -32,8 +32,7 @@ export type HandlePaymentLinkProps = {
 const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
   const { screenProps, navigation, styles } = props
   const { params } = navigation.state || {}
-  const [showDialog, hideDialog] = useDialog()
-  const [showErrorDialog] = useErrorDialog()
+  const { hideDialog, showDialog, showErrorDialog } = useDialog()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 

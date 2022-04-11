@@ -5,7 +5,7 @@ import AsyncStorage from '../utils/asyncStorage'
 import restart from '../utils/restart'
 
 // hooks
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage } from '../wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 
@@ -26,7 +26,7 @@ const { dashboardUrl } = Config
 
 export default (props = {}) => {
   const { navigation } = props
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const userStorage = useUserStorage()
   const { isMenuOn, setMenu, installPrompt, setAddWebApp } = useContext(GlobalTogglesContext)

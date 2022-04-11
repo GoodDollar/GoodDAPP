@@ -8,7 +8,7 @@ import { t } from '@lingui/macro'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
 
-import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 
 import logger from '../../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/exceptions/utils'
@@ -33,7 +33,7 @@ const ModalButton = ({ children, ...props }) => (
 )
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 

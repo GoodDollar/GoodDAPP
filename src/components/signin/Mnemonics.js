@@ -11,7 +11,7 @@ import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { withStyles } from '../../lib/styles'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import restart from '../../lib/utils/restart'
 import { userExists } from '../../lib/login/userExists'
@@ -36,9 +36,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [mnemonics, setMnemonics] = useState()
   const [isRecovering, setRecovering] = useState(false)
   const [isSubmitBlocked, setSubmitBlocked] = useState(true)
-  const [showDialog] = useDialog()
+  const { showDialog, hideDialog, showErrorDialog } = useDialog()
   const [errorMessage, setErrorMessage] = useState()
-  const [showErrorDialog, hideDialog] = useErrorDialog()
   const input = useRef()
 
   const handleChange = (mnemonics: string) => {

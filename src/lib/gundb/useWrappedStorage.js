@@ -1,10 +1,10 @@
-import SimpleStore from '../undux/SimpleStore'
+import { useDialog } from '../dialog/useDialog'
 import wrapper from '../undux/utils/wrapper'
 
 import userStorage from './UserStorage'
 
 export const useWrappedUserStorage = () => {
-  const store = SimpleStore.useStore()
+  const { showDialog } = useDialog()
 
-  return wrapper(userStorage, store)
+  return wrapper(userStorage, showDialog)
 }

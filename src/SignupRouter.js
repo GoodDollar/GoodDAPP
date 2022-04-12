@@ -11,7 +11,6 @@ import SigninInfo from './components/signin/SigninInfo'
 import Blurred from './components/common/view/Blurred'
 import Welcome from './components/auth/login/WelcomeScreen'
 import { AuthContextProvider } from './components/auth/context/AuthContext'
-import { UserContextProvider } from './lib/contexts/userContext'
 
 const log = logger.child({ from: 'SignupRouter' })
 
@@ -44,9 +43,7 @@ const Router = () => {
     <>
       <Blurred whenDialog>
         <AuthContextProvider>
-          <UserContextProvider>
-            <RouterWrapper onNavigationStateChange={navigationStateHandler} />
-          </UserContextProvider>
+          <RouterWrapper onNavigationStateChange={navigationStateHandler} />
         </AuthContextProvider>
       </Blurred>
     </>

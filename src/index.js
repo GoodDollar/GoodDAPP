@@ -8,16 +8,13 @@ import SmartBanner from './components/smartbanner/SmartBanner'
 
 import './index.css'
 import './components/common/view/Icon/index.css'
-import { UserContextProvider } from './lib/contexts/userContext'
 
 let ErrorBoundary = React.Fragment
 
 ReactDOM.render(
   <ErrorBoundary>
     <SmartBanner />
-    <UserContextProvider>
-      <AppHolder />
-    </UserContextProvider>
+    <AppHolder />
     <style type="text/css">{`
             @font-face {
               src: url(${fontMaterialIcons});

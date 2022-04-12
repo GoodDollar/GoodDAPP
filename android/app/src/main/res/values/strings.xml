@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">GoodDollar</string>
-    <string moduleConfig="true" name="CodePushDeploymentKey">u82UoKv-RLJwp6_D1v3o-uGg_imkSAbuJ7v2S</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">@string/REACT_APP_CODE_PUSH_KEY</string>
 </resources>

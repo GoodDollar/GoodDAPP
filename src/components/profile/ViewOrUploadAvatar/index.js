@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
 import { t } from '@lingui/macro'
 import { CustomButton, Section, Wrapper } from '../../common'
@@ -12,10 +12,10 @@ import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
 import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import useAvatar from '../../../lib/hooks/useAvatar'
-import ImageCropper from '../../common/form/ImageCropper'
 import useProfile from '../../../lib/userStorage/useProfile'
 import userStorage from '../../../lib/userStorage/UserStorage'
-import openCropper from './openCropper'
+import useCropperState from './useCropperState'
+import Cropper from './Cropper'
 
 export const pickerOptions = {
   width: 400,
@@ -31,43 +31,31 @@ export const pickerOptions = {
   hideBottomControls: true,
 }
 
-class AvatarStates {
-  static Picker = 'picker'
-
-  static Cropper = 'cropper'
-}
-
-const log = logger.child({ from: 'ViewOrUploadAvatar' })
-const TITLE = t`My Profile`
+const log = logger.child({ from: 'VieOrUploadAvatar' })
+const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
-  const { styles, screenProps, theme } = props
-  const [profile, refreshProfile] = useProfile(true)
+  const { styles, screenProps } = props
   const [showErrorDialog] = useErrorDialog()
+  const [cropperState, showCropper, hideCropper] = useCropperState()
+
+  const [profile, refreshProfile] = useProfile(true)
   const avatar = useAvatar(profile.avatar)
-  const [pickedAvatar, setPickedAvatar] = useState<string>()
-  const [currentComponentState, setComponentState] = useState(AvatarStates.Picker)
-  const [processing, setProcessing] = useState(false)
-  const croppedRef = useRef(avatar)
 
-  const setCropperState = useCallback(
-    (value = avatar) => {
-      setPickedAvatar(value)
-      setComponentState(AvatarStates.Cropper)
+  const setUserAvatar = useCallback(
+    async avatar => {
+      try {
+        await userStorage.setAvatar(avatar)
+        refreshProfile()
+      } catch (exception) {
+        const { message } = exception
+
+        log.error('saving image failed:', message, exception, { dialogShown: true })
+        showErrorDialog(t`We could not capture all your beauty. Please try again.`)
+      }
     },
-    [avatar, setPickedAvatar, setComponentState],
+    [showErrorDialog, refreshProfile],
   )
-
-  const handleCameraPress = useDebouncedOnPress(() => {
-    openCropper({
-      pickerOptions,
-      userStorage,
-      showErrorDialog,
-      setCropperState,
-      log,
-      avatar,
-    })
-  }, [screenProps, showErrorDialog, profile, avatar, setCropperState])
 
   const handleClosePress = useCallback(async () => {
     try {
@@ -79,55 +67,38 @@ const ViewOrUploadAvatar = props => {
     }
   }, [showErrorDialog, refreshProfile])
 
+  const onAvatarCropped = useCallback(
+    async avatar => {
+      hideCropper()
+      await setUserAvatar(avatar)
+    },
+    [hideCropper, setUserAvatar],
+  )
+
+  const handleCameraPress = useDebouncedOnPress(() => {
+    showCropper(avatar)
+  }, [showCropper, avatar])
+
   const handleAddAvatar = useCallback(
-    avatar => {
+    async avatar => {
       fireEvent(PROFILE_IMAGE)
 
       if (Platform.OS === 'web') {
-        // on web - set avatar cropper component
-        setCropperState(avatar)
+        // on web - show avatar cropper
+        // with 'alreadyUploaded' flag
+        showCropper(avatar, true)
         return
       }
 
       // for native just set new avatar.
       // no need to crop it additionally
       // as the picker component does this
-      userStorage
-        .setAvatar(avatar)
-        .then(() => {
-          refreshProfile()
-        })
-        .catch(e => {
-          log.error('save image failed:', e.message, e, { dialogShown: true })
-          showErrorDialog(t`Could not save image. Please try again.`)
-        })
+      await setUserAvatar(avatar)
     },
-    [screenProps, refreshProfile],
+    [showCropper, setUserAvatar],
   )
 
   const goToProfile = useCallback(() => screenProps.pop(), [screenProps])
-
-  const updateAvatar = useCallback(async () => {
-    setProcessing(true)
-
-    try {
-      await userStorage.setAvatar(croppedRef.current)
-      await refreshProfile()
-    } catch (exception) {
-      const { message } = exception
-
-      log.error('saving image failed:', message, exception, { dialogShown: true })
-      showErrorDialog(t`We could not capture all your beauty. Please try again.`)
-      return
-    } finally {
-      setProcessing(false)
-      screenProps.pop()
-    }
-  }, [screenProps, setProcessing, showErrorDialog])
-
-  const onCropped = useCallback(cropped => {
-    croppedRef.current = cropped
-  }, [])
 
   const HasAvatar = () => (
     <>
@@ -140,6 +111,7 @@ const ViewOrUploadAvatar = props => {
       </Section.Row>
     </>
   )
+
   const NoAvatar = () => (
     <>
       <Section.Row style={[styles.topButtons, styles.singleTopButton]}>
@@ -163,39 +135,29 @@ const ViewOrUploadAvatar = props => {
     </>
   )
 
-  const PickerComponent = () => (
-    <>
-      <Section.Stack style={{ alignSelf: 'center' }}>{profile.avatar ? <HasAvatar /> : <NoAvatar />}</Section.Stack>
-      <Section.Stack grow style={styles.buttonsRow}>
-        <CustomButton style={styles.doneButton} onPress={goToProfile}>
-          {t`Done`}
-        </CustomButton>
-      </Section.Stack>
-    </>
-  )
-
-  const CropperComponent = useMemo(
-    () => (
-      <>
-        <ImageCropper image={pickedAvatar} onChange={onCropped} />
-        <Section.Stack justifyContent="flex-end" grow>
-          <CustomButton disabled={processing} loading={processing} onPress={updateAvatar} color={theme.colors.primary}>
-            {t`Save`}
-          </CustomButton>
-        </Section.Stack>
-      </>
-    ),
-    [pickedAvatar, processing, processing, onCropped, updateAvatar],
-  )
-
-  const content = {
-    [AvatarStates.Picker]: <PickerComponent />,
-    [AvatarStates.Cropper]: CropperComponent,
-  }
-
   return (
     <Wrapper>
-      <Section style={styles.section}>{content[currentComponentState]}</Section>
+      <Section style={styles.section}>
+        <Section.Stack style={{ alignSelf: 'center' }}>
+          {cropperState.show ? (
+            <Cropper
+              pickerOptions={pickerOptions}
+              justUploaded={cropperState.justUploaded}
+              avatar={cropperState.avatar}
+              onCropped={onAvatarCropped}
+            />
+          ) : profile.avatar ? (
+            <HasAvatar />
+          ) : (
+            <NoAvatar />
+          )}
+        </Section.Stack>
+        <Section.Stack grow style={styles.buttonsRow}>
+          <CustomButton style={styles.doneButton} onPress={goToProfile}>
+            Done
+          </CustomButton>
+        </Section.Stack>
+      </Section>
     </Wrapper>
   )
 }

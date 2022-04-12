@@ -12,6 +12,7 @@ import Config from '../config/config'
 import SimpleStore from '../lib/undux/SimpleStore'
 import LanguageProvider from '../language/i18n'
 import useUserContext from '../lib/hooks/useUserContext'
+import { UserContextProvider } from '../lib/contexts/userContext'
 import AppHot from './AppHot'
 
 const AppHolder = () => {
@@ -72,7 +73,9 @@ const AppHolder = () => {
 }
 
 export default () => (
-  <SimpleStore.Container>
-    <AppHolder />
-  </SimpleStore.Container>
+  <UserContextProvider>
+    <SimpleStore.Container>
+      <AppHolder />
+    </SimpleStore.Container>
+  </UserContextProvider>
 )

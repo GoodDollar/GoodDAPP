@@ -1,1 +1,1 @@
-export default ({ screenProps }) => screenProps.push('EditAvatar')
+export default ({ setCropperState }) => setCropperState()

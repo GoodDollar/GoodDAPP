@@ -198,6 +198,7 @@
         "@web3-onboard/react": "^2.1.0",
         "@web3-onboard/walletconnect": "^2.0.1",
         "@web3-onboard/walletlink": "^2.0.0",
+        "react-share": "^4.4.0",
         "react-text-mask": "^5.4.3",
         "text-mask-addons": "^3.8.0"
     }

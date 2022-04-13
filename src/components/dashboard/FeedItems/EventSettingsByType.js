@@ -129,6 +129,11 @@ const getEventSettingsByType = (theme, type) => {
       withoutAmount: true,
       withoutAvatar: true,
     },
+    news: {
+      color: theme.colors.primary,
+      withoutAmount: true,
+      withoutAvatar: true,
+    },
     empty: {
       color: theme.colors.lightGray,
     },

@@ -14,8 +14,11 @@ import type { ThreadDB } from '../textile/ThreadDB'
 import type { ProfileDB } from '../userStorage/UserProfileStorage'
 import type { DB } from '../userStorage/UserStorage'
 import type { Profile } from '../userStorage/UserStorageClass'
+import type { FeedCategory } from '../userStorage/FeedCategory'
+import { FeedCategories } from '../userStorage/FeedCategory'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { retry } from '../utils/async'
+import { NewsSource, TransactionsSource } from './sources'
 
 const log = logger.child({ from: 'RealmDB' })
 const _retry = fn => retry(fn, 1, 2000)
@@ -34,6 +37,8 @@ class RealmDB implements DB, ProfileDB {
   isReady: boolean = false
 
   dbEvents = new EventEmitter()
+
+  sources = [NewsSource.create(this, log), TransactionsSource.create(this, log)]
 
   constructor() {
     this.ready = new Promise((resolve, reject) => {
@@ -127,7 +132,7 @@ class RealmDB implements DB, ProfileDB {
     }
   }
 
-  async _realmQuery(callback) {
+  async wrapQuery(callback) {
     await this._pingRealmDB()
 
     try {
@@ -176,40 +181,8 @@ class RealmDB implements DB, ProfileDB {
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
-    const lastSync = (await AsyncStorage.getItem('GD_lastRealmSync')) || 0
-    const newItems = await this._realmQuery(() =>
-      this.encryptedFeed.find({
-        user_id: this.user.id,
-        date: { $gt: new Date(lastSync) },
-      }),
-    )
-
-    const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
-
-    log.debug('_syncFromRemote', { newItems, filtered, lastSync })
-
-    if (filtered.length) {
-      let decrypted = (await Promise.all(filtered.map(i => this._decrypt(i)))).filter(_ => _)
-      log.debug('_syncFromRemote', { decrypted })
-
-      await this.db.Feed.save(...decrypted)
-    }
-    AsyncStorage.setItem('GD_lastRealmSync', Date.now())
-
-    //sync items that we failed to save
-    const failedSync = await this.db.Feed.find({ sync: false }).toArray()
-
-    if (failedSync.length) {
-      log.debug('_syncFromRemote: saving failed items', failedSync.length)
-
-      failedSync.forEach(async item => {
-        await this._encrypt(item)
-
-        this.db.Feed.table.update({ _id: item.id }, { $set: { sync: true } })
-      })
-    }
-
-    log.info('_syncfromremote done')
+    // eslint-disable-next-line require-await
+    await Promise.all(this.sources.map(async source => source.syncFromRemote()))
   }
 
   /**
@@ -283,7 +256,7 @@ class RealmDB implements DB, ProfileDB {
 
     feedItem._id = feedItem.id
     await this.db.Feed.save(feedItem)
-    this._encrypt(feedItem).catch(e => {
+    this.encrypt(feedItem).catch(e => {
       log.error('failed saving feedItem to remote', e.message, e)
 
       this.db.Feed.table.update({ _id: feedItem.id }, { $set: { sync: false } })
@@ -323,7 +296,7 @@ class RealmDB implements DB, ProfileDB {
     const _id = `${this.user.id}_settings`
 
     log.debug('encryptSettings:', { settings, encrypted, _id })
-    return this._realmQuery(() =>
+    return this.wrapQuery(() =>
       this.encryptedFeed.updateOne(
         { _id, user_id: this.user.id },
         { _id, user_id: this.user.id, encrypted },
@@ -340,7 +313,7 @@ class RealmDB implements DB, ProfileDB {
     await this._pingRealmDB()
 
     const _id = `${this.user.id}_settings`
-    const encryptedSettings = await this._realmQuery(() => this.encryptedFeed.findOne({ _id }))
+    const encryptedSettings = await this.wrapQuery(() => this.encryptedFeed.findOne({ _id }))
     let settings = {}
 
     const { encrypted } = encryptedSettings || {}
@@ -360,7 +333,7 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} feedItem
    * @returns
    */
-  async _encrypt(feedItem): Promise<string> {
+  async encrypt(feedItem): Promise<string> {
     try {
       await this._pingRealmDB()
 
@@ -372,7 +345,7 @@ class RealmDB implements DB, ProfileDB {
       // eslint-disable-next-line camelcase
       const _id = `${txHash}_${user_id}`
 
-      const res = await this._realmQuery(() =>
+      const res = await this.wrapQuery(() =>
         this.encryptedFeed.updateOne(
           { _id, user_id },
           { _id, txHash, user_id, encrypted, date: new Date(feedItem.date || Date.now()) },
@@ -393,7 +366,7 @@ class RealmDB implements DB, ProfileDB {
    * @param {*} item
    * @returns
    */
-  async _decrypt(item): Promise<string> {
+  async decrypt(item): Promise<string> {
     try {
       await this._pingRealmDB()
 
@@ -412,18 +385,30 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults, offset): Promise<any> {
+  async getFeedPage(numResults, offset, category: FeedCategory = FeedCategories.Alls): Promise<any> {
     try {
-      // use dexie directly because mongoify only sorts results and not all documents
+      const hiddenStates = ['deleted', 'cancelled', 'canceled']
+
       const res = await this.db.Feed.table
         .orderBy('date')
         .reverse()
         .offset(offset)
-        .filter(
-          i =>
-            ['deleted', 'cancelled', 'canceled'].includes(i.status) === false &&
-            ['deleted', 'cancelled', 'canceled'].includes(i.otplStatus) === false,
-        )
+        .filter(({ status, otplStatus, type }) => {
+          const isNews = 'news' === type
+
+          if ([status, otplStatus].some(state => hiddenStates.includes(state))) {
+            return false
+          }
+
+          switch (category) {
+            case FeedCategories.News:
+              return isNews
+            case FeedCategories.Transactions:
+              return !isNews
+            default:
+              return true
+          }
+        })
         .limit(numResults)
         .toArray()
 
@@ -442,7 +427,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async setProfile(profile: Profile): Promise<any> {
-    return this._realmQuery(() =>
+    return this.wrapQuery(() =>
       this.profiles.updateOne(
         { user_id: this.user.id },
         { $set: { user_id: this.user.id, ...profile } },
@@ -457,7 +442,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfile(): Promise<Profile> {
-    return this._realmQuery(() => this.profiles.findOne({ user_id: this.user.id }))
+    return this.wrapQuery(() => this.profiles.findOne({ user_id: this.user.id }))
   }
 
   /**
@@ -467,7 +452,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfileBy(query: Object): Promise<Profile> {
-    return this._realmQuery(() => this.profiles.findOne(query))
+    return this.wrapQuery(() => this.profiles.findOne(query))
   }
 
   /**
@@ -477,7 +462,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async getProfilesBy(query: Object): Promise<Array<Profile>> {
-    return this._realmQuery(() => this.profiles.find(query))
+    return this.wrapQuery(() => this.profiles.find(query))
   }
 
   /**
@@ -487,7 +472,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async removeField(field: string): Promise<any> {
-    return this._realmQuery(() => this.profiles.updateOne({ user_id: this.user.id }, { $unset: { [field]: true } }))
+    return this.wrapQuery(() => this.profiles.updateOne({ user_id: this.user.id }, { $unset: { [field]: true } }))
   }
 
   /**
@@ -496,7 +481,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async deleteAccount(): Promise<any> {
-    const clearFeedPromise = this._realmQuery(() => this.encryptedFeed.deleteMany({ user_id: this.user.id }))
+    const clearFeedPromise = this.wrapQuery(() => this.encryptedFeed.deleteMany({ user_id: this.user.id }))
 
     return Promise.all([this.db.delete(), clearFeedPromise])
   }
@@ -507,7 +492,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async deleteProfile(): Promise<boolean> {
-    return this._realmQuery(() => this.profiles.deleteOne({ user_id: this.user.id }))
+    return this.wrapQuery(() => this.profiles.deleteOne({ user_id: this.user.id }))
   }
 
   /**
@@ -518,7 +503,7 @@ class RealmDB implements DB, ProfileDB {
    */
   // eslint-disable-next-line require-await
   async addToOutbox(recipientPublicKey: string, txHash: string, encrypted: string): Promise<any> {
-    return this._realmQuery(() =>
+    return this.wrapQuery(() =>
       this.inboxes.insertOne({ user_id: this.user.id, recipientPublicKey, txHash, encrypted }),
     )
   }
@@ -529,8 +514,8 @@ class RealmDB implements DB, ProfileDB {
    * @returns {Promise<TransactionDetails>}
    */
   async getFromOutbox(recipientPublicKey: string, txHash: string): Promise<TransactionDetails> {
-    const data = await this._realmQuery(() => this.inboxes.findOne({ txHash, recipientPublicKey }))
-    const decrypted = await this._decrypt(data)
+    const data = await this.wrapQuery(() => this.inboxes.findOne({ txHash, recipientPublicKey }))
+    const decrypted = await this.decrypt(data)
 
     return decrypted
   }

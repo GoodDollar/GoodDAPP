@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
-import { Platform, View } from 'react-native'
+import { Image, Linking, Platform, Pressable, View } from 'react-native'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -11,47 +12,111 @@ import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import { Icon, Section, Text } from '../../common'
+import useOnPress from '../../../lib/hooks/useOnPress'
+import logger from '../../../lib/logger/js-logger'
+import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
+import { SvgImage } from './SvgImage'
 
-const InviteItem = ({ item, theme }) => {
-  return (
-    <Section.Row style={{ flex: 1, paddingVertical: theme.sizes.default * 1.5 }}>
-      <Section.Stack>
-        <Icon color={theme.colors.white} name="invite" size={30} />
-      </Section.Stack>
-      <Section.Stack style={{ marginLeft: getDesignRelativeWidth(theme.sizes.default) }}>
-        <Text
-          color={theme.colors.white}
-          textAlign={'left'}
-          fontSize={18}
-          lineHeight={18}
-          fontWeight="bold"
-          letterSpacing={0.09}
-        >
-          {get(item, 'data.subtitle', '')}
-        </Text>
-        <Text
-          color={theme.colors.white}
-          textAlign={'left'}
-          fontSize={13}
-          lineHeight={18}
-          fontWeight="regular"
-          letterSpacing={-0.07}
-        >
-          {get(item, 'data.readMore', '')}
-        </Text>
-      </Section.Stack>
-      <Section.Stack
-        style={{ flex: 1, alignItems: 'flex-end', marginRight: getDesignRelativeWidth(theme.sizes.defaultDouble) }}
+const log = logger.child({ from: 'ListEventItem' })
+
+const InviteItem = ({ item, theme }) => (
+  <Section.Row style={{ flex: 1, paddingVertical: theme.sizes.default * 1.5 }}>
+    <Section.Stack>
+      <Icon color={theme.colors.white} name="invite" size={30} />
+    </Section.Stack>
+    <Section.Stack style={{ marginLeft: getDesignRelativeWidth(theme.sizes.default) }}>
+      <Text
+        color={theme.colors.white}
+        textAlign="left"
+        fontSize={18}
+        lineHeight={18}
+        fontWeight="bold"
+        letterSpacing={0.09}
       >
-        <Icon color={theme.colors.white} name="arrow-back" size={20} style={{ transform: [{ rotateY: '180deg' }] }} />
-      </Section.Stack>
-    </Section.Row>
+        {get(item, 'data.subtitle', '')}
+      </Text>
+      <Text
+        color={theme.colors.white}
+        textAlign="left"
+        fontSize={13}
+        lineHeight={18}
+        fontWeight="regular"
+        letterSpacing={-0.07}
+      >
+        {get(item, 'data.readMore', '')}
+      </Text>
+    </Section.Stack>
+    <Section.Stack
+      style={{ flex: 1, alignItems: 'flex-end', marginRight: getDesignRelativeWidth(theme.sizes.defaultDouble) }}
+    >
+      <Icon color={theme.colors.white} name="arrow-back" size={20} style={{ transform: [{ rotateY: '180deg' }] }} />
+    </Section.Stack>
+  </Section.Row>
+)
+
+const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
+  const {
+    data: { sponsoredLink, sponsoredLogo },
+  } = item
+  const onSponsorPress = useOnPress(() => {
+    fireEvent(GOTO_SPONSOR, { link: sponsoredLink })
+    Linking.openURL(sponsoredLink).catch(e => log.error('Open news feed error', e))
+  }, [sponsoredLink])
+  return (
+    <View style={styles.rowContent}>
+      <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig />
+
+      <View style={styles.newsContent}>
+        {item.data.picture && <Image source={{ uri: item.data.picture }} style={styles.newsPicture} />}
+
+        <View style={styles.innerRow}>
+          <View grow style={styles.mainContents}>
+            <View style={{ ...styles.transferInfo, height: undefined }} alignItems="flex-start">
+              <View style={[styles.mainInfo, item.type === 'claiming' && styles.claimingCardFeedText]}>
+                <EventCounterParty
+                  style={styles.feedItem}
+                  feedItem={item}
+                  subtitle
+                  isSmallDevice={isMobile && getScreenWidth() < 353}
+                  numberOfLines={2}
+                />
+
+                <Text
+                  lineHeight={20}
+                  numberOfLines={3}
+                  color="gray80Percent"
+                  fontSize={12}
+                  textTransform="capitalize"
+                  style={styles.newsMessage}
+                >
+                  {get(item, 'data.message')}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.dateContainer}>
+              <Text fontSize={10} color="gray80Percent" lineHeight={17}>
+                {getFormattedDateTime(item.date)}
+              </Text>
+
+              {!!sponsoredLink && !!sponsoredLogo && (
+                <Pressable style={styles.sponsorContainer} onPress={onSponsorPress}>
+                  <Text fontSize={10} color="gray80Percent" lineHeight={17} textAlign="left">
+                    {t`Sponsored by`}{' '}
+                  </Text>
+                  <SvgImage src={sponsoredLogo} height="28" width="45" />
+                </Pressable>
+              )}
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
   )
 }
 
@@ -80,6 +145,9 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
         </View>
       </View>
     )
+  }
+  if (itemType === 'news') {
+    return <NewsItem item={feed} eventSettings={eventSettings} styles={styles} />
   }
   return (
     <View style={styles.rowContent}>
@@ -114,11 +182,11 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               {isErrorCard ? (
                 <>
                   <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
-                    {`We're sorry.`}
+                    {t`We're sorry.`}
                   </Text>
                   <ReadMoreText
-                    text="This transaction failed"
-                    buttonText="Read why..."
+                    text={t`This transaction failed`}
+                    buttonText={t`Read why...`}
                     style={styles.failTransaction}
                     color="primary"
                   />
@@ -284,6 +352,14 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'space-between',
     paddingBottom: 5,
   },
+  dateContainer: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    flexShrink: 1,
+    justifyContent: 'space-between',
+    paddingBottom: 5,
+  },
   actionSymbol: {
     marginLeft: 'auto',
   },
@@ -339,6 +415,26 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainText: {
     paddingTop: 5,
+  },
+  newsPicture: {
+    width: '100%',
+    aspectRatio: 2.55,
+    resizeMode: 'contain',
+  },
+  newsContent: {
+    width: '100%',
+    paddingLeft: 2,
+  },
+  newsMessage: {
+    textAlign: 'left',
+    paddingTop: 9,
+    marginBottom: 15,
+  },
+  sponsorContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 24,
   },
 })
 

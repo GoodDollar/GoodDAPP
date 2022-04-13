@@ -26,8 +26,8 @@ export default class NewsSource extends FeedSource {
         picture: ceramicPost.picture,
         readMore: true,
         link: ceramicPost.link,
-        sponsoredLink: ceramicPost.sponsored_link,
-        sponsoredLogo: ceramicPost.sponsored_logo,
+        sponsoredLink: ceramicPost.link_sponsored,
+        sponsoredLogo: ceramicPost.logo_sponsored,
       },
     }
   }

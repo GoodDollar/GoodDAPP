@@ -70,7 +70,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
   }, [sponsoredLink])
   return (
     <View style={styles.rowContent}>
-      <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
+      <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig />
 
       <View style={styles.newsContent}>
         {item.data.picture && <Image source={{ uri: item.data.picture }} style={styles.newsPicture} />}
@@ -109,7 +109,18 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
                   <Text fontSize={10} color="gray80Percent" lineHeight={17} textAlign="left">
                     {t`Sponsored by`}{' '}
                   </Text>
-                  <SvgImage src={sponsoredLogo} height="15" width="47" />
+                  {/** temporal check */}
+                  <SvgImage
+                    src={
+                      !sponsoredLogo.includes('.svg')
+                        ? sponsoredLogo
+                        : `<svg width="40" height="10">
+  <rect width="300" height="100" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(0,0,0)" />
+</svg>`
+                    }
+                    height="15"
+                    width="47"
+                  />
                 </Pressable>
               )}
             </View>

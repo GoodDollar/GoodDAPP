@@ -31,7 +31,7 @@ export const pickerOptions = {
   hideBottomControls: true,
 }
 
-const log = logger.child({ from: 'VieOrUploadAvatar' })
+const log = logger.child({ from: 'ViewOrUploadAvatar' })
 const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
@@ -69,8 +69,8 @@ const ViewOrUploadAvatar = props => {
 
   const onAvatarCropped = useCallback(
     async avatar => {
-      hideCropper()
       await setUserAvatar(avatar)
+      hideCropper()
     },
     [hideCropper, setUserAvatar],
   )
@@ -138,25 +138,25 @@ const ViewOrUploadAvatar = props => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <Section.Stack style={{ alignSelf: 'center' }}>
-          {cropperState.show ? (
-            <Cropper
-              pickerOptions={pickerOptions}
-              justUploaded={cropperState.justUploaded}
-              avatar={cropperState.avatar}
-              onCropped={onAvatarCropped}
-            />
-          ) : profile.avatar ? (
-            <HasAvatar />
-          ) : (
-            <NoAvatar />
-          )}
-        </Section.Stack>
-        <Section.Stack grow style={styles.buttonsRow}>
-          <CustomButton style={styles.doneButton} onPress={goToProfile}>
-            Done
-          </CustomButton>
-        </Section.Stack>
+        {cropperState.show ? (
+          <Cropper
+            pickerOptions={pickerOptions}
+            justUploaded={cropperState.justUploaded}
+            avatar={cropperState.avatar}
+            onCropped={onAvatarCropped}
+          />
+        ) : (
+          <>
+            <Section.Stack style={{ alignSelf: 'center' }}>
+              {profile.avatar ? <HasAvatar /> : <NoAvatar />}
+            </Section.Stack>
+            <Section.Stack grow style={styles.buttonsRow}>
+              <CustomButton style={styles.doneButton} onPress={goToProfile}>
+                {t`Done`}
+              </CustomButton>
+            </Section.Stack>
+          </>
+        )}
       </Section>
     </Wrapper>
   )

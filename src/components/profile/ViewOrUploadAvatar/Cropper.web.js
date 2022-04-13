@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { t } from '@lingui/macro'
-import { CustomButton, Section, Wrapper } from '../../common'
+import { CustomButton, Section } from '../../common'
 import ImageCropper from '../../common/form/ImageCropper'
 import { withStyles } from '../../../lib/styles'
 
@@ -39,23 +39,21 @@ const Cropper = ({ styles, avatar, justUploaded = false, onCropped }) => {
   }, [avatar, markAsDirty])
 
   return (
-    <Wrapper>
-      <Section style={styles.section}>
-        <Section.Row>
-          <ImageCropper image={avatar} onChange={onCrop} />
-        </Section.Row>
-        <Section.Stack justifyContent="flex-end" grow>
-          <CustomButton
-            style={styles.button}
-            disabled={!isDirty || processing}
-            loading={processing}
-            onPress={updateAvatar}
-          >
-            {t`Save`}
-          </CustomButton>
-        </Section.Stack>
-      </Section>
-    </Wrapper>
+    <>
+      <Section.Row>
+        <ImageCropper image={avatar} onChange={onCrop} />
+      </Section.Row>
+      <Section.Stack justifyContent="flex-end" grow>
+        <CustomButton
+          style={styles.button}
+          disabled={!isDirty || processing}
+          loading={processing}
+          onPress={updateAvatar}
+        >
+          {t`Save`}
+        </CustomButton>
+      </Section.Stack>
+    </>
   )
 }
 

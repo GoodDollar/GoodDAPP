@@ -109,18 +109,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
                   <Text fontSize={10} color="gray80Percent" lineHeight={17} textAlign="left">
                     {t`Sponsored by`}{' '}
                   </Text>
-                  {/** temporal check */}
-                  <SvgImage
-                    src={
-                      !sponsoredLogo.includes('.svg')
-                        ? sponsoredLogo
-                        : `<svg width="40" height="10">
-  <rect width="300" height="100" style="fill:rgb(0,0,255);stroke-width:1;stroke:rgb(0,0,0)" />
-</svg>`
-                    }
-                    height="15"
-                    width="47"
-                  />
+                  <SvgImage src={sponsoredLogo} height="28" width="45" />
                 </Pressable>
               )}
             </View>

@@ -93,7 +93,7 @@ class CeramicFeed {
         // read history of specific document, aggredate by the event count
         const { added = 0, removed = 0, updated = 0 } = countBy(records, 'action')
 
-        log.debug('picking status for', { aggregated, item, records, added, removed, updated })
+        log.debug('picking status for', { item, records, added, removed, updated })
 
         switch (Math.sign(added - removed)) {
           case -1:

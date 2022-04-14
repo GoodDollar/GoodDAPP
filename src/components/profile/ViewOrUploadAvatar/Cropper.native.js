@@ -7,16 +7,17 @@ import useRealtimeProps from '../../../lib/hooks/useRealtimeProps'
 import { assembleDataUrl } from '../../../lib/utils/base64'
 import { withTemporaryFile } from '../../../lib/utils/fs'
 
-// eslint-disable-next-line require-await
-const crop = async (path, options) => ImagePicker.openCropper({ ...options, path })
+const Cropper = ({ pickerOptions, avatar, onCropped, onCancelled }) => {
+  const openCropper = useCallback(
+    // eslint-disable-next-line require-await
+    async path => ImagePicker.openCropper({ ...pickerOptions, path }),
+    [pickerOptions],
+  )
 
-const Cropper = ({ pickerOptions, avatar, onCropped }) => {
-  // eslint-disable-next-line require-await
-  const _crop = useCallback(async path => crop(path, pickerOptions), [pickerOptions])
-  const accessors = useRealtimeProps([avatar, _crop, onCropped])
+  const accessors = useRealtimeProps([avatar, openCropper, onCropped, onCancelled])
 
   useEffect(() => {
-    const [getAvatar, openCropper, runCallback] = accessors
+    const [getAvatar, openCropper, onCropped, onCancelled] = accessors
     const avatar = getAvatar()
 
     // iOS supports reading from a base64 string, android does not.
@@ -26,8 +27,8 @@ const Cropper = ({ pickerOptions, avatar, onCropped }) => {
       // eslint-disable-next-line require-await
       default: async () => openCropper(avatar),
     })()
-      .then(({ mime, data }) => runCallback(assembleDataUrl(data, mime)))
-      .catch(() => runCallback())
+      .then(({ mime, data }) => onCropped(assembleDataUrl(data, mime)))
+      .catch(() => onCancelled())
   }, [accessors])
 
   return null

@@ -5,7 +5,7 @@ import { CustomButton, Section } from '../../common'
 import ImageCropper from '../../common/form/ImageCropper'
 import { withStyles } from '../../../lib/styles'
 
-const Cropper = ({ styles, avatar, justUploaded = false, onCropped }) => {
+const Cropper = ({ styles, avatar, justUploaded = false, onCropped, onCancelled }) => {
   // if passed avatar mark as dirty so we save it by default
   const [isDirty, markAsDirty] = useState(justUploaded)
   const [processing, setProcessing] = useState(false)
@@ -51,6 +51,9 @@ const Cropper = ({ styles, avatar, justUploaded = false, onCropped }) => {
           onPress={updateAvatar}
         >
           {t`Save`}
+        </CustomButton>
+        <CustomButton disabled={processing} onPress={onCancelled}>
+          {t`Cancel`}
         </CustomButton>
       </Section.Stack>
     </>

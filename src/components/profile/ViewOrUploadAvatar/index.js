@@ -69,7 +69,7 @@ const ViewOrUploadAvatar = props => {
 
   const onAvatarCropped = useCallback(
     async avatar => {
-      avatar && (await setUserAvatar(avatar))
+      await setUserAvatar(avatar)
       hideCropper()
     },
     [hideCropper, setUserAvatar],
@@ -144,6 +144,7 @@ const ViewOrUploadAvatar = props => {
             justUploaded={cropperState.justUploaded}
             avatar={cropperState.avatar}
             onCropped={onAvatarCropped}
+            onCancelled={hideCropper}
           />
         ) : (
           <>

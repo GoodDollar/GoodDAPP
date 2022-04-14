@@ -265,14 +265,18 @@ for all with GoodDollar!`)}
                     shareProps={{
                         title: 'Share with friends',
                         show: true,
-                        linkedin: true,
-                        twitter: true,
-                        facebook: true,
-                        postData: {
-                            title: 'Linkedin Share',
+                        linkedin: {
                             url: 'https://gooddollar.org',
-                            quote: 'I just staked GoodDollars at goodswap.xyz to make the world better',
-                            hashtag: '#investForGood'
+                            summary: 'This is it https://gooddollar.org'
+                        },
+                        twitter: {
+                            url: 'https://gooddollar.org',
+                            title: 'I just bought GoodDollars at https://goodswap.xyz to make the world better',
+                            hashtags: ['InvestForGood']
+                        },
+                        facebook: {
+                            url: 'https://gooddollar.org',
+                            hashtag: '#InvestForGood'
                         }
                     }}
                 />

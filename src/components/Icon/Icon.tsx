@@ -1,15 +1,29 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-interface IconProps {
-    children?: React.ReactNode
+export interface IconProps {
+    children: React.ReactNode
     viewBox: string
+    [p: string]: any
 }
 
-const Icon = ({ children, viewBox, ...rest }: IconProps): React.ReactElement => {
+const SvgSC = styled.svg<{ size: string; width: string; height: string }>`
+    height: ${({ size, height }) => height || size};
+    width: ${({ size, width }) => width || size};
+`
+
+export const Icon = ({ children, viewBox, size, width, height, ...rest }: IconProps): React.ReactElement => {
     return (
-        <svg viewBox={viewBox} preserveAspectRatio="xMidYMid slice" {...rest}>
+        <SvgSC
+            viewBox={viewBox}
+            size={size}
+            width={width}
+            height={height}
+            preserveAspectRatio="xMidYMid slice"
+            {...rest}
+        >
             {children}
-        </svg>
+        </SvgSC>
     )
 }
 

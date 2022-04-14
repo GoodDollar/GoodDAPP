@@ -21,6 +21,9 @@ import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
+import ShareTransaction from 'components/ShareTransaction'
+import Share from 'components/Share'
+
 export interface StakeDepositModalProps {
     stake: Stake
     onDeposit?: () => any
@@ -143,6 +146,44 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
         } finally {
             dispatch({ type: 'TOGGLE_LOADING' })
         }
+    }
+
+    const getPostData = () => {
+        if (activeTableName === 'GoodDAO Staking') {
+            return {
+                linkedin: {
+                    url: 'https://gooddollar.org',
+                    summary: 'I just staked GoodDollars at https://goodswap.xyz to make the world better '
+                },
+                twitter: {
+                    url: 'https://gooddollar.org',
+                    title: 'I just staked GoodDollars at https://goodswap.xyz to make the world better ',
+                    hashtags: ['InvestForGood']
+                },
+                facebook: {
+                    url: 'https://gooddollar.org',
+                    hashtag: '#InvestForGood'
+                }
+            }
+        }
+        if (activeTableName === 'GoodStakes') {
+            return {
+                linkedin: {
+                    url: 'https://gooddollar.org',
+                    summary: ''
+                },
+                twitter: {
+                    url: 'https://gooddollar.org',
+                    title: '',
+                    hashtags: ['InvestForGood']
+                },
+                facebook: {
+                    url: 'https://gooddollar.org',
+                    hashtag: '#InvestForGood'
+                }
+            }
+        }
+        throw Error(`Unknown activeTableName - ${activeTableName}`)
     }
 
     const reduxDispatch = useDispatch()
@@ -325,11 +366,14 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         {state.loading ? (
                             <Loader stroke="#173046" size="32px" />
                         ) : (
-                            <Link to="/portfolio">
-                                <ButtonDefault className="px-6 uppercase" width="auto">
-                                    {i18n._(t`Go to Portfolio`)}
-                                </ButtonDefault>
-                            </Link>
+                            <>
+                                <Link to="/portfolio">
+                                    <ButtonDefault className="px-6 uppercase" width="auto">
+                                        {i18n._(t`Go to Portfolio`)}
+                                    </ButtonDefault>
+                                </Link>
+                                <Share title="Share with friends" {...getPostData()} />
+                            </>
                         )}
                     </div>
                 </>

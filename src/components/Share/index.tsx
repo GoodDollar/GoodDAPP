@@ -14,12 +14,28 @@ interface SocialProps {
 }
 
 export interface ShareProps {
-    show: boolean
+    show?: boolean
     title?: string
-    twitter?: boolean
-    facebook?: boolean
-    linkedin?: boolean
-    postData: SocialProps
+    facebook?: {
+        url: string
+        quote?: string
+        hashtag?: string
+        [prop: string]: any
+    }
+    twitter?: {
+        url: string
+        title?: string
+        via?: string
+        hashtags?: string[]
+        [prop: string]: any
+    }
+    linkedin?: {
+        url: string
+        title?: string
+        summary?: string
+        source?: string
+        [prop: string]: any
+    }
 }
 
 export const ShareSC = styled.div`
@@ -28,35 +44,43 @@ export const ShareSC = styled.div`
         font-size: 16px;
         line-height: 24px;
     }
+    .shareButton {
+        svg {
+            transition: 0.3s ease opacity;
+        }
+        &:active svg,
+        &:hover:not(:active) svg {
+            opacity: 0.75;
+        }
+    }
 `
 
 export const Share = ({ show = true, title, ...rest }: ShareProps): React.ReactElement | null => {
     if (!show) return null
 
-    const { twitter, facebook, linkedin, postData } = rest
+    const { twitter, facebook, linkedin } = rest
 
     return (
         <ShareSC className="p-3.5">
             {title && (
                 <Row align="center" justify="center">
                     <Title className="title mb-2 font-bold">{title}</Title>
-                    {/* <span className=""></span> */}
                 </Row>
             )}
             <Row align="center" justify="center" gap="24px">
                 {linkedin && (
-                    <LinkedinShareButton {...postData}>
-                        <LinkedinIcon height={32} />
+                    <LinkedinShareButton className="shareButton" {...linkedin}>
+                        <LinkedinIcon height="32px" />
                     </LinkedinShareButton>
                 )}
                 {twitter && (
-                    <TwitterShareButton {...postData}>
-                        <TwitterIcon height={26} />
+                    <TwitterShareButton className="shareButton" {...twitter}>
+                        <TwitterIcon height="26px" />
                     </TwitterShareButton>
                 )}
                 {facebook && (
-                    <FacebookShareButton {...postData}>
-                        <FacebookIcon height={32} />
+                    <FacebookShareButton className="shareButton" {...facebook}>
+                        <FacebookIcon height="32px" />
                     </FacebookShareButton>
                 )}
             </Row>

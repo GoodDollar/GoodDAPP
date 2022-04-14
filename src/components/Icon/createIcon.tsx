@@ -1,11 +1,11 @@
 import React from 'react'
-import Icon from './Icon'
+import { Icon, IconProps } from './Icon'
 
 const createIcon = (
     path: React.ReactNode,
     { displayName, ...props }: { displayName: string; [x: string]: any }
 ): React.ElementType => {
-    const IconComponent = (iconProps: any) => (
+    const IconComponent = (iconProps: IconProps) => (
         <Icon {...props} {...iconProps}>
             {path}
         </Icon>

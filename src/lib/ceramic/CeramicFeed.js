@@ -83,16 +83,17 @@ class CeramicFeed {
     log.debug('Got commits:', { commits })
 
     const aggregated = groupBy(filter(commits, nonEmpty), 'item')
+    log.debug('Got aggregated commits:', { aggregated })
 
     history = filter(
       keys(aggregated).map(item => {
         let action
-        const records = history[item]
+        const records = aggregated[item]
 
         // read history of specific document, aggredate by the event count
-        const { added, removed, updated } = countBy(records, 'action')
+        const { added = 0, removed = 0, updated = 0 } = countBy(records, 'action')
 
-        log.debug('picking status for', { item, records, added, removed, updated })
+        log.debug('picking status for', { aggregated, item, records, added, removed, updated })
 
         switch (Math.sign(added - removed)) {
           case -1:

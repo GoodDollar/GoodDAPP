@@ -85,16 +85,10 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
                   subtitle
                   isSmallDevice={isMobile && getScreenWidth() < 353}
                   numberOfLines={2}
+                  isCapitalized={false}
                 />
 
-                <Text
-                  lineHeight={20}
-                  numberOfLines={3}
-                  color="gray80Percent"
-                  fontSize={12}
-                  textTransform="capitalize"
-                  style={styles.newsMessage}
-                >
+                <Text lineHeight={20} numberOfLines={3} color="gray80Percent" fontSize={12} style={styles.newsMessage}>
                   {get(item, 'data.message')}
                 </Text>
               </View>

@@ -251,7 +251,7 @@ const Dashboard = props => {
           reset,
           res,
           resultSize: res.length,
-          feedItems: feedRef.current.length,
+          feedItems: feedRef.current,
         })
       } catch (e) {
         log.warn('getFeedPage failed', e.message, e)

@@ -5,7 +5,15 @@ import { Text } from '../../common'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 
-const EventContent = ({ style, textStyle, direction, description, hasSubtitle, numberOfLines = 1 }) => (
+const EventContent = ({
+  style,
+  textStyle,
+  direction,
+  description,
+  hasSubtitle,
+  numberOfLines = 1,
+  isCapitalized = true,
+}) => (
   <View
     numberOfLines={1}
     style={[
@@ -21,7 +29,7 @@ const EventContent = ({ style, textStyle, direction, description, hasSubtitle, n
           minWidth: 10,
         }}
         numberOfLines={numberOfLines}
-        textTransform="capitalize"
+        textTransform={isCapitalized && 'capitalize'}
         fontSize={10}
       >
         {capitalize(direction)}:{' '}
@@ -29,7 +37,7 @@ const EventContent = ({ style, textStyle, direction, description, hasSubtitle, n
     )}
     <Text
       numberOfLines={numberOfLines}
-      textTransform="capitalize"
+      textTransform={isCapitalized && 'capitalize'}
       fontWeight="medium"
       textAlign={'left'}
       lineHeight={17}
@@ -50,7 +58,16 @@ export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, i
   return <EventContent description={senderName} hasSubtitle={hasSubtitle} direction={direction} />
 }
 
-const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice, numberOfLines }) => {
+const EventCounterParty = ({
+  feedItem,
+  styles,
+  style,
+  textStyle,
+  subtitle,
+  isSmallDevice,
+  numberOfLines,
+  isCapitalized,
+}) => {
   const direction = useMemo(() => getEventDirection(feedItem), [feedItem])
   const itemSubtitle = get(feedItem, 'data.subtitle', '')
   const selectDisplaySource =
@@ -69,6 +86,7 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
       hasSubtitle={hasSubtitle}
       direction={direction}
       numberOfLines={numberOfLines}
+      isCapitalized={isCapitalized}
     />
   )
 }

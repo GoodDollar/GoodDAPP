@@ -1,5 +1,5 @@
 // @flow
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
 import userStorage from '../userStorage/UserStorage'
@@ -13,6 +13,7 @@ const log = logger.child({ from: 'useTransferEvents' })
  */
 const useTransferEvents = () => {
   const userContext = useUserContext()
+  const [isUserStorageReady, setIsUserStorageReady] = useState()
   const subscriptionRef = useRef(null)
   const userContextRef = useRef(userContext)
 
@@ -50,20 +51,22 @@ const useTransferEvents = () => {
   }, [])
 
   const initTransferEvents = useCallback(() => {
-    const lastBlock = parseInt(userStorage.userProperties.get('lastBlock') || 6400000)
+    if (isUserStorageReady) {
+      const lastBlock = parseInt(userStorage.userProperties.get('lastBlock') || 6400000)
 
-    log.debug('starting events listener', { lastBlock, subscribed: !!subscriptionRef.current })
+      log.debug('starting events listener', { lastBlock, subscribed: !!subscriptionRef.current })
 
-    if (subscriptionRef.current) {
-      return
+      if (subscriptionRef.current) {
+        return
+      }
+
+      goodWallet.watchEvents(lastBlock, toBlock => {
+        userStorage.userProperties.set('lastBlock', parseInt(toBlock))
+      })
+
+      subscriptionRef.current = goodWallet.balanceChanged(updateWalletStatus)
     }
-
-    goodWallet.watchEvents(lastBlock, toBlock => {
-      userStorage.userProperties.set('lastBlock', parseInt(toBlock))
-    })
-
-    subscriptionRef.current = goodWallet.balanceChanged(updateWalletStatus)
-  }, [updateWalletStatus])
+  }, [updateWalletStatus, isUserStorageReady])
 
   useEffect(() => {
     userContextRef.current = userContext
@@ -78,6 +81,8 @@ const useTransferEvents = () => {
 
         goodWallet.unsubscribeFromEvent({ eventName, id })
       }
+
+      userStorage.ready.then(res => setIsUserStorageReady(res))
     },
     [],
   )

@@ -25,7 +25,9 @@ const Cropper = ({ pickerOptions, avatar, onCropped }) => {
       android: async () => withTemporaryFile(avatar, async ({ uri }) => openCropper(uri)),
       // eslint-disable-next-line require-await
       default: async () => openCropper(avatar),
-    })().then(({ mime, data }) => runCallback(assembleDataUrl(data, mime)))
+    })()
+      .then(({ mime, data }) => runCallback(assembleDataUrl(data, mime)))
+      .catch(() => runCallback())
   }, [accessors])
 
   return null

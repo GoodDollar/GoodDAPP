@@ -38,6 +38,10 @@ const Wrapper = styled.div`
     }
 `
 
+const MainBody = styled.div`
+  background-color: ${({theme}) => theme.color.bgBody}
+`
+
 function App(): JSX.Element {
     const bodyRef = useRef<any>(null)
 
@@ -111,23 +115,20 @@ function App(): JSX.Element {
                 <AppBar />
                 <Wrapper className="flex flex-grow overflow-hidden">
                     <SideBar />
-                    <div
+                    <MainBody
                         ref={bodyRef}
-                        className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-4"
-                        style={{
-                            background: 'white'
-                        }}
+                        className="z-0 flex flex-col items-center justify-between flex-grow h-full px-4 pt-4 pb-4 overflow-x-hidden overflow-y-auto sm:pt-8 md:pt-10"
                     >
                         <Popups />
                         {/*<Polling />*/}
                         <Web3ReactManager>
-                          <div className="flex flex-col flex-glow w-full items-center justify-start">
+                          <div className="flex flex-col items-center justify-start w-full flex-glow">
                                 <Routes />
                                 <TransactionUpdater />
                           </div>
                         </Web3ReactManager>
                         <Beta className="mt-3 lg:mt-8">{i18n._(t`This project is in beta. Use at your own risk`)}</Beta>
-                    </div>
+                    </MainBody>
                 </Wrapper>
             </div>
         </Suspense>

@@ -1,7 +1,7 @@
 import { ChainId } from '@sushiswap/sdk'
 import { NetworkConnector } from './NetworkConnector'
 import { Web3Provider } from '@ethersproject/providers'
-import Logo from '../assets/images/logo.png' 
+import LogoSmall from '../assets/images/logosmall.png' 
 
 // ** blocknative update ** //
 import injectedModule from '@web3-onboard/injected-wallets'
@@ -130,11 +130,16 @@ export const onboard = init({
   ],
   appMetadata: {
     name: 'GoodSwap',
-    icon: Logo,
+    icon: LogoSmall,
     description: 'GoodDollar Swap Interface',
     recommendedInjectedWallets: [
       { name: 'MetaMask', url: 'https://metamask.io'}
     ]
+  },
+  accountCenter: {
+    desktop: {
+      enabled: false,
+    }
   },
   i18n: {
     en: {
@@ -142,7 +147,7 @@ export const onboard = init({
         "selectingWallet": {
           "header": 'Connect Wallet',
           "sidebar": {
-            "heading": 'Get Started',
+            "heading": '',
             "subheading": "Select your wallet",
             "paragraph": "Connecting your wallet is like “logging in” to Web3. Select your wallet from the options available."
           },

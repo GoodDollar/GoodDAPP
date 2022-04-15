@@ -18,7 +18,6 @@ import useMetaMask from '../hooks/useMetaMask'
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   width: ${({ $mobile }) => ($mobile ? 'auto' : '268px')};
   background: ${({ theme }) => theme.color.main};
-  border-right: 1px solid ${({ theme, $mobile }) => ($mobile ? 'transparent' : theme.color.border1)};
   flex-shrink: 0;
 
   nav a {

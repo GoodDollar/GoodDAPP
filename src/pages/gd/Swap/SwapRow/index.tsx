@@ -62,7 +62,12 @@ function SwapRow({
         <SwapRowSC className={className} style={style}>
             <div className="select flex space-x-4">
                 <SwapRowIconSC onClick={select ? handleShowSelect : undefined} as={select ? 'button' : undefined}>
-                    <CurrencyLogo currency={token} size={'54px'} />
+                  {
+                    token?.name === "GoodDollar" ?
+                      <CurrencyLogo currency={token} size={'54px'} style={{backgroundColor: 'white'}} />
+                      :
+                      <CurrencyLogo currency={token} size={'54px'} />
+                  }
                 </SwapRowIconSC>
                 <div className="flex flex-col">
                     <div className="title">{title}</div>

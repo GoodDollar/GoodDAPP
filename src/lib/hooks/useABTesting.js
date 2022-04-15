@@ -27,7 +27,7 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
     let test = tests[testName]
 
     if (!test) {
-      test = generateTestVariant()
+      test = generateTestVariant(testName, percentage)
       tests[testName] = test
 
       if (persistVariant) {

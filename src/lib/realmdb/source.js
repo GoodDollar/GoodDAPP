@@ -1,4 +1,4 @@
-import AsyncStorage from '../../utils/asyncStorage'
+import AsyncStorage from '../utils/asyncStorage'
 
 export default class FeedSource {
   get Feed() {
@@ -16,6 +16,8 @@ export default class FeedSource {
     this.log = logger
     this.storage = storage
   }
+
+  async initialize() {}
 
   // eslint-disable-next-line require-await
   async syncFromRemote() {

@@ -1,5 +1,5 @@
 // @flow
-import { once, sortBy } from 'lodash'
+import { invokeMap, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
@@ -18,7 +18,8 @@ import type { FeedCategory } from '../userStorage/FeedCategory'
 import { FeedCategories } from '../userStorage/FeedCategory'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { retry } from '../utils/async'
-import { NewsSource, TransactionsSource } from './sources'
+import NewsSource from './feedSource/NewsSource'
+import TransactionsSource from './feedSource/TransactionsSource'
 
 const log = logger.child({ from: 'RealmDB' })
 const _retry = fn => retry(fn, 1, 2000)
@@ -38,9 +39,11 @@ class RealmDB implements DB, ProfileDB {
 
   dbEvents = new EventEmitter()
 
-  sources = [NewsSource.create(this, log), TransactionsSource.create(this, log)]
+  sources = [NewsSource, TransactionsSource]
 
   constructor() {
+    this.sources = invokeMap(this.sources, 'create', this, log)
+
     this.ready = new Promise((resolve, reject) => {
       this.resolve = resolve
       this.reject = reject
@@ -61,6 +64,8 @@ class RealmDB implements DB, ProfileDB {
       Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
       Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
       Feed.table.hook('deleting', (id, event) => this._notifyChange({ id, event }))
+
+      await Promise.all(invokeMap(this.source, 'initialize'))
       await this._initRealmDB()
 
       this.resolve()
@@ -183,7 +188,7 @@ class RealmDB implements DB, ProfileDB {
    */
   async _syncFromRemote() {
     // eslint-disable-next-line require-await
-    await Promise.all(this.sources.map(async source => source.syncFromRemote()))
+    await Promise.all(invokeMap(this.sources, 'syncFromRemote'))
   }
 
   /**

@@ -175,6 +175,7 @@ const Config = {
   ceramicIndex: env.REACT_APP_CERAMIC_INDEX,
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
+  ceramicABTestPercentage: parseFloat(env.REACT_APP_CERAMIC_AB_TEST_PERCENTAGE || .3)
 }
 
 //get and override settings from server

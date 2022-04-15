@@ -49,6 +49,7 @@ import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import useUserContext from '../../lib/hooks/useUserContext'
 import useTransferEvents from '../../lib/wallet/useTransferEvents'
+import { useIsCeramicFeedEnabled } from '../../lib/ceramic/hooks'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -158,6 +159,7 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
   const [initTransferEvents] = useTransferEvents()
+  const isCeramicFeedEnabled = useIsCeramicFeedEnabled()
 
   const [price, showPrice] = useGoodDollarPrice()
 
@@ -748,19 +750,21 @@ const Dashboard = props => {
         </Section.Row>
       </Section>
 
-      <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
-        <Section.Row>
-          {FeedCategories.all.map(tab => (
-            <FeedTab
-              tab={tab}
-              key={tab || 'all'}
-              setActiveTab={setActiveTab}
-              getFeedPage={getFeedPage}
-              activeTab={activeTab}
-            />
-          ))}
-        </Section.Row>
-      </Section>
+      {isCeramicFeedEnabled && (
+        <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
+          <Section.Row>
+            {FeedCategories.all.map(tab => (
+              <FeedTab
+                tab={tab}
+                key={tab || 'all'}
+                setActiveTab={setActiveTab}
+                getFeedPage={getFeedPage}
+                activeTab={activeTab}
+              />
+            ))}
+          </Section.Row>
+        </Section>
+      )}
 
       <FeedList
         data={feedRef.current}

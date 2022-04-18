@@ -1,11 +1,12 @@
 //@flow
-import { useEffect, useState } from 'react'
-import { get, once, pick } from 'lodash'
+import { useEffect, useMemo, useState } from 'react'
+import { once, pick } from 'lodash'
 import Config from '../../config/config'
 import { fireEvent } from '../analytics/analytics'
 import AsyncStorage from '../utils/asyncStorage'
 import { AB_TESTING } from '../constants/localStorage'
 import logger from '../logger/js-logger'
+import useRealtimeProps from './useRealtimeProps'
 
 const log = logger.child({ from: 'useABTesting' })
 
@@ -13,37 +14,60 @@ const loadPersistedVariants = once(async () => {
   return (await AsyncStorage.getItem(AB_TESTING)) || {}
 })
 
+const generateTestVariant = (name, percentage) => {
+  const random = Math.random()
+  const isCaseA = random < percentage
+
+  return { name, isCaseA, random, ab: isCaseA ? 'A' : 'B' }
+}
+
 const createABTesting = (testName, percentage = Config.abTestPercentage, persistVariant = true) => {
   const getTestVariant = once(async () => {
     const tests = await loadPersistedVariants()
     let test = tests[testName]
-    if (test == null) {
-      test = { name: testName }
-      test.random = Math.random()
-      test.isCaseA = test.random < percentage
-      test.ab = test.isCaseA ? 'A' : 'B'
+
+    if (!test) {
+      test = generateTestVariant(testName, percentage)
       tests[testName] = test
-      persistVariant && AsyncStorage.setItem(AB_TESTING, tests)
+
+      if (persistVariant) {
+        await AsyncStorage.setItem(AB_TESTING, tests)
+      }
     }
+
     log.debug('got test variant', { tests, test, persistVariant })
     return test
   })
 
   const useABTesting = (componentA, componentB, event = null) => {
     const [test, setTest] = useState()
-    const initialized = test != null
-    const component = initialized && test.isCaseA ? componentA : componentB
+    const [getEvent] = useRealtimeProps([event])
 
     useEffect(() => {
       getTestVariant().then(test => {
         const { ab } = test
-        void (event && fireEvent(event, { ab }))
+        const event = getEvent()
+
+        if (event) {
+          fireEvent(event, { ab })
+        }
+
         setTest(test)
         log.debug('useABTesting ready', { test })
       })
     }, [])
 
-    return [component, get(test, 'ab'), initialized]
+    return useMemo(() => {
+      const { ab } = test || {}
+      const initialized = !!ab
+      let component = null
+
+      if (initialized) {
+        component = ab === 'A' ? componentA : componentB
+      }
+
+      return [component, ab, initialized]
+    }, [test, componentA, componentB])
   }
 
   const useOption = (options: [{ value: any, chance: number }], event = null) => {
@@ -73,7 +97,7 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
     return option
   }
 
-  return { useABTesting, useOption }
+  return { getTestVariant, useABTesting, useOption }
 }
 
 export default createABTesting

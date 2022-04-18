@@ -10,7 +10,7 @@ import walletLinkModule from '@web3-onboard/walletlink'
 import { init } from '@web3-onboard/react'
 // ** blockNative update **//
 
-export enum OnboardChainIds {
+export enum AdditionalChainIds {
   FUSE = 122,
   ETH = 1
 }
@@ -37,7 +37,7 @@ const RPC = {
     [ChainId.HARMONY_TESTNET]: 'https://explorer.pops.one',
     [ChainId.OKEX]: 'https://exchainrpc.okex.org',
     [ChainId.OKEX_TESTNET]: 'https://exchaintestrpc.okex.org',
-    [OnboardChainIds.FUSE]: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'
+    [AdditionalChainIds.FUSE]: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'
 }
 
 export const network = new NetworkConnector({

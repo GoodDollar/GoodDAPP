@@ -4,6 +4,7 @@ import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
 import userStorage from '../userStorage/UserStorage'
 import useUserContext from '../hooks/useUserContext'
+import useRealtimeProps from '../hooks/useRealtimeProps'
 import goodWallet from './GoodWallet'
 
 const log = logger.child({ from: 'useTransferEvents' })
@@ -14,11 +15,11 @@ const log = logger.child({ from: 'useTransferEvents' })
 const useTransferEvents = () => {
   const userContext = useUserContext()
   const subscriptionRef = useRef(null)
-  const userContextRef = useRef(userContext)
+  const [getContext] = useRealtimeProps(userContext)
 
   const updateWalletStatus = useCallback(async () => {
     let walletOperations
-    const { update, reset, ...account } = userContextRef.current
+    const { update, reset, ...account } = getContext()
 
     try {
       walletOperations = await Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
@@ -47,31 +48,26 @@ const useTransferEvents = () => {
       log.warn('updateAll failed', `Store failed with exception: ${message}`, exception)
       return
     }
-  }, [])
+  }, [getContext])
 
   const initTransferEvents = useCallback(async () => {
-    const isUserStorageReady = await userStorage.ready
+    const subscribed = !!subscriptionRef.current
 
-    if (isUserStorageReady) {
-      const lastBlock = parseInt(userStorage.userProperties.get('lastBlock') || 6400000)
-
-      log.debug('starting events listener', { lastBlock, subscribed: !!subscriptionRef.current })
-
-      if (subscriptionRef.current) {
-        return
-      }
-
-      goodWallet.watchEvents(lastBlock, toBlock => {
-        userStorage.userProperties.set('lastBlock', parseInt(toBlock))
-      })
-
-      subscriptionRef.current = goodWallet.balanceChanged(updateWalletStatus)
+    if (subscriptionRef.current) {
+      log.debug('skipping', { subscribed })
+      return
     }
-  }, [updateWalletStatus])
 
-  useEffect(() => {
-    userContextRef.current = userContext
-  }, [userContext])
+    await userStorage.ready
+
+    const { userProperties } = userStorage
+    const lastBlock = parseInt(userProperties.get('lastBlock') || 6400000)
+
+    log.debug('starting events listener', { lastBlock, subscribed })
+
+    goodWallet.watchEvents(lastBlock, toBlock => void userProperties.set('lastBlock', parseInt(toBlock)))
+    subscriptionRef.current = goodWallet.balanceChanged(updateWalletStatus)
+  }, [updateWalletStatus])
 
   useEffect(
     () => () => {

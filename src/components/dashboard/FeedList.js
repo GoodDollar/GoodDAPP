@@ -33,6 +33,7 @@ export type FeedListProps = {
   selectedFeed: ?string,
   styles: Object,
   onScroll: Function,
+  listFooterComponent: React.ReactNode,
 }
 
 const getItemLayout = (_: any, index: number) => {
@@ -59,6 +60,7 @@ const FeedList = ({
   styles,
   onScroll = noop,
   listHeaderComponent,
+  listFooterComponent,
   headerLarge,
   windowSize,
 }: FeedListProps) => {
@@ -161,7 +163,7 @@ const FeedList = ({
     ({ item }) => {
       const canCancel = item && item.displayType === 'sendpending'
       const canDelete = item && item.id && item.id.indexOf('0x') === -1 && feeds.length > 1
-      const hasAction = canCancel || canDelete
+      const hasAction = (canCancel || canDelete) && item.type !== 'news'
       const actions = { canCancel, canDelete }
       const props = { item, hasAction }
 
@@ -231,6 +233,7 @@ const FeedList = ({
         refreshing={false}
         renderItem={renderItemComponent}
         ListHeaderComponent={listHeaderComponent}
+        ListFooterComponent={listFooterComponent}
         renderQuickActions={renderQuickActions}
         viewabilityConfig={VIEWABILITY_CONFIG}
         onScroll={onScroll}

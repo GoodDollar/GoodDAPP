@@ -6,7 +6,7 @@ name: Android CI/CD v1
 # events but only for the master branch
 on:
   push:
-    branches: [master, staging, next]
+    branches: [master, staging, next, 3493-code-push]
 
   workflow_dispatch:
 

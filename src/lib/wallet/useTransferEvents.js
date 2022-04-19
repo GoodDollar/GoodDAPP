@@ -15,7 +15,7 @@ const log = logger.child({ from: 'useTransferEvents' })
 const useTransferEvents = () => {
   const userContext = useUserContext()
   const subscriptionRef = useRef(null)
-  const [getContext] = useRealtimeProps(userContext)
+  const [getContext] = useRealtimeProps([userContext])
 
   const updateWalletStatus = useCallback(async () => {
     let walletOperations
@@ -53,7 +53,7 @@ const useTransferEvents = () => {
   const initTransferEvents = useCallback(async () => {
     const subscribed = !!subscriptionRef.current
     const { userProperties } = userStorage
-    
+
     if (subscriptionRef.current) {
       log.debug('skipping', { subscribed })
       return

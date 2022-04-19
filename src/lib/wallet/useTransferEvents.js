@@ -52,15 +52,15 @@ const useTransferEvents = () => {
 
   const initTransferEvents = useCallback(async () => {
     const subscribed = !!subscriptionRef.current
-
+    const { userProperties } = userStorage
+    
     if (subscriptionRef.current) {
       log.debug('skipping', { subscribed })
       return
     }
 
-    await userStorage.ready
+    await userProperties.ready
 
-    const { userProperties } = userStorage
     const lastBlock = parseInt(userProperties.get('lastBlock') || 6400000)
 
     log.debug('starting events listener', { lastBlock, subscribed })

@@ -8,7 +8,6 @@ import type { Store } from 'undux'
 import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
-import GDStore from '../../lib/undux/GDStore'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
@@ -141,7 +140,6 @@ const Dashboard = props => {
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const { balance, entitlement } = useUserContext()
   const store = SimpleStore.useStore()
-  const gdstore = GDStore.useStore()
   const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
@@ -396,7 +394,7 @@ const Dashboard = props => {
 
     // setTimeout(animateItems, marketAnimationDuration)
 
-    initTransferEvents(gdstore)
+    await initTransferEvents()
 
     log.debug('initDashboard subscribed to feed')
 

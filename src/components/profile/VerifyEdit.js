@@ -2,6 +2,7 @@
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
@@ -63,7 +64,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } catch (e) {
       log.error('Failed to send code', e.message, e, { dialogShown: true })
 
-      showErrorDialog('Could not send verification code. Please try again', undefined, { onDismiss: goBack })
+      showErrorDialog(t`Could not send verification code. Please try again`, undefined, { onDismiss: goBack })
     } finally {
       setLoading(false)
     }

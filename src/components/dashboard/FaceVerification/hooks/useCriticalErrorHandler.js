@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { t } from '@lingui/macro'
 
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
@@ -45,7 +46,7 @@ export default (logger = null) => {
       showDialog({
         type: 'error',
         isMinHeight: false,
-        message: "We couldn't start face verification,\nplease reload the app.",
+        message: t`We couldn't start face verification` + '\n' + t`please reload the app.`,
         onDismiss: () => window.location.reload(true),
         buttons: [
           {

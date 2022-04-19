@@ -54,7 +54,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
       decorate(exception, code)
       userStorage.updateOTPLEventStatus(item.id, 'pending')
-      showErrorDialog('The payment could not be canceled at this time. Please try again.', code)
+      showErrorDialog(t`The payment could not be canceled at this time. Please try again.`, code)
       log.error('cancel payment failed', message, exception, pickBy({ dialogShown: true, code, category }))
     },
     [item, setCancellingPayment, showErrorDialog, userStorage],
@@ -70,7 +70,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
     if (!canCancel) {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
-      showErrorDialog("The transaction is still pending, it can't be cancelled right now")
+      showErrorDialog(t`The transaction is still pending, it can't be cancelled right now`)
       return
     }
 

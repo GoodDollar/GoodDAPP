@@ -5,6 +5,7 @@ import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
+import { t } from '@lingui/macro'
 import { withStyles } from '../../lib/styles'
 import { useDialog } from '../../lib/dialog/useDialog'
 import type { FeedEvent } from '../../lib/userStorage/UserStorageClass'
@@ -145,7 +146,7 @@ const FeedList = ({
           },
         )
 
-        showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
+        showErrorDialog(t`Current transaction is still pending, it can't be cancelled right now`)
       }
 
       userStorage.userProperties.setLocal('showQuickActionHint', false)

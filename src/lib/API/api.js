@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { get, identity, isError, isObject, isString } from 'lodash'
+import { get, identity, isError, isObject, isString, throttle } from 'lodash'
 
 import { throttleAdapter } from '../utils/axios'
 import AsyncStorage from '../utils/asyncStorage'
@@ -294,9 +294,9 @@ export class APIService {
   /**
    * `/verify/topwallet` post api call. Tops users wallet
    */
-  verifyTopWallet(): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/topwallet')
-  }
+  verifyTopWallet: Promise<$AxiosXHR<any>> = throttle(() => this.client.post('/verify/topwallet'), 60000, {
+    trailing: false,
+  })
 
   /**
    * `/verify/sendemail` post api call

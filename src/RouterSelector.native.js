@@ -2,7 +2,6 @@ import React, { useContext, useMemo } from 'react'
 
 import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
-
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import handleLinks from './lib/utils/handleLinks'

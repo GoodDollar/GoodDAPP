@@ -2,6 +2,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/js-logger'
 import {
@@ -35,6 +36,7 @@ import DeepLinking from '../../../lib/utils/deepLinking'
 import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
+import mustache from '../../../lib/utils/mustache'
 import useTorus from './hooks/useTorus'
 const log = logger.child({ from: 'AuthTorus' })
 
@@ -135,11 +137,15 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         android: 'Chrome',
       })
 
-      suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
+      suggestion = mustache(
+        t`Your default browser isn't supported. Please, set {suggestedBrowser} as default and try again.`,
+        { suggestedBrowser },
+      )
     }
 
     setWalletPreparing(false)
-    showErrorDialog(`We were unable to load the wallet. ${suggestion}`)
+
+    showErrorDialog(t`We were unable to load the wallet.` + ` ${suggestion}`)
   }
 
   const selfCustodyLogin = useCallback(() => {

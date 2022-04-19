@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 
+import { t } from '@lingui/macro'
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
 import { getFormattedDateTime } from '../../../../lib/utils/FormatDate'
@@ -15,8 +16,14 @@ const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
     <ExplanationDialog
       {...dialogProps}
       label={currentDateTime}
-      title="Check out GoodMarket"
-      text={`Visit GoodMarket, our exclusive marketplace,\nwhere you can buy and sell items \nin exchange for G$ coins.`}
+      title={t`Check out GoodMarket`}
+      text={
+        t`Visit GoodMarket, our exclusive marketplace,` +
+        `\n` +
+        t`where you can buy and sell items ` +
+        `\n` +
+        t`in exchange for G$ coins.`
+      }
       image={GoodMarketImage}
       labelStyle={styles.label}
       titleStyle={styles.title}
@@ -28,7 +35,7 @@ const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
       imageHeight={76}
       buttons={[
         {
-          text: "LET'S GO",
+          text: t`LET'S GO`,
           action: onGotoMarket,
         },
       ]}

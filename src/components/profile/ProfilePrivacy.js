@@ -7,6 +7,7 @@ import { Platform, TouchableOpacity } from 'react-native'
 import { mapValues, pick, startCase } from 'lodash'
 
 // custom components
+import { t } from '@lingui/macro'
 import Wrapper from '../common/layout/Wrapper'
 import { CustomButton, Icon, Section, Text } from '../common'
 import Avatar from '../common/view/Avatar'
@@ -86,7 +87,7 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
 
   const handleSaveShowTips = useCallback(() => {
     showDialog({
-      title: 'SETTINGS',
+      title: t`SETTINGS`,
       content: (
         <Section.Stack grow>
           {privacyOptions.map(field => (
@@ -101,7 +102,7 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
       ),
       buttons: [
         {
-          text: 'Ok',
+          text: t`Ok`,
           onPress: dismiss => {
             dismiss()
           },

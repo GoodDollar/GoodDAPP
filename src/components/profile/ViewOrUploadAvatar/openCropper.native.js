@@ -1,6 +1,8 @@
 import { Platform } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 
+import { t } from '@lingui/macro'
+
 import { assembleDataUrl } from '../../../lib/utils/base64'
 import { withTemporaryFile } from '../../../lib/utils/fs'
 
@@ -19,7 +21,7 @@ export default async ({ pickerOptions, showErrorDialog, avatar, userStorage, log
   const newAvatar = assembleDataUrl(data, mime)
 
   userStorage.setAvatar(newAvatar).catch(e => {
-    showErrorDialog('Could not save image. Please try again.')
+    showErrorDialog(t`Could not save image. Please try again.`)
     log.error('save image failed:', e.message, e)
   })
 }

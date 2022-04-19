@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
 // components
+import { t } from '@lingui/macro'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
@@ -70,7 +71,7 @@ const ReceiveByQR = ({ screenProps }) => {
             category: ExceptionCategory.Human,
             dialogShown: true,
           })
-          showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
+          showErrorDialog(t`Invalid QR Code. Probably this QR code is for sending GD`)
         } else {
           const { receiveLink, reason } = extractQueryParams(url)
 
@@ -85,7 +86,7 @@ const ReceiveByQR = ({ screenProps }) => {
               dialogShown: true,
             })
 
-            showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
+            showErrorDialog(t`Invalid QR Code. Probably this QR code is for sending GD`)
           }
 
           fireEvent(QR_SCAN, { type: 'receive' })

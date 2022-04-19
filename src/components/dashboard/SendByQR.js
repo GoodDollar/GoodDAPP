@@ -7,6 +7,7 @@ import { isAddress } from 'web3-utils'
 import { noop } from 'lodash'
 
 // components
+import { t } from '@lingui/macro'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
@@ -41,13 +42,17 @@ type Props = {
 
 const RecipientWarnDialog = ({ onConfirm }) => (
   <ExplanationDialog
-    title={'Make sure your recipient is also using the Fuse network'}
+    title={t`Make sure your recipient is also using the Fuse network`}
     image={InfoIcon}
     imageHeight={124}
     buttons={[
-      { text: 'Cancel', onPress: noop, mode: 'text' },
       {
-        text: 'Confirm',
+        text: t`Cancel`,
+        onPress: noop,
+        mode: 'text',
+      },
+      {
+        text: t`Confirm`,
         action: onConfirm,
       },
     ]}

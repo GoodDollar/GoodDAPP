@@ -4,6 +4,7 @@ import { Animated, Dimensions, Easing, Linking, Platform, TouchableOpacity, View
 import { concat, debounce, noop, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 
+import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -546,14 +547,14 @@ const Dashboard = props => {
           showEventModal(item)
         } else {
           showDialog({
-            title: 'Error',
-            message: 'Event does not exist',
+            title: t`Error`,
+            message: t`Event does not exist`,
           })
         }
       } catch (e) {
         showDialog({
-          title: 'Error',
-          message: 'Event does not exist',
+          title: t`Error`,
+          message: t`Event does not exist`,
         })
       }
     },

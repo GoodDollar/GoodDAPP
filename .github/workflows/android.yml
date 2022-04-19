@@ -60,6 +60,7 @@ jobs:
       - name: run detox build & test
         run: |
           $ANDROID_HOME/emulator/emulator -list-avds
+          yarn lingui-compile
           yarn test:android
   # This workflow contains a single job called "build"
   build:
@@ -138,6 +139,7 @@ jobs:
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
+          yarn lingui-compile
           cd android && ./gradlew bundleRelease
 
       - name: Build Universal APK

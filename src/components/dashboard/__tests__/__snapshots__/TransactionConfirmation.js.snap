@@ -14,7 +14,15 @@ exports[`TransactionConfirmation matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "alignItems": "center",
+          "msFlexAlign": "center",
+        }
+      }
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginTop-1t01tom"

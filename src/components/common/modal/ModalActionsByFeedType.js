@@ -38,7 +38,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const userStorage = useUserStorage()
 
   const _handleModalClose = useCallback(handleModalClose)
-  const inviteCode = userStorage.userProperties.get('inviteCode')
+  const inviteCode = userStorage && userStorage.userProperties.get('inviteCode')
   const { fullName: currentUserName } = useProfile()
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
@@ -275,7 +275,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return null
     default: {
       const txHash = get(item, 'data.receiptHash', item.id)
-      const isTx = txHash.startsWith('0x')
+      const isTx = txHash && txHash.startsWith('0x')
 
       // claim / receive / withdraw / notification / sendcancelled / sendcompleted
       return (

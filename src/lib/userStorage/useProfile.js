@@ -10,6 +10,9 @@ const useProfileHook = (fields, allowRefresh = false, display = false) => {
 
   const getProfile = useCallback(
     (fields, display) => {
+      if (!userStorage) {
+        return {}
+      }
       const profile = display ? userStorage.getDisplayProfile() : userStorage.getPrivateProfile()
 
       return fields ? pick(profile, fields) : profile

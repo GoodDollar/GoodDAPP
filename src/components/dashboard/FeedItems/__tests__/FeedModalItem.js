@@ -19,13 +19,10 @@ describe('FeedModalItem - Withdraw', () => {
 
   const WrappedFeedModalItem = withThemeProvider(FeedModalItem)
   const props = generateFeedItemProps('withdraw')
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedFeedModalItem {...props} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedFeedModalItem {...props} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -34,13 +31,10 @@ describe('FeedModalItem - Withdraw', () => {
 describe('FeedModalItem - Send', () => {
   const WrappedFeedModalItem = withThemeProvider(FeedModalItem)
   const props = generateFeedItemProps('send')
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedFeedModalItem {...props} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedFeedModalItem {...props} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -49,13 +43,10 @@ describe('FeedModalItem - Send', () => {
 describe('FeedModalItem - Send with Error status', () => {
   const WrappedFeedModalItem = withThemeProvider(FeedModalItem)
   const props = generateFeedItemProps('send', 'error')
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedFeedModalItem {...props} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedFeedModalItem {...props} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -64,13 +55,10 @@ describe('FeedModalItem - Send with Error status', () => {
 describe('FeedModalItem - Message', () => {
   const WrappedFeedModalItem = withThemeProvider(FeedModalItem)
   const props = generateFeedItemProps('message')
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedFeedModalItem {...props} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedFeedModalItem {...props} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -79,13 +67,10 @@ describe('FeedModalItem - Message', () => {
 describe('FeedModalItem - Invite', () => {
   const WrappedFeedModalItem = withThemeProvider(FeedModalItem)
   const props = generateFeedItemProps('invite')
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedFeedModalItem {...props} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedFeedModalItem {...props} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

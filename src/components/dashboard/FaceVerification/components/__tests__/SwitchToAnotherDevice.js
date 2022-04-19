@@ -13,21 +13,16 @@ describe('FaceVerification SwitchToAnotherDevice', () => {
     nav.goToRoot.mockReset()
   })
 
-  it('renders without errors', () => {
+  it('matches snapshot', async () => {
     let tree
-
-    expect(() => (tree = renderer.create(<SwitchToAnotherDevice nav={nav} />))).not.toThrow()
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const tree = renderer.create(<SwitchToAnotherDevice nav={nav} />)
+    await renderer.act(async () => (tree = renderer.create(<SwitchToAnotherDevice nav={nav} />)))
 
     expect(tree.toJSON()).toMatchSnapshot()
   })
 
-  it('should execute screenProps.goToRoot on "OK" press', () => {
-    const tree = renderer.create(<SwitchToAnotherDevice nav={nav} />)
+  it('should execute screenProps.goToRoot on "OK" press', async () => {
+    let tree
+    await renderer.act(async () => (tree = renderer.create(<SwitchToAnotherDevice nav={nav} />)))
     const button = tree.root.findByProps({ testID: 'ok_button' })
 
     button.props.onPress()

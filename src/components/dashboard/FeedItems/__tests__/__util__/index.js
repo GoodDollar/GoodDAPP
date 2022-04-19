@@ -1,6 +1,4 @@
 import React from 'react'
-import GDStore from '../../../../../lib/undux/GDStore'
-const { Container } = GDStore
 
 export const getMockedEvent = (componentPath, event) => {
   // Will then mock the LocalizeContext module being used in our LanguageSelector component
@@ -17,11 +15,7 @@ export const getMockedEvent = (componentPath, event) => {
   return require(`../${componentPath}`).default
 }
 
-const withContainer = Component => props => (
-  <Container>
-    <Component {...props} />
-  </Container>
-)
+const withContainer = Component => props => <Component {...props} />
 
 export const getComponentWithMock = (componentPath, event) => {
   const Component = getMockedEvent(componentPath, event)

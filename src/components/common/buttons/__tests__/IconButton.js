@@ -7,26 +7,20 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 const WrappedComponent = withThemeProvider(IconButton)
 
 describe('IconButton enabled', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedComponent text="edit" name="privacy" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedComponent text="edit" name="privacy" />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedComponent text="edit" name="privacy" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
 
 describe('IconButton disabled', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedComponent text="edit" name="privacy" disabled />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedComponent text="edit" name="privacy" disabled />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(
+      async () => (component = renderer.create(<WrappedComponent text="edit" name="privacy" disabled />)),
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

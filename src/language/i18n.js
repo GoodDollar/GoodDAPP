@@ -148,8 +148,10 @@ const LanguageProvider = ({ children }) => {
 
   const setLanguage = useCallback(
     async language => {
-      await I18n.dynamicActivate(language)
-      setCurrentLanguage(language)
+      if (language) {
+        await I18n.dynamicActivate(language)
+        setCurrentLanguage(language)
+      }
     },
     [setCurrentLanguage],
   )

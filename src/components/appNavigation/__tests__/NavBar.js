@@ -3,13 +3,9 @@ import renderer from 'react-test-renderer'
 import NavBar from '../NavBar'
 
 describe('NavBar', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<NavBar />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<NavBar />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<NavBar />)))
     expect(component.toJSON()).toMatchSnapshot()
   })
 })

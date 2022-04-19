@@ -6,13 +6,9 @@ import OptionsRow from '../OptionsRow'
 describe('OptionsRow', () => {
   const WrappedOptionsRow = withThemeProvider(OptionsRow)
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedOptionsRow />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedOptionsRow />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedOptionsRow />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

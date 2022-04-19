@@ -8,13 +8,9 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 describe('ExplanationDialog', () => {
   const WrappedWrapper = withThemeProvider(ExplanationDialog)
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedWrapper title="test" text="test" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedWrapper title="test" text="test" />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedWrapper title="test" text="test" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

@@ -6,13 +6,9 @@ import { withThemeProvider } from '../../../__tests__/__util__'
 const MnemonicsTheme = withThemeProvider(Mnemonics)
 
 describe('SignIn - Mnemonics', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<MnemonicsTheme />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<MnemonicsTheme />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<MnemonicsTheme />)))
     const tree = component.toJSON()
 
     expect(tree).toMatchSnapshot()

@@ -7,13 +7,9 @@ const ErrorIcon = withThemeProvider(ImportedErrorIcon)
 // Note: test renderer must be required after react-native.
 
 describe('ErrorIcon', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<ErrorIcon />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<ErrorIcon />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<ErrorIcon />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

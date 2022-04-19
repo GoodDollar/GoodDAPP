@@ -10,13 +10,9 @@ describe('KeyboardRow', () => {
   const WrappedKeyboardRow = withThemeProvider(KeyboardRow)
   const keys = ['1', '2', '3']
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedKeyboardRow keys={keys} onPress={() => {}} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedKeyboardRow keys={keys} onPress={() => {}} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedKeyboardRow keys={keys} onPress={() => {}} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

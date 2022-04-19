@@ -3,17 +3,23 @@ import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import WavePatternSVG from '../../../assets/feedListItemPattern.svg'
 
-const FeedListItemLeftBorder = ({ styles, style }) => {
+const FeedListItemLeftBorder = ({ styles, style, isBig }) => {
   return (
     <View style={[styles.container, style]}>
       <View style={styles.wavesBackground}>
         <WavePatternSVG />
+        {isBig && (
+          <>
+            <WavePatternSVG />
+            <WavePatternSVG />
+          </>
+        )}
       </View>
     </View>
   )
 }
 
-const getStylesFromProps = ({ color }) => ({
+const getStylesFromProps = ({ color, isBig }) => ({
   container: {
     backgroundColor: color,
     position: 'relative',
@@ -22,7 +28,7 @@ const getStylesFromProps = ({ color }) => ({
   wavesBackground: {
     position: 'absolute',
     width: '100%',
-    height: '100%',
+    height: isBig ? '35%' : '100%',
   },
 })
 

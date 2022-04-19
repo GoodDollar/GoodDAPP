@@ -50,7 +50,7 @@ describe('FeedStorage', () => {
     jest.spyOn(userStorage, 'getUserProfilePublickey').mockImplementation(() => publicKey)
     await feedStorage.addToOutbox(feedEvent)
 
-    const savedItem = await storage._realmQuery(() => storage.inboxes.findOne({ txHash: feedEvent.id }))
+    const savedItem = await storage.wrapQuery(() => storage.inboxes.findOne({ txHash: feedEvent.id }))
     const userId = storage.user.id
     const recipientPubkey = await feedStorage.userStorage.getUserProfilePublickey(feedEvent.data.to)
 
@@ -75,9 +75,9 @@ describe('FeedStorage', () => {
   it('should delete record', async () => {
     const { storage } = feedStorage
 
-    await storage._realmQuery(() => storage.inboxes.deleteMany({ txHash: feedEvent.id }))
+    await storage.wrapQuery(() => storage.inboxes.deleteMany({ txHash: feedEvent.id }))
 
-    const savedItem = await storage._realmQuery(() => storage.inboxes.findOne({ txHash: feedEvent.id }))
+    const savedItem = await storage.wrapQuery(() => storage.inboxes.findOne({ txHash: feedEvent.id }))
 
     expect(savedItem).toBeNull()
   })

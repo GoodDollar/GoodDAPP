@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { t } from '@lingui/macro'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, Wrapper } from '../common'
@@ -10,7 +10,6 @@ import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import RoundIconButton from '../common/buttons/RoundIconButton'
 import { usePublicProfile } from '../../lib/userStorage/useProfile'
 import { theme } from '../theme/styles'
-import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
 import ProfilePrivacy from './ProfilePrivacy'
@@ -128,27 +127,13 @@ const getStylesFromProps = ({ theme }) => {
 
 const Profile = withStyles(getStylesFromProps)(ProfileWrapper)
 
-const commonRoutes = {
+const routes = {
   Profile,
   EditProfile,
   ProfilePrivacy,
   ViewAvatar,
   VerifyEdit,
   VerifyEditCode,
-}
-
-const nativeOnlyRoutes = {}
-
-const webOnlyRoutes = {
-  EditAvatar,
-}
-
-const routes = {
-  ...commonRoutes,
-  ...Platform.select({
-    web: webOnlyRoutes,
-    default: nativeOnlyRoutes,
-  }),
 }
 
 export default createStackNavigator(routes)

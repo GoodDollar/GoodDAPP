@@ -10,7 +10,6 @@ import { hideRedBox } from '../utils/redBox'
 
 const log = logger.child({ from: 'useVerificationAttempts' })
 
-//TODO: dont use store
 export default () => {
   const { attemptsCount, attemptsHistory, reachedMaxAttempts, update } = useFVContext()
   const accessors = useRealtimeProps([attemptsCount, attemptsHistory, reachedMaxAttempts])

@@ -1,25 +1,32 @@
+/* eslint-disable require-await */
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { assign, identity, isError, isFunction, isObject, isString, once } from 'lodash'
+import { assign, chunk, identity, isError, isFunction, isObject, isString, once } from 'lodash'
 
-// eslint-disable-next-line require-await
 export const noopAsync = async () => true
 
-// eslint-disable-next-line require-await
+export const batch = async (items, chunkSize, onItem) =>
+  chunk(items, chunkSize).reduce(
+    async (promise, itemsChunk) =>
+      promise.then(async results => {
+        const chunkResults = await Promise.all(itemsChunk.map(onItem))
+
+        return results.concat(chunkResults)
+      }),
+    Promise.resolve([]),
+  )
+
 export const delay = async (millis, resolveWithValue = null) =>
   new Promise(resolve => setTimeout(() => resolve(resolveWithValue), millis))
 
-// eslint-disable-next-line require-await
 export const timeout = async (millis, message = null) =>
   delay(millis).then(() => {
     throw new Error(message)
   })
 
-// eslint-disable-next-line require-await
 export const withTimeout = async (asyncFn, timeoutMs = 60000, errorMessage = 'Timed out') =>
   Promise.race([asyncFn(), timeout(timeoutMs, errorMessage)])
 
-// eslint-disable-next-line require-await
 export const retry = async (asyncFn, retries = 5, interval = 0) =>
   defer(() => fromPromise(asyncFn()))
     .pipe(
@@ -39,9 +46,7 @@ export const retry = async (asyncFn, retries = 5, interval = 0) =>
     )
     .toPromise()
 
-// eslint-disable-next-line require-await
 export const fallback = async asyncFns =>
-  // eslint-disable-next-line require-await
   asyncFns.reduce(async (current, next) => {
     let promise = current
 
@@ -52,9 +57,7 @@ export const fallback = async asyncFns =>
     return promise.catch(next)
   })
 
-// eslint-disable-next-line require-await
 export const tryUntil = async (asyncFn, condition = identity, retries = 5, interval = 0) => {
-  // eslint-disable-next-line require-await
   const completionHandler = async result => {
     if (condition(result)) {
       return result
@@ -66,7 +69,6 @@ export const tryUntil = async (asyncFn, condition = identity, retries = 5, inter
   return retry(() => asyncFn().then(completionHandler), retries, interval)
 }
 
-// eslint-disable-next-line require-await
 export const promisifyGun = async callback =>
   new Promise((resolve, reject) => {
     const onAck = once(ack => {

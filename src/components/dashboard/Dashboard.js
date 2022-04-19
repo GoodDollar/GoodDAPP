@@ -11,7 +11,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
-import { fireEvent, INVITE_BANNER } from '../../lib/analytics/analytics'
+import { fireEvent, GOTO_TAB_FEED, INVITE_BANNER, SCROLL_FEED } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 
@@ -24,6 +24,7 @@ import { useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
+import TabButton from '../common/buttons/TabButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/js-logger'
@@ -39,7 +40,10 @@ import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
+import { useIsCeramicFeedEnabled } from '../../lib/ceramic/hooks'
+import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -87,6 +91,33 @@ const feedMutex = new Mutex()
 
 const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance), 2)
 
+const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
+  const onTabPress = useOnPress(() => {
+    log.debug('feed category selected', { tab })
+
+    fireEvent(GOTO_TAB_FEED, { name: tab })
+    setActiveTab(tab)
+    getFeedPage(true, tab)
+  }, [setActiveTab, getFeedPage, tab])
+
+  const isAll = tab === FeedCategories.All
+  const isNews = tab === FeedCategories.News
+  const isTransactions = tab === FeedCategories.Transactions
+
+  return (
+    <TabButton
+      onPress={onTabPress}
+      isActive={tab === activeTab}
+      hasLeftBorder={!isAll}
+      flex={isTransactions ? 2 : 1}
+      roundnessLeft={isAll ? 5 : 0}
+      roundnessRight={isNews ? 5 : 0}
+    >
+      {FeedCategories.label(tab)}
+    </TabButton>
+  )
+}
+
 const Dashboard = props => {
   const balanceRef = useRef()
   const feedRef = useRef([])
@@ -116,6 +147,8 @@ const Dashboard = props => {
   const { setDialogBlur, setAddWebApp, isLoadingIndicator, setFeedLoadAnimShown } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
+  const [activeTab, setActiveTab] = useState(FeedCategories.All)
+  const isCeramicFeedEnabled = useIsCeramicFeedEnabled()
   const [price, showPrice] = useGoodDollarPrice()
 
   useInviteCode() //preload user invite code
@@ -165,6 +198,8 @@ const Dashboard = props => {
 
   const listHeaderComponent = isCryptoLiteracy ? <CryptoLiteracyBanner onPress={onBannerClicked} /> : null
 
+  const listFooterComponent = <Separator color="transparent" width={50} />
+
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {
       showDeleteAccountDialog()
@@ -172,15 +207,17 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    async (reset = false) => {
+    async (reset = false, tab = activeTab) => {
+      let res = []
       const release = await feedMutex.lock()
+
       try {
-        log.debug('getFeedPage:', { reset, feeds, didRender })
+        log.debug('getFeedPage:', { reset, feeds, didRender, tab })
+
         const feedPromise = userStorage
-          .getFormattedEvents(PAGE_SIZE, reset)
+          .getFormattedEvents(PAGE_SIZE, reset, tab)
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
 
-        let res = []
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
           //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
@@ -199,11 +236,12 @@ const Dashboard = props => {
           feedRef.current = newFeed
           res.length > 0 && setFeeds(newFeed)
         }
+
         log.debug('getFeedPage getFormattedEvents result:', {
           reset,
           res,
           resultSize: res.length,
-          feedItems: feedRef.current.length,
+          feedItems: feedRef.current,
         })
       } catch (e) {
         log.warn('getFeedPage failed', e.message, e)
@@ -211,7 +249,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage],
+    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -532,6 +570,14 @@ const Dashboard = props => {
 
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
+      const {
+        type,
+        data: { link },
+      } = receipt
+      if (type === 'news') {
+        link && Linking.openURL(link).catch(e => log.error('Open news feed error', e))
+        return
+      }
       showEventModal(horizontal ? receipt : null)
       setDialogBlur(horizontal)
     },
@@ -565,6 +611,7 @@ const Dashboard = props => {
 
   const handleScrollEnd = useCallback(
     ({ nativeEvent }) => {
+      fireEvent(SCROLL_FEED)
       const minScrollRequired = 150
       const scrollPosition = nativeEvent.contentOffset.y
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
@@ -684,6 +731,23 @@ const Dashboard = props => {
           </PushButton>
         </Section.Row>
       </Section>
+
+      {isCeramicFeedEnabled && (
+        <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
+          <Section.Row>
+            {FeedCategories.all.map(tab => (
+              <FeedTab
+                tab={tab}
+                key={tab || 'all'}
+                setActiveTab={setActiveTab}
+                getFeedPage={getFeedPage}
+                activeTab={activeTab}
+              />
+            ))}
+          </Section.Row>
+        </Section>
+      )}
+
       <FeedList
         data={feedRef.current}
         handleFeedSelection={handleFeedSelection}
@@ -691,6 +755,7 @@ const Dashboard = props => {
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
         listHeaderComponent={listHeaderComponent}
+        listFooterComponent={listFooterComponent}
         onEndReachedThreshold={0.8}
         windowSize={10} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}

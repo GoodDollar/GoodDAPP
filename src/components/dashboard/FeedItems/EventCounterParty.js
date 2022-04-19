@@ -5,7 +5,15 @@ import { Text } from '../../common'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 
-const EventContent = ({ style, textStyle, direction, description, hasSubtitle }) => (
+const EventContent = ({
+  style,
+  textStyle,
+  direction,
+  description,
+  hasSubtitle,
+  numberOfLines = 1,
+  isCapitalized = true,
+}) => (
   <View
     numberOfLines={1}
     style={[
@@ -20,16 +28,16 @@ const EventContent = ({ style, textStyle, direction, description, hasSubtitle })
         style={{
           minWidth: 10,
         }}
-        umberOfLines={1}
-        textTransform="capitalize"
+        numberOfLines={numberOfLines}
+        textTransform={isCapitalized && 'capitalize'}
         fontSize={10}
       >
         {capitalize(direction)}:{' '}
       </Text>
     )}
     <Text
-      numberOfLines={1}
-      textTransform="capitalize"
+      numberOfLines={numberOfLines}
+      textTransform={isCapitalized && 'capitalize'}
       fontWeight="medium"
       textAlign={'left'}
       lineHeight={17}
@@ -50,7 +58,16 @@ export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, i
   return <EventContent description={senderName} hasSubtitle={hasSubtitle} direction={direction} />
 }
 
-const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
+const EventCounterParty = ({
+  feedItem,
+  styles,
+  style,
+  textStyle,
+  subtitle,
+  isSmallDevice,
+  numberOfLines,
+  isCapitalized,
+}) => {
   const direction = useMemo(() => getEventDirection(feedItem), [feedItem])
   const itemSubtitle = get(feedItem, 'data.subtitle', '')
   const selectDisplaySource =
@@ -62,7 +79,16 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
 
   let hasSubtitle = get(feedItem, 'data.readMore') !== false
 
-  return <EventContent style={style} description={displayText} hasSubtitle={hasSubtitle} direction={direction} />
+  return (
+    <EventContent
+      style={style}
+      description={displayText}
+      hasSubtitle={hasSubtitle}
+      direction={direction}
+      numberOfLines={numberOfLines}
+      isCapitalized={isCapitalized}
+    />
+  )
 }
 
 export default EventCounterParty

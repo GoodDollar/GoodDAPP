@@ -8,7 +8,7 @@ import { t } from '@lingui/macro'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
 
-import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 
 import logger from '../../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/exceptions/utils'
@@ -33,12 +33,12 @@ const ModalButton = ({ children, ...props }) => (
 )
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 
   const _handleModalClose = useCallback(handleModalClose)
-  const inviteCode = userStorage.userProperties.get('inviteCode')
+  const inviteCode = userStorage && userStorage.userProperties.get('inviteCode')
   const { fullName: currentUserName } = useProfile()
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
@@ -54,7 +54,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
       decorate(exception, code)
       userStorage.updateOTPLEventStatus(item.id, 'pending')
-      showErrorDialog('The payment could not be canceled at this time. Please try again.', code)
+      showErrorDialog(t`The payment could not be canceled at this time. Please try again.`, code)
       log.error('cancel payment failed', message, exception, pickBy({ dialogShown: true, code, category }))
     },
     [item, setCancellingPayment, showErrorDialog, userStorage],
@@ -70,7 +70,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
     if (!canCancel) {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
-      showErrorDialog("The transaction is still pending, it can't be cancelled right now")
+      showErrorDialog(t`The transaction is still pending, it can't be cancelled right now`)
       return
     }
 
@@ -275,7 +275,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return null
     default: {
       const txHash = get(item, 'data.receiptHash', item.id)
-      const isTx = txHash.startsWith('0x')
+      const isTx = txHash && txHash.startsWith('0x')
 
       // claim / receive / withdraw / notification / sendcancelled / sendcompleted
       return (

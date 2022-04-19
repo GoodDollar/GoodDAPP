@@ -1,19 +1,21 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
+import { t } from '@lingui/macro'
 import { CustomButton, Section, Wrapper } from '../../common'
 import UserAvatar from '../../common/view/UserAvatar'
 import { withStyles } from '../../../lib/styles'
-import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
 import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
-import useAvatar, { useUploadedAvatar } from '../../../lib/hooks/useAvatar'
+import useAvatar from '../../../lib/hooks/useAvatar'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
-import openCropper from './openCropper'
+import useCropperState from './useCropperState'
+import Cropper from './Cropper'
 
 export const pickerOptions = {
   width: 400,
@@ -29,27 +31,32 @@ export const pickerOptions = {
   hideBottomControls: true,
 }
 
-const log = logger.child({ from: 'VieOrUploadAvatar' })
+const log = logger.child({ from: 'ViewOrUploadAvatar' })
 const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
   const { styles, screenProps } = props
-  const [profile, refreshProfile] = useProfile(true)
-  const [showErrorDialog] = useErrorDialog()
-  const avatar = useAvatar(profile.avatar)
-  const [, setUploadedAvatar] = useUploadedAvatar()
   const userStorage = useUserStorage()
+  const { showErrorDialog } = useDialog()
+  const [cropperState, showCropper, hideCropper] = useCropperState()
 
-  const handleCameraPress = useDebouncedOnPress(() => {
-    openCropper({
-      pickerOptions,
-      screenProps,
-      userStorage,
-      showErrorDialog,
-      log,
-      avatar,
-    })
-  }, [screenProps, showErrorDialog, profile, avatar, userStorage])
+  const [profile, refreshProfile] = useProfile(true)
+  const avatar = useAvatar(profile.avatar)
+
+  const setUserAvatar = useCallback(
+    async avatar => {
+      try {
+        await userStorage.setAvatar(avatar)
+        refreshProfile()
+      } catch (exception) {
+        const { message } = exception
+
+        log.error('saving image failed:', message, exception, { dialogShown: true })
+        showErrorDialog(t`We could not capture all your beauty. Please try again.`)
+      }
+    },
+    [showErrorDialog, refreshProfile, userStorage],
+  )
 
   const handleClosePress = useCallback(async () => {
     try {
@@ -57,35 +64,39 @@ const ViewOrUploadAvatar = props => {
       refreshProfile()
     } catch (e) {
       log.error('delete image failed:', e.message, e, { dialogShown: true })
-      showErrorDialog('Could not delete image. Please try again.')
+      showErrorDialog(t`Could not delete image. Please try again.`)
     }
   }, [showErrorDialog, refreshProfile, userStorage])
 
+  const onAvatarCropped = useCallback(
+    async avatar => {
+      await setUserAvatar(avatar)
+      hideCropper()
+    },
+    [hideCropper, setUserAvatar],
+  )
+
+  const handleCameraPress = useDebouncedOnPress(() => {
+    showCropper(avatar)
+  }, [showCropper, avatar])
+
   const handleAddAvatar = useCallback(
-    avatar => {
+    async avatar => {
       fireEvent(PROFILE_IMAGE)
 
       if (Platform.OS === 'web') {
-        // on web - goto avatar cropper
-        setUploadedAvatar(avatar)
-        screenProps.push('EditAvatar')
+        // on web - show avatar cropper
+        // with 'alreadyUploaded' flag
+        showCropper(avatar, true)
         return
       }
 
       // for native just set new avatar.
       // no need to crop it additionally
       // as the picker component does this
-      userStorage
-        .setAvatar(avatar)
-        .then(() => {
-          refreshProfile()
-        })
-        .catch(e => {
-          log.error('save image failed:', e.message, e, { dialogShown: true })
-          showErrorDialog('Could not save image. Please try again.')
-        })
+      await setUserAvatar(avatar)
     },
-    [screenProps, refreshProfile, userStorage],
+    [showCropper, setUserAvatar],
   )
 
   const goToProfile = useCallback(() => screenProps.pop(), [screenProps])
@@ -101,6 +112,7 @@ const ViewOrUploadAvatar = props => {
       </Section.Row>
     </>
   )
+
   const NoAvatar = () => (
     <>
       <Section.Row style={[styles.topButtons, styles.singleTopButton]}>
@@ -127,12 +139,26 @@ const ViewOrUploadAvatar = props => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <Section.Stack style={{ alignSelf: 'center' }}>{profile.avatar ? <HasAvatar /> : <NoAvatar />}</Section.Stack>
-        <Section.Stack grow style={styles.buttonsRow}>
-          <CustomButton style={styles.doneButton} onPress={goToProfile}>
-            Done
-          </CustomButton>
-        </Section.Stack>
+        {cropperState.show ? (
+          <Cropper
+            pickerOptions={pickerOptions}
+            justUploaded={cropperState.justUploaded}
+            avatar={cropperState.avatar}
+            onCropped={onAvatarCropped}
+            onCancelled={hideCropper}
+          />
+        ) : (
+          <>
+            <Section.Stack style={{ alignSelf: 'center' }}>
+              {profile.avatar ? <HasAvatar /> : <NoAvatar />}
+            </Section.Stack>
+            <Section.Stack grow style={styles.buttonsRow}>
+              <CustomButton style={styles.doneButton} onPress={goToProfile}>
+                {t`Done`}
+              </CustomButton>
+            </Section.Stack>
+          </>
+        )}
       </Section>
     </Wrapper>
   )

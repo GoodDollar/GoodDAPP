@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
+import { t } from '@lingui/macro'
 
-import { useDialog } from '../../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../../lib/dialog/useDialog'
 import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
 import { isCriticalIssue } from '../utils/redBox'
@@ -9,7 +10,7 @@ import { isWeb } from '../../../../lib/utils/platform'
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 
 export default (logger = null) => {
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
   const accessors = useRealtimeProps([logger, showDialog])
 
   const handleCriticalError = useCallback(
@@ -45,7 +46,7 @@ export default (logger = null) => {
       showDialog({
         type: 'error',
         isMinHeight: false,
-        message: "We couldn't start face verification,\nplease reload the app.",
+        message: t`We couldn't start face verification` + '\n' + t`please reload the app.`,
         onDismiss: () => window.location.reload(true),
         buttons: [
           {

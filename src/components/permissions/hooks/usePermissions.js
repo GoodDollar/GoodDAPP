@@ -11,7 +11,7 @@ import ClipboardPermissionDialog from '../components/ClipboardPermissionDialog'
 import DeniedCameraPermissionDialog from '../components/DeniedCameraPermissionDialog'
 import DeniedClipboardPermissionDialog from '../components/DeniedClipboardPermissionDialog'
 
-import { useDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import useMountedState from '../../../lib/hooks/useMountedState'
 
 import api from '../api/PermissionsAPI'
@@ -32,7 +32,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     navigate,
   } = options
 
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
   const mountedState = useMountedState()
   const [allowed, setAllowed] = useState(false)
 

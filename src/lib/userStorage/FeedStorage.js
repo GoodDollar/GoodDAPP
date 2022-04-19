@@ -9,7 +9,9 @@ import { updateFeedEventAvatar } from '../updates/utils/feed'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
-import type { UserStorage } from './UserStorageClass'
+import { type UserStorage } from './UserStorageClass'
+import { FeedCategories } from './FeedCategory'
+import type { FeedFilter } from './UserStorage'
 import { asLogRecord } from './utlis'
 
 const log = logger.child({ from: 'FeedStorage' })
@@ -157,6 +159,19 @@ export class FeedStorage {
     //mark as initialized, ie resolve ready promise
     await this.storage.ready
     this.storage.on(data => this.emitUpdate(data))
+
+    // this is just the demo stub about how to read fead
+    try {
+      // const posts = await CeramicFeed.getPosts() // get main news feed
+      // const { history } = await CeramicFeed.getHistory() // get history
+      // const historyId = await CeramicFeed.getHistoryId() // get history
+      // log.debug('Ceramic feed', { posts, history, historyId })
+    } catch (e) {
+      log.error('Ceramic error', e.message, e)
+    }
+
+    // end demo stub
+
     this.feedInitialized = true
     this.setReady()
   }
@@ -736,14 +751,14 @@ export class FeedStorage {
     }
   }
 
-  async getFeedPage(numResult: number, reset?: boolean) {
+  async getFeedPage(numResult: number, reset?: boolean, category: FeedFilter = FeedCategories.All) {
     if (reset || isUndefined(this.cursor)) {
       this.cursor = 0
     }
 
     await this.ready
 
-    const items = await this.storage.getFeedPage(numResult, this.cursor)
+    const items = await this.storage.getFeedPage(numResult, this.cursor, category)
 
     this.cursor += items.length
 
@@ -756,7 +771,7 @@ export class FeedStorage {
         const { id } = item
         log.debug('getFeedPage got item', { id: item.id, item })
 
-        if (!item.receiptReceived && id.startsWith('0x')) {
+        if (!item.receiptReceived && id.startsWith('0x') && item.type !== 'news') {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             log.warn('getFeedPage no receipt found for id:', id, e.message, e)
           })

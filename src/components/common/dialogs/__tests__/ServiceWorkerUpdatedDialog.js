@@ -12,15 +12,9 @@ describe('ServiceWorkerUpdatedDialog', () => {
     describe(name, () => {
       const WrappedComponent = withThemeAndLocalizationProvider(component)
 
-      it(`renders without errors`, () => {
+      it(`matches snapshot`, async () => {
         let tree
-
-        expect(() => (tree = renderer.create(<WrappedComponent />))).not.toThrow()
-        expect(tree.toJSON()).toBeTruthy()
-      })
-
-      it(`matches snapshot`, () => {
-        const tree = renderer.create(<WrappedComponent />)
+        await renderer.act(async () => (tree = renderer.create(<WrappedComponent />)))
 
         expect(tree.toJSON()).toMatchSnapshot()
       })

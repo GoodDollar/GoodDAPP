@@ -17,10 +17,11 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
       dir="auto"
       style={
         Object {
+          "WebkitLineClamp": 1,
           "minWidth": "10px",
         }
       }
@@ -61,10 +62,11 @@ exports[`EventCounterParty send matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
       dir="auto"
       style={
         Object {
+          "WebkitLineClamp": 1,
           "minWidth": "10px",
         }
       }
@@ -105,10 +107,11 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+      className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
       dir="auto"
       style={
         Object {
+          "WebkitLineClamp": 1,
           "minWidth": "10px",
         }
       }

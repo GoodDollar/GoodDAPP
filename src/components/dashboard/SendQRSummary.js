@@ -3,11 +3,12 @@
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
 import React, { useEffect, useState } from 'react'
+import { t } from '@lingui/macro'
 import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 
@@ -35,7 +36,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const goodWallet = useWrappedGoodWallet()
   const userStorage = useUserStorage()
 
-  const [showDialog, , showErrorDialog] = useDialog()
+  const { showDialog, showErrorDialog } = useDialog()
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
@@ -54,9 +55,9 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
       log.error('Send TX failed:', e.message, e, { dialogShown: true })
       showErrorDialog({
         visible: true,
-        title: 'Transaction Failed!',
-        message: `There was a problem sending G$. Try again`,
-        dismissText: 'OK',
+        title: t`Transaction Failed!`,
+        message: t`There was a problem sending G$. Try again`,
+        dismissText: t`OK`,
         onDismiss: () => {
           confirm()
         },
@@ -99,9 +100,9 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
           fireEvent(SEND_DONE, { type: screenState.params.type })
           showDialog({
             visible: true,
-            title: 'SUCCESS!',
-            message: 'The G$ was sent successfully',
-            buttons: [{ text: 'Yay!' }],
+            title: t`SUCCESS!`,
+            message: t`The G$ was sent successfully`,
+            buttons: [{ text: t`Yay!` }],
             onDismiss: screenProps.goToRoot,
           })
 
@@ -121,9 +122,9 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
 
       showErrorDialog({
         visible: true,
-        title: 'Transaction Failed!',
-        message: `There was a problem sending G$. Try again`,
-        dismissText: 'OK',
+        title: t`Transaction Failed!`,
+        message: t`There was a problem sending G$. Try again`,
+        dismissText: t`OK`,
       })
     }
   }
@@ -144,18 +145,18 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
       <Section grow>
         <Section.Title>Summary</Section.Title>
         <Section.Row justifyContent="center">
-          <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
+          <Section.Text color="gray80Percent">{t`* the transaction may take\na few seconds to complete`}</Section.Text>
         </Section.Row>
         <SummaryTable counterPartyDisplayName={profile.fullName || to} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
-              Cancel
+              {t`Cancel`}
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
             <CustomButton mode="contained" onPress={confirm} loading={loading}>
-              Confirm
+              {t`Confirm`}
             </CustomButton>
           </Section.Stack>
         </Section.Row>

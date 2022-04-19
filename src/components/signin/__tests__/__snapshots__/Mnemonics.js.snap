@@ -40,7 +40,9 @@ exports[`SignIn - Mnemonics matches snapshot 1`] = `
           dir="auto"
         >
           Please enter your
-12-word pass phrase:
+          
+
+          12-word pass phrase:
         </div>
       </div>
       <div
@@ -94,11 +96,12 @@ exports[`SignIn - Mnemonics matches snapshot 1`] = `
                 tabIndex="0"
               >
                 <div
-                  className="css-text-901oao r-color-13sdq65 r-fontSize-ubezar r-fontWeight-1it3c9n"
+                  className="css-text-901oao r-color-13sdq65 r-fontWeight-1it3c9n"
                   dir="auto"
                   style={
                     Object {
                       "fontFamily": "gooddollar",
+                      "fontSize": "16px",
                       "fontStyle": "normal",
                     }
                   }

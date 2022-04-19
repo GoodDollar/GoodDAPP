@@ -59,23 +59,51 @@ exports[`EmailForm matches snapshot 1`] = `
                 Personal Details
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr"
+                style={
+                  Object {
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                  }
+                }
               >
                 <div
-                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-marginVertical-r0h9e2 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
+                  style={
+                    Object {
+                      "marginBottom": "0px",
+                      "marginTop": "0px",
+                    }
+                  }
                 >
                   Nice to meet you, Kevin Bardi
                 </div>
                 <div
-                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-r0h9e2 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
+                  style={
+                    Object {
+                      "marginBottom": "0px",
+                      "marginTop": "0px",
+                    }
+                  }
                 >
                   What's your e-mail address?
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginVertical-r0h9e2"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-marginVertical-r0h9e2"
+                style={
+                  Object {
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                  }
+                }
               >
                 <div
                   className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
@@ -115,11 +143,12 @@ exports[`EmailForm matches snapshot 1`] = `
                       tabIndex="0"
                     >
                       <div
-                        className="css-text-901oao r-color-13sdq65 r-fontSize-ubezar r-fontWeight-1it3c9n"
+                        className="css-text-901oao r-color-13sdq65 r-fontWeight-1it3c9n"
                         dir="auto"
                         style={
                           Object {
                             "fontFamily": "gooddollar",
+                            "fontSize": "16px",
                             "fontStyle": "normal",
                           }
                         }
@@ -151,9 +180,11 @@ exports[`EmailForm matches snapshot 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-padding-t60dpp"
             style={
               Object {
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(23,53,102,0.40)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -171,12 +202,14 @@ exports[`EmailForm matches snapshot 1`] = `
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
+                "justifyContent": "center",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
                 "marginTop": "0px",
                 "minHeight": "44px",
                 "minWidth": "64px",
+                "msFlexPack": "center",
                 "paddingLeft": "0px",
                 "paddingRight": "0px",
               }

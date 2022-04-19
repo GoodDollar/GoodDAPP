@@ -9,13 +9,9 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 describe('UnsupportedBrowser', () => {
   const WrappedComponent = withThemeProvider(UnsupportedBrowser)
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedComponent onDissmiss={noop} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedComponent onDissmiss={noop} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedComponent onDissmiss={noop} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

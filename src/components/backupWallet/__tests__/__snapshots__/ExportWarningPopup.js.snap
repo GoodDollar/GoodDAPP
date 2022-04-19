@@ -22,13 +22,14 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
           className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-transform-1aeo46e"
         >
           <div
-            className="css-text-901oao r-color-1q5uqvh r-fontWeight-1it3c9n"
+            className="css-text-901oao r-color-1q5uqvh"
             dir="auto"
             style={
               Object {
                 "fontFamily": "gooddollar",
                 "fontSize": "100px",
                 "fontStyle": "normal",
+                "fontWeight": "normal",
               }
             }
           >

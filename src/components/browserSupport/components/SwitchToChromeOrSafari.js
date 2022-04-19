@@ -19,18 +19,10 @@ export default () => (
   <ExplanationDialog
     title={
       isIOSWeb
-        ? t`Please switch to
-      Safari browser`
-        : t`For best user
-      experience switch to
-      Chrome or Safari browsers`
+        ? t`Please switch to` + `\n` + t`Safari browser`
+        : t`For best user` + `\n` + t`experience switch to` + `\n` + t`Chrome or Safari browsers`
     }
-    text={
-      isIOSWeb
-        ? t`This browser doesn’t support
-    camera access on iOS devices. Sorry!`
-        : null
-    }
+    text={isIOSWeb ? t`This browser doesn't support` + `\n` + t`camera access on iOS devices. Sorry!` : null}
     textStyle={{
       fontSize: normalizeText(16),
       marginVertical: getDesignRelativeHeight(25, false),
@@ -43,7 +35,7 @@ export default () => (
 /*
  - Usage example
 
-const [showDialog] = useDialog()
+const { showDialog } = useDialog()
 
 showDialog({
   content: <SwitchToChromeOrSafari />,

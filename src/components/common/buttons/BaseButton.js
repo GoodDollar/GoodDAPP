@@ -120,6 +120,10 @@ const Button = ({
   }
   const touchableStyle = {
     borderRadius: style ? StyleSheet.flatten(style).borderRadius || roundness : roundness,
+    borderTopLeftRadius: style ? StyleSheet.flatten(style).borderTopLeftRadius ?? undefined : undefined,
+    borderTopRightRadius: style ? StyleSheet.flatten(style).borderTopRightRadius ?? undefined : undefined,
+    borderBottomLeftRadius: style ? StyleSheet.flatten(style).borderBottomLeftRadius ?? undefined : undefined,
+    borderBottomRightRadius: style ? StyleSheet.flatten(style).borderBottomRightRadius ?? undefined : undefined,
   }
   const textStyle = { color: textColor, ...font }
   const elevation = disabled || mode !== 'contained' ? 0 : elevationAnim

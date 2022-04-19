@@ -28,7 +28,15 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginBottom-p1pxzi r-maxHeight-15n77fl"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-p1pxzi r-maxHeight-15n77fl"
+          style={
+            Object {
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "justifyContent": "center",
+              "msFlexPack": "center",
+            }
+          }
         >
           <div
             className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -50,12 +58,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-1q5uqvh r-fontSize-ubezar r-fontWeight-1it3c9n"
+              className="css-text-901oao r-fontSize-ubezar"
               dir="auto"
               style={
                 Object {
+                  "color": "rgba(0,175,255,1.00)",
                   "fontFamily": "gooddollar",
                   "fontStyle": "normal",
+                  "fontWeight": "normal",
                 }
               }
             >
@@ -370,7 +380,15 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+          style={
+            Object {
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "justifyContent": "center",
+              "msFlexPack": "center",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n"
@@ -379,10 +397,20 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-position-u8s1d r-top-ipm5af"
+                style={
+                  Object {
+                    "width": "0px",
+                  }
+                }
               />
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-17gur6a r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-17gur6a r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-zIndex-184en5c"
+                style={
+                  Object {
+                    "width": "0px",
+                  }
+                }
               >
                 <div
                   aria-disabled={true}
@@ -418,7 +446,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
-                  fake-face-ide...ce-identifier
+                  c26741e42BcAF...e1BA28EaE21cF
                 </div>
               </div>
               <div
@@ -448,10 +476,11 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     tabIndex="0"
                   >
                     <div
-                      className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+                      className="css-text-901oao r-fontWeight-1it3c9n"
                       dir="auto"
                       style={
                         Object {
+                          "color": "rgba(255,255,255,1.00)",
                           "fontFamily": "gooddollar",
                           "fontSize": "22px",
                           "fontStyle": "normal",

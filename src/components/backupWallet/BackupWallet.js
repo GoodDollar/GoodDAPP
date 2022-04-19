@@ -5,7 +5,7 @@ import { t, Trans } from '@lingui/macro'
 import { useClipboardCopy } from '../../lib/hooks/useClipboard'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { getMnemonics, mnemonicsToObject } from '../../lib/wallet/SoftwareWalletProvider'
 import normalize from '../../lib/utils/normalizeText'
 import { CustomButton, Section, Text } from '../common'
@@ -27,8 +27,7 @@ type BackupWalletProps = {
 
 const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   const API = useWrappedApi()
-  const [showDialog] = useDialog()
-  const [showErrorDialog] = useErrorDialog()
+  const { showDialog, showErrorDialog } = useDialog()
   const userStorage = useUserStorage()
 
   const [mnemonics, setMnemonics] = useState('')
@@ -71,7 +70,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
       })
     } catch (e) {
       log.error('backup email failed:', e.message, e, { dialogShown: true })
-      showErrorDialog('Could not send backup email. Please try again.')
+      showErrorDialog(t`Could not send backup email. Please try again.`)
     }
 
     const userProperties = await userStorage.userProperties.getAll()
@@ -94,7 +93,9 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
           <Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
             {'please save your 12-word pass phrase\n'}
             <Text fontSize={16} style={styles.instructions}>
-              {'and keep it in a secure location\nso you can recover your wallet anytime'}
+              {'and keep it in a secure location'}
+              {'\n'}
+              {'so you can recover your wallet anytime'}
             </Text>
           </Text>
         </Trans>

@@ -18,7 +18,12 @@ export const GoodWalletContext = React.createContext({
   init: undefined,
 })
 
-export const GoodWalletProvider = ({ children }) => {
+/**
+ *
+ * @param {boolean} disableLoginAndWatch - used in tests to disable server interaction
+ * @returns
+ */
+export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) => {
   const [{ goodWallet, userStorage }, setWalletAndStorage] = useState({})
   const [web3Provider, setWeb3] = useState()
   const [isLoggedInJWT, setLoggedInJWT] = useState()
@@ -63,10 +68,11 @@ export const GoodWalletProvider = ({ children }) => {
           httpWeb3provider: web3 !== undefined ? web3.currentProvider?.http?.url : undefined,
         })
         await wallet.ready
+        log.info('initWalletAndStorage wallet ready')
         const userStorage = new UserStorage(wallet, db, new UserProperties(db))
         await userStorage.ready
         setWalletAndStorage({ goodWallet: wallet, userStorage })
-        log.debug('initWalletAndStorage done')
+        log.info('initWalletAndStorage done')
         global.userStorage = userStorage
         global.wallet = wallet
         return wallet
@@ -94,7 +100,7 @@ export const GoodWalletProvider = ({ children }) => {
         throw e
       })
       setLoggedInJWT(walletLogin)
-      log.debug('walletLogin', await walletLogin.getJWT(), { refresh })
+      log.info('walletLogin', await walletLogin.getJWT(), { refresh })
       return walletLogin
     },
     [goodWallet, userStorage, isLoggedInJWT, setLoggedInJWT],
@@ -139,8 +145,10 @@ export const GoodWalletProvider = ({ children }) => {
     let eventId
     if (goodWallet && userStorage) {
       log.debug('on wallet ready')
-      login()
-      eventId = watchBalanceAndTXs()
+      if (disableLoginAndWatch === false) {
+        login()
+        eventId = watchBalanceAndTXs()
+      }
     }
     return () => {
       log.debug('stop watching', eventId)

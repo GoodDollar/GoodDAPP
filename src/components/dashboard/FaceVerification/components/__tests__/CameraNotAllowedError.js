@@ -12,13 +12,9 @@ const exception = {
 }
 
 describe('FaceVerification CameraNotAllowedErrorDialog', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<CameraNotAllowedError exception={exception} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<CameraNotAllowedError exception={exception} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<CameraNotAllowedError exception={exception} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

@@ -2,9 +2,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { isEqualWith, pickBy } from 'lodash'
+import { t } from '@lingui/macro'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
 import UserAvatar from '../common/view/UserAvatar'
@@ -29,7 +30,7 @@ const EditProfile = ({ screenProps, styles }) => {
   const [isPristine, setIsPristine] = useState(true)
   const [errors, setErrors] = useState({})
   const [lockSubmit, setLockSubmit] = useState(false)
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const { push, pop } = screenProps
 
   const onProfileSaved = useCallback(() => pop(), [pop])
@@ -115,7 +116,7 @@ const EditProfile = ({ screenProps, styles }) => {
       await userStorage.setProfile(toupdate, true)
     } catch (e) {
       log.error('Error saving profile', e.message, e, { profile, dialogShown: true })
-      showErrorDialog('Could not save profile. Please try again.')
+      showErrorDialog(t`Could not save profile. Please try again.`)
     } finally {
       setSaving(false)
     }

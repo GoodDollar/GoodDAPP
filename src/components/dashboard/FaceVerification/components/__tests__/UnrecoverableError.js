@@ -14,13 +14,11 @@ const exception = {
 }
 
 describe('FaceVerification UnrecoverableError', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<UnrecoverableError exception={exception} nav={nav} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<UnrecoverableError exception={exception} nav={nav} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(
+      async () => (component = renderer.create(<UnrecoverableError exception={exception} nav={nav} />)),
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

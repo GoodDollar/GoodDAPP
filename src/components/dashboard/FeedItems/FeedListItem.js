@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Platform, TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
@@ -7,10 +7,10 @@ import type { FeedEvent } from '../../../lib/userStorage/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import useNavigationMacro from '../../../lib/hooks/useNavigationMacro'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 import { CARD_OPEN, fireEvent } from '../../../lib/analytics/analytics'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import { useNativeDriverForAnimation } from '../../../lib/utils/platform'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import Config from '../../../config/config'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
@@ -34,10 +34,16 @@ type FeedListItemProps = {
  * @returns {React.Node}
  */
 const FeedListItem = React.memo((props: FeedListItemProps) => {
+  const { feedLoadAnimShown } = useContext(GlobalTogglesContext)
   const disableAnimForTests = Config.env === 'test'
-  const simpleStore = SimpleStore.useStore()
   const { theme, item, handleFeedSelection, styles } = props
-  const { id, type, displayType, action } = item
+  const {
+    id,
+    type,
+    displayType,
+    action,
+    data: { link },
+  } = item
 
   const itemType = displayType || type
   const isItemEmpty = itemType === 'empty'
@@ -56,13 +62,14 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
 
   const onPress = useOnPress(() => {
     if (type !== 'empty') {
-      fireEvent(CARD_OPEN, { cardId: id })
+      const isNews = type === 'news'
+      const newsParams = isNews && !!link ? { link } : {}
+      fireEvent(CARD_OPEN, { cardId: id, ...newsParams })
       onItemPress()
     }
-  }, [fireEvent, type, onItemPress, id])
+  }, [fireEvent, type, onItemPress, id, link])
 
   if (isItemEmpty) {
-    const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
     const showLoadAnim = !feedLoadAnimShown && !disableAnimForTests
     const duration = 1250
     const animScheme = {
@@ -157,7 +164,6 @@ const getStylesFromProps = ({ theme }) => ({
 
     // height: theme.feedItems.height,
     marginHorizontal: theme.sizes.default,
-    maxHeight: theme.feedItems.height,
     shadowOpacity: 0.16,
     shadowRadius: 4,
   },

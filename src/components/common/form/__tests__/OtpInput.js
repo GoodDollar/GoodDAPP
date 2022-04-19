@@ -8,25 +8,25 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 describe('OtpInput', () => {
   const WrappedOtpInput = withThemeProvider(OtpInput)
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedOtpInput numInputs={3} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('empty matches snapshot', () => {
-    const component = renderer.create(<WrappedOtpInput numInputs={6} isInputNum={true} />)
+  it('empty matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedOtpInput numInputs={6} isInputNum={true} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('number matches snapshot', () => {
-    const component = renderer.create(<WrappedOtpInput numInputs={6} isInputNum={true} value="1234" />)
+  it('number matches snapshot', async () => {
+    let component
+    await renderer.act(
+      async () => (component = renderer.create(<WrappedOtpInput numInputs={6} isInputNum={true} value="1234" />)),
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedOtpInput numInputs={6} value="Text" />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedOtpInput numInputs={6} value="Text" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

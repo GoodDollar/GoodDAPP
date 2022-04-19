@@ -1,12 +1,13 @@
 import React from 'react'
 
+import { t } from '@lingui/macro'
 import ExplanationDialog from '../common/dialogs/ExplanationDialog'
 import illustration from '../../assets/QRCamerraPermission.svg'
 
 export default () => (
   <ExplanationDialog
-    title="Please allow access to your camera"
-    text={`In order to complete the QR code scan`}
+    title={t`Please allow access to your camera`}
+    text={t`In order to complete the QR code scan`}
     image={illustration}
   />
 )
@@ -14,7 +15,7 @@ export default () => (
 /*
  - Usage example
 
-const [showDialog] = useDialog()
+const { showDialog } = useDialog()
 
 showDialog({
   content: <CameraPermissionDialogTypeQR />,

@@ -63,7 +63,7 @@ const FeedModalList = ({
    */
   const getFlatListRef = useCallback(
     flatList => {
-      if (flatList) {
+      if (flatList && selectedFeedIndex >= 0) {
         flatList.scrollToIndex({ animated: false, index: selectedFeedIndex })
       }
     },

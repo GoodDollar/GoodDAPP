@@ -2,11 +2,9 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import FeedModalList from '../FeedModalList'
 import { mockEvent } from '../__tests__/__util__'
-import GDStore from '../../../lib/undux/GDStore'
 import { withThemeProvider } from '../../../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
-const { Container } = GDStore
 
 describe('FeedModalList', () => {
   const WrappedFeedModalList = withThemeProvider(FeedModalList)
@@ -21,21 +19,9 @@ describe('FeedModalList', () => {
         props.data = []
       })
 
-      it('renders without errors', () => {
-        const tree = renderer.create(
-          <Container>
-            <WrappedFeedModalList {...props} />
-          </Container>,
-        )
-        expect(tree.toJSON()).toBeTruthy()
-      })
-
-      it('matches snapshot', () => {
-        const component = renderer.create(
-          <Container>
-            <WrappedFeedModalList {...props} />
-          </Container>,
-        )
+      it('matches snapshot', async () => {
+        let component
+        await renderer.act(async () => (component = renderer.create(<WrappedFeedModalList {...props} />)))
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()
       })
@@ -52,21 +38,9 @@ describe('FeedModalList', () => {
         ]
       })
 
-      it('renders without errors', () => {
-        const tree = renderer.create(
-          <Container>
-            <WrappedFeedModalList {...props} />
-          </Container>,
-        )
-        expect(tree.toJSON()).toBeTruthy()
-      })
-
-      it('matches snapshot', () => {
-        const component = renderer.create(
-          <Container>
-            <WrappedFeedModalList {...props} />
-          </Container>,
-        )
+      it('matches snapshot', async () => {
+        let component
+        await renderer.act(async () => (component = renderer.create(<WrappedFeedModalList {...props} />)))
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()
       })

@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useUserStorage } from '../wallet/GoodWalletProvider'
 
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
-import AsyncStorage from '../utils/asyncStorage'
 
 const useAvatar = avatar => {
   const userStorage = useUserStorage()
@@ -48,35 +47,6 @@ const useAvatar = avatar => {
   }, [cachedDataUrl, avatar, setDataUrl])
 
   return dataUrl
-}
-
-//TODO: dont use store, what is going on here?
-export const useUploadedAvatar = () => {
-  const [avatarPassed, setAvatarPassed] = useState()
-  const initialAvatarPassedRef = useRef(avatarPassed)
-
-  const setAvatarJustUploaded = useCallback(
-    async avatar => {
-      setAvatarPassed(avatar)
-      await AsyncStorage.setItem('GD_uploadedAvatar', avatar)
-    },
-    [setAvatarPassed],
-  )
-
-  useEffect(() => {
-    if (!initialAvatarPassedRef.current) {
-      AsyncStorage.getItem('GD_uploadedAvatar').then(avatar => {
-        if (!avatar) {
-          return
-        }
-        initialAvatarPassedRef.current = avatar
-        setAvatarPassed(avatar)
-      })
-    }
-    AsyncStorage.removeItem('GD_uploadedAvatar')
-  }, [setAvatarPassed])
-
-  return [avatarPassed, setAvatarJustUploaded]
 }
 
 export default useAvatar

@@ -3,12 +3,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import { text } from 'react-native-communications'
+import { t } from '@lingui/macro'
 import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { retry } from '../../lib/utils/async'
 import API from '../../lib/API/api'
@@ -35,7 +36,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const userStorage = useUserStorage()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
-  const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const { showDialog, hideDialog, showErrorDialog } = useDialog()
 
   const [shared, setShared] = useState(false)
   const [link, setLink] = useState('')
@@ -124,7 +125,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             dialogShown: true,
           })
 
-          showErrorDialog('Link generation failed. Please try again', '', {
+          showErrorDialog(t`Link generation failed. Please try again`, '', {
             buttons: [
               {
                 text: 'Try again',
@@ -214,9 +215,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
             showDialog({
               visible: true,
-              title: 'SUCCESS!',
-              message: 'The G$ was sent successfully',
-              buttons: [{ text: 'Yay!' }],
+              title: t`SUCCESS!`,
+              message: t`The G$ was sent successfully`,
+              buttons: [{ text: t`Yay!` }],
               onDismiss: goToRoot,
             })
 
@@ -236,9 +237,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
         showErrorDialog({
           visible: true,
-          title: 'Transaction Failed!',
-          message: `There was a problem sending G$. Check payment details.`,
-          dismissText: 'OK',
+          title: t`Transaction Failed!`,
+          message: t`There was a problem sending G$. Check payment details.`,
+          dismissText: t`OK`,
         })
       }
     },
@@ -254,7 +255,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       navigateTo('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
     } catch (e) {
       log.error('Something went wrong while trying to generate send link', e.message, e, { dialogShown: true })
-      showErrorDialog('Could not complete transaction. Please try again.')
+      showErrorDialog(t`Could not complete transaction. Please try again.`)
     }
   }, [amount, counterPartyDisplayName, fullName, navigateTo, getLink])
 
@@ -320,7 +321,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       amount={amount}
       reason={reason}
       iconName="send"
-      title="YOU ARE SENDING"
+      title={t`YOU ARE SENDING`}
       action="send"
       vendorInfo={vendorInfo}
     />

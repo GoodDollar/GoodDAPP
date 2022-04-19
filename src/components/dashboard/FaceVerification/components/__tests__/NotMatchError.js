@@ -12,13 +12,9 @@ const exception = {
 }
 
 describe('FaceVerification DuplicateFoundError', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<NotMatchError exception={exception} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<NotMatchError exception={exception} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<NotMatchError exception={exception} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

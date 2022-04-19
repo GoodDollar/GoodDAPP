@@ -91,7 +91,6 @@ const RouterSelector = () => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
   // we use global state for signup process to signal user has registered
-
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 

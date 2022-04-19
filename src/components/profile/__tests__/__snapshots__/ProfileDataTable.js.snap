@@ -5,7 +5,15 @@ exports[`ProfileDataTable matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+    style={
+      Object {
+        "WebkitBoxFlex": 1,
+        "WebkitFlexGrow": 1,
+        "flexGrow": 1,
+        "msFlexPositive": 1,
+      }
+    }
   >
     <div
       className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-buy8e9 r-touchAction-19z077z r-transform-1sncvnh"

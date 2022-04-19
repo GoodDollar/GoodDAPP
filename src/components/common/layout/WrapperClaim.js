@@ -24,7 +24,7 @@ const WrapperClaim = ({ children, style, styles, ...props }) => {
   const { isMobileSafariKeyboardShown } = useContext(GlobalTogglesContext)
 
   const wrapperStyles = useMemo(() => {
-    const growStyle = { flexGrow: isMobileSafariKeyboardShown ? 1 : 0 }
+    const growStyle = { flexGrow: isMobileSafariKeyboardShown ? 0 : 1 }
     return [container, growStyle, style]
   }, [isMobileSafariKeyboardShown, container, style])
 

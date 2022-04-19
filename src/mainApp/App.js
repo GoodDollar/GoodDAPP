@@ -12,6 +12,7 @@ import useServiceWorker from '../lib/hooks/useServiceWorker'
 
 import { isMobile } from '../lib/utils/platform'
 import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
+import { DialogContextProvider } from '../lib/dialog/dialogContext'
 import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
@@ -49,11 +50,13 @@ export const App = () => {
       <AppWrapper {...wrapperProps}>
         <Fragment>
           <GlobalTogglesContextProvider>
-            <GoodWalletProvider>
-              <SimpleStoreDialog />
-              <LoadingIndicator />
-              <RouterSelector />
-            </GoodWalletProvider>
+            <DialogContextProvider>
+              <GoodWalletProvider>
+                <SimpleStoreDialog />
+                <LoadingIndicator />
+                <RouterSelector />
+              </GoodWalletProvider>
+            </DialogContextProvider>
           </GlobalTogglesContextProvider>
         </Fragment>
       </AppWrapper>

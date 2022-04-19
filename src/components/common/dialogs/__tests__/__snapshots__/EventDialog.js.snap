@@ -1,17 +1,299 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EventDialog matches snapshot 1`] = `
-<div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
->
+Array [
   <div
-    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
-    data-name="viewWrapper"
-    style={
-      Object {
-        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
+    className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  >
+    <div
+      className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+      data-name="viewWrapper"
+      style={
+        Object {
+          "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
+        }
       }
-    }
-  />
-</div>
+    />
+  </div>,
+  <div
+    className="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-pointerEvents-12vffkv r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+  >
+    <div
+      aria-live="polite"
+      className="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-pointerEvents-105ug2t r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+    >
+      <div
+        className="css-view-1dbjc4n r-flex-13awgt0"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onKeyDown={[Function]}
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,0.50)",
+            "opacity": 1,
+          }
+        }
+        tabIndex="0"
+      />
+      <div
+        className="css-view-1dbjc4n r-bottom-1p0dtai r-justifyContent-1777fci r-left-1d2f490 r-pointerEvents-12vffkv r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitBoxPack": "start",
+              "WebkitJustifyContent": "flex-start",
+              "backgroundColor": "rgba(255,255,255,1.00)",
+              "borderBottomLeftRadius": "4px",
+              "borderBottomRightRadius": "4px",
+              "borderTopLeftRadius": "4px",
+              "borderTopRightRadius": "4px",
+              "boxShadow": "0px 23px 24px rgba(0,0,0,0.24)",
+              "justifyContent": "flex-start",
+              "marginBottom": "0px",
+              "marginLeft": "26px",
+              "marginRight": "26px",
+              "marginTop": "0px",
+              "msFlexPack": "start",
+              "opacity": 1,
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-paddingBottom-qn3fzs r-paddingHorizontal-1guathk"
+            style={
+              Object {
+                "paddingTop": "24px",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao r-color-xdvzot r-fontSize-1546407 r-letterSpacing-1r1s7mt r-lineHeight-rjixqe r-marginVertical-hrzydr"
+              dir="auto"
+              style={
+                Object {
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                }
+              }
+            >
+              04/01/2019, 15:03
+            </div>
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingTop-ttdzmv r-paddingVertical-1yzf0co"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+              >
+                <div
+                  className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  Sent G$
+                </div>
+                <div
+                  className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                  dir="auto"
+                >
+                  + 
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+                  >
+                    <span
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    >
+                      0.04
+                    </span>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-xoduu5 r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                    >
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        G
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      >
+                        $
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-borderBottomColor-d9nfor r-borderBottomWidth-qklmqi r-borderTopColor-sets80 r-borderTopWidth-5kkj8d"
+            >
+              <div
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-marginBottom-p1pxzi r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+              >
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                >
+                  <div
+                    aria-disabled={true}
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-51bunp r-borderColor-y68mpx r-borderWidth-rs99b7 r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    style={
+                      Object {
+                        "WebkitTransitionDuration": "0s",
+                        "borderBottomLeftRadius": "21px",
+                        "borderBottomRightRadius": "21px",
+                        "borderTopLeftRadius": "21px",
+                        "borderTopRightRadius": "21px",
+                        "height": "42px",
+                        "transitionDuration": "0s",
+                        "width": "42px",
+                      }
+                    }
+                    tabIndex="-1"
+                  >
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "backgroundColor": "rgba(0,0,0,0.00)",
+                          "height": "42px",
+                          "width": "42px",
+                        }
+                      }
+                    >
+                      <unknownProfile.svg />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    dir="auto"
+                  >
+                    <span
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    >
+                      From:
+                       
+                    </span>
+                    <span
+                      className="css-text-901oao css-textHasAncestor-16my406 r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    >
+                      
+undefined
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-text-901oao r-fontSize-1b43r93 r-fontStyle-36ujnk r-letterSpacing-1r1s7mt r-lineHeight-rjixqe r-marginVertical-hrzydr"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(34,34,34,0.87)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                }
+              }
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-17s6mgv r-padding-edyy15"
+          >
+            <div
+              className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
+              style={
+                Object {
+                  "WebkitAlignItems": "stretch",
+                  "WebkitBoxAlign": "stretch",
+                  "alignItems": "stretch",
+                  "backgroundColor": "rgba(0,175,255,1.00)",
+                  "borderBottomColor": "rgba(0,175,255,1.00)",
+                  "borderBottomLeftRadius": "50px",
+                  "borderBottomRightRadius": "50px",
+                  "borderBottomStyle": "solid",
+                  "borderBottomWidth": "0px",
+                  "borderLeftColor": "rgba(0,175,255,1.00)",
+                  "borderLeftStyle": "solid",
+                  "borderLeftWidth": "0px",
+                  "borderRightColor": "rgba(0,175,255,1.00)",
+                  "borderRightStyle": "solid",
+                  "borderRightWidth": "0px",
+                  "borderTopColor": "rgba(0,175,255,1.00)",
+                  "borderTopLeftRadius": "50px",
+                  "borderTopRightRadius": "50px",
+                  "borderTopStyle": "solid",
+                  "borderTopWidth": "0px",
+                  "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                  "marginLeft": "0px",
+                  "marginRight": "0px",
+                  "marginTop": "0px",
+                  "minHeight": "44px",
+                  "minWidth": "auto",
+                  "msFlexAlign": "stretch",
+                  "paddingBottom": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "0px",
+                  "paddingTop": "0px",
+                }
+              }
+            >
+              <div
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "borderBottomLeftRadius": "50px",
+                    "borderBottomRightRadius": "50px",
+                    "borderTopLeftRadius": "50px",
+                    "borderTopRightRadius": "50px",
+                    "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
+                  }
+                }
+                tabIndex="0"
+              >
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                  style={
+                    Object {
+                      "WebkitAlignSelf": "stretch",
+                      "alignSelf": "stretch",
+                      "msFlexItemAlign": "stretch",
+                      "msGridRowAlign": "stretch",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                    >
+                      <div
+                        className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                        dir="auto"
+                      >
+                        Ok
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
 `;

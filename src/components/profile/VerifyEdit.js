@@ -2,6 +2,7 @@
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
@@ -10,7 +11,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import useProfile from '../../lib/userStorage/useProfile'
 
@@ -19,7 +20,7 @@ const log = logger.child({ from: 'Verify edit profile field' })
 const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const userStorage = useUserStorage()
   const [loading, setLoading] = useState(false)
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const { fullName } = useProfile()
   const firstName = fullName && fullName.split(' ')[0]
   const field = get(navigation, 'state.params.field')
@@ -63,7 +64,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } catch (e) {
       log.error('Failed to send code', e.message, e, { dialogShown: true })
 
-      showErrorDialog('Could not send verification code. Please try again', undefined, { onDismiss: goBack })
+      showErrorDialog(t`Could not send verification code. Please try again`, undefined, { onDismiss: goBack })
     } finally {
       setLoading(false)
     }

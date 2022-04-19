@@ -1,39 +1,33 @@
 import { useCallback } from 'react'
 
-import { map } from 'lodash'
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
+import { defaultVerificationState, useFVContext } from '../../../../lib/contexts/fvContext'
+import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
 
-import useRealtimeStoreState from '../../../../lib/hooks/useRealtimeStoreState'
-
-import GDStore, { defaultVerificationState } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 import logger from '../../../../lib/logger/js-logger'
 import { hideRedBox } from '../utils/redBox'
 
 const log = logger.child({ from: 'useVerificationAttempts' })
 
-//TODO: dont use store
 export default () => {
-  const gdstore = GDStore.useStore()
-  const [getAttemptsState, updateAttemptsState, attemptsState] = useRealtimeStoreState(gdstore, 'verification')
-  const resetAttempts = useCallback(() => updateAttemptsState(defaultVerificationState), [updateAttemptsState])
-  const { attemptsCount, attemptsHistory } = attemptsState
+  const { attemptsCount, attemptsHistory, reachedMaxAttempts, update } = useFVContext()
+  const accessors = useRealtimeProps([attemptsCount, attemptsHistory, reachedMaxAttempts])
+  const resetAttempts = useCallback(() => update(defaultVerificationState), [update])
 
   const trackAttempt = useCallback(
     exception => {
       const { message } = exception
-      const { attemptsCount, attemptsHistory } = getAttemptsState()
+      const [getAttemptsCount, getAttemptsHistory] = accessors
+      const getUpdatedHistory = (history = null) => [...(history || getAttemptsHistory()), message]
 
-      // prepare updated count & history
-      const updatedCount = attemptsCount + 1
-      const updatedHistory = [...attemptsHistory, message]
-
-      // if we still not reached MAX_ATTEMPTS_ALLOWED - just add to the historu
-      if (updatedCount < MAX_ATTEMPTS_ALLOWED) {
-        updateAttemptsState({
-          attemptsCount: updatedCount,
-          attemptsHistory: updatedHistory,
-        })
+      if (getAttemptsCount() < MAX_ATTEMPTS_ALLOWED - 1) {
+        // if we still not reached MAX_ATTEMPTS_ALLOWED - just add to the history
+        update(({ attemptsCount, attemptsHistory }) => ({
+          // update count & history
+          attemptsCount: attemptsCount + 1,
+          attemptsHistory: getUpdatedHistory(attemptsHistory),
+        }))
 
         return
       }
@@ -41,7 +35,7 @@ export default () => {
       // otherwise
 
       // 1. get history to the error messages
-      const attemptsErrorMessages = map(updatedHistory)
+      const attemptsErrorMessages = getUpdatedHistory()
 
       // 2. reset history in the store
       resetAttempts()
@@ -60,23 +54,24 @@ export default () => {
       fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages })
 
       // 4. set "reached max attempts" flag in the store
-      updateAttemptsState('reachedMaxAttempts', true)
+      update({ reachedMaxAttempts: true })
     },
 
     // resetAttempts already depends from updateAttemptsState
-    [resetAttempts, getAttemptsState],
+    [resetAttempts, update, accessors],
   )
 
   // returns isReachedMaxAttempts flag, resets it once
   const isReachedMaxAttempts = useCallback(() => {
-    const { reachedMaxAttempts } = getAttemptsState()
+    const [, , getReachedMaxAttempts] = accessors
+    const reachedMaxAttempts = getReachedMaxAttempts()
 
     if (reachedMaxAttempts) {
-      updateAttemptsState('reachedMaxAttempts', false)
+      update({ reachedMaxAttempts: false })
     }
 
     return reachedMaxAttempts
-  }, [updateAttemptsState, getAttemptsState])
+  }, [update, accessors])
 
   return {
     trackAttempt,

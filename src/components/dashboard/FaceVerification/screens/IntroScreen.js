@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 
@@ -34,6 +34,7 @@ import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
+import { useDialog } from '../../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 
 // import createABTesting from '../../../../lib/hooks/useABTesting'
@@ -43,7 +44,6 @@ import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../../lib/userStorage/useProfile'
-import { GlobalTogglesContext } from '../../../../lib/contexts/togglesContext'
 
 // Localization
 
@@ -151,8 +151,8 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { fullName } = useProfile()
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
-  const { setDialogBlur } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
+  const { showDialog } = useDialog()
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
   const Intro = IntroScreenB
@@ -167,10 +167,11 @@ const IntroScreen = ({ styles, screenProps }) => {
         return
       }
 
-      showQueueDialog(WalletDeletedPopupText, setDialogBlur, {
+      const dialogData = showQueueDialog(WalletDeletedPopupText, {
         onDismiss: goToRoot,
         imageSource: wait24hourIllustration,
       })
+      showDialog(dialogData)
     },
   })
 

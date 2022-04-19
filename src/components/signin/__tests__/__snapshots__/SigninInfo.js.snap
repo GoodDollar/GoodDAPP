@@ -16,14 +16,27 @@ exports[`SigninInfo matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-flexDirection-18u37iz r-flexShrink-1q142lx"
+        className="css-view-1dbjc4n"
         style={
           Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
             "WebkitBoxFlex": 0,
+            "WebkitBoxOrient": "horizontal",
+            "WebkitFlexDirection": "row",
             "WebkitFlexGrow": 0,
+            "WebkitFlexShrink": 0,
+            "alignItems": "center",
+            "backgroundColor": "rgba(0,175,255,1.00)",
             "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
+            "flexDirection": "row",
             "flexGrow": 0,
+            "flexShrink": 0,
             "height": "0px",
+            "msFlexAlign": "center",
+            "msFlexDirection": "row",
+            "msFlexNegative": 0,
             "msFlexPositive": 0,
             "paddingLeft": "4px",
             "paddingRight": "4px",
@@ -58,13 +71,15 @@ exports[`SigninInfo matches snapshot 1`] = `
             }
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
+                  "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "gooddollar",
                   "fontSize": "22px",
                   "fontStyle": "normal",
+                  "fontWeight": "normal",
                 }
               }
             >
@@ -157,7 +172,15 @@ exports[`SigninInfo matches snapshot 1`] = `
           className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox"
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1h0z5md"
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
+            style={
+              Object {
+                "WebkitBoxPack": "start",
+                "WebkitJustifyContent": "flex-start",
+                "justifyContent": "flex-start",
+                "msFlexPack": "start",
+              }
+            }
           >
             <div
               className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1d7fvdj r-marginBottom-ku1wi2 r-maxHeight-f5c2rd r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-paddingHorizontal-mk0yit r-paddingTop-elmauq r-position-bnwqim r-width-13qz1uu"

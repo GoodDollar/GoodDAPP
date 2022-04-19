@@ -7,6 +7,7 @@ import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import moment from 'moment'
 
+import { t } from '@lingui/macro'
 import useCheckExisting from '../auth/hooks/useCheckExisting'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
@@ -25,8 +26,7 @@ import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import API, { getErrorMessage } from '../../lib/API/api'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import BackButtonHandler from '../../lib/utils/handleBackButton'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/userStorage/UserModel'
@@ -111,7 +111,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     get(navigation, 'state.params.torusProvider') ||
     get(navigation.state.routes.find(route => get(route, 'params.torusProvider')), 'params.torusProvider', undefined)
 
-  const store = SimpleStore.useStore()
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
@@ -143,7 +142,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [, hideDialog, showErrorDialog] = useDialog()
+  const { hideDialog, showErrorDialog } = useDialog()
 
   const { success: signupSuccess, setWalletPreparing, setSuccessfull, activeStep, setActiveStep } = useContext(
     AuthContext,
@@ -402,7 +401,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           return navigateWithFocus(nextRoute.key)
         } catch (e) {
           log.error('Send mobile code failed', e.message, e, { dialogShown: true })
-          return showErrorDialog('Could not send verification code. Please try again')
+          return showErrorDialog(t`Could not send verification code. Please try again`)
         } finally {
           setLoading(false)
         }
@@ -428,7 +427,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               dialogShown: true,
             })
 
-            return showErrorDialog('Could not send verification email. Please try again')
+            return showErrorDialog(t`Could not send verification email. Please try again`)
           }
 
           log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
@@ -450,7 +449,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           decorate(e, ExceptionCode.E9)
 
           log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
-          return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
+          return showErrorDialog(t`Could not send verification email. Please try again`, ExceptionCode.E9)
         } finally {
           setLoading(false)
         }
@@ -472,7 +471,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       signupData,
       isRegMethodSelfCustody,
       ready,
-      store,
       torusProvider,
       navigation.state.index,
       navigation.state.routes,
@@ -590,7 +588,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const { scrollableContainer, contentContainer } = styles
 
   return (
-    <View style={{ flexGrow: isMobileSafariKeyboardShown ? 1 : 0 }}>
+    <View style={{ flexGrow: isMobileSafariKeyboardShown ? 0 : 1 }}>
       <NavBar logo />
       <AuthStateWrapper>
         <AuthProgressBar step={activeStep} done={signupSuccess} />

@@ -7,9 +7,6 @@ import { View } from 'react-native'
 // custom components
 // import Text from '../view/Text'
 
-import { store } from '../../../lib/undux/SimpleStore'
-import { showDialogWithData } from '../../../lib/undux/utils/dialog'
-
 // utils
 import { withStyles } from '../../../lib/styles'
 
@@ -62,7 +59,7 @@ export const showQueueDialog = (
   const StylesWrappedContent = withStyles(styles)(ContentComponent)
   const Image = imageSource
 
-  showDialogWithData(store.getCurrentSnapshot(), setDialogBlur, {
+  return {
     type: 'queue',
     isMinHeight: true,
     image: (
@@ -78,5 +75,5 @@ export const showQueueDialog = (
       },
     ],
     ...dialogOptions,
-  })
+  }
 }

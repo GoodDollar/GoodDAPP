@@ -8,7 +8,6 @@ import AsyncStorage from '../lib/utils/asyncStorage'
 
 import Config from '../config/config'
 
-import SimpleStore, { initStore } from '../lib/undux/SimpleStore'
 import LanguageProvider from '../language/i18n'
 import AppHot from './AppHot'
 
@@ -37,8 +36,6 @@ const AppHolder = () => {
       if (Platform.OS === 'web') {
         await upgradeVersion()
       }
-
-      await initStore()
       setReady(true)
     }
 
@@ -54,13 +51,11 @@ const AppHolder = () => {
   }
 
   return (
-    <SimpleStore.Container>
-      <LanguageProvider>
-        <ActionSheetProvider>
-          <AppHot />
-        </ActionSheetProvider>
-      </LanguageProvider>
-    </SimpleStore.Container>
+    <LanguageProvider>
+      <ActionSheetProvider>
+        <AppHot />
+      </ActionSheetProvider>
+    </LanguageProvider>
   )
 }
 

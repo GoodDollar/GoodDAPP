@@ -1,10 +1,11 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
 import { noop } from 'lodash'
+import { t } from '@lingui/macro'
 import { Wrapper } from '../common'
 import logger from '../../lib/logger/js-logger'
 import { parsePaymentLinkParams, readCode } from '../../lib/share'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
@@ -32,8 +33,7 @@ export type HandlePaymentLinkProps = {
 const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
   const { screenProps, navigation, styles } = props
   const { params } = navigation.state || {}
-  const [showDialog, hideDialog] = useDialog()
-  const [showErrorDialog] = useErrorDialog()
+  const { hideDialog, showDialog, showErrorDialog } = useDialog()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 
@@ -50,7 +50,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           log.debug('decoded payment request', { code })
 
           if (isTheSameUser(code)) {
-            showErrorDialog('You cannot use your own payment link', undefined, {
+            showErrorDialog(t`You cannot use your own payment link`, undefined, {
               onDismiss: screenProps.goToRoot,
             })
 
@@ -59,9 +59,9 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
 
           showDialog({
             onDismiss: noop,
-            title: 'Processing Payment Link...',
+            title: t`Processing Payment Link...`,
             image: <LoadingIcon />,
-            message: 'please wait while processing...',
+            message: t`please wait while processing...`,
             showCloseButtons: false,
             showButtons: false,
           })
@@ -80,7 +80,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               dialogShown: true,
             })
 
-            showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
+            showErrorDialog(t`Payment link is incorrect. Please double check your link.`, undefined, {
               onDismiss: screenProps.goToRoot,
             })
           }
@@ -118,12 +118,12 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
       try {
         showDialog({
           onDismiss: screenProps.goToRoot,
-          title: 'Processing Payment Link...',
+          title: t`Processing Payment Link...`,
           image: <LoadingIcon />,
-          message: 'please wait while processing...',
+          message: t`please wait while processing...`,
           buttons: [
             {
-              text: 'YAY!',
+              text: t`YAY!`,
               style: styles.disabledButton,
               disabled: true,
             },
@@ -143,20 +143,20 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
 
           showDialog({
             onDismiss: screenProps.goToRoot,
-            title: 'Payment Link Processed Successfully',
+            title: t`Payment Link Processed Successfully`,
             image: <SuccessIcon />,
-            message: "You received G$'s!",
+            message: t`You received G$'s!`,
             buttons: [
               {
-                text: 'YAY!',
+                text: t`YAY!`,
               },
             ],
           })
           return
         }
 
-        const withdrawnOrSendError = 'Payment already withdrawn or canceled by sender'
-        const wrongPaymentDetailsError = 'Wrong payment link or payment details'
+        const withdrawnOrSendError = t`Payment already withdrawn or canceled by sender`
+        const wrongPaymentDetailsError = t`Wrong payment link or payment details`
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
             log.warn('Failed to complete withdraw', withdrawnOrSendError, new Error(withdrawnOrSendError), {
@@ -186,7 +186,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               category: ExceptionCategory.Human,
               dialogShown: true,
             })
-            showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`, undefined, {
+            showErrorDialog(t`Could not find payment details.\nCheck your link or try again later.`, undefined, {
               onDismiss: screenProps.goToRoot,
             })
             break

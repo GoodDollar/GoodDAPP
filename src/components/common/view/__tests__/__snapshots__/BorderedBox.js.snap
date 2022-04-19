@@ -11,7 +11,12 @@ exports[`BorderedBox matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+        className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-position-u8s1d r-top-ipm5af"
+        style={
+          Object {
+            "width": "0px",
+          }
+        }
       />
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp"

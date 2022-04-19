@@ -7,6 +7,7 @@ import { Platform, TouchableOpacity } from 'react-native'
 import { mapValues, pick, startCase } from 'lodash'
 
 // custom components
+import { t } from '@lingui/macro'
 import Wrapper from '../common/layout/Wrapper'
 import { CustomButton, Icon, Section, Text } from '../common'
 import Avatar from '../common/view/Avatar'
@@ -15,7 +16,7 @@ import BorderedBox from '../common/view/BorderedBox'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
@@ -79,14 +80,14 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
 
   const [privacy, setPrivacy] = useState(initialPrivacy)
   const [loading, setLoading] = useState(false)
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
 
   // bordered box required data
   const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
 
   const handleSaveShowTips = useCallback(() => {
     showDialog({
-      title: 'SETTINGS',
+      title: t`SETTINGS`,
       content: (
         <Section.Stack grow>
           {privacyOptions.map(field => (
@@ -101,7 +102,7 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
       ),
       buttons: [
         {
-          text: 'Ok',
+          text: t`Ok`,
           onPress: dismiss => {
             dismiss()
           },

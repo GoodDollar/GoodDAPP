@@ -59,7 +59,15 @@ exports[`NameForm matches snapshot 1`] = `
                 Personal Details
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginVertical-1r5su4o"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-marginVertical-1r5su4o"
+                style={
+                  Object {
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                  }
+                }
               >
                 <div
                   className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -87,7 +95,15 @@ exports[`NameForm matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginBottom-5oul0u r-marginTop-1t01tom"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-marginBottom-5oul0u r-marginTop-1t01tom"
+                style={
+                  Object {
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                  }
+                }
               >
                 <div
                   className="css-view-1dbjc4n r-marginBottom-5oul0u r-width-13qz1uu"
@@ -137,9 +153,11 @@ exports[`NameForm matches snapshot 1`] = `
           }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-padding-t60dpp"
             style={
               Object {
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -158,12 +176,14 @@ exports[`NameForm matches snapshot 1`] = `
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
                 "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                "justifyContent": "center",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
                 "marginTop": "0px",
                 "minHeight": "44px",
                 "minWidth": "64px",
+                "msFlexPack": "center",
                 "paddingLeft": "0px",
                 "paddingRight": "0px",
               }

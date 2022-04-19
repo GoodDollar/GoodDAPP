@@ -5,13 +5,9 @@ import Address from '../Address'
 // Note: test renderer must be required after react-native.
 
 describe('Address', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<Address />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<Address />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<Address />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

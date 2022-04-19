@@ -7,22 +7,16 @@ import { StoresWrapper, withThemeProvider } from '../../../__tests__/__util__'
 import MagicLinkInfo from '../MagicLinkInfo'
 
 describe('Sign Up Magic Link Info Screen', () => {
-  it('renders without errors', () => {
+  it('matches snapshot', async () => {
     const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ MagicLinkInfo })))
-    const tree = renderer.create(
-      <StoresWrapper>
-        <WebRouter />
-      </StoresWrapper>,
-    )
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ MagicLinkInfo })))
-    const component = renderer.create(
-      <StoresWrapper>
-        <WebRouter />
-      </StoresWrapper>,
+    let component
+    await renderer.act(
+      async () =>
+        (component = renderer.create(
+          <StoresWrapper>
+            <WebRouter />
+          </StoresWrapper>,
+        )),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

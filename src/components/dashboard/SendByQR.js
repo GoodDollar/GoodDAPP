@@ -7,14 +7,14 @@ import { isAddress } from 'web3-utils'
 import { noop } from 'lodash'
 
 // components
+import { t } from '@lingui/macro'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
 import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import logger from '../../lib/logger/js-logger'
@@ -42,13 +42,17 @@ type Props = {
 
 const RecipientWarnDialog = ({ onConfirm }) => (
   <ExplanationDialog
-    title={'Make sure your recipient is also using the Fuse network'}
+    title={t`Make sure your recipient is also using the Fuse network`}
     image={InfoIcon}
     imageHeight={124}
     buttons={[
-      { text: 'Cancel', onPress: noop, mode: 'text' },
       {
-        text: 'Confirm',
+        text: t`Cancel`,
+        onPress: noop,
+        mode: 'text',
+      },
+      {
+        text: t`Confirm`,
         action: onConfirm,
       },
     ]}
@@ -57,9 +61,7 @@ const RecipientWarnDialog = ({ onConfirm }) => (
 
 const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
-  const store = SimpleStore.useStore()
-  const [showErrorDialog] = useErrorDialog()
-  const [showDialog] = useDialog()
+  const { showDialog, showErrorDialog } = useDialog()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 
@@ -162,7 +164,7 @@ const SendByQR = ({ screenProps }: Props) => {
           <QrReader
             delay={qrDelay}
             onError={handleError}
-            onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+            onScan={wrapFunction(handleScan, { onDismiss: onDismissDialog })}
           />
         )}
       </Section>

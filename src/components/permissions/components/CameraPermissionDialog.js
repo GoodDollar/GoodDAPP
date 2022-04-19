@@ -1,16 +1,17 @@
 import React from 'react'
 
+import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import illustration from '../../../assets/CameraPermission.svg'
 
 export default ({ onDismiss }) => (
   <ExplanationDialog
-    title={`Enable camera access\nto claim G$'s`}
+    title={t`Enable camera access` + `\n` + t`to claim G$'s`}
     image={illustration}
     imageHeight={128}
     buttons={[
       {
-        text: 'I UNDERSTAND',
+        text: t`I UNDERSTAND`,
         action: onDismiss,
       },
     ]}
@@ -20,7 +21,7 @@ export default ({ onDismiss }) => (
 /*
  - Usage example
 
-const [showDialog] = useDialog()
+const { showDialog } = useDialog()
 
 showDialog({
   content: <CameraPermissionDialog />,

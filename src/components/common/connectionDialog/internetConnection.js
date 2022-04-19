@@ -13,13 +13,13 @@ import {
 
   // useConnectionWeb3,
 } from '../../../lib/hooks/hasConnectionChange'
-import { useDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import logger from '../../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'InternetConnection' })
 
 const InternetConnection = props => {
-  const [showDialog, hideDialog] = useDialog()
+  const { hideDialog, showDialog } = useDialog()
   const isConnection = useConnection()
   const isAPIConnection = useAPIConnection()
   useWeb3Polling()

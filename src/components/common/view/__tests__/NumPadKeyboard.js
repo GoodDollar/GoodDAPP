@@ -14,13 +14,11 @@ describe('NumPadKeyboard', () => {
     amount = value
   }
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedNumPadKeyboard onPress={handleAmountChange} amount={amount} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedNumPadKeyboard onPress={handleAmountChange} amount={amount} />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(
+      async () => (component = renderer.create(<WrappedNumPadKeyboard onPress={handleAmountChange} amount={amount} />)),
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

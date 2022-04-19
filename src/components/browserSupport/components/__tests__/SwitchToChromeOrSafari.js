@@ -7,13 +7,10 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 
 describe('SwitchToChromeOrSafari', () => {
   const WrappedComponent = withThemeProvider(SwitchToChromeOrSafari)
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedComponent />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedComponent />)
+  it('matches snapshot', async () => {
+    let component
+    await renderer.act(async () => (component = renderer.create(<WrappedComponent />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

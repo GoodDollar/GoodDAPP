@@ -10,7 +10,7 @@ import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
 
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-import { useDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import { isMobileSafari, isMobileWeb } from '../../../lib/utils/platform'
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import {
@@ -115,7 +115,7 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
 })
 
 const AddWebApp = () => {
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
   const { installPrompt, setInstallPrompt, addWebApp, setAddWebApp } = useContext(GlobalTogglesContext)
 
   const showExplanationDialog = () => {

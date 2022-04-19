@@ -5,8 +5,9 @@ import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
+import { t } from '@lingui/macro'
 import { withStyles } from '../../lib/styles'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import type { FeedEvent } from '../../lib/userStorage/UserStorageClass'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
@@ -29,6 +30,7 @@ export type FeedListProps = {
   selectedFeed: ?string,
   styles: Object,
   onScroll: Function,
+  listFooterComponent: React.ReactNode,
 }
 
 const getItemLayout = (_: any, index: number) => {
@@ -55,10 +57,11 @@ const FeedList = ({
   styles,
   onScroll = noop,
   listHeaderComponent,
+  listFooterComponent,
   headerLarge,
   windowSize,
 }: FeedListProps) => {
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const flRef = useRef()
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
@@ -145,7 +148,7 @@ const FeedList = ({
           },
         )
 
-        showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
+        showErrorDialog(t`Current transaction is still pending, it can't be cancelled right now`)
       }
 
       userStorage.userProperties.setLocal('showQuickActionHint', false)
@@ -158,7 +161,7 @@ const FeedList = ({
     ({ item }) => {
       const canCancel = item && item.displayType === 'sendpending'
       const canDelete = item && item.id && item.id.indexOf('0x') === -1 && feeds.length > 1
-      const hasAction = canCancel || canDelete
+      const hasAction = (canCancel || canDelete) && item.type !== 'news'
       const actions = { canCancel, canDelete }
       const props = { item, hasAction }
 
@@ -228,6 +231,7 @@ const FeedList = ({
         refreshing={false}
         renderItem={renderItemComponent}
         ListHeaderComponent={listHeaderComponent}
+        ListFooterComponent={listFooterComponent}
         renderQuickActions={renderQuickActions}
         viewabilityConfig={VIEWABILITY_CONFIG}
         onScroll={onScroll}

@@ -122,9 +122,11 @@ export class EnrollmentProcessor {
       const { resultSuccessMessage } = UITextStrings
       const { resultBlob } = get(response, 'enrollmentResult', {})
 
+      // if success and no blob in response - this is unexpected case
       if (!resultBlob) {
         const exception = new Error(unexpectedErrorMessage)
 
+        // show 'unexpected error' screen here
         assign(exception, { response })
         throw exception
       }
@@ -168,7 +170,7 @@ export class EnrollmentProcessor {
 
       // if there's no duplicate / 3d match issues but we have
       // liveness issue strictly - we'll check for possible session retry
-      if (!isDuplicateIssue && !is3DMatchIssue && isLivenessIssue) {
+      if (resultBlob && isLivenessIssue && !isDuplicateIssue && !is3DMatchIssue) {
         const alwaysRetry = !isFinite(maxRetries) || maxRetries < 0
 
         // if haven't reached retries threshold or max retries is disabled
@@ -179,21 +181,18 @@ export class EnrollmentProcessor {
 
           // showing reason
           resultCallback.uploadMessageOverride(message)
+          resultCallback.proceedToNextStep(resultBlob)
 
-          if (resultBlob) {
-            // notifying about retry
-            resultCallback.proceedToNextStep(resultBlob)
+          // notifying about retry
+          subscriber.onRetry({
+            reason: exception,
+            match3d: !is3DMatchIssue,
+            liveness: !isLivenessIssue,
+            duplicate: isDuplicateIssue,
+            enrolled: true === isEnrolled,
+          })
 
-            subscriber.onRetry({
-              reason: exception,
-              match3d: !is3DMatchIssue,
-              liveness: !isLivenessIssue,
-              duplicate: isDuplicateIssue,
-              enrolled: true === isEnrolled,
-            })
-
-            return
-          }
+          return
         }
       }
     }

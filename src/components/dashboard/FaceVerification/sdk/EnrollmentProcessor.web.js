@@ -1,9 +1,9 @@
-import { assign, first, isFinite, isNumber } from 'lodash'
+import { assign, first, get, isFinite, isNumber } from 'lodash'
 
 import FaceTec from '@gooddollar/react-native-facetec/web'
 import api from '../api/FaceVerificationApi'
 import { UITextStrings } from './UICustomization'
-import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage } from './FaceTecSDK.constants'
+import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage, unexpectedErrorMessage } from './FaceTecSDK.constants'
 
 const {
   // Zoom verification session incapsulation
@@ -100,7 +100,7 @@ export class EnrollmentProcessor {
       resultCallback.uploadProgress(0.1)
 
       // calling API, if response contains success:false it will throw an exception
-      await api
+      const response = await api
         .performFaceVerification(enrollmentIdentifier, payload, ({ loaded, total }) => {
           const uploaded = loaded / total
 
@@ -120,6 +120,14 @@ export class EnrollmentProcessor {
 
       // if enrolled sucessfully - setting last message from server response
       const { resultSuccessMessage } = UITextStrings
+      const { resultBlob } = get(response, 'enrollmentResult', {})
+
+      if (!resultBlob) {
+        const exception = new Error(unexpectedErrorMessage)
+
+        assign(exception, { response })
+        throw exception
+      }
 
       FaceTecCustomization.setOverrideResultScreenSuccessMessage(resultSuccessMessage)
 
@@ -128,7 +136,7 @@ export class EnrollmentProcessor {
       this.lastMessage = resultSuccessMessage
 
       // marking session as successfull
-      resultCallback.succeed()
+      resultCallback.proceedToNextStep(resultBlob)
     } catch (exception) {
       this.handleEnrollmentError(exception)
     }
@@ -149,8 +157,8 @@ export class EnrollmentProcessor {
 
     if (response) {
       // if error response was sent
-      const { enrollmentResult, error } = response
-      const { isEnrolled, isLive, isDuplicate, isNotMatch } = enrollmentResult || {}
+      const { enrollmentResult } = response
+      const { isEnrolled, isLive, isDuplicate, isNotMatch, resultBlob } = enrollmentResult || {}
 
       // if isDuplicate is strictly true, that means we have dup face
       // despite the http status code this case should be processed like error
@@ -170,20 +178,22 @@ export class EnrollmentProcessor {
           this.retryAttempt = retryAttempt + 1
 
           // showing reason
-          resultCallback.uploadMessageOverride(error)
+          resultCallback.uploadMessageOverride(message)
 
-          // notifying about retry
-          resultCallback.retry()
+          if (resultBlob) {
+            // notifying about retry
+            resultCallback.proceedToNextStep(resultBlob)
 
-          subscriber.onRetry({
-            reason: exception,
-            match3d: !is3DMatchIssue,
-            liveness: !isLivenessIssue,
-            duplicate: isDuplicateIssue,
-            enrolled: true === isEnrolled,
-          })
+            subscriber.onRetry({
+              reason: exception,
+              match3d: !is3DMatchIssue,
+              liveness: !isLivenessIssue,
+              duplicate: isDuplicateIssue,
+              enrolled: true === isEnrolled,
+            })
 
-          return
+            return
+          }
         }
       }
     }

@@ -7,6 +7,8 @@ import EventIcon from '../EventIcon'
 describe('EventIcon - Withdraw', () => {
   it('matches snapshot', async () => {
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<EventIcon type="withdraw" />)))
     expect(tree.toJSON()).toMatchSnapshot()
   })
@@ -15,6 +17,8 @@ describe('EventIcon - Withdraw', () => {
 describe('EventIcon - Send', () => {
   it('matches snapshot', async () => {
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<EventIcon type="send" />)))
     expect(tree.toJSON()).toMatchSnapshot()
   })
@@ -23,6 +27,8 @@ describe('EventIcon - Send', () => {
 describe('EventIcon - Receive', () => {
   it('matches snapshot', async () => {
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<EventIcon type="receive" />)))
     expect(tree.toJSON()).toMatchSnapshot()
   })
@@ -31,6 +37,8 @@ describe('EventIcon - Receive', () => {
 describe('EventIcon - welcome', () => {
   it('matches snapshot', async () => {
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<EventIcon type="welcome" />)))
     expect(tree.toJSON()).toMatchSnapshot()
   })

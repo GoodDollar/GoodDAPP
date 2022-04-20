@@ -11,6 +11,8 @@ describe('SendToAddressButton', () => {
   it(`should match snapshot`, async () => {
     // Given
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<SendToAddressButton onPress={() => {}} />)))
 
     // When

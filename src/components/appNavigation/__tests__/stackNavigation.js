@@ -11,6 +11,8 @@ const NextButton = withThemeProvider(ImportedNextButton)
 describe('PushButton', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<PushButton>Push</PushButton>)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -20,6 +22,8 @@ describe('PushButton', () => {
 describe('NextButton', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<NextButton />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

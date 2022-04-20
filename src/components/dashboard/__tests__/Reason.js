@@ -9,6 +9,8 @@ describe('Reason', () => {
   it('matches snapshot', async () => {
     const Reason = getWebRouterComponentWithMocks('../Reason')
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<Reason />)))
     tree = tree.toJSON()
     expect(tree).toMatchSnapshot()

@@ -12,8 +12,9 @@ describe('SendToAddress', () => {
   const SendToAddress = getWebRouterComponentWithMocks('../SendToAddress')
 
   it('matches snapshot', async () => {
-    const SendToAddress = getWebRouterComponentWithMocks('../SendToAddress')
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<SendToAddress />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

@@ -9,6 +9,8 @@ const CopyButton = withThemeProvider(ImportedCopyButton)
 describe('CopyButton', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<CopyButton toCopy={'stringToCopy'} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -16,7 +18,9 @@ describe('CopyButton', () => {
 
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <CopyButton toCopy={'stringToCopy'} mode="outlined">

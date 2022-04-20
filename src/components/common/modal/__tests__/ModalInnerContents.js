@@ -9,7 +9,9 @@ const ModalInnerContents = withThemeProvider(ImportedModalInnerContents)
 describe('ModalInnerContents', () => {
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <ModalInnerContents>
@@ -23,7 +25,9 @@ describe('ModalInnerContents', () => {
 
   it('matches snapshot with properties', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <ModalInnerContents>

@@ -8,6 +8,8 @@ const Instructions = withThemeProvider(ImportedInstructions)
 describe('FaceVerification Instructions', () => {
   it('matches snapshot', async () => {
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<Instructions ready={true} />)))
 
     expect(tree.toJSON()).toMatchSnapshot()
@@ -16,6 +18,8 @@ describe('FaceVerification Instructions', () => {
   it('should execute onDismiss on "GOT IT" press', async () => {
     const onDismiss = jest.fn(() => {})
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<Instructions onDismiss={onDismiss} ready={true} />)))
 
     const button = tree.root.findByProps({ testID: 'dismiss_button' })

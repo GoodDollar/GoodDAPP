@@ -8,6 +8,8 @@ const MnemonicInputTheme = withThemeProvider(MnemonicInput)
 describe('SignIn - MnemonicInput', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<MnemonicInputTheme />)))
     const tree = component.toJSON()
 

@@ -12,6 +12,8 @@ describe('PhoneForm', () => {
       }),
     )
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<PhoneForm />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

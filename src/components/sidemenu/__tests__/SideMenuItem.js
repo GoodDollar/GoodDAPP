@@ -8,7 +8,9 @@ const SideMenuItemWithTheme = withThemeProvider(SideMenuItem)
 describe('SideMenuItem', () => {
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () => (component = renderer.create(<SideMenuItemWithTheme icon="person" name="Profile" />)),
     )
     const tree = component.toJSON()

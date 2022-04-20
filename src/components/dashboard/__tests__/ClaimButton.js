@@ -8,7 +8,9 @@ describe('ClaimButton', () => {
 
   it('matches snapshot for non-citizen', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <WrappedClaimButton
@@ -26,7 +28,9 @@ describe('ClaimButton', () => {
 
   it('matches snapshot for citizen without entitlement', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <WrappedClaimButton
@@ -44,7 +48,9 @@ describe('ClaimButton', () => {
 
   it('matches snapshot for citizen with entitlement', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <WrappedClaimButton

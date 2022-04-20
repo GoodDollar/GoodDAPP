@@ -14,7 +14,9 @@ jest.setTimeout(30000)
 describe('FaceVerification IntroScreen', () => {
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () => (component = renderer.create(<IntroScreen screenProps={{ pop: () => {}, screenState }} />)),
     )
     const tree = component.toJSON()

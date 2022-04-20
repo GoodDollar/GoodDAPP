@@ -9,7 +9,9 @@ const SummaryTable = withThemeProvider(ImportedSummaryTable)
 describe('SummaryTable', () => {
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(<SummaryTable counterPartyDisplayName="name" amount={20} reason="MyReason" />)),
     )
@@ -19,6 +21,8 @@ describe('SummaryTable', () => {
 
   it('matches snapshot with minimal properties', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<SummaryTable amount={20} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

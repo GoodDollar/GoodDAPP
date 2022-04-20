@@ -9,7 +9,9 @@ const ModalContainer = withThemeProvider(ImportedModalContainer)
 describe('ModalContainer', () => {
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <ModalContainer>
@@ -23,7 +25,9 @@ describe('ModalContainer', () => {
 
   it('matches snapshot with properties', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <ModalContainer fullHeight={true}>

@@ -9,7 +9,9 @@ const ModalWrapper = withThemeProvider(ImportedModalWrapper)
 describe('ModalWrapper', () => {
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <ModalWrapper>
@@ -23,7 +25,9 @@ describe('ModalWrapper', () => {
 
   it('matches snapshot with properties', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <ModalWrapper showJaggedEdge={true}>

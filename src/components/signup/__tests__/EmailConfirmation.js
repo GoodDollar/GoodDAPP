@@ -12,7 +12,9 @@ describe('EmailConfirmation', () => {
   it('matches snapshot', async () => {
     const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ EmailConfirmation })))
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <StoresWrapper>

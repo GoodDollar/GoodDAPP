@@ -31,6 +31,8 @@ describe('Dashboard', () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
 
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WebRouter />)))
     expect(component.toJSON()).toMatchSnapshot()
   })

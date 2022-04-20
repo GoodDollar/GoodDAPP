@@ -12,6 +12,8 @@ describe('VerifyEdit', () => {
     const VerifyEdit = getWebRouterComponentWithMocks('../../profile/VerifyEdit')
 
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<VerifyEdit />)))
     const tree = component.toJSON()
 

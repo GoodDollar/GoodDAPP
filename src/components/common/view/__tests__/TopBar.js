@@ -16,6 +16,8 @@ describe('TopBar', () => {
 
   it('matches snapshot without balance', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedTopBar hideBalance />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -23,6 +25,8 @@ describe('TopBar', () => {
 
   it('matches snapshot with balance', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedTopBar />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -31,7 +35,9 @@ describe('TopBar', () => {
   it(`should render the children component`, async () => {
     // Given
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = await renderer.create(
           <WrappedTopBar>

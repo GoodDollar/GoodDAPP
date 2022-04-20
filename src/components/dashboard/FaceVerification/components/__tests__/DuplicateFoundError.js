@@ -14,6 +14,8 @@ const exception = {
 describe('FaceVerification DuplicateFoundError', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<DuplicateFoundError exception={exception} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

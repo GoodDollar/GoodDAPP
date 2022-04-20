@@ -11,6 +11,8 @@ describe('NameForm', () => {
       }),
     )
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<NameForm />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -23,6 +25,8 @@ describe('NameForm', () => {
       }),
     )
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<NameForm />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

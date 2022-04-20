@@ -255,12 +255,11 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         web3Provider ? provider.toUpperCase() : 'SEED',
       )
       const existsResult = await checkExisting(provider, torusUser, goodWallet)
+      log.info('checkExisting result:', { existsResult })
 
       switch (existsResult) {
         case 'login': {
           // case of sign-in
-          setActiveStep(3)
-
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
 
           setWalletPreparing(false)
@@ -268,8 +267,6 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
           return
         }
         case 'signup': {
-          log.debug('user does not exists')
-
           if (isWeb) {
             // Hack to get keyboard up on mobile need focus from user event such as click
             setTimeout(() => {

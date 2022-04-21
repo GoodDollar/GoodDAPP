@@ -124,12 +124,13 @@ function LanguageSwitch() {
     const node = useRef<HTMLDivElement>(null)
     const open = useModalOpen(ApplicationModal.LANGUAGE)
     const toggle = useToggleModal(ApplicationModal.LANGUAGE)
-    useOnClickOutside(node, open ? toggle : undefined)
+    // TODO-FIX: After moving the switch, this is triggered on every click, so click on language is not registered
+    // useOnClickOutside(node, open ? toggle : undefined)
     const { language, setLanguage } = useLanguageData()
 
     const onClick = (key: string) => {
-        setLanguage(key)
-        toggle()
+      setLanguage(key)
+      toggle()
     }
 
     return (

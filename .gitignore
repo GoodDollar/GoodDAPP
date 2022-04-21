@@ -42,3 +42,5 @@ analysis/index.html
 deploy.sh
 
 /playground
+
+.certs

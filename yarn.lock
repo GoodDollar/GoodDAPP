@@ -3055,10 +3055,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@headlessui/react@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@headlessui/react/-/react-1.0.0.tgz"
-  integrity sha512-mjqRJrgkbcHQBfAHnqH0yRxO/y/22jYrdltpE7WkurafREKZ+pj5bPBwYHMt935Sdz/n16yRcVmsSCqDFHee9A==
+"@headlessui/react@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/@headlessui/react/-/react-1.5.0.tgz#483b44ba2c8b8d4391e1d2c863898d7dd0cc0296"
+  integrity sha512-aaRnYxBb3MU2FNJf3Ut9RMTUqqU3as0aI1lQhgo2n9Fa67wRu14iOGqx93xB+uMNVfNwZ5B3y/Ndm7qZGuFeMQ==
 
 "@hot-loader/react-dom@^17.0.1":
   version "17.0.1"

@@ -1,12 +1,13 @@
 {
     "name": "@sushiswap/interface",
-    "description": "SushiSwap Interface",
+    "description": "GoodProtocol Interface",
     "homepage": ".",
     "private": true,
     "scripts": {
         "analyze": "source-map-explorer 'build/static/js/*.js' --only-mapped --html analysis/index.html",
         "prebuild": "yarn install --frozen-lockfile && lingui compile",
         "prestart": "lingui compile",
+        "startS": "cross-env HTTPS=true SSL_CRT_FILE= SSL_KEY_FILE= PORT=443 react-app-rewired start",
         "start": "cross-env PORT=3000 react-app-rewired start",
         "dev": "cross-env PORT=3000 react-app-rewired start",
         "build": "cross-env CI= GENERATE_SOURCEMAP=false react-app-rewired build",
@@ -33,7 +34,6 @@
         "@fontsource/dm-sans": "^4.2.2",
         "@fullhuman/postcss-purgecss": "^4.0.3",
         "@gooddollar/goodprotocol": "1.0.17",
-        "@headlessui/react": "^1.0.0",
         "@hot-loader/react-dom": "^17.0.1",
         "@lingui/cli": "^3.12.1",
         "@lingui/detect-locale": "^3.9.0",
@@ -188,6 +188,7 @@
     },
     "license": "GPL-3.0-or-later",
     "dependencies": {
+        "@headlessui/react": "1.5.0",
         "@lufycz/sushi-data": "^2.0.0-canary-21",
         "@types/react-text-mask": "^5.4.8",
         "@types/text-mask-addons": "^3.8.1",

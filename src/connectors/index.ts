@@ -62,7 +62,7 @@ const injectedBN = injectedModule({
   filter: {
     ["Binance Smart Wallet"]: false,
     ["MetaMask"]: true,
-    ["Coinbase Wallet"]: true,
+    ["Coinbase Wallet"]: false,
     ["detected"]: true,
     ["trust"]: false,
     ["opera"]: false,

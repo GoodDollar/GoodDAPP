@@ -165,7 +165,7 @@ const AppSwitch = (props: LoadingProps) => {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
-      updateWalletStatus()
+      await updateWalletStatus()
 
       const [isLoggedInCitizen, isLoggedIn] = await getLoginState()
 

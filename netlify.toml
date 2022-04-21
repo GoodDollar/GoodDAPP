@@ -75,7 +75,7 @@ REACT_APP_IPFS_GATEWAYS = "https://gateway.pinata.cloud/ipfs/{cid},https://{cid}
 REACT_APP_IPFS_LAZY_UPLOAD = "false"
 REACT_APP_REALM_APP_ID = "wallet_dev-dhiht"
 REACT_APP_PUBLIC_URL = "https://gooddev.netlify.app"
-REACT_APP_CERAMIC_NODE_URL = "http://ceramic.gooddollar.org:7007"
+REACT_APP_CERAMIC_NODE_URL = "https://ceramic.gooddollar.org"
 
 [context.master.environment]
 REACT_APP_CERAMIC_NODE_URL = "https://ceramic-clay.3boxlabs.com"
@@ -134,4 +134,7 @@ REACT_APP_ENABLE_SELF_CUSTODY = "false"
 REACT_APP_AB_TEST_PERCENTAGE = "0.5"
 REACT_APP_REALM_APP_ID = "wallet_prod-obclo"
 REACT_APP_PUBLIC_URL = "https://wallet.gooddollar.org"
-REACT_APP_CERAMIC_AB_TEST_PERCENTAGE = 0.3
+REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pg2jmcm6a5i8pfvq8tkakd9k2bj2lyr0uibkxkt36stfgplaysi8"
+REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg2w8m2vxj21twt5qri2ma314k5fkw27i784iklbhd83bv5pjb5m"
+# Temporary disable AB testing for PROD. TBD
+# REACT_APP_CERAMIC_AB_TEST_PERCENTAGE = 0.3

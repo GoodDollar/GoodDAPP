@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Image, Linking, Platform, Pressable, View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
@@ -21,7 +21,7 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
-import { SvgImage } from './SvgImage'
+import { resolveAssetSource, SvgImage } from './ImageUtils'
 
 const log = logger.child({ from: 'ListEventItem' })
 
@@ -62,18 +62,21 @@ const InviteItem = ({ item, theme }) => (
 
 const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
   const {
-    data: { sponsoredLink, sponsoredLogo },
+    data: { sponsoredLink, sponsoredLogo, picture },
   } = item
+  const { width, height } = useMemo(() => resolveAssetSource(picture), [picture])
+
   const onSponsorPress = useOnPress(() => {
     fireEvent(GOTO_SPONSOR, { link: sponsoredLink })
     Linking.openURL(sponsoredLink).catch(e => log.error('Open news feed error', e))
   }, [sponsoredLink])
+
   return (
     <View style={styles.rowContent}>
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig />
 
       <View style={styles.newsContent}>
-        {item.data.picture && <Image source={{ uri: item.data.picture }} style={styles.newsPicture} />}
+        {picture && <Image source={{ uri: picture }} style={[styles.newsPicture, { aspectRatio: width / height }]} />}
 
         <View style={styles.innerRow}>
           <View grow style={styles.mainContents}>
@@ -86,9 +89,11 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
                   isSmallDevice={isMobile && getScreenWidth() < 353}
                   numberOfLines={2}
                   isCapitalized={false}
+                  lineHeight={20}
+                  textStyle={styles.newsHeader}
                 />
 
-                <Text lineHeight={20} numberOfLines={3} color="gray80Percent" fontSize={12} style={styles.newsMessage}>
+                <Text lineHeight={16} numberOfLines={3} color="gray80Percent" fontSize={12} style={styles.newsMessage}>
                   {get(item, 'data.message')}
                 </Text>
               </View>
@@ -412,8 +417,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   newsPicture: {
     width: '100%',
-    aspectRatio: 2.55,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   newsContent: {
     width: '100%',
@@ -429,6 +433,9 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     paddingRight: 24,
+  },
+  newsHeader: {
+    color: '#173566',
   },
 })
 

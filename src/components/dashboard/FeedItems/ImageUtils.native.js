@@ -1,6 +1,7 @@
 import React from 'react'
-// eslint-disable-next-line import/default
-// import SvgUri from 'react-native-svg-uri'
 import { SvgXml } from 'react-native-svg'
+import { Image } from 'react-native'
 
 export const SvgImage = ({ src, width, height }) => <SvgXml xml={src} width={width} height={height} />
+
+export const resolveAssetSource = Image.resolveAssetSource

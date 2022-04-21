@@ -11,6 +11,7 @@ import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
+import { openLink } from '../../lib/utils/linking'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
@@ -590,8 +591,9 @@ const Dashboard = props => {
         type,
         data: { link },
       } = receipt
-      if (type === 'news') {
-        link && Linking.openURL(link).catch(e => log.error('Open news feed error', e))
+      if (type === 'news' && !!link) {
+        const isSelf = link.includes('wallet.gooddollar.org')
+        openLink(link, isSelf ? '_self' : '_blank')
         return
       }
       showEventModal(horizontal ? receipt : null)
@@ -632,7 +634,8 @@ const Dashboard = props => {
       const scrollPosition = nativeEvent.contentOffset.y
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-      if (feedRef.current.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+      const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
+      if ((feedRef.current.length > 10 || newsCondition) && scrollPositionISH > minScrollRequiredISH) {
         if (headerLarge) {
           setHeaderLarge(false)
         }
@@ -642,7 +645,7 @@ const Dashboard = props => {
         }
       }
     },
-    [headerLarge, setHeaderLarge],
+    [headerLarge, setHeaderLarge, activeTab],
   )
 
   const handleScrollEndDebounced = useMemo(() => _debounce(handleScrollEnd, 300), [handleScrollEnd])

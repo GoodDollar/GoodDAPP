@@ -17,7 +17,7 @@ import LanguageSwitch from "./LanguageSwitch"
 import { useApplicationTheme } from '../state/application/hooks'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
-  width: ${({ $mobile }) => ($mobile ? '100%' : '268px')};
+  width: ${({ $mobile }) => ($mobile ? '90%' : '268px')};
   background: ${({ theme }) => theme.color.main};
   flex-shrink: 0;
   border-right: 1px solid rgba(208, 217, 228, 0.482);

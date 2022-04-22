@@ -263,15 +263,14 @@ function SwapConfirmModal({
                     text={i18n._(t`You just used your crypto for good to help fund crypto UBI 
 for all with GoodDollar!`)}
                     shareProps={{
-                        title: 'Share with friends',
+                        title: i18n._(t`Share with friends`),
+                        copyText: 'I just bought GoodDollars at https://goodswap.xyz to make the world better',
                         show: true,
                         linkedin: {
-                            url: 'https://gooddollar.org',
-                            summary: 'This is it https://gooddollar.org'
+                            url: 'https://gooddollar.org'
                         },
                         twitter: {
                             url: 'https://gooddollar.org',
-                            title: 'I just bought GoodDollars at https://goodswap.xyz to make the world better',
                             hashtags: ['InvestForGood']
                         },
                         facebook: {

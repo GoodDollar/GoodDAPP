@@ -149,41 +149,44 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
     }
 
     const getPostData = () => {
-        if (activeTableName === 'GoodDAO Staking') {
-            return {
-                linkedin: {
-                    url: 'https://gooddollar.org',
-                    summary: 'I just staked GoodDollars at https://goodswap.xyz to make the world better '
-                },
-                twitter: {
-                    url: 'https://gooddollar.org',
-                    title: 'I just staked GoodDollars at https://goodswap.xyz to make the world better ',
-                    hashtags: ['InvestForGood']
-                },
-                facebook: {
-                    url: 'https://gooddollar.org',
-                    hashtag: '#InvestForGood'
+        switch (activeTableName) {
+            case 'GoodDAO Staking':
+                return {
+                    copyText: 'I just staked GoodDollars at https://goodswap.xyz to make the world better',
+                    linkedin: {
+                        url: 'https://gooddollar.org'
+                    },
+                    twitter: {
+                        url: 'https://gooddollar.org',
+                        title: 'I just staked GoodDollars at https://goodswap.xyz to make the world better ',
+                        hashtags: ['InvestForGood']
+                    },
+                    facebook: {
+                        url: 'https://gooddollar.org',
+                        hashtag: '#InvestForGood'
+                    }
                 }
-            }
-        }
-        if (activeTableName === 'GoodStakes') {
-            return {
-                linkedin: {
-                    url: 'https://gooddollar.org',
-                    summary: ''
-                },
-                twitter: {
-                    url: 'https://gooddollar.org',
-                    title: '',
-                    hashtags: ['InvestForGood']
-                },
-                facebook: {
-                    url: 'https://gooddollar.org',
-                    hashtag: '#InvestForGood'
+            case 'GoodStakes':
+                return {
+                    copyText:
+                        'I just staked [DAI|USDC] at https://goodswap.xyz to generate UBI for thousands of user and make the world better',
+                    linkedin: {
+                        url: 'https://gooddollar.org'
+                    },
+                    twitter: {
+                        url: 'https://gooddollar.org',
+                        title:
+                            ' just staked [DAI|USDC] at https://goodswap.xyz to generate UBI for thousands of user and make the world better',
+                        hashtags: ['InvestForGood']
+                    },
+                    facebook: {
+                        url: 'https://gooddollar.org',
+                        hashtag: '#InvestForGood'
+                    }
                 }
-            }
+            default:
+                throw Error(`Unknown activeTableName - ${activeTableName}`)
         }
-        throw Error(`Unknown activeTableName - ${activeTableName}`)
     }
 
     const reduxDispatch = useDispatch()
@@ -372,7 +375,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                         {i18n._(t`Go to Portfolio`)}
                                     </ButtonDefault>
                                 </Link>
-                                <Share title="Share with friends" {...getPostData()} />
+                                <Share title={i18n._(t`Share with friends`)} {...getPostData()} />
                             </>
                         )}
                     </div>

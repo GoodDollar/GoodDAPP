@@ -1,5 +1,8 @@
 import * as React from 'react'
 
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
+
 import { LinkedinIcon, FacebookIcon, TwitterIcon } from '../Icon'
 import Row from 'components/Row'
 import Title from 'components/gd/Title'
@@ -7,6 +10,7 @@ import Title from 'components/gd/Title'
 import styled from 'styled-components'
 
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
+import { ButtonOutlined } from 'components/gd/Button'
 
 interface SocialProps {
     url: string
@@ -16,6 +20,7 @@ interface SocialProps {
 export interface ShareProps {
     show?: boolean
     title?: string
+    copyText?: string
     facebook?: {
         url: string
         quote?: string
@@ -55,7 +60,19 @@ export const ShareSC = styled.div`
     }
 `
 
-export const Share = ({ show = true, title, ...rest }: ShareProps): React.ReactElement | null => {
+export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): React.ReactElement | null => {
+    const { i18n } = useLingui()
+
+    const [textCopied, textCopiedSet] = React.useState(false)
+
+    const copy = () => {
+        if (textCopied) return
+        navigator.clipboard.writeText(copyText || '')
+
+        textCopiedSet(true)
+        setTimeout(() => textCopiedSet(false), 3000)
+    }
+
     if (!show) return null
 
     const { twitter, facebook, linkedin } = rest
@@ -82,6 +99,11 @@ export const Share = ({ show = true, title, ...rest }: ShareProps): React.ReactE
                     <FacebookShareButton className="shareButton" {...facebook}>
                         <FacebookIcon height="32px" />
                     </FacebookShareButton>
+                )}
+                {copyText && (
+                    <ButtonOutlined onClick={copy} className="pl-3 pr-3" disabled={textCopied}>
+                        {i18n._(t`${textCopied ? 'Copied' : 'Copy'}`)}
+                    </ButtonOutlined>
                 )}
             </Row>
         </ShareSC>

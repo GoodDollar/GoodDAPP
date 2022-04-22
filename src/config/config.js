@@ -9,9 +9,6 @@ import mustache from '../lib/utils/mustache'
 
 import env from './env'
 
-// E2E checker utility import
-//import { isE2ERunning } from '../lib/utils/platform'
-
 const { search: qs = '' } = isWeb ? window.location : {}
 const webStorage = isWeb ? window.localStorage : { getItem: noop }
 
@@ -192,11 +189,7 @@ export const serverSettings = once(() => {
     .then(settings => Object.assign(Config, settings))
 })
 
-// TODO: wrap all stubs / "backdoors" made for automated testing
-// if (isE2ERunning) {
 global.config = Config
-
-//}
 
 // Forcing value as number, if not MNID encoder/decoder may fail
 // Config.networkId = Config.ethereum[Config.networkId].network_id

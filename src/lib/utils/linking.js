@@ -1,6 +1,7 @@
 // @flow
 
 import { Linking, Platform } from 'react-native'
+import { nth } from 'lodash'
 
 const schemeRe = /(.+?:)\/\//
 
@@ -25,4 +26,16 @@ export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank
   }
 
   return Linking.openURL(uri)
+}
+
+export const parseLinkForNavigation = (link: string) => {
+  const [path, params = ''] = link.split('?')
+  const route = nth(path.split('/'), -1)
+
+  const formattedParams = params.split('&').reduce((acc, param) => {
+    const [key, value] = param.split('=')
+    return { ...acc, [key]: value }
+  }, {})
+
+  return [route, formattedParams]
 }

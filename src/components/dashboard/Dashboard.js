@@ -11,7 +11,8 @@ import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { openLink } from '../../lib/utils/linking'
+import { openLink, parseLinkForNavigation } from '../../lib/utils/linking'
+import { appUrl } from '../../lib/utils/env'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
@@ -60,7 +61,6 @@ import Reason from './Reason'
 import Receive from './Receive'
 import HandlePaymentLink from './HandlePaymentLink'
 
-// import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
 import ReceiveToAddress from './ReceiveToAddress'
@@ -592,8 +592,14 @@ const Dashboard = props => {
         data: { link },
       } = receipt
       if (type === 'news' && !!link) {
-        const isSelf = link.includes('wallet.gooddollar.org')
-        openLink(link, isSelf ? '_self' : '_blank')
+        const isSelf = link.includes(appUrl)
+
+        if (isSelf) {
+          const [route, params] = parseLinkForNavigation(link)
+          navigation.navigate(route, params)
+          return
+        }
+        openLink(link)
         return
       }
       showEventModal(horizontal ? receipt : null)
@@ -635,6 +641,7 @@ const Dashboard = props => {
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
       const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
+
       if ((feedRef.current.length > 10 || newsCondition) && scrollPositionISH > minScrollRequiredISH) {
         if (headerLarge) {
           setHeaderLarge(false)

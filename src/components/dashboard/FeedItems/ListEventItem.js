@@ -1,5 +1,5 @@
 // @flow
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Image, Linking, Platform, Pressable, View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
@@ -15,13 +15,14 @@ import { Icon, Section, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
+import useImageAspectRatio from '../../../lib/hooks/useImageAspectRatio'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
-import { resolveAssetSource, SvgImage } from './ImageUtils'
+import { SvgImage } from './SvgXml'
 
 const log = logger.child({ from: 'ListEventItem' })
 
@@ -64,7 +65,8 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
   const {
     data: { sponsoredLink, sponsoredLogo, picture },
   } = item
-  const { width, height } = useMemo(() => resolveAssetSource(picture), [picture])
+  const aspectRatio = useImageAspectRatio(picture)
+  const hasPicture = !!picture
 
   const onSponsorPress = useOnPress(() => {
     fireEvent(GOTO_SPONSOR, { link: sponsoredLink })
@@ -73,10 +75,10 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
 
   return (
     <View style={styles.rowContent}>
-      <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig />
+      <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig={hasPicture} />
 
       <View style={styles.newsContent}>
-        {picture && <Image source={{ uri: picture }} style={[styles.newsPicture, { aspectRatio: width / height }]} />}
+        {picture && <Image source={{ uri: picture }} style={[styles.newsPicture, { aspectRatio }]} />}
 
         <View style={styles.innerRow}>
           <View grow style={styles.mainContents}>

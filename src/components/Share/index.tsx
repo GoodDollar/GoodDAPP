@@ -58,6 +58,9 @@ export const ShareSC = styled.div`
             opacity: 0.75;
         }
     }
+    .copyButton {
+        width: auto;
+    }
 `
 
 export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): React.ReactElement | null => {
@@ -101,7 +104,7 @@ export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): Re
                     </FacebookShareButton>
                 )}
                 {copyText && (
-                    <ButtonOutlined onClick={copy} className="pl-3 pr-3" disabled={textCopied}>
+                    <ButtonOutlined onClick={copy} className="pl-3 pr-3 copyButton" disabled={textCopied}>
                         {i18n._(t`${textCopied ? 'Copied' : 'Copy'}`)}
                     </ButtonOutlined>
                 )}

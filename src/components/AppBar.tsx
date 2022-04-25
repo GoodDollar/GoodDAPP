@@ -155,7 +155,7 @@ function AppBar(): JSX.Element {
 
                           <div className="flex flex-row space-x-2">
                               <div className="flex flex-row items-center space-x-2">
-                                  <div className="whitespace-nowrap ml-10 text-sm lg:text-base">
+                                  <div className="ml-10 text-sm whitespace-nowrap lg:text-base">
                                       {G$Price ? `1,000G$ = ${G$Price.multiply(1000).toFixed(3)}USD` : ''}
                                   </div>
                                   {chainId && <Web3Faucet />}
@@ -201,7 +201,7 @@ function AppBar(): JSX.Element {
                   </SidebarContainer>
                   <SidebarOverlay 
                     id="overlay"
-                    onClick={() => { closeSideBar()}} 
+                    onClick={closeSideBar} 
                     className={`fixed lg:hidden w-full ${sidebarOpen ? ' open ' : ''}`}></SidebarOverlay>
             </>
         </AppBarWrapper>

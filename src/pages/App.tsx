@@ -123,7 +123,7 @@ function App(): JSX.Element {
                         <Popups />
                         {/*<Polling />*/}
                         <Web3ReactManager>
-                          <div className="flex flex-col items-center justify-center w-full flex-glow">
+                          <div className="flex flex-col items-center justify-center w-full flex-glow xl:-mt-5">
                                 <Routes />
                                 <TransactionUpdater />
                           </div>

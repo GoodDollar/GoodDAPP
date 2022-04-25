@@ -23,6 +23,7 @@ import { useEnvWeb3 } from 'sdk/hooks/useEnvWeb3'
 import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
+import { getNetworkEnv } from 'sdk/constants/addresses'
 
 const StakeTable = ({
     list,
@@ -241,8 +242,10 @@ export default function Stakes(): JSX.Element | null {
     const governanceStaking = useGovernanceStaking()
     const web3 = useWeb3()
     const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET)
+    const network = getNetworkEnv() 
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
-        const stakes = await (web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
+        const stakes = await (
+          web3 && mainnetWeb3 && network !== 'staging' ? getStakes(mainnetWeb3) : Promise.resolve([]))
 
         return stakes
     }, [web3, mainnetWeb3])

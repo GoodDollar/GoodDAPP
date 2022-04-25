@@ -178,7 +178,7 @@ const SocialsLink: React.FC<{ network: string, logo: string, url:string}> = ({ n
 
 
 const ExternalLink: React.FC<{ label: string; url: string }> = ({ label, url }) => (
-    <a className="p-2 line md:p-3 whitespace-nowrap" href={url} target="_blank" rel="noreferrer">
+    <a className="p-2 line md:p-1 xl:p-3 whitespace-nowrap" href={url} target="_blank" rel="noreferrer">
         <span>{label}</span>
         <svg className="ml-2" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -331,10 +331,10 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                     </div>
                 </div>
                 <nav>
-                  <NavLink to={'/dashboard'} onClick={mobile ? closeSidebar() : null }>{i18n._(t`Dashboard`)}</NavLink>
-                  <NavLink to={'/swap'} onClick={mobile ? closeSidebar() : null }>{i18n._(t`Swap`)}</NavLink>
-                  <NavLink to={'/stakes'} onClick={mobile ?  closeSidebar() : null }>{i18n._(t`Stake`)}</NavLink>
-                  <NavLink to={'/portfolio'} onClick={mobile ? closeSidebar() : null }>{i18n._(t`Portfolio`)}</NavLink>
+                  <NavLink to={'/dashboard'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Dashboard`)}</NavLink>
+                  <NavLink to={'/swap'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Swap`)}</NavLink>
+                  <NavLink to={'/stakes'} onClick={mobile ?  closeSidebar : null }>{i18n._(t`Stake`)}</NavLink>
+                  <NavLink to={'/portfolio'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Portfolio`)}</NavLink>
                   <ExternalLink label={i18n._(t`Wallet`)} url="https://wallet.gooddollar.org/" />
                   <ExternalLink label={i18n._(t`Fuse Bridge`)} url="https://app.fuse.fi/#/bridge" />
                   <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" />

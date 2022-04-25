@@ -24,18 +24,25 @@ export const useGovernanceStaking = (): Array<Stake> => {
       [fuseWeb3]
     )
 
+    const stakingContractV1 = useMemo(
+      () => fuseWeb3 && networkType === 'staging' && getContract(SupportedChainId.FUSE, 'GovernanceStaking', GovernanceStaking.abi, fuseWeb3),
+      [fuseWeb3]
+    )
+
+    const stakingContract = stakingContractV2 || stakingContractV1
+
     useEffect(() => {
         const readData = async () => {
-            if (mainnetWeb3 && stakingContractV2) {
+            if (mainnetWeb3 && stakingContract) {
                 const [goodRewardsPerYear, totalStaked] = await Promise.all([
-                  stakingContractV2.getRewardsPerBlock().then((_: BigNumber) => _.mul(12 * 60 * 24 * 365)),
-                  stakingContractV2.totalSupply()
+                  stakingContract.getRewardsPerBlock().then((_: BigNumber) => _.mul(12 * 60 * 24 * 365)),
+                  stakingContract.totalSupply()
                 ])
 
                 const socialAPY = await getReserveSocialAPY(mainnetWeb3, mainnetChainId)
 
                 const stakeData: Stake = {
-                    address: stakingContractV2.address,
+                    address: stakingContract.address,
                     socialAPY: socialAPY,
                     protocol: LIQUIDITY_PROTOCOL.GOODDAO,
                     rewards: {
@@ -49,7 +56,7 @@ export const useGovernanceStaking = (): Array<Stake> => {
             }
         }
         readData()
-    }, [stakingContractV2, setStakes, mainnetWeb3])
+    }, [stakingContract, setStakes, mainnetWeb3])
     // const [balance, setBalance] = useState<string>('0')
     return stakes
     // const masterChefV2Contract = useMasterChefV2Contract()

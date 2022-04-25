@@ -10,8 +10,6 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 function Routes(): JSX.Element {
     const { chainId } = useActiveWeb3React()
 
-    console.log('chainId -->', chainId)
-
     return (
         <Switch>
             <Route exact strict path="/dashboard" component={DatastudioDashboard} />

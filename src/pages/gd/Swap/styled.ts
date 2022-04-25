@@ -3,8 +3,10 @@ import Card from 'components/gd/Card'
 
 export const SwapCardSC = styled.div<{ open: boolean }>`
     max-width: 712px;
-    align-self: stretch;
+    align-self: center;
     position: relative;
+    justify-content: center;
+
 
     margin-left: 5rem;
 
@@ -45,6 +47,10 @@ export const SwapWrapperSC = styled.div`
     position: relative;
     z-index: 2;
     border: 1px solid ${({ theme }) => (theme.color.border1)};
+    width: 100%;
+    @media (min-width: 980px) {
+      width: 700px;
+    }
 `
 
 export const SwapContentWrapperSC = styled(Card).attrs(() => ({

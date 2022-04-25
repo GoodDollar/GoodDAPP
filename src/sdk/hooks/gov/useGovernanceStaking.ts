@@ -17,8 +17,10 @@ export const useGovernanceStaking = (): Array<Stake> => {
     const [fuseWeb3] = useEnvWeb3(DAO_NETWORK.FUSE)
     const [stakes, setStakes] = useState<Array<Stake>>([])
 
+    const networkType = process.env.REACT_APP_NETWORK || 'staging'
+
     const stakingContractV2 = useMemo(
-      () => fuseWeb3 && getContract(SupportedChainId.FUSE, 'GovernanceStakingV2', GovernanceStaking.abi, fuseWeb3),
+      () => fuseWeb3 && networkType !== 'staging' && getContract(SupportedChainId.FUSE, 'GovernanceStakingV2', GovernanceStaking.abi, fuseWeb3),
       [fuseWeb3]
     )
 

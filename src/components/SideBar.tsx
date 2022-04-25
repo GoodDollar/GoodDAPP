@@ -23,11 +23,42 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   border-right: 1px solid rgba(208, 217, 228, 0.482);
   height: ${({ $mobile }) => ($mobile ? '100%' : 'auto')};
 
+  @media (max-height: 610px) {
+    .sidebar-inner-container {
+      overflow-x: scroll;
+    }
+    // // .sidebar-inner-container:hover {
+    // //   overflow-x: scroll;
+    // // }
+  }
+  @media (max-height: 900px){
+    .sidebar-inner-container {
+      transform: scale(0.9);
+      margin-top: -25px;
+    }
+
+    .balance {
+      padding: 10px 7px 5px 22px;
+    }
+
+    nav a {
+      margin: 5px 15px 0;
+    }
+  }
+  @media (min-height: 901px){
+    .balance {
+      padding: 17px 7px 5px 22px;
+    }
+
+    nav a {
+      margin: 20px 15px 0;
+    }
+  }
+  
   nav a {
     display: flex;
     align-items: center;
     color: ${({ theme }) => theme.color.text1};
-    margin: 20px 15px 0;
     padding-left: 18px;
     font-weight: 500;
     font-size: 18px;
@@ -61,10 +92,9 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   }
 
   .balance {
-    padding: 17px 7px 5px 22px;
     margin: 0 26px 0 20px;
     // ${({ theme, $mobile }) => (theme.darkMode && !$mobile ? 'border: 1px solid #A5A5A5;' : '')}
-    // box-shadow: ${({ theme, $mobile }) => (!$mobile ? theme.shadow.wallet : '')};
+    box-shadow: ${({ theme, $mobile }) => (!$mobile ? theme.shadow.wallet : '')};
     border-radius: 23px;
 
     .title {
@@ -301,10 +331,10 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                     </div>
                 </div>
                 <nav>
-                  <NavLink to={'/dashboard'} onClick={() => { closeSidebar() }}>{i18n._(t`Dashboard`)}</NavLink>
-                  <NavLink to={'/swap'} onClick={() => { closeSidebar() }}>{i18n._(t`Swap`)}</NavLink>
-                  <NavLink to={'/stakes'} onClick={() => { closeSidebar() }}>{i18n._(t`Stake`)}</NavLink>
-                  <NavLink to={'/portfolio'} onClick={() => { closeSidebar() }}>{i18n._(t`Portfolio`)}</NavLink>
+                  <NavLink to={'/dashboard'} onClick={mobile ? closeSidebar() : null }>{i18n._(t`Dashboard`)}</NavLink>
+                  <NavLink to={'/swap'} onClick={mobile ? closeSidebar() : null }>{i18n._(t`Swap`)}</NavLink>
+                  <NavLink to={'/stakes'} onClick={mobile ?  closeSidebar() : null }>{i18n._(t`Stake`)}</NavLink>
+                  <NavLink to={'/portfolio'} onClick={mobile ? closeSidebar() : null }>{i18n._(t`Portfolio`)}</NavLink>
                   <ExternalLink label={i18n._(t`Wallet`)} url="https://wallet.gooddollar.org/" />
                   <ExternalLink label={i18n._(t`Fuse Bridge`)} url="https://app.fuse.fi/#/bridge" />
                   <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" />

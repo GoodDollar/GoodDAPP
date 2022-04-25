@@ -307,7 +307,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                   <NavLink to={'/portfolio'} onClick={() => { closeSidebar() }}>{i18n._(t`Portfolio`)}</NavLink>
                   <ExternalLink label={i18n._(t`Wallet`)} url="https://wallet.gooddollar.org/" />
                   <ExternalLink label={i18n._(t`Fuse Bridge`)} url="https://app.fuse.fi/#/bridge" />
-                  <ExternalLink label={i18n._(t`Docs`)} url="https://gooddollar.gitbook.io/gooddocs/" />
+                  <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" />
                 </nav>
 
                 <div className="flex justify-between social">

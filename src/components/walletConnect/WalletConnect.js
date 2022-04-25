@@ -11,19 +11,23 @@ import { withStyles } from '../../lib/styles'
 import QrReader from '../dashboard/QR/QRScanner'
 import QRCameraPermissionDialog from '../dashboard/SendRecieveQRCameraPermissionDialog'
 
+// hooks
 import usePermissions from '../permissions/hooks/usePermissions'
 import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
 
+// utils
 import SimpleStore from '../../lib/undux/SimpleStore'
-import readWalletConnectUri from '../../lib/walletconnect'
 import logger from '../../lib/logger/js-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import normalize from '../../lib/utils/normalizeText'
+import { readWalletConnectUri } from '../../lib/walletconnect/utils'
 
 const log = logger.child({ from: 'walletConnect' })
 
 const TITLE = `WalletConnect`
+
+const QR_DEFAULT_DELAY = 300
 
 type WalletConnectProps = {
   styles: {},
@@ -34,7 +38,9 @@ type WalletConnectProps = {
 const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
 const WalletConnect = ({ screenProps, styles, theme }: WalletConnectProps) => {
+  const [qrDelay, setQrDelay] = useState(QR_DEFAULT_DELAY)
   const [uri, setUri] = useState('')
+  const [enableScan, setEnableScan] = useState(true)
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const { pop, navigateTo } = screenProps
@@ -48,25 +54,39 @@ const WalletConnect = ({ screenProps, styles, theme }: WalletConnectProps) => {
     navigate: navigateTo,
   })
 
-  // first of all check browser compatibility
-  // if not compatible - then redirect to home
-  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
+  // check browser compatibility with scanning
+  // if not compatible - then hide scanner
+  const disableScan = useCallback(() => setEnableScan(false))
+  const startScan = useCallback(() => {
+    setEnableScan(true)
+    requestPermission()
+  })
 
   const handleChange = data => {
+    log.debug('handleChange:', { data })
+
     if (data) {
+      setQrDelay(false)
+
       try {
-        logger.debug(data)
-        const uri = readWalletConnectUri(data)
+        const validUri = readWalletConnectUri(data)
 
-        log.debug({ uri })
+        if (validUri === null) {
+          const error = new Error('Invalid QR Code.')
 
-        if (uri === null) {
-          throw new Error('Invalid QR Code.')
+          log.warn('Wrong QR code received', error.message, error, {
+            validUri,
+            category: ExceptionCategory.Human,
+            dialogShown: true,
+          })
+          showErrorDialog(t`Invalid QR Code.`)
+          setQrDelay(QR_DEFAULT_DELAY)
         } else {
-          store.set('walletConnect')({ uri })
+          store.set('walletConnect')({ uri: validUri })
         }
       } catch (e) {
         log.error('scan received failed', e.message, e)
+        setQrDelay(QR_DEFAULT_DELAY)
         throw e
       }
     }
@@ -90,8 +110,8 @@ const WalletConnect = ({ screenProps, styles, theme }: WalletConnectProps) => {
   )
 
   useCameraSupport({
-    onUnsupported: navigateToHome,
-    onSupported: requestPermission,
+    onUnsupported: disableScan,
+    onSupported: startScan,
   })
 
   return (
@@ -106,28 +126,25 @@ const WalletConnect = ({ screenProps, styles, theme }: WalletConnectProps) => {
           {t`Scan Code`}
         </Section.Text>
         <Divider size={30} />
-        {hasCameraAccess && (
-          <QrReader
-            delay={1000}
-            onError={handleError}
-            onScan={e => {
-              handleChange(e.data)
-            }}
-            style={{ width: '100%' }}
-          />
+        {hasCameraAccess && enableScan && (
+          <>
+            <QrReader
+              delay={qrDelay}
+              onError={handleError}
+              onScan={e => {
+                handleChange(e)
+              }}
+              style={{ width: '100%' }}
+            />
+            <Divider size={30} />
+          </>
         )}
-        <Divider size={30} />
         <Section.Text fontSize={15} fontWeight="medium" fontFamily="Roboto" color="black">
           {t`Or input code`}
         </Section.Text>
         <Divider size={30} />
-        <InputText
-          onSelectionChange={handleChange}
-          value={uri}
-          onChangeText={e => setUri(e)}
-          placeholder="wc:1234123jakljasdkjasfd..."
-        />
-        <CustomButton onPress={screenProps.connectButton}>{t`Connect`}</CustomButton>
+        <InputText value={uri} onChangeText={setUri} placeholder="wc:1234123jakljasdkjasfd..." />
+        <CustomButton onPress={() => handleChange(uri)} style={[styles.connectButton]}>{t`Connect`}</CustomButton>
         <Divider size={30} />
       </ScrollView>
     </Wrapper>

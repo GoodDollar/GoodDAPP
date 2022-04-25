@@ -1,5 +1,3 @@
-import { isValidURI } from '../utils/uri'
-
 /**
  * Parses the read WalletConnet URI from QR Code.
  * If not valid, returns null.
@@ -7,15 +5,14 @@ import { isValidURI } from '../utils/uri'
  * @param {string} link - receive WalletConnect URI
  * @returns {string|null} - {link|null}
  */
-function readWalletConnectUri(link) {
+export const readWalletConnectUri = link => {
   // checks that the link has the expected strings in it
-  const isValidWalletConnectUri = link.match(/wc:.*/g)
+  const eip1328UriFormat = /wc:[\w\d-]+@\d+\?bridge=.*&key=[a-z0-9]+/
+  const validUri = link.match(eip1328UriFormat)[0]
 
-  if (!isValidURI(link) || !isValidWalletConnectUri) {
+  if (!validUri) {
     return null
   }
 
   return link
 }
-
-export default { readWalletConnectUri }

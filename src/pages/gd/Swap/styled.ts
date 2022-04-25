@@ -7,9 +7,6 @@ export const SwapCardSC = styled.div<{ open: boolean }>`
     position: relative;
     justify-content: center;
 
-
-    margin-left: 5rem;
-
     @media screen and (max-height: 720px) {
         transform-origin: 0 0;
         transform: scale(0.8);

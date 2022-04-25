@@ -3055,10 +3055,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@headlessui/react@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@headlessui/react/-/react-1.0.0.tgz"
-  integrity sha512-mjqRJrgkbcHQBfAHnqH0yRxO/y/22jYrdltpE7WkurafREKZ+pj5bPBwYHMt935Sdz/n16yRcVmsSCqDFHee9A==
+"@headlessui/react@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/@headlessui/react/-/react-1.5.0.tgz#483b44ba2c8b8d4391e1d2c863898d7dd0cc0296"
+  integrity sha512-aaRnYxBb3MU2FNJf3Ut9RMTUqqU3as0aI1lQhgo2n9Fa67wRu14iOGqx93xB+uMNVfNwZ5B3y/Ndm7qZGuFeMQ==
 
 "@hot-loader/react-dom@^17.0.1":
   version "17.0.1"
@@ -5272,10 +5272,10 @@
     joi "^17.4.2"
     rxjs "^7.5.2"
 
-"@web3-onboard/core@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/@web3-onboard/core/-/core-2.2.0.tgz#0b3080438285117096ab8af571d8acd02b4671fc"
-  integrity sha512-lKwhzIyjXQggd/uhXYkZGOXw/nMDuCgHDVl3l65JmQiMdqv4uSV3MLSu4aQEQYvIccOJ2hNFRs/a9zFoaDpAFQ==
+"@web3-onboard/core@2.2.1", "@web3-onboard/core@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.npmjs.org/@web3-onboard/core/-/core-2.2.1.tgz#2c09bfa84a8b9f19dec3b5cf9322739f90921cf4"
+  integrity sha512-1cTSMdJbxVwWwnXZ1pTmtySFUM3n1+6C/z9DiH4evSgqY0Ijq+MUKM8Cqm1VkAjJW+j+yw5tLvZgwjFWrIfbdw==
   dependencies:
     "@web3-onboard/common" "^2.0.2"
     bowser "^2.11.0"
@@ -5297,13 +5297,13 @@
     joi "^17.4.2"
     lodash.uniqby "^4.7.0"
 
-"@web3-onboard/react@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/@web3-onboard/react/-/react-2.1.0.tgz#0a18fd1892dcbdb907e9f6029dd0d3edde49ff65"
-  integrity sha512-4RpX5n9KlK4AB8j6FjaEnSsZb7t77MUT+t9wh+kbMHrv1PSzJy/YLaUgii0s0ret0u45o/Qxn6RKPQcY6KmlpA==
+"@web3-onboard/react@2.1.1":
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/@web3-onboard/react/-/react-2.1.1.tgz#f201835f2dd7c2fa86a33e1add5afbcddcfb2aa2"
+  integrity sha512-iPqWSm37d67qOTkKC03vj2m1O/6pCbC4UL9GJ+KoPpVcpUZ8TIRfOvVThsj+bspvpW2NMMMA6lidH9dJMasi7Q==
   dependencies:
     "@web3-onboard/common" "^2.0.5"
-    "@web3-onboard/core" "^2.2.0"
+    "@web3-onboard/core" "^2.2.1"
 
 "@web3-onboard/walletconnect@^2.0.1":
   version "2.0.1"
@@ -18709,9 +18709,9 @@ svelte-i18n@^3.3.13:
     tiny-glob "^0.2.6"
 
 svelte@^3.46.4:
-  version "3.46.6"
-  resolved "https://registry.npmjs.org/svelte/-/svelte-3.46.6.tgz#23046a361ba5f8bafcc9cf9f6fca6d011fb005a7"
-  integrity sha512-o9nNft/OzCz/9kJpmWa1S52GAM+huCjPIsNWydYmgei74ZWlOA9/hN9+Z12INdklghu31seEXZMRHhS1+8DETw==
+  version "3.47.0"
+  resolved "https://registry.npmjs.org/svelte/-/svelte-3.47.0.tgz#ba46fe4aea99fc650d6939c215cd4694f5325a19"
+  integrity sha512-4JaJp3HEoTCGARRWZQIZDUanhYv0iyoHikklVHVLH9xFE9db22g4TDv7CPeNA8HD1JgjXI1vlhR1JZvvhaTu2Q==
 
 svg-parser@^2.0.2:
   version "2.0.4"

@@ -44,6 +44,7 @@ export const SwapWrapperSC = styled.div`
     border-radius: 20px;
     position: relative;
     z-index: 2;
+    border: 1px solid ${({ theme }) => (theme.color.border1)};
 `
 
 export const SwapContentWrapperSC = styled(Card).attrs(() => ({

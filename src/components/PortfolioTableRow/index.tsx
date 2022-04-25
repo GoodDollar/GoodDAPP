@@ -1,5 +1,4 @@
 import React, { memo, useCallback, useState } from 'react'
-import { ButtonDefault } from 'components/gd/Button'
 import Withdraw from 'components/Withdraw'
 import { MyStake } from '../../sdk/staking'
 import { t } from '@lingui/macro'
@@ -55,12 +54,12 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 </td>) : <td className="text-center"> - </td>}
                 {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (<td className="whitespace-nowrap">
                     {stake.multiplier ? (
-                        <>{i18n._(t`This month`)} 1.0X</>
+                        <>{i18n._(t`This month`)} 2.0X</>
                     ) : (
                         <>
-                            {i18n._(t`This month`)} 0.5X
+                            {i18n._(t`This month`)} 1.0X
                             <br />
-                            {i18n._(t`Next month:`)} 1.0X
+                            {i18n._(t`Next month:`)} 2.0X
                         </>
                     )}
                 </td>) : <td className="text-center"> - </td>}

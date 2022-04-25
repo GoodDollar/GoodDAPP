@@ -1,7 +1,7 @@
 import { ChainId } from '@sushiswap/sdk'
 import { NetworkConnector } from './NetworkConnector'
 import { Web3Provider } from '@ethersproject/providers'
-import Logo from '../assets/images/logo.png' 
+import LogoSmall from '../assets/images/logosmall.png' 
 
 // ** blocknative update ** //
 import injectedModule from '@web3-onboard/injected-wallets'
@@ -10,7 +10,7 @@ import walletLinkModule from '@web3-onboard/walletlink'
 import { init } from '@web3-onboard/react'
 // ** blockNative update **//
 
-export enum OnboardChainIds {
+export enum AdditionalChainIds {
   FUSE = 122,
   ETH = 1
 }
@@ -37,7 +37,7 @@ const RPC = {
     [ChainId.HARMONY_TESTNET]: 'https://explorer.pops.one',
     [ChainId.OKEX]: 'https://exchainrpc.okex.org',
     [ChainId.OKEX_TESTNET]: 'https://exchaintestrpc.okex.org',
-    [OnboardChainIds.FUSE]: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'
+    [AdditionalChainIds.FUSE]: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'
 }
 
 export const network = new NetworkConnector({
@@ -62,7 +62,7 @@ const injectedBN = injectedModule({
   filter: {
     ["Binance Smart Wallet"]: false,
     ["MetaMask"]: true,
-    ["Coinbase Wallet"]: true,
+    ["Coinbase Wallet"]: false,
     ["detected"]: true,
     ["trust"]: false,
     ["opera"]: false,
@@ -130,11 +130,16 @@ export const onboard = init({
   ],
   appMetadata: {
     name: 'GoodSwap',
-    icon: Logo,
+    icon: LogoSmall,
     description: 'GoodDollar Swap Interface',
     recommendedInjectedWallets: [
       { name: 'MetaMask', url: 'https://metamask.io'}
     ]
+  },
+  accountCenter: {
+    desktop: {
+      enabled: false,
+    }
   },
   i18n: {
     en: {
@@ -142,7 +147,7 @@ export const onboard = init({
         "selectingWallet": {
           "header": 'Connect Wallet',
           "sidebar": {
-            "heading": 'Get Started',
+            "heading": '',
             "subheading": "Select your wallet",
             "paragraph": "Connecting your wallet is like “logging in” to Web3. Select your wallet from the options available."
           },

@@ -198,7 +198,8 @@ async function metaMyStake(web3: Web3, address: string, account: string, release
 
     const protocol = getProtocol(protocolName)
     const amount = CurrencyAmount.fromRawAmount(token, users.amount.toString())
-    const multiplier = Math.round(Date.now() / 1000) - parseInt(users.multiplierResetTime) > threshold
+    const currentBlockNumber = await web3.eth.getBlockNumber()
+    const multiplier = currentBlockNumber - parseInt(users.multiplierResetTime) > threshold
 
     const tokenPrice = await getTokenPriceInUSDC(web3, protocol, token)
 

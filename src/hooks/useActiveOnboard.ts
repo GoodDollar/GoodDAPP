@@ -12,7 +12,6 @@ import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import web3Utils from 'web3-utils'
 import { SupportedChainId } from 'sdk/constants/chains'
 import { UnsupportedChainId } from 'sdk/utils/errors'
-import { OnboardChainIds } from 'connectors'
 
 import { 
   useConnectWallet,
@@ -152,8 +151,6 @@ export function useOnboardConnect():OnboardConnectProps {
     StoreOnboardState(currentWallet, chainId)
     setActivated(true)
   }
-
-  // TODO: Handle user rejection (patch fixed in @web3-onboard/core for now)
 
   // eager connect
   useEffect(() => {

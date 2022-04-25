@@ -304,7 +304,7 @@ export class GoodWallet {
           return
         }
         let nextLastBlock = await this.wallet.eth.getBlockNumber()
-        if (nextLastBlock < this.lastEventsBlock) {
+        if (nextLastBlock <= this.lastEventsBlock) {
           // if next block not mined yet
           return
         }

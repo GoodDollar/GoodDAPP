@@ -20,8 +20,6 @@ import { getSystemName, getSystemVersion, isEmulator as isEmulatedDevice } from 
 
 import isWebApp from './isWebApp'
 
-import { appEnv } from './env'
-
 export const isSafari = isMobileSafari || isSafariWeb
 
 export const isWeb = Platform.OS === 'web'
@@ -54,8 +52,6 @@ export const isEmulator = isMobileNative ? isEmulatedDevice() : Promise.resolve(
 
 export const isCypress =
   !isMobileReactNative && 'undefined' !== typeof window && get(window, 'navigator.userAgent', '').includes('Cypress')
-
-export const isE2ERunning = isCypress && 'development' === appEnv
 
 export const osVersionInfo = (() => {
   const [osName, version] = Platform.select({

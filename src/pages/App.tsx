@@ -34,6 +34,7 @@ const Wrapper = styled.div`
     @media ${({ theme }) => theme.media.md} {
         padding-bottom: 75px;
     }
+    background-color: ${({theme}) => theme.color.bgBody}
 `
 
 const MainBody = styled.div`

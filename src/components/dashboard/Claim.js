@@ -260,7 +260,7 @@ const Claim = props => {
   const [nextClaim, isReachedZero, updateTimer] = useTimer()
 
   const gatherStats = useCallback(
-    async (all = false) => {
+    async (all = false, isRetry = true) => {
       try {
         const promises = [wrappedGoodWallet.getClaimScreenStatsFuse()]
 
@@ -294,17 +294,21 @@ const Claim = props => {
           setInterestCollected(mainnetData.interestCollected)
         }
       } catch (exception) {
-        const { message } = exception
-        const uiMessage = decorate(exception, ExceptionCode.E3)
+        if (isRetry) {
+          const { message } = exception
+          const uiMessage = decorate(exception, ExceptionCode.E3)
 
-        log.error('gatherStats failed', message, exception, {
-          dialogShown: true,
-          category: ExceptionCategory.Blockchain,
-        })
+          log.error('gatherStats failed', message, exception, {
+            dialogShown: true,
+            category: ExceptionCategory.Blockchain,
+          })
 
-        showErrorDialog(uiMessage, '', {
-          onDismiss: goToRoot,
-        })
+          showErrorDialog(uiMessage, '', {
+            onDismiss: goToRoot,
+          })
+        } else {
+          gatherStats(all, true)
+        }
       }
     },
     [
@@ -324,107 +328,118 @@ const Claim = props => {
 
   const handleFaceVerification = useCallback(() => navigate('FaceVerificationIntro', { from: 'Claim' }), [navigate])
 
-  const handleClaim = useCallback(async () => {
-    setLoading(true)
+  const handleClaim = useCallback(
+    async (isRetry = false) => {
+      setLoading(true)
 
-    try {
-      //recheck citizen status, just in case we are out of sync with blockchain
-      if (!isCitizen) {
-        const isCitizenRecheck = await goodWallet.isCitizen()
+      try {
+        //recheck citizen status, just in case we are out of sync with blockchain
+        if (!isCitizen) {
+          const isCitizenRecheck = await goodWallet.isCitizen()
 
-        if (!isCitizenRecheck) {
-          return handleFaceVerification()
-        }
-      }
-
-      //when we come back from FR entitlement might not be set yet
-      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(parseInt))
-
-      if (!curEntitlement) {
-        return
-      }
-
-      showDialog({
-        image: <LoadingAnimation />,
-        message: t`please wait while processing...` + `\n`,
-        buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
-        title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
-        showCloseButtons: false,
-      })
-
-      const receipt = await goodWallet.claim()
-
-      if (receipt.status) {
-        const txHash = receipt.transactionHash
-        const date = new Date()
-        const transactionEvent: TransactionEvent = {
-          id: txHash,
-          date: date.toISOString(),
-          createdDate: date.toISOString(),
-          type: 'claim',
-          data: {
-            from: 'GoodDollar',
-            amount: curEntitlement,
-          },
+          if (!isCitizenRecheck) {
+            return handleFaceVerification()
+          }
         }
 
-        userStorage.enqueueTX(transactionEvent)
-        AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
-        fireEvent(CLAIM_SUCCESS, { txHash, claimValue: curEntitlement })
+        //when we come back from FR entitlement might not be set yet
+        const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(parseInt))
 
-        const claimsSoFar = await advanceClaimsCounter()
+        if (!curEntitlement) {
+          return
+        }
 
-        API.updateClaims({ claim_counter: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
-        fireGoogleAnalyticsEvent(CLAIM_GEO, {
-          claimValue: weiToGd(curEntitlement),
-          eventLabel: goodWallet.UBIContract._address,
+        showDialog({
+          image: <LoadingAnimation />,
+          message: t`please wait while processing...` + `\n`,
+          buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
+          title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
+          showCloseButtons: false,
         })
 
-        // legacy support for claim-geo event for UA. remove once we move to new dashboard and GA4
-        if (isMobileNative === false) {
-          fireGoogleAnalyticsEvent('claim-geo', {
+        const receipt = await goodWallet.claim()
+
+        if (receipt.status) {
+          const txHash = receipt.transactionHash
+          const date = new Date()
+          const transactionEvent: TransactionEvent = {
+            id: txHash,
+            date: date.toISOString(),
+            createdDate: date.toISOString(),
+            type: 'claim',
+            data: {
+              from: 'GoodDollar',
+              amount: curEntitlement,
+            },
+          }
+
+          userStorage.enqueueTX(transactionEvent)
+          AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
+          fireEvent(CLAIM_SUCCESS, { txHash, claimValue: curEntitlement })
+
+          const claimsSoFar = await advanceClaimsCounter()
+
+          API.updateClaims({ claim_counter: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
+          fireGoogleAnalyticsEvent(CLAIM_GEO, {
             claimValue: weiToGd(curEntitlement),
             eventLabel: goodWallet.UBIContract._address,
           })
+
+          // legacy support for claim-geo event for UA. remove once we move to new dashboard and GA4
+          if (isMobileNative === false) {
+            fireGoogleAnalyticsEvent('claim-geo', {
+              claimValue: weiToGd(curEntitlement),
+              eventLabel: goodWallet.UBIContract._address,
+            })
+          }
+
+          // reset dailyUBI so statistics are shown after successful claim
+          setDailyUbi(0)
+
+          showDialog({
+            image: <LoadingAnimation success speed={2} />,
+            buttons: [{ text: t`Yay!` }],
+            message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
+            title: t`CHA-CHING!`,
+            onDismiss: noop,
+          })
+
+          // collect invite bonuses
+          const didCollect = await collectInviteBounty()
+          if (didCollect) {
+            fireEvent(INVITE_BOUNTY, { from: 'invitee' })
+          }
+        } else {
+          fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
+          showErrorDialog(t`Claim transaction failed`, '', { boldMessage: t`Try again later.` })
+
+          log.error('Claim transaction failed', '', new Error('Failed to execute claim transaction'), {
+            txHash: receipt.transactionHash,
+            entitlement: curEntitlement,
+            status: receipt.status,
+            category: ExceptionCategory.Blockchain,
+            dialogShown: true,
+          })
         }
+      } catch (e) {
+        if (isRetry) {
+          fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
+          showErrorDialog(t`Claim request failed`, '', { boldMessage: t`Try again later.` })
 
-        // reset dailyUBI so statistics are shown after successful claim
-        setDailyUbi(0)
+          log.error('claiming failed', e.message, e, { dialogShown: true })
+        } else {
+          // Call wallet method to refresh the connection :
+          await goodWallet.getBlockNumber()
 
-        showDialog({
-          image: <LoadingAnimation success speed={2} />,
-          buttons: [{ text: t`Yay!` }],
-          message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
-          title: t`CHA-CHING!`,
-          onDismiss: noop,
-        })
-
-        // collect invite bonuses
-        const didCollect = await collectInviteBounty()
-        if (didCollect) {
-          fireEvent(INVITE_BOUNTY, { from: 'invitee' })
+          // Retry to call handleClaim if it's first time :
+          await handleClaim(true)
         }
-      } else {
-        fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        showErrorDialog(t`Claim transaction failed`, '', { boldMessage: t`Try again later.` })
-
-        log.error('Claim transaction failed', '', new Error('Failed to execute claim transaction'), {
-          txHash: receipt.transactionHash,
-          entitlement: curEntitlement,
-          status: receipt.status,
-          category: ExceptionCategory.Blockchain,
-          dialogShown: true,
-        })
+      } finally {
+        setLoading(false)
       }
-    } catch (e) {
-      fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
-      showErrorDialog(t`Claim request failed`, '', { boldMessage: t`Try again later.` })
-
-      log.error('claiming failed', e.message, e, { dialogShown: true })
-    } finally {
-      setLoading(false)
-    }
-  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog])
+    },
+    [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog],
+  )
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

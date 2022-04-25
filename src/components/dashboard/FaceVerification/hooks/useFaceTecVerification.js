@@ -3,7 +3,7 @@ import { assign, noop } from 'lodash'
 
 // logger & utils
 import logger from '../../../../lib/logger/js-logger'
-import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
+import { isEmulator } from '../../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
@@ -57,8 +57,8 @@ export default (options = null) => {
 
     // if cypress is running
     // isMobileNative is temporary check, will be removed once we'll deal with Zoom on native
-    if (isE2ERunning || isDeviceEmulated) {
-      log.debug('skipping fv ui for non real devices or IOS', { isE2ERunning, isDeviceEmulated })
+    if (isDeviceEmulated) {
+      log.debug('skipping fv ui for non real devices or IOS', { isDeviceEmulated })
 
       try {
         // don't start session, just call enroll with fake data to whitelist user on server

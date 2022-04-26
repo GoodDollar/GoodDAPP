@@ -2,7 +2,6 @@ import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { AppBar, Polling, Popups } from '../components'
 import Web3ReactManager from '../components/Web3ReactManager'
-
 import Routes from '../routes'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../state'
@@ -10,7 +9,6 @@ import { updateUserDarkMode } from '../state/user/actions'
 import { parse } from 'qs'
 import isEqual from 'lodash/isEqual'
 import SideBar from '../components/SideBar'
-import { useTheme } from 'styled-components'
 import styled from 'styled-components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -40,7 +38,32 @@ const Wrapper = styled.div`
 `
 
 const MainBody = styled.div`
-  background-color: ${({theme}) => theme.color.bgBody}
+  background-color: ${({theme}) => theme.color.bgBody};
+  @media screen and (max-width: 361px){
+    padding-bottom: 20px;
+    height: 600px;
+    padding-top: 170px;
+  }
+
+  @media screen and (min-width: 361px) and (max-width: 375px){
+    height: 490px;
+    padding-top: 270px;
+  }
+
+  @media screen and (min-width: 390px) and (max-width: 550px){
+    height: 700px;
+    padding-top: 70px;
+    padding-left: 1.65rem
+  }
+
+  @media screen and (min-width: 500px) and (max-width: 550px){
+    height: 560px;
+    padding-top: 200px;
+  }
+  @media screen and (min-width: 550px) {
+    margin-top: -50px
+  }
+
 `
 
 function App(): JSX.Element {
@@ -69,18 +92,6 @@ function App(): JSX.Element {
             })
         }
     }, [preservedSource, location, replace])
-
-    // useEffect(() => {
-    //     if (pathname === '/trade') {
-    //         setWrapperClassList(
-    //             'flex flex-col flex-1 items-center justify-start w-screen h-full overflow-y-auto overflow-x-hidden z-0'
-    //         )
-    //     } else {
-    //         setWrapperClassList(
-    //             'flex flex-col flex-1 items-center justify-start w-screen h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-20'
-    //         )
-    //     }
-    // }, [pathname])
 
     useEffect(() => {
         if (bodyRef.current) {
@@ -112,18 +123,18 @@ function App(): JSX.Element {
 
     return (
         <Suspense fallback={null}>
-            <div className="flex flex-col h-screen overflow-hidden">
+            <div className="flex flex-col h-max md:overflow-hidden">
                 <AppBar />
-                <Wrapper className="flex flex-grow overflow-hidden">
+                <Wrapper className="flex flex-grow md:overflow-hidden">
                     <SideBar />
                     <MainBody
                         ref={bodyRef}
-                        className="z-0 flex flex-col items-center justify-center flex-grow h-full px-4 pb-5 overflow-x-hidden overflow-y-auto"
+                        className="z-0 flex flex-col items-center justify-center flex-grow h-screen px-4 pb-5 md:overflow-x-hidden overflow-y-auto"
                     >
                         <Popups />
                         {/*<Polling />*/}
                         <Web3ReactManager>
-                          <div className="flex flex-col items-center justify-center w-full flex-glow xl:-mt-5">
+                          <div className="flex flex-col items-center justify-center w-full xl:-mt-9">
                                 <Routes />
                                 <TransactionUpdater />
                           </div>

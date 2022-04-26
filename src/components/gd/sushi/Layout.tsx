@@ -5,12 +5,13 @@ interface LayoutProps {
     left?: JSX.Element
     children?: React.ReactChild | React.ReactChild[]
     right?: JSX.Element
-    netWorth?: string
+    netWorth?: string,
+    classes?: string
 }
 
 const LayoutSC = styled.div`
     width: 100%;
-    padding-left: 5rem;
+    margin-left: 1.25rem;
     padding-right: 1rem;
 
     @media screen and (max-width: 1250px) {
@@ -20,6 +21,10 @@ const LayoutSC = styled.div`
     @media ${({ theme }) => theme.media.md} {
         padding-left: 0;
         padding-right: 0;
+    }
+
+    @media screen and (max-height: 665px) {
+      margin-top: 7rem;
     }
 `
 
@@ -33,10 +38,11 @@ const ContentWrapper = styled.div`
 export default function Layout({
     left = undefined,
     children = undefined,
-    right = undefined
+    right = undefined,
+    classes = undefined
 }: LayoutProps): JSX.Element {
     return (
-        <LayoutSC>
+        <LayoutSC className={classes}>
             <ContentWrapper>{children}</ContentWrapper>
         </LayoutSC>
     )

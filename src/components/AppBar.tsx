@@ -140,7 +140,7 @@ function AppBar(): JSX.Element {
             <AppNotice text={i18n._(t``)}
                 link={['']} show={false}></AppNotice>
                   <>
-                  <div className="px-4 py-1.5">
+                  <div className="md:px-4 pl-2.5 pr-1 py-1.5">
                       <div className="flex items-center justify-between h-16">
                           <div className="flex items-center">
                               <div className="flex-shrink-0">

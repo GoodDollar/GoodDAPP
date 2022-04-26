@@ -23,15 +23,10 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   border-right: 1px solid rgba(208, 217, 228, 0.482);
   height: ${({ $mobile }) => ($mobile ? '100%' : 'auto')};
 
-  @media (max-height: 610px) {
-    .sidebar-inner-container {
-      overflow-x: scroll;
-    }
-    // // .sidebar-inner-container:hover {
-    // //   overflow-x: scroll;
-    // // }
+  @media screen and (max-height: 670px) {
+    overflow-x: scroll;
   }
-  @media (max-height: 900px){
+  @media screen and (max-height: 900px){
     .sidebar-inner-container {
       transform: scale(0.9);
       margin-top: -25px;
@@ -45,7 +40,7 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
       margin: 5px 15px 0;
     }
   }
-  @media (min-height: 901px){
+  @media screen and (min-height: 901px){
     .balance {
       padding: 17px 7px 5px 22px;
     }
@@ -330,7 +325,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                         )}
                     </div>
                 </div>
-                <nav>
+                <nav className="mt-5">
                   <NavLink to={'/dashboard'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Dashboard`)}</NavLink>
                   <NavLink to={'/swap'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Swap`)}</NavLink>
                   <NavLink to={'/stakes'} onClick={mobile ?  closeSidebar : null }>{i18n._(t`Stake`)}</NavLink>
@@ -340,7 +335,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                   <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" />
                 </nav>
 
-                <div className="flex items-center justify-between social">
+                <div className="flex items-center justify-between mt-5 social">
                   <span>Follow us on:</span>
                   <SocialsLink network="twitter" logo={TwitterLogo} url='https://twitter.com/gooddollarorg' />
                   <SocialsLink network="telegram" logo={TelegramLogo} url='https://t.me/GoodDollarX' />

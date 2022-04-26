@@ -248,7 +248,7 @@ const Portfolio = () => {
     )
 
     return (
-        <Layout>
+        <Layout classes="md:mt-24 xl:mt-0 sh:mt-30">
             <PortfolioSC>
                 <Title className="pl-4 mb-6">Portfolio</Title>
                 {account ? (

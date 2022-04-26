@@ -20,6 +20,8 @@ import { useLingui } from '@lingui/react'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import { Percent } from '@sushiswap/sdk'
 
+import ShareTransaction from 'components/ShareTransaction'
+
 export interface SwapConfirmModalProps extends SwapDetailsFields {
     className?: string
     style?: CSSProperties
@@ -65,13 +67,12 @@ function SwapConfirmModal({
     const globalDispatch = useDispatch()
     const { chainId } = useActiveWeb3React()
     const web3 = useWeb3()
-    const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT'>('SENT')
+    const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
 
     const handleSwap = async () => {
-      
-        if (meta && meta.priceImpact && !confirmPriceImpactWithoutFee((meta.priceImpact as unknown as Percent))) {
-          return
+        if (meta && meta.priceImpact && !confirmPriceImpactWithoutFee((meta.priceImpact as unknown) as Percent)) {
+            return
         }
 
         setStatus('CONFIRM')
@@ -79,36 +80,39 @@ function SwapConfirmModal({
         const onSent = (hash: string, from: string) => {
             setStatus('SENT')
             setHash(hash)
-            
+
             const inputSig = meta?.inputAmount.toSignificant(5)
             const minimumOutputSig = meta?.minimumOutputAmount.toSignificant(5)
 
             const tradeInfo = {
-              input: {
-                decimals: meta?.inputAmount.currency.decimals,
-                symbol: meta?.inputAmount.currency.symbol
-              },
-              output: {
-                decimals: meta?.outputAmount.currency.decimals,
-                symbol: meta?.outputAmount.currency.symbol
-              }
+                input: {
+                    decimals: meta?.inputAmount.currency.decimals,
+                    symbol: meta?.inputAmount.currency.symbol
+                },
+                output: {
+                    decimals: meta?.outputAmount.currency.decimals,
+                    symbol: meta?.outputAmount.currency.symbol
+                }
             }
             const summary = i18n._(t`Swapped ${inputSig} ${meta?.inputAmount.currency.symbol} 
                               to a minimum of ${minimumOutputSig} ${meta?.outputAmount.currency.symbol}`)
 
             globalDispatch(
-              addTransaction({
-                chainId: chainId!,
-                hash: hash,
-                from: from,
-                summary: summary,
-                tradeInfo: tradeInfo, 
-              })
+                addTransaction({
+                    chainId: chainId!,
+                    hash: hash,
+                    from: from,
+                    summary: summary,
+                    tradeInfo: tradeInfo
+                })
             )
             if (onConfirm) onConfirm()
         }
-        try { 
-            buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent) 
+        try {
+            const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)
+
+            if (meta?.outputAmount.currency.name === 'GoodDollar') setStatus('SUCCESS')
+
             // let transactionDetails = buying ? await buy(web3!, meta!, prepareTx, onSent) : await sell(web3!, meta!, prepareTx, onSent)
             // globalDispatch(
             //     addTransaction({
@@ -121,7 +125,7 @@ function SwapConfirmModal({
             console.error(e)
             setStatus('PREVIEW')
         }
-    } 
+    }
 
     useEffect(() => {
         if (open) {
@@ -250,6 +254,31 @@ function SwapConfirmModal({
                         </ButtonDefault>
                     </div>
                 </>
+            )
+            break
+        case 'SUCCESS':
+            content = (
+                <ShareTransaction
+                    title={i18n._(t`Swap Completed`)}
+                    text={i18n._(t`You just used your crypto for good to help fund crypto UBI 
+for all with GoodDollar!`)}
+                    shareProps={{
+                        title: i18n._(t`Share with friends`),
+                        copyText: 'I just bought GoodDollars at https://goodswap.xyz to make the world better',
+                        show: true,
+                        linkedin: {
+                            url: 'https://gooddollar.org'
+                        },
+                        twitter: {
+                            url: 'https://gooddollar.org',
+                            hashtags: ['InvestForGood']
+                        },
+                        facebook: {
+                            url: 'https://gooddollar.org',
+                            hashtag: '#InvestForGood'
+                        }
+                    }}
+                />
             )
             break
     }

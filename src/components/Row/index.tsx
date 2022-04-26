@@ -9,6 +9,7 @@ const Row = styled(Box)<{
     padding?: string
     border?: string
     borderRadius?: string
+    gap?: string
 }>`
     width: ${({ width }) => width ?? '100%'};
     display: flex;
@@ -18,6 +19,7 @@ const Row = styled(Box)<{
     padding: ${({ padding }) => padding};
     border: ${({ border }) => border};
     border-radius: ${({ borderRadius }) => borderRadius};
+    gap: ${({ gap }) => gap ?? 'none'};
 `
 
 export const RowBetween = styled(Row)`

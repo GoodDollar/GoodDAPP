@@ -44,9 +44,9 @@
     "lingui-compile": "lingui compile",
     "lingui": "lingui extract && lingui compile",
     "postinstall": "patch-package && cp patches/realm+1.3.0-package-patched.json node_modules/realm-web/package.json",
-    "code-push:dev": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-development -d Staging",
-    "code-push:stage": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-staging -d Staging",
-    "code-push:prod": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-production -d Production"
+    "code-push:dev": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-development -d Staging  -t `git rev-list master --first-parent --count`",
+    "code-push:stage": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-staging -d Staging  -t `git rev-list master --first-parent --count`",
+    "code-push:prod": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-production -d Production  -t `git rev-list master --first-parent --count`"
   },
   "repository": {
     "type": "git",

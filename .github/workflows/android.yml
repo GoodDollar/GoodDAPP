@@ -162,6 +162,6 @@ jobs:
         run: |
           npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
 
-      - name: Code push
+      - name: Code push release
         run: |
-          appcenter codepush release-react -a {{ env.APPCENTER_NAME }} -d Staging
+          appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Staging  -t `git rev-list master --first-parent --count`

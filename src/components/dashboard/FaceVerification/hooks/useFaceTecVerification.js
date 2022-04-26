@@ -3,7 +3,7 @@ import { assign, noop } from 'lodash'
 
 // logger & utils
 import logger from '../../../../lib/logger/js-logger'
-import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
+import { isEmulator } from '../../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
@@ -11,7 +11,7 @@ import { FaceTecSDK } from '../sdk/FaceTecSDK'
 import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
 import { hideRedBoxIfNonCritical } from '../utils/redBox'
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
-import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
+import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
 
 const log = logger.child({ from: 'useFaceTecVerification' })
 const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
@@ -44,7 +44,7 @@ export default (options = null) => {
   const sessionInProgressRef = useRef(false)
 
   // creating accessors for callbacks & options
-  const accessors = useRealtimeProps([onUIReady, onCaptureDone, onRetry, onComplete, onError, maxRetries])
+  const refs = usePropsRefs([onUIReady, onCaptureDone, onRetry, onComplete, onError, maxRetries])
 
   // Starts verification/enrollment process
   // Wrapped to useCallback for encapsulate session in a single call
@@ -52,13 +52,13 @@ export default (options = null) => {
   const startVerification = useCallback(async () => {
     // destructuring accessors keeping theirs names the
     // same like in the props for avoid code modifications
-    const [onUIReady, onCaptureDone, onRetry, onComplete, onError, getMaxRetries] = accessors
+    const [onUIReady, onCaptureDone, onRetry, onComplete, onError, getMaxRetries] = refs
     const isDeviceEmulated = await isEmulator
 
     // if cypress is running
     // isMobileNative is temporary check, will be removed once we'll deal with Zoom on native
-    if (isE2ERunning || isDeviceEmulated) {
-      log.debug('skipping fv ui for non real devices or IOS', { isE2ERunning, isDeviceEmulated })
+    if (isDeviceEmulated) {
+      log.debug('skipping fv ui for non real devices or IOS', { isDeviceEmulated })
 
       try {
         // don't start session, just call enroll with fake data to whitelist user on server
@@ -133,7 +133,7 @@ export default (options = null) => {
       // setting session is not running flag in the ref
       sessionInProgressRef.current = false
     }
-  }, [enrollmentIdentifier, accessors])
+  }, [enrollmentIdentifier, refs])
 
   // exposing public hook API
   return startVerification

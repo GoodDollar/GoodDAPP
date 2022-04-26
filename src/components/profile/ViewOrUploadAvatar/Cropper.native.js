@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 import { useCallback, useEffect } from 'react'
 import ImagePicker from 'react-native-image-crop-picker'
 
-import useRealtimeProps from '../../../lib/hooks/useRealtimeProps'
+import usePropsRefs from '../../../lib/hooks/usePropsRefs'
 
 import { assembleDataUrl } from '../../../lib/utils/base64'
 import { withTemporaryFile } from '../../../lib/utils/fs'
@@ -14,10 +14,10 @@ const Cropper = ({ pickerOptions, avatar, onCropped, onCancelled }) => {
     [pickerOptions],
   )
 
-  const accessors = useRealtimeProps([avatar, openCropper, onCropped, onCancelled])
+  const refs = usePropsRefs([avatar, openCropper, onCropped, onCancelled])
 
   useEffect(() => {
-    const [getAvatar, openCropper, onCropped, onCancelled] = accessors
+    const [getAvatar, openCropper, onCropped, onCancelled] = refs
     const avatar = getAvatar()
 
     // iOS supports reading from a base64 string, android does not.
@@ -29,7 +29,7 @@ const Cropper = ({ pickerOptions, avatar, onCropped, onCancelled }) => {
     })()
       .then(({ mime, data }) => onCropped(assembleDataUrl(data, mime)))
       .catch(() => onCancelled())
-  }, [accessors])
+  }, [refs])
 
   return null
 }

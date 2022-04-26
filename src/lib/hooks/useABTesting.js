@@ -6,7 +6,7 @@ import { fireEvent } from '../analytics/analytics'
 import AsyncStorage from '../utils/asyncStorage'
 import { AB_TESTING } from '../constants/localStorage'
 import logger from '../logger/js-logger'
-import useRealtimeProps from './useRealtimeProps'
+import usePropsRefs from './usePropsRefs'
 
 const log = logger.child({ from: 'useABTesting' })
 
@@ -41,7 +41,7 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
 
   const useABTesting = (componentA, componentB, event = null) => {
     const [test, setTest] = useState()
-    const [getEvent] = useRealtimeProps([event])
+    const [getEvent] = usePropsRefs([event])
 
     useEffect(() => {
       getTestVariant().then(test => {

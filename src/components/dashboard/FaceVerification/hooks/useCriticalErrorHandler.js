@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import { t } from '@lingui/macro'
 import { useDialog } from '../../../../lib/undux/utils/dialog'
-import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
+import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
 
 import { isCriticalIssue } from '../utils/redBox'
 import { isWeb } from '../../../../lib/utils/platform'
@@ -11,13 +11,13 @@ import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 
 export default (logger = null) => {
   const [showDialog] = useDialog()
-  const accessors = useRealtimeProps([logger, showDialog])
+  const refs = usePropsRefs([logger, showDialog])
 
   const handleCriticalError = useCallback(
     exception => {
       const { faceTecCriticalError } = FaceTecGlobalState
       const { name, message } = exception
-      const [getLogger, showDialog] = accessors
+      const [getLogger, showDialog] = refs
       const log = getLogger()
 
       // if not critical issue - skipping further checks
@@ -55,7 +55,7 @@ export default (logger = null) => {
         ],
       })
     },
-    [accessors],
+    [refs],
   )
 
   return handleCriticalError

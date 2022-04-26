@@ -4,7 +4,7 @@ import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
 import userStorage from '../userStorage/UserStorage'
 import useUserContext from '../hooks/useUserContext'
-import useRealtimeProps from '../hooks/useRealtimeProps'
+import usePropsRefs from '../hooks/usePropsRefs'
 import goodWallet from './GoodWallet'
 
 const log = logger.child({ from: 'useTransferEvents' })
@@ -15,7 +15,7 @@ const log = logger.child({ from: 'useTransferEvents' })
 const useTransferEvents = () => {
   const userContext = useUserContext()
   const subscriptionRef = useRef(null)
-  const [getContext] = useRealtimeProps([userContext])
+  const [getContext] = usePropsRefs([userContext])
 
   const updateWalletStatus = useCallback(async () => {
     let walletOperations

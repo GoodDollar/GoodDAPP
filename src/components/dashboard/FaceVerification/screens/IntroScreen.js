@@ -29,7 +29,7 @@ import {
   isSmallDevice,
 } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isE2ERunning, isEmulator, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
+import { isBrowser, isEmulator, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
@@ -195,7 +195,7 @@ const IntroScreen = ({ styles, screenProps }) => {
 
     // if cypress is running - just redirect to FR as we're skipping
     // zoom componet (which requires camera access) in this case
-    if (isE2ERunning || isDeviceEmulated) {
+    if (isDeviceEmulated) {
       openFaceVerification()
       return
     }

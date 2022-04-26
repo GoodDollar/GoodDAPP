@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { assign, noop } from 'lodash'
 
-import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
+import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
 
 import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 import { hideRedBoxIfNonCritical } from '../utils/redBox'
@@ -32,7 +32,7 @@ export default (eventHandlers = {}) => {
   const [lastError, setLastError] = useState(null)
 
   // Configuration callbacks refs
-  const accessors = useRealtimeProps([onInitialized, onError, setInitialized, setLastError])
+  const refs = usePropsRefs([onInitialized, onError, setInitialized, setLastError])
 
   // adding error handler
   const handleCriticalError = useCriticalErrorHandler(log)
@@ -41,7 +41,7 @@ export default (eventHandlers = {}) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    const [onInitialized, onError, setInitialized, setLastError] = accessors
+    const [onInitialized, onError, setInitialized, setLastError] = refs
 
     // Helper for handle exceptions
     const handleException = exception => {

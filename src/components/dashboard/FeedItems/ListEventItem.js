@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, Linking, Platform, Pressable, View } from 'react-native'
+import { Linking, Platform, Pressable, View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
 import { isMobile } from '../../../lib/utils/platform'
@@ -15,7 +15,6 @@ import { Icon, Section, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
-import useImageAspectRatio from '../../../lib/hooks/useImageAspectRatio'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -23,6 +22,7 @@ import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
 import { SvgImage } from './SvgXml'
+import AutoHeightImage from './AutoHeightImage'
 
 const log = logger.child({ from: 'ListEventItem' })
 
@@ -65,7 +65,6 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
   const {
     data: { sponsoredLink, sponsoredLogo, picture },
   } = item
-  const aspectRatio = useImageAspectRatio(picture)
   const hasPicture = !!picture
 
   const onSponsorPress = useOnPress(() => {
@@ -78,7 +77,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig={hasPicture} />
 
       <View style={styles.newsContent}>
-        {picture && <Image source={{ uri: picture }} style={[styles.newsPicture, { aspectRatio }]} />}
+        {picture && <AutoHeightImage source={{ uri: picture }} width="100%" />}
 
         <View style={styles.innerRow}>
           <View grow style={styles.mainContents}>
@@ -416,10 +415,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainText: {
     paddingTop: 5,
-  },
-  newsPicture: {
-    width: '100%',
-    resizeMode: 'cover',
   },
   newsContent: {
     width: '100%',

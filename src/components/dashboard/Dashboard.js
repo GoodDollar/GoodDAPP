@@ -644,6 +644,7 @@ const Dashboard = props => {
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
       const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
 
+
       if ((feedRef.current.length > 10 || newsCondition) && scrollPositionISH > minScrollRequiredISH) {
         if (headerLarge) {
           setHeaderLarge(false)

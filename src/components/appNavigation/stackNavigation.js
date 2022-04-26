@@ -14,8 +14,8 @@ import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/js-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blurred'
-import BackButtonHandler from '../../lib/utils/handleBackButton'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import BackButtonHandler from './BackButtonHandler'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
@@ -74,12 +74,12 @@ class AppView extends Component<AppViewProps, AppViewState> {
   /**
    * handler for back Button on Android
    */
-  backButtonHandler = null
+  backButton = null
 
   componentDidMount() {
     const { toggleClickListener } = this
 
-    this.backButtonHandler = new BackButtonHandler({ defaultAction: this.pop })
+    this.backButton = new BackButtonHandler({ defaultAction: this.pop })
     toggleClickListener('add')
   }
 
@@ -87,7 +87,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { toggleClickListener } = this
 
     toggleClickListener('remove')
-    this.backButtonHandler.unregister()
+    this.backButton.unregister()
   }
 
   toggleClickListener = eventAction => {
@@ -431,7 +431,7 @@ type BackButtonProps = {
  * This button gets the goToParent action from screenProps. Is meant to be used inside a stackNavigator
  * @param {ButtonProps} props
  */
-const backButton = (props: BackButtonProps) => {
+const BackButtonComponent = (props: BackButtonProps) => {
   const { disabled, screenProps, children, mode, color, styles, textStyle = {} } = props
 
   return (
@@ -457,7 +457,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export const BackButton = withStyles(getStylesFromProps)(backButton)
+export const BackButton = withStyles(getStylesFromProps)(BackButtonComponent)
 
 type NextButtonProps = {
   ...ButtonProps,

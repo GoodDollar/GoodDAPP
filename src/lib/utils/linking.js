@@ -1,8 +1,18 @@
 // @flow
 
 import { Linking, Platform } from 'react-native'
-import { nth } from 'lodash'
+import { assign } from 'lodash'
 
+import { DESTINATION_PATH, INVITE_CODE } from '../constants/localStorage'
+import { fireEvent, SIGNIN_FAILED } from '../../lib/analytics/analytics'
+
+import DeepLinking from '../../lib/utils/deepLinking'
+
+import { appUrl } from '../../lib/utils/env'
+import logger from '../../lib/logger/js-logger'
+import AsyncStorage from './asyncStorage'
+
+const log = logger.child({ from: 'Linking' })
 const schemeRe = /(.+?:)\/\//
 
 export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank', noopener: boolean = false) => {
@@ -28,14 +38,60 @@ export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank
   return Linking.openURL(uri)
 }
 
-export const parseLinkForNavigation = (link: string) => {
-  const [path, params = ''] = link.split('?')
-  const route = nth(path.split('/'), -1)
+export const handleLinks = async (logger = log) => {
+  const params = DeepLinking.params
 
-  const formattedParams = params.split('&').reduce((acc, param) => {
-    const [key, value] = param.split('=')
-    return { ...acc, [key]: value }
-  }, {})
+  try {
+    const { inviteCode } = params
 
-  return [route, formattedParams]
+    //if invite code exists, persist in asyncstorage
+    if (inviteCode) {
+      AsyncStorage.setItem(INVITE_CODE, inviteCode)
+    }
+
+    let path = DeepLinking.pathname.slice(1)
+    path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
+
+    if (params && Object.keys(params).length > 0) {
+      const dest = { path, params }
+
+      logger.debug('Saving destination url', dest)
+      await AsyncStorage.setItem(DESTINATION_PATH, dest)
+    }
+  } catch (e) {
+    if (params.magiclink) {
+      logger.error('Magiclink signin failed', e.message, e)
+      fireEvent(SIGNIN_FAILED)
+      return
+    }
+
+    logger.error('parsing in-app link failed', e.message, e, params)
+  }
+}
+
+export const createUrlObject = link => {
+  const url = new URL(link)
+  const internal = link.startsWith(appUrl)
+  const params = Object.fromEntries(url.searchParams.entries())
+
+  assign(url, { internal, params })
+  return url
+}
+
+export const getRouteParams = (router, pathName, params) => {
+  const root = router.getActionForPathAndParams(pathName) || {}
+  let routeParams = root
+
+  // traverse nested routes
+  while (routeParams && routeParams.action) {
+    routeParams = routeParams.action
+  }
+
+  return {
+    ...routeParams,
+    params: {
+      ...routeParams.params,
+      ...params,
+    },
+  }
 }

@@ -11,8 +11,7 @@ import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { openLink, parseLinkForNavigation } from '../../lib/utils/linking'
-import { appUrl } from '../../lib/utils/env'
+import { createUrlObject, getRouteParams, openLink } from '../../lib/utils/linking'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
@@ -591,19 +590,22 @@ const Dashboard = props => {
         type,
         data: { link },
       } = receipt
-      if (type === 'news' && !!link) {
-        const isSelf = link.includes(appUrl)
 
-        if (isSelf) {
-          const [route, params] = parseLinkForNavigation(link)
-          navigation.navigate(route, params)
-          return
-        }
+      if (type !== 'news' || !link) {
+        showEventModal(horizontal ? receipt : null)
+        setDialogBlur(horizontal)
+        return
+      }
+
+      const { pathname, params, internal } = createUrlObject(link)
+      const { router, navigate } = navigation
+
+      if (!internal) {
         openLink(link)
         return
       }
-      showEventModal(horizontal ? receipt : null)
-      setDialogBlur(horizontal)
+
+      navigate(getRouteParams(router, pathname, params))
     },
     [showEventModal, setDialogBlur],
   )

@@ -9,7 +9,9 @@ describe('ReceiveToAddressButton', () => {
   it(`should match snapshot`, async () => {
     // Given
     let component
-    renderer.act(async () => (component = renderer.create(<ReceiveToAddressButton onPress={() => {}} />)))
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<ReceiveToAddressButton onPress={() => {}} />)))
 
     // When
     const tree = component.toJSON()

@@ -15,6 +15,7 @@ describe('ButtonBlock', () => {
     let tree
 
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (tree = renderer.create(
           <WrappedClaimButton
@@ -34,7 +35,9 @@ describe('ButtonBlock', () => {
 
   it('matches snapshot for citizen without entitlement', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <WrappedClaimButton
@@ -53,7 +56,9 @@ describe('ButtonBlock', () => {
 
   it('matches snapshot for citizen with entitlement', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <WrappedClaimButton

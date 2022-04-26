@@ -9,6 +9,8 @@ const Separator = withThemeProvider(ImportedSeparator)
 describe('Separator', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<Separator />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -16,6 +18,8 @@ describe('Separator', () => {
 
   it('matches snapshot with properties', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<Separator width={3} color="surface" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

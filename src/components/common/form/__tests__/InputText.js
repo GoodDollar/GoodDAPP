@@ -10,6 +10,8 @@ describe('InputText', () => {
 
   it('empty matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedInputText />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -17,6 +19,8 @@ describe('InputText', () => {
 
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedInputText value="Text" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

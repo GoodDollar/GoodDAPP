@@ -14,6 +14,8 @@ describe('ServiceWorkerUpdatedDialog', () => {
 
       it(`matches snapshot`, async () => {
         let tree
+
+        // eslint-disable-next-line require-await
         await renderer.act(async () => (tree = renderer.create(<WrappedComponent />)))
 
         expect(tree.toJSON()).toMatchSnapshot()

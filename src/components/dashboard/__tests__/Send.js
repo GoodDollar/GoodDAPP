@@ -13,6 +13,8 @@ describe('Send', () => {
   it('matches snapshot', async () => {
     const Send = getWebRouterComponentWithMocks('../Send')
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<Send />)))
     expect(component.toJSON()).toMatchSnapshot()
   })

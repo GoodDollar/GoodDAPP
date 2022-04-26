@@ -11,6 +11,8 @@ const Splash = withThemeProvider(ImportedSplash)
 describe('Splash', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<Splash />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

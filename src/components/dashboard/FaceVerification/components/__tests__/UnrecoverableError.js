@@ -16,7 +16,9 @@ const exception = {
 describe('FaceVerification UnrecoverableError', () => {
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () => (component = renderer.create(<UnrecoverableError exception={exception} nav={nav} />)),
     )
     const tree = component.toJSON()

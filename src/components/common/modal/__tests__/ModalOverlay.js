@@ -11,6 +11,8 @@ const ModalOverlay = withThemeProvider(ImportedModalOverlay)
 describe('ModalOverlay', () => {
   it('check height for mobile and desktop device', async () => {
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<ModalOverlay />)))
     const maxHeight = theme.sizes.maxHeightForTabletAndDesktop
     const heightTemplate = tree.toJSON().children[0].props.style.height
@@ -21,7 +23,9 @@ describe('ModalOverlay', () => {
 
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <ModalOverlay>
@@ -35,7 +39,9 @@ describe('ModalOverlay', () => {
 
   it('matches snapshot with properties', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <ModalOverlay>

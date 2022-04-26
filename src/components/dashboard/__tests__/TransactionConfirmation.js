@@ -8,6 +8,8 @@ describe('TransactionConfirmation', () => {
   it('matches snapshot', async () => {
     const TransactionConfirmation = getWebRouterComponentWithMocks('../TransactionConfirmation')
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<TransactionConfirmation />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

@@ -7,7 +7,7 @@ import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 import { hideRedBoxIfNonCritical } from '../utils/redBox'
 
 import logger from '../../../../lib/logger/js-logger'
-import { isE2ERunning, isEmulator } from '../../../../lib/utils/platform'
+import { isEmulator } from '../../../../lib/utils/platform'
 
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import useCriticalErrorHandler from './useCriticalErrorHandler'
@@ -64,7 +64,7 @@ export default (eventHandlers = {}) => {
         const isDeviceEmulated = await isEmulator
 
         // if cypress is running - do nothing and immediately call success callback
-        if (!isE2ERunning && !isDeviceEmulated) {
+        if (!isDeviceEmulated) {
           await FaceTecGlobalState.initialize()
         }
 

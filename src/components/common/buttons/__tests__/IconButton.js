@@ -9,6 +9,8 @@ const WrappedComponent = withThemeProvider(IconButton)
 describe('IconButton enabled', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedComponent text="edit" name="privacy" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -18,7 +20,9 @@ describe('IconButton enabled', () => {
 describe('IconButton disabled', () => {
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () => (component = renderer.create(<WrappedComponent text="edit" name="privacy" disabled />)),
     )
     const tree = component.toJSON()

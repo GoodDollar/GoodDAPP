@@ -28,7 +28,10 @@ export const animationDuration = 5000
 
 const lastSplashProp = 'GD_lastSplash'
 
-export const shouldAnimateSplash = async () => {
+export const shouldAnimateSplash = async isReload => {
+  if (isReload) {
+    return false
+  }
   const lastSplash = (await AsyncStorage.getItem(lastSplashProp)) || 0
   const animateSplash = moment().diff(lastSplash, 'minutes') >= 60
 

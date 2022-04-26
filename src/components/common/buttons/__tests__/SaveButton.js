@@ -9,6 +9,8 @@ const WrappedSaveButton = withThemeProvider(SaveButton)
 describe('WrappedSaveButton', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedSaveButton onPress={() => {}} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -16,7 +18,9 @@ describe('WrappedSaveButton', () => {
 
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <WrappedSaveButton onPress={() => {}} mode="outlined">
@@ -30,7 +34,9 @@ describe('WrappedSaveButton', () => {
 
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <WrappedSaveButton onPress={() => {}} color="#CCC">
@@ -44,7 +50,9 @@ describe('WrappedSaveButton', () => {
 
   it('matches snapshot', async () => {
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <WrappedSaveButton onPress={() => {}} loadingDelay={3000} doneDelay={500}>

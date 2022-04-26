@@ -12,6 +12,8 @@ describe('BackupWallet', () => {
   it('matches snapshot', async () => {
     const BackupWallet = getWebRouterComponentWithMocks('../BackupWallet')
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<BackupWallet />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

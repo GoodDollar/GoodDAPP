@@ -15,6 +15,8 @@ describe('FaceVerification SwitchToAnotherDevice', () => {
 
   it('matches snapshot', async () => {
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<SwitchToAnotherDevice nav={nav} />)))
 
     expect(tree.toJSON()).toMatchSnapshot()
@@ -22,6 +24,8 @@ describe('FaceVerification SwitchToAnotherDevice', () => {
 
   it('should execute screenProps.goToRoot on "OK" press', async () => {
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<SwitchToAnotherDevice nav={nav} />)))
     const button = tree.root.findByProps({ testID: 'ok_button' })
 

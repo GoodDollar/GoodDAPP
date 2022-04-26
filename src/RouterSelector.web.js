@@ -5,7 +5,6 @@ import { pick } from 'lodash'
 // components
 
 import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
-import WalletPreparingScreen from './components/auth/components/WalletPreparing'
 
 // hooks
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
@@ -42,7 +41,7 @@ let SignupRouter = React.lazy(async () => {
 })
 
 let AppRouter = React.lazy(async () => {
-  const animateSplash = await shouldAnimateSplash()
+  const animateSplash = await shouldAnimateSplash(isAuthReload)
   log.debug('initializing storage and wallet...', { animateSplash })
 
   const [module] = await Promise.all([
@@ -82,10 +81,6 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   )
 })
 
-const SplashSelector = isAuthReload
-  ? props => <WalletPreparingScreen activeStep={1} {...props} />
-  : props => <Splash {...props} />
-
 const RouterSelector = () => {
   const { initWalletAndStorage } = useContext(GoodWalletContext)
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
@@ -124,7 +119,9 @@ const RouterSelector = () => {
   // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<SplashSelector animation={checkedForBrowserSupport} isLoggedIn={isLoggedInRouter} />}>
+    <React.Suspense
+      fallback={<Splash animation={checkedForBrowserSupport && isAuthReload === false} isLoggedIn={isLoggedInRouter} />}
+    >
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedInRouter} />}
     </React.Suspense>
   )

@@ -12,7 +12,9 @@ describe('SmsForm', () => {
   it('matches snapshot', async () => {
     const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SMS: SmsForm })))
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <StoresWrapper>

@@ -9,6 +9,8 @@ const ModalLeftBorder = withThemeProvider(ImportedModalLeftBorder)
 describe('ModalLeftBorder', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<ModalLeftBorder borderColor="#a3a3a3" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -16,6 +18,8 @@ describe('ModalLeftBorder', () => {
 
   it('matches snapshot with properties', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<ModalLeftBorder borderColor="#a3a3a3" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

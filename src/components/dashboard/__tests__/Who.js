@@ -12,6 +12,8 @@ describe('Who', () => {
   it('matches snapshot', async () => {
     const Who = getWebRouterComponentWithMocks('../Who')
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<Who />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

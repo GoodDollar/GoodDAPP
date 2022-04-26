@@ -22,6 +22,8 @@ describe('FeedModalItem - Withdraw', () => {
 
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -34,6 +36,8 @@ describe('FeedModalItem - Send', () => {
 
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -46,6 +50,8 @@ describe('FeedModalItem - Send with Error status', () => {
 
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -58,6 +64,8 @@ describe('FeedModalItem - Message', () => {
 
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -70,6 +78,8 @@ describe('FeedModalItem - Invite', () => {
 
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedFeedModalItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

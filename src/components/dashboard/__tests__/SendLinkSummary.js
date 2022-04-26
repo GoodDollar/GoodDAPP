@@ -8,6 +8,8 @@ describe('SendLinkSummary', () => {
   it('matches snapshot', async () => {
     const SendLinkSummary = getWebRouterComponentWithMocks('../SendLinkSummary')
     let tree
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (tree = renderer.create(<SendLinkSummary />)))
     tree = tree.toJSON()
     expect(tree).toMatchSnapshot()

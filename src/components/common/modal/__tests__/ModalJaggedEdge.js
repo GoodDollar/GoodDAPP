@@ -9,6 +9,8 @@ const ModalJaggedEdge = withThemeProvider(ImportedModalJaggedEdge)
 describe('ModalJaggedEdge', () => {
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<ModalJaggedEdge />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

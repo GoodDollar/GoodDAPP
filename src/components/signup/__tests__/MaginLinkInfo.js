@@ -10,7 +10,9 @@ describe('Sign Up Magic Link Info Screen', () => {
   it('matches snapshot', async () => {
     const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ MagicLinkInfo })))
     let component
+
     await renderer.act(
+      // eslint-disable-next-line require-await
       async () =>
         (component = renderer.create(
           <StoresWrapper>

@@ -12,6 +12,8 @@ describe('KeyboardRow', () => {
 
   it('matches snapshot', async () => {
     let component
+
+    // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WrappedKeyboardRow keys={keys} onPress={() => {}} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

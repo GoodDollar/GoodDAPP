@@ -7,6 +7,8 @@ const screenState = {
   isValid: true,
 }
 
+jest.setTimeout(30000)
+
 describe('Claim', () => {
   beforeAll(async () => {
     await initUserStorage()

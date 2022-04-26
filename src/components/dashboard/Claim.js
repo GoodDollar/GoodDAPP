@@ -429,7 +429,7 @@ const Claim = props => {
           log.error('claiming failed', e.message, e, { dialogShown: true })
         } else {
           // Call wallet method to refresh the connection :
-          await goodWallet.getBlockNumber()
+          await goodWallet.getBlockNumber().catch() //silent fail
 
           // Retry to call handleClaim if it's first time :
           await handleClaim(true)

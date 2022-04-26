@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 import Title from 'components/gd/Title'
 import { Share, ShareProps } from 'components/Share'

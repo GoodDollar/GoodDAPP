@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState, memo } from 'react'
 
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -11,11 +11,6 @@ import styled from 'styled-components'
 
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
 import { ButtonOutlined } from 'components/gd/Button'
-
-interface SocialProps {
-    url: string
-    [prop: string]: string | string[]
-}
 
 export interface ShareProps {
     show?: boolean
@@ -66,7 +61,7 @@ export const ShareSC = styled.div`
 export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): React.ReactElement | null => {
     const { i18n } = useLingui()
 
-    const [textCopied, textCopiedSet] = React.useState(false)
+    const [textCopied, textCopiedSet] = useState(false)
 
     const copy = () => {
         if (textCopied) return
@@ -113,4 +108,4 @@ export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): Re
     )
 }
 
-export default React.memo(Share)
+export default memo(Share)

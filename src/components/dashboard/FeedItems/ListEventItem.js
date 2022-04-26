@@ -11,7 +11,7 @@ import { getScreenWidth } from '../../../lib/utils/orientation'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import { Icon, Section, Text } from '../../common'
+import { Icon, Image, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
@@ -21,8 +21,6 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
-import { SvgImage } from './SvgXml'
-import AutoHeightImage from './AutoHeightImage'
 
 const log = logger.child({ from: 'ListEventItem' })
 
@@ -77,7 +75,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig={hasPicture} />
 
       <View style={styles.newsContent}>
-        {picture && <AutoHeightImage source={{ uri: picture }} width="100%" />}
+        {picture && <Image source={{ uri: picture }} style={styles.feedPicture} />}
 
         <View style={styles.innerRow}>
           <View grow style={styles.mainContents}>
@@ -109,7 +107,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
                   <Text fontSize={10} color="gray80Percent" lineHeight={17} textAlign="left">
                     {t`Sponsored by`}{' '}
                   </Text>
-                  <SvgImage src={sponsoredLogo} height="28" width="45" />
+                  <SvgXml src={sponsoredLogo} height="28" width="45" />
                 </Pressable>
               )}
             </View>
@@ -378,10 +376,11 @@ const getStylesFromProps = ({ theme }) => ({
   emptySpace: {
     width: normalize(34),
   },
-  claimingCardFeedText: {
-    // height: '100%',
-    // justifyContent: 'center',
+  feedPicture: {
+    width: '100%',
+    height: 'auto',
   },
+  claimingCardFeedText: {},
   mainInfo: {
     alignItems: 'flex-start',
     display: 'flex',

@@ -1,6 +1,5 @@
 import React, { cloneElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SwapCardSC, SwapContentWrapperSC, SwapWrapperSC } from './styled'
-import Title from 'components/gd/Title'
 import SwapRow from './SwapRow'
 import { ButtonAction } from 'components/gd/Button'
 import { SwitchSVG } from './common'
@@ -27,6 +26,12 @@ import { useDispatch } from 'react-redux'
 import SwapDescriptions from './SwapDescriptions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+
+import { Info } from 'react-feather'
+import QuestionHelper from 'components/QuestionHelper'
+
+import VoltageLogo from 'assets/images/voltage-logo.png'
+import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
 
 function Swap() {
     const { i18n } = useLingui()
@@ -77,8 +82,8 @@ function Swap() {
                 ? getBuyMeta
                 : getBuyMetaReverse
             : field === 'internal'
-                ? getSellMeta
-                : getSellMetaReverse
+            ? getSellMeta
+            : getSellMetaReverse
         const value = field === 'external' ? swapPair.value : swapValue
         const symbol = swapPair.token.getSymbol()
         const setOtherValue = field === 'external' ? setSwapValue : handleSetPairValue
@@ -103,8 +108,8 @@ function Swap() {
                         ? meta.outputAmount.toExact()
                         : meta.inputAmount.toExact()
                     : field === 'external'
-                        ? meta.inputAmount.toExact()
-                        : meta.outputAmount.toExact()
+                    ? meta.inputAmount.toExact()
+                    : meta.outputAmount.toExact()
             )
             setMeta(meta)
         }, 400))
@@ -138,7 +143,7 @@ function Swap() {
     )
 
     const route = useMemo(() => {
-        let route = meta?.route
+        const route = meta?.route
             .map(token => {
                 return token.symbol === 'WETH9'
                     ? SupportedChainId[Number(chainId)] === 'FUSE'
@@ -159,26 +164,20 @@ function Swap() {
     }, [meta?.route, buying, chainId])
     const dispatch = useDispatch()
 
-    let inputSymbol
-    let outputSymbol
+    const isFuse = SupportedChainId[Number(chainId)] === 'FUSE'
+
+    const metaSymbols = { input: meta?.inputAmount.currency.symbol, output: meta?.outputAmount.currency.symbol }
+    const symbols: { [prop: string]: any } = { input: '', output: '' }
+
+    const getWETH9Symbol = () => (isFuse ? 'FUSE' : 'ETH')
+
     if (meta) {
-        inputSymbol =
-            SupportedChainId[Number(chainId)] === 'FUSE'
-                ? meta.inputAmount.currency.symbol === 'WETH9'
-                    ? 'FUSE'
-                    : meta.inputAmount.currency.symbol
-                : meta.inputAmount.currency.symbol === 'WETH9'
-                    ? 'ETH'
-                    : meta.inputAmount.currency.symbol
-        outputSymbol =
-            SupportedChainId[Number(chainId)] === 'FUSE'
-                ? meta.outputAmount.currency.symbol === 'WETH9'
-                    ? 'FUSE'
-                    : meta.outputAmount.currency.symbol
-                : meta.outputAmount.currency.symbol === 'WETH9'
-                    ? 'ETH'
-                    : meta.outputAmount.currency.symbol
+        for (const [key, symbol] of Object.entries(metaSymbols)) {
+            symbols[key] = symbol === 'WETH9' ? getWETH9Symbol() : symbol
+        }
     }
+
+    const { input: inputSymbol, output: outputSymbol } = symbols
 
     const swapFields = {
         minimumReceived:
@@ -198,12 +197,13 @@ function Swap() {
                 : (meta as SellInfo)?.contribution?.toSignificant(6, { groupSeparator: ',' }),
         price:
             meta &&
-            `${meta.inputAmount.greaterThan(0)
-                ? meta.outputAmount
-                    .multiply(meta.inputAmount.decimalScale)
-                    .divide(meta.inputAmount.asFraction)
-                    .toSignificant(6, { groupSeparator: ',' })
-                : '0'
+            `${
+                meta.inputAmount.greaterThan(0)
+                    ? meta.outputAmount
+                          .multiply(meta.inputAmount.decimalScale)
+                          .divide(meta.inputAmount.asFraction)
+                          .toSignificant(6, { groupSeparator: ',' })
+                    : '0'
             } ${outputSymbol} PER ${inputSymbol} `
     }
 
@@ -217,17 +217,25 @@ function Swap() {
             token?: Currency
         }
     ] = [
-            {
-                token: swapPair.token,
-                value: swapPair.value
-            },
-            {
-                token: G$,
-                value: swapValue
-            }
-        ]
+        {
+            token: swapPair.token,
+            value: swapPair.value
+        },
+        {
+            token: G$,
+            value: swapValue
+        }
+    ]
 
     if (!buying) pair.reverse()
+
+    const swapHelperText = isFuse
+        ? i18n._(
+              t`Voltage is an UNI-V2 Automated Market Maker (AMM) that operates on Fuse Network where G$ is paired to another market tokens such as FUSE or USDC. The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool. Price impact might be too hight when the swapping volume of one transaction is relatively hight to the total liquidity in the pool.`
+          )
+        : i18n._(
+              t`The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum, this contract is able to mint and burn G$s according to the increase or decrease of it's demand. Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio.`
+          )
 
     return (
         <SwapContext.Provider
@@ -245,7 +253,27 @@ function Swap() {
             <SwapCardSC open={Boolean(meta)}>
                 <SwapWrapperSC>
                     <div className="flex items-center justify-between">
-                        <Title className="pl-4">{i18n._(t`Swap`)}</Title>
+                        <div className="flex items-center justify-between">
+                            <div className="mr-2">
+                                <img
+                                    src={isFuse ? VoltageLogo : GoodReserveLogo}
+                                    alt={isFuse ? 'Voltage logo' : 'GoodReserve logo'}
+                                    style={
+                                        isFuse
+                                            ? {
+                                                  height: '40px'
+                                              }
+                                            : {
+                                                  height: '39px'
+                                              }
+                                    }
+                                />
+                            </div>
+
+                            <QuestionHelper text={swapHelperText} placement="right-start">
+                                <Info size={14} />
+                            </QuestionHelper>
+                        </div>
                         <SwapSettings />
                     </div>
                     <SwapContentWrapperSC>
@@ -290,8 +318,9 @@ function Swap() {
                         <div style={{ marginTop: 14, padding: '0 4px' }}>
                             <SwapInfo
                                 title={i18n._(t`Slippage Tolerance`)}
-                                value={`${slippageTolerance.value || '0'}${slippageTolerance.value.endsWith('%') ? '' : '%'
-                                    }`}
+                                value={`${slippageTolerance.value || '0'}${
+                                    slippageTolerance.value.endsWith('%') ? '' : '%'
+                                }`}
                             />
                             {meta && <SwapInfo title="Price" value={swapFields.price} />}
                         </div>
@@ -323,8 +352,8 @@ function Swap() {
                                         {approving
                                             ? i18n._(t`Approving`)
                                             : approved
-                                                ? i18n._(t`Approved`)
-                                                : i18n._(t`Approve`)}
+                                            ? i18n._(t`Approved`)
+                                            : i18n._(t`Approve`)}
                                     </ButtonAction>
                                 )}
                                 <ButtonAction
@@ -344,11 +373,7 @@ function Swap() {
                         )}
                     </SwapContentWrapperSC>
                 </SwapWrapperSC>
-                <SwapDetails
-                    open={Boolean(meta)}
-                    buying={buying}
-                    {...swapFields}
-                />
+                <SwapDetails open={Boolean(meta)} buying={buying} {...swapFields} />
                 <SwapDescriptions gdx={!!swapFields.GDX} exitContribution={!!swapFields.exitContribution} />
             </SwapCardSC>
             <SwapConfirmModal

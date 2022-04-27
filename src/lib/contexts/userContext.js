@@ -1,24 +1,8 @@
-import { isFunction } from 'lodash'
-import React, { createContext, useCallback, useMemo, useState } from 'react'
 import { defaultUserState } from '../constants/user'
+import { createObjectStorageContext } from './utils'
 
-export const UserContext = createContext()
+export const UserObjectStorage = createObjectStorageContext(defaultUserState)
 
-export const UserContextProvider = ({ children }) => {
-  const [userState, setUserState] = useState(defaultUserState)
+export const UserContext = UserObjectStorage.Context
 
-  const update = useCallback(
-    value =>
-      setUserState(prevValue => {
-        const newValue = isFunction(value) ? value(prevValue) : value
-
-        return { ...prevValue, ...newValue }
-      }),
-    [setUserState],
-  )
-
-  const reset = useCallback(() => setUserState(defaultUserState), [setUserState])
-  const contextValue = useMemo(() => ({ ...userState, update, reset }), [userState, update, reset])
-
-  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
-}
+export const UserContextProvider = UserObjectStorage.ContextProvider

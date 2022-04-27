@@ -1,6 +1,5 @@
-import { useContext } from 'react'
-import { UserContext } from '../contexts/userContext'
+import { UserObjectStorage } from '../contexts/userContext'
 
-const useUserContext = () => useContext(UserContext)
+const useUserContext = UserObjectStorage.useStorage
 
 export default useUserContext

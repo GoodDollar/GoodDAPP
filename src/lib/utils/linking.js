@@ -78,8 +78,16 @@ export const createUrlObject = link => {
   return url
 }
 
-export const getRouteParams = (router, pathName, params) => {
-  const root = router.getActionForPathAndParams(pathName) || {}
+export const getRouteParams = (navigation, pathName, params) => {
+  let parentNavigator
+  let selectedNavigator = navigation
+
+  // traverse nested navigators
+  while ((parentNavigator = selectedNavigator.dangerouslyGetParent())) {
+    selectedNavigator = parentNavigator
+  }
+
+  const root = selectedNavigator.router.getActionForPathAndParams(pathName) || {}
   let routeParams = root
 
   // traverse nested routes

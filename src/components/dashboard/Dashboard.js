@@ -598,14 +598,13 @@ const Dashboard = props => {
       }
 
       const { pathname, params, internal } = createUrlObject(link)
-      const { router, navigate } = navigation
 
       if (!internal) {
         openLink(link)
         return
       }
 
-      navigate(getRouteParams(router, pathname, params))
+      navigation.navigate(getRouteParams(navigation, pathname, params))
     },
     [showEventModal, setDialogBlur],
   )
@@ -643,7 +642,6 @@ const Dashboard = props => {
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
       const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
-
 
       if ((feedRef.current.length > 10 || newsCondition) && scrollPositionISH > minScrollRequiredISH) {
         if (headerLarge) {

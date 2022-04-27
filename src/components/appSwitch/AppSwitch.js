@@ -62,6 +62,7 @@ let unsuccessfulLaunchAttempts = 0
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 const AppSwitch = (props: LoadingProps) => {
+  const { descriptors, navigation } = props
   const gdstore = GDStore.useStore()
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
@@ -82,7 +83,7 @@ const AppSwitch = (props: LoadingProps) => {
         path = 'AppNavigation/Dashboard/HandlePaymentLink'
       }
 
-      return getRouteParams(path, params)
+      return getRouteParams(navigation, path, params)
     }
 
     return undefined
@@ -117,7 +118,7 @@ const AppSwitch = (props: LoadingProps) => {
     //once user logs in we can redirect him to saved destinationPath
     if (destDetails) {
       log.debug('destinationPath found:', destDetails)
-      return props.navigation.navigate(destDetails)
+      return navigation.navigate(destDetails)
     }
   }
 
@@ -259,7 +260,6 @@ const AppSwitch = (props: LoadingProps) => {
     return () => DeepLinking.unsubscribe()
   }, [])
 
-  const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]
 

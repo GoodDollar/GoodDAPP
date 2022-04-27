@@ -24,6 +24,7 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   height: ${({ $mobile }) => ($mobile ? '100%' : 'auto')};
 
   @media screen and (max-height: 670px) {
+    overflow-x: scroll;
     .sidebar-inner-container {
       overflow-x: visible;
     }

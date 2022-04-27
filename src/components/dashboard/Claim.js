@@ -335,7 +335,7 @@ const Claim = props => {
     try {
       await _retry(async () => {
         // Call wallet method to refresh the connection :
-        await goodWallet.getBlockNumber().catch() // silent fail
+        await goodWallet.getBlockNumber()
 
         //recheck citizen status, just in case we are out of sync with blockchain
         if (!isCitizen) {

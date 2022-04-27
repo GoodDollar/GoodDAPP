@@ -6,7 +6,7 @@ import isURL from 'validator/lib/isURL'
 import { appUrl } from '../../lib/utils/env'
 
 const isUrlOptions = { require_tld: false }
-const emptyUri = { params: {}, searchParams: new URLSearchParams('') }
+const createEmptyUri = () => { params: {}, searchParams: new URLSearchParams('') }
 
 class CustomURL extends URL {
   constructor(uri) {
@@ -31,4 +31,4 @@ class CustomURL extends URL {
 
 export const isValidURI = (link: string) => isURL(link, isUrlOptions)
 
-export const createUrlObject = link => (isValidURI(link) ? new CustomURL(link) : emptyUri)
+export const createUrlObject = link => (isValidURI(link) ? new CustomURL(link) : createEmptyUri())

@@ -8,28 +8,27 @@ import { appUrl } from '../../lib/utils/env'
 const isUrlOptions = { require_tld: false }
 const emptyUri = { params: {}, searchParams: new URLSearchParams('') }
 
+class CustomURL extends URL {
+  constructor(uri) {
+    super(uri)
+
+    const { searchParams } = this
+
+    Object.defineProperties(this, {
+      internal: {
+        value: uri.startsWith(appUrl),
+        writable: false,
+        configurable: false,
+      },
+      params: {
+        value: fromPairs(searchParams.entries()),
+        writable: false,
+        configurable: false,
+      },
+    })
+  }
+}
+
 export const isValidURI = (link: string) => isURL(link, isUrlOptions)
 
-export const createUrlObject = link =>
-  !isValidURI(link)
-    ? emptyUri
-    : new class extends URL {
-        constructor(uri) {
-          super(uri)
-
-          const { searchParams } = this
-
-          Object.defineProperties(this, {
-            internal: {
-              value: link.startsWith(appUrl),
-              writable: false,
-              configurable: false,
-            },
-            params: {
-              value: fromPairs(searchParams.entries()),
-              writable: false,
-              configurable: false,
-            },
-          })
-        }
-      }(link)
+export const createUrlObject = link => (isValidURI(link) ? new CustomURL(link) : emptyUri)

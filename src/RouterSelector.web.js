@@ -20,7 +20,7 @@ import InternetConnection from './components/common/connectionDialog/internetCon
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
-import handleLinks from './lib/utils/handleLinks'
+import { handleLinks } from './lib/utils/linking'
 import { UserContext } from './lib/contexts/userContext'
 import useUserContext from './lib/hooks/useUserContext'
 

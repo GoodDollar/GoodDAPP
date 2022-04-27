@@ -1,4 +1,4 @@
-import { extractQueryParams } from '../uri'
+import { createUrlObject } from '../uri'
 
 describe('extractQueryParams', () => {
   it(`should return an object with key-value pairs from URL`, () => {
@@ -6,7 +6,7 @@ describe('extractQueryParams', () => {
     const url = 'http://example.com?param1=abc&param2=def'
 
     // When
-    const params = extractQueryParams(url)
+    const { params } = createUrlObject(url)
 
     // Then
     expect(params).toMatchObject({ param1: 'abc', param2: 'def' })
@@ -17,7 +17,7 @@ describe('extractQueryParams', () => {
     const url = 'http://example.com?param1=&param2=def'
 
     // When
-    const params = extractQueryParams(url)
+    const { params } = createUrlObject(url)
 
     // Then
     expect(params).toMatchObject({ param1: '', param2: 'def' })
@@ -28,7 +28,7 @@ describe('extractQueryParams', () => {
     const url = 'http://example.com'
 
     // When
-    const params = extractQueryParams(url)
+    const { params } = createUrlObject(url)
 
     // Then
     expect(params).toMatchObject({})
@@ -39,7 +39,7 @@ describe('extractQueryParams', () => {
     const url = ''
 
     // When
-    const params = extractQueryParams(url)
+    const { params } = createUrlObject(url)
 
     // Then
     expect(params).toMatchObject({})
@@ -50,7 +50,7 @@ describe('extractQueryParams', () => {
     const url = undefined
 
     // When
-    const params = extractQueryParams(url)
+    const { params } = createUrlObject(url)
 
     // Then
     expect(params).toMatchObject({})

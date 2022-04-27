@@ -68,6 +68,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   button: {
     color: theme.colors.primary,
+    marginBottom: '0.5em',
   },
 })
 

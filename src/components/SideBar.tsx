@@ -24,8 +24,16 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   height: ${({ $mobile }) => ($mobile ? '100%' : 'auto')};
 
   @media screen and (max-height: 670px) {
-    overflow-x: scroll;
+    .sidebar-inner-container {
+      overflow-x: visible;
+    }
   }
+  @media screen and (max-height: 610px) {
+    .sidebar-inner-container {
+      overflow-x: scroll
+    }
+  }
+
   @media screen and (max-height: 900px){
     .sidebar-inner-container {
       transform: scale(0.9);
@@ -88,7 +96,7 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
 
   .balance {
     margin: 0 26px 0 20px;
-    // ${({ theme, $mobile }) => (theme.darkMode && !$mobile ? 'border: 1px solid #A5A5A5;' : '')}
+    // ${({ theme, $mobile }) => (theme.darkMode && !$mobile ? 'border: 1px solid #A5A5A5;' : '')};
     box-shadow: ${({ theme, $mobile }) => (!$mobile ? theme.shadow.wallet : '')};
     border-radius: 23px;
 
@@ -282,7 +290,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                     <div className="flex items-center justify-between title">
                         <span>{i18n._(t`Wallet balance`)}</span>
                         <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="17" cy="17" r="17" fill="url(#paint0_radial)" />
+                            <circle cx="17" cy="17" r="17" fill="#1166E8" />
                             <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"

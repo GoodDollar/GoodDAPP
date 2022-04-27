@@ -11,6 +11,7 @@ export const SwapCardSC = styled.div<{ open: boolean }>`
         transform-origin: 0 0;
         transform: scale(0.8);
         margin-bottom: -${({ open }) => (open ? 150 : 115)}px;
+        margin-left: 7rem;
     }
 
     @media ${({ theme }) => theme.media.md} {

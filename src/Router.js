@@ -19,7 +19,7 @@ import { navigationConfig } from './components/appNavigation/navigationConfig'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 import { isInstalledApp } from './lib/utils/platform'
-import { FVContextProvider } from './lib/contexts/fvContext'
+import { VerificationContextProvider } from './components/dashboard/FaceVerification/context/VerificationContext'
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
@@ -49,14 +49,14 @@ const Router = () => {
 
   return (
     <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
-      <FVContextProvider>
-        {!isInstalledApp && <AddWebApp />}
-        <Portal.Host>
-          <Blurred whenDialog>
+      {!isInstalledApp && <AddWebApp />}
+      <Portal.Host>
+        <Blurred whenDialog>
+          <VerificationContextProvider>
             <RouterWrapper onNavigationStateChange={navigationStateHandler} />
-          </Blurred>
-        </Portal.Host>
-      </FVContextProvider>
+          </VerificationContextProvider>
+        </Blurred>
+      </Portal.Host>
     </InternetConnection>
   )
 }

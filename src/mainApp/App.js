@@ -17,6 +17,7 @@ import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
 import { GoodWalletProvider } from '../lib/wallet/GoodWalletProvider'
+import { UserContextProvider } from '../lib/contexts/userContext'
 
 // eslint-disable-next-line no-unused-vars
 const log = logger.child({ from: 'App' })
@@ -52,9 +53,11 @@ export const App = () => {
           <GlobalTogglesContextProvider>
             <DialogContextProvider>
               <GoodWalletProvider>
-                <SimpleStoreDialog />
-                <LoadingIndicator />
-                <RouterSelector />
+                <UserContextProvider>
+                  <SimpleStoreDialog />
+                  <LoadingIndicator />
+                  <RouterSelector />
+                </UserContextProvider>
               </GoodWalletProvider>
             </DialogContextProvider>
           </GlobalTogglesContextProvider>

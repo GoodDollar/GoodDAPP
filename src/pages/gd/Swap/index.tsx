@@ -231,10 +231,15 @@ function Swap() {
 
     const swapHelperText = isFuse
         ? i18n._(
-              t`Voltage is an UNI-V2 Automated Market Maker (AMM) that operates on Fuse Network where G$ is paired to another market tokens such as FUSE or USDC. The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool. Price impact might be too hight when the swapping volume of one transaction is relatively hight to the total liquidity in the pool.`
+              t`Voltage is an UNI-V2 Automated Market Maker (AMM) 
+                that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC. 
+                The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool. 
+                Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool.`
           )
         : i18n._(
-              t`The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum, this contract is able to mint and burn G$s according to the increase or decrease of it's demand. Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio.`
+              t`The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum. 
+                This contract is able to mint and burn G$s according to the increase or decrease of it's demand. 
+                Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio.`
           )
 
     return (

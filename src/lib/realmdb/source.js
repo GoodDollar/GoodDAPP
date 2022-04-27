@@ -17,8 +17,6 @@ export default class FeedSource {
     this.storage = storage
   }
 
-  async initialize() {}
-
   // eslint-disable-next-line require-await
   async syncFromRemote() {
     throw new Error('Method not implemented')

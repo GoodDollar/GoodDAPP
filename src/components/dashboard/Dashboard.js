@@ -231,14 +231,15 @@ const Dashboard = props => {
           // a flag used to show feed load animation only at the first app loading
           //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
           //so we use a global variable
+
+          res = (await feedPromise) || []
+          res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
+          feedRef.current = res
+          setFeeds(res)
           if (!didRender) {
             log.debug('waiting for feed animation')
             didRender = true
           }
-          res = (await feedPromise) || []
-          res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
-          feedRef.current = res
-          res.length > 0 && setFeeds(res)
         } else {
           res = (await feedPromise) || []
           const newFeed = uniqBy(concat(feedRef.current, res), 'id')

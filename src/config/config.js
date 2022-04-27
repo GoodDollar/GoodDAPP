@@ -100,6 +100,7 @@ const Config = {
   mauticUrl: env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
   mauticAddContractFormID: env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
   apiTimeout: env.REACT_APP_API_REQUEST_TIMEOUT || 30000,
+  blockchainTimeout: parseInt(env.REACT_APP_BLOCKCHAIN_REQUEST_TIMEOUT || 1000),
   torusFacebook: env.REACT_APP_TORUS_FACEBOOK || 'facebook-gooddollar',
   torusGoogle: env.REACT_APP_TORUS_GOOGLE || 'google-gooddollar',
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',

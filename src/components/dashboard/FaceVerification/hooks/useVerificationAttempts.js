@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
-import { defaultVerificationState, useFVContext } from '../../../../lib/contexts/fvContext'
-import useRealtimeProps from '../../../../lib/hooks/useRealtimeProps'
+import { defaultVerificationState, useVerificationContext } from '../contexts/VerificationContext'
+import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
 
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 import logger from '../../../../lib/logger/js-logger'
@@ -11,14 +11,14 @@ import { hideRedBox } from '../utils/redBox'
 const log = logger.child({ from: 'useVerificationAttempts' })
 
 export default () => {
-  const { attemptsCount, attemptsHistory, reachedMaxAttempts, update } = useFVContext()
-  const accessors = useRealtimeProps([attemptsCount, attemptsHistory, reachedMaxAttempts])
+  const { attemptsCount, attemptsHistory, reachedMaxAttempts, update } = useVerificationContext()
+  const refs = usePropsRefs([attemptsCount, attemptsHistory, reachedMaxAttempts])
   const resetAttempts = useCallback(() => update(defaultVerificationState), [update])
 
   const trackAttempt = useCallback(
     exception => {
       const { message } = exception
-      const [getAttemptsCount, getAttemptsHistory] = accessors
+      const [getAttemptsCount, getAttemptsHistory] = refs
       const getUpdatedHistory = (history = null) => [...(history || getAttemptsHistory()), message]
 
       if (getAttemptsCount() < MAX_ATTEMPTS_ALLOWED - 1) {
@@ -58,12 +58,12 @@ export default () => {
     },
 
     // resetAttempts already depends from updateAttemptsState
-    [resetAttempts, update, accessors],
+    [resetAttempts, update, refs],
   )
 
   // returns isReachedMaxAttempts flag, resets it once
   const isReachedMaxAttempts = useCallback(() => {
-    const [, , getReachedMaxAttempts] = accessors
+    const [, , getReachedMaxAttempts] = refs
     const reachedMaxAttempts = getReachedMaxAttempts()
 
     if (reachedMaxAttempts) {
@@ -71,7 +71,7 @@ export default () => {
     }
 
     return reachedMaxAttempts
-  }, [update, accessors])
+  }, [update, refs])
 
   return {
     trackAttempt,

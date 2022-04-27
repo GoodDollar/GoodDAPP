@@ -3,6 +3,7 @@ import { get, isArray, isEmpty } from 'lodash'
 
 import uuid from '../../../lib/utils/uuid'
 import Config from '../../../config/config'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 
 export const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
@@ -33,10 +34,13 @@ export const keyExtractor = item => {
   return itemKeyMap.get(item)
 }
 
-export const useFeeds = (data, includeInvites = true) =>
-  useMemo(() => {
+export const useFeeds = (data, includeInvites = true) => {
+  const store = SimpleStore.useStore()
+  const loadAnimShown = store.get('feedLoadAnimShown')
+
+  return useMemo(() => {
     if (!isArray(data) || isEmpty(data)) {
-      return [emptyFeed]
+      return loadAnimShown ? [] : [emptyFeed]
     }
 
     if (includeInvites && Config.enableInvites) {
@@ -45,3 +49,4 @@ export const useFeeds = (data, includeInvites = true) =>
 
     return data.filter(item => get(item, 'type') !== 'invite')
   }, [data, includeInvites])
+}

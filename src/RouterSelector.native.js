@@ -4,7 +4,7 @@ import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
-import handleLinks from './lib/utils/handleLinks'
+import { handleLinks } from './lib/utils/linking'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 
 import Config from './config/config'

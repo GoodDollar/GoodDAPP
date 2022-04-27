@@ -10,6 +10,8 @@ import CopyButton from './buttons/CopyButton'
 import CustomButton, { type ButtonProps } from './buttons/CustomButton'
 import CustomDialog from './dialogs/CustomDialog'
 import Icon from './view/Icon'
+import Image from './view/Image'
+import SvgXml from './view/SvgXml'
 import IconButton from './buttons/IconButton'
 import InputGoodDollar from './form/InputGoodDollar'
 import InputRounded from './form/InputRounded'
@@ -42,6 +44,8 @@ export {
   CustomButton,
   CustomDialog,
   Icon,
+  Image,
+  SvgXml,
   IconButton,
   InputGoodDollar,
   InputRounded,

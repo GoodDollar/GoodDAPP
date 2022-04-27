@@ -84,7 +84,7 @@ const Amount = (props: AmountProps) => {
     setError('')
   }
 
-  const showScanQR = !isReceive && !params.counterPartyDisplayName //not in receive flow and also QR wasnt displayed on Who screen
+  const showScanQR = !isReceive && !params?.counterPartyDisplayName //not in receive flow and also QR wasnt displayed on Who screen
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper>

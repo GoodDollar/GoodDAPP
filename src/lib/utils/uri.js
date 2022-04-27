@@ -1,6 +1,5 @@
 // @flow
 
-import { fromPairs } from 'lodash'
 import isURL from 'validator/lib/isURL'
 
 import { appUrl } from '../../lib/utils/env'
@@ -21,7 +20,7 @@ class CustomURL extends URL {
         configurable: false,
       },
       params: {
-        value: fromPairs(searchParams.entries()),
+        value: Object.fromEntries(searchParams.entries()),
         writable: false,
         configurable: false,
       },
@@ -29,6 +28,6 @@ class CustomURL extends URL {
   }
 }
 
-export const isValidURI = (link: string) => isURL(link, isUrlOptions)
+export const isValidURI = (link: string = '') => isURL(link, isUrlOptions)
 
 export const createUrlObject = link => (isValidURI(link) ? new CustomURL(link) : createEmptyUri())

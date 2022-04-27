@@ -58,6 +58,8 @@ import ButtonBlock from './Claim/ButtonBlock'
 type ClaimProps = DashboardProps
 
 const log = logger.child({ from: 'Claim' })
+// eslint-disable-next-line require-await
+const _retry = async asyncFn => retry(asyncFn, 1, Config.blockchainTimeout)
 
 const LoadingAnimation = ({ success, speed = 3 }) => (
   <View style={{ alignItems: 'center' }}>
@@ -263,7 +265,7 @@ const Claim = props => {
   const gatherStats = useCallback(
     async (all = false) => {
       try {
-        await retry(async () => {
+        await _retry(async () => {
           const promises = [wrappedGoodWallet.getClaimScreenStatsFuse()]
 
           if (all) {
@@ -331,7 +333,7 @@ const Claim = props => {
     setLoading(true)
 
     try {
-      await retry(async () => {
+      await _retry(async () => {
         // Call wallet method to refresh the connection :
         await goodWallet.getBlockNumber().catch() // silent fail
 
@@ -423,7 +425,7 @@ const Claim = props => {
             dialogShown: true,
           })
         }
-      }, 1)
+      })
     } catch (e) {
       fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
       showErrorDialog(t`Claim request failed`, '', { boldMessage: t`Try again later.` })

@@ -171,7 +171,7 @@ const InputCodeBox = ({ navigateTo }) => {
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
   //if code wasnt a url it will not have any query params and will then use code as default
-  const extractedCode = useMemo(() => get(createUrlObject(code).params, 'inviteCode', code), [code])
+  const extractedCode = useMemo(() => get(createUrlObject(code), 'params.inviteCode', code), [code])
   const isValidCode = extractedCode.length >= 10 && extractedCode.length <= 32 && extractedCode !== ownInviteCode
 
   // disable button if code invalid or cant collect

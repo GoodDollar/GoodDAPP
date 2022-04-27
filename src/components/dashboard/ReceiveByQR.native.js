@@ -28,7 +28,8 @@ const ReceiveByQR = ({ screenProps }) => {
         if (url === null) {
           throw new Error('Invalid QR Code.')
         } else {
-          const { receiveLink, reason } = createUrlObject(url).params
+          const { params } = createUrlObject(url)
+          const { receiveLink, reason } = params
 
           if (!receiveLink) {
             throw new Error('No receiveLink available')

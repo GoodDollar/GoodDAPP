@@ -32,7 +32,7 @@ const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const { push } = screenProps
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { params = {} } = props.navigation.state
+  const { params } = props.navigation.state
   const { amount, ...restState } = { amount: 0, ...screenState } || {}
   const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
   const [loading, setLoading] = useState(amount <= 0)

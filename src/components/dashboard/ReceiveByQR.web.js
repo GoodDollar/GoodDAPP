@@ -70,7 +70,8 @@ const ReceiveByQR = ({ screenProps }) => {
           })
           showErrorDialog(t`Invalid QR Code. Probably this QR code is for sending GD`)
         } else {
-          const { receiveLink, reason } = createUrlObject(url).params
+          const { params } = createUrlObject(url)
+          const { receiveLink, reason } = params
 
           if (!receiveLink) {
             const error = new Error('Invalid QR Code. Probably this QR code is for sending GD')

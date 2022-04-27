@@ -9,8 +9,9 @@ class DeepLinkingWeb {
 
   get params() {
     const decodedHref = decodeURI(window.location.href)
+    const { params } = createUrlObject(decodedHref)
 
-    return createUrlObject(decodedHref).params
+    return params
   }
 }
 

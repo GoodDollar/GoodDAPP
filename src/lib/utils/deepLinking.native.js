@@ -91,11 +91,13 @@ class DeepLinkingNative {
     let queryParams = params
 
     const decodedLink = decodeURI(link)
-    assign(queryParams, createUrlObject(decodedLink).params)
-    this.pathname = createUrlObject(link).pathname
+    const { params: decodedParams } = createUrlObject(decodedLink)
+    const { pathname } = createUrlObject(link)
 
+    assign(queryParams, decodedParams)
+    assign(this, { pathname })
     assign(this.params, queryParams)
-    assign(this.callbackParams, { originalLink: link, path: this.pathname, queryParams, branch: ccParams })
+    assign(this.callbackParams, { originalLink: link, path: pathname, queryParams, branch: ccParams })
 
     log.debug('calling deeplink callbacks with:', {
       originalLink: link,

@@ -1,24 +1,35 @@
 // @flow
 
-import { assign, fromPairs } from 'lodash'
+import { fromPairs } from 'lodash'
 import isURL from 'validator/lib/isURL'
 
 import { appUrl } from '../../lib/utils/env'
 
 const isUrlOptions = { require_tld: false }
+const emptyUri = { params: {}, searchParams: new URLSearchParams('') }
 
 export const isValidURI = (link: string) => isURL(link, isUrlOptions)
 
-export const createUrlObject = link => {
-  if (!link) {
-    return {}
-  }
+export const createUrlObject = link =>
+  !isValidURI(link)
+    ? emptyUri
+    : new class extends URL {
+        constructor(uri) {
+          super(uri)
 
-  const url = new URL(link)
+          const { searchParams } = this
 
-  const internal = link.startsWith(appUrl)
-  const params = fromPairs(url.searchParams.entries())
-
-  assign(url, { internal, params })
-  return url
-}
+          Object.defineProperties(this, {
+            internal: {
+              value: link.startsWith(appUrl),
+              writable: false,
+              configurable: false,
+            },
+            params: {
+              value: fromPairs(searchParams.entries()),
+              writable: false,
+              configurable: false,
+            },
+          })
+        }
+      }(link)

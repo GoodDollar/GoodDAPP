@@ -11,7 +11,7 @@ import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { createUrlObject, getRouteParams, openLink } from '../../lib/utils/linking'
+import { getRouteParams, openLink } from '../../lib/utils/linking'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
@@ -42,6 +42,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
+import { createUrlObject } from '../../lib/utils/uri'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import Separator from '../common/layout/Separator'
@@ -602,7 +603,7 @@ const Dashboard = props => {
         return
       }
 
-      navigation.navigate(getRouteParams(navigation, pathname, params))
+      navigation.navigate(getRouteParams(navigation, pathname.slice(1), params))
     },
     [showEventModal, setDialogBlur],
   )

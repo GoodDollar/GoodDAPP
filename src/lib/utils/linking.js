@@ -1,14 +1,12 @@
 // @flow
 
 import { Linking, Platform } from 'react-native'
-import { assign } from 'lodash'
 
 import { DESTINATION_PATH, INVITE_CODE } from '../constants/localStorage'
 import { fireEvent, SIGNIN_FAILED } from '../../lib/analytics/analytics'
 
 import DeepLinking from '../../lib/utils/deepLinking'
 
-import { appUrl } from '../../lib/utils/env'
 import logger from '../../lib/logger/js-logger'
 import AsyncStorage from './asyncStorage'
 
@@ -67,15 +65,6 @@ export const handleLinks = async (logger = log) => {
 
     logger.error('parsing in-app link failed', e.message, e, params)
   }
-}
-
-export const createUrlObject = link => {
-  const url = new URL(link)
-  const internal = link.startsWith(appUrl)
-  const params = Object.fromEntries(url.searchParams.entries())
-
-  assign(url, { internal, params })
-  return url
 }
 
 export const getRouteParams = (navigation, pathName, params) => {

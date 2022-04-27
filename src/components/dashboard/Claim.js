@@ -5,6 +5,7 @@ import moment from 'moment'
 import { noop } from 'lodash'
 import { t, Trans } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
+import { retry } from '../../lib/utils/async'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
@@ -260,55 +261,53 @@ const Claim = props => {
   const [nextClaim, isReachedZero, updateTimer] = useTimer()
 
   const gatherStats = useCallback(
-    async (all = false, isRetry = true) => {
+    async (all = false) => {
       try {
-        const promises = [wrappedGoodWallet.getClaimScreenStatsFuse()]
+        await retry(async () => {
+          const promises = [wrappedGoodWallet.getClaimScreenStatsFuse()]
 
-        if (all) {
-          promises.push(wrappedGoodWallet.getClaimScreenStatsMainnet())
-        }
+          if (all) {
+            promises.push(wrappedGoodWallet.getClaimScreenStatsMainnet())
+          }
 
-        const [fuseData, mainnetData] = await Promise.all(promises)
+          const [fuseData, mainnetData] = await Promise.all(promises)
 
-        log.info('gatherStats:', {
-          all,
-          fuseData,
-          mainnetData,
+          log.info('gatherStats:', {
+            all,
+            fuseData,
+            mainnetData,
+          })
+
+          const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
+          setDailyUbi(entitlement)
+          setClaimCycleTime(moment(nextClaim).format('HH:mm:ss'))
+
+          if (nextClaim) {
+            updateTimer(nextClaim)
+          }
+
+          if (all) {
+            setPeopleClaimed(claimers)
+            setTotalClaimed(claimAmount)
+            setActiveClaimers(activeClaimers)
+            setAvailableDistribution(distribution)
+            setTotalFundsStaked(mainnetData.totalFundsStaked)
+            setInterestPending(mainnetData.pendingInterest)
+            setInterestCollected(mainnetData.interestCollected)
+          }
+        })
+      } catch (exception) {
+        const { message } = exception
+        const uiMessage = decorate(exception, ExceptionCode.E3)
+
+        log.error('gatherStats failed', message, exception, {
+          dialogShown: true,
+          category: ExceptionCategory.Blockchain,
         })
 
-        const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
-        setDailyUbi(entitlement)
-        setClaimCycleTime(moment(nextClaim).format('HH:mm:ss'))
-
-        if (nextClaim) {
-          updateTimer(nextClaim)
-        }
-
-        if (all) {
-          setPeopleClaimed(claimers)
-          setTotalClaimed(claimAmount)
-          setActiveClaimers(activeClaimers)
-          setAvailableDistribution(distribution)
-          setTotalFundsStaked(mainnetData.totalFundsStaked)
-          setInterestPending(mainnetData.pendingInterest)
-          setInterestCollected(mainnetData.interestCollected)
-        }
-      } catch (exception) {
-        if (isRetry) {
-          const { message } = exception
-          const uiMessage = decorate(exception, ExceptionCode.E3)
-
-          log.error('gatherStats failed', message, exception, {
-            dialogShown: true,
-            category: ExceptionCategory.Blockchain,
-          })
-
-          showErrorDialog(uiMessage, '', {
-            onDismiss: goToRoot,
-          })
-        } else {
-          gatherStats(all, true)
-        }
+        showErrorDialog(uiMessage, '', {
+          onDismiss: goToRoot,
+        })
       }
     },
     [
@@ -328,11 +327,14 @@ const Claim = props => {
 
   const handleFaceVerification = useCallback(() => navigate('FaceVerificationIntro', { from: 'Claim' }), [navigate])
 
-  const handleClaim = useCallback(
-    async (isRetry = false) => {
-      setLoading(true)
+  const handleClaim = useCallback(async () => {
+    setLoading(true)
 
-      try {
+    try {
+      await retry(async () => {
+        // Call wallet method to refresh the connection :
+        await goodWallet.getBlockNumber().catch() // silent fail
+
         //recheck citizen status, just in case we are out of sync with blockchain
         if (!isCitizen) {
           const isCitizenRecheck = await goodWallet.isCitizen()
@@ -421,25 +423,16 @@ const Claim = props => {
             dialogShown: true,
           })
         }
-      } catch (e) {
-        if (isRetry) {
-          fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
-          showErrorDialog(t`Claim request failed`, '', { boldMessage: t`Try again later.` })
+      }, 1)
+    } catch (e) {
+      fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
+      showErrorDialog(t`Claim request failed`, '', { boldMessage: t`Try again later.` })
 
-          log.error('claiming failed', e.message, e, { dialogShown: true })
-        } else {
-          // Call wallet method to refresh the connection :
-          await goodWallet.getBlockNumber().catch() //silent fail
-
-          // Retry to call handleClaim if it's first time :
-          await handleClaim(true)
-        }
-      } finally {
-        setLoading(false)
-      }
-    },
-    [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog],
-  )
+      log.error('claiming failed', e.message, e, { dialogShown: true })
+    } finally {
+      setLoading(false)
+    }
+  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

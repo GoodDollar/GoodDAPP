@@ -138,6 +138,7 @@ const TabButton = (props: TabButtonProps) => {
         hasRightBorder && { borderRightWidth: 1, borderColor: '#E9ECFF' },
         style,
       ]}
+      compact
     >
       <TextContent uppercase={uppercase} textStyle={textStyle} color={textColor}>
         {children}

@@ -55,32 +55,29 @@ const FeedModalItem = (props: FeedEventProps) => {
           <TopImage type={itemType} />
           <ModalPaymentStatus item={item} />
           <View style={styles.dateAndAmount}>
-            <React.Fragment>
-              <Text fontSize={10}>{getFormattedDateTime(item.date)}</Text>
-              {!eventSettings.withoutAmount && (
-                <React.Fragment>
-                  {eventSettings && eventSettings.actionSymbol && (
-                    <Text fontWeight="bold" fontSize={22} color={mainColor} style={styles.actionSymbol}>
-                      {eventSettings.actionSymbol}
-                    </Text>
-                  )}
-                  <BigGoodDollar
-                    number={get(item, 'data.amount', 0)}
-                    color={mainColor}
-                    bigNumberProps={{ fontSize: 24 }}
-                    bigNumberStyles={styles.bigNumberStyles}
-                    bigNumberUnitProps={{ fontSize: 12 }}
-                  />
-                </React.Fragment>
-              )}
-            </React.Fragment>
+            <Text fontSize={10}>{getFormattedDateTime(item.date)}</Text>
+            {!eventSettings.withoutAmount && (
+              <React.Fragment>
+                {eventSettings && eventSettings.actionSymbol && (
+                  <Text fontWeight="bold" fontSize={22} color={mainColor} style={styles.actionSymbol}>
+                    {eventSettings.actionSymbol}
+                  </Text>
+                )}
+                <BigGoodDollar
+                  number={get(item, 'data.amount', 0)}
+                  color={mainColor}
+                  bigNumberProps={{ fontSize: 24, lineHeight: 30 }}
+                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberUnitProps={{ fontSize: 12 }}
+                />
+              </React.Fragment>
+            )}
           </View>
           {eventSettings.withoutAvatar ? (
             <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
               {item.data && item.data.endpoint && (
                 <View
                   style={{
-                    height: 15,
                     flex: 1,
                     alignItems: 'flex-start',
                     flexDirection: 'column',
@@ -115,7 +112,7 @@ const FeedModalItem = (props: FeedEventProps) => {
               </View>
             )}
           </View>
-          <View style={styles.messageContainer}>
+          <View>
             {!!get(item, 'data.preMessageText') && (
               <Text fontSize={14} textAlign="left" lineHeight={20} letterSpacing={0.14} fontWeight="bold">
                 {item.data.preMessageText}
@@ -210,6 +207,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     actionSymbol: {
       marginLeft: 'auto',
+      lineHeight: 30,
     },
   }
 }

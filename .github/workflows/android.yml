@@ -164,4 +164,4 @@ jobs:
 
       - name: Code push release
         run: |
-          appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Staging  -t `git rev-list origin/3493-code-push HEAD --first-parent --count`
+          npx appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Staging  -t `git rev-list origin/3493-code-push HEAD --first-parent --count`

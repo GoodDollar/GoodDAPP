@@ -1,6 +1,6 @@
 // @flow
-//NOTICE: dont put any components that load wallet/userstorage here
-//so we can lazy load them
+// NOTICE: dont put any components that load wallet/userstorage here
+// (e.g. Avatar, UserAvatar) so we can lazy load them
 import Address from './view/Address'
 import AmountInput from './view/AmountInput'
 import BigGoodDollar from './view/BigGoodDollar'
@@ -30,10 +30,6 @@ import Text from './view/Text'
 import Wrapper from './layout/Wrapper'
 import WrapperClaim from './layout/WrapperClaim'
 import ClaimButton from './buttons/ClaimButton'
-
-//dont import these here see notice at the top
-// import Avatar from './view/Avatar'
-// import UserAvatar from './view/UserAvatar'
 
 export {
   Address,

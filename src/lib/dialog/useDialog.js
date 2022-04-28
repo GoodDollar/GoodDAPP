@@ -1,5 +1,5 @@
 // @flow
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import { type DialogProps } from '../../components/common/dialogs/CustomDialog'
 
 // import pino from '../logger/js-logger'
@@ -20,6 +20,8 @@ export const showDialogForError = (
 export const useDialog = () => {
   const { dialogData, setDialog } = useContext(DialogContext)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
+  const isDialogShown = useMemo(() => dialogData.visible, [dialogData])
+
   const showDialog = useCallback(
     (data: DialogData) => {
       setDialogBlur(true)
@@ -44,6 +46,7 @@ export const useDialog = () => {
         error = humanError
         humanError = undefined
       }
+
       if (error == null && humanError === undefined) {
         message = 'Unknown Error'
       } else if (error == null) {
@@ -64,14 +67,20 @@ export const useDialog = () => {
 
       fireEvent(ERROR_DIALOG, { humanError, message })
       message = humanError ? humanError + '\n' + message : message
-      const dialogData = { visible: true, title: 'Ooops ...', message, type: 'error', ...dialogProps }
-      showDialog(dialogData)
+
+      showDialog({
+        visible: true,
+        title: 'Ooops ...',
+        message,
+        type: 'error',
+        ...dialogProps,
+      })
     },
     [showDialog],
   )
 
   return {
-    isDialogShown: dialogData.visible, //TODO:fix this
+    isDialogShown, // TODO:fix this
     showDialog,
     hideDialog,
     showErrorDialog,

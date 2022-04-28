@@ -110,13 +110,11 @@ const FaceVerification = ({ screenProps }) => {
       }
 
       // if session was successful
+
       // 1. resetting attempts
       resetAttempts()
 
-      // 2. whitelisting user
-      // setIsCitizen(isCitizen)
-
-      // 3. returning success to the caller
+      // 2. returning success to the caller
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },

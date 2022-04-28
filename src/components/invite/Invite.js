@@ -22,12 +22,12 @@ import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
 import mustache from '../../lib/utils/mustache'
 import {
-  registerForInvites,
   useCollectBounty,
   useInviteBonus,
   useInviteCode,
   useInvited,
   useInviteScreenOpened,
+  useRegisterForInvites,
 } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
@@ -164,6 +164,7 @@ const ShareBox = ({ level }) => {
 
 const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
+  const registerForInvites = useRegisterForInvites()
   const { hideDialog, showDialog } = useDialog()
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
@@ -220,13 +221,13 @@ const InputCodeBox = ({ navigateTo }) => {
     })
 
     try {
-      await registerForInvites(extractedCode, goodWallet, userStorage)
+      await registerForInvites(extractedCode)
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, goodWallet, userStorage])
+  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, registerForInvites])
 
   //manages the get reward button state (disabled/enabled)
   useEffect(() => {

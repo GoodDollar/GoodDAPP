@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { groupBy, keyBy, noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
@@ -19,64 +19,77 @@ const log = logger.child({ from: 'useInvites' })
 const collectedProp = 'inviteBonusCollected'
 const wasOpenedProp = 'hasOpenedInviteScreen'
 
-export const registerForInvites = async (inviterInviteCode, goodWallet, userStorage) => {
-  let code = userStorage.userProperties.get('inviteCode')
-  let usedInviterCode = userStorage.userProperties.get('inviterInviteCodeUsed')
-
-  //if already have code and already set inviter or dont have one just return
-  if (code && (usedInviterCode || !inviterInviteCode)) {
-    return code
-  }
-
-  try {
-    log.debug('joining invites contract:', { inviterInviteCode })
-    const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
-    log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
-    userStorage.userProperties.set('inviteCode', inviteCode)
-
-    //in case we were invited fire event
-    if (inviterInviteCode && !usedInviterCode) {
-      fireEvent(INVITE_JOIN, { inviterInviteCode })
-      userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: inviterInviteCode })
-    }
-
-    return inviteCode
-  } catch (e) {
-    log.error('registerForInvites failed', e.message, e, { inviterInviteCode })
-  }
-}
-
-const getInviteCode = async (goodWallet, userStorage) => {
-  const inviterInviteCode =
-    userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
-  const code = await registerForInvites(inviterInviteCode, goodWallet, userStorage)
-
-  return code
-}
-
-let _inviteCodePromise
-export const useInviteCode = () => {
+export const useRegisterForInvites = () => {
   const userStorage = useUserStorage()
-  const [inviteCode, setInviteCode] = useState(() => userStorage.userProperties.get('inviteCode'))
   const goodWallet = useWallet()
 
-  //return user invite code or register him with a new code
+  const registerForInvites = useCallback(
+    async inviterInviteCode => {
+      let code = userStorage.userProperties.get('inviteCode')
+      let usedInviterCode = userStorage.userProperties.get('inviterInviteCodeUsed')
+
+      //if already have code and already set inviter or dont have one just return
+      if (code && (usedInviterCode || !inviterInviteCode)) {
+        return code
+      }
+
+      try {
+        log.debug('joining invites contract:', { inviterInviteCode })
+        const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
+        log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
+        userStorage.userProperties.set('inviteCode', inviteCode)
+
+        //in case we were invited fire event
+        if (inviterInviteCode && !usedInviterCode) {
+          fireEvent(INVITE_JOIN, { inviterInviteCode })
+          userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: inviterInviteCode })
+        }
+
+        return inviteCode
+      } catch (e) {
+        log.error('registerForInvites failed', e.message, e, { inviterInviteCode })
+      }
+    },
+    [userStorage, goodWallet],
+  )
+
+  return registerForInvites
+}
+
+export const useInviteCode = () => {
+  const userStorage = useUserStorage()
+  const registerForInvites = useRegisterForInvites()
+
+  const inviteCodePromiseRef = useRef()
+  const [inviteCode, setInviteCode] = useState()
+
+  const getInviteCode = useCallback(async () => {
+    const inviterInviteCode =
+      userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
+    const code = await registerForInvites(inviterInviteCode)
+
+    return code
+  }, [registerForInvites])
+
+  useEffect(() => {
+    setInviteCode(userStorage.userProperties.get('inviteCode'))
+  }, [userStorage, setInviteCode])
 
   useEffect(() => {
     log.debug('useInviteCode didmount:', { inviteCode })
 
     if (Config.enableInvites) {
-      if (!_inviteCodePromise) {
-        _inviteCodePromise = getInviteCode(goodWallet, userStorage)
+      if (!inviteCodePromiseRef.current) {
+        inviteCodePromiseRef.current = getInviteCode()
       }
 
-      _inviteCodePromise.then(code => {
+      inviteCodePromiseRef.current.then(code => {
         log.debug('useInviteCode registered user result:', { code })
         setInviteCode(code)
-        _inviteCodePromise = undefined
+        inviteCodePromiseRef.current = undefined
       })
     }
-  }, [])
+  }, [getInviteCode, setInviteCode])
 
   return inviteCode
 }

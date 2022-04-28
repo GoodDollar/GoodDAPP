@@ -129,11 +129,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                 >
                   <div
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
-                    style={
-                      Object {
-                        "height": "15px",
-                      }
-                    }
                   >
                     <div
                       className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t"
@@ -189,7 +184,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flex-13awgt0"
+                  className="css-view-1dbjc4n"
                 >
                   <div
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -205,10 +200,10 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   Invoice Number 
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
@@ -617,7 +612,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flex-13awgt0"
+                  className="css-view-1dbjc4n"
                 >
                   <div
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -633,10 +628,10 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   Invoice Number 
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
@@ -851,7 +846,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     01.04.19 15:03
                   </div>
                   <div
-                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     -
@@ -1076,7 +1071,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flex-13awgt0"
+                  className="css-view-1dbjc4n"
                 >
                   <div
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1092,10 +1087,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   Invoice Number 
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
@@ -1310,7 +1305,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     01.04.19 15:03
                   </div>
                   <div
-                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     -
@@ -1535,7 +1530,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flex-13awgt0"
+                  className="css-view-1dbjc4n"
                 >
                   <div
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1551,10 +1546,10 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   Invoice Number 
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
@@ -1769,7 +1764,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     01.04.19 15:03
                   </div>
                   <div
-                    className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-17rnw9f r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     +
@@ -1994,7 +1989,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-flex-13awgt0"
+                  className="css-view-1dbjc4n"
                 >
                   <div
                     className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -2010,10 +2005,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   Invoice Number 
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-width-13qz1uu"
+                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-flexWrap-1w6e6rj r-justifyContent-17s6mgv r-marginTop-14gqq1x r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
                       className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"

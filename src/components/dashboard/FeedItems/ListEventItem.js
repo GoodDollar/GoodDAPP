@@ -167,7 +167,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                 <BigGoodDollar
                   number={get(feed, 'data.amount', 0)}
                   color={mainColor}
-                  bigNumberProps={{ fontSize: 20, lineHeight: 20 }}
+                  bigNumberProps={{ fontSize: 20, lineHeight: 22 }}
                   bigNumberStyles={styles.bigNumberStyles}
                   bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
                 />
@@ -360,6 +360,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   actionSymbol: {
     marginLeft: 'auto',
+    lineHeight: 22,
   },
   bigNumberStyles: {
     marginRight: theme.sizes.defaultHalf,

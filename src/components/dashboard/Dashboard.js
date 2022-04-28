@@ -394,7 +394,7 @@ const Dashboard = props => {
 
     // setTimeout(animateItems, marketAnimationDuration)
 
-    await initTransferEvents()
+    initTransferEvents() //no await, run in background
 
     log.debug('initDashboard subscribed to feed')
 

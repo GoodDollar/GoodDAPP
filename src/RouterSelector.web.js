@@ -42,6 +42,7 @@ let SignupRouter = React.lazy(async () => {
 
 let AppRouter = React.lazy(async () => {
   const animateSplash = await shouldAnimateSplash(isAuthReload)
+
   log.debug('initializing storage and wallet...', { animateSplash })
 
   const [module] = await Promise.all([
@@ -100,21 +101,24 @@ const RouterSelector = () => {
   }, [])
 
   useEffect(() => {
+    log.debug('initWalletStorage', { isLoggedInRouter })
+
     if (!isLoggedInRouter) {
       return
     }
-    log.debug('initWalletStorage', isLoggedInRouter)
-    return initWalletAndStorage(undefined, 'SEED').then(() => log.debug('storage and wallet ready'))
-  }, [isLoggedInRouter])
+
+    initWalletAndStorage(undefined, 'SEED').then(() => log.debug('storage and wallet ready'))
+  }, [isLoggedInRouter, initWalletAndStorage])
 
   useEffect(() => {
-    //once user is logged in check if their browser is supported and show warning if not
+    // once user is logged in check if their browser is supported and show warning if not
     if (isLoggedInRouter) {
       checkBrowser()
     }
+
     setIgnoreUnsupported(true)
     setCheckedForBrowserSupport(true)
-  }, [isLoggedInRouter])
+  }, [isLoggedInRouter, checkBrowser, setIgnoreUnsupported, setCheckedForBrowserSupport])
 
   // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)

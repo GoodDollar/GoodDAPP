@@ -6,6 +6,7 @@ import { useUserStorage } from '../wallet/GoodWalletProvider'
 const defaultPublicFields = ['fullName', 'smallAvatar']
 
 const useProfileHook = (fields, allowRefresh = false, display = false) => {
+  const [profile, setProfile] = useState()
   const userStorage = useUserStorage()
 
   const getProfile = useCallback(
@@ -19,7 +20,6 @@ const useProfileHook = (fields, allowRefresh = false, display = false) => {
     },
     [userStorage],
   )
-  const [profile, setProfile] = useState(() => getProfile(fields, display))
 
   const refreshProfile = useCallback(() => setProfile(getProfile(fields, display)), [
     fields,
@@ -29,12 +29,14 @@ const useProfileHook = (fields, allowRefresh = false, display = false) => {
   ])
 
   // auto refresh provide each time fields and private changes
+  // also initializes profile on mount
   useEffect(() => void refreshProfile(), [refreshProfile])
 
   return useMemo(() => (allowRefresh ? [profile, refreshProfile] : profile), [profile, refreshProfile, allowRefresh])
 }
 
 const useProfile = (allowRefresh = false, fields = null) => useProfileHook(fields, allowRefresh)
+
 export const usePublicProfile = (allowRefresh = false, fields = null) => useProfileHook(fields, allowRefresh, true)
 
 export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) => {

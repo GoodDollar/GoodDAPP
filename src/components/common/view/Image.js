@@ -17,7 +17,7 @@ const getAspectRatio = Platform.select({
 const isAutoHeight = ({ width, height }) => !!width && 'auto' === height
 
 const Image = ({ style = {}, onLoad = noop, ...props }) => {
-  const [aspectRatio, setAspectRatio] = useState(0)
+  const [aspectRatio, setAspectRatio] = useState(1)
   const flattenStyle = useMemo(() => StyleSheet.flatten(style), [style])
   const refs = usePropsRefs([flattenStyle, onLoad])
 

@@ -35,9 +35,11 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   //when new wallet set the web3provider for future use with usedapp
   useEffect(() => {
-    if (goodWallet) {
-      setWeb3(new HDWalletProvider(goodWallet.accounts, goodWallet.wallet._provider.host))
+    if (!goodWallet) {
+      return
     }
+
+    setWeb3(new HDWalletProvider(goodWallet.accounts, goodWallet.wallet._provider.host))
   }, [goodWallet])
 
   const switchWeb3ProviderNetwork = useCallback(
@@ -118,15 +120,16 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     }
 
     const lastBlock = userStorage.userProperties.get('lastBlock') || 6400000
-    log.debug('starting watchBalanceAndTXs', { lastBlock })
 
-    //init initial wallet balance/dailyubi
+    // init initial wallet balance/dailyubi
     update()
+
+    log.debug('starting watchBalanceAndTXs', { lastBlock })
     goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
       userStorage.userProperties.set('lastBlock', parseInt(toBlock)),
     )
-    const eventId = goodWallet.balanceChanged(event => update())
-    return eventId
+
+    return goodWallet.balanceChanged(event => update())
   }, [goodWallet, userStorage])
 
   //perform login on wallet change
@@ -168,13 +171,16 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
 export const useWallet = () => {
   const { goodWallet } = useContext(GoodWalletContext)
+
   return goodWallet
 }
 export const useUserStorage = (): UserStorage => {
   const { userStorage } = useContext(GoodWalletContext)
+
   return userStorage
 }
 export const useWalletData = () => {
   const { dailyUBI, balance, isCitizen } = useContext(GoodWalletContext)
+
   return { dailyUBI, balance, isCitizen }
 }

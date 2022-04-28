@@ -8,6 +8,7 @@ import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
+import { getRouteParams, openLink } from '../../lib/utils/linking'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
@@ -38,11 +39,11 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
 import _debounce from '../../lib/utils/debounce'
+import { createUrlObject } from '../../lib/utils/uri'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
-import { useIsCeramicFeedEnabled } from '../../lib/ceramic/hooks'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
@@ -55,7 +56,6 @@ import Reason from './Reason'
 import Receive from './Receive'
 import HandlePaymentLink from './HandlePaymentLink'
 
-// import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
 import ReceiveToAddress from './ReceiveToAddress'
@@ -148,7 +148,6 @@ const Dashboard = props => {
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
-  const isCeramicFeedEnabled = useIsCeramicFeedEnabled()
   const [price, showPrice] = useGoodDollarPrice()
 
   useInviteCode() //preload user invite code
@@ -222,14 +221,16 @@ const Dashboard = props => {
           // a flag used to show feed load animation only at the first app loading
           //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
           //so we use a global variable
+
+          res = (await feedPromise) || []
+          res.length > 0 && !didRender && setFeedLoadAnimShown(true)
+          feedRef.current = res
+          setFeeds(res)
+
           if (!didRender) {
             log.debug('waiting for feed animation')
             didRender = true
           }
-          res = (await feedPromise) || []
-          res.length > 0 && !didRender && setFeedLoadAnimShown(true)
-          feedRef.current = res
-          res.length > 0 && setFeeds(res)
         } else {
           res = (await feedPromise) || []
           const newFeed = uniqBy(concat(feedRef.current, res), 'id')
@@ -574,12 +575,21 @@ const Dashboard = props => {
         type,
         data: { link },
       } = receipt
-      if (type === 'news') {
-        link && Linking.openURL(link).catch(e => log.error('Open news feed error', e))
+
+      if (type !== 'news' || !link) {
+        showEventModal(horizontal ? receipt : null)
+        setDialogBlur(horizontal)
         return
       }
-      showEventModal(horizontal ? receipt : null)
-      setDialogBlur(horizontal)
+
+      const { pathname, params, internal } = createUrlObject(link)
+
+      if (!internal) {
+        openLink(link)
+        return
+      }
+
+      navigation.navigate(getRouteParams(navigation, pathname.slice(1), params))
     },
     [showEventModal, setDialogBlur],
   )
@@ -616,7 +626,9 @@ const Dashboard = props => {
       const scrollPosition = nativeEvent.contentOffset.y
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-      if (feedRef.current.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+      const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
+
+      if ((feedRef.current.length > 10 || newsCondition) && scrollPositionISH > minScrollRequiredISH) {
         if (headerLarge) {
           setHeaderLarge(false)
         }
@@ -626,7 +638,7 @@ const Dashboard = props => {
         }
       }
     },
-    [headerLarge, setHeaderLarge],
+    [headerLarge, setHeaderLarge, activeTab],
   )
 
   const handleScrollEndDebounced = useMemo(() => _debounce(handleScrollEnd, 300), [handleScrollEnd])
@@ -732,21 +744,19 @@ const Dashboard = props => {
         </Section.Row>
       </Section>
 
-      {isCeramicFeedEnabled && (
-        <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
-          <Section.Row>
-            {FeedCategories.all.map(tab => (
-              <FeedTab
-                tab={tab}
-                key={tab || 'all'}
-                setActiveTab={setActiveTab}
-                getFeedPage={getFeedPage}
-                activeTab={activeTab}
-              />
-            ))}
-          </Section.Row>
-        </Section>
-      )}
+      <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
+        <Section.Row>
+          {FeedCategories.all.map(tab => (
+            <FeedTab
+              tab={tab}
+              key={tab || 'all'}
+              setActiveTab={setActiveTab}
+              getFeedPage={getFeedPage}
+              activeTab={activeTab}
+            />
+          ))}
+        </Section.Row>
+      </Section>
 
       <FeedList
         data={feedRef.current}

@@ -20,6 +20,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { getRouteParams } from '../../lib/utils/linking'
 
 type LoadingProps = {
   navigation: any,
@@ -55,15 +56,16 @@ let unsuccessfulLaunchAttempts = 0
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 const AppSwitch = (props: LoadingProps) => {
-  const { router, state } = props.navigation
-  const { showErrorDialog } = useDialog()
+  const { descriptors, navigation } = props
   const [ready, setReady] = useState(false)
+  const { showErrorDialog } = useDialog()
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
+
   const {
     authStatus: [isLoggedInCitizen, isLoggedIn],
     refresh,
   } = useCheckAuthStatus()
-  const goodWallet = useWallet()
-  const userStorage = useUserStorage()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -78,15 +80,7 @@ const AppSwitch = (props: LoadingProps) => {
         path = 'AppNavigation/Dashboard/HandlePaymentLink'
       }
 
-      const app = router.getActionForPathAndParams(path) || {}
-      log.debug('destinationPath getRoute', { path, params, router, state, app })
-
-      //get nested routes
-      const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
-      const destData = destRoute(app)
-
-      destData.params = { ...destData.params, ...params }
-      return destData
+      return getRouteParams(navigation, path, params)
     }
 
     return undefined
@@ -121,7 +115,7 @@ const AppSwitch = (props: LoadingProps) => {
     //once user logs in we can redirect him to saved destinationPath
     if (destDetails) {
       log.debug('destinationPath found:', destDetails)
-      return props.navigation.navigate(destDetails)
+      return navigation.navigate(destDetails)
     }
   }
 
@@ -256,7 +250,6 @@ const AppSwitch = (props: LoadingProps) => {
     return () => DeepLinking.unsubscribe()
   }, [isLoggedIn, isLoggedInCitizen, userStorage])
 
-  const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]
 

@@ -74,7 +74,6 @@ class RealmDB implements DB, ProfileDB {
       Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
       Feed.table.hook('deleting', (id, event) => this._notifyChange({ id, event }))
 
-      await Promise.all(invokeMap(this.sources, 'initialize'))
       await this._initRealmDB()
 
       this.resolve()

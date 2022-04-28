@@ -20,7 +20,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import { readCode } from '../../lib/share'
-import { extractQueryParams } from '../../lib/utils/uri'
+import { createUrlObject } from '../../lib/utils/uri'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
@@ -116,7 +116,7 @@ const SendByQR = ({ screenProps }: Props) => {
               })
             }
           } else {
-            const paramsUrl = extractQueryParams(decoded)
+            const { params: paramsUrl } = createUrlObject(decoded)
             code = readCode(paramsUrl.code)
           }
 

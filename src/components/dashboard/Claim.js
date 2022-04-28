@@ -296,15 +296,9 @@ const Claim = props => {
         })
       } catch (exception) {
         const { message } = exception
-        const uiMessage = decorate(exception, ExceptionCode.E3)
 
         log.error('gatherStats failed', message, exception, {
-          dialogShown: true,
           category: ExceptionCategory.Blockchain,
-        })
-
-        showErrorDialog(uiMessage, '', {
-          onDismiss: goToRoot,
         })
       }
     },
@@ -331,8 +325,8 @@ const Claim = props => {
 
     try {
       await _retry(async () => {
-        // Call wallet method to refresh the connection :
-        await goodWallet.getBlockNumber()
+        // Call wallet method to refresh the connection, silent fail
+        await goodWallet.getBlockNumber().catch(e => log.warn('getBlockNumber failed'))
 
         //recheck citizen status, just in case we are out of sync with blockchain
         if (!isCitizen) {

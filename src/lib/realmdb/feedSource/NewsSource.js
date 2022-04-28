@@ -1,12 +1,10 @@
 import moment from 'moment'
-import { assign } from 'lodash'
 
 import CeramicFeed from '../../ceramic/CeramicFeed'
 
 import Config from '../../../config/config'
 import { batch } from '../../utils/async'
 import FeedSource from '../source'
-import { isCeramicFeedEnabled } from '../../ceramic/hooks'
 
 export default class NewsSource extends FeedSource {
   static historyCacheId = 'GD_CERAMIC_HISTORY'
@@ -34,23 +32,9 @@ export default class NewsSource extends FeedSource {
     }
   }
 
-  async initialize() {
-    const { log } = this
-    const enabled = await isCeramicFeedEnabled()
-
-    // pre-initialize Feed AB Testing
-    assign(this, { enabled })
-    log.debug('got ceramic feed enabled state', { enabled })
-  }
-
   async syncFromRemote() {
-    const { log, storage, enabled } = this
+    const { log, storage } = this
     const { historyCacheId } = NewsSource
-
-    if (!enabled) {
-      log.debug('ceramic feed disabled, skipping')
-      return
-    }
 
     const historyId = await storage.getItem(historyCacheId)
 

@@ -1,4 +1,4 @@
-import { extractQueryParams } from '../utils/uri'
+import { createUrlObject } from '../utils/uri'
 
 class DeepLinkingWeb {
   pathname = window.location.pathname
@@ -9,8 +9,9 @@ class DeepLinkingWeb {
 
   get params() {
     const decodedHref = decodeURI(window.location.href)
+    const { params } = createUrlObject(decodedHref)
 
-    return extractQueryParams(decodedHref)
+    return params
   }
 }
 

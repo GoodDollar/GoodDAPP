@@ -32,7 +32,7 @@ const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const { push } = screenProps
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { params = {} } = props.navigation.state
+  const { params } = props.navigation.state
   const { amount, ...restState } = { amount: 0, ...screenState } || {}
   const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
   const [loading, setLoading] = useState(amount <= 0)
@@ -86,7 +86,7 @@ const Amount = (props: AmountProps) => {
     setError('')
   }
 
-  const showScanQR = !isReceive && !params.counterPartyDisplayName //not in receive flow and also QR wasnt displayed on Who screen
+  const showScanQR = !isReceive && !params?.counterPartyDisplayName //not in receive flow and also QR wasnt displayed on Who screen
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper>

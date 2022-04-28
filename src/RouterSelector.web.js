@@ -19,9 +19,9 @@ import InternetConnection from './components/common/connectionDialog/internetCon
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
-import handleLinks from './lib/utils/handleLinks'
 import { GoodWalletContext } from './lib/wallet/GoodWalletProvider'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
+import { handleLinks } from './lib/utils/linking'
 
 const log = logger.child({ from: 'RouterSelector' })
 

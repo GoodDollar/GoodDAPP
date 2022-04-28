@@ -4,7 +4,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner'
 
 import logger from '../../lib/logger/js-logger'
 import { readReceiveLink } from '../../lib/share'
-import { extractQueryParams } from '../../lib/utils/uri'
+import { createUrlObject } from '../../lib/utils/uri'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
@@ -30,7 +30,8 @@ const ReceiveByQR = ({ screenProps }) => {
         if (url === null) {
           throw new Error('Invalid QR Code.')
         } else {
-          const { receiveLink, reason } = extractQueryParams(url)
+          const { params } = createUrlObject(url)
+          const { receiveLink, reason } = params
 
           if (!receiveLink) {
             throw new Error('No receiveLink available')

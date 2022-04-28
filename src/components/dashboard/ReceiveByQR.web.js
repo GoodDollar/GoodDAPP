@@ -15,11 +15,10 @@ import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import logger from '../../lib/logger/js-logger'
-import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
+import { decorate, ExceptionCategory, ExceptionCode, wrapFunction } from '../../lib/exceptions/utils'
 import { readReceiveLink } from '../../lib/share'
 import { createUrlObject } from '../../lib/utils/uri'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { executeWithdraw } from '../../lib/wallet/utils'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 import { Permissions } from '../permissions/types'

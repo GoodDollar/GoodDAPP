@@ -18,10 +18,9 @@ import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import logger from '../../lib/logger/js-logger'
-import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
+import { decorate, ExceptionCode, wrapFunction } from '../../lib/exceptions/utils'
 import { readCode } from '../../lib/share'
 import { createUrlObject } from '../../lib/utils/uri'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import { InfoIcon } from '../common/modal/InfoIcon'

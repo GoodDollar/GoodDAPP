@@ -27,20 +27,17 @@ import API from '../API/api'
 import { delay } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
-import { getTxLogArgs } from './utils'
 
-const log = logger.child({ from: 'GoodWalletV2' })
+import {
+  getTxLogArgs,
+  NULL_ADDRESS,
+  WITHDRAW_STATUS_COMPLETE,
+  WITHDRAW_STATUS_PENDING,
+  WITHDRAW_STATUS_UNKNOWN,
+} from './utils'
 
 const ZERO = new BN('0')
-
-//17280 = 24hours seconds divided by 5 seconds blocktime
-// const DAY_TOTAL_BLOCKS = (60 * 60 * 24) / 5
-
-export const WITHDRAW_STATUS_PENDING = 'pending'
-export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
-export const WITHDRAW_STATUS_COMPLETE = 'complete'
-
-const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+const log = logger.child({ from: 'GoodWalletV2' })
 
 type EventLog = {
   event: string,

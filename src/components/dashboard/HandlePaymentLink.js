@@ -8,14 +8,14 @@ import { parsePaymentLinkParams, readCode } from '../../lib/share'
 import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { fireEvent, WITHDRAW } from '../../lib/analytics/analytics'
-import { withStyles } from '../../lib/styles'
 import {
+  executeWithdraw,
   WITHDRAW_STATUS_COMPLETE,
   WITHDRAW_STATUS_PENDING,
   WITHDRAW_STATUS_UNKNOWN,
-} from '../../lib/wallet/GoodWalletClass'
+} from '../../lib/wallet/utils'
+import { fireEvent, WITHDRAW } from '../../lib/analytics/analytics'
+import { withStyles } from '../../lib/styles'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { delay } from '../../lib/utils/async'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'

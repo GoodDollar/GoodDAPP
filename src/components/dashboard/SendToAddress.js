@@ -37,21 +37,24 @@ const SendToAddress = (props: TypeProps) => {
   const { params } = navigation.state
   const { address } = screenState
 
-  const validate = value => {
-    if (!value) {
-      return 'Value is mandatory'
-    }
+  const validate = useCallback(
+    value => {
+      if (!value) {
+        return 'Value is mandatory'
+      }
 
-    if (!isAddress(value)) {
-      return 'Invalid wallet address'
-    }
+      if (!isAddress(value)) {
+        return 'Invalid wallet address'
+      }
 
-    if (value.toLowerCase() === goodWallet.account.toLowerCase()) {
-      return "You can't send G$s to yourself, you already own your G$s"
-    }
+      if (value.toLowerCase() === goodWallet.account.toLowerCase()) {
+        return "You can't send G$s to yourself, you already own your G$s"
+      }
 
-    return null
-  }
+      return null
+    },
+    [goodWallet],
+  )
 
   const [state, setValue] = useValidatedValueState(address, validate)
 

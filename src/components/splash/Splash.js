@@ -32,6 +32,7 @@ export const shouldAnimateSplash = async isReload => {
   if (isReload) {
     return false
   }
+
   const lastSplash = (await AsyncStorage.getItem(lastSplashProp)) || 0
   const animateSplash = moment().diff(lastSplash, 'minutes') >= 60
 

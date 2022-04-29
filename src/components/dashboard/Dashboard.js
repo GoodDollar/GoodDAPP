@@ -9,6 +9,7 @@ import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
+import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { getRouteParams, openLink } from '../../lib/utils/linking'
@@ -79,9 +80,6 @@ import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 
 const log = logger.child({ from: 'Dashboard' })
 
-//it seems too complicated to make effect with subscription on feed update as there are many dependencies
-//and changing them would lead to many unwanted subscribe/unsubscribe
-let globalCurrentTab = FeedCategories.All
 let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
@@ -102,7 +100,6 @@ const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance),
 const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   const onTabPress = useOnPress(() => {
     log.debug('feed category selected', { tab })
-    globalCurrentTab = tab
     fireEvent(GOTO_TAB_FEED, { name: tab })
     setActiveTab(tab)
     getFeedPage(true, tab)
@@ -160,6 +157,7 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
   const [initTransferEvents] = useTransferEvents()
+  const [getCurrentTab] = usePropsRefs([activeTab])
 
   const [price, showPrice] = useGoodDollarPrice()
 
@@ -280,8 +278,9 @@ const Dashboard = props => {
   const onFeedUpdated = useCallback(
     debounce(
       event => {
-        log.debug('feed cache updated', { event, globalCurrentTab })
-        getFeedPage(true, globalCurrentTab)
+        const currentTab = getCurrentTab()
+        log.debug('feed cache updated', { event, currentTab })
+        getFeedPage(true, currentTab)
       },
       300,
       { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
@@ -547,7 +546,6 @@ const Dashboard = props => {
 
       resizeSubscriptionRef.current = null
       userStorage.feedStorage.feedEvents.off('updated', onFeedUpdated)
-      globalCurrentTab = FeedCategories.All
     }
   }, [])
 

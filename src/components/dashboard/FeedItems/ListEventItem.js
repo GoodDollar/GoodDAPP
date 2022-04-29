@@ -160,7 +160,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
             {!eventSettings.withoutAmount && (
               <React.Fragment>
                 {eventSettings && eventSettings.actionSymbol && (
-                  <Text fontSize={15} lineHeight={18} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
+                  <Text fontSize={15} lineHeight={22} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
                     {eventSettings.actionSymbol}
                   </Text>
                 )}
@@ -360,7 +360,10 @@ const getStylesFromProps = ({ theme }) => ({
   },
   actionSymbol: {
     marginLeft: 'auto',
-    lineHeight: 22,
+    marginBottom: Platform.select({
+      web: 0,
+      default: 4,
+    }),
   },
   bigNumberStyles: {
     marginRight: theme.sizes.defaultHalf,

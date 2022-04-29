@@ -114,7 +114,7 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
       onPress={onTabPress}
       isActive={tab === activeTab}
       hasLeftBorder={!isAll}
-      flex={isTransactions ? 2 : 1}
+      flex={isTransactions ? 2.5 : 1}
       roundnessLeft={isAll ? 5 : 0}
       roundnessRight={isNews ? 5 : 0}
     >

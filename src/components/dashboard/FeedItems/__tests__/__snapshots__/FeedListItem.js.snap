@@ -41,7 +41,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               01.04.19 15:03
             </div>
             <div
-              className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               -
@@ -234,7 +234,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               01.04.19 15:03
             </div>
             <div
-              className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
               +

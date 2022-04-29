@@ -13,6 +13,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1595EB66281C2F80009C5D2E /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1595EB65281C2F80009C5D2E /* Config.xcconfig */; };
+		1595EB67281C2F80009C5D2E /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1595EB65281C2F80009C5D2E /* Config.xcconfig */; };
 		1923EC9A71E2463C9A438D02 /* RobotoSlab-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74A90ADEA4224FBFB6A030FA /* RobotoSlab-Black.ttf */; };
 		1C070547A367412CA2FF3034 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A2D9A90A0ED4E3E99EB30A4 /* Roboto-Thin.ttf */; };
 		28BEA857639F48198085A31F /* RobotoSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3574781F765446BDA13679A8 /* RobotoSlab-Bold.ttf */; };
@@ -78,6 +80,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = GoodDollar/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = GoodDollar/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = GoodDollar/main.m; sourceTree = "<group>"; };
+		1595EB65281C2F80009C5D2E /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-LightItalic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
 		3574781F765446BDA13679A8 /* RobotoSlab-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Bold.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-Bold.ttf"; sourceTree = "<group>"; };
 		3BC9C08D1FA148B2A3D3F031 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
@@ -271,6 +274,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				1595EB65281C2F80009C5D2E /* Config.xcconfig */,
 				13B07FAE1A68108700A75B9A /* GoodDollar */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* GoodDollarTests */,
@@ -361,6 +365,7 @@
 				5F9D9C12B38415481462E0D4 /* [CP] Embed Pods Frameworks */,
 				3925F798E50792DE5532B0D4 /* [CP] Copy Pods Resources */,
 				27A1878F00C6E9197E0E0988 /* [CP-User] [RNFB] Core Configuration */,
+				1595EB6A281C3200009C5D2E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -412,6 +417,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1595EB67281C2F80009C5D2E /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +429,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				E632CC6023FAE3450096DF79 /* RocketShip_0@2x.png in Resources */,
 				D73AC0FC277B5C8700DB2C7E /* AppIcon.appiconset in Resources */,
+				1595EB66281C2F80009C5D2E /* Config.xcconfig in Resources */,
 				AB8B506C5EA54364B15ED529 /* gooddollar.svg in Resources */,
 				E632CC6123FAE3450096DF79 /* RocketShip_0@3x.png in Resources */,
 				5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */,
@@ -438,7 +445,7 @@
 				A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */,
 				E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */,
 				D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */,
-				D73AC0FE277B5D9C00DB2C7E /* apple-icon.jpeg in Resources */,
+				D73AC0FE277B5D9C00DB2C7E /* (null) in Resources */,
 				0613FF83B35F4C5C877B0A13 /* Roboto-Medium.ttf in Resources */,
 				63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */,
 				AD667D3DF1084153B388B849 /* Roboto-Regular.ttf in Resources */,
@@ -473,6 +480,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		1595EB6A281C3200009C5D2E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nrm “${BUILD_DIR}/${INFOPLIST_PATH}”\n“${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb” “${SRCROOT}/..” “${SRCROOT}/tmp.xcconfig”\n";
 		};
 		262305C79CA4AC883F1CE56E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -658,6 +682,7 @@
 			baseConfigurationReference = AFCAD047B91914CAB0DAA01D /* Pods-GoodDollar-GoodDollarTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_PUSH_DEPLOYMENT_KEY = "u82UoKv-RLJwp6_D1v3o-uGg_imkSAbuJ7v2S";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -686,6 +711,7 @@
 			baseConfigurationReference = 0EC09957590F62C5472CCB36 /* Pods-GoodDollar-GoodDollarTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_PUSH_DEPLOYMENT_KEY = "u82UoKv-RLJwp6_D1v3o-uGg_imkSAbuJ7v2S";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = GoodDollarTests/Info.plist;
@@ -712,6 +738,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_PUSH_DEPLOYMENT_KEY = "u82UoKv-RLJwp6_D1v3o-uGg_imkSAbuJ7v2S";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JANSK398K9;
 				ENABLE_BITCODE = NO;
@@ -739,6 +766,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_PUSH_DEPLOYMENT_KEY = "u82UoKv-RLJwp6_D1v3o-uGg_imkSAbuJ7v2S";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JANSK398K9;
 				INFOPLIST_FILE = GoodDollar/Info.plist;

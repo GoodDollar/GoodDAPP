@@ -5,13 +5,8 @@ import { Image as NativeImage, Platform, StyleSheet } from 'react-native'
 import usePropsRefs from '../../../lib/hooks/usePropsRefs'
 
 const getDimensions = Platform.select({
-  web: ({ path }) => first(path),
-  default: ({ source }) => source,
-})
-
-const getAspectRatio = Platform.select({
-  web: ({ naturalWidth, naturalHeight }) => naturalWidth / naturalHeight,
-  default: ({ width, height }) => width / height,
+  web: ({ path, target }) => (Array.isArray(path) ? first(path) : target),
+  native: ({ source }) => source,
 })
 
 const isAutoHeight = ({ width, height }) => !!width && 'auto' === height
@@ -41,7 +36,7 @@ const Image = ({ style = {}, onLoad = noop, ...props }) => {
         const dimensions = getDimensions(event.nativeEvent)
 
         if (dimensions) {
-          setAspectRatio(getAspectRatio(dimensions))
+          setAspectRatio(dimensions.width / dimensions.height)
         }
       }
 

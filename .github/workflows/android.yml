@@ -164,5 +164,5 @@ jobs:
 
       - name: Code push release
         run: |
-          echo "Code push release target vervion `git rev-list origin/3493-code-push HEAD --first-parent --count`"
+          echo "Code push release target version `git rev-list origin/3493-code-push HEAD --first-parent --count`"
           npx appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t `git rev-list origin/3493-code-push HEAD --first-parent --count`

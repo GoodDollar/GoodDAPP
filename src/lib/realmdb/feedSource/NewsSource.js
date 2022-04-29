@@ -14,8 +14,12 @@ export default class NewsSource extends FeedSource {
     return {
       _id: ceramicPost.id,
       id: ceramicPost.id,
-      createdDate: moment(ceramicPost.published).format(),
-      date: moment(ceramicPost.published).format(),
+      createdDate: moment(ceramicPost.published)
+        .utc()
+        .format(),
+      date: moment(ceramicPost.published)
+        .utc()
+        .format(),
       displayType: 'news',
       status: ceramicPost.hidden ? 'deleted' : 'published',
       type: 'news',

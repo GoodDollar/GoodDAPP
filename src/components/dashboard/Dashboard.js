@@ -79,6 +79,9 @@ import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 
 const log = logger.child({ from: 'Dashboard' })
 
+//it seems too complicated to make effect with subscription on feed update as there are many dependencies
+//and changing them would lead to many unwanted subscribe/unsubscribe
+let globalCurrentTab = FeedCategories.All
 let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
@@ -99,7 +102,7 @@ const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance),
 const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   const onTabPress = useOnPress(() => {
     log.debug('feed category selected', { tab })
-
+    globalCurrentTab = tab
     fireEvent(GOTO_TAB_FEED, { name: tab })
     setActiveTab(tab)
     getFeedPage(true, tab)
@@ -277,8 +280,8 @@ const Dashboard = props => {
   const onFeedUpdated = useCallback(
     debounce(
       event => {
-        log.debug('feed cache updated', { event })
-        getFeedPage(true)
+        log.debug('feed cache updated', { event, globalCurrentTab })
+        getFeedPage(true, globalCurrentTab)
       },
       300,
       { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
@@ -544,6 +547,7 @@ const Dashboard = props => {
 
       resizeSubscriptionRef.current = null
       userStorage.feedStorage.feedEvents.off('updated', onFeedUpdated)
+      globalCurrentTab = FeedCategories.All
     }
   }, [])
 

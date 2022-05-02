@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { get, isArray, isEmpty } from 'lodash'
+import { filter, get, includes, isArray, isEmpty } from 'lodash'
 
 import uuid from '../../../lib/utils/uuid'
 import Config from '../../../config/config'
@@ -12,6 +12,7 @@ export const VIEWABILITY_CONFIG = {
 }
 
 export const emptyFeed = { type: 'empty', data: {} }
+const defaultConfigs = { includeInvites: true, filterTypes: [] }
 
 // the key should be always the same value.
 // so we'll use WeakMap to keep item -> id linked
@@ -34,19 +35,22 @@ export const keyExtractor = item => {
   return itemKeyMap.get(item)
 }
 
-export const useFeeds = (data, includeInvites = true) => {
+export const useFeeds = (data, configs = {}) => {
   const store = SimpleStore.useStore()
   const loadAnimShown = store.get('feedLoadAnimShown')
+  const { includeInvites = defaultConfigs.includeInvites, filterTypes = defaultConfigs.filterTypes } = configs
 
   return useMemo(() => {
     if (!isArray(data) || isEmpty(data)) {
       return loadAnimShown ? [] : [emptyFeed]
     }
 
-    if (includeInvites && Config.enableInvites) {
-      return data
+    const typesArray = filterTypes
+
+    if (!includeInvites || !Config.enableInvites) {
+      typesArray.push('invite')
     }
 
-    return data.filter(item => get(item, 'type') !== 'invite')
-  }, [data, includeInvites])
+    return filter(data, item => !includes(typesArray, get(item, 'type')))
+  }, [data, includeInvites, filterTypes])
 }

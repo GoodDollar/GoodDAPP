@@ -51,7 +51,7 @@ const FeedModalList = ({
 }: FeedModalListProps) => {
   // Component is in loading state until matches the offset for the selected item
 
-  const feeds = useFeeds(data, false) // get feeds without invites
+  const feeds = useFeeds(data, { includeInvites: false, filterTypes: ['news'] }) // get feeds without invites and news
 
   const selectedFeedIndex = useMemo(() => (selectedFeed ? feeds.findIndex(item => item.id === selectedFeed.id) : -1), [
     feeds,

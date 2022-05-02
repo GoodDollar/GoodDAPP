@@ -533,7 +533,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                   "marginRight": "0px",
                   "marginTop": "0px",
                   "minHeight": "44px",
-                  "minWidth": "64px",
+                  "minWidth": "auto",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
                 }
@@ -558,7 +558,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1pz39u2 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 >
                   <div
-                    className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
                   >
                     <div
                       className="css-text-901oao r-alignItems-1awozwy r-color-1q5uqvh r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
@@ -574,7 +574,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-14lw9ot r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-1yadl64 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
               style={
                 Object {
-                  "WebkitFlex": 2,
+                  "WebkitFlex": 2.5,
                   "borderBottomColor": "rgba(233,236,255,1.00)",
                   "borderBottomLeftRadius": "0px",
                   "borderBottomRightRadius": "0px",
@@ -587,13 +587,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                   "borderTopColor": "rgba(233,236,255,1.00)",
                   "borderTopStyle": "solid",
                   "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                  "flex": 2,
+                  "flex": 2.5,
                   "marginLeft": "0px",
                   "marginRight": "0px",
                   "marginTop": "0px",
                   "minHeight": "44px",
-                  "minWidth": "64px",
-                  "msFlex": "2 1 0%",
+                  "minWidth": "auto",
+                  "msFlex": "2.5 1 0%",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
                 }
@@ -617,7 +617,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1pz39u2 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 >
                   <div
-                    className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
                   >
                     <div
                       className="css-text-901oao r-alignItems-1awozwy r-color-13sdq65 r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
@@ -650,7 +650,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                   "marginRight": "0px",
                   "marginTop": "0px",
                   "minHeight": "44px",
-                  "minWidth": "64px",
+                  "minWidth": "auto",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
                 }
@@ -675,7 +675,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1pz39u2 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 >
                   <div
-                    className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                    className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
                   >
                     <div
                       className="css-text-901oao r-alignItems-1awozwy r-color-13sdq65 r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"

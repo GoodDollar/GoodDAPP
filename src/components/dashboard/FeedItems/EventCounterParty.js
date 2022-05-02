@@ -29,7 +29,6 @@ const EventContent = ({
         style={{
           minWidth: 10,
         }}
-        numberOfLines={numberOfLines}
         textTransform={isCapitalized && 'capitalize'}
         fontSize={10}
       >

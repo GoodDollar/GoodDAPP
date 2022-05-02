@@ -271,13 +271,21 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </ModalButton>
         </View>
       )
+    case 'claim':
+      return (
+        <View style={styles.buttonsView}>
+          <ModalButton fontWeight="medium" onPress={_handleModalClose}>
+            {t`Ok`}
+          </ModalButton>
+        </View>
+      )
     case 'empty':
       return null
     default: {
       const txHash = get(item, 'data.receiptHash', item.id)
       const isTx = txHash && txHash.startsWith('0x')
 
-      // claim / receive / withdraw / notification / sendcancelled / sendcompleted
+      // receive / withdraw / notification / sendcancelled / sendcompleted
       return (
         <Section.Row style={[styles.buttonsView, isTx && styles.linkButtonView]}>
           {isTx && (
@@ -321,10 +329,9 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   linkButtonView: {
-    justifyContent: 'space-between',
     alignItems: 'baseline',
   },
-  txHashWrapper: { justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column' },
+  txHashWrapper: { justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column', flex: 1 },
   txHash: { maxWidth: 200 },
   spaceBetween: {
     justifyContent: 'space-between',

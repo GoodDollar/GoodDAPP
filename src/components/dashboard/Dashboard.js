@@ -8,6 +8,7 @@ import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
+import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { getRouteParams, openLink } from '../../lib/utils/linking'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
@@ -94,7 +95,6 @@ const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance),
 const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   const onTabPress = useOnPress(() => {
     log.debug('feed category selected', { tab })
-
     fireEvent(GOTO_TAB_FEED, { name: tab })
     setActiveTab(tab)
     getFeedPage(true, tab)
@@ -109,7 +109,7 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
       onPress={onTabPress}
       isActive={tab === activeTab}
       hasLeftBorder={!isAll}
-      flex={isTransactions ? 2 : 1}
+      flex={isTransactions ? 2.5 : 1}
       roundnessLeft={isAll ? 5 : 0}
       roundnessRight={isNews ? 5 : 0}
     >
@@ -148,6 +148,7 @@ const Dashboard = props => {
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
+  const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
 
   useInviteCode() //preload user invite code
@@ -268,8 +269,9 @@ const Dashboard = props => {
   const onFeedUpdated = useCallback(
     debounce(
       event => {
-        log.debug('feed cache updated', { event })
-        getFeedPage(true)
+        const currentTab = getCurrentTab()
+        log.debug('feed cache updated', { event, currentTab })
+        getFeedPage(true, currentTab)
       },
       300,
       { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction

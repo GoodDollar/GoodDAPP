@@ -5,14 +5,8 @@ import AuthProgressBar from '../../auth/components/AuthProgressBar'
 import { withStyles } from '../../../lib/styles'
 import Text from '../../common/view/Text'
 
-import {
-  getDesignRelativeHeight,
-  getDesignRelativeWidth,
-  isShortDevice,
-  isVeryShortDevice,
-} from '../../../lib/utils/sizes'
-import { isBrowser } from '../../../lib/utils/platform'
-import Illustration from '../../../assets/Signup/illustration.svg'
+import { getDesignRelativeHeight, isShortDevice, isVeryShortDevice } from '../../../lib/utils/sizes'
+import RocketShip from '../../common/animations/RocketShip'
 
 const WalletPreparing = ({ theme, styles, activeStep = 1 }) => (
   <>
@@ -51,11 +45,7 @@ const WalletPreparing = ({ theme, styles, activeStep = 1 }) => (
         It might take a few seconds
       </Text>
       <View style={styles.illustration}>
-        <Illustration
-          width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}
-          height={getDesignRelativeHeight(177, false)}
-          viewBox="0 0 311.713 223.572"
-        />
+        <RocketShip />
       </View>
     </View>
   </>

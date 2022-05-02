@@ -12,7 +12,7 @@ export const VIEWABILITY_CONFIG = {
 }
 
 export const emptyFeed = { type: 'empty', data: {} }
-const defaultConfigs = { includeInvites: true, filterTypes: [] }
+const defaultFilters = { includeInvites: true, categories: [] }
 
 // the key should be always the same value.
 // so we'll use WeakMap to keep item -> id linked
@@ -35,22 +35,22 @@ export const keyExtractor = item => {
   return itemKeyMap.get(item)
 }
 
-export const useFeeds = (data, configs = {}) => {
+export const useFeeds = (data, filters = {}) => {
   const store = SimpleStore.useStore()
   const loadAnimShown = store.get('feedLoadAnimShown')
-  const { includeInvites = defaultConfigs.includeInvites, filterTypes = defaultConfigs.filterTypes } = configs
+  const { includeInvites = defaultFilters.includeInvites, categories = defaultFilters.categories } = filters
 
   return useMemo(() => {
     if (!isArray(data) || isEmpty(data)) {
       return loadAnimShown ? [] : [emptyFeed]
     }
 
-    const typesArray = filterTypes
+    const typesArray = categories
 
     if (!includeInvites || !Config.enableInvites) {
       typesArray.push('invite')
     }
 
     return filter(data, item => !includes(typesArray, get(item, 'type')))
-  }, [data, includeInvites, filterTypes])
+  }, [data, includeInvites, categories])
 }

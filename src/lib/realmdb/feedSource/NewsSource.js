@@ -4,7 +4,7 @@ import CeramicFeed from '../../ceramic/CeramicFeed'
 
 import Config from '../../../config/config'
 import { batch } from '../../utils/async'
-import FeedSource from '../source'
+import { FeedSource } from '../feed'
 
 export default class NewsSource extends FeedSource {
   static historyCacheId = 'GD_CERAMIC_HISTORY'

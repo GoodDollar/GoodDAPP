@@ -1086,7 +1086,8 @@ export class GoodWallet {
 
   async collectInviteBounties() {
     const tx = this.invitesContract.methods.collectBounties()
-    const gas = Math.min(800000, await this.balanceOfNative().then(b => b - 150000))
+    const nativeBalance = await this.balanceOfNative()
+    const gas = Math.min(800000, nativeBalance / 1e9 - 150000) //convert to gwei and leave 150K gwei for user
     const res = await this.sendTransaction(tx, {}, { gas })
     return res
   }

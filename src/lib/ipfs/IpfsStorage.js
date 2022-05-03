@@ -1,4 +1,5 @@
 import FileAPI from 'promisify-file-reader'
+import { CID } from 'multiformats/cid'
 import { get, sortBy } from 'lodash'
 import axios from 'axios'
 
@@ -62,12 +63,15 @@ class IpfsStorage {
   async _loopkupGateways(cid) {
     const { logger, gateways, _requestGateway } = this
 
-    logger.debug('lookup cid:', { cid })
-
     // try gateways and update failed counters
     try {
+      const v1 = CID.parse(cid)
+        .toV1()
+        .toString()
+
+      logger.debug('lookup cid:', { cid, v1 })
       // eslint-disable-next-line require-await
-      return await fallback(gateways.map(gateway => async () => _requestGateway(cid, gateway)))
+      return await fallback(gateways.map(gateway => async () => _requestGateway(cid, v1, gateway)))
     } finally {
       // doesn't changes gateway order if it have failed count < 3
       // the gateways failed more times will be moved to the end
@@ -78,10 +82,10 @@ class IpfsStorage {
     }
   }
 
-  _requestGateway = async (cid, gateway) => {
+  _requestGateway = async (cid, v1, gateway) => {
     const { urlFactory } = gateway
     const { client, logger } = this
-    const url = urlFactory({ cid })
+    const url = urlFactory({ cid: v1 })
 
     try {
       // try gateway
@@ -89,11 +93,11 @@ class IpfsStorage {
 
       // reset failing attempts counter on success
       gateway.failed = 0
-      logger.debug('try IPFS url: success', { url })
+      logger.debug('try IPFS url: success', { url, cid })
 
       return response
     } catch (exception) {
-      logger.debug('try IPFS url: FAIL', { url })
+      logger.debug('try IPFS url: FAIL', { url, cid })
 
       // increase it on error
       gateway.failed += 1

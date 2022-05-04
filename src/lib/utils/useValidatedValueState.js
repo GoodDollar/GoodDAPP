@@ -32,7 +32,7 @@ const useValidatedValueState = (initialValue: State, getError: (value: any) => E
 
   const initialize = useCallback((value: any): State => ({ value, ...validate(initialErrorState, value) }), [validate])
 
-  const [state, setState] = useState(initialValue)
+  const [state, setState] = useState({ value: initialValue })
 
   const setValue = useCallback(
     (value: any) =>

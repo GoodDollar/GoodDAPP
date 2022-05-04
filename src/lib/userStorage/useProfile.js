@@ -6,7 +6,7 @@ import { useUserStorage } from '../wallet/GoodWalletProvider'
 const defaultPublicFields = ['fullName', 'smallAvatar']
 
 const useProfileHook = (fields, allowRefresh = false, display = false) => {
-  const [profile, setProfile] = useState()
+  const [profile, setProfile] = useState({})
   const userStorage = useUserStorage()
 
   const getProfile = useCallback(

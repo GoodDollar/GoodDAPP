@@ -13,7 +13,7 @@ export default () => {
   const interval = useRef()
 
   useEffect(() => {
-    if ((!isMobile && setInstallPrompt, setServiceWorkerUpdated)) {
+    if (!isMobile && setInstallPrompt && setServiceWorkerUpdated) {
       const serviceWorker = require('../../serviceWorker')
 
       const onUpdate = reg => {

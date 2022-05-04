@@ -13,7 +13,7 @@ const log = logger.child({ from: 'useDeleteAccountDialog' })
 
 export default showErrorDialog => {
   const userStorage = useUserStorage()
-  useCallback(() => {
+  return useCallback(() => {
     const deleteHandler = async () => {
       showErrorDialog('', '', {
         title: t`ARE YOU SURE?`,

@@ -43,12 +43,14 @@ class PhoneForm extends React.Component<Props, State> {
   }
 
   onFocus = () => {
-    this.setState({ ...this.state, isMobileKeyboardShown: true })
+    if (isMobile) {
+      this.setState({ isMobileKeyboardShown: true })
+    }
   }
 
   onBlur = () => {
     if (isMobile) {
-      this.setState({ ...this.state, isMobileKeyboardShown: false })
+      this.setState({ isMobileKeyboardShown: false })
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.38.1-16",
+  "version": "1.39.1",
   "engines": {
     "node": ">=12",
     "npm": "6.x"
@@ -133,6 +133,7 @@
     "mobile-device-detect": "^0.2.3",
     "moment": "^2.29.2",
     "moment-duration-format": "^2.3.2",
+    "multiformats": "^9.6.4",
     "node-libs-react-native": "^1.2.1",
     "numeral": "^2.0.6",
     "patch-package": "^6.4.7",

@@ -3,6 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
+import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import { keyExtractor, useFeeds } from './utils/feed'
@@ -50,8 +51,8 @@ const FeedModalList = ({
   navigation,
 }: FeedModalListProps) => {
   // Component is in loading state until matches the offset for the selected item
-
-  const feeds = useFeeds(data, false) // get feeds without invites
+  // get feeds without invites and news
+  const feeds = useFeeds(data, { invites: false, category: FeedCategories.Transactions })
 
   const selectedFeedIndex = useMemo(() => (selectedFeed ? feeds.findIndex(item => item.id === selectedFeed.id) : -1), [
     feeds,

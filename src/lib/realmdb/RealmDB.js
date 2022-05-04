@@ -19,6 +19,7 @@ import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { retry } from '../utils/async'
 import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
+import { makeCategoryMatcher } from './feed'
 
 const log = logger.child({ from: 'RealmDB' })
 const _retry = fn => retry(fn, 1, 2000)
@@ -402,26 +403,20 @@ class RealmDB implements DB, ProfileDB {
   async getFeedPage(numResults, offset, category: FeedCategory = FeedCategories.Alls): Promise<any> {
     try {
       const hiddenStates = ['deleted', 'cancelled', 'canceled']
+      const categoryMatcher = makeCategoryMatcher(category)
 
       const res = await this.db.Feed.table
         .orderBy('date')
         .reverse()
         .offset(offset)
-        .filter(({ status, otplStatus, type }) => {
-          const isNews = 'news' === type
+        .filter(item => {
+          const { status, otplStatus } = item
 
           if ([status, otplStatus].some(state => hiddenStates.includes(state))) {
             return false
           }
 
-          switch (category) {
-            case FeedCategories.News:
-              return isNews
-            case FeedCategories.Transactions:
-              return !isNews
-            default:
-              return true
-          }
+          return categoryMatcher(item)
         })
         .limit(numResults)
         .toArray()

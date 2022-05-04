@@ -14,13 +14,14 @@ import { messages as defaultMessages } from './locales/en/catalog'
 const log = logger.child({ from: 'I18n' })
 
 // This array should equal the array set in .linguirc
-export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
+export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja', 'fr']
 export const defaultLocale = 'en'
 
 export const localeFiles = {
   de: () => import(`./locales/de/catalog.js`),
   en: () => import(`./locales/en/catalog.js`),
   'es-AR': () => import(`./locales/es-AR/catalog.js`),
+  es: () => import(`./locales/es/catalog.js`),
   it: () => import(`./locales/it/catalog.js`),
   he: () => import(`./locales/he/catalog.js`),
   ro: () => import(`./locales/ro/catalog.js`),
@@ -30,6 +31,7 @@ export const localeFiles = {
   'zh-TW': () => import(`./locales/zh-TW/catalog.js`),
   ko: () => import(`./locales/ko/catalog.js`),
   ja: () => import(`./locales/ja/catalog.js`),
+  fr: () => import(`./locales/fr/catalog.js`),
 }
 
 const I18n = new class {

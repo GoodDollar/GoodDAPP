@@ -8,7 +8,7 @@ const log = logger.child({ from: 'useCheckExisting' })
 
 //check if email/mobile was used to register before and offer user to login instead
 const useCheckExisting = () => {
-  const { setAlreadySignedUp } = useContext(AuthContext)
+  const { activeStep, setAlreadySignedUp } = useContext(AuthContext)
   const userExists = useUserExists()
 
   const checkExisting = useCallback(
@@ -19,14 +19,14 @@ const useCheckExisting = () => {
 
       const { exists, provider } = checkResult
 
-      log.debug('checking userAlreadyExist', { exists })
+      log.debug('checking userAlreadyExist', { exists, activeStep })
 
       if (!exists) {
         return 'signup'
       }
 
-      // User exists an it is the correct login
-      if (torusProvider === provider) {
+      // User exists, it is not the number check and it is the correct login
+      if (torusProvider === provider && !activeStep) {
         return 'login'
       }
 

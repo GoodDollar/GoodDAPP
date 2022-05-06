@@ -1,8 +1,11 @@
+import SQLite from 'react-native-sqlite-2'
 import { setupURLPolyfill } from 'react-native-url-polyfill'
 import { XMLHttpRequest as XHR2 } from 'xhr2-cookies'
-import SQLite from 'react-native-sqlite-2'
 import setGlobalVars from '@indexeddbshim/indexeddbshim/dist/indexeddbshim-noninvasive'
+
 import './shim.common'
+
+const setupIndexedDBPolyfill = () => setGlobalVars(window, { checkOrigin: false, win: SQLite })
 
 const setupXHRPolyfill = () => {
   const { prototype: __proto__ } = XHR2
@@ -28,7 +31,6 @@ const setupXHRPolyfill = () => {
   }
 }
 
-//shim indexdb
-setGlobalVars(window, { checkOrigin: false, win: SQLite })
 setupXHRPolyfill()
 setupURLPolyfill()
+setupIndexedDBPolyfill()

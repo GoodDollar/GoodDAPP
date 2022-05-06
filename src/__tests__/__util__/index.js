@@ -11,7 +11,7 @@ export const StoresWrapper = ({ children }) => {
   return (
     <GlobalTogglesContextProvider>
       <DialogContextProvider>
-        <GoodWalletProvider disableLoginAndWatch={true}>{children}</GoodWalletProvider>
+        <GoodWalletProvider disableLoginAndWatch>{children}</GoodWalletProvider>
       </DialogContextProvider>
     </GlobalTogglesContextProvider>
   )

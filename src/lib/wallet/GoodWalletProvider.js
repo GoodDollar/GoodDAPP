@@ -6,6 +6,7 @@ import GoodWalletLogin from '../login/GoodWalletLoginClass'
 import { UserStorage } from '../userStorage/UserStorageClass'
 import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
+import usePropsRefs from '../hooks/usePropsRefs'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
 
@@ -30,46 +31,41 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [balance, setBalance] = useState()
   const [dailyUBI, setDailyUBI] = useState()
   const [isCitizen, setIsCitizen] = useState()
+  const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
 
   const db = getDB()
 
-  //when new wallet set the web3provider for future use with usedapp
+  // when new wallet set the web3provider for future use with usedapp
   useEffect(() => {
     if (!goodWallet) {
       return
     }
 
     setWeb3(new HDWalletProvider(goodWallet.accounts, goodWallet.wallet._provider.host))
-  }, [goodWallet])
-
-  const switchWeb3ProviderNetwork = useCallback(
-    // eslint-disable-next-line require-await
-    async id => {
-      setWeb3(new HDWalletProvider(goodWallet.accounts, goodWallet.wallet._provider.host))
-    },
-    [web3Provider],
-  )
+  }, [goodWallet, setWeb3])
 
   const initWalletAndStorage = useCallback(
     async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER') => {
-      if (goodWallet && userStorage) {
-        return goodWallet
-      }
-
       try {
         const wallet = new GoodWallet({
           mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
           web3: type !== 'SEED' ? seedOrWeb3 : undefined,
           web3Transport: Config.web3TransportProvider,
         })
+
         await wallet.ready
         log.info('initWalletAndStorage wallet ready')
-        const newUserStorage = new UserStorage(wallet, db, new UserProperties(db))
-        await newUserStorage.ready
-        setWalletAndStorage({ goodWallet: wallet, userStorage: newUserStorage })
-        log.info('initWalletAndStorage done')
-        global.userStorage = newUserStorage
+
+        const storage = new UserStorage(wallet, db, new UserProperties(db))
+
+        await storage.ready
+        log.info('initWalletAndStorage storage done')
+
+        global.userStorage = storage
         global.wallet = wallet
+        setWalletAndStorage({ goodWallet: wallet, userStorage: storage })
+
+        log.info('initWalletAndStorage done')
         return wallet
       } catch (e) {
         log.error('failed initializing wallet and userstorage:', e.message, e)
@@ -77,7 +73,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       }
     },
-    [goodWallet, userStorage],
+    [goodWallet, userStorage, setWalletAndStorage],
   )
 
   const login = useCallback(
@@ -85,7 +81,9 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       if ((!refresh && isLoggedInJWT) || !goodWallet || !userStorage) {
         return isLoggedInJWT
       }
+
       await userStorage.ready
+
       const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
 
       // the login also re-initialize the api with new jwt
@@ -94,14 +92,19 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         throw e
       })
+
       setLoggedInJWT(walletLogin)
       log.info('walletLogin', await walletLogin.getJWT(), { refresh })
+
       return walletLogin
     },
     [goodWallet, userStorage, isLoggedInJWT, setLoggedInJWT],
   )
 
-  const watchBalanceAndTXs = useCallback(() => {
+  // perform login on wallet change
+  useEffect(() => {
+    let eventId
+
     const update = async () => {
       const calls = [
         {
@@ -115,7 +118,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         },
       ]
 
-      //entitelment is separate because it depends on msg.sender
+      // entitelment is separate because it depends on msg.sender
       const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
 
       setBalance(parseInt(balance))
@@ -123,35 +126,43 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       setIsCitizen(isCitizen)
     }
 
-    const lastBlock = userStorage.userProperties.get('lastBlock') || 6400000
+    const loginAndWatch = async () => {
+      await login()
 
-    // init initial wallet balance/dailyubi
-    update()
+      const lastBlock = userStorage.userProperties.get('lastBlock') || 6400000
 
-    log.debug('starting watchBalanceAndTXs', { lastBlock })
-    goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-      userStorage.userProperties.set('lastBlock', parseInt(toBlock)),
-    )
+      // init initial wallet balance/dailyubi
+      await update()
 
-    return goodWallet.balanceChanged(event => update())
-  }, [goodWallet, userStorage])
+      log.debug('starting watchBalanceAndTXs', { lastBlock })
 
-  //perform login on wallet change
-  useEffect(() => {
-    let eventId
+      goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
+        userStorage.userProperties.set('lastBlock', parseInt(toBlock)),
+      )
+
+      eventId = goodWallet.balanceChanged(update)
+    }
+
     if (goodWallet && userStorage) {
       log.debug('on wallet ready')
-      if (disableLoginAndWatch === false) {
-        login()
-        eventId = watchBalanceAndTXs()
+
+      if (shouldLoginAndWatch()) {
+        loginAndWatch()
       }
     }
+
     return () => {
-      log.debug('stop watching', eventId)
-      goodWallet && goodWallet.setIsPollEvents(false)
-      eventId && goodWallet.unsubscribeFromEvent(eventId)
+      log.debug('stop watching', { eventId })
+
+      if (goodWallet) {
+        goodWallet.setIsPollEvents(false)
+      }
+
+      if (eventId) {
+        goodWallet.unsubscribeFromEvent(eventId)
+      }
     }
-  }, [goodWallet, userStorage])
+  }, [goodWallet, userStorage, login, shouldLoginAndWatch, setBalance, setDailyUBI, setIsCitizen])
 
   return (
     <GoodWalletContext.Provider
@@ -160,7 +171,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         goodWallet,
         initWalletAndStorage,
         web3Provider,
-        switchWeb3ProviderNetwork,
         login,
         isLoggedInJWT,
         balance,

@@ -654,10 +654,13 @@ const Dashboard = props => {
     [scrollData, setHeaderLarge],
   )
 
-  const handleScroll = useCallback(() => {
-    dispatchScrollEvent()
-    handleScrollEnd()
-  }, [dispatchScrollEvent, handleScrollEnd])
+  const handleScroll = useCallback(
+    ({ ...args }) => {
+      dispatchScrollEvent()
+      handleScrollEnd(args)
+    },
+    [dispatchScrollEvent, handleScrollEnd],
+  )
 
   const calculateFontSize = useMemo(
     () => ({

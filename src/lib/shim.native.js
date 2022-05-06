@@ -1,6 +1,6 @@
 import SQLite from 'react-native-sqlite-2'
-import { setupURLPolyfill } from 'react-native-url-polyfill'
 import { XMLHttpRequest as XHR2 } from 'xhr2-cookies'
+import { setupURLPolyfill } from 'react-native-url-polyfill'
 import setGlobalVars from '@indexeddbshim/indexeddbshim/dist/indexeddbshim-noninvasive'
 
 import './shim.common'

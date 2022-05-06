@@ -1,7 +1,8 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Linking, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, debounce, get, noop, uniqBy } from 'lodash'
+import { concat, debounce, get, uniqBy } from 'lodash'
+import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 
@@ -42,7 +43,6 @@ import { theme as _theme } from '../theme/styles'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
-import _debounce from '../../lib/utils/debounce'
 import { createUrlObject } from '../../lib/utils/uri'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
@@ -658,7 +658,7 @@ const Dashboard = props => {
     [headerLarge, setHeaderLarge, activeTab],
   )
 
-  const handleScrollEndDebounced = useMemo(() => _debounce(handleScrollEnd, 300), [handleScrollEnd])
+  const handleScrollEndDebounced = useDebouncedCallback(handleScrollEnd, 250)
 
   const calculateFontSize = useMemo(
     () => ({
@@ -671,14 +671,6 @@ const Dashboard = props => {
     () => (showPrice ? formatWithFixedValueDigits(price * weiToGd(balance)) : null),
     [showPrice, price, balance],
   )
-
-  // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
-  // so we need to imitate onMomentumScrollEnd for web
-  const onScroll = Platform.select({
-    web: handleScrollEndDebounced,
-    ios: handleScrollEnd,
-    default: noop,
-  })
 
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
@@ -787,7 +779,7 @@ const Dashboard = props => {
         onEndReachedThreshold={0.8}
         windowSize={10} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}
-        onScroll={onScroll}
+        onScroll={handleScrollEndDebounced}
         headerLarge={headerLarge}
         scrollEventThrottle={300}
       />

@@ -676,6 +676,7 @@ const Dashboard = props => {
   // so we need to imitate onMomentumScrollEnd for web
   const onScroll = Platform.select({
     web: handleScrollEndDebounced,
+    ios: handleScrollEnd,
     default: noop,
   })
 

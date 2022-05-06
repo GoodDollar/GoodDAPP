@@ -73,7 +73,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       }
     },
-    [goodWallet, userStorage, setWalletAndStorage],
+    [setWalletAndStorage],
   )
 
   const login = useCallback(

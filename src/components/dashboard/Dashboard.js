@@ -364,28 +364,23 @@ const Dashboard = props => {
   /**
    * rerender on screen size change
    */
-  const handleResize = useCallback(
-    debounce(() => {
-      setUpdate(Date.now())
-      calculateHeaderLayoutSizes()
-    }, 100),
-    [setUpdate],
-  )
+  const _handleResize = useCallback(() => {
+    setUpdate(Date.now())
+    calculateHeaderLayoutSizes()
+  }, [setUpdate])
 
-  // const nextFeed = x => console.log('end reached', { x })
-  const nextFeed = useCallback(
-    debounce(
-      ({ distanceFromEnd }) => {
-        if (distanceFromEnd > 0 && feedRef.current.length > 0) {
-          log.debug('getNextFeed called', feedRef.current.length, { distanceFromEnd })
-          return getFeedPage()
-        }
-      },
-      100,
-      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
-    ),
+  const _nextFeed = useCallback(
+    ({ distanceFromEnd }) => {
+      if (distanceFromEnd > 0 && feedRef.current.length > 0) {
+        log.debug('getNextFeed called', feedRef.current.length, { distanceFromEnd })
+        return getFeedPage()
+      }
+    },
     [getFeedPage],
   )
+
+  const handleResize = useDebouncedCallback(_handleResize, 100)
+  const nextFeed = useDebouncedCallback(_nextFeed, 100)
 
   const initDashboard = async () => {
     await handleFeedEvent()
@@ -636,29 +631,33 @@ const Dashboard = props => {
 
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
+  const dispatchScrollEvent = useDebouncedCallback(() => fireEvent(SCROLL_FEED), 250)
+
+  const scrollData = useMemo(() => {
+    const minScrollRequired = 150
+    const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+    const scrollPositionGap = headerLarge ? 0 : minScrollRequired
+    const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
+    const isFeedSizeEnough = feedRef.current.length > 10 || newsCondition
+
+    return { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough }
+  }, [headerLarge, activeTab])
+
   const handleScrollEnd = useCallback(
     ({ nativeEvent }) => {
-      fireEvent(SCROLL_FEED)
-      const minScrollRequired = 150
       const scrollPosition = nativeEvent.contentOffset.y
-      const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
-      const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-      const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
+      const { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough } = scrollData
+      const scrollPositionISH = scrollPosition + scrollPositionGap
 
-      if ((feedRef.current.length > 10 || newsCondition) && scrollPositionISH > minScrollRequiredISH) {
-        if (headerLarge) {
-          setHeaderLarge(false)
-        }
-      } else {
-        if (!headerLarge) {
-          setHeaderLarge(true)
-        }
-      }
+      setHeaderLarge(isFeedSizeEnough && scrollPositionISH > minScrollRequiredISH)
     },
-    [headerLarge, setHeaderLarge, activeTab],
+    [scrollData, setHeaderLarge],
   )
 
-  const handleScrollEndDebounced = useDebouncedCallback(handleScrollEnd, 250)
+  const handleScroll = useCallback(() => {
+    dispatchScrollEvent()
+    handleScrollEnd()
+  }, [dispatchScrollEvent, handleScrollEnd])
 
   const calculateFontSize = useMemo(
     () => ({
@@ -779,7 +778,7 @@ const Dashboard = props => {
         onEndReachedThreshold={0.8}
         windowSize={10} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}
-        onScroll={handleScrollEndDebounced}
+        onScroll={handleScroll}
         headerLarge={headerLarge}
         scrollEventThrottle={300}
       />

@@ -1,7 +1,7 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
-import { debounce } from 'lodash'
+import React, { useEffect, useState } from 'react'
 import { t } from '@lingui/macro'
+import { useDebouncedCallback } from 'use-debounce'
 import Config from '../../../config/config'
 import LoadingIcon from '../modal/LoadingIcon'
 import {
@@ -29,19 +29,16 @@ const InternetConnection = props => {
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
 
-  const showDialogWindow = useCallback(
-    debounce((message, showDialog, setShowDisconnect) => {
-      setShowDisconnect(true)
-      showDialog({
-        title: t`Waiting for network`,
-        image: <LoadingIcon />,
-        message,
-        showButtons: false,
-        showCloseButtons: false,
-      })
-    }, Config.delayMessageNetworkDisconnection),
-    [],
-  )
+  const showDialogWindow = useDebouncedCallback((message, showDialog, setShowDisconnect) => {
+    setShowDisconnect(true)
+    showDialog({
+      title: t`Waiting for network`,
+      image: <LoadingIcon />,
+      message,
+      showButtons: false,
+      showCloseButtons: false,
+    })
+  }, Config.delayMessageNetworkDisconnection)
 
   useEffect(() => {
     showDialogWindow.cancel()

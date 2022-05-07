@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Linking, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, debounce, get, uniqBy } from 'lodash'
+import { concat, get, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
@@ -275,17 +275,14 @@ const Dashboard = props => {
     userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
-  const onFeedUpdated = useCallback(
-    debounce(
-      event => {
-        const currentTab = getCurrentTab()
-        log.debug('feed cache updated', { event, currentTab })
-        getFeedPage(true, currentTab)
-      },
-      300,
-      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
-    ),
-    [getFeedPage],
+  const onFeedUpdated = useDebouncedCallback(
+    event => {
+      const currentTab = getCurrentTab()
+      log.debug('feed cache updated', { event, currentTab })
+      getFeedPage(true, currentTab)
+    },
+    300,
+    { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
   )
 
   const handleFeedEvent = () => {
@@ -648,8 +645,7 @@ const Dashboard = props => {
       const scrollPosition = nativeEvent.contentOffset.y
       const { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough } = scrollData
       const scrollPositionISH = scrollPosition + scrollPositionGap
-
-      setHeaderLarge(isFeedSizeEnough && scrollPositionISH > minScrollRequiredISH)
+      setHeaderLarge(isFeedSizeEnough && scrollPositionISH < minScrollRequiredISH)
     },
     [scrollData, setHeaderLarge],
   )

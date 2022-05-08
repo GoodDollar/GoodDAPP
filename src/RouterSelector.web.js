@@ -19,7 +19,6 @@ import InternetConnection from './components/common/connectionDialog/internetCon
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
-import { GoodWalletContext } from './lib/wallet/GoodWalletProvider'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import { handleLinks } from './lib/utils/linking'
 
@@ -56,7 +55,7 @@ let AppRouter = React.lazy(async () => {
 
 const NestedRouter = memo(({ isLoggedIn }) => {
   useUpdateDialog()
-
+  log.debug('NestedRouter Render')
   useEffect(() => {
     let source, platform, params
     params = DeepLinking.params
@@ -66,7 +65,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
     platform = isWebApp ? 'webapp' : 'web'
 
     fireEvent(APP_OPEN, { source, platform, isLoggedIn, params })
-    log.debug('RouterSelector Rendered', { isLoggedIn, params, source, platform })
+    log.debug('NestedRouter Rendered', { isLoggedIn, params, source, platform })
 
     if (isLoggedIn) {
       document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
@@ -83,7 +82,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 })
 
 const RouterSelector = () => {
-  const { initWalletAndStorage } = useContext(GoodWalletContext)
+  log.debug('RouterSelector Render')
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
   // we use global state for signup process to signal user has registered
@@ -101,18 +100,8 @@ const RouterSelector = () => {
   }, [])
 
   useEffect(() => {
-    log.debug('initWalletStorage', { isLoggedInRouter })
-
-    if (!isLoggedInRouter) {
-      return
-    }
-
-    initWalletAndStorage(undefined, 'SEED').then(() => log.debug('storage and wallet ready'))
-  }, [isLoggedInRouter, initWalletAndStorage])
-
-  useEffect(() => {
     // once user is logged in check if their browser is supported and show warning if not
-    if (isLoggedInRouter) {
+    if (isLoggedInRouter && supported === false) {
       checkBrowser()
     }
 

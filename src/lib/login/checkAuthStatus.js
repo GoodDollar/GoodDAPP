@@ -56,7 +56,7 @@ export const useCheckAuthStatus = () => {
       log.debug('on wallet')
       check()
     }
-  }, [goodWallet, login])
+  }, [goodWallet, login, check])
 
   return { authStatus, refresh: check }
 }

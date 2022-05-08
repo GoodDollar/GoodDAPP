@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, isEmpty } from 'lodash'
@@ -19,7 +19,8 @@ import { delay } from '../../lib/utils/async'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
-import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+
 import { getRouteParams } from '../../lib/utils/linking'
 
 type LoadingProps = {
@@ -59,6 +60,7 @@ const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
   const [ready, setReady] = useState(false)
   const { showErrorDialog } = useDialog()
+  const { initWalletAndStorage } = useContext(GoodWalletContext)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 
@@ -143,16 +145,13 @@ const AppSwitch = (props: LoadingProps) => {
     [showErrorDialog],
   )
 
-  const init = async () => {
-    log.debug('initializing')
-
+  const init = useCallback(async () => {
+    log.debug('initializing', { ready })
     try {
       //after dynamic routes update, if user arrived here, then he is already loggedin
       //initialize the citizen status and wallet status
       //create jwt token and initialize the API service
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
-
-      const initReg = userStorage.initRegistered()
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
@@ -160,11 +159,9 @@ const AppSwitch = (props: LoadingProps) => {
       identifyWith(undefined, identifier)
       showOutOfGasError({ navigation: props.navigation, goodWallet })
 
-      await initReg
       initialize()
       runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
       log.debug('initialize done')
-
       setReady(true)
     } catch (e) {
       if ('UnsignedJWTError' === e.name) {
@@ -195,7 +192,18 @@ const AppSwitch = (props: LoadingProps) => {
         init()
       }
     }
-  }
+  }, [
+    restartWithMessage,
+    goodWallet,
+    userStorage,
+    initialize,
+    runUpdates,
+    identifyWith,
+    showOutOfGasError,
+    setReady,
+    isLoggedInCitizen,
+    isLoggedIn,
+  ])
 
   const deepLinkingRef = useRef(null)
   const navigateToUrlRef = useRef(navigateToUrlAction)
@@ -222,12 +230,16 @@ const AppSwitch = (props: LoadingProps) => {
 
   const backgroundUpdates = useCallback(() => {}, [ready])
 
+  useEffect(() => {
+    initWalletAndStorage(undefined, 'SEED', true).then(() => log.debug('storage and wallet ready'))
+  }, [])
+
   useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
 
   useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   useEffect(() => {
-    if (isLoggedIn == null || isLoggedInCitizen == null || userStorage == null) {
+    if (ready || isLoggedIn == null || isLoggedInCitizen == null || userStorage == null) {
       return
     }
     init()
@@ -248,7 +260,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return () => DeepLinking.unsubscribe()
-  }, [isLoggedIn, isLoggedInCitizen, userStorage])
+  }, [isLoggedIn, isLoggedInCitizen, init])
 
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]

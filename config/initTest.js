@@ -6,7 +6,7 @@ import { TextEncoder, TextDecoder } from 'util'
 
 import '../src/lib/shim'
 
-jest.setTimeout(10000)
+jest.setTimeout(20000)
 
 if (typeof Promise.any !== 'function') {
   any.shim()

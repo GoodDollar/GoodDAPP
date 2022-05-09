@@ -275,15 +275,18 @@ const Dashboard = props => {
     userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
-  const onFeedUpdated = useDebouncedCallback(
+  const onPreloadFeedPage = useCallback(
     event => {
       const currentTab = getCurrentTab()
+
       log.debug('feed cache updated', { event, currentTab })
       getFeedPage(true, currentTab)
     },
-    300,
-    { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
+    [getCurrentTab, getFeedPage],
   )
+
+  // this delay seems to solve error from dexie about indexeddb transaction
+  const onFeedUpdated = useDebouncedCallback(onPreloadFeedPage, 300, { leading: false })
 
   const handleFeedEvent = () => {
     const { params } = navigation.state || {}

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import { useDebouncedCallback } from 'use-debounce'
 import { SceneView } from '@react-navigation/core'
@@ -49,8 +49,6 @@ const AppSwitch = (props: LoadingProps) => {
     authStatus: [isLoggedInCitizen, isLoggedIn],
     refresh,
   } = useCheckAuthStatus()
-
-  const userStorageReady = useMemo(() => userStorage !== null && userStorage.initializedRegistered, [userStorage])
 
   const _showOutOfGasError = useCallback(async () => {
     const gasResult = await goodWallet.verifyHasGas().catch(e => {
@@ -241,10 +239,14 @@ const AppSwitch = (props: LoadingProps) => {
   useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   useEffect(() => {
-    if (!ready && isLoggedIn !== null && isLoggedInCitizen !== null && userStorageReady) {
-      init()
-      navigateToUrlRef.current()
+    const { initializedRegistered } = userStorage || {}
+
+    if (ready || isLoggedIn == null || isLoggedInCitizen == null || userStorage == null || !initializedRegistered) {
+      return noop
     }
+
+    init()
+    navigateToUrlRef.current()
 
     if (!isMobileNative) {
       return noop
@@ -261,7 +263,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return DeepLinking.unsubscribe
-  }, [isLoggedIn, isLoggedInCitizen, userStorageReady, init])
+  }, [isLoggedIn, isLoggedInCitizen, ready, init, userStorage])
 
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]

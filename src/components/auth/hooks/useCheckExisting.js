@@ -17,14 +17,14 @@ const useCheckExisting = () => {
 
     const { exists, provider } = checkResult
 
-    log.debug('checking userAlreadyExist', { exists, activeStep })
+    log.debug('checking userAlreadyExist', { provider, torusProvider, exists, activeStep })
 
     if (!exists) {
       return 'signup'
     }
 
     // User exists, it is not the number check and it is the correct login
-    if (torusProvider === provider && !activeStep) {
+    if (provider.includes(torusProvider) && !activeStep) {
       return 'login'
     }
 

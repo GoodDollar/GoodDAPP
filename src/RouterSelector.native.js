@@ -1,4 +1,5 @@
 import React, { useContext, useMemo } from 'react'
+import { first } from 'lodash'
 
 import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
@@ -14,36 +15,34 @@ import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 
 const log = logger.child({ from: 'RouterSelector' })
 
+const initAnalyticsAndFireAppOpen = async (isLoggedIn = false) => {
+  await initAnalytics()
+  fireEvent(APP_OPEN, { platform: 'native', isLoggedIn })
+}
+
 log.debug({ Config })
 
-// import Router from './SignupRouter'
-let SignupRouter = React.lazy(async () => {
-  await initAnalytics()
-  fireEvent(APP_OPEN, { platform: 'native', isLoggedIn: false })
-  const [module] = await Promise.all([
+let SignupRouter = React.lazy(() =>
+  Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
-    handleLinks(log),
+    initAnalyticsAndFireAppOpen().then(() => handleLinks(log)), // handleLinks depends on analytics
     delay(animationDuration),
-  ])
-
-  return module
-})
+  ]).then(first),
+)
 
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
-  let p1 = initAnalytics().then(() => fireEvent(APP_OPEN, { platform: 'native', isLoggedIn: true }))
 
-  //always wait for full splash on native
+  // always wait for full splash on native
   return Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
-    p1,
+    initAnalyticsAndFireAppOpen(),
     delay(animationDuration),
   ])
-    .then(r => {
+    .then(first)
+    .finally(() => {
       log.debug('router ready')
-      return r
     })
-    .then(r => r[0])
 })
 
 const RouterSelector = () => {

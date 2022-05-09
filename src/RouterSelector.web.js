@@ -1,6 +1,6 @@
 // libraries
 import React, { memo, useContext, useEffect, useState } from 'react'
-import { pick } from 'lodash'
+import { first, pick } from 'lodash'
 
 // components
 
@@ -29,33 +29,30 @@ const isAuthReload = DeepLinking.pathname.startsWith('/Welcome/Auth')
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
-let SignupRouter = React.lazy(async () => {
-  const [module] = await Promise.all([
+let SignupRouter = React.lazy(() =>
+  Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(log),
     delay(isAuthReload ? 0 : animationDuration),
-  ])
-
-  return module
-})
+  ]).then(first),
+)
 
 let AppRouter = React.lazy(async () => {
   const animateSplash = await shouldAnimateSplash(isAuthReload)
 
   log.debug('initializing storage and wallet...', { animateSplash })
 
-  const [module] = await Promise.all([
+  return Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     delay(animateSplash ? animationDuration : 0),
   ])
-
-  log.debug('router ready')
-  return module
+    .then(first)
+    .finally(() => log.debug('router ready'))
 })
 
 const NestedRouter = memo(({ isLoggedIn }) => {
   useUpdateDialog()
-  log.debug('NestedRouter Render')
+
   useEffect(() => {
     let source, platform, params
     params = DeepLinking.params
@@ -82,7 +79,6 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 })
 
 const RouterSelector = () => {
-  log.debug('RouterSelector Render')
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
   // we use global state for signup process to signal user has registered
@@ -95,8 +91,7 @@ const RouterSelector = () => {
   })
 
   useEffect(() => {
-    log.debug('on mount')
-    initAnalytics()
+    initAnalytics().then(() => log.debug('RouterSelector Rendered'))
   }, [])
 
   useEffect(() => {

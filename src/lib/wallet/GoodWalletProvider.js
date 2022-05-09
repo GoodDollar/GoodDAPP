@@ -59,6 +59,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         const storage = new UserStorage(wallet, db, new UserProperties(db))
 
         await storage.ready
+
         if (initRegistered) {
           await storage.initRegistered()
         }

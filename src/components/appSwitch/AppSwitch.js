@@ -1,8 +1,10 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
+import { useDebouncedCallback } from 'use-debounce'
 import { SceneView } from '@react-navigation/core'
-import { debounce, isEmpty } from 'lodash'
+import { isEmpty, noop } from 'lodash'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 
@@ -28,30 +30,8 @@ type LoadingProps = {
   descriptors: any,
 }
 
-const log = logger.child({ from: 'AppSwitch' })
-
 const GAS_CHECK_DEBOUNCE_TIME = 1000
-const showOutOfGasError = debounce(
-  async ({ navigation, goodWallet }) => {
-    const gasResult = await goodWallet.verifyHasGas().catch(e => {
-      const message = getErrorMessage(e)
-      const exception = new Error(message)
-
-      log.error('verifyTopWallet failed', message, exception)
-    })
-    log.debug('outofgas check result:', { gasResult })
-
-    if (gasResult.ok === false && gasResult.error !== false) {
-      navigation.navigate('OutOfGasError')
-    }
-  },
-  GAS_CHECK_DEBOUNCE_TIME,
-  {
-    leading: true,
-  },
-)
-
-let unsuccessfulLaunchAttempts = 0
+const log = logger.child({ from: 'AppSwitch' })
 
 /**
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
@@ -63,14 +43,32 @@ const AppSwitch = (props: LoadingProps) => {
   const { initWalletAndStorage } = useContext(GoodWalletContext)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
+  const unsuccessfulLaunchAttemptsRef = useRef(0)
 
   const {
     authStatus: [isLoggedInCitizen, isLoggedIn],
     refresh,
   } = useCheckAuthStatus()
 
+  const _showOutOfGasError = useCallback(async () => {
+    const gasResult = await goodWallet.verifyHasGas().catch(e => {
+      const message = getErrorMessage(e)
+      const exception = new Error(message)
+
+      log.error('verifyTopWallet failed', message, exception)
+    })
+
+    log.debug('outofgas check result:', { gasResult })
+
+    if (gasResult.ok === false && gasResult.error !== false) {
+      navigation.navigate('OutOfGasError')
+    }
+  }, [navigation, goodWallet, userStorage])
+
+  const showOutOfGasError = useDebouncedCallback(_showOutOfGasError, GAS_CHECK_DEBOUNCE_TIME, { leading: true })
+
   /*
-  Check if user is incoming with a URL with action details, such as payment link or email confirmation
+    Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
   const getRoute = (destinationPath = {}) => {
     let { path, params } = destinationPath
@@ -89,18 +87,18 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   /*
-  If a user has a saved destination path from before logging in or from inside-app (receipt view?)
-  He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
-  user completes signup and becomes loggedin which just updates this component
-*/
+    If a user has a saved destination path from before logging in or from inside-app (receipt view?)
+    He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
+    user completes signup and becomes loggedin which just updates this component
+  */
   const navigateToUrlAction = async (destinationPath: { path: string, params: {} }) => {
     destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
     AsyncStorage.removeItem(DESTINATION_PATH)
 
     log.debug('navigateToUrlAction:', { destinationPath })
 
-    //if no special destinationPath check if we have incoming params from web url, such as payment link/request
-    //when path is empty
+    // if no special destinationPath check if we have incoming params from web url, such as payment link/request
+    // when path is empty
     if (!isMobileNative && !destinationPath) {
       const { params, pathname } = DeepLinking
 
@@ -114,7 +112,7 @@ const AppSwitch = (props: LoadingProps) => {
 
     let destDetails = destinationPath && getRoute(destinationPath)
 
-    //once user logs in we can redirect him to saved destinationPath
+    // once user logs in we can redirect him to saved destinationPath
     if (destDetails) {
       log.debug('destinationPath found:', destDetails)
       return navigation.navigate(destDetails)
@@ -147,20 +145,22 @@ const AppSwitch = (props: LoadingProps) => {
 
   const init = useCallback(async () => {
     log.debug('initializing', { ready })
+
     try {
-      //after dynamic routes update, if user arrived here, then he is already loggedin
-      //initialize the citizen status and wallet status
-      //create jwt token and initialize the API service
+      // after dynamic routes update, if user arrived here, then he is already loggedin
+      // initialize the citizen status and wallet status
+      // create jwt token and initialize the API service
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
 
       identifyWith(undefined, identifier)
-      showOutOfGasError({ navigation: props.navigation, goodWallet })
+      showOutOfGasError()
 
       initialize()
       runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
+
       log.debug('initialize done')
       setReady(true)
     } catch (e) {
@@ -171,12 +171,12 @@ const AppSwitch = (props: LoadingProps) => {
         )
       }
 
-      const dialogShown = unsuccessfulLaunchAttempts > 3
+      const dialogShown = unsuccessfulLaunchAttemptsRef.current > 3
 
-      unsuccessfulLaunchAttempts += 1
+      unsuccessfulLaunchAttemptsRef.current += 1
 
       if (dialogShown) {
-        //if error in realmdb logout the user, he needs to signin/signup again
+        // if error in realmdb logout the user, he needs to signin/signup again
         log.error('failed initializing app', e.message, e, { dialogShown })
 
         if (e.message.includes('realmdb')) {
@@ -224,9 +224,9 @@ const AppSwitch = (props: LoadingProps) => {
       userStorage.database._syncFromRemote()
       userStorage.userProperties._syncFromRemote()
       refresh() //this will refresh the jwt token if wasnt active for a long time
-      showOutOfGasError({ navigation: props.navigation, goodWallet })
+      showOutOfGasError()
     }
-  }, [ready, refresh, props, goodWallet, userStorage])
+  }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError])
 
   const backgroundUpdates = useCallback(() => {}, [ready])
 
@@ -242,11 +242,12 @@ const AppSwitch = (props: LoadingProps) => {
     if (ready || isLoggedIn == null || isLoggedInCitizen == null || userStorage == null) {
       return
     }
+
     init()
     navigateToUrlRef.current()
 
     if (!isMobileNative) {
-      return
+      return noop
     }
 
     DeepLinking.subscribe(data => {

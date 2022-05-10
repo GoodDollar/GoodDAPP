@@ -44,6 +44,7 @@ const AppSwitch = (props: LoadingProps) => {
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const unsuccessfulLaunchAttemptsRef = useRef(0)
+  const deepLinkingRef = useRef(null)
 
   const {
     authStatus: [isLoggedInCitizen, isLoggedIn],
@@ -70,65 +71,71 @@ const AppSwitch = (props: LoadingProps) => {
   /*
     Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
-  const getRoute = (destinationPath = {}) => {
-    let { path, params } = destinationPath
+  const getRoute = useCallback(
+    (destinationPath = {}) => {
+      let { path, params } = destinationPath
 
-    if (path || params) {
-      path = path || 'AppNavigation/Dashboard/Home'
+      if (path || params) {
+        path = path || 'AppNavigation/Dashboard/Home'
 
-      if (params && (params.paymentCode || params.code)) {
-        path = 'AppNavigation/Dashboard/HandlePaymentLink'
+        if (params && (params.paymentCode || params.code)) {
+          path = 'AppNavigation/Dashboard/HandlePaymentLink'
+        }
+
+        return getRouteParams(navigation, path, params)
       }
 
-      return getRouteParams(navigation, path, params)
-    }
-
-    return undefined
-  }
+      return undefined
+    },
+    [navigation],
+  )
 
   /*
     If a user has a saved destination path from before logging in or from inside-app (receipt view?)
     He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
     user completes signup and becomes loggedin which just updates this component
   */
-  const navigateToUrlAction = async (destinationPath: { path: string, params: {} }) => {
-    destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
-    AsyncStorage.removeItem(DESTINATION_PATH)
+  const navigateToUrlAction = useCallback(
+    async (destinationPath: { path: string, params: {} }) => {
+      destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
+      AsyncStorage.removeItem(DESTINATION_PATH)
 
-    log.debug('navigateToUrlAction:', { destinationPath })
+      log.debug('navigateToUrlAction:', { destinationPath })
 
-    // if no special destinationPath check if we have incoming params from web url, such as payment link/request
-    // when path is empty
-    if (!isMobileNative && !destinationPath) {
-      const { params, pathname } = DeepLinking
+      // if no special destinationPath check if we have incoming params from web url, such as payment link/request
+      // when path is empty
+      if (!isMobileNative && !destinationPath) {
+        const { params, pathname } = DeepLinking
 
-      log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
+        log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
 
-      if (pathname && pathname.length < 2 && !isEmpty(params)) {
-        //this makes sure query params are passed as part of navigation
-        destinationPath = { params }
+        if (pathname && pathname.length < 2 && !isEmpty(params)) {
+          //this makes sure query params are passed as part of navigation
+          destinationPath = { params }
+        }
       }
-    }
 
-    let destDetails = destinationPath && getRoute(destinationPath)
+      let destDetails = destinationPath && getRoute(destinationPath)
 
-    // once user logs in we can redirect him to saved destinationPath
-    if (destDetails) {
-      log.debug('destinationPath found:', destDetails)
-      return navigation.navigate(destDetails)
-    }
-  }
+      // once user logs in we can redirect him to saved destinationPath
+      if (destDetails) {
+        log.debug('destinationPath found:', destDetails)
+        return navigation.navigate(destDetails)
+      }
+    },
+    [navigation, getRoute],
+  )
 
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
    */
-  const initialize = async () => {
+  const initialize = useCallback(async () => {
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
     const email = await userStorage.getProfileFieldValue('email')
     identifyWith(email, undefined)
-  }
+  }, [userStorage])
 
   const restartWithMessage = useCallback(
     async (message, withLogout = true) => {
@@ -197,16 +204,11 @@ const AppSwitch = (props: LoadingProps) => {
     goodWallet,
     userStorage,
     initialize,
-    runUpdates,
-    identifyWith,
-    showOutOfGasError,
     setReady,
+    showOutOfGasError,
     isLoggedInCitizen,
     isLoggedIn,
   ])
-
-  const deepLinkingRef = useRef(null)
-  const navigateToUrlRef = useRef(navigateToUrlAction)
 
   const recheck = useCallback(() => {
     const { current: data } = deepLinkingRef
@@ -214,7 +216,7 @@ const AppSwitch = (props: LoadingProps) => {
     if (data) {
       log.debug('deepLinkingNavigation: got url', { data })
 
-      navigateToUrlRef.current({ path: data.path, params: data.queryParams })
+      navigateToUrlAction({ path: data.path, params: data.queryParams })
       deepLinkingRef.current = null
     }
 
@@ -226,36 +228,30 @@ const AppSwitch = (props: LoadingProps) => {
       refresh() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError()
     }
-  }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError])
+  }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError, navigateToUrlAction])
 
-  const backgroundUpdates = useCallback(() => {}, [ready])
+  useAppState({ onForeground: recheck })
 
   useEffect(() => {
     initWalletAndStorage(undefined, 'SEED', true).then(() => log.debug('storage and wallet ready'))
-  }, [])
-
-  useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
-
-  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
+  }, [initWalletAndStorage])
 
   useEffect(() => {
     const { initializedRegistered } = userStorage || {}
 
-    if (ready || isLoggedIn == null || isLoggedInCitizen == null || !initializedRegistered) {
-      return noop
+    if (!ready && initializedRegistered) {
+      init()
+      navigateToUrlAction()
     }
 
-    init()
-    navigateToUrlRef.current()
-
-    if (!isMobileNative) {
+    if (ready || !isMobileNative) {
       return noop
     }
 
     DeepLinking.subscribe(data => {
-      if (AppState.currentState === 'active') {
+      if (initializedRegistered && AppState.currentState === 'active') {
         log.debug('deepLinkingNavigation: got url', { data })
-        navigateToUrlRef.current({ path: data.path, params: data.queryParams })
+        navigateToUrlAction({ path: data.path, params: data.queryParams })
         return
       }
 
@@ -263,7 +259,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return DeepLinking.unsubscribe
-  }, [isLoggedIn, isLoggedInCitizen, ready, init, userStorage])
+  }, [ready, init, userStorage, navigateToUrlAction])
 
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]

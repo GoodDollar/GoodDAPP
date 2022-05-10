@@ -39,9 +39,9 @@ export class AnalyticsClass {
     const apisDetected = apisFactory()
     const { fullStory, amplitude, sentry, googleAnalytics } = apisDetected
 
-    const isSentryEnabled = sentry && sentryDSN
-    const isAmplitudeEnabled = amplitude && amplitudeKey
-    const isFullStoryEnabled = fullStory && env === 'production'
+    const isSentryEnabled = !!(sentry && sentryDSN)
+    const isAmplitudeEnabled = !!(amplitude && amplitudeKey)
+    const isFullStoryEnabled = !!(fullStory && env === 'production')
 
     assign(apis, apisDetected)
     assign(this, { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled })
@@ -315,6 +315,8 @@ export class AnalyticsClass {
     let categoryToPassIntoLog = category
     let errorToPassIntoLog
     let sessionUrlAtTime
+
+    logger.debug('processing error log:', args)
 
     if (isFullStoryEnabled && apis.fullStory.ready) {
       sessionUrlAtTime = apis.fullStory.getCurrentSessionURL(true)

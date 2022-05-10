@@ -69,9 +69,12 @@ class DeepLinkingNative {
 
   _listener = ({ error, params, uri }) => {
     if (error) {
-      log.error('Error from Branch: ' + error)
+      const exception = new Error(error)
+
+      log.error('Error from Branch:', exception.message, exception)
       return
     }
+
     const ccParams = mapKeys(params, (_, name) => camelCase(name))
 
     const { clickedBranchLink, clickTimestamp, nonBranchLink, referringLink, url } = ccParams

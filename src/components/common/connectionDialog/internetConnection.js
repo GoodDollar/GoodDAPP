@@ -1,18 +1,10 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { debounce } from 'lodash'
 import { t } from '@lingui/macro'
+import { useDebouncedCallback } from 'use-debounce'
 import Config from '../../../config/config'
 import LoadingIcon from '../modal/LoadingIcon'
-import {
-  useAPIConnection,
-  useConnection,
-  useWeb3Polling,
-
-  // useConnectionGun,
-
-  // useConnectionWeb3,
-} from '../../../lib/hooks/hasConnectionChange'
+import { useAPIConnection, useConnection, useWeb3Polling } from '../../../lib/hooks/hasConnectionChange'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import logger from '../../../lib/logger/js-logger'
 
@@ -22,16 +14,13 @@ const InternetConnection = props => {
   const { hideDialog, showDialog } = useDialog()
   const isConnection = useConnection()
   const isAPIConnection = useAPIConnection()
-  useWeb3Polling()
-
-  // const isConnectionWeb3 = useConnectionWeb3()
-  // const isConnectionGun = useConnectionGun()
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
 
-  const showDialogWindow = useCallback(
-    debounce((message, showDialog, setShowDisconnect) => {
+  const showWaiting = useCallback(
+    message => {
       setShowDisconnect(true)
+
       showDialog({
         title: t`Waiting for network`,
         image: <LoadingIcon />,
@@ -39,12 +28,17 @@ const InternetConnection = props => {
         showButtons: false,
         showCloseButtons: false,
       })
-    }, Config.delayMessageNetworkDisconnection),
-    [],
+    },
+    [setShowDisconnect, showDialog],
   )
+
+  const showDialogWindow = useDebouncedCallback(showWaiting, Config.delayMessageNetworkDisconnection)
+
+  useWeb3Polling()
 
   useEffect(() => {
     showDialogWindow.cancel()
+
     if (isConnection === false || isAPIConnection === false) {
       log.warn('connection failed:', {
         isAPIConnection,
@@ -55,26 +49,22 @@ const InternetConnection = props => {
         firstLoadError,
       })
 
-      //supress showing the error dialog while in splash and connecting
+      // supress showing the error dialog while in splash and connecting
       if (firstLoadError) {
         return setShowDisconnect(true)
       }
 
       let message
+
       if (isConnection === false) {
         message = t`Check your internet connection`
       } else {
         const servers = []
+
         if (isAPIConnection === false) {
           servers.push('API')
         }
 
-        // if (isConnectionWeb3 === false) {
-        //   servers.push('Blockchain')
-        // }
-        // if (isConnectionGun === false) {
-        //   servers.push('GunDB')
-        // }
         message = t`Waiting for GoodDollar's server (${servers.join(', ')})`
       }
 
@@ -82,7 +72,7 @@ const InternetConnection = props => {
     } else {
       log.debug('connection back - hiding dialog')
 
-      //first time that connection is ok, from now on we will start showing the connection dialog on error
+      // first time that connection is ok, from now on we will start showing the connection dialog on error
       setFirstLoadError(false)
       showDialogWindow && showDialogWindow.cancel()
 
@@ -94,11 +84,9 @@ const InternetConnection = props => {
   }, [
     isConnection,
     isAPIConnection,
-
-    // isConnectionWeb3,
-    // isConnectionGun,
     setShowDisconnect,
     setFirstLoadError,
+    showDialogWindow,
     firstLoadError,
     showDisconnect,
   ])

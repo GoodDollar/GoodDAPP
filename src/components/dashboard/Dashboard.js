@@ -1,7 +1,8 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Linking, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, debounce, noop, uniqBy } from 'lodash'
+import { concat, uniqBy } from 'lodash'
+import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
 import { t } from '@lingui/macro'
@@ -39,7 +40,6 @@ import { theme as _theme } from '../theme/styles'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
-import _debounce from '../../lib/utils/debounce'
 import { createUrlObject } from '../../lib/utils/uri'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
@@ -266,18 +266,18 @@ const Dashboard = props => {
     userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
-  const onFeedUpdated = useCallback(
-    debounce(
-      event => {
-        const currentTab = getCurrentTab()
-        log.debug('feed cache updated', { event, currentTab })
-        getFeedPage(true, currentTab)
-      },
-      300,
-      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
-    ),
-    [getFeedPage],
+  const onPreloadFeedPage = useCallback(
+    event => {
+      const currentTab = getCurrentTab()
+
+      log.debug('feed cache updated', { event, currentTab })
+      getFeedPage(true, currentTab)
+    },
+    [getCurrentTab, getFeedPage],
   )
+
+  // this delay seems to solve error from dexie about indexeddb transaction
+  const onFeedUpdated = useDebouncedCallback(onPreloadFeedPage, 300, { leading: false })
 
   const handleFeedEvent = () => {
     const { params } = navigation.state || {}
@@ -351,28 +351,23 @@ const Dashboard = props => {
   /**
    * rerender on screen size change
    */
-  const handleResize = useCallback(
-    debounce(() => {
-      setUpdate(Date.now())
-      calculateHeaderLayoutSizes()
-    }, 100),
-    [setUpdate],
-  )
+  const _handleResize = useCallback(() => {
+    setUpdate(Date.now())
+    calculateHeaderLayoutSizes()
+  }, [setUpdate])
 
-  // const nextFeed = x => console.log('end reached', { x })
-  const nextFeed = useCallback(
-    debounce(
-      ({ distanceFromEnd }) => {
-        if (distanceFromEnd > 0 && feedRef.current.length > 0) {
-          log.debug('getNextFeed called', feedRef.current.length, { distanceFromEnd })
-          return getFeedPage()
-        }
-      },
-      100,
-      { leading: false }, //this delay seems to solve error from dexie about indexeddb transaction
-    ),
+  const _nextFeed = useCallback(
+    ({ distanceFromEnd }) => {
+      if (distanceFromEnd > 0 && feedRef.current.length > 0) {
+        log.debug('getNextFeed called', feedRef.current.length, { distanceFromEnd })
+        return getFeedPage()
+      }
+    },
     [getFeedPage],
   )
+
+  const handleResize = useDebouncedCallback(_handleResize, 100)
+  const nextFeed = useDebouncedCallback(_nextFeed, 100)
 
   const initDashboard = async () => {
     await handleFeedEvent()
@@ -621,29 +616,35 @@ const Dashboard = props => {
 
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
+  const dispatchScrollEvent = useDebouncedCallback(() => fireEvent(SCROLL_FEED), 250)
+
+  const scrollData = useMemo(() => {
+    const minScrollRequired = 150
+    const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+    const scrollPositionGap = headerLarge ? 0 : minScrollRequired
+    const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
+    const isFeedSizeEnough = feedRef.current.length > 10 || newsCondition
+
+    return { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough }
+  }, [headerLarge, activeTab])
+
   const handleScrollEnd = useCallback(
     ({ nativeEvent }) => {
-      fireEvent(SCROLL_FEED)
-      const minScrollRequired = 150
       const scrollPosition = nativeEvent.contentOffset.y
-      const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
-      const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-      const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
-
-      if ((feedRef.current.length > 10 || newsCondition) && scrollPositionISH > minScrollRequiredISH) {
-        if (headerLarge) {
-          setHeaderLarge(false)
-        }
-      } else {
-        if (!headerLarge) {
-          setHeaderLarge(true)
-        }
-      }
+      const { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough } = scrollData
+      const scrollPositionISH = scrollPosition + scrollPositionGap
+      setHeaderLarge(isFeedSizeEnough && scrollPositionISH < minScrollRequiredISH)
     },
-    [headerLarge, setHeaderLarge, activeTab],
+    [scrollData, setHeaderLarge],
   )
 
-  const handleScrollEndDebounced = useMemo(() => _debounce(handleScrollEnd, 300), [handleScrollEnd])
+  const handleScroll = useCallback(
+    ({ ...args }) => {
+      dispatchScrollEvent()
+      handleScrollEnd(args)
+    },
+    [dispatchScrollEvent, handleScrollEnd],
+  )
 
   const calculateFontSize = useMemo(
     () => ({
@@ -656,13 +657,6 @@ const Dashboard = props => {
     () => (showPrice ? formatWithFixedValueDigits(price * weiToGd(balance)) : null),
     [showPrice, price, balance],
   )
-
-  // for native we able handle onMomentumScrollEnd, but for web we able to handle only onScroll event,
-  // so we need to imitate onMomentumScrollEnd for web
-  const onScroll = Platform.select({
-    web: handleScrollEndDebounced,
-    default: noop,
-  })
 
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
@@ -771,7 +765,7 @@ const Dashboard = props => {
         onEndReachedThreshold={0.8}
         windowSize={10} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}
-        onScroll={onScroll}
+        onScroll={handleScroll}
         headerLarge={headerLarge}
         scrollEventThrottle={300}
       />

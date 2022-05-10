@@ -420,7 +420,7 @@ const Claim = props => {
       const { transactionHash, status } = receipt || {}
       const isTxError = name === 'CLAIM_TX_FAILED'
 
-      const errorLabel = isTxError ? t`Claim transaction failed` : t`Claim transaction failed`
+      const errorLabel = isTxError ? t`Claim transaction failed` : t`Claim request failed`
       const logLabel = isTxError ? errorLabel : 'claiming failed'
       const logPayload = { dialogShown: true }
 

@@ -18,6 +18,10 @@ import { ButtonOutlined } from '../gd/Button'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
+import { 
+  useConnectWallet
+} from '@web3-onboard/react'
+
 const UpperSection = styled.div`
     position: relative;
 
@@ -206,6 +210,7 @@ export default function AccountDetails({
     const { i18n } = useLingui()
     const { chainId, account, label } = useActiveWeb3React()
     const dispatch = useDispatch<AppDispatch>()
+    const [{ wallet, connecting}, connect] = useConnectWallet()
 
     function formatConnectorName() {
         let name = ''
@@ -218,6 +223,11 @@ export default function AccountDetails({
 
         return `${i18n._(t`Connected with`)} ${name}`
     }
+
+    const changeWallet = useCallback(async () => {
+      toggleWalletModal()
+      await connect({})
+    }, [toggleWalletModal, connect])
 
     const clearAllTransactionsCallback = useCallback(() => {
         if (chainId) dispatch(clearAllTransactions({ chainId }))
@@ -239,9 +249,7 @@ export default function AccountDetails({
                                   <WalletAction
                                       width={'75px'}
                                       size="sm"
-                                      onClick={() => {
-                                          openOptions()
-                                      }}
+                                      onClick={changeWallet}
                                   >
                                       {i18n._(t`Change`)}
                                   </WalletAction>

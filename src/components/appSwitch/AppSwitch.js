@@ -232,6 +232,21 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     initWalletAndStorage(undefined, 'SEED', true).then(() => log.debug('storage and wallet ready'))
+  }, [])
+
+  useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
+
+  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
+
+  useEffect(() => {
+    const { initializedRegistered } = userStorage || {}
+
+    if (ready || isLoggedIn == null || isLoggedInCitizen == null || !initializedRegistered) {
+      return noop
+    }
+
+    init()
+    navigateToUrlRef.current()
 
     if (!isMobileNative) {
       return noop
@@ -248,19 +263,6 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return DeepLinking.unsubscribe
-  }, [])
-
-  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
-
-  useEffect(() => {
-    const { initializedRegistered } = userStorage || {}
-
-    if (ready || isLoggedIn == null || isLoggedInCitizen == null || !initializedRegistered) {
-      return noop
-    }
-
-    init()
-    navigateToUrlRef.current()
   }, [isLoggedIn, isLoggedInCitizen, ready, init, userStorage])
 
   const activeKey = navigation.state.routes[navigation.state.index].key

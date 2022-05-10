@@ -306,10 +306,10 @@ export class AnalyticsClass {
 
   // @private
   onErrorLogged(debouncedFireEvent, args) {
-    const { apis, isSentryEnabled, isFullStoryEnabled, env } = this
-    const isRunningTests = env === 'test'
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
+    const { apis, isSentryEnabled, isFullStoryEnabled, env, logger } = this
+    const isRunningTests = env === 'test'
 
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category

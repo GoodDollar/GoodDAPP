@@ -1,13 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNetInfo } from '@react-native-community/netinfo'
 import { get } from 'lodash'
-import Config from '../../config/config'
 import API from '../API/api'
 import { delay } from '../utils/async'
+import { useWallet } from '../wallet/GoodWalletProvider'
 import logger from '../logger/js-logger'
-import SimpleStore from '../undux/SimpleStore'
 import useAppState from './useAppState'
-
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
@@ -18,8 +16,7 @@ export const useConnection = () => {
 
 export const useWeb3Polling = () => {
   const { appState } = useAppState()
-  const store = SimpleStore.useStore()
-  const wallet = store.get('wallet')
+  const wallet = useWallet()
 
   useEffect(() => {
     if (wallet) {
@@ -35,8 +32,8 @@ export const useWeb3Polling = () => {
 export const useConnectionWeb3 = () => {
   const [isConnection, setIsConnection] = useState(true)
   const { appState } = useAppState()
-  const store = SimpleStore.useStore()
-  const wallet = store.get('wallet')
+  const wallet = useWallet()
+
   const isWeb3Connection = useCallback(async () => {
     if (wallet) {
       log.debug('isWeb3Connection')
@@ -110,67 +107,6 @@ export const useConnectionWeb3 = () => {
     }
     return () => wallet && subscribe('off') && bindEvents('remove')
   }, [wallet, appState, isWeb3Connection])
-
-  return isConnection
-}
-
-export const useConnectionGun = () => {
-  const [isConnection, setIsConnection] = useState(true)
-  const store = SimpleStore.useStore()
-  const userStorage = store.get('userStorage')
-  const websocket = useRef(undefined)
-  const { appState } = useAppState()
-  const isGunConnection = () => {
-    if (userStorage) {
-      const connection = get(userStorage, `gun._.opt.peers`, [])[Config.gunPublicUrl]
-      const readyState = get(connection, 'wire.readyState')
-      log.debug('gun connection:', connection, userStorage.gun._.opt.peers)
-      if (readyState && readyState === connection.wire.OPEN) {
-        setIsConnection(true)
-        bindEvents('add')
-      } else {
-        setIsConnection(false)
-        setTimeout(isGunConnection, 1000)
-      }
-    } else {
-      setIsConnection(true)
-    }
-  }
-
-  const gunClose = useCallback(() => {
-    log.debug('gun close')
-    isGunConnection()
-  }, [isGunConnection])
-
-  const gunError = useCallback(() => {
-    log.debug('gun error')
-    isGunConnection()
-  }, [isGunConnection])
-
-  const bindEvents = useCallback(
-    method => {
-      const connection = get(userStorage, `gun._.opt.peers`, [])[Config.gunPublicUrl] || {}
-      const wire = connection.wire
-      if (wire && (websocket.current !== wire || method === 'remove')) {
-        log.debug('gun binding listeners')
-        websocket.current = wire
-        const callMethod = method === 'remove' ? 'removeEventListener' : 'addEventListener'
-        log.debug('add gun binding listeners', { method })
-
-        //guns reconnect automatically so no action required on our side
-        wire[callMethod]('close', gunClose)
-        wire[callMethod]('error', gunError)
-      }
-    },
-    [userStorage, websocket],
-  )
-
-  useEffect(() => {
-    if (userStorage && appState === 'active') {
-      isGunConnection()
-      return () => bindEvents('remove')
-    }
-  }, [userStorage, appState, bindEvents])
 
   return isConnection
 }

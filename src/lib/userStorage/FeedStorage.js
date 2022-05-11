@@ -528,7 +528,7 @@ export class FeedStorage {
       /** =================================================== */
       if (Config.ipfsLazyUpload && smallAvatar) {
         // keep old base64 value if upload failed
-        smallAvatar = await updateFeedEventAvatar(smallAvatar).catch(() => smallAvatar)
+        smallAvatar = await updateFeedEventAvatar(smallAvatar, this.userStorage).catch(() => smallAvatar)
       }
 
       /** =================================================== */

@@ -2,7 +2,7 @@
 
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import InputText from '../common/form/InputText'
 import { Section, Text, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -18,8 +18,6 @@ export type TypeProps = {
   navigation: any,
   styles: any,
 }
-
-const { account } = goodWallet
 
 const warningBoxStyles = ({ theme }) => ({
   warningTextWrapper: {
@@ -75,6 +73,7 @@ export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend
 ))
 
 const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
+  const goodWallet = useWallet()
   const onPressDone = useCallback(screenProps.goToRoot)
   return (
     <Wrapper>
@@ -94,7 +93,7 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
         <InputText
           containerStyle={styles.containerInput}
           style={styles.input}
-          value={address || account}
+          value={address || goodWallet.account}
           editable={false}
           showError={false}
         />
@@ -102,7 +101,7 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
           {'Copy & share it\nwith others'}
         </Text>
         <GDTokensWarningBox />
-        <CopyButton style={styles.confirmButton} toCopy={address || account} onPressDone={onPressDone} />
+        <CopyButton style={styles.confirmButton} toCopy={address || goodWallet.account} onPressDone={onPressDone} />
       </Section>
     </Wrapper>
   )

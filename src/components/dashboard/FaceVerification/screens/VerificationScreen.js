@@ -3,8 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
 
-import UserStorage from '../../../../lib/userStorage/UserStorage'
-import goodWallet from '../../../../lib/wallet/GoodWallet'
+import { useUserStorage, useWallet } from '../../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../../lib/logger/js-logger'
 
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
@@ -24,13 +23,13 @@ import {
 } from '../../../../lib/analytics/analytics'
 
 import { tryUntil } from '../../../../lib/utils/async'
-import useUserContext from '../../../../lib/hooks/useUserContext'
 
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
-  const { update } = useUserContext()
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -111,17 +110,15 @@ const FaceVerification = ({ screenProps }) => {
       }
 
       // if session was successful
+
       // 1. resetting attempts
       resetAttempts()
 
-      // 2. whitelisting user
-      update(isCitizen)
-
-      // 3. returning success to the caller
+      // 2. returning success to the caller
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
-    [screenProps, resetAttempts, exceptionHandler],
+    [screenProps, resetAttempts, exceptionHandler, goodWallet],
   )
 
   // calculating retries allowed for FV session
@@ -133,7 +130,7 @@ const FaceVerification = ({ screenProps }) => {
 
   // Using zoom verification hook, passing completion callback
   const startVerification = useFaceTecVerification({
-    enrollmentIdentifier: UserStorage.getFaceIdentifier(),
+    enrollmentIdentifier: userStorage.getFaceIdentifier(),
     onUIReady: uiReadyHandler,
     onCaptureDone: captureDoneHandler,
     onRetry: retryHandler,

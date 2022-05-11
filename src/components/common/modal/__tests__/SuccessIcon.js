@@ -7,13 +7,11 @@ const SuccessIcon = withThemeProvider(ImportedSuccessIcon)
 // Note: test renderer must be required after react-native.
 
 describe('SuccessIcon', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<SuccessIcon />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<SuccessIcon />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<SuccessIcon />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

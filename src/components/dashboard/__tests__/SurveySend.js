@@ -6,16 +6,12 @@ import renderer from 'react-test-renderer'
 import { getWebRouterComponentWithMocks } from './__util__'
 
 describe('SurveySend', () => {
-  it('renders without errors', () => {
+  it('matches snapshot', async () => {
     const SurveySend = getWebRouterComponentWithMocks('../SurveySend')
-    const tree = renderer.create(<SurveySend />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+    let tree
 
-  it('matches snapshot', () => {
-    const SurveySend = getWebRouterComponentWithMocks('../SurveySend')
-    const component = renderer.create(<SurveySend />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (tree = renderer.create(<SurveySend />)))
+    expect(tree.toJSON()).toMatchSnapshot()
   })
 })

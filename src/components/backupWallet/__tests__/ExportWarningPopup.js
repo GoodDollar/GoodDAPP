@@ -6,15 +6,11 @@ import ImportedWarningPopup from '../ExportWarningPopup'
 const ExportWarningPopup = withThemeProvider(ImportedWarningPopup)
 
 describe('ExportWarningPopup', () => {
-  it('renders without errors', () => {
+  it('matches snapshot', async () => {
     let tree
 
-    expect(() => (tree = renderer.create(<ExportWarningPopup />))).not.toThrow()
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const tree = renderer.create(<ExportWarningPopup />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (tree = renderer.create(<ExportWarningPopup />)))
 
     expect(tree.toJSON()).toMatchSnapshot()
   })

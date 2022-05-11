@@ -5,7 +5,7 @@ import { t } from '@lingui/macro'
 import { CustomButton, Section, Wrapper } from '../../common'
 import UserAvatar from '../../common/view/UserAvatar'
 import { withStyles } from '../../../lib/styles'
-import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
@@ -13,7 +13,7 @@ import RoundIconButton from '../../common/buttons/RoundIconButton'
 import { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import useAvatar from '../../../lib/hooks/useAvatar'
 import useProfile from '../../../lib/userStorage/useProfile'
-import userStorage from '../../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
 import useCropperState from './useCropperState'
 import Cropper from './Cropper'
 
@@ -36,7 +36,8 @@ const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
   const { styles, screenProps } = props
-  const [showErrorDialog] = useErrorDialog()
+  const userStorage = useUserStorage()
+  const { showErrorDialog } = useDialog()
   const [cropperState, showCropper, hideCropper] = useCropperState()
 
   const [profile, refreshProfile] = useProfile(true)
@@ -54,7 +55,7 @@ const ViewOrUploadAvatar = props => {
         showErrorDialog(t`We could not capture all your beauty. Please try again.`)
       }
     },
-    [showErrorDialog, refreshProfile],
+    [showErrorDialog, refreshProfile, userStorage],
   )
 
   const handleClosePress = useCallback(async () => {
@@ -65,7 +66,7 @@ const ViewOrUploadAvatar = props => {
       log.error('delete image failed:', e.message, e, { dialogShown: true })
       showErrorDialog(t`Could not delete image. Please try again.`)
     }
-  }, [showErrorDialog, refreshProfile])
+  }, [showErrorDialog, refreshProfile, userStorage])
 
   const onAvatarCropped = useCallback(
     async avatar => {

@@ -1,14 +1,8 @@
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
-import GDStore from '../../../../lib/undux/GDStore'
-const { Container } = GDStore
 
-const withContainer = Component => props => (
-  <Container>
-    <Component {...props} />
-  </Container>
-)
+const withContainer = Component => props => <Component {...props} />
 
 export const getWebRouterComponentWithRoutes = (routes = {}, data) => {
   const AppNavigator = createSwitchNavigator(routes)

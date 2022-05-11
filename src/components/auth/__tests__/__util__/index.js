@@ -2,9 +2,7 @@ import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import * as libShare from '../../../../lib/share'
-import GDStore from '../../../../lib/undux/GDStore'
 import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
-const { Container } = GDStore
 
 export const getComponentWithMocks = componentPath => {
   // Will then mock the LocalizeContext module being used in our LanguageSelector component
@@ -21,11 +19,7 @@ export const getComponentWithMocks = componentPath => {
 
 const withContainer = Component => props => {
   const WrappedComponent = withThemeAndLocalizationProvider(Component)
-  return (
-    <Container>
-      <WrappedComponent {...props} />
-    </Container>
-  )
+  return <WrappedComponent {...props} />
 }
 
 export const getWebRouterComponentWithRoutes = routes => {

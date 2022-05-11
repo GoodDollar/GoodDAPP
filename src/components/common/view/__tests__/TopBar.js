@@ -1,66 +1,51 @@
 // eslint-disable-next-line import/order
-import { initUserStorage } from '../../../../lib/userStorage/__tests__/__util__'
 import React from 'react'
 import { View } from 'react-native'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
-import GDStore from '../../../../lib/undux/GDStore'
-import { withThemeProvider } from '../../../../__tests__/__util__'
+import { withThemeProvider, withUserStorage } from '../../../../__tests__/__util__'
 import TopBar from '../TopBar'
 import Text from '../Text'
-
-const { Container } = GDStore
 
 jest.setTimeout(30000)
 
 describe('TopBar', () => {
-  const WrappedTopBar = withThemeProvider(TopBar)
+  const WrappedTopBar = withThemeProvider(withUserStorage(TopBar))
 
-  beforeAll(async () => {
-    await initUserStorage()
-  })
+  it('matches snapshot without balance', async () => {
+    let component
 
-  it('renders without errors', () => {
-    const tree = renderer.create(
-      <Container>
-        <WrappedTopBar />
-      </Container>,
-    )
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot without balance', () => {
-    const component = renderer.create(
-      <Container>
-        <WrappedTopBar hideBalance />
-      </Container>,
-    )
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedTopBar hideBalance />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('matches snapshot with balance', () => {
-    const component = renderer.create(
-      <Container>
-        <WrappedTopBar />
-      </Container>,
-    )
+  it('matches snapshot with balance', async () => {
+    let component
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedTopBar />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it(`should render the children component`, () => {
+  it(`should render the children component`, async () => {
     // Given
-    const component = renderer.create(
-      <Container>
-        <WrappedTopBar>
-          <View>
-            <Text>Children element</Text>
-          </View>
-        </WrappedTopBar>
-      </Container>,
+    let component
+
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = await renderer.create(
+          <WrappedTopBar>
+            <View>
+              <Text>Children element</Text>
+            </View>
+          </WrappedTopBar>,
+        )),
     )
 
     // When

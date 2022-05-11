@@ -11,16 +11,16 @@ import TopBar from '../common/view/TopBar'
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
 import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import logger from '../../lib/logger/js-logger'
-import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
+import { decorate, ExceptionCategory, ExceptionCode, wrapFunction } from '../../lib/exceptions/utils'
 import { readReceiveLink } from '../../lib/share'
 import { createUrlObject } from '../../lib/utils/uri'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { executeWithdraw } from '../../lib/wallet/utils'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
@@ -32,8 +32,10 @@ const log = logger.child({ from: 'ReceiveByQR.web' })
 const ReceiveByQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
-  const store = SimpleStore.useStore()
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
+
   const { navigateTo, push } = screenProps
 
   // check camera permission and show dialog if not allowed
@@ -104,7 +106,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
     if (receiveLink) {
       try {
-        const receipt = await executeWithdraw(store, receiveLink)
+        const receipt = await executeWithdraw(receiveLink, undefined, undefined, goodWallet, userStorage)
 
         navigateTo('Home', {
           event: receipt.transactionHash,
@@ -123,7 +125,7 @@ const ReceiveByQR = ({ screenProps }) => {
         showErrorDialog(uiMessage)
       }
     }
-  }, [navigateTo, withdrawParams, store, showErrorDialog])
+  }, [navigateTo, withdrawParams, showErrorDialog, goodWallet, userStorage])
 
   useEffect(() => {
     runWithdraw()
@@ -163,7 +165,7 @@ const ReceiveByQR = ({ screenProps }) => {
               <QrReader
                 delay={qrDelay}
                 onError={handleError}
-                onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+                onScan={wrapFunction(handleScan, { onDismiss: onDismissDialog })}
                 style={{ width: '100%' }}
               />
             )}

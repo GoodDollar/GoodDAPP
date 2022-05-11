@@ -6,7 +6,7 @@ import Icon from '../../../common/view/Icon'
 
 import useGoodMarket from '../hooks/useGoodMarket'
 import useOnPress from '../../../../lib/hooks/useOnPress'
-import { useDialog } from '../../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../../lib/dialog/useDialog'
 
 import { fireEvent, GOTO_MARKET_POPUP } from '../../../../lib/analytics/analytics'
 import { withStyles } from '../../../../lib/styles'
@@ -17,7 +17,7 @@ import GoodMarketDialog from './GoodMarketDialog'
 export const marketAnimationDuration = 1500
 
 const GoodMarketButton = ({ styles }) => {
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
   const slideAnim = useRef(new Animated.Value(-60)).current
   const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
 

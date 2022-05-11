@@ -7,13 +7,12 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 
 describe('BigNumber', () => {
   const WrappedBigNumber = withThemeProvider(BigNumber)
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedBigNumber number={10} unit="G$" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedBigNumber number={10} unit="G$" />)
+  it('matches snapshot', async () => {
+    let component
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedBigNumber number={10} unit="G$" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

@@ -76,7 +76,7 @@ class LoginService {
     this.storeCredentials(creds)
     log.info('signed message', creds)
 
-    // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
+    // TODO: use date as nonce and validate on backend
     creds = await this.requestJWT(creds)
 
     await this.storeJWT(creds.jwt)
@@ -86,13 +86,12 @@ class LoginService {
   }
 
   async requestJWT(creds: Credentials): Promise<?Credentials | Error> {
-    log.info('Calling server for authentication')
-
     try {
       let { jwt } = await this.validateJWTExistenceAndExpiration()
       log.debug('jwt validation result:', { jwt })
 
       if (!jwt) {
+        log.info('Calling server for authentication')
         const response = await API.auth(creds)
         const { status, data, statusText } = response
 
@@ -120,6 +119,8 @@ class LoginService {
     const jwt = await this.getJWT()
     if (jwt) {
       const decoded = jsonwebtoken.decode(jwt, { json: true })
+
+      log.debug('validating jwt', { jwt, decoded })
 
       //new format of jwt should contain aud, used with realmdb
       if (!decoded.aud) {

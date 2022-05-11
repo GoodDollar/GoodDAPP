@@ -9,13 +9,12 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 describe('FeedListItem - Withdraw', () => {
   const WrappedFeedListItem = withThemeProvider(FeedListItem)
   const props = generateFeedItemProps('withdraw')
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedFeedListItem {...props} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedFeedListItem {...props} />)
+  it('matches snapshot', async () => {
+    let component
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedFeedListItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -24,13 +23,12 @@ describe('FeedListItem - Withdraw', () => {
 describe('FeedListItem - Send', () => {
   const WrappedFeedListItem = withThemeProvider(FeedListItem)
   const props = generateFeedItemProps('send')
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedFeedListItem {...props} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedFeedListItem {...props} />)
+  it('matches snapshot', async () => {
+    let component
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedFeedListItem {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

@@ -1,15 +1,14 @@
 //@flow
-import goodWallet from '../wallet/GoodWallet'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { GoodWalletContext } from '../wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
-import goodWalletLogin from './GoodWalletLogin'
 
 const log = logger.child({ from: 'checkAuthStatus' })
 
-const signInAttempt = async (withRefresh = false) => {
-  const creds = await goodWalletLogin.auth(withRefresh)
-  const { decoded } = await goodWalletLogin.validateJWTExistenceAndExpiration()
-
-  log.info('jwtsignin: jwt data', { creds, decoded })
+const signInAttempt = async (withRefresh = false, login) => {
+  const walletLogin = await login(withRefresh)
+  const { decoded, jwt } = await walletLogin.validateJWTExistenceAndExpiration()
+  log.info('jwtsignin: jwt data', { decoded, jwt })
 
   if (!decoded || decoded.aud === 'unsigned') {
     const exception = new Error('jwt is of unsigned user')
@@ -18,14 +17,14 @@ const signInAttempt = async (withRefresh = false) => {
     throw exception
   }
 
-  return creds
+  return jwt
 }
 
-const jwtSignin = async () => {
+const jwtSignin = async login => {
   try {
-    const creds = await signInAttempt()
+    const jwt = await signInAttempt(false, login)
 
-    return creds
+    return jwt
   } catch (exception) {
     if ('OutdatedProfileSignatureError' === exception.name) {
       throw exception
@@ -33,17 +32,31 @@ const jwtSignin = async () => {
   }
 
   log.warn('jwt login failed or missing aud in jwt, trying to refresh token')
-  return signInAttempt(true)
+  return signInAttempt(true, login)
 }
 
-export const checkAuthStatus = async () => {
-  // when wallet is ready perform login to server (sign message with wallet and send to server)
-  const [creds, isCitizen]: any = await Promise.all([jwtSignin(), goodWallet.isCitizen()])
-  const isAuthorized = creds.jwt !== undefined
-  const isLoggedIn = isAuthorized
-  const isLoggedInCitizen = isLoggedIn && isCitizen
+export const useCheckAuthStatus = () => {
+  const { login, goodWallet, isCitizen } = useContext(GoodWalletContext)
+  const [authStatus, setAuthStatus] = useState([])
 
-  log.debug('checkAuthStatus result:', { creds, isCitizen })
+  const check = useCallback(async () => {
+    const jwt = await jwtSignin(login)
+    const isAuthorized = jwt !== undefined
+    const isLoggedIn = isAuthorized
+    const isLoggedInCitizen = isLoggedIn && isCitizen
 
-  return [isLoggedInCitizen, isLoggedIn]
+    log.debug('checkAuthStatus result:', { jwt, isCitizen, isLoggedInCitizen, isLoggedIn })
+    setAuthStatus([isLoggedInCitizen, isLoggedIn])
+  }, [login, goodWallet, isCitizen])
+
+  useEffect(() => {
+    // when wallet is ready perform login to server (sign message with wallet and send to server)
+
+    if (goodWallet && login) {
+      log.debug('on wallet')
+      check()
+    }
+  }, [goodWallet, login, check])
+
+  return { authStatus, refresh: check }
 }

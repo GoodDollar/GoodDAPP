@@ -12,15 +12,11 @@ describe('EventCounterParty', () => {
   describe('withdraw', () => {
     const feedItem = mockEvent('withdraw')
 
-    it('renders without errors', () => {
-      console.info({ feedItem })
-      const tree = renderer.create(<WrappedEventCounterParty feedItem={feedItem} />)
-      expect(tree.toJSON()).toBeTruthy()
-    })
+    it('matches snapshot', async () => {
+      let tree
 
-    it('matches snapshot', () => {
-      console.info({ feedItem })
-      const tree = renderer.create(<WrappedEventCounterParty feedItem={feedItem} />)
+      // eslint-disable-next-line require-await
+      await renderer.act(async () => (tree = renderer.create(<WrappedEventCounterParty feedItem={feedItem} />)))
       expect(tree.toJSON()).toMatchSnapshot()
     })
   })
@@ -28,13 +24,11 @@ describe('EventCounterParty', () => {
   describe('send', () => {
     const feedItem = mockEvent('send')
 
-    it('renders without errors', () => {
-      const tree = renderer.create(<WrappedEventCounterParty feedItem={feedItem} />)
-      expect(tree.toJSON()).toBeTruthy()
-    })
+    it('matches snapshot', async () => {
+      let tree
 
-    it('matches snapshot', () => {
-      const tree = renderer.create(<WrappedEventCounterParty feedItem={feedItem} />)
+      // eslint-disable-next-line require-await
+      await renderer.act(async () => (tree = renderer.create(<WrappedEventCounterParty feedItem={feedItem} />)))
       expect(tree.toJSON()).toMatchSnapshot()
     })
   })
@@ -42,13 +36,11 @@ describe('EventCounterParty', () => {
   describe('receive', () => {
     const feedItem = mockEvent('receive')
 
-    it('renders without errors', () => {
-      const tree = renderer.create(<WrappedEventCounterParty feedItem={feedItem} />)
-      expect(tree.toJSON()).toBeTruthy()
-    })
+    it('matches snapshot', async () => {
+      let tree
 
-    it('matches snapshot', () => {
-      const tree = renderer.create(<WrappedEventCounterParty feedItem={feedItem} />)
+      // eslint-disable-next-line require-await
+      await renderer.act(async () => (tree = renderer.create(<WrappedEventCounterParty feedItem={feedItem} />)))
       expect(tree.toJSON()).toMatchSnapshot()
     })
   })

@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Image, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
 import { t, Trans } from '@lingui/macro'
-import { Avatar, CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
+import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
+import Avatar from '../common/view/Avatar'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -10,24 +11,23 @@ import logger from '../../lib/logger/js-logger'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
-import userStorage from '../../lib/userStorage/UserStorage'
 import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 import createABTesting from '../../lib/hooks/useABTesting'
 
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
 import mustache from '../../lib/utils/mustache'
 import {
-  registerForInvites,
   useCollectBounty,
   useInviteBonus,
   useInviteCode,
   useInvited,
   useInviteScreenOpened,
+  useRegisterForInvites,
 } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
@@ -164,9 +164,12 @@ const ShareBox = ({ level }) => {
 
 const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
-  const [showDialog, hideDialog] = useDialog()
+  const registerForInvites = useRegisterForInvites()
+  const { hideDialog, showDialog } = useDialog()
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
@@ -204,7 +207,7 @@ const InputCodeBox = ({ navigateTo }) => {
         },
       ],
     })
-  }, [navigateTo, showDialog])
+  }, [navigateTo, showDialog, goodWallet])
 
   const onSubmit = useCallback(async () => {
     showDialog({
@@ -224,7 +227,7 @@ const InputCodeBox = ({ navigateTo }) => {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty])
+  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, registerForInvites])
 
   //manages the get reward button state (disabled/enabled)
   useEffect(() => {
@@ -265,7 +268,7 @@ const InputCodeBox = ({ navigateTo }) => {
       log.debug('updating disabled state:', { canCollect })
       setDisabled(!canCollect)
     })
-  }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled, getCanCollect])
+  }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled, getCanCollect, goodWallet])
 
   if (collected) {
     return null
@@ -467,6 +470,7 @@ const Invite = ({ screenProps }) => {
   const { wasOpened } = useInviteScreenOpened()
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
+  const userStorage = useUserStorage()
 
   const totalEarned = parseInt(get(inviteState, 'totalEarned', 0))
   const bounty = parseInt(get(level, 'bounty', 0)) / 100

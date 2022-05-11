@@ -1,16 +1,15 @@
 import { debounce } from 'lodash'
 
-import userStorage from '../../userStorage/UserStorage'
 import * as feedUtils from './feed'
 
 // eslint-disable-next-line require-await
-export const analyzeAvatar = async avatar => feedUtils.analyzeAvatar(avatar, userStorage)
+export const analyzeAvatar = async (avatar, userStorage) => feedUtils.analyzeAvatar(avatar, userStorage)
 
 // eslint-disable-next-line require-await
-export const updateFeedEventAvatar = async avatar => feedUtils.updateFeedEventAvatar(avatar, userStorage)
+export const updateFeedEventAvatar = async (avatar, userStorage) => feedUtils.updateFeedEventAvatar(avatar, userStorage)
 
 // eslint-disable-next-line require-await
-export const gunPublicKeyTrust = async () => {
+export const gunPublicKeyTrust = async userStorage => {
   const { gunuser } = userStorage
   const pubkey = gunuser.pair().pub
 

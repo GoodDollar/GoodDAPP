@@ -14,16 +14,26 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1w2pmg"
+      className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
           "WebkitBoxFlex": 0,
+          "WebkitBoxOrient": "horizontal",
+          "WebkitFlexDirection": "row",
           "WebkitFlexGrow": 0,
           "WebkitFlexShrink": 0,
+          "alignItems": "center",
           "backgroundColor": "rgba(0,175,255,1.00)",
           "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
+          "flexDirection": "row",
           "flexGrow": 0,
           "flexShrink": 0,
+          "height": "0px",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
           "msFlexNegative": 0,
           "msFlexPositive": 0,
           "paddingLeft": "4px",
@@ -59,13 +69,15 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
+                "color": "rgba(255,255,255,1.00)",
                 "fontFamily": "gooddollar",
                 "fontSize": "22px",
                 "fontStyle": "normal",
+                "fontWeight": "normal",
               }
             }
           >
@@ -133,12 +145,16 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-top-ipm5af"
+              className="css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitTransform": "rotate(0deg)",
+                  "bottom": "0px",
+                  "left": "0px",
                   "opacity": 1,
+                  "position": "absolute",
                   "right": "0px",
+                  "top": "0px",
                   "transform": "rotate(0deg)",
                 }
               }
@@ -179,10 +195,14 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           My account details
         </div>
         <div
-          className="css-view-1dbjc4n r-borderRadius-1f0042m"
+          className="css-view-1dbjc4n"
           style={
             Object {
               "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomLeftRadius": "5px",
+              "borderBottomRightRadius": "5px",
+              "borderTopLeftRadius": "5px",
+              "borderTopRightRadius": "5px",
               "height": "10px",
               "zIndex": -10,
             }
@@ -229,16 +249,22 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+              style={
+                Object {
+                  "height": "0px",
+                }
+              }
             />
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-left-1d2f490 r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
               style={
                 Object {
                   "borderBottomLeftRadius": "0px",
                   "borderBottomRightRadius": "0px",
                   "borderTopLeftRadius": "0px",
                   "borderTopRightRadius": "0px",
+                  "height": "0px",
                 }
               }
             >
@@ -265,7 +291,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                fake-wallet-p...t-private-key
+                0xc30e7cbfa08...e4868056fe573
               </div>
             </div>
             <div
@@ -427,7 +453,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                fake-wallet-a...allet-address
+                0x5dfFc16F54a...61B8fc39EE35F
               </div>
             </div>
             <div
@@ -588,7 +614,9 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               <div
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
-              />
+              >
+                http://localhost:8545/
+              </div>
             </div>
             <div
               className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
@@ -749,7 +777,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                undefined
+                4447
               </div>
             </div>
             <div

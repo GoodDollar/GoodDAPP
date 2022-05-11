@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import { CustomButton, Section, Wrapper } from '../../../common'
 import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
 
-import { useDialog } from '../../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../../lib/dialog/useDialog'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import logger from '../../../../lib/logger/js-logger'
 
@@ -17,7 +17,7 @@ import { ExceptionType, isLicenseIssue } from '../utils/kindOfTheIssue'
 const log = logger.child({ from: 'FaceVerification' })
 
 const UnrecoverableError = ({ styles, exception, nav }) => {
-  const [, hideDialog, showErrorDialog] = useDialog()
+  const { hideDialog, showErrorDialog } = useDialog()
   const { navigateTo, goToRoot, push } = nav
 
   const { type, message } = exception || {}

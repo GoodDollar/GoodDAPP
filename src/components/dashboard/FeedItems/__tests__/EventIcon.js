@@ -5,49 +5,41 @@ import EventIcon from '../EventIcon'
 // Note: test renderer must be required after react-native.
 
 describe('EventIcon - Withdraw', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<EventIcon type="withdraw" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let tree
 
-  it('matches snapshot', () => {
-    const tree = renderer.create(<EventIcon type="withdraw" />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (tree = renderer.create(<EventIcon type="withdraw" />)))
     expect(tree.toJSON()).toMatchSnapshot()
   })
 })
 
 describe('EventIcon - Send', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<EventIcon type="send" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let tree
 
-  it('matches snapshot', () => {
-    const tree = renderer.create(<EventIcon type="send" />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (tree = renderer.create(<EventIcon type="send" />)))
     expect(tree.toJSON()).toMatchSnapshot()
   })
 })
 
 describe('EventIcon - Receive', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<EventIcon type="receive" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let tree
 
-  it('matches snapshot', () => {
-    const tree = renderer.create(<EventIcon type="receive" />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (tree = renderer.create(<EventIcon type="receive" />)))
     expect(tree.toJSON()).toMatchSnapshot()
   })
 })
 
 describe('EventIcon - welcome', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<EventIcon type="welcome" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let tree
 
-  it('matches snapshot', () => {
-    const tree = renderer.create(<EventIcon type="welcome" />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (tree = renderer.create(<EventIcon type="welcome" />)))
     expect(tree.toJSON()).toMatchSnapshot()
   })
 })

@@ -1,20 +1,18 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { theme as defaultTheme } from '../../components/theme/styles'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import GDStore from '../../lib/undux/GDStore'
+
 import { GlobalTogglesContextProvider } from '../../lib/contexts/togglesContext'
-import { UserContextProvider } from '../../lib/contexts/userContext'
+import { GoodWalletContext, GoodWalletProvider } from '../../lib/wallet/GoodWalletProvider'
+import { DialogContextProvider } from '../../lib/dialog/dialogContext'
 import LanguageProvider from '../../language/i18n'
 
 export const StoresWrapper = ({ children }) => {
   return (
     <GlobalTogglesContextProvider>
-      <UserContextProvider>
-        <GDStore.Container>
-          <SimpleStore.Container>{children}</SimpleStore.Container>
-        </GDStore.Container>
-      </UserContextProvider>
+      <DialogContextProvider>
+        <GoodWalletProvider disableLoginAndWatch>{children}</GoodWalletProvider>
+      </DialogContextProvider>
     </GlobalTogglesContextProvider>
   )
 }
@@ -25,32 +23,45 @@ export const withStoresProvider = Component => props => (
   </StoresWrapper>
 )
 
+export const withUserStorage = Component => props => {
+  const [isReady, setReady] = useState(false)
+  const { initWalletAndStorage } = useContext(GoodWalletContext)
+  useEffect(() => {
+    initWalletAndStorage &&
+      initWalletAndStorage(
+        'burger must derive wrong dry unaware reopen laptop acoustic report slender scene',
+        'SEED',
+      ).then(_ => setReady(true))
+  }, [initWalletAndStorage])
+
+  return isReady ? <Component {...props} /> : null
+}
 export const withSimpleStateProvider = Component => props => (
   <GlobalTogglesContextProvider>
-    <UserContextProvider>
-      <SimpleStore.Container>
-        <Component {...props} />
-      </SimpleStore.Container>
-    </UserContextProvider>
+    <Component {...props} />
   </GlobalTogglesContextProvider>
 )
 
-export const withThemeProvider = (Component, theme = defaultTheme) => props => {
-  return (
+export const withThemeProvider = (Component, theme = defaultTheme) => {
+  const C = withUserStorage(Component)
+  return props => (
     <PaperProvider theme={theme}>
       <StoresWrapper>
-        <Component {...props} />
+        <C {...props} />
       </StoresWrapper>
     </PaperProvider>
   )
 }
 
-export const withThemeAndLocalizationProvider = (Component, theme = defaultTheme) => props => (
-  <PaperProvider theme={theme}>
-    <LanguageProvider>
-      <StoresWrapper>
-        <Component {...props} />
-      </StoresWrapper>
-    </LanguageProvider>
-  </PaperProvider>
-)
+export const withThemeAndLocalizationProvider = (Component, theme = defaultTheme) => {
+  const C = withUserStorage(Component)
+  return props => (
+    <PaperProvider theme={theme}>
+      <LanguageProvider>
+        <StoresWrapper>
+          <C {...props} />
+        </StoresWrapper>
+      </LanguageProvider>
+    </PaperProvider>
+  )
+}

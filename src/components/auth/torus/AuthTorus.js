@@ -15,13 +15,12 @@ import {
   TORUS_REDIRECT_SUCCESS,
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
-import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
+import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
 import { withStyles } from '../../../lib/styles'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
-import SimpleStore from '../../../lib/undux/SimpleStore'
-import { useDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { decorate, ExceptionCode } from '../../../lib/exceptions/utils'
 
@@ -31,27 +30,25 @@ import { getShadowStyles } from '../../../lib/utils/getStyles'
 import normalizeText from '../../../lib/utils/normalizeText'
 import useCheckExisting from '../hooks/useCheckExisting'
 
-import ready from '../ready'
 import SignUpIn from '../login/SignUpScreen'
 
-import { withTimeout } from '../../../lib/utils/async'
 import DeepLinking from '../../../lib/utils/deepLinking'
-
+import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
-import useUserContext from '../../../lib/hooks/useUserContext'
 import mustache from '../../../lib/utils/mustache'
 import useTorus from './hooks/useTorus'
-
 const log = logger.child({ from: 'AuthTorus' })
 
-const AuthTorus = ({ screenProps, navigation, styles, store }) => {
-  const [, hideDialog, showErrorDialog] = useDialog()
+const AuthTorus = ({ screenProps, navigation, styles }) => {
+  const { initWalletAndStorage } = useContext(GoodWalletContext)
+  const { setLoggedInRouter } = useContext(GlobalTogglesContext)
+  const { hideDialog, showErrorDialog } = useDialog()
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const { navigate } = navigation
-  const { update } = useUserContext()
 
   const getTorusUserRedirect = async () => {
     if (!sdkInitialized || torusSDK.popupMode) {
@@ -109,7 +106,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       fireEvent(TORUS_SUCCESS, { provider })
       log.debug('torus login success', { torusUser, provider })
     } catch (e) {
-      // store.set('loadingIndicator')({ loading: false })
       fireEvent(TORUS_FAILED, { provider, error: e.message })
       const cancelled = e.message.toLowerCase().includes('user closed')
       if (cancelled) {
@@ -158,13 +154,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   })
 
   const selfCustody = useCallback(async () => {
-    const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+    const curSeed = (await AsyncStorage.getItem(GD_USER_MASTERSEED)) || (await AsyncStorage.getItem(GD_USER_MNEMONIC))
 
     //in case user started torus signup but came back here we need to re-initialize wallet/storage with
     //new credentials
     if (curSeed) {
+      log.debug('selfcustody clear storage')
       await AsyncStorage.clear()
-      await ready(true)
     }
 
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
@@ -172,7 +168,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   }, [navigate])
 
   const handleLoginMethod = async (
-    provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
+    provider:
+      | 'facebook'
+      | 'google'
+      | 'auth0'
+      | 'auth0-pwdless-email'
+      | 'auth0-pwdless-sms'
+      | 'wallet-connect'
+      | 'metamask',
     torusUserRedirectPromise,
   ) => {
     const fromRedirect = !!torusUserRedirectPromise
@@ -185,6 +188,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
 
     if (provider === 'selfCustody') {
+      initWalletAndStorage(undefined, 'SEED') //initialize the wallet (it will generate a mnemonic)
       return selfCustody()
     }
 
@@ -192,16 +196,22 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       return selfCustodyLogin()
     }
 
-    try {
+    let web3Provider, torusUser
+    setWalletPreparing(true)
+
+    // in case this is triggered as a callback after redirect we fire a different vent
+    fireEvent(fromRedirect ? TORUS_REDIRECT_SUCCESS : SIGNIN_METHOD_SELECTED, {
+      method: provider,
+      torusPopupMode, // for a/b testing, it always be false in case of redirect
+    })
+
+    if (['metamask', 'walletconnect'].includes(provider)) {
+      // web3Provider = await otherWalletLogin(provider)
+      torusUser = {
+        publicAddress: web3Provider.address,
+      }
+    } else {
       let torusResponse
-
-      setWalletPreparing(true)
-
-      // in case this is triggered as a callback after redirect we fire a different vent
-      fireEvent(fromRedirect ? TORUS_REDIRECT_SUCCESS : SIGNIN_METHOD_SELECTED, {
-        method: provider,
-        torusPopupMode, // for a/b testing, it always be false in case of redirect
-      })
 
       try {
         // don't expect response if in redirect mode, this method will be called again with response from effect
@@ -229,34 +239,34 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         if (!get(torusResponse, 'torusUser')) {
           throw new Error('Invalid Torus response.')
         }
+        torusUser = torusResponse.torusUser
       } catch (e) {
         onTorusError(e)
         return
       }
-
+    }
+    try {
       setActiveStep(2)
 
       // get full name, email, number, userId
-      const { torusUser, replacing } = torusResponse
-      const existsResult = await checkExisting(provider, torusUser)
+      const goodWallet = await initWalletAndStorage(
+        web3Provider ? web3Provider : torusUser.privateKey,
+        web3Provider ? provider.toUpperCase() : 'SEED',
+      )
+
+      const existsResult = await checkExisting(provider, torusUser, goodWallet)
+      log.info('checkExisting result:', { existsResult })
 
       switch (existsResult) {
         case 'login': {
           // case of sign-in
-          setActiveStep(3)
-
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
-          await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
           setWalletPreparing(false)
-          setSuccessfull(() => update(true))
+          setSuccessfull(() => setLoggedInRouter(true))
           return
         }
         case 'signup': {
-          log.debug('user does not exists')
-
-          await withTimeout(() => ready(replacing), 60000, 'initializing wallet timed out')
-
           if (isWeb) {
             // Hack to get keyboard up on mobile need focus from user event such as click
             setTimeout(() => {
@@ -282,7 +292,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       const uiMessage = decorate(exception, ExceptionCode.E14)
 
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
-      log.error('Failed to initialize wallet and storage', message, exception)
+      log.error('Failed to initialize wallet and storage', message, exception, { provider })
     } finally {
       setWalletPreparing(false)
     }
@@ -412,7 +422,7 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-const Auth = withStyles(getStylesFromProps)(SimpleStore.withStore(AuthTorus))
+const Auth = withStyles(getStylesFromProps)(AuthTorus)
 Auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,

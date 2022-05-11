@@ -26,11 +26,20 @@ exports[`AppNavigation matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-overflow-1udh08x"
+          className="css-view-1dbjc4n r-overflow-1udh08x"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitFlexDirection": "row",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,175,255,1.00)",
+              "flexDirection": "row",
               "height": "56px",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
               "paddingLeft": "4px",
               "paddingRight": "4px",
             }
@@ -57,13 +66,15 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
+                  "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "gooddollar",
                   "fontSize": "36px",
                   "fontStyle": "normal",
+                  "fontWeight": "normal",
                 }
               }
             >
@@ -79,13 +90,15 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="-1"
           >
             <h1
-              className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-color-jwli3a r-fontSize-adyw6z r-fontWeight-majxgm"
+              className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-fontSize-adyw6z"
               dir="auto"
               role="heading"
               style={
                 Object {
                   "WebkitLineClamp": 1,
+                  "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontWeight": "500",
                   "textAlign": "left",
                 }
               }
@@ -111,13 +124,15 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontSize-adyw6z r-fontWeight-1it3c9n"
+              className="css-text-901oao r-fontSize-adyw6z"
               data-testid="burger_button"
               dir="auto"
               style={
                 Object {
+                  "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "gooddollar",
                   "fontStyle": "normal",
+                  "fontWeight": "normal",
                   "marginRight": "10px",
                 }
               }
@@ -671,6 +686,546 @@ exports[`AppNavigation matches snapshot 1`] = `
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+          onScroll={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          onWheel={[Function]}
+          style={
+            Object {
+              "height": "1px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox"
+          >
+            <div
+              className="css-view-1dbjc4n"
+            >
+              <div
+                className="css-view-1dbjc4n"
+              >
+                <div
+                  className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1xfd6ze r-flex-13awgt0 r-justifyContent-1777fci r-overflow-1udh08x r-paddingLeft-1m04atk"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-l26x2w r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
+                      style={
+                        Object {
+                          "backgroundImage": "url(feedListItemPattern.svg)",
+                        }
+                      }
+                    />
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-padding-tuq35u r-width-13qz1uu"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignSelf-173mn98 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                        style={
+                          Object {
+                            "WebkitAlignItems": "flex-start",
+                            "WebkitBoxAlign": "start",
+                            "alignItems": "flex-start",
+                            "msFlexAlign": "start",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                          style={
+                            Object {
+                              "borderBottomLeftRadius": "17px",
+                              "borderBottomRightRadius": "17px",
+                              "borderTopLeftRadius": "17px",
+                              "borderTopRightRadius": "17px",
+                              "height": "34px",
+                              "width": "34px",
+                            }
+                          }
+                        />
+                      </div>
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-marginLeft-13hce6t"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-15zivkp r-paddingBottom-iphfwy"
+                        >
+                          <div
+                            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                            style={
+                              Object {
+                                "WebkitAlignItems": "flex-start",
+                                "WebkitBoxAlign": "start",
+                                "alignItems": "flex-start",
+                                "msFlexAlign": "start",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                              style={
+                                Object {
+                                  "height": "10px",
+                                  "width": "74px",
+                                }
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                        >
+                          <div
+                            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
+                            style={
+                              Object {
+                                "WebkitAlignItems": "flex-start",
+                                "WebkitBoxAlign": "start",
+                                "alignItems": "flex-start",
+                                "msFlexAlign": "start",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                            >
+                              <div
+                                className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                                style={
+                                  Object {
+                                    "height": "18px",
+                                    "width": "120px",
+                                  }
+                                }
+                              />
+                            </div>
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                            >
+                              <div
+                                className="css-view-1dbjc4n r-backgroundColor-l26x2w r-marginTop-14gqq1x"
+                                style={
+                                  Object {
+                                    "height": "10px",
+                                    "width": "74px",
+                                  }
+                                }
+                              />
+                            </div>
+                          </div>
+                          <div
+                            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                            style={
+                              Object {
+                                "WebkitAlignItems": "flex-end",
+                                "WebkitBoxAlign": "end",
+                                "alignItems": "flex-end",
+                                "msFlexAlign": "end",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                              style={
+                                Object {
+                                  "borderBottomLeftRadius": "17px",
+                                  "borderBottomRightRadius": "17px",
+                                  "borderTopLeftRadius": "17px",
+                                  "borderTopRightRadius": "17px",
+                                  "height": "34px",
+                                  "width": "34px",
+                                }
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="css-view-1dbjc4n"
+              >
+                <div
+                  className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1xfd6ze r-flex-13awgt0 r-justifyContent-1777fci r-overflow-1udh08x r-paddingLeft-1m04atk"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-l26x2w r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
+                      style={
+                        Object {
+                          "backgroundImage": "url(feedListItemPattern.svg)",
+                        }
+                      }
+                    />
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-padding-tuq35u r-width-13qz1uu"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignSelf-173mn98 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                        style={
+                          Object {
+                            "WebkitAlignItems": "flex-start",
+                            "WebkitBoxAlign": "start",
+                            "alignItems": "flex-start",
+                            "msFlexAlign": "start",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                          style={
+                            Object {
+                              "borderBottomLeftRadius": "17px",
+                              "borderBottomRightRadius": "17px",
+                              "borderTopLeftRadius": "17px",
+                              "borderTopRightRadius": "17px",
+                              "height": "34px",
+                              "width": "34px",
+                            }
+                          }
+                        />
+                      </div>
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-marginLeft-13hce6t"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-15zivkp r-paddingBottom-iphfwy"
+                        >
+                          <div
+                            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                            style={
+                              Object {
+                                "WebkitAlignItems": "flex-start",
+                                "WebkitBoxAlign": "start",
+                                "alignItems": "flex-start",
+                                "msFlexAlign": "start",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                              style={
+                                Object {
+                                  "height": "10px",
+                                  "width": "74px",
+                                }
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                        >
+                          <div
+                            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
+                            style={
+                              Object {
+                                "WebkitAlignItems": "flex-start",
+                                "WebkitBoxAlign": "start",
+                                "alignItems": "flex-start",
+                                "msFlexAlign": "start",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                            >
+                              <div
+                                className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                                style={
+                                  Object {
+                                    "height": "18px",
+                                    "width": "120px",
+                                  }
+                                }
+                              />
+                            </div>
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                            >
+                              <div
+                                className="css-view-1dbjc4n r-backgroundColor-l26x2w r-marginTop-14gqq1x"
+                                style={
+                                  Object {
+                                    "height": "10px",
+                                    "width": "74px",
+                                  }
+                                }
+                              />
+                            </div>
+                          </div>
+                          <div
+                            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                            style={
+                              Object {
+                                "WebkitAlignItems": "flex-end",
+                                "WebkitBoxAlign": "end",
+                                "alignItems": "flex-end",
+                                "msFlexAlign": "end",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                              style={
+                                Object {
+                                  "borderBottomLeftRadius": "17px",
+                                  "borderBottomRightRadius": "17px",
+                                  "borderTopLeftRadius": "17px",
+                                  "borderTopRightRadius": "17px",
+                                  "height": "34px",
+                                  "width": "34px",
+                                }
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="css-view-1dbjc4n"
+              >
+                <div
+                  className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1xfd6ze r-flex-13awgt0 r-justifyContent-1777fci r-overflow-1udh08x r-paddingLeft-1m04atk"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-l26x2w r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
+                      style={
+                        Object {
+                          "backgroundImage": "url(feedListItemPattern.svg)",
+                        }
+                      }
+                    />
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-padding-tuq35u r-width-13qz1uu"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignSelf-173mn98 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                        style={
+                          Object {
+                            "WebkitAlignItems": "flex-start",
+                            "WebkitBoxAlign": "start",
+                            "alignItems": "flex-start",
+                            "msFlexAlign": "start",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                          style={
+                            Object {
+                              "borderBottomLeftRadius": "17px",
+                              "borderBottomRightRadius": "17px",
+                              "borderTopLeftRadius": "17px",
+                              "borderTopRightRadius": "17px",
+                              "height": "34px",
+                              "width": "34px",
+                            }
+                          }
+                        />
+                      </div>
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-marginLeft-13hce6t"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-15zivkp r-paddingBottom-iphfwy"
+                        >
+                          <div
+                            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                            style={
+                              Object {
+                                "WebkitAlignItems": "flex-start",
+                                "WebkitBoxAlign": "start",
+                                "alignItems": "flex-start",
+                                "msFlexAlign": "start",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                              style={
+                                Object {
+                                  "height": "10px",
+                                  "width": "74px",
+                                }
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                        >
+                          <div
+                            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
+                            style={
+                              Object {
+                                "WebkitAlignItems": "flex-start",
+                                "WebkitBoxAlign": "start",
+                                "alignItems": "flex-start",
+                                "msFlexAlign": "start",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                            >
+                              <div
+                                className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                                style={
+                                  Object {
+                                    "height": "18px",
+                                    "width": "120px",
+                                  }
+                                }
+                              />
+                            </div>
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                            >
+                              <div
+                                className="css-view-1dbjc4n r-backgroundColor-l26x2w r-marginTop-14gqq1x"
+                                style={
+                                  Object {
+                                    "height": "10px",
+                                    "width": "74px",
+                                  }
+                                }
+                              />
+                            </div>
+                          </div>
+                          <div
+                            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+                            style={
+                              Object {
+                                "WebkitAlignItems": "flex-end",
+                                "WebkitBoxAlign": "end",
+                                "alignItems": "flex-end",
+                                "msFlexAlign": "end",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-backgroundColor-l26x2w"
+                              style={
+                                Object {
+                                  "borderBottomLeftRadius": "17px",
+                                  "borderBottomRightRadius": "17px",
+                                  "borderTopLeftRadius": "17px",
+                                  "borderTopRightRadius": "17px",
+                                  "height": "34px",
+                                  "width": "34px",
+                                }
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n"
+            >
+              <div
+                className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                style={
+                  Object {
+                    "borderBottomLeftRadius": "25px",
+                    "borderBottomRightRadius": "25px",
+                    "borderTopLeftRadius": "25px",
+                    "borderTopRightRadius": "25px",
+                    "height": "50px",
+                  }
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-bottom-1p0dtai r-height-1lh3azm r-position-u8s1d r-right-zchlnj r-width-1q42mak r-zIndex-1sg8ghl"
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "opacity": 0,
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
+                }
+              }
+              tabIndex="0"
+            >
+              <scrollToTop.svg />
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-position-u8s1d"
+          style={
+            Object {
+              "bottom": "-60px",
+              "left": "50%",
+              "right": "50%",
+              "zIndex": 0,
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-backgroundColor-1jb27wt r-borderTopLeftRadius-1ct94d3 r-borderTopRightRadius-3y0fky r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1777fci r-paddingBottom-xd6kpl r-paddingTop-tskmnb r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onKeyDown={[Function]}
+            style={
+              Object {
+                "WebkitTransitionDuration": "0s",
+                "transitionDuration": "0s",
+              }
+            }
+            tabIndex="0"
+          >
+            <div
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "gooddollar",
+                  "fontSize": "36px",
+                  "fontStyle": "normal",
+                }
+              }
+            >
+              
             </div>
           </div>
         </div>

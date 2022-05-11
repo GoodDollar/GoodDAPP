@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 
@@ -18,7 +18,7 @@ import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
 // utils
-import UserStorage from '../../../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import {
@@ -34,6 +34,7 @@ import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
+import { useDialog } from '../../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 
 // import createABTesting from '../../../../lib/hooks/useABTesting'
@@ -43,7 +44,6 @@ import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../../lib/userStorage/useProfile'
-import { GlobalTogglesContext } from '../../../../lib/contexts/togglesContext'
 
 // Localization
 
@@ -151,7 +151,8 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { fullName } = useProfile()
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
-  const { setDialogBlur } = useContext(GlobalTogglesContext)
+  const userStorage = useUserStorage()
+  const { showDialog } = useDialog()
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
   const Intro = IntroScreenB
@@ -160,16 +161,17 @@ const IntroScreen = ({ styles, screenProps }) => {
 
   const [disposing, checkDisposalState] = useDisposingState({
     requestOnMounted: false,
-    enrollmentIdentifier: UserStorage.getFaceIdentifier(),
+    enrollmentIdentifier: userStorage.getFaceIdentifier(),
     onComplete: isDisposing => {
       if (!isDisposing) {
         return
       }
 
-      showQueueDialog(WalletDeletedPopupText, setDialogBlur, {
+      const dialogData = showQueueDialog(WalletDeletedPopupText, {
         onDismiss: goToRoot,
         imageSource: wait24hourIllustration,
       })
+      showDialog(dialogData)
     },
   })
 

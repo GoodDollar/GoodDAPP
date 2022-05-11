@@ -8,3 +8,9 @@ export const resultFacescanProcessingMessage = `Verifying you're\none of a kind`
 
 export const MAX_ATTEMPTS_ALLOWED = Config.faceVerificationMaxAttemptsAllowed
 export const MAX_RETRIES_ALLOWED = MAX_ATTEMPTS_ALLOWED - 1
+
+export const defaultVerificationState = {
+  attemptsCount: 0,
+  attemptsHistory: [],
+  reachedMaxAttempts: false,
+}

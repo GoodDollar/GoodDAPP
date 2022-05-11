@@ -7,26 +7,33 @@ const ModalWrapper = withThemeProvider(ImportedModalWrapper)
 // Note: test renderer must be required after react-native.
 
 describe('ModalWrapper', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<ModalWrapper />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(
-      <ModalWrapper>
-        <React.Fragment>Testing</React.Fragment>
-      </ModalWrapper>,
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(
+          <ModalWrapper>
+            <React.Fragment>Testing</React.Fragment>
+          </ModalWrapper>,
+        )),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('matches snapshot with properties', () => {
-    const component = renderer.create(
-      <ModalWrapper showJaggedEdge={true}>
-        <React.Fragment>Testing</React.Fragment>
-      </ModalWrapper>,
+  it('matches snapshot with properties', async () => {
+    let component
+
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(
+          <ModalWrapper showJaggedEdge={true}>
+            <React.Fragment>Testing</React.Fragment>
+          </ModalWrapper>,
+        )),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

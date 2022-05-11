@@ -11,13 +11,11 @@ import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
 // import useOnPress from '../../lib/hooks/useOnPress'
 // import { isBrowser } from '../../lib/utils/platform'
-import userStorage, { type TransactionEvent } from '../../lib/userStorage/UserStorage'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
+import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
-import wrapper from '../../lib/undux/utils/wrapper'
+import { useDialog } from '../../lib/dialog/useDialog'
 import API from '../../lib/API/api'
 
 // import { openLink } from '../../lib/utils/linking'
@@ -50,7 +48,6 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
-import useUserContext from '../../lib/hooks/useUserContext'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -222,15 +219,15 @@ const cbStyles = {
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
-  const { isLoggedInCitizen: isCitizen, entitlement, update } = useUserContext()
-
+  const goodWallet = useWallet()
+  const { dailyUBI: entitlement, isCitizen } = useWalletData()
   const { appState } = useAppState()
-  const store = SimpleStore.useStore()
+  const userStorage = useUserStorage()
 
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const { isValid } = screenState
 
-  const [showDialog, , showErrorDialog] = useDialog()
+  const { showDialog, showErrorDialog } = useDialog()
 
   // use loading variable if required
   const [, setLoading] = useState(false)
@@ -247,7 +244,6 @@ const Claim = props => {
 
   const [interestCollected, setInterestCollected] = useState()
 
-  const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
@@ -266,10 +262,10 @@ const Claim = props => {
     async (all = false) => {
       try {
         await _retry(async () => {
-          const promises = [wrappedGoodWallet.getClaimScreenStatsFuse()]
+          const promises = [goodWallet.getClaimScreenStatsFuse()]
 
           if (all) {
-            promises.push(wrappedGoodWallet.getClaimScreenStatsMainnet())
+            promises.push(goodWallet.getClaimScreenStatsMainnet())
           }
 
           const [fuseData, mainnetData] = await Promise.all(promises)
@@ -318,6 +314,7 @@ const Claim = props => {
       updateTimer,
       showErrorDialog,
       goToRoot,
+      goodWallet,
     ],
   )
 
@@ -446,7 +443,7 @@ const Claim = props => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog])
+  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog, goodWallet, userStorage])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)
@@ -487,11 +484,6 @@ const Claim = props => {
         } else if (isValid === false) {
           // with non-validated state
           goToRoot()
-        } else {
-          // opened claim page (non-returned from FV)
-          if (isCitizen === false) {
-            goodWallet.isCitizen().then(value => update({ isLoggedInCitizen: value }))
-          }
         }
       } catch (exception) {
         const { message } = exception
@@ -508,7 +500,7 @@ const Claim = props => {
     }
 
     init()
-  }, [])
+  }, [goodWallet])
 
   return (
     <WrapperClaim style={dailyUbi ? styles.wrapperActive : styles.wrapperInactive}>

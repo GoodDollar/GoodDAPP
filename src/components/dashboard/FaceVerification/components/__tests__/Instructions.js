@@ -6,22 +6,22 @@ import ImportedInstructions from '../Instructions'
 const Instructions = withThemeProvider(ImportedInstructions)
 
 describe('FaceVerification Instructions', () => {
-  it('renders without errors', () => {
+  it('matches snapshot', async () => {
     let tree
 
-    expect(() => (tree = renderer.create(<Instructions ready={true} />))).not.toThrow()
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const tree = renderer.create(<Instructions ready={true} />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (tree = renderer.create(<Instructions ready={true} />)))
 
     expect(tree.toJSON()).toMatchSnapshot()
   })
 
-  it('should execute onDismiss on "GOT IT" press', () => {
+  it('should execute onDismiss on "GOT IT" press', async () => {
     const onDismiss = jest.fn(() => {})
-    const tree = renderer.create(<Instructions onDismiss={onDismiss} ready={true} />)
+    let tree
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (tree = renderer.create(<Instructions onDismiss={onDismiss} ready={true} />)))
+
     const button = tree.root.findByProps({ testID: 'dismiss_button' })
 
     button.props.onPress()

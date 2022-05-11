@@ -5,13 +5,11 @@ import Icon from '../Icon'
 // Note: test renderer must be required after react-native.
 
 describe('Icon', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<Icon name="clock-filled" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<Icon name="clock-filled" />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<Icon name="clock-filled" />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

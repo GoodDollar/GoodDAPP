@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import userStorage from '../userStorage/UserStorage'
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 
 import { isValidCID } from '../ipfs/utils'
 import { isValidDataUrl } from '../utils/base64'
 
 const useAvatar = avatar => {
+  const userStorage = useUserStorage()
+
   const cachedDataUrl = useMemo(() => {
     // checking is it base64 data url
     if (isValidDataUrl(avatar)) {
@@ -43,7 +45,7 @@ const useAvatar = avatar => {
         // if no failures and we've got non-empty response - setting base64 received in the state
         setDataUrl(dataUrl)
       })
-  }, [cachedDataUrl, avatar, setDataUrl])
+  }, [cachedDataUrl, avatar, setDataUrl, userStorage])
 
   return dataUrl
 }

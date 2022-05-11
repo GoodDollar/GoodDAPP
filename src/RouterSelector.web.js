@@ -1,11 +1,10 @@
 // libraries
-import React, { memo, useEffect, useState } from 'react'
-import { pick } from 'lodash'
+import React, { memo, useContext, useEffect, useState } from 'react'
+import { first, pick } from 'lodash'
 
 // components
 
 import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
-import WalletPreparingScreen from './components/auth/components/WalletPreparing'
 
 // hooks
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
@@ -20,9 +19,8 @@ import InternetConnection from './components/common/connectionDialog/internetCon
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
+import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import { handleLinks } from './lib/utils/linking'
-import { UserContext } from './lib/contexts/userContext'
-import useUserContext from './lib/hooks/useUserContext'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -31,30 +29,25 @@ const isAuthReload = DeepLinking.pathname.startsWith('/Welcome/Auth')
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
-let SignupRouter = React.lazy(async () => {
-  const [module] = await Promise.all([
+let SignupRouter = React.lazy(() =>
+  Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(log),
     delay(isAuthReload ? 0 : animationDuration),
-  ])
-
-  return module
-})
+  ]).then(first),
+)
 
 let AppRouter = React.lazy(async () => {
-  const animateSplash = await shouldAnimateSplash()
+  const animateSplash = await shouldAnimateSplash(isAuthReload)
+
   log.debug('initializing storage and wallet...', { animateSplash })
 
-  const [module] = await Promise.all([
+  return Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
-    retryImport(() => import(/* webpackChunkName: "init" */ './init'))
-      .then(({ init }) => init())
-      .then(() => log.debug('storage and wallet ready')),
     delay(animateSplash ? animationDuration : 0),
   ])
-
-  log.debug('router ready')
-  return module
+    .then(first)
+    .finally(() => log.debug('router ready'))
 })
 
 const NestedRouter = memo(({ isLoggedIn }) => {
@@ -69,7 +62,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
     platform = isWebApp ? 'webapp' : 'web'
 
     fireEvent(APP_OPEN, { source, platform, isLoggedIn, params })
-    log.debug('RouterSelector Rendered', { isLoggedIn, params, source, platform })
+    log.debug('NestedRouter Rendered', { isLoggedIn, params, source, platform })
 
     if (isLoggedIn) {
       document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
@@ -85,13 +78,10 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   )
 })
 
-const SplashSelector = isAuthReload
-  ? props => <WalletPreparingScreen activeStep={1} {...props} />
-  : props => <Splash {...props} />
-
 const RouterSelector = () => {
+  const { isLoggedInRouter } = useContext(GlobalTogglesContext)
+
   // we use global state for signup process to signal user has registered
-  const { isLoggedIn } = useUserContext(UserContext)
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 
@@ -101,23 +91,26 @@ const RouterSelector = () => {
   })
 
   useEffect(() => {
-    initAnalytics()
+    initAnalytics().then(() => log.debug('RouterSelector Rendered'))
   }, [])
 
   useEffect(() => {
-    //once user is logged in check if their browser is supported and show warning if not
-    if (isLoggedIn) {
+    // once user is logged in check if their browser is supported and show warning if not
+    if (isLoggedInRouter && supported === false) {
       checkBrowser()
     }
+
     setIgnoreUnsupported(true)
     setCheckedForBrowserSupport(true)
-  }, [isLoggedIn])
+  }, [isLoggedInRouter, checkBrowser, setIgnoreUnsupported, setCheckedForBrowserSupport])
 
   // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<SplashSelector animation={checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
-      {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
+    <React.Suspense
+      fallback={<Splash animation={checkedForBrowserSupport && isAuthReload === false} isLoggedIn={isLoggedInRouter} />}
+    >
+      {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedInRouter} />}
     </React.Suspense>
   )
 }

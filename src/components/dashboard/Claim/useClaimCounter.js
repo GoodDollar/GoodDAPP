@@ -4,12 +4,14 @@ import { useCallback, useEffect, useRef } from 'react'
 import Config from '../../../config/config'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { longUseOfClaims } from '../../../lib/userStorage/UserStorageClass'
-import userStorage from '../../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
 import { CLAIM_TASK_COMPLETED, claimDaysThreshold } from './events'
 
 const claimDaysProperty = 'countClaim'
 
 export default () => {
+  const userStorage = useUserStorage()
+
   const claimsCountRef = useRef(0)
   const claimsCountInitialized = useRef(null)
   const claimsCountInitializing = useRef(new Promise(resolve => (claimsCountInitialized.current = resolve)))
@@ -30,7 +32,7 @@ export default () => {
 
     await userProperties.set(claimDaysProperty, claimsCountRef.current)
     return claimsCountRef.current
-  }, [])
+  }, [userStorage])
 
   useEffect(() => {
     const { userProperties } = userStorage

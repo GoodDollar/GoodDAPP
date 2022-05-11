@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/order
-import { initUserStorage } from '../../../lib/userStorage/__tests__/__util__'
 
 import React from 'react'
 
@@ -11,20 +10,12 @@ import { getWebRouterComponentWithMocks } from './__util__'
 jest.setTimeout(25000)
 
 describe('Send', () => {
-  beforeAll(async () => {
-    await initUserStorage()
-  })
-
-  it('renders without errors', () => {
+  it('matches snapshot', async () => {
     const Send = getWebRouterComponentWithMocks('../Send')
-    const tree = renderer.create(<Send />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+    let component
 
-  it('matches snapshot', () => {
-    const Send = getWebRouterComponentWithMocks('../Send')
-    const component = renderer.create(<Send />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<Send />)))
+    expect(component.toJSON()).toMatchSnapshot()
   })
 })

@@ -6,7 +6,7 @@ import { t } from '@lingui/macro'
 import { withStyles } from '../../lib/styles'
 import { Section } from '../common'
 import Text from '../common/view/Text'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Config from '../../config/config'
 import normalize from '../../lib/utils/normalizeText'
@@ -25,7 +25,7 @@ const surveyOptions = [t`A product`, t`A service`, t`Other`]
  */
 const SurveySend = ({ handleCheckSurvey, styles, onDismiss }: any) => {
   const [dialogSurvey, setDialogSurvey] = useState(true)
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
 
   useEffect(() => {
     if (Config.isEToro && dialogSurvey) {

@@ -14,7 +14,6 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../lib/constants/login'
 
 type Props = {
@@ -166,7 +165,7 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-const auth = withStyles(getStylesFromProps)(SimpleStore.withStore(Auth))
+const auth = withStyles(getStylesFromProps)(Auth)
 auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,

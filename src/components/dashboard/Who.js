@@ -1,14 +1,16 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView } from 'react-native'
-import { ScanQRButton, Section, /*SendToAddressButton,*/ Wrapper } from '../common'
+import { noop } from 'lodash'
+
+import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { isIOS, isMobileNative } from '../../lib/utils/platform'
-import { ACTION_RECEIVE, /*ACTION_SEND_TO_ADDRESS,*/ navigationOptions } from './utils/sendReceiveFlow'
+import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 import WhoContent from './WhoContent'
 
 export type AmountProps = {
@@ -32,7 +34,7 @@ const Who = (props: AmountProps) => {
   const isReceive = params && params.action === ACTION_RECEIVE
   const { counterPartyDisplayName } = screenState
   const text = isReceive ? 'From Who?' : 'Send To?'
-  const getErrorFunction = isReceive ? () => null : getError
+  const getErrorFunction = isReceive ? noop : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
   const [showNext, setShowNext] = useState(!isMobileNative)
   const [contact, setContact] = useState()

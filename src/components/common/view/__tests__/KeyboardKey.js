@@ -9,13 +9,13 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 describe('KeyboardKey', () => {
   const WrappedKeyboardKey = withThemeProvider(KeyboardKey)
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedKeyboardKey keyValue="1" onPress={() => {}} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedKeyboardKey keyValue="1" onPress={() => {}} />)
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () => (component = renderer.create(<WrappedKeyboardKey keyValue="1" onPress={() => {}} />)),
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

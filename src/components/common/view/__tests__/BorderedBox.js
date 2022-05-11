@@ -6,13 +6,11 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 describe('BorderedBox', () => {
   const WrappedBorderedBox = withThemeProvider(BorderedBox)
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedBorderedBox />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedBorderedBox />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedBorderedBox />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

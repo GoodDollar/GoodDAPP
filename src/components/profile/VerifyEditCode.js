@@ -2,13 +2,14 @@
 import React, { useCallback } from 'react'
 import { get } from 'lodash'
 import logger from '../../lib/logger/js-logger'
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import EmailConfirmation from '../signup/EmailConfirmation'
 import SmsForm from '../signup/SmsForm'
 
 const log = logger.child({ from: 'Verify Edit Code' })
 
 const VerifyEditCode = props => {
+  const userStorage = useUserStorage()
   const { navigation, screenProps } = props
   const { pop, navigateTo } = screenProps
   const field = get(navigation, 'state.params.field')
@@ -42,7 +43,7 @@ const VerifyEditCode = props => {
     await userStorage.setProfileField(fieldToSave, content, privacy)
 
     navigateTo('Profile')
-  }, [fieldToSave, content, navigateTo, pop])
+  }, [fieldToSave, content, navigateTo, pop, userStorage])
 
   return (
     <RenderComponent

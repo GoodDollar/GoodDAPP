@@ -14,20 +14,18 @@ import TopBar from '../common/view/TopBar'
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
 import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import logger from '../../lib/logger/js-logger'
-import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
+import { decorate, ExceptionCode, wrapFunction } from '../../lib/exceptions/utils'
 import { readCode } from '../../lib/share'
 import { createUrlObject } from '../../lib/utils/uri'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import { InfoIcon } from '../common/modal/InfoIcon'
 import ExplanationDialog from '../common/dialogs/ExplanationDialog'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { extractEthAddress } from '../../lib/wallet/utils'
 import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
@@ -62,9 +60,10 @@ const RecipientWarnDialog = ({ onConfirm }) => (
 
 const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
-  const store = SimpleStore.useStore()
-  const [showErrorDialog] = useErrorDialog()
-  const [showDialog] = useDialog()
+  const { showDialog, showErrorDialog } = useDialog()
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
+
   const { pop, push, navigateTo } = screenProps
 
   // check camera permission and show dialog if not allowed
@@ -84,12 +83,12 @@ const SendByQR = ({ screenProps }: Props) => {
 
   const gotoSend = useCallback(
     async code => {
-      const { route, params } = await routeAndPathForCode('sendByQR', code)
+      const { route, params } = await routeAndPathForCode('sendByQR', code, goodWallet, userStorage)
       log.info({ code })
       fireEvent(QR_SCAN, { type: 'send' })
       push(route, params)
     },
-    [push],
+    [push, goodWallet],
   )
   const handleScan = useCallback(
     async data => {
@@ -129,7 +128,7 @@ const SendByQR = ({ screenProps }: Props) => {
         }
       }
     },
-    [push, setQRDelay, gotoSend],
+    [push, setQRDelay, gotoSend, goodWallet],
   )
 
   const handleError = useCallback(
@@ -164,7 +163,7 @@ const SendByQR = ({ screenProps }: Props) => {
           <QrReader
             delay={qrDelay}
             onError={handleError}
-            onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+            onScan={wrapFunction(handleScan, { onDismiss: onDismissDialog })}
           />
         )}
       </Section>

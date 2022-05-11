@@ -9,13 +9,15 @@ const ButtonWithDoneState = withThemeProvider(ImportedDoneButton)
 
 describe('DoneButton', () => {
   const screenProps = { goToRoot: () => null }
-  it('renders without errors', () => {
-    const tree = renderer.create(<ButtonWithDoneState screenProps={screenProps}>Next</ButtonWithDoneState>)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<ButtonWithDoneState screenProps={screenProps}>Next</ButtonWithDoneState>)
+  it('matches snapshot', async () => {
+    let component
+
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(<ButtonWithDoneState screenProps={screenProps}>Next</ButtonWithDoneState>)),
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

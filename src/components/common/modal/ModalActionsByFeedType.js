@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { get, pickBy } from 'lodash'
 import { t } from '@lingui/macro'
@@ -8,13 +8,12 @@ import { t } from '@lingui/macro'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
 
-import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 
 import logger from '../../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/exceptions/utils'
 import normalize from '../../../lib/utils/normalizeText'
-import userStorage from '../../../lib/userStorage/UserStorage'
-import goodWallet from '../../../lib/wallet/GoodWallet'
+import { useUserStorage, useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { openLink } from '../../../lib/utils/linking'
 import { withStyles } from '../../../lib/styles'
 import Section from '../../common/layout/Section'
@@ -34,11 +33,20 @@ const ModalButton = ({ children, ...props }) => (
 )
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const _handleModalClose = useCallback(handleModalClose)
-  const inviteCode = userStorage.userProperties.get('inviteCode')
   const { fullName: currentUserName } = useProfile()
+
+  const inviteCode = useMemo(() => {
+    const { userProperties } = userStorage || {}
+
+    if (userProperties) {
+      return userProperties.get('inviteCode')
+    }
+  }, [userStorage])
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
   const [paymentLinkForShare, setPaymentLinkForShare] = useState({})
@@ -56,7 +64,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       showErrorDialog(t`The payment could not be canceled at this time. Please try again.`, code)
       log.error('cancel payment failed', message, exception, pickBy({ dialogShown: true, code, category }))
     },
-    [item, setCancellingPayment, showErrorDialog],
+    [item, setCancellingPayment, showErrorDialog, userStorage],
   )
 
   const cancelPayment = useCallback(async () => {
@@ -87,7 +95,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     }
 
     handleModalClose()
-  }, [item, handleCancelFailed, setCancellingPayment, handleModalClose])
+  }, [item, handleCancelFailed, setCancellingPayment, handleModalClose, goodWallet, userStorage])
 
   const generatePaymentLinkForShare = useCallback(() => {
     const { withdrawCode, message, amount, endpoint = {} } = item.data || {}
@@ -112,7 +120,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       log.error('generatePaymentLinkForShare Failed', message, exception, { item, isSharingAvailable })
       return null
     }
-  }, [item, inviteCode])
+  }, [item, inviteCode, currentUserName])
 
   const readMore = useCallback(() => {
     fireEventAnalytics('readMore')
@@ -152,7 +160,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     }
 
     setPaymentLinkForShare(generatePaymentLinkForShare())
-  }, [])
+  }, [generatePaymentLinkForShare])
 
   switch (item.displayType) {
     case 'welcome':
@@ -282,7 +290,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return null
     default: {
       const txHash = get(item, 'data.receiptHash', item.id)
-      const isTx = txHash.startsWith('0x')
+      const isTx = txHash && txHash.startsWith('0x')
 
       // receive / withdraw / notification / sendcancelled / sendcompleted
       return (

@@ -46,7 +46,7 @@ const AuthStateWrapper = ({ children }) => {
   }
 
   if (success) {
-    return <WelcomeGDScreen showDelay={successDelay} onAfterShown={successCallback} />
+    return <WelcomeGDScreen showDelay={successDelay} afterShown={successCallback} />
   }
 
   return preparing ? <WalletPreparing activeStep={activeStep} /> : children

@@ -4,8 +4,9 @@ import { assign, noop } from 'lodash'
 import { Crypto } from 'node-webcrypto-ossl'
 import { TextEncoder, TextDecoder } from 'util'
 
-import initGunDB from '../src/lib/gundb/gundb'
 import '../src/lib/shim'
+
+jest.setTimeout(20000)
 
 if (typeof Promise.any !== 'function') {
   any.shim()

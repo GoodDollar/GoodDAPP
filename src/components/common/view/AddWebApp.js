@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Platform, View } from 'react-native'
 
 import { t, Trans } from '@lingui/macro'
@@ -10,10 +10,9 @@ import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
 
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-import { useDialog } from '../../../lib/undux/utils/dialog'
-import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import { isMobileSafari, isMobileWeb } from '../../../lib/utils/platform'
-
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import {
   ADDTOHOME,
   ADDTOHOME_LATER,
@@ -25,9 +24,6 @@ import {
 import { withStyles } from '../../../lib/styles'
 import AddAppSVG from '../../../assets/addApp.svg'
 import { theme } from '../../theme/styles'
-
-// import userStorage from '../../../lib/userStorage/UserStorage'
-// import API from '../../../lib/API/api'
 
 const log = logger.child({ from: 'AddWebApp' })
 
@@ -119,22 +115,8 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
 })
 
 const AddWebApp = () => {
-  const store = SimpleStore.useStore()
-  const [showDialog] = useDialog()
-  const [show, setShow] = useState(false)
-  const [showAddWebAppDialog, setShowAddWebAppDialog] = useState(false)
-  const [installPrompt, setInstallPrompt] = useState(false)
-
-  const fetchStoreData = useCallback(() => {
-    if (assertStore(store, log, 'Failed to fetch show status to display AddWebApp modal')) {
-      const { show: _show, showAddWebAppDialog: _showAddWebAppDialog } = store.get('addWebApp')
-      const _installPrompt = store.get('installPrompt')
-
-      setShow(_show)
-      setShowAddWebAppDialog(_showAddWebAppDialog)
-      setInstallPrompt(_installPrompt)
-    }
-  }, [store, setShow, setShowAddWebAppDialog, setInstallPrompt])
+  const { showDialog } = useDialog()
+  const { installPrompt, setInstallPrompt, addWebApp, setAddWebApp } = useContext(GlobalTogglesContext)
 
   const showExplanationDialog = () => {
     showDialog({
@@ -177,7 +159,7 @@ const AddWebApp = () => {
     }
 
     // Remove the event reference
-    store.set('installPrompt')(null)
+    setInstallPrompt(null)
   }
 
   const handleInstallApp = () => {
@@ -239,7 +221,7 @@ const AddWebApp = () => {
       AsyncStorage.getItem('GD_AddWebAppLastClaim'),
       AsyncStorage.getItem('GD_AddWebAppIOSAdded'),
     ])
-    log.debug({ installPrompt, show, skipCount })
+    log.debug({ installPrompt, addWebApp, skipCount })
     if (lastCheck === undefined) {
       return
     }
@@ -254,25 +236,24 @@ const AddWebApp = () => {
       }
     }
 
-    if ((installPrompt && show) || (!iOSAdded && isMobileSafari && show)) {
+    if (installPrompt || (!iOSAdded && isMobileSafari)) {
       showInitialDialog()
     }
   }
 
   useEffect(() => {
-    fetchStoreData()
-  }, [store])
-
-  useEffect(() => {
-    checkShowDialog()
-  }, [installPrompt, show])
-
-  useEffect(() => {
-    if (showAddWebAppDialog) {
-      showInitialDialog()
+    if (addWebApp.showInitial) {
+      checkShowDialog()
+      setAddWebApp({ showInitial: false, showDialog: false })
     }
-    store.set('addWebApp')({ showAddWebAppDialog: false })
-  }, [showAddWebAppDialog])
+  }, [installPrompt, addWebApp])
+
+  useEffect(() => {
+    if (addWebApp.showDialog) {
+      showInitialDialog()
+      setAddWebApp({ showDialog: false, showInitial: false })
+    }
+  }, [addWebApp, setAddWebApp])
 
   return null
 }

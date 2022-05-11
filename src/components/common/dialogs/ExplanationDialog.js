@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Image, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
@@ -7,25 +7,22 @@ import { isEmpty, noop } from 'lodash'
 import { CustomButton, Text } from '../../common'
 
 // utils
-import SimpleStore from '../../../lib/undux/SimpleStore'
-import { hideDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import normalizeText from '../../../lib/utils/normalizeText'
-import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 
 const defaultCustomStyle = {}
 
 const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, style = defaultCustomStyle }) => {
   const { buttonText, textModeButtonText, textModeButton } = styles
-  const store = SimpleStore.useStore()
-  const { setDialogBlur } = useContext(GlobalTogglesContext)
-  const isTextMode = mode === 'text'
+  const { hideDialog } = useDialog()
 
+  const isTextMode = mode === 'text'
   const handleActionPress = useCallback(() => {
     action()
-    hideDialog(store, setDialogBlur)
-  }, [action, store])
+    hideDialog()
+  }, [action])
 
   return (
     <CustomButton

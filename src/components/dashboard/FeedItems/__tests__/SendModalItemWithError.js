@@ -16,13 +16,12 @@ describe('SendModalItemWithError', () => {
   })
   const WrappedSendModalItemWithError = withThemeProvider(SendModalItemWithError)
   const props = generateFeedItemProps('send', 'error')
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedSendModalItemWithError {...props} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedSendModalItemWithError {...props} />)
+  it('matches snapshot', async () => {
+    let component
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedSendModalItemWithError {...props} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

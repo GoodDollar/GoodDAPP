@@ -94,7 +94,6 @@ const Config = {
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
   isCryptoLiteracy: moment().isSameOrBefore(cryptoLiteracyEndDate, 'day'),
-  showSplashDesktop: env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: env.REACT_APP_FLAGS_URL || 'https://flagicons.lipis.dev/flags/4x3/',
   claimQueue: env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
@@ -146,12 +145,12 @@ const Config = {
     },
     '121': {
       network_id: 121,
-      httpWeb3provider: 'https://rpc.fuse.io/',
+      httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
       websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
     },
     '122': {
       network_id: 122,
-      httpWeb3provider: 'https://rpc.fuse.io/',
+      httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
       websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
     },
     '4447': {

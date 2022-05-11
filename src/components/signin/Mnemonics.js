@@ -11,10 +11,10 @@ import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { withStyles } from '../../lib/styles'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import restart from '../../lib/utils/restart'
-import { userExists } from '../../lib/login/userExists'
+import useUserExists from '../../lib/login/useUserExists'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -36,9 +36,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [mnemonics, setMnemonics] = useState()
   const [isRecovering, setRecovering] = useState(false)
   const [isSubmitBlocked, setSubmitBlocked] = useState(true)
-  const [showDialog] = useDialog()
+  const { showDialog, hideDialog, showErrorDialog } = useDialog()
+  const userExists = useUserExists()
   const [errorMessage, setErrorMessage] = useState()
-  const [showErrorDialog, hideDialog] = useErrorDialog()
   const input = useRef()
 
   const handleChange = (mnemonics: string) => {
@@ -141,7 +141,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } finally {
       setRecovering(false)
     }
-  }, [setRecovering, mnemonics, showDialog])
+  }, [setRecovering, mnemonics, showDialog, userExists])
 
   const handleEnter = (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter') {

@@ -1,32 +1,47 @@
 import { pick } from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import userStorage from './UserStorage'
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 
 const defaultPublicFields = ['fullName', 'smallAvatar']
 
-const getProfile = (fields, display) => {
-  const profile = display ? userStorage.getDisplayProfile() : userStorage.getPrivateProfile()
-
-  return fields ? pick(profile, fields) : profile
-}
-
 const useProfileHook = (fields, allowRefresh = false, display = false) => {
-  const [profile, setProfile] = useState(() => getProfile(fields, display))
+  const [profile, setProfile] = useState({})
+  const userStorage = useUserStorage()
 
-  const refreshProfile = useCallback(() => setProfile(getProfile(fields, display)), [fields, display, setProfile])
+  const getProfile = useCallback(
+    (fields, display) => {
+      if (!userStorage) {
+        return {}
+      }
+      const profile = display ? userStorage.getDisplayProfile() : userStorage.getPrivateProfile()
+
+      return fields ? pick(profile, fields) : profile
+    },
+    [userStorage],
+  )
+
+  const refreshProfile = useCallback(() => setProfile(getProfile(fields, display)), [
+    fields,
+    display,
+    setProfile,
+    getProfile,
+  ])
 
   // auto refresh provide each time fields and private changes
+  // also initializes profile on mount
   useEffect(() => void refreshProfile(), [refreshProfile])
 
   return useMemo(() => (allowRefresh ? [profile, refreshProfile] : profile), [profile, refreshProfile, allowRefresh])
 }
 
 const useProfile = (allowRefresh = false, fields = null) => useProfileHook(fields, allowRefresh)
+
 export const usePublicProfile = (allowRefresh = false, fields = null) => useProfileHook(fields, allowRefresh, true)
 
 export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) => {
   const [profile, setProfile] = useState(null)
+  const userStorage = useUserStorage()
 
   useEffect(() => {
     userStorage
@@ -38,7 +53,9 @@ export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) 
 }
 
 export const useUserProperty = property => {
-  const [propertyValue, setPropertyValue] = useState(userStorage.userProperties.get(property))
+  const userStorage = useUserStorage()
+
+  const [propertyValue, setPropertyValue] = useState(() => userStorage.userProperties.get(property))
 
   useEffect(() => {
     const { userProperties } = userStorage

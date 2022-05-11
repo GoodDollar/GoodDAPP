@@ -7,13 +7,12 @@ import FeedActions from '../FeedActions'
 
 describe('FeedActions', () => {
   const WrappedFeedActions = withThemeProvider(FeedActions)
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedFeedActions />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedFeedActions />)
+  it('matches snapshot', async () => {
+    let component
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedFeedActions />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

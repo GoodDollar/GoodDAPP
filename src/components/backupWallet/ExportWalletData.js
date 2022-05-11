@@ -13,11 +13,11 @@ import BorderedBox from '../common/view/BorderedBox'
 import NavBar from '../appNavigation/NavBar'
 
 // hooks
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import { withStyles } from '../../lib/styles'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import config from '../../config/config'
 
 // assets
@@ -36,9 +36,11 @@ const checkmarkIconSize = 28
 
 const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
+//TODO: handle 3rd party wallet
 const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
+  const goodWallet = useWallet()
 
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])
 
@@ -51,7 +53,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
       networkId && config.ethereum[networkId].httpWeb3provider,
       networkId,
     ]
-  }, [])
+  }, [goodWallet])
 
   const onPublicKeyCopied = useCallback(
     () =>

@@ -10,13 +10,12 @@ describe('ListEventItem', () => {
   const WrappedListEventItem = withThemeProvider(ListEventItem)
   describe('withdraw', () => {
     const props = generateFeedItemProps('withdraw')
-    it('renders without errors', () => {
-      const tree = renderer.create(<WrappedListEventItem {...props} />)
-      expect(tree.toJSON()).toBeTruthy()
-    })
 
-    it('matches snapshot', () => {
-      const component = renderer.create(<WrappedListEventItem {...props} />)
+    it('matches snapshot', async () => {
+      let component
+
+      // eslint-disable-next-line require-await
+      await renderer.act(async () => (component = renderer.create(<WrappedListEventItem {...props} />)))
       const tree = component.toJSON()
       expect(tree).toMatchSnapshot()
     })
@@ -24,13 +23,12 @@ describe('ListEventItem', () => {
 
   describe('receive', () => {
     const props = generateFeedItemProps('receive')
-    it('renders without errors', () => {
-      const tree = renderer.create(<WrappedListEventItem {...props} />)
-      expect(tree.toJSON()).toBeTruthy()
-    })
 
-    it('matches snapshot', () => {
-      const component = renderer.create(<WrappedListEventItem {...props} />)
+    it('matches snapshot', async () => {
+      let component
+
+      // eslint-disable-next-line require-await
+      await renderer.act(async () => (component = renderer.create(<WrappedListEventItem {...props} />)))
       const tree = component.toJSON()
       expect(tree).toMatchSnapshot()
     })
@@ -38,13 +36,12 @@ describe('ListEventItem', () => {
 
   describe('send', () => {
     const props = generateFeedItemProps('send')
-    it('renders without errors', () => {
-      const tree = renderer.create(<WrappedListEventItem {...props} />)
-      expect(tree.toJSON()).toBeTruthy()
-    })
 
-    it('matches snapshot', () => {
-      const component = renderer.create(<WrappedListEventItem {...props} />)
+    it('matches snapshot', async () => {
+      let component
+
+      // eslint-disable-next-line require-await
+      await renderer.act(async () => (component = renderer.create(<WrappedListEventItem {...props} />)))
       const tree = component.toJSON()
       expect(tree).toMatchSnapshot()
     })

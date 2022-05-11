@@ -107,7 +107,9 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
       //payment request (from receive)
       checkCode(params)
     } else {
-      log.error('handleAppLinks error: code or paymentCode are missing.')
+      const exception = new Error('code or paymentCode are missing.')
+
+      log.error('handleAppLinks error:', exception.message, exception)
       screenProps.goToRoot()
     }
   }

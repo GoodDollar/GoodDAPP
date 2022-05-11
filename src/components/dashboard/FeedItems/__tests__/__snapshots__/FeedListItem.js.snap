@@ -145,11 +145,10 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1q142lx r-marginTop-kc8jnq"
               >
                 <div
-                  className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                  className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                   dir="auto"
                   style={
                     Object {
-                      "WebkitLineClamp": 1,
                       "minWidth": "10px",
                     }
                   }
@@ -338,11 +337,10 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1q142lx r-marginTop-kc8jnq"
               >
                 <div
-                  className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                  className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                   dir="auto"
                   style={
                     Object {
-                      "WebkitLineClamp": 1,
                       "minWidth": "10px",
                     }
                   }

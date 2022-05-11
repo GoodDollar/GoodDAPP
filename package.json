@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.38.1-15",
+  "version": "1.39.1",
   "engines": {
     "node": ">=12",
     "npm": "6.x"
@@ -136,6 +136,7 @@
     "mobile-device-detect": "^0.2.3",
     "moment": "^2.29.2",
     "moment-duration-format": "^2.3.2",
+    "multiformats": "^9.6.4",
     "node-libs-react-native": "^1.2.1",
     "numeral": "^2.0.6",
     "patch-package": "^6.4.7",
@@ -198,7 +199,7 @@
     "react-native-safe-area-view": "^1.0.0",
     "react-native-safe-modules": "^1.0.0",
     "react-native-screens": "^2.1.0",
-    "react-native-sqlite-2": "^3.3.0",
+    "react-native-sqlite-2": "^3.5.2",
     "react-native-svg": "^9.13.6",
     "react-native-svg-transformer": "^0.14.3",
     "react-native-swipeable-lists-gd": "0.0.3",
@@ -231,6 +232,7 @@
     "timers-browserify": "^1.4.2",
     "undux": "^5.0.1",
     "url": "^0.10.3",
+    "use-debounce": "^8.0.1",
     "util": "^0.10.4",
     "uuid": "^8.3.2",
     "v8-android-jit-nointl": "^9.93.0",

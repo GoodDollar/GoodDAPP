@@ -67,7 +67,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
 
   const onSponsorPress = useOnPress(() => {
     fireEvent(GOTO_SPONSOR, { link: sponsoredLink })
-    Linking.openURL(sponsoredLink).catch(e => log.error('Open news feed error', e))
+    Linking.openURL(sponsoredLink).catch(e => log.error('Open news feed error', e.message, e))
   }, [sponsoredLink])
 
   return (

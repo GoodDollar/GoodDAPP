@@ -1,4 +1,4 @@
-import FeedSource from '../source'
+import { FeedSource } from '../feed'
 
 export default class TransactionsSource extends FeedSource {
   async syncFromRemote() {

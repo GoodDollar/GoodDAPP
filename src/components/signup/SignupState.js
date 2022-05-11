@@ -388,11 +388,16 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             return
           }
 
-          let { data } = await API.sendOTP(_signupData)
+          let {
+            data: { ok, error },
+          } = await API.sendOTP(_signupData)
 
-          if (!data.ok) {
-            const errorMessage =
-              data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
+          if (!ok) {
+            let errorMessage = error
+
+            if (error === 'mobile_already_exists') {
+              errorMessage = 'Mobile already exists, please use a different one'
+            }
 
             log.error('Send mobile code failed', errorMessage, new Error(errorMessage), {
               data,

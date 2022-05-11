@@ -151,11 +151,11 @@ jobs:
           keystore_alias: 'release-alias'
           keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
 
-      - name: Deploy to App Center
-        run: |
-          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
-          yarn add appcenter-cli@^2.*
-          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+#      - name: Deploy to App Center
+#        run: |
+#          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
+#          yarn add appcenter-cli@^2.*
+#          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
       - name: Distribute to stores - PROD ONLY
         if: ${{ endsWith(github.ref, '/next') }}
@@ -163,6 +163,8 @@ jobs:
           npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
 
       - name: Code push release
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
         run: |
-          echo "Code push release target version `git rev-list origin/3493-code-push HEAD --first-parent --count`"
-          npx appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t `git rev-list origin/3493-code-push HEAD --first-parent --count`
+          echo "Code push release target version "${BUILD_NUMBER}""
+          npx appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"

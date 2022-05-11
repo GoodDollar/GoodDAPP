@@ -51,10 +51,15 @@ export default class NewsSource extends FeedSource {
 
         return
       } catch (exception) {
-        // throw if not HISTORY_NOT_FOUND, otherwise falling back to _loadRemoteFeed()
+        // throw if not HISTORY_NOT_FOUND
         if ('HISTORY_NOT_FOUND' !== exception.name) {
           throw exception
         }
+
+        // otherwise falling back to _loadRemoteFeed()
+        log.warn('ceramic history ID not found or broken. reloading the whole feed', exception.message, exception, {
+          historyId,
+        })
       }
     }
 

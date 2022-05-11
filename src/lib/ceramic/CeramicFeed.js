@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable require-await */
 
-import { countBy, filter, groupBy, isArray, isEmpty, keys, last, negate } from 'lodash'
+import { assign, countBy, filter, groupBy, isArray, isEmpty, keys, last, negate } from 'lodash'
 import Config from '../../config/config'
 
 import IPFS from '../ipfs/IpfsStorage'
@@ -65,7 +65,14 @@ class CeramicFeed {
       let afterIndex = commitIds.findIndex(commitId => commitId === afterId)
 
       if (afterIndex < 0) {
-        throw new Error(`Couldn't find history id '${afterId}'`)
+        const exception = new Error(`Couldn't find history id '${afterId}'`)
+
+        assign(exception, {
+          historyId: afterId,
+          name: 'HISTORY_NOT_FOUND',
+        })
+
+        throw exception
       }
 
       commitIds = commitIds.slice(afterIndex + 1)

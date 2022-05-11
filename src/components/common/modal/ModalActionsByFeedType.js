@@ -40,7 +40,13 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const _handleModalClose = useCallback(handleModalClose)
   const { fullName: currentUserName } = useProfile()
 
-  const inviteCode = useMemo(() => userStorage && userStorage.userProperties.get('inviteCode'), [userStorage])
+  const inviteCode = useMemo(() => {
+    const { userProperties } = userStorage || {}
+    
+    if (userStorage && userProperties) {
+      return userProperties.get('inviteCode')
+    }
+  }, [userStorage])
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
   const [paymentLinkForShare, setPaymentLinkForShare] = useState({})

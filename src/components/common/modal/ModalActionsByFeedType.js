@@ -42,8 +42,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
   const inviteCode = useMemo(() => {
     const { userProperties } = userStorage || {}
-    
-    if (userStorage && userProperties) {
+
+    if (userProperties) {
       return userProperties.get('inviteCode')
     }
   }, [userStorage])

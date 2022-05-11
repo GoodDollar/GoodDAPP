@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { get, pickBy } from 'lodash'
 import { t } from '@lingui/macro'
@@ -38,8 +38,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const userStorage = useUserStorage()
 
   const _handleModalClose = useCallback(handleModalClose)
-  const inviteCode = userStorage && userStorage.userProperties.get('inviteCode')
   const { fullName: currentUserName } = useProfile()
+
+  const inviteCode = useMemo(() => userStorage && userStorage.userProperties.get('inviteCode'), [userStorage])
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
   const [paymentLinkForShare, setPaymentLinkForShare] = useState({})
@@ -113,7 +114,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       log.error('generatePaymentLinkForShare Failed', message, exception, { item, isSharingAvailable })
       return null
     }
-  }, [item, inviteCode])
+  }, [item, inviteCode, currentUserName])
 
   const readMore = useCallback(() => {
     fireEventAnalytics('readMore')
@@ -153,7 +154,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     }
 
     setPaymentLinkForShare(generatePaymentLinkForShare())
-  }, [])
+  }, [generatePaymentLinkForShare])
 
   switch (item.displayType) {
     case 'welcome':

@@ -8,7 +8,6 @@ import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localS
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 
 import logger from '../../lib/logger/js-logger'
-import { getErrorMessage } from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -38,12 +37,7 @@ const log = logger.child({ from: 'AppSwitch' })
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(
   async props => {
-    const gasResult = await goodWallet.verifyHasGas().catch(e => {
-      const message = getErrorMessage(e)
-      const exception = new Error(message)
-
-      log.error('verifyTopWallet failed', message, exception)
-    })
+    const gasResult = await goodWallet.verifyHasGas()
     log.debug('outofgaserror:', { gasResult })
 
     if (gasResult.ok === false && gasResult.error !== false) {

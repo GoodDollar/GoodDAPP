@@ -39,14 +39,32 @@ export default class NewsSource extends FeedSource {
   async syncFromRemote() {
     const { log, storage } = this
     const { historyCacheId } = NewsSource
-
     const historyId = await storage.getItem(historyCacheId)
+    const logDone = () => log.info('ceramic sync from remote done')
 
     log.info('ceramic sync from remote started', { historyId })
 
-    await (historyId ? this._applyChangeLog(historyId) : this._loadRemoteFeed())
+    if (historyId) {
+      try {
+        await this._applyChangeLog(historyId)
+        logDone()
 
-    log.info('ceramic sync from remote done')
+        return
+      } catch (exception) {
+        // throw if not HISTORY_NOT_FOUND
+        if ('HISTORY_NOT_FOUND' !== exception.name) {
+          throw exception
+        }
+
+        // otherwise falling back to _loadRemoteFeed()
+        log.warn('ceramic history ID not found or broken. reloading the whole feed', exception.message, exception, {
+          historyId,
+        })
+      }
+    }
+
+    await this._loadRemoteFeed()
+    logDone()
   }
 
   /** @private */
@@ -60,6 +78,7 @@ export default class NewsSource extends FeedSource {
 
     log.debug('Ceramic fetched posts', { ceramicPosts, formatedCeramicPosts })
 
+    await Feed.find({ type: 'news' }).delete()
     await Feed.save(...formatedCeramicPosts)
     await storage.setItem(historyCacheId, historyId)
   }

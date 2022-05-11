@@ -73,6 +73,7 @@ export default class NewsSource extends FeedSource {
 
     log.debug('Ceramic fetched posts', { ceramicPosts, formatedCeramicPosts })
 
+    await Feed.find({ type: 'news' }).delete()
     await Feed.save(...formatedCeramicPosts)
     await storage.setItem(historyCacheId, historyId)
   }

@@ -555,13 +555,7 @@ export class GoodWallet {
    * @returns {Promise<TransactionReceipt>|Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|*>}
    */
   claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
-    try {
-      return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
-    } catch (e) {
-      log.error('claim failed', e.message, e, { category: ExceptionCategory.Blockhain })
-
-      return Promise.reject(e)
-    }
+    return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
   }
 
   checkEntitlement(): Promise<number> {
@@ -1179,12 +1173,6 @@ export class GoodWallet {
     return parseInt(get(level, 'bounty', 10000)) / 100
   }
 
-  handleError(e: Error) {
-    log.error('handleError', e.message, e, { category: ExceptionCategory.Blockhain })
-
-    throw e
-  }
-
   async getGasPrice(): Promise<number> {
     let gasPrice = this.gasPrice
 
@@ -1280,6 +1268,7 @@ export class GoodWallet {
           ok: false,
           error:
             !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
+          message: get(data, 'error'),
         }
       }
       nativeBalance = await this.balanceOfNative()
@@ -1290,7 +1279,7 @@ export class GoodWallet {
       log.error('verifyHasGas failed:', e.message, e, { minWei })
       return {
         ok: false,
-        error: false,
+        error: true,
         message: e.message,
       }
     }
@@ -1333,9 +1322,13 @@ export class GoodWallet {
     log.debug('sendTransaction:', { gas, gasPrice })
     if (isVerifyHasGas !== true) {
       //prevent recursive endless loop when sendTransaction call came from verifyHasGas
-      const { ok } = await this.verifyHasGas(gas * gasPrice)
+      const { ok, error, message } = await this.verifyHasGas(gas * gasPrice)
       if (ok === false) {
-        return Promise.reject(new Error('Reached daily transactions limit or not a citizen')).catch(this.handleError)
+        return Promise.reject(
+          error
+            ? new Error(`sendTransaction verifyHasGas failed: ${message}`)
+            : new Error('Reached daily transactions limit or not a citizen'),
+        )
       }
     }
     const res = new Promise((res, rej) => {

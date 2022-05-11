@@ -30,14 +30,11 @@ export default showErrorDialog => {
           await AsyncStorage.clear()
           restart()
         } else {
-          log.error(
-            'Error deleting account',
-            'Received false from userStorage.deleteAccount()',
-            new Error('Account is not deleted'),
-            {
-              dialogShown: true,
-            },
-          )
+          const exception = new Error('Received false from userStorage.deleteAccount()')
+
+          log.error('Account is not deleted', exception.message, exception, {
+            dialogShown: true,
+          })
           showErrorDialog('There was a problem deleting your account. Try again later.')
         }
       } catch (e) {

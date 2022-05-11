@@ -107,7 +107,7 @@ export const welcomeMessage = {
       outside of this pilot, and will be destroyed
       upon completion of the demo period.`
       : t`Right here is where you will claim your basic income in GoodDollar coins every day.
-      
+
       Together, we will build a better financial future for all of us!`,
   },
 }
@@ -178,7 +178,7 @@ export const startClaiming = {
       ? t`Hey, just a reminder to claim your daily G$’s.
       Remember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
       : t`GoodDollar gives every active member a small daily income.
-      
+
       Every day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
   },
 }
@@ -967,16 +967,13 @@ export class UserStorage {
       return true
     }
 
-    logger.error(
-      'setProfile partially failed',
-      'some of the fields failed during saving',
-      new Error('setProfile: some fields failed during saving'),
-      {
-        errCount: gunErrors.length,
-        errors: gunErrors,
-        strErrors: JSON.stringify(gunErrors),
-      },
-    )
+    const exception = new Error('some of the fields failed during saving')
+
+    logger.error('setProfile partially failed', exception.message, exception, {
+      errCount: gunErrors.length,
+      errors: gunErrors,
+      strErrors: JSON.stringify(gunErrors),
+    })
 
     throw gunErrors
   }
@@ -1002,23 +999,6 @@ export class UserStorage {
     }
 
     return true
-
-    //we no longer enforce uniqueness on email/mobile only on username
-    //TODO: no longer  using world writable index
-    // try {
-    // if (field === 'username') {
-    //   const indexValue = await global.gun
-    //     .get(`users/by${field}`)
-    //     .get(cleanValue)
-    //     .then()
-    //   return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-    // }
-
-    //   return true
-    // } catch (e) {
-    //   logger.error('Validate IndexProfileField failed', e.message, e)
-    //   return true
-    // }
   }
 
   async validateProfile(profile: any) {
@@ -1688,8 +1668,9 @@ export class UserStorage {
     const encryptedProfile = await this.loadGunField(this.profile)
 
     if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined', '', new Error('Profile node undefined'))
+      const exception = new Error('Profile node undefined')
 
+      logger.error('getProfile:', exception.message, exception)
       return {}
     }
 

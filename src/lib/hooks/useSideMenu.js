@@ -157,7 +157,9 @@ export default (props = {}) => {
           try {
             await AsyncStorage.clear()
           } catch (e) {
-            log.error('AsyncStorage Error', e?.message, e)
+            if (e) {
+              log.error('AsyncStorage Error', e.message, e)
+            }
           }
           slideOut()
           restart('/')

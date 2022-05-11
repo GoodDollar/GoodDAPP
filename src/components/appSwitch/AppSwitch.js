@@ -9,7 +9,6 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 
 import logger from '../../lib/logger/js-logger'
-import { getErrorMessage } from '../../lib/API/api'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import runUpdates from '../../lib/updates'
@@ -52,12 +51,7 @@ const AppSwitch = (props: LoadingProps) => {
   } = useCheckAuthStatus()
 
   const _showOutOfGasError = useCallback(async () => {
-    const gasResult = await goodWallet.verifyHasGas().catch(e => {
-      const message = getErrorMessage(e)
-      const exception = new Error(message)
-
-      log.error('verifyTopWallet failed', message, exception)
-    })
+    const gasResult = await goodWallet.verifyHasGas()
 
     log.debug('outofgas check result:', { gasResult })
 

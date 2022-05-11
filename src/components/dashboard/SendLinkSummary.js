@@ -185,7 +185,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 ...vendorInfo,
                 senderEmail: vendorFields.email,
                 senderName: vendorFields.name,
-              }).catch(e => log.error('failed notifying vendor callback', { vendorInfo })),
+              }).catch(e => log.error('failed notifying vendor callback', e.message, e, { vendorInfo })),
             )
 
             // Save transaction

@@ -323,92 +323,38 @@ const Claim = props => {
 
   const handleFaceVerification = useCallback(() => navigate('FaceVerificationIntro', { from: 'Claim' }), [navigate])
 
-  const onClaimError = useCallback(
-    e => {
-      const { name, message, receipt, entitlement } = e
-      const { transactionHash, status } = receipt || {}
-      const txError = name === 'CLAIM_TX_FAILED'
-
-      const eventPayload = { txError }
-      const logPayload = { dialogShown: true, txError }
-      const errorLabel = txError ? t`Claim transaction failed` : t`Claim request failed`
-
-      if (txError) {
-        assign(logPayload, {
-          txHash: transactionHash,
-          entitlement,
-          status,
-          category: ExceptionCategory.Blockchain,
-        })
-
-        assign(eventPayload, {
-          txhash: transactionHash,
-          txNotCompleted: true,
-        })
-      } else {
-        assign(eventPayload, { eMsg: message })
-      }
-
-      log.error('claiming failed', e.message, e, logPayload)
-      fireEvent(CLAIM_FAILED, eventPayload)
-      showErrorDialog(errorLabel, '', { boldMessage: t`Try again later.` })
-    },
-    [showErrorDialog],
-  )
-
   const handleClaim = useCallback(async () => {
-    let isCitizenRecheck
-    let curEntitlement
-
     setLoading(true)
 
-    // 1. Pre-checks before claim. Wrapping / retrying / handling errors separately
     try {
       await _retry(async () => {
         // Call wallet method to refresh the connection, silent fail
-        await goodWallet.getBlockNumber().catch(e => log.warn('getBlockNumber failed', e.message, e))
+        await goodWallet.getBlockNumber().catch(e => log.warn('getBlockNumber failed'))
 
         // recheck citizen status, just in case we are out of sync with blockchain
         if (!isCitizen) {
-          isCitizenRecheck = await goodWallet.isCitizen()
+          const isCitizenRecheck = await goodWallet.isCitizen()
+
+          if (!isCitizenRecheck) {
+            return handleFaceVerification()
+          }
         }
 
-        if (isCitizenRecheck) {
-          // when we come back from FR entitlement might not be set yet
-          curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(parseInt))
+        // when we come back from FR entitlement might not be set yet
+        const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(parseInt))
+
+        if (!curEntitlement) {
+          return
         }
-      })
-    } catch (e) {
-      onClaimError(e)
 
-      // if got error at this step - stop immediately
-      return
-    } finally {
-      setLoading(false)
-    }
+        showDialog({
+          image: <LoadingAnimation />,
+          message: t`please wait while processing...` + `\n`,
+          buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
+          title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
+          showCloseButtons: false,
+        })
 
-    // 2. if not whitelisted - goto FV
-    if (!isCitizenRecheck) {
-      return handleFaceVerification()
-    }
-
-    // 3. if no claim amount - stop immediately
-    if (!curEntitlement) {
-      return
-    }
-
-    // 4. perform actual Claim
-    setLoading(true)
-    showDialog({
-      image: <LoadingAnimation />,
-      message: t`please wait while processing...` + `\n`,
-      buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
-      title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
-      showCloseButtons: false,
-    })
-
-    try {
-      await _retry(async () => {
         const receipt = await goodWallet.claim()
 
         if (!receipt.status) {
@@ -431,19 +377,13 @@ const Claim = props => {
           },
         }
 
-        userStorage
-          .enqueueTX(transactionEvent)
-          .catch(e => log.warn('Failed to enqueue TX:', e.message, e, { transactionEvent }))
-
+        userStorage.enqueueTX(transactionEvent)
         AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
         fireEvent(CLAIM_SUCCESS, { txHash, claimValue: curEntitlement })
 
         const claimsSoFar = await advanceClaimsCounter()
 
-        API.updateClaims({ claim_counter: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') }).catch(e =>
-          log.warn('Error update claim_counter', e.message, e),
-        )
-
+        API.updateClaims({ claim_counter: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),
           eventLabel: goodWallet.UBIContract._address,
@@ -476,11 +416,36 @@ const Claim = props => {
         }
       })
     } catch (e) {
-      onClaimError(e)
+      const { name, message, receipt, entitlement } = e
+      const { transactionHash, status } = receipt || {}
+      const isTxError = name === 'CLAIM_TX_FAILED'
+
+      const errorLabel = isTxError ? t`Claim transaction failed` : t`Claim request failed`
+      const logPayload = { dialogShown: true, isTxError }
+
+      const eventPayload = !isTxError
+        ? { txError: true, eMsg: message }
+        : {
+            txhash: transactionHash,
+            txNotCompleted: true,
+          }
+
+      if (isTxError) {
+        assign(logPayload, {
+          txHash: transactionHash,
+          entitlement,
+          status,
+          category: ExceptionCategory.Blockchain,
+        })
+      }
+
+      log.error('claiming failed', e.message, e, logPayload)
+      fireEvent(CLAIM_FAILED, eventPayload)
+      showErrorDialog(errorLabel, '', { boldMessage: t`Try again later.` })
     } finally {
       setLoading(false)
     }
-  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, onClaimError, goodWallet, userStorage])
+  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, showErrorDialog, goodWallet, userStorage])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

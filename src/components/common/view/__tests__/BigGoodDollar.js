@@ -7,13 +7,12 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 
 describe('BigGoodDollar', () => {
   const WrappedBigGoodDollar = withThemeProvider(BigGoodDollar)
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedBigGoodDollar number={1005} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedBigGoodDollar number={1005} />)
+  it('matches snapshot', async () => {
+    let component
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedBigGoodDollar number={1005} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

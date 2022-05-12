@@ -88,7 +88,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-fontWeight-1it3c9n"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -96,6 +96,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
             "fontFamily": "gooddollar",
             "fontSize": "16px",
             "fontStyle": "normal",
+            "fontWeight": "normal",
           }
         }
       >

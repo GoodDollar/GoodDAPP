@@ -12,13 +12,11 @@ const exception = {
 }
 
 describe('FaceVerification GeneralError', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<GeneralError exception={exception} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<GeneralError exception={exception} />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<GeneralError exception={exception} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

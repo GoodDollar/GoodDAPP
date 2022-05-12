@@ -4,16 +4,16 @@ import { t } from '@lingui/macro'
 import logger from '../logger/js-logger'
 
 import DeleteAccountDialog from '../../components/common/dialogs/DeleteAccountDialog'
-
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 import AsyncStorage from '../utils/asyncStorage'
-import retryImport from '../utils/retryImport'
 import restart from '../utils/restart'
 import { theme } from '../../components/theme/styles'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
-export default showErrorDialog =>
-  useCallback(() => {
+export default showErrorDialog => {
+  const userStorage = useUserStorage()
+  return useCallback(() => {
     const deleteHandler = async () => {
       showErrorDialog('', '', {
         title: t`ARE YOU SURE?`,
@@ -22,8 +22,6 @@ export default showErrorDialog =>
       })
 
       try {
-        const userStorage = await retryImport(() => import('../userStorage/UserStorage')).then(_ => _.default)
-
         const isDeleted = await userStorage.deleteAccount()
         log.debug('deleted account', isDeleted)
 
@@ -57,4 +55,5 @@ export default showErrorDialog =>
         },
       ],
     })
-  }, [showErrorDialog])
+  }, [showErrorDialog, userStorage])
+}

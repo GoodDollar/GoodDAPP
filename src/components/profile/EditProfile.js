@@ -3,11 +3,12 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { isEqualWith, pickBy } from 'lodash'
 import { t } from '@lingui/macro'
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { withStyles } from '../../lib/styles'
-import { Section, UserAvatar, Wrapper } from '../common'
+import { Section, Wrapper } from '../common'
+import UserAvatar from '../common/view/UserAvatar'
 import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
@@ -21,6 +22,7 @@ const log = logger.child({ from: TITLE })
 const avatarSize = getDesignRelativeWidth(136)
 
 const EditProfile = ({ screenProps, styles }) => {
+  const userStorage = useUserStorage()
   const storedProfile = useProfile()
   const [profile, setProfile] = useState(() => storedProfile)
   const [saving, setSaving] = useState(false)
@@ -28,7 +30,7 @@ const EditProfile = ({ screenProps, styles }) => {
   const [isPristine, setIsPristine] = useState(true)
   const [errors, setErrors] = useState({})
   const [lockSubmit, setLockSubmit] = useState(false)
-  const [showErrorDialog] = useErrorDialog()
+  const { showErrorDialog } = useDialog()
   const { push, pop } = screenProps
 
   const onProfileSaved = useCallback(() => pop(), [pop])
@@ -118,7 +120,7 @@ const EditProfile = ({ screenProps, styles }) => {
     } finally {
       setSaving(false)
     }
-  }, [validate, profile, setSaving, storedProfile, showErrorDialog])
+  }, [validate, profile, setSaving, storedProfile, showErrorDialog, userStorage])
 
   // Validate after saving profile state in order to show errors
   useEffect(() => {

@@ -1,13 +1,12 @@
 import { first, groupBy, set, values } from 'lodash'
-import userStorage from '../userStorage/UserStorage'
 
 import { analyzeAvatar, updateFeedEventAvatar } from './utils'
 
 const fromDate = new Date('2021/08/06')
 
-const uploadProfileAvatar = async () => {
+const uploadProfileAvatar = async (goodWallet, userStorage) => {
   const avatar = await userStorage.getProfileFieldValue('avatar')
-  const { shouldUpload, shouldUnset, dataUrl } = await analyzeAvatar(avatar)
+  const { shouldUpload, shouldUnset, dataUrl } = await analyzeAvatar(avatar, userStorage)
 
   if (shouldUnset) {
     await userStorage.removeAvatar()
@@ -22,14 +21,14 @@ const hasCounterPartyAvatar = ({ data }) => {
   return !(!counterPartySmallAvatar || !counterPartyAddress)
 }
 
-const uploadCounterPartyAvatar = async feedEvents => {
+const uploadCounterPartyAvatar = async (feedEvents, userStorage) => {
   const {
     data: { counterPartySmallAvatar },
   } = first(feedEvents)
 
   try {
     // upload only unique avatars
-    const avatar = await updateFeedEventAvatar(counterPartySmallAvatar)
+    const avatar = await updateFeedEventAvatar(counterPartySmallAvatar, userStorage)
 
     if (avatar === counterPartySmallAvatar) {
       return
@@ -49,16 +48,16 @@ const uploadCounterPartyAvatar = async feedEvents => {
 /**
  * @returns {Promise<void>}
  */
-const uploadAvatars = async (lastUpdate, prevVersion, log) => {
+const uploadAvatars = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
   const allEvents = await userStorage.getAllFeed()
   const eventsWithCounterParty = allEvents.filter(hasCounterPartyAvatar)
 
   // group events by counterparty to decrease uploads
   const groupedEvents = values(groupBy(eventsWithCounterParty, 'data.counterPartyAddress'))
 
-  await uploadProfileAvatar()
+  await uploadProfileAvatar(goodWallet, userStorage)
   log.debug('done storing user avatar')
-  await Promise.all(groupedEvents.map(uploadCounterPartyAvatar))
+  await Promise.all(groupedEvents.map(_ => uploadCounterPartyAvatar(_, userStorage)))
   log.debug('done storing feed avatars')
 }
 

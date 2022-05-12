@@ -70,7 +70,7 @@ const SummaryGeneric = ({
     } finally {
       setLoading(false)
     }
-  }, [name, email, vendorInfo])
+  }, [name, email, vendorInfo, onConfirm])
 
   // Custom verifier to ensure that we have all needed info
   const formHasErrors = useCallback(() => {

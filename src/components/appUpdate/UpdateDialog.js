@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { t } from '@lingui/macro'
 import { RegularDialog } from '../common/dialogs/ServiceWorkerUpdatedDialog'
 import useOnPress from '../../lib/hooks/useOnPress'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 import { theme } from '../theme/styles'
 
@@ -21,7 +21,7 @@ const WhatsNewButtonComponent = ({ onOpenUrl }) => {
 }
 
 export default () => {
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
   const showDialogRef = useRef(showDialog)
   const updateDialogRef = useRef()
 

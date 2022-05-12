@@ -1,11 +1,11 @@
 // @flow
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { Platform, View } from 'react-native'
 import { isMobileOnlyNative } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import { theme } from '../../../components/theme/styles'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 import { getDesignRelativeHeight, getMaxDeviceWidth } from '../../../lib/utils/sizes'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 
 const borderSize = Platform.select({ web: '50%', default: (getMaxDeviceWidth() * 1.5) / 2 })
 const backgroundGradientStyles = {
@@ -20,13 +20,13 @@ const backgroundGradientStyles = {
 
 const WrapperClaim = ({ children, style, styles, ...props }) => {
   const { container } = styles
-  const simpleStore = SimpleStore.useStore()
-  const shouldGrow = !simpleStore.get('isMobileSafariKeyboardShown')
+
+  const { isMobileSafariKeyboardShown } = useContext(GlobalTogglesContext)
 
   const wrapperStyles = useMemo(() => {
-    const growStyle = { flexGrow: shouldGrow ? 1 : 0 }
+    const growStyle = { flexGrow: isMobileSafariKeyboardShown ? 0 : 1 }
     return [container, growStyle, style]
-  }, [shouldGrow, container, style])
+  }, [isMobileSafariKeyboardShown, container, style])
 
   return (
     <View dataSet={{ name: 'viewWrapper' }} style={wrapperStyles} {...props}>

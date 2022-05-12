@@ -1,28 +1,25 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Linking, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, get, uniqBy } from 'lodash'
+import { concat, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
-import type { Store } from 'undux'
 
 import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
-import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
+import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
-import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { getRouteParams, openLink } from '../../lib/utils/linking'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, INVITE_BANNER, SCROLL_FEED } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-import userStorage from '../../lib/userStorage/UserStorage'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
@@ -49,8 +46,7 @@ import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
-import useUserContext from '../../lib/hooks/useUserContext'
-import useTransferEvents from '../../lib/wallet/useTransferEvents'
+import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -89,7 +85,6 @@ const { isCryptoLiteracy } = Config
 export type DashboardProps = {
   navigation: any,
   screenProps: any,
-  store: Store,
   styles?: any,
 }
 
@@ -138,27 +133,22 @@ const Dashboard = props => {
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const { balance, entitlement } = useUserContext()
-  const store = SimpleStore.useStore()
-  const [showDialog] = useDialog()
-  const [showErrorDialog] = useErrorDialog()
+  const { isDialogShown, showDialog, showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
-  const currentScreen = store.get('currentScreen')
-  const loadingIndicator = store.get('loadingIndicator')
-  const loadAnimShown = store.get('feedLoadAnimShown')
+  const { balance, dailyUBI: entitlement } = useWalletData()
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
   const [animateMarket, setAnimateMarket] = useState(false)
+  const { setDialogBlur, setAddWebApp, isLoadingIndicator, setFeedLoadAnimShown } = useContext(GlobalTogglesContext)
+  const userStorage = useUserStorage()
+  const goodWallet = useWallet()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
-  const { setDialogBlur } = useContext(GlobalTogglesContext)
-  const [initTransferEvents] = useTransferEvents()
   const [getCurrentTab] = usePropsRefs([activeTab])
-
   const [price, showPrice] = useGoodDollarPrice()
 
   useInviteCode() //preload user invite code
@@ -222,7 +212,7 @@ const Dashboard = props => {
       const release = await feedMutex.lock()
 
       try {
-        log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender, tab })
+        log.debug('getFeedPage:', { reset, feeds, didRender, tab })
 
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset, tab)
@@ -234,9 +224,10 @@ const Dashboard = props => {
           //so we use a global variable
 
           res = (await feedPromise) || []
-          res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
+          res.length > 0 && !didRender && setFeedLoadAnimShown(true)
           feedRef.current = res
           setFeeds(res)
+
           if (!didRender) {
             log.debug('waiting for feed animation')
             didRender = true
@@ -260,7 +251,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [loadAnimShown, store, setFeeds, feedRef, activeTab],
+    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -348,18 +339,14 @@ const Dashboard = props => {
   }, [animateClaim, setAnimateMarket])
 
   const showDelayed = useCallback(() => {
-    if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
-      return
-    }
-
     const id = setTimeout(() => {
       //wait until not loading and not showing other modal (see use effect)
       //mark as displayed
       setShowDelayedTimer(true)
-      store.set('addWebApp')({ show: true })
+      setAddWebApp({ showInitial: true, showDialog: false })
     }, 2000)
     setShowDelayedTimer(id)
-  }, [setShowDelayedTimer, store])
+  }, [setShowDelayedTimer, setAddWebApp])
 
   /**
    * rerender on screen size change
@@ -391,14 +378,12 @@ const Dashboard = props => {
 
     // setTimeout(animateItems, marketAnimationDuration)
 
-    initTransferEvents() //no await, run in background
-
     log.debug('initDashboard subscribed to feed')
 
     // InteractionManager.runAfterInteractions(handleFeedEvent)
     resizeSubscriptionRef.current = Dimensions.addEventListener('change', handleResize)
 
-    initBGFetch()
+    initBGFetch(goodWallet, userStorage)
   }
 
   useEffect(() => {
@@ -548,20 +533,20 @@ const Dashboard = props => {
    * don't show delayed items such as add to home popup if some other dialog is showing
    */
   useEffect(() => {
-    const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || itemModal
+    const showingSomething = isDialogShown || isLoadingIndicator || itemModal
 
     if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
       setShowDelayedTimer(clearTimeout(showDelayedTimer))
     } else if (!showDelayedTimer) {
       showDelayed()
     }
-  }, [get(currentScreen, 'dialogData.visible'), get(loadingIndicator, 'loading'), itemModal])
+  }, [isDialogShown, isLoadingIndicator, itemModal])
 
   const showEventModal = useCallback(
     currentFeed => {
       setItemModal(currentFeed)
     },
-    [store],
+    [setItemModal],
   )
 
   const getNotificationItem = async () => {
@@ -626,7 +611,7 @@ const Dashboard = props => {
         })
       }
     },
-    [showDialog, showEventModal],
+    [showDialog, showEventModal, userStorage],
   )
 
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])

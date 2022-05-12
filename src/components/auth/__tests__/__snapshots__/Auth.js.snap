@@ -30,8 +30,13 @@ exports[`Auth matches snapshot 1`] = `
             className="css-view-1dbjc4n r-flex-13awgt0 r-justifyContent-1wtj0ep r-padding-t60dpp r-paddingBottom-97e31f r-paddingHorizontal-mk0yit r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy r-paddingVertical-rjfia"
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-position-bnwqim r-width-13qz1uu"
+              className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-position-bnwqim r-width-13qz1uu"
               data-name="viewWrapper"
+              style={
+                Object {
+                  "backgroundColor": "rgba(255,255,255,1.00)",
+                }
+              }
             >
               <div
                 className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -76,12 +81,14 @@ GoodDollar Wallet
                   </span>
                 </div>
                 <div
-                  className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
+                  className="css-view-1dbjc4n r-display-6koalj r-padding-t60dpp"
                   data-testid="firstButton"
                   style={
                     Object {
                       "WebkitAlignItems": "stretch",
                       "WebkitBoxAlign": "stretch",
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
                       "alignItems": "stretch",
                       "backgroundColor": "rgba(0,175,255,1.00)",
                       "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -101,6 +108,7 @@ GoodDollar Wallet
                       "borderTopStyle": "solid",
                       "borderTopWidth": "0px",
                       "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                      "justifyContent": "center",
                       "marginBottom": "20px",
                       "marginLeft": "0px",
                       "marginRight": "0px",
@@ -108,6 +116,7 @@ GoodDollar Wallet
                       "minHeight": "44px",
                       "minWidth": "64px",
                       "msFlexAlign": "stretch",
+                      "msFlexPack": "center",
                       "paddingLeft": "0px",
                       "paddingRight": "0px",
                     }

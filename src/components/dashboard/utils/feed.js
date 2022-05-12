@@ -1,9 +1,10 @@
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { isArray, isEmpty } from 'lodash'
 
 import uuid from '../../../lib/utils/uuid'
 import Config from '../../../config/config'
-import SimpleStore from '../../../lib/undux/SimpleStore'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
+
 import { FeedCategories } from '../../../lib/userStorage/FeedCategory'
 import { makeCategoryMatcher } from '../../../lib/realmdb/feed'
 
@@ -12,6 +13,7 @@ export const VIEWABILITY_CONFIG = {
   viewAreaCoveragePercentThreshold: 100,
   waitForInteraction: true,
 }
+export const PAGE_SIZE = 20
 
 export const emptyFeed = { type: 'empty', data: {} }
 
@@ -38,13 +40,12 @@ export const keyExtractor = item => {
 }
 
 export const useFeeds = (data, filters = null) => {
-  const store = SimpleStore.useStore()
-  const loadAnimShown = store.get('feedLoadAnimShown')
+  const { feedLoadAnimShown } = useContext(GlobalTogglesContext)
   const feedFilters = useMemo(() => ({ ...defaultFeedFilters, ...(filters || {}) }), [filters])
 
   return useMemo(() => {
     if (!isArray(data) || isEmpty(data)) {
-      return loadAnimShown ? [] : [emptyFeed]
+      return feedLoadAnimShown ? [] : [emptyFeed]
     }
 
     const { invites, category } = feedFilters
@@ -55,5 +56,5 @@ export const useFeeds = (data, filters = null) => {
     }
 
     return data.filter(item => matchers.every(matcher => matcher(item)))
-  }, [data, feedFilters])
+  }, [data, feedFilters, feedLoadAnimShown])
 }

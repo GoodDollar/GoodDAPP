@@ -7,19 +7,23 @@ const SummaryTable = withThemeProvider(ImportedSummaryTable)
 // Note: test renderer must be required after react-native.
 
 describe('SummaryTable', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<SummaryTable amount={20} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<SummaryTable counterPartyDisplayName="name" amount={20} reason="MyReason" />)
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(<SummaryTable counterPartyDisplayName="name" amount={20} reason="MyReason" />)),
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('matches snapshot with minimal properties', () => {
-    const component = renderer.create(<SummaryTable amount={20} />)
+  it('matches snapshot with minimal properties', async () => {
+    let component
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<SummaryTable amount={20} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

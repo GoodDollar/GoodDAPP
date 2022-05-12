@@ -8,12 +8,14 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-justifyContent-17s6mgv r-marginVertical-r0h9e2 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
   >
     <div
-      className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
+      className="css-view-1dbjc4n r-display-6koalj"
       data-testid="save_button"
       style={
         Object {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
           "alignItems": "stretch",
           "backgroundColor": "rgba(12,38,61,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -33,6 +35,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+          "justifyContent": "center",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -40,6 +43,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
           "minHeight": "44px",
           "minWidth": "86px",
           "msFlexAlign": "stretch",
+          "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",

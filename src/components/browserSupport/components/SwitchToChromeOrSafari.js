@@ -35,7 +35,7 @@ export default () => (
 /*
  - Usage example
 
-const [showDialog] = useDialog()
+const { showDialog } = useDialog()
 
 showDialog({
   content: <SwitchToChromeOrSafari />,

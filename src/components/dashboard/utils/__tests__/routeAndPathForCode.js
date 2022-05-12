@@ -1,51 +1,36 @@
-import { initUserStorage } from '../../../../lib/userStorage/__tests__/__util__'
-
 // eslint-disable-next-line import/order
-import { assign } from 'lodash'
 
-import API from '../../../../lib/API/api'
-import goodWallet from '../../../../lib/wallet/GoodWallet'
+import Config from '../../../../config/config'
+import { GoodWallet } from '../../../../lib/wallet/GoodWalletClass'
 
 import { routeAndPathForCode } from '../routeAndPathForCode'
 import { ACTION_SEND_TO_ADDRESS } from '../sendReceiveFlow'
 
-let networkId
-const httpProviderMock = jest.fn().mockImplementation(() => {
-  return require('ganache-cli').provider({ network_id: networkId })
+const goodWallet = new GoodWallet({
+  web3Transport: Config.web3TransportProvider,
 })
 
-let WEB3PROVIDERS = require('web3-core')
-WEB3PROVIDERS.HttpProvider = httpProviderMock
-
-jest.setTimeout(30000)
-
+let networkId = 4447
+const userStorageMock = {
+  getPublicProfile() {
+    return {}
+  },
+}
 describe('routeAndPathForCode', () => {
-  const { getProfileBy } = API
-
-  beforeAll(async () => {
-    jest.resetAllMocks()
-
-    await initUserStorage()
-
-    await goodWallet.ready
-    networkId = goodWallet.networkId
-
-    // eslint-disable-next-line require-await
-    API.getProfileBy = jest.fn().mockImplementation(async () => ({ data: { profilePublickey: null } }))
-  })
-
-  afterAll(() => assign(API, { getProfileBy }))
-
   it(`should fail if code is null`, () => {
     expect.assertions(1)
 
-    return routeAndPathForCode('send', null).catch(e => expect(e.message).toMatch('Invalid QR Code.'))
+    return routeAndPathForCode('send', null, goodWallet, userStorageMock).catch(e =>
+      expect(e.message).toMatch('Invalid QR Code.'),
+    )
   })
 
   it(`should fail if code is malformed`, () => {
     expect.assertions(1)
 
-    return routeAndPathForCode('send', '123').catch(e => expect(e.message).toMatch(`Invalid QR Code.`))
+    return routeAndPathForCode('send', '123', goodWallet, userStorageMock).catch(e =>
+      expect(e.message).toMatch(`Invalid QR Code.`),
+    )
   })
 
   it(`should pass if code is valid`, () => {
@@ -54,7 +39,7 @@ describe('routeAndPathForCode', () => {
       address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1',
     }
 
-    return routeAndPathForCode('send', code).then(({ route, params }) => {
+    return routeAndPathForCode('send', code, goodWallet, userStorageMock).then(({ route, params }) => {
       expect(route).toMatch('Amount')
       expect(params).toEqual({
         address: code.address,
@@ -74,7 +59,9 @@ describe('routeAndPathForCode', () => {
     expect.assertions(1)
     const code = { networkId: networkId, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
 
-    return routeAndPathForCode('invalidScreen', code).catch(e => expect(e.message).toMatch('Invalid screen specified.'))
+    return routeAndPathForCode('invalidScreen', code, goodWallet, userStorageMock).catch(e =>
+      expect(e.message).toMatch('Invalid screen specified.'),
+    )
   })
 
   it(`should pass if reason is null or undefined`, () => {
@@ -85,7 +72,7 @@ describe('routeAndPathForCode', () => {
       amount: 40,
     }
 
-    return routeAndPathForCode('send', code).then(({ route, params }) => {
+    return routeAndPathForCode('send', code, goodWallet, userStorageMock).then(({ route, params }) => {
       expect(route).toMatch('Reason')
     })
   })
@@ -98,7 +85,7 @@ describe('routeAndPathForCode', () => {
       amount: 40,
       reason: '',
     }
-    return routeAndPathForCode('send', code).then(({ route, params }) => {
+    return routeAndPathForCode('send', code, goodWallet, userStorageMock).then(({ route, params }) => {
       expect(route).toMatch('SendLinkSummary')
     })
   })
@@ -107,7 +94,7 @@ describe('routeAndPathForCode', () => {
     expect.assertions(1)
     const code = { networkId: 100, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
 
-    return routeAndPathForCode('invalidScreen', code).catch(e =>
+    return routeAndPathForCode('invalidScreen', code, goodWallet, userStorageMock).catch(e =>
       expect(e.message).toContain('Invalid network. Code is meant to be used in XDAI network, not on'),
     )
   })

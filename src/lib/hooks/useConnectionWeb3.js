@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import logger from '../logger/js-logger'
-import SimpleStore from '../undux/SimpleStore'
+import { useWallet } from '../wallet/GoodWalletProvider'
 
 let isFirstCheckWeb3 = false
 let needToBindEventsWeb3 = true
@@ -10,8 +10,8 @@ const log = logger.child({ from: 'useHasConnectionWeb3' })
 
 export default () => {
   const [isConnection, setIsConnection] = useState(true)
-  const store = SimpleStore.useStore()
-  const wallet = store.get('wallet')
+  const wallet = useWallet()
+
   const connectionCheck = useRef()
 
   /**

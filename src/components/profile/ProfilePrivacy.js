@@ -9,16 +9,17 @@ import { mapValues, pick, startCase } from 'lodash'
 // custom components
 import { t } from '@lingui/macro'
 import Wrapper from '../common/layout/Wrapper'
-import { Avatar, CustomButton, Icon, Section, Text } from '../common'
+import { CustomButton, Icon, Section, Text } from '../common'
+import Avatar from '../common/view/Avatar'
 import { BackButton } from '../appNavigation/stackNavigation'
 import BorderedBox from '../common/view/BorderedBox'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
@@ -70,6 +71,7 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
 }
 
 const ProfilePrivacy = ({ screenProps, styles, theme }) => {
+  const userStorage = useUserStorage()
   const [initialPrivacy, setInitialPrivacy] = useState(() => {
     const profile = userStorage.getProfile()
 
@@ -78,7 +80,7 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
 
   const [privacy, setPrivacy] = useState(initialPrivacy)
   const [loading, setLoading] = useState(false)
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
 
   // bordered box required data
   const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
@@ -136,7 +138,7 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy])
+  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy, userStorage])
 
   return (
     <Wrapper style={styles.mainWrapper}>

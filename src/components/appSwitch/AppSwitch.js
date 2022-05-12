@@ -1,30 +1,27 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
+import { useDebouncedCallback } from 'use-debounce'
 import { SceneView } from '@react-navigation/core'
-import { debounce, isEmpty } from 'lodash'
+import { isEmpty, noop } from 'lodash'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
-import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
+import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 
 import logger from '../../lib/logger/js-logger'
-import goodWallet from '../../lib/wallet/GoodWallet'
-import GDStore from '../../lib/undux/GDStore'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useDialog } from '../../lib/dialog/useDialog'
+import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import { identifyWith } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
-import useUserContext from '../../lib/hooks/useUserContext'
-import useTransferEvents from '../../lib/wallet/useTransferEvents'
+import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+
 import { getRouteParams } from '../../lib/utils/linking'
 
 type LoadingProps = {
@@ -32,105 +29,107 @@ type LoadingProps = {
   descriptors: any,
 }
 
-const log = logger.child({ from: 'AppSwitch' })
-
 const GAS_CHECK_DEBOUNCE_TIME = 1000
-const showOutOfGasError = debounce(
-  async props => {
-    const gasResult = await goodWallet.verifyHasGas()
-    log.debug('outofgaserror:', { gasResult })
-
-    if (gasResult.ok === false && gasResult.error !== false) {
-      props.navigation.navigate('OutOfGasError')
-    }
-  },
-  GAS_CHECK_DEBOUNCE_TIME,
-  {
-    leading: true,
-  },
-)
-
-let unsuccessfulLaunchAttempts = 0
+const log = logger.child({ from: 'AppSwitch' })
 
 /**
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
-  const gdstore = GDStore.useStore()
-  const store = SimpleStore.useStore()
-  const [showErrorDialog] = useErrorDialog()
   const [ready, setReady] = useState(false)
-  const { update } = useUserContext()
-  const [, updateWalletStatus] = useTransferEvents()
+  const { showErrorDialog } = useDialog()
+  const { initWalletAndStorage } = useContext(GoodWalletContext)
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
+  const unsuccessfulLaunchAttemptsRef = useRef(0)
+  const deepLinkingRef = useRef(null)
+
+  const {
+    authStatus: [isLoggedInCitizen, isLoggedIn],
+    refresh,
+  } = useCheckAuthStatus()
+
+  const _showOutOfGasError = useCallback(async () => {
+    const gasResult = await goodWallet.verifyHasGas()
+
+    log.debug('outofgas check result:', { gasResult })
+
+    if (gasResult.ok === false && gasResult.error !== false) {
+      navigation.navigate('OutOfGasError')
+    }
+  }, [navigation, goodWallet, userStorage])
+
+  const showOutOfGasError = useDebouncedCallback(_showOutOfGasError, GAS_CHECK_DEBOUNCE_TIME, { leading: true })
 
   /*
-  Check if user is incoming with a URL with action details, such as payment link or email confirmation
+    Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
-  const getRoute = (destinationPath = {}) => {
-    let { path, params } = destinationPath
+  const getRoute = useCallback(
+    (destinationPath = {}) => {
+      let { path, params } = destinationPath
 
-    if (path || params) {
-      path = path || 'AppNavigation/Dashboard/Home'
+      if (path || params) {
+        path = path || 'AppNavigation/Dashboard/Home'
 
-      if (params && (params.paymentCode || params.code)) {
-        path = 'AppNavigation/Dashboard/HandlePaymentLink'
+        if (params && (params.paymentCode || params.code)) {
+          path = 'AppNavigation/Dashboard/HandlePaymentLink'
+        }
+
+        return getRouteParams(navigation, path, params)
       }
 
-      return getRouteParams(navigation, path, params)
-    }
-
-    return undefined
-  }
+      return undefined
+    },
+    [navigation],
+  )
 
   /*
-  If a user has a saved destination path from before logging in or from inside-app (receipt view?)
-  He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
-  user completes signup and becomes loggedin which just updates this component
-*/
-  const navigateToUrlAction = async (destinationPath: { path: string, params: {} }) => {
-    destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
-    AsyncStorage.removeItem(DESTINATION_PATH)
+    If a user has a saved destination path from before logging in or from inside-app (receipt view?)
+    He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
+    user completes signup and becomes loggedin which just updates this component
+  */
+  const navigateToUrlAction = useCallback(
+    async (destinationPath: { path: string, params: {} }) => {
+      destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
+      AsyncStorage.removeItem(DESTINATION_PATH)
 
-    log.debug('navigateToUrlAction:', { destinationPath })
+      log.debug('navigateToUrlAction:', { destinationPath })
 
-    //if no special destinationPath check if we have incoming params from web url, such as payment link/request
-    //when path is empty
-    if (!isMobileNative && !destinationPath) {
-      const { params, pathname } = DeepLinking
+      // if no special destinationPath check if we have incoming params from web url, such as payment link/request
+      // when path is empty
+      if (!isMobileNative && !destinationPath) {
+        const { params, pathname } = DeepLinking
 
-      log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
+        log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
 
-      if (pathname && pathname.length < 2 && !isEmpty(params)) {
-        //this makes sure query params are passed as part of navigation
-        destinationPath = { params }
+        if (pathname && pathname.length < 2 && !isEmpty(params)) {
+          //this makes sure query params are passed as part of navigation
+          destinationPath = { params }
+        }
       }
-    }
 
-    let destDetails = destinationPath && getRoute(destinationPath)
+      let destDetails = destinationPath && getRoute(destinationPath)
 
-    //once user logs in we can redirect him to saved destinationPath
-    if (destDetails) {
-      log.debug('destinationPath found:', destDetails)
-      return navigation.navigate(destDetails)
-    }
-  }
+      // once user logs in we can redirect him to saved destinationPath
+      if (destDetails) {
+        log.debug('destinationPath found:', destDetails)
+        return navigation.navigate(destDetails)
+      }
+    },
+    [navigation, getRoute],
+  )
 
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
    */
-  const initialize = async () => {
+  const initialize = useCallback(async () => {
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
-
-    const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
-      ? REGISTRATION_METHOD_TORUS
-      : REGISTRATION_METHOD_SELF_CUSTODY
-    store.set('regMethod')(regMethod)
 
     const email = await userStorage.getProfileFieldValue('email')
     identifyWith(email, undefined)
-  }
+  }, [userStorage])
 
   const restartWithMessage = useCallback(
     async (message, withLogout = true) => {
@@ -145,33 +144,25 @@ const AppSwitch = (props: LoadingProps) => {
     [showErrorDialog],
   )
 
-  const init = async () => {
-    log.debug('initializing')
+  const init = useCallback(async () => {
+    log.debug('initializing', { ready })
 
     try {
-      //after dynamic routes update, if user arrived here, then he is already loggedin
-      //initialize the citizen status and wallet status
-      //create jwt token and initialize the API service
-      await updateWalletStatus()
-
-      const [isLoggedInCitizen, isLoggedIn] = await getLoginState()
-
+      // after dynamic routes update, if user arrived here, then he is already loggedin
+      // initialize the citizen status and wallet status
+      // create jwt token and initialize the API service
       log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
-
-      const initReg = userStorage.initRegistered()
-
-      update({ isLoggedIn, isLoggedInCitizen })
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
 
       identifyWith(undefined, identifier)
-      showOutOfGasError(props)
+      showOutOfGasError()
 
-      await initReg
       initialize()
       runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
 
+      log.debug('initialize done')
       setReady(true)
     } catch (e) {
       if ('UnsignedJWTError' === e.name) {
@@ -181,12 +172,12 @@ const AppSwitch = (props: LoadingProps) => {
         )
       }
 
-      const dialogShown = unsuccessfulLaunchAttempts > 3
+      const dialogShown = unsuccessfulLaunchAttemptsRef.current > 3
 
-      unsuccessfulLaunchAttempts += 1
+      unsuccessfulLaunchAttemptsRef.current += 1
 
       if (dialogShown) {
-        //if error in realmdb logout the user, he needs to signin/signup again
+        // if error in realmdb logout the user, he needs to signin/signup again
         log.error('failed initializing app', e.message, e, { dialogShown })
 
         if (e.message.includes('realmdb')) {
@@ -202,10 +193,16 @@ const AppSwitch = (props: LoadingProps) => {
         init()
       }
     }
-  }
-
-  const deepLinkingRef = useRef(null)
-  const navigateToUrlRef = useRef(navigateToUrlAction)
+  }, [
+    restartWithMessage,
+    goodWallet,
+    userStorage,
+    initialize,
+    setReady,
+    showOutOfGasError,
+    isLoggedInCitizen,
+    isLoggedIn,
+  ])
 
   const recheck = useCallback(() => {
     const { current: data } = deepLinkingRef
@@ -213,46 +210,50 @@ const AppSwitch = (props: LoadingProps) => {
     if (data) {
       log.debug('deepLinkingNavigation: got url', { data })
 
-      navigateToUrlRef.current({ path: data.path, params: data.queryParams })
+      navigateToUrlAction({ path: data.path, params: data.queryParams })
       deepLinkingRef.current = null
     }
 
-    if (ready && gdstore) {
+    if (ready && userStorage && goodWallet) {
       // TODO: do not call private methods, create single method sync()
       // in user storage class designed to be called from outside
       userStorage.database._syncFromRemote()
       userStorage.userProperties._syncFromRemote()
-      getLoginState() //this will refresh the jwt token if wasnt active for a long time
-      showOutOfGasError(props)
+      refresh() //this will refresh the jwt token if wasnt active for a long time
+      showOutOfGasError()
     }
-  }, [gdstore, ready])
+  }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError, navigateToUrlAction])
 
-  const backgroundUpdates = useCallback(() => {}, [ready])
-
-  useEffect(() => void (navigateToUrlRef.current = navigateToUrlAction), [navigateToUrlAction])
-
-  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
+  useAppState({ onForeground: recheck })
 
   useEffect(() => {
-    init()
-    navigateToUrlRef.current()
+    initWalletAndStorage(undefined, 'SEED', true).then(() => log.debug('storage and wallet ready'))
+  }, [initWalletAndStorage])
 
-    if (!isMobileNative) {
-      return
+  useEffect(() => {
+    const { initializedRegistered } = userStorage || {}
+
+    if (!ready && initializedRegistered) {
+      init()
+      navigateToUrlAction()
+    }
+
+    if (ready || !isMobileNative) {
+      return noop
     }
 
     DeepLinking.subscribe(data => {
-      if (AppState.currentState === 'active') {
+      if (initializedRegistered && AppState.currentState === 'active') {
         log.debug('deepLinkingNavigation: got url', { data })
-        navigateToUrlRef.current({ path: data.path, params: data.queryParams })
+        navigateToUrlAction({ path: data.path, params: data.queryParams })
         return
       }
 
       deepLinkingRef.current = data
     })
 
-    return () => DeepLinking.unsubscribe()
-  }, [])
+    return DeepLinking.unsubscribe
+  }, [ready, init, userStorage, navigateToUrlAction])
 
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]

@@ -68,13 +68,15 @@ exports[`Who matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-ieixw r-display-6koalj r-height-1g7fiml r-justifyContent-1777fci r-marginBottom-d0pm55 r-width-199wky7"
               >
                 <div
-                  className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+                  className="css-text-901oao"
                   dir="auto"
                   style={
                     Object {
+                      "color": "rgba(255,255,255,1.00)",
                       "fontFamily": "gooddollar",
                       "fontSize": "22px",
                       "fontStyle": "normal",
+                      "fontWeight": "normal",
                     }
                   }
                 >

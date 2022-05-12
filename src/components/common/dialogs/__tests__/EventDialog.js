@@ -9,24 +9,20 @@ const event = mockEvent('Received')
 
 describe('EventDialog', () => {
   const WrappedWrapper = withThemeProvider(Wrapper)
-  it('renders without errors', () => {
-    const tree = renderer.create(
-      <WrappedWrapper>
-        <EventDialog visible event={event}>
-          Next
-        </EventDialog>
-      </WrappedWrapper>,
-    )
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(
-      <WrappedWrapper>
-        <EventDialog visible event={event}>
-          Next
-        </EventDialog>
-      </WrappedWrapper>,
+  it('matches snapshot', async () => {
+    let component
+
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(
+          <WrappedWrapper>
+            <EventDialog visible event={event}>
+              Next
+            </EventDialog>
+          </WrappedWrapper>,
+        )),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

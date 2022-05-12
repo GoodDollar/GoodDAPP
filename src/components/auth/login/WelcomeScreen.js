@@ -15,7 +15,6 @@ import NavBar from '../../appNavigation/NavBar'
 import { PrivacyPolicy, Support, TermsOfUse } from '../../webView/webViewInstances'
 
 import useOnPress from '../../../lib/hooks/useOnPress'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 import Config from '../../../config/config'
 
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
@@ -164,7 +163,7 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-const welcome = withStyles(getStylesFromProps)(SimpleStore.withStore(WelcomeScreen))
+const welcome = withStyles(getStylesFromProps)(WelcomeScreen)
 
 welcome.navigationOptions = {
   title: t`Welcome to GoodDollar!`,

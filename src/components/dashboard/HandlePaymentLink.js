@@ -5,21 +5,20 @@ import { t } from '@lingui/macro'
 import { Wrapper } from '../common'
 import logger from '../../lib/logger/js-logger'
 import { parsePaymentLinkParams, readCode } from '../../lib/share'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { fireEvent, WITHDRAW } from '../../lib/analytics/analytics'
-import { withStyles } from '../../lib/styles'
 import {
+  executeWithdraw,
   WITHDRAW_STATUS_COMPLETE,
   WITHDRAW_STATUS_PENDING,
   WITHDRAW_STATUS_UNKNOWN,
-} from '../../lib/wallet/GoodWalletClass'
+} from '../../lib/wallet/utils'
+import { fireEvent, WITHDRAW } from '../../lib/analytics/analytics'
+import { withStyles } from '../../lib/styles'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { delay } from '../../lib/utils/async'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
@@ -34,9 +33,9 @@ export type HandlePaymentLinkProps = {
 const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
   const { screenProps, navigation, styles } = props
   const { params } = navigation.state || {}
-  const [showDialog, hideDialog] = useDialog()
-  const [showErrorDialog] = useErrorDialog()
-  const store = SimpleStore.useStore()
+  const { hideDialog, showDialog, showErrorDialog } = useDialog()
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const isTheSameUser = code => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
@@ -68,7 +67,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           })
 
           try {
-            const { route, params } = await routeAndPathForCode('send', code)
+            const { route, params } = await routeAndPathForCode('send', code, goodWallet, userStorage)
 
             hideDialog()
             screenProps.push(route, params)
@@ -90,7 +89,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         log.error('checkCode unexpected error:', e.message, e)
       }
     },
-    [screenProps, showErrorDialog],
+    [screenProps, showErrorDialog, goodWallet, userStorage],
   )
 
   const handleAppLinks = () => {
@@ -134,10 +133,11 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         })
 
         const { status, transactionHash } = await executeWithdraw(
-          store,
           paymentParams.paymentCode,
           paymentParams.reason,
           paymentParams.category,
+          goodWallet,
+          userStorage,
         )
 
         if (transactionHash) {
@@ -209,7 +209,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         navigation.setParams({ paymentCode: undefined })
       }
     },
-    [showDialog, hideDialog, showErrorDialog, store, navigation],
+    [showDialog, hideDialog, showErrorDialog, navigation, goodWallet, userStorage],
   )
 
   useEffect(() => {

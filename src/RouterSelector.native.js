@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
+import { first } from 'lodash'
 
 import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
@@ -10,53 +11,46 @@ import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import Config from './config/config'
 import logger from './lib/logger/js-logger'
 import './lib/utils/debugUserAgent'
-import useUserContext from './lib/hooks/useUserContext'
+import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 
 const log = logger.child({ from: 'RouterSelector' })
 
+const initAnalyticsAndFireAppOpen = async (isLoggedIn = false) => {
+  await initAnalytics()
+  fireEvent(APP_OPEN, { platform: 'native', isLoggedIn })
+}
+
 log.debug({ Config })
 
-// import Router from './SignupRouter'
-let SignupRouter = React.lazy(async () => {
-  await initAnalytics()
-  fireEvent(APP_OPEN, { platform: 'native', isLoggedIn: false })
-  const [module] = await Promise.all([
+let SignupRouter = React.lazy(() =>
+  Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
-    handleLinks(log),
+    initAnalyticsAndFireAppOpen().then(() => handleLinks(log)), // handleLinks depends on analytics
     delay(animationDuration),
-  ])
-
-  return module
-})
+  ]).then(first),
+)
 
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
-  let p1 = initAnalytics().then(() => fireEvent(APP_OPEN, { platform: 'native', isLoggedIn: true }))
-  let walletAndStorageReady = retryImport(() => import(/* webpackChunkName: "init" */ './init'))
-  let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
 
-  //always wait for full splash on native
+  // always wait for full splash on native
   return Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
-    p2,
-    p1,
+    initAnalyticsAndFireAppOpen(),
     delay(animationDuration),
   ])
-    .then(r => {
+    .then(first)
+    .finally(() => {
       log.debug('router ready')
-      return r
     })
-    .then(r => r[0])
 })
 
 const RouterSelector = () => {
-  useUpdateDialog()
-  const { isLoggedIn } = useUserContext()
+  const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
-  const Router = useMemo(() => {
-    log.debug('RouterSelector Rendered', { isLoggedIn })
-    return isLoggedIn ? AppRouter : SignupRouter
-  }, [isLoggedIn])
+  useUpdateDialog()
+
+  const Router = useMemo(() => (isLoggedInRouter ? AppRouter : SignupRouter), [isLoggedInRouter])
 
   return (
     <React.Suspense fallback={<Splash animation />}>

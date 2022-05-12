@@ -1,39 +1,20 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { getWebRouterComponentWithMocks } from '../../dashboard/__tests__/__util__'
-import GDStore from '../../../lib/undux/GDStore'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 
 // Note: test renderer must be required after react-native.
 
 describe('VerifyEditCode', () => {
-  it('renders without errors', () => {
+  it('matches snapshot', async () => {
     const VerifyEditCode = getWebRouterComponentWithMocks('../../profile/VerifyEditCode')
 
-    const tree = renderer.create(
-      <SimpleStore.Container>
-        <GDStore.Container>
-          <VerifyEditCode />
-        </GDStore.Container>
-      </SimpleStore.Container>,
-    )
+    let tree
 
-    expect(tree.toJSON()).toBeTruthy()
-  })
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => {
+      tree = renderer.create(<VerifyEditCode />)
+    })
 
-  it('matches snapshot', () => {
-    const VerifyEditCode = getWebRouterComponentWithMocks('../../profile/VerifyEditCode')
-
-    const component = renderer.create(
-      <SimpleStore.Container>
-        <GDStore.Container>
-          <VerifyEditCode />
-        </GDStore.Container>
-      </SimpleStore.Container>,
-    )
-
-    const tree = component.toJSON()
-
-    expect(tree).toMatchSnapshot()
+    expect(tree.toJSON()).toMatchSnapshot()
   })
 })

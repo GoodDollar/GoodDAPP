@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/order
-import { initUserStorage } from '../../../lib/userStorage/__tests__/__util__'
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../__tests__/__util__'
@@ -10,17 +9,11 @@ jest.setTimeout(30000)
 describe('ViewAvatar', () => {
   const WrappedViewOrUploadAvatar = withThemeProvider(ViewOrUploadAvatar)
 
-  beforeAll(async () => {
-    await initUserStorage()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedViewOrUploadAvatar />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedViewOrUploadAvatar />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedViewOrUploadAvatar />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

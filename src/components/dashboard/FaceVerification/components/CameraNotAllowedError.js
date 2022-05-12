@@ -6,7 +6,7 @@ import { t } from '@lingui/macro'
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
 // hooks
-import { useDialog } from '../../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../../lib/dialog/useDialog'
 
 // utils
 import { FaceTecSessionStatus } from '../sdk/FaceTecSDK'
@@ -18,7 +18,7 @@ import illustration from '../../../../assets/CameraPermissionError.svg'
 const { CameraDoesNotExist } = FaceTecSessionStatus
 
 const CameraNotAllowedError = ({ onRetry, exception }) => {
-  const [showDialog] = useDialog()
+  const { showDialog } = useDialog()
   const { code } = exception || {}
   const cameraDoesNotExist = code === CameraDoesNotExist
 

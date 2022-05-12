@@ -4,7 +4,7 @@ import ImportedTabsView from '../TabsView'
 import Dashboard from '../../dashboard/Dashboard'
 import Profile from '../../profile/Profile'
 import userStorage from '../../../lib/userStorage/UserStorage'
-import { withStoresProvider } from '../../../__tests__/__util__/index'
+import { withThemeProvider } from '../../../__tests__/__util__/index'
 
 // Note: test renderer must be required after react-native.
 jest.setTimeout(30000)
@@ -24,15 +24,13 @@ describe('TabsView', () => {
     },
   }
 
-  const TabsView = withStoresProvider(ImportedTabsView)
+  const TabsView = withThemeProvider(ImportedTabsView)
 
-  it('renders without errors', () => {
-    const tree = renderer.create(<TabsView routes={routes} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<TabsView routes={routes} />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<TabsView routes={routes} />)))
     expect(component.toJSON()).toMatchSnapshot()
   })
 })

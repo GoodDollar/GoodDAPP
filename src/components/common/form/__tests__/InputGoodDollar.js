@@ -8,19 +8,23 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 
 describe('InputGoodDollar', () => {
   const WrappedInputGoodDollar = withThemeProvider(InputGoodDollar)
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedInputGoodDollar wei={12002} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedInputGoodDollar wei={12002} />)
+  it('matches snapshot', async () => {
+    let component
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedInputGoodDollar wei={12002} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedInputGoodDollar wei={12002} error="error message" />)
+  it('matches snapshot', async () => {
+    let component
+
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () => (component = renderer.create(<WrappedInputGoodDollar wei={12002} error="error message" />)),
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

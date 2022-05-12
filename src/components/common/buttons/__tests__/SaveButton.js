@@ -7,42 +7,58 @@ const WrappedSaveButton = withThemeProvider(SaveButton)
 // Note: test renderer must be required after react-native.
 
 describe('WrappedSaveButton', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<WrappedSaveButton onPress={() => {}} />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedSaveButton onPress={() => {}} />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WrappedSaveButton onPress={() => {}} />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(
-      <WrappedSaveButton onPress={() => {}} mode="outlined">
-        Title in SaveButton
-      </WrappedSaveButton>,
+  it('matches snapshot', async () => {
+    let component
+
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(
+          <WrappedSaveButton onPress={() => {}} mode="outlined">
+            Title in SaveButton
+          </WrappedSaveButton>,
+        )),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(
-      <WrappedSaveButton onPress={() => {}} color="#CCC">
-        SaveButton with color
-      </WrappedSaveButton>,
+  it('matches snapshot', async () => {
+    let component
+
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(
+          <WrappedSaveButton onPress={() => {}} color="#CCC">
+            SaveButton with color
+          </WrappedSaveButton>,
+        )),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(
-      <WrappedSaveButton onPress={() => {}} loadingDelay={3000} doneDelay={500}>
-        SaveButton with custom delay
-      </WrappedSaveButton>,
+  it('matches snapshot', async () => {
+    let component
+
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(
+          <WrappedSaveButton onPress={() => {}} loadingDelay={3000} doneDelay={500}>
+            SaveButton with custom delay
+          </WrappedSaveButton>,
+        )),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

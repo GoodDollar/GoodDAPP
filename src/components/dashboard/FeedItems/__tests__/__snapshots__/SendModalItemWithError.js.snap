@@ -51,7 +51,12 @@ please try again.
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-paddingBottom-iphfwy"
+      className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-paddingBottom-iphfwy"
+      style={
+        Object {
+          "marginTop": "4px",
+        }
+      }
     >
       <div
         className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -67,7 +72,12 @@ please try again.
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-paddingBottom-iphfwy"
+      className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-paddingBottom-iphfwy"
+      style={
+        Object {
+          "marginTop": "4px",
+        }
+      }
     >
       <div
         className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -103,7 +113,12 @@ please try again.
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-marginTop-14gqq1x r-paddingBottom-iphfwy"
+      className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-paddingBottom-iphfwy"
+      style={
+        Object {
+          "marginTop": "4px",
+        }
+      }
     >
       <div
         className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"

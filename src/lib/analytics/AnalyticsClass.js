@@ -1,7 +1,6 @@
 // @flow
 import {
   assign,
-  debounce,
   forIn,
   get,
   isEmpty,
@@ -99,9 +98,10 @@ export class AnalyticsClass {
 
     const { fireEvent, loggerApi } = this
     const errorLevel = loggerApi.ERROR.name
-    const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
-    loggerApi.on(errorLevel, (...args) => this.onErrorLogged(debouncedFireEvent, args))
+    // const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
+
+    loggerApi.on(errorLevel, (...args) => this.onErrorLogged(fireEvent, args))
     logger.debug('listening for error logs', { errorLevel, logger, loggerApi })
   }
 
@@ -308,76 +308,80 @@ export class AnalyticsClass {
 
   // @private
   onErrorLogged(debouncedFireEvent, args) {
-    const { Unexpected, Network, Human } = ExceptionCategory
-    const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
-    const { apis, isSentryEnabled, isFullStoryEnabled, env, logger } = this
-    const isRunningTests = env === 'test'
+    try {
+      const { Unexpected, Network, Human } = ExceptionCategory
+      const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
+      const { apis, isSentryEnabled, isFullStoryEnabled, env, logger } = this
+      const isRunningTests = env === 'test'
 
-    let { dialogShown, category = Unexpected, ...context } = extra
-    let categoryToPassIntoLog = category
-    let errorToPassIntoLog
-    let sessionUrlAtTime
+      let { dialogShown, category = Unexpected, ...context } = extra
+      let categoryToPassIntoLog = category
+      let errorToPassIntoLog
+      let sessionUrlAtTime
 
-    logger.debug('processing error log:', args)
+      logger.debug('processing error log:', args)
 
-    if (isFullStoryEnabled && apis.fullStory.ready) {
-      sessionUrlAtTime = apis.fullStory.getCurrentSessionURL(true)
-    }
-
-    if (isString(eMsg) && !isEmpty(eMsg)) {
-      const lowerCased = toLower(eMsg)
-
-      if (
-        categoryToPassIntoLog === Unexpected &&
-        ['connection', 'websocket', 'network'].some(str => lowerCased.includes(str))
-      ) {
-        categoryToPassIntoLog = Network
+      if (isFullStoryEnabled && apis.fullStory.ready) {
+        sessionUrlAtTime = apis.fullStory.getCurrentSessionURL(true)
       }
-    }
 
-    if (isString(logMessage) && !logMessage.includes('axios')) {
-      const eventPayload = {
-        unique: `${eMsg} ${logMessage} (${logContext.from})`,
-        reason: logMessage,
+      if (isString(eMsg) && !isEmpty(eMsg)) {
+        const lowerCased = toLower(eMsg)
+
+        if (
+          categoryToPassIntoLog === Unexpected &&
+          ['connection', 'websocket', 'network'].some(str => lowerCased.includes(str))
+        ) {
+          categoryToPassIntoLog = Network
+        }
+      }
+
+      if (isString(logMessage) && !logMessage.includes('axios')) {
+        const eventPayload = {
+          unique: `${eMsg} ${logMessage} (${logContext.from})`,
+          reason: logMessage,
+          logContext,
+          eMsg,
+          dialogShown,
+          category: categoryToPassIntoLog,
+          context,
+          sessionUrlAtTime,
+        }
+
+        logger.debug('sending ERROR_LOG to Amplitude', eventPayload)
+        debouncedFireEvent(ERROR_LOG, eventPayload)
+      }
+
+      if (!isSentryEnabled || isRunningTests) {
+        return
+      }
+
+      if (isError(errorObj)) {
+        errorToPassIntoLog = cloneErrorObject(errorObj)
+        errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
+      } else {
+        errorToPassIntoLog = new Error(logMessage)
+      }
+
+      const sentryPayload = {
+        logMessage,
+        errorObj,
         logContext,
         eMsg,
-        dialogShown,
-        category: categoryToPassIntoLog,
         context,
         sessionUrlAtTime,
       }
 
-      logger.debug('sending ERROR_LOG to Amplitude', eventPayload)
-      debouncedFireEvent(ERROR_LOG, eventPayload)
-    }
+      const sentryTags = {
+        dialogShown,
+        category: categoryToPassIntoLog,
+        level: categoryToPassIntoLog === Human ? 'info' : undefined,
+      }
 
-    if (!isSentryEnabled || isRunningTests) {
-      return
+      logger.debug('sending error to Sentry', { sentryPayload, sentryTags })
+      this.reportToSentry(errorToPassIntoLog, sentryPayload, sentryTags)
+    } catch (e) {
+      this.fireEvent('ERROR_LOG_FAILED', { eMsg: e.message })
     }
-
-    if (isError(errorObj)) {
-      errorToPassIntoLog = cloneErrorObject(errorObj)
-      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
-    } else {
-      errorToPassIntoLog = new Error(logMessage)
-    }
-
-    const sentryPayload = {
-      logMessage,
-      errorObj,
-      logContext,
-      eMsg,
-      context,
-      sessionUrlAtTime,
-    }
-
-    const sentryTags = {
-      dialogShown,
-      category: categoryToPassIntoLog,
-      level: categoryToPassIntoLog === Human ? 'info' : undefined,
-    }
-
-    logger.debug('sending error to Sentry', { sentryPayload, sentryTags })
-    this.reportToSentry(errorToPassIntoLog, sentryPayload, sentryTags)
   }
 }

@@ -7,15 +7,6 @@ import { theme } from '../../theme/styles'
 describe('ProfileDataTable', () => {
   const profile = { email: 'john@doe.com', mobile: '2222222222222' }
 
-  it('renders without errors', () => {
-    const tree = renderer.create(
-      <PaperProvider theme={theme}>
-        <ProfileDataTable profile={profile} />
-      </PaperProvider>,
-    )
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
   it('matches snapshot', () => {
     const component = renderer.create(
       <PaperProvider theme={theme}>

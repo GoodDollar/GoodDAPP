@@ -1,20 +1,18 @@
 import { useCallback } from 'react'
 
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
-import { defaultVerificationState } from '../../../../lib/constants/user'
-import useUserContext from '../../../../lib/hooks/useUserContext'
 import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
 
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 import logger from '../../../../lib/logger/js-logger'
 import { hideRedBox } from '../utils/redBox'
+import useVerificationContext from './useVerificationContext'
 
 const log = logger.child({ from: 'useVerificationAttempts' })
 
 export default () => {
-  const { attemptsCount, attemptsHistory, reachedMaxAttempts, update } = useUserContext()
+  const { attemptsCount, attemptsHistory, reachedMaxAttempts, update, reset: resetAttempts } = useVerificationContext()
   const refs = usePropsRefs([attemptsCount, attemptsHistory, reachedMaxAttempts])
-  const resetAttempts = useCallback(() => update(defaultVerificationState), [update])
 
   const trackAttempt = useCallback(
     exception => {

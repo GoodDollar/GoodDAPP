@@ -456,9 +456,10 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             tabIndex="-1"
           >
             <div
-              className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+              className="css-view-1dbjc4n"
               style={
                 Object {
+                  "backgroundColor": "rgba(0,0,0,0.00)",
                   "borderBottomLeftRadius": "-1px",
                   "borderBottomRightRadius": "-1px",
                   "borderTopLeftRadius": "-1px",

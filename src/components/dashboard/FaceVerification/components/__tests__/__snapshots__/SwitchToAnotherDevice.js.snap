@@ -96,12 +96,14 @@ different device is a good solution.
         className="css-view-1dbjc4n r-paddingHorizontal-mk0yit r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
+          className="css-view-1dbjc4n r-display-6koalj r-marginBottom-p1pxzi"
           data-testid="ok_button"
           style={
             Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
               "alignItems": "stretch",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -121,12 +123,14 @@ different device is a good solution.
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "justifyContent": "center",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
+              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",

@@ -27,20 +27,17 @@ import API from '../API/api'
 import { delay } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
-import { getTxLogArgs } from './utils'
 
-const log = logger.child({ from: 'GoodWalletV2' })
+import {
+  getTxLogArgs,
+  NULL_ADDRESS,
+  WITHDRAW_STATUS_COMPLETE,
+  WITHDRAW_STATUS_PENDING,
+  WITHDRAW_STATUS_UNKNOWN,
+} from './utils'
 
 const ZERO = new BN('0')
-
-//17280 = 24hours seconds divided by 5 seconds blocktime
-// const DAY_TOTAL_BLOCKS = (60 * 60 * 24) / 5
-
-export const WITHDRAW_STATUS_PENDING = 'pending'
-export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
-export const WITHDRAW_STATUS_COMPLETE = 'complete'
-
-const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+const log = logger.child({ from: 'GoodWalletV2' })
 
 type EventLog = {
   event: string,
@@ -110,8 +107,6 @@ const MultiCalls = {
   122: '0x2219bf813a0f8f28d801859c215a5a94cca90ed1',
 }
 export class GoodWallet {
-  static WalletType = 'software'
-
   static AccountUsageToPath = {
     gd: 0,
     gundb: 1,
@@ -166,7 +161,7 @@ export class GoodWallet {
     const mainnetNetworkId = get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
-    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
+    const ready = WalletFactory.create(this.config)
     this.ready = ready
       .then(wallet => {
         log.info('GoodWallet initial wallet created.')
@@ -293,6 +288,9 @@ export class GoodWallet {
 
   setIsPollEvents(active) {
     this.isPollEvents = active
+    if (!active) {
+      this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
+    }
   }
 
   async pollEvents(fn, time, lastBlockCallback) {
@@ -330,11 +328,12 @@ export class GoodWallet {
     } catch (e) {
       log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }
-    setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
+    this.pollEventsTimeout = setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
   }
 
   //eslint-disable-next-line require-await
   async watchEvents(fromBlock, lastBlockCallback) {
+    this.setIsPollEvents(true)
     const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
     lastBlockCallback(lastBlock)
     this.lastEventsBlock = lastBlock

@@ -4,40 +4,19 @@ import { createBrowserApp } from '@react-navigation/web'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
-import { Provider as PaperProvider } from 'react-native-paper'
 import AppNavigation from '../AppNavigation'
-import { theme } from '../../theme/styles'
 
-import goodWallet from '../../../lib/wallet/GoodWallet'
-import userStorage from '../../../lib/userStorage/UserStorage'
-
-import { StoresWrapper } from '../../../__tests__/__util__'
+import { withThemeProvider } from '../../../__tests__/__util__'
 
 jest.setTimeout(30000)
 
 describe('AppNavigation', () => {
-  beforeAll(() => Promise.all([goodWallet.ready, userStorage.ready]))
-  it('renders without errors', () => {
-    const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
-    const tree = renderer.create(
-      <PaperProvider theme={theme}>
-        <StoresWrapper>
-          <WebRouter />
-        </StoresWrapper>
-      </PaperProvider>,
-    )
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ AppNavigation })))
+    let component
 
-  it('matches snapshot', () => {
-    const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
-    const component = renderer.create(
-      <PaperProvider theme={theme}>
-        <StoresWrapper>
-          <WebRouter />
-        </StoresWrapper>
-      </PaperProvider>,
-    )
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<WebRouter />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

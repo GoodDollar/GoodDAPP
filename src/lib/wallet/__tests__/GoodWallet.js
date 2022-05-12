@@ -1,13 +1,9 @@
-import goodWallet from '../GoodWallet'
+import Config from '../../../config/config'
+import { GoodWallet } from '../GoodWalletClass'
 
-const httpProviderMock = jest.fn().mockImplementation(() => {
-  const Config = require('../../../config/config').default
-  console.info('returning mock')
-  return require('ganache-cli').provider({ network_id: Config.networkId })
+const goodWallet = new GoodWallet({
+  web3Transport: Config.web3TransportProvider,
 })
-
-let WEB3PROVIDERS = require('web3-core')
-WEB3PROVIDERS.HttpProvider = httpProviderMock
 
 beforeAll(() => {
   jest.resetAllMocks()
@@ -43,6 +39,7 @@ describe('Wallet Initialization', () => {
   })
 
   it('should have connection', async () => {
+    await goodWallet.ready
     await goodWallet.wallet.eth.getBalance(goodWallet.account)
     const connected = goodWallet.wallet.currentProvider.connected
     expect(connected).toBeTruthy()

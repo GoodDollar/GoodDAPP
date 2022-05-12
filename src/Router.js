@@ -18,8 +18,8 @@ import createApp from './lib/utils/createAppContainer'
 import { navigationConfig } from './components/appNavigation/navigationConfig'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
-import GDStore from './lib/undux/GDStore'
 import { isInstalledApp } from './lib/utils/platform'
+import { VerificationContextProvider } from './components/dashboard/FaceVerification/context/VerificationContext'
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
@@ -48,16 +48,16 @@ const Router = () => {
   const navigationStateHandler = useNavigationStateHandler()
 
   return (
-    <GDStore.Container>
-      <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
-        {!isInstalledApp && <AddWebApp />}
-        <Portal.Host>
-          <Blurred whenDialog>
+    <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
+      {!isInstalledApp && <AddWebApp />}
+      <Portal.Host>
+        <Blurred whenDialog>
+          <VerificationContextProvider>
             <RouterWrapper onNavigationStateChange={navigationStateHandler} />
-          </Blurred>
-        </Portal.Host>
-      </InternetConnection>
-    </GDStore.Container>
+          </VerificationContextProvider>
+        </Blurred>
+      </Portal.Host>
+    </InternetConnection>
   )
 }
 export default Router

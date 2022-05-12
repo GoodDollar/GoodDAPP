@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 
 import { fireEvent, GOTO_MARKET } from '../../../../lib/analytics/analytics'
-import userStorage from '../../../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../../../lib/wallet/GoodWalletProvider'
 import Config from '../../../../config/config'
 import { openLink } from '../../../../lib/utils/linking'
 
@@ -9,6 +9,7 @@ const { marketUrl } = Config
 const wasClickedProp = 'goodMarketClicked'
 
 export default () => {
+  const userStorage = useUserStorage()
   const { userProperties } = userStorage
   const goToMarket = useCallback(() => openLink(marketUrl), [])
   const [wasClicked, setWasClicked] = useState(userProperties.get(wasClickedProp))

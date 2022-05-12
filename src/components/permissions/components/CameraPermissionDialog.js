@@ -21,7 +21,7 @@ export default ({ onDismiss }) => (
 /*
  - Usage example
 
-const [showDialog] = useDialog()
+const { showDialog } = useDialog()
 
 showDialog({
   content: <CameraPermissionDialog />,

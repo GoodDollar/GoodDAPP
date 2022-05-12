@@ -1,6 +1,38 @@
-import { cloneDeep, fromPairs, has, keys, range } from 'lodash'
+import { cloneDeep, fromPairs, has, isFunction, keys, range } from 'lodash'
 
 import { propertyDescriptor } from '../utils/object'
+
+const MAX_EXCEPTION_CODE = 15
+const codeToString = code => `E${code}`
+
+// eslint-disable-next-line require-await
+const wrapperFunction = (origMethod, target, handler) => async (...args) => {
+  let result = origMethod.apply(target, args)
+
+  if (result && isFunction(result.then)) {
+    result.catch(handler.errorHandler)
+  }
+
+  return result
+}
+
+class Handler {
+  constructor(showDialog, params) {
+    const { onDismiss } = params || {}
+
+    this.errorHandler = error => {
+      let message = 'Unknown Error'
+      if (error.response && error.response.data) {
+        message = error.response.data.message
+      } else if (error.message) {
+        message = error.message
+      } else if (error.err) {
+        message = error.err
+      }
+      showDialog({ visible: true, title: 'Error', message, onDismiss, type: 'error' })
+    }
+  }
+}
 
 export const ExceptionCategory = {
   Human: 'human',
@@ -8,9 +40,6 @@ export const ExceptionCategory = {
   Network: 'network',
   Unexpected: 'unexpected',
 }
-
-const MAX_EXCEPTION_CODE = 15
-const codeToString = code => `E${code}`
 
 export const ExceptionCode = fromPairs(range(1, MAX_EXCEPTION_CODE + 1).map(code => [codeToString(code), code]))
 
@@ -73,4 +102,26 @@ export const cloneErrorObject = exception => {
   }
 
   return err
+}
+
+export const wrapFunction = (fn, showDialog, params) => {
+  const handler = new Handler(showDialog, params)
+
+  return wrapperFunction(fn, null, handler)
+}
+
+export const wrapper = (target, showDialog, params) => {
+  const handler = new Handler(showDialog, params)
+
+  return new Proxy(target, {
+    get: function(target, name, receiver) {
+      const origMethod = target[name]
+
+      if (!isFunction(target[name])) {
+        return target[name]
+      }
+
+      return wrapperFunction(origMethod, target, handler)
+    },
+  })
 }

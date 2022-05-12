@@ -9,13 +9,11 @@ import ImportedSplash from '../Splash'
 const Splash = withThemeProvider(ImportedSplash)
 
 describe('Splash', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<Splash />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<Splash />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<Splash />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

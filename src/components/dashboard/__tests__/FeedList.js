@@ -2,11 +2,9 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import FeedList from '../FeedList'
 import { mockEvent } from '../__tests__/__util__'
-import GDStore from '../../../lib/undux/GDStore'
 import { withThemeProvider } from '../../../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
-const { Container } = GDStore
 
 describe('FeedList', () => {
   const WrappedFeedList = withThemeProvider(FeedList)
@@ -21,21 +19,11 @@ describe('FeedList', () => {
         props.data = []
       })
 
-      it('renders without errors', () => {
-        const tree = renderer.create(
-          <Container>
-            <WrappedFeedList {...props} />
-          </Container>,
-        )
-        expect(tree.toJSON()).toBeTruthy()
-      })
+      it('matches snapshot', async () => {
+        let component
 
-      it('matches snapshot', () => {
-        const component = renderer.create(
-          <Container>
-            <WrappedFeedList {...props} />
-          </Container>,
-        )
+        // eslint-disable-next-line require-await
+        await renderer.act(async () => (component = renderer.create(<WrappedFeedList {...props} />)))
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()
       })
@@ -52,21 +40,11 @@ describe('FeedList', () => {
         ]
       })
 
-      it('renders without errors', () => {
-        const tree = renderer.create(
-          <Container>
-            <WrappedFeedList {...props} />
-          </Container>,
-        )
-        expect(tree.toJSON()).toBeTruthy()
-      })
+      it('matches snapshot', async () => {
+        let component
 
-      it('matches snapshot', () => {
-        const component = renderer.create(
-          <Container>
-            <WrappedFeedList {...props} />
-          </Container>,
-        )
+        // eslint-disable-next-line require-await
+        await renderer.act(async () => (component = renderer.create(<WrappedFeedList {...props} />)))
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()
       })

@@ -1,4 +1,4 @@
-import { parsePaymentLinkParams } from '../../../share'
+import { parsePaymentLinkParams } from '../'
 
 describe('Decode old', () => {
   it(`decode old format, full params`, () => {

@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
@@ -15,6 +15,7 @@ export type ReceiveProps = {
 
 const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
+  const goodWallet = useWallet()
 
   const { navigateTo } = screenProps
   const { fullName } = useProfile()
@@ -25,7 +26,7 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
     const code = generateCode(account, networkId, amount, reason, category, counterPartyDisplayName)
 
     return generateReceiveShareObject(code, amount, counterPartyDisplayName, fullName)
-  }, [amount, reason, counterPartyDisplayName])
+  }, [amount, reason, counterPartyDisplayName, goodWallet])
 
   const handleConfirm = useCallback(() => {
     navigateTo('TransactionConfirmation', { paymentLink: shareOrString, action: ACTION_RECEIVE })

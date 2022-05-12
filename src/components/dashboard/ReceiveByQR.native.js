@@ -5,9 +5,10 @@ import QRCodeScanner from 'react-native-qrcode-scanner'
 import logger from '../../lib/logger/js-logger'
 import { readReceiveLink } from '../../lib/share'
 import { createUrlObject } from '../../lib/utils/uri'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { wrapFunction } from '../../lib/exceptions/utils'
+import { executeWithdraw } from '../../lib/wallet/utils'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
@@ -15,7 +16,8 @@ const log = logger.child({ from: 'ReceiveByQR' })
 
 const ReceiveByQR = ({ screenProps }) => {
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
-  const store = SimpleStore.useStore()
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
 
   const handleScan = data => {
     if (data) {
@@ -46,7 +48,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
   const runWithdraw = async () => {
     if (withdrawParams.receiveLink) {
-      const receipt = await executeWithdraw(store, withdrawParams.receiveLink)
+      const receipt = await executeWithdraw(withdrawParams.receiveLink, undefined, undefined, goodWallet, userStorage)
       screenProps.navigateTo('Home', {
         event: receipt.transactionHash,
         receiveLink: undefined,
@@ -57,7 +59,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
   useEffect(() => {
     runWithdraw()
-  }, [withdrawParams])
+  }, [withdrawParams, runWithdraw])
 
   return (
     <React.Fragment>
@@ -65,7 +67,7 @@ const ReceiveByQR = ({ screenProps }) => {
         <TopBar hideBalance={true} push={screenProps.push} />
         <Section style={styles.bottomSection}>
           <Section.Row>
-            <QRCodeScanner onRead={wrapFunction(handleScan, store)} />
+            <QRCodeScanner onRead={wrapFunction(handleScan)} />
           </Section.Row>
         </Section>
       </Wrapper>

@@ -5,15 +5,12 @@ import renderer from 'react-test-renderer'
 import { getWebRouterComponentWithMocks } from './__util__'
 
 describe('TransactionConfirmation', () => {
-  it('renders without errors', () => {
+  it('matches snapshot', async () => {
     const TransactionConfirmation = getWebRouterComponentWithMocks('../TransactionConfirmation')
-    const tree = renderer.create(<TransactionConfirmation />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+    let component
 
-  it('matches snapshot', () => {
-    const TransactionConfirmation = getWebRouterComponentWithMocks('../TransactionConfirmation')
-    const component = renderer.create(<TransactionConfirmation />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<TransactionConfirmation />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

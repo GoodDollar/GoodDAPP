@@ -62,10 +62,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="a"
           />
         </div>
         <div
@@ -92,10 +92,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="b"
           />
         </div>
         <div
@@ -122,10 +122,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="c"
           />
         </div>
         <div
@@ -152,10 +152,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="d"
           />
         </div>
         <div
@@ -182,10 +182,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="e"
           />
         </div>
         <div
@@ -212,10 +212,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="f"
           />
         </div>
         <div
@@ -242,10 +242,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="g"
           />
         </div>
         <div
@@ -272,10 +272,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="h"
           />
         </div>
         <div
@@ -302,10 +302,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="i"
           />
         </div>
         <div
@@ -332,10 +332,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="j"
           />
         </div>
         <div
@@ -362,10 +362,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="k"
           />
         </div>
         <div
@@ -392,10 +392,10 @@ exports[`BackupWallet matches snapshot 1`] = `
             onFocus={[Function]}
             onKeyDown={[Function]}
             onSelect={[Function]}
-            readOnly={false}
+            readOnly={true}
             spellCheck={true}
             type="text"
-            value=""
+            value="l"
           />
         </div>
       </div>

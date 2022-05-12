@@ -114,7 +114,7 @@ export default class UserProperties {
   /**
    * Return property values
    * @param field
-   * @returns {Promise<any>}
+   * @returns {any}
    */
   get(field: string) {
     const { data } = this

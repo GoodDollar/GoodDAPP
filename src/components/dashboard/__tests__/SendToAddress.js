@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/order
-import { initUserStorage } from '../../../lib/userStorage/__tests__/__util__'
 import React from 'react'
 
 // Note: test renderer must be required after react-native.
@@ -10,19 +9,13 @@ import { getWebRouterComponentWithMocks } from './__util__'
 jest.setTimeout(25000)
 
 describe('SendToAddress', () => {
-  beforeAll(async () => {
-    await initUserStorage()
-  })
+  const SendToAddress = getWebRouterComponentWithMocks('../SendToAddress')
 
-  it('renders without errors', () => {
-    const SendToAddress = getWebRouterComponentWithMocks('../SendToAddress')
-    const tree = renderer.create(<SendToAddress />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const SendToAddress = getWebRouterComponentWithMocks('../SendToAddress')
-    const component = renderer.create(<SendToAddress />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<SendToAddress />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

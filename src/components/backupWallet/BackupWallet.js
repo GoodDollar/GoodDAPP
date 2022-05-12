@@ -5,12 +5,12 @@ import { t, Trans } from '@lingui/macro'
 import { useClipboardCopy } from '../../lib/hooks/useClipboard'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog } from '../../lib/dialog/useDialog'
 import { getMnemonics, mnemonicsToObject } from '../../lib/wallet/SoftwareWalletProvider'
 import normalize from '../../lib/utils/normalizeText'
 import { CustomButton, Section, Text } from '../common'
 import MnemonicInput from '../signin/MnemonicInput'
-import userStorage from '../../lib/userStorage/UserStorage'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import { backupMessage } from '../../lib/userStorage/UserStorageClass'
 import logger from '../../lib/logger/js-logger'
 import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
@@ -27,8 +27,8 @@ type BackupWalletProps = {
 
 const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   const API = useWrappedApi()
-  const [showDialog] = useDialog()
-  const [showErrorDialog] = useErrorDialog()
+  const { showDialog, showErrorDialog } = useDialog()
+  const userStorage = useUserStorage()
 
   const [mnemonics, setMnemonics] = useState('')
   const [currentMnemonics, setCurrentMnemonics] = useState('')
@@ -84,7 +84,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     } else {
       await userStorage.userProperties.set('isMadeBackup', true)
     }
-  }, [currentMnemonics, showDialog, showErrorDialog])
+  }, [currentMnemonics, showDialog, showErrorDialog, userStorage])
 
   return (
     <Wrapper style={styles.mainWrapper}>

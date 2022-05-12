@@ -6,13 +6,13 @@ import { withThemeProvider } from '../../../__tests__/__util__'
 const SideMenuItemWithTheme = withThemeProvider(SideMenuItem)
 
 describe('SideMenuItem', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<SideMenuItemWithTheme icon="person" name="Profile" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<SideMenuItemWithTheme icon="person" name="Profile" />)
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () => (component = renderer.create(<SideMenuItemWithTheme icon="person" name="Profile" />)),
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

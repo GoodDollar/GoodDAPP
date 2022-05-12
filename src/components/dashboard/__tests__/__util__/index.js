@@ -2,10 +2,7 @@ import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import * as libShare from '../../../../lib/share'
-import GDStore from '../../../../lib/undux/GDStore'
-import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
-import { UserContextProvider } from '../../../../lib/contexts/userContext'
-const { Container } = GDStore
+import { withStoresProvider, withThemeAndLocalizationProvider, withUserStorage } from '../../../../__tests__/__util__'
 
 export const getComponentWithMocks = componentPath => {
   //
@@ -21,14 +18,8 @@ export const getComponentWithMocks = componentPath => {
 }
 
 const withContainer = Component => props => {
-  const WrappedComponent = withThemeAndLocalizationProvider(Component)
-  return (
-    <Container>
-      <UserContextProvider>
-        <WrappedComponent {...props} />
-      </UserContextProvider>
-    </Container>
-  )
+  const WrappedComponent = withThemeAndLocalizationProvider(withStoresProvider(Component))
+  return <WrappedComponent {...props} />
 }
 
 export const getWebRouterComponentWithRoutes = (routes, componentProps) => {
@@ -42,7 +33,7 @@ export const getWebRouterComponentWithRoutes = (routes, componentProps) => {
       return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} {...componentProps} />
     }
   }
-  return withContainer(createBrowserApp(createSwitchNavigator({ AppNavigation })))
+  return withContainer(withUserStorage(createBrowserApp(createSwitchNavigator({ AppNavigation }))))
 }
 
 export const getWebRouterComponentWithMocks = (componentPath, componentProps = {}) => {

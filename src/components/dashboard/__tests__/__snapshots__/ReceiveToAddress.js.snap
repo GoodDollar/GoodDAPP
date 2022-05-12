@@ -91,7 +91,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             readOnly={true}
             spellCheck={true}
             type="text"
-            value="face-account-wallet-address"
+            value="0x5dfFc16F54af52F98AD57cFC72261B8fc39EE35F"
           />
         </div>
       </div>

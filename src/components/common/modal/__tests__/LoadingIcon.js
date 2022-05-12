@@ -7,13 +7,11 @@ const LoadingIcon = withThemeProvider(ImportedLoadingIcon)
 // Note: test renderer must be required after react-native.
 
 describe('LoadingIcon', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<LoadingIcon />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<LoadingIcon />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<LoadingIcon />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

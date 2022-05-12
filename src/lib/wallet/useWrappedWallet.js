@@ -1,8 +1,10 @@
-import SimpleStore from '../undux/SimpleStore'
-import wrapper from '../undux/utils/wrapper'
-import goodWallet from './GoodWallet'
+import { useDialog } from '../dialog/useDialog'
+import { wrapper } from '../exceptions/utils'
+import { useWallet } from './GoodWalletProvider'
 
 export const useWrappedGoodWallet = () => {
-  const store = SimpleStore.useStore()
-  return wrapper(goodWallet, store)
+  const { showDialog } = useDialog()
+  const goodWallet = useWallet()
+
+  return wrapper(goodWallet, showDialog)
 }

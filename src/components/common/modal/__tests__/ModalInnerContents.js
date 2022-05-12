@@ -7,26 +7,33 @@ const ModalInnerContents = withThemeProvider(ImportedModalInnerContents)
 // Note: test renderer must be required after react-native.
 
 describe('ModalInnerContents', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<ModalInnerContents />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(
-      <ModalInnerContents>
-        <React.Fragment>Testing</React.Fragment>
-      </ModalInnerContents>,
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(
+          <ModalInnerContents>
+            <React.Fragment>Testing</React.Fragment>
+          </ModalInnerContents>,
+        )),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('matches snapshot with properties', () => {
-    const component = renderer.create(
-      <ModalInnerContents>
-        <React.Fragment>Testing</React.Fragment>
-      </ModalInnerContents>,
+  it('matches snapshot with properties', async () => {
+    let component
+
+    await renderer.act(
+      // eslint-disable-next-line require-await
+      async () =>
+        (component = renderer.create(
+          <ModalInnerContents>
+            <React.Fragment>Testing</React.Fragment>
+          </ModalInnerContents>,
+        )),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

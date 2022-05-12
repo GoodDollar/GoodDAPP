@@ -8,12 +8,12 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/userStorage/UserModel'
 import { getScreenHeight } from '../../lib/utils/orientation'
 import logger from '../../lib/logger/js-logger'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import FormNumberInput from './PhoneNumberInput/PhoneNumberInput'
 import CustomWrapper from './signUpWrapper'
 
@@ -35,26 +35,24 @@ export type MobileRecord = {
 type State = MobileRecord
 
 class PhoneForm extends React.Component<Props, State> {
-  state = {
-    mobile: this.props.screenProps.data.mobile || '',
-    errorMessage: '',
-    countryCode: this.props.screenProps.data.countryCode,
-    isValid: false,
-  }
+  static contextType = GlobalTogglesContext
 
-  onFocus = () => {
-    const { store } = this.props
-    if (isMobile) {
-      store.set('isMobileKeyboardShown')(true)
+  constructor(props) {
+    const { data } = props.screenProps
+
+    super(props)
+
+    this.state = {
+      countryCode: data.countryCode,
+      mobile: data.mobile || '',
+      errorMessage: '',
+      isValid: false,
     }
   }
 
-  onBlur = () => {
-    const { store } = this.props
-    if (isMobile) {
-      store.set('isMobileKeyboardShown')(false)
-    }
-  }
+  onFocus = () => this.handleScreenKeyboard(true)
+
+  onBlur = () => this.handleScreenKeyboard(false)
 
   componentDidMount() {
     this.setState({
@@ -67,6 +65,14 @@ class PhoneForm extends React.Component<Props, State> {
       this.setState({
         countryCode: this.props.screenProps.data.countryCode,
       })
+    }
+  }
+
+  handleScreenKeyboard(isShown) {
+    const { setMobileKeyboardShown } = this.context
+
+    if (isMobile) {
+      setMobileKeyboardShown(isShown)
     }
   }
 
@@ -111,9 +117,10 @@ class PhoneForm extends React.Component<Props, State> {
     this.props.screenProps.error = undefined
 
     const { key } = this.props.navigation.state
-    const { styles, store, theme } = this.props
+    const { styles, theme } = this.props
     const { fullName, loading } = this.props.screenProps.data
-    const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
+    const isShowKeyboard = this.context.isMobileKeyboardShown
+
     return (
       <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
         <Section grow justifyContent="flex-start" style={styles.transparentBackground}>
@@ -186,4 +193,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(SimpleStore.withStore(PhoneForm))
+export default withStyles(getStylesFromProps)(PhoneForm)

@@ -7,13 +7,11 @@ const ModalJaggedEdge = withThemeProvider(ImportedModalJaggedEdge)
 // Note: test renderer must be required after react-native.
 
 describe('ModalJaggedEdge', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<ModalJaggedEdge />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('matches snapshot', async () => {
+    let component
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<ModalJaggedEdge />)
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (component = renderer.create(<ModalJaggedEdge />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

@@ -78,11 +78,15 @@ class SoftwareWalletProvider {
   }
 
   async initSoftwareWallet(): Promise<Web3> {
-    let provider = this.getWeb3TransportProvider()
-    log.info('wallet config:', this.conf, provider)
+    log.info('wallet config:', this.conf)
 
-    //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = this.conf.mnemonic || (await getMnemonics())
+    let web3: Web3 = this.conf.web3
+    let pkey: ?string
+    if (web3) {
+      pkey = await web3.eth.sign('GD_IDENTIFIERS', web3.eth.defaultAccount).then(_ => _.slice(2, 66)) //32 bytes psuedo key
+    } else {
+      pkey = this.conf.mnemonic || (await getMnemonics())
+    }
     let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS)
 
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
@@ -96,7 +100,10 @@ class SoftwareWalletProvider {
       log.debug('Existing private keys found')
     }
 
-    let web3 = new Web3(provider, null, this.defaults)
+    if (!web3) {
+      let provider = this.getWeb3TransportProvider()
+      web3 = new Web3(provider, null, this.defaults)
+    }
 
     assign(web3.eth, this.defaults)
     privateKeys.forEach(pkey => {

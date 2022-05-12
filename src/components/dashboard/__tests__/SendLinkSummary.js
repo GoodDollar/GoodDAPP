@@ -1,35 +1,17 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import GDStore from '../../../lib/undux/GDStore'
-import userStorage from '../../../lib/userStorage/UserStorage'
 
-import { getWebRouterComponentWithMocks, getWebRouterComponentWithRoutes } from './__util__'
-const { Container } = GDStore
+import { getWebRouterComponentWithMocks } from './__util__'
 
 jest.setTimeout(30000)
 describe('SendLinkSummary', () => {
-  beforeAll(async () => {
-    await userStorage.wallet.ready
-    await userStorage.ready
-  })
-  it('renders without errors', () => {
-    const SendLinkSummary = getWebRouterComponentWithRoutes('../SendLinkSummary')
-    const tree = renderer.create(
-      <Container>
-        <SendLinkSummary />
-      </Container>,
-    )
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
+  it('matches snapshot', async () => {
     const SendLinkSummary = getWebRouterComponentWithMocks('../SendLinkSummary')
-    const component = renderer.create(
-      <Container>
-        <SendLinkSummary />
-      </Container>,
-    )
-    const tree = component.toJSON()
+    let tree
+
+    // eslint-disable-next-line require-await
+    await renderer.act(async () => (tree = renderer.create(<SendLinkSummary />)))
+    tree = tree.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

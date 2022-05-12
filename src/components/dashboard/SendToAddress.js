@@ -16,7 +16,7 @@ import usePermissions from '../permissions/hooks/usePermissions'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 
 // utils
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { Permissions } from '../permissions/types'
@@ -28,28 +28,34 @@ export type TypeProps = {
   styles: any,
 }
 
-const validate = value => {
-  if (!value) {
-    return 'Value is mandatory'
-  }
-
-  if (!isAddress(value)) {
-    return 'Invalid wallet address'
-  }
-
-  if (value.toLowerCase() === goodWallet.account.toLowerCase()) {
-    return "You can't send G$s to yourself, you already own your G$s"
-  }
-
-  return null
-}
-
 const SendToAddress = (props: TypeProps) => {
   const { screenProps, styles, navigation } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const goodWallet = useWallet()
+
   const { push, navigateTo } = screenProps
   const { params } = navigation.state
   const { address } = screenState
+
+  const validate = useCallback(
+    value => {
+      if (!value) {
+        return 'Value is mandatory'
+      }
+
+      if (!isAddress(value)) {
+        return 'Invalid wallet address'
+      }
+
+      if (value.toLowerCase() === goodWallet.account.toLowerCase()) {
+        return "You can't send G$s to yourself, you already own your G$s"
+      }
+
+      return null
+    },
+    [goodWallet],
+  )
+
   const [state, setValue] = useValidatedValueState(address, validate)
 
   useEffect(() => {

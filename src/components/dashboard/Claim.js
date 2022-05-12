@@ -357,8 +357,8 @@ const Claim = props => {
   )
 
   const handleClaim = useCallback(async () => {
-    let isCitizenRecheck
     let curEntitlement
+    let isWhitelisted = isCitizen
 
     setLoading(true)
 
@@ -370,10 +370,10 @@ const Claim = props => {
 
         // recheck citizen status, just in case we are out of sync with blockchain
         if (!isCitizen) {
-          isCitizenRecheck = await goodWallet.isCitizen()
+          isWhitelisted = await goodWallet.isCitizen()
         }
 
-        if (isCitizenRecheck) {
+        if (isWhitelisted) {
           // when we come back from FR entitlement might not be set yet
           curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(parseInt))
         }
@@ -388,7 +388,7 @@ const Claim = props => {
     }
 
     // 2. if not whitelisted - goto FV
-    if (!isCitizenRecheck) {
+    if (!isWhitelisted) {
       return handleFaceVerification()
     }
 

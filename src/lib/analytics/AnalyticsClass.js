@@ -1,7 +1,6 @@
 // @flow
 import {
   assign,
-  debounce,
   forIn,
   get,
   isEmpty,
@@ -99,9 +98,10 @@ export class AnalyticsClass {
 
     const { fireEvent, loggerApi } = this
     const errorLevel = loggerApi.ERROR.name
-    const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
-    loggerApi.on(errorLevel, (...args) => this.onErrorLogged(debouncedFireEvent, args))
+    // const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
+
+    loggerApi.on(errorLevel, (...args) => this.onErrorLogged(fireEvent, args))
     logger.debug('listening for error logs', { errorLevel, logger, loggerApi })
   }
 

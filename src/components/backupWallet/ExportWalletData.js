@@ -3,7 +3,7 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
 import { ScrollView } from 'react-native'
-import { get, noop } from 'lodash'
+import { get } from 'lodash'
 
 // components
 import { t } from '@lingui/macro'
@@ -12,9 +12,6 @@ import { Section } from '../common'
 import BorderedBox from '../common/view/BorderedBox'
 import NavBar from '../appNavigation/NavBar'
 
-// hooks
-import { useDialog } from '../../lib/dialog/useDialog'
-
 // utils
 import { withStyles } from '../../lib/styles'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
@@ -22,7 +19,6 @@ import config from '../../config/config'
 
 // assets
 import Checkmark from '../../assets/checkmark.svg'
-import ExportWarningPopup from './ExportWarningPopup'
 
 // localization
 
@@ -39,7 +35,6 @@ const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width=
 //TODO: handle 3rd party wallet
 const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
-  const { showDialog } = useDialog()
   const goodWallet = useWallet()
 
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])
@@ -54,16 +49,6 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
       networkId,
     ]
   }, [goodWallet])
-
-  const onPublicKeyCopied = useCallback(
-    () =>
-      showDialog({
-        showButtons: false,
-        onDismiss: noop,
-        content: <ExportWarningPopup />,
-      }),
-    [showDialog],
-  )
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -101,10 +86,10 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           image={Checkmark}
           copyButtonText="Copy address"
           showCopyIcon={false}
-          onCopied={onPublicKeyCopied}
           truncateContent
           enableIndicateAction
           enableSideMode
+          isDangerous
         />
         <Divider />
         <BorderedBox

@@ -15,6 +15,8 @@ import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
+import ExportWarningPopup from '../../backupWallet/ExportWarningPopup'
+import { useDialog } from '../../../lib/dialog/useDialog'
 
 const copiedActionTimeout = 3000 // time during which the copy success message is displayed
 
@@ -35,9 +37,11 @@ const BorderedBox = ({
   onCopied = noop,
   disableCopy = false,
   overrideStyles = {},
+  isDangerous = false,
 }) => {
   // show the copy success message or no
   const [performed, setPerformed] = useState(false)
+  const { showDialog, hideDialog } = useDialog()
 
   const _onCopied = useCallback(() => {
     enableIndicateAction && setPerformed(true)
@@ -47,6 +51,23 @@ const BorderedBox = ({
 
   const copyToClipboard = useClipboardCopy(content, _onCopied)
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
+
+  const onDangerousCopyDismiss = useCallback(() => {
+    _onCopied()
+    hideDialog()
+  }, [])
+
+  const onDangerousCopy = useCallback(
+    () =>
+      showDialog({
+        showButtons: false,
+        onDismiss: noop,
+        content: <ExportWarningPopup onDismiss={onDangerousCopyDismiss} />,
+      }),
+    [showDialog],
+  )
+
+  const handleCopy = useMemo(() => (isDangerous ? onDangerousCopy : copyToClipboard), [isDangerous])
 
   const avatarStyles = useMemo(() => {
     const [imageBoxSize, height25] = [imageSize, 25].map(size => getDesignRelativeHeight(size, true))
@@ -136,12 +157,7 @@ const BorderedBox = ({
           <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
             {showCopyIcon ? (
               <>
-                <RoundIconButton
-                  onPress={copyToClipboard}
-                  iconSize={22}
-                  iconName="copy"
-                  style={styles.copyIconContainer}
-                />
+                <RoundIconButton onPress={handleCopy} iconSize={22} iconName="copy" style={styles.copyIconContainer} />
                 <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
                   {copyButtonText}
                 </Section.Text>
@@ -155,7 +171,7 @@ const BorderedBox = ({
                 Copied
               </CustomButton>
             ) : (
-              <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
+              <CustomButton onPress={handleCopy} style={styles.copyButtonContainer}>
                 {copyButtonText}
               </CustomButton>
             )}

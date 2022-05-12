@@ -11,57 +11,7 @@ on:
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  test:
-    name: Detox Tests
-    runs-on: ubuntu-latest
-    #disabled until we get it working again
-    if: ${{ false && !contains(github.event.head_commit.message, 'skip ci') }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - name: Use specific Java version for sdkmanager to work
-        uses: joschi/setup-jdk@v1
-        with:
-          java-version: 'openjdk11'
-          architecture: 'x64'
-      - name: Install npm dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --frozen-lockfile
-      - name: Cache Android
-        id: cache-android
-        uses: actions/cache@v1
-        with:
-          path: .android
-          key: ${{ runner.os }}-android-29
-      - name: Download Android Emulator Image
-        if: ${{ steps.cache-android.outputs.cache-hit != 'true' }}
-        run: |
-          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
-          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name Nexus_5X_API_29_x86 --device "Nexus 5X" -k 'system-images;android-29;google_apis;x86'
-      # - name: Android Emulator
-      #   timeout-minutes: 10
-      #   continue-on-error: true
-      #   run: |
-      #     echo "Starting emulator"
-      #     $ANDROID_HOME/emulator/emulator -list-avds
-      #     nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
-      #     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
-      #     $ANDROID_HOME/platform-tools/adb devices
-      #     echo "Emulator started"
-      - name: Prepare env
-        env: # Or as an environment variable
-          SENTRYRC: ${{ secrets.sentryrc_file }}
-        run: |
-          echo "$SENTRYRC" > android/sentry.properties
-      - name: run detox build & test
-        run: |
-          $ANDROID_HOME/emulator/emulator -list-avds
-          yarn lingui-compile
-          yarn test:android
+jobs:  
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
@@ -131,7 +81,7 @@ jobs:
           echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc
           gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
 
-      - name: Build Android Release
+      - name: Build via hot code push
         env:
           RELEASE_ANDROID_PASSPHRASE: ${{ secrets.RELEASE_ANDROID_PASSPHRASE }}
           ENVFILE: '.env.${{ env.ENV }}'
@@ -140,31 +90,9 @@ jobs:
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
           yarn lingui-compile
-          cd android && ./gradlew bundleRelease
-
-      - name: Build Universal APK
-        uses: skywall/universal-apk-builder@v1.0.1
-        with:
-          aab_path: ${{ env.ANDROID_BUNDLE_PATH }}
-          keystore_path: './android/app/release.keystore'
-          keystore_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
-          keystore_alias: 'release-alias'
-          keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
-
-#      - name: Deploy to App Center
-#        run: |
-#          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
-#          yarn add appcenter-cli@^2.*
-#          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+          npx appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"
 
       - name: Distribute to stores - PROD ONLY
         if: ${{ endsWith(github.ref, '/next') }}
         run: |
           npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
-
-      - name: Code push release
-        env:
-          BUILD_NUMBER: ${{ github.run_number }}
-        run: |
-          echo "Code push release target version "${BUILD_NUMBER}""
-          npx appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"

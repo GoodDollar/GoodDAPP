@@ -421,8 +421,7 @@ const Claim = props => {
       const isTxError = name === 'CLAIM_TX_FAILED'
 
       const errorLabel = isTxError ? t`Claim transaction failed` : t`Claim request failed`
-      const logLabel = isTxError ? errorLabel : 'claiming failed'
-      const logPayload = { dialogShown: true }
+      const logPayload = { dialogShown: true, isTxError }
 
       const eventPayload = !isTxError
         ? { txError: true, eMsg: message }
@@ -440,9 +439,9 @@ const Claim = props => {
         })
       }
 
+      log.error('claiming failed', e.message, e, logPayload)
       fireEvent(CLAIM_FAILED, eventPayload)
       showErrorDialog(errorLabel, '', { boldMessage: t`Try again later.` })
-      log.error(logLabel, e.message, e, logPayload)
     } finally {
       setLoading(false)
     }

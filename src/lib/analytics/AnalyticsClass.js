@@ -1,6 +1,7 @@
 // @flow
 import {
   assign,
+  debounce,
   forIn,
   get,
   isEmpty,
@@ -8,6 +9,7 @@ import {
   isNumber,
   isString,
   isUndefined,
+  memoize,
   negate,
   pick,
   pickBy,
@@ -33,7 +35,7 @@ export class AnalyticsClass {
   }
 
   initAnalytics = async () => {
-    const { apis, apisFactory, sentryDSN, amplitudeKey, version, network, logger, env, phase } = this
+    const { apis, apisFactory, sentryDSN, amplitudeKey, version, network, logger, env, phase, loggerApi } = this
 
     const apisDetected = apisFactory()
     const { fullStory, amplitude, sentry, googleAnalytics } = apisDetected
@@ -96,12 +98,9 @@ export class AnalyticsClass {
       Google: !!googleAnalytics,
     })
 
-    const { fireEvent, loggerApi } = this
     const errorLevel = loggerApi.ERROR.name
 
-    // const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
-
-    loggerApi.on(errorLevel, (...args) => this.onErrorLogged(fireEvent, args))
+    loggerApi.on(errorLevel, (...args) => this.onErrorLogged(args))
     logger.debug('listening for error logs', { errorLevel, logger, loggerApi })
   }
 
@@ -170,7 +169,7 @@ export class AnalyticsClass {
       }
     }
 
-    //fire all events on  GA also
+    // fire all events on  GA also
     if (googleAnalytics) {
       const _values = values(data)
 
@@ -307,14 +306,18 @@ export class AnalyticsClass {
   }
 
   // @private
-  onErrorLogged(debouncedFireEvent, args) {
-    try {
-      const { Unexpected, Network, Human } = ExceptionCategory
-      const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
-      const { apis, isSentryEnabled, isFullStoryEnabled, env, logger } = this
-      const isRunningTests = env === 'test'
+  getDebouncedFireEvent = memoize(uniqueId => debounce(this.fireEvent, 500, { leading: true }))
 
+  // @private
+  onErrorLogged(args) {
+    const { Unexpected, Network, Human } = ExceptionCategory
+    const { apis, isSentryEnabled, isFullStoryEnabled, env, logger } = this
+    const isRunningTests = env === 'test'
+
+    try {
+      const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
       let { dialogShown, category = Unexpected, ...context } = extra
+
       let categoryToPassIntoLog = category
       let errorToPassIntoLog
       let sessionUrlAtTime
@@ -337,15 +340,18 @@ export class AnalyticsClass {
       }
 
       if (isString(logMessage) && !logMessage.includes('axios')) {
+        const unique = `${eMsg} ${logMessage} (${logContext.from})`
+        const debouncedFireEvent = this.getDebouncedFireEvent(unique)
+
         const eventPayload = {
-          unique: `${eMsg} ${logMessage} (${logContext.from})`,
-          reason: logMessage,
-          logContext,
           eMsg,
-          dialogShown,
-          category: categoryToPassIntoLog,
+          unique,
           context,
+          logContext,
+          dialogShown,
           sessionUrlAtTime,
+          reason: logMessage,
+          category: categoryToPassIntoLog,
         }
 
         logger.debug('sending ERROR_LOG to Amplitude', eventPayload)
@@ -381,6 +387,7 @@ export class AnalyticsClass {
       logger.debug('sending error to Sentry', { sentryPayload, sentryTags })
       this.reportToSentry(errorToPassIntoLog, sentryPayload, sentryTags)
     } catch (e) {
+      logger.warn('logging error failed', e.message, e, { args })
       this.fireEvent('ERROR_LOG_FAILED', { eMsg: e.message })
     }
   }

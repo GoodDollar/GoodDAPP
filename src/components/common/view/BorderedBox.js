@@ -52,6 +52,7 @@ const BorderedBox = ({
   const handleCopy = useCallback(() => {
     if (!onBeforeCopy) {
       copyToClipboard()
+      return
     }
 
     onBeforeCopy(allow => {

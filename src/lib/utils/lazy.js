@@ -4,6 +4,6 @@ import { suspenseWithIndicator } from '../../components/common/view/LoadingIndic
 const exportDefault = component => module => ({ default: module[component] })
 
 const lazyExport = (dynamicImport, ...components) =>
-  components.map(component => suspenseWithIndicator(lazy(() => dynamicImport().then(exportDefault(component)))))
+  components.map(component => suspenseWithIndicator(() => dynamicImport().then(exportDefault(component))))
 
 export default lazyExport

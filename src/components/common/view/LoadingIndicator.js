@@ -52,13 +52,13 @@ const LoadingIndicator = ({ force }) => {
   return <Indicator loading={loading} />
 }
 
-const suspenseWithIndicator = (child, props) => {
-  const Child = React.lazy(() => child)
+const suspenseWithIndicator = LazyComponent => props => {
   const Loading = <Indicator loading={true} />
   return (
     <React.Suspense fallback={Loading}>
-      <Child {...props} />
+      <LazyComponent {...props} />
     </React.Suspense>
   )
 }
+
 export { LoadingIndicator as default, suspenseWithIndicator }

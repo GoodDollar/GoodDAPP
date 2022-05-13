@@ -38,6 +38,7 @@ import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import useOnPress from '../../lib/hooks/useOnPress'
+import lazyExport from '../../lib/utils/lazy'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
 import { createUrlObject } from '../../lib/utils/uri'
@@ -66,21 +67,25 @@ import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 
-import FaceVerification from './FaceVerification/screens/VerificationScreen'
-import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
-import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
-
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyDecemberBanner'
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 
 const log = logger.child({ from: 'Dashboard' })
 
+const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = lazyExport(
+  () => import('./FaceVerification'),
+  'FaceVerification',
+  'FaceVerificationIntro',
+  'FaceVerificationError',
+)
+
 let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
 const { isCryptoLiteracy } = Config
+const faceVerificationOptions = { navigationBarHidden: false, title: 'Face Verification' }
 
 export type DashboardProps = {
   navigation: any,
@@ -946,9 +951,18 @@ export default createStackNavigator({
   SendByQR,
   SendToAddress,
 
-  FaceVerification,
-  FaceVerificationIntro,
-  FaceVerificationError,
+  FaceVerification: {
+    screen: FaceVerification,
+    navigationOptions: faceVerificationOptions,
+  },
+  FaceVerificationIntro: {
+    screen: FaceVerificationIntro,
+    navigationOptions: faceVerificationOptions,
+  },
+  FaceVerificationError: {
+    screen: FaceVerificationError,
+    navigationOptions: faceVerificationOptions,
+  },
 
   TransactionConfirmation: {
     screen: TransactionConfirmation,

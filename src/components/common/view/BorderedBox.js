@@ -35,6 +35,7 @@ const BorderedBox = ({
   onCopied = noop,
   disableCopy = false,
   overrideStyles = {},
+  onBeforeCopy = null,
 }) => {
   // show the copy success message or no
   const [performed, setPerformed] = useState(false)
@@ -47,6 +48,18 @@ const BorderedBox = ({
 
   const copyToClipboard = useClipboardCopy(content, _onCopied)
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
+
+  const handleCopy = useCallback(() => {
+    if (!onBeforeCopy) {
+      copyToClipboard()
+    }
+
+    onBeforeCopy(allow => {
+      if (allow) {
+        copyToClipboard()
+      }
+    })
+  }, [copyToClipboard, onBeforeCopy])
 
   const avatarStyles = useMemo(() => {
     const [imageBoxSize, height25] = [imageSize, 25].map(size => getDesignRelativeHeight(size, true))
@@ -136,12 +149,7 @@ const BorderedBox = ({
           <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
             {showCopyIcon ? (
               <>
-                <RoundIconButton
-                  onPress={copyToClipboard}
-                  iconSize={22}
-                  iconName="copy"
-                  style={styles.copyIconContainer}
-                />
+                <RoundIconButton onPress={handleCopy} iconSize={22} iconName="copy" style={styles.copyIconContainer} />
                 <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
                   {copyButtonText}
                 </Section.Text>
@@ -155,7 +163,7 @@ const BorderedBox = ({
                 Copied
               </CustomButton>
             ) : (
-              <CustomButton onPress={copyToClipboard} style={styles.copyButtonContainer}>
+              <CustomButton onPress={handleCopy} style={styles.copyButtonContainer}>
                 {copyButtonText}
               </CustomButton>
             )}

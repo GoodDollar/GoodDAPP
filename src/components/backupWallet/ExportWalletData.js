@@ -90,6 +90,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           title="My Private Key"
           content={fullPrivateKey}
           imageSize={checkmarkIconSize}
+          onBeforeCopy={onPrivateKeyCopy}
           image={Checkmark}
           copyButtonText="Copy Key"
           showCopyIcon={false}
@@ -110,7 +111,6 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           truncateContent
           enableIndicateAction
           enableSideMode
-          onBeforeCopy={onPrivateKeyCopy}
         />
         <Divider />
         <BorderedBox

@@ -37,7 +37,7 @@ const BorderedBox = ({
   onCopied = noop,
   disableCopy = false,
   overrideStyles = {},
-  isDangerous = false,
+  onBeforeCopy = null,
 }) => {
   // show the copy success message or no
   const [performed, setPerformed] = useState(false)
@@ -52,22 +52,35 @@ const BorderedBox = ({
   const copyToClipboard = useClipboardCopy(content, _onCopied)
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
 
-  const onDangerousCopyDismiss = useCallback(() => {
-    _onCopied()
-    hideDialog()
-  }, [])
+  // TODO: move to upper componentm pass as onBeforeCopy
+  const onDangerousCopy = useCallback(resultCallback => {
+      const onCancel = () => resultCallback(false)
 
-  const onDangerousCopy = useCallback(
-    () =>
+      const onConfirm = () => {
+        hideDialog()
+        resultCallback(true)
+      }
+
       showDialog({
         showButtons: false,
-        onDismiss: noop,
-        content: <ExportWarningPopup onDismiss={onDangerousCopyDismiss} />,
+        onDismiss: onCancel,
+        content: <ExportWarningPopup onDismiss={onConfirm} />,
       }),
-    [showDialog],
+    },
+    [showDialog, hideDialog],
   )
 
-  const handleCopy = useMemo(() => (isDangerous ? onDangerousCopy : copyToClipboard), [isDangerous])
+  const handleCopy = useCallback(() => {
+    if (!onBeforeCopy) {
+      copyToClipboard()
+    }
+    
+    onBeforeCopy(allow => {
+      if (allow) {
+        copyToClipboard()
+      }
+    })
+  }, [copyToClipboard, onBeforeCopy])
 
   const avatarStyles = useMemo(() => {
     const [imageBoxSize, height25] = [imageSize, 25].map(size => getDesignRelativeHeight(size, true))

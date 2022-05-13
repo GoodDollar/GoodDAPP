@@ -1,0 +1,10 @@
+{
+  "catalogs": [{
+    "path": "<rootDir>/src/language/locales/{locale}/catalog",
+    "include": ["<rootDir>/src"],
+    "exclude": ["**/__tests__/**"]
+  }],
+  "format": "minimal",
+  "sourceLocale": "en",
+  "locales": ["de", "en", "es-AR", "es", "it", "he", "ro", "ru", "vi", "zh-CN", "zh-TW", "ko", "ja", "fr"]
+}

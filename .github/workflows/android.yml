@@ -60,7 +60,7 @@ jobs:
       - name: run detox build & test
         run: |
           $ANDROID_HOME/emulator/emulator -list-avds
-          yarn lingui-compile
+          yarn lingui:compile
           yarn test:android
   # This workflow contains a single job called "build"
   build:

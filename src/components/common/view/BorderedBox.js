@@ -15,8 +15,6 @@ import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
-import ExportWarningPopup from '../../backupWallet/ExportWarningPopup'
-import { useDialog } from '../../../lib/dialog/useDialog'
 
 const copiedActionTimeout = 3000 // time during which the copy success message is displayed
 
@@ -41,7 +39,6 @@ const BorderedBox = ({
 }) => {
   // show the copy success message or no
   const [performed, setPerformed] = useState(false)
-  const { showDialog, hideDialog } = useDialog()
 
   const _onCopied = useCallback(() => {
     enableIndicateAction && setPerformed(true)
@@ -52,29 +49,11 @@ const BorderedBox = ({
   const copyToClipboard = useClipboardCopy(content, _onCopied)
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
 
-  // TODO: move to upper componentm pass as onBeforeCopy
-  const onDangerousCopy = useCallback(resultCallback => {
-      const onCancel = () => resultCallback(false)
-
-      const onConfirm = () => {
-        hideDialog()
-        resultCallback(true)
-      }
-
-      showDialog({
-        showButtons: false,
-        onDismiss: onCancel,
-        content: <ExportWarningPopup onDismiss={onConfirm} />,
-      }),
-    },
-    [showDialog, hideDialog],
-  )
-
   const handleCopy = useCallback(() => {
     if (!onBeforeCopy) {
       copyToClipboard()
     }
-    
+
     onBeforeCopy(allow => {
       if (allow) {
         copyToClipboard()

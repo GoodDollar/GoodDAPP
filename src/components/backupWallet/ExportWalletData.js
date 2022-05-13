@@ -19,6 +19,8 @@ import config from '../../config/config'
 
 // assets
 import Checkmark from '../../assets/checkmark.svg'
+import { useDialog } from '../../lib/dialog/useDialog'
+import ExportWarningPopup from './ExportWarningPopup'
 
 // localization
 
@@ -36,6 +38,7 @@ const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width=
 const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
   const goodWallet = useWallet()
+  const { showDialog, hideDialog } = useDialog()
 
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])
 
@@ -49,6 +52,24 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
       networkId,
     ]
   }, [goodWallet])
+
+  const onPrivateKeyCopy = useCallback(
+    resultCallback => {
+      const onCancel = () => resultCallback(false)
+
+      const onConfirm = () => {
+        hideDialog()
+        resultCallback(true)
+      }
+
+      showDialog({
+        showButtons: false,
+        onDismiss: onCancel,
+        content: <ExportWarningPopup onDismiss={onConfirm} />,
+      })
+    },
+    [showDialog, hideDialog],
+  )
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -89,7 +110,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           truncateContent
           enableIndicateAction
           enableSideMode
-          isDangerous
+          onBeforeCopy={onPrivateKeyCopy}
         />
         <Divider />
         <BorderedBox

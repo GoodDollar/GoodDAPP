@@ -3,7 +3,7 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
 import { ScrollView } from 'react-native'
-import { get, noop } from 'lodash'
+import { get } from 'lodash'
 
 // components
 import { t } from '@lingui/macro'
@@ -12,9 +12,6 @@ import { Section } from '../common'
 import BorderedBox from '../common/view/BorderedBox'
 import NavBar from '../appNavigation/NavBar'
 
-// hooks
-import { useDialog } from '../../lib/dialog/useDialog'
-
 // utils
 import { withStyles } from '../../lib/styles'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
@@ -22,6 +19,7 @@ import config from '../../config/config'
 
 // assets
 import Checkmark from '../../assets/checkmark.svg'
+import { useDialog } from '../../lib/dialog/useDialog'
 import ExportWarningPopup from './ExportWarningPopup'
 
 // localization
@@ -39,8 +37,8 @@ const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width=
 //TODO: handle 3rd party wallet
 const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
-  const { showDialog } = useDialog()
   const goodWallet = useWallet()
+  const { showDialog, hideDialog } = useDialog()
 
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])
 
@@ -55,14 +53,22 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
     ]
   }, [goodWallet])
 
-  const onPublicKeyCopied = useCallback(
-    () =>
+  const onPrivateKeyCopy = useCallback(
+    resultCallback => {
+      const onCancel = () => resultCallback(false)
+
+      const onConfirm = () => {
+        hideDialog()
+        resultCallback(true)
+      }
+
       showDialog({
         showButtons: false,
-        onDismiss: noop,
-        content: <ExportWarningPopup />,
-      }),
-    [showDialog],
+        onDismiss: onCancel,
+        content: <ExportWarningPopup onDismiss={onConfirm} />,
+      })
+    },
+    [showDialog, hideDialog],
   )
 
   return (
@@ -84,6 +90,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           title="My Private Key"
           content={fullPrivateKey}
           imageSize={checkmarkIconSize}
+          onBeforeCopy={onPrivateKeyCopy}
           image={Checkmark}
           copyButtonText="Copy Key"
           showCopyIcon={false}
@@ -101,7 +108,6 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           image={Checkmark}
           copyButtonText="Copy address"
           showCopyIcon={false}
-          onCopied={onPublicKeyCopied}
           truncateContent
           enableIndicateAction
           enableSideMode

@@ -10,7 +10,8 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
-import { getRouteParams, openLink } from '../../lib/utils/linking'
+import { openLink } from '../../lib/utils/linking'
+import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
@@ -38,7 +39,6 @@ import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import useOnPress from '../../lib/hooks/useOnPress'
-import lazyExport from '../../lib/utils/lazy'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
 import { createUrlObject } from '../../lib/utils/uri'
@@ -73,11 +73,17 @@ import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 
 const log = logger.child({ from: 'Dashboard' })
 
-const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = lazyExport(
-  () => import('./FaceVerification'),
-  'FaceVerification',
-  'FaceVerificationIntro',
-  'FaceVerificationError',
+const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNavigationOptions({
+  navigationBarHidden: false,
+  title: 'Face Verification',
+})(
+  // eslint-disable-next-line
+  lazyScreens(
+    () => import('./FaceVerification'),
+    'FaceVerification',
+    'FaceVerificationIntro',
+    'FaceVerificationError'
+  ),
 )
 
 let didRender = false
@@ -85,7 +91,6 @@ const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
 const { isCryptoLiteracy } = Config
-const faceVerificationOptions = { navigationBarHidden: false, title: 'Face Verification' }
 
 export type DashboardProps = {
   navigation: any,
@@ -951,18 +956,9 @@ export default createStackNavigator({
   SendByQR,
   SendToAddress,
 
-  FaceVerification: {
-    screen: FaceVerification,
-    navigationOptions: faceVerificationOptions,
-  },
-  FaceVerificationIntro: {
-    screen: FaceVerificationIntro,
-    navigationOptions: faceVerificationOptions,
-  },
-  FaceVerificationError: {
-    screen: FaceVerificationError,
-    navigationOptions: faceVerificationOptions,
-  },
+  FaceVerification,
+  FaceVerificationIntro,
+  FaceVerificationError,
 
   TransactionConfirmation: {
     screen: TransactionConfirmation,

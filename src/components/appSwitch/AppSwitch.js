@@ -22,7 +22,7 @@ import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
 import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
-import { getRouteParams } from '../../lib/utils/linking'
+import { getRouteParams } from '../../lib/utils/navigation'
 
 type LoadingProps = {
   navigation: any,

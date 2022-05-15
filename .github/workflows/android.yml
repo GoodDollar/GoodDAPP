@@ -140,9 +140,8 @@ jobs:
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
-# TODO: uncomment after got permissions
-#         yarn crowdin:sync
-          yarn lingui-compile
+          yarn lingui:compile
+          yarn crowdin:sync
           cd android && ./gradlew bundleRelease
 
       - name: Build Universal APK

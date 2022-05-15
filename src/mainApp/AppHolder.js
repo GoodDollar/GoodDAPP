@@ -59,4 +59,4 @@ const AppHolder = () => {
   )
 }
 
-export default () => <AppHolder />
+export default AppHolder

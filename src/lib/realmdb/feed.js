@@ -1,6 +1,7 @@
+import { FeedCategories } from '../userStorage/FeedCategory'
 import AsyncStorage from '../utils/asyncStorage'
 
-export default class FeedSource {
+export class FeedSource {
   get Feed() {
     const { db } = this.db
 
@@ -17,10 +18,21 @@ export default class FeedSource {
     this.storage = storage
   }
 
-  async initialize() {}
-
   // eslint-disable-next-line require-await
   async syncFromRemote() {
     throw new Error('Method not implemented')
+  }
+}
+
+export const makeCategoryMatcher = category => ({ type }) => {
+  const isNews = 'news' === type
+
+  switch (category) {
+    case FeedCategories.News:
+      return isNews
+    case FeedCategories.Transactions:
+      return !isNews
+    default:
+      return true
   }
 }

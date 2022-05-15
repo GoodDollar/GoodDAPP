@@ -27,7 +27,7 @@ import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import API, { getErrorMessage } from '../../lib/API/api'
 import { useDialog } from '../../lib/dialog/useDialog'
-import BackButtonHandler from '../../lib/utils/handleBackButton'
+import BackButtonHandler from '../appNavigation/BackButtonHandler'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/userStorage/UserModel'
 import Config from '../../config/config'
@@ -384,11 +384,16 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             return
           }
 
-          let { data } = await API.sendOTP(_signupData)
+          let {
+            data: { ok, error },
+          } = await API.sendOTP(_signupData)
 
-          if (!data.ok) {
-            const errorMessage =
-              data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
+          if (!ok) {
+            let errorMessage = error
+
+            if (error === 'mobile_already_exists') {
+              errorMessage = 'Mobile already exists, please use a different one'
+            }
 
             log.error('Send mobile code failed', errorMessage, new Error(errorMessage), {
               data,

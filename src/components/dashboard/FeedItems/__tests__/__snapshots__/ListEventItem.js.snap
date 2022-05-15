@@ -34,7 +34,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             01.04.19 15:03
           </div>
           <div
-            className="css-text-901oao r-color-1c423w1 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-1c423w1 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             +
@@ -138,11 +138,10 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1q142lx r-marginTop-kc8jnq"
             >
               <div
-                className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                 dir="auto"
                 style={
                   Object {
-                    "WebkitLineClamp": 1,
                     "minWidth": "10px",
                   }
                 }
@@ -219,7 +218,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             01.04.19 15:03
           </div>
           <div
-            className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             -
@@ -323,11 +322,10 @@ exports[`ListEventItem send matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1q142lx r-marginTop-kc8jnq"
             >
               <div
-                className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                 dir="auto"
                 style={
                   Object {
-                    "WebkitLineClamp": 1,
                     "minWidth": "10px",
                   }
                 }
@@ -404,7 +402,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             01.04.19 15:03
           </div>
           <div
-            className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
             +
@@ -509,11 +507,10 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1q142lx r-marginTop-kc8jnq"
             >
               <div
-                className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                 dir="auto"
                 style={
                   Object {
-                    "WebkitLineClamp": 1,
                     "minWidth": "10px",
                   }
                 }

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { get, pickBy } from 'lodash'
 import { t } from '@lingui/macro'
@@ -38,8 +38,15 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const userStorage = useUserStorage()
 
   const _handleModalClose = useCallback(handleModalClose)
-  const inviteCode = userStorage && userStorage.userProperties.get('inviteCode')
   const { fullName: currentUserName } = useProfile()
+
+  const inviteCode = useMemo(() => {
+    const { userProperties } = userStorage || {}
+
+    if (userProperties) {
+      return userProperties.get('inviteCode')
+    }
+  }, [userStorage])
 
   const [cancellingPayment, setCancellingPayment] = useState(false)
   const [paymentLinkForShare, setPaymentLinkForShare] = useState({})
@@ -113,7 +120,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       log.error('generatePaymentLinkForShare Failed', message, exception, { item, isSharingAvailable })
       return null
     }
-  }, [item, inviteCode])
+  }, [item, inviteCode, currentUserName])
 
   const readMore = useCallback(() => {
     fireEventAnalytics('readMore')
@@ -153,7 +160,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     }
 
     setPaymentLinkForShare(generatePaymentLinkForShare())
-  }, [])
+  }, [generatePaymentLinkForShare])
 
   switch (item.displayType) {
     case 'welcome':
@@ -271,13 +278,21 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </ModalButton>
         </View>
       )
+    case 'claim':
+      return (
+        <View style={styles.buttonsView}>
+          <ModalButton fontWeight="medium" onPress={_handleModalClose}>
+            {t`Ok`}
+          </ModalButton>
+        </View>
+      )
     case 'empty':
       return null
     default: {
       const txHash = get(item, 'data.receiptHash', item.id)
       const isTx = txHash && txHash.startsWith('0x')
 
-      // claim / receive / withdraw / notification / sendcancelled / sendcompleted
+      // receive / withdraw / notification / sendcancelled / sendcompleted
       return (
         <Section.Row style={[styles.buttonsView, isTx && styles.linkButtonView]}>
           {isTx && (
@@ -321,10 +336,9 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   linkButtonView: {
-    justifyContent: 'space-between',
     alignItems: 'baseline',
   },
-  txHashWrapper: { justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column' },
+  txHashWrapper: { justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column', flex: 1 },
   txHash: { maxWidth: 200 },
   spaceBetween: {
     justifyContent: 'space-between',

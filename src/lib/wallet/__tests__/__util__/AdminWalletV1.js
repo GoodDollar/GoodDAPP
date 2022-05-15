@@ -125,8 +125,12 @@ export class Wallet {
 
     const adminWalletContractBalance = await this.web3.eth.getBalance(adminWalletAddress)
     log.info(`AdminWallet contract balance`, { adminWalletContractBalance, adminWalletAddress })
+
     if (adminWalletContractBalance < adminMinBalance * this.addresses.length) {
-      log.error('AdminWallet contract low funds', '', new Error('AdminWallet contract low funds'))
+      const exception = new Error('AdminWallet contract low funds')
+
+      log.error('Failed start GoodWallet', exception.message, exception)
+
       if (conf.env !== 'test') {
         process.exit(-1)
       }
@@ -149,11 +153,15 @@ export class Wallet {
     }
 
     if (this.filledAddresses.length === 0) {
-      log.error('no admin wallet with funds', '', new Error('No admin wallet with funds'))
+      const exception = new Error('No admin wallet with funds')
+
+      log.error('Failed start GoodWallet', exception.message, exception)
+
       if (conf.env !== 'test') {
         process.exit(-1)
       }
     }
+
     this.address = this.filledAddresses[0]
 
     this.identityContract = new this.web3.eth.Contract(

@@ -19,15 +19,15 @@ import { InfoIcon } from '../common/modal/InfoIcon'
 import createABTesting from '../../lib/hooks/useABTesting'
 
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
-import { extractQueryParams } from '../../lib/utils/uri'
+import { createUrlObject } from '../../lib/utils/uri'
 import mustache from '../../lib/utils/mustache'
 import {
-  registerForInvites,
   useCollectBounty,
   useInviteBonus,
   useInviteCode,
   useInvited,
   useInviteScreenOpened,
+  useRegisterForInvites,
 } from './useInvites'
 import FriendsSVG from './friends.svg'
 import EtoroPNG from './etoro.png'
@@ -164,6 +164,7 @@ const ShareBox = ({ level }) => {
 
 const InputCodeBox = ({ navigateTo }) => {
   const ownInviteCode = useInviteCode()
+  const registerForInvites = useRegisterForInvites()
   const { hideDialog, showDialog } = useDialog()
   const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
@@ -173,7 +174,7 @@ const InputCodeBox = ({ navigateTo }) => {
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
   //if code wasnt a url it will not have any query params and will then use code as default
-  const extractedCode = useMemo(() => get(extractQueryParams(code), 'inviteCode', code), [code])
+  const extractedCode = useMemo(() => get(createUrlObject(code), 'params.inviteCode', code), [code])
   const isValidCode = extractedCode.length >= 10 && extractedCode.length <= 32 && extractedCode !== ownInviteCode
 
   // disable button if code invalid or cant collect
@@ -220,13 +221,13 @@ const InputCodeBox = ({ navigateTo }) => {
     })
 
     try {
-      await registerForInvites(extractedCode, goodWallet, userStorage)
+      await registerForInvites(extractedCode)
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
       hideDialog()
     }
-  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, goodWallet, userStorage])
+  }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, registerForInvites])
 
   //manages the get reward button state (disabled/enabled)
   useEffect(() => {

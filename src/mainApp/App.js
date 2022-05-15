@@ -11,12 +11,10 @@ import RouterSelector from '../RouterSelector'
 import useServiceWorker from '../lib/hooks/useServiceWorker'
 
 import { isMobile } from '../lib/utils/platform'
-import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
-import { DialogContextProvider } from '../lib/dialog/dialogContext'
 import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
-import { GoodWalletProvider } from '../lib/wallet/GoodWalletProvider'
+import AppContext from './AppContext'
 
 // eslint-disable-next-line no-unused-vars
 const log = logger.child({ from: 'App' })
@@ -48,17 +46,11 @@ export const App = () => {
   return (
     <PaperProvider theme={theme}>
       <AppWrapper {...wrapperProps}>
-        <Fragment>
-          <GlobalTogglesContextProvider>
-            <DialogContextProvider>
-              <GoodWalletProvider>
-                <SimpleStoreDialog />
-                <LoadingIndicator />
-                <RouterSelector />
-              </GoodWalletProvider>
-            </DialogContextProvider>
-          </GlobalTogglesContextProvider>
-        </Fragment>
+        <AppContext>
+          <SimpleStoreDialog />
+          <LoadingIndicator />
+          <RouterSelector />
+        </AppContext>
       </AppWrapper>
     </PaperProvider>
   )

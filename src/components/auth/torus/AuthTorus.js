@@ -321,11 +321,11 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       setActiveStep(2)
 
       // get full name, email, number, userId
-
       const goodWallet = await initWalletAndStorage(
         web3 ? web3 : torusUser.privateKey,
         web3 ? provider.toUpperCase() : 'SEED',
       )
+
       const existsResult = await checkExisting(provider, torusUser, goodWallet)
       log.info('checkExisting result:', { existsResult })
 

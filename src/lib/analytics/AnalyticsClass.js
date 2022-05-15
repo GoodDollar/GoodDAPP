@@ -39,9 +39,9 @@ export class AnalyticsClass {
     const apisDetected = apisFactory()
     const { fullStory, amplitude, sentry, googleAnalytics } = apisDetected
 
-    const isSentryEnabled = sentry && sentryDSN
-    const isAmplitudeEnabled = amplitude && amplitudeKey
-    const isFullStoryEnabled = fullStory && env === 'production'
+    const isSentryEnabled = !!(sentry && sentryDSN)
+    const isAmplitudeEnabled = !!(amplitude && amplitudeKey)
+    const isFullStoryEnabled = !!(fullStory && env === 'production')
 
     assign(apis, apisDetected)
     assign(this, { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled })
@@ -98,9 +98,11 @@ export class AnalyticsClass {
     })
 
     const { fireEvent, loggerApi } = this
+    const errorLevel = loggerApi.ERROR.name
     const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
 
-    loggerApi.on(loggerApi.ERROR.name, (...args) => this.onErrorLogged(debouncedFireEvent, args))
+    loggerApi.on(errorLevel, (...args) => this.onErrorLogged(debouncedFireEvent, args))
+    logger.debug('listening for error logs', { errorLevel, logger, loggerApi })
   }
 
   identifyWith = (email, identifier = null) => {
@@ -306,15 +308,17 @@ export class AnalyticsClass {
 
   // @private
   onErrorLogged(debouncedFireEvent, args) {
-    const { apis, isSentryEnabled, isFullStoryEnabled, env } = this
-    const isRunningTests = env === 'test'
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
+    const { apis, isSentryEnabled, isFullStoryEnabled, env, logger } = this
+    const isRunningTests = env === 'test'
 
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category
     let errorToPassIntoLog
     let sessionUrlAtTime
+
+    logger.debug('processing error log:', args)
 
     if (isFullStoryEnabled && apis.fullStory.ready) {
       sessionUrlAtTime = apis.fullStory.getCurrentSessionURL(true)
@@ -332,7 +336,7 @@ export class AnalyticsClass {
     }
 
     if (isString(logMessage) && !logMessage.includes('axios')) {
-      debouncedFireEvent(ERROR_LOG, {
+      const eventPayload = {
         unique: `${eMsg} ${logMessage} (${logContext.from})`,
         reason: logMessage,
         logContext,
@@ -341,7 +345,10 @@ export class AnalyticsClass {
         category: categoryToPassIntoLog,
         context,
         sessionUrlAtTime,
-      })
+      }
+
+      logger.debug('sending ERROR_LOG to Amplitude', eventPayload)
+      debouncedFireEvent(ERROR_LOG, eventPayload)
     }
 
     if (!isSentryEnabled || isRunningTests) {
@@ -355,21 +362,22 @@ export class AnalyticsClass {
       errorToPassIntoLog = new Error(logMessage)
     }
 
-    this.reportToSentry(
-      errorToPassIntoLog,
-      {
-        logMessage,
-        errorObj,
-        logContext,
-        eMsg,
-        context,
-        sessionUrlAtTime,
-      },
-      {
-        dialogShown,
-        category: categoryToPassIntoLog,
-        level: categoryToPassIntoLog === Human ? 'info' : undefined,
-      },
-    )
+    const sentryPayload = {
+      logMessage,
+      errorObj,
+      logContext,
+      eMsg,
+      context,
+      sessionUrlAtTime,
+    }
+
+    const sentryTags = {
+      dialogShown,
+      category: categoryToPassIntoLog,
+      level: categoryToPassIntoLog === Human ? 'info' : undefined,
+    }
+
+    logger.debug('sending error to Sentry', { sentryPayload, sentryTags })
+    this.reportToSentry(errorToPassIntoLog, sentryPayload, sentryTags)
   }
 }

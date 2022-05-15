@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, Linking, Platform, Pressable, View } from 'react-native'
+import { Linking, Platform, Pressable, View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
 import { isMobile } from '../../../lib/utils/platform'
@@ -11,7 +11,7 @@ import { getScreenWidth } from '../../../lib/utils/orientation'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import { Icon, Section, Text } from '../../common'
+import { Icon, Image, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
@@ -21,7 +21,6 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
-import { SvgImage } from './SvgImage'
 
 const log = logger.child({ from: 'ListEventItem' })
 
@@ -62,18 +61,21 @@ const InviteItem = ({ item, theme }) => (
 
 const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
   const {
-    data: { sponsoredLink, sponsoredLogo },
+    data: { sponsoredLink, sponsoredLogo, picture },
   } = item
+  const hasPicture = !!picture
+
   const onSponsorPress = useOnPress(() => {
     fireEvent(GOTO_SPONSOR, { link: sponsoredLink })
-    Linking.openURL(sponsoredLink).catch(e => log.error('Open news feed error', e))
+    Linking.openURL(sponsoredLink).catch(e => log.error('Open news feed error', e.message, e))
   }, [sponsoredLink])
+
   return (
     <View style={styles.rowContent}>
-      <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig />
+      <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig={hasPicture} />
 
       <View style={styles.newsContent}>
-        {item.data.picture && <Image source={{ uri: item.data.picture }} style={styles.newsPicture} />}
+        {picture && <Image source={{ uri: picture }} style={styles.feedPicture} />}
 
         <View style={styles.innerRow}>
           <View grow style={styles.mainContents}>
@@ -86,9 +88,11 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
                   isSmallDevice={isMobile && getScreenWidth() < 353}
                   numberOfLines={2}
                   isCapitalized={false}
+                  lineHeight={20}
+                  textStyle={styles.newsHeader}
                 />
 
-                <Text lineHeight={20} numberOfLines={3} color="gray80Percent" fontSize={12} style={styles.newsMessage}>
+                <Text lineHeight={16} numberOfLines={3} color="gray80Percent" fontSize={12} style={styles.newsMessage}>
                   {get(item, 'data.message')}
                 </Text>
               </View>
@@ -103,7 +107,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
                   <Text fontSize={10} color="gray80Percent" lineHeight={17} textAlign="left">
                     {t`Sponsored by`}{' '}
                   </Text>
-                  <SvgImage src={sponsoredLogo} height="28" width="45" />
+                  <SvgXml src={sponsoredLogo} height="28" width="45" />
                 </Pressable>
               )}
             </View>
@@ -156,14 +160,14 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
             {!eventSettings.withoutAmount && (
               <React.Fragment>
                 {eventSettings && eventSettings.actionSymbol && (
-                  <Text fontSize={15} lineHeight={18} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
+                  <Text fontSize={15} lineHeight={22} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
                     {eventSettings.actionSymbol}
                   </Text>
                 )}
                 <BigGoodDollar
                   number={get(feed, 'data.amount', 0)}
                   color={mainColor}
-                  bigNumberProps={{ fontSize: 20, lineHeight: 20 }}
+                  bigNumberProps={{ fontSize: 20, lineHeight: 22 }}
                   bigNumberStyles={styles.bigNumberStyles}
                   bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
                 />
@@ -356,6 +360,10 @@ const getStylesFromProps = ({ theme }) => ({
   },
   actionSymbol: {
     marginLeft: 'auto',
+    marginBottom: Platform.select({
+      web: 0,
+      default: 4,
+    }),
   },
   bigNumberStyles: {
     marginRight: theme.sizes.defaultHalf,
@@ -372,10 +380,11 @@ const getStylesFromProps = ({ theme }) => ({
   emptySpace: {
     width: normalize(34),
   },
-  claimingCardFeedText: {
-    // height: '100%',
-    // justifyContent: 'center',
+  feedPicture: {
+    width: '100%',
+    height: 'auto',
   },
+  claimingCardFeedText: {},
   mainInfo: {
     alignItems: 'flex-start',
     display: 'flex',
@@ -410,11 +419,6 @@ const getStylesFromProps = ({ theme }) => ({
   mainText: {
     paddingTop: 5,
   },
-  newsPicture: {
-    width: '100%',
-    aspectRatio: 2.55,
-    resizeMode: 'contain',
-  },
   newsContent: {
     width: '100%',
     paddingLeft: 2,
@@ -429,6 +433,9 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     paddingRight: 24,
+  },
+  newsHeader: {
+    color: '#173566',
   },
 })
 

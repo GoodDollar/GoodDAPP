@@ -1,34 +1,33 @@
 // @flow
 
-import { fromPairs } from 'lodash'
 import isURL from 'validator/lib/isURL'
 
-const isUrlOptions = { require_tld: false }
-const pathNameRegex = /.+?:\/\/.+?(\/.+?)(?:#|\?|$)/
+import { appUrl } from '../../lib/utils/env'
 
-// TODO: migrate to URL
-export const extractPathName = url => {
-  const [, pathName] = pathNameRegex.exec(url) || []
+const isUrlOptions = { require_tld: false, require_protocol: true }
+const createEmptyUri = () => ({ params: {}, searchParams: new URLSearchParams('') })
 
-  return pathName || '/'
+class CustomURL extends URL {
+  constructor(uri) {
+    super(uri)
+
+    const { searchParams } = this
+
+    Object.defineProperties(this, {
+      internal: {
+        value: uri.startsWith(appUrl),
+        writable: false,
+        configurable: false,
+      },
+      params: {
+        value: Object.fromEntries(searchParams.entries()),
+        writable: false,
+        configurable: false,
+      },
+    })
+  }
 }
 
-/**
- * Extracts query params values and returns them as a key-value pair
- * @param {string} link - url with queryParams
- * @returns {object} - {key: value}
- */
-export function extractQueryParams(link: string = ''): {} {
-  const queryParams = link.split('?')[1] || ''
-  const keyValuePairs: Array<[string, string]> = queryParams
-    .split('&')
-    .filter(_ => _)
+export const isValidURI = (link: string = '') => isURL(link, isUrlOptions)
 
-    // $FlowFixMe
-    .map(p => p.split('='))
-    .filter(p => p[0] !== '' && p[0] !== undefined)
-
-  return fromPairs(keyValuePairs)
-}
-
-export const isValidURI = (link: string) => isURL(link, isUrlOptions)
+export const createUrlObject = link => (isValidURI(link) ? new CustomURL(link) : createEmptyUri())

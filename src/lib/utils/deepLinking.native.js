@@ -1,7 +1,7 @@
 import branch from 'react-native-branch'
 import { assign, camelCase, mapKeys, over } from 'lodash'
 import logger from '../logger/js-logger'
-import { extractPathName, extractQueryParams } from './uri'
+import { createUrlObject } from './uri'
 
 const log = logger.child({ from: 'deeplinking.native' })
 
@@ -69,9 +69,12 @@ class DeepLinkingNative {
 
   _listener = ({ error, params, uri }) => {
     if (error) {
-      log.error('Error from Branch: ' + error)
+      const exception = new Error(error)
+
+      log.error('Error from Branch:', exception.message, exception)
       return
     }
+
     const ccParams = mapKeys(params, (_, name) => camelCase(name))
 
     const { clickedBranchLink, clickTimestamp, nonBranchLink, referringLink, url } = ccParams
@@ -91,11 +94,13 @@ class DeepLinkingNative {
     let queryParams = params
 
     const decodedLink = decodeURI(link)
-    assign(queryParams, extractQueryParams(decodedLink))
-    this.pathname = extractPathName(link)
+    const { params: decodedParams } = createUrlObject(decodedLink)
+    const { pathname } = createUrlObject(link)
 
+    assign(queryParams, decodedParams)
+    assign(this, { pathname })
     assign(this.params, queryParams)
-    assign(this.callbackParams, { originalLink: link, path: this.pathname, queryParams, branch: ccParams })
+    assign(this.callbackParams, { originalLink: link, path: pathname, queryParams, branch: ccParams })
 
     log.debug('calling deeplink callbacks with:', {
       originalLink: link,

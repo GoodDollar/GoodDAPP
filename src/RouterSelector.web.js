@@ -1,6 +1,6 @@
 // libraries
 import React, { memo, useContext, useEffect, useState } from 'react'
-import { pick } from 'lodash'
+import { first, pick } from 'lodash'
 
 // components
 
@@ -19,9 +19,8 @@ import InternetConnection from './components/common/connectionDialog/internetCon
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
-import handleLinks from './lib/utils/handleLinks'
-import { GoodWalletContext } from './lib/wallet/GoodWalletProvider'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
+import { handleLinks } from './lib/utils/linking'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -30,27 +29,25 @@ const isAuthReload = DeepLinking.pathname.startsWith('/Welcome/Auth')
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
-let SignupRouter = React.lazy(async () => {
-  const [module] = await Promise.all([
+let SignupRouter = React.lazy(() =>
+  Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(log),
     delay(isAuthReload ? 0 : animationDuration),
-  ])
-
-  return module
-})
+  ]).then(first),
+)
 
 let AppRouter = React.lazy(async () => {
   const animateSplash = await shouldAnimateSplash(isAuthReload)
+
   log.debug('initializing storage and wallet...', { animateSplash })
 
-  const [module] = await Promise.all([
+  return Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     delay(animateSplash ? animationDuration : 0),
   ])
-
-  log.debug('router ready')
-  return module
+    .then(first)
+    .finally(() => log.debug('router ready'))
 })
 
 const NestedRouter = memo(({ isLoggedIn }) => {
@@ -65,7 +62,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
     platform = isWebApp ? 'webapp' : 'web'
 
     fireEvent(APP_OPEN, { source, platform, isLoggedIn, params })
-    log.debug('RouterSelector Rendered', { isLoggedIn, params, source, platform })
+    log.debug('NestedRouter Rendered', { isLoggedIn, params, source, platform })
 
     if (isLoggedIn) {
       document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
@@ -82,7 +79,6 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 })
 
 const RouterSelector = () => {
-  const { initWalletAndStorage } = useContext(GoodWalletContext)
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
   // we use global state for signup process to signal user has registered
@@ -95,26 +91,18 @@ const RouterSelector = () => {
   })
 
   useEffect(() => {
-    log.debug('on mount')
-    initAnalytics()
+    initAnalytics().then(() => log.debug('RouterSelector Rendered'))
   }, [])
 
   useEffect(() => {
-    if (!isLoggedInRouter) {
-      return
-    }
-    log.debug('initWalletStorage', isLoggedInRouter)
-    return initWalletAndStorage(undefined, 'SEED').then(() => log.debug('storage and wallet ready'))
-  }, [isLoggedInRouter])
-
-  useEffect(() => {
-    //once user is logged in check if their browser is supported and show warning if not
-    if (isLoggedInRouter) {
+    // once user is logged in check if their browser is supported and show warning if not
+    if (isLoggedInRouter && supported === false) {
       checkBrowser()
     }
+
     setIgnoreUnsupported(true)
     setCheckedForBrowserSupport(true)
-  }, [isLoggedInRouter])
+  }, [isLoggedInRouter, checkBrowser, setIgnoreUnsupported, setCheckedForBrowserSupport])
 
   // starting animation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)

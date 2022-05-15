@@ -12,6 +12,7 @@ const EventContent = ({
   description,
   hasSubtitle,
   numberOfLines = 1,
+  lineHeight = 17,
   isCapitalized = true,
 }) => (
   <View
@@ -28,7 +29,6 @@ const EventContent = ({
         style={{
           minWidth: 10,
         }}
-        numberOfLines={numberOfLines}
         textTransform={isCapitalized && 'capitalize'}
         fontSize={10}
       >
@@ -40,7 +40,7 @@ const EventContent = ({
       textTransform={isCapitalized && 'capitalize'}
       fontWeight="medium"
       textAlign={'left'}
-      lineHeight={17}
+      lineHeight={lineHeight}
       style={textStyle}
     >
       {description}
@@ -67,6 +67,7 @@ const EventCounterParty = ({
   isSmallDevice,
   numberOfLines,
   isCapitalized,
+  lineHeight,
 }) => {
   const direction = useMemo(() => getEventDirection(feedItem), [feedItem])
   const itemSubtitle = get(feedItem, 'data.subtitle', '')
@@ -87,6 +88,8 @@ const EventCounterParty = ({
       direction={direction}
       numberOfLines={numberOfLines}
       isCapitalized={isCapitalized}
+      lineHeight={lineHeight}
+      textStyle={textStyle}
     />
   )
 }

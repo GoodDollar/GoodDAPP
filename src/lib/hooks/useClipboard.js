@@ -5,7 +5,7 @@ import { delay as waitFor } from '../utils/async'
 import Clipboard from '../utils/Clipboard'
 
 import logger from '../logger/js-logger'
-import useRealtimeProps from './useRealtimeProps'
+import usePropsRefs from './usePropsRefs'
 import { preventPressed } from './useOnPress'
 
 const log = logger.child({ from: 'useClipboard Hook' })
@@ -51,11 +51,11 @@ export const useClipboardPaste = onPaste => {
 }
 
 export const useClipboardCopy = (content, onCopy = noop, delay = null) => {
-  const accessors = useRealtimeProps([onCopy, content, delay])
+  const refs = usePropsRefs([onCopy, content, delay])
 
   return useCallback(
     event => {
-      const [onCopy, getContent, getDelay] = accessors
+      const [onCopy, getContent, getDelay] = refs
 
       // optionally, awaiting for delay ms before fire onCopy
       // this may be needed in some cases (e.g. aminated buttons)
@@ -70,7 +70,7 @@ export const useClipboardCopy = (content, onCopy = noop, delay = null) => {
       copyToClipboard()
       preventPressed(event)
     },
-    [accessors],
+    [refs],
   )
 }
 

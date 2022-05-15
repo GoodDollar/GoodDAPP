@@ -2,9 +2,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
-import { noop } from 'lodash'
+import { assign, noop } from 'lodash'
 import { t, Trans } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
+import { retry } from '../../lib/utils/async'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
@@ -54,6 +55,8 @@ import ButtonBlock from './Claim/ButtonBlock'
 type ClaimProps = DashboardProps
 
 const log = logger.child({ from: 'Claim' })
+// eslint-disable-next-line require-await
+const _retry = async asyncFn => retry(asyncFn, 1, Config.blockchainTimeout)
 
 const LoadingAnimation = ({ success, speed = 3 }) => (
   <View style={{ alignItems: 'center' }}>
@@ -258,48 +261,44 @@ const Claim = props => {
   const gatherStats = useCallback(
     async (all = false) => {
       try {
-        const promises = [goodWallet.getClaimScreenStatsFuse()]
+        await _retry(async () => {
+          const promises = [goodWallet.getClaimScreenStatsFuse()]
 
-        if (all) {
-          promises.push(goodWallet.getClaimScreenStatsMainnet())
-        }
+          if (all) {
+            promises.push(goodWallet.getClaimScreenStatsMainnet())
+          }
 
-        const [fuseData, mainnetData] = await Promise.all(promises)
+          const [fuseData, mainnetData] = await Promise.all(promises)
 
-        log.info('gatherStats:', {
-          all,
-          fuseData,
-          mainnetData,
+          log.info('gatherStats:', {
+            all,
+            fuseData,
+            mainnetData,
+          })
+
+          const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
+          setDailyUbi(entitlement)
+          setClaimCycleTime(moment(nextClaim).format('HH:mm:ss'))
+
+          if (nextClaim) {
+            updateTimer(nextClaim)
+          }
+
+          if (all) {
+            setPeopleClaimed(claimers)
+            setTotalClaimed(claimAmount)
+            setActiveClaimers(activeClaimers)
+            setAvailableDistribution(distribution)
+            setTotalFundsStaked(mainnetData.totalFundsStaked)
+            setInterestPending(mainnetData.pendingInterest)
+            setInterestCollected(mainnetData.interestCollected)
+          }
         })
-
-        const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
-        setDailyUbi(entitlement)
-        setClaimCycleTime(moment(nextClaim).format('HH:mm:ss'))
-
-        if (nextClaim) {
-          updateTimer(nextClaim)
-        }
-
-        if (all) {
-          setPeopleClaimed(claimers)
-          setTotalClaimed(claimAmount)
-          setActiveClaimers(activeClaimers)
-          setAvailableDistribution(distribution)
-          setTotalFundsStaked(mainnetData.totalFundsStaked)
-          setInterestPending(mainnetData.pendingInterest)
-          setInterestCollected(mainnetData.interestCollected)
-        }
       } catch (exception) {
         const { message } = exception
-        const uiMessage = decorate(exception, ExceptionCode.E3)
 
         log.error('gatherStats failed', message, exception, {
-          dialogShown: true,
           category: ExceptionCategory.Blockchain,
-        })
-
-        showErrorDialog(uiMessage, '', {
-          onDismiss: goToRoot,
         })
       }
     },
@@ -325,33 +324,43 @@ const Claim = props => {
     setLoading(true)
 
     try {
-      //recheck citizen status, just in case we are out of sync with blockchain
-      if (!isCitizen) {
-        const isCitizenRecheck = await goodWallet.isCitizen()
+      await _retry(async () => {
+        // Call wallet method to refresh the connection, silent fail
+        await goodWallet.getBlockNumber().catch(e => log.warn('getBlockNumber failed'))
 
-        if (!isCitizenRecheck) {
-          return handleFaceVerification()
+        // recheck citizen status, just in case we are out of sync with blockchain
+        if (!isCitizen) {
+          const isCitizenRecheck = await goodWallet.isCitizen()
+
+          if (!isCitizenRecheck) {
+            return handleFaceVerification()
+          }
         }
-      }
 
-      //when we come back from FR entitlement might not be set yet
-      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(parseInt))
+        // when we come back from FR entitlement might not be set yet
+        const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(parseInt))
 
-      if (!curEntitlement) {
-        return
-      }
+        if (!curEntitlement) {
+          return
+        }
 
-      showDialog({
-        image: <LoadingAnimation />,
-        message: t`please wait while processing...` + `\n`,
-        buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
-        title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
-        showCloseButtons: false,
-      })
+        showDialog({
+          image: <LoadingAnimation />,
+          message: t`please wait while processing...` + `\n`,
+          buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
+          title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
+          showCloseButtons: false,
+        })
 
-      const receipt = await goodWallet.claim()
+        const receipt = await goodWallet.claim()
 
-      if (receipt.status) {
+        if (!receipt.status) {
+          const exception = new Error('Failed to execute claim transaction')
+
+          assign(exception, { name: 'CLAIM_TX_FAILED', entitlement: curEntitlement, receipt })
+          throw exception
+        }
+
         const txHash = receipt.transactionHash
         const date = new Date()
         const transactionEvent: TransactionEvent = {
@@ -398,26 +407,39 @@ const Claim = props => {
 
         // collect invite bonuses
         const didCollect = await collectInviteBounty()
+
         if (didCollect) {
           fireEvent(INVITE_BOUNTY, { from: 'invitee' })
         }
-      } else {
-        fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        showErrorDialog(t`Claim transaction failed`, '', { boldMessage: t`Try again later.` })
+      })
+    } catch (e) {
+      const { name, message, receipt, entitlement } = e
+      const { transactionHash, status } = receipt || {}
+      const isTxError = name === 'CLAIM_TX_FAILED'
 
-        log.error('Claim transaction failed', '', new Error('Failed to execute claim transaction'), {
-          txHash: receipt.transactionHash,
-          entitlement: curEntitlement,
-          status: receipt.status,
+      const errorLabel = isTxError ? t`Claim transaction failed` : t`Claim request failed`
+      const logLabel = isTxError ? errorLabel : 'claiming failed'
+      const logPayload = { dialogShown: true }
+
+      const eventPayload = !isTxError
+        ? { txError: true, eMsg: message }
+        : {
+            txhash: transactionHash,
+            txNotCompleted: true,
+          }
+
+      if (isTxError) {
+        assign(logPayload, {
+          txHash: transactionHash,
+          entitlement,
+          status,
           category: ExceptionCategory.Blockchain,
-          dialogShown: true,
         })
       }
-    } catch (e) {
-      fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
-      showErrorDialog(t`Claim request failed`, '', { boldMessage: t`Try again later.` })
 
-      log.error('claiming failed', e.message, e, { dialogShown: true })
+      fireEvent(CLAIM_FAILED, eventPayload)
+      showErrorDialog(errorLabel, '', { boldMessage: t`Try again later.` })
+      log.error(logLabel, e.message, e, logPayload)
     } finally {
       setLoading(false)
     }

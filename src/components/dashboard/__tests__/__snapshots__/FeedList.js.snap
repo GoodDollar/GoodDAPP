@@ -28,7 +28,7 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
           className="css-view-1dbjc4n"
         >
           <div
-            className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-maxHeight-46g5hj"
+            className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1xfd6ze r-flex-13awgt0 r-justifyContent-1777fci r-overflow-1udh08x r-paddingLeft-1m04atk"
@@ -179,7 +179,7 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
           className="css-view-1dbjc4n"
         >
           <div
-            className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-maxHeight-46g5hj"
+            className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1xfd6ze r-flex-13awgt0 r-justifyContent-1777fci r-overflow-1udh08x r-paddingLeft-1m04atk"
@@ -330,7 +330,7 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
           className="css-view-1dbjc4n"
         >
           <div
-            className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-maxHeight-46g5hj"
+            className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
           >
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1xfd6ze r-flex-13awgt0 r-justifyContent-1777fci r-overflow-1udh08x r-paddingLeft-1m04atk"
@@ -535,7 +535,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
         className="css-view-1dbjc4n"
       >
         <div
-          className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-cursor-1loqt21 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-maxHeight-46g5hj r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-cursor-1loqt21 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-touchAction-1otgn73 r-userSelect-lrvibr"
           onClick={[Function]}
           onContextMenu={[Function]}
           onKeyDown={[Function]}
@@ -571,7 +571,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     01.04.19 15:03
                   </div>
                   <div
-                    className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-qjtdzx r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     +
@@ -725,7 +725,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
         className="css-view-1dbjc4n"
       >
         <div
-          className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-cursor-1loqt21 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-maxHeight-46g5hj r-touchAction-1otgn73 r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-cursor-1loqt21 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih r-touchAction-1otgn73 r-userSelect-lrvibr"
           onClick={[Function]}
           onContextMenu={[Function]}
           onKeyDown={[Function]}
@@ -761,7 +761,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     01.04.19 15:03
                   </div>
                   <div
-                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     -

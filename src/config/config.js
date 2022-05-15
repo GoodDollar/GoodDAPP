@@ -47,7 +47,7 @@ const Config = {
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
-  infuraKey: env.REACT_APP_INFURA_KEY || "143f9cf968fe4c3da0db77ff525e0da4",
+  infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
   interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 8, // default is 1Week, add 1 day because its not exact
   goodDollarPriceInfoUrl: env.REACT_APP_PRICE_INFO_URL || 'https://datastudio.google.com/u/0/reporting/f1ce8f56-058c-4e31-bfd4-1a741482642a/page/p_97jwocmrmc',
@@ -100,6 +100,7 @@ const Config = {
   mauticUrl: env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
   mauticAddContractFormID: env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
   apiTimeout: env.REACT_APP_API_REQUEST_TIMEOUT || 30000,
+  blockchainTimeout: parseInt(env.REACT_APP_BLOCKCHAIN_REQUEST_TIMEOUT || 1000),
   torusFacebook: env.REACT_APP_TORUS_FACEBOOK || 'facebook-gooddollar',
   torusGoogle: env.REACT_APP_TORUS_GOOGLE || 'google-gooddollar',
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
@@ -171,7 +172,6 @@ const Config = {
   ceramicIndex: env.REACT_APP_CERAMIC_INDEX,
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
-  ceramicABTestPercentage: parseFloat(env.REACT_APP_CERAMIC_AB_TEST_PERCENTAGE || 1)
 }
 
 //get and override settings from server

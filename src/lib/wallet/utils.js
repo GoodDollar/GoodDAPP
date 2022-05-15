@@ -3,7 +3,14 @@
 import { MaskService } from 'react-native-masked-text'
 import { get, map, zipObject } from 'lodash'
 
+import { ExceptionCategory } from '../exceptions/utils'
+import type { TransactionEvent } from '../../userStorage/UserStorageClass'
+
+import pino from '../logger/js-logger'
+
 const DECIMALS = 2
+const log = pino.child({ from: 'withdraw' })
+const ethAddressRegex = /0x[a-fA-F0-9]{40}/
 
 const maskSettings = {
   precision: DECIMALS,
@@ -13,7 +20,21 @@ const maskSettings = {
   suffixUnit: '',
 }
 
-const ethAddressRegex = /0x[a-fA-F0-9]{40}/
+type ReceiptType = {
+  transactionHash: string,
+  transactionIndex: number,
+  blockHash: string,
+  blockNumber: number,
+  from: string,
+  to: string,
+  status: boolean,
+}
+
+export const WITHDRAW_STATUS_PENDING = 'pending'
+export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
+export const WITHDRAW_STATUS_COMPLETE = 'complete'
+
+export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 export const extractEthAddress = uri => get(uri.match(ethAddressRegex), '0', null)
 
 export const moneyRegexp = new RegExp(`^(?!0\\d)(0|([1-9])\\d*)([.,]?(\\d{0,${DECIMALS}}))$`)
@@ -83,4 +104,86 @@ export const getProviderSupplier = provider => {
     return 'metamask'
   }
   return null
+}
+
+/**
+ * Execute withdraw from a transaction hash, and handle dialogs with process information using Undux
+ *
+ * @param {string} code - code that unlocks the escrowed payment
+ * @param {string} reason - the reason of payment
+ * @param {string} category - the category of payment
+ * @returns {Promise} Returns the receipt of the transaction
+ */
+export const executeWithdraw = async (
+  code: string,
+  reason: string,
+  category: string,
+  goodWallet: GoodWallet,
+  userStorage: UserStorage,
+): Promise<ReceiptType | { status: boolean }> => {
+  try {
+    const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)
+
+    log.info('executeWithdraw', { code, reason, category, amount, sender, status, hashedCode })
+
+    if (sender.toLowerCase() === goodWallet.account.toLowerCase()) {
+      throw new Error("You can't withdraw your own payment link.")
+    }
+
+    if (status === WITHDRAW_STATUS_PENDING) {
+      let txHash
+
+      return new Promise((res, rej) => {
+        goodWallet.withdraw(code, {
+          onTransactionHash: transactionHash => {
+            txHash = transactionHash
+
+            const transactionEvent: TransactionEvent = {
+              id: transactionHash,
+              createdDate: new Date().toISOString(),
+              date: new Date().toISOString(),
+              type: 'withdraw',
+              data: {
+                from: sender,
+                amount,
+                code,
+                hashedCode,
+                reason,
+                category,
+                otplStatus: 'completed',
+              },
+            }
+            userStorage.enqueueTX(transactionEvent)
+            res({ status, transactionHash })
+          },
+          onError: e => {
+            userStorage.markWithErrorEvent(txHash)
+            rej(e)
+          },
+        })
+      })
+    }
+
+    return { status }
+  } catch (e) {
+    const { message } = e
+    const isOwnLinkIssue = message.endsWith('your own payment link.')
+    const logArgs = [
+      'code withdraw failed',
+      message,
+      e,
+      {
+        code,
+        category: isOwnLinkIssue ? ExceptionCategory.Human : ExceptionCategory.Blockhain,
+      },
+    ]
+
+    if (isOwnLinkIssue) {
+      log.warn(...logArgs)
+    } else {
+      log.error(...logArgs)
+    }
+
+    throw e
+  }
 }

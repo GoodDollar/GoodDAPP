@@ -27,20 +27,18 @@ import API from '../API/api'
 import { delay } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
-import { getProviderSupplier, getTxLogArgs } from './utils'
 
-const log = logger.child({ from: 'GoodWalletV2' })
+import {
+  getProviderSupplier,
+  getTxLogArgs,
+  NULL_ADDRESS,
+  WITHDRAW_STATUS_COMPLETE,
+  WITHDRAW_STATUS_PENDING,
+  WITHDRAW_STATUS_UNKNOWN,
+} from './utils'
 
 const ZERO = new BN('0')
-
-//17280 = 24hours seconds divided by 5 seconds blocktime
-// const DAY_TOTAL_BLOCKS = (60 * 60 * 24) / 5
-
-export const WITHDRAW_STATUS_PENDING = 'pending'
-export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
-export const WITHDRAW_STATUS_COMPLETE = 'complete'
-
-const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+const log = logger.child({ from: 'GoodWalletV2' })
 
 type EventLog = {
   event: string,
@@ -558,13 +556,7 @@ export class GoodWallet {
    * @returns {Promise<TransactionReceipt>|Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|*>}
    */
   claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
-    try {
-      return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
-    } catch (e) {
-      log.error('claim failed', e.message, e, { category: ExceptionCategory.Blockhain })
-
-      return Promise.reject(e)
-    }
+    return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
   }
 
   checkEntitlement(): Promise<number> {
@@ -1097,7 +1089,8 @@ export class GoodWallet {
 
   async collectInviteBounties() {
     const tx = this.invitesContract.methods.collectBounties()
-    const gas = Math.min(800000, await this.balanceOfNative().then(b => b - 150000))
+    const nativeBalance = await this.balanceOfNative()
+    const gas = Math.min(800000, nativeBalance / 1e9 - 150000) //convert to gwei and leave 150K gwei for user
     const res = await this.sendTransaction(tx, {}, { gas })
     return res
   }
@@ -1188,12 +1181,6 @@ export class GoodWallet {
         .call()
         .catch(_ => {})) || {}
     return parseInt(get(level, 'bounty', 10000)) / 100
-  }
-
-  handleError(e: Error) {
-    log.error('handleError', e.message, e, { category: ExceptionCategory.Blockhain })
-
-    throw e
   }
 
   async getGasPrice(): Promise<number> {
@@ -1291,6 +1278,7 @@ export class GoodWallet {
           ok: false,
           error:
             !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
+          message: get(data, 'error'),
         }
       }
       nativeBalance = await this.balanceOfNative()
@@ -1301,7 +1289,7 @@ export class GoodWallet {
       log.error('verifyHasGas failed:', e.message, e, { minWei })
       return {
         ok: false,
-        error: false,
+        error: true,
         message: e.message,
       }
     }
@@ -1344,9 +1332,13 @@ export class GoodWallet {
     log.debug('sendTransaction:', { gas, gasPrice })
     if (isVerifyHasGas !== true) {
       //prevent recursive endless loop when sendTransaction call came from verifyHasGas
-      const { ok } = await this.verifyHasGas(gas * gasPrice)
+      const { ok, error, message } = await this.verifyHasGas(gas * gasPrice)
       if (ok === false) {
-        return Promise.reject(new Error('Reached daily transactions limit or not a citizen')).catch(this.handleError)
+        return Promise.reject(
+          error
+            ? new Error(`sendTransaction verifyHasGas failed: ${message}`)
+            : new Error('Reached daily transactions limit or not a citizen'),
+        )
       }
     }
     const res = new Promise((res, rej) => {

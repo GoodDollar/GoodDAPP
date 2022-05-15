@@ -1,6 +1,6 @@
 // @flow
-//NOTICE: dont put any components that load wallet/userstorage here
-//so we can lazy load them
+// NOTICE: dont put any components that load wallet/userstorage here
+// (e.g. Avatar, UserAvatar) so we can lazy load them
 import Address from './view/Address'
 import AmountInput from './view/AmountInput'
 import BigGoodDollar from './view/BigGoodDollar'
@@ -9,6 +9,8 @@ import CopyButton from './buttons/CopyButton'
 import CustomButton, { type ButtonProps } from './buttons/CustomButton'
 import CustomDialog from './dialogs/CustomDialog'
 import Icon from './view/Icon'
+import Image from './view/Image'
+import SvgXml from './view/SvgXml'
 import IconButton from './buttons/IconButton'
 import InputGoodDollar from './form/InputGoodDollar'
 import InputRounded from './form/InputRounded'
@@ -29,10 +31,6 @@ import Wrapper from './layout/Wrapper'
 import WrapperClaim from './layout/WrapperClaim'
 import ClaimButton from './buttons/ClaimButton'
 
-//dont import these here see notice at the top
-// import Avatar from './view/Avatar'
-// import UserAvatar from './view/UserAvatar'
-
 export {
   Address,
   AmountInput,
@@ -43,6 +41,8 @@ export {
   CustomButton,
   CustomDialog,
   Icon,
+  Image,
+  SvgXml,
   IconButton,
   InputGoodDollar,
   InputRounded,

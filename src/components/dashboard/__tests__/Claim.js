@@ -6,6 +6,8 @@ const screenState = {
   isValid: true,
 }
 
+jest.setTimeout(30000)
+
 describe('Claim', () => {
   it('matches snapshot', async () => {
     const Claim = getWebRouterComponentWithMocks('../Claim', { screenProps: { screenState } })

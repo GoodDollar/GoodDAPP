@@ -25,13 +25,10 @@ export const showSupportDialog = (
     boldMessage: (
       <View style={wrapperStyles}>
         <Trans>
-          <Text fontWeight="inherit" color="inherit">
-            {'Or contact '}
-          </Text>
+          <Text fontWeight="inherit">{'Or contact '}</Text>
           <Text
             fontWeight="inherit"
             textDecorationLine="underline"
-            color="inherit"
             onPress={() => {
               hideDialog()
               push('Support')

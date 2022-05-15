@@ -1,5 +1,5 @@
 // @flow
-import { useReducer } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 type ValueState = {
   value: any,
@@ -15,52 +15,40 @@ type ErrorState = {
 
 type State = ErrorState & ValueState
 
-type Action = {
-  type?: string,
-  payload?: {
-    value: any,
-  },
-}
-
 const initialErrorState = { dirty: false, value: null, error: null, isValid: false }
 
 const useValidatedValueState = (initialValue: State, getError: (value: any) => Error) => {
-  const getErrorStateForValue = (state: State, value: any): ErrorState => {
-    const dirty: boolean = Boolean((state && state.dirty) || !!value)
+  const validate = useCallback(
+    (state: State, value: any): ErrorState => {
+      const dirty: boolean = Boolean((state && state.dirty) || !!value)
 
-    const error: Error = dirty ? getError(value) : null
-    const isValid: boolean = getError(value) == null
+      const error: Error = dirty ? getError(value) : null
+      const isValid: boolean = getError(value) == null
 
-    return { error, isValid, dirty }
-  }
+      return { error, isValid, dirty }
+    },
+    [getError],
+  )
 
-  function init(value: any): State {
-    return { value, ...getErrorStateForValue(initialErrorState, value) }
-  }
+  const initialize = useCallback((value: any): State => ({ value, ...validate(initialErrorState, value) }), [validate])
 
-  function reducer(state: State, action: Action) {
-    const { value } = action.payload || {}
+  const [state, setState] = useState(initialize(initialValue))
 
-    switch (action.type) {
-      case 'SET_VALUE': {
-        const { error, isValid, dirty } = getErrorStateForValue(state, value)
+  const setValue = useCallback(
+    (value: any) =>
+      setState(state => {
+        const { error, isValid, dirty } = validate(state, value)
+
         return { error, isValid, dirty, value }
-      }
-      case 'RESET':
-        return init(value)
-      default:
-        throw new Error(`Unsupported Action: ${action.type}`)
-    }
-  }
+      }),
+    [setState, validate],
+  )
 
-  const [state, dispatch] = useReducer(reducer, {
-    value: initialValue,
-    ...getErrorStateForValue(initialErrorState, initialValue),
-  })
-  const setValue = (value: any) => dispatch({ type: 'SET_VALUE', payload: { value } })
-  const resetValue = (value: any) => dispatch({ type: 'RESET' })
+  useEffect(() => {
+    setState(initialize(initialValue))
+  }, [initialValue, setState, initialize])
 
-  return [state, setValue, resetValue]
+  return [state, setValue]
 }
 
 export default useValidatedValueState

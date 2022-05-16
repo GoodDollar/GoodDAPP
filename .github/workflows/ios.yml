@@ -14,10 +14,13 @@ jobs:
   build:
     runs-on: macOS-latest
     # Build runs if triggered by merging pull request or by push with 'release' flag and without skipping CI :
-    if: |
-      ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true ||
-      github.event_name == 'push' && !contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci') }}
-    steps:
+      # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag and without skipping CI :
+      if: |
+        ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true && endsWith(github.ref, '/master') && github.event.head_commit.message =~ /.*\d{4}/gm ||
+        github.event_name == 'push' && endsWith(github.ref, '/staging') && contains(github.event.head_commit.message,'release qa') ||
+        github.event_name == 'push' && endsWith(github.ref, '/next') && contains(github.event.head_commit.message,'release prod') ||
+        && !contains(github.event.head_commit.message,'skip ci') }}
+      steps:
       - name: set branch name
         run: |
           echo "ENV=development" >> $GITHUB_ENV

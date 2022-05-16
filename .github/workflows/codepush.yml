@@ -1,5 +1,5 @@
 
-name: Quick deploy trough code push
+name: iOS & Android Quick Release
 
 on:
   push:
@@ -9,9 +9,9 @@ on:
 
 jobs:
   deploy:
-    name: Detox Tests
+    name: Hot Code Push
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.head_commit.message, 'skip code-push') }}
+    if: ${{ !contains(github.event.head_commit.message, 'release') && github.event.head_commit.message =~ .*\d{4} }}
     steps:
       - name: Code push release
         env:

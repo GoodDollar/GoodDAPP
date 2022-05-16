@@ -77,13 +77,7 @@ const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNav
   navigationBarHidden: false,
   title: 'Face Verification',
 })(
-  // eslint-disable-next-line
-  lazyScreens(
-    () => import('./FaceVerification'),
-    'FaceVerification',
-    'FaceVerificationIntro',
-    'FaceVerificationError'
-  ),
+  lazyScreens(() => import('./FaceVerification'), 'FaceVerification', 'FaceVerificationIntro', 'FaceVerificationError'),
 )
 
 let didRender = false

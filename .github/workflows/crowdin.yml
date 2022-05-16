@@ -42,7 +42,6 @@ jobs:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
         run: |
           yarn crowdin:sync:sources
-          yarn lingui:compile
 
   download:
     name: Download

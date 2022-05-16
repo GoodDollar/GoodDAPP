@@ -1,7 +1,5 @@
 [build]
 command = "CI= rm -f .env* && CI= yarn build"
-[context.master]
-# command = "CI= rm -f .env* && CI= yarn crowdin:sync && CI= yarn build"
 
 [[headers]]
   for = "*"

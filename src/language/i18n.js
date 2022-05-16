@@ -14,7 +14,24 @@ import { messages as defaultMessages } from './locales/en/catalog'
 const log = logger.child({ from: 'I18n' })
 
 // This array should equal the array set in .linguirc
-export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja', 'fr']
+export const locales = [
+  'ar',
+  'pt',
+  'de',
+  'en',
+  'es-AR',
+  'es',
+  'it',
+  'he',
+  'ro',
+  'ru',
+  'vi',
+  'zh-CN',
+  'zh-TW',
+  'ko',
+  'ja',
+  'fr',
+]
 export const defaultLocale = 'en'
 
 export const localeFiles = {

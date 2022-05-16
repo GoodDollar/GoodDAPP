@@ -6,5 +6,5 @@
   }],
   "format": "minimal",
   "sourceLocale": "en",
-  "locales": ["de", "en", "es-AR", "es", "it", "he", "ro", "ru", "vi", "zh-CN", "zh-TW", "ko", "ja", "fr"]
+  "locales": ["ar", "pt", "de", "en", "es-AR", "es", "it", "he", "ro", "ru", "vi", "zh-CN", "zh-TW", "ko", "ja", "fr"]
 }

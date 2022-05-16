@@ -5,8 +5,9 @@ interface LayoutProps {
     left?: JSX.Element
     children?: React.ReactChild | React.ReactChild[]
     right?: JSX.Element
-    netWorth?: string,
+    netWorth?: string
     classes?: string
+    wrapperClasses?: string
 }
 
 const LayoutSC = styled.div`
@@ -24,7 +25,7 @@ const LayoutSC = styled.div`
     }
 
     @media screen and (max-height: 665px) {
-      margin-top: 7rem;
+        margin-top: 7rem;
     }
 `
 
@@ -39,11 +40,12 @@ export default function Layout({
     left = undefined,
     children = undefined,
     right = undefined,
-    classes = undefined
+    classes = undefined,
+    wrapperClasses = undefined
 }: LayoutProps): JSX.Element {
     return (
         <LayoutSC className={classes}>
-            <ContentWrapper>{children}</ContentWrapper>
+            <ContentWrapper className={wrapperClasses}>{children}</ContentWrapper>
         </LayoutSC>
     )
 }

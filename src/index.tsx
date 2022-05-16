@@ -67,8 +67,8 @@ const GlobalStyle = createGlobalStyle`
     --onboard-wallet-app-icon-border-color: #E9ECFF;
     --onboard-close-button-background: none;
     --onboard-close-button-color: black;
-    --onboard-font-family-normal: ${({theme}) => theme.font.primary};
-    --onboard-font-family-light: ${({theme}) => theme.font.secondary};
+    --onboard-font-family-normal: ${({ theme }) => theme.font.primary};
+    --onboard-font-family-light: ${({ theme }) => theme.font.secondary};
     // --onboard-font-size-6: 1.05rem;
     // --onboard-gray-700: #999EA8;
 
@@ -82,21 +82,21 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.render(
     <StrictMode>
-      <Web3ContextProvider>
-          <Provider store={store}>
-              <LanguageProvider>
-                  <Blocklist>
-                      <Updaters />
-                      <ThemeProvider>
-                          <GlobalStyle />
-                          <Router>
-                              <App />
-                          </Router>
-                      </ThemeProvider>
-                  </Blocklist>
-              </LanguageProvider>
-          </Provider>
-      </Web3ContextProvider>
+        <Web3ContextProvider>
+            <Provider store={store}>
+                <LanguageProvider>
+                    <Blocklist>
+                        <Updaters />
+                        <ThemeProvider>
+                            <GlobalStyle />
+                            <Router>
+                                <App />
+                            </Router>
+                        </ThemeProvider>
+                    </Blocklist>
+                </LanguageProvider>
+            </Provider>
+        </Web3ContextProvider>
     </StrictMode>,
     document.getElementById('root')
 )

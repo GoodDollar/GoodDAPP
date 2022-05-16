@@ -229,11 +229,6 @@ const IntroScreen = ({ styles, screenProps }) => {
   )
 }
 
-IntroScreen.navigationOptions = {
-  navigationBarHidden: false,
-  title: 'Face Verification',
-}
-
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     alignItems: 'center',

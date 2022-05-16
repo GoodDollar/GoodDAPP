@@ -73,11 +73,17 @@ import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 
 const log = logger.child({ from: 'Dashboard' })
 
+// prettier-ignore
 const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNavigationOptions({
   navigationBarHidden: false,
   title: 'Face Verification',
 })(
-  lazyScreens(() => import('./FaceVerification'), 'FaceVerification', 'FaceVerificationIntro', 'FaceVerificationError'),
+  lazyScreens(
+    () => import('./FaceVerification'),
+    'FaceVerification',
+    'FaceVerificationIntro',
+    'FaceVerificationError'
+  ),
 )
 
 let didRender = false

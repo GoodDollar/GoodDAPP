@@ -41,7 +41,7 @@ jobs:
   download:
     name: Download
     if: "github.event_name == 'workflow_dispatch' && github.event.inputs.operation == 'download'"
-    runs-on: ubuntu-latests
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v1
         with:

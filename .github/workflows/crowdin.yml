@@ -58,7 +58,6 @@ jobs:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
         run: |
           yarn crowdin:sync:translations
-          yarn lingui:compile
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:

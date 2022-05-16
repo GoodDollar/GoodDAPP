@@ -6,17 +6,26 @@ name: Android CI/CD v1
 # events but only for the master branch
 on:
   push:
-    branches: [master, staging, next, 3493-code-push]
+    branches: [master, staging, next]
 
   workflow_dispatch:
+    inputs:
+      release:
+        description: 'release type'
+        required: true
+        default: 'qa'
+      targetbranch:
+        description: 'target deployment branch'
+        required: false
+        default: 'staging'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:  
+jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci')"
+    if: ${{ endsWith(github.ref, '/master') || !contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci') }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Pre-checks - Env is Dev
@@ -81,7 +90,7 @@ jobs:
           echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc
           gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
 
-      - name: Build via hot code push
+      - name: Build Android Release
         env:
           RELEASE_ANDROID_PASSPHRASE: ${{ secrets.RELEASE_ANDROID_PASSPHRASE }}
           ENVFILE: '.env.${{ env.ENV }}'
@@ -90,7 +99,22 @@ jobs:
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
           yarn lingui-compile
-          npx appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"
+          cd android && ./gradlew bundleRelease
+
+      - name: Build Universal APK
+        uses: skywall/universal-apk-builder@v1.0.1
+        with:
+          aab_path: ${{ env.ANDROID_BUNDLE_PATH }}
+          keystore_path: './android/app/release.keystore'
+          keystore_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
+          keystore_alias: 'release-alias'
+          keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
+
+#      - name: Deploy to App Center
+#        run: |
+#          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
+#          yarn add appcenter-cli@^2.*
+#          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
       - name: Distribute to stores - PROD ONLY
         if: ${{ endsWith(github.ref, '/next') }}

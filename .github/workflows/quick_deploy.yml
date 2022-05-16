@@ -1,0 +1,21 @@
+
+name: Quick deploy trough code push
+
+on:
+  push:
+    branches: [master, 3493-code-push]
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Detox Tests
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, 'skip code-push') }}
+    steps:
+      - name: Code push release
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          echo "Code push release target version "${BUILD_NUMBER}""
+          npx appcenter codepush release-react --token "${{ env.APPCENTER_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"

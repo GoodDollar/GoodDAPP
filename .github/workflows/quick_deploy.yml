@@ -3,7 +3,7 @@ name: Quick deploy trough code push
 
 on:
   push:
-    branches: [master]
+    branches: [master, staging, next]
 
   workflow_dispatch:
 

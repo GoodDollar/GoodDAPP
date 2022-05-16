@@ -3,13 +3,20 @@ name: iOS CI/CD v1
 on:
   push:
     branches: [master, staging, next]
+  pull_request:
+    branches: [master, staging, next]
+    types:
+      - closed
 
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: macOS-latest
-    if: "!contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci')"
+    # Build runs if triggered by merging pull request or by push with 'release' flag and without skipping CI :
+    if: |
+      ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true ||
+      github.event_name == 'push' && !contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci') }}
     steps:
       - name: set branch name
         run: |

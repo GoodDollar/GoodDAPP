@@ -7,6 +7,10 @@ name: Android CI/CD v1
 on:
   push:
     branches: [master, staging, next]
+  pull_request:
+    branches: [master, staging, next]
+    types:
+      - closed
 
   workflow_dispatch:
     inputs:
@@ -25,7 +29,10 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    if: ${{ endsWith(github.ref, '/master') || !contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci') }}
+    # Build runs if triggered by merging pull request or by push with 'release' flag and without skipping CI :
+    if: |
+      ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true ||
+      github.event_name == 'push' && !contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci') }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Pre-checks - Env is Dev
@@ -110,11 +117,11 @@ jobs:
           keystore_alias: 'release-alias'
           keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
 
-#      - name: Deploy to App Center
-#        run: |
-#          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
-#          yarn add appcenter-cli@^2.*
-#          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+      - name: Deploy to App Center
+        run: |
+          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
+          yarn add appcenter-cli@^2.*
+          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
       - name: Distribute to stores - PROD ONLY
         if: ${{ endsWith(github.ref, '/next') }}

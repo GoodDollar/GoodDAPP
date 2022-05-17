@@ -1,6 +1,5 @@
-project_id: '503786' # Your Crowdin project ID
-api_token_env: CROWDIN_PERSONAL_TOKEN # Env var NAME (not the value to be replaced for)
-
+project_id: '503786'
+api_token_env: CROWDIN_PERSONAL_TOKEN
 files:
   - source: /src/language/locales/en/catalog.json
     translation: /src/language/locales/%osx_locale%/%original_file_name%

@@ -26,10 +26,10 @@ class LoginService {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  storeJWT(jwt: string) {
+  async storeJWT(jwt: string) {
     this.jwt = jwt
     if (jwt) {
-      AsyncStorage.setItem(JWT, jwt)
+      await AsyncStorage.setItem(JWT, jwt)
     }
   }
 
@@ -80,7 +80,7 @@ class LoginService {
     creds = await this.requestJWT(creds)
 
     await this.storeJWT(creds.jwt)
-    await API.init()
+    await API.init(creds.jwt)
 
     return creds
   }

@@ -11,7 +11,7 @@ jobs:
   deploy:
     name: Hot Code Push
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.head_commit.message, 'release') && github.event.head_commit.message =~ .*\d{4} }}
+    if: ${{ !contains(github.event.head_commit.message, 'release') && !github.event.pull_request.merged }}
     steps:
       - name: Code push release
         env:

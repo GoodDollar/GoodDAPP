@@ -17,20 +17,32 @@ on:
       release:
         description: 'release type'
         required: true
-        default: 'qa'
+        default: ''
+        type: choice
+        options:
+          - dev: '/master'
+          - qa: '/staging'
+          - prod: '/next'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  set_target_branch:
+    steps:
+      name: Detect and set target branch
+      run: |
+        ${{ github.event.inputs.release != '' && echo "TARGET_BRANCH= ${{ github.event.inputs.release }}" >> $GITHUB_ENV ||
+        endsWith(github.ref, '/master') && echo "TARGET_BRANCH= '/master'" >> $GITHUB_ENV ||
+        endsWith(github.ref, '/staging') && echo "TARGET_BRANCH= '/staging'" >> $GITHUB_ENV ||
+        endsWith(github.ref, '/next') && echo "TARGET_BRANCH= '/next'" >> $GITHUB_ENV }}
+
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag and without skipping CI :
     if: |
-      ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true && endsWith(github.ref, '/master') && github.event.head_commit.message =~ .*\d{4} ||
-      github.event_name == 'push' && endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa') ||
-      github.event_name == 'push' && endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod') ||
-      && !contains(github.event.head_commit.message,'skip ci') }}
+      ${{ github.event.pull_request.merged == true && $TARGET_BRANCH == '/master' ||
+      $TARGET_BRANCH == '/staging' && contains(github.event.head_commit.message, 'release qa') ||
+      $TARGET_BRANCH == '/next' && contains(github.event.head_commit.message, 'release prod') }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Pre-checks - Env is Dev

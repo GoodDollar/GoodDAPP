@@ -31,7 +31,7 @@ jobs:
       name: Detect and set target branch
       run: |
         ${{ github.event.inputs.release != '' && echo "TARGET_BRANCH= ${{ github.event.inputs.release }}" >> $GITHUB_ENV ||
-        endsWith(github.ref, '/master') && echo "TARGET_BRANCH= '/master'" >> $GITHUB_ENV ||
+        (endsWith(github.ref, '/master') || endsWith(github.ref, '/3493-code-push')) && echo "TARGET_BRANCH= '/master'" >> $GITHUB_ENV ||
         endsWith(github.ref, '/staging') && echo "TARGET_BRANCH= '/staging'" >> $GITHUB_ENV ||
         endsWith(github.ref, '/next') && echo "TARGET_BRANCH= '/next'" >> $GITHUB_ENV }}
 
@@ -137,3 +137,21 @@ jobs:
         if: ${{ endsWith(github.ref, '/next') }}
         run: |
           npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+  test_workflow:
+    steps:
+      - name: Test echo
+        run: |
+          echo $TARGET_BRANCH
+          echo github.event.inputs.release
+          echo endsWith(github.ref, '/master')
+          echo github.ref
+  test_workflow_pass:
+      if: |
+        ${{ github.event.pull_request.merged == true && $TARGET_BRANCH == '/master' ||
+        $TARGET_BRANCH == '/staging' && contains(github.event.head_commit.message, 'release qa') ||
+        $TARGET_BRANCH == '/next' && contains(github.event.head_commit.message, 'release prod') }}
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+        - name: Test echo
+          run: |
+            echo '--Passed'

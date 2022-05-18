@@ -1,3 +1,4 @@
+import { get } from 'lodash'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Image as NativeImage, StyleSheet } from 'react-native'
 
@@ -8,11 +9,13 @@ const log = logger.child({ from: 'Image' })
 
 const isAutoHeight = ({ width, height }) => !!width && 'auto' === height
 
-const Image = ({ style = {}, source = {}, ...props }) => {
-  const { uri } = source
+const Image = ({ style = {}, source, ...props }) => {
   const [aspectRatio, setAspectRatio] = useState()
   const flattenStyle = useMemo(() => StyleSheet.flatten(style), [style])
   const refs = usePropsRefs([flattenStyle])
+
+  // image source could be base64 data uri
+  const uri = useMemo(() => get(source, 'uri', source), [source])
 
   const imageStyle = useMemo(() => {
     const { height, ...style } = flattenStyle
@@ -26,24 +29,17 @@ const Image = ({ style = {}, source = {}, ...props }) => {
         }
   }, [flattenStyle, aspectRatio])
 
-  const onImageSize = useCallback(
-    (width, height) => {
+  useEffect(() => {
+    const onImageSize = (width, height) => {
       const [getStyle] = refs
 
       if (isAutoHeight(getStyle())) {
         setAspectRatio(width / height)
       }
-    },
-    [setAspectRatio, refs],
-  )
+    }
 
-  const onImageSizeError = error => log.error('Get image size error', error)
-
-  //prettier-ignore
-  useEffect(() =>
-    NativeImage.getSize(uri, onImageSize, onImageSizeError),
-    [onImageSize, uri]
-  )
+    NativeImage.getSize(uri, onImageSize, e => log.error(Get image size error, e.message, e))
+  }, [uri, setAspectRatio, refs])
 
   return <NativeImage {...props} source={source} style={imageStyle} />
 }

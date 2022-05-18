@@ -632,10 +632,10 @@ const Dashboard = props => {
     const minScrollRequired = 150
     const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
     const scrollPositionGap = headerLarge ? 0 : minScrollRequired
-    const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
-    const isFeedSizeEnough = feedRef.current.length > 8 || newsCondition
+    const newsCondition = activeTab === FeedCategories.News && feeds.length > 3
+    const isFeedSizeEnough = feeds.length > 8 || newsCondition
     return { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough }
-  }, [headerLarge, activeTab, feedRef.current.length])
+  }, [headerLarge, activeTab, feeds])
 
   const handleScrollEnd = useCallback(
     ({ nativeEvent }) => {

@@ -83,8 +83,8 @@ jobs:
       ${{
         github.event_name == 'workflow_dispatch' ||
         (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
-        (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa') ||
-        (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod')
+        (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
+        (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))
       }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:

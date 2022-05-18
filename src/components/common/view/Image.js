@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Image as NativeImage, StyleSheet } from 'react-native'
 
 import usePropsRefs from '../../../lib/hooks/usePropsRefs'

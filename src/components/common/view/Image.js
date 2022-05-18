@@ -38,8 +38,13 @@ const Image = ({ style = {}, source, ...props }) => {
       }
     }
 
+    setAspectRatio(undefined)
     NativeImage.getSize(uri, onImageSize, e => log.error('Get image size error', e.message, e))
   }, [uri, setAspectRatio, refs])
+
+  if (!aspectRatio) {
+    return null
+  }
 
   return <NativeImage {...props} source={source} style={imageStyle} />
 }

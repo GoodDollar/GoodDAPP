@@ -146,12 +146,12 @@ jobs:
           echo endsWith(github.ref, '/master')
           echo github.ref
   test_workflow_pass:
-      if: |
-        ${{ github.event.pull_request.merged == true && $TARGET_BRANCH == '/master' ||
-        $TARGET_BRANCH == '/staging' && contains(github.event.head_commit.message, 'release qa') ||
-        $TARGET_BRANCH == '/next' && contains(github.event.head_commit.message, 'release prod') }}
-      # Steps represent a sequence of tasks that will be executed as part of the job
-      steps:
-        - name: Test echo
-          run: |
-            echo '--Passed'
+    if: |
+      ${{ github.event.pull_request.merged == true && $TARGET_BRANCH == '/master' ||
+      $TARGET_BRANCH == '/staging' && contains(github.event.head_commit.message, 'release qa') ||
+      $TARGET_BRANCH == '/next' && contains(github.event.head_commit.message, 'release prod') }}
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Test echo
+        run: |
+          echo '--Passed'

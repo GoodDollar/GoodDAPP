@@ -74,15 +74,6 @@ jobs:
             echo "Code push release target version "${BUILD_NUMBER}""
             npx appcenter codepush release-react ${{ env.APPCENTER_NAME }} android --token "${{ env.APPCENTER_TOKEN }}""
 
-  set_target_branch:
-    steps:
-      name: Detect and set target branch
-      run: |
-        ${{ github.event.inputs.release != '' && echo "TARGET_BRANCH= ${{ github.event.inputs.release }}" >> $GITHUB_ENV ||
-        (endsWith(github.ref, '/master') || endsWith(github.ref, '/3493-code-push')) && echo "TARGET_BRANCH= '/master'" >> $GITHUB_ENV ||
-        endsWith(github.ref, '/staging') && echo "TARGET_BRANCH= '/staging'" >> $GITHUB_ENV ||
-        endsWith(github.ref, '/next') && echo "TARGET_BRANCH= '/next'" >> $GITHUB_ENV }}
-
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest

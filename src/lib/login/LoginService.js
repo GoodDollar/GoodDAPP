@@ -25,11 +25,13 @@ class LoginService {
     return AsyncStorage.setItem(CREDS, creds)
   }
 
-  // eslint-disable-next-line class-methods-use-this
   storeJWT(jwt: string) {
     this.jwt = jwt
+
     if (jwt) {
-      AsyncStorage.setItem(JWT, jwt)
+      AsyncStorage
+        .setItem(JWT, jwt)
+        .catch(e => log.error('Failed to store JWT to AsyncStorage', e.message, e, { jwt }))
     }
   }
 
@@ -62,25 +64,16 @@ class LoginService {
 
   async auth(refresh = false): Promise<?Credentials | Error> {
     if (refresh) {
-      AsyncStorage.setItem(JWT, null)
+      AsyncStorage
+        .setItem(JWT, null)
+        .catch(e => log.error('Failed to clear JWT in the AsyncStorage', e.message, e))
     }
 
-    let creds = !refresh && (await this.getCredentials())
+    const creds = this.requestCredsAndJWT(refresh)
+    const { jwt } = creds
 
-    if (!creds) {
-      log.info('Generating creds because no creds was stored or we got an error reading AsyncStorage')
-
-      creds = await this.login()
-    }
-
-    this.storeCredentials(creds)
-    log.info('signed message', creds)
-
-    // TODO: use date as nonce and validate on backend
-    creds = await this.requestJWT(creds)
-
-    await this.storeJWT(creds.jwt)
-    await API.init()
+    this.storeJWT(jwt)
+    await API.init(jwt)
 
     return creds
   }
@@ -113,6 +106,22 @@ class LoginService {
       log.error('Login service auth failed:', message, exception)
       throw exception
     }
+  }
+
+  async requestCredsAndJWT(refresh = false): Promise<Credentials> {
+    let creds = !refresh && (await this.getCredentials())
+
+    if (!creds) {
+      log.info('Generating creds because no creds was stored or we got an error reading AsyncStorage')
+
+      creds = await this.login()
+    }
+
+    this.storeCredentials(creds)
+    log.info('signed message', creds)
+
+    // TODO: use date as nonce and validate on backend
+    return this.requestJWT(creds)
   }
 
   async validateJWTExistenceAndExpiration(): Promise<string | null> {

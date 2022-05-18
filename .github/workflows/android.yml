@@ -6,7 +6,7 @@ name: Android release
 # events but only for the master branch
 on:
   push:
-    branches: [master, staging, next]
+    branches: [master, staging, next, 3493-code-push]
   pull_request:
     branches: [master, staging, next]
     types:
@@ -26,7 +26,7 @@ on:
 
 jobs:
   codepush:
-      name: Hot Code Push
+    - name: Hot Code Push
       runs-on: ubuntu-latest
       steps:
         - name: Pre-checks - Env is Dev
@@ -75,6 +75,7 @@ jobs:
             npx appcenter codepush release-react ${{ env.APPCENTER_NAME }} android --token "${{ env.APPCENTER_TOKEN }}""
 
   build:
+    name: Build
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag and without skipping CI :

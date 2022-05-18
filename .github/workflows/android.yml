@@ -56,6 +56,7 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn --frozen-lockfile
+          persist-credentials: false
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
@@ -132,6 +133,7 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn --frozen-lockfile
+          persist-credentials: false
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}

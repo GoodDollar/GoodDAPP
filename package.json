@@ -6,9 +6,9 @@
     "npm": "6.x"
   },
   "scripts": {
-    "web": "lingui compile && react-app-rewired start",
-    "android": "lingui compile && export ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
-    "ios": "lingui compile && export ENVFILE=.env;npm run animation:assets && react-native run-ios",
+    "web": "npm run lingui:compile && react-app-rewired start",
+    "android": "npm run lingui:compile && export ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
+    "ios": "npm run lingui:compile && export ENVFILE=.env;npm run animation:assets && react-native run-ios",
     "start:native": "react-native start",
     "start": "serve -s -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
@@ -17,17 +17,17 @@
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start:native -- --reset-cache",
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
-    "build": "lingui compile && react-app-rewired build --analyze",
+    "build": "npm run lingui:compile && react-app-rewired build --analyze",
     "animation:assets": "node ./animationAssets.js",
     "copy:gdfont": "cp src/assets/fonts/*.ttf android/app/src/main/assets/fonts/",
-    "test": "lingui compile && npm run test:web && npm run test:native",
+    "test": "npm run lingui:compile && npm run test:web && npm run test:native",
     "test:setup": "./scripts/blockchainTestSetup.sh",
     "test:web-watch": "npm run link && node scripts/test.js --watch --config \"./config/web.jest.config.js\"",
     "test:web": "react-app-rewired test --forceExit",
     "test:native": "npm run test:ios && npm run test:android",
     "test:ios": "npm run animation:assets && ENVFILE=.env.test detox build -c ios.sim.debug && detox test -c ios.sim.debug",
     "test:android": "npm run animation:assets && ENVFILE=.env.test detox build -c android.emu.debug && detox test -c android.emu.debug",
-    "coverage": "lingui compile && react-app-rewired test --coverage --forceExit",
+    "coverage": "npm run lingui:compile && react-app-rewired test --coverage --forceExit",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "bundlesize:check": "bundlesize",
     "flow": "flow",
@@ -41,12 +41,8 @@
     "cypress:win": "set \"NODE_ENV=development\" && npx cypress open",
     "add-locale": "lingui add-locale",
     "lingui:extract": "lingui extract --clean",
-    "lingui:compile": "lingui compile",
-    "lingui": "lingui extract --clean && lingui compile",
-    "crowdin": "crowdin",
-    "crowdin:sync": "crowdin push && crowdin pull",
-    "crowdin:sync:sources": "crowdin push",
-    "crowdin:sync:translations": "crowdin pull",
+    "lingui:compile": "lingui compile && node scripts/i18n.js",
+    "lingui": "npm run lingui:extract --clean && npm run lingui:compile",
     "postinstall": "patch-package && cp patches/realm+1.3.0-package-patched.json node_modules/realm-web/package.json"
   },
   "repository": {
@@ -73,7 +69,6 @@
     "@amplitude/react-native": "^2.5.0",
     "@ceramicnetwork/http-client": "^1.5.7",
     "@ceramicnetwork/stream-tile": "^1.5.7",
-    "@crowdin/cli": "3",
     "@expo/react-native-action-sheet": "^3.9.0",
     "@gooddollar/goodcontracts": "^2.6.2",
     "@gooddollar/goodprotocol": "^1.0.18",
@@ -368,6 +363,33 @@
   ],
   "auto-changelog": {
     "tagPattern": "^v[\\.0-9]+$"
+  },
+  "lingui": {
+    "catalogs": [{
+      "path": "<rootDir>/src/language/locales/{locale}/catalog",
+      "include": ["<rootDir>/src"],
+      "exclude": ["**/__tests__/**"]
+    }],
+    "format": "minimal",
+    "sourceLocale": "en",
+    "locales": [
+      "en",
+      "en-gb",
+      "es",
+      "es-419",
+      "es-us",
+      "fr",
+      "id",
+      "hi",
+      "it",
+      "ko",
+      "pt-br",
+      "uk",
+      "tr",
+      "vi",
+      "zh",
+      "zh-tw"
+    ]
   },
   "detox": {
     "configurations": {

@@ -185,8 +185,8 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (3.1.0):
     - RNPermissions
-  - PromiseKit/CorePromise (6.17.0)
-  - PromiseKit/Foundation (6.17.0):
+  - PromiseKit/CorePromise (6.17.1)
+  - PromiseKit/Foundation (6.17.1):
     - PromiseKit/CorePromise
   - PromisesObjC (2.1.0)
   - RCT-Folly (2021.04.26.00):
@@ -665,7 +665,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - Amplitude
     - BigInt
     - boost-for-react-native
@@ -895,7 +895,7 @@ SPEC CHECKSUMS:
   Permission-Contacts: c9c3306280576546619fc9ae7489012ed9fe091f
   Permission-LocationWhenInUse: d98db702ec75e93a3ff94bc297d0b66ea04231e1
   Permission-PhotoLibrary: 9dcf80d1353d81b9f1e210c34291591236aaf2b6
-  PromiseKit: 996202d4cae72b7801b312abef4cd2f995b2978a
+  PromiseKit: ee485df3d4dc570594d7e7aecae6352697dc6a4c
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
   RCTRequired: 6cf071ab2adfd769014b3d94373744ee6e789530
@@ -966,6 +966,6 @@ SPEC CHECKSUMS:
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 5b6d2a8f60b0139717281fc431504eb7240033ae
+PODFILE CHECKSUM: 7498d311326743c22c559dff7980410bc3868e1b
 
 COCOAPODS: 1.11.3

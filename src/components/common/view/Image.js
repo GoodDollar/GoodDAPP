@@ -1,20 +1,18 @@
-import { first, noop } from 'lodash'
-import React, { useCallback, useMemo, useState } from 'react'
-import { Image as NativeImage, Platform, StyleSheet } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Image as NativeImage, StyleSheet } from 'react-native'
 
 import usePropsRefs from '../../../lib/hooks/usePropsRefs'
+import logger from '../../../lib/logger/js-logger'
 
-const getDimensions = Platform.select({
-  web: ({ path, target }) => (Array.isArray(path) ? first(path) : target),
-  native: ({ source }) => source,
-})
+const log = logger.child({ from: 'Image' })
 
 const isAutoHeight = ({ width, height }) => !!width && 'auto' === height
 
-const Image = ({ style = {}, onLoad = noop, ...props }) => {
+const Image = ({ style = {}, source = {}, ...props }) => {
+  const { uri } = source
   const [aspectRatio, setAspectRatio] = useState()
   const flattenStyle = useMemo(() => StyleSheet.flatten(style), [style])
-  const refs = usePropsRefs([flattenStyle, onLoad])
+  const refs = usePropsRefs([flattenStyle])
 
   const imageStyle = useMemo(() => {
     const { height, ...style } = flattenStyle
@@ -28,24 +26,26 @@ const Image = ({ style = {}, onLoad = noop, ...props }) => {
         }
   }, [flattenStyle, aspectRatio])
 
-  const onImageLoaded = useCallback(
-    event => {
-      const [getStyle, onLoad] = refs
+  const onImageSize = useCallback(
+    (width, height) => {
+      const [getStyle] = refs
 
       if (isAutoHeight(getStyle())) {
-        const dimensions = getDimensions(event.nativeEvent)
-
-        if (dimensions) {
-          setAspectRatio(dimensions.width / dimensions.height)
-        }
+        setAspectRatio(width / height)
       }
-
-      onLoad(event)
     },
     [setAspectRatio, refs],
   )
 
-  return <NativeImage {...props} style={imageStyle} onLoad={onImageLoaded} />
+  const onImageSizeError = error => log.error('Get image size error', error)
+
+  //prettier-ignore
+  useEffect(() =>
+    NativeImage.getSize(uri, onImageSize, onImageSizeError),
+    [onImageSize, uri]
+  )
+
+  return <NativeImage {...props} source={source} style={imageStyle} />
 }
 
 export default Image

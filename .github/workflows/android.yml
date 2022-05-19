@@ -27,7 +27,7 @@ on:
 jobs:
   deploy-preparation:
     name: Call pre-deploy workflow
-    uses: ./.github/workflows/pre-deploy.yml@v1
+    uses: ./.github/workflows/pre-deploy.yml
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest

@@ -34,7 +34,7 @@ const I18n = new class {
   }
 
   isLocaleValid(locale) {
-    return this.locales.includes(locale)
+    return this.locales.includes(locale) && isFunction(this.localeFiles[locale])
   }
 
   async getInitialLocale() {

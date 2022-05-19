@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call pre-deploy workflow
-          uses: GoodDollar/GoodDAPP/.github/workflows/pre-deploy.yml@v1
+        uses: GoodDollar/GoodDAPP/.github/workflows/pre-deploy.yml@v1
       - name: Code push release
         env:
           BUILD_NUMBER: ${{ github.run_number }}

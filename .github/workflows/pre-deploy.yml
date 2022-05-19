@@ -2,12 +2,23 @@ name: Deploy preparation
 
 on:
   workflow_call:
+    inputs:
+      target_branch:
+        required: false
+        default: ''
+        type: string
 
 jobs:
   pre_checks:
     name: Pre-checks
     runs-on: ubuntu-latest
     steps:
+      - name: Git branch name
+         id: git-branch-name
+         uses: EthanSK/git-branch-name-action@v1
+      - name: Detect and set target branch
+         run: |
+           echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
@@ -16,7 +27,7 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
-        if: ${{ endsWith(github.ref, '/staging') }}
+        if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
@@ -24,25 +35,17 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
-        if: ${{ endsWith(github.ref, '/next') }}
+        if: ${{ env.TARGET_BRANCH == 'next' }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
-  install_deps:
-    name: Dependencies install
-    runs-on: ubuntu-latest
-    steps:
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn --frozen-lockfile
-  add_secrets:
-    name: Add secrets
-    runs-on: ubuntu-latest
-    steps:
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}

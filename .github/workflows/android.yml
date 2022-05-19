@@ -32,6 +32,9 @@ jobs:
     name: Hot Code Push
     runs-on: ubuntu-latest
     steps:
+      - uses: ./.github/workflows/utils/android.yml
+         with:
+           target_branch: ${{ github.ref }}
       - name: Code push release
         env:
           BUILD_NUMBER: ${{ github.run_number }}
@@ -54,12 +57,10 @@ jobs:
       }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Git branch name
-        id: git-branch-name
-        uses: EthanSK/git-branch-name-action@v1
-      - name: Detect and set target branch
         run: |
-          echo "TARGET_BRANCH=${{ github.event.inputs.release || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
+      - uses: ./.github/workflows/utils/android.yml
+         with:
+           target_branch: ${{ github.event.inputs.release }}          
       - name: Setup google services file
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
       - name: Set release keystore

@@ -47,7 +47,7 @@ export const useRegisterForInvites = () => {
 
         return inviteCode
       } catch (e) {
-        log.error('registerForInvites failed', e.message, e, { inviterInviteCode })
+        log.error(t`registerForInvites failed`, e.message, e, { inviterInviteCode })
       }
     },
     [userStorage, goodWallet],

@@ -126,7 +126,7 @@
 #          ENVFILE: '../.env.${{ env.ENV }}'
 #          IS_PROD: ${{ contains('production next', env.BRANCH) }}
 #        run: |
-#          yarn lingui-compile
+#          yarn lingui:compile
 #          echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
 #          PROFILE_UID="b29b41c9-e82a-4aab-96a8-e5d00e55756e"
 #          if ${{ env.IS_PROD }}; then

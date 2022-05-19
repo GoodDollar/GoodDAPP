@@ -1,5 +1,6 @@
 // @flow
 import { useCallback, useContext, useMemo } from 'react'
+import { noop } from 'lodash'
 import { type DialogProps } from '../../components/common/dialogs/CustomDialog'
 
 // import pino from '../logger/js-logger'
@@ -18,10 +19,9 @@ export const showDialogForError = (
 ) => {}
 
 export const useDialog = () => {
-  const { dialogData, setDialog } = useContext(DialogContext)
+  const { dialogData, setDialog = noop } = useContext(DialogContext)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
   const isDialogShown = useMemo(() => dialogData.visible, [dialogData])
-
   const showDialog = useCallback(
     (data: DialogData) => {
       setDialogBlur(true)

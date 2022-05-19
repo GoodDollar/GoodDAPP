@@ -10,7 +10,8 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
-import { getRouteParams, openLink } from '../../lib/utils/linking'
+import { openLink } from '../../lib/utils/linking'
+import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
@@ -66,15 +67,24 @@ import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 
-import FaceVerification from './FaceVerification/screens/VerificationScreen'
-import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
-import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
-
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyDecemberBanner'
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 
 const log = logger.child({ from: 'Dashboard' })
+
+// prettier-ignore
+const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNavigationOptions({
+  navigationBarHidden: false,
+  title: 'Face Verification',
+})(
+  lazyScreens(
+    () => import('./FaceVerification'),
+    'FaceVerification',
+    'FaceVerificationIntro',
+    'FaceVerificationError'
+  ),
+)
 
 let didRender = false
 const screenWidth = getMaxDeviceWidth()

@@ -1,5 +1,6 @@
 // @flow
 import React, { useContext } from 'react'
+import { isFunction } from 'lodash'
 import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
@@ -52,13 +53,15 @@ const LoadingIndicator = ({ force }) => {
   return <Indicator loading={loading} />
 }
 
-const suspenseWithIndicator = (child, props) => {
-  const Child = React.lazy(() => child)
+const suspenseWithIndicator = child => props => {
+  const Child = React.lazy(() => (isFunction(child) ? child() : child))
   const Loading = <Indicator loading={true} />
+
   return (
     <React.Suspense fallback={Loading}>
       <Child {...props} />
     </React.Suspense>
   )
 }
+
 export { LoadingIndicator as default, suspenseWithIndicator }

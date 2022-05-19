@@ -1,9 +1,21 @@
 /* eslint-disable require-await */
+import { lazy } from 'react'
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
 import { assign, chunk, identity, isError, isFunction, isObject, isString, once } from 'lodash'
 
+const exportDefault = component => module => ({ default: module[component] })
+
 export const noopAsync = async () => true
+
+export const lazyExport = (dynamicImport, ...exportComponents) => {
+  const [hocFn, ...rest] = exportComponents
+  const withCustomHoc = isFunction(hocFn)
+  const hoc = withCustomHoc ? hocFn : lazy
+  const components = withCustomHoc ? rest : exportComponents
+
+  return components.map(component => hoc(() => dynamicImport().then(exportDefault(component))))
+}
 
 export const batch = async (items, chunkSize, onItem) =>
   chunk(items, chunkSize).reduce(

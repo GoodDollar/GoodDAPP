@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 
+#cache
+/.yarn/cache
+
 # testing
 /coverage
 

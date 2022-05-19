@@ -12,18 +12,18 @@ import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import Table from 'components/gd/Table'
 import useWeb3 from 'hooks/useWeb3'
 import { getList as getStakes, Stake } from 'sdk/staking'
+// import { getList as getStakes, Stake } from '@gd-test-repo/sdk/dist/core/staking'
 import { Wrapper } from './styled'
 import StakeDeposit from './StakeDeposit'
 import usePromise from 'hooks/usePromise'
-// import { stakesSupportedAt, SupportedChainId } from 'sdk/constants/chains'
-// import Placeholder from 'components/gd/Placeholder'
 import { QuestionHelper } from 'components'
 import { useGovernanceStaking } from 'sdk/hooks/gov/useGovernanceStaking'
-import { useEnvWeb3 } from 'sdk/hooks/useEnvWeb3'
+import { useEnvWeb3 } from 'sdk/hooks/useNewEnvWeb3'
 import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import { getNetworkEnv } from 'sdk/constants/addresses'
+import { useGdContext } from 'sdk/hooks/useGdSdkContext'
 
 const StakeTable = ({
     list,
@@ -239,16 +239,18 @@ const StakeTable = ({
 
 export default function Stakes(): JSX.Element | null {
     const { i18n } = useLingui()
-    const governanceStaking = useGovernanceStaking()
-    const web3 = useWeb3()
-    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET)
-    const network = getNetworkEnv() 
+    const { web3, activeNetwork } = useGdContext()
+    const { chainId } = useActiveWeb3React()
+    const governanceStaking = useGovernanceStaking(web3, chainId)
+    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId)
+    const network = getNetworkEnv()
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
         const stakes = await (
           web3 && mainnetWeb3 && network !== 'staging' ? getStakes(mainnetWeb3) : Promise.resolve([]))
 
         return stakes
     }, [web3, mainnetWeb3])
+
     const sorted = useSearchAndSort(
         stakes,
         { keys: ['tokens.A.symbol', 'tokens.B.symbol', 'tokens.A.name', 'tokens.B.name'], threshold: 0.1 },

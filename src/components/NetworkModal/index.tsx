@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
 import { useModalOpen, useNetworkModalToggle } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/types'
@@ -14,6 +15,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { getNetworkEnv } from 'sdk/constants/addresses'
 import { UnsupportedChainId } from 'sdk/utils/errors'
 import { useSetChain, useWallets } from '@web3-onboard/react'
+import GdSdkContext from 'sdk/hooks/useGdSdkContext'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -170,7 +172,8 @@ export default function NetworkModal(): JSX.Element | null {
     const toggleNetworkModal = useNetworkModalToggle()
 
     const networkLabel: string | null = error ? null : (NETWORK_LABEL as any)[chainId]
-    const network = getNetworkEnv()
+    const {activeNetwork} = useContext(GdSdkContext)
+    const network = getNetworkEnv(activeNetwork)
 
     const allowedNetworks = useMemo(() => {
         switch (true) {

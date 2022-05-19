@@ -16,7 +16,9 @@ import { ReactComponent as X } from '../assets/images/x.svg'
 import { t } from '@lingui/macro'
 import SideBar from './SideBar'
 import usePromise from '../hooks/usePromise'
-import { g$Price } from '../sdk/apollo'
+// import { g$Price, getList } from '@gd-test-repo/sdk'
+// import { g$Price } from '@gd-test-repo/sdk/dist/core/apollo'
+// import { g$Price } from '../sdk/apollo'
 import NetworkModal from './NetworkModal'
 import AppNotice from './AppNotice'
 import { isMobile } from 'react-device-detect'
@@ -123,8 +125,9 @@ function AppBar(): JSX.Element {
     const userEthBalance = useETHBalances((account ? [account] : []), chainId)?.[account ?? '']
     const [G$Price] = usePromise(async () => {
         try {
-            const data = await g$Price()
-            return data.DAI
+          const data = '0.0000'
+            // const data = await g$Price()
+            return data
         } catch {
             return undefined
         }
@@ -156,7 +159,9 @@ function AppBar(): JSX.Element {
                           <div className="flex flex-row space-x-2">
                               <div className="flex flex-row items-center space-x-2">
                                   <div className="ml-10 text-sm whitespace-nowrap lg:text-base">
-                                      {G$Price ? `1,000G$ = ${G$Price.multiply(1000).toFixed(3)}USD` : ''}
+                                      {G$Price
+                                      //  ? `1,000G$ = ${G$Price.multiply(1000).toFixed(3)}USD` : ''
+                                       }
                                   </div>
                                   {chainId && <Web3Faucet />}
                                   <button onClick={() => { setSidebarOpen(!sidebarOpen)}} 

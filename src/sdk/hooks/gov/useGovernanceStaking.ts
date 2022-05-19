@@ -5,19 +5,21 @@ import GovernanceStaking from '@gooddollar/goodprotocol/artifacts/contracts/gove
 import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { getReserveRatio, Stake, getReserveSocialAPY } from 'sdk/staking'
 import { G$, GDAO } from 'sdk/constants/tokens'
-import useWeb3 from 'hooks/useWeb3'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import { CurrencyAmount, Fraction } from '@uniswap/sdk-core'
-import { useEnvWeb3 } from '../useEnvWeb3'
+// import { useEnvWeb3 } from '../useEnvWeb3'
+import { useEnvWeb3 } from '../useNewEnvWeb3'
+import { getNetworkEnv } from 'sdk/constants/addresses'
 import { getChainId } from 'sdk/utils/web3'
 
 type Stats = { [key: string]: BigNumber }
-export const useGovernanceStaking = (): Array<Stake> => {
-    const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
-    const [fuseWeb3] = useEnvWeb3(DAO_NETWORK.FUSE)
+export const useGovernanceStaking = (activeWeb3?: any, chainId?: number): Array<Stake> => {
+    const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET, activeWeb3, chainId)
+    const [fuseWeb3] = useEnvWeb3(DAO_NETWORK.FUSE, activeWeb3, chainId)
     const [stakes, setStakes] = useState<Array<Stake>>([])
 
-    const networkType = process.env.REACT_APP_NETWORK || 'staging'
+    const networkType = getNetworkEnv()
+    // console.log('useGovernanceStaking networkType -->', {networkType})
 
     const stakingContractV2 = useMemo(
       () => fuseWeb3 && networkType !== 'staging' && getContract(SupportedChainId.FUSE, 'GovernanceStakingV2', GovernanceStaking.abi, fuseWeb3),

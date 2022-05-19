@@ -3,7 +3,7 @@ import { BaseProvider } from '@ethersproject/providers/src.ts/base-provider'
 import { JsonRpcProvider } from '@ethersproject/providers/src.ts/json-rpc-provider'
 
 import { NETWORK_LABELS, SupportedChainId } from './chains'
-import { RPC } from '../hooks/useEnvWeb3'
+import { RPC } from '../hooks/useNewEnvWeb3'
 import Web3 from 'web3'
 /**
  * Returns provider for chain.

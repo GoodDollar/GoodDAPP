@@ -1,3 +1,4 @@
+import { useContext} from 'react'
 import Web3 from 'web3'
 import { AbiItem } from 'web3-utils'
 import SimpleStakingV2 from '@gooddollar/goodprotocol/artifacts/contracts/staking/SimpleStakingV2.sol/SimpleStakingV2.json'
@@ -7,6 +8,7 @@ import { SupportedChainId } from '../constants/chains'
 import { G$ContractAddresses, getNetworkEnv } from '../constants/addresses'
 import { getChainId } from '../utils/web3'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
+import GdSdkContext from 'sdk/hooks/useGdSdkContext'
 
 /**
  * Returns instance of SimpleStaking contract.

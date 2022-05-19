@@ -4,8 +4,10 @@ import contractsAddresses, { ObjectLike } from '@gooddollar/goodprotocol/release
 import { constructSameAddressMap } from '../utils/constructSameAddressMap'
 import { SupportedChainId } from './chains'
 
-export const getNetworkEnv = (): string => {
-    return localStorage.getItem('GD_NETWORK') || process.env.REACT_APP_NETWORK || 'staging'
+export const getNetworkEnv = (network?: string): string => {
+  const localNetwork = localStorage.getItem('GD_NETWORK')
+  const parsed = localNetwork ? JSON.parse(localNetwork) : null
+  return parsed || network || 'staging'
 }
 
 type AddressMap = { [chainId: number]: string }

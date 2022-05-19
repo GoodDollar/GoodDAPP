@@ -36,14 +36,9 @@ jobs:
           CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         run: |
           echo "Code push release target version "${BUILD_NUMBER}""
+          yarn lingui:compile
           npx appcenter codepush release-react ${{ env.APPCENTER_NAME }} android --token "${{ env.APPCENTER_TOKEN }}""
 
-          echo "$SENTRYRC" > android/sentry.properties
-      - name: run detox build & test
-        run: |
-          $ANDROID_HOME/emulator/emulator -list-avds
-          yarn lingui:compile
-          yarn test:android
   # This workflow contains a single job called "build"
   build:
     name: Build

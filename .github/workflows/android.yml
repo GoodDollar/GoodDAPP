@@ -52,9 +52,9 @@ jobs:
       }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-        run: |
       - name: fix max_user_watches
-         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+        run: |
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
       - uses: ./.github/workflows/utils/android.yml
          with:
            target_branch: ${{ github.event.inputs.release }}          

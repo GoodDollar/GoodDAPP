@@ -30,8 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: ./.github/workflows/utils/android.yml
-         with:
-           target_branch: ${{ github.ref }}
       - name: Code push release
         env:
           BUILD_NUMBER: ${{ github.run_number }}

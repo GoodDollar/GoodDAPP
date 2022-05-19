@@ -33,7 +33,7 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="normal" textTransform="none" color="red">
+          <Section.Title fontWeight="regular" textTransform="none" color="red">
             <Section.Title fontWeight="bold" textTransform="none" color="red">
               {displayTitle}
             </Section.Title>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Image, TextInput, View } from 'react-native'
+import { Image, Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
 import { t, Trans } from '@lingui/macro'
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
@@ -111,6 +111,15 @@ const ShareBox = ({ level }) => {
     abTestMessage,
   ])
 
+  const shareUrlStyle = useMemo(
+    () =>
+      Platform.select({
+        web: [styles.shareLink, styles.shareLinkWeb],
+        default: styles.shareLink,
+      }),
+    [],
+  )
+
   useEffect(() => log.debug('Generated share object', { share }), [share])
 
   return (
@@ -135,14 +144,7 @@ const ShareBox = ({ level }) => {
           fontSize={getDesignRelativeWidth(10, false)}
           fontWeight={'medium'}
           lineHeight={30}
-          style={{
-            flex: 1,
-            padding: 0,
-            marginRight: 8,
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-          }}
+          style={shareUrlStyle}
         >
           {shareUrl}
         </Text>
@@ -591,6 +593,16 @@ const styles = {
   },
   bounty: {
     height: 34,
+  },
+  shareLink: {
+    flex: 1,
+    padding: 0,
+    marginRight: 8,
+    overflow: 'hidden',
+  },
+  shareLinkWeb: {
+    whiteSpace: undefined,
+    textOverflow: undefined,
   },
 }
 export default Invite

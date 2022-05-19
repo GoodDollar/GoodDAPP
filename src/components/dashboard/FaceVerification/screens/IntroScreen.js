@@ -119,7 +119,7 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
       <View style={styles.mainContentB}>
         <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitleB}>
           {`${firstName},`}
-          <Section.Text fontWeight="normal" textTransform="none" fontSize={24} lineHeight={30}>
+          <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
             {'\nVerify you are a real\nlive person'}
           </Section.Text>
         </Section.Title>

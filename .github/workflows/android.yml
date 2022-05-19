@@ -25,12 +25,13 @@ on:
           - prod: 'next'
 
 jobs:
+  deploy-preparation:
+    name: Call pre-deploy workflow
+    uses: GoodDollar/GoodDAPP/.github/workflows/pre-deploy.yml@v1
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest
     steps:
-      - name: Call pre-deploy workflow
-        uses: GoodDollar/GoodDAPP/.github/workflows/pre-deploy.yml@v1
       - name: Code push release
         env:
           BUILD_NUMBER: ${{ github.run_number }}
@@ -59,8 +60,6 @@ jobs:
       - name: Detect and set target branch
         run: |
           echo "TARGET_BRANCH=${{ github.event.inputs.release || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
-      - name: Call pre-deploy workflow
-        uses: GoodDollar/GoodDAPP/.github/workflows/pre-deploy.yml@v1
       - name: Setup google services file
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
       - name: Set release keystore

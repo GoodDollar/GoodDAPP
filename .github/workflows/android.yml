@@ -60,6 +60,15 @@ jobs:
       - uses: ./.github/workflows/utils/android.yml
         with:
           target_branch: ${{ github.event.inputs.release }}
+      - name: add .env secrets
+        env:
+         SENTRYRC: ${{ secrets.sentryrc_file }}
+        run: |
+         env_name="${{ env.ENV }}"
+         cat .env.$env_name
+         echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
+         echo "$SENTRYRC" > android/sentry.properties
+         echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
       - name: Setup google services file
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
       - name: Set release keystore

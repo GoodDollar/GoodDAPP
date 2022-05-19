@@ -39,17 +39,4 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn --frozen-lockfile
-  add_secrets:
-    name: Add secrets
-    runs-on: ubuntu-latest
-    steps:
-      - name: add .env secrets
-        env:
-          SENTRYRC: ${{ secrets.sentryrc_file }}
-        run: |
-          env_name="${{ env.ENV }}"
-          cat .env.$env_name
-          echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
-          echo "$SENTRYRC" > android/sentry.properties
-          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
-          echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
+          useLockFile: false

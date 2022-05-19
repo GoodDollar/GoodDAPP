@@ -9,47 +9,12 @@ import { Helmet } from 'react-helmet'
 import logger from '../lib/logger/js-logger'
 import AsyncStorage from '../lib/utils/asyncStorage'
 import { fallback } from '../lib/utils/async'
-import { messages as defaultMessages } from './locales/en/catalog'
+import { defaultMessages, localeFiles, localesCodes, sourceLocale } from './locales'
 
 const log = logger.child({ from: 'I18n' })
 
-// This array should equal the array set in .linguirc
-export const locales = [
-  'ar',
-  'pt',
-  'de',
-  'en',
-  'es-AR',
-  'es',
-  'it',
-  'he',
-  'ro',
-  'ru',
-  'vi',
-  'zh-CN',
-  'zh-TW',
-  'ko',
-  'ja',
-  'fr',
-]
-export const defaultLocale = 'en'
-
-export const localeFiles = {
-  de: () => import(`./locales/de/catalog.js`),
-  en: () => import(`./locales/en/catalog.js`),
-  'es-AR': () => import(`./locales/es-AR/catalog.js`),
-  es: () => import(`./locales/es/catalog.js`),
-  it: () => import(`./locales/it/catalog.js`),
-  he: () => import(`./locales/he/catalog.js`),
-  ro: () => import(`./locales/ro/catalog.js`),
-  ru: () => import(`./locales/ru/catalog.js`),
-  vi: () => import(`./locales/vi/catalog.js`),
-  'zh-CN': () => import(`./locales/zh-CN/catalog.js`),
-  'zh-TW': () => import(`./locales/zh-TW/catalog.js`),
-  ko: () => import(`./locales/ko/catalog.js`),
-  ja: () => import(`./locales/ja/catalog.js`),
-  fr: () => import(`./locales/fr/catalog.js`),
-}
+export const locales = localesCodes
+export const defaultLocale = sourceLocale
 
 const I18n = new class {
   constructor(i18n, options) {

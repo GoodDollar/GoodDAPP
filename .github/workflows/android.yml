@@ -25,9 +25,6 @@ on:
           - prod: 'next'
 
 jobs:
-  deploy-preparation:
-    name: Call pre-deploy workflow
-    uses: ./.github/workflows/pre-deploy.yml
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest

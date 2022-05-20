@@ -13,6 +13,7 @@ jobs:
     name: Pre-checks
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Git branch name
         id: git-branch-name
         uses: EthanSK/git-branch-name-action@v1

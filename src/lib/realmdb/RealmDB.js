@@ -52,10 +52,11 @@ class RealmDB implements DB, ProfileDB {
 
   sources = [NewsSource, TransactionsSource]
 
-  _mutex = new Mutex()
-
   constructor() {
-    this.sources = invokeMap(this.sources, 'create', this, log)
+    const { sources } = this
+
+    this.sources = invokeMap(sources, 'create', this, log)
+    this.syncMutexes = sources.map(() => new Mutex())
 
     this.ready = new Promise((resolve, reject) => {
       this.resolve = resolve
@@ -199,14 +200,17 @@ class RealmDB implements DB, ProfileDB {
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
-    const { _mutex } = this
-    if (_mutex.isLocked()) {
-      return
-    }
-    const release = await _mutex.lock()
-    // eslint-disable-next-line require-await
-    await Promise.all(invokeMap(this.sources, 'syncFromRemote'))
-    release()
+    const { syncMutexes } = this
+
+    await Promise.all(this.sources.map(async (source, index) => {
+      const mutex = syncMutexes[index]
+
+      if (mutex.isLocked()) {
+        log.warn('_syncFromRemote: mutex locked, skipping')
+      }
+
+      await mutex.lock().then(release => source.syncFromRemote().finally(release))
+    }))
   }
 
   /**

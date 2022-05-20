@@ -41,25 +41,30 @@ export default class NewsSource extends FeedSource {
     const { historyCacheId } = NewsSource
     const historyId = await storage.getItem(historyCacheId)
     const logDone = () => log.info('ceramic sync from remote done')
+    const logFailed = exception => log.error('ceramic sync from remote failed', exception, exception.message)
 
     log.info('ceramic sync from remote started', { historyId })
 
     if (historyId) {
       try {
         await this._applyChangeLog(historyId)
-        logDone()
-
-        return
+        return logDone()
       } catch (exception) {
         // throw if not HISTORY_NOT_FOUND, otherwise falling back to _loadRemoteFeed()
         if ('HISTORY_NOT_FOUND' !== exception.name) {
+          logFailed(exception)
           throw exception
         }
       }
     }
 
-    await this._loadRemoteFeed()
-    logDone()
+    try {
+      await this._loadRemoteFeed()
+      logDone()
+    } catch (exception) {
+      logFailed(exception)
+      throw exception
+    }
   }
 
   /** @private */
@@ -69,12 +74,12 @@ export default class NewsSource extends FeedSource {
 
     const ceramicPosts = await CeramicFeed.getPosts()
     const historyId = await CeramicFeed.getHistoryId()
-    const formatedCeramicPosts = ceramicPosts.map(formatCeramicPost)
+    const formattedCeramicPosts = ceramicPosts.map(formatCeramicPost)
 
-    log.debug('Ceramic fetched posts', { ceramicPosts, formatedCeramicPosts })
+    log.debug('Ceramic fetched posts', { ceramicPosts, formattedCeramicPosts })
 
     await Feed.find({ type: 'news' }).delete()
-    await Feed.save(...formatedCeramicPosts)
+    await Feed.save(...formattedCeramicPosts)
     await storage.setItem(historyCacheId, historyId)
   }
 

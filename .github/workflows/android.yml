@@ -25,12 +25,13 @@ on:
           - prod: 'next'
 
 jobs:
-  codepush:
-    name: Hot Code Push
-    runs-on: ubuntu-latest
+  pre-deploy:
     uses: GoodDollar/GoodDAPP/.github/workflows/android_utils.yml@3493-code-push
     with:
       target_branch: ${{ github.event.inputs.release }}
+  codepush:
+    name: Hot Code Push
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Code push release
@@ -55,9 +56,6 @@ jobs:
         (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
         (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))
       }}
-    uses: GoodDollar/GoodDAPP/.github/workflows/android_utils.yml@3493-code-push
-    with:
-      target_branch: ${{ github.event.inputs.release }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2

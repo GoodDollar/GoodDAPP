@@ -601,8 +601,8 @@ const styles = {
     overflow: 'hidden',
   },
   shareLinkWeb: {
-    whiteSpace: undefined,
-    textOverflow: undefined,
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
 }
 export default Invite

@@ -202,15 +202,18 @@ class RealmDB implements DB, ProfileDB {
   async _syncFromRemote() {
     const { syncMutexes } = this
 
-    await Promise.all(this.sources.map(async (source, index) => {
-      const mutex = syncMutexes[index]
+    await Promise.all(
+      this.sources.map(async (source, index) => {
+        const mutex = syncMutexes[index]
 
-      if (mutex.isLocked()) {
-        log.warn('_syncFromRemote: mutex locked, skipping')
-      }
+        if (mutex.isLocked()) {
+          log.warn('_syncFromRemote: mutex locked, skipping')
+          return
+        }
 
-      await mutex.lock().then(release => source.syncFromRemote().finally(release))
-    }))
+        await mutex.lock().then(release => source.syncFromRemote().finally(release))
+      }),
+    )
   }
 
   /**

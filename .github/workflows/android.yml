@@ -28,9 +28,9 @@ jobs:
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest
+    uses: GoodDollar/GoodDAPP/.github/workflows/utils/android.yml@3493-code-push
     steps:
       - uses: actions/checkout@v2
-      - uses: GoodDollar/GoodDAPP/.github/workflows/utils/android.yml@3493-code-push
       - name: Code push release
         env:
           BUILD_NUMBER: ${{ github.run_number }}

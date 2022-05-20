@@ -59,9 +59,9 @@ jobs:
       - name: fix max_user_watches
         run: |
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-#      - uses: ./.github/workflows/utils/android.yml
-#        with:
-#          target_branch: ${{ github.event.inputs.release }}
+      - uses: ./.github/workflows/utils/android.yml
+        with:
+          target_branch: ${{ github.event.inputs.release }}
       - name: Setup google services file
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
       - name: Set release keystore

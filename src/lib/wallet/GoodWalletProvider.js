@@ -31,7 +31,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [balance, setBalance] = useState()
   const [dailyUBI, setDailyUBI] = useState()
   const [isCitizen, setIsCitizen] = useState()
-  const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
+  const [wasLoggedIn, setLoggedIn] = useState(false)
+  const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false && !wasLoggedIn])
 
   const db = getDB()
 
@@ -132,8 +133,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     }
 
     const loginAndWatch = async () => {
+      setLoggedIn(true)
       await login()
 
+      await userStorage.userProperties.ready
       const lastBlock = userStorage.userProperties.get('lastBlock') || 6400000
 
       // init initial wallet balance/dailyubi

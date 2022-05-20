@@ -4,6 +4,7 @@ import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
 
+import Mutex from 'await-mutex'
 import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
@@ -50,6 +51,8 @@ class RealmDB implements DB, ProfileDB {
   dbEvents = new EventEmitter()
 
   sources = [NewsSource, TransactionsSource]
+
+  _mutex = new Mutex()
 
   constructor() {
     this.sources = invokeMap(this.sources, 'create', this, log)
@@ -196,8 +199,14 @@ class RealmDB implements DB, ProfileDB {
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
+    const { _mutex } = this
+    if (_mutex.isLocked()) {
+      return
+    }
+    const release = await _mutex.lock()
     // eslint-disable-next-line require-await
     await Promise.all(invokeMap(this.sources, 'syncFromRemote'))
+    release()
   }
 
   /**

@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/workflows/utils/android.yml
+      - uses: GoodDollar/GoodDAPP/.github/workflows/utils/android.yml@3493-code-push
       - name: Code push release
         env:
           BUILD_NUMBER: ${{ github.run_number }}

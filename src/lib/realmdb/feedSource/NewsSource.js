@@ -1,4 +1,6 @@
 import moment from 'moment'
+import Mutex from 'await-mutex'
+import { assign } from 'lodash'
 
 import CeramicFeed from '../../ceramic/CeramicFeed'
 
@@ -36,8 +38,19 @@ export default class NewsSource extends FeedSource {
     }
   }
 
+  constructor(...props) {
+    super(...props)
+    const _mutex = new Mutex()
+    assign(this, { _mutex })
+  }
+
   async syncFromRemote() {
-    const { log, storage } = this
+    const { log, storage, _mutex } = this
+    if (_mutex.isLocked()) {
+      return
+    }
+    const release = await _mutex.lock()
+
     const { historyCacheId } = NewsSource
     const historyId = await storage.getItem(historyCacheId)
     const logDone = () => log.info('ceramic sync from remote done')
@@ -48,11 +61,12 @@ export default class NewsSource extends FeedSource {
       try {
         await this._applyChangeLog(historyId)
         logDone()
-
+        release()
         return
       } catch (exception) {
         // throw if not HISTORY_NOT_FOUND
         if ('HISTORY_NOT_FOUND' !== exception.name) {
+          release()
           throw exception
         }
 
@@ -63,8 +77,14 @@ export default class NewsSource extends FeedSource {
       }
     }
 
-    await this._loadRemoteFeed()
-    logDone()
+    try {
+      await this._loadRemoteFeed()
+      logDone()
+    } catch (e) {
+      log.error('load remote feed error', e, e.message)
+    } finally {
+      release()
+    }
   }
 
   /** @private */
@@ -74,12 +94,12 @@ export default class NewsSource extends FeedSource {
 
     const ceramicPosts = await CeramicFeed.getPosts()
     const historyId = await CeramicFeed.getHistoryId()
-    const formatedCeramicPosts = ceramicPosts.map(formatCeramicPost)
+    const formattedCeramicPosts = ceramicPosts.map(formatCeramicPost)
 
-    log.debug('Ceramic fetched posts', { ceramicPosts, formatedCeramicPosts })
+    log.debug('Ceramic fetched posts', { ceramicPosts, formattedCeramicPosts })
 
     await Feed.find({ type: 'news' }).delete()
-    await Feed.save(...formatedCeramicPosts)
+    await Feed.save(...formattedCeramicPosts)
     await storage.setItem(historyCacheId, historyId)
   }
 

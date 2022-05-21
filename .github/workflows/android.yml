@@ -33,18 +33,14 @@ jobs:
     name: Hot Code Push
     runs-on: ubuntu-latest
     steps:
-    - name: Code push prepare
+    - name: Code push release
       env:
         BUILD_NUMBER: ${{ github.run_number }}
         CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
       run: |
         echo 'Code push release target version "${BUILD_NUMBER}"'
         yarn lingui:compile
-    - name: Code push release
-      uses: joabalea/App-Center-action@v1.0.2
-      with:
-        command: npx appcenter codepush release-react ${{ env.APPCENTER_NAME }} android
-        token: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
+        npx appcenter codepush release-react ${{ env.APPCENTER_NAME }} android --token "${{ env.APPCENTER_TOKEN }}"
 
   # This workflow contains a single job called "build"
   build:

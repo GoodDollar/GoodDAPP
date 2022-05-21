@@ -86,9 +86,9 @@ jobs:
           BUILD_NUMBER: ${{ github.run_number }}
           CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         run: |
-          echo "Code push release target version "${BUILD_NUMBER}""
+          echo 'Code push release target version "${BUILD_NUMBER}"'
           yarn lingui:compile
-          npx appcenter codepush release-react ${{ env.APPCENTER_NAME }} android --token "${{ env.APPCENTER_TOKEN }}""
+          npx appcenter codepush release-react ${{ env.APPCENTER_NAME }} android --token ${{ env.APPCENTER_TOKEN }}
 
   # This workflow contains a single job called "build"
   build:

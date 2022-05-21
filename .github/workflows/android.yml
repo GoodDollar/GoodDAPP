@@ -26,72 +26,25 @@ on:
 
 jobs:
   pre-deploy:
-    uses: GoodDollar/GoodDAPP/.github/workflows/android_utils.yml@3493-code-push
+    uses: ./.github/workflows/android_utils.yml
     with:
       target_branch: ${{ github.event.inputs.release }}
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Git branch name
-        id: git-branch-name
-        uses: EthanSK/git-branch-name-action@v1
-      - name: Detect and set target branch
-        run: |
-          echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
-      - name: Pre-checks - Env is Dev
-        run: |
-          echo "ENV=development" >> $GITHUB_ENV
-          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
-      - name: Pre-checks - Env is QA
-        if: ${{ env.TARGET_BRANCH == 'staging' }}
-        run: |
-          echo "ENV=staging" >> $GITHUB_ENV
-          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
-      - name: Pre-checks - Env is PROD
-        if: ${{ env.TARGET_BRANCH == 'next' }}
-        run: |
-          echo "ENV=prod" >> $GITHUB_ENV
-          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - name: Cache & install npm dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --frozen-lockfile
-      - name: add .env secrets
-        env:
-          SENTRYRC: ${{ secrets.sentryrc_file }}
-        run: |
-          env_name="${{ env.ENV }}"
-          echo $env_name
-          cat .env.$env_name
-          echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
-          echo "$SENTRYRC" > android/sentry.properties
-          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
-          echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
-      - name: Code push release
-        env:
-          BUILD_NUMBER: ${{ github.run_number }}
-          CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
-        run: |
-          echo 'Code push release target version "${BUILD_NUMBER}"'
-          yarn lingui:compile
-        uses: joabalea/App-Center-action@v1.0.2
-        with:
-          command: npx appcenter codepush release-react ${{ env.APPCENTER_NAME }} android
-          token: ${{ env.APPCENTER_TOKEN }}
+    - name: Code push prepare
+      env:
+        BUILD_NUMBER: ${{ github.run_number }}
+        CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
+      run: |
+        echo 'Code push release target version "${BUILD_NUMBER}"'
+        yarn lingui:compile
+    - name: Code push release
+      uses: joabalea/App-Center-action@v1.0.2
+      with:
+        command: npx appcenter codepush release-react ${{ env.APPCENTER_NAME }} android
+        token: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
 
   # This workflow contains a single job called "build"
   build:

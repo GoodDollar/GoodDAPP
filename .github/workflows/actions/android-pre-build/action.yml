@@ -11,7 +11,6 @@ runs:
   - uses: actions/checkout@v2
   - name: Git branch name
     id: git-branch-name
-    shell: bash
     uses: EthanSK/git-branch-name-action@v1
   - name: Detect and set target branch
     run: |
@@ -32,6 +31,7 @@ runs:
       echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
       echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
       echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
+    shell: bash
   - name: Pre-checks - Env is PROD
     if: ${{ env.TARGET_BRANCH == 'next' }}
     run: |
@@ -40,6 +40,7 @@ runs:
       echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
       echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
       echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
+    shell: bash
   - uses: actions/checkout@v2
   - uses: actions/setup-node@v1
     with:
@@ -59,3 +60,4 @@ runs:
       echo "$SENTRYRC" > android/sentry.properties
       echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
       echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
+    shell: bash

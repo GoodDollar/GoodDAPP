@@ -9,8 +9,8 @@ runs:
   - uses: actions/checkout@v2
   - name: Git branch name
     id: git-branch-name
-    uses: EthanSK/git-branch-name-action@v1
     shell: bash
+    uses: EthanSK/git-branch-name-action@v1
   - name: Detect and set target branch
     run: |
       echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV

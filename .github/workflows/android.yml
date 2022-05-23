@@ -25,14 +25,13 @@ on:
           - prod: 'next'
 
 jobs:
-  pre-deploy:
-    uses: ./.github/workflows/android_utils.yml
-    with:
-      target_branch: ${{ github.event.inputs.release }}
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest
     steps:
+    - uses: ./.github/workflows/utils.yml
+      with:
+        target_branch: ${{ github.event.inputs.release }}
     - name: Code push release
       env:
         BUILD_NUMBER: ${{ github.run_number }}

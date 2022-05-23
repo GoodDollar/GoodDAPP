@@ -12,7 +12,7 @@ const isAutoHeight = ({ width, height }) => !!width && 'auto' === height
 const Image = ({ style = {}, source, ...props }) => {
   const [aspectRatio, setAspectRatio] = useState()
   const flattenStyle = useMemo(() => StyleSheet.flatten(style), [style])
-  const refs = usePropsRefs([flattenStyle])
+  const [getStyle] = usePropsRefs([flattenStyle])
 
   // image source could be base64 data uri
   const uri = useMemo(() => get(source, 'uri', source), [source])
@@ -31,8 +31,6 @@ const Image = ({ style = {}, source, ...props }) => {
 
   useEffect(() => {
     const onImageSize = (width, height) => {
-      const [getStyle] = refs
-
       if (isAutoHeight(getStyle())) {
         setAspectRatio(width / height)
       }
@@ -40,7 +38,7 @@ const Image = ({ style = {}, source, ...props }) => {
 
     setAspectRatio(undefined)
     NativeImage.getSize(uri, onImageSize, e => log.error('Get image size error', e.message, e))
-  }, [uri, setAspectRatio, refs])
+  }, [uri])
 
   if (!aspectRatio) {
     return null

@@ -4,6 +4,8 @@ inputs:
     required: false
     default: ''
     type: string
+  secrets:
+    required: true
 runs:
   steps:
   - uses: actions/checkout@v2
@@ -14,6 +16,7 @@ runs:
   - name: Detect and set target branch
     run: |
       echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
+    shell: bash
   - name: Pre-checks - Env is Dev
     run: |
       echo "ENV=development" >> $GITHUB_ENV

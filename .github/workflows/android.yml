@@ -33,6 +33,7 @@ jobs:
     - uses: ./.github/workflows/actions/android-pre-build
       with:
         target_branch: ${{ github.event.inputs.release }}
+        secrets: ${{ secrets }}
     - name: Code push release
       env:
         BUILD_NUMBER: ${{ github.run_number }}

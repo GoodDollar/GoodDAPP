@@ -34,30 +34,30 @@ jobs:
       id: git-branch-name
       uses: EthanSK/git-branch-name-action@v1
     - name: Detect and set target branch
-      run: echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
+      run: echo "TARGET_BRANCH=${{ target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
     - name: Pre-checks - Env is Dev
       run: |
         echo "ENV=development" >> $GITHUB_ENV
         echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
         echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-        echo "APPCENTER_TOKEN=${{ inputs.secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
-        echo "APPCENTER_CODEPUSH_TOKEN=${{ inputs.secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
+        echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
+        echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
     - name: Pre-checks - Env is QA
       if: ${{ env.TARGET_BRANCH == 'staging' }}
       run: |
         echo "ENV=staging" >> $GITHUB_ENV
         echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
         echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
-        echo "APPCENTER_TOKEN=${{ inputs.secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
-        echo "APPCENTER_CODEPUSH_TOKEN=${{ inputs.secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
+        echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
+        echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
     - name: Pre-checks - Env is PROD
       if: ${{ env.TARGET_BRANCH == 'next' }}
       run: |
         echo "ENV=prod" >> $GITHUB_ENV
         echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
         echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
-        echo "APPCENTER_TOKEN=${{ inputs.secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
-        echo "APPCENTER_CODEPUSH_TOKEN=${{ inputs.secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
+        echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
+        echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
     - uses: actions/setup-node@v1
       with:
         node-version: 14
@@ -67,14 +67,14 @@ jobs:
         install-command: yarn --frozen-lockfile
     - name: add .env secrets
       env:
-        SENTRYRC: ${{ inputs.secrets.sentryrc_file }}
+        SENTRYRC: ${{ secrets.sentryrc_file }}
       run: |
         env_name="${{ env.ENV }}"
         echo $env_name
         cat .env.$env_name
         echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
         echo "$SENTRYRC" > android/sentry.properties
-        echo "${{ inputs.secrets[env.SECRET_NAME] }}" >> .env.$env_name
+        echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
         echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
     - name: Code push release
       env:
@@ -82,9 +82,10 @@ jobs:
         CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
       run: |
         echo 'Code push release target version "${BUILD_NUMBER}"'
+        echo 'Code push CODE_PUSH_DEPLOYMENT_KEY "${CODE_PUSH_DEPLOYMENT_KEY}"'
         yarn lingui:compile
         yarn add appcenter-cli@^2.*
-        npx appcenter codepush release-react --token "${{ env.APPCENTER_CODEPUSH_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"
+        npx appcenter codepush release-react --token "${CODE_PUSH_DEPLOYMENT_KEY}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"
 
   # This workflow contains a single job called "build"
   build:
@@ -105,6 +106,8 @@ jobs:
       - name: fix max_user_watches
         run: |
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+          echo github.event_name
+          echo github.event.pull_request.merged
       - name: Setup google services file
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
       - name: Set release keystore
@@ -115,30 +118,30 @@ jobs:
         id: git-branch-name
         uses: EthanSK/git-branch-name-action@v1
       - name: Detect and set target branch
-        run: echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
+        run: echo "TARGET_BRANCH=${{ target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ inputs.secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ inputs.secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ inputs.secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ inputs.secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ env.TARGET_BRANCH == 'next' }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ inputs.secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ inputs.secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
@@ -149,14 +152,14 @@ jobs:
           install-command: yarn --frozen-lockfile
       - name: add .env secrets
         env:
-          SENTRYRC: ${{ inputs.secrets.sentryrc_file }}
+          SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           env_name="${{ env.ENV }}"
           echo $env_name
           cat .env.$env_name
           echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
           echo "$SENTRYRC" > android/sentry.properties
-          echo "${{ inputs.secrets[env.SECRET_NAME] }}" >> .env.$env_name
+          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
           echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
       - name: Build Android Release
         env:

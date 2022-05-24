@@ -81,9 +81,9 @@ jobs:
         BUILD_NUMBER: ${{ github.run_number }}
         CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
       run: |
-        echo 'Code push release target version "${{ BUILD_NUMBER }}"'
-        echo 'Code push CODE_PUSH_DEPLOYMENT_KEY "${{ CODE_PUSH_DEPLOYMENT_KEY }}"'
-        echo 'Code push APPCENTER_CODEPUSH_TOKEN "${{ env.APPCENTER_CODEPUSH_TOKEN }}"'
+        echo Code push release target version $BUILD_NUMBER
+        echo Code push CODE_PUSH_DEPLOYMENT_KEY $CODE_PUSH_DEPLOYMENT_KEY
+        echo Code push APPCENTER_CODEPUSH_TOKEN $env.APPCENTER_CODEPUSH_TOKEN
         yarn lingui:compile
         yarn add appcenter-cli@^2.*
         npx appcenter codepush release-react --token "${{ env.APPCENTER_CODEPUSH_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"

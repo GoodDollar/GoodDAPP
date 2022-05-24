@@ -37,8 +37,8 @@ jobs:
       run: echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
     - uses: ./.github/workflows/actions/android-pre-build
       with:
-        target_branch: ${{ github.event.inputs.release }}
-        secrets: ${{ secrets }}
+        target_branch: ${{ env.TARGET_BRANCH }}
+#        secrets: ${{ secrets }}
     - name: Code push release
       env:
         BUILD_NUMBER: ${{ github.run_number }}

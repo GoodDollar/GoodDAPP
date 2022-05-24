@@ -86,7 +86,7 @@ jobs:
         echo Code push APPCENTER_CODEPUSH_TOKEN ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         yarn lingui:compile
         yarn add appcenter-cli@^2.*
-        npx appcenter codepush release-react --token ${{ env.APPCENTER_CODEPUSH_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
+        npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
 
   # This workflow contains a single job called "build"
   build:

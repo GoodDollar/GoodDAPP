@@ -215,10 +215,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     if (ready && userStorage && goodWallet) {
-      // TODO: do not call private methods, create single method sync()
-      // in user storage class designed to be called from outside
-      userStorage.database._syncFromRemote()
-      userStorage.userProperties._syncFromRemote()
+      userStorage.sync()
       refresh() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError()
     }

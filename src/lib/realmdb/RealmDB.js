@@ -1,5 +1,5 @@
 // @flow
-import { invokeMap, once, sortBy } from 'lodash'
+import { isPlainObject, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
@@ -50,14 +50,19 @@ class RealmDB implements DB, ProfileDB {
 
   dbEvents = new EventEmitter()
 
-  sources = [NewsSource, TransactionsSource]
+  sources = [
+    TransactionsSource,
+    {
+      // poll ceramic feed once per some time interval
+      source: NewsSource,
+      syncInterval: Config.ceramicPollInterval,
+    },
+  ]
 
   constructor() {
-    const { sources } = this
+    const { _createSyncSources, sources } = this
 
-    this.sources = invokeMap(sources, 'create', this, log)
-    this.syncMutexes = sources.map(() => new Mutex())
-
+    this.sources = _createSyncSources(sources)
     this.ready = new Promise((resolve, reject) => {
       this.resolve = resolve
       this.reject = reject
@@ -117,7 +122,7 @@ class RealmDB implements DB, ProfileDB {
       this.credentials = Realm.Credentials.jwt(jwt)
 
       await this._connectRealmDB()
-      this._syncFromRemote().catch(e => log.warn('_syncFromRemote failed:', e.message, e))
+      this._syncFromRemote()
 
       return this.user
     } catch (err) {
@@ -195,25 +200,71 @@ class RealmDB implements DB, ProfileDB {
     return this.database.collection('inboxes')
   }
 
+  _createSyncSources = sources =>
+    sources.map(config => {
+      let { source, syncInterval } = config
+
+      if (!isPlainObject(config)) {
+        source = config
+        syncInterval = false
+      }
+
+      return {
+        source: source.create(this, log),
+        mutex: new Mutex(),
+        syncInterval,
+      }
+    })
+
   /**
    * sync between devices.
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
-    const { syncMutexes } = this
+    const { _syncWithSource } = this
 
     await Promise.all(
-      this.sources.map(async (source, index) => {
-        const mutex = syncMutexes[index]
+      this.sources.map(async ({ source, mutex, syncInterval }) => {
+        let release
 
         if (mutex.isLocked()) {
           log.warn('_syncFromRemote: mutex locked, skipping')
           return
         }
 
-        await mutex.lock().then(release => source.syncFromRemote().finally(release))
+        try {
+          release = await mutex.lock()
+        } catch (e) {
+          log.warn('_syncFromRemote: failed obtain mutex lock, skipping', e.message, e)
+          return
+        }
+
+        await _syncWithSource(source, release, syncInterval)
       }),
     )
+  }
+
+  /** @private */
+  _syncWithSource = async (source, release, syncInterval) => {
+    const now = Date.now()
+    let failed = false
+    let interval = 0
+
+    try {
+      await source.syncFromRemote()
+    } catch (e) {
+      failed = true
+      log.warn('_syncFromRemote failed:', e.message, e)
+    }
+
+    // release mutex immediately if sync failed or no interval was configured
+    if (false !== syncInterval && !failed) {
+      // otherwise calculate how much we need to wait to the next polling interval
+      interval = Math.max(0, syncInterval - (Date.now() - now))
+    }
+
+    // wait for release 'in background', return from fn just after sync call
+    setTimeout(release, interval)
   }
 
   /**

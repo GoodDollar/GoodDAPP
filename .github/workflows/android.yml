@@ -81,8 +81,9 @@ jobs:
         BUILD_NUMBER: ${{ github.run_number }}
         CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
       run: |
-        echo 'Code push release target version "${BUILD_NUMBER}"'
-        echo 'Code push CODE_PUSH_DEPLOYMENT_KEY "${CODE_PUSH_DEPLOYMENT_KEY}"'
+        echo 'Code push release target version ${{ BUILD_NUMBER }}'
+        echo 'Code push CODE_PUSH_DEPLOYMENT_KEY ${{ CODE_PUSH_DEPLOYMENT_KEY }}'
+        echo 'Code push APPCENTER_CODEPUSH_TOKEN ${{ env.APPCENTER_CODEPUSH_TOKEN }}'
         yarn lingui:compile
         yarn add appcenter-cli@^2.*
         npx appcenter codepush release-react --token "${{ env.APPCENTER_CODEPUSH_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"
@@ -106,8 +107,8 @@ jobs:
       - name: fix max_user_watches
         run: |
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-          echo $github.event_name
-          echo ${{ github.event.pull_request.merged }}
+          echo ${{ github.event_name }}
+          echo ${{ !!github.event.pull_request.merged }}
       - name: Setup google services file
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
       - name: Set release keystore

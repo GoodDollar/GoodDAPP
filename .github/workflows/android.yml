@@ -83,10 +83,10 @@ jobs:
       run: |
         echo Code push release target version $BUILD_NUMBER
         echo Code push CODE_PUSH_DEPLOYMENT_KEY $CODE_PUSH_DEPLOYMENT_KEY
-        echo Code push APPCENTER_CODEPUSH_TOKEN $env.APPCENTER_CODEPUSH_TOKEN
+        echo Code push APPCENTER_CODEPUSH_TOKEN ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         yarn lingui:compile
         yarn add appcenter-cli@^2.*
-        npx appcenter codepush release-react --token "${{ env.APPCENTER_CODEPUSH_TOKEN }}" -a "${{ env.APPCENTER_NAME }}" -d Production  -t "${BUILD_NUMBER}"
+        npx appcenter codepush release-react --token ${{ env.APPCENTER_CODEPUSH_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
 
   # This workflow contains a single job called "build"
   build:
@@ -107,8 +107,14 @@ jobs:
       - name: fix max_user_watches
         run: |
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-          echo ${{ github.event_name }}
-          echo ${{ !!github.event.pull_request.merged }}
+          echo ${{
+                       github.event_name == 'workflow_dispatch' ||
+                       (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
+                       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
+                       (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))
+                     }}
+          echo ${{ github.ref }}
+          echo ${{ github.event.head_commit.message }}
       - name: Setup google services file
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
       - name: Set release keystore

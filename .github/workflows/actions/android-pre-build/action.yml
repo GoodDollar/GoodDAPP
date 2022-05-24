@@ -4,8 +4,6 @@ inputs:
     required: false
     default: ''
     type: string
-  secrets:
-    required: true
 runs:
   steps:
 #  - uses: actions/checkout@v2
@@ -17,17 +15,19 @@ runs:
 #    shell: bash
   - name: Pre-checks - Env is Dev
     env:
-      APPCENTER_ANDROID_DEV: ${{ inputs.secrets.APPCENTER_ANDROID_DEV }}
-      APPCENTER_CODEPUSH_DEV: ${{ inputs.secrets.APPCENTER_CODEPUSH_DEV }}
+#      APPCENTER_ANDROID_DEV: ${{ inputs.secrets.APPCENTER_ANDROID_DEV }}
+#      APPCENTER_CODEPUSH_DEV: ${{ inputs.secrets.APPCENTER_CODEPUSH_DEV }}
+      target_branch: ${{ inputs.target_branch }}
     run: |
-      echo APPCENTER_ANDROID_DEV $APPCENTER_ANDROID_DEV
-      echo APPCENTER_ANDROID_DEV $APPCENTER_ANDROID_DEV
+#      echo APPCENTER_ANDROID_DEV $APPCENTER_ANDROID_DEV
+#      echo APPCENTER_ANDROID_DEV $APPCENTER_ANDROID_DEV
       echo target_branch ${{ inputs.target_branch }}
-      echo "ENV=development" >> $GITHUB_ENV
-      echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
-      echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-      echo "APPCENTER_TOKEN=$APPCENTER_ANDROID_DEV" >> $GITHUB_ENV
-      echo "APPCENTER_CODEPUSH_TOKEN=$APPCENTER_CODEPUSH_DEV" >> $GITHUB_ENV
+      echo target_branch local $target_branch
+#      echo "ENV=development" >> $GITHUB_ENV
+#      echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+#      echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
+#      echo "APPCENTER_TOKEN=$APPCENTER_ANDROID_DEV" >> $GITHUB_ENV
+#      echo "APPCENTER_CODEPUSH_TOKEN=$APPCENTER_CODEPUSH_DEV" >> $GITHUB_ENV
     shell: bash
 #  - name: Pre-checks - Env is QA
 #    if: ${{ env.TARGET_BRANCH == 'staging' }}

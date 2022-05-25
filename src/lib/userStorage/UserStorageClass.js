@@ -1,6 +1,6 @@
 //@flow
 
-import { assign, get, isEqual, keys, memoize, pick } from 'lodash'
+import { assign, get, invokeMap, isEqual, keys, memoize, pick } from 'lodash'
 
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -858,6 +858,14 @@ export class UserStorage {
       this._formatEvent.cache.delete(event)
       return {}
     }
+  }
+
+  async sync() {
+    const { database, userProperties } = this
+
+    await Promise.all(invokeMap([database, userProperties], '_syncFromRemote')).catch(e =>
+      logger.warn('_syncFromRemote failed:', e.message, e),
+    )
   }
 
   _formatEvent = memoize(async event => {

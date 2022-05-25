@@ -15,7 +15,6 @@ const { ceramicIndex, ceramicLiveIndex, ceramicBatchSize } = Config
 const log = logger.child({ from: 'CeramicFeed' })
 const nonEmpty = negate(isEmpty)
 
-// TODO: add logging
 class Post extends CeramicModel {
   static index = ceramicIndex
 

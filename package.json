@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.39.1",
+  "version": "1.39.2-0",
   "engines": {
     "node": ">=12",
     "npm": "6.x"
@@ -70,8 +70,8 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@amplitude/react-native": "^2.5.0",
-    "@ceramicnetwork/http-client": "^1.5.7",
-    "@ceramicnetwork/stream-tile": "^1.5.7",
+    "@ceramicnetwork/http-client": "^2.0.4",
+    "@ceramicnetwork/stream-tile": "^2.1.3",
     "@expo/react-native-action-sheet": "^3.9.0",
     "@gooddollar/goodcontracts": "^2.6.2",
     "@gooddollar/goodprotocol": "^1.0.18",
@@ -369,11 +369,17 @@
     "tagPattern": "^v[\\.0-9]+$"
   },
   "lingui": {
-    "catalogs": [{
-      "path": "<rootDir>/src/language/locales/{locale}/catalog",
-      "include": ["<rootDir>/src"],
-      "exclude": ["**/__tests__/**"]
-    }],
+    "catalogs": [
+      {
+        "path": "<rootDir>/src/language/locales/{locale}/catalog",
+        "include": [
+          "<rootDir>/src"
+        ],
+        "exclude": [
+          "**/__tests__/**"
+        ]
+      }
+    ],
     "format": "minimal",
     "sourceLocale": "en",
     "locales": [

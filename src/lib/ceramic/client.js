@@ -5,7 +5,7 @@
 import { CeramicClient } from '@ceramicnetwork/http-client'
 import { TileDocument } from '@ceramicnetwork/stream-tile'
 
-import { once } from 'lodash'
+import { assign, once } from 'lodash'
 
 import Config from '../../config/config'
 import { batch } from '../../lib/utils/async'
@@ -46,9 +46,17 @@ export class CeramicModel {
 
   static async find(id: any): Promise<TileDocument> {
     const { content } = await this._getIndex()
+    const documentId = String(id)
 
-    if (!content.items.includes(String(id))) {
-      throw new Error(`Ceramic document with '${id}' ID doesn't exists or have been removed`)
+    if (!content.items.includes(documentId)) {
+      const exception = new Error(`Ceramic document with '${documentId}' ID doesn't exists or have been removed`)
+
+      assign(exception, {
+        documentId,
+        name: 'DOCUMENT_NOT_FOUND',
+      })
+
+      throw exception
     }
 
     return this.loadDocument(id)

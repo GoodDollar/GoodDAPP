@@ -111,6 +111,8 @@ export default class NewsSource extends FeedSource {
             if ('DOCUMENT_NOT_FOUND' !== exception.name) {
               throw exception
             }
+
+            log.warn('imported ceramic feed item not exists', exception.message, exception, { postId, action })
           }
 
           if (post) {

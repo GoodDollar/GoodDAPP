@@ -16,7 +16,7 @@ import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, flatten, get, last, mapValues, maxBy, range, sortBy, uniqBy, values } from 'lodash'
+import { chunk, flatten, get, identity, last, mapValues, maxBy, pickBy, range, sortBy, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
@@ -303,13 +303,17 @@ export class GoodWallet {
         if (this.isPollEvents === false) {
           return
         }
-        let nextLastBlock = await retry(() => this.wallet.eth.getBlockNumber())
-        if (nextLastBlock <= this.lastEventsBlock) {
+        let lastBlock = await retry(() => this.wallet.eth.getBlockNumber())
+        if (lastBlock <= this.lastEventsBlock) {
           // if next block not mined yet
           return
         }
-        nextLastBlock = Math.min(nextLastBlock, this.lastEventsBlock + STEP)
-        const events = flatten(await fn(nextLastBlock)) //await callback to finish processing events before updating lastEventblock
+        let nextLastBlock = Math.min(lastBlock, this.lastEventsBlock + STEP)
+
+        //await callback to finish processing events before updating lastEventblock
+        //we pass nextlastblock as null so the request naturally requests until the last block a node has,
+        //this is to prevent errors where some nodes for some reason still dont have the last block
+        const events = flatten(await fn(nextLastBlock < lastBlock ? nextLastBlock : null))
         if (events.length) {
           const lastEvent = maxBy(events, 'blockNumber')
           this._notifyEvents(flatten(events), this.lastEventsBlock)
@@ -409,11 +413,14 @@ export class GoodWallet {
     const fromBlock = from || this.lastEventsBlock
     const contract = this.erc20Contract
 
-    const fromEventsFilter = {
-      fromBlock,
-      toBlock,
-      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
-    }
+    const fromEventsFilter = pickBy(
+      {
+        fromBlock,
+        toBlock,
+        filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+      },
+      identity,
+    )
 
     const events = await retry(() => contract.getPastEvents('Transfer', fromEventsFilter)).catch((e = {}) => {
       //just warn about block not  found which is recoverable
@@ -434,11 +441,14 @@ export class GoodWallet {
     const fromBlock = from || this.lastEventsBlock
     const contract = this.erc20Contract
 
-    const toEventsFilter = {
-      fromBlock,
-      toBlock,
-      filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
-    }
+    const toEventsFilter = pickBy(
+      {
+        fromBlock,
+        toBlock,
+        filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
+      },
+      identity,
+    )
 
     const events = await retry(() => contract.getPastEvents('Transfer', toEventsFilter)).catch((e = {}) => {
       //just warn about block not  found which is recoverable
@@ -459,11 +469,14 @@ export class GoodWallet {
     const fromBlock = from || this.lastEventsBlock
     const contract = this.oneTimePaymentsContract
 
-    const fromEventsFilter = {
-      fromBlock,
-      toBlock,
-      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
-    }
+    let fromEventsFilter = pickBy(
+      {
+        fromBlock,
+        toBlock,
+        filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+      },
+      identity,
+    )
 
     log.debug('pollOTPLEvents call', { fromEventsFilter })
 

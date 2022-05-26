@@ -29,12 +29,6 @@ jobs:
     name: Hot Code Push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Git branch name
-        id: git-branch-name
-        uses: EthanSK/git-branch-name-action@v1
-      - name: Detect and set target branch
-        run: echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
@@ -43,7 +37,7 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
-        if: ${{ env.TARGET_BRANCH == 'staging' }}
+        if: ${{ endsWith(github.ref, '/staging' }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
@@ -51,13 +45,14 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
-        if: ${{ env.TARGET_BRANCH == 'next' }}
+        if: ${{ endsWith(github.ref, '/next' }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v1
         with:
           node-version: 14
@@ -85,7 +80,6 @@ jobs:
           echo Code push CODE_PUSH_DEPLOYMENT_KEY $CODE_PUSH_DEPLOYMENT_KEY
           echo Code push APPCENTER_CODEPUSH_TOKEN ${{ env.APPCENTER_CODEPUSH_TOKEN }}
           yarn lingui:compile
-          yarn add appcenter-cli@^2.*
           npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
 
   # This workflow contains a single job called "build"
@@ -101,16 +95,6 @@ jobs:
       (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
-      - name: fix max_user_watches
-        run: |
-          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-      - name: Setup google services file
-        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
-      - name: Set release keystore
-        run: |
-          echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
       - name: Git branch name
         id: git-branch-name
         uses: EthanSK/git-branch-name-action@v1
@@ -140,9 +124,14 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - name: fix max_user_watches
+        run: |
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
@@ -158,6 +147,12 @@ jobs:
           echo "$SENTRYRC" > android/sentry.properties
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
           echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
+      - name: Setup google services file
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
+      - name: Set release keystore
+        run: |
+          echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
       - name: Build Android Release
         env:
           RELEASE_ANDROID_PASSPHRASE: ${{ secrets.RELEASE_ANDROID_PASSPHRASE }}
@@ -180,7 +175,6 @@ jobs:
       - name: Deploy to App Center
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
-          yarn add appcenter-cli@^2.*
           npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
       - name: Distribute to stores - PROD ONLY
         if: ${{ env.ENV == 'prod' }}

@@ -21,9 +21,6 @@ import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
-import ShareTransaction from 'components/ShareTransaction'
-import Share from 'components/Share'
-
 export interface StakeDepositModalProps {
     stake: Stake
     onDeposit?: () => any
@@ -145,47 +142,6 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
             })
         } finally {
             dispatch({ type: 'TOGGLE_LOADING' })
-        }
-    }
-
-    const getPostData = () => {
-        switch (activeTableName) {
-            case 'GoodDAO Staking':
-                return {
-                    copyText: 'I just staked GoodDollars at https://goodswap.xyz to make the world better',
-                    linkedin: {
-                        url: 'https://gooddollar.org'
-                    },
-                    twitter: {
-                        url: 'https://gooddollar.org',
-                        title: 'I just staked GoodDollars at https://goodswap.xyz to make the world better ',
-                        hashtags: ['InvestForGood']
-                    },
-                    facebook: {
-                        url: 'https://gooddollar.org',
-                        hashtag: '#InvestForGood'
-                    }
-                }
-            case 'GoodStakes':
-                return {
-                    copyText:
-                        'I just staked [DAI|USDC] at https://goodswap.xyz to generate UBI for thousands of user and make the world better',
-                    linkedin: {
-                        url: 'https://gooddollar.org'
-                    },
-                    twitter: {
-                        url: 'https://gooddollar.org',
-                        title:
-                            ' just staked [DAI|USDC] at https://goodswap.xyz to generate UBI for thousands of user and make the world better',
-                        hashtags: ['InvestForGood']
-                    },
-                    facebook: {
-                        url: 'https://gooddollar.org',
-                        hashtag: '#InvestForGood'
-                    }
-                }
-            default:
-                throw Error(`Unknown activeTableName - ${activeTableName}`)
         }
     }
 
@@ -369,14 +325,11 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         {state.loading ? (
                             <Loader stroke="#173046" size="32px" />
                         ) : (
-                            <>
-                                <Link to="/portfolio">
-                                    <ButtonDefault className="px-6 uppercase" width="auto">
-                                        {i18n._(t`Go to Portfolio`)}
-                                    </ButtonDefault>
-                                </Link>
-                                <Share title={i18n._(t`Share with friends`)} {...getPostData()} />
-                            </>
+                            <Link to="/portfolio">
+                                <ButtonDefault className="px-6 uppercase" width="auto">
+                                    {i18n._(t`Go to Portfolio`)}
+                                </ButtonDefault>
+                            </Link>
                         )}
                     </div>
                 </>

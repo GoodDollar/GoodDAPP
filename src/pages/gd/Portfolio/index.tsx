@@ -74,6 +74,7 @@ const Portfolio = () => {
         }
     }, [account, mainnetChainId, fuseChainId])
 
+
     const showNotice = data?.list.find(stake => stake.isDeprecated)
 
     useCallbackOnFocus(update)
@@ -180,17 +181,12 @@ const Portfolio = () => {
                 </PortfolioAnalyticSC>
             </Card>
             <PortfolioTitleSC className="pl-2 mb-3">{i18n._(`Positions`)}</PortfolioTitleSC>
-            <Card contentWrapped={false} style={{ position: 'relative' }}>
-                {showNotice && (
-                    <AppNotice
-                        text={'Please withdraw your funds from all deprecated contracts and use our new'}
-                        link={[
-                            'https://goodswap.xyz/#/stakes',
-                            'https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/'
-                        ]}
-                        show={true}
-                    ></AppNotice>
-                )}
+            <Card contentWrapped={false} style={{position:'relative'}}>
+            {showNotice && (
+                  <AppNotice text={'Please withdraw your funds from all deprecated contracts and use our new' } 
+                    link={['https://goodswap.xyz/#/stakes','https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/']} 
+                    show={true}></AppNotice> 
+               )}
                 <Table
                     header={
                         <tr>

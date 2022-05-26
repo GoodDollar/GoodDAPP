@@ -122,14 +122,14 @@ const EditProfile = ({ screenProps, styles }) => {
     }
   }, [validate, profile, setSaving, storedProfile, showErrorDialog, userStorage])
 
+  useEffect(() => {
+    setProfile(storedProfile)
+  }, [storedProfile, setProfile])
+
   // Validate after saving profile state in order to show errors
   useEffect(() => {
     validate()
-  }, [profile])
-
-  useEffect(() => {
-    setProfile(storedProfile)
-  }, [storedProfile])
+  }, [profile, validate])
 
   return (
     <Wrapper>

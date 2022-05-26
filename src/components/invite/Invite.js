@@ -112,15 +112,6 @@ const ShareBox = ({ level, styles }) => {
     abTestMessage,
   ])
 
-  const shareUrlStyle = useMemo(
-    () =>
-      Platform.select({
-        web: [styles.shareLink, styles.shareLinkWeb],
-        default: styles.shareLink,
-      }),
-    [],
-  )
-
   useEffect(() => log.debug('Generated share object', { share }), [share])
 
   return (
@@ -145,7 +136,7 @@ const ShareBox = ({ level, styles }) => {
           fontSize={getDesignRelativeWidth(10, false)}
           fontWeight={'medium'}
           lineHeight={30}
-          style={shareUrlStyle}
+          style={styles.shareLink}
         >
           {shareUrl}
         </Text>

@@ -131,7 +131,7 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
 const Dashboard = props => {
   const feedRef = useRef([])
   const resizeSubscriptionRef = useRef()
-  const balanceBlockWidth = useRef(70)
+  const balanceBlockWidthRef = useRef(70)
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
   const [headerHeightAnimValue] = useState(new Animated.Value(176))
@@ -403,10 +403,10 @@ const Dashboard = props => {
 
     // calculate left margin for aligning the balance to the right
     // - 20 is to give more space to the number, otherwise (in native) it gets cut on the right side
-    const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidth.current - 20
+    const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidthRef.current - 20
 
     if (headerLarge) {
-      //useNativeDriver is always false because native doesnt support animating height
+      // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
           toValue: 68,
@@ -452,7 +452,7 @@ const Dashboard = props => {
         }),
       ]).start()
     } else {
-      //useNativeDriver is always false because native doesnt support animating height
+      // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
           toValue: 42,
@@ -633,7 +633,7 @@ const Dashboard = props => {
   )
 
   const onBalanceLayout = useCallback(
-    ({ nativeEvent }) => (balanceBlockWidth.current = get(nativeEvent, 'layout.width', 0)),
+    ({ nativeEvent }) => (balanceBlockWidthRef.current = get(nativeEvent, 'layout.width', 0)),
     [],
   )
 

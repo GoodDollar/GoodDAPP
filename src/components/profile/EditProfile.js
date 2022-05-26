@@ -127,6 +127,10 @@ const EditProfile = ({ screenProps, styles }) => {
     validate()
   }, [profile])
 
+  useEffect(() => {
+    setProfile(storedProfile)
+  }, [storedProfile])
+
   return (
     <Wrapper>
       <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>

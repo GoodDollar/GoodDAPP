@@ -28,18 +28,11 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 stake={stake}
             />
             <tr>
+                <td>{
+                stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? !stake.isDeprecated ? "Governance" : "Governance (Deprecated)" 
+                  : !stake.isDeprecated ? "UBI" : "UBI (Deprecated)"}</td>
                 <td>
-                    {stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO
-                        ? !stake.isDeprecated
-                            ? 'Governance'
-                            : 'Governance (Deprecated)'
-                        : !stake.isDeprecated
-                        ? 'UBI'
-                        : 'UBI (Deprecated)'}
-                </td>
-                <td>
-                    {stake.tokens.A.symbol}
-                    {stake.tokens.A.address !== stake.tokens.B.address ?? `/ ${stake.tokens.B.symbol}`}
+                    {stake.tokens.A.symbol}{stake.tokens.A.address !== stake.tokens.B.address ?? `/ ${stake.tokens.B.symbol}`}
                 </td>
                 <td>{stake.protocol}</td>
                 <td>
@@ -49,37 +42,27 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                     </span>{' '}
                     <br />~{stake.stake.amount$.toFixed(2, { groupSeparator: ',' })}$
                 </td>
-                {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (
-                    <td className="whitespace-nowrap">
-                        {stake.rewards.reward &&
-                            stake.rewards.reward.claimed
-                                .add(stake.rewards.reward.unclaimed)
-                                .toSignificant(6, { groupSeparator: ',' })}{' '}
-                        {stake.rewards.reward && stake.rewards.reward.claimed.currency.symbol} <br />~
-                        {stake.rewards.reward$ &&
-                            stake.rewards.reward$.claimed
-                                .add(stake.rewards.reward$.unclaimed)
-                                .toFixed(2, { groupSeparator: ',' })}
-                        $
-                    </td>
-                ) : (
-                    <td className="text-center"> - </td>
-                )}
-                {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (
-                    <td className="whitespace-nowrap">
-                        {stake.multiplier ? (
-                            <>{i18n._(t`This month`)} 2.0X</>
-                        ) : (
-                            <>
-                                {i18n._(t`This month`)} 1.0X
-                                <br />
-                                {i18n._(t`Next month:`)} 2.0X
-                            </>
-                        )}
-                    </td>
-                ) : (
-                    <td className="text-center"> - </td>
-                )}
+                {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (<td className="whitespace-nowrap">
+                    {stake.rewards.reward && stake.rewards.reward.claimed
+                        .add(stake.rewards.reward.unclaimed)
+                        .toSignificant(6, { groupSeparator: ',' })}{' '}
+                    {stake.rewards.reward && stake.rewards.reward.claimed.currency.symbol} <br />~
+                    {stake.rewards.reward$ && stake.rewards.reward$.claimed
+                        .add(stake.rewards.reward$.unclaimed)
+                        .toFixed(2, { groupSeparator: ',' })}
+                    $
+                </td>) : <td className="text-center"> - </td>}
+                {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (<td className="whitespace-nowrap">
+                    {stake.multiplier ? (
+                        <>{i18n._(t`This month`)} 2.0X</>
+                    ) : (
+                        <>
+                            {i18n._(t`This month`)} 1.0X
+                            <br />
+                            {i18n._(t`Next month:`)} 2.0X
+                        </>
+                    )}
+                </td>) : <td className="text-center"> - </td>}
                 <td>
                     {stake.rewards.GDAO.claimed
                         .add(stake.rewards.GDAO.unclaimed)
@@ -93,9 +76,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                             width="100%"
                             borderRadius="6px"
                             noShadow={true}
-                            requireNetwork={
-                                stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-                            }
+                            requireNetwork={stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET}
                             onClick={handleWithdrawOpen}
                         >
                             {i18n._(t`Withdraw`)}
@@ -110,9 +91,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                         width="100%"
                         borderRadius="6px"
                         noShadow={true}
-                        requireNetwork={
-                            stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-                        }
+                        requireNetwork={stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET}
                         onClick={handleWithdrawOpen}
                     >
                         {i18n._(t`Withdraw`)}

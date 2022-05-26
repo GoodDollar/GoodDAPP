@@ -9,37 +9,25 @@ import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { useNetworkModalToggle } from 'state/application/hooks'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const ActionOrSwitchButton = ({
-    requireNetwork,
-    children,
-    ButtonEl = ButtonAction,
-    ...props
-}: {
+export const ActionOrSwitchButton = ({ requireNetwork, children, ButtonEl = ButtonAction, ...props }: {
     width?: string
     borderRadius?: string
     error?: boolean
     size?: 'default' | 'sm'
     noShadow?: boolean
-    requireNetwork: DAO_NETWORK
-    children: any
-    onClick?: any
-    ButtonEl?: any
+    requireNetwork: DAO_NETWORK,
+    children: any,
+    onClick?: any,
+    ButtonEl?: any,
     disabled?: boolean
-    className?: string
 }) => {
     const toggleNetworkModal = useNetworkModalToggle()
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     // useEffect(() => { }, [chainId, account])
-    if (
-        (chainId === (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.FUSE) ||
-        (chainId !== (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.MAINNET)
-    )
-        return <ButtonEl {...props}>{children}</ButtonEl>
+    if (chainId === SupportedChainId.FUSE as number && requireNetwork === DAO_NETWORK.FUSE || chainId !== SupportedChainId.FUSE as number && requireNetwork === DAO_NETWORK.MAINNET)
+        return <ButtonEl {...props} >{children}</ButtonEl >
 
-    return (
-        <ButtonEl {...props} onClick={toggleNetworkModal}>
-            {i18n._(`Switch to {network}`, { network: requireNetwork })}
-        </ButtonEl>
-    )
+    return <ButtonEl {...props} onClick={toggleNetworkModal}>{i18n._(`Switch to {network}`, { network: requireNetwork })}</ButtonEl >
+
 }

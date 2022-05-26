@@ -23,11 +23,6 @@ export const PortfolioTitleSC = styled.div`
             }
         }
     }
-
-    @media screen and (max-width: 768px) {
-        font-size: 16px;
-        line-height: 16px;
-    }
 `
 
 export const PortfolioValueSC = styled.div`
@@ -47,10 +42,6 @@ export const PortfolioValueSC = styled.div`
     @media ${({ theme }) => theme.media.md} {
         font-size: 16px;
         margin-bottom: 10px;
-    }
-
-    @media screen and (max-width: 768px) {
-        margin: 2px 0 0;
     }
 `
 
@@ -82,7 +73,6 @@ export const PortfolioAnalyticSC = styled.div`
 
     @media ${({ theme }) => theme.media.md} {
         flex-wrap: wrap;
-        flex-direction: column;
         height: unset;
 
         > * {
@@ -91,18 +81,6 @@ export const PortfolioAnalyticSC = styled.div`
 
         ${ButtonDefault} {
             width: 100%;
-        }
-
-        .segment {
-            padding: 0;
-        }
-
-        .social-contribution {
-            width: 100%;
-        }
-
-        ${TitleSC}.category {
-            line-height: 24px;
         }
     }
 `
@@ -152,38 +130,6 @@ export const PortfolioSC = styled.div`
             td:nth-child(6) {
                 display: none;
             }
-        }
-    }
-
-    @media screen and (max-width: 768px) {
-        .segment:not(:first-child) {
-            margin-top: 16px;
-        }
-
-        .card {
-            padding: 14px;
-
-            & > div {
-                padding: 8px;
-            }
-        }
-
-        .withdraw-buttons {
-            gap: 4px;
-
-            .withdraw-button {
-                flex-grow: 1;
-                min-height: 32px;
-            }
-
-            ${ButtonDefault} {
-                height: auto;
-            }
-        }
-
-        .actionButton {
-            font-size: 16px;
-            line-height: 16px;
         }
     }
 

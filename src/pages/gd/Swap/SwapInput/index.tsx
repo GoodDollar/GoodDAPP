@@ -29,27 +29,25 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, .
     )
 
     return (
-        <>
-            <SwapInputSC className={className} style={style}>
-                {balance != undefined && autoMax && (
-                    <SwapInputMaxButton disabled={inputProps.disabled} onClick={onMax}>
-                        {i18n._(t`max`)}
-                    </SwapInputMaxButton>
-                )}
-                <MaskedInput
-                    placeholder={'0.' + '0'.repeat(Math.min(decimals, 2))}
-                    mask={mask}
-                    guide={false}
-                    size={1}
-                    {...inputProps}
-                />
-            </SwapInputSC>
+        <SwapInputSC className={className} style={style}>
+            {balance != undefined && autoMax && (
+                <SwapInputMaxButton disabled={inputProps.disabled} onClick={onMax}>
+                    {i18n._(t`max`)}
+                </SwapInputMaxButton>
+            )}
+            <MaskedInput
+                placeholder={'0.' + '0'.repeat(Math.min(decimals, 2))}
+                mask={mask}
+                guide={false}
+                size={1}
+                {...inputProps}
+            />
             {balance != undefined && (
-                <SwapInputBalance className="mt-2">
+                <SwapInputBalance>
                     {i18n._(t`Balance`)}: {balance}
                 </SwapInputBalance>
             )}
-        </>
+        </SwapInputSC>
     )
 }
 

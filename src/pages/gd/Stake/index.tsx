@@ -8,7 +8,6 @@ import useSearchAndSort from 'hooks/useSearchAndSort'
 import { useLingui } from '@lingui/react'
 import Modal from 'components/Modal'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
-import { ButtonOutlined } from 'components/gd/Button'
 
 import Table from 'components/gd/Table'
 import useWeb3 from 'hooks/useWeb3'
@@ -25,83 +24,6 @@ import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import { getNetworkEnv } from 'sdk/constants/addresses'
-
-import { useWindowSize } from 'hooks/useWindowSize'
-import styled from 'styled-components'
-
-const CellSC = styled.div`
-    position: relative;
-    padding: 16px 0;
-    display: grid;
-    grid-gap: 17px;
-    grid-template-areas:
-        't t t'
-        'a b c'
-        'd e e'
-        'f f f';
-
-    .part {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .title {
-        text-transform: capitalize;
-        font-size: 10px;
-        line-height: 14px;
-        font-weight: 500;
-    }
-
-    .value {
-        font-size: 12px;
-        line-height: 14px;
-        font-weight: bold;
-    }
-
-    .token {
-        grid-area: t;
-        font-size: 18px;
-        line-height: 24px;
-    }
-
-    .protocol {
-        grid-area: a;
-    }
-
-    .apy {
-        grid-area: b;
-    }
-
-    .socialapy {
-        grid-area: c;
-    }
-
-    .liquidity {
-        grid-area: d;
-    }
-
-    .total {
-        grid-area: e;
-    }
-
-    .stake {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 16px;
-        grid-area: f;
-    }
-
-    &:not(:last-of-type):after {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        content: '';
-        height: 0;
-        border: 1px solid #e9ecff;
-        width: calc(100% + 34px);
-    }
-`
 
 const StakeTable = ({
     list,
@@ -125,161 +47,10 @@ const StakeTable = ({
     const { i18n } = useLingui()
     const securityNotice = false
 
-    const { width } = useWindowSize()
-
-    const isMobile = width ? width <= 768 : undefined
-
-    const headings = {
-        token: {
-            name: i18n._(t`Token`),
-            text: i18n._(t`This is the token that is currently available to stake to the Fund.`)
-        },
-        protocol: {
-            name: i18n._(t`Protocol`),
-            text: i18n._(t`This is the protocol that the token will be staked to.`)
-        },
-        APY: {
-            name: i18n._(t`APY`),
-            text: i18n._(t`Annual Percentage Yield (APY) is the percentage yield being earned.`)
-        },
-        socialAPY: {
-            name: i18n._(t`Social APY`),
-            text: i18n._(t`This is the annual percentage of UBI your stake will create.`)
-        },
-        liquidity: {
-            name: i18n._(t`Liquidity`),
-            text: i18n._(t`Liquidity is the total value staked in the GoodDollar Trust staking contract (USD).`)
-        },
-        totalRewards: {
-            name: i18n._(t`Total Rewards`),
-            text: i18n._(t`These are the total yearly rewards in G$ and GOOD.`)
-        }
-    }
-
     // TODO: look into loading variable, it's not updating properly (loading text doesn't appear now)
     // console.log('stake loading table -->', loading)
 
-    return isMobile ? (
-        <>
-            {loading && !list.items.length && (
-                <div>
-                    <div className="text-center">{i18n._(t`Loading...`)}</div>
-                </div>
-            )}
-            {!loading && !list.items && (
-                <div>
-                    <div className="text-center">{error ? error.message : i18n._(t`No data.`)}</div>
-                </div>
-            )}
-            {list.items &&
-                list.items.map((stake: Stake) => (
-                    <CellSC key={stake.address}>
-                        <div className="token font-bold flex flex-nowrap items-center">
-                            <AsyncTokenIcon
-                                address={stake.tokens.A.address}
-                                chainId={stake.tokens.A.chainId as number}
-                                className="block w-5 h-5 rounded-lg w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 mr-2"
-                            />
-                            <div>
-                                <div className="whitespace-nowrap">
-                                    {stake.tokens.A.symbol}
-                                    {stake.tokens.B !== stake.tokens.A && `/${stake.tokens.B.symbol}`}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="protocol">
-                            <ListHeaderWithSort sort={list} sortKey="protocol" className="title">
-                                <div className="flex items-center">
-                                    {headings.protocol.name}
-                                    <QuestionHelper text={headings.protocol.text} />
-                                </div>
-                            </ListHeaderWithSort>
-                            <div className="value">{stake.protocol}</div>
-                        </div>
-                        <div className="apy">
-                            <ListHeaderWithSort sort={list} sortKey="APY" direction="descending" className="title">
-                                <div className="flex items-center">
-                                    {headings.APY.name}
-                                    <QuestionHelper text={headings.APY.text} />
-                                </div>
-                            </ListHeaderWithSort>
-                            <div className="value">{stake.APY ? `${stake.APY?.toFixed(2)}%` : '-'}</div>
-                        </div>
-                        <div className="socialapy">
-                            <ListHeaderWithSort
-                                sort={list}
-                                sortKey="socialAPY"
-                                direction="descending"
-                                className="title"
-                            >
-                                <div className="flex items-center">
-                                    {headings.socialAPY.name}
-                                    <QuestionHelper text={headings.socialAPY.text} />
-                                </div>
-                            </ListHeaderWithSort>
-                            <div className="value">{stake.socialAPY.toFixed(2)}%</div>
-                        </div>
-                        <div className="liquidity">
-                            <ListHeaderWithSort
-                                sort={list}
-                                sortKey="liquidity"
-                                direction="descending"
-                                className="title"
-                            >
-                                <div className="flex items-center">
-                                    {headings.liquidity.name}
-                                    <QuestionHelper text={headings.liquidity.text} />
-                                </div>
-                            </ListHeaderWithSort>
-                            <div className="value">
-                                {stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'G$' : '$'}
-                                {stake.liquidity.toSignificant(6, { groupSeparator: ',' })}
-                            </div>
-                        </div>
-                        <div className="total">
-                            <ListHeaderWithSort
-                                sort={list}
-                                sortKey={rewardsSortKey}
-                                direction="descending"
-                                className="title"
-                            >
-                                <div className="flex items-center">
-                                    {headings.totalRewards.name}
-                                    <QuestionHelper text={headings.totalRewards.text} />
-                                </div>
-                            </ListHeaderWithSort>
-                            <div className="value">
-                                {stake.rewards.G$.greaterThan(0) && (
-                                    <div className="whitespace-nowrap">
-                                        {stake.rewards.G$.toFixed(2, { groupSeparator: ',' })}{' '}
-                                        {stake.rewards.G$.currency.symbol}
-                                    </div>
-                                )}
-                                <div className="whitespace-nowrap">
-                                    {stake.rewards.GDAO.toFixed(2, { groupSeparator: ',' })}{' '}
-                                    {stake.rewards.GDAO.currency.symbol}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="stake">
-                            <ActionOrSwitchButton
-                                size="sm"
-                                borderRadius="6px"
-                                noShadow={true}
-                                requireNetwork={network}
-                                onClick={() => {
-                                    setActiveStake(stake)
-                                    setActiveTableName()
-                                }}
-                                ButtonEl={ButtonOutlined}
-                            >
-                                {i18n._(t`Stake`)}
-                            </ActionOrSwitchButton>
-                        </div>
-                    </CellSC>
-                ))}
-        </>
-    ) : (
+    return (
         <Wrapper>
             <Table
                 header={
@@ -288,15 +59,22 @@ const StakeTable = ({
                         <th>
                             <ListHeaderWithSort sort={list} sortKey="tokens.A.symbol">
                                 <div className="flex items-center">
-                                    {headings.token.name} <QuestionHelper text={headings.token.text} />
+                                    {i18n._(t`Token`)}{' '}
+                                    <QuestionHelper
+                                        text={i18n._(
+                                            t`This is the token that is currently available to stake to the Fund.`
+                                        )}
+                                    />
                                 </div>
                             </ListHeaderWithSort>
                         </th>
                         <th>
                             <ListHeaderWithSort sort={list} sortKey="protocol">
                                 <div className="flex items-center">
-                                    {headings.protocol.name}
-                                    <QuestionHelper text={headings.protocol.text} />
+                                    {i18n._(t`Protocol`)}
+                                    <QuestionHelper
+                                        text={i18n._(t`This is the protocol that the token will be staked to.`)}
+                                    />
                                 </div>
                             </ListHeaderWithSort>
                         </th>
@@ -304,8 +82,12 @@ const StakeTable = ({
                             <th>
                                 <ListHeaderWithSort sort={list} sortKey="APY" direction="descending">
                                     <div className="flex items-center">
-                                        {headings.APY.name}
-                                        <QuestionHelper text={headings.APY.text} />
+                                        {i18n._(t`APY`)}
+                                        <QuestionHelper
+                                            text={i18n._(
+                                                t`Annual Percentage Yield (APY) is the percentage yield being earned.`
+                                            )}
+                                        />
                                     </div>
                                 </ListHeaderWithSort>
                             </th>
@@ -313,24 +95,32 @@ const StakeTable = ({
                         <th>
                             <ListHeaderWithSort sort={list} sortKey="socialAPY" direction="descending">
                                 <div className="flex items-center">
-                                    {headings.socialAPY.name}
-                                    <QuestionHelper text={headings.socialAPY.text} />
+                                    {i18n._(t`Social APY`)}
+                                    <QuestionHelper
+                                        text={i18n._(t`This is the annual percentage of UBI your stake will create.`)}
+                                    />
                                 </div>
                             </ListHeaderWithSort>
                         </th>
                         <th>
                             <ListHeaderWithSort sort={list} sortKey="liquidity" direction="descending">
                                 <div className="flex items-center">
-                                    {headings.liquidity.name}
-                                    <QuestionHelper text={headings.liquidity.text} />
+                                    {i18n._(t`Liquidity`)}
+                                    <QuestionHelper
+                                        text={i18n._(
+                                            t`Liquidity is the total value staked in the GoodDollar Trust staking contract (USD).`
+                                        )}
+                                    />
                                 </div>
                             </ListHeaderWithSort>
                         </th>
                         <th>
                             <ListHeaderWithSort sort={list} sortKey={rewardsSortKey} direction="descending">
                                 <div className="flex items-center">
-                                    {headings.totalRewards.name}
-                                    <QuestionHelper text={headings.totalRewards.text} />
+                                    {i18n._(t`Total Rewards`)}
+                                    <QuestionHelper
+                                        text={i18n._(t`These are the total yearly rewards in G$ and GOOD.`)}
+                                    />
                                 </div>
                             </ListHeaderWithSort>
                         </th>
@@ -416,9 +206,9 @@ const StakeTable = ({
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}
-                                        >
-                                            {' '}
-                                            {i18n._(t`Stake`)}
+                                        > { 
+                                          i18n._(t`Stake`)
+                                          }
                                         </ActionOrSwitchButton>
                                     </td>
                                 </tr>
@@ -433,9 +223,9 @@ const StakeTable = ({
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}
-                                        >
-                                            {' '}
-                                            {i18n._(t`Stake`)}
+                                        > { 
+                                            i18n._(t`Stake`)
+                                          }                                           
                                         </ActionOrSwitchButton>
                                     </td>
                                 </tr>
@@ -447,30 +237,15 @@ const StakeTable = ({
     )
 }
 
-const StakesSC = styled.div`
-    .header {
-        font-family: ${({ theme }) => theme.font.primary};
-        font-style: normal;
-        font-weight: 800;
-        font-size: 12px;
-        line-height: 24px;
-        color: ${({ theme }) => theme.color.text5};
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding: 0;
-    }
-`
-
 export default function Stakes(): JSX.Element | null {
     const { i18n } = useLingui()
     const governanceStaking = useGovernanceStaking()
     const web3 = useWeb3()
     const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET)
-    const network = getNetworkEnv()
+    const network = getNetworkEnv() 
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
-        const stakes = await (web3 && mainnetWeb3 && network !== 'staging'
-            ? getStakes(mainnetWeb3)
-            : Promise.resolve([]))
+        const stakes = await (
+          web3 && mainnetWeb3 && network !== 'staging' ? getStakes(mainnetWeb3) : Promise.resolve([]))
 
         return stakes
     }, [web3, mainnetWeb3])
@@ -488,59 +263,42 @@ export default function Stakes(): JSX.Element | null {
     const [activeStake, setActiveStake] = useState<Stake>()
     const [activeTableName, setActiveTableName] = useState<string>('')
 
-    const { width } = useWindowSize()
-
-    const isMobile = width ? width <= 768 : undefined
-
     useCallbackOnFocus(refetch)
 
     return (
         <Layout>
-            {' '}
-            <StakesSC>
-                <MarketHeader
-                    title={isMobile ? i18n._(t`Stake`) : i18n._(t`GoodStakes`)}
-                    lists={sorted}
-                    noSearch={stakes.length < 2}
-                />
-                {isMobile ? <h2 className="header">{i18n._(t`GoodStakes`)}</h2> : <div></div>}
-                <StakeTable
-                    list={sorted}
-                    error={error}
-                    loading={loading}
-                    network={DAO_NETWORK.MAINNET}
-                    setActiveStake={setActiveStake}
-                    setActiveTableName={() => setActiveTableName('GoodStakes')}
-                />
-                <div className={isMobile ? 'mt-4' : 'mt-12'} />
-                <MarketHeader
-                    title={i18n._(t`GoodDAO Staking`)}
-                    lists={sorted}
-                    noSearch={govsorted.items?.length < 2}
-                    titleClass={isMobile && 'header'}
-                />
-                <StakeTable
-                    list={govsorted}
-                    error={error}
-                    loading={loading}
-                    network={DAO_NETWORK.FUSE}
-                    hasAPY={false}
-                    rewardsSortKey={'rewards.GDAO'}
-                    setActiveStake={setActiveStake}
-                    setActiveTableName={() => setActiveTableName('GoodDAO Staking')}
-                />
+            <MarketHeader title={i18n._(t`GoodStakes`)} lists={sorted} noSearch={stakes.length < 2} />
+            <StakeTable
+                list={sorted}
+                error={error}
+                loading={loading}
+                network={DAO_NETWORK.MAINNET}
+                setActiveStake={setActiveStake}
+                setActiveTableName={() => setActiveTableName('GoodStakes')}
+            />
+            <div className="mt-12" />
+            <MarketHeader title={i18n._(t`GoodDAO Staking`)} lists={sorted} noSearch={govsorted.items?.length < 2} />
+            <StakeTable
+                list={govsorted}
+                error={error}
+                loading={loading}
+                network={DAO_NETWORK.FUSE}
+                hasAPY={false}
+                rewardsSortKey={'rewards.GDAO'}
+                setActiveStake={setActiveStake}
+                setActiveTableName={() => setActiveTableName('GoodDAO Staking')}
+            />
 
-                <Modal isOpen={!!activeStake} showClose onDismiss={() => setActiveStake(undefined)}>
-                    {activeStake && (
-                        <StakeDeposit
-                            stake={activeStake}
-                            onDeposit={refetch}
-                            onClose={() => setActiveStake(undefined)}
-                            activeTableName={activeTableName}
-                        />
-                    )}
-                </Modal>
-            </StakesSC>
+            <Modal isOpen={!!activeStake} showClose onDismiss={() => setActiveStake(undefined)}>
+                {activeStake && (
+                    <StakeDeposit
+                        stake={activeStake}
+                        onDeposit={refetch}
+                        onClose={() => setActiveStake(undefined)}
+                        activeTableName={activeTableName}
+                    />
+                )}
+            </Modal>
         </Layout>
     )
 }

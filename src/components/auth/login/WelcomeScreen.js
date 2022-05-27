@@ -91,7 +91,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           fontFamily="Roboto"
           style={{ marginTop: getDesignRelativeHeight(1) }}
         >
-          <Trans>GoodDollar is a global community and a web application to help people join the digital economy.</Trans>
+          <Trans>GoodDollar is a global community and a web application to help people join the digital economy</Trans>
         </Text>
         <View>
           <Text

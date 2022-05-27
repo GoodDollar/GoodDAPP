@@ -26,6 +26,8 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CodePushDeploymentKey</key>
+	<string>$(CODE_PUSH_DEPLOYMENT_KEY)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

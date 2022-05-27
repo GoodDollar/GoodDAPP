@@ -4,7 +4,7 @@ import { NavLink } from './Link'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import TwitterLogo from '../assets/images/twitter.png'
-import DiscordLogo from '../assets/images/discord-logo-new.png'
+import DiscordLogo from '../assets/images/discord.png'
 import TelegramLogo from '../assets/images/telegram.png'
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
 import usePromise from '../hooks/usePromise'
@@ -335,10 +335,14 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                   <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" />
                 </nav>
 
+<<<<<<< HEAD
                 <div className="flex items-center justify-between mt-5 social">
+=======
+                <div className="flex justify-between social">
+>>>>>>> parent of d8313e5a (small styling updates)
                   <span>Follow us on:</span>
-                  <SocialsLink network="twitter" logo={TwitterLogo} url='https://twitter.com/gooddollarorg' />
                   <SocialsLink network="telegram" logo={TelegramLogo} url='https://t.me/GoodDollarX' />
+                  <SocialsLink network="twitter" logo={TwitterLogo} url='https://twitter.com/gooddollarorg' />
                   <SocialsLink network="discord" logo={DiscordLogo} url='https://discord.gg/RKVHwdQtme' />
                 </div>
 

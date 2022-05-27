@@ -34,10 +34,36 @@ const Wrapper = styled.div`
     @media ${({ theme }) => theme.media.md} {
         padding-bottom: 75px;
     }
+    background-color: ${({theme}) => theme.color.bgBody}
 `
 
 const MainBody = styled.div`
-background-color: ${({theme}) => theme.color.bgBody};
+  background-color: ${({theme}) => theme.color.bgBody};
+  @media screen and (max-width: 361px){
+    padding-bottom: 20px;
+    height: 600px;
+    padding-top: 170px;
+  }
+
+  @media screen and (min-width: 361px) and (max-width: 375px){
+    height: 490px;
+    padding-top: 270px;
+  }
+
+  @media screen and (min-width: 390px) and (max-width: 550px){
+    height: 700px;
+    padding-top: 70px;
+    padding-left: 1.65rem
+  }
+
+  @media screen and (min-width: 500px) and (max-width: 550px){
+    height: 560px;
+    padding-top: 200px;
+  }
+  @media screen and (min-width: 550px) {
+    margin-top: -50px
+  }
+
 `
 
 function App(): JSX.Element {
@@ -97,21 +123,21 @@ function App(): JSX.Element {
 
     return (
         <Suspense fallback={null}>
-            <div className="flex flex-col h-screen overflow-hidden">
+            <div className="flex flex-col h-max md:overflow-hidden">
                 <AppBar />
-                <Wrapper className="flex flex-grow overflow-hidden">
+                <Wrapper className="flex flex-grow md:overflow-hidden">
                     <SideBar />
                     <MainBody
                         ref={bodyRef}
-                        className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-4"
+                        className="z-0 flex flex-col items-center justify-center flex-grow h-screen px-4 pb-5 md:overflow-x-hidden overflow-y-auto"
                     >
                         <Popups />
                         {/*<Polling />*/}
                         <Web3ReactManager>
-                            <div className="flex flex-col flex-glow w-full items-center justify-start md:h-screen md:justify-center xl:-mt-8">
+                          <div className="flex flex-col items-center justify-center w-full xl:-mt-9">
                                 <Routes />
                                 <TransactionUpdater />
-                            </div>
+                          </div>
                         </Web3ReactManager>
                         <Beta className="mt-3 lg:mt-8">{i18n._(t`This project is in beta. Use at your own risk`)}</Beta>
                     </MainBody>

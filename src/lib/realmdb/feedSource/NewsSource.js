@@ -102,10 +102,23 @@ export default class NewsSource extends FeedSource {
       switch (action) {
         case 'added':
         case 'updated': {
-          const post = await CeramicFeed.getPost(postId)
+          let post = null
 
-          log.debug('fetching ceramic feed item', { postId, action })
-          await Feed.save(formatCeramicPost(post))
+          try {
+            log.debug('fetching ceramic feed item', { postId, action })
+            post = await CeramicFeed.getPost(postId)
+          } catch (exception) {
+            if ('DOCUMENT_NOT_FOUND' !== exception.name) {
+              throw exception
+            }
+
+            log.warn('imported ceramic feed item not exists', exception.message, exception, { postId, action })
+          }
+
+          if (post) {
+            await Feed.save(formatCeramicPost(post))
+          }
+
           break
         }
         case 'removed': {

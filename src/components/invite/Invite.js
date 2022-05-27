@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Image, TextInput, View } from 'react-native'
+import { Image, Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
 import { t, Trans } from '@lingui/macro'
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
@@ -17,6 +17,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 import createABTesting from '../../lib/hooks/useABTesting'
+import { withStyles } from '../../lib/styles'
 
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
@@ -81,7 +82,7 @@ const InvitedUser = ({ address, status }) => {
   )
 }
 
-const ShareBox = ({ level }) => {
+const ShareBox = ({ level, styles }) => {
   const [{ shareMessage, shareTitle }] = useShareMessages()
   const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'basic' }], [shareMessage])
 
@@ -135,14 +136,7 @@ const ShareBox = ({ level }) => {
           fontSize={getDesignRelativeWidth(10, false)}
           fontWeight={'medium'}
           lineHeight={30}
-          style={{
-            flex: 1,
-            padding: 0,
-            marginRight: 8,
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-          }}
+          style={styles.shareLink}
         >
           {shareUrl}
         </Text>
@@ -162,7 +156,7 @@ const ShareBox = ({ level }) => {
   )
 }
 
-const InputCodeBox = ({ navigateTo }) => {
+const InputCodeBox = ({ navigateTo, styles }) => {
   const ownInviteCode = useInviteCode()
   const registerForInvites = useRegisterForInvites()
   const { hideDialog, showDialog } = useDialog()
@@ -303,7 +297,7 @@ const InputCodeBox = ({ navigateTo }) => {
   )
 }
 
-const InvitesBox = React.memo(({ invitees, refresh }) => {
+const InvitesBox = React.memo(({ invitees, refresh, styles }) => {
   const [, bountiesCollected] = useCollectBounty()
 
   // const { pending = [], approved = [] } = groupBy(invitees, 'status')
@@ -445,15 +439,15 @@ const InvitesHowTO = () => {
   )
 }
 
-const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo }) => (
+const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo, styles }) => (
   <View style={{ width: '100%' }}>
     <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
     <Section.Stack>
-      <InputCodeBox navigateTo={navigateTo} />
+      <InputCodeBox navigateTo={navigateTo} styles={styles} />
     </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
     <Section.Stack>
-      <ShareBox level={level} />
+      <ShareBox level={level} styles={styles} />
     </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
     <Section.Stack>
@@ -461,12 +455,12 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo }) 
     </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
     <Section.Stack>
-      <InvitesBox invitees={invitees} refresh={refresh} />
+      <InvitesBox invitees={invitees} refresh={refresh} styles={styles} />
     </Section.Stack>
   </View>
 )
 
-const Invite = ({ screenProps }) => {
+const Invite = ({ screenProps, styles }) => {
   const { wasOpened } = useInviteScreenOpened()
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
@@ -559,7 +553,7 @@ const Invite = ({ screenProps }) => {
         {t`How Do I Invite People?`}
       </CustomButton>
       {showHowTo && <InvitesHowTO />}
-      <InvitesData {...{ invitees, refresh, level, totalEarned, navigateTo: screenProps.navigateTo }} />
+      <InvitesData {...{ invitees, refresh, level, totalEarned, navigateTo: screenProps.navigateTo, styles }} />
     </Wrapper>
   )
 }
@@ -568,7 +562,7 @@ Invite.navigationOptions = {
   title: 'Invite',
 }
 
-const styles = {
+const getStylesFromProps = ({ theme }) => ({
   pageBackground: {
     backgroundColor: theme.colors.lightGray,
     paddingLeft: 10,
@@ -592,5 +586,16 @@ const styles = {
   bounty: {
     height: 34,
   },
-}
-export default Invite
+  shareLink: {
+    flex: 1,
+    padding: 0,
+    marginRight: 8,
+    overflow: 'hidden',
+    ...Platform.select({
+      web: { whiteSpace: 'nowrap', textOverflow: 'ellipsis' },
+      default: {},
+    }),
+  },
+})
+
+export default withStyles(getStylesFromProps)(Invite)

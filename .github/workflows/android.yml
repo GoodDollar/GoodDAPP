@@ -37,7 +37,7 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
-        if: ${{ endsWith(github.ref, '/staging' }}
+        if: ${{ endsWith(github.ref, '/staging') }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
@@ -45,7 +45,7 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
-        if: ${{ endsWith(github.ref, '/next' }}
+        if: ${{ endsWith(github.ref, '/next') }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
@@ -76,7 +76,6 @@ jobs:
           BUILD_NUMBER: ${{ github.run_number }}
           CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         run: |
-          echo $BUILD_NUMBER
           echo Code push release target version $BUILD_NUMBER
           echo Code push CODE_PUSH_DEPLOYMENT_KEY $CODE_PUSH_DEPLOYMENT_KEY
           echo Code push APPCENTER_CODEPUSH_TOKEN ${{ env.APPCENTER_CODEPUSH_TOKEN }}

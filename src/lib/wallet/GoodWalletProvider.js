@@ -88,7 +88,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       }
 
       await userStorage.ready
-      await userStorage.userProperties.ready
 
       const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
 
@@ -134,6 +133,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
     const loginAndWatch = async () => {
       await login()
+      await userStorage.userProperties.ready
 
       const lastBlock = userStorage.userProperties.get('lastBlock') || 6400000
 

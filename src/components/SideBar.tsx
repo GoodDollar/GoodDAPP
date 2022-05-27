@@ -335,11 +335,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                   <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" />
                 </nav>
 
-<<<<<<< HEAD
-                <div className="flex items-center justify-between mt-5 social">
-=======
                 <div className="flex justify-between social">
->>>>>>> parent of d8313e5a (small styling updates)
                   <span>Follow us on:</span>
                   <SocialsLink network="telegram" logo={TelegramLogo} url='https://t.me/GoodDollarX' />
                   <SocialsLink network="twitter" logo={TwitterLogo} url='https://twitter.com/gooddollarorg' />

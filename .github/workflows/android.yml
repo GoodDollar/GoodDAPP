@@ -82,7 +82,6 @@ jobs:
           yarn lingui:compile
           npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
 
-  # This workflow contains a single job called "build"
   build:
     name: Build
     # The type of runner that the job will run on

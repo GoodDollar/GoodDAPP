@@ -50,7 +50,9 @@ const I18n = new class {
   }
 
   isLocaleValid(locale) {
-    return this.locales.includes(locale)
+    const { locales } = this
+
+    return locales.includes(locale) && locale in localeFiles
   }
 
   async getInitialLocale() {

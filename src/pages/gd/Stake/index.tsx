@@ -241,11 +241,10 @@ export default function Stakes(): JSX.Element | null {
     const { i18n } = useLingui()
     const governanceStaking = useGovernanceStaking()
     const web3 = useWeb3()
-    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET)
-    const network = getNetworkEnv() 
+    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET) 
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
         const stakes = await (
-          web3 && mainnetWeb3 && network !== 'staging' ? getStakes(mainnetWeb3) : Promise.resolve([]))
+          web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
 
         return stakes
     }, [web3, mainnetWeb3])

@@ -139,6 +139,9 @@ export const onboard = init({
   accountCenter: {
     desktop: {
       enabled: false,
+    },
+    mobile: {
+      enabled: false,
     }
   },
   i18n: {

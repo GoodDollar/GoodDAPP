@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-
+/.yarn/cache
 # testing
 /coverage
 

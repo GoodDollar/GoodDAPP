@@ -20,13 +20,19 @@ export const useGovernanceStaking = (): Array<Stake> => {
     const networkType = process.env.REACT_APP_NETWORK || 'staging'
 
     const stakingContractV2 = useMemo(
-      () => fuseWeb3 && networkType !== 'staging' && getContract(SupportedChainId.FUSE, 'GovernanceStakingV2', GovernanceStaking.abi, fuseWeb3),
-      [fuseWeb3]
+        () =>
+            fuseWeb3 &&
+            networkType !== 'staging' &&
+            getContract(SupportedChainId.FUSE, 'GovernanceStakingV2', GovernanceStaking.abi, fuseWeb3),
+        [fuseWeb3, networkType]
     )
 
     const stakingContractV1 = useMemo(
-      () => fuseWeb3 && networkType === 'staging' && getContract(SupportedChainId.FUSE, 'GovernanceStaking', GovernanceStaking.abi, fuseWeb3),
-      [fuseWeb3]
+        () =>
+            fuseWeb3 &&
+            networkType === 'staging' &&
+            getContract(SupportedChainId.FUSE, 'GovernanceStaking', GovernanceStaking.abi, fuseWeb3),
+        [fuseWeb3, networkType]
     )
 
     const stakingContract = stakingContractV2 || stakingContractV1
@@ -35,8 +41,8 @@ export const useGovernanceStaking = (): Array<Stake> => {
         const readData = async () => {
             if (mainnetWeb3 && stakingContract) {
                 const [goodRewardsPerYear, totalStaked] = await Promise.all([
-                  stakingContract.getRewardsPerBlock().then((_: BigNumber) => _.mul(12 * 60 * 24 * 365)),
-                  stakingContract.totalSupply()
+                    stakingContract.getRewardsPerBlock().then((_: BigNumber) => _.mul(12 * 60 * 24 * 365)),
+                    stakingContract.totalSupply()
                 ])
 
                 const socialAPY = await getReserveSocialAPY(mainnetWeb3, mainnetChainId)
@@ -56,7 +62,7 @@ export const useGovernanceStaking = (): Array<Stake> => {
             }
         }
         readData()
-    }, [stakingContract, setStakes, mainnetWeb3])
+    }, [stakingContract, setStakes, mainnetWeb3, mainnetChainId])
     // const [balance, setBalance] = useState<string>('0')
     return stakes
     // const masterChefV2Contract = useMasterChefV2Contract()

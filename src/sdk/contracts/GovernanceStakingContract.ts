@@ -22,9 +22,12 @@ export function governanceStakingContract(web3: Web3, address?: string) {
     return new web3.eth.Contract(GovernanceStaking.abi as AbiItem[], address)
 }
 
-export async function getGovernanceStakingContracts():Promise<{address:string, release: string}[]> {
+export async function getGovernanceStakingContracts():Promise<{address:string | null, release: string}[]> {
+  const networkType = process.env.REACT_APP_NETWORK || 'staging'
+
   const addressv1 = G$ContractAddresses<string>(SupportedChainId.FUSE, 'GovernanceStaking')
-  const addressv2 = G$ContractAddresses<string>(SupportedChainId.FUSE, 'GovernanceStakingV2')
+  let addressv2 = null
+  if (networkType === "production") addressv2 = G$ContractAddresses<string>(SupportedChainId.FUSE, 'GovernanceStakingV2')
 
   return [
     {address: addressv1, release: 'v1'},

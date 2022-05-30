@@ -56,18 +56,18 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn --frozen-lockfile
-          - name: Cache Pods dependencies
-            uses: actions/cache@v1
-            with:
-              path: ios/Pods
-              key: ${{ runner.OS }}-pods-cache-${{ hashFiles('**/ios/Podfile.lock') }}
-              restore-keys: |
-                ${{ runner.OS }}-pods-cache-
-          - name: Install pod dependencies
-            run: |
-              cd ios
-              pod install
-            shell: bash
+      - name: Cache Pods dependencies
+        uses: actions/cache@v1
+        with:
+          path: ios/Pods
+          key: ${{ runner.OS }}-pods-cache-${{ hashFiles('**/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-pods-cache-
+      - name: Install pod dependencies
+        run: |
+          cd ios
+          pod install
+        shell: bash
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}

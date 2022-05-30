@@ -67,7 +67,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
       - name: Install Pods
-        run: cd ios && pod install --repo-update && cd ..
+        run: |
+          sudo gem install cocoapods
+          cd ios
+          pod install --repo-update && cd ..
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}

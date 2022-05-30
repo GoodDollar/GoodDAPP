@@ -299,7 +299,8 @@ export class GoodWallet {
   }
 
   async pollEvents(fn, time, lastBlockCallback) {
-    const STEP = 10000 //pokt network max events request
+    const STEP = 10000 // pokt network max events request
+
     try {
       const run = async () => {
         if (this.isPollEvents === false) {

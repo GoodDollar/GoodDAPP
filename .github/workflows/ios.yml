@@ -66,6 +66,7 @@ jobs:
       - name: Install pod dependencies
         run: |
           cd ios
+          sudo gem install cocoapods
           pod install
         shell: bash
       - name: add .env secrets

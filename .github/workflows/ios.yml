@@ -70,6 +70,7 @@ jobs:
         run: |
           sudo gem install cocoapods
           sudo apt install libc6-dev
+          sudo xcode-select --switch /Applications/Xcode.app
           cd ios
           pod install --repo-update && cd ..
       - name: add .env secrets

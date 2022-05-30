@@ -59,16 +59,15 @@ jobs:
       - name: Cache Pods dependencies
         uses: actions/cache@v1
         with:
-          path: ios/Pods
-          key: ${{ runner.OS }}-pods-cache-${{ hashFiles('**/ios/Podfile.lock') }}
+          path: |
+            ios/Pods
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
           restore-keys: |
-            ${{ runner.OS }}-pods-cache-
-      - name: Install pod dependencies
-        run: |
-          cd ios
-          sudo gem install cocoapods
-          pod install
-        shell: bash
+            ${{ runner.os }}-pods-
+          - name: Install Pods
+            run: cd ios && pod install --repo-update && cd ..
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}

@@ -148,6 +148,8 @@ jobs:
           echo "IS_PROD=true" >> $GITHUB_ENV
           echo "PROFILE_UID=21f28d4b-7641-4420-875f-989a0bcc3d52" >> $GITHUB_ENV
       # setup actions
+      - name: echo target branch
+        run: echo ${{ env.TARGET_BRANCH }}
       - uses: actions/checkout@v2
         with:
           ref: ${{ env.TARGET_BRANCH }}

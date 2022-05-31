@@ -207,6 +207,10 @@ jobs:
 #          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
 #          restore-keys: |
 #            ${{ runner.os }}-pods-
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
       - name: Install Pods
         run: |
           sudo gem install cocoapods

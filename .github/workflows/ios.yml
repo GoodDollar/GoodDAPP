@@ -149,8 +149,6 @@ jobs:
           echo "PROFILE_UID=21f28d4b-7641-4420-875f-989a0bcc3d52" >> $GITHUB_ENV
       # setup actions
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ env.TARGET_BRANCH }}
       - uses: actions/setup-node@v1
         with:
           node-version: 14

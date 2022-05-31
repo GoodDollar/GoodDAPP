@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Linking, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, uniqBy } from 'lodash'
+import { concat, get, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
@@ -36,7 +36,7 @@ import { Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
-import { getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
+import { getMaxDeviceWidth } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
@@ -129,11 +129,10 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
 }
 
 const Dashboard = props => {
-  const balanceRef = useRef()
   const feedRef = useRef([])
   const resizeSubscriptionRef = useRef()
+  const balanceBlockWidthRef = useRef(70)
   const { screenProps, styles, theme, navigation }: DashboardProps = props
-  const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
   const [headerHeightAnimValue] = useState(new Animated.Value(176))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
@@ -397,28 +396,6 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    saveBalanceBlockWidth()
-  }, [balance])
-
-  // The width of the balance block required to calculate its left margin when collapsing the header
-  // The balance always changes so the width is dynamical.
-  // Animation functionality requires positioning props to be set with numbers.
-  const saveBalanceBlockWidth = useCallback(async () => {
-    const { current: balanceView } = balanceRef
-
-    if (!balanceView) {
-      return
-    }
-
-    const measurements = await measure(balanceView)
-
-    // Android never gets values from measure causing animation to crash because of NaN
-    const width = measurements.width || 0
-
-    setBalanceBlockWidth(width)
-  }, [setBalanceBlockWidth])
-
-  useEffect(() => {
     const timing = 250
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
@@ -426,10 +403,10 @@ const Dashboard = props => {
 
     // calculate left margin for aligning the balance to the right
     // - 20 is to give more space to the number, otherwise (in native) it gets cut on the right side
-    const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidth - 20
+    const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidthRef.current - 20
 
     if (headerLarge) {
-      //useNativeDriver is always false because native doesnt support animating height
+      // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
           toValue: 68,
@@ -475,7 +452,7 @@ const Dashboard = props => {
         }),
       ]).start()
     } else {
-      //useNativeDriver is always false because native doesnt support animating height
+      // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
           toValue: 42,
@@ -521,7 +498,7 @@ const Dashboard = props => {
         }),
       ]).start()
     }
-  }, [headerLarge, balance, update, avatarCenteredPosition, headerContentWidth, balanceBlockWidth])
+  }, [headerLarge, balance, update, avatarCenteredPosition, headerContentWidth])
 
   useEffect(() => {
     log.debug('Dashboard didmount', navigation)
@@ -632,18 +609,17 @@ const Dashboard = props => {
     const minScrollRequired = 150
     const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
     const scrollPositionGap = headerLarge ? 0 : minScrollRequired
-    const newsCondition = activeTab === FeedCategories.News && feedRef.current.length > 3
-    const isFeedSizeEnough = feedRef.current.length > 10 || newsCondition
-
+    const newsCondition = activeTab === FeedCategories.News && feeds.length > 3
+    const isFeedSizeEnough = feeds.length > 8 || newsCondition
     return { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough }
-  }, [headerLarge, activeTab])
+  }, [headerLarge, activeTab, feeds.length])
 
   const handleScrollEnd = useCallback(
     ({ nativeEvent }) => {
       const scrollPosition = nativeEvent.contentOffset.y
       const { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough } = scrollData
       const scrollPositionISH = scrollPosition + scrollPositionGap
-      setHeaderLarge(isFeedSizeEnough && scrollPositionISH < minScrollRequiredISH)
+      setHeaderLarge(!isFeedSizeEnough || scrollPositionISH < minScrollRequiredISH)
     },
     [scrollData, setHeaderLarge],
   )
@@ -654,6 +630,11 @@ const Dashboard = props => {
       handleScrollEnd(args)
     },
     [dispatchScrollEvent, handleScrollEnd],
+  )
+
+  const onBalanceLayout = useCallback(
+    ({ nativeEvent }) => (balanceBlockWidthRef.current = get(nativeEvent, 'layout.width', 0)),
+    [],
   )
 
   const calculateFontSize = useMemo(
@@ -690,7 +671,7 @@ const Dashboard = props => {
               </Section.Text>
             </Animated.View>
             <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
-              <View ref={balanceRef}>
+              <View onLayout={onBalanceLayout}>
                 <BigGoodDollar
                   testID="amount_value"
                   number={balance}

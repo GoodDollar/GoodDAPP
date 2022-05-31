@@ -86,21 +86,21 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       if ((!refresh && isLoggedInJWT) || !goodWallet || !userStorage) {
         return isLoggedInJWT
       }
-
-      await userStorage.ready
-
+      
+      const { userProperties } = userStorage
       const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
 
       // the login also re-initialize the api with new jwt
-      await walletLogin.auth(refresh).catch(e => {
+      const { jwt } = await walletLogin.auth(refresh).catch(e => {
         log.error('failed auth:', e.message, e)
 
         throw e
       })
 
+      await userProperties.ready
       setLoggedInJWT(walletLogin)
-      log.info('walletLogin', await walletLogin.getJWT(), { refresh })
-
+      
+      log.info('walletLogin', { jwt, refresh })
       return walletLogin
     },
     [goodWallet, userStorage, isLoggedInJWT, setLoggedInJWT],

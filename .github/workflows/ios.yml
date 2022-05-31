@@ -155,7 +155,8 @@ jobs:
           node-version: 14
       - name: fix max_user_watches
         run: |
-          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+          sudo sysctl -w kern.maxfiles=524288
+          sudo sysctl -w kern.maxfilesperproc=524288
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}

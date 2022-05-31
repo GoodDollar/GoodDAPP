@@ -148,7 +148,7 @@ jobs:
           echo "IS_PROD=true" >> $GITHUB_ENV
           echo "PROFILE_UID=21f28d4b-7641-4420-875f-989a0bcc3d52" >> $GITHUB_ENV
       # setup actions
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           ref: ${{ env.TARGET_BRANCH }}
       - uses: actions/setup-node@v1
@@ -165,8 +165,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Switch XCode Version
-        run: sudo xcode-select -s /Applications/Xcode_13.0.app
       - name: Setup CocoaPods
         run: sudo gem install cocoapods
       # install app deps

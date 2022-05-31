@@ -26,7 +26,7 @@ const useCheckExisting = () => {
       }
 
       // User exists, it is not the number check and it is the correct login
-      if (provider.includes(torusProvider) && !activeStep) {
+      if (provider?.includes(torusProvider) && !activeStep) {
         return 'login'
       }
 

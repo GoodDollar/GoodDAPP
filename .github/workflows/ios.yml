@@ -201,7 +201,7 @@ jobs:
           IS_PROD: ${{ env.IS_PROD }}
         run: |
           yarn lingui:compile
-          run: node ./animationAssets.js
+          node ./animationAssets.js
           echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
 
           cd ios && xcodebuild archive \

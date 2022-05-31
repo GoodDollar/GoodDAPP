@@ -165,7 +165,7 @@ jobs:
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn --frozen-lockfile
+          install-command: yarn --frozen-lockfile --network-timeout 100000
       - name: Install Pods
         run: cd ios && pod install --repo-update && cd ..
       # extract/decrypt secrets, finalize env preparation

@@ -168,7 +168,7 @@ jobs:
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
       - uses: actions/setup-node@v1
         with:
-          node-version: 10.15.3
+          node-version: 14
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: '13.0'

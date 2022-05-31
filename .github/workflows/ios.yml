@@ -118,12 +118,12 @@ jobs:
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
       (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))
     steps:
+      # detect ennv and target branch, setup env-specific settings
       - name: Git branch name
         id: git-branch-name
         uses: EthanSK/git-branch-name-action@v1
       - name: Detect and set target branch
         run: echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
-
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
@@ -131,7 +131,6 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_DEV }}" >> $GITHUB_ENV
           echo "PROFILE_UID=b29b41c9-e82a-4aab-96a8-e5d00e55756e" >> $GITHUB_ENV
-
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |
@@ -139,7 +138,6 @@ jobs:
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-staging" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_STAGING }}" >> $GITHUB_ENV
-
       - name: Pre-checks - Env is PROD
         if: ${{ env.TARGET_BRANCH == 'next' }}
         run: |
@@ -149,8 +147,10 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_PROD }}" >> $GITHUB_ENV
           echo "IS_PROD=true" >> $GITHUB_ENV
           echo "PROFILE_UID=21f28d4b-7641-4420-875f-989a0bcc3d52" >> $GITHUB_ENV
-
+      # setup actions
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
       - uses: actions/setup-node@v1
         with:
           node-version: 14
@@ -158,6 +158,25 @@ jobs:
         run: |
           sudo sysctl -w kern.maxfiles=524288
           sudo sysctl -w kern.maxfilesperproc=524288
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '13.0'
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Switch XCode Version
+        run: sudo xcode-select -s /Applications/Xcode_13.0.app
+      - name: Setup CocoaPods
+        run: sudo gem install cocoapods
+      # install app deps
+      - name: Cache & install npm dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn --frozen-lockfile
+      - name: Install Pods
+        run: cd ios && pod install --repo-update && cd ..
+      # extract/decrypt secrets, finalize env preparation
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
@@ -167,12 +186,8 @@ jobs:
           cat .env.$env_name
           echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
-      - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '13.0'
-      - name: Switch XCode Version
-        run: sudo xcode-select -s /Applications/Xcode_13.0.app
-
+      - name: Setup google services file
+        run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode > ./ios/GoogleService-Info.plist
       - name: Setup provisioning profile
         run: ./.github/secrets/decrypt_secrets.sh
         env:
@@ -181,50 +196,13 @@ jobs:
           IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
           IOS_PROFILE_KEY: ${{ secrets.IOS_PROFILE_KEY }}
           IS_PROD: ${{ env.IS_PROD }}
-
-#      - name: Get yarn cache directory path
-#        id: yarn-cache-dir-path
-#        run: echo "::set-output name=dir::$(yarn cache dir)"
-#      - name: Restore node_modules from cache
-#        uses: actions/cache@v2
-#        id: yarn-cache
-#        with:
-#          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-#          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-#          restore-keys: |
-#            ${{ runner.os }}-yarn-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 300000
-#      - name: Restore Pods cache
-#        uses: actions/cache@v2
-#        with:
-#          path: |
-#            ios/Pods
-#            ~/Library/Caches/CocoaPods
-#            ~/.cocoapods
-#          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-#          restore-keys: |
-#            ${{ runner.os }}-pods-
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-      - name: Install Pods
-        run: |
-          sudo gem install cocoapods
-          sudo apt install libc6-dev
-          cd ios && pod install --repo-update && cd ..
-
-      - name: Setup google services file
-        run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode > ./ios/GoogleService-Info.plist
-
       - name: set version
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "setting version ${BUILD_VERSION}.${GITHUB_RUN_NUMBER}"
           plutil -replace CFBundleVersion -string ${BUILD_VERSION}.${GITHUB_RUN_NUMBER} ./ios/GoodDollar/Info.plist
           plutil -replace CFBundleShortVersionString -string ${BUILD_VERSION} ./ios/GoodDollar/Info.plist
-
+      # build & export
       - name: Build app
         env:
           ENVFILE: '../.env.${{ env.ENV }}'
@@ -253,7 +231,6 @@ jobs:
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }}"
           npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-
       - name: Distribute to stores - PROD ONLY
         if: ${{ env.IS_PROD }}
         run: |

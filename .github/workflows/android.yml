@@ -6,7 +6,7 @@ name: Android release
 # events but only for the master branch
 on:
   push:
-    branches: [master, staging, next]
+    branches: [master, staging, next, chore/update-ios-ci-workflow]
   pull_request:
     branches: [master]
     types:
@@ -89,6 +89,7 @@ jobs:
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag and without skipping CI :
     if: |
       github.event_name == 'workflow_dispatch' ||
+      endsWith(github.ref, '/chore/update-ios-ci-workflow') ||
       (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
       (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))

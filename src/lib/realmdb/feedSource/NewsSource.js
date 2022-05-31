@@ -1,6 +1,7 @@
 import moment from 'moment'
 
 import CeramicFeed from '../../ceramic/CeramicFeed'
+import { isValidHistoryId } from '../../ceramic/client'
 
 import Config from '../../../config/config'
 import { batch } from '../../utils/async'
@@ -39,86 +40,114 @@ export default class NewsSource extends FeedSource {
   async syncFromRemote() {
     const { log, storage } = this
     const { historyCacheId } = NewsSource
-    const historyId = await storage.getItem(historyCacheId)
-    const logDone = () => log.info('ceramic sync from remote done')
-    const logFailed = exception => log.error('ceramic sync from remote failed', exception, exception.message)
 
-    log.info('ceramic sync from remote started', { historyId })
+    log.info('ceramic sync from remote started')
 
-    if (historyId) {
+    try {
+      let lastHistoryId = await storage.getItem(historyCacheId)
+
+      const cleanCachedHistoryId = async message => {
+        lastHistoryId = null
+        await storage.removeItem(historyCacheId)
+        log.warn(`${message}. reloading the whole feed`)
+      }
+
+      log.info('fetched last history id', { lastHistoryId })
+
+      if (lastHistoryId && !isValidHistoryId(lastHistoryId)) {
+        await cleanCachedHistoryId('empty or invalid last history id')
+      }
+
+      const { history, historyId } = await CeramicFeed.getHistory()
+      const changeLog = this._fetchChangeLog(history, lastHistoryId)
+
+      if (lastHistoryId && false === changeLog) {
+        await cleanCachedHistoryId('history id not found or history broken')
+      }
+
+      if (!historyId) {
+        log.info('empty history or no posts published, ceramic sync from remote skipped')
+        return
+      }
+
+      if (lastHistoryId) {
+        await this._applyChangeLog(changeLog)
+      } else {
+        await this._loadRemoteFeed()
+      }
+
+      log.info('ceramic sync updated last history id', { historyId })
+      await storage.setItem(historyCacheId, historyId)
+
+      log.info('ceramic sync from remote done')
+    } catch (exception) {
+      log.error('ceramic sync from remote failed', exception, exception.message)
+    }
+  }
+
+  /** @private */
+  _fetchChangeLog(history, lastHistoryId = null) {
+    if (lastHistoryId) {
       try {
-        await this._applyChangeLog(historyId)
-        return logDone()
+        return CeramicFeed.aggregateHistory(history, lastHistoryId)
       } catch (exception) {
-        // throw if not HISTORY_NOT_FOUND
         if ('HISTORY_NOT_FOUND' !== exception.name) {
-          logFailed(exception)
           throw exception
         }
-
-        // otherwise falling back to _loadRemoteFeed()
-        log.warn('ceramic history ID not found or broken. reloading the whole feed', exception.message, exception, {
-          historyId,
-        })
       }
     }
 
+    return false
+  }
+
+  /** @private */
+  async _mergePost(postId, action) {
+    const { formatCeramicPost } = NewsSource
+    const { log, Feed } = this
+    let post = null
+
     try {
-      await this._loadRemoteFeed()
-      logDone()
+      log.debug('fetching ceramic feed item', { postId, action })
+      post = await CeramicFeed.getPost(postId)
     } catch (exception) {
-      logFailed(exception)
-      throw exception
+      if ('DOCUMENT_NOT_FOUND' !== exception.name) {
+        throw exception
+      }
+
+      log.warn('imported ceramic feed item not exists', exception.message, exception, { postId, action })
+    }
+
+    if (post) {
+      await Feed.save(formatCeramicPost(post))
     }
   }
 
   /** @private */
   async _loadRemoteFeed() {
-    const { log, Feed, storage } = this
-    const { formatCeramicPost, historyCacheId } = NewsSource
+    const { log, Feed } = this
+    const { formatCeramicPost } = NewsSource
 
     const ceramicPosts = await CeramicFeed.getPosts()
-    const historyId = await CeramicFeed.getHistoryId()
     const formattedCeramicPosts = ceramicPosts.map(formatCeramicPost)
 
     log.debug('Ceramic fetched posts', { ceramicPosts, formattedCeramicPosts })
 
     await Feed.find({ type: 'news' }).delete()
     await Feed.save(...formattedCeramicPosts)
-    await storage.setItem(historyCacheId, historyId)
   }
 
   /** @private */
-  async _applyChangeLog(ceramicCachedHistoryId) {
-    const { formatCeramicPost, historyCacheId } = NewsSource
+  async _applyChangeLog(changeLog) {
     const { ceramicBatchSize } = Config
-    const { log, Feed, storage } = this
+    const { log, Feed } = this
 
-    const { history, historyId } = await CeramicFeed.getHistory(ceramicCachedHistoryId)
+    log.debug('Ceramic history', { changeLog })
 
-    log.debug('Ceramic history', { history, historyId })
-
-    await batch(history, ceramicBatchSize, async ({ item: postId, action }) => {
+    await batch(changeLog, ceramicBatchSize, async ({ item: postId, action }) => {
       switch (action) {
         case 'added':
         case 'updated': {
-          let post = null
-
-          try {
-            log.debug('fetching ceramic feed item', { postId, action })
-            post = await CeramicFeed.getPost(postId)
-          } catch (exception) {
-            if ('DOCUMENT_NOT_FOUND' !== exception.name) {
-              throw exception
-            }
-
-            log.warn('imported ceramic feed item not exists', exception.message, exception, { postId, action })
-          }
-
-          if (post) {
-            await Feed.save(formatCeramicPost(post))
-          }
-
+          await this._mergePost(postId, action)
           break
         }
         case 'removed': {
@@ -131,7 +160,5 @@ export default class NewsSource extends FeedSource {
         }
       }
     })
-
-    await storage.setItem(historyCacheId, historyId)
   }
 }

@@ -129,27 +129,19 @@ const LoginRedirect = ({
             <View style={{ alignItems: 'center' }}>
               <GooddollarImage />
             </View>
-            <View style={{ width: '95%', alignSelf: 'center' }}>
-              <Text style={{ fontSize: 30 }}>{urlDetails.vendorName}</Text>
-              <View
-                style={{
-                  width: '100%',
-                  marginTop: 20,
-                  marginBottom: 10,
-                  justifyContent: 'space-evenly',
-                  padding: 10,
-                  flexDirection: 'row',
-                  backgroundColor: '#EEF0F9',
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16 }}>Website</Text>
-                  <Text style={{ fontSize: 10 }}>{urlDetails?.vendorURL}</Text>
-                </View>
-                <View>
-                  <Text style={{ fontSize: 16 }}>Wallet</Text>
-                  <Text style={{ fontSize: 10 }}>{urlDetails?.vendorAddress?.slice(0, 12)}...</Text>
-                </View>
+            <Text style={{ fontWeight: 'bold' }}>is requesting to view the following information:</Text>
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                marginTop: 20,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <View style={{ alignItems: 'flex-start' }}>
+                <Text style={{ color: '#8499BB' }}>Name</Text>
+                <Text>{fullName}</Text>
               </View>
               <Text style={{ fontWeight: 'bold' }}>is requesting to view the following information:</Text>
               <View
@@ -182,7 +174,28 @@ const LoginRedirect = ({
                   <Text>{email}</Text>
                 </View>
               </View>
-              <View
+              <CheckBox />
+            </View>
+            <View style={{ width: '100%', alignItems: 'flex-start', marginTop: 10 }}>
+              <Text style={{ color: '#8499BB' }}>Wallet Address</Text>
+              <Text>{urlDetails?.vendorAddress}</Text>
+            </View>
+            <View style={{ width: '100%', alignItems: 'flex-start', marginTop: 10 }}>
+              <Text style={{ color: '#8499BB' }}>GoodDollar verification status</Text>
+              {!isVendorWalletWhitelisted && (
+                <View style={{ padding: 10, backgroundColor: 'lightyellow', marginTop: 5 }}>
+                  <Text style={{ textAlign: 'flex-start', color: '#FFC700' }}>Not Verified</Text>
+                </View>
+              )}
+              {isVendorWalletWhitelisted && (
+                <View style={{ padding: 10, backgroundColor: '#04C899', marginTop: 5 }}>
+                  <Text style={{ textAlign: 'flex-start', color: '#04C899' }}>Verified</Text>
+                </View>
+              )}
+            </View>
+            <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
+              <CustomButton
+                onPress={() => submit({ isRejected: true })}
                 style={{
                   marginTop: 20,
                 }}

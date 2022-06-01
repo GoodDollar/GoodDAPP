@@ -54,8 +54,16 @@ function Web3Faucet(): JSX.Element | null {
 
     const handleClaim = useCallback(async () => {
         if (account && web3) {
-            await claim(web3, account)
-            refetch()
+            window.dataLayer.push({event: 'claim', action: 'claimStart'})
+            const startClaim = await claim(web3, account).catch(e => {
+              refetch()
+              return false
+            })
+
+            if (startClaim) {
+              window.dataLayer.push({event: 'claim', action: 'claimSuccess'})
+              refetch()
+            }
         }
     }, [web3, account, refetch])
 

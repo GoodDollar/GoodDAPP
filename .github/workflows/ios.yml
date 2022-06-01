@@ -162,10 +162,31 @@ jobs:
       - name: Setup CocoaPods
         run: sudo gem install cocoapods
       # install app deps
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Restore node_modules from cache
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn --frozen-lockfile --network-timeout 100000
+      - name: Restore Pods cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ios/Pods
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
       - name: Install Pods
         run: cd ios && pod install --repo-update && cd ..
       # extract/decrypt secrets, finalize env preparation

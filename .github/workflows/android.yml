@@ -20,9 +20,9 @@ on:
         default: ''
         type: choice
         options:
-          - dev: 'master'
-          - qa: 'staging'
-          - prod: 'next'
+          - master
+          - staging
+          - next
 
 jobs:
   codepush:

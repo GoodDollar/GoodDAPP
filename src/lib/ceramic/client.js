@@ -5,12 +5,15 @@
 import { CeramicClient } from '@ceramicnetwork/http-client'
 import { TileDocument } from '@ceramicnetwork/stream-tile'
 
-import { assign, once } from 'lodash'
+import { assign, isString, once } from 'lodash'
 
 import Config from '../../config/config'
 import { batch } from '../../lib/utils/async'
 
 const { ceramicNodeURL, ceramicBatchSize } = Config
+const hexadecimalRe = /^[0-9a-f]+$/i
+
+export const isValidHistoryId = id => isString(id) && id.length === 40 && hexadecimalRe.test(id)
 
 export const getCeramicClient = once(() => new CeramicClient(ceramicNodeURL))
 

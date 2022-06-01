@@ -79,8 +79,8 @@ REACT_APP_CERAMIC_NODE_URL = "https://ceramic.gooddollar.org"
 
 [context.master.environment]
 REACT_APP_CERAMIC_NODE_URL = "https://ceramic-clay.3boxlabs.com"
-REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pg1e0koxq485jc8hxnq8nwfqqn7zmu9y3afbez2zt999yogohtdk"
-REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg2wnebmqd2fx4t7wes73qx0nu14kuof1wcg8jumhcawlgdu7tvn"
+REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pg0fms51l7d8644zfej3swbpu2gub9t4l43tldoqrufm83fsjwm7"
+REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg2yy61kd6twtjq9d5qnco59cr7bhtpns61f0wwe361w9nxlvq4o"
 
 [context.staging.environment]
 NODE_ENV = "staging"
@@ -102,8 +102,8 @@ REACT_APP_WEB3_SITE_URL = "https://w3.gooddollar.org"
 REACT_APP_USE_TORUS = "true"
 REACT_APP_REALM_APP_ID = "wallet_qa-iumgc"
 REACT_APP_PUBLIC_URL = "https://goodqa.netlify.app"
-REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pg1era7ujif58yjntagrm7xh2qfejoedpmf3ucxj8a9pf9l5dwb9"
-REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg1qlhl3w62nfztkz15yaruza6aczll10e6dy1apm9vxfsjlz1t1"
+REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pg10xd3qcu4lfbgk6u2r1uwdyggfchpk77hxormr4wvqkitqvkce"
+REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg26i4h73gc5kdjis5rtfxg62wd93su31ldxfeacl6rx5cs1nix5"
 
 [context.next.environment]
 NODE_ENV = "production"
@@ -134,5 +134,5 @@ REACT_APP_ENABLE_SELF_CUSTODY = "false"
 REACT_APP_AB_TEST_PERCENTAGE = "0.5"
 REACT_APP_REALM_APP_ID = "wallet_prod-obclo"
 REACT_APP_PUBLIC_URL = "https://wallet.gooddollar.org"
-REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pg2jmcm6a5i8pfvq8tkakd9k2bj2lyr0uibkxkt36stfgplaysi8"
-REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg2w8m2vxj21twt5qri2ma314k5fkw27i784iklbhd83bv5pjb5m"
+REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pfz8x5bj4ltai66abvwkfcp0c83e253k6zl9da00e3os7gog97av"
+REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg0ufwq9k9ltdk91cc5bb9h5wyxec4nay10i7jjl7811mz6pbfx8"

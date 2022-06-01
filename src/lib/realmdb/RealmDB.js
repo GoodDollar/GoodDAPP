@@ -201,9 +201,9 @@ class RealmDB implements DB, ProfileDB {
       }
 
       return {
-        source: source.create(this, log),
         mutex: new Mutex(),
-        syncInterval,
+        source: source.create(this, log),
+        interval: syncInterval * 1000, // convert to ms
       }
     })
 
@@ -215,7 +215,7 @@ class RealmDB implements DB, ProfileDB {
     const { _syncWithSource } = this
 
     await Promise.all(
-      this.sources.map(async ({ source, mutex, syncInterval }) => {
+      this.sources.map(async ({ source, mutex, interval }) => {
         let release
 
         if (mutex.isLocked()) {
@@ -225,12 +225,13 @@ class RealmDB implements DB, ProfileDB {
 
         try {
           release = await mutex.lock()
+          log.debug('_syncFromRemote: mutex locked')
         } catch (e) {
           log.warn('_syncFromRemote: failed obtain mutex lock, skipping', e.message, e)
           return
         }
 
-        await _syncWithSource(source, release, syncInterval)
+        await _syncWithSource(source, release, interval)
       }),
     )
   }
@@ -254,8 +255,13 @@ class RealmDB implements DB, ProfileDB {
       interval = Math.max(0, syncInterval - (Date.now() - now))
     }
 
+    log.debug('_syncFromRemote: unlocking mutex after (ms)', { interval })
+
     // wait for release 'in background', return from fn just after sync call
-    setTimeout(release, interval)
+    setTimeout(() => {
+      log.debug('_syncFromRemote: mutex unlocked')
+      release()
+    }, interval)
   }
 
   /**

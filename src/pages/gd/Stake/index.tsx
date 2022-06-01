@@ -174,11 +174,11 @@ const StakeTable = ({
             {list.items &&
                 list.items.map((stake: Stake) => (
                     <CellSC key={stake.address}>
-                        <div className="token font-bold flex flex-nowrap items-center">
+                        <div className="flex items-center font-bold token flex-nowrap">
                             <AsyncTokenIcon
                                 address={stake.tokens.A.address}
                                 chainId={stake.tokens.A.chainId as number}
-                                className="block w-5 h-5 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12 mr-2"
+                                className="block w-5 h-5 mr-2 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
                             />
                             <div>
                                 <div className="whitespace-nowrap">
@@ -413,6 +413,7 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
+                                              window.dataLayer.push({event: 'stake', action: 'stakeStart', type: stake.protocol})
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}
@@ -430,6 +431,7 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
+                                                window.dataLayer.push({event: 'stake', action: 'stakeStart', type: stake.protocol})
                                                 setActiveStake(stake)
                                                 setActiveTableName()
                                             }}

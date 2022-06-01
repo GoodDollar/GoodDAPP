@@ -149,6 +149,8 @@ jobs:
           echo "PROFILE_UID=21f28d4b-7641-4420-875f-989a0bcc3d52" >> $GITHUB_ENV
       # setup actions
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
       - uses: actions/setup-node@v1
         with:
           node-version: 14
@@ -162,17 +164,6 @@ jobs:
       - name: Setup CocoaPods
         run: sudo gem install cocoapods
       # install app deps
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Restore node_modules from cache
-        uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:

@@ -38,7 +38,7 @@ export default class NewsSource extends FeedSource {
   }
 
   async syncFromRemote() {
-    const { log, storage } = this
+    const { log, storage, _resetLastSync } = this
     const { historyCacheId } = NewsSource
 
     log.info('ceramic sync from remote started')
@@ -46,23 +46,19 @@ export default class NewsSource extends FeedSource {
     try {
       let lastHistoryId = await storage.getItem(historyCacheId)
 
-      const cleanCachedHistoryId = async message => {
-        lastHistoryId = null
-        await storage.removeItem(historyCacheId)
-        log.warn(`${message}. reloading the whole feed`)
-      }
-
       log.info('fetched last history id', { lastHistoryId })
 
       if (lastHistoryId && !isValidHistoryId(lastHistoryId)) {
-        await cleanCachedHistoryId('empty or invalid last history id')
+        lastHistoryId = null
+        await _resetLastSync('empty or invalid last history id')
       }
 
       const { history, historyId } = await CeramicFeed.getHistory()
       const changeLog = this._fetchChangeLog(history, lastHistoryId)
+      const changeLogAvailable = false !== changeLog
 
-      if (lastHistoryId && false === changeLog) {
-        await cleanCachedHistoryId('history id not found or history broken')
+      if (lastHistoryId && !changeLogAvailable) {
+        await _resetLastSync('history id not found or history broken')
       }
 
       if (!historyId) {
@@ -70,7 +66,7 @@ export default class NewsSource extends FeedSource {
         return
       }
 
-      if (lastHistoryId) {
+      if (changeLogAvailable) {
         await this._applyChangeLog(changeLog)
       } else {
         await this._loadRemoteFeed()
@@ -83,6 +79,15 @@ export default class NewsSource extends FeedSource {
     } catch (exception) {
       log.error('ceramic sync from remote failed', exception, exception.message)
     }
+  }
+
+  /** @private */
+  _resetLastSync = async reason => {
+    const { log, storage } = this
+    const { historyCacheId } = NewsSource
+
+    await storage.removeItem(historyCacheId)
+    log.warn(`${reason}. reloading the whole feed`)
   }
 
   /** @private */

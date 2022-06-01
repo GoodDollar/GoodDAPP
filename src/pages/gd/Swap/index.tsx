@@ -121,6 +121,7 @@ function Swap() {
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
+          window.dataLayer.push({event: 'swap', action: 'approveSwap', type: buying ? 'buy' : 'sell'})
             setApproving(true)
             if (buying) {
                 await approveBuy(web3, meta)
@@ -370,8 +371,10 @@ function Swap() {
                                         balanceNotEnough ||
                                         (buying && [ETHER, FUSE].includes(swapPair.token) ? false : !approved)
                                     }
-                                    onClick={() => setShowConfirm(true)}
-                                >
+                                    onClick={() => {
+                                      window.dataLayer.push({event: 'swap', action: 'startSwap', type: buying ? 'buy' : 'sell'})
+                                      setShowConfirm(true)
+                                    }}>
                                     {i18n._(t`Swap`)}
                                 </ButtonAction>
                             </div>

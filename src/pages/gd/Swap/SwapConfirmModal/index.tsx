@@ -77,13 +77,14 @@ function SwapConfirmModal({
 
         setStatus('CONFIRM')
 
+        const inputSig = meta?.inputAmount.toSignificant(5)
+        const minimumOutputSig = meta?.minimumOutputAmount.toSignificant(5)
+        const inputSymbol = meta?.inputAmount.currency.symbol
+        const outputSymbol = meta?.outputAmount.currency.symbol
+
         const onSent = (hash: string, from: string) => {
             setStatus('SENT')
             setHash(hash)
-
-            const inputSig = meta?.inputAmount.toSignificant(5)
-            const minimumOutputSig = meta?.minimumOutputAmount.toSignificant(5)
-
             const tradeInfo = {
                 input: {
                     decimals: meta?.inputAmount.currency.decimals,
@@ -94,8 +95,8 @@ function SwapConfirmModal({
                     symbol: meta?.outputAmount.currency.symbol
                 }
             }
-            const summary = i18n._(t`Swapped ${inputSig} ${meta?.inputAmount.currency.symbol} 
-                              to a minimum of ${minimumOutputSig} ${meta?.outputAmount.currency.symbol}`)
+            const summary = i18n._(t`Swapped ${inputSig} ${inputSymbol} 
+                              to a minimum of ${minimumOutputSig} ${outputSymbol}`)
 
             globalDispatch(
                 addTransaction({
@@ -106,9 +107,15 @@ function SwapConfirmModal({
                     tradeInfo: tradeInfo
                 })
             )
+            window.dataLayer.push({event: "swap", action: "submittedSwap"})
             if (onConfirm) onConfirm()
         }
         try {
+            window.dataLayer.push({event: "swap", 
+                                   action: "confirmSwap", 
+                                   amount: inputSig, 
+                                   tokens: [inputSymbol, outputSymbol], 
+                                   type: buying ? 'buy' : 'sell',})
             const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)
 
             if (meta?.outputAmount.currency.name === 'GoodDollar') setStatus('SUCCESS')

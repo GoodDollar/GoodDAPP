@@ -110,6 +110,8 @@ jobs:
 
   build:
     runs-on: macOS-latest
+    container:
+      options: --user root
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag :
     if: |
       github.event_name == 'workflow_dispatch' ||

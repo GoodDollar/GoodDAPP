@@ -1,14 +1,14 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.39.1",
+  "version": "1.39.2-2",
   "engines": {
     "node": ">=12",
     "npm": "6.x"
   },
   "scripts": {
-    "web": "lingui compile && react-app-rewired start",
-    "android": "lingui compile && export ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
-    "ios": "lingui compile && export ENVFILE=.env;npm run animation:assets && react-native run-ios",
+    "web": "npm run lingui:compile && react-app-rewired start",
+    "android": "npm run lingui:compile && export ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
+    "ios": "npm run lingui:compile && export ENVFILE=.env;npm run animation:assets && react-native run-ios",
     "start:native": "react-native start",
     "start": "serve -s -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
@@ -17,17 +17,17 @@
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start:native -- --reset-cache",
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
-    "build": "lingui compile && react-app-rewired build --analyze",
+    "build": "npm run lingui:compile && react-app-rewired build --analyze",
     "animation:assets": "node ./animationAssets.js",
     "copy:gdfont": "cp src/assets/fonts/*.ttf android/app/src/main/assets/fonts/",
-    "test": "lingui compile && npm run test:web && npm run test:native",
+    "test": "npm run lingui:compile && npm run test:web && npm run test:native",
     "test:setup": "./scripts/blockchainTestSetup.sh",
     "test:web-watch": "npm run link && node scripts/test.js --watch --config \"./config/web.jest.config.js\"",
     "test:web": "react-app-rewired test --forceExit",
     "test:native": "npm run test:ios && npm run test:android",
     "test:ios": "npm run animation:assets && ENVFILE=.env.test detox build -c ios.sim.debug && detox test -c ios.sim.debug",
     "test:android": "npm run animation:assets && ENVFILE=.env.test detox build -c android.emu.debug && detox test -c android.emu.debug",
-    "coverage": "lingui compile && react-app-rewired test --coverage --forceExit",
+    "coverage": "npm run lingui:compile && react-app-rewired test --coverage --forceExit",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "bundlesize:check": "bundlesize",
     "flow": "flow",
@@ -40,10 +40,13 @@
     "cypress:lin": "export NODE_ENV=development && npx cypress open",
     "cypress:win": "set \"NODE_ENV=development\" && npx cypress open",
     "add-locale": "lingui add-locale",
-    "lingui-extract": "lingui extract",
-    "lingui-compile": "lingui compile",
-    "lingui": "lingui extract && lingui compile",
-    "postinstall": "patch-package && cp patches/realm+1.3.0-package-patched.json node_modules/realm-web/package.json"
+    "lingui:extract": "lingui extract --clean",
+    "lingui:compile": "lingui compile && node scripts/i18n.js",
+    "lingui": "npm run lingui:extract --clean && npm run lingui:compile",
+    "postinstall": "patch-package && cp patches/realm+1.3.0-package-patched.json node_modules/realm-web/package.json",
+    "code-push:dev": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-development -d Staging  -t `git rev-list master --first-parent --count`",
+    "code-push:stage": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-staging -d Staging  -t `git rev-list master --first-parent --count`",
+    "code-push:prod": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-production -d Production  -t `git rev-list master --first-parent --count`"
   },
   "repository": {
     "type": "git",
@@ -67,8 +70,8 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@amplitude/react-native": "^2.5.0",
-    "@ceramicnetwork/http-client": "^1.5.7",
-    "@ceramicnetwork/stream-tile": "^1.5.7",
+    "@ceramicnetwork/http-client": "^2.0.4",
+    "@ceramicnetwork/stream-tile": "^2.1.3",
     "@expo/react-native-action-sheet": "^3.9.0",
     "@gooddollar/goodcontracts": "^2.6.2",
     "@gooddollar/goodprotocol": "^1.0.18",
@@ -168,6 +171,7 @@
     "react-native-branch": "^5.1.0",
     "react-native-camera": "^3.42.0",
     "react-native-card-flip": "^1.0.7",
+    "react-native-code-push": "^7.0.4",
     "react-native-communications": "^2.2.1",
     "react-native-config": "^1.4.4",
     "react-native-contacts": "^5.0.7",
@@ -264,6 +268,7 @@
     "@sentry/webpack-plugin": "^1.18.3",
     "@svgr/webpack": "^5.3.0",
     "@zxing/text-encoding": "^0.9.0",
+    "appcenter-cli": "2.*",
     "artillery": "^1.6.0-28",
     "auto-changelog": "^1.16.2",
     "babel-jest": "^26.6.3",
@@ -369,6 +374,39 @@
   ],
   "auto-changelog": {
     "tagPattern": "^v[\\.0-9]+$"
+  },
+  "lingui": {
+    "catalogs": [
+      {
+        "path": "<rootDir>/src/language/locales/{locale}/catalog",
+        "include": [
+          "<rootDir>/src"
+        ],
+        "exclude": [
+          "**/__tests__/**"
+        ]
+      }
+    ],
+    "format": "minimal",
+    "sourceLocale": "en",
+    "locales": [
+      "en",
+      "en-gb",
+      "es",
+      "es-419",
+      "es-us",
+      "fr",
+      "id",
+      "hi",
+      "it",
+      "ko",
+      "pt-br",
+      "uk",
+      "tr",
+      "vi",
+      "zh",
+      "zh-tw"
+    ]
   },
   "detox": {
     "configurations": {

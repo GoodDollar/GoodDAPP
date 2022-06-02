@@ -1,4 +1,4 @@
-import { noop, once } from 'lodash'
+import { get, noop, once } from 'lodash'
 import moment from 'moment'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
@@ -12,7 +12,7 @@ import env from './env'
 const { search: qs = '' } = isWeb ? window.location : {}
 const webStorage = isWeb ? window.localStorage : { getItem: noop }
 
-const forceLogLevel = qs.match(/level=(.*?)($|&)/) || webStorage.getItem('GD_LogLevel')
+const forceLogLevel = get(qs.match(/level=(.*?)($|&)/), 1, webStorage.getItem('GD_LogLevel'))
 const forcePeer = qs.match(/gun=(.*?)($|&)/)
 
 const phase = env.REACT_APP_RELEASE_PHASE || 1
@@ -36,7 +36,7 @@ const Config = {
   isPhaseOne,
   isPhaseTwo,
   newVersionUrl: env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
-  logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
+  logLevel: forceLogLevel || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   ipfsGateways: ipfsGateways.split(',').map(gatewayTmpl => mustache(gatewayTmpl)),
@@ -172,6 +172,7 @@ const Config = {
   ceramicIndex: env.REACT_APP_CERAMIC_INDEX,
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
+  ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600),
 }
 
 //get and override settings from server

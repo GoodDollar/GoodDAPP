@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable require-await */
 
-import { countBy, filter, groupBy, isArray, isEmpty, keys, last, negate } from 'lodash'
+import { assign, countBy, filter, get, groupBy, isArray, keys, last, map } from 'lodash'
 import Config from '../../config/config'
 
 import IPFS from '../ipfs/IpfsStorage'
@@ -13,9 +13,7 @@ import { CeramicModel, serializeCollection, serializeDocument } from './client'
 
 const { ceramicIndex, ceramicLiveIndex, ceramicBatchSize } = Config
 const log = logger.child({ from: 'CeramicFeed' })
-const nonEmpty = negate(isEmpty)
 
-// TODO: add logging
 class Post extends CeramicModel {
   static index = ceramicIndex
 
@@ -43,49 +41,44 @@ class CeramicFeed {
     return this._loadPostPictures(serialized)
   }
 
-  async getHistoryId() {
-    const { commitId } = await Post.getLiveIndex()
-    const historyId = String(commitId)
+  async getHistory() {
+    const { content } = await Post.getLiveIndex()
+    const history = get(content, 'items', [])
+    const historyId = get(last(history), 'id', null)
 
-    log.debug('get history id', { historyId })
-    return historyId
+    return { history, historyId }
   }
 
-  async getHistory(afterHistoryId = null) {
-    const { allCommitIds, commitId } = await Post.getLiveIndex()
-    const historyId = String(commitId)
+  aggregateHistory(history, afterHistoryId = null) {
+    const historyIds = map(history, 'id')
+    const historyId = last(historyIds)
+    let lastChanges = history
 
-    let commitIds = allCommitIds.map(String)
-    let history = []
-
-    log.debug('get history', { commitId, commitIds, afterHistoryId })
+    log.debug('get history', { historyId, historyIds, afterHistoryId })
 
     if (afterHistoryId) {
-      const afterId = String(afterHistoryId)
-      let afterIndex = commitIds.findIndex(commitId => commitId === afterId)
+      const afterIndex = history.findIndex(({ id }) => id === afterHistoryId)
 
       if (afterIndex < 0) {
-        throw new Error(`Couldn't find history id '${afterId}'`)
+        const exception = new Error(`Couldn't find history id '${afterHistoryId}'`)
+
+        assign(exception, {
+          historyId: afterHistoryId,
+          name: 'HISTORY_NOT_FOUND',
+        })
+
+        throw exception
       }
 
-      commitIds = commitIds.slice(afterIndex + 1)
+      lastChanges = history.slice(afterIndex + 1)
     }
 
-    log.debug('Got commit IDs:', { commitIds })
+    const aggregated = groupBy(lastChanges, 'item')
 
-    const commits = await batch(commitIds, ceramicBatchSize, async cid => {
-      const { content, commitId } = await CeramicModel.loadDocument(cid)
+    log.debug('Got last changes:', { lastChanges })
+    log.debug('Got aggregated changes:', { aggregated })
 
-      log.debug('Got commit document:', { commitId: String(commitId), content })
-      return content
-    })
-
-    log.debug('Got commits:', { commits })
-
-    const aggregated = groupBy(filter(commits, nonEmpty), 'item')
-    log.debug('Got aggregated commits:', { aggregated })
-
-    history = filter(
+    return filter(
       keys(aggregated).map(item => {
         let action
         const records = aggregated[item]
@@ -138,8 +131,6 @@ class CeramicFeed {
         return record
       }),
     )
-
-    return { historyId, history }
   }
 
   /** @private */

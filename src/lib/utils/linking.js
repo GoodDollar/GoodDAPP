@@ -1,5 +1,4 @@
 // @flow
-
 import { Linking, Platform } from 'react-native'
 
 import { DESTINATION_PATH, INVITE_CODE } from '../constants/localStorage'
@@ -64,31 +63,5 @@ export const handleLinks = async (logger = log) => {
     }
 
     logger.error('parsing in-app link failed', e.message, e, params)
-  }
-}
-
-export const getRouteParams = (navigation, pathName, params) => {
-  let parentNavigator
-  let selectedNavigator = navigation
-
-  // traverse nested navigators
-  while ((parentNavigator = selectedNavigator.dangerouslyGetParent())) {
-    selectedNavigator = parentNavigator
-  }
-
-  const root = selectedNavigator.router.getActionForPathAndParams(pathName) || {}
-  let routeParams = root
-
-  // traverse nested routes
-  while (routeParams && routeParams.action) {
-    routeParams = routeParams.action
-  }
-
-  return {
-    ...routeParams,
-    params: {
-      ...routeParams.params,
-      ...params,
-    },
   }
 }

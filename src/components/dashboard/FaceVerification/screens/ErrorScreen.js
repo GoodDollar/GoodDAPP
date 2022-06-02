@@ -54,11 +54,6 @@ const ErrorScreen = ({ styles, screenProps, navigation }) => {
   return <ErrorViewComponent onRetry={onRetry} displayTitle={title} nav={screenProps} exception={exception} />
 }
 
-ErrorScreen.navigationOptions = {
-  title: 'Face Verification',
-  navigationBarHidden: false,
-}
-
 ErrorScreen.kindOfTheIssue = {
   NotMatchError,
   UnrecoverableError,

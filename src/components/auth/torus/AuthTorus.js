@@ -22,12 +22,11 @@ import {
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import {
-  REGISTRATION_METHOD_METAMASK,
   REGISTRATION_METHOD_SELF_CUSTODY,
   REGISTRATION_METHOD_TORUS,
+  REGISTRATION_METHOD_METAMASK,
   REGISTRATION_METHOD_WALLETCONNECT,
 } from '../../../lib/constants/login'
-
 import { withStyles } from '../../../lib/styles'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
@@ -52,7 +51,6 @@ import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
 import mustache from '../../../lib/utils/mustache'
 import useTorus from './hooks/useTorus'
-
 const log = logger.child({ from: 'AuthTorus' })
 
 async function metamaskLogin() {
@@ -258,7 +256,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       return selfCustodyLogin()
     }
 
-    let web3, torusUser
+    let web3Provider, torusUser
     setWalletPreparing(true)
 
     // in case this is triggered as a callback after redirect we fire a different vent
@@ -271,15 +269,15 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
     if (provider === 'walletconnect') {
       regMethod = REGISTRATION_METHOD_WALLETCONNECT
-      web3 = await walletconnectLogin()
+      web3Provider = await walletconnectLogin()
       torusUser = {
-        publicAddress: web3.currentProvider.accounts[0],
+        publicAddress: web3Provider.currentProvider.accounts[0],
       }
     } else if (provider === 'metamask') {
       regMethod = REGISTRATION_METHOD_METAMASK
-      web3 = await metamaskLogin()
+      web3Provider = await metamaskLogin()
       torusUser = {
-        publicAddress: web3.address,
+        publicAddress: web3Provider.address,
       }
     } else {
       regMethod = REGISTRATION_METHOD_TORUS
@@ -322,8 +320,8 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
       // get full name, email, number, userId
       const goodWallet = await initWalletAndStorage(
-        web3 ? web3 : torusUser.privateKey,
-        web3 ? provider.toUpperCase() : 'SEED',
+        web3Provider ? web3Provider : torusUser.privateKey,
+        web3Provider ? provider.toUpperCase() : 'SEED',
       )
 
       const existsResult = await checkExisting(provider, torusUser, goodWallet)

@@ -22,7 +22,7 @@ import { isMobileNative } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
 import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
-import { getRouteParams } from '../../lib/utils/linking'
+import { getRouteParams } from '../../lib/utils/navigation'
 
 type LoadingProps = {
   navigation: any,
@@ -215,10 +215,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     if (ready && userStorage && goodWallet) {
-      // TODO: do not call private methods, create single method sync()
-      // in user storage class designed to be called from outside
-      userStorage.database._syncFromRemote()
-      userStorage.userProperties._syncFromRemote()
+      userStorage.sync()
       refresh() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError()
     }

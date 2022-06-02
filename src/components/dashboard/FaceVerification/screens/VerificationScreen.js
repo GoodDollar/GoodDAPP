@@ -161,9 +161,4 @@ const FaceVerification = ({ screenProps }) => {
   return <Instructions onDismiss={verifyFace} ready={initialized} />
 }
 
-FaceVerification.navigationOptions = {
-  title: 'Face Verification',
-  navigationBarHidden: false,
-}
-
 export default FaceVerification

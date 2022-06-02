@@ -1,73 +1,34 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Android CI/CD v1
+name: Android release
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   push:
     branches: [master, staging, next]
+  pull_request:
+    branches: [master]
+    types:
+      - closed
 
   workflow_dispatch:
+    inputs:
+      release:
+        description: 'release type'
+        required: true
+        default: ''
+        type: choice
+        options:
+          - master
+          - staging
+          - next
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test:
-    name: Detox Tests
+  codepush:
+    name: Hot Code Push
     runs-on: ubuntu-latest
-    #disabled until we get it working again
-    if: ${{ false && !contains(github.event.head_commit.message, 'skip ci') }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - name: Use specific Java version for sdkmanager to work
-        uses: joschi/setup-jdk@v1
-        with:
-          java-version: 'openjdk11'
-          architecture: 'x64'
-      - name: Install npm dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --frozen-lockfile
-      - name: Cache Android
-        id: cache-android
-        uses: actions/cache@v1
-        with:
-          path: .android
-          key: ${{ runner.os }}-android-29
-      - name: Download Android Emulator Image
-        if: ${{ steps.cache-android.outputs.cache-hit != 'true' }}
-        run: |
-          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
-          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name Nexus_5X_API_29_x86 --device "Nexus 5X" -k 'system-images;android-29;google_apis;x86'
-      # - name: Android Emulator
-      #   timeout-minutes: 10
-      #   continue-on-error: true
-      #   run: |
-      #     echo "Starting emulator"
-      #     $ANDROID_HOME/emulator/emulator -list-avds
-      #     nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
-      #     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
-      #     $ANDROID_HOME/platform-tools/adb devices
-      #     echo "Emulator started"
-      - name: Prepare env
-        env: # Or as an environment variable
-          SENTRYRC: ${{ secrets.sentryrc_file }}
-        run: |
-          echo "$SENTRYRC" > android/sentry.properties
-      - name: run detox build & test
-        run: |
-          $ANDROID_HOME/emulator/emulator -list-avds
-          yarn lingui-compile
-          yarn test:android
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message,'release:') && !contains(github.event.head_commit.message,'skip ci')"
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    if: github.event_name != 'workflow_dispatch'
     steps:
       - name: Pre-checks - Env is Dev
         run: |
@@ -75,40 +36,27 @@ jobs:
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
-          echo "ANDROID_BUNDLE_PATH=./android/app/build/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
-
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ endsWith(github.ref, '/staging') }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
-          echo "APPCENTER_STORE=Alpha" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
-
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ endsWith(github.ref, '/next') }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
-          echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
-
-      - name: set branch name
-        env:
-          BUILD_NUMBER: ${{ github.run_number }}
-        run: |
-          echo "Creating release number ${BUILD_NUMBER}"
-          echo "${ENV} ${GITHUB_REF} ${SECRET_NAME} ${APPCENTER_NAME}"
-
-      - name: fix max_user_watches
-        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-      - uses: actions/checkout@v2
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
@@ -118,30 +66,107 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           env_name="${{ env.ENV }}"
+          echo $env_name
           cat .env.$env_name
           echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
           echo "$SENTRYRC" > android/sentry.properties
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
+          echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
+      - name: Code push release
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
+        run: |
+          echo Code push release target version $BUILD_NUMBER
+          echo Code push CODE_PUSH_DEPLOYMENT_KEY $CODE_PUSH_DEPLOYMENT_KEY
+          echo Code push APPCENTER_CODEPUSH_TOKEN ${{ env.APPCENTER_CODEPUSH_TOKEN }}
+          yarn lingui:compile
+          npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
 
+  # This workflow contains a single job called "build"
+  build:
+    name: Build
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag and without skipping CI :
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
+      (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
+      (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Git branch name
+        id: git-branch-name
+        uses: EthanSK/git-branch-name-action@v1
+      - name: Detect and set target branch
+        run: echo "TARGET_BRANCH=${{ github.event.inputs.release || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
+      - name: Pre-checks - Env is Dev
+        run: |
+          echo "ENV=development" >> $GITHUB_ENV
+          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
+          echo "ANDROID_BUNDLE_PATH=./android/app/build/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
+      - name: Pre-checks - Env is QA
+        if: ${{ env.TARGET_BRANCH == 'staging' }}
+        run: |
+          echo "ENV=staging" >> $GITHUB_ENV
+          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
+      - name: Pre-checks - Env is PROD
+        if: ${{ env.TARGET_BRANCH == 'next' }}
+        run: |
+          echo "ENV=prod" >> $GITHUB_ENV
+          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
+          echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: fix max_user_watches
+        run: |
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+      - name: Cache & install npm dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn --frozen-lockfile
+      - name: add .env secrets
+        env:
+          SENTRYRC: ${{ secrets.sentryrc_file }}
+        run: |
+          env_name="${{ env.ENV }}"
+          echo $env_name
+          cat .env.$env_name
+          echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
+          echo "$SENTRYRC" > android/sentry.properties
+          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
+          echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
       - name: Setup google services file
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
-
       - name: Set release keystore
         run: |
           echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc
           gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
-
       - name: Build Android Release
         env:
           RELEASE_ANDROID_PASSPHRASE: ${{ secrets.RELEASE_ANDROID_PASSPHRASE }}
           ENVFILE: '.env.${{ env.ENV }}'
           BUILD_NUMBER: ${{ github.run_number }}
+          CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
-          yarn lingui-compile
+          yarn lingui:compile
           cd android && ./gradlew bundleRelease
-
       - name: Build Universal APK
         uses: skywall/universal-apk-builder@v1.0.1
         with:
@@ -150,14 +175,11 @@ jobs:
           keystore_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
           keystore_alias: 'release-alias'
           keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
-
       - name: Deploy to App Center
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
-          yarn add appcenter-cli@^2.*
           npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-
       - name: Distribute to stores - PROD ONLY
-        if: ${{ endsWith(github.ref, '/next') }}
+        if: ${{ env.ENV == 'prod' }}
         run: |
           npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

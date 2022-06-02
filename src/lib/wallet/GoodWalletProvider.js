@@ -52,7 +52,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
           mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
           web3,
           web3Transport: Config.web3TransportProvider,
-          httpWeb3provider: web3 !== undefined ? web3.currentProvider?.http?.url : undefined,
+          httpWeb3provider: web3?.currentProvider?.http?.url,
         })
 
         await wallet.ready
@@ -89,20 +89,20 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         return isLoggedInJWT
       }
 
-      await userStorage.ready
-
+      const { userProperties } = userStorage
       const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
 
       // the login also re-initialize the api with new jwt
-      await walletLogin.auth(refresh).catch(e => {
+      const { jwt } = await walletLogin.auth(refresh).catch(e => {
         log.error('failed auth:', e.message, e)
 
         throw e
       })
 
+      await userProperties.ready
       setLoggedInJWT(walletLogin)
-      log.info('walletLogin', await walletLogin.getJWT(), { refresh })
 
+      log.info('walletLogin', { jwt, refresh })
       return walletLogin
     },
     [goodWallet, userStorage, isLoggedInJWT, setLoggedInJWT],

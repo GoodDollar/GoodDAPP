@@ -1,9 +1,21 @@
 /* eslint-disable require-await */
+import { lazy } from 'react'
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { assign, chunk, identity, isError, isFunction, isObject, isString, once } from 'lodash'
+import { assign, chunk, first, identity, isError, isFunction, isObject, isString, once } from 'lodash'
+
+const exportDefault = component => module => ({ default: module[component] })
 
 export const noopAsync = async () => true
+
+export const lazyExport = (dynamicImport, ...exportComponents) => {
+  const [hocFn, ...rest] = exportComponents
+  const withCustomHoc = isFunction(hocFn)
+  const hoc = withCustomHoc ? hocFn : lazy
+  const components = withCustomHoc ? rest : exportComponents
+
+  return components.map(component => hoc(() => dynamicImport().then(exportDefault(component))))
+}
 
 export const batch = async (items, chunkSize, onItem) =>
   chunk(items, chunkSize).reduce(
@@ -23,6 +35,8 @@ export const timeout = async (millis, message = null) =>
   delay(millis).then(() => {
     throw new Error(message)
   })
+
+export const withDelay = async (asyncFn, millis) => Promise.all([asyncFn, delay(millis)]).then(first)
 
 export const withTimeout = async (asyncFn, timeoutMs = 60000, errorMessage = 'Timed out') =>
   Promise.race([asyncFn(), timeout(timeoutMs, errorMessage)])

@@ -587,7 +587,7 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('checkEntitlement failed', message, exception)
+      log.error('checkEntitlement failed', message, exception)
       return 0
     }
   }
@@ -687,7 +687,7 @@ export class GoodWallet {
       const events = await retry(() =>
         fundManager.getPastEvents('FundsTransferred', InterestCollectedEventsFilter),
       ).catch(e => {
-        log.warn('InterestCollectedEvents failed:', e.message, e, {
+        log.error('InterestCollectedEvents failed:', e.message, e, {
           category: ExceptionCategory.Blockhain,
         })
         return []
@@ -761,7 +761,7 @@ export class GoodWallet {
     } catch (exception) {
       const { message } = exception
 
-      log.warn('BalanceOf failed', message, exception)
+      log.error('BalanceOf failed', message, exception)
       return 0
     }
   }
@@ -1266,7 +1266,7 @@ export class GoodWallet {
         const ok = await this.sendTransaction(toptx, undefined, { isVerifyHasGas: true })
           .then(_ => true)
           .catch(e => {
-            log.warn('verifyHasGas faucet failed', e.message, e)
+            log.error('verifyHasGas faucet failed', e.message, e)
             return false
           })
         if (ok) {

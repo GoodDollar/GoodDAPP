@@ -21,46 +21,46 @@ on:
 #          - prod: '/next'
 #
 jobs:
- set_target_branch:
-   steps:
-     name: Detect and set target branch
-     run: |
+#  set_target_branch:
+#   steps:
+#     name: Detect and set target branch
+#    run: |
 #       ${{ github.event.inputs.release != '' && echo "TARGET_BRANCH= ${{ github.event.inputs.release }}" >> $GITHUB_ENV ||
-       endsWith(github.ref, '/master') && echo "TARGET_BRANCH='/master'" >> $GITHUB_ENV ||
-       endsWith(github.ref, '/staging') && echo "TARGET_BRANCH='/staging'" >> $GITHUB_ENV ||
-       endsWith(github.ref, '/next') && echo "TARGET_BRANCH='/next'" >> $GITHUB_ENV }}
+#     endsWith(github.ref, '/master') && echo "TARGET_BRANCH='/master'" >> $GITHUB_ENV ||
+#     endsWith(github.ref, '/staging') && echo "TARGET_BRANCH='/staging'" >> $GITHUB_ENV ||
+#     endsWith(github.ref, '/next') && echo "TARGET_BRANCH='/next'" >> $GITHUB_ENV }}
 #
-#  build:
-#    runs-on: macOS-latest
-#    # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag and without skipping CI :
-#    if: |
-#      ${{ github.event.pull_request.merged == true && $TARGET_BRANCH == '/master' ||
-#      $TARGET_BRANCH == '/staging' && contains(github.event.head_commit.message, 'release qa') ||
-#      $TARGET_BRANCH == '/next' && contains(github.event.head_commit.message, 'release prod') }}
-#    steps:
-#      - name: set branch name
-#        run: |
-#          echo "ENV=development" >> $GITHUB_ENV
-#          echo "BRANCH=${{ github.ref }}" >> $GITHUB_ENV
-#          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
-#          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
-#          echo "$GITHUB_HEAD_REF $GITHUB_REF ${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
-#
-#      - name: Pre-checks - Env is QA
-#        if: ${{ contains('staging',env.BRANCH) }}
-#        run: |
-#          echo "ENV=staging" >> $GITHUB_ENV
-#          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
-#          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-staging" >> $GITHUB_ENV
-#          echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
-#
-#      - name: Pre-checks - Env is PROD
-#        if: ${{ contains('production next',env.BRANCH) }}
-#        run: |
-#          echo "ENV=prod" >> $GITHUB_ENV
-#          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
-#          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-production" >> $GITHUB_ENV
-#          echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
+  build:
+    runs-on: macOS-latest
+    # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag and without skipping CI :
+    if: |
+      ${{ github.event.pull_request.merged == true && $TARGET_BRANCH == '/master' ||
+      $TARGET_BRANCH == '/staging' && contains(github.event.head_commit.message, 'release qa') ||
+      $TARGET_BRANCH == '/next' && contains(github.event.head_commit.message, 'release prod') }}
+    steps:
+      - name: set branch name
+        run: |
+          echo "ENV=development" >> $GITHUB_ENV
+          echo "BRANCH=${{ github.ref }}" >> $GITHUB_ENV
+          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
+          echo "$GITHUB_HEAD_REF $GITHUB_REF ${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
+
+      - name: Pre-checks - Env is QA
+        if: ${{ contains('staging',env.BRANCH) }}
+        run: |
+          echo "ENV=staging" >> $GITHUB_ENV
+          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-staging" >> $GITHUB_ENV
+          echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
+
+      - name: Pre-checks - Env is PROD
+        if: ${{ contains('production next',env.BRANCH) }}
+        run: |
+          echo "ENV=prod" >> $GITHUB_ENV
+          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-production" >> $GITHUB_ENV
+          echo "${{ env.BRANCH }} ${{ env.SECRET_NAME }} ${{ env.APPCENTER_NAME }}"
 #
 #      - uses: actions/checkout@v1
 #      - uses: actions/setup-node@v1

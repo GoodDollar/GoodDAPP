@@ -19,6 +19,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import { Percent } from '@sushiswap/sdk'
+import sendData from 'functions/sendData'
 
 import ShareTransaction from 'components/ShareTransaction'
 
@@ -69,6 +70,7 @@ function SwapConfirmModal({
     const web3 = useWeb3()
     const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
+    const getData = sendData
 
     const handleSwap = async () => {
         if (meta && meta.priceImpact && !confirmPriceImpactWithoutFee((meta.priceImpact as unknown) as Percent)) {
@@ -107,13 +109,13 @@ function SwapConfirmModal({
                     tradeInfo: tradeInfo
                 })
             )
-            window.dataLayer.push({event: "swap", action: "submittedSwap"})
+            getData({event: "swap", action: "submittedSwap"})
             if (onConfirm) onConfirm()
         }
         try {
-            window.dataLayer.push({event: "swap", 
+            getData({event: "swap", 
                                    action: "confirmSwap", 
-                                   amount: inputSig, 
+                                   amount: buying ? minimumOutputSig : inputSig, 
                                    tokens: [inputSymbol, outputSymbol], 
                                    type: buying ? 'buy' : 'sell',})
             const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)

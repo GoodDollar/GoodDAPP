@@ -32,6 +32,7 @@ import QuestionHelper from 'components/QuestionHelper'
 
 import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
+import sendData from 'functions/sendData'
 
 function Swap() {
     const { i18n } = useLingui()
@@ -71,7 +72,7 @@ function Swap() {
     const swapBalance = useCurrencyBalance(account ?? undefined, G$)
     const web3 = useWeb3()
     const [lastEdited, setLastEdited] = useState<{ field: 'external' | 'internal' }>()
-
+      
     const metaTimer = useRef<any>()
     useEffect(() => {
         clearTimeout(metaTimer.current)
@@ -117,11 +118,12 @@ function Swap() {
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
+    const getData = sendData
 
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
-          window.dataLayer.push({event: 'swap', action: 'approveSwap', type: buying ? 'buy' : 'sell'})
+          getData({event: 'swap', action: 'approveSwap', type: buying ? 'buy' : 'sell'})
             setApproving(true)
             if (buying) {
                 await approveBuy(web3, meta)
@@ -372,7 +374,7 @@ function Swap() {
                                         (buying && [ETHER, FUSE].includes(swapPair.token) ? false : !approved)
                                     }
                                     onClick={() => {
-                                      window.dataLayer.push({event: 'swap', action: 'startSwap', type: buying ? 'buy' : 'sell'})
+                                      getData({event: 'swap', action: 'startSwap', type: buying ? 'buy' : 'sell'})
                                       setShowConfirm(true)
                                     }}>
                                     {i18n._(t`Swap`)}

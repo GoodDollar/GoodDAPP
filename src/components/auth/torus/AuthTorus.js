@@ -22,9 +22,9 @@ import {
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import {
+  REGISTRATION_METHOD_METAMASK,
   REGISTRATION_METHOD_SELF_CUSTODY,
   REGISTRATION_METHOD_TORUS,
-  REGISTRATION_METHOD_METAMASK,
   REGISTRATION_METHOD_WALLETCONNECT,
 } from '../../../lib/constants/login'
 import { withStyles } from '../../../lib/styles'

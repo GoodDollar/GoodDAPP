@@ -1,4 +1,5 @@
-#name: iOS CI/CD v1
+name: iOS CI/CD v1
+
 #
 #on:
 #  push:

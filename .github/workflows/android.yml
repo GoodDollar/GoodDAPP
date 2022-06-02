@@ -100,7 +100,7 @@ jobs:
         id: git-branch-name
         uses: EthanSK/git-branch-name-action@v1
       - name: Detect and set target branch
-        run: echo "TARGET_BRANCH=${{ github.event.inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
+        run: echo "TARGET_BRANCH=${{ github.event.inputs.release || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV

@@ -114,6 +114,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
+          echo "ANDROID_BUNDLE_PATH=./android/app/build/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |

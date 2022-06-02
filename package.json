@@ -42,7 +42,7 @@
     "add-locale": "lingui add-locale",
     "postinstall": "patch-package && cp patches/realm+1.3.0-package-patched.json node_modules/realm-web/package.json",
     "lingui:extract": "lingui extract --clean",
-    "lingui:compile": "lingui compile && node scripts/i18n.js",
+    "lingui:compile": "lingui compile",
     "lingui": "npm run lingui:extract --clean && npm run lingui:compile"
   },
   "repository": {

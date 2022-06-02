@@ -20,15 +20,20 @@ on:
         default: ''
         type: choice
         options:
-          - dev: 'master'
-          - qa: 'staging'
-          - prod: 'next'
+          - master
+          - staging
+          - next
 
 jobs:
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest
     steps:
+      - name: Git branch name
+        id: git-branch-name
+        uses: EthanSK/git-branch-name-action@v1
+      - name: Detect and set target branch
+        run: echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
@@ -53,6 +58,8 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
       - uses: actions/setup-node@v1
         with:
           node-version: 14

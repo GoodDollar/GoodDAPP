@@ -2,7 +2,7 @@ name: iOS CI/CD v1
 
 on:
   push:
-    branches: [ master, staging, next, chore/update-ios-ci-workflow ]
+    branches: [ master, staging, next, 3728-update-ios-ci-workflow ]
     pull_request:
       branches: [ master ]
       types:

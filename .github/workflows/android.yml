@@ -28,6 +28,7 @@ jobs:
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch'
     steps:
       - name: Pre-checks - Env is Dev
         run: |

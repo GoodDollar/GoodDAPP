@@ -1,13 +1,12 @@
 name: iOS CI/CD v1
 
-#
-#on:
-#  push:
-#    branches: [master, staging, next]
-#  pull_request:
-#    branches: [master, staging, next]
-#    types:
-#      - closed
+on:
+ push:
+   branches: [master, staging, next]
+ pull_request:
+   branches: [master, staging, next]
+   types:
+     - closed
 #
 #  workflow_dispatch:
 #    inputs:
@@ -21,15 +20,15 @@ name: iOS CI/CD v1
 #          - qa: '/staging'
 #          - prod: '/next'
 #
-#jobs:
-#  set_target_branch:
-#    steps:
-#      name: Detect and set target branch
-#      run: |
-#        ${{ github.event.inputs.release != '' && echo "TARGET_BRANCH= ${{ github.event.inputs.release }}" >> $GITHUB_ENV ||
-#        endsWith(github.ref, '/master') && echo "TARGET_BRANCH= '/master'" >> $GITHUB_ENV ||
-#        endsWith(github.ref, '/staging') && echo "TARGET_BRANCH= '/staging'" >> $GITHUB_ENV ||
-#        endsWith(github.ref, '/next') && echo "TARGET_BRANCH= '/next'" >> $GITHUB_ENV }}
+jobs:
+ set_target_branch:
+   steps:
+     name: Detect and set target branch
+     run: |
+#       ${{ github.event.inputs.release != '' && echo "TARGET_BRANCH= ${{ github.event.inputs.release }}" >> $GITHUB_ENV ||
+       endsWith(github.ref, '/master') && echo "TARGET_BRANCH='/master'" >> $GITHUB_ENV ||
+       endsWith(github.ref, '/staging') && echo "TARGET_BRANCH='/staging'" >> $GITHUB_ENV ||
+       endsWith(github.ref, '/next') && echo "TARGET_BRANCH='/next'" >> $GITHUB_ENV }}
 #
 #  build:
 #    runs-on: macOS-latest

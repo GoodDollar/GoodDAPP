@@ -7,12 +7,12 @@ import SwapInfo from '../SwapInfo'
 import { ButtonAction, ButtonDefault } from 'components/gd/Button'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { Currency } from '@sushiswap/sdk'
-import { buy, BuyInfo } from 'sdk/buy'
-import { sell, SellInfo } from 'sdk/sell'
+import { buy, BuyInfo } from '@gooddollarorg/sdk/dist/core'
+import { sell, SellInfo } from '@gooddollarorg/sdk/dist/core'
 import { addTransaction } from 'state/transactions/actions'
 import { useDispatch } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import useWeb3 from 'hooks/useWeb3'
+import { useGdContextProvider } from '@gooddollarorg/sdk/dist/hooks'
 import { Action } from 'pages/gd/Stake/StakeDeposit'
 import { getExplorerLink } from 'utils'
 import { t } from '@lingui/macro'
@@ -66,7 +66,7 @@ function SwapConfirmModal({
     const [from, to] = pair ?? []
     const globalDispatch = useDispatch()
     const { chainId } = useActiveWeb3React()
-    const web3 = useWeb3()
+    const { web3 } = useGdContextProvider()
     const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
 

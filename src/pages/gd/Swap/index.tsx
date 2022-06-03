@@ -11,15 +11,15 @@ import { Currency, ETHER } from '@sushiswap/sdk'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useG$ from 'hooks/useG$'
-import useWeb3 from 'hooks/useWeb3'
-import { approve as approveBuy, BuyInfo, getMeta as getBuyMeta, getMetaReverse as getBuyMetaReverse } from 'sdk/buy'
+
+import { approveBuy, BuyInfo, getBuyMeta, getBuyMetaReverse } from '@gooddollarorg/sdk/dist/core'
 import {
-    approve as approveSell,
-    getMeta as getSellMeta,
-    getMetaReverse as getSellMetaReverse,
+    approveSell,
+    getSellMeta,
+    getSellMetaReverse,
     SellInfo
-} from 'sdk/sell'
-import { SupportedChainId } from 'sdk/constants/chains'
+} from '@gooddollarorg/sdk/dist/core'
+import { SupportedChainId } from '@gooddollarorg/sdk/dist/constants'
 import SwapConfirmModal from './SwapConfirmModal'
 import { FUSE } from 'constants/index'
 import { useDispatch } from 'react-redux'
@@ -33,6 +33,8 @@ import QuestionHelper from 'components/QuestionHelper'
 import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
 
+import { useGdContextProvider } from '@gooddollarorg/sdk/dist/hooks'
+
 function Swap() {
     const { i18n } = useLingui()
     const [buying, setBuying] = useState(true)
@@ -40,6 +42,7 @@ function Swap() {
         custom: false,
         value: '0.1'
     })
+    // console.log('slippageTollerance -->', {slippageTolerance})
     const { account, chainId } = useActiveWeb3React()
     const [swapPair, setSwapPair] = useState<SwapVariant>({
         token: SupportedChainId[Number(chainId)] === 'FUSE' ? FUSE : ETHER,
@@ -69,7 +72,8 @@ function Swap() {
     const [meta, setMeta] = useState<undefined | null | BuyInfo | SellInfo>()
     const pairBalance = useCurrencyBalance(account ?? undefined, swapPair.token)
     const swapBalance = useCurrencyBalance(account ?? undefined, G$)
-    const web3 = useWeb3()
+    const {web3} = useGdContextProvider()
+
     const [lastEdited, setLastEdited] = useState<{ field: 'external' | 'internal' }>()
 
     const metaTimer = useRef<any>()

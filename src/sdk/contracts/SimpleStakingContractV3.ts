@@ -17,6 +17,7 @@ import GdSdkContext from 'sdk/hooks/useGdSdkContext'
  * @constructor
  */
 export function simpleStakingContractV2(web3: Web3, address: string) {
+  console.log('simpleStakingV2 (proto)')
     return new web3.eth.Contract(SimpleStakingV2.abi as AbiItem[], address)
 }
 

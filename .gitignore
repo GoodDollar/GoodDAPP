@@ -5,6 +5,7 @@
 
 #cache
 /.yarn/cache
+# /.yalc/
 
 # testing
 /coverage

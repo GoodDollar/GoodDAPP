@@ -29,6 +29,16 @@ yarn
 yarn start
 ```
 
+### Yalc
+For local-development and working with the @gooddollarorg library repo we use Yalc
+Usages -->
+  ```npm i yalc -g``` (yarn global is deprecated after v2)
+  from library repository:
+    1. ```yalc publish --private``` (first time)
+    2. ```yalc publish --private --push ``` (update send to all locally installed instances)
+  from protocolUI:
+    1. ```yalc link @gooddollarorg/<packageName>```
+
 ## Contributions
 
 **Please open all pull requests against the `master` branch.**

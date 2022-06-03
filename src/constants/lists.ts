@@ -25,7 +25,7 @@ const FUSE_LIST =
 
 // lower index == higher priority for token import
 export const DEFAULT_LIST_OF_LISTS: string[] = [
-    YEARN_LIST,
+    // YEARN_LIST,
     COMPOUND_LIST,
     AAVE_LIST,
     SYNTHETIX_LIST,

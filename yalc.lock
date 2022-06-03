@@ -1,0 +1,8 @@
+{
+  "version": "v1",
+  "packages": {
+    "@gooddollarorg/sdk": {
+      "signature": "b301ea1f318b30c775830890e349c54e"
+    }
+  }
+}

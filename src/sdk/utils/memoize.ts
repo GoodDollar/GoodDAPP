@@ -5,7 +5,6 @@
  * @returns {void}
  */
 export function delayedCacheClear(memoize: any, delay = 60_000): void {
-  console.log('delayed cache memoize object -->', memoize.cache)
   setTimeout(() => memoize.cache.clear?.call(null), delay)
 }
 
@@ -15,7 +14,6 @@ export function delayedCacheClear(memoize: any, delay = 60_000): void {
  * @returns {void}
  */
 export function cacheClear(memoize: any): void {
-  console.log('cache memoize object -->', memoize.cache)
   memoize.cache.clear?.call(null)
 }
 

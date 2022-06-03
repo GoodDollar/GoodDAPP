@@ -1,0 +1,49 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+          // Allows for the parsing of JSX
+          "jsx": true
+      }
+  },
+  "plugins": [
+    "import"
+  ],
+  "ignorePatterns": ["node_modules/**/*", "rollup.config.js", "tsconfig.json"],
+  "settings": {
+      "import/resolver": {
+          "node": {
+              "paths": ["src"]
+          }
+      },
+      "import/extensions": [
+        ".js",
+        ".mjs",
+        ".jsx",
+        ".ts",
+        ".tsx"
+      ],
+      "react": {
+          "version": "detect"
+      }
+  },
+  "extends": [
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:import/typescript"
+  ],
+  "rules": {
+    "import/no-cycle": ["error", { "maxDepth": 10, "ignoreExternal": true }],
+    "no-unused-vars": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/triple-slash-reference": "off",
+    "@typescript-eslint/no-extra-semi": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", {"vars": "local", "args": "after-used", "ignoreRestSiblings": true }]
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"rest.d.ts","sourceRoot":"","sources":["../../src/core/rest.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,QAAQ,EAAE,MAAM,mBAAmB,CAAA;AAM5C,aAAK,UAAU,GAAG;IACd,SAAS,EAAE,QAAQ,CAAA;IACnB,YAAY,EAAE,QAAQ,CAAA;CACzB,CAAA;AAED;;;;;;GAMG;AACH,eAAO,MAAM,eAAe,aAAqB,MAAM,gBAAgB,MAAM,KAAK,QAAQ,UAAU,CAAC,qCAgCpG,CAAA"}

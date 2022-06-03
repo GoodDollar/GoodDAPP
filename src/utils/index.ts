@@ -2,7 +2,7 @@ import { ChainId, Currency, CurrencyAmount, ETHER, JSBI, Percent, ROUTER_ADDRESS
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 
 import { AddressZero } from '@ethersproject/constants'
-import { BigNumber } from '@ethersproject/bignumber'
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import Fraction from 'entities/Fraction'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
@@ -34,7 +34,7 @@ export function isWETH(value: any): string {
     return value
 }
 
-export const formatBalance = (value: ethers.BigNumberish, decimals = 18, maxFraction = 0) => {
+export const formatBalance = (value: BigNumberish, decimals = 18, maxFraction = 0) => {
     const formatted = ethers.utils.formatUnits(value, decimals)
     if (maxFraction > 0) {
         const split = formatted.split('.')

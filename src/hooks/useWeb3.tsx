@@ -1,10 +1,10 @@
 import useActiveWeb3React from './useActiveWeb3React'
 import React, { createContext, ReactNode, ReactNodeArray, useContext, useMemo } from 'react'
 import Web3 from 'web3'
-import { useEnvWeb3 } from 'sdk/hooks/useNewEnvWeb3'
-import { DAO_NETWORK } from 'sdk/constants/chains'
-import GdSdkContext from 'sdk/hooks/useGdSdkContext'
-import { getNetworkEnv } from 'sdk/constants/addresses'
+
+import { useEnvWeb3, GdSDkContext } from '@gooddollarorg/sdk/dist/hooks/'
+import { DAO_NETWORK } from '@gooddollarorg/sdk/dist/constants/'
+import { getNetworkEnv } from '@gooddollarorg/sdk/dist/constants/addresses'
 
 const Context = createContext<Web3 | null>(null)
 
@@ -15,20 +15,22 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
       [eipProvider, mainnetWeb3]
     )
     const defaultNetwork = process.env.REACT_APP_NETWORK ?? ''
-    // const currentRpcs = {
-    //   KOVAN_RPC: process.env.REACT_APP_KOVAN_RPC,
-    //   ROPSTEN_RPC: process.env.REACT_APP_ROPSTEN_RPC,
-    //   MAINNET_RPC: process.env.REACT_APP_MAINNET_RPC,
-    //   FUSE_RPC: process.env.REACT_APP_FUSE_RPC
-    // }
-    // how to bubble RPC's down to SDK ? should it even?
-    // console.log('defaultNetwork -->', {defaultNetwork})
+    const rpcs = {
+      MAINNET_RPC: process.env.REACT_APP_MAINNET_RPC,
+      ROPSTEN_RPC: process.env.REACT_APP_ROPSTEN_RPC,
+      KOVAN_RPC: process.env.REACT_APP_KOVAN_RPC,
+      FUSE_RPC: process.env.REACT_APP_FUSE_RPC
+    }
     localStorage.setItem(
       'GD_NETWORK',
       JSON.stringify(defaultNetwork)
     )
+    localStorage.setItem(
+      'GD_RPCS',
+      JSON.stringify(rpcs)
+    )
     const network = getNetworkEnv(defaultNetwork)
-    return <GdSdkContext.Provider value={{web3: web3, activeNetwork: network}}>{children}</GdSdkContext.Provider>
+    return <GdSDkContext.Provider value={{web3: web3, activeNetwork: network, rpcs: rpcs}}>{children}</GdSDkContext.Provider>
 }
 
 export default function useWeb3() {

@@ -86,7 +86,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       if ((!refresh && isLoggedInJWT) || !goodWallet || !userStorage) {
         return isLoggedInJWT
       }
-      
+
       const { userProperties } = userStorage
       const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
 
@@ -99,7 +99,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
       await userProperties.ready
       setLoggedInJWT(walletLogin)
-      
+
       log.info('walletLogin', { jwt, refresh })
       return walletLogin
     },

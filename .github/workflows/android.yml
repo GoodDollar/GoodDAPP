@@ -28,6 +28,7 @@ jobs:
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch'
     steps:
       - name: Pre-checks - Env is Dev
         run: |
@@ -98,7 +99,7 @@ jobs:
         id: git-branch-name
         uses: EthanSK/git-branch-name-action@v1
       - name: Detect and set target branch
-        run: echo "TARGET_BRANCH=${{ inputs.target_branch || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
+        run: echo "TARGET_BRANCH=${{ github.event.inputs.release || env.GIT_BRANCH_NAME }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
@@ -106,6 +107,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
+          echo "ANDROID_BUNDLE_PATH=./android/app/build/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |
@@ -122,6 +124,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
+          echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.TARGET_BRANCH }}

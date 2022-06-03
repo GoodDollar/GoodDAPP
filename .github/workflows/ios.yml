@@ -112,7 +112,6 @@ jobs:
     runs-on: macOS-latest
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag :
     if: |
-      github.event_name == 'workflow_dispatch' ||
       endsWith(github.ref, '3728-update-ios-ci-workflow') ||
       (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
@@ -217,6 +216,12 @@ jobs:
           yarn lingui:compile
           yarn animation:assets
           echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
+
+          for PROVISION in `ls ./*.mobileprovision`
+          do
+            UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i ./$PROVISION)`
+            cp "./$PROVISION" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
+          done
 
           cd ios && xcodebuild archive \
             -workspace GoodDollar.xcworkspace \

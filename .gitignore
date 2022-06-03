@@ -5,6 +5,7 @@
 
 #cache
 /.yarn/cache
+/.yarn/install-state.gz
 # /.yalc/
 
 # testing

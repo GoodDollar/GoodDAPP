@@ -60,10 +60,11 @@ export type simpleStakingAddresses = [
 export async function getSimpleStakingContractAddressesV3(web3: Web3): Promise<simpleStakingAddresses> {
     const chainId = await getChainId(web3)
     const deployments = {v3:'StakingContractsV3', v2:'StakingContractsV2', v1:'StakingContracts'}
-    try {
+
       let all:any = []
 
       for (const [release, deployment] of Object.entries(deployments)) {
+        try {
         const _addresses = G$ContractAddresses<Array<string[] | string>>(chainId, deployment)
 
         const addresses = []
@@ -75,12 +76,12 @@ export async function getSimpleStakingContractAddressesV3(web3: Web3): Promise<s
           }
         }
         all = [...all, {release: release, addresses: addresses}]
+      } catch(error) {
+        all = [...all, {release: release, addresses: ''}]
+        continue
       }
-
-      return all
-    } catch(error) {
-      return [{release: '', addresses: ['']}]
     }
+    return all
 }
 
 /**

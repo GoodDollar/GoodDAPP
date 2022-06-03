@@ -98,7 +98,7 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
 
     let stakes: MyStake[] = []
     try {
-        const govStake = governanceStakingAddresses.map(stake => metaMyGovStake(fuseWeb3, account, stake.address, stake.release))
+        const govStake = governanceStakingAddresses.map(stake => stake.address ? metaMyGovStake(fuseWeb3, account, stake.address, stake.release) : null)
         for (const releases of simpleStakingReleases){
           if (releases.release){
             for (const [key, address] of Object.entries(releases.addresses)){

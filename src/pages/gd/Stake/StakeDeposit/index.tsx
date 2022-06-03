@@ -4,9 +4,6 @@ import Title from 'components/gd/Title'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
 import SwapInput from 'pages/gd/Swap/SwapInput'
 import { ButtonAction, ButtonDefault, ButtonText } from 'components/gd/Button'
-import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from 'sdk/staking'
-// import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from '@gd-test-repo/sdk/dist/core/staking'
-// import { Stake } from '@gd-test-repo/sdk/dist/core/staking'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTokenBalance } from 'state/wallet/hooks'
 import { Token } from '@sushiswap/sdk'
@@ -16,14 +13,15 @@ import { useDispatch } from 'react-redux'
 import { getExplorerLink } from 'utils'
 import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
 import { Link } from 'react-router-dom'
-import { TransactionDetails } from 'sdk/constants/transactions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
-import ShareTransaction from 'components/ShareTransaction'
+import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from '@gooddollarorg/sdk/dist/core/staking'
+import { LIQUIDITY_PROTOCOL } from '@gooddollarorg/sdk/dist/constants'
+import { useGdContextProvider } from '@gooddollarorg/sdk/dist/hooks'
+
 import Share from 'components/Share'
 
 export interface StakeDepositModalProps {
@@ -54,7 +52,7 @@ const initialState = {
 const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepositModalProps) => {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
-    const web3 = useWeb3()
+    const { web3 } = useGdContextProvider()
     const [state, dispatch] = useReducer(
         (
             state: typeof initialState,
@@ -260,20 +258,21 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                     <ButtonAction
                         className="mt-4"
                         disabled={!state.value.match(/[^0.]/) || !web3 || !account || state.loading}
-                        // onClick={() =>
-                        //     // withLoading(async () => {
-                        //     //     const [tokenPriceInUSDC] = await Promise.all([
-                        //     //         await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
-                        //     //         await approve(web3!, stake.address, state.value, tokenToDeposit, () => {
-                        //     //             dispatch({ type: 'CHANGE_SIGNED' })
-                        //     //         })
-                        //     //     ])
-                        //     //     dispatch({
-                        //     //         type: 'CHANGE_APPROVED',
-                        //     //         payload: tokenPriceInUSDC?.toSignificant(6) ?? ''
-                        //     //     })
-                        //     // })
-                        // }
+                        onClick={() =>
+                            withLoading(async () => {
+                                window.dataLayer.push({event: 'stake', action: 'stakeApprove', amount: state.value, type: stake.protocol})
+                                const [tokenPriceInUSDC] = await Promise.all([
+                                    await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
+                                    await approve(web3!, stake.address, state.value, tokenToDeposit, () => {
+                                        dispatch({ type: 'CHANGE_SIGNED' })
+                                    })
+                                ])
+                                dispatch({
+                                    type: 'CHANGE_APPROVED',
+                                    payload: tokenPriceInUSDC?.toSignificant(6) ?? ''
+                                })
+                            })
+                        }
                     >
                         {state.loading
                             ? i18n._(t`APPROVING`)
@@ -305,34 +304,35 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         <ButtonAction
                             className="mt-6"
                             disabled={state.loading}
-                            // onClick={() =>
-                            //     withLoading(async () => {
-                            //         const depositMethod =
-                            //             stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
-                            //         await depositMethod(
-                            //             web3!,
-                            //             stake.address,
-                            //             state.value,
-                            //             tokenToDeposit,
-                            //             state.token === 'B',
-                            //             (transactionHash: string, from: string) => {
-                            //                 dispatch({ type: 'DONE', payload: transactionHash })
-                            //                 reduxDispatch(
-                            //                     addTransaction({
-                            //                         chainId: chainId!,
-                            //                         hash: transactionHash,
-                            //                         from: from,
-                            //                         summary: i18n._(
-                            //                             t`Staked ${tokenToDeposit.symbol} at ${stake.protocol} `
-                            //                         )
-                            //                     })
-                            //                 )
-                            //             }
-                            //         )
-
-                            //         if (onDeposit) onDeposit()
-                            //     })
-                            // }
+                            onClick={() =>
+                                withLoading(async () => {
+                                    window.dataLayer.push({event: 'stake', action: 'stakeDeposit', amount: state.value, type: stake.protocol})
+                                    const depositMethod =
+                                        stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
+                                    await depositMethod(
+                                        web3!,
+                                        stake.address,
+                                        state.value,
+                                        tokenToDeposit,
+                                        state.token === 'B',
+                                        (transactionHash: string, from: string) => {
+                                            window.dataLayer.push({event: 'stake', action: 'awesomeStake'})
+                                            dispatch({ type: 'DONE', payload: transactionHash })
+                                            reduxDispatch(
+                                                addTransaction({
+                                                    chainId: chainId!,
+                                                    hash: transactionHash,
+                                                    from: from,
+                                                    summary: i18n._(
+                                                        t`Staked ${tokenToDeposit.symbol} at ${stake.protocol} `
+                                                    )
+                                                })
+                                            )
+                                        }
+                                    )
+                                    if (onDeposit) onDeposit()
+                                })
+                            }
                         >
                             {i18n._(t`DEPOSIT`)}
                         </ButtonAction>

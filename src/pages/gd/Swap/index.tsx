@@ -32,7 +32,7 @@ import QuestionHelper from 'components/QuestionHelper'
 
 import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
-import sendData from 'functions/sendData'
+import sendGa from 'functions/sendGa'
 
 function Swap() {
     const { i18n } = useLingui()
@@ -118,7 +118,7 @@ function Swap() {
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
-    const getData = sendData
+    const getData = sendGa
 
     const handleApprove = async () => {
         if (!meta || !web3) return

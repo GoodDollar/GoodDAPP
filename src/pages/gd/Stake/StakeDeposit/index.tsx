@@ -18,7 +18,7 @@ import { TransactionDetails } from 'sdk/constants/transactions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
-import sendData from 'functions/sendData'
+import sendGa from 'functions/sendGa'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
@@ -195,7 +195,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
     const approving = !state.done && !state.approved
     const depositing = !state.done && state.approved
 
-    const getData = sendData
+    const getData = sendGa
 
     return (
         <StakeDepositSC className="p-4">

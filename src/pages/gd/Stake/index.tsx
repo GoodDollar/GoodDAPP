@@ -25,7 +25,7 @@ import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import { getNetworkEnv } from 'sdk/constants/addresses'
-import sendData from 'functions/sendData'
+import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
 
@@ -129,7 +129,7 @@ const StakeTable = ({
 
     const isMobile = width ? width <= 768 : undefined
 
-    const getData = sendData
+    const getData = sendGa
 
     const headings = {
         token: {

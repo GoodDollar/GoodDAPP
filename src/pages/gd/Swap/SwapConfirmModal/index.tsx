@@ -19,7 +19,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import { Percent } from '@sushiswap/sdk'
-import sendData from 'functions/sendData'
+import sendGa from 'functions/sendGa'
 
 import ShareTransaction from 'components/ShareTransaction'
 
@@ -70,7 +70,7 @@ function SwapConfirmModal({
     const web3 = useWeb3()
     const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
-    const getData = sendData
+    const getData = sendGa
 
     const handleSwap = async () => {
         if (meta && meta.priceImpact && !confirmPriceImpactWithoutFee((meta.priceImpact as unknown) as Percent)) {

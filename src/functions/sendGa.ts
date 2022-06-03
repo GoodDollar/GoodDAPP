@@ -6,7 +6,7 @@ type GaData = {
   tokens?: [string | undefined, string | undefined]
 }
 
-export default function sendData(data: GaData): void {
+export default function sendGa(data: GaData): void {
   const { event, action, type, amount, tokens} = data
   if (window.dataLayer){
     const trackData = {event: event, action: action, type: type, amount: amount, tokens: tokens}

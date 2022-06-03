@@ -598,50 +598,50 @@ const getAPY = memoize<(web3: Web3, address: string, protocol: LIQUIDITY_PROTOCO
     (_, address, protocol, token) => address + protocol + token.address
 )
 
-// /**
-//  * Return liquidity.
-//  * @param {Web3} web3 Web3 instance.
-//  * @param {string} address Stake address.
-//  * @param {LIQUIDITY_PROTOCOL} protocol Liquidity protocol.
-//  * @param {Token} token Token for calculation price from.
-//  * @returns {Promise<Fraction>>}
-//  */
-// const getLiquidity = memoize<
-//     (web3: Web3, address: string, protocol: LIQUIDITY_PROTOCOL, token: Token) => Promise<Fraction>
-// >(
-//     async (web3, address, protocol, token) => {
-//         const chainId = await getChainId(web3)
-//         const simpleStaking = await simpleStakingContract(web3, address)
+/**
+ * Return liquidity.
+ * @param {Web3} web3 Web3 instance.
+ * @param {string} address Stake address.
+ * @param {LIQUIDITY_PROTOCOL} protocol Liquidity protocol.
+ * @param {Token} token Token for calculation price from.
+ * @returns {Promise<Fraction>>}
+ */
+const getLiquidity = memoize<
+    (web3: Web3, address: string, protocol: LIQUIDITY_PROTOCOL, token: Token) => Promise<Fraction>
+>(
+    async (web3, address, protocol, token) => {
+        const chainId = await getChainId(web3)
+        const simpleStaking = await simpleStakingContract(web3, address)
 
-//         debugGroup(`Liquidity for ${token.symbol} in ${protocol} `)
+        debugGroup(`Liquidity for ${token.symbol} in ${protocol} `)
 
-//         const zero = new Fraction(0)
+        const zero = new Fraction(0)
 
-//         const account = await getAccount(web3)
-//         const price = await getTokenPriceInUSDC(web3, protocol, token)
+        const account = await getAccount(web3)
+        const price = await getTokenPriceInUSDC(web3, protocol, token)
 
-//         if (!price) {
-//             debug('Liquidity', zero)
-//             return zero
-//         }
+        if (!price) {
+            debug('Liquidity', zero)
+            return zero
+        }
 
-//         const USDC = (await getToken(chainId, 'USDC')) as Token
+        const USDC = (await getToken(chainId, 'USDC')) as Token
 
-//         const totalProductivity = await simpleStaking.methods.totalProductivity().call()
-//         debug('Total Productivity', totalProductivity)
+        const totalProductivity = await simpleStaking.methods.totalProductivity().call()
+        debug('Total Productivity', totalProductivity)
 
-//         const liquidity = new Fraction(totalProductivity.toString(), 1).multiply(price).divide(10 ** token.decimals)
+        const liquidity = new Fraction(totalProductivity.toString(), 1).multiply(price).divide(10 ** token.decimals)
 
-//         const liquidityUSDC = CurrencyAmount.fromFractionalAmount(USDC, liquidity.numerator, liquidity.denominator)
+        const liquidityUSDC = CurrencyAmount.fromFractionalAmount(USDC, liquidity.numerator, liquidity.denominator)
 
-//         debug('Liquidity', liquidityUSDC.toSignificant(6))
+        debug('Liquidity', liquidityUSDC.toSignificant(6))
 
-//         debugGroupEnd(`Liquidity for ${token.symbol} in ${protocol}`)
+        debugGroupEnd(`Liquidity for ${token.symbol} in ${protocol}`)
 
-//         return liquidityUSDC
-//     },
-//     (_, address, protocol, token) => address + protocol + token.address
-// )
+        return liquidityUSDC
+    },
+    (_, address, protocol, token) => address + protocol + token.address
+)
 
 /**
  * Return staked value in USD for SimpleStaking V2.
@@ -807,271 +807,271 @@ const getYearlyRewardG$ = memoize<(web3: Web3, address: string) => Promise<Curre
     (_, address) => address
 )
 
-// /**
-//  * Common information for approve token spend and stake.
-//  * @param {Web3} web3 Web3 instance.
-//  * @param {string} address Stake address.
-//  * @param {number} amount Amount of tokens to stake.
-//  * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
-//  * @returns {Promise<{ address: string, amount: string }}
-//  */
-// async function stakeMeta(
-//     web3: Web3,
-//     address: string,
-//     amount: number | string,
-//     inInterestToken = false
-// ): Promise<{ address: string; amount: string }> {
-//     const contract = simpleStakingContract(web3, address)
+/**
+ * Common information for approve token spend and stake.
+ * @param {Web3} web3 Web3 instance.
+ * @param {string} address Stake address.
+ * @param {number} amount Amount of tokens to stake.
+ * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
+ * @returns {Promise<{ address: string, amount: string }}
+ */
+async function stakeMeta(
+    web3: Web3,
+    address: string,
+    amount: number | string,
+    inInterestToken = false
+): Promise<{ address: string; amount: string }> {
+    const contract = simpleStakingContract(web3, address)
 
-//     let tokenAddress
-//     if (inInterestToken) {
-//         tokenAddress = await contract.methods.iToken().call()
-//     } else {
-//         tokenAddress = await contract.methods.token().call()
-//     }
+    let tokenAddress
+    if (inInterestToken) {
+        tokenAddress = await contract.methods.iToken().call()
+    } else {
+        tokenAddress = await contract.methods.token().call()
+    }
 
-//     const token = (await getTokenByAddress(web3, tokenAddress)) as Token
+    const token = (await getTokenByAddress(web3, tokenAddress)) as Token
 
-//     const tokenAmount = CurrencyAmount.fromRawAmount(token, decimalToJSBI(amount, token.decimals))
-//     const tokenRawAmount = tokenAmount.multiply(tokenAmount.decimalScale).toFixed(0)
+    const tokenAmount = CurrencyAmount.fromRawAmount(token, decimalToJSBI(amount, token.decimals))
+    const tokenRawAmount = tokenAmount.multiply(tokenAmount.decimalScale).toFixed(0)
 
-//     debug('Amount', tokenAmount.toSignificant(6))
-//     debug('In interest token', inInterestToken)
+    debug('Amount', tokenAmount.toSignificant(6))
+    debug('In interest token', inInterestToken)
 
-//     return { address: tokenAddress, amount: tokenRawAmount }
-// }
+    return { address: tokenAddress, amount: tokenRawAmount }
+}
 
-// /**
-//  * Approve token spend for stake.
-//  * @param {Web3} web3 Web3 instance.
-//  * @param {string} address Stake address.
-//  * @param {number} amount Amount of tokens to stake.
-//  * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
-//  * @param {function} [onSent] calls when a transaction sent to a blockchain
-//  * @returns {Promise<void>}
-//  */
-// export async function approve(
-//     web3: Web3,
-//     spender: string,
-//     amount: string,
-//     token: Token,
-//     onSent?: (transactionHash: string) => void
-// ): Promise<void> {
-//     const account = await getAccount(web3)
+/**
+ * Approve token spend for stake.
+ * @param {Web3} web3 Web3 instance.
+ * @param {string} address Stake address.
+ * @param {number} amount Amount of tokens to stake.
+ * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
+ * @param {function} [onSent] calls when a transaction sent to a blockchain
+ * @returns {Promise<void>}
+ */
+export async function approve(
+    web3: Web3,
+    spender: string,
+    amount: string,
+    token: Token,
+    onSent?: (transactionHash: string) => void
+): Promise<void> {
+    const account = await getAccount(web3)
 
-//     const tokenAmount = amount.toBigNumber(token.decimals)
-//     // const meta = await stakeMeta(web3, address, amount, inInterestToken)
-//     const erc20 = ERC20Contract(web3, token.address)
-//     const allowance = await erc20.methods
-//         .allowance(account, spender)
-//         .call()
-//         .then((_: string) => BigNumber.from(_))
+    const tokenAmount = amount.toBigNumber(token.decimals)
+    // const meta = await stakeMeta(web3, address, amount, inInterestToken)
+    const erc20 = ERC20Contract(web3, token.address)
+    const allowance = await erc20.methods
+        .allowance(account, spender)
+        .call()
+        .then((_: string) => BigNumber.from(_))
 
-//     if (tokenAmount.lte(allowance)) return
-//     const req = ERC20Contract(web3, token.address)
-//         .methods.approve(spender, MaxApproveValue.toString())
-//         .send({ from: account })
+    if (tokenAmount.lte(allowance)) return
+    const req = ERC20Contract(web3, token.address)
+        .methods.approve(spender, MaxApproveValue.toString())
+        .send({ from: account })
 
-//     if (onSent) req.on('transactionHash', onSent)
+    if (onSent) req.on('transactionHash', onSent)
 
-//     await req
-// }
+    await req
+}
 
-// /**
-//  * Make a stake in the governance staking contract
-//  * @param {Web3} web3 Web3 instance.
-//  * @param {string} address Stake address.
-//  * @param {number} amount Amount of tokens to stake.
-//  * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
-//  * @param {function} [onSent] calls when a transaction sent to a blockchain
-//  * @returns {Promise<void>}
-//  */
-// export async function stakeGov(
-//     web3: Web3,
-//     address: string,
-//     amount: string,
-//     token: Token,
-//     inInterestToken = false, //unused - only for compatability with the stake method
-//     onSent?: (transactionHash: string, from: string) => void
-// ): Promise<TransactionDetails> {
-//     const contract = governanceStakingContract(web3, address)
-//     const account = await getAccount(web3)
+/**
+ * Make a stake in the governance staking contract
+ * @param {Web3} web3 Web3 instance.
+ * @param {string} address Stake address.
+ * @param {number} amount Amount of tokens to stake.
+ * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
+ * @param {function} [onSent] calls when a transaction sent to a blockchain
+ * @returns {Promise<void>}
+ */
+export async function stakeGov(
+    web3: Web3,
+    address: string,
+    amount: string,
+    token: Token,
+    inInterestToken = false, //unused - only for compatability with the stake method
+    onSent?: (transactionHash: string, from: string) => void
+): Promise<TransactionDetails> {
+    const contract = governanceStakingContract(web3, address)
+    const account = await getAccount(web3)
 
-//     const tokenAmount = amount.toBigNumber(token.decimals)
-//     const req = contract.methods.stake(tokenAmount).send({ from: account })
+    const tokenAmount = amount.toBigNumber(token.decimals)
+    const req = contract.methods.stake(tokenAmount).send({ from: account })
 
-//     if (onSent) req.on('transactionHash', (hash: string) =>  onSent(hash, account))
+    if (onSent) req.on('transactionHash', (hash: string) =>  onSent(hash, account))
 
-//     return req
-// }
+    return req
+}
 
-// /**
-//  * Make a stake.
-//  * @param {Web3} web3 Web3 instance.
-//  * @param {string} address Stake address.
-//  * @param {number} amount Amount of tokens to stake.
-//  * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
-//  * @param {function} [onSent] calls when a transaction sent to a blockchain
-//  * @returns {Promise<void>}
-//  */
-// export async function stake(
-//     web3: Web3,
-//     address: string,
-//     amount: string,
-//     token: Token,
-//     inInterestToken = false,
-//     onSent?: (transactionHash: string, from: string) => void
-// ): Promise<TransactionDetails> {
-//     const contract = simpleStakingContractV2(web3, address)
-//     const account = await getAccount(web3)
+/**
+ * Make a stake.
+ * @param {Web3} web3 Web3 instance.
+ * @param {string} address Stake address.
+ * @param {number} amount Amount of tokens to stake.
+ * @param {boolean} inInterestToken Staking with token (false) or interest token (true)
+ * @param {function} [onSent] calls when a transaction sent to a blockchain
+ * @returns {Promise<void>}
+ */
+export async function stake(
+    web3: Web3,
+    address: string,
+    amount: string,
+    token: Token,
+    inInterestToken = false,
+    onSent?: (transactionHash: string, from: string) => void
+): Promise<TransactionDetails> {
+    const contract = simpleStakingContractV2(web3, address)
+    const account = await getAccount(web3)
 
-//     const percentage = decimalPercentToPercent(0)
+    const percentage = decimalPercentToPercent(0)
 
-//     const tokenAmount = amount.toBigNumber(token.decimals)
+    const tokenAmount = amount.toBigNumber(token.decimals)
 
-//     const req = contract.methods.stake(tokenAmount, percentage.toFixed(0), inInterestToken).send({ from: account })
+    const req = contract.methods.stake(tokenAmount, percentage.toFixed(0), inInterestToken).send({ from: account })
 
-//     if (onSent) req.on('transactionHash', (hash: string) =>  onSent(hash, account))
+    if (onSent) req.on('transactionHash', (hash: string) =>  onSent(hash, account))
 
-//     return req
-// }
+    return req
+}
 
-// /**
-//  * Withdraw a stake.
-//  * @param {Web3} web3 Web3 instance.
-//  * @param {MyStake} stake Stake address.
-//  * @param {string} percentage How much to withdraw in percentages.
-//  * @param {function} [onSent] calls when a transaction sent to a blockchain
-//  * @returns {Promise<void>}
-//  */
-// export async function withdraw(
-//     web3: Web3,
-//     stake: MyStake,
-//     percentage: string,
-//     withdrawIntoInterestToken?: boolean,
-//     onSent?: (transactionHash: string, from: string) => void,
-//     onReceipt?: () => void,
-//     onError?: (e:any) => void
-// ): Promise<TransactionDetails> {
-//     const contract =
-//         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO
-//             ? governanceStakingContract(web3, stake.address) :
-//         !stake.isDeprecated || stake.isV2 ? simpleStakingContractV2(web3, stake.address) :
-//                               simpleStakingContract(web3, stake.address)
+/**
+ * Withdraw a stake.
+ * @param {Web3} web3 Web3 instance.
+ * @param {MyStake} stake Stake address.
+ * @param {string} percentage How much to withdraw in percentages.
+ * @param {function} [onSent] calls when a transaction sent to a blockchain
+ * @returns {Promise<void>}
+ */
+export async function withdraw(
+    web3: Web3,
+    stake: MyStake,
+    percentage: string,
+    withdrawIntoInterestToken?: boolean,
+    onSent?: (transactionHash: string, from: string) => void,
+    onReceipt?: () => void,
+    onError?: (e:any) => void
+): Promise<TransactionDetails> {
+    const contract =
+        stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO
+            ? governanceStakingContract(web3, stake.address) :
+        !stake.isDeprecated || stake.isV2 ? simpleStakingContractV2(web3, stake.address) :
+                              simpleStakingContract(web3, stake.address)
 
-//     const account = await getAccount(web3)
+    const account = await getAccount(web3)
 
-//     const toWithdraw = stake.stake.amount
-//         .multiply(new Percent(percentage, 100))
-//         .multiply(stake.stake.amount.decimalScale)
-//         .toFixed(0)
+    const toWithdraw = stake.stake.amount
+        .multiply(new Percent(percentage, 100))
+        .multiply(stake.stake.amount.decimalScale)
+        .toFixed(0)
 
-//     let req
-//     if (stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO)
-//         req = contract.methods.withdrawStake(toWithdraw).send({ from: account })
-//     else req = contract.methods.withdrawStake(toWithdraw, withdrawIntoInterestToken).send({ from: account })
+    let req
+    if (stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO)
+        req = contract.methods.withdrawStake(toWithdraw).send({ from: account })
+    else req = contract.methods.withdrawStake(toWithdraw, withdrawIntoInterestToken).send({ from: account })
 
-//     if (onSent) req.on('transactionHash', (hash: string) => onSent(hash, account))
-//     if (onReceipt) req.on('receipt', onReceipt)
-//     if (onError) req.on('error', onError)
+    if (onSent) req.on('transactionHash', (hash: string) => onSent(hash, account))
+    if (onReceipt) req.on('receipt', onReceipt)
+    if (onError) req.on('error', onError)
 
-//     return req
-// }
+    return req
+}
 
-// /**
-//  * Claim GOOD rewards from staking.
-//  * @param {Web3} web3 Web3 instance.
-//  * @param {function} [onSent] calls when transactions sent to a blockchain
-//  */
-// export async function claimGood(
-//     web3: Web3,
-//     onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
-//     onReceipt?: () => void,
-//     onError?: (e:any) => void
-// ): Promise<TransactionDetails[]> {
-//     const chainId = await getChainId(web3)
-//     const account = await getAccount(web3)
+/**
+ * Claim GOOD rewards from staking.
+ * @param {Web3} web3 Web3 instance.
+ * @param {function} [onSent] calls when transactions sent to a blockchain
+ */
+export async function claimGood(
+    web3: Web3,
+    onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
+    onReceipt?: () => void,
+    onError?: (e:any) => void
+): Promise<TransactionDetails[]> {
+    const chainId = await getChainId(web3)
+    const account = await getAccount(web3)
 
-//     const transactions: any[] = []
-//     if (chainId === SupportedChainId.FUSE) {
-//         const contract = governanceStakingContract(web3)
-//         transactions.push(contract.methods.withdrawRewards().send({ from: account }))
-//     } else {
-//         const stakersDistribution = await stakersDistributionContract(web3)
-//         const simpleStakingReleases = await getSimpleStakingContractAddressesV3(web3)
+    const transactions: any[] = []
+    if (chainId === SupportedChainId.FUSE) {
+        const contract = governanceStakingContract(web3)
+        transactions.push(contract.methods.withdrawRewards().send({ from: account }))
+    } else {
+        const stakersDistribution = await stakersDistributionContract(web3)
+        const simpleStakingReleases = await getSimpleStakingContractAddressesV3(web3)
         
-//         const simpleStakingAddresses: any[] = []
-//         const stakeV3 = simpleStakingReleases.find(releases => releases.release === "v3")
-//         if (stakeV3){
-//           for (const [key, address] of Object.entries(stakeV3.addresses)){
-//             simpleStakingAddresses.push(address)
-//           }
-//         }
+        const simpleStakingAddresses: any[] = []
+        const stakeV3 = simpleStakingReleases.find(releases => releases.release === "v3")
+        if (stakeV3){
+          for (const [key, address] of Object.entries(stakeV3.addresses)){
+            simpleStakingAddresses.push(address)
+          }
+        }
 
-//         transactions.push(stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account }))
-//     }
+        transactions.push(stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account }))
+    }
     
-//     if (onSent)
-//       Promise.all(
-//         transactions.map(
-//           transaction => 
-//             new Promise<string>((resolve, reject) => {
-//               transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
-//               transaction.on('receipt', onReceipt)
-//               transaction.on('error', reject)
-//               resolve('done')
-//           }) 
-//         )
-//       )
+    if (onSent)
+      Promise.all(
+        transactions.map(
+          transaction => 
+            new Promise<string>((resolve, reject) => {
+              transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
+              transaction.on('receipt', onReceipt)
+              transaction.on('error', reject)
+              resolve('done')
+          }) 
+        )
+      )
 
-//     return Promise.all(transactions)
-// }
+    return Promise.all(transactions)
+}
 
-// /**
-//  * Claim G$ rewards from staking.
-//  * @param {Web3} web3 Web3 instance.
-//  * @param {function} [onSent] calls when transactions sent to a blockchain
-//  */
-// export async function claim(
-//     web3: Web3,
-//     onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
-//     onReceipt?: () => void
-// ): Promise<TransactionDetails[]> {
-//     const chainId = await getChainId(web3)
-//     const account = await getAccount(web3)
+/**
+ * Claim G$ rewards from staking.
+ * @param {Web3} web3 Web3 instance.
+ * @param {function} [onSent] calls when transactions sent to a blockchain
+ */
+export async function claim(
+    web3: Web3,
+    onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
+    onReceipt?: () => void
+): Promise<TransactionDetails[]> {
+    const chainId = await getChainId(web3)
+    const account = await getAccount(web3)
 
-//     const simpleStakingReleases = await getSimpleStakingContractAddressesV3(web3)
+    const simpleStakingReleases = await getSimpleStakingContractAddressesV3(web3)
 
-//     const transactions: any[] = []
-//     const stakeV3 = simpleStakingReleases.find(releases => releases.release === "v3")
+    const transactions: any[] = []
+    const stakeV3 = simpleStakingReleases.find(releases => releases.release === "v3")
 
-//     if (stakeV3) {
-//       for (const [key, address] of Object.entries(stakeV3.addresses)){
-//         const [rewardG$, rewardGDAO] = await Promise.all([
-//           getRewardG$(web3, address, account, false),
-//           getRewardGDAO(web3, address, account)
-//         ])
+    if (stakeV3) {
+      for (const [key, address] of Object.entries(stakeV3.addresses)){
+        const [rewardG$, rewardGDAO] = await Promise.all([
+          getRewardG$(web3, address, account, false),
+          getRewardGDAO(web3, address, account)
+        ])
 
-//         if (!rewardG$.unclaimed.equalTo(0)) {
-//           const simpleStaking = simpleStakingContractV2(web3, address)
-//           transactions.push(simpleStaking.methods.withdrawRewards().send({ from: account }))
-//         }
-//       }
-//     }
+        if (!rewardG$.unclaimed.equalTo(0)) {
+          const simpleStaking = simpleStakingContractV2(web3, address)
+          transactions.push(simpleStaking.methods.withdrawRewards().send({ from: account }))
+        }
+      }
+    }
 
-//     if (onSent) {
-//         Promise.all(
-//             transactions.map(
-//                 transaction =>
-//                     new Promise<string>((resolve, reject) => {
-//                         transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
-//                         transaction.on('receipt', onReceipt)
-//                         transaction.on('error', reject)
-//                         resolve('done')
-//                     }) 
-//             )
-//         )
-//     }
+    if (onSent) {
+        Promise.all(
+            transactions.map(
+                transaction =>
+                    new Promise<string>((resolve, reject) => {
+                        transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
+                        transaction.on('receipt', onReceipt)
+                        transaction.on('error', reject)
+                        resolve('done')
+                    }) 
+            )
+        )
+    }
 
-//     return Promise.all(transactions)
-// }
+    return Promise.all(transactions)
+}

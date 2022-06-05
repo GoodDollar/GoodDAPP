@@ -3,7 +3,7 @@ import React, { useState, memo } from 'react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
-import { LinkedinIcon, FacebookIcon, TwitterIcon } from '../Icon'
+import { LinkedinIcon, FacebookIcon, TwitterIcon, CopyIcon } from '../Icon'
 import Row from 'components/Row'
 import Title from 'components/gd/Title'
 
@@ -100,7 +100,8 @@ export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): Re
                 )}
                 {copyText && (
                     <ButtonOutlined onClick={copy} className="pl-3 pr-3 copyButton" disabled={textCopied}>
-                        {i18n._(t`${textCopied ? 'Copied' : 'Copy'}`)}
+                        {/* {i18n._(t`${textCopied ? 'Copied' : 'Copy'}`)} */}
+                        <CopyIcon height="24px" />
                     </ButtonOutlined>
                 )}
             </Row>

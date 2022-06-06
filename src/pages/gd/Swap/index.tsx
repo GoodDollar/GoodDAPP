@@ -32,6 +32,7 @@ import QuestionHelper from 'components/QuestionHelper'
 
 import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
+import sendGa from 'functions/sendGa'
 
 function Swap() {
     const { i18n } = useLingui()
@@ -121,10 +122,12 @@ function Swap() {
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
+    const getData = sendGa
 
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
+          getData({event: 'swap', action: 'approveSwap', type: buying ? 'buy' : 'sell'})
             setApproving(true)
             if (buying) {
                 await approveBuy(web3, meta)
@@ -375,8 +378,10 @@ function Swap() {
                                         balanceNotEnough ||
                                         (buying && [ETHER, FUSE].includes(swapPair.token) ? false : !approved)
                                     }
-                                    onClick={() => setShowConfirm(true)}
-                                >
+                                    onClick={() => {
+                                      getData({event: 'swap', action: 'startSwap', type: buying ? 'buy' : 'sell'})
+                                      setShowConfirm(true)
+                                    }}>
                                     {i18n._(t`Swap`)}
                                 </ButtonAction>
                             </div>

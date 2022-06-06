@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 `
 
 const MainBody = styled.div`
-background-color: ${({theme}) => theme.color.bgBody};
+    background-color: ${({theme}) => theme.color.bgBody};
 `
 
 function App(): JSX.Element {

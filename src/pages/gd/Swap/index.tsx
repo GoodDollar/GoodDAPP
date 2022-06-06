@@ -389,7 +389,8 @@ function Swap() {
                 {...swapFields}
                 open={showConfirm}
                 onClose={() => setShowConfirm(false)}
-                pair={pair}
+                setOpen={(value: boolean) => setShowConfirm(value)} 
+                pair={pair} 
                 meta={meta}
                 buying={buying}
                 onConfirm={async () => {

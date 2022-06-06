@@ -7,6 +7,8 @@ import { useLingui } from '@lingui/react'
 import { CustomLightSpinner } from 'theme'
 import Circle from 'assets/images/blue-loader.svg'
 
+import { Calculating } from 'theme/components'
+
 export interface SwapInputProps extends Omit<JSX.IntrinsicElements['input'], 'ref'> {
     className?: string
     style?: CSSProperties
@@ -40,7 +42,8 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, .
                     </SwapInputMaxButton>
                 )}
                 { inputProps.calculating ? 
-                  <CustomLightSpinner src={Circle} alt="loader" size={'24px'} /> :
+                  // <CustomLightSpinner src={Circle} alt="loader" size={'24px'} /> :
+                  <Calculating /> :
                   <MaskedInput
                     placeholder={'0.' + '0'.repeat(Math.min(decimals, 2))}
                     mask={mask}

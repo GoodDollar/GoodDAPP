@@ -4,6 +4,8 @@ import MaskedInput from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { CustomLightSpinner } from 'theme'
+import Circle from 'assets/images/blue-loader.svg'
 
 export interface SwapInputProps extends Omit<JSX.IntrinsicElements['input'], 'ref'> {
     className?: string
@@ -11,7 +13,8 @@ export interface SwapInputProps extends Omit<JSX.IntrinsicElements['input'], 're
     balance?: string | number
     autoMax?: boolean
     decimals?: number
-    onMax?: MouseEventHandler<HTMLButtonElement>
+    onMax?: MouseEventHandler<HTMLButtonElement>,
+    calculating?: boolean
 }
 
 function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, ...inputProps }: SwapInputProps) {
@@ -36,13 +39,16 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, .
                         {i18n._(t`max`)}
                     </SwapInputMaxButton>
                 )}
-                <MaskedInput
+                { inputProps.calculating ? 
+                  <CustomLightSpinner src={Circle} alt="loader" size={'24px'} /> :
+                  <MaskedInput
                     placeholder={'0.' + '0'.repeat(Math.min(decimals, 2))}
                     mask={mask}
                     guide={false}
                     size={1}
                     {...inputProps}
-                />
+                  />
+                }
             </SwapInputSC>
             {balance != undefined && (
                 <SwapInputBalance className="mt-2">

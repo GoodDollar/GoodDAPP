@@ -216,9 +216,9 @@ jobs:
           yarn lingui:compile
           yarn animation:assets
           echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
-          identity_id=security find-identity -v
-          echo "identity_id : $identity_id"
-          /usr/bin/codesign --force -s identity_id ~/Library/Developer/Xcode/DerivedData/GoodDollar-emrvkwtqepuciufitlqqeguaoezu -v
+          identity_id="${{ security find-identity -v }}
+          echo "identity_id is : $identity_id"
+          /usr/bin/codesign --force -s $identity_id ~/Library/Developer/Xcode/DerivedData/GoodDollar-emrvkwtqepuciufitlqqeguaoezu -v
 
           cd ios && xcodebuild archive \
             -workspace GoodDollar.xcworkspace \

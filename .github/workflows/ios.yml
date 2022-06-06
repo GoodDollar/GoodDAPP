@@ -245,10 +245,19 @@ jobs:
             -archivePath $PWD/build/GoodDollar.xcarchive \
             PROVISIONING_PROFILE=${{ env.PROFILE_UID }} \
             CODE_SIGN_IDENTITY="Apple Distribution: GoodDollar Limited (97K3Q6WTLM)"
+
+#      - name: Build IOS App
+#        uses: yukiarrr/ios-build-action@v1.4.0
+#        with:
+#          project-path: ios/GoodDollar.xcodeproj
+#          p12-base64: ${{ secrets.IOS_CERTIFICATE }}
+#          mobileprovision-base64: ${{ secrets.PROFILE_UID }}
+#          code-signing-identity: "iPhone Distribution"
+#          team-id: ${{ secrets.IOS_TEAM_ID }}
+#          certificate-password: ''
+#          workspace-path: ios/GoodDollar.xcworkspace
       - name: Export app
         run: |
-          APP_DIR = $(mdfind GoodDollar.app)
-          /usr/bin/codesign --force -s ${{ secrets.IOS_PROFILE_KEY }} $APP_DIR -v
           cd ios && xcodebuild \
             -exportArchive \
             -archivePath $PWD/build/GoodDollar.xcarchive \

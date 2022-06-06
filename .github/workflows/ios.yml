@@ -227,7 +227,8 @@ jobs:
             CODE_SIGN_IDENTITY="Apple Distribution: GoodDollar Limited (97K3Q6WTLM)"
       - name: Export app
         run: |
-          /usr/bin/codesign --force -s ${{ secrets.IOS_PROFILE_KEY }} ${{ mdfind GoodDollar.app }} -v
+          APP_DIR = $(mdfind GoodDollar.app)
+          /usr/bin/codesign --force -s ${{ secrets.IOS_PROFILE_KEY }} $APP_DIR -v
           cd ios && xcodebuild \
             -exportArchive \
             -archivePath $PWD/build/GoodDollar.xcarchive \

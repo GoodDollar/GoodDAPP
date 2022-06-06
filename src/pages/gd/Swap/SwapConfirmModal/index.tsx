@@ -38,7 +38,8 @@ export interface SwapConfirmModalProps extends SwapDetailsFields {
         }
     ]
     open: boolean
-    onClose: () => any
+    onClose: () => void,
+    setOpen: (value: boolean) => void,
     meta: BuyInfo | SellInfo | null | undefined
     buying: boolean
 }
@@ -46,21 +47,22 @@ export interface SwapConfirmModalProps extends SwapDetailsFields {
 const initialState = {}
 
 function SwapConfirmModal({
-    className,
-    style,
-    minimumReceived,
-    priceImpact,
-    liquidityFee,
-    route,
     GDX,
-    exitContribution,
+    meta,
+    style,
+    route,
     price,
-    onConfirm,
     pair,
     open,
-    onClose,
     buying,
-    meta
+    onClose,
+    setOpen,
+    onConfirm,
+    className,
+    priceImpact,
+    liquidityFee,
+    minimumReceived,
+    exitContribution,
 }: SwapConfirmModalProps) {
     const { i18n } = useLingui()
     const [from, to] = pair ?? []
@@ -108,10 +110,14 @@ function SwapConfirmModal({
             )
             if (onConfirm) onConfirm()
         }
+
         try {
             const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)
 
-            if (meta?.outputAmount.currency.name === 'GoodDollar') setStatus('SUCCESS')
+            if (meta?.outputAmount.currency.name === 'GoodDollar') {
+                setOpen(true)
+                setStatus('SUCCESS')
+            };
 
             // let transactionDetails = buying ? await buy(web3!, meta!, prepareTx, onSent) : await sell(web3!, meta!, prepareTx, onSent)
             // globalDispatch(
@@ -260,8 +266,7 @@ function SwapConfirmModal({
             content = (
                 <ShareTransaction
                     title={i18n._(t`Swap Completed`)}
-                    text={i18n._(t`You just used your crypto for good to help fund crypto UBI 
-for all with GoodDollar!`)}
+                    text={i18n._(t`You just used your crypto for good to help fund crypto UBI for all with GoodDollar!`)}
                     shareProps={{
                         title: i18n._(t`Share with friends`),
                         copyText: 'I just bought GoodDollars at https://goodswap.xyz to make the world better',

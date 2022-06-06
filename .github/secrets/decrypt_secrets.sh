@@ -19,5 +19,5 @@ security list-keychains -s ~/Library/Keychains/build.keychain
 security default-keychain -s ~/Library/Keychains/build.keychain
 security set-keychain-settings -lut 3000
 security unlock-keychain -p "" ~/Library/Keychains/build.keychain
-
+security find-identity -v
 security set-key-partition-list -S apple-tool:,apple: -s -k "" ~/Library/Keychains/build.keychain

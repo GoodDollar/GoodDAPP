@@ -210,9 +210,19 @@ function SwapConfirmModal({
                             value={route}
                             tip={i18n._(t`Routing through these tokens resulted in the best price for your trade.`)}
                         />
-                        {GDX && <SwapInfo title="GDX" value={GDX} />}
+                        {GDX && 
+                            <SwapInfo 
+                                tip={i18n._(t`GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit.`)}
+                                title="GDX" 
+                                value={GDX} 
+                            />
+                        }
                         {exitContribution && exitContribution !== undefined && (
-                            <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />
+                            <SwapInfo 
+                                tip={i18n._(t`A contribution to the reserve paid by members for directly selling G$ tokens.`)}
+                                title="EXIT CONTRIBUTION" 
+                                value={exitContribution} 
+                            />
                         )}
                     </div>
                     <ButtonAction onClick={handleSwap} disabled={false}>

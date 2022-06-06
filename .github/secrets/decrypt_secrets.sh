@@ -21,4 +21,3 @@ security set-keychain-settings -lut 3000
 security unlock-keychain -p "" ~/Library/Keychains/build.keychain
 security find-identity -v
 security set-key-partition-list -S apple-tool:,apple: -s -k "" ~/Library/Keychains/build.keychain
-/usr/bin/codesign --force -s "$IOS_PROFILE_KEY" ${{ mdfind GoodDollar.app }} -v

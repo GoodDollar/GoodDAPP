@@ -59,6 +59,8 @@ jobs:
 
                       echo "SUBDOMAIN=fi-qa" >> "$GITHUB_ENV"
                   fi
+
+                  echo "GOOGLE_ANALYTICS_ID=GTM-PF4KD8W"  >> "$GITHUB_ENV"
             # - name: Set network env(s)
             #   run: |
             #       if [[ $BRANCH == 'production' ]]; then

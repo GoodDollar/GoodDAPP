@@ -384,7 +384,6 @@ function Swap() {
                     </SwapContentWrapperSC>
                 </SwapWrapperSC>
                 <SwapDetails open={Boolean(meta)} buying={buying} {...swapFields} />
-                <SwapDescriptions gdx={!!swapFields.GDX} exitContribution={!!swapFields.exitContribution} />
             </SwapCardSC>
             <SwapConfirmModal
                 {...swapFields}

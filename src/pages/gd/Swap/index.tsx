@@ -72,7 +72,9 @@ function Swap() {
     const swapBalance = useCurrencyBalance(account ?? undefined, G$)
     const web3 = useWeb3()
     const [lastEdited, setLastEdited] = useState<{ field: 'external' | 'internal' }>()
-      
+
+    const [calculating, setCalculating] = useState(false)
+
     const metaTimer = useRef<any>()
     useEffect(() => {
         clearTimeout(metaTimer.current)
@@ -97,6 +99,7 @@ function Swap() {
         }
 
         const timer = (metaTimer.current = setTimeout(async () => {
+          setCalculating(true)
             const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value)).catch(e => {
                 console.error(e)
                 return null
@@ -113,6 +116,7 @@ function Swap() {
                     : meta.outputAmount.toExact()
             )
             setMeta(meta)
+            setCalculating(false)
         }, 400))
     }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
     const [approving, setApproving] = useState(false)
@@ -321,6 +325,7 @@ function Swap() {
                                 setSwapValue(value)
                                 setLastEdited({ field: 'internal' })
                             }}
+                            isCalculating={calculating}
                             style={{ marginTop: buying ? 13 : 0, marginBottom: buying ? 0 : 13, order: buying ? 3 : 1 }}
                         />
                         <div style={{ marginTop: 14, padding: '0 4px' }}>

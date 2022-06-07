@@ -13,6 +13,7 @@ import logger from '../logger/js-logger'
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm'
+import { exceptionHandler, responseHandler } from './utils'
 
 const log = logger.child({ from: 'API' })
 
@@ -101,22 +102,6 @@ export class APIService {
 
       log.info('initializing api...', serverUrl, jwt)
 
-      // eslint-disable-next-line require-await
-      const exceptionHandler = async error => {
-        let exception = error
-
-        if (axios.isCancel(error)) {
-          exception = new Error('Http request was cancelled during API call')
-        }
-
-        const { message, response } = exception
-        const { data } = response || {}
-
-        // Do something with response error
-        log.warn('axios response error', message, exception)
-        throw data || exception
-      }
-
       let instance: AxiosInstance = axios.create({
         baseURL: serverUrl,
         timeout: apiTimeout,
@@ -133,7 +118,7 @@ export class APIService {
         throw exception
       })
 
-      instance.interceptors.response.use(identity, exceptionHandler)
+      instance.interceptors.response.use(responseHandler, exceptionHandler)
 
       this.client = instance
       log.info('API ready', jwt)

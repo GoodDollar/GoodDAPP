@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { get, identity, isError, isObject, isString } from 'lodash'
+import { get, identity, isError, isString } from 'lodash'
 
 import { throttleAdapter } from '../utils/axios'
 import AsyncStorage from '../utils/asyncStorage'
@@ -32,30 +32,6 @@ export type UserRecord = NameRecord &
   Credentials & {
     username?: string,
   }
-
-export const defaultErrorMessage = 'Unexpected error happened during api call'
-
-export const getErrorMessage = apiError => {
-  let errorMessage
-
-  if (isString(apiError)) {
-    errorMessage = apiError
-  } else if (isObject(apiError)) {
-    // checking all cases:
-    // a) JS Error - will have .message property
-    // b) { ok: 0, message: 'Error message' } shape
-    // c) { ok: 0, error: 'Error message' } shape
-    const { message, error } = apiError
-
-    errorMessage = message || error
-  }
-
-  if (!errorMessage) {
-    errorMessage = defaultErrorMessage
-  }
-
-  return errorMessage
-}
 
 /**
  * GoodServer Client.

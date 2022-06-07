@@ -72,13 +72,7 @@ export class APIService {
   constructor(jwt = null) {
     const shared = axios.create()
 
-    shared.interceptors.response.use(
-      ({ data }) => data,
-      // eslint-disable-next-line require-await
-      async exception => {
-        throw exception
-      },
-    )
+    shared.interceptors.response.use(({ data }) => data)
 
     this.sharedClient = shared
     this.init(jwt)

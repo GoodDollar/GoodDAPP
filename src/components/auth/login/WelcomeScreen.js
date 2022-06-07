@@ -40,7 +40,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
 
   const onGetStarted = useCallback(() => {
     fireEvent(CLICK_GETSTARTED)
-    navigate('Auth', { screen: 'signup' })
+    navigate('Auth')
   }, [navigate])
 
   const onLearnMore = useCallback(() => {

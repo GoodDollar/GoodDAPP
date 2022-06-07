@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
@@ -47,7 +47,6 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
-  const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const { navigate } = navigation
 
   const getTorusUserRedirect = async () => {
@@ -297,23 +296,6 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       setWalletPreparing(false)
     }
   }
-
-  useEffect(() => {
-    //helper to show user login/signup when he presses back or cancels login flow
-    if (authScreen == null) {
-      AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
-        log.debug('recall authscreen for torus redirect flow', screen)
-        screen && setAuthScreen(screen)
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    if (authScreen) {
-      //when user switches between login/signup we clear the recall
-      AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
-    }
-  }, [authScreen])
 
   useEffect(() => {
     if (sdkInitialized) {

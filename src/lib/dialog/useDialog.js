@@ -21,7 +21,7 @@ export const showDialogForError = (
 export const useDialog = () => {
   const { dialogData, setDialog = noop } = useContext(DialogContext)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
-  const isDialogShown = useMemo(() => dialogData.visible, [dialogData])
+  const isDialogShown = useMemo(() => dialogData.visible, [dialogData.visible])
   const showDialog = useCallback(
     (data: DialogData) => {
       setDialogBlur(true)

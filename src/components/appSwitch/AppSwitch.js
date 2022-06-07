@@ -19,7 +19,7 @@ import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
-import restart from '../../lib/utils/restart'
+import { restart } from '../../lib/utils/system'
 import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 import { getRouteParams } from '../../lib/utils/navigation'

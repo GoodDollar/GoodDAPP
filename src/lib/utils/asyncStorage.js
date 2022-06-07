@@ -3,6 +3,7 @@ import { isArray, isEmpty, isFunction } from 'lodash'
 
 import { AB_TESTING, DESTINATION_PATH, INVITE_CODE, IS_FIRST_VISIT } from '../constants/localStorage'
 import logger from '../logger/js-logger'
+import { tryJson } from './string'
 
 const backupProps = [IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE]
 const log = logger.child({ from: 'AsyncStorage' })
@@ -62,7 +63,7 @@ export default new class {
   async getItem(key) {
     const jsonValue = await this.storageApi.getItem(key)
 
-    return this._parseValue(jsonValue)
+    return tryJson(jsonValue)
   }
 
   async multiSet(keyValuePairs) {
@@ -78,18 +79,6 @@ export default new class {
   async multiGet(keys) {
     const keyJsonValuePairs = await this.storageApi.multiGet(keys)
 
-    return keyJsonValuePairs.map(([key, jsonValue]) => [key, this._parseValue(jsonValue)])
-  }
-
-  _parseValue(jsonValue) {
-    if (jsonValue === null) {
-      return null
-    }
-
-    try {
-      return JSON.parse(jsonValue)
-    } catch {
-      return jsonValue
-    }
+    return keyJsonValuePairs.map(([key, jsonValue]) => [key, tryJson(jsonValue)])
   }
 }(AsyncStorage)

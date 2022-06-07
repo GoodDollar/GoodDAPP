@@ -19,6 +19,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import { Percent } from '@sushiswap/sdk'
+import sendGa from 'functions/sendGa'
 
 import ShareTransaction from 'components/ShareTransaction'
 
@@ -38,7 +39,8 @@ export interface SwapConfirmModalProps extends SwapDetailsFields {
         }
     ]
     open: boolean
-    onClose: () => any
+    onClose: () => void,
+    setOpen: (value: boolean) => void,
     meta: BuyInfo | SellInfo | null | undefined
     buying: boolean
 }
@@ -46,21 +48,22 @@ export interface SwapConfirmModalProps extends SwapDetailsFields {
 const initialState = {}
 
 function SwapConfirmModal({
-    className,
-    style,
-    minimumReceived,
-    priceImpact,
-    liquidityFee,
-    route,
     GDX,
-    exitContribution,
+    meta,
+    style,
+    route,
     price,
-    onConfirm,
     pair,
     open,
-    onClose,
     buying,
-    meta
+    onClose,
+    setOpen,
+    onConfirm,
+    className,
+    priceImpact,
+    liquidityFee,
+    minimumReceived,
+    exitContribution,
 }: SwapConfirmModalProps) {
     const { i18n } = useLingui()
     const [from, to] = pair ?? []
@@ -69,6 +72,7 @@ function SwapConfirmModal({
     const web3 = useWeb3()
     const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
+    const getData = sendGa
 
     const handleSwap = async () => {
         if (meta && meta.priceImpact && !confirmPriceImpactWithoutFee((meta.priceImpact as unknown) as Percent)) {
@@ -77,13 +81,14 @@ function SwapConfirmModal({
 
         setStatus('CONFIRM')
 
+        const inputSig = meta?.inputAmount.toSignificant(5)
+        const minimumOutputSig = meta?.minimumOutputAmount.toSignificant(5)
+        const inputSymbol = meta?.inputAmount.currency.symbol
+        const outputSymbol = meta?.outputAmount.currency.symbol
+
         const onSent = (hash: string, from: string) => {
             setStatus('SENT')
             setHash(hash)
-
-            const inputSig = meta?.inputAmount.toSignificant(5)
-            const minimumOutputSig = meta?.minimumOutputAmount.toSignificant(5)
-
             const tradeInfo = {
                 input: {
                     decimals: meta?.inputAmount.currency.decimals,
@@ -106,12 +111,22 @@ function SwapConfirmModal({
                     tradeInfo: tradeInfo
                 })
             )
+            getData({event: "swap", action: "submittedSwap"})
             if (onConfirm) onConfirm()
         }
+
         try {
+            getData({event: "swap", 
+                                   action: "confirmSwap", 
+                                   amount: buying ? minimumOutputSig : inputSig, 
+                                   tokens: [inputSymbol, outputSymbol], 
+                                   type: buying ? 'buy' : 'sell',})
             const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)
 
-            if (meta?.outputAmount.currency.name === 'GoodDollar') setStatus('SUCCESS')
+            if (meta?.outputAmount.currency.name === 'GoodDollar') {
+                setOpen(true)
+                setStatus('SUCCESS')
+            };
 
             // let transactionDetails = buying ? await buy(web3!, meta!, prepareTx, onSent) : await sell(web3!, meta!, prepareTx, onSent)
             // globalDispatch(
@@ -210,9 +225,19 @@ function SwapConfirmModal({
                             value={route}
                             tip={i18n._(t`Routing through these tokens resulted in the best price for your trade.`)}
                         />
-                        {GDX && <SwapInfo title="GDX" value={GDX} />}
+                        {GDX && 
+                            <SwapInfo 
+                                tip={i18n._(t`GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit.`)}
+                                title="GDX" 
+                                value={GDX} 
+                            />
+                        }
                         {exitContribution && exitContribution !== undefined && (
-                            <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />
+                            <SwapInfo 
+                                tip={i18n._(t`A contribution to the reserve paid by members for directly selling G$ tokens.`)}
+                                title="EXIT CONTRIBUTION" 
+                                value={exitContribution} 
+                            />
                         )}
                     </div>
                     <ButtonAction onClick={handleSwap} disabled={false}>
@@ -260,8 +285,7 @@ function SwapConfirmModal({
             content = (
                 <ShareTransaction
                     title={i18n._(t`Swap Completed`)}
-                    text={i18n._(t`You just used your crypto for good to help fund crypto UBI 
-for all with GoodDollar!`)}
+                    text={i18n._(t`You just used your crypto for good to help fund crypto UBI for all with GoodDollar!`)}
                     shareProps={{
                         title: i18n._(t`Share with friends`),
                         copyText: 'I just bought GoodDollars at https://goodswap.xyz to make the world better',

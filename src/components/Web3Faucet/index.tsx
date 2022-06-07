@@ -9,6 +9,7 @@ import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import sendGa from 'functions/sendGa'
 
 const ClaimButton = styled(ButtonDefault).attrs(props => ({
     disabled: false as boolean,
@@ -36,6 +37,7 @@ function Web3Faucet(): JSX.Element | null {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     const web3 = useWeb3()
+    const getData = sendGa
     const [claimable, , , refetch] = usePromise(async () => {
         if (!account || !web3 || (chainId as any) !== SupportedChainId.FUSE) return false
         const whitelisted = await isWhitelisted(web3, account).catch(e => {
@@ -54,8 +56,16 @@ function Web3Faucet(): JSX.Element | null {
 
     const handleClaim = useCallback(async () => {
         if (account && web3) {
-            await claim(web3, account)
-            refetch()
+            getData({event: 'claim', action: 'claimStart'})
+            const startClaim = await claim(web3, account).catch(e => {
+              refetch()
+              return false
+            })
+
+            if (startClaim) {
+              getData({event: 'claim', action: 'claimSuccess'})
+              refetch()
+            }
         }
     }, [web3, account, refetch])
 

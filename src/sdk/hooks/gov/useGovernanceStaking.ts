@@ -22,7 +22,7 @@ export const useGovernanceStaking = (): Array<Stake> => {
     const stakingContractV2 = useMemo(
         () =>
             fuseWeb3 &&
-            networkType !== 'staging' &&
+            networkType === 'production' &&
             getContract(SupportedChainId.FUSE, 'GovernanceStakingV2', GovernanceStaking.abi, fuseWeb3),
         [fuseWeb3, networkType]
     )
@@ -30,7 +30,7 @@ export const useGovernanceStaking = (): Array<Stake> => {
     const stakingContractV1 = useMemo(
         () =>
             fuseWeb3 &&
-            networkType === 'staging' &&
+            networkType !== 'production' &&
             getContract(SupportedChainId.FUSE, 'GovernanceStaking', GovernanceStaking.abi, fuseWeb3),
         [fuseWeb3, networkType]
     )

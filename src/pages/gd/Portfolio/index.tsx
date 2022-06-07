@@ -1,9 +1,9 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useState, useMemo } from 'react'
 import { Layout } from 'components/gd/sushi'
 import { PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from './styled'
 import Title from 'components/gd/Title'
 import Card from 'components/gd/Card'
-import { ButtonDefault } from 'components/gd/Button'
+import { ButtonDefault, ButtonOutlined } from 'components/gd/Button'
 import Table from 'components/gd/Table'
 import WithdrawRewards from 'components/WithdrawRewards'
 import PortfolioTableRow from 'components/PortfolioTableRow'
@@ -21,11 +21,267 @@ import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import AppNotice from 'components/AppNotice'
 
+import { useWindowSize } from 'hooks/useWindowSize'
+import { MyStake } from '../../../sdk/staking'
+import Withdraw from 'components/Withdraw'
+import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
+import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
+
+import styled from 'styled-components'
+
+const MobileTableSC = styled.div``
+
+const CellSC = styled.div`
+    display: grid;
+    grid-gap: 17px;
+    grid-template-areas:
+        't t'
+        'a b'
+        'c d'
+        'e e'
+        'f f';
+
+    .part {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .key {
+        text-transform: capitalize;
+        font-size: 10px;
+        line-height: 14px;
+        font-weight: 500;
+    }
+
+    .value {
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: bold;
+    }
+
+    .token {
+        grid-area: t;
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .protocol {
+        grid-area: a;
+    }
+
+    .multiplier {
+        grid-area: b;
+    }
+
+    .grewards {
+        grid-area: c;
+    }
+
+    .goodrewards {
+        grid-area: d;
+    }
+
+    .stake {
+        grid-area: e;
+    }
+
+    .withdraw {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 16px;
+        grid-area: f;
+    }
+`
+
+const MobileCell = ({
+    onWithdraw,
+    stake,
+    token,
+    protocol,
+    stakeAmount,
+    G$rewards,
+    multiplier,
+    rewardsGOOD
+}: {
+    stake: MyStake
+    onWithdraw: () => void
+    [prop: string]: any
+}) => {
+    const { i18n } = useLingui()
+    const [isWithdrawOpen, setWithdrawOpen] = useState(false)
+    const handleWithdrawOpen = useCallback(() => setWithdrawOpen(true), [])
+
+    return (
+        <Card className="mb-6 md:mb-4 card">
+            <CellSC>
+                <Withdraw
+                    open={isWithdrawOpen}
+                    setOpen={setWithdrawOpen}
+                    token={`${stake.tokens.A.symbol}`}
+                    protocol={stake.protocol}
+                    onWithdraw={onWithdraw}
+                    stake={stake}
+                />
+                <div className="token font-bold flex flex-nowrap items-center">
+                    <AsyncTokenIcon
+                        address={stake.tokens.A.address}
+                        chainId={stake.tokens.A.chainId as number}
+                        className="block w-5 h-5 rounded-lg w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 mr-2"
+                    />
+                    {stake.tokens.A.symbol}
+                    {stake.tokens.A.address !== stake.tokens.B.address ?? `/ ${stake.tokens.B.symbol}`}
+                </div>
+                <div className="part protocol">
+                    <Title type="category" className="flex items-center key">
+                        {protocol?.title.toLowerCase()} <QuestionHelper text={protocol?.questionText || ''} />
+                    </Title>
+                    <div className="value">{stake.protocol}</div>
+                </div>
+                <div className="part multiplier">
+                    <Title type="category" className="flex items-center key">
+                        {multiplier?.title.toLowerCase()} <QuestionHelper text={multiplier?.questionText || ''} />
+                    </Title>
+                    {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (
+                        <div className="whitespace-nowrap value">
+                            {stake.multiplier ? (
+                                <>{i18n._(t`This month`)} 2.0X</>
+                            ) : (
+                                <>
+                                    {i18n._(t`This month`)} 1.0X
+                                    <br />
+                                    {i18n._(t`Next month:`)} 2.0X
+                                </>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="text-left value"> - </div>
+                    )}
+                </div>
+                <div className="part grewards">
+                    <Title type="category" className="flex items-center key">
+                        {G$rewards?.title.toLowerCase()} <QuestionHelper text={G$rewards?.questionText || ''} />
+                    </Title>
+                    {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (
+                        <div className="whitespace-nowrap value">
+                            {stake.rewards.reward &&
+                                stake.rewards.reward.claimed
+                                    .add(stake.rewards.reward.unclaimed)
+                                    .toSignificant(6, { groupSeparator: ',' })}{' '}
+                            {stake.rewards.reward && stake.rewards.reward.claimed.currency.symbol} <br />~
+                            {stake.rewards.reward$ &&
+                                stake.rewards.reward$.claimed
+                                    .add(stake.rewards.reward$.unclaimed)
+                                    .toFixed(2, { groupSeparator: ',' })}
+                            $
+                        </div>
+                    ) : (
+                        <div className="text-left value"> - </div>
+                    )}
+                </div>
+                <div className="part goodrewards">
+                    <Title type="category" className="flex items-center key">
+                        {rewardsGOOD?.title.toLowerCase()} <QuestionHelper text={rewardsGOOD?.questionText || ''} />
+                    </Title>
+                    <div className="value">
+                        {stake.rewards.GDAO.claimed
+                            .add(stake.rewards.GDAO.unclaimed)
+                            .toSignificant(6, { groupSeparator: ',' })}
+                        {stake.rewards.GDAO.claimed.currency.symbol}
+                    </div>
+                </div>
+                <div className="part stake">
+                    <Title type="category" className="flex items-center key">
+                        {stakeAmount?.title.toLowerCase()} <QuestionHelper text={stakeAmount?.questionText || ''} />
+                    </Title>
+                    <span className="whitespace-nowrap value">
+                        {stake.stake.amount.toSignificant(6, { groupSeparator: ',' })}{' '}
+                        {stake.stake.amount.currency.symbol}~{stake.stake.amount$.toFixed(2, { groupSeparator: ',' })}$
+                    </span>
+                </div>
+                <div className="part withdraw">
+                    <ActionOrSwitchButton
+                        size="sm"
+                        width="100%"
+                        borderRadius="6px"
+                        noShadow={true}
+                        requireNetwork={
+                            stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
+                        }
+                        onClick={handleWithdrawOpen}
+                        ButtonEl={ButtonOutlined}
+                    >
+                        {i18n._(t`Withdraw`)}
+                    </ActionOrSwitchButton>
+                </div>
+            </CellSC>
+        </Card>
+    )
+}
+
+const MobileTable = ({ stakes, cells, onWithdraw }: { stakes?: MyStake[]; cells: any; onWithdraw: () => void }) => {
+    const [type, token, protocol, stakeAmount, G$rewards, multiplier, rewardsGOOD] = cells
+
+    const getCells = stakes?.map((stake, index) => (
+        <MobileCell
+            onWithdraw={onWithdraw}
+            token={token}
+            protocol={protocol}
+            stakeAmount={stakeAmount}
+            G$rewards={G$rewards}
+            rewardsGOOD={rewardsGOOD}
+            multiplier={multiplier}
+            stake={stake}
+            key={stake.address}
+        />
+    ))
+
+    return <MobileTableSC>{getCells}</MobileTableSC>
+}
+
 const Portfolio = () => {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
+
+    const { width } = useWindowSize()
+
+    const isMobile = width ? width <= 768 : undefined
+
+    const headings = [
+        {
+            title: i18n._(t`TYPE`),
+            questionText: i18n._(
+                t`Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.`
+            )
+        },
+        {
+            title: i18n._(t`TOKEN`),
+            questionText: i18n._(t`This is the token that is currently being staked.`)
+        },
+        {
+            title: i18n._(t`PROTOCOL`),
+            questionText: i18n._(t`This is the protocol that the token is staked to.`)
+        },
+        {
+            title: i18n._(t`STAKE`),
+            questionText: i18n._(t`Total amount on value staked.`)
+        },
+        {
+            title: `G$ ${i18n._(t`REWARDS`)}`,
+            questionText: i18n._(t`How much value your stake has accumulated so far.`)
+        },
+        {
+            title: i18n._(t`MULTIPLIER`),
+            questionText: i18n._(
+                t`Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!`
+            )
+        },
+        {
+            title: `GOOD ${i18n._(t`REWARDS`)}`,
+            questionText: i18n._(t`How many GOOD tokens you are accumulating by this stake position.`)
+        }
+    ]
 
     const [data, , , update] = usePromise(async () => {
         const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account) : []
@@ -80,15 +336,15 @@ const Portfolio = () => {
 
     const portfolio = (
         <>
-            <Card className="mb-4">
+            <Card className="sm:mb-6 md:mb-4 card">
                 <PortfolioAnalyticSC className="flex">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col segment">
                         <Title type="category">{i18n._(t`My Stake`)}</Title>
                         <PortfolioValueSC>
                             ~{data?.aggregated?.myStake.toFixed(2, { groupSeparator: ',' }) ?? '0.00'}$
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col segment">
                         <Title type="category">G$ {i18n._(t`Rewards`)}</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsG$.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
@@ -99,21 +355,23 @@ const Portfolio = () => {
                             </small>
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col segment">
                         <Title type="category">GOOD {i18n._(t`Rewards`)}</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsGDAO.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
                             {data?.aggregated?.rewardsGDAO.currency.symbol}
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col items-start justify-between lg:items-center">
-                        <Title type="category">{i18n._(t`Your social contribution from:`)}</Title>
-                        <div className="flex flex-grow social-contribution">
-                            <div className="flex flex-col items-center mr-8">
+                    <div className="flex flex-col segment items-start justify-between lg:items-center social-contribution-wrapper">
+                        <Title className="text-center md:text-left w-full" type="category">
+                            {i18n._(t`Your social contribution from:`)}
+                        </Title>
+                        <div className="flex flex-grow social-contribution justify-center md:justify-start">
+                            <div className="flex flex-col cell items-center mr-8">
                                 <PortfolioValueSC>–</PortfolioValueSC>
                                 <Title type="category">{i18n._(t`Staking`)}</Title>
                             </div>
-                            <div className="flex flex-col items-center ml-8">
+                            <div className="flex flex-col cell items-center ml-8">
                                 <PortfolioValueSC>–</PortfolioValueSC>
                                 <Title type="category">{i18n._(t`Holding`)}</Title>
                             </div>
@@ -121,14 +379,14 @@ const Portfolio = () => {
                     </div>
                 </PortfolioAnalyticSC>
             </Card>
-            <Card className="mb-4">
+            <Card className="mb-6 md:mb-4 card">
                 <PortfolioAnalyticSC style={{ height: 'auto' }} className="flex">
-                    <div className="flex flex-col justify-center ">
+                    <div className="flex flex-col segment justify-center ">
                         <PortfolioTitleSC className="claimable-rewards">
                             {i18n._(t`Claimable`)} <br /> {i18n._(t`rewards`)}
                         </PortfolioTitleSC>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col segment">
                         <Title type="category">G$ {i18n._(t`Rewards`)}</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsG$Unclaimed.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
@@ -139,24 +397,26 @@ const Portfolio = () => {
                             </small>
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col segment">
                         <Title type="category">GOOD {i18n._(t`Rewards`)}</Title>
                         <PortfolioValueSC>
                             {data?.aggregated?.rewardsGDAOUnclaimed.toSignificant(6, { groupSeparator: ',' }) ?? '0.00'}{' '}
                             {data?.aggregated?.rewardsGDAOUnclaimed.currency.symbol}
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col items-end justify-center">
-                        <div>
+                    <div className="flex md:flex-col segment items-end justify-center withdraw-buttons">
+                        <div className="withdraw-button h-full md:h-auto">
                             <WithdrawRewards
                                 onClaim={update}
                                 type="G$"
                                 trigger={
                                     <ActionOrSwitchButton
                                         width="156px"
-                                        // noShadow={true}
+                                        size="default"
+                                        noShadow={isMobile}
                                         requireNetwork={DAO_NETWORK.MAINNET}
                                         ButtonEl={ButtonDefault}
+                                        className="actionButton"
                                     >
                                         {i18n._(t`Claim G$ rewards`)}
                                     </ActionOrSwitchButton>
@@ -164,12 +424,12 @@ const Portfolio = () => {
                                 // trigger={<ButtonDefault width={'156px'}>{i18n._(t`Claim rewards`)}</ButtonDefault>}
                             />
                         </div>
-                        <div>
+                        <div className="withdraw-button h-full md:h-auto">
                             <WithdrawRewards
                                 onClaim={update}
                                 type="GOOD"
                                 trigger={
-                                    <ButtonDefault className="mt-1" width={'156px'}>
+                                    <ButtonDefault size="default" className="md:mt-1 actionButton" width={'156px'}>
                                         {i18n._(t`Claim GOOD rewards`)}
                                     </ButtonDefault>
                                 }
@@ -179,78 +439,59 @@ const Portfolio = () => {
                     </div>
                 </PortfolioAnalyticSC>
             </Card>
-            <PortfolioTitleSC className="pl-2 mb-3">{i18n._(`Positions`)}</PortfolioTitleSC>
-            <Card contentWrapped={false} style={{ position: 'relative' }}>
-                {showNotice && (
-                    <AppNotice
-                        text={'Please withdraw your funds from all deprecated contracts and use our new'}
-                        link={[
-                            'https://goodswap.xyz/#/stakes',
-                            'https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/'
-                        ]}
-                        show={true}
-                    ></AppNotice>
-                )}
-                <Table
-                    header={
-                        <tr>
-                            {[
-                                {
-                                    title: i18n._(t`TYPE`),
-                                    questionText: i18n._(
-                                        t`Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.`
-                                    )
-                                },
-                                {
-                                    title: i18n._(t`TOKEN`),
-                                    questionText: i18n._(t`This is the token that is currently being staked.`)
-                                },
-                                {
-                                    title: i18n._(t`PROTOCOL`),
-                                    questionText: i18n._(t`This is the protocol that the token is staked to.`)
-                                },
-                                {
-                                    title: i18n._(t`STAKE`),
-                                    questionText: i18n._(t`Total amount on value staked.`)
-                                },
-                                {
-                                    title: `G$ ${i18n._(t`REWARDS`)}`,
-                                    questionText: i18n._(t`How much value your stake has accumulated so far.`)
-                                },
-                                {
-                                    title: i18n._(t`MULTIPLIER`),
-                                    questionText: i18n._(
-                                        t`Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!`
-                                    )
-                                },
-                                {
-                                    title: `GOOD ${i18n._(t`REWARDS`)}`,
-                                    questionText: i18n._(
-                                        t`How many GOOD tokens you are accumulating by this stake position.`
-                                    )
-                                }
-                            ].map((item, index) => (
-                                <th key={index}>
-                                    <Title type="category" className="flex items-center">
-                                        {item.title} <QuestionHelper text={item.questionText || ''} />
-                                    </Title>
-                                </th>
-                            ))}
-                        </tr>
-                    }
-                >
-                    {data?.list.map(stake => (
-                        <PortfolioTableRow stake={stake} key={stake.address} onWithdraw={update} />
-                    ))}
-                </Table>
-            </Card>
+            <PortfolioTitleSC className="md:pl-2 mb-3">{i18n._(`Positions`)}</PortfolioTitleSC>
+            {isMobile ? (
+                <>
+                    {showNotice && (
+                        <AppNotice
+                            text={'Please withdraw your funds from all deprecated contracts and use our new'}
+                            link={[
+                                'https://goodswap.xyz/#/stakes',
+                                'https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/'
+                            ]}
+                            show={true}
+                        ></AppNotice>
+                    )}
+                    <MobileTable cells={headings} stakes={data?.list} onWithdraw={update} />
+                </>
+            ) : (
+                <Card className="card" contentWrapped={false} style={{ position: 'relative' }}>
+                    {showNotice && (
+                        <AppNotice
+                            text={'Please withdraw your funds from all deprecated contracts and use our new'}
+                            link={[
+                                'https://goodswap.xyz/#/stakes',
+                                'https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/'
+                            ]}
+                            show={true}
+                        ></AppNotice>
+                    )}
+                    <Table
+                        header={
+                            <tr>
+                                {headings.map((item, index) => (
+                                    <th key={index}>
+                                        <Title type="category" className="flex items-center">
+                                            {item.title} <QuestionHelper text={item.questionText || ''} />
+                                        </Title>
+                                    </th>
+                                ))}
+                            </tr>
+                        }
+                    >
+                        {data?.list.map(stake => (
+                            <PortfolioTableRow stake={stake} key={stake.address} onWithdraw={update} />
+                        ))}
+                    </Table>
+                </Card>
+            )}
         </>
     )
 
     return (
         <Layout classes="md:mt-24 xl:mt-0 sh:mt-30">
             <PortfolioSC>
-                <Title className="pl-4 mb-6">Portfolio</Title>
+                <Title className="md:pl-4 mb-6">Portfolio</Title>
                 {account ? (
                     portfolio
                 ) : (

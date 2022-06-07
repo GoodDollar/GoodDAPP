@@ -11,6 +11,7 @@ import styled from 'styled-components'
 
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
 import { ButtonOutlined } from 'components/gd/Button'
+import copyToClipboard from 'utils/copyToClipboard'
 
 export interface ShareProps {
     show?: boolean
@@ -38,7 +39,7 @@ export interface ShareProps {
     }
 }
 
-export const ShareSC = styled.div`
+export const ShareSC = styled.div<{ textCopied: boolean }>`
     .title {
         color: ${({ theme }) => theme.color.text5};
         font-size: 16px;
@@ -55,8 +56,10 @@ export const ShareSC = styled.div`
     }
     .copyButton {
         width: auto;
-        border-color: ${({ theme }) => theme.color.text1};
-        fill: ${({ theme }) => theme.darkMode ? theme.white : '#081C3E'};
+        border-color: ${({ theme, textCopied }) => textCopied ? theme.color.text2 : theme.color.text1};
+        fill: ${({ theme, textCopied }) => textCopied 
+            ? theme.color.text2 
+            : theme.darkMode ? theme.white : '#081C3E'};
     }
 `
 
@@ -65,12 +68,13 @@ export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): Re
 
     const [textCopied, textCopiedSet] = useState(false)
 
-    const copy = () => {
-        if (textCopied) return
-        navigator.clipboard.writeText(copyText || '')
+    const copy = async () => {
+        if (textCopied || !copyText) return
+        
+        await copyToClipboard(copyText);
 
         textCopiedSet(true)
-        setTimeout(() => textCopiedSet(false), 3000)
+        setTimeout(() => textCopiedSet(false), 500)
     }
 
     if (!show) return null
@@ -78,7 +82,7 @@ export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): Re
     const { twitter, facebook, linkedin } = rest
 
     return (
-        <ShareSC className="p-3.5">
+        <ShareSC className="p-3.5" textCopied={textCopied} >
             {title && (
                 <Row align="center" justify="center">
                     <Title className="title mb-2 font-bold">{title}</Title>
@@ -101,7 +105,7 @@ export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): Re
                     </FacebookShareButton>
                 )}
                 {copyText && (
-                    <ButtonOutlined onClick={copy} className="pl-3 pr-3 copyButton shareButton" disabled={textCopied}>
+                    <ButtonOutlined onClick={copy} className="pl-3 pr-3 copyButton" disabled={textCopied}>
                         <CopyIcon height="24px"/>
                     </ButtonOutlined>
                 )}

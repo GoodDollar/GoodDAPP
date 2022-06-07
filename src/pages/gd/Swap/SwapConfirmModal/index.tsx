@@ -99,8 +99,8 @@ function SwapConfirmModal({
                     symbol: meta?.outputAmount.currency.symbol
                 }
             }
-            const summary = i18n._(t`Swapped ${inputSig} ${inputSymbol} 
-                              to a minimum of ${minimumOutputSig} ${outputSymbol}`)
+            const summary = i18n._(t`Swapped ${inputSig} ${meta?.inputAmount.currency.symbol} 
+                              to a minimum of ${minimumOutputSig} ${meta?.outputAmount.currency.symbol}`)
 
             globalDispatch(
                 addTransaction({

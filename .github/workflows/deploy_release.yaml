@@ -60,7 +60,7 @@ jobs:
                       echo "SUBDOMAIN=fi-qa" >> "$GITHUB_ENV"
                   fi
 
-                  echo "REACT_APP_GOOGLE_ANALYTICS_ID=secrets.GOOGLE_ANALYTICS_ID" >> .env
+                  echo "REACT_APP_GOOGLE_ANALYTICS_ID=${{secrets.GOOGLE_ANALYTICS_ID}}" >> .env
             # - name: Set network env(s)
             #   run: |
             #       if [[ $BRANCH == 'production' ]]; then

@@ -140,6 +140,11 @@ export function theme(darkMode: boolean) {
             lg: 24
         },
 
+        //gradients
+        gradient: {
+          loadingGradient: 'linear-gradient(to left, rgba(251,251,251, .05), rgba(251,251,251, .3), rgba(251,251,251, .6), rgba(251,251,251, .3),rgba(251,251,251, .05));',
+        },
+
         //shadows
         shadow1: darkMode ? '#000' : '#2F80ED',
 

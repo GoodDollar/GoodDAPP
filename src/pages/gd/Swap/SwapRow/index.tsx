@@ -62,7 +62,7 @@ function SwapRow({
 
     return (
         <SwapRowSC className={className} style={style}>
-            <div className="select flex space-x-4">
+            <div className="flex space-x-4 select">
                 <SwapRowIconSC onClick={select ? handleShowSelect : undefined} as={select ? 'button' : undefined}>
                   {
                     token?.name === "GoodDollar" ?

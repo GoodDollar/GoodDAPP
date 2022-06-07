@@ -3,6 +3,7 @@ import { ChainId, TokenAmount } from '@sushiswap/sdk'
 import { AdditionalChainId } from '../../constants'
 import { CustomLightSpinner } from 'theme'
 import Circle from 'assets/images/blue-loader.svg'
+import { LoadingPlaceHolder } from 'theme/components'
 
 export interface Balances {
   G$: TokenAmount | undefined,
@@ -29,7 +30,7 @@ export default function WalletBalance(props: WalletBalanceProps): JSX.Element {
           <span className="flex">
             {token} - {
               !amount ?
-                <CustomLightSpinner key={token} src={Circle} alt="loader" size={'16px'} className="ml-1.5" /> :
+                <LoadingPlaceHolder /> :
                 token === 'GDAO' ?
                   amount.toSignificant(6, {groupSeperator: ','}) :
                   amount.toExact({ groupSeperator: ','})

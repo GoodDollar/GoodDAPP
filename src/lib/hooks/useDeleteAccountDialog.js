@@ -6,7 +6,7 @@ import logger from '../logger/js-logger'
 import DeleteAccountDialog from '../../components/common/dialogs/DeleteAccountDialog'
 import { useUserStorage } from '../wallet/GoodWalletProvider'
 import AsyncStorage from '../utils/asyncStorage'
-import restart from '../utils/restart'
+import { restart } from '../utils/system'
 import { theme } from '../../components/theme/styles'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })

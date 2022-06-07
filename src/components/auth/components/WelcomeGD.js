@@ -15,7 +15,7 @@ import { isBrowser } from '../../../lib/utils/platform'
 import Illustration from '../../../assets/Auth/Illustration.svg'
 
 import Config from '../../../config/config'
-import restart from '../../../lib/utils/restart'
+import { restart } from '../../../lib/utils/system'
 
 const { authSuccessDelay } = Config
 const defaultAfterShown = () => restart('/')

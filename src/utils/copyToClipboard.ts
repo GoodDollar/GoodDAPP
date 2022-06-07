@@ -13,10 +13,8 @@ export default function copyToClipboard(textToCopy: string): Promise<void> {
         // text area method
         const textArea = document.createElement("textarea");
         textArea.value = textToCopy;
-        // make the textarea out of viewport
+
         textArea.style.display = "none";
-        textArea.style.left = "-999999px";
-        textArea.style.top = "-999999px";
         document.body.appendChild(textArea);
         textArea.select();
 

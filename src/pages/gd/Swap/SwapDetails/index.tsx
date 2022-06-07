@@ -62,8 +62,20 @@ function SwapDetails({
                 value={route}
                 tip={i18n._(t`Routing through these tokens resulted in the best price for your trade.`)}
             />
-            {GDX && <SwapInfo title="GDX" value={buying !== undefined ? (buying ? '+' + GDX : '-' + GDX) : GDX} />}
-            {exitContribution && <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />}
+            {GDX && 
+                <SwapInfo 
+                    tip={i18n._(t`GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit.`)}
+                    title="GDX" 
+                    value={buying !== undefined ? (buying ? '+' + GDX : '-' + GDX) : GDX} 
+                />
+            }
+            {exitContribution && 
+                <SwapInfo 
+                    tip={i18n._(t`A contribution to the reserve paid by members for directly selling G$ tokens.`)}
+                    title="EXIT CONTRIBUTION" 
+                    value={exitContribution} 
+                />
+            }
         </SwapDetailsSC>
     )
 }

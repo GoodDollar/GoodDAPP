@@ -18,6 +18,7 @@ import { TransactionDetails } from 'sdk/constants/transactions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
+import sendGa from 'functions/sendGa'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
@@ -194,6 +195,8 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
     const approving = !state.done && !state.approved
     const depositing = !state.done && state.approved
 
+    const getData = sendGa
+
     return (
         <StakeDepositSC className="p-4">
             <Title className="flex items-center justify-center mb-2 space-x-2">
@@ -260,7 +263,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         disabled={!state.value.match(/[^0.]/) || !web3 || !account || state.loading}
                         onClick={() =>
                             withLoading(async () => {
-                                window.dataLayer.push({event: 'stake', action: 'stakeApprove', amount: state.value, type: stake.protocol})
+                                getData({event: 'stake', action: 'stakeApprove', amount: state.value, type: stake.protocol})
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
                                     await approve(web3!, stake.address, state.value, tokenToDeposit, () => {
@@ -306,7 +309,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                             disabled={state.loading}
                             onClick={() =>
                                 withLoading(async () => {
-                                    window.dataLayer.push({event: 'stake', action: 'stakeDeposit', amount: state.value, type: stake.protocol})
+                                    getData({event: 'stake', action: 'stakeDeposit', amount: state.value, type: stake.protocol})
                                     const depositMethod =
                                         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
                                     await depositMethod(
@@ -316,7 +319,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                         tokenToDeposit,
                                         state.token === 'B',
                                         (transactionHash: string, from: string) => {
-                                            window.dataLayer.push({event: 'stake', action: 'awesomeStake'})
+                                            getData({event: 'stake', action: 'awesomeStake'})
                                             dispatch({ type: 'DONE', payload: transactionHash })
                                             reduxDispatch(
                                                 addTransaction({

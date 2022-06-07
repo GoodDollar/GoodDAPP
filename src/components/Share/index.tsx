@@ -3,7 +3,7 @@ import React, { useState, memo } from 'react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
-import { LinkedinIcon, FacebookIcon, TwitterIcon } from '../Icon'
+import { LinkedinIcon, FacebookIcon, TwitterIcon, CopyIcon } from '../Icon'
 import Row from 'components/Row'
 import Title from 'components/gd/Title'
 
@@ -55,6 +55,8 @@ export const ShareSC = styled.div`
     }
     .copyButton {
         width: auto;
+        border-color: ${({ theme }) => theme.color.text1};
+        fill: ${({ theme }) => theme.darkMode ? theme.white : '#081C3E'};
     }
 `
 
@@ -99,8 +101,8 @@ export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): Re
                     </FacebookShareButton>
                 )}
                 {copyText && (
-                    <ButtonOutlined onClick={copy} className="pl-3 pr-3 copyButton" disabled={textCopied}>
-                        {i18n._(t`${textCopied ? 'Copied' : 'Copy'}`)}
+                    <ButtonOutlined onClick={copy} className="pl-3 pr-3 copyButton shareButton" disabled={textCopied}>
+                        <CopyIcon height="24px"/>
                     </ButtonOutlined>
                 )}
             </Row>

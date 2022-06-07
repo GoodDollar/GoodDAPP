@@ -25,7 +25,7 @@ import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import { getNetworkEnv } from 'sdk/constants/addresses'
-
+import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
 
@@ -128,6 +128,8 @@ const StakeTable = ({
     const { width } = useWindowSize()
 
     const isMobile = width ? width <= 768 : undefined
+
+    const getData = sendGa
 
     const headings = {
         token: {
@@ -413,9 +415,9 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
-                                              window.dataLayer.push({event: 'stake', action: 'stakeStart', type: stake.protocol})
-                                                setActiveStake(stake)
-                                                setActiveTableName()
+                                              getData({event: 'stake', action: 'stakeStart', type: stake.protocol})
+                                              setActiveStake(stake)
+                                              setActiveTableName()
                                             }}
                                         >
                                             {' '}
@@ -431,9 +433,9 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
-                                                window.dataLayer.push({event: 'stake', action: 'stakeStart', type: stake.protocol})
-                                                setActiveStake(stake)
-                                                setActiveTableName()
+                                              getData({event: 'stake', action: 'stakeStart', type: stake.protocol})
+                                              setActiveStake(stake)
+                                              setActiveTableName()
                                             }}
                                         >
                                             {' '}

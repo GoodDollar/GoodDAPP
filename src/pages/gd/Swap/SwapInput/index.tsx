@@ -42,7 +42,6 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, .
                     </SwapInputMaxButton>
                 )}
                 { inputProps.calculating ? 
-                  // <CustomLightSpinner src={Circle} alt="loader" size={'24px'} /> :
                   <Calculating /> :
                   <MaskedInput
                     placeholder={'0.' + '0'.repeat(Math.min(decimals, 2))}

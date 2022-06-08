@@ -711,8 +711,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JANSK398K9;
+				DEVELOPMENT_TEAM = 97K3Q6WTLM;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = GoodDollar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -726,6 +727,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.org.gooddollar;
 				PRODUCT_NAME = GoodDollar;
+				PROVISIONING_PROFILE_SPECIFIER = "GoodDollar Ad Hoc";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -739,9 +741,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 97K3Q6WTLM;
 				INFOPLIST_FILE = GoodDollar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -752,9 +755,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dev.org.gooddollar;
+				PRODUCT_BUNDLE_IDENTIFIER = org.gooddollar;
 				PRODUCT_NAME = GoodDollar;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "GoodDollar Ad Hoc";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";

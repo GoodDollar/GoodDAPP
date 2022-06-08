@@ -217,8 +217,7 @@ jobs:
         uses: yukiarrr/ios-build-action@v1.5.0
         with:
           project-path: ios/GoodDollar.xcodeproj
-          p12-key-base64: ${{ secrets.P12_KEY_BASE64 }}
-          p12-cer-base64: ${{ secrets.IOS_CERTIFICATE }}
+          p12-base64: ${{ secrets.IOS_CERTIFICATE }}
           mobileprovision-base64: ${{ env.PROVISIONING_PROFILE }}
           code-signing-identity: "iOS Distribution"
           team-id: ${{ secrets.IOS_TEAM_ID }}

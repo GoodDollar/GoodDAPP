@@ -11,7 +11,6 @@ import styled from 'styled-components'
 
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
 import { ButtonOutlined } from 'components/gd/Button'
-import copyToClipboard from 'utils/copyToClipboard'
 
 export interface ShareProps {
     show?: boolean
@@ -68,10 +67,9 @@ export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): Re
 
     const [textCopied, textCopiedSet] = useState(false)
 
-    const copy = async () => {
-        if (textCopied || !copyText) return
-        
-        await copyToClipboard(copyText);
+    const copy = () => {
+        if (textCopied) return
+        navigator.clipboard.writeText(copyText || '')
 
         textCopiedSet(true)
         setTimeout(() => textCopiedSet(false), 500)

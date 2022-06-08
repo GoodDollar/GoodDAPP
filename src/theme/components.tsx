@@ -325,7 +325,7 @@ export const LoadWrapper = styled.div`
   height: 100%;
   width: 100%;
   background-color: #EEF0F9;  
-  z-index: 44;
+  z-index: 1;
   overflow: hidden;
   border-radius: 5px;
 `

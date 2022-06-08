@@ -219,7 +219,7 @@ jobs:
           project-path: ios/GoodDollar.xcodeproj
           p12-base64: ${{ secrets.IOS_CERTIFICATE }}
           mobileprovision-base64: ${{ env.PROVISIONING_PROFILE }}
-          code-signing-identity: "iOS Distribution"
+          code-signing-identity: "org.gooddollar"
           team-id: ${{ secrets.IOS_TEAM_ID }}
           certificate-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
           workspace-path: ios/GoodDollar.xcworkspace

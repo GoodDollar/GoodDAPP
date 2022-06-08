@@ -73,8 +73,8 @@ function Swap() {
     const web3 = useWeb3()
     const [lastEdited, setLastEdited] = useState<{ field: 'external' | 'internal' }>()
 
-    const [calcSell, setCalcSell] = useState(false)
-    const [calcBuy, setCalcBuy] = useState(false)
+    const [calcExternal, setCalcExternal] = useState(false)
+    const [calcInternal, setCalcInternal] = useState(false)
 
     const metaTimer = useRef<any>()
     useEffect(() => {
@@ -100,38 +100,30 @@ function Swap() {
         }
 
         const timer = (metaTimer.current = setTimeout(async () => {
-          
-          buying ?
-            field === 'external' 
-            ? setCalcSell(true) : setCalcBuy(true)
-            : field === 'external'
-            ? setCalcBuy(true) : setCalcSell(true)
 
-            const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value)).catch(e => {
-                console.error(e)
-                return null
-            })
-            if (metaTimer.current !== timer) return
-            if (!meta) return setMeta(null)
-            setOtherValue(
-                buying
-                    ? field === 'external'
-                        ? meta.outputAmount.toExact()
-                        : meta.inputAmount.toExact()
-                    : field === 'external'
-                    ? meta.inputAmount.toExact()
-                    : meta.outputAmount.toExact()
-            )
-            setMeta(meta)
+          buying && field === 'external' ? setCalcExternal(true) : setCalcInternal(true)
 
-            buying ?
-              field === 'external' 
-              ? setCalcSell(false) : setCalcBuy(false)
-              : field === 'external'
-              ? setCalcBuy(false) : setCalcSell(false)
+          const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value)).catch(e => {
+              console.error(e)
+              return null
+          })
+          if (metaTimer.current !== timer) return
+          if (!meta) return setMeta(null)
+          setOtherValue(
+              buying
+                  ? field === 'external'
+                      ? meta.outputAmount.toExact()
+                      : meta.inputAmount.toExact()
+                  : field === 'external'
+                  ? meta.inputAmount.toExact()
+                  : meta.outputAmount.toExact()
+          )
+          setMeta(meta)
+
+          buying && field === 'external' ? setCalcExternal(false) : setCalcInternal(false)
             
         }, 400))
-    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
+    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value]) // eslint-disable-line react-hooks/exhaustive-deps
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
@@ -320,7 +312,7 @@ function Swap() {
                                 setMeta(undefined)
                             }}
                             tokenList={tokenList ?? []}
-                            isCalculating={calcBuy}
+                            isCalculating={calcInternal}
                         />
                         <div className="switch">
                             {cloneElement(SwitchSVG, {
@@ -339,7 +331,7 @@ function Swap() {
                                 setSwapValue(value)
                                 setLastEdited({ field: 'internal' })
                             }}
-                            isCalculating={calcSell}
+                            isCalculating={calcExternal}
                             style={{ marginTop: buying ? 13 : 0, marginBottom: buying ? 0 : 13, order: buying ? 3 : 1 }}
                         />
                         <div style={{ marginTop: 14, padding: '0 4px' }}>

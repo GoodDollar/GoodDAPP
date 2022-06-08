@@ -2,7 +2,7 @@
 import { useCallback, useContext, useMemo } from 'react'
 import { t } from '@lingui/macro'
 import AsyncStorage from '../utils/asyncStorage'
-import restart from '../utils/restart'
+import { restart } from '../utils/system'
 
 // hooks
 import { useDialog } from '../../lib/dialog/useDialog'

@@ -1,5 +1,6 @@
-import { BackHandler } from 'react-native'
 import { noop } from 'lodash'
+import { BackHandler } from 'react-native'
+import { exitApp } from '../../lib/utils/system'
 
 class BackButtonHandler {
   subscription = null
@@ -31,7 +32,7 @@ class BackButtonHandler {
 
     if (now - this.lastPress <= 300) {
       this.unregister()
-      return BackHandler.exitApp()
+      return exitApp
     }
 
     this.lastPress = Date.now()

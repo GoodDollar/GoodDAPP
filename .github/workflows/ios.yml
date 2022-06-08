@@ -130,7 +130,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_DEV }}" >> $GITHUB_ENV
           echo "PROFILE_UID=b29b41c9-e82a-4aab-96a8-e5d00e55756e" >> $GITHUB_ENV
-          echo "PROVISIONING_PROFILE=${{ secrets.IOS_ADHOC_PROFILE }}" >> $GITHUB_ENV
+          echo "PROVISIONING_PROFILE=${{ secrets.IOS_STORE_PROFILE }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |

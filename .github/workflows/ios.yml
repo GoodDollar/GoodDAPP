@@ -162,9 +162,11 @@ jobs:
         run: |
           sudo sysctl -w kern.maxfiles=524288
           sudo sysctl -w kern.maxfilesperproc=524288
-      - uses: maxim-lobanov/setup-xcode@v1
+      - name: Setup Ruby (bundle)
+        uses: ruby/setup-ruby@v1
         with:
-          xcode-version: '13.0'
+          ruby-version: 2.6
+          bundler-cache: true
       - name: Setup CocoaPods
         run: sudo gem install cocoapods
       # install app deps
@@ -212,7 +214,7 @@ jobs:
           yarn animation:assets
           echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
       - name: Build IOS App
-        uses: yukiarrr/ios-build-action@v1.4.0
+        uses: yukiarrr/ios-build-action@v1.5.0
         with:
           project-path: ios/GoodDollar.xcodeproj
           p12-base64: ${{ secrets.IOS_CERTIFICATE }}

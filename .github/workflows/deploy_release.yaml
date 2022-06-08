@@ -59,6 +59,8 @@ jobs:
 
                       echo "SUBDOMAIN=fi-qa" >> "$GITHUB_ENV"
                   fi
+
+                  echo "REACT_APP_GOOGLE_ANALYTICS_ID=${{secrets.GOOGLE_ANALYTICS_ID}}" >> .env
             # - name: Set network env(s)
             #   run: |
             #       if [[ $BRANCH == 'production' ]]; then
@@ -99,6 +101,7 @@ jobs:
                   RECORD_DOMAIN: 'gooddollar.org'
                   RECORD_NAME: ${{ env.CLOUDFLARE_RECORD_NAME }}
                   CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+                  REACT_APP_GOOGLE_ANALYTICS_ID: ${{secrets.GOOGLE_ANALYTICS_ID}}
               id: dnslink
               uses: textileio/cloudflare-update-dnslink@master
               with:

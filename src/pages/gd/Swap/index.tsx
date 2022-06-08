@@ -32,6 +32,7 @@ import QuestionHelper from 'components/QuestionHelper'
 
 import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
+import sendGa from 'functions/sendGa'
 
 function Swap() {
     const { i18n } = useLingui()
@@ -72,6 +73,9 @@ function Swap() {
     const web3 = useWeb3()
     const [lastEdited, setLastEdited] = useState<{ field: 'external' | 'internal' }>()
 
+    const [calcSell, setCalcSell] = useState(false)
+    const [calcBuy, setCalcBuy] = useState(false)
+
     const metaTimer = useRef<any>()
     useEffect(() => {
         clearTimeout(metaTimer.current)
@@ -96,6 +100,13 @@ function Swap() {
         }
 
         const timer = (metaTimer.current = setTimeout(async () => {
+          
+          buying ?
+            field === 'external' 
+            ? setCalcSell(true) : setCalcBuy(true)
+            : field === 'external'
+            ? setCalcBuy(true) : setCalcSell(true)
+
             const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value)).catch(e => {
                 console.error(e)
                 return null
@@ -112,15 +123,24 @@ function Swap() {
                     : meta.outputAmount.toExact()
             )
             setMeta(meta)
+
+            buying ?
+              field === 'external' 
+              ? setCalcSell(false) : setCalcBuy(false)
+              : field === 'external'
+              ? setCalcBuy(false) : setCalcSell(false)
+            
         }, 400))
     }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
+    const getData = sendGa
 
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
+          getData({event: 'swap', action: 'approveSwap', type: buying ? 'buy' : 'sell'})
             setApproving(true)
             if (buying) {
                 await approveBuy(web3, meta)
@@ -300,6 +320,7 @@ function Swap() {
                                 setMeta(undefined)
                             }}
                             tokenList={tokenList ?? []}
+                            isCalculating={calcBuy}
                         />
                         <div className="switch">
                             {cloneElement(SwitchSVG, {
@@ -318,6 +339,7 @@ function Swap() {
                                 setSwapValue(value)
                                 setLastEdited({ field: 'internal' })
                             }}
+                            isCalculating={calcSell}
                             style={{ marginTop: buying ? 13 : 0, marginBottom: buying ? 0 : 13, order: buying ? 3 : 1 }}
                         />
                         <div style={{ marginTop: 14, padding: '0 4px' }}>
@@ -370,8 +392,10 @@ function Swap() {
                                         balanceNotEnough ||
                                         (buying && [ETHER, FUSE].includes(swapPair.token) ? false : !approved)
                                     }
-                                    onClick={() => setShowConfirm(true)}
-                                >
+                                    onClick={() => {
+                                      getData({event: 'swap', action: 'startSwap', type: buying ? 'buy' : 'sell'})
+                                      setShowConfirm(true)
+                                    }}>
                                     {i18n._(t`Swap`)}
                                 </ButtonAction>
                             </div>
@@ -379,7 +403,6 @@ function Swap() {
                     </SwapContentWrapperSC>
                 </SwapWrapperSC>
                 <SwapDetails open={Boolean(meta)} buying={buying} {...swapFields} />
-                <SwapDescriptions gdx={!!swapFields.GDX} exitContribution={!!swapFields.exitContribution} />
             </SwapCardSC>
             <SwapConfirmModal
                 {...swapFields}

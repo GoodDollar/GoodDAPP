@@ -90,7 +90,7 @@ const CellSC = styled.div`
         gap: 16px;
         grid-area: f;
     }
-    
+
     &:not(:last-of-type):after {
         position: absolute;
         bottom: 0;

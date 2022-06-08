@@ -1,5 +1,5 @@
 // @flow
-import type { Credentials } from '../API/api'
+import type { Credentials } from '../API'
 import logger from '../logger/js-logger'
 import LoginService from './LoginService'
 

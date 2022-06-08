@@ -1,4 +1,4 @@
-import API from '../API/api'
+import API from '../API'
 import { fireEvent, GOOD_AIRDROP } from '../analytics/analytics'
 
 const fromDate = new Date('2022/03/19')

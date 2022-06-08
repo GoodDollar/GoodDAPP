@@ -1,4 +1,4 @@
-import API from '../API/api'
+import API from '../API'
 
 const fromDate = new Date('2022/05/06')
 

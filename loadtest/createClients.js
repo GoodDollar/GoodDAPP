@@ -5,7 +5,7 @@ import { GoodWallet } from '../src/lib/wallet/GoodWalletClass'
 import GoodWalletLogin from '../src/lib/login/GoodWalletLoginClass'
 import { UserStorage } from '../src/lib/gundb/UserStorageClass'
 import Config from '../src/config/config'
-import API from '../src/lib/API/api'
+import API from '../src/lib/API'
 const Timeout = (timeout = 3000) => {
   return new Promise((res, rej) => {
     setTimeout(res, timeout)

@@ -1,6 +1,6 @@
 // @flow
 import { useCallback } from 'react'
-import { default as API } from '../API/api'
+import { default as API } from '../API'
 import { useWallet } from '../wallet/GoodWalletProvider'
 
 const useUserExists = () => {

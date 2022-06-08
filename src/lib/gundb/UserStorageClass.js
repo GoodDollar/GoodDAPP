@@ -14,7 +14,7 @@ import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
-import API from '../API/api'
+import API from '../API'
 import pino from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
 import isMobilePhone from '../validators/isMobilePhone'

@@ -1,37 +1,18 @@
 // @flow
 
 import axios from 'axios'
-import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { get, identity, isError, isString } from 'lodash'
 
-import { throttleAdapter } from '../utils/axios'
-import AsyncStorage from '../utils/asyncStorage'
+import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import Config from '../../config/config'
+
 import { JWT } from '../constants/localStorage'
-import logger from '../logger/js-logger'
+import AsyncStorage from '../utils/asyncStorage'
 
-import type { NameRecord } from '../../components/signup/NameForm'
-import type { EmailRecord } from '../../components/signup/EmailForm'
-import type { MobileRecord } from '../../components/signup/PhoneForm'
-import { exceptionHandler, responseHandler } from './utils'
+import { throttleAdapter } from '../utils/axios'
+import { log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
-const log = logger.child({ from: 'API' })
-
-export type Credentials = {
-  signature?: string, //signed with address used to login to the system
-  gdSignature?: string, //signed with address of user wallet holding G$
-  profileSignature?: string, //signed with address of user profile
-  profilePublickey?: string, //public key used for storing user profile
-  nonce?: string,
-  jwt?: string,
-}
-
-export type UserRecord = NameRecord &
-  EmailRecord &
-  MobileRecord &
-  Credentials & {
-    username?: string,
-  }
+import type { Credentials, UserRecord } from './utils'
 
 /**
  * GoodServer Client.
@@ -79,16 +60,10 @@ export class APIService {
         adapter: throttleAdapter(1000),
       })
 
-      // eslint-disable-next-line require-await
-      instance.interceptors.request.use(identity, async exception => {
-        const { message } = exception
+      const { request, response } = instance.interceptors
 
-        // Do something with request error
-        log.warn('axios req error', message, exception)
-        throw exception
-      })
-
-      instance.interceptors.response.use(responseHandler, exceptionHandler)
+      request.use(identity, requestErrorHandler)
+      response.use(responseHandler, responseErrorHandler)
 
       this.client = instance
       log.info('API ready', jwt)

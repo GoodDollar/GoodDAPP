@@ -29,9 +29,6 @@ import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
 
-import { useWindowSize } from 'hooks/useWindowSize'
-import styled from 'styled-components'
-
 const CellSC = styled.div`
     position: relative;
     padding: 16px 0;
@@ -42,132 +39,47 @@ const CellSC = styled.div`
         'a b c'
         'd e e'
         'f f f';
-
     .part {
         display: flex;
         flex-direction: column;
     }
-
     .title {
         text-transform: capitalize;
         font-size: 10px;
         line-height: 14px;
         font-weight: 500;
     }
-
     .value {
         font-size: 12px;
         line-height: 14px;
         font-weight: bold;
     }
-
     .token {
         grid-area: t;
         font-size: 18px;
         line-height: 24px;
     }
-
     .protocol {
         grid-area: a;
     }
-
     .apy {
         grid-area: b;
     }
-
     .socialapy {
         grid-area: c;
     }
-
     .liquidity {
         grid-area: d;
     }
-
     .total {
         grid-area: e;
     }
-
     .stake {
         display: flex;
         flex-wrap: nowrap;
         gap: 16px;
         grid-area: f;
     }
-
-    &:not(:last-of-type):after {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        content: '';
-        height: 0;
-        border: 1px solid #e9ecff;
-        width: calc(100% + 34px);
-    }
-`
-
-const CellSC = styled.div`
-    position: relative;
-    padding: 16px 0;
-    display: grid;
-    grid-gap: 17px;
-    grid-template-areas:
-        't t t'
-        'a b c'
-        'd e e'
-        'f f f';
-
-    .part {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .title {
-        text-transform: capitalize;
-        font-size: 10px;
-        line-height: 14px;
-        font-weight: 500;
-    }
-
-    .value {
-        font-size: 12px;
-        line-height: 14px;
-        font-weight: bold;
-    }
-
-    .token {
-        grid-area: t;
-        font-size: 18px;
-        line-height: 24px;
-    }
-
-    .protocol {
-        grid-area: a;
-    }
-
-    .apy {
-        grid-area: b;
-    }
-
-    .socialapy {
-        grid-area: c;
-    }
-
-    .liquidity {
-        grid-area: d;
-    }
-
-    .total {
-        grid-area: e;
-    }
-
-    .stake {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 16px;
-        grid-area: f;
-    }
-
     &:not(:last-of-type):after {
         position: absolute;
         bottom: 0;

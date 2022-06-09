@@ -224,6 +224,8 @@ jobs:
           certificate-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
           workspace-path: ios/GoodDollar.xcworkspace
           scheme: GoodDollar
+          update-targets:
+            GoodDollar
       - name: Export app
         run: |
           cd ios && xcodebuild \

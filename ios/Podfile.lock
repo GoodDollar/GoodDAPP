@@ -3,12 +3,18 @@ PODS:
   - amplitude-react-native (2.5.0):
     - Amplitude (= 8.2.0)
     - React-Core
+  - Base64 (1.1.2)
   - BigInt (5.0.0)
   - boost-for-react-native (1.63.0)
   - Branch (1.39.4)
   - BVLinearGradient (2.5.6):
     - React
   - CocoaAsyncSocket (7.6.5)
+  - CodePush (7.0.4):
+    - Base64 (~> 1.1)
+    - JWT (~> 3.0.0-beta.12)
+    - React-Core
+    - SSZipArchive (~> 2.2.2)
   - CryptoSwift (1.4.3)
   - CustomAuth (2.1.0):
     - Torus-utils (~> 1.3.0)
@@ -166,6 +172,8 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
+  - JWT (3.0.0-beta.14):
+    - Base64 (~> 1.1.2)
   - libevent (2.1.12)
   - lottie-ios (3.2.3)
   - lottie-react-native (4.1.3):
@@ -544,6 +552,7 @@ PODS:
   - Sentry (7.5.1):
     - Sentry/Core (= 7.5.1)
   - Sentry/Core (7.5.1)
+  - SSZipArchive (2.2.3)
   - TcpSockets (4.0.0):
     - React
   - TOCropViewController (2.6.1)
@@ -568,6 +577,7 @@ PODS:
 DEPENDENCIES:
   - "amplitude-react-native (from `../node_modules/@amplitude/react-native`)"
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
+  - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -667,6 +677,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Amplitude
+    - Base64
     - BigInt
     - boost-for-react-native
     - Branch
@@ -692,6 +703,7 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - JWT
     - libevent
     - nanopb
     - OpenSSL-Universal
@@ -699,6 +711,7 @@ SPEC REPOS:
     - PromisesObjC
     - secp256k1.swift
     - Sentry
+    - SSZipArchive
     - TOCropViewController
     - Torus-fetchNodeDetails
     - Torus-utils
@@ -710,6 +723,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@amplitude/react-native"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
+  CodePush:
+    :path: "../node_modules/react-native-code-push"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -856,11 +871,13 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Amplitude: 263118b9e691e73a1c864b05bb08a3aff3636d16
   amplitude-react-native: 507a86ab87cc755ea18e9195f6db0dd378e7cac1
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Branch: d21c40c47b5c15c6ab709cdf7d965a50059e0546
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
   CustomAuth: 404244ccfe3ef82cf2f28603244b0e92448325b6
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
@@ -886,6 +903,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 5ba1164e3c844ba84272555e916d0a6d3d977e91
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
+  JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   lottie-react-native: b561920bba7ec727ec94a473b683cffba00faece
@@ -957,6 +975,7 @@ SPEC CHECKSUMS:
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   Sentry: 0718c3ad7a08e1107599610795adaf08864102f3
+  SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   toolbar-android: 2a73856e98b750d7e71ce4644d3f41cc98211719
@@ -966,6 +985,6 @@ SPEC CHECKSUMS:
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 53e68cb7f6a41eb487639a0c9c5f418e1a0d6b19
+PODFILE CHECKSUM: 41b7a7e868ad7e828163bc9339f9772748462faa
 
 COCOAPODS: 1.11.3

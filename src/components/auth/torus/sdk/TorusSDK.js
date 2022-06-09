@@ -49,7 +49,7 @@ class TorusSDK {
     this.config = config
     this.logger = logger
 
-    bindAll(this, '_transformError')
+    bindAll(this, '_fetchStatusCode')
   }
 
   // eslint-disable-next-line require-await
@@ -58,14 +58,14 @@ class TorusSDK {
   }
 
   async getRedirectResult() {
-    const { torus, _transformError } = this
-    const { result } = await torus.getRedirectResult().catch(_transformError)
+    const { torus, _fetchStatusCode } = this
+    const { result } = await torus.getRedirectResult().catch(_fetchStatusCode)
 
     return this.fetchTorusUser(result)
   }
 
   async triggerLogin(verifier, customLogger = null) {
-    const { logger, strategies, _transformError } = this
+    const { logger, strategies, _fetchStatusCode } = this
     const log = customLogger || logger
     let withVerifier = verifier
 
@@ -76,7 +76,7 @@ class TorusSDK {
     }
 
     const strategy = strategies[withVerifier]
-    const response = await strategy.triggerLogin().catch(_transformError)
+    const response = await strategy.triggerLogin().catch(_fetchStatusCode)
 
     //no response in case of redirect flow
     if (!this.popupMode) {
@@ -156,7 +156,7 @@ class TorusSDK {
   }
 
   /** @private */
-  _transformError(exception) {
+  _fetchStatusCode(exception) {
     const { message } = exception
 
     values(TorusStatusCode).some(code => {

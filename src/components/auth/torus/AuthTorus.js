@@ -206,7 +206,6 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
     let web3Provider, torusUser
     setWalletPreparing(true)
-    const onWalletPreparingEnd = () => setWalletPreparing(false)
 
     // in case this is triggered as a callback after redirect we fire a different vent
     fireEvent(fromRedirect ? TORUS_REDIRECT_SUCCESS : SIGNIN_METHOD_SELECTED, {
@@ -234,7 +233,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
           // here in redirect mode we are not waiting for response from torus
           getTorusUser(provider)
             .catch(onTorusError)
-            .finally(onWalletPreparingEnd)
+            .finally(() => setWalletPreparing(false))
 
           return
         }
@@ -251,7 +250,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         torusUser = torusResponse.torusUser
       } catch (e) {
         onTorusError(e)
-        onWalletPreparingEnd()
+        setWalletPreparing(false)
         return
       }
     }
@@ -272,7 +271,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
           // case of sign-in
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
 
-          onWalletPreparingEnd()
+          setWalletPreparing(false)
           setSuccessfull(() => setLoggedInRouter(true))
           return
         }
@@ -304,7 +303,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
       log.error('Failed to initialize wallet and storage', message, exception, { provider })
     } finally {
-      onWalletPreparingEnd()
+      setWalletPreparing(false)
     }
   }
 

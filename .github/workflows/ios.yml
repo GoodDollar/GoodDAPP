@@ -213,6 +213,9 @@ jobs:
           yarn lingui:compile
           yarn animation:assets
           echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
+          echo "IOS_CERTIFICATE ${{ secrets.IOS_CERTIFICATE }}"
+          echo "PROVISIONING_PROFILE ${{ secrets.PROVISIONING_PROFILE }}"
+          echo "IOS_CERTIFICATE_PASSWORD ${{ secrets.IOS_CERTIFICATE_PASSWORD }}"
       - name: Build IOS App
         uses: yukiarrr/ios-build-action@v1.5.0
         with:

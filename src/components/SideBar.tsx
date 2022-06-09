@@ -220,7 +220,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
     const balances:Balances = {
       G$: useTokenBalance(account, data?.g$),
       GDX: useTokenBalance(account, data?.gdx),
-      GDAO: useTokenBalance(account, data?.gdao), 
+      GOOD: useTokenBalance(account, data?.gdao), 
     }
 
     const importToMetamask = async () => {

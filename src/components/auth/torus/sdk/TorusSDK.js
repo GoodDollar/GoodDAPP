@@ -1,4 +1,4 @@
-import { defaults, first, omit, padStart, repeat } from 'lodash'
+import { bindAll, defaults, first, omit, padStart, repeat, values } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
@@ -12,6 +12,11 @@ import {
   PaswordlessEmailStrategy,
   PaswordlessSMSStrategy,
 } from './strategies'
+
+export const TorusStatusCode = {
+  UserCancel: 'UserCancelledException',
+  BrowserNotAllowed: 'NoAllowedBrowserFoundException',
+}
 
 class TorusSDK {
   strategies = {}
@@ -43,6 +48,8 @@ class TorusSDK {
     this.popupMode = torusOptions.uxMode === 'popup'
     this.config = config
     this.logger = logger
+
+    bindAll(this, '_transformError')
   }
 
   // eslint-disable-next-line require-await
@@ -51,13 +58,14 @@ class TorusSDK {
   }
 
   async getRedirectResult() {
-    const { result } = await this.torus.getRedirectResult()
+    const { torus, _transformError } = this
+    const { result } = await torus.getRedirectResult().catch(_transformError)
 
     return this.fetchTorusUser(result)
   }
 
   async triggerLogin(verifier, customLogger = null) {
-    const { logger, strategies } = this
+    const { logger, strategies, _transformError } = this
     const log = customLogger || logger
     let withVerifier = verifier
 
@@ -67,7 +75,8 @@ class TorusSDK {
       withVerifier = 'facebook'
     }
 
-    const response = await strategies[withVerifier].triggerLogin()
+    const strategy = strategies[withVerifier]
+    const response = await strategy.triggerLogin().catch(_transformError)
 
     //no response in case of redirect flow
     if (!this.popupMode) {
@@ -144,6 +153,23 @@ class TorusSDK {
     }
 
     return torusUser
+  }
+
+  /** @private */
+  _transformError(exception) {
+    const { message } = exception
+
+    values(TorusStatusCode).some(code => {
+      const matches = message.includes(code)
+
+      if (matches) {
+        exception.name = code
+      }
+
+      return matches
+    })
+
+    throw exception
   }
 }
 

@@ -22,7 +22,7 @@ import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
-import { decorate, ExceptionCode, TorusException } from '../../../lib/exceptions/utils'
+import { decorate, ExceptionCode } from '../../../lib/exceptions/utils'
 
 import { isWeb } from '../../../lib/utils/platform'
 import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
@@ -38,6 +38,8 @@ import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
 import mustache from '../../../lib/utils/mustache'
 import useTorus from './hooks/useTorus'
+import { TorusStatusCode } from './sdk/TorusSDK'
+
 const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles }) => {
@@ -119,32 +121,36 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
     return { torusUser, replacing }
   }
 
-  const handleTorusError = (e, options) => {
+  const handleTorusError = (exception, options) => {
     const { provider, fromRedirect = false } = options || {}
-    const { message = '' } = e || {}
-    const { noAllowedBrowserFound, userCancel } = TorusException
-    let suggestion = 'Please try again.'
+    const { message = '', name } = exception || {}
+    const { UserCancel, BrowserNotAllowed } = TorusStatusCode
+    let suggestion
 
-    log.error('torus signin failed:', message, e, {
+    log.error('torus signin failed:', message, exception, {
       provider,
       fromRedirect,
       dialogShown: true,
     })
 
-    if (message.includes(userCancel)) {
-      return
-    }
+    switch (name) {
+      case BrowserNotAllowed: {
+        const suggestedBrowser = Platform.select({
+          ios: 'Safari',
+          android: 'Chrome',
+        })
 
-    if (message.includes(noAllowedBrowserFound)) {
-      const suggestedBrowser = Platform.select({
-        ios: 'Safari',
-        android: 'Chrome',
-      })
-
-      suggestion = mustache(
-        t`Your default browser isn't supported. Please, set {suggestedBrowser} as default and try again.`,
-        { suggestedBrowser },
-      )
+        suggestion = mustache(
+          t`Your default browser isn't supported. Please, set {suggestedBrowser} as default and try again.`,
+          { suggestedBrowser },
+        )
+        break
+      }
+      case UserCancel:
+        return
+      default:
+        suggestion = 'Please try again.'
+        break
     }
 
     showErrorDialog(t`We were unable to load the wallet.` + ` ${suggestion}`)

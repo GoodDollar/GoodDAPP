@@ -8,7 +8,7 @@ import { LoadingPlaceHolder } from 'theme/components'
 export interface Balances {
   G$: TokenAmount | undefined,
   GDX: TokenAmount | undefined,
-  GDAO: TokenAmount | undefined
+  GOOD: TokenAmount | undefined
 }
 
 export type WalletBalanceProps = {
@@ -31,7 +31,7 @@ export default function WalletBalance(props: WalletBalanceProps): JSX.Element {
             {token} - {
               !amount ?
                 <LoadingPlaceHolder /> :
-                token === 'GDAO' ?
+                token === 'GOOD' ?
                   amount.toSignificant(6, {groupSeperator: ','}) :
                   amount.toExact({ groupSeperator: ','})
             }

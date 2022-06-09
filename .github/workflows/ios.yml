@@ -223,6 +223,7 @@ jobs:
           team-id: ${{ secrets.IOS_TEAM_ID }}
           certificate-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
           workspace-path: ios/GoodDollar.xcworkspace
+          scheme: GoodDollar
       - name: Export app
         run: |
           cd ios && xcodebuild \

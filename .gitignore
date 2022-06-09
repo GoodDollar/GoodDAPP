@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-
+/.yarn/cache
 # testing
 /coverage
 
@@ -42,3 +42,5 @@ analysis/index.html
 deploy.sh
 
 /playground
+
+.certs

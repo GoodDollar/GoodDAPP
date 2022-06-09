@@ -47,8 +47,8 @@ export const MenuFlyout = styled.span`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: calc(100% + 4px);
-    right: 0;
+    top: -400px;
+    right: -162px;
     z-index: 100;
     color: ${({ theme }) => theme.color.input};
     font-size: 16px;

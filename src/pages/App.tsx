@@ -2,7 +2,6 @@ import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { AppBar, Polling, Popups } from '../components'
 import Web3ReactManager from '../components/Web3ReactManager'
-
 import Routes from '../routes'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../state'
@@ -10,7 +9,6 @@ import { updateUserDarkMode } from '../state/user/actions'
 import { parse } from 'qs'
 import isEqual from 'lodash/isEqual'
 import SideBar from '../components/SideBar'
-import { useTheme } from 'styled-components'
 import styled from 'styled-components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -36,6 +34,10 @@ const Wrapper = styled.div`
     @media ${({ theme }) => theme.media.md} {
         padding-bottom: 75px;
     }
+`
+
+const MainBody = styled.div`
+    background-color: ${({theme}) => theme.color.bgBody};
 `
 
 function App(): JSX.Element {
@@ -64,18 +66,6 @@ function App(): JSX.Element {
             })
         }
     }, [preservedSource, location, replace])
-
-    // useEffect(() => {
-    //     if (pathname === '/trade') {
-    //         setWrapperClassList(
-    //             'flex flex-col flex-1 items-center justify-start w-screen h-full overflow-y-auto overflow-x-hidden z-0'
-    //         )
-    //     } else {
-    //         setWrapperClassList(
-    //             'flex flex-col flex-1 items-center justify-start w-screen h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-20'
-    //         )
-    //     }
-    // }, [pathname])
 
     useEffect(() => {
         if (bodyRef.current) {
@@ -111,23 +101,20 @@ function App(): JSX.Element {
                 <AppBar />
                 <Wrapper className="flex flex-grow overflow-hidden">
                     <SideBar />
-                    <div
+                    <MainBody
                         ref={bodyRef}
                         className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-4"
-                        style={{
-                            background: 'white'
-                        }}
                     >
                         <Popups />
                         {/*<Polling />*/}
                         <Web3ReactManager>
-                          <div className="flex flex-col flex-glow w-full items-center justify-start">
+                            <div className="flex flex-col flex-glow w-full items-center justify-start md:h-screen md:justify-center xl:-mt-8">
                                 <Routes />
                                 <TransactionUpdater />
-                          </div>
+                            </div>
                         </Web3ReactManager>
                         <Beta className="mt-3 lg:mt-8">{i18n._(t`This project is in beta. Use at your own risk`)}</Beta>
-                    </div>
+                    </MainBody>
                 </Wrapper>
             </div>
         </Suspense>

@@ -1,6 +1,5 @@
 import React, { cloneElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SwapCardSC, SwapContentWrapperSC, SwapWrapperSC } from './styled'
-import Title from 'components/gd/Title'
 import SwapRow from './SwapRow'
 import { ButtonAction } from 'components/gd/Button'
 import { SwitchSVG } from './common'
@@ -28,6 +27,13 @@ import SwapDescriptions from './SwapDescriptions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
+import { Info } from 'react-feather'
+import QuestionHelper from 'components/QuestionHelper'
+
+import VoltageLogo from 'assets/images/voltage-logo.png'
+import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
+import sendGa from 'functions/sendGa'
+
 function Swap() {
     const { i18n } = useLingui()
     const [buying, setBuying] = useState(true)
@@ -40,6 +46,14 @@ function Swap() {
         token: SupportedChainId[Number(chainId)] === 'FUSE' ? FUSE : ETHER,
         value: ''
     })
+
+    useEffect(() => {
+        setSwapPair({
+            token: SupportedChainId[Number(chainId)] === 'FUSE' ? FUSE : ETHER,
+            value: ''
+        })
+    }, [chainId]) // on first render chainId is undefined
+
     const handleSetPair = useCallback(
         (value: Partial<SwapVariant>) =>
             setSwapPair(current => ({
@@ -58,6 +72,9 @@ function Swap() {
     const swapBalance = useCurrencyBalance(account ?? undefined, G$)
     const web3 = useWeb3()
     const [lastEdited, setLastEdited] = useState<{ field: 'external' | 'internal' }>()
+
+    const [calcExternal, setCalcExternal] = useState(false)
+    const [calcInternal, setCalcInternal] = useState(false)
 
     const metaTimer = useRef<any>()
     useEffect(() => {
@@ -83,31 +100,39 @@ function Swap() {
         }
 
         const timer = (metaTimer.current = setTimeout(async () => {
-            const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value)).catch(e => {
-                console.error(e)
-                return null
-            })
-            if (metaTimer.current !== timer) return
-            if (!meta) return setMeta(null)
-            setOtherValue(
-                buying
-                    ? field === 'external'
-                        ? meta.outputAmount.toExact()
-                        : meta.inputAmount.toExact()
-                    : field === 'external'
-                    ? meta.inputAmount.toExact()
-                    : meta.outputAmount.toExact()
-            )
-            setMeta(meta)
+
+          buying && field === 'external' ? setCalcExternal(true) : setCalcInternal(true)
+
+          const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value)).catch(e => {
+              console.error(e)
+              return null
+          })
+          if (metaTimer.current !== timer) return
+          if (!meta) return setMeta(null)
+          setOtherValue(
+              buying
+                  ? field === 'external'
+                      ? meta.outputAmount.toExact()
+                      : meta.inputAmount.toExact()
+                  : field === 'external'
+                  ? meta.inputAmount.toExact()
+                  : meta.outputAmount.toExact()
+          )
+          setMeta(meta)
+
+          buying && field === 'external' ? setCalcExternal(false) : setCalcInternal(false)
+            
         }, 400))
-    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
+    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value]) // eslint-disable-line react-hooks/exhaustive-deps
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
-    
+    const getData = sendGa
+
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
+          getData({event: 'swap', action: 'approveSwap', type: buying ? 'buy' : 'sell'})
             setApproving(true)
             if (buying) {
                 await approveBuy(web3, meta)
@@ -130,7 +155,7 @@ function Swap() {
     )
 
     const route = useMemo(() => {
-        let route = meta?.route
+        const route = meta?.route
             .map(token => {
                 return token.symbol === 'WETH9'
                     ? SupportedChainId[Number(chainId)] === 'FUSE'
@@ -151,26 +176,20 @@ function Swap() {
     }, [meta?.route, buying, chainId])
     const dispatch = useDispatch()
 
-    let inputSymbol
-    let outputSymbol
+    const isFuse = SupportedChainId[Number(chainId)] === 'FUSE'
+
+    const metaSymbols = { input: meta?.inputAmount.currency.symbol, output: meta?.outputAmount.currency.symbol }
+    const symbols: { [prop: string]: any } = { input: '', output: '' }
+
+    const getWETH9Symbol = () => (isFuse ? 'FUSE' : 'ETH')
+
     if (meta) {
-        inputSymbol =
-            SupportedChainId[Number(chainId)] === 'FUSE'
-                ? meta.inputAmount.currency.symbol === 'WETH9'
-                    ? 'FUSE'
-                    : meta.inputAmount.currency.symbol
-                : meta.inputAmount.currency.symbol === 'WETH9'
-                ? 'ETH'
-                : meta.inputAmount.currency.symbol
-        outputSymbol =
-            SupportedChainId[Number(chainId)] === 'FUSE'
-                ? meta.outputAmount.currency.symbol === 'WETH9'
-                    ? 'FUSE'
-                    : meta.outputAmount.currency.symbol
-                : meta.outputAmount.currency.symbol === 'WETH9'
-                ? 'ETH'
-                : meta.outputAmount.currency.symbol
+        for (const [key, symbol] of Object.entries(metaSymbols)) {
+            symbols[key] = symbol === 'WETH9' ? getWETH9Symbol() : symbol
+        }
     }
+
+    const { input: inputSymbol, output: outputSymbol } = symbols
 
     const swapFields = {
         minimumReceived:
@@ -222,6 +241,19 @@ function Swap() {
 
     if (!buying) pair.reverse()
 
+    const swapHelperText = isFuse
+        ? i18n._(
+              t`Voltage is an UNI-V2 Automated Market Maker (AMM) 
+                that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC. 
+                The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool. 
+                Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool.`
+          )
+        : i18n._(
+              t`The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum. 
+                This contract is able to mint and burn G$s according to the increase or decrease of it's demand. 
+                Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio.`
+          )
+
     return (
         <SwapContext.Provider
             value={{
@@ -238,7 +270,27 @@ function Swap() {
             <SwapCardSC open={Boolean(meta)}>
                 <SwapWrapperSC>
                     <div className="flex items-center justify-between">
-                        <Title className="pl-4">{i18n._(t`Swap`)}</Title>
+                        <div className="flex items-center justify-between">
+                            <div className="mr-2">
+                                <img
+                                    src={isFuse ? VoltageLogo : GoodReserveLogo}
+                                    alt={isFuse ? 'Voltage logo' : 'GoodReserve logo'}
+                                    style={
+                                        isFuse
+                                            ? {
+                                                  height: '40px'
+                                              }
+                                            : {
+                                                  height: '39px'
+                                              }
+                                    }
+                                />
+                            </div>
+
+                            <QuestionHelper text={swapHelperText} placement="right-start">
+                                <Info size={14} />
+                            </QuestionHelper>
+                        </div>
                         <SwapSettings />
                     </div>
                     <SwapContentWrapperSC>
@@ -260,6 +312,7 @@ function Swap() {
                                 setMeta(undefined)
                             }}
                             tokenList={tokenList ?? []}
+                            isCalculating={calcInternal}
                         />
                         <div className="switch">
                             {cloneElement(SwitchSVG, {
@@ -278,6 +331,7 @@ function Swap() {
                                 setSwapValue(value)
                                 setLastEdited({ field: 'internal' })
                             }}
+                            isCalculating={calcExternal}
                             style={{ marginTop: buying ? 13 : 0, marginBottom: buying ? 0 : 13, order: buying ? 3 : 1 }}
                         />
                         <div style={{ marginTop: 14, padding: '0 4px' }}>
@@ -330,26 +384,24 @@ function Swap() {
                                         balanceNotEnough ||
                                         (buying && [ETHER, FUSE].includes(swapPair.token) ? false : !approved)
                                     }
-                                    onClick={() => setShowConfirm(true)}
-                                >
+                                    onClick={() => {
+                                      getData({event: 'swap', action: 'startSwap', type: buying ? 'buy' : 'sell'})
+                                      setShowConfirm(true)
+                                    }}>
                                     {i18n._(t`Swap`)}
                                 </ButtonAction>
                             </div>
                         )}
                     </SwapContentWrapperSC>
                 </SwapWrapperSC>
-                <SwapDetails
-                    open={Boolean(meta)}
-                    buying={buying}
-                    {...swapFields}
-                />
-                <SwapDescriptions gdx={!!swapFields.GDX} exitContribution={!!swapFields.exitContribution} />
+                <SwapDetails open={Boolean(meta)} buying={buying} {...swapFields} />
             </SwapCardSC>
             <SwapConfirmModal
                 {...swapFields}
                 open={showConfirm}
                 onClose={() => setShowConfirm(false)}
-                pair={pair}
+                setOpen={(value: boolean) => setShowConfirm(value)} 
+                pair={pair} 
                 meta={meta}
                 buying={buying}
                 onConfirm={async () => {

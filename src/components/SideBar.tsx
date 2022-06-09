@@ -4,36 +4,77 @@ import { NavLink } from './Link'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import TwitterLogo from '../assets/images/twitter.png'
-import DiscordLogo from '../assets/images/discord.png'
-import { getExplorerLink } from '../utils'
+import DiscordLogo from '../assets/images/discord-logo-new.png'
+import TelegramLogo from '../assets/images/telegram.png'
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
 import usePromise from '../hooks/usePromise'
 import { getTokens } from '../sdk/methods/tokenLists'
 import { Token } from '@sushiswap/sdk'
 import { useTokenBalance } from '../state/wallet/hooks'
 import { AdditionalChainId } from '../constants'
-import { portfolioSupportedAt, stakesSupportedAt } from '../sdk/constants/chains'
 import useMetaMask from '../hooks/useMetaMask'
+import LanguageSwitch from "./LanguageSwitch"
+import { useApplicationTheme } from '../state/application/hooks'
+import WalletBalance, { Balances } from 'components/WalletBalance'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
-  width: ${({ $mobile }) => ($mobile ? 'auto' : '268px')};
+  width: ${({ $mobile }) => ($mobile ? '90%' : '268px')};
   background: ${({ theme }) => theme.color.main};
-  border-right: 1px solid ${({ theme, $mobile }) => ($mobile ? 'transparent' : theme.color.border1)};
   flex-shrink: 0;
+  border-right: 1px solid rgba(208, 217, 228, 0.482);
+  height: ${({ $mobile }) => ($mobile ? '100%' : 'auto')};
 
+  @media screen and (max-height: 670px) {
+    overflow-x: scroll;
+    .sidebar-inner-container {
+      overflow-x: visible;
+    }
+  }
+  @media screen and (max-height: 610px) {
+    .sidebar-inner-container {
+      overflow-x: scroll
+    }
+  }
+
+  @media screen and (max-height: 900px){
+    .sidebar-inner-container {
+      transform: scale(0.9);
+      margin-top: -25px;
+    }
+
+    .balance {
+      padding: 10px 7px 5px 22px;
+    }
+
+    nav a {
+      margin: 5px 15px 0;
+    }
+  }
+  @media screen and (min-height: 901px){
+    .balance {
+      padding: 17px 7px 5px 22px;
+    }
+
+    nav a {
+      margin: 20px 15px 0;
+    }
+  }
+  
   nav a {
     display: flex;
     align-items: center;
     color: ${({ theme }) => theme.color.text1};
-    margin: 20px 15px 0;
     padding-left: 18px;
     font-weight: 500;
     font-size: 18px;
 
-    &.active {
-      font-weight: bold;
+    &.active, &:hover {
       background-color: ${({ theme }) => theme.color.button1};
       border-radius: 7px;
+    }
+
+    &.active {
+      font-weight: bold;
       color: ${({ theme }) => theme.color.text2};
     }
   }
@@ -44,14 +85,20 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
     span {
       color: ${({ theme }) => theme.color.text3};
       font-weight: 500;
-      font-size: 12px;
+      font-size: 13px;
+      padding-top: 2px;
     }
   }
 
+  .app-settings {
+    padding: 5px;
+    border-top: 1px solid rgba(208,217,228,0.482);
+    padding-top: 15px;
+  }
+
   .balance {
-    padding: 17px 7px 5px 22px;
     margin: 0 26px 0 20px;
-    ${({ theme, $mobile }) => (theme.darkMode && !$mobile ? 'border: 1px solid #A5A5A5;' : '')}
+    // ${({ theme, $mobile }) => (theme.darkMode && !$mobile ? 'border: 1px solid #A5A5A5;' : '')};
     box-shadow: ${({ theme, $mobile }) => (!$mobile ? theme.shadow.wallet : '')};
     border-radius: 23px;
 
@@ -86,21 +133,25 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
       $mobile
           ? css`
                 border-top: 1px solid ${({ theme }) => theme.color.border3};
+                
+                .sidebar-inner-container {
+                  transform: scale(0.9);
+                  margin-top: -15px;
+                }
 
                 .balance {
                     padding-left: 13px;
-                    padding-top: 34px;
-
+                    margin-bottom: 15px;
                     .title {
                         padding-bottom: 17px;
-
-                        svg {
-                            display: none;
-                        }
                     }
                 }
 
                 nav {
+                  a {
+                   margin: 10px 15px 0 
+                  }
+                  border-top: 1px solid ${({ theme }) => theme.color.border3};
                     border-bottom: 1px solid ${({ theme }) => theme.color.border3};
                     padding-bottom: 20px;
                 }
@@ -108,6 +159,7 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
                 .social {
                     max-width: 300px;
                 }
+
             `
           : ''}
 
@@ -118,8 +170,20 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   }
 `
 
+const SocialsLink: React.FC<{ network: string, logo: string, url:string}> = ({ network, logo, url}) => (
+  <a
+    href={url}
+    target="_blank"
+    className="flex items-center space-x-2"
+    rel="noreferrer"
+  >
+    <img src={logo} alt={`${network} logo`} width="24" height="24" />
+  </a>
+)
+
+
 const ExternalLink: React.FC<{ label: string; url: string }> = ({ label, url }) => (
-    <a className="line p-2 md:p-3 whitespace-nowrap" href={url} target="_blank" rel="noreferrer">
+    <a className="p-2 line md:p-1 xl:p-3 whitespace-nowrap" href={url} target="_blank" rel="noreferrer">
         <span>{label}</span>
         <svg className="ml-2" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -132,7 +196,8 @@ const ExternalLink: React.FC<{ label: string; url: string }> = ({ label, url }) 
     </a>
 )
 
-export default function SideBar({ mobile }: { mobile?: boolean }) {
+export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, closeSidebar?: any }) {
+    const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
     const { ethereum } = window
     const { chainId, account } = useActiveWeb3React()
@@ -151,9 +216,12 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
             gdao: gdao && new Token(chainId, (gdao as any).address, gdao.decimals, gdao.symbol, gdao.name)
         }
     }, [chainId])
-    const g$Balance = useTokenBalance(account, data?.g$)
-    const gdxBalance = useTokenBalance(account, data?.gdx)
-    const gdaoBalance = useTokenBalance(account, data?.gdao)
+
+    const balances:Balances = {
+      G$: useTokenBalance(account, data?.g$),
+      GDX: useTokenBalance(account, data?.gdx),
+      GOOD: useTokenBalance(account, data?.gdao), 
+    }
 
     const importToMetamask = async () => {
         const allTokens = []
@@ -198,8 +266,8 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
             allTokens.map(
                 token =>
                 metaMaskInfo.isMultiple ?
-                    ethereum?.selectedProvider?.request &&
-                    ethereum.selectedProvider.request({
+                  ethereum?.selectedProvider?.request &&
+                  ethereum.selectedProvider.request({
                         method: 'wallet_watchAsset',
                         params: token
                     })
@@ -222,20 +290,13 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
 
     return (
         <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
-            <nav>
-                <NavLink to={'/dashboard'}>{i18n._(t`Dashboard`)}</NavLink>
-                <NavLink to={'/swap'}>{i18n._(t`Swap`)}</NavLink>
-                <NavLink to={'/stakes'}>{i18n._(t`Stake`)}</NavLink>
-                <NavLink to={'/portfolio'}>{i18n._(t`Portfolio`)}</NavLink>
-                <ExternalLink label={i18n._(t`Wallet`)} url="https://wallet.gooddollar.org/" />
-                <ExternalLink label={i18n._(t`Fuse Bridge`)} url="https://app.fuse.fi/#/bridge" />
-            </nav>
-            <div>
+            <div className="sidebar-inner-container">
+              { account && (
                 <div className="balance">
-                    <div className="title flex justify-between items-center">
+                    <div className="flex items-center justify-between title">
                         <span>{i18n._(t`Wallet balance`)}</span>
                         <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="17" cy="17" r="17" fill="url(#paint0_radial)" />
+                            <circle cx="17" cy="17" r="17" fill="#1166E8" />
                             <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
@@ -257,47 +318,59 @@ export default function SideBar({ mobile }: { mobile?: boolean }) {
                             </defs>
                         </svg>
                     </div>
-                    <div className="details">
-                        <div>
-                            G$ {g$Balance?.toExact({ groupSeparator: ',' }) ?? '-'}
-                            {(chainId as any) !== AdditionalChainId.FUSE && (
-                                <>
-                                    <br />
-                                    GDX {gdxBalance?.toExact({ groupSeparator: ',' }) ?? '-'}
-                                </>
-                            )}
-                            <br />
-                            GOOD {gdaoBalance?.toSignificant(6, { groupSeparator: ',' }) ?? '-'}
-                        </div>
+                      <div className="details flex flex-col">                  
+                        <WalletBalance balances={balances} chainId={chainId} />
                         <br />
-
                         {localStorage.getItem(`${chainId}_metamask_import_status`) !== 'true' && (
                             <div className="importToMetamaskLink" onClick={importToMetamask}>
                                 Import to Metamask
                             </div>
                         )}
-                    </div>
+                      </div>
                 </div>
-                <div className="social flex justify-between">
-                    <a
-                        href="https://twitter.com/gooddollarorg"
-                        target="_blank"
-                        className="flex items-center space-x-2"
-                        rel="noreferrer"
-                    >
-                        <img src={TwitterLogo} alt="twitter logo" width="24" height="24" />
-                        <span>Twitter</span>
-                    </a>
+              )}
+                <nav className="mt-5">
+                  <NavLink to={'/dashboard'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Dashboard`)}</NavLink>
+                  <NavLink to={'/swap'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Swap`)}</NavLink>
+                  <NavLink to={'/stakes'} onClick={mobile ?  closeSidebar : null }>{i18n._(t`Stake`)}</NavLink>
+                  <NavLink to={'/portfolio'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Portfolio`)}</NavLink>
+                  <ExternalLink label={i18n._(t`Wallet`)} url="https://wallet.gooddollar.org/" />
+                  <ExternalLink label={i18n._(t`Fuse Bridge`)} url="https://app.fuse.fi/#/bridge" />
+                  <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" />
+                </nav>
 
-                    <a
-                        href="https://discord.gg/RKVHwdQtme"
-                        target="_blank"
-                        className="flex items-center space-x-2"
-                        rel="noreferrer"
+                <div className="flex items-center justify-between social">
+                  <span>Follow us on:</span>
+                  <SocialsLink network="twitter" logo={TwitterLogo} url='https://twitter.com/gooddollarorg' />
+                  <SocialsLink network="telegram" logo={TelegramLogo} url='https://t.me/GoodDollarX' />
+                  <SocialsLink network="discord" logo={DiscordLogo} url='https://discord.gg/RKVHwdQtme' />
+                </div>
+
+                <div className="flex flex-row justify-center app-settings">
+                  <div className="flex items-center justify-center mr-10">
+                    <svg
+                      width="29"
+                      height="29"
+                      viewBox="0 0 29 29"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="flex-shrink-0 cursor-pointer select-none"
+                      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
                     >
-                        <img src={DiscordLogo} alt="discord logo" width="24" height="24" />
-                        <span>Discord</span>
-                    </a>
+                      {theme === 'dark' ? (
+                          <path
+                              d="M24.7564 10.2564V4.24359H18.7436L14.5 0L10.2564 4.24359H4.24359V10.2564L0 14.5L4.24359 18.7436V24.7564H10.2564L14.5 29L18.7436 24.7564H24.7564V18.7436L29 14.5L24.7564 10.2564ZM14.5 22.1923C10.2564 22.1923 6.80769 18.7436 6.80769 14.5C6.80769 10.2564 10.2564 6.80769 14.5 6.80769C18.7436 6.80769 22.1923 10.2564 22.1923 14.5C22.1923 18.7436 18.7436 22.1923 14.5 22.1923ZM14.5 9.37179C11.6667 9.37179 9.37179 11.6667 9.37179 14.5C9.37179 17.3333 11.6667 19.6282 14.5 19.6282C17.3333 19.6282 19.6282 17.3333 19.6282 14.5C19.6282 11.6667 17.3333 9.37179 14.5 9.37179Z"
+                              fill="#00B0FF"
+                          />
+                      ) : (
+                          <path
+                              d="M24.1667 18.4996L28.1662 14.5L24.1667 10.5004V4.83332H18.4996L14.5 0.83374L10.5004 4.83332H4.83332V10.5004L0.83374 14.5L4.83332 18.4996V24.1667H10.5004L14.5 28.1662L18.4996 24.1667H24.1667V18.4996ZM14.5 21.75V7.24999C18.4996 7.24999 21.75 10.5004 21.75 14.5C21.75 18.4996 18.4996 21.75 14.5 21.75Z"
+                              fill="#00B0FF"
+                          />
+                      )}
+                    </svg>
+                  </div>
+                  <LanguageSwitch />
                 </div>
             </div>
         </SideBarSC>

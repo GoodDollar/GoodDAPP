@@ -18,8 +18,12 @@ import { TransactionDetails } from 'sdk/constants/transactions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
+import sendGa from 'functions/sendGa'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
+
+import ShareTransaction from 'components/ShareTransaction'
+import Share from 'components/Share'
 
 export interface StakeDepositModalProps {
     stake: Stake
@@ -145,10 +149,53 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
         }
     }
 
+    const getPostData = () => {
+        switch (activeTableName) {
+            case 'GoodDAO Staking':
+                return {
+                    copyText: 'I just staked GoodDollars at https://goodswap.xyz to make the world better',
+                    linkedin: {
+                        url: 'https://gooddollar.org'
+                    },
+                    twitter: {
+                        url: 'https://gooddollar.org',
+                        title: 'I just staked GoodDollars at https://goodswap.xyz to make the world better ',
+                        hashtags: ['InvestForGood']
+                    },
+                    facebook: {
+                        url: 'https://gooddollar.org',
+                        hashtag: '#InvestForGood'
+                    }
+                }
+            case 'GoodStakes':
+                return {
+                    copyText:
+                        'I just staked [DAI|USDC] at https://goodswap.xyz to generate UBI for thousands of user and make the world better',
+                    linkedin: {
+                        url: 'https://gooddollar.org'
+                    },
+                    twitter: {
+                        url: 'https://gooddollar.org',
+                        title:
+                            ' just staked [DAI|USDC] at https://goodswap.xyz to generate UBI for thousands of user and make the world better',
+                        hashtags: ['InvestForGood']
+                    },
+                    facebook: {
+                        url: 'https://gooddollar.org',
+                        hashtag: '#InvestForGood'
+                    }
+                }
+            default:
+                throw Error(`Unknown activeTableName - ${activeTableName}`)
+        }
+    }
+
     const reduxDispatch = useDispatch()
 
     const approving = !state.done && !state.approved
     const depositing = !state.done && state.approved
+
+    const getData = sendGa
 
     return (
         <StakeDepositSC className="p-4">
@@ -216,6 +263,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         disabled={!state.value.match(/[^0.]/) || !web3 || !account || state.loading}
                         onClick={() =>
                             withLoading(async () => {
+                                getData({event: 'stake', action: 'stakeApprove', amount: state.value, type: stake.protocol})
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
                                     await approve(web3!, stake.address, state.value, tokenToDeposit, () => {
@@ -261,6 +309,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                             disabled={state.loading}
                             onClick={() =>
                                 withLoading(async () => {
+                                    getData({event: 'stake', action: 'stakeDeposit', amount: state.value, type: stake.protocol})
                                     const depositMethod =
                                         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
                                     await depositMethod(
@@ -270,6 +319,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                         tokenToDeposit,
                                         state.token === 'B',
                                         (transactionHash: string, from: string) => {
+                                            getData({event: 'stake', action: 'awesomeStake'})
                                             dispatch({ type: 'DONE', payload: transactionHash })
                                             reduxDispatch(
                                                 addTransaction({
@@ -325,11 +375,14 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         {state.loading ? (
                             <Loader stroke="#173046" size="32px" />
                         ) : (
-                            <Link to="/portfolio">
-                                <ButtonDefault className="px-6 uppercase" width="auto">
-                                    {i18n._(t`Go to Portfolio`)}
-                                </ButtonDefault>
-                            </Link>
+                            <>
+                                <Link to="/portfolio">
+                                    <ButtonDefault className="px-6 uppercase" width="auto">
+                                        {i18n._(t`Go to Portfolio`)}
+                                    </ButtonDefault>
+                                </Link>
+                                <Share title={i18n._(t`Share with friends`)} {...getPostData()} />
+                            </>
                         )}
                     </div>
                 </>

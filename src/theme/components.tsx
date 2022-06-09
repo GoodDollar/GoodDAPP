@@ -310,3 +310,110 @@ export const ExtraSmallOnly = styled.span`
     display: block;
   `};
 `
+
+const loading = keyframes`
+  0%{
+    left: -45%;
+  }
+  100%{
+    left: 100%;
+  }
+`
+
+export const LoadWrapper = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: #EEF0F9;  
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 5px;
+`
+
+export const LoadActivity = styled.div`
+  position: absolute;
+  left: -45%;
+  height: 100%;
+  width: 45%;
+  background-image: ${({ theme }) => theme.gradient.loadingGradient};
+  background-image: ${({ theme }) => theme.gradient.loadingGradient};
+  background-image: ${({ theme }) => theme.gradient.loadingGradient};
+  animation: ${loading} 1s infinite;
+  z-index: 45;
+`
+
+export const LoadBar = styled.div`
+  margin-left: 10px;
+  height: 12px;
+  width: 60%;
+  margin-top: 5px;
+`
+
+export function LoadingPlaceHolder():JSX.Element {
+  return (
+    <LoadBar>
+      <LoadWrapper>
+        <LoadActivity />
+      </LoadWrapper>
+    </LoadBar>
+  )
+}
+
+const SkCircle = styled.div`
+  width: 25px;
+  height: 25px;
+  position: relative;
+`
+
+const CircleBounce = keyframes`
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  } 40% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+` 
+
+const SkCircleChild = styled.div<{ childNumber?: number, delay?: number}>`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  &:before {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    width: 15%;
+    height: 15%;
+    background-color: #8f9bb3;
+    border-radius: 100%;
+    -webkit-animation: ${CircleBounce} 1.2s infinite ease-in-out both;
+            animation: ${CircleBounce} 1.2s infinite ease-in-out both;
+            animation-delay: -${({ delay }) => delay}s;
+  }
+
+  transform: rotate(${({childNumber}) => (childNumber ? childNumber * 30 : '')}deg);
+`
+
+export function Calculating():JSX.Element {
+  return (
+    <>    
+    <SkCircle>
+      <SkCircleChild></SkCircleChild>
+      {
+        Array.apply(1, Array(12)).map(function (x, i) {
+          return <SkCircleChild key={"child-"+i} childNumber={i} delay={1.2 - parseFloat("0."+i)}></SkCircleChild>
+        })
+      }
+    </SkCircle>
+      <span className="ml-1.5" style={{fontSize: "15px", color: "#8f9bb3"}}>Calculating...</span> 
+    </>
+  )
+}
+
+
+
+

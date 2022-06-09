@@ -19,6 +19,9 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import { Percent } from '@sushiswap/sdk'
+import sendGa from 'functions/sendGa'
+
+import ShareTransaction from 'components/ShareTransaction'
 
 export interface SwapConfirmModalProps extends SwapDetailsFields {
     className?: string
@@ -36,7 +39,8 @@ export interface SwapConfirmModalProps extends SwapDetailsFields {
         }
     ]
     open: boolean
-    onClose: () => any
+    onClose: () => void,
+    setOpen: (value: boolean) => void,
     meta: BuyInfo | SellInfo | null | undefined
     buying: boolean
 }
@@ -44,71 +48,86 @@ export interface SwapConfirmModalProps extends SwapDetailsFields {
 const initialState = {}
 
 function SwapConfirmModal({
-    className,
-    style,
-    minimumReceived,
-    priceImpact,
-    liquidityFee,
-    route,
     GDX,
-    exitContribution,
+    meta,
+    style,
+    route,
     price,
-    onConfirm,
     pair,
     open,
-    onClose,
     buying,
-    meta
+    onClose,
+    setOpen,
+    onConfirm,
+    className,
+    priceImpact,
+    liquidityFee,
+    minimumReceived,
+    exitContribution,
 }: SwapConfirmModalProps) {
     const { i18n } = useLingui()
     const [from, to] = pair ?? []
     const globalDispatch = useDispatch()
     const { chainId } = useActiveWeb3React()
     const web3 = useWeb3()
-    const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT'>('SENT')
+    const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
+    const getData = sendGa
 
     const handleSwap = async () => {
-      
-        if (meta && meta.priceImpact && !confirmPriceImpactWithoutFee((meta.priceImpact as unknown as Percent))) {
-          return
+        if (meta && meta.priceImpact && !confirmPriceImpactWithoutFee((meta.priceImpact as unknown) as Percent)) {
+            return
         }
 
         setStatus('CONFIRM')
 
+        const inputSig = meta?.inputAmount.toSignificant(5)
+        const minimumOutputSig = meta?.minimumOutputAmount.toSignificant(5)
+        const inputSymbol = meta?.inputAmount.currency.symbol
+        const outputSymbol = meta?.outputAmount.currency.symbol
+
         const onSent = (hash: string, from: string) => {
             setStatus('SENT')
             setHash(hash)
-            
-            const inputSig = meta?.inputAmount.toSignificant(5)
-            const minimumOutputSig = meta?.minimumOutputAmount.toSignificant(5)
-
             const tradeInfo = {
-              input: {
-                decimals: meta?.inputAmount.currency.decimals,
-                symbol: meta?.inputAmount.currency.symbol
-              },
-              output: {
-                decimals: meta?.outputAmount.currency.decimals,
-                symbol: meta?.outputAmount.currency.symbol
-              }
+                input: {
+                    decimals: meta?.inputAmount.currency.decimals,
+                    symbol: meta?.inputAmount.currency.symbol
+                },
+                output: {
+                    decimals: meta?.outputAmount.currency.decimals,
+                    symbol: meta?.outputAmount.currency.symbol
+                }
             }
             const summary = i18n._(t`Swapped ${inputSig} ${meta?.inputAmount.currency.symbol} 
                               to a minimum of ${minimumOutputSig} ${meta?.outputAmount.currency.symbol}`)
 
             globalDispatch(
-              addTransaction({
-                chainId: chainId!,
-                hash: hash,
-                from: from,
-                summary: summary,
-                tradeInfo: tradeInfo, 
-              })
+                addTransaction({
+                    chainId: chainId!,
+                    hash: hash,
+                    from: from,
+                    summary: summary,
+                    tradeInfo: tradeInfo
+                })
             )
+            getData({event: "swap", action: "submittedSwap"})
             if (onConfirm) onConfirm()
         }
-        try { 
-            buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent) 
+
+        try {
+            getData({event: "swap", 
+                                   action: "confirmSwap", 
+                                   amount: buying ? minimumOutputSig : inputSig, 
+                                   tokens: [inputSymbol, outputSymbol], 
+                                   type: buying ? 'buy' : 'sell',})
+            const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)
+
+            if (meta?.outputAmount.currency.name === 'GoodDollar') {
+                setOpen(true)
+                setStatus('SUCCESS')
+            };
+
             // let transactionDetails = buying ? await buy(web3!, meta!, prepareTx, onSent) : await sell(web3!, meta!, prepareTx, onSent)
             // globalDispatch(
             //     addTransaction({
@@ -121,7 +140,7 @@ function SwapConfirmModal({
             console.error(e)
             setStatus('PREVIEW')
         }
-    } 
+    }
 
     useEffect(() => {
         if (open) {
@@ -206,9 +225,19 @@ function SwapConfirmModal({
                             value={route}
                             tip={i18n._(t`Routing through these tokens resulted in the best price for your trade.`)}
                         />
-                        {GDX && <SwapInfo title="GDX" value={GDX} />}
+                        {GDX && 
+                            <SwapInfo 
+                                tip={i18n._(t`GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit.`)}
+                                title="GDX" 
+                                value={GDX} 
+                            />
+                        }
                         {exitContribution && exitContribution !== undefined && (
-                            <SwapInfo title="EXIT CONTRIBUTION" value={exitContribution} />
+                            <SwapInfo 
+                                tip={i18n._(t`A contribution to the reserve paid by members for directly selling G$ tokens.`)}
+                                title="EXIT CONTRIBUTION" 
+                                value={exitContribution} 
+                            />
                         )}
                     </div>
                     <ButtonAction onClick={handleSwap} disabled={false}>
@@ -250,6 +279,30 @@ function SwapConfirmModal({
                         </ButtonDefault>
                     </div>
                 </>
+            )
+            break
+        case 'SUCCESS':
+            content = (
+                <ShareTransaction
+                    title={i18n._(t`Swap Completed`)}
+                    text={i18n._(t`You just used your crypto for good to help fund crypto UBI for all with GoodDollar!`)}
+                    shareProps={{
+                        title: i18n._(t`Share with friends`),
+                        copyText: 'I just bought GoodDollars at https://goodswap.xyz to make the world better',
+                        show: true,
+                        linkedin: {
+                            url: 'https://gooddollar.org'
+                        },
+                        twitter: {
+                            url: 'https://gooddollar.org',
+                            hashtags: ['InvestForGood']
+                        },
+                        facebook: {
+                            url: 'https://gooddollar.org',
+                            hashtag: '#InvestForGood'
+                        }
+                    }}
+                />
             )
             break
     }

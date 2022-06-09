@@ -3,14 +3,12 @@ import '@fontsource/dm-sans/index.css'
 import 'react-tabs/style/react-tabs.css'
 import './bootstrap'
 
-import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 
 import { Provider } from 'react-redux'
 import { HashRouter as Router } from 'react-router-dom'
 import Blocklist from './components/Blocklist'
-import { NetworkContextName } from './constants'
 import App from './pages/App'
 import store from './state'
 import ApplicationUpdater from './state/application/updater'
@@ -18,12 +16,9 @@ import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import UserUpdater from './state/user/updater'
 import ThemeProvider from './theme'
-import getLibrary from './utils/getLibrary'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
-
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 if (!!window.ethereum) {
     window.ethereum.autoRefreshOnNetworkChange = false
@@ -60,29 +55,43 @@ const GlobalStyle = createGlobalStyle`
   ::-webkit-scrollbar-button {
     display:none;
   }
+  :root {
+    --onboard-wallet-columns: 1;
+    --onboard-connect-sidebar-background: #F6F8FA;
+    --onboard-wallet-button-border-color: #E9ECFF;
+    --onboard-wallet-app-icon-border-color: #E9ECFF;
+    --onboard-close-button-background: none;
+    --onboard-close-button-color: black;
+    --onboard-font-family-normal: ${({ theme }) => theme.font.primary};
+    --onboard-font-family-light: ${({ theme }) => theme.font.secondary};
+    // --onboard-font-size-6: 1.05rem;
+    // --onboard-gray-700: #999EA8;
+
+  
+  }
+  onboard-v2::part(sidebar-heading-img) {
+    max-width: 100%;
+    height: fit-content;
+  }
 `
 
 ReactDOM.render(
     <StrictMode>
-        <Web3ReactProvider getLibrary={getLibrary}>
-            <Web3ProviderNetwork getLibrary={getLibrary}>
-                <Web3ContextProvider>
-                    <Provider store={store}>
-                        <LanguageProvider>
-                            <Blocklist>
-                                <Updaters />
-                                <ThemeProvider>
-                                    <GlobalStyle />
-                                    <Router>
-                                        <App />
-                                    </Router>
-                                </ThemeProvider>
-                            </Blocklist>
-                        </LanguageProvider>
-                    </Provider>
-                </Web3ContextProvider>
-            </Web3ProviderNetwork>
-        </Web3ReactProvider>
+        <Web3ContextProvider>
+            <Provider store={store}>
+                <LanguageProvider>
+                    <Blocklist>
+                        <Updaters />
+                        <ThemeProvider>
+                            <GlobalStyle />
+                            <Router>
+                                <App />
+                            </Router>
+                        </ThemeProvider>
+                    </Blocklist>
+                </LanguageProvider>
+            </Provider>
+        </Web3ContextProvider>
     </StrictMode>,
     document.getElementById('root')
 )

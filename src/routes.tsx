@@ -5,10 +5,10 @@ import DatastudioDashboard from 'pages/gd/DatastudioDashboard'
 import Swap from 'pages/gd/Swap'
 import { RedirectHashRoutes, RedirectPathToSwapOnly } from 'pages/SwapDeprecated/redirects'
 import Portfolio from 'pages/gd/Portfolio'
-import { useWeb3React } from '@web3-react/core'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 function Routes(): JSX.Element {
-    const { chainId } = useWeb3React()
+    const { chainId } = useActiveWeb3React()
 
     return (
         <Switch>

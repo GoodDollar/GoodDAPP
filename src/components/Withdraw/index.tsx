@@ -22,6 +22,7 @@ import Switch from 'components/Switch'
 import { getTokenByAddress } from 'sdk/methods/tokenLists'
 import { useTokenContract } from 'hooks/useContract'
 import Loader from 'components/Loader'
+import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)
@@ -49,6 +50,8 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     const { chainId } = useActiveWeb3React()
     const [error, setError] = useState<Error>()
 
+    const isGovStake = protocol === LIQUIDITY_PROTOCOL.GOODDAO
+
     useEffect(() => {
         setWithdrawAmount(totalStake * (Number(percentage) / 100))
     }, [percentage])
@@ -62,7 +65,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                 web3,
                 stake,
                 percentage,
-                withdrawInInterestToken,
+                !isGovStake && withdrawInInterestToken,
                 (transactionHash: string, from: string) => {
                     setTransactionHash(transactionHash)
                     setStatus('send')
@@ -125,11 +128,12 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                         </div>
 
                         <div className="mt-4 mb-2 horizontal" />
-
-                        <div className="flex justify-between mb-2 details-row">
-                            <div>{i18n._(t`Withdraw as ${stake.tokens.B.symbol || 'interest token'}?`)}</div>
-                            <Switch checked={withdrawInInterestToken} onChange={setWithdrawInInterestToken} />
-                        </div>
+                        {!isGovStake && (
+                            <div className="flex justify-between mb-2 details-row">
+                                <div>{i18n._(t`Withdraw as ${stake.tokens.B.symbol || 'interest token'}?`)}</div>
+                                <Switch checked={withdrawInInterestToken} onChange={setWithdrawInInterestToken} />
+                            </div>
+                        )}
                         <PercentInputControls
                             value={percentage}
                             onPercentChange={setPercentage}
@@ -138,9 +142,11 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
 
                         <div className="relative flex flex-col items-center gap-1 mt-7">
                             <p className="mb-5 warning">{error ? error.message : ''}</p>
-                            <p className="mb-2 text-center warning text-red">
-                                {i18n._(t`Withdrawing your stake will reset your multiplier.`)}
-                            </p>
+                            {!isGovStake && (
+                                <p className="mb-2 text-center warning text-red">
+                                    {i18n._(t`Withdrawing your stake will reset your multiplier.`)}
+                                </p>
+                            )}
                             <ButtonAction className="withdraw" disabled={status === 'pending'} onClick={handleWithdraw}>
                                 {status === 'pending'
                                     ? i18n._(t`PENDING SIGN...`)

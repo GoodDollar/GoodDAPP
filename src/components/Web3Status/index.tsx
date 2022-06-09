@@ -1,12 +1,7 @@
-import { AbstractConnector } from '@web3-react/abstract-connector'
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { darken, lighten } from 'polished'
 import React, { useMemo } from 'react'
 import { Activity } from 'react-feather'
 import styled from 'styled-components'
-import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
-import { injected, walletconnect } from '../../connectors'
-import { NetworkContextName } from '../../constants'
 import useENSName from '../../hooks/useENSName'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
@@ -14,10 +9,12 @@ import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
 import { ButtonSecondary } from '../ButtonLegacy'
 import Loader from '../Loader'
-import WalletModal from '../WalletModal'
-import { ReactComponent as Chef } from '../../assets/images/chef.svg'
+import WalletModal from '../WalletModal' 
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { OnboardConnectButton } from '../BlockNativeOnboard'
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
+import { UnsupportedChainId } from 'sdk/utils/errors'
 
 const IconWrapper = styled.div<{ size?: number }>`
     ${({ theme }) => theme.flexColumnNoWrap};
@@ -100,14 +97,14 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
 
 const Web3StatusInnerSC = styled.div`
     background: ${({ theme }) => theme.color.bg1};
-    color: ${({ theme }) => theme.color.input};
+    color: ${({ theme }) => theme.color.input}; 
     box-shadow: ${({ theme }) => theme.shadow.settings};
     border-radius: 3px;
 `
 
 function Web3StatusInner() {
     const { i18n } = useLingui()
-    const { account, error } = useWeb3React()
+    const { account, error } = useActiveWeb3React()
 
     const { ENSName } = useENSName(account ?? undefined)
 
@@ -124,15 +121,15 @@ function Web3StatusInner() {
 
     const toggleWalletModal = useWalletModalToggle()
 
-    if (account) {
+    if (account && !error) {
         return (
             <Web3StatusInnerSC
                 id="web3-status-connected"
-                className="flex items-center rounded-lg py-2 px-3"
+                className="flex items-center px-3 py-2 rounded-lg"
                 onClick={toggleWalletModal}
             >
                 {hasPendingTransactions ? (
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                         <div className="pr-2">
                             {pending?.length} {i18n._(t`Pending`)}
                         </div>{' '}
@@ -148,7 +145,8 @@ function Web3StatusInner() {
             <Web3StatusError onClick={toggleWalletModal}>
                 <NetworkIcon />
                 <Text>
-                    {error instanceof UnsupportedChainIdError
+                    {
+                    error instanceof UnsupportedChainId
                         ? i18n._(t`You are on the wrong network`)
                         : i18n._(t`Error`)}
                 </Text>
@@ -156,16 +154,13 @@ function Web3StatusInner() {
         )
     } else {
         return (
-            <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
-                <Text>{i18n._(t`Connect to a wallet`)}</Text>
-            </Web3StatusConnect>
+          <OnboardConnectButton />
         )
     }
 }
 
 export default function Web3Status() {
-    const { active, account } = useWeb3React()
-    const contextNetwork = useWeb3React(NetworkContextName)
+    const { active, account } = useActiveWeb3React()
 
     const { ENSName } = useENSName(account ?? undefined)
 
@@ -178,10 +173,6 @@ export default function Web3Status() {
 
     const pending = sortedRecentTransactions.filter((tx) => !tx.receipt).map((tx) => tx.hash)
     const confirmed = sortedRecentTransactions.filter((tx) => tx.receipt).map((tx) => tx.hash)
-    
-    if (!contextNetwork.active && !active) {
-        return null
-    }
 
     return (
         <>

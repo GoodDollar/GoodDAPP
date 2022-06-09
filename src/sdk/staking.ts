@@ -96,7 +96,7 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
 
     let stakes: MyStake[] = []
     try {
-        const govStake = governanceStakingAddresses.map(stake => metaMyGovStake(fuseWeb3, account, stake.address, stake.release))
+        const govStake = governanceStakingAddresses.map(stake => stake.address ? metaMyGovStake(fuseWeb3, account, stake.address, stake.release) : null)
         for (const releases of simpleStakingReleases){
           if (releases.release){
             for (const [key, address] of Object.entries(releases.addresses)){
@@ -198,7 +198,8 @@ async function metaMyStake(web3: Web3, address: string, account: string, release
 
     const protocol = getProtocol(protocolName)
     const amount = CurrencyAmount.fromRawAmount(token, users.amount.toString())
-    const multiplier = Math.round(Date.now() / 1000) - parseInt(users.multiplierResetTime) > threshold
+    const currentBlockNumber = await web3.eth.getBlockNumber()
+    const multiplier = currentBlockNumber - parseInt(users.multiplierResetTime) > threshold
 
     const tokenPrice = await getTokenPriceInUSDC(web3, protocol, token)
 

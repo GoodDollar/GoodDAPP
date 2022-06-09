@@ -64,10 +64,12 @@ module.exports = {
             'low-emphesis': '#575757'
         },
         screens: {
+            xs: '320px',
             sm: '480px',
             md: '768px',
             lg: '976px',
-            xl: '1440px'
+            xl: '1440px',
+            
         },
         fontSize: {
             ...defaultTheme.fontSize,
@@ -207,6 +209,9 @@ module.exports = {
             minHeight: {
                 cardContent: '230px',
                 fitContent: 'fit-content'
+            },
+            screens: {
+              'sh': {'raw': '(min-height: 665px)'}
             }
         }
     },

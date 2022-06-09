@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import styled, { useTheme } from 'styled-components'
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { injected, walletconnect } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { AppDispatch } from '../../state'
@@ -18,7 +17,10 @@ import Title from '../gd/Title'
 import { ButtonOutlined } from '../gd/Button'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-// import useSelectedProvider from 'hooks/useSelectedProvider'
+
+import { 
+  useConnectWallet
+} from '@web3-onboard/react'
 
 const UpperSection = styled.div`
     position: relative;
@@ -206,20 +208,26 @@ export default function AccountDetails({
     openOptions
 }: AccountDetailsProps): any {
     const { i18n } = useLingui()
-    const { chainId, account, connector } = useActiveWeb3React()
-    const dispatch = useDispatch<AppDispatch>() 
+    const { chainId, account, label } = useActiveWeb3React()
+    const dispatch = useDispatch<AppDispatch>()
+    const [{ wallet, connecting}, connect] = useConnectWallet()
 
     function formatConnectorName() {
-      let name =  ''
-      Object.keys(SUPPORTED_WALLETS).map(key => {
-        if (connector === SUPPORTED_WALLETS[key].connector) {
-          return (name = SUPPORTED_WALLETS[key].name)
-        }
-        return true
-      }) 
+        let name = ''
+        Object.keys(SUPPORTED_WALLETS).map(key => {
+            if (label === SUPPORTED_WALLETS[key].name) {
+                return (name = SUPPORTED_WALLETS[key].name)
+            }
+            return true
+        })
 
-      return `${i18n._(t`Connected with`)} ${name}`
+        return `${i18n._(t`Connected with`)} ${name}`
     }
+
+    const changeWallet = useCallback(async () => {
+      toggleWalletModal()
+      await connect({})
+    }, [toggleWalletModal, connect])
 
     const clearAllTransactionsCallback = useCallback(() => {
         if (chainId) dispatch(clearAllTransactions({ chainId }))
@@ -231,32 +239,20 @@ export default function AccountDetails({
                 <CloseIcon onClick={toggleWalletModal}>
                     <CloseColor />
                 </CloseIcon>
-                <Title className="text-center mb-8">{i18n._(t`Account`)}</Title>
+                <Title className="mb-8 text-center">{i18n._(t`Account`)}</Title>
                 <AccountSection>
                     <YourAccount>
                         <InfoCard>
                             <AccountGroupingRow>
                                 {formatConnectorName()}
                                 <div>
-                                    {/*{connector !== injected && connector !== walletlink && (
-                                        <WalletAction
-                                            style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
-                                            onClick={() => {
-                                                ;(connector as any).close()
-                                            }}
-                                        >
-                                            Disconnect
-                                        </WalletAction>
-                                    )}*/}
-                                    <WalletAction
-                                        width={'75px'}
-                                        size="sm"
-                                        onClick={() => {
-                                            openOptions()
-                                        }}
-                                    >
-                                        {i18n._(t`Change`)}
-                                    </WalletAction>
+                                  <WalletAction
+                                      width={'75px'}
+                                      size="sm"
+                                      onClick={changeWallet}
+                                  >
+                                      {i18n._(t`Change`)}
+                                  </WalletAction>
                                 </div>
                             </AccountGroupingRow>
                             <AccountGroupingRow id="web3-account-identifier-row">

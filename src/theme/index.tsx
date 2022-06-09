@@ -114,6 +114,7 @@ export function theme(darkMode: boolean) {
             button2: darkMode ? '#173046' : '#FFFFFF',
             bg1: darkMode ? '#1A1F38' : '#f6f8fa',
             bg2: darkMode ? 'rgba(13, 38, 61, 0.4)' : 'rgba(13, 38, 61, 0.4)',
+            bgBody: darkMode ? '#1a1f38' : 'white',
             switch: darkMode ? '#1FC2AF' : '#1FC2AF',
             hover: darkMode ? 'rgba(31, 194, 175, 0.3)' : 'rgba(31,194,175,0.1)',
             rangeTrack: darkMode ? '#8F9BB3' : '#F5F5F5'
@@ -124,7 +125,7 @@ export function theme(darkMode: boolean) {
             settings: darkMode ? 'none' : '0px 1px 0px #DAE1ED;',
             swapFooter: darkMode ? 'none' : '-1px 2px 0px #DAE1ED',
             button: '3px 3px 10px -1px rgba(11, 27, 102, 0.304824)',
-            swapCard: '12px 8px 44px -12px rgba(27, 58, 146, 0.16)'
+            swapCard: darkMode ? 'none': '12px 8px 44px -12px rgba(27, 58, 146, 0.16)'
         },
         font: {
             primary: `Roboto, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'`,
@@ -137,6 +138,11 @@ export function theme(darkMode: boolean) {
             sm: 8,
             md: 12,
             lg: 24
+        },
+
+        //gradients
+        gradient: {
+          loadingGradient: 'linear-gradient(to left, rgba(251,251,251, .05), rgba(251,251,251, .3), rgba(251,251,251, .6), rgba(251,251,251, .3),rgba(251,251,251, .05));',
         },
 
         //shadows

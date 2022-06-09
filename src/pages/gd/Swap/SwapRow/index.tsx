@@ -28,7 +28,8 @@ export interface SwapRowProps {
     token?: Currency
     tokenList?: Currency[]
     onTokenChange?: (token: Currency) => any
-    alternativeSymbol?: string
+    alternativeSymbol?: string,
+    isCalculating?: boolean
 }
 
 function SwapRow({
@@ -43,7 +44,8 @@ function SwapRow({
     token,
     onTokenChange,
     tokenList,
-    alternativeSymbol
+    alternativeSymbol,
+    isCalculating
 }: SwapRowProps) {
     const [showSelect, setShowSelect] = useState(false)
 
@@ -60,9 +62,14 @@ function SwapRow({
 
     return (
         <SwapRowSC className={className} style={style}>
-            <div className="select flex space-x-4">
+            <div className="flex space-x-4 select">
                 <SwapRowIconSC onClick={select ? handleShowSelect : undefined} as={select ? 'button' : undefined}>
-                    <CurrencyLogo currency={token} size={'54px'} />
+                  {
+                    token?.name === "GoodDollar" ?
+                      <CurrencyLogo currency={token} size={'54px'} style={{backgroundColor: 'white'}} />
+                      :
+                      <CurrencyLogo currency={token} size={'54px'} />
+                  }
                 </SwapRowIconSC>
                 <div className="flex flex-col">
                     <div className="title">{title}</div>
@@ -84,6 +91,9 @@ function SwapRow({
                     decimals={token?.decimals}
                     onMax={handleSetMax}
                     onChange={handleInputChange}
+                    {
+                      ...(isCalculating && {calculating: isCalculating})
+                    }
                 />
             </div>
             {select && (

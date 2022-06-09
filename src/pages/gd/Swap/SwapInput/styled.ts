@@ -9,7 +9,6 @@ export const SwapInputSC = styled.div`
     padding: 0 12px 0 16px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
     input {
         flex-grow: 1;

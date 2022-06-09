@@ -42,6 +42,10 @@ export const ExceptionCategory = {
 }
 
 export const ExceptionCode = fromPairs(range(1, MAX_EXCEPTION_CODE + 1).map(code => [codeToString(code), code]))
+export const TorusException = {
+  userCancel: 'UserCancelledException',
+  noAllowedBrowserFound: 'NoAllowedBrowserFoundException',
+}
 
 /**
  * Decorates exception with pre-defined error code and returns message for the endusers

@@ -22,7 +22,7 @@ import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
-import { decorate, ExceptionCode } from '../../../lib/exceptions/utils'
+import { decorate, ExceptionCode, TorusException } from '../../../lib/exceptions/utils'
 
 import { isWeb } from '../../../lib/utils/platform'
 import { getDesignRelativeHeight, isSmallDevice } from '../../../lib/utils/sizes'
@@ -122,6 +122,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
   const handleTorusError = (e, options) => {
     const { provider, fromRedirect = false } = options || {}
     const { message = '' } = e || {}
+    const { noAllowedBrowserFound, userCancel } = TorusException
     let suggestion = 'Please try again.'
 
     log.error('torus signin failed:', message, e, {
@@ -130,7 +131,11 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       dialogShown: true,
     })
 
-    if (message.includes('NoAllowedBrowserFoundException')) {
+    if (message.includes(userCancel)) {
+      return
+    }
+
+    if (message.includes(noAllowedBrowserFound)) {
       const suggestedBrowser = Platform.select({
         ios: 'Safari',
         android: 'Chrome',
@@ -141,8 +146,6 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         { suggestedBrowser },
       )
     }
-
-    setWalletPreparing(false)
 
     showErrorDialog(t`We were unable to load the wallet.` + ` ${suggestion}`)
   }
@@ -197,6 +200,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
     let web3Provider, torusUser
     setWalletPreparing(true)
+    const onWalletPreparingEnd = () => setWalletPreparing(false)
 
     // in case this is triggered as a callback after redirect we fire a different vent
     fireEvent(fromRedirect ? TORUS_REDIRECT_SUCCESS : SIGNIN_METHOD_SELECTED, {
@@ -223,8 +227,8 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
           // here in redirect mode we are not waiting for response from torus
           getTorusUser(provider)
-            .then(() => setWalletPreparing(false))
             .catch(onTorusError)
+            .finally(onWalletPreparingEnd)
 
           return
         }
@@ -241,6 +245,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         torusUser = torusResponse.torusUser
       } catch (e) {
         onTorusError(e)
+        onWalletPreparingEnd()
         return
       }
     }
@@ -261,7 +266,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
           // case of sign-in
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
 
-          setWalletPreparing(false)
+          onWalletPreparingEnd()
           setSuccessfull(() => setLoggedInRouter(true))
           return
         }
@@ -293,7 +298,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
       log.error('Failed to initialize wallet and storage', message, exception, { provider })
     } finally {
-      setWalletPreparing(false)
+      onWalletPreparingEnd()
     }
   }
 

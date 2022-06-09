@@ -56,10 +56,10 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
     // in case of redirect flow we need to recover the provider/login type
     const provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
-    const { hash, query } = DeepLinking
+    const { hash } = DeepLinking
 
-    if (provider && (hash || query)) {
-      log.debug('triggering torus redirect callback flow')
+    if (provider && hash) {
+      log.debug('triggering torus redirect callback flow', { hash })
       AsyncStorage.removeItem('recallTorusRedirectProvider')
       handleLoginMethod(provider, torusSDK.getRedirectResult())
     }

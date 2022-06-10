@@ -217,7 +217,6 @@ jobs:
       - name: Setup provisioning profile
         run: |
           ./.github/secrets/decrypt_secrets.sh
-          echo ${{secrets.IOS_CERTIFICATE }} | sed 's/./& /g'
         env:
           IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
           IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}

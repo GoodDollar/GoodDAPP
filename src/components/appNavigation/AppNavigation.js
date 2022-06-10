@@ -5,7 +5,6 @@ import type { Store } from 'undux'
 
 import Dashboard from '../dashboard/Dashboard'
 import Profile from '../profile/Profile'
-// eslint-disable-next-line import/no-unresolved
 import LoginRedirect from '../loginRedirect/LoginRedirect'
 import { navigationOptions } from './navigationConfig'
 

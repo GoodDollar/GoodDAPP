@@ -453,7 +453,7 @@ export class APIService {
 
   // eslint-disable-next-line require-await
   async sendLoginVendorDetails(url, responseObject) {
-    return this.client.post(url, responseObject)
+    return this.sharedClient.post(url, responseObject)
   }
 }
 

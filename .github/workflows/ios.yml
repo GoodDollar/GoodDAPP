@@ -221,7 +221,7 @@ jobs:
           IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
           IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
           IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-          IS_PROD: ${{ contains('production next', env.BRANCH) }}
+          IS_PROD: ${{ env.IS_PROD }}
 
       - name: Build app
         env:

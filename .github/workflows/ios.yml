@@ -212,19 +212,35 @@ jobs:
         run: |
           yarn lingui:compile
           yarn animation:assets
-      - name: Build IOS App
-        uses: yukiarrr/ios-build-action@v1.3.2
-        with:
-          project-path: ios/GoodDollar.xcodeproj
-          p12-base64: ${{ secrets.IOS_CERTIFICATE }}
-          mobileprovision-base64: ${{ env.PROVISIONING_PROFILE }}
-          code-signing-identity: "org.gooddollar"
-          team-id: "97K3Q6WTLM"
-          certificate-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-          workspace-path: ios/GoodDollar.xcworkspace
-          scheme: GoodDollar
-          update-targets:
-            GoodDollar
+          echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
+
+      - name: Setup provisioning profile
+        run: ./.github/secrets/decrypt_secrets.sh
+        env:
+          IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
+          IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
+          IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
+          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          IS_PROD: ${{ contains('production next', env.BRANCH) }}
+
+      - name: Build app
+        env:
+          ENVFILE: '../.env.${{ env.ENV }}'
+          IS_PROD: ${{ env.IS_PROD }}
+        run: |
+          yarn lingui:compile
+          yarn animation:assets
+          echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
+
+          cd ios && xcodebuild archive \
+            -workspace GoodDollar.xcworkspace \
+            -scheme GoodDollar \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath $PWD/build/GoodDollar.xcarchive \
+            PROVISIONING_PROFILE=${{ env.PROVISIONING_PROFILE }} \
+            CODE_SIGN_IDENTITY="org.gooddollar"
+
       - name: Export app
         run: |
           cd ios && xcodebuild \

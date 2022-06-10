@@ -12,7 +12,7 @@ fi
 
 echo "Creating keychain"
 security create-keychain -p "" build.keychain
-security import ./Certificates.p12 -t agg -k ~/Library/Keychains/build.keychain -P "$IOS_PROFILE_KEY" -A
+security import ./Certificates.p12 -t agg -k ~/Library/Keychains/build.keychain -P "$IOS_CERTIFICATE_PASSWORD" -A
 
 echo "Installing in keychain"
 security list-keychains -s ~/Library/Keychains/build.keychain

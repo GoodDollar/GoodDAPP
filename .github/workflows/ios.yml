@@ -252,6 +252,8 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "Cat PP"
+          cat ~/Library/MobileDevice/Provisioning\ Profiles
 
       - name: Build app
         env:

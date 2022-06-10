@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { BackHandler, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { View } from 'react-native'
+import { first, forIn } from 'lodash'
 import GooddollarImage from '../../assets/gooddollarLogin.svg'
 
 import { CustomButton, Section, Text } from '../common'
@@ -7,9 +8,11 @@ import useProfile from '../../lib/userStorage/useProfile'
 import API from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/js-logger'
-import { isMobileNative } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
+import { exitApp } from '../../lib/utils/system'
+import { decodeBase64Params, encodeBase64Params } from '../../lib/utils/uri'
+import { openLink } from '../../lib/utils/linking'
 
 const log = logger.child({ from: 'LoginRedirect' })
 
@@ -36,12 +39,11 @@ const LoginRedirect = ({ navigation, styles }) => {
     const fetchLocationAndWhiteListedStatus = async () => {
       try {
         const { login } = getParams() || {}
-        const { id, v, r, web, cbu, rdu } = JSON.parse(
-          Buffer.from(decodeURIComponent(login), 'base64').toString('ascii'),
-        )
+        const { id, v, r, web, cbu, rdu } = decodeBase64Params(login)
         const url = cbu || rdu
         const location = await API.getLocation()
         const isWhitelisted = await goodWallet.isCitizen()
+        setDetails({ country: location?.name, isWhitelisted })
         setURLDetails({
           vendorAddress: id,
           vendorName: v,
@@ -50,13 +52,12 @@ const LoginRedirect = ({ navigation, styles }) => {
           urlType: cbu ? 'cbu' : 'rdu',
           url,
         })
-        if (!urlDetails.web.includes(urlDetails?.cbu ?? urlDetails?.rdu)) {
+        if (!web.includes(urlDetails?.cbu ?? urlDetails?.rdu)) {
           setWarnings(data => ({ ...data, isWebDomainDifferent: true }))
         }
         if (!(await goodWallet.isVerified(id))) {
           setWarnings(data => ({ ...data, isVendorWalletWhitelisted: false }))
         }
-        setDetails({ country: location?.name, isWhitelisted })
       } catch (e) {
         //nothing here
       }
@@ -66,58 +67,51 @@ const LoginRedirect = ({ navigation, styles }) => {
     )
   }, [getParams, setDetails, setWarnings, setURLDetails])
 
-  const allow = ({ isRejected = false }) => {
-    let responseurlDetails = {}
-    if (!isRejected) {
-      const { requestedDetails } = urlDetails
-      responseurlDetails = {
-        a: { value: walletAddress, attestation: '' },
-        v: { value: isWhitelisted, attestation: '' },
-        ...(requestedDetails.includes('location') ? { I: { value: country, attestation: '' } } : {}),
-        ...(requestedDetails.includes('name') ? { n: { value: fullName, attestation: '' } } : {}),
-        ...(requestedDetails.includes('email') ? { e: { value: email, attestation: '' } } : {}),
-        ...(requestedDetails.includes('mobile') ? { m: { value: mobile, attestation: '' } } : {}),
-        nonce: { value: Date.now(), attestation: '' },
+  const sendResponse = useCallback(
+    response => {
+      const { url, urlType } = urlDetails
+      if (urlType === 'rdu') {
+        openLink(`${url}?login=${encodeBase64Params(response)}`, '_self')
+        return
       }
-      responseurlDetails.sig = goodWallet?.wallet?.eth?.accounts?.sign(
-        JSON.stringify(responseurlDetails),
-        goodWallet.accounts[0].privateKey,
-      ).signature
-    } else {
-      responseurlDetails = {
-        error: 'Authorization Denied',
-      }
-    }
-    if (isMobileNative) {
-      //app native functions
-      API.sendLoginVendorDetails(urlDetails.url, responseurlDetails)
-        .then(() => {
-          //minimize the app
-          BackHandler.exitApp()
-        })
-        .catch(() => {
-          //minimize the app
-          BackHandler.exitApp()
-        })
-    } else {
-      if (urlDetails.urlType === 'rdu') {
-        const encodedData = encodeURIComponent(btoa(JSON.stringify(responseurlDetails)))
-        log.debug('Third party login was successfull')
-        window.location.href = `${urlDetails.url}?login=${encodedData}`
-      } else {
-        API.sendLoginVendorDetails(urlDetails.url, responseurlDetails)
-          .then(() => {
-            log.debug('Third party login was successfull')
-            window.close()
-          })
-          .catch(() => {
-            window.close()
-          })
-      }
-    }
-  }
+      API.sendLoginVendorDetails(url, response)
+        .catch(e => log.warn('Error sending login vendor details', e.message, e))
+        .finally(exitApp)
+    },
+    [urlDetails],
+  )
+  const deny = useCallback(() => {
+    sendResponse({ error: 'Authorization Denied' })
+  }, [sendResponse])
 
-  const deny = () => allow({ isRejected: true })
+  const allow = useCallback(() => {
+    const { wallet, accounts } = goodWallet
+    const { accounts: signer } = wallet.eth
+    const { privateKey } = first(accounts)
+    const { requestedDetails } = urlDetails
+    const detail = value => ({ value, attestation: '' })
+
+    const map = {
+      location: ['I', country],
+      name: ['n', fullName],
+      email: ['e', email],
+      mobile: ['m', mobile],
+    }
+
+    const response = {
+      a: detail(walletAddress),
+      v: detail(isWhitelisted),
+      nonce: detail(Date.now()),
+    }
+    forIn(map, ([property, value], requested) => {
+      if (!requestedDetails.includes(requested)) {
+        return
+      }
+      response[property] = detail(value)
+    })
+    const { signature } = signer.sign(JSON.stringify(response), privateKey)
+    sendResponse({ ...response, sig: signature })
+  }, [urlDetails, sendResponse, country, isWhitelisted, fullName, email, mobile, walletAddress])
 
   return (
     <View style={styles.topContainer}>
@@ -248,7 +242,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     verifiedView: {
       padding: 10,
-      backgroundColor: '#04C899',
+      backgroundColor: '#04C89926',
       marginTop: 5,
     },
     verifiedText: {

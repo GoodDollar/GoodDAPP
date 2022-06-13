@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const PlaceholderSC = styled.div`
     background: ${({ theme }) => theme.color.bg2};
     border-radius: 6px;
-    color: ${({ theme }) => theme.color.main};
+    color: ${({ theme }) => theme.color.rangeTrack};
     font-style: normal;
     font-weight: bold;
     font-size: 14px;

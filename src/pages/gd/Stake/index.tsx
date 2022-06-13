@@ -21,6 +21,8 @@ import { useEnvWeb3 } from '@gooddollarorg/sdk/dist/hooks/'
 import { getList as getStakes, Stake } from '@gooddollarorg/sdk/dist/core/staking'
 import { useGdContextProvider, useGovernanceStaking} from '@gooddollarorg/sdk/dist/hooks/'
 
+import { getNetworkEnv } from 'sdk/constants/addresses'
+import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
 
@@ -123,6 +125,8 @@ const StakeTable = ({
     const { width } = useWindowSize()
 
     const isMobile = width ? width <= 768 : undefined
+
+    const getData = sendGa
 
     const headings = {
         token: {
@@ -358,6 +362,7 @@ const StakeTable = ({
                                                 address={stake.tokens.A.address}
                                                 chainId={stake.tokens.A.chainId as number}
                                                 className="block w-5 h-5 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
+                                                network={network}
                                             />
                                         </div>
                                     </td>
@@ -408,9 +413,9 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
-                                              window.dataLayer.push({event: 'stake', action: 'stakeStart', type: stake.protocol})
-                                                setActiveStake(stake)
-                                                setActiveTableName()
+                                              getData({event: 'stake', action: 'stakeStart', type: stake.protocol})
+                                              setActiveStake(stake)
+                                              setActiveTableName()
                                             }}
                                         >
                                             {' '}
@@ -426,9 +431,9 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
-                                                window.dataLayer.push({event: 'stake', action: 'stakeStart', type: stake.protocol})
-                                                setActiveStake(stake)
-                                                setActiveTableName()
+                                              getData({event: 'stake', action: 'stakeStart', type: stake.protocol})
+                                              setActiveStake(stake)
+                                              setActiveTableName()
                                             }}
                                         >
                                             {' '}

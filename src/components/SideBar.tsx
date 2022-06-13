@@ -15,6 +15,7 @@ import { AdditionalChainId } from '../constants'
 import useMetaMask from '../hooks/useMetaMask'
 import LanguageSwitch from "./LanguageSwitch"
 import { useApplicationTheme } from '../state/application/hooks'
+import WalletBalance, { Balances } from 'components/WalletBalance'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
   width: ${({ $mobile }) => ($mobile ? '90%' : '268px')};
@@ -215,9 +216,12 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
             gdao: gdao && new Token(chainId, (gdao as any).address, gdao.decimals, gdao.symbol, gdao.name)
         }
     }, [chainId])
-    const g$Balance = useTokenBalance(account, data?.g$)
-    const gdxBalance = useTokenBalance(account, data?.gdx)
-    const gdaoBalance = useTokenBalance(account, data?.gdao)
+
+    const balances:Balances = {
+      G$: useTokenBalance(account, data?.g$),
+      GDX: useTokenBalance(account, data?.gdx),
+      GOOD: useTokenBalance(account, data?.gdao), 
+    }
 
     const importToMetamask = async () => {
         const allTokens = []
@@ -287,6 +291,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
     return (
         <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
             <div className="sidebar-inner-container">
+              { account && (
                 <div className="balance">
                     <div className="flex items-center justify-between title">
                         <span>{i18n._(t`Wallet balance`)}</span>
@@ -313,27 +318,17 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                             </defs>
                         </svg>
                     </div>
-                    <div className="details">
-                        <div>
-                            G$ {g$Balance?.toExact({ groupSeparator: ',' }) ?? '-'}
-                            {(chainId as any) !== AdditionalChainId.FUSE && (
-                                <>
-                                    <br />
-                                    GDX {gdxBalance?.toExact({ groupSeparator: ',' }) ?? '-'}
-                                </>
-                            )}
-                            <br />
-                            GOOD {gdaoBalance?.toSignificant(6, { groupSeparator: ',' }) ?? '-'}
-                        </div>
+                      <div className="details flex flex-col">                  
+                        <WalletBalance balances={balances} chainId={chainId} />
                         <br />
-
                         {localStorage.getItem(`${chainId}_metamask_import_status`) !== 'true' && (
                             <div className="importToMetamaskLink" onClick={importToMetamask}>
                                 Import to Metamask
                             </div>
                         )}
-                    </div>
+                      </div>
                 </div>
+              )}
                 <nav className="mt-5">
                   <NavLink to={'/dashboard'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Dashboard`)}</NavLink>
                   <NavLink to={'/swap'} onClick={mobile ? closeSidebar : null }>{i18n._(t`Swap`)}</NavLink>

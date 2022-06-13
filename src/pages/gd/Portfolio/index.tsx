@@ -124,6 +124,7 @@ const MobileCell = ({
                         address={stake.tokens.A.address}
                         chainId={stake.tokens.A.chainId as number}
                         className="block w-5 w-6 h-5 h-6 mr-2 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
+                        network={stake.protocol}
                     />
                     {stake.tokens.A.symbol}
                     {stake.tokens.A.address !== stake.tokens.B.address ?? `/ ${stake.tokens.B.symbol}`}

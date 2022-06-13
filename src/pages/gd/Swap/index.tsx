@@ -32,6 +32,7 @@ import QuestionHelper from 'components/QuestionHelper'
 
 import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
+import sendGa from 'functions/sendGa'
 
 import { useGdContextProvider } from '@gooddollarorg/sdk/dist/hooks'
 
@@ -76,6 +77,9 @@ function Swap() {
 
     const [lastEdited, setLastEdited] = useState<{ field: 'external' | 'internal' }>()
 
+    const [calcExternal, setCalcExternal] = useState(false)
+    const [calcInternal, setCalcInternal] = useState(false)
+
     const metaTimer = useRef<any>()
     useEffect(() => {
         clearTimeout(metaTimer.current)
@@ -100,31 +104,39 @@ function Swap() {
         }
 
         const timer = (metaTimer.current = setTimeout(async () => {
-            const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value)).catch(e => {
-                console.error(e)
-                return null
-            })
-            if (metaTimer.current !== timer) return
-            if (!meta) return setMeta(null)
-            setOtherValue(
-                buying
-                    ? field === 'external'
-                        ? meta.outputAmount.toExact()
-                        : meta.inputAmount.toExact()
-                    : field === 'external'
-                    ? meta.inputAmount.toExact()
-                    : meta.outputAmount.toExact()
-            )
-            setMeta(meta)
+
+          buying && field === 'external' ? setCalcExternal(true) : setCalcInternal(true)
+
+          const meta = await getMeta(web3, symbol, value, parseFloat(slippageTolerance.value)).catch(e => {
+              console.error(e)
+              return null
+          })
+          if (metaTimer.current !== timer) return
+          if (!meta) return setMeta(null)
+          setOtherValue(
+              buying
+                  ? field === 'external'
+                      ? meta.outputAmount.toExact()
+                      : meta.inputAmount.toExact()
+                  : field === 'external'
+                  ? meta.inputAmount.toExact()
+                  : meta.outputAmount.toExact()
+          )
+          setMeta(meta)
+
+          buying && field === 'external' ? setCalcExternal(false) : setCalcInternal(false)
+            
         }, 400))
-    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
+    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value]) // eslint-disable-line react-hooks/exhaustive-deps
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
+    const getData = sendGa
 
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
+          getData({event: 'swap', action: 'approveSwap', type: buying ? 'buy' : 'sell'})
             setApproving(true)
             if (buying) {
                 await approveBuy(web3, meta)
@@ -304,6 +316,7 @@ function Swap() {
                                 setMeta(undefined)
                             }}
                             tokenList={tokenList ?? []}
+                            isCalculating={calcInternal}
                         />
                         <div className="switch">
                             {cloneElement(SwitchSVG, {
@@ -322,6 +335,7 @@ function Swap() {
                                 setSwapValue(value)
                                 setLastEdited({ field: 'internal' })
                             }}
+                            isCalculating={calcExternal}
                             style={{ marginTop: buying ? 13 : 0, marginBottom: buying ? 0 : 13, order: buying ? 3 : 1 }}
                         />
                         <div style={{ marginTop: 14, padding: '0 4px' }}>
@@ -374,8 +388,10 @@ function Swap() {
                                         balanceNotEnough ||
                                         (buying && [ETHER, FUSE].includes(swapPair.token) ? false : !approved)
                                     }
-                                    onClick={() => setShowConfirm(true)}
-                                >
+                                    onClick={() => {
+                                      getData({event: 'swap', action: 'startSwap', type: buying ? 'buy' : 'sell'})
+                                      setShowConfirm(true)
+                                    }}>
                                     {i18n._(t`Swap`)}
                                 </ButtonAction>
                             </div>
@@ -383,13 +399,13 @@ function Swap() {
                     </SwapContentWrapperSC>
                 </SwapWrapperSC>
                 <SwapDetails open={Boolean(meta)} buying={buying} {...swapFields} />
-                <SwapDescriptions gdx={!!swapFields.GDX} exitContribution={!!swapFields.exitContribution} />
             </SwapCardSC>
             <SwapConfirmModal
                 {...swapFields}
                 open={showConfirm}
                 onClose={() => setShowConfirm(false)}
-                pair={pair}
+                setOpen={(value: boolean) => setShowConfirm(value)} 
+                pair={pair} 
                 meta={meta}
                 buying={buying}
                 onConfirm={async () => {

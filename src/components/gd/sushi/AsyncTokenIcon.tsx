@@ -9,11 +9,13 @@ import { BAD_SRCS } from 'components/Logo'
 const AsyncTokenIcon = ({
     address,
     chainId,
-    className
+    className,
+    network
 }: {
     address: string
     chainId?: ChainId
     className?: string
+    network?: string
 }): JSX.Element => {
     const [loadedSrc, setLoadedSrc] = useState<string>()
 
@@ -46,7 +48,10 @@ const AsyncTokenIcon = ({
     }, [chainId, address])
 
     return loadedSrc ? (
-        <img src={loadedSrc} className={className} alt="" />
+        <img src={loadedSrc} className={className} 
+             style={network === "fuse" || network === "GoodDAO" ? 
+                   {backgroundColor: "white", borderRadius: "30px"} : 
+                   {}} alt="" />
     ) : (
         <div className={[className, 'flex justify-center items-center ray-900'].join(' ')}>
             <CustomLightSpinner src={Circle} alt="loader" size={'24px'} />

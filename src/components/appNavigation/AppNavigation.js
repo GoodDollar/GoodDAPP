@@ -5,6 +5,7 @@ import type { Store } from 'undux'
 
 import Dashboard from '../dashboard/Dashboard'
 import Profile from '../profile/Profile'
+import LoginRedirect from '../loginRedirect/LoginRedirect'
 import { navigationOptions } from './navigationConfig'
 
 /**
@@ -22,6 +23,10 @@ const routes = {
   },
   Profile: {
     screen: Profile,
+    display: false,
+  },
+  LoginRedirect: {
+    screen: LoginRedirect,
     display: false,
   },
 }

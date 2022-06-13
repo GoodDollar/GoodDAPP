@@ -36,8 +36,13 @@ const Wrapper = styled.div`
     }
 `
 
-const MainBody = styled.div`
-    background-color: ${({theme}) => theme.color.bgBody};
+const MainBody = styled.div<{$page?: string}>`
+  ${({$page}) => $page === "/dashboard" && (`
+    width: 80%;
+    height: 100%;
+    padding: 50px 20px 50px 20px;
+  `)}
+  background-color: ${({theme}) => theme.color.bgBody};
 `
 
 function App(): JSX.Element {

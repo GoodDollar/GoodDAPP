@@ -77,8 +77,7 @@ function Web3Faucet(): JSX.Element | null {
             <ClaimButton
                 className="px-5"
                 borderRadius="6px"
-                disabled={securityNotice}
-                // onClick={() => window.location.replace("https://airdrop.gooddollar.org")}
+                onClick={() => window.location.replace("https://airdrop.gooddollar.org")}
             >
                 <span>{i18n._(t`GOOD Airdrop`)}</span>
             </ClaimButton >

@@ -4,11 +4,8 @@ echo "Decrypting files - using IS_PROD value of: $IS_PROD"
 mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 
 echo $IOS_CERTIFICATE | base64 --decode > ./Certificates.p12
-if $IS_PROD; then
-  echo $IOS_STORE_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/21f28d4b-7641-4420-875f-989a0bcc3d52.mobileprovision
-else
-  echo $IOS_ADHOC_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/b29b41c9-e82a-4aab-96a8-e5d00e55756e.mobileprovision
-fi
+echo $IOS_STORE_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+
 
 echo "Creating keychain"
 security create-keychain -p "" build.keychain

@@ -1,8 +1,8 @@
 {
   "version": "v1",
   "packages": {
-    "@gooddollarorg/sdk": {
-      "signature": "223a7b3441d2970781f3ffe0a5977299"
+    "@gooddollar/sdk": {
+      "signature": "72d733f845495ffe184e68d46434fc55"
     }
   }
 }

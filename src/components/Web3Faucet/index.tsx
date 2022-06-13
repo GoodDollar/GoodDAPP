@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { ButtonDefault } from '../gd/Button'
 import { SupportedChainId } from '../../sdk/constants/chains'
 import usePromise from '../../hooks/usePromise'
-import { check, claim, isWhitelisted } from '../../sdk/ubi'
+import { check, claimUBI, isWhitelisted } from '@gooddollar/sdk/dist/core'
 import useWeb3 from '../../hooks/useWeb3'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { MouseoverTooltip } from '../Tooltip'
@@ -57,7 +57,7 @@ function Web3Faucet(): JSX.Element | null {
     const handleClaim = useCallback(async () => {
         if (account && web3) {
             getData({event: 'claim', action: 'claimStart'})
-            const startClaim = await claim(web3, account).catch(e => {
+            const startClaim = await claimUBI(web3, account).catch(e => {
               refetch()
               return false
             })

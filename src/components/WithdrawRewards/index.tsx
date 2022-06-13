@@ -6,17 +6,15 @@ import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import Modal from 'components/Modal'
 import Button from 'components/Button'
-import { claim, claimGood } from '../../sdk/staking'
 import useWeb3 from '../../hooks/useWeb3'
-import { TransactionDetails } from '../../sdk/constants/transactions'
 import { useDispatch } from 'react-redux'
 import { addTransaction } from '../../state/transactions/actions'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { SupportedChainId } from '../../sdk/constants/chains'
 import Loader from 'components/Loader'
+import { claim, claimGood } from '@gooddollar/sdk/dist/core/staking'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>
@@ -86,19 +84,19 @@ function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsPro
 
             <Modal isOpen={isModalOpen} noPadding onDismiss={handleClose}>
                 <WithdrawRewardsStyled {...rest}>
-                    <div className="flex flex-grow justify-end">
+                    <div className="flex justify-end flex-grow">
                         <CrossSVG className="cursor-pointer" onClick={handleClose} />
                     </div>
                     {status === 'none' || status === 'pending' ? (
                         <>
-                            <Title className="flex flex-grow justify-center pt-3 mb-5">
+                            <Title className="flex justify-center flex-grow pt-3 mb-5">
                                 {i18n._(t`Claimable Rewards`)}
                             </Title>
-                            {<p className="warning mb-5">{error ? error.message : ''}</p>}
-                            {type === 'G$' && <p className="warning mb-5 text-center">
+                            {<p className="mb-5 warning">{error ? error.message : ''}</p>}
+                            {type === 'G$' && <p className="mb-5 text-center warning">
                                 {i18n._(t`Claiming your rewards will reset your multiplier.`)}
                             </p>}
-                            <div className="flex flex-col items-center gap-1 relative">
+                            <div className="relative flex flex-col items-center gap-1">
                                 <ButtonAction
                                     className="claim-reward"
                                     disabled={status === 'pending'}
@@ -115,10 +113,10 @@ function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsPro
                         </>
                     ) : (
                         <>
-                            <Title className="flex flex-grow justify-center pt-3">
+                            <Title className="flex justify-center flex-grow pt-3">
                               {status === 'send' ? i18n._(t`Success!`) : i18n._(t`Congratulations!`)}
                             </Title>
-                            <div className="flex justify-center items-center gap-2 pt-7 pb-7">
+                            <div className="flex items-center justify-center gap-2 pt-7 pb-7">
                                 { status === 'send' ?
                                   i18n._(t`Transaction was sent to the blockchain `) :
                                   i18n._(t`You have successfully claimed your rewards `) } 

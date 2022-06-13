@@ -2,9 +2,9 @@ import useActiveWeb3React from './useActiveWeb3React'
 import React, { createContext, ReactNode, ReactNodeArray, useContext, useMemo } from 'react'
 import Web3 from 'web3'
 
-import { useEnvWeb3, GdSDkContext } from '@gooddollarorg/sdk/dist/hooks/'
-import { DAO_NETWORK } from '@gooddollarorg/sdk/dist/constants/'
-import { getNetworkEnv } from '@gooddollarorg/sdk/dist/constants/addresses'
+import { useEnvWeb3, GdSDkContext } from '@gooddollar/sdk/dist/hooks/'
+import { DAO_NETWORK } from '@gooddollar/sdk/dist/constants/'
+import { getNetworkEnv } from '@gooddollar/sdk/dist/constants/addresses'
 
 const Context = createContext<Web3 | null>(null)
 

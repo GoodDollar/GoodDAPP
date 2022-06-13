@@ -1,1 +1,0 @@
-{"version":3,"file":"IdentityContract.d.ts","sourceRoot":"","sources":["../../src/contracts/IdentityContract.ts"],"names":[],"mappings":"AAAA,OAAO,IAAI,MAAM,MAAM,CAAA;AACvB,OAAO,EAAE,QAAQ,EAAE,MAAM,mBAAmB,CAAA;AAO5C;;;;;GAKG;AACH,wBAAsB,gBAAgB,CAAC,IAAI,EAAE,IAAI,EAAE,OAAO,CAAC,EAAE,MAAM,GAAG,OAAO,CAAC,QAAQ,CAAC,CAItF"}

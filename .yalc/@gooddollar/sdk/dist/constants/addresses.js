@@ -1,0 +1,1 @@
+export { a7 as G$ContractAddresses, aj as UNISWAP_CONTRACT_ADDRESS, au as UNISWAP_FACTORY_ADDRESSES, at as UNISWAP_INIT_CODE_HASH, a6 as UNI_ADDRESS, an as getNetworkEnv } from '../chunks/addresses.js';

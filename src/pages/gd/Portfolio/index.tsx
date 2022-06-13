@@ -20,9 +20,9 @@ import AppNotice from 'components/AppNotice'
 import { useWindowSize } from 'hooks/useWindowSize'
 import Withdraw from 'components/Withdraw'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
-import { getMyList, MyStake } from '@gooddollarorg/sdk/dist/core'
-import { DAO_NETWORK, portfolioSupportedAt, SupportedChainId, LIQUIDITY_PROTOCOL } from '@gooddollarorg/sdk/dist/constants'
-import { useEnvWeb3 } from '@gooddollarorg/sdk/dist/hooks'
+import { getMyList, MyStake } from '@gooddollar/sdk/dist/core'
+import { DAO_NETWORK, portfolioSupportedAt, SupportedChainId, LIQUIDITY_PROTOCOL } from '@gooddollar/sdk/dist/constants'
+import { useEnvWeb3 } from '@gooddollar/sdk/dist/hooks'
 
 import styled from 'styled-components'
 

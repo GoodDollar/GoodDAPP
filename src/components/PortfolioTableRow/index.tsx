@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useState } from 'react'
 import Withdraw from 'components/Withdraw'
-import { MyStake } from '../../sdk/staking'
+import { MyStake } from '@gooddollar/sdk/dist/core/staking'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'

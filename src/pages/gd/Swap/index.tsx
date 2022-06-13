@@ -12,14 +12,14 @@ import { useCurrencyBalance } from 'state/wallet/hooks'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useG$ from 'hooks/useG$'
 
-import { approveBuy, BuyInfo, getBuyMeta, getBuyMetaReverse } from '@gooddollarorg/sdk/dist/core'
+import { approveBuy, BuyInfo, getBuyMeta, getBuyMetaReverse } from '@gooddollar/sdk/dist/core'
 import {
     approveSell,
     getSellMeta,
     getSellMetaReverse,
     SellInfo
-} from '@gooddollarorg/sdk/dist/core'
-import { SupportedChainId } from '@gooddollarorg/sdk/dist/constants'
+} from '@gooddollar/sdk/dist/core'
+import { SupportedChainId } from '@gooddollar/sdk/dist/constants'
 import SwapConfirmModal from './SwapConfirmModal'
 import { FUSE } from 'constants/index'
 import { useDispatch } from 'react-redux'
@@ -34,7 +34,7 @@ import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
 import sendGa from 'functions/sendGa'
 
-import { useGdContextProvider } from '@gooddollarorg/sdk/dist/hooks'
+import { useGdContextProvider } from '@gooddollar/sdk/dist/hooks'
 
 function Swap() {
     const { i18n } = useLingui()

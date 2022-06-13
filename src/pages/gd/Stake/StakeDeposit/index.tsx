@@ -19,9 +19,9 @@ import sendGa from 'functions/sendGa'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
-import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from '@gooddollarorg/sdk/dist/core/staking'
-import { LIQUIDITY_PROTOCOL } from '@gooddollarorg/sdk/dist/constants'
-import { useGdContextProvider } from '@gooddollarorg/sdk/dist/hooks'
+import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from '@gooddollar/sdk/dist/core/staking'
+import { LIQUIDITY_PROTOCOL } from '@gooddollar/sdk/dist/constants'
+import { useGdContextProvider } from '@gooddollar/sdk/dist/hooks'
 
 import Share from 'components/Share'
 

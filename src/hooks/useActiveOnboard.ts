@@ -147,7 +147,7 @@ export function useOnboardConnect():OnboardConnectProps {
   
   const updateStorage = (newChainId:string, currentWallet:WalletState[]) => {
     const { chainId } = IsSupportedChain(newChainId)
-    setChain({chainId: newChainId})
+    setChain({chainId: chainId})
     StoreOnboardState(currentWallet, chainId)
     setActivated(true)
   }

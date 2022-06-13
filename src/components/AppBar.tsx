@@ -57,6 +57,20 @@ const AppBarWrapper = styled.header`
         }
     }
 `
+export const LogoWrapper = styled.div<{ $mobile: boolean}>`
+
+  ${({theme, $mobile}) => theme.darkMode && $mobile && (`
+      background-color: white;
+      position: absolute;
+      height: 36px;
+      width: 36px;
+      border-radius: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    `)}
+`
+ 
 // TODO: Move and combine with styling for ButtonOutlined
 export const DivOutlined = styled.div<{
   size?: 'default' | 'sm'
@@ -143,14 +157,14 @@ function AppBar(): JSX.Element {
                   <div className="md:px-4 pl-2.5 pr-1 py-1.5">
                       <div className="flex items-center justify-between h-16">
                           <div className="flex items-center">
-                              <div className="flex-shrink-0">
+                              <LogoWrapper $mobile={isMobile} className="flex-shrink-0">
                                   <img
                                       src={theme === 'dark' ? LogoDark : Logo}
                                       alt="GoodDollar"
                                       className="hidden w-auto site-logo lg:block"
                                   />
-                                  <img src={LogoMobile} alt="GoodDollar" className="w-auto site-logo lg:hidden" />
-                              </div>
+                                  <img src={LogoMobile} alt="GoodDollar" className="w-auto h-7 lg:hidden" />
+                              </LogoWrapper>
                           </div>
 
                           <div className="flex flex-row space-x-2">

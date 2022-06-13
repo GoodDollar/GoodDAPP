@@ -122,11 +122,12 @@ const MobileCell = ({
                     onWithdraw={onWithdraw}
                     stake={stake}
                 />
-                <div className="token font-bold flex flex-nowrap items-center">
+                <div className="flex items-center font-bold token flex-nowrap">
                     <AsyncTokenIcon
                         address={stake.tokens.A.address}
                         chainId={stake.tokens.A.chainId as number}
-                        className="block w-5 h-5 rounded-lg w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 mr-2"
+                        className="block w-5 w-6 h-5 h-6 mr-2 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
+                        network={stake.protocol}
                     />
                     {stake.tokens.A.symbol}
                     {stake.tokens.A.address !== stake.tokens.B.address ?? `/ ${stake.tokens.B.symbol}`}
@@ -362,16 +363,16 @@ const Portfolio = () => {
                             {data?.aggregated?.rewardsGDAO.currency.symbol}
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex flex-col segment items-start justify-between lg:items-center social-contribution-wrapper">
-                        <Title className="text-center md:text-left w-full" type="category">
+                    <div className="flex flex-col items-start justify-between segment lg:items-center social-contribution-wrapper">
+                        <Title className="w-full text-center md:text-left" type="category">
                             {i18n._(t`Your social contribution from:`)}
                         </Title>
-                        <div className="flex flex-grow social-contribution justify-center md:justify-start">
-                            <div className="flex flex-col cell items-center mr-8">
+                        <div className="flex justify-center flex-grow social-contribution md:justify-start">
+                            <div className="flex flex-col items-center mr-8 cell">
                                 <PortfolioValueSC>–</PortfolioValueSC>
                                 <Title type="category">{i18n._(t`Staking`)}</Title>
                             </div>
-                            <div className="flex flex-col cell items-center ml-8">
+                            <div className="flex flex-col items-center ml-8 cell">
                                 <PortfolioValueSC>–</PortfolioValueSC>
                                 <Title type="category">{i18n._(t`Holding`)}</Title>
                             </div>
@@ -381,7 +382,7 @@ const Portfolio = () => {
             </Card>
             <Card className="mb-6 md:mb-4 card">
                 <PortfolioAnalyticSC style={{ height: 'auto' }} className="flex">
-                    <div className="flex flex-col segment justify-center ">
+                    <div className="flex flex-col justify-center segment ">
                         <PortfolioTitleSC className="claimable-rewards">
                             {i18n._(t`Claimable`)} <br /> {i18n._(t`rewards`)}
                         </PortfolioTitleSC>
@@ -404,8 +405,8 @@ const Portfolio = () => {
                             {data?.aggregated?.rewardsGDAOUnclaimed.currency.symbol}
                         </PortfolioValueSC>
                     </div>
-                    <div className="flex md:flex-col segment items-end justify-center withdraw-buttons">
-                        <div className="withdraw-button h-full md:h-auto">
+                    <div className="flex items-end justify-center md:flex-col segment withdraw-buttons">
+                        <div className="h-full withdraw-button md:h-auto">
                             <WithdrawRewards
                                 onClaim={update}
                                 type="G$"
@@ -424,7 +425,7 @@ const Portfolio = () => {
                                 // trigger={<ButtonDefault width={'156px'}>{i18n._(t`Claim rewards`)}</ButtonDefault>}
                             />
                         </div>
-                        <div className="withdraw-button h-full md:h-auto">
+                        <div className="h-full withdraw-button md:h-auto">
                             <WithdrawRewards
                                 onClaim={update}
                                 type="GOOD"
@@ -439,7 +440,7 @@ const Portfolio = () => {
                     </div>
                 </PortfolioAnalyticSC>
             </Card>
-            <PortfolioTitleSC className="md:pl-2 mb-3">{i18n._(`Positions`)}</PortfolioTitleSC>
+            <PortfolioTitleSC className="mb-3 md:pl-2">{i18n._(`Positions`)}</PortfolioTitleSC>
             {isMobile ? (
                 <>
                     {showNotice && (
@@ -491,7 +492,7 @@ const Portfolio = () => {
     return (
         <Layout classes="md:mt-24 xl:mt-0 sh:mt-30">
             <PortfolioSC>
-                <Title className="md:pl-4 mb-6">Portfolio</Title>
+                <Title className="mb-6 md:pl-4">Portfolio</Title>
                 {account ? (
                     portfolio
                 ) : (

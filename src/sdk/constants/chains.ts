@@ -24,4 +24,8 @@ export const stakesSupportedAt: Array<number | undefined> = [
     SupportedChainId.MAINNET,
     SupportedChainId.ROPSTEN
 ]
-export const portfolioSupportedAt: Array<number | undefined> = [SupportedChainId.KOVAN]
+export const portfolioSupportedAt: Array<number | undefined> = [
+  SupportedChainId.MAINNET,
+  SupportedChainId.KOVAN,
+  SupportedChainId.FUSE
+]

@@ -1,5 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
+import { Colors } from 'react-native-paper'
 import { get, truncate } from 'lodash'
 
 import { CustomButton, Section, Text } from '../common'
@@ -76,7 +77,7 @@ const LoginRedirect = ({ navigation, styles }) => {
               </View>
               <View style={styles.buttonContainer}>
                 <CustomButton onPress={deny} style={styles.denyButton}>
-                  <Text style={{ color: '#00AFFF' }}>Deny</Text>
+                  <Text style={styles.denyText}>Deny</Text>
                 </CustomButton>
                 <CustomButton onPress={allow} style={styles.allowButton}>
                   Allow
@@ -91,6 +92,11 @@ const LoginRedirect = ({ navigation, styles }) => {
 }
 
 const getStylesFromProps = ({ theme }) => {
+  const { colors, sizes } = theme
+  const { borderRadius, defaultDouble } = sizes
+  const { primary, white, lightBlue, lighterGreen } = colors
+  const { black } = Colors
+
   return {
     topContainer: {
       flex: 1,
@@ -101,9 +107,9 @@ const getStylesFromProps = ({ theme }) => {
       alignSelf: 'center',
     },
     shadowBackground: {
-      backgroundColor: '#fff',
+      backgroundColor: white,
       margin: 5,
-      shadowColor: '#000',
+      shadowColor: black,
       shadowOffset: {
         width: 0,
         height: 2,
@@ -123,10 +129,10 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'space-evenly',
       padding: 10,
       flexDirection: 'row',
-      backgroundColor: '#EEF0F9',
+      backgroundColor: '#eef0f9',
     },
     detailHeading: {
-      fontSize: 16,
+      fontSize: defaultDouble,
     },
     detail: {
       fontSize: 10,
@@ -135,11 +141,18 @@ const getStylesFromProps = ({ theme }) => {
       width: '48%',
       backgroundColor: 'transparent',
       marginRight: 20,
-      borderRadius: 5,
+      borderRadius,
       borderWidth: 1,
-      borderColor: '#00AFFF',
+      borderColor: primary,
     },
-    allowButton: { width: '48%', borderRadius: 5, backgroundColor: '#00AFFF' },
+    denyText: {
+      color: primary,
+    },
+    allowButton: {
+      width: '48%',
+      borderRadius,
+      backgroundColor: primary,
+    },
     buttonContainer: {
       flexDirection: 'row',
       marginTop: 10,
@@ -151,25 +164,25 @@ const getStylesFromProps = ({ theme }) => {
       width: '100%',
     },
     labelText: {
-      color: '#8499BB',
+      color: lightBlue,
     },
     verifiedView: {
       padding: 10,
-      backgroundColor: '#04C89926',
+      backgroundColor: lighterGreen,
       marginTop: 5,
     },
     verifiedText: {
       textAlign: 'flex-start',
-      color: '#04C899',
+      color: lighterGreen,
     },
     unVerifiedView: {
       padding: 10,
-      backgroundColor: 'lightyellow',
+      backgroundColor: '#ffffe0',
       marginTop: 5,
     },
     unVerifiedText: {
       textAlign: 'flex-start',
-      color: '#FFC700',
+      color: '#ffc700',
     },
     boldText: {
       fontWeight: 'bold',

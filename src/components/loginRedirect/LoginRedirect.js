@@ -1,117 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
-import { first, forIn } from 'lodash'
-import GooddollarImage from '../../assets/gooddollarLogin.svg'
+import { get, truncate } from 'lodash'
 
 import { CustomButton, Section, Text } from '../common'
-import useProfile from '../../lib/userStorage/useProfile'
-import API from '../../lib/API/api'
-import goodWallet from '../../lib/wallet/GoodWallet'
-import logger from '../../lib/logger/js-logger'
-import { withStyles } from '../../lib/styles'
-import usePropsRefs from '../../lib/hooks/usePropsRefs'
-import { exitApp } from '../../lib/utils/system'
-import { decodeBase64Params, encodeBase64Params } from '../../lib/utils/uri'
-import { openLink } from '../../lib/utils/linking'
 
-const log = logger.child({ from: 'LoginRedirect' })
+import useProfile from '../../lib/userStorage/useProfile'
+
+import { withStyles } from '../../lib/styles'
+import GooddollarImage from '../../assets/gooddollarLogin.svg'
+import useGoodDollarLogin from './useGoodDollarLogin'
 
 const LoginRedirect = ({ navigation, styles }) => {
-  const { email, walletAddress, mobile, fullName } = useProfile()
-  const [details, setDetails] = useState({ country: '', isWhitelisted: null })
-  const [urlDetails, setURLDetails] = useState({
-    vendorAddress: null,
-    vendorName: null,
-    vendorURL: null,
-    requestedDetails: [],
-    urlType: null,
-    url: null,
-  })
-  const [warning, setWarnings] = useState({
-    isVendorWalletWhitelisted: true,
-    isWebDomainDifferent: false,
-  })
-  const { isVendorWalletWhitelisted } = warning
-  const { country, isWhitelisted } = details
-  const [getParams] = usePropsRefs([navigation?.state?.params])
+  const profile = useProfile()
+  const { params } = get(navigation, 'state', {})
 
-  useEffect(() => {
-    const fetchLocationAndWhiteListedStatus = async () => {
-      try {
-        const { login } = getParams() || {}
-        const { id, v, r, web, cbu, rdu } = decodeBase64Params(login)
-        const url = cbu || rdu
-        const location = await API.getLocation()
-        const isWhitelisted = await goodWallet.isCitizen()
-        setDetails({ country: location?.name, isWhitelisted })
-        setURLDetails({
-          vendorAddress: id,
-          vendorName: v,
-          requestedDetails: r,
-          vendorURL: web,
-          urlType: cbu ? 'cbu' : 'rdu',
-          url,
-        })
-        if (!web.includes(urlDetails?.cbu ?? urlDetails?.rdu)) {
-          setWarnings(data => ({ ...data, isWebDomainDifferent: true }))
-        }
-        if (!(await goodWallet.isVerified(id))) {
-          setWarnings(data => ({ ...data, isVendorWalletWhitelisted: false }))
-        }
-      } catch (e) {
-        //nothing here
-      }
-    }
-    fetchLocationAndWhiteListedStatus().catch(e =>
-      log.warn('Error fetcing location and whitelisted status', e.message, e),
-    )
-  }, [getParams, setDetails, setWarnings, setURLDetails])
+  const { profileDetails, parsedURL, warnings, allow, deny } = useGoodDollarLogin(params)
 
-  const sendResponse = useCallback(
-    response => {
-      const { url, urlType } = urlDetails
-      if (urlType === 'rdu') {
-        openLink(`${url}?login=${encodeBase64Params(response)}`, '_self')
-        return
-      }
-      API.sendLoginVendorDetails(url, response)
-        .catch(e => log.warn('Error sending login vendor details', e.message, e))
-        .finally(exitApp)
-    },
-    [urlDetails],
-  )
-  const deny = useCallback(() => {
-    sendResponse({ error: 'Authorization Denied' })
-  }, [sendResponse])
-
-  const allow = useCallback(() => {
-    const { wallet, accounts } = goodWallet
-    const { accounts: signer } = wallet.eth
-    const { privateKey } = first(accounts)
-    const { requestedDetails } = urlDetails
-    const detail = value => ({ value, attestation: '' })
-
-    const map = {
-      location: ['I', country],
-      name: ['n', fullName],
-      email: ['e', email],
-      mobile: ['m', mobile],
-    }
-
-    const response = {
-      a: detail(walletAddress),
-      v: detail(isWhitelisted),
-      nonce: detail(Date.now()),
-    }
-    forIn(map, ([property, value], requested) => {
-      if (!requestedDetails.includes(requested)) {
-        return
-      }
-      response[property] = detail(value)
-    })
-    const { signature } = signer.sign(JSON.stringify(response), privateKey)
-    sendResponse({ ...response, sig: signature })
-  }, [urlDetails, sendResponse, country, isWhitelisted, fullName, email, mobile, walletAddress])
+  const { isVendorWalletWhitelisted } = warnings || {}
+  const { country } = profileDetails || {}
+  const { vendorName, vendorURL, vendorAddress = '' } = parsedURL || {}
+  const { email, mobile, fullName } = profile
 
   return (
     <View style={styles.topContainer}>
@@ -122,15 +30,15 @@ const LoginRedirect = ({ navigation, styles }) => {
               <GooddollarImage />
             </View>
             <View style={styles.container}>
-              <Text style={styles.vendorName}>{urlDetails.vendorName}</Text>
+              <Text style={styles.vendorName}>{vendorName}</Text>
               <View style={styles.detailsView}>
                 <View>
-                  <Text style={{ fontSize: 16 }}>Website</Text>
-                  <Text style={{ fontSize: 10 }}>{urlDetails?.vendorURL}</Text>
+                  <Text style={styles.detailHeading}>Website</Text>
+                  <Text style={styles.detail}>{vendorURL}</Text>
                 </View>
                 <View>
-                  <Text style={{ fontSize: 16 }}>Wallet</Text>
-                  <Text style={{ fontSize: 10 }}>{urlDetails?.vendorAddress?.slice(0, 12)}...</Text>
+                  <Text style={styles.detailHeading}>Wallet</Text>
+                  <Text style={styles.detail}>{truncate(vendorAddress, { length: 12 })}</Text>
                 </View>
               </View>
               <Text style={styles.boldText}>is requesting to view the following information:</Text>
@@ -152,18 +60,17 @@ const LoginRedirect = ({ navigation, styles }) => {
               </View>
               <View style={styles.infoView}>
                 <Text style={styles.labelText}>Wallet Address</Text>
-                <Text>{urlDetails?.vendorAddress}</Text>
+                <Text>{vendorAddress}</Text>
               </View>
               <View style={styles.infoView}>
                 <Text style={styles.labelText}>GoodDollar verification status</Text>
-                {!isVendorWalletWhitelisted && (
-                  <View style={styles.unVerifiedView}>
-                    <Text style={styles.unVerifiedText}>Not Verified</Text>
-                  </View>
-                )}
-                {isVendorWalletWhitelisted && (
+                {isVendorWalletWhitelisted ? (
                   <View style={styles.verifiedView}>
                     <Text style={styles.verifiedText}>Verified</Text>
+                  </View>
+                ) : (
+                  <View style={styles.unVerifiedView}>
+                    <Text style={styles.unVerifiedText}>Not Verified</Text>
                   </View>
                 )}
               </View>
@@ -217,6 +124,12 @@ const getStylesFromProps = ({ theme }) => {
       padding: 10,
       flexDirection: 'row',
       backgroundColor: '#EEF0F9',
+    },
+    detailHeading: {
+      fontSize: 16,
+    },
+    detail: {
+      fontSize: 10,
     },
     denyButton: {
       width: '48%',

@@ -170,10 +170,12 @@ jobs:
       - name: Setup CocoaPods
         run: sudo gem install cocoapods
       # install app deps
-      - name: Cache & install npm dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --frozen-lockfile --network-timeout 100000
+#      - name: Cache & install npm dependencies
+#        uses: bahmutov/npm-install@v1
+#        with:
+#          install-command: yarn --frozen-lockfile --network-timeout 100000
+      - name: Install deps (temp)
+        run: yarn --frozen-lockfile --network-timeout 100000
       - name: Restore Pods cache
         uses: actions/cache@v2
         with:

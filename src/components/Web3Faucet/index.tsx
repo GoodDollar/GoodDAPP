@@ -47,10 +47,13 @@ function Web3Faucet(): JSX.Element | null {
 
         if (!whitelisted) return new Error('Only verified wallets can claim')
 
-        const amount = await check(web3).catch(e => {
+        const amount = await check(web3, account).catch(e => {
             console.error(e)
             return ''
         })
+
+        if (amount === '0') return new Error('You have already claimed today!')
+
         return /[^0.]/.test(amount)
     }, [chainId, web3, account])
 
@@ -86,9 +89,8 @@ function Web3Faucet(): JSX.Element | null {
                 text={
                     (chainId as any) !== SupportedChainId.FUSE
                         ? i18n._(t`Please connect your Web3 wallet to the Fuse Network to Claim UBI.`)
-                        : claimable instanceof Error
-                            ? claimable.message
-                            : i18n._(t`Click this button to Claim your Daily UBI in`) + 'G$'
+                        : claimable instanceof Error ? claimable.message
+                        : i18n._(t`Click this button to Claim your Daily UBI in `) + 'G$'
                 }
                 offset={[0, 12]}
             >

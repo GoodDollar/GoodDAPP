@@ -60,10 +60,10 @@ jobs:
         with:
           ruby-version: 2.6
           bundler-cache: true
+      - name: Setup Xcode version
+        uses: maxim-lobanov/setup-xcode@v1.4.1
       - name: Setup CocoaPods
-        run: |
-          sudo gem install cocoapods
-          sudo apt install libc6-dev
+        run: sudo gem install cocoapods
       # install app deps
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
@@ -107,7 +107,7 @@ jobs:
     runs-on: macOS-latest
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag :
     if: |
-      endsWith(github.ref, '3728-update-ios-ci-workflow') ||
+      github.event_name == 'workflow_dispatch' ||
       (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
       (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))

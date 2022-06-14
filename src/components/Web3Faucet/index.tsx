@@ -52,7 +52,7 @@ function Web3Faucet(): JSX.Element | null {
             return ''
         })
 
-        if (amount === '0') return new Error('You have already claimed today!')
+        if (amount === '0') return new Error("You've already claimed today.")
 
         return /[^0.]/.test(amount)
     }, [chainId, web3, account])

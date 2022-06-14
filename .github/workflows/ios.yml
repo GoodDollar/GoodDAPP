@@ -129,7 +129,7 @@ jobs:
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_DEV }}" >> $GITHUB_ENV
-          echo "IS_PROD=true" >> $GITHUB_ENV
+          echo "IS_PROD=false" >> $GITHUB_ENV
           echo "PROFILE_UID=b29b41c9-e82a-4aab-96a8-e5d00e55756e" >> $GITHUB_ENV
           echo "PROVISIONING_PROFILE=${{ secrets.IOS_STORE_PROFILE }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
@@ -139,7 +139,7 @@ jobs:
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-staging" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_STAGING }}" >> $GITHUB_ENV
-          echo "IS_PROD=true" >> $GITHUB_ENV
+          echo "IS_PROD=false" >> $GITHUB_ENV
           echo "PROVISIONING_PROFILE=${{ secrets.IOS_ADHOC_PROFILE }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ env.TARGET_BRANCH == 'next' }}

@@ -6,6 +6,7 @@ import { useLingui } from '@lingui/react'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
+import sendGa from 'functions/sendGa'
 
 interface PortfolioTableRowProps {
     stake: MyStake
@@ -15,7 +16,11 @@ interface PortfolioTableRowProps {
 function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
-    const handleWithdrawOpen = useCallback(() => setWithdrawOpen(true), [])
+    const getData = sendGa
+    const handleWithdrawOpen = useCallback(() => {
+      getData({event: 'stake', action: 'withdrawStart'})
+      setWithdrawOpen(true)
+    }, [])
 
     return (
         <>

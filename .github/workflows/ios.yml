@@ -64,6 +64,8 @@ jobs:
         with:
           ruby-version: 2.6
           bundler-cache: true
+      - name: Setup CocoaPods
+        run: sudo gem install cocoapods
       - name: Restore Pods cache
         uses: actions/cache@v2
         with:

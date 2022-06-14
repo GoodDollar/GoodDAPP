@@ -55,10 +55,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - name: Cache & install npm dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --frozen-lockfile --network-timeout 100000
+      - name: fix max_user_watches
+        run: |
+          sudo sysctl -w kern.maxfiles=524288
+          sudo sysctl -w kern.maxfilesperproc=524288
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
         with:
@@ -66,6 +66,11 @@ jobs:
           bundler-cache: true
       - name: Setup CocoaPods
         run: sudo gem install cocoapods
+      # install app deps
+      - name: Cache & install npm dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn --frozen-lockfile --network-timeout 100000
       - name: Restore Pods cache
         uses: actions/cache@v2
         with:
@@ -78,6 +83,7 @@ jobs:
             ${{ runner.os }}-pods-
       - name: Install Pods
         run: cd ios && pod install --repo-update && cd ..
+      # extract/decrypt secrets, finalize env preparation
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}

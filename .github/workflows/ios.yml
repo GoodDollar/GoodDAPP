@@ -21,92 +21,83 @@ on:
           - next
 
 jobs:
-#  codepush:
-#    name: Hot Code Push
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Pre-checks - Env is Dev
-#        run: |
-#          echo "ENV=development" >> $GITHUB_ENV
-#          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
-#          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
-#          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_DEV }}" >> $GITHUB_ENV
-#          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_IOS_CODEPUSH_DEV }}" >> $GITHUB_ENV
-#      - name: Pre-checks - Env is QA
-#        if: ${{ endsWith(github.ref, '/staging') }}
-#        run: |
-#          echo "ENV=staging" >> $GITHUB_ENV
-#          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
-#          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-staging" >> $GITHUB_ENV
-#          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_STAGING }}" >> $GITHUB_ENV
-#          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_IOS_CODEPUSH_STAGING }}" >> $GITHUB_ENV
-#      - name: Pre-checks - Env is PROD
-#        if: ${{ endsWith(github.ref, '/next') }}
-#        run: |
-#          echo "ENV=prod" >> $GITHUB_ENV
-#          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
-#          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-production" >> $GITHUB_ENV
-#          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_PROD }}" >> $GITHUB_ENV
-#          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_IOS_CODEPUSH_PROD }}" >> $GITHUB_ENV
-#      - uses: actions/checkout@v3
-#      - uses: actions/setup-node@v1
-#        with:
-#          node-version: 14
-#      - name: Check out Git repository
-#        uses: actions/checkout@v2
-#      - name: Get yarn cache directory path
-#        id: yarn-cache-dir-path
-#        run: echo "::set-output name=dir::$(yarn cache dir)"
-#      - name: Restore node_modules from cache
-#        uses: actions/cache@v2
-#        id: yarn-cache
-#        with:
-#          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-#          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-#          restore-keys: |
-#            ${{ runner.os }}-yarn-
-#      - name: Install dependencies
-#        run: yarn install --frozen-lockfile --network-timeout 300000
-#      - name: Setup Ruby (bundle)
-#        uses: ruby/setup-ruby@v1
-#        with:
-#          ruby-version: 2.6
-#          bundler-cache: true
-#      - name: Restore Pods cache
-#        uses: actions/cache@v2
-#        with:
-#          path: |
-#            ios/Pods
-#            ~/Library/Caches/CocoaPods
-#            ~/.cocoapods
-#          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-#          restore-keys: |
-#            ${{ runner.os }}-pods-
-#      - name: Install Pods
-#        run: |
-#          sudo gem install cocoapods
-#          sudo apt install libc6-dev
-#          cd ios && pod install --repo-update && cd ..
-#      - name: add .env secrets
-#        env:
-#          SENTRYRC: ${{ secrets.sentryrc_file }}
-#        run: |
-#          env_name="${{ env.ENV }}"
-#          echo $env_name
-#          cat .env.$env_name
-#          echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
-#          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
-#          echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
-#      - name: Code push release
-#        env:
-#          BUILD_NUMBER: ${{ github.run_number }}
-#          CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
-#        run: |
-#          echo Code push release target version $BUILD_NUMBER
-#          echo Code push CODE_PUSH_DEPLOYMENT_KEY $CODE_PUSH_DEPLOYMENT_KEY
-#          echo Code push APPCENTER_CODEPUSH_TOKEN ${{ env.APPCENTER_CODEPUSH_TOKEN }}
-#          yarn lingui:compile
-#          npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
+  codepush:
+    name: Hot Code Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pre-checks - Env is Dev
+        run: |
+          echo "ENV=development" >> $GITHUB_ENV
+          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_DEV }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_IOS_CODEPUSH_DEV }}" >> $GITHUB_ENV
+      - name: Pre-checks - Env is QA
+        if: ${{ endsWith(github.ref, '/staging') }}
+        run: |
+          echo "ENV=staging" >> $GITHUB_ENV
+          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-staging" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_STAGING }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_IOS_CODEPUSH_STAGING }}" >> $GITHUB_ENV
+      - name: Pre-checks - Env is PROD
+        if: ${{ endsWith(github.ref, '/next') }}
+        run: |
+          echo "ENV=prod" >> $GITHUB_ENV
+          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
+          echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-production" >> $GITHUB_ENV
+          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_PROD }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_IOS_CODEPUSH_PROD }}" >> $GITHUB_ENV
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Cache & install npm dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          install-command: yarn --frozen-lockfile --network-timeout 100000
+      - name: Setup Ruby (bundle)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+      - name: Restore Pods cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ios/Pods
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      - name: Install Pods
+        run: |
+          sudo gem install cocoapods
+          sudo apt install libc6-dev
+          cd ios && pod install --repo-update && cd ..
+      - name: add .env secrets
+        env:
+          SENTRYRC: ${{ secrets.sentryrc_file }}
+        run: |
+          env_name="${{ env.ENV }}"
+          echo $env_name
+          cat .env.$env_name
+          echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
+          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
+          echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
+      - name: Setup google services file
+          run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode > ./ios/GoogleService-Info.plist
+      - name: Code push release
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
+        run: |
+          echo Code push release target version $BUILD_NUMBER
+          yarn lingui:compile
+          npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
 
   build:
     runs-on: macOS-latest
@@ -129,9 +120,7 @@ jobs:
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_DEV }}" >> $GITHUB_ENV
-          echo "IS_PROD=true" >> $GITHUB_ENV
-          echo "PROFILE_UID=b29b41c9-e82a-4aab-96a8-e5d00e55756e" >> $GITHUB_ENV
-          echo "PROVISIONING_PROFILE=${{ secrets.IOS_STORE_PROFILE }}" >> $GITHUB_ENV
+          echo "IS_PROD=false" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |
@@ -140,7 +129,6 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-staging" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_STAGING }}" >> $GITHUB_ENV
           echo "IS_PROD=false" >> $GITHUB_ENV
-          echo "PROVISIONING_PROFILE=${{ secrets.IOS_ADHOC_PROFILE }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ env.TARGET_BRANCH == 'next' }}
         run: |
@@ -149,11 +137,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-production" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_PROD }}" >> $GITHUB_ENV
           echo "IS_PROD=true" >> $GITHUB_ENV
-          echo "PROFILE_UID=21f28d4b-7641-4420-875f-989a0bcc3d52" >> $GITHUB_ENV
-          echo "PROVISIONING_PROFILE=${{ secrets.IOS_STORE_PROFILE }}" >> $GITHUB_ENV
       # setup actions
-      - name: echo TARGET_BRANCH
-        run: echo ${{ env.TARGET_BRANCH }}
       - uses: actions/checkout@v2
         with:
           ref: ${{ env.TARGET_BRANCH }}
@@ -222,7 +206,6 @@ jobs:
           IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
           IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
           IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-          IS_PROD: ${{ env.IS_PROD }}
       - name: Build app
         env:
           ENVFILE: '../.env.${{ env.ENV }}'
@@ -250,7 +233,7 @@ jobs:
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }}"
           npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-      - name: Distribute to stores - PROD ONLY
-        if: ${{ env.IS_PROD }}
-        run: |
-          npx appcenter distribute stores publish --token ${{ secrets.APPCENTER_IOS_PROD }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+#      - name: Distribute to stores - PROD ONLY
+#        if: ${{ env.IS_PROD }}
+#        run: |
+#          npx appcenter distribute stores publish --token ${{ secrets.APPCENTER_IOS_PROD }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"

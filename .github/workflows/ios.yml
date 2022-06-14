@@ -24,6 +24,7 @@ jobs:
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch'
     steps:
       - name: Pre-checks - Env is Dev
         run: |
@@ -74,10 +75,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
       - name: Install Pods
-        run: |
-          sudo gem install cocoapods
-          sudo apt install libc6-dev
-          cd ios && pod install --repo-update && cd ..
+        run: cd ios && pod install --repo-update && cd ..
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}

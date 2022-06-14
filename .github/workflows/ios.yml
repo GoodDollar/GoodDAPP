@@ -61,7 +61,9 @@ jobs:
           ruby-version: 2.6
           bundler-cache: true
       - name: Setup CocoaPods
-        run: sudo gem install cocoapods
+        run: |
+          sudo gem install cocoapods
+          sudo apt install libc6-dev
       # install app deps
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1

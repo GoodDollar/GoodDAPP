@@ -150,10 +150,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - name: fix max_user_watches
-        run: |
-          sudo sysctl -w kern.maxfiles=524288
-          sudo sysctl -w kern.maxfilesperproc=524288
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
         with:

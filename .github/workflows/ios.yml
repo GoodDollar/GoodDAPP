@@ -87,7 +87,7 @@ jobs:
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
           echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
       - name: Setup google services file
-          run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode > ./ios/GoogleService-Info.plist
+        run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode > ./ios/GoogleService-Info.plist
       - name: Code push release
         env:
           BUILD_NUMBER: ${{ github.run_number }}

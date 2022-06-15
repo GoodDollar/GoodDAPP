@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { assign, get, isError, isObject } from 'lodash'
 
-import API from '../../../../lib/API/api'
+import API from '../../../../lib/API'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
 import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'

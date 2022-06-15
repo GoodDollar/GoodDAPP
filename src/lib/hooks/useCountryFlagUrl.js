@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { get, noop } from 'lodash'
 import config from '../../config/config'
-import API from '../../lib/API/api'
+import API from '../../lib/API'
 
 export const getCountryFlagUrl = countryCode => {
   return `${config.flagsUrl}${countryCode}.svg`.toLowerCase()

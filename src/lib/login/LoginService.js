@@ -1,7 +1,7 @@
 // @flow
 import * as jsonwebtoken from 'jsonwebtoken'
 import AsyncStorage from '../utils/asyncStorage'
-import API, { type Credentials, getErrorMessage } from '../API/api'
+import API, { type Credentials, getErrorMessage } from '../API'
 import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/js-logger'
 

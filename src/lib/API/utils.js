@@ -1,9 +1,31 @@
+// @flow
+
 import axios from 'axios'
-import { isObject, isString } from 'lodash'
+import { isObject, isPlainObject, isString } from 'lodash'
+
 import logger from '../logger/js-logger'
 
-const log = logger.child({ from: 'API' })
+import type { NameRecord } from '../../components/signup/NameForm'
+import type { EmailRecord } from '../../components/signup/EmailForm'
+import type { MobileRecord } from '../../components/signup/PhoneForm'
 
+export type Credentials = {
+  signature?: string, //signed with address used to login to the system
+  gdSignature?: string, //signed with address of user wallet holding G$
+  profileSignature?: string, //signed with address of user profile
+  profilePublickey?: string, //public key used for storing user profile
+  nonce?: string,
+  jwt?: string,
+}
+
+export type UserRecord = NameRecord &
+  EmailRecord &
+  MobileRecord &
+  Credentials & {
+    username?: string,
+  }
+
+export const log = logger.child({ from: 'API' })
 export const defaultErrorMessage = 'Unexpected error happened during api call'
 
 export const getErrorMessage = apiError => {
@@ -28,16 +50,27 @@ export const getErrorMessage = apiError => {
   return errorMessage
 }
 
-const responseHandler = ({ data }) => {
-  if (data?.ok === 0) {
-    log.warn('response error', getErrorMessage(data), data)
-    throw new Error(getErrorMessage(data))
-  } else {
-    return data
-  }
+export const requestErrorHandler = exception => {
+  const { message } = exception
+
+  // Do something with request error
+  log.warn('axios req error', message, exception)
+  throw exception
 }
 
-const exceptionHandler = error => {
+export const responseHandler = ({ data }) => {
+  if (isPlainObject(data) && 'ok' in data && !data.ok) {
+    const message = getErrorMessage(data)
+    const exception = new Error(message)
+
+    log.warn('server response error', message, exception)
+    throw exception
+  }
+
+  return data
+}
+
+export const responseErrorHandler = error => {
   let exception = error
 
   if (axios.isCancel(error)) {
@@ -50,5 +83,3 @@ const exceptionHandler = error => {
   log.warn('axios response error', message, exception)
   throw data || exception
 }
-
-export { responseHandler, exceptionHandler }

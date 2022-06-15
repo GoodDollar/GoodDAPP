@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNetInfo } from '@react-native-community/netinfo'
 import { get } from 'lodash'
-import API from '../API/api'
+import API from '../API'
 import { delay } from '../utils/async'
 import { useWallet } from '../wallet/GoodWalletProvider'
 import logger from '../logger/js-logger'

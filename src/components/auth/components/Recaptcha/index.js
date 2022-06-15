@@ -2,7 +2,7 @@ import { get, noop } from 'lodash'
 import React, { useCallback, useImperativeHandle, useRef, useState } from 'react'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
-import API from '../../../../lib/API/api'
+import API from '../../../../lib/API'
 import Captcha from './Recaptcha'
 
 const log = logger.child({ from: 'init' })

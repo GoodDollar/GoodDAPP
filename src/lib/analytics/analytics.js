@@ -1,6 +1,6 @@
 import Config from '../../config/config'
 
-import API from '../../lib/API/api'
+import API from '../../lib/API'
 import logger from '../../lib/logger/js-logger'
 import apisFactory from './apis'
 

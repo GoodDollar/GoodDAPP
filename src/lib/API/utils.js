@@ -76,16 +76,17 @@ export const requestErrorHandler = exception => {
   throw exception
 }
 
-export const responseHandler = ({ data }) => {
+export const responseHandler = response => {
+  const { data } = response
+
   if (isPlainObject(data) && 'ok' in data && !data.ok) {
     const message = getErrorMessage(data)
     const exception = new Error(message)
 
     log.warn('server response error', message, exception)
-    throw exception
   }
 
-  return data
+  return response
 }
 
 export const responseErrorHandler = error => {

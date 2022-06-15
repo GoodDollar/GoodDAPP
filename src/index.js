@@ -3,24 +3,32 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 
-import AppHolder from './mainApp/AppHolder'
-import SmartBanner from './components/smartbanner/SmartBanner'
-
 import './index.css'
 import './components/common/view/Icon/index.css'
 
 let ErrorBoundary = React.Fragment
 
-ReactDOM.render(
-  <ErrorBoundary>
-    <SmartBanner />
-    <AppHolder />
-    <style type="text/css">{`
+function importBuildTarget() {
+  if (process.env.REACT_APP_BUILD_TARGET === 'FV') {
+    return import('./mainApp/fv.js')
+  }
+  return import('./mainApp/fv.js')
+}
+
+// Import the entry point and render it's default export
+importBuildTarget().then(({ default: Environment }) => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <ErrorBoundary>
+        <Environment />
+        <style type="text/css">{`
             @font-face {
               src: url(${fontMaterialIcons});
               font-family: MaterialIcons;
             }
           `}</style>
-  </ErrorBoundary>,
-  document.getElementById('root'),
-)
+      </ErrorBoundary>
+    </React.StrictMode>,
+    document.getElementById('root'),
+  )
+})

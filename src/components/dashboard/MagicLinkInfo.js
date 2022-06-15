@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
 import { t, Trans } from '@lingui/macro'
 import { fireEvent, RESENDING_MAGICLINK_SUCCESS } from '../../lib/analytics/analytics'
-import API, { getErrorMessage } from '../../lib/API'
+import API, { throwException } from '../../lib/API'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -34,11 +34,9 @@ const MagicLinkInfoComponent = props => {
           onDismiss: () => screenProps.goToRoot(),
         })
       })
+      .catch(throwException)
       .catch(e => {
-        const message = getErrorMessage(e)
-        const exception = new Error(message)
-
-        log.error('failed Resending magiclink', message, exception, { dialogShown: true })
+        log.error('failed Resending magiclink', e.message, e, { dialogShown: true })
         showErrorDialog(t`'Could not send magic-link email. Please try again.`)
       })
   }, [screenProps, showErrorDialog, showDialog])

@@ -1,4 +1,4 @@
-import API, { getErrorMessage } from '../API'
+import API, { throwException } from '../API'
 
 const fromDate = new Date('2022/05/06')
 
@@ -8,11 +8,12 @@ const fromDate = new Date('2022/05/06')
 const verifyCRM = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
   try {
     const profile = await userStorage.getPrivateProfile()
-    const result = await API.verifyCRM(profile)
+    const result = await API.verifyCRM(profile).catch(throwException)
 
     log.info('verifyCRM', { result })
   } catch (e) {
-    log.warn('verifyCRM error :', getErrorMessage(e), e)
+    log.error('verifyCRM error :', e.message, e)
+    throw e
   }
 }
 

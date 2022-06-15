@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { get } from 'lodash'
 import config from '../../config/config'
-import API, { getErrorMessage } from '../../lib/API'
+import API, { throwException } from '../../lib/API'
 import logger from '../logger/js-logger'
 
 export const getCountryFlagUrl = countryCode => {
@@ -59,8 +59,9 @@ export const useCountryCode = () => {
     }
 
     API.getLocation()
+      .catch(throwException)
       .catch(e => {
-        log.warn('GetLocation error ', getErrorMessage(e), e)
+        log.warn('GetLocation error ', e.message, e)
       })
       .then(response => {
         const code = get(response, 'country')

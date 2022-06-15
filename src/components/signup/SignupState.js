@@ -25,7 +25,7 @@ import AuthProgressBar from '../auth/components/AuthProgressBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
-import API, { getErrorMessage } from '../../lib/API'
+import API, { getException } from '../../lib/API'
 import { useDialog } from '../../lib/dialog/useDialog'
 import BackButtonHandler from '../appNavigation/BackButtonHandler'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -263,9 +263,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         await API.addUser(requestPayload)
           .then(({ data }) => (newUserData = data))
-          .catch(e => {
-            const message = getErrorMessage(e)
-            const exception = new Error(message)
+          .catch(apiError => {
+            const exception = getException(apiError)
+            const { message } = exception
 
             // if user already exists just log.warn then continue signup
             if ('You cannot create more than 1 account with the same credentials' === message) {
@@ -273,8 +273,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             } else {
               // otherwise:
               // completing exception with response object received from axios
-              if (!isError(e)) {
-                exception.response = e
+              if (!isError(apiError)) {
+                exception.response = apiError
               }
 
               // re-throwing exception to be caught in the parent try {}

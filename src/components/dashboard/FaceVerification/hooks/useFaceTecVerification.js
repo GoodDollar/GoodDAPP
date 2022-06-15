@@ -73,10 +73,8 @@ export default (options = null) => {
         })
       } catch (exception) {
         const { message } = exception
-        
-        hideRedBox(exception, () =>
-          log.error('Zoom verification failed', message, exception, { dialogShown: false }),
-        )
+
+        hideRedBox(exception, () => log.error('Zoom verification failed', message, exception, { dialogShown: false }))
       } finally {
         // call onComplete callback with success state
         onComplete(resultSuccessMessage)

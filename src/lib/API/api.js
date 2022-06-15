@@ -10,7 +10,8 @@ import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 import { throttleAdapter } from '../utils/axios'
-import { getErrorMessage, log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
+import { fallback } from '../utils/async'
+import { log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
 import type { Credentials, UserRecord } from './utils'
 
@@ -154,18 +155,6 @@ export class APIService {
     const { client, sharedClient } = this
     const payload = { token }
 
-    const validateIpV6 = address => {
-      if (!address) {
-        throw new Error('Empty IP has been returned.')
-      }
-
-      if (!address.includes(':')) {
-        throw new Error("Client's ISP doesn't supports IPv6.")
-      }
-
-      return address
-    }
-
     const requestCloudflare = async () => {
       const trace = await sharedClient.get('https://www.cloudflare.com/cdn-cgi/trace')
       const [, address] = /ip=(.+?)\n/.exec(trace || '') || []
@@ -175,26 +164,30 @@ export class APIService {
       return address
     }
 
-    const fallbackToIpify = async e => {
-      log.warn('validateIpV6 error, try fallback to Ipify', getErrorMessage(e), e)
+    const requestIpify = async () => {
+      const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
 
-      try {
-        const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
-        log.info('Ipify response', { ipv6Response })
-        return get(ipv6Response, 'ip', '')
-      } catch (exception) {
-        log.warn('ipv6Response error: ', getErrorMessage(exception), exception)
-      }
+      log.info('Ipify response', { ipv6Response })
+      return get(ipv6Response, 'ip', '')
     }
 
+    const withValidation = requestIP =>
+      requestIP().then(address => {
+        if (!address) {
+          throw new Error('Empty IP has been returned.')
+        }
+
+        if (!address.includes(':')) {
+          throw new Error("Client's ISP doesn't supports IPv6.")
+        }
+
+        return address
+      })
+
     try {
-      const ip = await requestCloudflare()
-        .then(validateIpV6)
-        .catch(fallbackToIpify)
+      const ip = await fallback([requestCloudflare, requestIpify].map(withValidation))
 
       log.info('ip for captcha:', { ip })
-
-      validateIpV6(ip)
       payload.ipv6 = ip
     } catch (errorOrStatus) {
       let exception = errorOrStatus

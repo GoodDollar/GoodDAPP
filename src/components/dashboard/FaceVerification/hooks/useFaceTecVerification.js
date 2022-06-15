@@ -12,6 +12,7 @@ import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
 import { hideRedBoxIfNonCritical } from '../utils/redBox'
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
+import { getErrorMessage } from '../../../../lib/API'
 
 const log = logger.child({ from: 'useFaceTecVerification' })
 const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
@@ -71,6 +72,8 @@ export default (options = null) => {
           auditTrailImage: emptyBase64,
           lowQualityAuditTrailImage: emptyBase64,
         })
+      } catch (e) {
+        log.warn('useFaceTecVerification error: ', e, getErrorMessage(e), e)
       } finally {
         // call onComplete callback with success state
         onComplete(resultSuccessMessage)

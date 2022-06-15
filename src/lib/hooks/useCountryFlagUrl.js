@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
-import { get, noop } from 'lodash'
+import { get } from 'lodash'
 import config from '../../config/config'
-import API from '../../lib/API'
+import API, { getErrorMessage } from '../../lib/API'
+import logger from '../logger/js-logger'
 
 export const getCountryFlagUrl = countryCode => {
   return `${config.flagsUrl}${countryCode}.svg`.toLowerCase()
 }
+
+const log = logger.child({ from: 'useCountryFlagUrl' })
 
 export const getCountryCodeForFlag = country => {
   switch (country) {
@@ -56,7 +59,6 @@ export const useCountryCode = () => {
     }
 
     API.getLocation()
-      .catch(noop)
       .then(response => {
         const code = get(response, 'country')
 
@@ -64,6 +66,9 @@ export const useCountryCode = () => {
           sharedCountryCode = code
           setCountryCode(code)
         }
+      })
+      .catch(e => {
+        log.warn('GetLocation error ', getErrorMessage(e), e)
       })
   }, [])
 

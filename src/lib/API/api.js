@@ -10,7 +10,7 @@ import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 import { throttleAdapter } from '../utils/axios'
-import { log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
+import { getErrorMessage, log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
 import type { Credentials, UserRecord } from './utils'
 
@@ -175,11 +175,16 @@ export class APIService {
       return address
     }
 
-    const fallbackToIpify = async () => {
-      const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
+    const fallbackToIpify = async e => {
+      log.warn('validateIpV6 error, try fallback to Ipify', getErrorMessage(e), e)
 
-      log.info('Ipify response', { ipv6Response })
-      return get(ipv6Response, 'ip', '')
+      try {
+        const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
+        log.info('Ipify response', { ipv6Response })
+        return get(ipv6Response, 'ip', '')
+      } catch (exception) {
+        log.warn('ipv6Response error: ', getErrorMessage(exception), exception)
+      }
     }
 
     try {

@@ -59,6 +59,9 @@ export const useCountryCode = () => {
     }
 
     API.getLocation()
+      .catch(e => {
+        log.warn('GetLocation error ', getErrorMessage(e), e)
+      })
       .then(response => {
         const code = get(response, 'country')
 
@@ -66,9 +69,6 @@ export const useCountryCode = () => {
           sharedCountryCode = code
           setCountryCode(code)
         }
-      })
-      .catch(e => {
-        log.warn('GetLocation error ', getErrorMessage(e), e)
       })
   }, [])
 

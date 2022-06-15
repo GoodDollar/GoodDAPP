@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios'
-import { isObject, isPlainObject, isString } from 'lodash'
+import { isError, isObject, isPlainObject, isString } from 'lodash'
 
 import logger from '../logger/js-logger'
 
@@ -48,6 +48,24 @@ export const getErrorMessage = apiError => {
   }
 
   return errorMessage
+}
+
+export const getException = apiError => {
+  let exception = apiError
+
+  if (!isError(apiError)) {
+    const message = getErrorMessage(apiError)
+
+    exception = new Error(message)
+  }
+
+  return exception
+}
+
+export const throwException = apiError => {
+  const exception = getException(apiError)
+
+  throw exception
 }
 
 export const requestErrorHandler = exception => {

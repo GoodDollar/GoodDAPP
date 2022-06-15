@@ -14,8 +14,8 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav }) => (
     <View style={styles.topContainer}>
       <Section style={styles.descriptionContainer} justifyContent="space-between">
         <Section.Title fontWeight="medium" textTransform="none" color="red">
-          {displayTitle}
-          {',\nPlease try to switch\nto another device'}
+          {displayTitle && displayTitle}
+          {(displayTitle ? `,\n` : '') + 'Please try to switch\nto another device'}
         </Section.Title>
         <View style={[styles.errorImage, isLargeDevice ? styles.largeSizing : {}]}>
           <SwitchToAnotherDeviceSVG height="100%" width="100%" viewBox="0 0 280 124" />

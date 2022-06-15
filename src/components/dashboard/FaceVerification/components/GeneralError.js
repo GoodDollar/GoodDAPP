@@ -29,9 +29,9 @@ const GeneralError = ({ styles, displayTitle, onRetry, exception }) => {
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="regular" textTransform="none" color="red">
             <Section.Title fontWeight="bold" textTransform="none" color="red">
-              {displayTitle}
+              {displayTitle && displayTitle}
             </Section.Title>
-            {',\nSomething went wrong\non our side...'}
+            {(displayTitle ? `,\n` : '') + 'Something went wrong\non our side...'}
           </Section.Title>
           <Section style={styles.errorSection}>
             <View style={styles.descriptionWrapper}>

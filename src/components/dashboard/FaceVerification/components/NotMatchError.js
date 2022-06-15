@@ -28,8 +28,8 @@ const NotMatchError = ({ styles, displayTitle, onRetry, nav, exception }) => {
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="medium" textTransform="none" color="red">
-            {displayTitle}
-            {",\nUnfortunately,\nwe couldn't confirm your identity..."}
+            {displayTitle && displayTitle}
+            {(displayTitle ? `,\n` : '') + "Unfortunately,\nwe couldn't confirm your identity..."}
           </Section.Title>
           <Section.Row justifyContent="space-evenly">
             <View style={styles.halfIllustration}>

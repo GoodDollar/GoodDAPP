@@ -27,10 +27,12 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="regular" textTransform="none" color="red">
-            <Section.Title fontWeight="bold" textTransform="none" color="red">
-              {displayTitle}
-            </Section.Title>
-            {',\nUnfortunately we found \nyour twin...'}
+            {displayTitle && (
+              <Section.Title fontWeight="bold" textTransform="none" color="red">
+                {displayTitle}
+              </Section.Title>
+            )}
+            {(displayTitle ? `,\n` : '') + 'Unfortunately we found \nyour twin...'}
           </Section.Title>
           <Section style={styles.errorSection}>
             <View style={styles.descriptionWrapper}>

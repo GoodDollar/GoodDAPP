@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import API from '../API/api'
+import API from '../API'
 import logger from '../logger/js-logger'
 import { delay } from '../utils/async'
 

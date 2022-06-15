@@ -16,7 +16,7 @@ import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodW
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
-import API from '../../lib/API/api'
+import API from '../../lib/API'
 
 // import { openLink } from '../../lib/utils/linking'
 import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'

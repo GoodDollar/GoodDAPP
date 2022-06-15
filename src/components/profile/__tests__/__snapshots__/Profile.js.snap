@@ -101,12 +101,11 @@ exports[`Profile matches snapshot 1`] = `
           tabIndex="-1"
         >
           <h1
-            className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-color-jwli3a r-fontSize-hiw28u r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
+            className="css-reset-4rbku5 css-text-901oao css-textOneLine-1hf3ou5 r-color-jwli3a r-fontSize-hiw28u r-fontWeight-majxgm r-textAlign-q4m81j r-textTransform-tsynxw"
             dir="auto"
             role="heading"
             style={
               Object {
-                "WebkitLineClamp": 1,
                 "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               }
             }

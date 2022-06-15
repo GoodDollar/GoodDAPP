@@ -90,12 +90,11 @@ exports[`Dashboard matches snapshot 1`] = `
             tabIndex="-1"
           >
             <h1
-              className="css-reset-4rbku5 css-text-901oao css-textMultiLine-cens5h r-fontSize-adyw6z"
+              className="css-reset-4rbku5 css-text-901oao css-textOneLine-1hf3ou5 r-fontSize-adyw6z"
               dir="auto"
               role="heading"
               style={
                 Object {
-                  "WebkitLineClamp": 1,
                   "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontWeight": "500",
@@ -237,13 +236,8 @@ exports[`Dashboard matches snapshot 1`] = `
                     data-testid="amount_value"
                   >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-alignSelf-1pz39u2 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-b88u0q r-height-ur6pnr r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      className="css-text-901oao css-textOneLine-1hf3ou5 r-alignSelf-1pz39u2 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-111xbm8 r-fontWeight-b88u0q r-height-ur6pnr r-lineHeight-1gvhk8w r-marginRight-a5pmau r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
-                      style={
-                        Object {
-                          "WebkitLineClamp": 1,
-                        }
-                      }
                     >
                       -.--
                     </div>

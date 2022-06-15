@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 
 import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
 
 import { useUserStorage, useWallet } from '../../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../../lib/logger/js-logger'
+import { FVFlowContext } from '../../../../lib/fvflow/FVFlow'
 
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
@@ -30,6 +31,9 @@ const FaceVerification = ({ screenProps }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
+
+  let { faceIdentifier } = useContext(FVFlowContext)
+  faceIdentifier = faceIdentifier || (userStorage && userStorage.getFaceIdentifier())
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -130,7 +134,7 @@ const FaceVerification = ({ screenProps }) => {
 
   // Using zoom verification hook, passing completion callback
   const startVerification = useFaceTecVerification({
-    enrollmentIdentifier: userStorage.getFaceIdentifier(),
+    enrollmentIdentifier: faceIdentifier,
     onUIReady: uiReadyHandler,
     onCaptureDone: captureDoneHandler,
     onRetry: retryHandler,
@@ -150,9 +154,12 @@ const FaceVerification = ({ screenProps }) => {
 
   // "GOT IT" button handler
   const verifyFace = useCallback(() => {
+    if (!faceIdentifier) {
+      return
+    }
     fireEvent(FV_START)
     startVerification()
-  }, [startVerification])
+  }, [startVerification, faceIdentifier])
 
   const [initialized] = useFaceTecSDK({
     onError: sdkExceptionHandler,

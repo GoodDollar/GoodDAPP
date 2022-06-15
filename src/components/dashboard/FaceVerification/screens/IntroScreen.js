@@ -1,6 +1,7 @@
 // libraries
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Platform, View } from 'react-native'
+
 import { get } from 'lodash'
 
 //components
@@ -36,8 +37,7 @@ import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
-
-// import createABTesting from '../../../../lib/hooks/useABTesting'
+import { FVFlowContext } from '../../../../lib/fvflow/FVFlow'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 
 // assets
@@ -118,9 +118,10 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContentB}>
         <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitleB}>
-          {`${firstName},`}
+          {firstName && `${firstName},`}
           <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
-            {'\nVerify you are a real\nlive person'}
+            {firstName ? `\n` : ''}
+            {'Verify you are a real\nlive person'}
           </Section.Text>
         </Section.Title>
         <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainTextB}>
@@ -147,11 +148,14 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
   </Wrapper>
 )
 
-const IntroScreen = ({ styles, screenProps }) => {
+const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { fullName } = useProfile()
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
   const userStorage = useUserStorage()
+  let { faceIdentifier, onFVDone, firstName, isFVFlow, fvflowError, isFVFlowReady } = useContext(FVFlowContext)
+  faceIdentifier = faceIdentifier || (userStorage && userStorage.getFaceIdentifier())
+  firstName = firstName || getFirstWord(fullName)
   const { showDialog } = useDialog()
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
@@ -159,21 +163,24 @@ const IntroScreen = ({ styles, screenProps }) => {
 
   // const [Intro, ab] = useABTesting(IntroScreenA, IntroScreenB)
 
-  const [disposing, checkDisposalState] = useDisposingState({
-    requestOnMounted: false,
-    enrollmentIdentifier: userStorage.getFaceIdentifier(),
-    onComplete: isDisposing => {
-      if (!isDisposing) {
-        return
-      }
+  const [disposing, checkDisposalState] = useDisposingState(
+    {
+      requestOnMounted: false,
+      enrollmentIdentifier: faceIdentifier,
+      onComplete: isDisposing => {
+        if (!isDisposing) {
+          return
+        }
 
-      const dialogData = showQueueDialog(WalletDeletedPopupText, {
-        onDismiss: goToRoot,
-        imageSource: wait24hourIllustration,
-      })
-      showDialog(dialogData)
+        const dialogData = showQueueDialog(WalletDeletedPopupText, {
+          onDismiss: goToRoot,
+          imageSource: wait24hourIllustration,
+        })
+        showDialog(dialogData)
+      },
     },
-  })
+    [faceIdentifier],
+  )
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
   const openFaceVerification = useCallback(() => push('FaceVerification'), [push])
@@ -210,18 +217,34 @@ const IntroScreen = ({ styles, screenProps }) => {
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
+    log.debug({ faceIdentifier, firstName })
+
     if (isValid) {
-      pop({ isValid })
+      //incase of FVFlowFlow
+      if (onFVDone) {
+        onFVDone(() => navigateTo('FVFlowDone'))
+      } else {
+        pop({ isValid })
+      }
     } else {
-      fireEvent(FV_INTRO)
-      checkDisposalState()
+      //fvflowready means we were able to login to backend so check disposal can work
+      if (faceIdentifier && (!isFVFlow || isFVFlowReady)) {
+        fireEvent(FV_INTRO)
+        checkDisposalState()
+      }
     }
-  }, [])
+  }, [faceIdentifier, isFVFlow, isFVFlowReady])
+
+  useEffect(() => {
+    if (fvflowError || (isFVFlow && !faceIdentifier)) {
+      navigateTo('FVFlowError')
+    }
+  }, [isFVFlow, faceIdentifier, fvflowError])
 
   return (
     <Intro
       styles={styles}
-      firstName={getFirstWord(fullName)}
+      firstName={firstName}
       onLearnMore={openPrivacy}
       onVerify={handleVerifyClick}
       ready={false === disposing}

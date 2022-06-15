@@ -18,6 +18,9 @@ export default ({ enrollmentIdentifier, requestOnMounted = true, onComplete = no
 
   const checkDisposalState = useCallback(async () => {
     log.debug('Starting to check disposal state', { enrollmentIdentifier })
+    if (!enrollmentIdentifier) {
+      return
+    }
 
     try {
       const isDisposing = await api.isFaceSnapshotDisposing(enrollmentIdentifier)
@@ -34,7 +37,7 @@ export default ({ enrollmentIdentifier, requestOnMounted = true, onComplete = no
       log.error('Error checking disposal state', message, exception)
       onErrorRef.current(exception)
     }
-  }, [])
+  }, [enrollmentIdentifier])
 
   useEffect(() => {
     onCompleteRef.current = onComplete
@@ -45,7 +48,7 @@ export default ({ enrollmentIdentifier, requestOnMounted = true, onComplete = no
     if (requestOnMounted) {
       checkDisposalState()
     }
-  }, [])
+  }, [checkDisposalState, enrollmentIdentifier])
 
   return [disposing, checkDisposalState]
 }

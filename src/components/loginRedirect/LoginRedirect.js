@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { Colors } from 'react-native-paper'
 import { get, truncate } from 'lodash'
@@ -19,8 +19,9 @@ const LoginRedirect = ({ navigation, styles }) => {
 
   const { isVendorWalletWhitelisted } = warnings || {}
   const { country } = profileDetails || {}
-  const { vendorName, vendorURL, vendorAddress = '' } = parsedURL || {}
+  const { vendorName, vendorURL, vendorAddress } = parsedURL || {}
   const { email, mobile, fullName } = profile
+  const shortAddress = useMemo(() => truncate(vendorAddress || '', { length: 12 }), [vendorAddress])
 
   return (
     <View style={styles.topContainer}>
@@ -39,7 +40,7 @@ const LoginRedirect = ({ navigation, styles }) => {
                 </View>
                 <View>
                   <Text style={styles.detailHeading}>Wallet</Text>
-                  <Text style={styles.detail}>{truncate(vendorAddress, { length: 12 })}</Text>
+                  <Text style={styles.detail}>{shortAddress}</Text>
                 </View>
               </View>
               <Text style={styles.boldText}>is requesting to view the following information:</Text>

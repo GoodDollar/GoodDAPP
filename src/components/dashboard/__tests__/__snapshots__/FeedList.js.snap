@@ -689,25 +689,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                          
                       </div>
                       <div
-                        className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                         dir="auto"
-                        style={
-                          Object {
-                            "WebkitLineClamp": 1,
-                          }
-                        }
                       >
                         Misao Matimbo
                       </div>
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-vaa0vc r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-vaa0vc r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
-                      style={
-                        Object {
-                          "WebkitLineClamp": 1,
-                        }
-                      }
                     >
                       aaa
                     </div>
@@ -878,25 +868,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                          
                       </div>
                       <div
-                        className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                         dir="auto"
-                        style={
-                          Object {
-                            "WebkitLineClamp": 1,
-                          }
-                        }
                       >
                         Misao Matimbo
                       </div>
                     </div>
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h r-color-vaa0vc r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-vaa0vc r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                       dir="auto"
-                      style={
-                        Object {
-                          "WebkitLineClamp": 1,
-                        }
-                      }
                     >
                       aaa
                     </div>

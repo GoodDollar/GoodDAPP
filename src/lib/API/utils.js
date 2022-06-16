@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios'
-import { isError, isObject, isPlainObject, isString } from 'lodash'
+import { assign, isError, isObject, isPlainObject, isString } from 'lodash'
 
 import logger from '../logger/js-logger'
 
@@ -84,6 +84,7 @@ export const responseHandler = response => {
     const exception = new Error(message)
 
     log.warn('server response error', message, exception)
+    throw assign(exception, { response })
   }
 
   return response

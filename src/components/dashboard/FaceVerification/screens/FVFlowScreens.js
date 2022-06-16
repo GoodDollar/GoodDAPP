@@ -1,6 +1,6 @@
 // libraries
-import React from 'react'
-import { Linking, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { Linking, Platform, View } from 'react-native'
 import { noop } from 'lodash'
 
 // components
@@ -14,43 +14,59 @@ import { withStyles } from '../../../../lib/styles'
 import { isBrowser } from '../../../../lib/utils/platform'
 
 const DOCS_URL = 'https://doc.gooddollar/sdk/identity'
-const DoneScreen = ({ styles, onDismiss = noop, ready }) => (
-  <Wrapper>
-    <Section style={styles.topContainer} grow>
-      <View style={styles.mainContent}>
-        <View style={styles.descriptionContainer}>
-          <View style={styles.descriptionWrapper}>
-            <Text style={styles.text}>You can close this window and go back to the App</Text>
-          </View>
-        </View>
-      </View>
-    </Section>
-  </Wrapper>
-)
+const DoneScreen = ({ styles, onDismiss = noop, ready }) => {
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      window.close()
+    }
+  }, [])
 
-const ErrorScreen = ({ styles, onDismiss = noop, ready }) => (
-  <Wrapper>
-    <Section style={styles.topContainer} grow>
-      <View style={styles.mainContent}>
-        <View style={styles.descriptionContainer}>
-          <View style={styles.descriptionWrapper}>
-            <Text style={styles.text}>Login information is missing, for instructions please visit: </Text>
-            <Text
-              color={'primary'}
-              fontSize={getDesignRelativeHeight(16)}
-              lineHeight={getDesignRelativeHeight(16)}
-              letterSpacing={0.26}
-              fontFamily="Roboto"
-              fontWeight="bold"
-              textDecorationLine="underline"
-              onPress={() => Linking.openUrl(DOCS_URL)}
-            >{`${DOCS_URL}`}</Text>
+  return (
+    <Wrapper>
+      <Section style={styles.topContainer} grow>
+        <View style={styles.mainContent}>
+          <View style={styles.descriptionContainer}>
+            <View style={styles.descriptionWrapper}>
+              <Text style={styles.text}>You can close this window and go back to the App</Text>
+            </View>
           </View>
         </View>
-      </View>
-    </Section>
-  </Wrapper>
-)
+      </Section>
+    </Wrapper>
+  )
+}
+
+const ErrorScreen = ({ styles, onDismiss = noop, ready }) => {
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      window.close()
+    }
+  }, [])
+
+  return (
+    <Wrapper>
+      <Section style={styles.topContainer} grow>
+        <View style={styles.mainContent}>
+          <View style={styles.descriptionContainer}>
+            <View style={styles.descriptionWrapper}>
+              <Text style={styles.text}>Login information is missing, for instructions please visit: </Text>
+              <Text
+                color={'primary'}
+                fontSize={getDesignRelativeHeight(16)}
+                lineHeight={getDesignRelativeHeight(16)}
+                letterSpacing={0.26}
+                fontFamily="Roboto"
+                fontWeight="bold"
+                textDecorationLine="underline"
+                onPress={() => Linking.openUrl(DOCS_URL)}
+              >{`${DOCS_URL}`}</Text>
+            </View>
+          </View>
+        </View>
+      </Section>
+    </Wrapper>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {

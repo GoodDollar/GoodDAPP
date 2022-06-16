@@ -1,6 +1,5 @@
 // @flow
 import React, { createContext, useEffect, useRef, useState } from 'react'
-import { Linking } from 'react-native'
 import type { Credentials } from '../API/api'
 import logger from '../logger/js-logger'
 import API, { getErrorMessage } from '../API/api'
@@ -98,25 +97,16 @@ export const FVFlowContextProvider = props => {
 
   const { jwt, error } = useFVFlow(sig, nonce, fvsig)
 
-  const onFVDone = async () => {
-    if (rdu) {
-      return Linking.openURL(rdu)
-    }
-    if (cbu) {
-      await API.client.post(cbu, { sig, fvsig }).catch(e => log.error('fvlogin cbu failed', e.message, e, { cbu, sig }))
-      window && window.close()
-    }
-  }
-
   return (
     <FVFlowContext.Provider
       value={{
-        onFVDone,
         firstName: fvParams.current.firstName,
         faceIdentifier: (fvParams.current.fvsig || '').slice(0, 42),
         isFVFlow: Config.isFVFlow,
         fvflowError: error,
         isFVFlowReady: !!jwt,
+        rdu,
+        cbu,
       }}
     >
       {props.children}

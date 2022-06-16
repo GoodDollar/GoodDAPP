@@ -153,7 +153,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
   const userStorage = useUserStorage()
-  let { faceIdentifier, onFVDone, firstName, isFVFlow, fvflowError, isFVFlowReady } = useContext(FVFlowContext)
+  let { faceIdentifier, firstName, isFVFlow, fvflowError, isFVFlowReady } = useContext(FVFlowContext)
   faceIdentifier = faceIdentifier || (userStorage && userStorage.getFaceIdentifier())
   firstName = firstName || getFirstWord(fullName)
   const { showDialog } = useDialog()
@@ -221,8 +221,8 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
     if (isValid) {
       //incase of FVFlowFlow
-      if (onFVDone) {
-        onFVDone(() => navigateTo('FVFlowDone'))
+      if (isFVFlow) {
+        navigateTo('FVFlowDone')
       } else {
         pop({ isValid })
       }

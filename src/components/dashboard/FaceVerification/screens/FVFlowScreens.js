@@ -1,7 +1,8 @@
 // libraries
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Linking, Platform, View } from 'react-native'
 import { noop } from 'lodash'
+import API from '../../../../lib/API/api'
 
 // components
 import Text from '../../../common/view/Text'
@@ -12,10 +13,26 @@ import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '
 import normalize from '../../../../lib/utils/normalizeText'
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser } from '../../../../lib/utils/platform'
+import { FVFlowContext } from '../../../../lib/fvflow/FVFlow'
+import logger from '../../../../lib/logger/js-logger'
+
+const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const DOCS_URL = 'https://doc.gooddollar/sdk/identity'
 const DoneScreen = ({ styles, onDismiss = noop, ready }) => {
+  const { rdu, cbu } = useContext(FVFlowContext)
+
+  const onFVDone = async () => {
+    if (rdu) {
+      return Linking.openURL(rdu)
+    }
+    if (cbu) {
+      await API.client.post(cbu).catch(e => log.error('fvlogin cbu failed', e.message, e, { cbu }))
+    }
+  }
+
   useEffect(() => {
+    onFVDone()
     if (Platform.OS === 'web') {
       window.close()
     }

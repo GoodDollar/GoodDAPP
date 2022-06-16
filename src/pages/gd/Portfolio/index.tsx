@@ -239,6 +239,7 @@ const MobileTable = ({ stakes, cells, onWithdraw }: { stakes?: MyStake[]; cells:
 const Portfolio = () => {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
+
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
 
@@ -285,33 +286,27 @@ const Portfolio = () => {
         const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account) : []
         return {
             list,
-            aggregated: list.reduce(
+            aggregated: list.reduce( 
                 (acc, stake) => {
-                    return !acc
-                        ? {
-                              myStake: stake.stake.amount$,
-                              rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
-                              rewardsG$$: stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed),
-                              rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
-                              rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
-                              rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
-                              rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
-                          }
-                        : {
-                              myStake: acc.myStake.add(stake.stake.amount$),
-                              rewardsG$: acc.rewardsG$
-                                  .add(stake.rewards.reward.claimed)
-                                  .add(stake.rewards.reward.unclaimed),
-                              rewardsG$$: acc.rewardsG$$
-                                  .add(stake.rewards.reward$.claimed)
-                                  .add(stake.rewards.reward$.unclaimed),
-                              rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
-                              rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
-                              rewardsGDAO: acc.rewardsGDAO
-                                  .add(stake.rewards.GDAO.claimed)
-                                  .add(stake.rewards.GDAO.unclaimed),
-                              rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
-                          }
+                    return !acc 
+                      ? {
+                          myStake: stake.stake.amount$,
+                          rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
+                          rewardsG$$: stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed),
+                          rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
+                          rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
+                          rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
+                          rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
+                        } 
+                      : {
+                        myStake: acc.myStake.add(stake.stake.amount$),
+                        rewardsG$: acc.rewardsG$.add(stake.rewards.reward.claimed).add(stake.rewards.reward.unclaimed),
+                        rewardsG$$: acc.rewardsG$$.add(stake.rewards.reward$.claimed).add(stake.rewards.reward$.unclaimed),
+                        rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
+                        rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
+                        rewardsGDAO: acc.rewardsGDAO.add(stake.rewards.GDAO.claimed).add(stake.rewards.GDAO.unclaimed),
+                        rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
+                     }
                 },
                 undefined as
                     | undefined

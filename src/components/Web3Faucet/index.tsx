@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { ButtonDefault } from '../gd/Button'
-import { SupportedChainId } from '../../sdk/constants/chains'
+import { SupportedChainId } from '@gooddollar/sdk/dist/constants'
 import usePromise from '../../hooks/usePromise'
 import { check, claimUBI, isWhitelisted } from '@gooddollar/sdk/dist/core'
 import useWeb3 from '../../hooks/useWeb3'

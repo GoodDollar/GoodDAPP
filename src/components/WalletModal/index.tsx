@@ -11,7 +11,7 @@ import { useLingui } from '@lingui/react'
 import { ButtonAction } from 'components/gd/Button'
 import NetworkModal from 'components/NetworkModal'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { UnsupportedChainId } from '../../sdk/utils/errors'
+import { UnsupportedChainId } from '@gooddollar/sdk/dist/utils/errors'
 import { useSetChain } from '@web3-onboard/react'
 
 const CloseIcon = styled.div`

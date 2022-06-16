@@ -21,7 +21,6 @@ import { useEnvWeb3 } from '@gooddollar/sdk/dist/hooks/'
 import { getList as getStakes, Stake } from '@gooddollar/sdk/dist/core/staking'
 import { useGdContextProvider, useGovernanceStaking} from '@gooddollar/sdk/dist/hooks/'
 
-import { getNetworkEnv } from 'sdk/constants/addresses'
 import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'

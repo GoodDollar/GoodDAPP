@@ -12,10 +12,10 @@ import { AdditionalChainId } from '../../constants'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { getNetworkEnv } from 'sdk/constants/addresses'
-import { UnsupportedChainId } from 'sdk/utils/errors'
+import { getNetworkEnv } from '@gooddollar/sdk/dist/constants/addresses'
+import { UnsupportedChainId } from '@gooddollar/sdk/dist/utils/errors'
 import { useSetChain, useWallets } from '@web3-onboard/react'
-import GdSdkContext from 'sdk/hooks/useGdSdkContext'
+import {useGdContextProvider} from '@gooddollar/sdk/dist/hooks'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -172,7 +172,7 @@ export default function NetworkModal(): JSX.Element | null {
     const toggleNetworkModal = useNetworkModalToggle()
 
     const networkLabel: string | null = error ? null : (NETWORK_LABEL as any)[chainId]
-    const {activeNetwork} = useContext(GdSdkContext)
+    const {activeNetwork} = useGdContextProvider()
     const network = getNetworkEnv(activeNetwork)
 
     const allowedNetworks = useMemo(() => {

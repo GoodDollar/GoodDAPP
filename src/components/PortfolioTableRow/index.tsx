@@ -3,8 +3,7 @@ import Withdraw from 'components/Withdraw'
 import { MyStake } from '@gooddollar/sdk/dist/core/staking'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
-import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
+import { DAO_NETWORK, LIQUIDITY_PROTOCOL } from '@gooddollar/sdk/dist/constants'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 
 interface PortfolioTableRowProps {

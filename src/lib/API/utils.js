@@ -83,8 +83,10 @@ export const responseHandler = response => {
     const message = getErrorMessage(data)
     const exception = new Error(message)
 
+    assign(exception, { response })
     log.warn('server response error', message, exception)
-    throw assign(exception, { response })
+
+    throw exception
   }
 
   return response

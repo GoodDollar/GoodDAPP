@@ -77,6 +77,9 @@ REACT_APP_REALM_APP_ID = "wallet_dev-dhiht"
 REACT_APP_PUBLIC_URL = "https://gooddev.netlify.app"
 REACT_APP_CERAMIC_NODE_URL = "https://ceramic.gooddollar.org"
 
+[context.fv-standalone.environment]
+REACT_APP_BUILD_TARGET = 'FV'
+
 [context.master.environment]
 REACT_APP_CERAMIC_NODE_URL = "https://ceramic-clay.3boxlabs.com"
 REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pg0fms51l7d8644zfej3swbpu2gub9t4l43tldoqrufm83fsjwm7"

@@ -24,7 +24,8 @@ jobs:
   codepush:
     name: Hot Code Push
     runs-on: macOS-latest
-    if: github.event_name != 'workflow_dispatch'
+    # temporary disabled
+    if: false && github.event_name != 'workflow_dispatch'
     steps:
       - name: Pre-checks - Env is Dev
         run: |
@@ -107,6 +108,7 @@ jobs:
     runs-on: macOS-latest
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag :
     if: |
+      endsWith(github.ref, '3728-update-ios-ci-workflow') ||
       github.event_name == 'workflow_dispatch' ||
       (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||

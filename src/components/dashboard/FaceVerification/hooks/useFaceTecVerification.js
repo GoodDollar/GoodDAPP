@@ -9,7 +9,7 @@ import { isEmulator } from '../../../../lib/utils/platform'
 import api from '../api/FaceVerificationApi'
 import { FaceTecSDK } from '../sdk/FaceTecSDK'
 import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
-import { hideRedBoxIfNonCritical } from '../utils/redBox'
+import { hideRedBox, hideRedBoxIfNonCritical } from '../utils/redBox'
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
 
@@ -71,6 +71,10 @@ export default (options = null) => {
           auditTrailImage: emptyBase64,
           lowQualityAuditTrailImage: emptyBase64,
         })
+      } catch (exception) {
+        const { message } = exception
+
+        hideRedBox(exception, () => log.error('Zoom verification failed', message, exception, { dialogShown: false }))
       } finally {
         // call onComplete callback with success state
         onComplete(resultSuccessMessage)

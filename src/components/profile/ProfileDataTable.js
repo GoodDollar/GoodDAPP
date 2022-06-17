@@ -10,7 +10,7 @@ import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
-import API from '../../lib/API/api'
+import API from '../../lib/API'
 import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
 
 const defaultErrors = {}

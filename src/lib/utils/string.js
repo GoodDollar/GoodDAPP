@@ -19,3 +19,15 @@ export const truncateMiddle = (string, maxLength = null, ellipsis = '...') => {
 
   return firstHalf + ellipsis + lastHalf
 }
+
+export const tryJson = string => {
+  if (string === null) {
+    return null
+  }
+
+  try {
+    return JSON.parse(string)
+  } catch {
+    return string
+  }
+}

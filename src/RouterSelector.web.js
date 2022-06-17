@@ -13,7 +13,7 @@ import UnsupportedBrowser from './components/browserSupport/components/Unsupport
 
 // utils
 import { delay } from './lib/utils/async'
-import retryImport from './lib/utils/retryImport'
+import { retryImport } from './lib/utils/system'
 import DeepLinking from './lib/utils/deepLinking'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import isWebApp from './lib/utils/isWebApp'

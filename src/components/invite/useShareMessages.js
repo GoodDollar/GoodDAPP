@@ -1,7 +1,7 @@
 import { pick } from 'lodash'
 import { useEffect, useMemo, useState } from 'react'
 
-import API from '../../lib/API/api'
+import API from '../../lib/API'
 
 const shareMessagesStrings = ['shareTitle', 'shareMessage', 'shortShareMessage']
 

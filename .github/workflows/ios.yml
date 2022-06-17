@@ -147,6 +147,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ env.TARGET_BRANCH }}
+      - name: Echo TARGET_BRANCH
+        run: echo ${{ env.TARGET_BRANCH }}
       - uses: actions/setup-node@v1
         with:
           node-version: 14

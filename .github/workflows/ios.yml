@@ -114,7 +114,7 @@ jobs:
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
       (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))
     steps:
-      # detect ennv and target branch, setup env-specific settings
+      # detect env and target branch, setup env-specific settings
       - name: Git branch name
         id: git-branch-name
         uses: EthanSK/git-branch-name-action@v1
@@ -201,7 +201,7 @@ jobs:
       # build & export
       - name: Build preparation
         env:
-          ENVFILE: '../.env.${{ env.ENV }}'
+          ENVFILE: './.env.${{ env.ENV }}'
           IS_PROD: ${{ env.IS_PROD }}
         run: |
           yarn lingui:compile
@@ -216,7 +216,7 @@ jobs:
           IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
       - name: Build app
         env:
-          ENVFILE: '../.env.${{ env.ENV }}'
+          ENVFILE: './.env.${{ env.ENV }}'
           IS_PROD: ${{ env.IS_PROD }}
         run: |
           yarn lingui:compile

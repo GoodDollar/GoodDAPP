@@ -576,9 +576,9 @@ export class GoodWallet {
     return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
   }
 
-  checkEntitlement(): Promise<number> {
+  async checkEntitlement(): Promise<number> {
     try {
-      return retry(() =>
+      return await retry(() =>
         this.UBIContract.methods
           .checkEntitlement()
           .call()

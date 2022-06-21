@@ -2,7 +2,7 @@ type GaData = {
   event: string,
   action: string,
   type?: string,
-  amount?: string,
+  amount?: string | number,
   tokens?: [string | undefined, string | undefined]
 }
 

@@ -20,7 +20,7 @@ import { useEnvWeb3 } from 'sdk/hooks/useEnvWeb3'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import AppNotice from 'components/AppNotice'
-
+import { getNetworkEnv } from 'sdk/constants/addresses'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { MyStake } from '../../../sdk/staking'
 import Withdraw from 'components/Withdraw'
@@ -244,7 +244,7 @@ const Portfolio = () => {
     const { chainId, account } = useActiveWeb3React()
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
-
+    const network = getNetworkEnv() 
     const { width } = useWindowSize()
 
     const isMobile = width ? width <= 768 : undefined
@@ -285,7 +285,7 @@ const Portfolio = () => {
     ]
 
     const [data, , , update] = usePromise(async () => {
-        const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account) : []
+        const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account, network) : []
         return {
             list,
             aggregated: list.reduce(

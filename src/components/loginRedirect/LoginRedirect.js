@@ -177,7 +177,8 @@ const getStylesFromProps = ({ theme }) => {
     },
     verifiedView: {
       padding: 10,
-      backgroundColor: `${lighterGreen}33`,
+      backgroundColor: lighterGreen,
+      opacity: .2,
       marginTop: 5,
     },
     verifiedText: {

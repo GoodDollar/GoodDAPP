@@ -28,14 +28,14 @@ const DoneScreen = ({ styles, onDismiss = noop, ready }) => {
     }
     if (cbu) {
       await API.client.post(cbu).catch(e => log.error('fvlogin cbu failed', e.message, e, { cbu }))
+      if (Platform.OS === 'web') {
+        window.close()
+      }
     }
   }
 
   useEffect(() => {
     onFVDone()
-    if (Platform.OS === 'web') {
-      window.close()
-    }
   }, [])
 
   return (

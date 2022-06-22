@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js' --only-mapped --html analysis/index.html",
-    "prebuild": "yarn install --immutable && patch-package && lingui compile",
+    "prebuild": "yarn install --immutable && lingui compile",
     "prestart": "lingui compile",
     "startS": "cross-env HTTPS=true SSL_CRT_FILE= SSL_KEY_FILE= PORT=443 react-app-rewired start",
     "start": "cross-env PORT=3000 react-app-rewired start",
@@ -187,7 +187,8 @@
   "license": "GPL-3.0-or-later",
   "resolutions": {
     "@types/react": "17.0.2",
-    "@types/react-dom": "17.0.2"
+    "@types/react-dom": "17.0.2",
+    "@web3-onboard/core": "2.2.5"
   },
   "dependencies": {
     "@ethersproject/abi": "5.6.1",
@@ -201,9 +202,9 @@
     "@types/text-mask-addons": "^3.8.1",
     "@uniswap/sdk-core": "^3.0.0",
     "@web3-onboard/common": "^2.0.5",
-    "@web3-onboard/core": "2.2.1",
+    "@web3-onboard/core": "2.2.12",
     "@web3-onboard/injected-wallets": "^2.0.5",
-    "@web3-onboard/react": "2.1.1",
+    "@web3-onboard/react": "2.1.8",
     "@web3-onboard/walletconnect": "^2.0.1",
     "@web3-onboard/walletlink": "^2.0.0",
     "ethers": "5.6.8",

@@ -7,7 +7,7 @@ import { CustomButton, Section, Text } from '../common'
 
 import useProfile from '../../lib/userStorage/useProfile'
 
-import { withStyles } from '../../lib/styles'
+import { withOpacity, withStyles } from '../../lib/styles'
 import GooddollarImage from '../../assets/gooddollarLogin.svg'
 import useGoodDollarLogin from './useGoodDollarLogin'
 
@@ -177,12 +177,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     verifiedView: {
       padding: 10,
-      backgroundColor: lighterGreen,
-      opacity: .2,
+      backgroundColor: withOpacity(lighterGreen, 0.2),
       marginTop: 5,
     },
     verifiedText: {
-      opacity: 1,
       textAlign: 'flex-start',
       color: lighterGreen,
     },

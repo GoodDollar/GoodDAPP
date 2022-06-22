@@ -20,7 +20,7 @@ const LoginRedirect = ({ navigation, styles }) => {
   const { isVendorWalletWhitelisted } = warnings || {}
   const { country } = profileDetails || {}
   const { vendorName, vendorURL, vendorAddress } = parsedURL || {}
-  const { email, mobile, fullName } = profile
+  const { email, mobile, fullName, walletAddress } = profile
   const shortAddress = useMemo(() => truncate(vendorAddress || '', { length: 12 }), [vendorAddress])
 
   return (
@@ -44,25 +44,33 @@ const LoginRedirect = ({ navigation, styles }) => {
                 </View>
               </View>
               <Text style={styles.boldText}>is requesting to view the following information:</Text>
-              <View style={styles.infoView}>
-                <Text style={styles.labelText}>Name</Text>
-                <Text>{fullName}</Text>
-              </View>
-              <View style={styles.infoView}>
-                <Text style={styles.labelText}>Mobile</Text>
-                <Text>{mobile}</Text>
-              </View>
-              <View style={styles.infoView}>
-                <Text style={styles.labelText}>Email</Text>
-                <Text>{email}</Text>
-              </View>
-              <View style={styles.infoView}>
-                <Text style={styles.labelText}>Location</Text>
-                <Text>{country}</Text>
-              </View>
+              {Boolean(fullName) && (
+                <View style={styles.infoView}>
+                  <Text style={styles.labelText}>Name</Text>
+                  <Text>{fullName}</Text>
+                </View>
+              )}
+              {Boolean(mobile) && (
+                <View style={styles.infoView}>
+                  <Text style={styles.labelText}>Mobile</Text>
+                  <Text>{mobile}</Text>
+                </View>
+              )}
+              {Boolean(email) && (
+                <View style={styles.infoView}>
+                  <Text style={styles.labelText}>Email</Text>
+                  <Text>{email}</Text>
+                </View>
+              )}
+              {Boolean(country) && (
+                <View style={styles.infoView}>
+                  <Text style={styles.labelText}>Location</Text>
+                  <Text>{country}</Text>
+                </View>
+              )}
               <View style={styles.infoView}>
                 <Text style={styles.labelText}>Wallet Address</Text>
-                <Text>{vendorAddress}</Text>
+                <Text>{walletAddress}</Text>
               </View>
               <View style={styles.infoView}>
                 <Text style={styles.labelText}>GoodDollar verification status</Text>
@@ -170,9 +178,11 @@ const getStylesFromProps = ({ theme }) => {
     verifiedView: {
       padding: 10,
       backgroundColor: lighterGreen,
+      opacity: .2,
       marginTop: 5,
     },
     verifiedText: {
+      opacity: 1,
       textAlign: 'flex-start',
       color: lighterGreen,
     },

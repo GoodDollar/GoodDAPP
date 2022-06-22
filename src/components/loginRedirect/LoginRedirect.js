@@ -182,6 +182,7 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: 5,
     },
     verifiedText: {
+      opacity: 1,
       textAlign: 'flex-start',
       color: lighterGreen,
     },

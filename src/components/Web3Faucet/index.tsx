@@ -72,13 +72,12 @@ function Web3Faucet(): JSX.Element | null {
     }, [])
 
     useEffect(() => {
-      if (!claimed) {
-        return
-      } else {
+      if (!claimed) return
+      else {
         const interval = setInterval(fetchTimer, 1000)
         return () => clearInterval(interval)
       }
-    }, [fetchTimer])
+    }, [fetchTimer, claimed])
 
     const [claimable, , , refetch] = usePromise(async () => {
         if (!account || !web3 || (chainId as any) !== SupportedChainId.FUSE) return false
@@ -114,7 +113,7 @@ function Web3Faucet(): JSX.Element | null {
               refetch()
             }
         }
-    }, [web3, account, refetch])
+    }, [web3, account, refetch, getData])
 
     const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable === true
     const securityNotice = true

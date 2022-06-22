@@ -75,7 +75,7 @@ const LoginRedirect = ({ navigation, styles }) => {
               <View style={styles.infoView}>
                 <Text style={styles.labelText}>GoodDollar verification status</Text>
                 {isVendorWalletWhitelisted ? (
-                  <View style={styles.verifiedView}>
+                  <View style={styles.verifiedContainer}>
                     <Text style={styles.verifiedText}>Verified</Text>
                   </View>
                 ) : (
@@ -175,7 +175,7 @@ const getStylesFromProps = ({ theme }) => {
     labelText: {
       color: lightBlue,
     },
-    verifiedView: {
+    verifiedContainer: {
       padding: 10,
       backgroundColor: `${lighterGreen}33`,
       marginTop: 5,

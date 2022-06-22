@@ -25,7 +25,7 @@ jobs:
     name: Hot Code Push
     runs-on: macOS-latest
     # temporary disabled
-    if: false && github.event_name != 'workflow_dispatch'
+    if: github.event_name != 'workflow_dispatch'
     steps:
       - name: Pre-checks - Env is Dev
         run: |
@@ -56,32 +56,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - name: Setup Ruby (bundle)
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.6
-          bundler-cache: true
-      - name: Setup Xcode version
-        uses: maxim-lobanov/setup-xcode@v1.4.1
-      - name: Setup CocoaPods
-        run: sudo gem install cocoapods
       # install app deps
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
           install-command: yarn --frozen-lockfile --network-timeout 100000
-      - name: Restore Pods cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ios/Pods
-            ~/Library/Caches/CocoaPods
-            ~/.cocoapods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-      - name: Install Pods
-        run: cd ios && pod install --repo-update && cd ..
       # extract/decrypt secrets, finalize env preparation
       - name: add .env secrets
         env:
@@ -93,8 +72,6 @@ jobs:
           echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
           echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
-      - name: Setup google services file
-        run: echo "${{ secrets.IOS_GOOGLE_SERVICES}}" | base64 --decode > ./ios/GoogleService-Info.plist
       - name: Code push release
         env:
           BUILD_NUMBER: ${{ github.run_number }}

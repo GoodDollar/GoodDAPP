@@ -12,7 +12,7 @@ function importBuildTarget() {
   if (process.env.REACT_APP_BUILD_TARGET === 'FV') {
     return import('./mainApp/fv.js')
   }
-  return import('./mainApp/App.js')
+  return import('./mainApp/wallet.js')
 }
 
 // Import the entry point and render it's default export

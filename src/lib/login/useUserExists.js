@@ -1,7 +1,10 @@
 // @flow
 import { useCallback } from 'react'
-import { default as API } from '../API/api'
+import { default as API, throwException } from '../API'
 import { useWallet } from '../wallet/GoodWalletProvider'
+import logger from '../logger/js-logger'
+
+const log = logger.child({ from: 'useUserExists' })
 
 const useUserExists = () => {
   const goodWallet = useWallet()
@@ -19,7 +22,16 @@ const useUserExists = () => {
         return { exists: false }
       }
 
-      return API.userExistsCheck({ identifier, email, mobile }).then(({ data }) => data)
+      try {
+        const { data } = await API.userExistsCheck({ identifier, email, mobile }).catch(throwException)
+
+        return data
+      } catch (exception) {
+        const { message } = exception
+
+        log.error('userExistsCheck failed: ', message, exception)
+        throw exception
+      }
     },
     [goodWallet],
   )

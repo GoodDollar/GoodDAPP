@@ -23,7 +23,7 @@ import * as TextileCrypto from '@textile/crypto'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
-import API from '../API/api'
+import API from '../API'
 import { delay, retry as retryCall } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
@@ -576,9 +576,9 @@ export class GoodWallet {
     return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
   }
 
-  checkEntitlement(): Promise<number> {
+  async checkEntitlement(): Promise<number> {
     try {
-      return retry(() =>
+      return await retry(() =>
         this.UBIContract.methods
           .checkEntitlement()
           .call()

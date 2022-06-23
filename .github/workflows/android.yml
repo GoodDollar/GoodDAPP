@@ -83,7 +83,6 @@ jobs:
           yarn lingui:compile
           npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
 
-  # This workflow contains a single job called "build"
   build:
     name: Build
     # The type of runner that the job will run on
@@ -126,7 +125,7 @@ jobs:
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ env.TARGET_BRANCH }}
       - uses: actions/setup-node@v1

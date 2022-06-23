@@ -1,6 +1,6 @@
 // @flow
 import { assign, isFunction, mapValues, omitBy, pick } from 'lodash'
-import type { UserRecord } from '../API/api'
+import type { UserRecord } from '../API'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
 import isEmail from '../validators/isEmail'

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 })
 
 // export for unit testing
-export const App = () => {
+const App = () => {
   const AppWrapper = isMobile ? Fragment : SafeAreaView
   const wrapperProps = isMobile ? {} : { style: styles.safeAreaView }
   useServiceWorker() // Only runs on Web
@@ -55,3 +55,5 @@ export const App = () => {
     </PaperProvider>
   )
 }
+
+export default App

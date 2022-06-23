@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
@@ -38,6 +38,8 @@ import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
 import mustache from '../../../lib/utils/mustache'
 import useTorus from './hooks/useTorus'
+import { TorusStatusCode } from './sdk/TorusSDK'
+
 const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles }) => {
@@ -47,7 +49,6 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
-  const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen'))
   const { navigate } = navigation
 
   const getTorusUserRedirect = async () => {
@@ -57,10 +58,10 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
     // in case of redirect flow we need to recover the provider/login type
     const provider = await AsyncStorage.getItem('recallTorusRedirectProvider')
-    const { hash, query } = DeepLinking
+    const { hash } = DeepLinking
 
-    if (provider && (hash || query)) {
-      log.debug('triggering torus redirect callback flow')
+    if (provider && hash) {
+      log.debug('triggering torus redirect callback flow', { hash })
       AsyncStorage.removeItem('recallTorusRedirectProvider')
       handleLoginMethod(provider, torusSDK.getRedirectResult())
     }
@@ -120,30 +121,37 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
     return { torusUser, replacing }
   }
 
-  const handleTorusError = (e, options) => {
+  const handleTorusError = (exception, options) => {
     const { provider, fromRedirect = false } = options || {}
-    const { message = '' } = e || {}
-    let suggestion = 'Please try again.'
+    const { message = '', name } = exception || {}
+    const { UserCancel, BrowserNotAllowed } = TorusStatusCode
+    let suggestion
 
-    log.error('torus signin failed:', message, e, {
+    log.error('torus signin failed:', message, exception, {
       provider,
       fromRedirect,
       dialogShown: true,
     })
 
-    if (message.includes('NoAllowedBrowserFoundException')) {
-      const suggestedBrowser = Platform.select({
-        ios: 'Safari',
-        android: 'Chrome',
-      })
+    switch (name) {
+      case BrowserNotAllowed: {
+        const suggestedBrowser = Platform.select({
+          ios: 'Safari',
+          android: 'Chrome',
+        })
 
-      suggestion = mustache(
-        t`Your default browser isn't supported. Please, set {suggestedBrowser} as default and try again.`,
-        { suggestedBrowser },
-      )
+        suggestion = mustache(
+          t`Your default browser isn't supported. Please, set {suggestedBrowser} as default and try again.`,
+          { suggestedBrowser },
+        )
+        break
+      }
+      case UserCancel:
+        return
+      default:
+        suggestion = 'Please try again.'
+        break
     }
-
-    setWalletPreparing(false)
 
     showErrorDialog(t`We were unable to load the wallet.` + ` ${suggestion}`)
   }
@@ -224,8 +232,8 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
           // here in redirect mode we are not waiting for response from torus
           getTorusUser(provider)
-            .then(() => setWalletPreparing(false))
             .catch(onTorusError)
+            .finally(() => setWalletPreparing(false))
 
           return
         }
@@ -242,6 +250,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         torusUser = torusResponse.torusUser
       } catch (e) {
         onTorusError(e)
+        setWalletPreparing(false)
         return
       }
     }
@@ -297,23 +306,6 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       setWalletPreparing(false)
     }
   }
-
-  useEffect(() => {
-    //helper to show user login/signup when he presses back or cancels login flow
-    if (authScreen == null) {
-      AsyncStorage.getItem('recallTorusRedirectScreen').then(screen => {
-        log.debug('recall authscreen for torus redirect flow', screen)
-        screen && setAuthScreen(screen)
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    if (authScreen) {
-      //when user switches between login/signup we clear the recall
-      AsyncStorage.setItem('recallTorusRedirectScreen', authScreen)
-    }
-  }, [authScreen])
 
   useEffect(() => {
     if (sdkInitialized) {

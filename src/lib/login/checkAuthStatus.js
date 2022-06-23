@@ -40,9 +40,8 @@ export const useCheckAuthStatus = () => {
   const [authStatus, setAuthStatus] = useState([])
 
   const check = useCallback(async () => {
-    const jwt = await jwtSignin(login)
-    const isAuthorized = jwt !== undefined
-    const isLoggedIn = isAuthorized
+    const jwt = await jwtSignin(login).catch(e => log.error('JWT sign in failed', e, e.message))
+    const isLoggedIn = jwt !== undefined
     const isLoggedInCitizen = isLoggedIn && isCitizen
 
     log.debug('checkAuthStatus result:', { jwt, isCitizen, isLoggedInCitizen, isLoggedIn })

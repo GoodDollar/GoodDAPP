@@ -147,6 +147,7 @@ const AddWebApp = () => {
   const handleUserPromptChoice = async () => {
     try {
       let outcome = await installPrompt.userChoice
+
       if (outcome.outcome === 'accepted') {
         fireEvent(ADDTOHOME_OK)
         log.debug('App Installed')

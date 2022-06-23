@@ -107,17 +107,21 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       fireEvent(TORUS_SUCCESS, { provider })
       log.debug('torus login success', { torusUser, provider })
     } catch (e) {
-      fireEvent(TORUS_FAILED, { provider, error: e.message })
       const cancelled = e.message.toLowerCase().includes('user closed')
+
+      fireEvent(TORUS_FAILED, { provider, error: e.message })
+
       if (cancelled) {
         log.warn('torus popup closed', e.message, e)
         fireEvent(TORUS_POPUP_CLOSED, { provider, reason: e.message })
-        throw e
-      } else {
-        log.error('torus login failed', e.message, e, { dialogShown: true })
+
         throw e
       }
+
+      log.error('torus login failed', e.message, e, { dialogShown: true })
+      throw e
     }
+
     return { torusUser, replacing }
   }
 
@@ -247,6 +251,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         if (!get(torusResponse, 'torusUser')) {
           throw new Error('Invalid Torus response.')
         }
+
         torusUser = torusResponse.torusUser
       } catch (e) {
         onTorusError(e)

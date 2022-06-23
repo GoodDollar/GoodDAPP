@@ -22,6 +22,7 @@ const claimGOOD = async (lastUpdate, prevVersion, log, goodWallet, userStorage) 
           .stateHashBalances('0x' + proof.merkleRootHash, proof.addr)
           .call()
           .then(parseInt)) > 0
+
       if (hasClaimed === false) {
         await goodWallet.sendTransaction(
           goodWallet.GOODContract.methods.proveBalanceOfAtBlockchain(

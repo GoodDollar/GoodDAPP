@@ -23,7 +23,7 @@ export default () => {
       return
     }
 
-    userProperties.set(wasClickedProp, true)
+    userProperties.safeSet(wasClickedProp, true)
     setWasClicked(true)
   }, [wasClicked, setWasClicked])
 

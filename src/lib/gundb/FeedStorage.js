@@ -362,7 +362,9 @@ export class FeedStorage {
       })
 
       const txType = this.getTxType(receipt)
+
       log.debug('handleReceipt got type:', receipt.transactionHash, { txType, receipt })
+
       if (txType === undefined) {
         throw new Error('Unknown receipt type')
       }
@@ -377,6 +379,7 @@ export class FeedStorage {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueuing the initial TX data
     const release = await this.feedMutex.lock()
+
     try {
       const receiptDate = await this.wallet.wallet.eth
         .getBlock(receipt.blockNumber)
@@ -384,19 +387,24 @@ export class FeedStorage {
         .catch(_ => new Date())
 
       const txEvent = this.getTXEvent(txType, receipt)
+      let eventTxHash = receipt.transactionHash
+
       log.debug('handleReceiptUpdate got lock:', receipt.transactionHash, { txEvent, txType })
 
-      let eventTxHash = receipt.transactionHash
       if (txType === TxType.TX_OTPL_WITHDRAW || txType === TxType.TX_OTPL_CANCEL) {
         log.debug('getting tx hash by code', receipt.transactionHash, { txType })
+
         eventTxHash = await this.getTransactionHashByCode(txEvent.data.paymentId)
+
         log.debug('got tx hash by code', receipt.transactionHash, { txType, eventTxHash })
 
         if (!eventTxHash) {
           log.warn('handleReceiptUpdate: Original tx for payment link not found', txType, receipt.transactionHash, {
             receipt,
           })
+
           eventTxHash = receipt.transactionHash
+
           if (txType === TxType.TX_OTPL_CANCEL) {
             return
           }
@@ -413,17 +421,6 @@ export class FeedStorage {
         id: eventTxHash,
         createdDate: receiptDate.toString(),
       }
-
-      // cancel/withdraw are updating existing TX so we don't want to return here
-      //   if (txType !== TxType.TX_OTPL_WITHDRAW && txType !== TxType.TX_OTPL_CANCEL) {
-      //     if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
-      //       log.debug('handleReceiptUpdate skipping event with existing receipt data', receipt.transactionHash, {
-      //         feedEvent,
-      //         receipt,
-      //       })
-      //       return feedEvent
-      //     }
-      //   }
 
       let status = TxStatus.COMPLETED
       let otplStatus
@@ -621,7 +618,9 @@ export class FeedStorage {
   dequeueTX(eventId: string): FeedEvent {
     try {
       const feedItem = this.feedQ[eventId]
+
       log.debug('dequeueTX got item', eventId, feedItem)
+
       if (feedItem) {
         delete this.feedQ[eventId]
         return feedItem
@@ -644,6 +643,7 @@ export class FeedStorage {
 
     //a race exists between enqueuing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
+
     try {
       const existingEvent = this.feedIds[event.id]
 

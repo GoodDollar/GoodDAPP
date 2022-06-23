@@ -51,13 +51,16 @@ const AppSwitch = (props: LoadingProps) => {
   } = useCheckAuthStatus()
 
   const _showOutOfGasError = useCallback(async () => {
-    const gasResult = await goodWallet.verifyHasGas()
+    const { ok, error } = await goodWallet.verifyHasGas()
+    const isOutOfGas = ok === false && error !== false
 
-    log.debug('outofgas check result:', { gasResult })
+    log.debug('outofgas check result:', { ok, error })
 
-    if (gasResult.ok === false && gasResult.error !== false) {
+    if (isOutOfGas) {
       navigation.navigate('OutOfGasError')
     }
+
+    return isOutOfGas
   }, [navigation, goodWallet, userStorage])
 
   const showOutOfGasError = useDebouncedCallback(_showOutOfGasError, GAS_CHECK_DEBOUNCE_TIME, { leading: true })
@@ -157,10 +160,15 @@ const AppSwitch = (props: LoadingProps) => {
       const identifier = goodWallet.getAccountForType('login')
 
       identifyWith(undefined, identifier)
-      showOutOfGasError()
 
-      initialize()
-      runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
+      const isOutOfGas = await showOutOfGasError()
+
+      if (isOutOfGas) {
+        return
+      }
+
+      await initialize()
+      await runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
 
       log.debug('initialize done')
       setReady(true)

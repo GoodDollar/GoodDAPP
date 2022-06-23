@@ -109,11 +109,12 @@ function App(): JSX.Element {
                     <MainBody
                         ref={bodyRef}
                         className="flex flex-col items-center justify-between flex-grow h-full overflow-y-auto overflow-x-hidden z-0 pt-4 sm:pt-8 px-4 md:pt-10 pb-4"
+                        $page={location.pathname}
                     >
                         <Popups />
                         {/*<Polling />*/}
                         <Web3ReactManager>
-                            <div className="flex flex-col flex-glow w-full items-center justify-start md:h-screen md:justify-center xl:-mt-8">
+                            <div className="flex flex-col flex-glow w-full items-center justify-start md:h-auto md:justify-center xl:-mt-8">
                                 <Routes />
                                 <TransactionUpdater />
                             </div>

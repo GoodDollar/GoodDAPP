@@ -24,6 +24,7 @@ import { useTokenContract } from 'hooks/useContract'
 import Loader from 'components/Loader'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import sendGa from 'functions/sendGa'
+import { SupportedChainId } from 'sdk/constants/chains'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)
@@ -49,6 +50,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     const [percentage, setPercentage] = useState<string>('50')
     const [withdrawAmount, setWithdrawAmount] = useState<number>(totalStake * (Number(percentage) / 100))
     const { chainId } = useActiveWeb3React()
+    const network = SupportedChainId[chainId]
     const [error, setError] = useState<Error>()
     const getData = sendGa
 
@@ -63,7 +65,8 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
         if (!web3) return
         try {
             setStatus('pending')
-            getData({event: 'stake', action: 'withdrawApprove', amount: withdrawAmount, type: protocol})
+            getData({event: 'stake', action: 'withdrawApprove', 
+                     amount: withdrawAmount, type: protocol, network: network})
             await withdraw(
                 web3,
                 stake,
@@ -72,7 +75,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                 (transactionHash: string, from: string) => {
                     setTransactionHash(transactionHash)
                     setStatus('send')
-                    getData({event: 'stake', action: 'withdrawSuccess', amount: withdrawAmount, type: protocol})
+                    getData({event: 'stake', action: 'withdrawSuccess', amount: withdrawAmount, type: protocol, network: network})
                     dispatch(
                         addTransaction({
                             chainId: chainId!,

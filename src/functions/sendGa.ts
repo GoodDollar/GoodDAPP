@@ -3,7 +3,9 @@ type GaData = {
   action: string,
   type?: string,
   amount?: string | number,
-  tokens?: [string | undefined, string | undefined]
+  tokens?: [string | undefined, string | undefined],
+  network?: string,
+  token?: string
 }
 
 export default function sendGa(data: GaData): void {

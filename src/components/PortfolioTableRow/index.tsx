@@ -17,8 +17,9 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
     const getData = sendGa
+    const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet' 
     const handleWithdrawOpen = useCallback(() => {
-      getData({event: 'stake', action: 'withdrawStart'})
+      getData({event: 'stake', action: 'withdrawStart', network: network})
       setWithdrawOpen(true)
     }, [])
 

@@ -60,6 +60,7 @@ const getTimer = () => {
 function Web3Faucet(): JSX.Element | null {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
+    const network = SupportedChainId[chainId]
     const web3 = useWeb3()
     const getData = sendGa
 
@@ -102,14 +103,14 @@ function Web3Faucet(): JSX.Element | null {
 
     const handleClaim = useCallback(async () => {
         if (account && web3) {
-            getData({event: 'claim', action: 'claimStart'})
+            getData({event: 'claim', action: 'claimStart', network: network})
             const startClaim = await claim(web3, account).catch(e => {
               refetch()
               return false
             })
 
             if (startClaim) {
-              getData({event: 'claim', action: 'claimSuccess'})
+              getData({event: 'claim', action: 'claimSuccess', network: network})
               refetch()
             }
         }

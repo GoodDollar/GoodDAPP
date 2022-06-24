@@ -114,7 +114,9 @@ function App(): JSX.Element {
                         <Popups />
                         {/*<Polling />*/}
                         <Web3ReactManager>
-                            <div className="flex flex-col flex-glow w-full items-center justify-start md:h-auto md:justify-center xl:-mt-8">
+                            <div className={`flex flex-col flex-glow w-full items-center justify-start
+                             ${location.pathname === '/dashboard' ? "md:auto" : "md:h-screen"} 
+                             md:justify-center xl:-mt-8`}>
                                 <Routes />
                                 <TransactionUpdater />
                             </div>

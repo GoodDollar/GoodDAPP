@@ -113,9 +113,8 @@ class RealmDB implements DB, ProfileDB {
   async _initRealmDB() {
     const REALM_APP_ID = Config.realmAppID
 
+    const jwt = await AsyncStorage.getItem(JWT)
     try {
-      const jwt = await AsyncStorage.getItem(JWT)
-
       log.debug('initRealmDB', { jwt, REALM_APP_ID })
 
       this.app = new Realm.App({ id: REALM_APP_ID })
@@ -126,7 +125,7 @@ class RealmDB implements DB, ProfileDB {
 
       return this.user
     } catch (err) {
-      log.error('Failed to log in', err.message, err)
+      log.error('Failed to log in', err.message, err, { jwt })
       throw err
     }
   }

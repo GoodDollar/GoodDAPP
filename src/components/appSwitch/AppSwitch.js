@@ -232,8 +232,9 @@ const AppSwitch = (props: LoadingProps) => {
   useAppState({ onForeground: recheck })
 
   useEffect(() => {
-    initWalletAndStorage(undefined, 'SEED', true).then(() => log.debug('storage and wallet ready'))
-  }, [initWalletAndStorage])
+    //initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
+    initWalletAndStorage(undefined, 'SEED', isLoggedIn).then(() => log.debug('storage and wallet ready'))
+  }, [initWalletAndStorage, isLoggedIn])
 
   useEffect(() => {
     const { initializedRegistered } = userStorage || {}

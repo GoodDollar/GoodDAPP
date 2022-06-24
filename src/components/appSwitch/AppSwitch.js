@@ -224,7 +224,7 @@ const AppSwitch = (props: LoadingProps) => {
   useAppState({ onForeground: recheck })
 
   useEffect(() => {
-    //initialize with initRegistered = true only if user is loggedin correctly
+    //initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
     initWalletAndStorage(undefined, 'SEED', isLoggedIn).then(() => log.debug('storage and wallet ready'))
   }, [initWalletAndStorage, isLoggedIn])
 

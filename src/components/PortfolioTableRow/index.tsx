@@ -6,6 +6,9 @@ import { useLingui } from '@lingui/react'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { ButtonAction } from 'components/gd/Button'
+import ClaimRewards from 'components/ClaimRewards'
 
 interface PortfolioTableRowProps {
     stake: MyStake
@@ -15,13 +18,28 @@ interface PortfolioTableRowProps {
 function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
+    const [isClaimRewardsOpen, setClaimRewardsOpen] = useState(false)
     const handleWithdrawOpen = useCallback(() => setWithdrawOpen(true), [])
+    const handleClaimRewardsOpen = useCallback(() => setClaimRewardsOpen(true), [])
+    const { chainId } = useActiveWeb3React()
+
+    const requireNetwork = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
+    const claimableStake = (chainId === (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.FUSE) ||
+         (chainId !== (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.MAINNET)
 
     return (
         <>
             <Withdraw
                 open={isWithdrawOpen}
                 setOpen={setWithdrawOpen}
+                token={`${stake.tokens.A.symbol}`}
+                protocol={stake.protocol}
+                onWithdraw={onWithdraw}
+                stake={stake}
+            />
+            <ClaimRewards 
+                open={isClaimRewardsOpen}
+                setOpen={setClaimRewardsOpen}
                 token={`${stake.tokens.A.symbol}`}
                 protocol={stake.protocol}
                 onWithdraw={onWithdraw}
@@ -87,19 +105,29 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                     {stake.rewards.GDAO.claimed.currency.symbol}
                 </td>
                 <td>
-                    <div className="flex justify-end">
+                    <div className="flex flex-col justify-end">
                         <ActionOrSwitchButton
                             size="sm"
                             width="100%"
                             borderRadius="6px"
                             noShadow={true}
-                            requireNetwork={
-                                stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-                            }
+                            requireNetwork={requireNetwork}
                             onClick={handleWithdrawOpen}
                         >
-                            {i18n._(t`Withdraw`)}
+                            {i18n._(t`Withdraw Liquidity`)}
                         </ActionOrSwitchButton>
+                        {
+                        claimableStake &&
+                            <ButtonAction 
+                                className='mt-2' 
+                                size='sm' 
+                                noShadow={true} 
+                                borderRadius="6px" 
+                                onClick={handleClaimRewardsOpen}
+                            >
+                                {i18n._(t`Claim rewards`)}
+                            </ButtonAction>
+                        }
                     </div>
                 </td>
             </tr>
@@ -110,9 +138,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                         width="100%"
                         borderRadius="6px"
                         noShadow={true}
-                        requireNetwork={
-                            stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-                        }
+                        requireNetwork={requireNetwork}
                         onClick={handleWithdrawOpen}
                     >
                         {i18n._(t`Withdraw`)}

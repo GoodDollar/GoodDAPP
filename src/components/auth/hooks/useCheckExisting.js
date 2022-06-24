@@ -13,10 +13,18 @@ const useCheckExisting = () => {
 
   const checkExisting = useCallback(
     async (torusProvider, torusUser, goodWallet, eventVars = {}) => {
-      const identifier = goodWallet && goodWallet.getAccountForType('login')
-      const checkResult = (await userExists({ ...torusUser, torusProvider, identifier }).catch(e => {
+      let checkResult = { exists: false }
+      const searchQuery = { ...torusUser, torusProvider }
+
+      if (goodWallet) {
+        searchQuery.identifier = goodWallet.getAccountForType('login')
+      }
+
+      try {
+        checkResult = await userExists(searchQuery)
+      } catch (e) {
         log.warn('userExists check failed:', e.message, e)
-      })) || { exists: false }
+      }
 
       const { exists, provider } = checkResult
 

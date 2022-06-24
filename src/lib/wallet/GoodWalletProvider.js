@@ -134,6 +134,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
       await login()
       await userProperties.ready
+
       const lastBlock = userProperties.get('lastBlock') || 6400000
 
       // init initial wallet balance/dailyubi

@@ -87,7 +87,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         return isLoggedInJWT
       }
 
-      const { userProperties } = userStorage
       const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
 
       // the login also re-initialize the api with new jwt
@@ -97,7 +96,9 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       })
 
-      await userProperties.ready
+      //TODO: check if this is required, we cant wait on properties here, because if jwt is not logged in, it will get stuck
+      // const { userProperties } = userStorage
+      // await userProperties.ready
       setLoggedInJWT(walletLogin)
 
       log.info('walletLogin', { jwt, refresh })

@@ -96,9 +96,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       })
 
-      //TODO: check if this is required, we cant wait on properties here, because if jwt is not logged in, it will get stuck
-      // const { userProperties } = userStorage
-      // await userProperties.ready
       setLoggedInJWT(walletLogin)
 
       log.info('walletLogin', { jwt, refresh })
@@ -133,18 +130,18 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     }
 
     const loginAndWatch = async () => {
-      await login()
+      const { userProperties } = userStorage
 
-      const lastBlock = userStorage.userProperties.get('lastBlock') || 6400000
+      await login()
+      await userProperties.ready
+      const lastBlock = userProperties.get('lastBlock') || 6400000
 
       // init initial wallet balance/dailyubi
       await update()
 
       log.debug('starting watchBalanceAndTXs', { lastBlock })
 
-      goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-        userStorage.userProperties.safeSet('lastBlock', parseInt(toBlock)),
-      )
+      goodWallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.safeSet('lastBlock', parseInt(toBlock)))
 
       eventId = goodWallet.balanceChanged(update)
     }

@@ -7,6 +7,7 @@ import { UserStorage } from '../userStorage/UserStorageClass'
 import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
+import { GlobalTogglesContext } from '../contexts/togglesContext'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
 
@@ -25,6 +26,7 @@ export const GoodWalletContext = React.createContext({
  * @returns
  */
 export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) => {
+  const { isLoggedInRouter } = useContext(GlobalTogglesContext)
   const [{ goodWallet, userStorage }, setWalletAndStorage] = useState({})
   const [web3Provider, setWeb3] = useState()
   const [isLoggedInJWT, setLoggedInJWT] = useState()
@@ -133,20 +135,23 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       const { userProperties } = userStorage
 
       await login()
-      await userProperties.ready
-
-      const lastBlock = userProperties.get('lastBlock') || 6400000
 
       // init initial wallet balance/dailyubi
       await update()
 
-      log.debug('starting watchBalanceAndTXs', { lastBlock })
+      if (isLoggedInRouter) {
+        //only if user signed up then we can await for his properties (because otherwise he wont have valid mongodb jwt)
+        await userProperties.ready
 
-      goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-        userStorage.userProperties.set('lastBlock', parseInt(toBlock)),
-      )
+        const lastBlock = userProperties.get('lastBlock') || 6400000
+        log.debug('starting watchBalanceAndTXs', { lastBlock })
 
-      eventId = goodWallet.balanceChanged(update)
+        goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
+          userStorage.userProperties.set('lastBlock', parseInt(toBlock)),
+        )
+
+        eventId = goodWallet.balanceChanged(update)
+      }
     }
 
     if (goodWallet && userStorage) {
@@ -168,7 +173,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         goodWallet.unsubscribeFromEvent(eventId)
       }
     }
-  }, [goodWallet, userStorage, login, shouldLoginAndWatch, setBalance, setDailyUBI, setIsCitizen])
+  }, [goodWallet, userStorage, isLoggedInRouter, login, shouldLoginAndWatch, setBalance, setDailyUBI, setIsCitizen])
 
   return (
     <GoodWalletContext.Provider

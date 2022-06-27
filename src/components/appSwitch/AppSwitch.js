@@ -130,8 +130,12 @@ const AppSwitch = (props: LoadingProps) => {
   const initialize = useCallback(async () => {
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
 
-    const email = await userStorage.getProfileFieldValue('email')
-    identifyWith(email, undefined)
+    try {
+      const email = await userStorage.getProfileFieldValue('email')
+      identifyWith(email, undefined)
+    } catch (e) {
+      log.warn('Initialize with email failed', e, e.message)
+    }
   }, [userStorage])
 
   const restartWithMessage = useCallback(
@@ -167,7 +171,7 @@ const AppSwitch = (props: LoadingProps) => {
         return
       }
 
-      await initialize()
+      initialize()
 
       // this needs to wait after initreg where we initialize the database
       runUpdates(goodWallet, userStorage, log)

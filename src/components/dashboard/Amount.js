@@ -47,20 +47,19 @@ const Amount = (props: AmountProps) => {
     if (params && params.action === ACTION_RECEIVE) {
       return true
     }
+
     log.info('canContiniue?', { weiAmount, params })
+
     try {
-      // const txFeePercents = await goodWallet.getTxFee().then(n => n / 10000)
       const fee = await goodWallet.calculateTxFee(weiAmount)
       const amountWithFee = new BN(weiAmount).add(fee)
+      const canSend = await goodWallet.canSend(amountWithFee, { feeIncluded: true })
 
-      if (await goodWallet.canSend(amountWithFee, { feeIncluded: true })) {
-        return true
+      if (!canSend) {
+        setError(t`Sorry, you don't have enough G$s`)
       }
 
-      // setError(`Sorry, you don't have enough G$ to send ${weiToGd(amountWithFee)} (${txFeePercents}% transaction fee)`)
-      setError(t`Sorry, you don't have enough G$s`)
-
-      return false
+      return canSend
     } catch (e) {
       log.warn('Failed canContiniue', e.message, e)
       setError(t`Sorry, Something unexpected happened, please try again.`)

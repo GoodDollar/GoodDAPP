@@ -176,8 +176,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const getCountryCode = useCallback(async () => {
     try {
       const data = await API.getLocation()
+      const { country } = data || {}
 
-      data && setCountryCode(data.country)
+      if (country) {
+        setCountryCode(country)
+      }
     } catch (e) {
       log.error('Could not get user location', e.message, e)
     }
@@ -251,6 +254,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               .then(_ => moment(get(_, 'data.ping', Date.now())))
               .catch(e => moment())
               .then(_ => Math.max(Date.now(), _.valueOf()))
+
             const msg = (mobile || email) + String(torusProofNonce)
             const proof = goodWallet?.wallet?.eth?.accounts?.sign(msg, '0x' + privateKey)
 

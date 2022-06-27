@@ -120,18 +120,22 @@ export const useAPIConnection = () => {
   const apiReady = async () => {
     try {
       await API.ready
+
       const res = await Promise.race([
         API.ping()
           .then(_ => true)
           .catch(_ => 'ping error'),
         delay(3000).then(_ => 'timeout'),
       ])
+
       log.debug('apiReady:', { res })
+
       if (res !== true) {
         setIsConnection(false)
         await delay(3000)
         return apiReady()
       }
+
       setIsConnection(true)
       return
     } catch (e) {

@@ -320,7 +320,7 @@ export class FeedStorage {
 
       return await this.handleReceiptUpdate(txType, receipt)
     } catch (e) {
-      log.warn('handleReceipt failed:', { receipt }, e.message, e)
+      log.warn('handleReceipt failed:', e.message, e, { receipt })
     }
   }
 
@@ -771,7 +771,7 @@ export class FeedStorage {
 
         if (!item.receiptReceived && id.startsWith('0x') && item.type !== 'news') {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-            log.warn('getFeedPage no receipt found for id:', id, e.message, e)
+            log.warn('getFeedPage no receipt found for id:', e.message, e, { id })
           })
 
           if (receipt) {

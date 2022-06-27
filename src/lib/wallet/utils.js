@@ -1,7 +1,7 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { get, map, zipObject } from 'lodash'
+import { assign, get, map, zipObject } from 'lodash'
 
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
@@ -108,6 +108,7 @@ export const executeWithdraw = async (
 ): Promise<ReceiptType | { status: boolean }> => {
   try {
     const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)
+    let response = { status }
 
     log.info('executeWithdraw', { code, reason, category, amount, sender, status, hashedCode })
 
@@ -118,7 +119,7 @@ export const executeWithdraw = async (
     if (status === WITHDRAW_STATUS_PENDING) {
       let txHash
 
-      return new Promise((res, rej) => {
+      await new Promise((resolve, reject) => {
         goodWallet.withdraw(code, {
           onTransactionHash: transactionHash => {
             txHash = transactionHash
@@ -138,18 +139,20 @@ export const executeWithdraw = async (
                 otplStatus: 'completed',
               },
             }
+
             userStorage.enqueueTX(transactionEvent)
-            res({ status, transactionHash })
+            assign(response, { transactionHash })
+            resolve(response)
           },
-          onError: e => {
+          onError: exception => {
             userStorage.markWithErrorEvent(txHash)
-            rej(e)
+            reject(exception)
           },
         })
       })
     }
 
-    return { status }
+    return response
   } catch (e) {
     const { message } = e
     const isOwnLinkIssue = message.endsWith('your own payment link.')

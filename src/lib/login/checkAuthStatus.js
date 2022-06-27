@@ -40,13 +40,18 @@ export const useCheckAuthStatus = () => {
   const [authStatus, setAuthStatus] = useState([])
 
   const check = useCallback(async () => {
-    const jwt = await jwtSignin(login)
-    const isAuthorized = jwt !== undefined
-    const isLoggedIn = isAuthorized
-    const isLoggedInCitizen = isLoggedIn && isCitizen
+    try {
+      const jwt = await jwtSignin(login)
+      const isLoggedIn = jwt !== undefined
+      const isLoggedInCitizen = isLoggedIn && isCitizen
 
-    log.debug('checkAuthStatus result:', { jwt, isCitizen, isLoggedInCitizen, isLoggedIn })
-    setAuthStatus([isLoggedInCitizen, isLoggedIn])
+      log.debug('checkAuthStatus result:', { jwt, isCitizen, isLoggedInCitizen, isLoggedIn })
+      setAuthStatus([isLoggedInCitizen, isLoggedIn])
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('JWT sign in failed', message, exception)
+    }
   }, [login, goodWallet, isCitizen])
 
   useEffect(() => {

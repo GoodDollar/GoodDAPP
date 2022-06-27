@@ -477,7 +477,7 @@ const Invite = ({ screenProps, styles }) => {
   useEffect(() => {
     //reset state for rewards icon in navbar
     if (inviteState.pending || inviteState.approved) {
-      userStorage.userProperties.set('lastInviteState', inviteState)
+      userStorage.userProperties.safeSet('lastInviteState', inviteState)
     }
   }, [inviteState])
 

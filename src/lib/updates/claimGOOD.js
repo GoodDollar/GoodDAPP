@@ -22,6 +22,7 @@ const claimGOOD = async (lastUpdate, prevVersion, log, goodWallet, userStorage) 
           .stateHashBalances('0x' + proof.merkleRootHash, proof.addr)
           .call()
           .then(parseInt)) > 0
+
       if (hasClaimed === false) {
         await goodWallet.sendTransaction(
           goodWallet.GOODContract.methods.proveBalanceOfAtBlockchain(
@@ -37,7 +38,7 @@ const claimGOOD = async (lastUpdate, prevVersion, log, goodWallet, userStorage) 
       log.info('claimGOOD success', { hasClaimed })
     }
   } catch (e) {
-    log.warn('claimGOOD failed:', e, e.message, address) //error is logged by updates
+    log.warn('claimGOOD failed:', e.message, e, { address }) // error is logged by updates
     throw e
   }
 }

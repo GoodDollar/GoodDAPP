@@ -75,4 +75,12 @@ const update = async (goodWallet, userStorage) => {
   await userStorage.userProperties.set('updates', updatesData)
 }
 
-export default update
+export default async (goodWallet, userStorage, from = null) => {
+  const logger = from || log
+
+  try {
+    await update(goodWallet, userStorage)
+  } catch (e) {
+    logger.warn('Run update failed', e.message, e)
+  }
+}

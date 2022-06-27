@@ -1,5 +1,6 @@
 // @flow
 import * as jsonwebtoken from 'jsonwebtoken'
+import { assign } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import API, { type Credentials, throwException } from '../API'
 import { CREDS, JWT } from '../constants/localStorage'
@@ -13,7 +14,7 @@ class LoginService {
   jwt: ?string
 
   constructor() {
-    this.getJWT().then(jwt => (this.jwt = jwt))
+    this.getJWT().then(jwt => assign(this, { jwt }))
   }
 
   // eslint-disable-next-line require-await

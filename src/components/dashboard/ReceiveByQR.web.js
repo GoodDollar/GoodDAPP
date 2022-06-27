@@ -70,6 +70,7 @@ const ReceiveByQR = ({ screenProps }) => {
             category: ExceptionCategory.Human,
             dialogShown: true,
           })
+
           showErrorDialog(t`Invalid QR Code. Probably this QR code is for sending GD`)
         } else {
           const { params } = createUrlObject(url)

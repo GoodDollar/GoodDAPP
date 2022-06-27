@@ -154,6 +154,7 @@ export default (props = {}) => {
         name: t`Logout`,
         action: async () => {
           fireEvent(LOGOUT)
+
           try {
             await AsyncStorage.clear()
           } catch (e) {
@@ -161,6 +162,7 @@ export default (props = {}) => {
               log.error('AsyncStorage Error', e.message, e)
             }
           }
+
           slideOut()
           restart('/')
         },

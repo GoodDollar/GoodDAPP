@@ -140,10 +140,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       await update()
 
       if (isLoggedInRouter) {
-        //only if user signed up then we can await for his properties (because otherwise he wont have valid mongodb jwt)
+        // only if user signed up then we can await for his properties
+        // (because otherwise he wont have valid mongodb jwt)
         await userProperties.ready
 
         const lastBlock = userProperties.get('lastBlock') || 6400000
+
         log.debug('starting watchBalanceAndTXs', { lastBlock })
 
         goodWallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.set('lastBlock', parseInt(toBlock)))

@@ -373,7 +373,7 @@ export class FeedStorage {
 
       return await this.handleReceiptUpdate(txType, receipt)
     } catch (e) {
-      log.warn('handleReceipt failed:', { receipt }, e.message, e)
+      log.warn('handleReceipt failed:', e.message, e, { receipt })
     }
   }
 

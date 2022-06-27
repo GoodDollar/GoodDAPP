@@ -15,9 +15,9 @@ const LoginRedirect = ({ navigation, styles }) => {
   const profile = useProfile()
   const { params } = get(navigation, 'state', {})
 
-  const { profileDetails, parsedURL, warnings, allow, deny } = useGoodDollarLogin(params)
+  const { profileDetails, parsedURL, allow, deny } = useGoodDollarLogin(params)
 
-  const { isVendorWalletWhitelisted } = warnings || {}
+  const { isWhitelisted } = profileDetails || {}
   const { country } = profileDetails || {}
   const { vendorName, vendorURL, vendorAddress } = parsedURL || {}
   const { email, mobile, fullName, walletAddress } = profile
@@ -74,7 +74,7 @@ const LoginRedirect = ({ navigation, styles }) => {
               </View>
               <View style={styles.infoView}>
                 <Text style={styles.labelText}>GoodDollar verification status</Text>
-                {isVendorWalletWhitelisted ? (
+                {isWhitelisted ? (
                   <View style={styles.verifiedView}>
                     <Text style={styles.verifiedText}>Verified</Text>
                   </View>

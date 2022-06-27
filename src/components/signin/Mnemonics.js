@@ -61,8 +61,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const recover = useCallback(async () => {
     //required to wallet and storage are reinitialized
     const curVersion = await AsyncStorage.getItem('GD_version')
+
     await AsyncStorage.clear()
-    AsyncStorage.setItem('GD_version', curVersion)
+    AsyncStorage.safeSet('GD_version', curVersion)
 
     input.current.blur()
     setRecovering(true)

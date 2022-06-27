@@ -113,7 +113,7 @@ export default class UserProperties {
     const { local } = this
 
     assign(local, this._makeProps(field, value))
-    AsyncStorage.setItem('localProps', local).catch(e => log.error('Failed to update local props', e.message, e))
+    AsyncStorage.safeSet('localProps', local)
 
     return true
   }

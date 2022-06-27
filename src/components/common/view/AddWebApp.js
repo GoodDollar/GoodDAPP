@@ -173,7 +173,7 @@ const AddWebApp = () => {
           log.error('prompt display failed', e.message, e)
         })
     } else if (isMobileSafari) {
-      AsyncStorage.setItem('GD_AddWebAppIOSAdded', true)
+      AsyncStorage.safeSet('GD_AddWebAppIOSAdded', true)
       showExplanationDialog()
     }
   }

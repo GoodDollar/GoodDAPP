@@ -81,6 +81,6 @@ export default async (goodWallet, userStorage, from = null) => {
   try {
     await update(goodWallet, userStorage)
   } catch (e) {
-    logger.warn('Run update failed', e, e.message)
+    logger.warn('Run update failed', e.message, e)
   }
 }

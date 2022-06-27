@@ -232,7 +232,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
           log.debug('trigger redirect flow')
 
           // keep the provider and if user is signin/signup for recall
-          AsyncStorage.setItem('recallTorusRedirectProvider', provider)
+          AsyncStorage.safeSet('recallTorusRedirectProvider', provider)
 
           // here in redirect mode we are not waiting for response from torus
           getTorusUser(provider)

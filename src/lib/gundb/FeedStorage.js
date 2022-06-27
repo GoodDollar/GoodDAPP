@@ -217,8 +217,10 @@ export class FeedStorage {
           return
         }
 
-        log.debug('initfeed updating cache', this.feedIds, shouldUpdateStatuses)
-        AsyncStorage.setItem('GD_feed', this.feedIds)
+        const { feedIds } = this
+
+        log.debug('initfeed updating cache', feedIds, shouldUpdateStatuses)
+        AsyncStorage.safeSet('GD_feed', feedIds)
         this.emitUpdate({})
       })
       .catch(e => log.error('initfeed error caching feed items', e.message, e))
@@ -776,11 +778,14 @@ export class FeedStorage {
   }
 
   async writeFeedEvent(event): Promise<FeedEvent> {
-    await this.ready //wait before accessing feedIds cache
+    await this.ready // wait before accessing feedIds cache
 
-    this.feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', this.feedIds)
+    const { feedIds } = this
+
+    feedIds[event.id] = event
+    AsyncStorage.safeSet('GD_feed', feedIds)
     this.emitUpdate({ event })
+
     return this.feed
       .get('byid')
       .get(event.id)

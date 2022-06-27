@@ -128,13 +128,14 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = useCallback(async () => {
-    AsyncStorage.setItem('GD_version', 'phase' + config.phase)
+    AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
 
     try {
       const email = await userStorage.getProfileFieldValue('email')
+
       identifyWith(email, undefined)
     } catch (e) {
-      log.warn('Initialize with email failed', e, e.message)
+      log.warn('Initialize with email failed', e.message, e)
     }
   }, [userStorage])
 

@@ -12,7 +12,7 @@ export default (screenProps, cacheKey) => {
     const dispose = () => void AsyncStorage.removeItem(cacheKey)
 
     if (!isEmpty(screenState)) {
-      AsyncStorage.setItem(cacheKey, screenState)
+      AsyncStorage.safeSet(cacheKey, screenState)
       return dispose
     }
 

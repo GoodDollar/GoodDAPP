@@ -7,6 +7,7 @@ import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/js-logger'
 
 const log = logger.child({ from: 'LoginService' })
+const EMPTY_TOKEN = { jwt: null, decoded: null }
 
 class LoginService {
   static toSign = 'Login to GoodDAPP'
@@ -131,22 +132,32 @@ class LoginService {
   async validateJWTExistenceAndExpiration(): Promise<string | null> {
     const jwt = await this.getJWT()
 
-    if (jwt) {
-      const decoded = jsonwebtoken.decode(jwt, { json: true })
-
-      log.debug('validating jwt', { jwt, decoded })
-
-      // new format of jwt should contain aud, used with realmdb
-      if (!decoded.aud) {
-        return { jwt: null, decoded }
-      }
-
-      if (decoded.exp && Date.now() < decoded.exp * 1000) {
-        return { jwt, decoded }
-      }
+    if (!jwt) {
+      log.debug('no JWT found', EMPTY_TOKEN)
+      return EMPTY_TOKEN
     }
 
-    return { jwt: null, decoded: null }
+    const decoded = jsonwebtoken.decode(jwt, { json: true })
+    const token = { jwt, decoded }
+
+    log.debug('JWT found, validating', token)
+
+    // new format of jwt should contain aud, used with realmdb
+    if (!decoded.aud) {
+      token.jwt = null
+      log.debug('JWT have old format', token)
+
+      // TODO: why do we return 'decoded' here ?
+
+      return token
+    }
+
+    if (!decoded.exp || Date.now() >= decoded.exp * 1000) {
+      log.debug('JWT has been expired', EMPTY_TOKEN)
+      return EMPTY_TOKEN
+    }
+
+    return token
   }
 }
 

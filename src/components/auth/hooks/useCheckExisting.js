@@ -16,10 +16,6 @@ const useCheckExisting = () => {
       let checkResult = { exists: false }
       const searchQuery = { ...torusUser, torusProvider }
 
-      if (goodWallet) {
-        searchQuery.identifier = goodWallet.getAccountForType('login')
-      }
-
       try {
         checkResult = await userExists(searchQuery)
       } catch (e) {

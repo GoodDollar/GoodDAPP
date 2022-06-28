@@ -147,8 +147,6 @@ class LoginService {
       token.jwt = null
       log.debug('JWT have old format', token)
 
-      // TODO: why do we return 'decoded' here ?
-
       return token
     }
 

@@ -8,6 +8,7 @@ const log = logger.child({ from: 'checkAuthStatus' })
 const signInAttempt = async (withRefresh = false, login) => {
   const walletLogin = await login(withRefresh)
   const { decoded, jwt } = await walletLogin.validateJWTExistenceAndExpiration()
+
   log.info('jwtsignin: jwt data', { decoded, jwt })
 
   if (!decoded || decoded.aud === 'unsigned') {

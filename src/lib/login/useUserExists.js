@@ -10,8 +10,7 @@ const useUserExists = () => {
   const goodWallet = useWallet()
 
   const userExists = useCallback(
-    // eslint-disable-next-line require-await
-    async ({ mnemonics, privateKey, email, mobile }) => {
+    async ({ mnemonics, privateKey, email, mobile, torusProvider }) => {
       let identifier
 
       if (goodWallet) {
@@ -23,7 +22,7 @@ const useUserExists = () => {
       }
 
       try {
-        const { data } = await API.userExistsCheck({ identifier, email, mobile }).catch(throwException)
+        const { data } = await API.userExistsCheck({ identifier, email, mobile, torusProvider }).catch(throwException)
 
         return data
       } catch (exception) {

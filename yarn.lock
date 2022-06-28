@@ -16114,10 +16114,15 @@ lottie-react-web@^2.2.2:
     lottie-api "^1.0.2"
     lottie-web "^5.6.1"
 
-lottie-web@^5.6.1, lottie-web@^5.7.1:
-  version "5.9.4"
-  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.9.4.tgz#c01478ee5dd47f916cb4bb79040c11d427872d57"
-  integrity sha512-bSs1ZTPifnBVejO1MnQHdfrKfcn02YTCmgOh2wcAEICqRA0V7GzDh8FnwXY6+EzT+i8XOunaIloo/5xC5YNbsA==
+lottie-web@^5.6.1:
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.8.1.tgz#807e0af0ad22b59bf867d964eb684cb3368da0ef"
+  integrity sha512-9gIizWADlaHC2GCt+D+yNpk5l2clZQFqnVWWIVdY0LnxC/uLa39dYltAe3fcmC/hrZ2IUQ8dLlY0O934Npjs7Q==
+
+lottie-web@^5.7.1:
+  version "5.7.14"
+  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.7.14.tgz#cdabd256181c3ea64cf0c174a61dfa137228981f"
+  integrity sha512-J+QEPse7Rws0XvTqRJNtcE8cszb5FWYFHubEK6bgDJtw64/AQJ40aazbWXsWGBM4sm/PgLBLgmmhDU4QpLiieg==
 
 lower-case@^2.0.2:
   version "2.0.2"

@@ -105,7 +105,7 @@ const useGoodDollarLogin = params => {
       const location = await API.getLocation()
       const isWebDomainDifferent = !web.includes(url)
       const isWhitelisted = await goodWallet.isCitizen()
-      const isVendorWalletWhitelisted = await goodWallet.isVerified(id)
+      const isVendorWalletWhitelisted = id && (await goodWallet.isVerified(id).catch(e => false))
 
       setProfileDetails({ country: location?.name, isWhitelisted })
       setWarnings({ isWebDomainDifferent, isVendorWalletWhitelisted })

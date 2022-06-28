@@ -19,7 +19,7 @@ const LoginRedirect = ({ navigation, styles }) => {
 
   const { isWhitelisted } = profileDetails || {}
   const { country } = profileDetails || {}
-  const { vendorName, vendorURL, vendorAddress } = parsedURL || {}
+  const { vendorName, vendorURL, vendorAddress, requestedDetails } = parsedURL || {}
   const { email, mobile, fullName, walletAddress } = profile
   const shortAddress = useMemo(() => truncate(vendorAddress || '', { length: 12 }), [vendorAddress])
 
@@ -44,25 +44,25 @@ const LoginRedirect = ({ navigation, styles }) => {
                 </View>
               </View>
               <Text style={styles.boldText}>is requesting to view the following information:</Text>
-              {Boolean(fullName) && (
+              {requestedDetails.includes('name') && Boolean(fullName) && (
                 <View style={styles.infoView}>
                   <Text style={styles.labelText}>Name</Text>
                   <Text>{fullName}</Text>
                 </View>
               )}
-              {Boolean(mobile) && (
+              {requestedDetails.includes('mobile') && Boolean(mobile) && (
                 <View style={styles.infoView}>
                   <Text style={styles.labelText}>Mobile</Text>
                   <Text>{mobile}</Text>
                 </View>
               )}
-              {Boolean(email) && (
+              {requestedDetails.includes('email') && Boolean(email) && (
                 <View style={styles.infoView}>
                   <Text style={styles.labelText}>Email</Text>
                   <Text>{email}</Text>
                 </View>
               )}
-              {Boolean(country) && (
+              {requestedDetails.includes('location') && Boolean(country) && (
                 <View style={styles.infoView}>
                   <Text style={styles.labelText}>Location</Text>
                   <Text>{country}</Text>

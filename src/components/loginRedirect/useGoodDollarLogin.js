@@ -57,8 +57,10 @@ const useGoodDollarLogin = params => {
         return
       }
 
+      const value = first(values(chunk))
+
       assign(details, chunk)
-      short[property] = first(values(chunk))
+      short[property] = detail(value)
     })
 
     return [details, short]
@@ -111,6 +113,7 @@ const useGoodDollarLogin = params => {
   useEffect(() => {
     const getVendorWalletWhitelistedStatus = async id => {
       if (!id) {
+        log.warn('No vendor ID specified, assuming as "not whitelisted"')
         return false
       }
 

@@ -12,8 +12,10 @@ const useCheckExisting = () => {
   const userExists = useUserExists()
 
   const checkExisting = useCallback(
-    async (torusProvider, torusUser, goodWallet, eventVars = {}) => {
-      const checkResult = await userExists(torusUser).catch(e => {
+    async (torusProvider, torusUser, options = {}) => {
+      const { eventVars = {}, withWallet = null } = options || {}
+
+      const checkResult = await userExists(torusUser, withWallet).catch(e => {
         log.warn('userExists check failed:', e.message, e)
         return { exists: false }
       })

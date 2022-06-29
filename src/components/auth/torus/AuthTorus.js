@@ -268,7 +268,10 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         web3Provider ? provider.toUpperCase() : 'SEED',
       )
 
-      const existsResult = await checkExisting(provider, torusUser, goodWallet)
+      const existsResult = await checkExisting(provider, torusUser, {
+        withWallet: goodWallet,
+      })
+
       log.info('checkExisting result:', { existsResult })
 
       switch (existsResult) {

@@ -11,11 +11,14 @@ const useUserExists = () => {
 
   const userExists = useCallback(
     // eslint-disable-next-line require-await
-    async ({ mnemonics, privateKey, email, mobile }) => {
+    async ({ mnemonics, privateKey, email, mobile }, withWallet = null) => {
       let identifier
+      let wallet = withWallet || goodWallet
 
-      if (goodWallet) {
-        identifier = goodWallet.getAccountForType('login')
+      // setting wallet to explicit false will skip sending ID
+      // this needs for by email/mobile chrck, see SignupState
+      if (false !== withWallet && wallet) {
+        identifier = wallet.getAccountForType('login')
       }
 
       if (![identifier, email, mobile].find(_ => _)) {

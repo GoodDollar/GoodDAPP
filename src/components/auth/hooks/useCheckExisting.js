@@ -6,21 +6,17 @@ import AuthContext from '../context/AuthContext'
 
 const log = logger.child({ from: 'useCheckExisting' })
 
-//check if email/mobile was used to register before and offer user to login instead
+// check if email/mobile was used to register before and offer user to login instead
 const useCheckExisting = () => {
   const { activeStep, setAlreadySignedUp } = useContext(AuthContext)
   const userExists = useUserExists()
 
   const checkExisting = useCallback(
     async (torusProvider, torusUser, goodWallet, eventVars = {}) => {
-      let checkResult = { exists: false }
-      const searchQuery = { ...torusUser, torusProvider }
-
-      try {
-        checkResult = await userExists(searchQuery)
-      } catch (e) {
+      const checkResult = await userExists(torusUser).catch(e => {
         log.warn('userExists check failed:', e.message, e)
-      }
+        return { exists: false }
+      })
 
       const { exists, provider } = checkResult
 

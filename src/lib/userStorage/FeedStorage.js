@@ -311,14 +311,16 @@ export class FeedStorage {
       })
 
       const txType = this.getTxType(receipt)
+
       log.debug('handleReceipt got type:', receipt.transactionHash, { txType, receipt })
+
       if (txType === undefined) {
         throw new Error('Unknown receipt type')
       }
 
       return await this.handleReceiptUpdate(txType, receipt)
     } catch (e) {
-      log.warn('handleReceipt failed:', { receipt }, e.message, e)
+      log.warn('handleReceipt failed:', e.message, e, { receipt })
     }
   }
 
@@ -332,19 +334,23 @@ export class FeedStorage {
         .then(_ => new Date(_.timestamp * 1000))
         .catch(_ => new Date())
 
+      let feedEvent
       const txEvent = this.getTXEvent(txType, receipt)
+
       log.debug('handleReceiptUpdate got lock:', receipt.transactionHash, { txEvent, txType })
 
-      let feedEvent
       if (txType === TxType.TX_OTPL_WITHDRAW || txType === TxType.TX_OTPL_CANCEL) {
         const paymentId = txEvent.data.paymentId
+
         feedEvent = await this.getFeedItemByPaymentId(paymentId)
+
         log.debug('got tx by code', receipt.transactionHash, { txType, paymentId })
 
         if (!feedEvent) {
           log.warn('handleReceiptUpdate: Original tx for payment link not found', txType, receipt.transactionHash, {
             receipt,
           })
+
           if (txType === TxType.TX_OTPL_CANCEL) {
             return
           }
@@ -568,7 +574,9 @@ export class FeedStorage {
   dequeueTX(eventId: string): FeedEvent {
     try {
       const feedItem = this.feedQ[eventId]
+
       log.debug('dequeueTX got item', eventId, feedItem)
+
       if (feedItem) {
         delete this.feedQ[eventId]
         return feedItem
@@ -593,6 +601,7 @@ export class FeedStorage {
     // const release = await this.feedMutex.lock()
     try {
       const existingEvent = await this.storage.read(event.id)
+
       if (existingEvent) {
         log.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
@@ -608,6 +617,7 @@ export class FeedStorage {
       if (event.type === FeedItemType.EVENT_TYPE_SENDDIRECT) {
         this.addToOutbox(event)
       }
+
       await this.updateFeedEvent(event)
       log.debug('enqueueTX ok:', { event })
 
@@ -761,7 +771,7 @@ export class FeedStorage {
 
         if (!item.receiptReceived && id.startsWith('0x') && item.type !== 'news') {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-            log.warn('getFeedPage no receipt found for id:', id, e.message, e)
+            log.warn('getFeedPage no receipt found for id:', e.message, e, { id })
           })
 
           if (receipt) {

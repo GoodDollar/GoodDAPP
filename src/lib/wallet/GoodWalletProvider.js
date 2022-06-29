@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -34,7 +34,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [dailyUBI, setDailyUBI] = useState()
   const [isCitizen, setIsCitizen] = useState()
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
-
+  const lastLoginRef = useRef(null)
   const db = getDB()
 
   // when new wallet set the web3provider for future use with usedapp
@@ -89,19 +89,41 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         return isLoggedInJWT
       }
 
-      const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
+      const signIn = async () => {
+        const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
 
-      // the login also re-initialize the api with new jwt
-      const { jwt } = await walletLogin.auth(refresh).catch(e => {
-        log.error('failed auth:', e.message, e)
+        // the login also re-initialize the api with new jwt
+        const { jwt } = await walletLogin.auth(refresh).catch(e => {
+          log.error('failed auth:', e.message, e)
 
-        throw e
-      })
+          throw e
+        })
 
-      setLoggedInJWT(walletLogin)
+        setLoggedInJWT(walletLogin)
 
-      log.info('walletLogin', { jwt, refresh })
-      return walletLogin
+        log.info('walletLogin', { jwt, refresh })
+        return walletLogin
+      }
+
+      const { current: lastLogin } = lastLoginRef
+
+      if (lastLogin) {
+        const { withRefresh, call } = lastLogin
+        const loginResponse = await call
+
+        if (withRefresh === refresh) {
+          return loginResponse
+        }
+      }
+
+      const promise = signIn().finally(() => (lastLoginRef.current = null))
+
+      lastLoginRef.current = {
+        call: promise,
+        withRefresh: refresh,
+      }
+
+      return promise
     },
     [goodWallet, userStorage, isLoggedInJWT, setLoggedInJWT],
   )
@@ -148,9 +170,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         log.debug('starting watchBalanceAndTXs', { lastBlock })
 
-        goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-          userStorage.userProperties.set('lastBlock', parseInt(toBlock)),
-        )
+        goodWallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.set('lastBlock', parseInt(toBlock)))
 
         eventId = goodWallet.balanceChanged(update)
       }

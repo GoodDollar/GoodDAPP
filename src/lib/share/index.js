@@ -141,6 +141,7 @@ export function readCode(code: string) {
     try {
       let codeParams = Buffer.from(decoded, 'base64').toString()
       let codeObject = JSON.parse(codeParams)
+
       mnid = codeObject.mnid || codeObject.m
       amount = codeObject.amount || codeObject.a
       reason = codeObject.reason || codeObject.r
@@ -156,11 +157,13 @@ export function readCode(code: string) {
     }
 
     const { network, address } = decode(mnid)
+
     amount = amount && parseInt(amount)
     reason = reason === 'undefined' ? undefined : reason
     category = category === 'undefined' ? undefined : category
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
     vendorInfo = vendorInfo == null ? undefined : VendorMetadata.fromConcise(vendorInfo)
+
     return {
       networkId: parseInt(network),
       address,

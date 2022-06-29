@@ -54,6 +54,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       setLoading(true)
 
       const { data } = await API[sendCodeRequestFn]({ [fieldToSend]: content })
+
       if (data.alreadyVerified) {
         logger.debug('send code', { data, fieldToSend, content })
         await userStorage.setProfileField(fieldToSend, content)

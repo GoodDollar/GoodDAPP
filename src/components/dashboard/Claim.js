@@ -432,7 +432,7 @@ const Claim = props => {
           .enqueueTX(transactionEvent)
           .catch(e => log.warn('Failed to enqueue TX:', e.message, e, { transactionEvent }))
 
-        AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
+        AsyncStorage.safeSet('GD_AddWebAppLastClaim', date.toISOString())
         fireEvent(CLAIM_SUCCESS, { txHash, claimValue: curEntitlement })
 
         const claimsSoFar = await advanceClaimsCounter()

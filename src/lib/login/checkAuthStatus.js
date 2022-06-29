@@ -2,19 +2,21 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { GoodWalletContext } from '../wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
+import { throwExceptionWithCode } from '../exceptions/utils'
 
 const log = logger.child({ from: 'checkAuthStatus' })
 
 const signInAttempt = async (withRefresh = false, login) => {
   const walletLogin = await login(withRefresh)
   const { decoded, jwt } = await walletLogin.validateJWTExistenceAndExpiration()
-  log.info('jwtsignin: jwt data', { decoded, jwt })
+  const { aud } = decoded || {}
 
-  if (!decoded || decoded.aud === 'unsigned') {
-    const exception = new Error('jwt is of unsigned user')
+  log.info('jwtsignin: jwt data', { decoded, jwt, aud })
 
-    exception.name = 'UnsignedJWTError'
-    throw exception
+  if (!decoded || aud === 'unsigned') {
+    throwExceptionWithCode('jwt is of unsigned user', 'UnsignedJWTError')
+  } else if (!aud) {
+    throwExceptionWithCode('jwt have the old format, missing aud', 'OldFormatJWTError')
   }
 
   return jwt
@@ -40,13 +42,18 @@ export const useCheckAuthStatus = () => {
   const [authStatus, setAuthStatus] = useState([])
 
   const check = useCallback(async () => {
-    const jwt = await jwtSignin(login)
-    const isAuthorized = jwt !== undefined
-    const isLoggedIn = isAuthorized
-    const isLoggedInCitizen = isLoggedIn && isCitizen
+    try {
+      const jwt = await jwtSignin(login)
+      const isLoggedIn = jwt !== undefined
+      const isLoggedInCitizen = isLoggedIn && isCitizen
 
-    log.debug('checkAuthStatus result:', { jwt, isCitizen, isLoggedInCitizen, isLoggedIn })
-    setAuthStatus([isLoggedInCitizen, isLoggedIn])
+      log.debug('checkAuthStatus result:', { jwt, isCitizen, isLoggedInCitizen, isLoggedIn })
+      setAuthStatus([isLoggedInCitizen, isLoggedIn])
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('JWT sign in failed', message, exception)
+    }
   }, [login, goodWallet, isCitizen])
 
   useEffect(() => {

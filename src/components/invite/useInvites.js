@@ -25,24 +25,31 @@ export const useRegisterForInvites = () => {
 
   const registerForInvites = useCallback(
     async inviterInviteCode => {
-      let code = userStorage.userProperties.get('inviteCode')
-      let usedInviterCode = userStorage.userProperties.get('inviterInviteCodeUsed')
+      const { userProperties } = userStorage
+      let code = userProperties.get('inviteCode')
+      let usedInviterCode = userProperties.get('inviterInviteCodeUsed')
 
-      //if already have code and already set inviter or dont have one just return
+      // if already have code and already set inviter or dont have one just return
       if (code && (usedInviterCode || !inviterInviteCode)) {
         return code
       }
 
-      try {
-        log.debug('joining invites contract:', { inviterInviteCode })
-        const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
-        log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
-        userStorage.userProperties.set('inviteCode', inviteCode)
+      log.debug('joining invites contract:', { inviterInviteCode })
 
-        //in case we were invited fire event
+      try {
+        const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
+
+        log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
+        userProperties.safeSet('inviteCode', inviteCode)
+
+        // in case we were invited fire event
         if (inviterInviteCode && !usedInviterCode) {
           fireEvent(INVITE_JOIN, { inviterInviteCode })
-          userStorage.userProperties.updateAll({ inviterInviteCodeUsed: true, inviterInviteCode: inviterInviteCode })
+
+          userProperties.safeSet({
+            inviterInviteCodeUsed: true,
+            inviterInviteCode: inviterInviteCode,
+          })
         }
 
         return inviteCode
@@ -135,7 +142,7 @@ export const useInviteBonus = () => {
       })
 
       await goodWallet.collectInviteBounty()
-      userStorage.userProperties.set(collectedProp, true)
+      userStorage.userProperties.safeSet(collectedProp, true)
 
       log.debug(`useInviteBonus: invite bonty collected`)
 
@@ -175,7 +182,7 @@ export const useCollectBounty = () => {
       await goodWallet.collectInviteBounties()
 
       fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
-      userStorage.userProperties.set(collectedProp, true)
+      userStorage.userProperties.safeSet(collectedProp, true)
       setCollected(true)
 
       showDialog({
@@ -200,6 +207,7 @@ export const useCollectBounty = () => {
   const checkBounties = async () => {
     try {
       let pending = await goodWallet.invitesContract.methods.getPendingInvitees(goodWallet.account).call()
+
       log.debug('checkBounties got pending invites:', { pending })
 
       if (pending.length > 0 && (await goodWallet.isCitizen()) === false) {
@@ -211,8 +219,8 @@ export const useCollectBounty = () => {
       let hasBounty = await Promise.all(
         pending.map(a => goodWallet.invitesContract.methods.canCollectBountyFor(a).call()),
       ).then(_ => _.filter(x => x))
-      log.debug('checkBounties:', { hasBounty, pending })
 
+      log.debug('checkBounties:', { hasBounty, pending })
       setCanCollect(hasBounty.length)
     } catch (e) {
       log.error('checkBounties failed:', e.message, e)
@@ -265,6 +273,7 @@ export const useInvited = () => {
           .call()
           .then(_ => keyBy(_)),
       ])
+
       log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
 
       let invited = invitees.map(addr => ({
@@ -273,6 +282,7 @@ export const useInvited = () => {
 
       invited.forEach(i => (i.status = pending[i.address] ? 'pending' : 'approved'))
       setInvites(invited)
+
       log.debug('set invitees to', { invitees })
     } catch (e) {
       log.error('updateInvited failed:', e.message, e)
@@ -300,7 +310,7 @@ export const useInviteScreenOpened = () => {
       return
     }
 
-    userProperties.set(wasOpenedProp, true)
+    userProperties.safeSet(wasOpenedProp, true)
     setWasOpened(true)
   }, [setWasOpened])
 

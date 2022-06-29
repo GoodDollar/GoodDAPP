@@ -93,9 +93,11 @@ class SoftwareWalletProvider {
     //and we want privacy
     if (privateKeys == null) {
       let mulWallet = new MultipleAddressWallet(pkey, 10)
+
       privateKeys = mulWallet.wallets
       log.debug('Generating private keys from hdwallet', { privateKeys })
-      AsyncStorage.setItem(GD_USER_PRIVATEKEYS, privateKeys)
+
+      AsyncStorage.safeSet(GD_USER_PRIVATEKEYS, privateKeys)
     } else {
       log.debug('Existing private keys found')
     }

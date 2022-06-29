@@ -54,6 +54,12 @@ export default new class {
     }
   }
 
+  safeSet(key, value) {
+    this.setItem(key, value).catch(e => {
+      log.warn('Error setting value to the AsyncStorage:', e.message, e, { key, value })
+    })
+  }
+
   async setItem(key, value) {
     const stringified = JSON.stringify(value)
 

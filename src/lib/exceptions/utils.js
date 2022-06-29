@@ -1,4 +1,4 @@
-import { cloneDeep, fromPairs, has, isFunction, keys, range } from 'lodash'
+import { assign, cloneDeep, fromPairs, has, isFunction, keys, range } from 'lodash'
 
 import { propertyDescriptor } from '../utils/object'
 
@@ -124,4 +124,17 @@ export const wrapper = (target, showDialog, params) => {
       return wrapperFunction(origMethod, target, handler)
     },
   })
+}
+
+export const makeCustomException = (message, name, data = {}) => {
+  const exception = new Error(message)
+
+  assign(exception, { name }, data || {})
+  return exception
+}
+
+export const throwExceptionWithCode = (message, name) => {
+  const exception = makeCustomException(message, name)
+
+  throw exception
 }

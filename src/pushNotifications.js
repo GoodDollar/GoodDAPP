@@ -10,11 +10,15 @@ const setFeedOpened = async data => {
   await AsyncStorage.setItem('GD_NOTIFICATION_OPENED', data.id)
 }
 
+const onError = e => log.warn('Error updating the feed:', e.message, e)
+
 PushNotification.configure({
   onNotification: notification => {
-    log.info('NOTIFICATION:', notification)
     const { data } = notification
-    setFeedOpened(data)
+
+    log.info('NOTIFICATION:', notification)
+
+    setFeedOpened(data).catch(onError)
     notification.finish(FetchResult.NoData)
   },
 })

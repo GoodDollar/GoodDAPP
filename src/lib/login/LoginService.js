@@ -1,11 +1,13 @@
 // @flow
 import * as jsonwebtoken from 'jsonwebtoken'
+import { assign } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import API, { type Credentials, throwException } from '../API'
 import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/js-logger'
 
 const log = logger.child({ from: 'LoginService' })
+const EMPTY_TOKEN = { jwt: null, decoded: null }
 
 class LoginService {
   static toSign = 'Login to GoodDAPP'
@@ -13,7 +15,7 @@ class LoginService {
   jwt: ?string
 
   constructor() {
-    this.getJWT().then(jwt => (this.jwt = jwt))
+    this.getJWT().then(jwt => assign(this, { jwt }))
   }
 
   // eslint-disable-next-line require-await
@@ -83,10 +85,12 @@ class LoginService {
   async requestJWT(creds: Credentials): Promise<?Credentials | Error> {
     try {
       let { jwt } = await this.validateJWTExistenceAndExpiration()
+
       log.debug('jwt validation result:', { jwt })
 
       if (!jwt) {
         log.info('Calling server for authentication')
+
         const response = await API.auth(creds).catch(throwException)
         const { status, data, statusText } = response
 
@@ -128,22 +132,30 @@ class LoginService {
   async validateJWTExistenceAndExpiration(): Promise<string | null> {
     const jwt = await this.getJWT()
 
-    if (jwt) {
-      const decoded = jsonwebtoken.decode(jwt, { json: true })
-
-      log.debug('validating jwt', { jwt, decoded })
-
-      //new format of jwt should contain aud, used with realmdb
-      if (!decoded.aud) {
-        return { jwt: null, decoded }
-      }
-
-      if (decoded.exp && Date.now() < decoded.exp * 1000) {
-        return { jwt, decoded }
-      }
+    if (!jwt) {
+      log.debug('no JWT found', EMPTY_TOKEN)
+      return EMPTY_TOKEN
     }
 
-    return { jwt: null, decoded: null }
+    const decoded = jsonwebtoken.decode(jwt, { json: true })
+    const token = { jwt, decoded }
+
+    log.debug('JWT found, validating', token)
+
+    // new format of jwt should contain aud, used with realmdb
+    if (!decoded.aud) {
+      token.jwt = null
+      log.debug('JWT have old format', token)
+
+      return token
+    }
+
+    if (!decoded.exp || Date.now() >= decoded.exp * 1000) {
+      log.debug('JWT has been expired', EMPTY_TOKEN)
+      return EMPTY_TOKEN
+    }
+
+    return token
   }
 }
 

@@ -14,7 +14,7 @@ import { withStyles } from '../../lib/styles'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import { restart } from '../../lib/utils/system'
-import userExists from '../../lib/login/userExists'
+import useUserExists from '../../lib/login/useUserExists'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -37,6 +37,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [isRecovering, setRecovering] = useState(false)
   const [isSubmitBlocked, setSubmitBlocked] = useState(true)
   const { showDialog, hideDialog, showErrorDialog } = useDialog()
+  const userExists = useUserExists()
   const [errorMessage, setErrorMessage] = useState()
   const input = useRef()
 
@@ -144,7 +145,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } finally {
       setRecovering(false)
     }
-  }, [setRecovering, mnemonics, showDialog])
+  }, [setRecovering, mnemonics, showDialog, userExists])
 
   const handleEnter = (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter') {

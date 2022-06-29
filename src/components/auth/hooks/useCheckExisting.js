@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react'
 
 import logger from '../../../lib/logger/js-logger'
-import userExists from '../../../lib/login/userExists'
+import useUserExists from '../../../lib/login/useUserExists'
 import AuthContext from '../context/AuthContext'
 
 const log = logger.child({ from: 'useCheckExisting' })
@@ -9,10 +9,11 @@ const log = logger.child({ from: 'useCheckExisting' })
 // check if email/mobile was used to register before and offer user to login instead
 const useCheckExisting = () => {
   const { activeStep, setAlreadySignedUp } = useContext(AuthContext)
+  const userExists = useUserExists()
 
   const checkExisting = useCallback(
     async (torusProvider, torusUser, goodWallet, eventVars = {}) => {
-      const checkResult = await userExists(torusUser, goodWallet).catch(e => {
+      const checkResult = await userExists(torusUser).catch(e => {
         log.warn('userExists check failed:', e.message, e)
         return { exists: false }
       })
@@ -26,7 +27,7 @@ const useCheckExisting = () => {
       }
 
       // User exists, it is not the number check and it is the correct login
-      if (provider?.includes(torusProvider) && activeStep === 1) {
+      if (provider?.includes(torusProvider) && !activeStep) {
         return 'login'
       }
 
@@ -34,7 +35,7 @@ const useCheckExisting = () => {
 
       return new Promise(resolve => setAlreadySignedUp(checkResult, analyticsVars, resolve))
     },
-    [activeStep, setAlreadySignedUp],
+    [userExists],
   )
 
   return checkExisting

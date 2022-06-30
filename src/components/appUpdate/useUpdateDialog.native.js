@@ -1,13 +1,16 @@
 import { useEffect } from 'react'
 import { Linking } from 'react-native'
 import VersionCheck from 'react-native-version-check'
+import codePush from 'react-native-code-push' // eslint-disable-line import/default
 
 import logger from '../../lib/logger/js-logger'
 import Config from '../../config/config'
 import useShowUpdateDialog from './UpdateDialog'
 
+const { InstallMode } = codePush
+const { suggestMobileAppUpdate, suggestCodePushUpdate, newVersionUrl } = Config
+
 const log = logger.child({ from: 'useUpdateDialog' })
-const { suggestMobileAppUpdate, newVersionUrl } = Config
 
 export default () => {
   const updateDialogRef = useShowUpdateDialog()
@@ -22,20 +25,42 @@ export default () => {
       log.debug('Versions', { currentVersion, latestVersion, storeUrl, packageName })
 
       const res = await VersionCheck.needUpdate({ currentVersion, latestVersion, depth: 3 })
+      const { isNeeded } = res || {}
 
       log.debug('Response', res)
 
-      if (!res || !res.isNeeded) {
-        return
+      if (isNeeded) {
+        const [onUpdate, onOpenUrl] = [storeUrl, newVersionUrl].map(url => () => Linking.openURL(url))
+
+        updateDialogRef.current(onUpdate, onOpenUrl)
       }
 
-      const [onUpdate, onOpenUrl] = [storeUrl, newVersionUrl].map(url => () => Linking.openURL(url))
-
-      updateDialogRef.current(onUpdate, onOpenUrl)
+      return isNeeded
     }
 
-    if (suggestMobileAppUpdate) {
-      checkVersion()
+    const checkForUpdates = async () => {
+      let hasNewVersion = false
+
+      if (suggestMobileAppUpdate) {
+        hasNewVersion = await checkVersion().catch(e => {
+          log.warn('Error checking new mobile app version', e.message, e)
+
+          return false
+        })
+      }
+
+      if (suggestCodePushUpdate && !hasNewVersion) {
+        await codePush
+          .sync({
+            updateDialog: true,
+            installMode: InstallMode.IMMEDIATE,
+          })
+          .catch(e => {
+            log.warn('Hot code push sync error', e.message, e)
+          })
+      }
     }
+
+    checkForUpdates()
   }, [])
 }

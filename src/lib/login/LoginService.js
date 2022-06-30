@@ -139,18 +139,19 @@ class LoginService {
 
     const decoded = jsonwebtoken.decode(jwt, { json: true })
     const token = { jwt, decoded }
+    const { exp, aud } = decoded || {}
 
     log.debug('JWT found, validating', token)
 
     // new format of jwt should contain aud, used with realmdb
-    if (!decoded.aud) {
+    if (!aud) {
       token.jwt = null
       log.debug('JWT have old format', token)
 
       return token
     }
 
-    if (!decoded.exp || Date.now() >= decoded.exp * 1000) {
+    if (!exp || Date.now() >= exp * 1000) {
       log.debug('JWT has been expired', EMPTY_TOKEN)
       return EMPTY_TOKEN
     }

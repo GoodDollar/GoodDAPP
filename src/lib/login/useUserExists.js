@@ -11,7 +11,7 @@ const useUserExists = () => {
 
   const userExists = useCallback(
     // eslint-disable-next-line require-await
-    async ({ mnemonics, privateKey, email, mobile }, withWallet = null) => {
+    async ({ privateKey, email, mobile }, withWallet = null) => {
       let identifier
       let wallet = withWallet || goodWallet
 

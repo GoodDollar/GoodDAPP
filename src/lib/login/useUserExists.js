@@ -21,7 +21,7 @@ const useUserExists = () => {
         identifier = wallet.getAccountForType('login')
       }
 
-      if (![identifier, email, mobile].find(_ => _)) {
+      if (![identifier, email, mobile].some(Boolean)) {
         return { exists: false }
       }
 

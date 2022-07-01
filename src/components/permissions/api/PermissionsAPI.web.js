@@ -29,6 +29,10 @@ class PermissionsAPI {
     const { Granted, Denied, Prompt, Undetermined } = PermissionStatuses
     const platformPermission = platformPermissions[permission]
 
+    if (permission === Permissions.Notifications) {
+      return Denied
+    }
+
     // no platform permission found - that means feature doesn't requires permissions on this platform
     if (!platformPermission) {
       return Granted

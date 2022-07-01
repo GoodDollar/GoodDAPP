@@ -8,7 +8,7 @@ import { type Permission, Permissions, type PermissionStatus, PermissionStatuses
 export default new class {
   // permissions enum to platform permissions map
   platformPermissions = {
-    [Permissions.Clipboard]: null, // accessing clipboard doesn't requires pemrissions on native
+    [Permissions.Clipboard]: null, // accessing clipboard doesn't requires permissions on native
 
     [Permissions.Camera]: Platform.select({
       ios: PERMISSIONS.IOS.CAMERA,

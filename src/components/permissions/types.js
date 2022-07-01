@@ -3,6 +3,7 @@
 export const Permissions = Object.freeze({
   Camera: 'camera',
   Clipboard: 'clipboard',
+  Notifications: 'notifications',
 })
 
 export const PermissionStatuses = Object.freeze({

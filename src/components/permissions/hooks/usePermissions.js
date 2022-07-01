@@ -17,7 +17,7 @@ import useMountedState from '../../../lib/hooks/useMountedState'
 import api from '../api/PermissionsAPI'
 import { isSafari } from '../../../lib/utils/platform'
 
-const { Clipboard, Camera } = Permissions
+const { Clipboard, Camera, Notifications } = Permissions
 const { Undetermined, Granted, Denied, Prompt } = PermissionStatuses
 
 const usePermissions = (permission: Permission, options = {}) => {
@@ -72,7 +72,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     const isAllowed = await api.request(permission)
 
     // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happers during processing transaction
+    // screen could call redirect back if error happens during processing transaction
     if (!mountedState.current) {
       return
     }
@@ -87,7 +87,7 @@ const usePermissions = (permission: Permission, options = {}) => {
 
   const handleRequestFlow = useCallback(async () => {
     // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happers during processing transaction
+    // screen could call redirect back if error happens during processing transaction
     if (!mountedState.current) {
       return
     }
@@ -95,7 +95,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     const status = await api.check(permission)
 
     // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happers during processing transaction
+    // screen could call redirect back if error happens during processing transaction
     if (!mountedState.current) {
       return
     }
@@ -118,7 +118,7 @@ const usePermissions = (permission: Permission, options = {}) => {
       case Undetermined:
       default:
         // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
-        // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appers when you're calling readText()
+        // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appears when you're calling readText()
         if (Clipboard === permission && isSafari) {
           handleAllowed()
           break
@@ -148,11 +148,13 @@ const usePermissions = (permission: Permission, options = {}) => {
 usePermissions.promptPopups = {
   [Camera]: CameraPermissionDialog,
   [Clipboard]: ClipboardPermissionDialog,
+  [Notifications]: null,
 }
 
 usePermissions.deniedPopups = {
   [Camera]: DeniedCameraPermissionDialog,
   [Clipboard]: DeniedClipboardPermissionDialog,
+  [Notifications]: null,
 }
 
 export default usePermissions

@@ -35,6 +35,8 @@ export default {
     "core/apollo": 'src/core/apollo.ts',
     "core/staking": 'src/core/staking.ts',
     "constants/addresses": "src/constants/addresses.ts",
+    "methods/index": "src/methods/index.ts",
+    "utils/errors": "src/utils/errors.ts"
   },
   output: [
     {

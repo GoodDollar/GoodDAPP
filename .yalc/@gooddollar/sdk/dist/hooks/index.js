@@ -1,14 +1,17 @@
-import { a9 as __read, as as DAO_NETWORK, an as getNetworkEnv, S as SupportedChainId, d as __awaiter, e as __generator, ae as CurrencyAmount, ac as Fraction } from '../chunks/addresses.js';
+import { f as __read, d as __awaiter, e as __generator } from '../chunks/tslib.es6.js';
 import { useState, useMemo, useEffect } from 'react';
 import { u as useEnvWeb3, f as getContract, G as GovernanceStaking, a as getReserveSocialAPY } from '../chunks/staking.js';
 export { l as GdSDkContext, k as getRpc, u as useEnvWeb3, m as useGdContextProvider } from '../chunks/staking.js';
-import { G as G$, a3 as GDAO } from '../chunks/apollo.js';
+import { D as DAO_NETWORK, g as getNetworkEnv, S as SupportedChainId, C as CurrencyAmount, F as Fraction } from '../chunks/addresses.js';
+import { G as G$, P as GDAO } from '../chunks/tokenLists.js';
 import { L as LIQUIDITY_PROTOCOL } from '../chunks/index.js';
+import '../chunks/apollo.js';
 import 'stream';
 import 'http';
 import 'https';
 import 'os';
 import 'crypto';
+import '../chunks/errors.js';
 
 var useGovernanceStaking = function (activeWeb3, chainId) {
     var _a = __read(useEnvWeb3(DAO_NETWORK.MAINNET, activeWeb3, chainId), 2), mainnetWeb3 = _a[0], mainnetChainId = _a[1];

@@ -64,21 +64,18 @@ export async function getList(web3: Web3): Promise<Stake[]> {
     const simpleStakingReleases = await getSimpleStakingContractAddressesV3(web3)
 
     cacheClear(getSocialAPY)
-    // cacheClear(getTokenPriceInUSDC)
-    // cacheClear(getReserveRatio)
-    // cacheClear(getAPY)
-    // cacheClear(getStakedValue)
-    // cacheClear(getYearlyRewardGDAO)
-    // cacheClear(getYearlyRewardG$)
+    cacheClear(getTokenPriceInUSDC)
+    cacheClear(getReserveRatio)
+    cacheClear(getAPY)
+    cacheClear(getStakedValue)
+    cacheClear(getYearlyRewardGDAO)
+    cacheClear(getYearlyRewardG$)
     
-    // console.log('simpleStaking addresses (sdk-mono)', simpleStakingReleases)
     const result:any = []
     const stakeV3 = simpleStakingReleases.find(releases => releases.release === "v3")
-    // console.log('stakev3 (sdk-mono)', stakeV3)
     if (stakeV3){
 
       for (const address of stakeV3.addresses){ 
-        // console.log('(sdk-mono) addresses v3 -->', address)
         result.push(await metaStake(web3, address))
       }
     }
@@ -92,7 +89,7 @@ export async function getList(web3: Web3): Promise<Stake[]> {
  * @param {string} account account address to get staking data for.
  * @returns {Promise<Stake[]>}
  */
-export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: string): Promise<MyStake[]> {
+export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: string, network?: string): Promise<MyStake[]> {
     const simpleStakingReleases = await getSimpleStakingContractAddressesV3(mainnetWeb3)
     const governanceStakingAddresses = await getGovernanceStakingContracts()
 
@@ -101,11 +98,11 @@ export async function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: stri
     let stakes: MyStake[] = []
     try {
         const govStake = governanceStakingAddresses.map(stake => 
-          stake.address ? metaMyGovStake(fuseWeb3, account, stake.address, stake.release) : null)
+          stake.address ? metaMyGovStake(fuseWeb3, account, stake.address, stake.release, network) : null)
         for (const releases of simpleStakingReleases){
           if (releases.release){
             for (const [key, address] of Object.entries(releases.addresses)){
-              govStake.push(metaMyStake(mainnetWeb3, address, account, releases.release))
+              govStake.push(metaMyStake(mainnetWeb3, address, account, releases.release, network))
             }
           }
         }
@@ -169,7 +166,7 @@ async function metaStake(web3: Web3, address: string): Promise<Stake> {
  *  @param {string} account account details to fetch.
  * @returns {Promise<Stake | null>}
  */
-async function metaMyStake(web3: Web3, address: string, account: string, release: string): Promise<MyStake | null> {
+async function metaMyStake(web3: Web3, address: string, account: string, release: string, network?: string): Promise<MyStake | null> {
     debugGroup(`My stake for ${address}`)
 
     const isDeprecated = release !== "v3"
@@ -236,7 +233,7 @@ async function metaMyStake(web3: Web3, address: string, account: string, release
     }
 
     // const DAI = (await getToken(SupportedChainId.MAINNET, 'DAI')) as Token
-    const G$MainNet = G$[SupportedChainId.MAINNET]
+    const G$MainNet = network === "production" ? G$[SupportedChainId.MAINNET] : G$[SupportedChainId.KOVAN]
 
     const result = {
         address,
@@ -282,7 +279,7 @@ async function metaMyStake(web3: Web3, address: string, account: string, release
  *  @param {string} account account details to fetch.
  * @returns {Promise<Stake | null>}
  */
-async function metaMyGovStake(web3: Web3, account: string, address?: string, release?: string): Promise<MyStake | null> {
+async function metaMyGovStake(web3: Web3, account: string, address?: string, release?: string, network?: string): Promise<MyStake | null> {
   const govStaking = governanceStakingContract(web3, address)
 
   const G$Token = G$[SupportedChainId.FUSE] //gov is always on fuse
@@ -304,13 +301,16 @@ async function metaMyGovStake(web3: Web3, account: string, address?: string, rel
     amount$ = CurrencyAmount.fromRawAmount(usdcToken, 0)
   }
 
+  const mainNet = network === "production" ? SupportedChainId.MAINNET : SupportedChainId.KOVAN
+
   const unclaimed = await govStaking.methods.getUserPendingReward(account).call()
   const rewardGDAO = {
-      claimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.MAINNET], users.rewardMinted.toString()),
-      unclaimed: CurrencyAmount.fromRawAmount(GDAO[SupportedChainId.MAINNET], unclaimed.toString())
+      claimed: CurrencyAmount.fromRawAmount(GDAO[mainNet], users.rewardMinted.toString()),
+      unclaimed: CurrencyAmount.fromRawAmount(GDAO[mainNet], unclaimed.toString())
   }
 
-  const G$MainToken = G$[SupportedChainId.MAINNET] as Token
+  const G$MainToken = G$[mainNet] as Token
+
   const result = {
       address: (govStaking as any)._address,
       protocol: LIQUIDITY_PROTOCOL.GOODDAO,

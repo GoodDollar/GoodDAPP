@@ -1,1 +1,1 @@
-export { getTokenByAddress } from './tokenLists'
+export { getTokenByAddress, getTokens } from './tokenLists'

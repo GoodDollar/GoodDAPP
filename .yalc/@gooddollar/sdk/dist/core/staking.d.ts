@@ -56,7 +56,7 @@ export declare function getList(web3: Web3): Promise<Stake[]>;
  * @param {string} account account address to get staking data for.
  * @returns {Promise<Stake[]>}
  */
-export declare function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: string): Promise<MyStake[]>;
+export declare function getMyList(mainnetWeb3: Web3, fuseWeb3: Web3, account: string, network?: string): Promise<MyStake[]>;
 /**
  * Return price of token in $ (USDC token).
  * @param {Web3} web3 Web3 instance.

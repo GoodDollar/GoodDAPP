@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js' --only-mapped --html analysis/index.html",
-    "prebuild": "yarn install --immutable && patch-package && lingui compile",
+    "prebuild": "yarn install --immutable && lingui compile",
     "prestart": "lingui compile",
     "startS": "cross-env HTTPS=true SSL_CRT_FILE= SSL_KEY_FILE= PORT=443 react-app-rewired start",
     "start": "cross-env PORT=3000 react-app-rewired start",

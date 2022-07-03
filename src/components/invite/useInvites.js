@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { groupBy, keyBy, noop } from 'lodash'
+import { groupBy, noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
@@ -109,7 +109,7 @@ export const useInviteBonus = () => {
 
   const getCanCollect = useCallback(async () => {
     try {
-      return await goodWallet.invitesContract.methods.canCollectBountyFor(goodWallet.account).call()
+      return await goodWallet.canCollectBountyFor([goodWallet.account]).then(_ => _[goodWallet.account])
     } catch (e) {
       log.error('useInviteBonus: failed to get canCollect:', e.message, e)
       return false
@@ -206,8 +206,8 @@ export const useCollectBounty = () => {
 
   const checkBounties = async () => {
     try {
-      let pending = await goodWallet.invitesContract.methods.getPendingInvitees(goodWallet.account).call()
-
+      let { pending } = await goodWallet.getUserInvites(goodWallet.account)
+      pending = Object.keys(pending)
       log.debug('checkBounties got pending invites:', { pending })
 
       if (pending.length > 0 && (await goodWallet.isCitizen()) === false) {
@@ -216,11 +216,10 @@ export const useCollectBounty = () => {
         return
       }
 
-      let hasBounty = await Promise.all(
-        pending.map(a => goodWallet.invitesContract.methods.canCollectBountyFor(a).call()),
-      ).then(_ => _.filter(x => x))
-
+      let hasBounty = await goodWallet.canCollectBountyFor(pending)
       log.debug('checkBounties:', { hasBounty, pending })
+
+      hasBounty = Object.values(hasBounty).filter(_ => _)
       setCanCollect(hasBounty.length)
     } catch (e) {
       log.error('checkBounties failed:', e.message, e)
@@ -249,13 +248,12 @@ export const useInvited = () => {
 
   const updateData = useCallback(async () => {
     try {
-      const user = await goodWallet.invitesContract.methods.users(goodWallet.account).call()
-      const level = await goodWallet.invitesContract.methods.levels(user.level).call()
+      const { user, level } = await goodWallet.getUserInviteBounty()
       const totalEarned = parseInt(user.totalEarned) / 100
       const invitesData = { level, totalEarned }
 
       setData(invitesData)
-      log.debug('set invitesData to', invitesData)
+      log.debug('set invitesData to', { invitesData, user })
     } catch (e) {
       log.error('set invitesData failed:', e.message, e)
       throw e
@@ -266,13 +264,7 @@ export const useInvited = () => {
     try {
       await updateData()
 
-      const [invitees, pending] = await Promise.all([
-        goodWallet.invitesContract.methods.getInvitees(goodWallet.account).call(),
-        goodWallet.invitesContract.methods
-          .getPendingInvitees(goodWallet.account)
-          .call()
-          .then(_ => keyBy(_)),
-      ])
+      const { invitees, pending } = await goodWallet.getUserInvites()
 
       log.debug('updateInvited got invitees and pending invitees', { invitees, pending })
 

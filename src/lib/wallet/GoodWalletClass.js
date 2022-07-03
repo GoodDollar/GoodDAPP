@@ -16,7 +16,21 @@ import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, flatten, get, identity, last, mapValues, maxBy, pickBy, range, sortBy, uniqBy, values } from 'lodash'
+import {
+  chunk,
+  flatten,
+  get,
+  identity,
+  keyBy,
+  last,
+  mapValues,
+  maxBy,
+  pickBy,
+  range,
+  sortBy,
+  uniqBy,
+  values,
+} from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
@@ -1121,11 +1135,23 @@ export class GoodWallet {
     return res
   }
 
+  // eslint-disable-next-line require-await
+  async canCollectBountyFor(invitees) {
+    let calls = {}
+    if (invitees.length === 0) {
+      return {}
+    }
+    invitees.forEach(addr => (calls[addr] = this.invitesContract.methods.canCollectBountyFor(addr)))
+
+    //entitelment is separate because it depends on msg.sender
+    let [[res]] = await retry(() => this.multicallFuse.all([calls]))
+    return res
+  }
+
   async collectInviteBounty(invitee) {
     try {
       const bountyFor = invitee || this.account
-      const canCollect = await retry(() => this.invitesContract.methods.canCollectBountyFor(bountyFor).call())
-
+      const canCollect = await this.canCollectBountyFor([bountyFor]).then(_ => _[bountyFor])
       if (canCollect) {
         const tx = this.invitesContract.methods.bountyFor(bountyFor)
         const res = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 600000) })
@@ -1208,7 +1234,21 @@ export class GoodWallet {
       level: 0,
     }
     const level = (await retry(() => this.invitesContract.methods.levels(user.level).call()).catch(_ => {})) || {}
-    return parseInt(get(level, 'bounty', 10000)) / 100
+    return { bounty: parseInt(get(level, 'bounty', 10000)) / 100, user, level }
+  }
+
+  async getUserInvites() {
+    const calls = [
+      {
+        invitees: this.invitesContract.methods.getInvitees(this.account),
+        pending: this.invitesContract.methods.getPendingInvitees(this.account),
+      },
+    ]
+
+    //entitelment is separate because it depends on msg.sender
+    let [[{ invitees, pending }]] = await retry(() => this.multicallFuse.all([calls]))
+    pending = keyBy(pending)
+    return { invitees, pending }
   }
 
   async getGasPrice(): Promise<number> {
@@ -1357,7 +1397,8 @@ export class GoodWallet {
       setgas ||
       (await tx
         .estimateGas()
-        .then(g => parseInt((g * 1.2).toFixed(0)))
+
+        // .then(g => parseInt((g * 1.2).toFixed(0)))
         .catch(e => log.debug('estimate gas failed'))) ||
       300000
     gasPrice = gasPrice || this.gasPrice

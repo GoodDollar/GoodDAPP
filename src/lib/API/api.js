@@ -171,7 +171,8 @@ export class APIService {
       return get(ipv6Response, 'ip', '')
     }
 
-    const withValidation = requestIP =>
+    // eslint-disable-next-line require-await
+    const withValidation = requestIP => async () =>
       requestIP().then(address => {
         if (!address) {
           throw new Error('Empty IP has been returned.')

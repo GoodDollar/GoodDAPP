@@ -58,8 +58,10 @@ class SmsForm extends React.Component<Props, State> {
 
   handleChange = async (otp: array) => {
     const otpValue = otp.filter(val => val).join('')
+
     if (otpValue.replace(/ /g, '').length === NumInputs) {
       this.setState({ ...this.state, loading: true, otp })
+
       try {
         await this.verifyOTP(otpValue)
         this.handleSubmit()

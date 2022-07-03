@@ -1,4 +1,6 @@
 rootProject.name = 'GoodDollar'
+include ':react-native-code-push'
+project(':react-native-code-push').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-code-push/android')
 
 include ':customauth-react-native-sdk'
 project(':customauth-react-native-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/@toruslabs/customauth-react-native-sdk/android')

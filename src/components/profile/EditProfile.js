@@ -54,6 +54,7 @@ const EditProfile = ({ screenProps, styles }) => {
 
         return undefined
       })
+
       const { isValid, errors } = profile.validate()
       const valid = isValid
 

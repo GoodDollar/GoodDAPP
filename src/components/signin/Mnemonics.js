@@ -61,8 +61,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const recover = useCallback(async () => {
     //required to wallet and storage are reinitialized
     const curVersion = await AsyncStorage.getItem('GD_version')
+
     await AsyncStorage.clear()
-    AsyncStorage.setItem('GD_version', curVersion)
+    AsyncStorage.safeSet('GD_version', curVersion)
 
     input.current.blur()
     setRecovering(true)
@@ -99,6 +100,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
       // We validate that a user was registered for the specified mnemonics
       const { exists, fullName } = await userExists({ mnemonics })
+
       log.debug('userExists result:', { exists, fullName })
 
       if (exists) {
@@ -107,6 +109,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         // FIXME: RN INAPPLINKS
         const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
         const firstName = getFirstWord(fullName)
+
         showDialog({
           visible: true,
           image: <SuccessAnimation />,
@@ -124,6 +127,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           message: t`Hi ${firstName},` + '\n' + t`your wallet was recovered successfully`,
           onDismiss: () => restart(incomingRedirectUrl),
         })
+
         fireEvent(RECOVER_SUCCESS)
 
         // There is no error and Profile exists. Reload screen to start with users mnemonics

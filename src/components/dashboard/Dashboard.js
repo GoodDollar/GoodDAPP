@@ -581,21 +581,22 @@ const Dashboard = props => {
 
   const showNewFeedEvent = useCallback(
     async eventId => {
+      const message = t`Event does not exist`
+
       try {
         const item = await userStorage.getFormatedEventById(eventId)
+
         log.info('showNewFeedEvent', { eventId, item })
-        if (item) {
-          showEventModal(item)
-        } else {
-          showDialog({
-            title: t`Error`,
-            message: t`Event does not exist`,
-          })
+
+        if (!item) {
+          throw new Error(message)
         }
+
+        showEventModal(item)
       } catch (e) {
         showDialog({
           title: t`Error`,
-          message: t`Event does not exist`,
+          message,
         })
       }
     },

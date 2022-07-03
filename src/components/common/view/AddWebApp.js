@@ -147,6 +147,7 @@ const AddWebApp = () => {
   const handleUserPromptChoice = async () => {
     try {
       let outcome = await installPrompt.userChoice
+
       if (outcome.outcome === 'accepted') {
         fireEvent(ADDTOHOME_OK)
         log.debug('App Installed')
@@ -172,7 +173,7 @@ const AddWebApp = () => {
           log.error('prompt display failed', e.message, e)
         })
     } else if (isMobileSafari) {
-      AsyncStorage.setItem('GD_AddWebAppIOSAdded', true)
+      AsyncStorage.safeSet('GD_AddWebAppIOSAdded', true)
       showExplanationDialog()
     }
   }

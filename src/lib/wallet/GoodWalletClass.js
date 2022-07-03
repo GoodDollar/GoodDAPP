@@ -16,7 +16,21 @@ import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, flatten, get, identity, last, mapValues, maxBy, pickBy, range, sortBy, uniqBy, values } from 'lodash'
+import {
+  chunk,
+  flatten,
+  get,
+  identity,
+  keyBy,
+  last,
+  mapValues,
+  maxBy,
+  pickBy,
+  range,
+  sortBy,
+  uniqBy,
+  values,
+} from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
@@ -298,22 +312,27 @@ export class GoodWallet {
 
   async pollEvents(fn, time, lastBlockCallback) {
     const STEP = 10000 //pokt network max events request
+
     try {
       const run = async () => {
         if (this.isPollEvents === false) {
           return
         }
+
         let lastBlock = await retry(() => this.wallet.eth.getBlockNumber())
+
         if (lastBlock <= this.lastEventsBlock) {
           // if next block not mined yet
           return
         }
+
         let nextLastBlock = Math.min(lastBlock, this.lastEventsBlock + STEP)
 
         //await callback to finish processing events before updating lastEventblock
         //we pass nextlastblock as null so the request naturally requests until the last block a node has,
         //this is to prevent errors where some nodes for some reason still dont have the last block
         const events = flatten(await fn(nextLastBlock < lastBlock ? nextLastBlock : null))
+
         if (events.length) {
           const lastEvent = maxBy(events, 'blockNumber')
           this._notifyEvents(flatten(events), this.lastEventsBlock)
@@ -323,6 +342,7 @@ export class GoodWallet {
         } else {
           this.lastEventsBlock = nextLastBlock
         }
+
         log.info('pollEvents success:', { events: events.length, nextLastBlock })
         return true
       }
@@ -383,12 +403,15 @@ export class GoodWallet {
 
     try {
       const chunks = chunk(steps, 100)
+
       for (let chunk of chunks) {
         const ps = chunk.map(async fromBlock => {
           let toBlock = fromBlock + STEP
+
           if (toBlock > lastBlock) {
             toBlock = lastBlock
           }
+
           log.debug('sync tx step:', { fromBlock, toBlock })
 
           const events = await Promise.all([
@@ -396,6 +419,7 @@ export class GoodWallet {
             this.pollReceiveEvents(toBlock, fromBlock),
             this.pollOTPLEvents(toBlock, fromBlock),
           ])
+
           this._notifyEvents(flatten(events), fromBlock)
         })
 
@@ -860,6 +884,7 @@ export class GoodWallet {
   async getTxFee(): Promise<number> {
     try {
       const { 0: fee, 1: senderPays } = await retry(() => this.tokenContract.methods.getFees(1).call())
+
       return senderPays ? toBN(fee) : ZERO
     } catch (exception) {
       const { message } = exception
@@ -876,6 +901,7 @@ export class GoodWallet {
   async calculateTxFee(amount): Promise<boolean> {
     try {
       const { 0: fee, 1: senderPays } = await retry(() => this.tokenContract.methods.getFees(amount).call())
+
       return senderPays ? toBN(fee) : ZERO
     } catch (exception) {
       const { message } = exception
@@ -1109,13 +1135,27 @@ export class GoodWallet {
     return res
   }
 
+  // eslint-disable-next-line require-await
+  async canCollectBountyFor(invitees) {
+    let calls = {}
+    if (invitees.length === 0) {
+      return {}
+    }
+    invitees.forEach(addr => (calls[addr] = this.invitesContract.methods.canCollectBountyFor(addr)))
+
+    //entitelment is separate because it depends on msg.sender
+    let [[res]] = await retry(() => this.multicallFuse.all([calls]))
+    return res
+  }
+
   async collectInviteBounty(invitee) {
     try {
       const bountyFor = invitee || this.account
-      const canCollect = await retry(() => this.invitesContract.methods.canCollectBountyFor(bountyFor).call())
+      const canCollect = await this.canCollectBountyFor([bountyFor]).then(_ => _[bountyFor])
       if (canCollect) {
         const tx = this.invitesContract.methods.bountyFor(bountyFor)
         const res = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 600000) })
+
         return res
       }
     } catch (e) {
@@ -1128,6 +1168,7 @@ export class GoodWallet {
     try {
       const byteCode = this.wallet.utils.fromUtf8(inviterCode)
       const registered = await retry(() => this.invitesContract.methods.codeToUser(byteCode).call())
+
       return registered !== NULL_ADDRESS
     } catch (e) {
       log.error('isInviterCodeValid failed:', e.message, e)
@@ -1138,6 +1179,7 @@ export class GoodWallet {
   async hasJoinedInvites(): [boolean, string, string] {
     try {
       const user = await retry(() => this.invitesContract.methods.users(this.account).call())
+
       return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
     } catch (e) {
       log.error('hasJoinedInvites failed:', e.message, e)
@@ -1155,6 +1197,7 @@ export class GoodWallet {
 
       //check under which account invitecode is registered, maybe we have a collission
       const registered = !hasJoined && (await retry(() => this.invitesContract.methods.codeToUser(myCode).call()))
+
       log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
 
       //code collision
@@ -1169,7 +1212,9 @@ export class GoodWallet {
           myCode,
           (inviter && this.wallet.utils.fromUtf8(inviter)) || '0x0'.padEnd(66, 0),
         )
+
         log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })
+
         await this.sendTransaction(tx).catch(e => {
           log.warn('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
           throw e
@@ -1189,7 +1234,21 @@ export class GoodWallet {
       level: 0,
     }
     const level = (await retry(() => this.invitesContract.methods.levels(user.level).call()).catch(_ => {})) || {}
-    return parseInt(get(level, 'bounty', 10000)) / 100
+    return { bounty: parseInt(get(level, 'bounty', 10000)) / 100, user, level }
+  }
+
+  async getUserInvites() {
+    const calls = [
+      {
+        invitees: this.invitesContract.methods.getInvitees(this.account),
+        pending: this.invitesContract.methods.getPendingInvitees(this.account),
+      },
+    ]
+
+    //entitelment is separate because it depends on msg.sender
+    let [[{ invitees, pending }]] = await retry(() => this.multicallFuse.all([calls]))
+    pending = keyBy(pending)
+    return { invitees, pending }
   }
 
   async getGasPrice(): Promise<number> {
@@ -1243,10 +1302,12 @@ export class GoodWallet {
   async verifyHasGas(wei: number, options = {}) {
     const TOP_GWEI = 110000 * 1e9 //the gas fee for topWallet faucet call
     const minWei = wei ? wei : 250000 * 1e9
+
     try {
       const { topWallet = true } = options
 
       let nativeBalance = await this.balanceOfNative()
+
       if (nativeBalance > minWei) {
         return {
           ok: true,
@@ -1262,6 +1323,7 @@ export class GoodWallet {
       //self serve using faucet. we verify nativeBalance to prevent loop with sendTransaction which calls this function also
       if (nativeBalance >= TOP_GWEI && (await retry(() => this.faucetContract.methods.canTop(this.account).call()))) {
         log.info('verifyHasGas using faucet...')
+
         const toptx = this.faucetContract.methods.topWallet(this.account)
         const ok = await this.sendTransaction(toptx, undefined, { isVerifyHasGas: true })
           .then(_ => true)
@@ -1280,8 +1342,10 @@ export class GoodWallet {
         required: minWei,
         address: this.account,
       })
+
       const toppingRes = await API.verifyTopWallet()
       const { data } = toppingRes
+
       if (!data || data.ok !== 1) {
         return {
           ok: false,
@@ -1290,7 +1354,9 @@ export class GoodWallet {
           message: get(data, 'error'),
         }
       }
+
       nativeBalance = await this.balanceOfNative()
+
       return {
         ok: data.ok && nativeBalance > minWei,
       }
@@ -1331,7 +1397,8 @@ export class GoodWallet {
       setgas ||
       (await tx
         .estimateGas()
-        .then(g => parseInt((g * 1.2).toFixed(0)))
+
+        // .then(g => parseInt((g * 1.2).toFixed(0)))
         .catch(e => log.debug('estimate gas failed'))) ||
       300000
     gasPrice = gasPrice || this.gasPrice

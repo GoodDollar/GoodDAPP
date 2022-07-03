@@ -406,7 +406,17 @@ const Claim = props => {
 
     try {
       await _retry(async () => {
-        const receipt = await goodWallet.claim()
+        let txHash
+        let receipt
+        try {
+          receipt = await goodWallet.claim({ onTransactionHash: hash => (txHash = hash) })
+        } catch (e) {
+          if (txHash && e.message.includes('Transaction with the same hash was already imported')) {
+            receipt = await goodWallet.wallet.eth.getTransactionReceipt(txHash)
+          } else {
+            throw e
+          }
+        }
 
         if (!receipt.status) {
           const exception = new Error('Failed to execute claim transaction')
@@ -415,7 +425,7 @@ const Claim = props => {
           throw exception
         }
 
-        const txHash = receipt.transactionHash
+        txHash = receipt.transactionHash
         const date = new Date()
         const transactionEvent: TransactionEvent = {
           id: txHash,
@@ -432,7 +442,7 @@ const Claim = props => {
           .enqueueTX(transactionEvent)
           .catch(e => log.warn('Failed to enqueue TX:', e.message, e, { transactionEvent }))
 
-        AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
+        AsyncStorage.safeSet('GD_AddWebAppLastClaim', date.toISOString())
         fireEvent(CLAIM_SUCCESS, { txHash, claimValue: curEntitlement })
 
         const claimsSoFar = await advanceClaimsCounter()

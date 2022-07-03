@@ -51,13 +51,16 @@ const AppSwitch = (props: LoadingProps) => {
   } = useCheckAuthStatus()
 
   const _showOutOfGasError = useCallback(async () => {
-    const gasResult = await goodWallet.verifyHasGas()
+    const { ok, error } = await goodWallet.verifyHasGas()
+    const isOutOfGas = ok === false && error !== false
 
-    log.debug('outofgas check result:', { gasResult })
+    log.debug('outofgas check result:', { ok, error })
 
-    if (gasResult.ok === false && gasResult.error !== false) {
+    if (isOutOfGas) {
       navigation.navigate('OutOfGasError')
     }
+
+    return isOutOfGas
   }, [navigation, goodWallet, userStorage])
 
   const showOutOfGasError = useDebouncedCallback(_showOutOfGasError, GAS_CHECK_DEBOUNCE_TIME, { leading: true })
@@ -125,10 +128,15 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = useCallback(async () => {
-    AsyncStorage.setItem('GD_version', 'phase' + config.phase)
+    AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
 
-    const email = await userStorage.getProfileFieldValue('email')
-    identifyWith(email, undefined)
+    try {
+      const email = await userStorage.getProfileFieldValue('email')
+
+      identifyWith(email, undefined)
+    } catch (e) {
+      log.warn('Initialize with email failed', e.message, e)
+    }
   }, [userStorage])
 
   const restartWithMessage = useCallback(
@@ -157,10 +165,17 @@ const AppSwitch = (props: LoadingProps) => {
       const identifier = goodWallet.getAccountForType('login')
 
       identifyWith(undefined, identifier)
-      showOutOfGasError()
+
+      const isOutOfGas = await showOutOfGasError()
+
+      if (isOutOfGas) {
+        return
+      }
 
       initialize()
-      runUpdates(goodWallet, userStorage) //this needs to wait after initreg where we initialize the database
+
+      // this needs to wait after initreg where we initialize the database
+      runUpdates(goodWallet, userStorage, log)
 
       log.debug('initialize done')
       setReady(true)
@@ -224,7 +239,7 @@ const AppSwitch = (props: LoadingProps) => {
   useAppState({ onForeground: recheck })
 
   useEffect(() => {
-    //initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
+    // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
     initWalletAndStorage(undefined, 'SEED', isLoggedIn).then(() => log.debug('storage and wallet ready'))
   }, [initWalletAndStorage, isLoggedIn])
 

@@ -15,12 +15,11 @@ const LoginRedirect = ({ navigation, styles }) => {
   const profile = useProfile()
   const { params } = get(navigation, 'state', {})
 
-  const { profileDetails, parsedURL, warnings, allow, deny } = useGoodDollarLogin(params)
+  const { isWhitelisted, vendorDetails, profileDetails, allow, deny } = useGoodDollarLogin(params)
 
-  const { isVendorWalletWhitelisted } = warnings || {}
-  const { country } = profileDetails || {}
-  const { vendorName, vendorURL, vendorAddress } = parsedURL || {}
-  const { email, mobile, fullName, walletAddress } = profile
+  const { walletAddress } = profile
+  const { vendorName, vendorURL, vendorAddress } = vendorDetails || {}
+  const { fullName, country, mobile, email } = profileDetails || {}
   const shortAddress = useMemo(() => truncate(vendorAddress || '', { length: 12 }), [vendorAddress])
 
   return (
@@ -44,25 +43,25 @@ const LoginRedirect = ({ navigation, styles }) => {
                 </View>
               </View>
               <Text style={styles.boldText}>is requesting to view the following information:</Text>
-              {Boolean(fullName) && (
+              {fullName && (
                 <View style={styles.infoView}>
                   <Text style={styles.labelText}>Name</Text>
                   <Text>{fullName}</Text>
                 </View>
               )}
-              {Boolean(mobile) && (
+              {mobile && (
                 <View style={styles.infoView}>
                   <Text style={styles.labelText}>Mobile</Text>
                   <Text>{mobile}</Text>
                 </View>
               )}
-              {Boolean(email) && (
+              {email && (
                 <View style={styles.infoView}>
                   <Text style={styles.labelText}>Email</Text>
                   <Text>{email}</Text>
                 </View>
               )}
-              {Boolean(country) && (
+              {country && (
                 <View style={styles.infoView}>
                   <Text style={styles.labelText}>Location</Text>
                   <Text>{country}</Text>
@@ -74,7 +73,7 @@ const LoginRedirect = ({ navigation, styles }) => {
               </View>
               <View style={styles.infoView}>
                 <Text style={styles.labelText}>GoodDollar verification status</Text>
-                {isVendorWalletWhitelisted ? (
+                {isWhitelisted ? (
                   <View style={styles.verifiedView}>
                     <Text style={styles.verifiedText}>Verified</Text>
                   </View>

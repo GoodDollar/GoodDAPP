@@ -1,5 +1,5 @@
 // @flow
-import { assign, forIn, isNil } from 'lodash'
+import { assign, forIn, isNil, isPlainObject, isString, noop } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
 import AsyncStorage from '../utils/asyncStorage'
@@ -96,14 +96,25 @@ export default class UserProperties {
    * @returns {Promise<void>}
    */
   async set(field: string, value: any) {
-    await this.updateAll({ [field]: value })
+    const props = this._makeProps(field, value)
 
+    await this.updateAll(props)
     return true
   }
 
-  setLocal(field: string, value: any) {
-    this.local[field] = value
-    AsyncStorage.setItem('localProps', this.local)
+  safeSet(field: string, value: any = null) {
+    const props = this._makeProps(field, value)
+
+    // any error will be logged in updateAll / storeProps
+    this.updateAll(props).catch(noop)
+  }
+
+  setLocal(field: string, value: any = null) {
+    const { local } = this
+
+    assign(local, this._makeProps(field, value))
+    AsyncStorage.safeSet('localProps', local)
+
     return true
   }
 
@@ -186,5 +197,17 @@ export default class UserProperties {
       logError(e)
       throw e
     }
+  }
+
+  _makeProps(field: string | object, value = null) {
+    let props = {}
+
+    if (isString(field)) {
+      props = { [field]: value }
+    } else if (isPlainObject(field)) {
+      props = field
+    }
+
+    return props
   }
 }

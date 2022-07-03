@@ -23,6 +23,7 @@ export default showErrorDialog => {
 
       try {
         const isDeleted = await userStorage.deleteAccount()
+
         log.debug('deleted account', isDeleted)
 
         if (isDeleted) {

@@ -100,8 +100,10 @@ const SendByQR = ({ screenProps }: Props) => {
 
           //check if data is already a wallet address
           if (isAddress(address)) {
-            //this address was already used on fuse, so it is ok
-            if (await goodWallet.isKnownFuseAddress(address)) {
+            const isKnownAddress = await goodWallet.isKnownFuseAddress(address)
+
+            // this address was already used on fuse, so it is ok
+            if (isKnownAddress) {
               code = { address, networkId: goodWallet.networkId }
             } else {
               return showDialog({

@@ -20,29 +20,32 @@ const ReceiveByQR = ({ screenProps }) => {
   const userStorage = useUserStorage()
 
   const handleScan = data => {
-    if (data) {
-      try {
-        log.debug('scan result:', data)
-        const url = readReceiveLink(data)
+    if (!data) {
+      return
+    }
 
-        log.debug({ url })
+    log.debug('scan result:', data)
 
-        if (url === null) {
-          throw new Error('Invalid QR Code.')
-        } else {
-          const { params } = createUrlObject(url)
-          const { receiveLink, reason } = params
+    try {
+      const url = readReceiveLink(data)
 
-          if (!receiveLink) {
-            throw new Error('No receiveLink available')
-          }
+      log.debug({ url })
 
-          setWithdrawParams({ receiveLink, reason })
+      if (url === null) {
+        throw new Error('Invalid QR Code.')
+      } else {
+        const { params } = createUrlObject(url)
+        const { receiveLink, reason } = params
+
+        if (!receiveLink) {
+          throw new Error('No receiveLink available')
         }
-      } catch (e) {
-        log.error('scan received failed', e.message, e)
-        throw e
+
+        setWithdrawParams({ receiveLink, reason })
       }
+    } catch (e) {
+      log.error('scan received failed', e.message, e)
+      throw e
     }
   }
 

@@ -65,12 +65,14 @@ class EmailConfirmation extends React.Component<Props, State> {
 
   handleChange = async (code: array) => {
     const codeValue = code.filter(val => val).join('')
+
     if (codeValue.replace(/ /g, '').length === NumInputs) {
       this.setState({
         ...this.state,
         loading: true,
         code,
       })
+
       try {
         await this.verifyCode(codeValue)
         this.handleSubmit()
@@ -112,6 +114,7 @@ class EmailConfirmation extends React.Component<Props, State> {
     try {
       fireEvent(SIGNUP_RETRY_EMAIL)
       await API[retryFunctionName]({ ...this.props.screenProps.data })
+
       this.setState({ ...this.state, sendingCode: false, resentCode: true })
       this.displayDelayedRenderButton()
     } catch (e) {

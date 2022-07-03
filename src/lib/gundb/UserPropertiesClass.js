@@ -179,7 +179,7 @@ export default class UserProperties {
     const logError = e => log.error(`${logLabel} user props failed:`, e.message, e, logPayload)
 
     try {
-      AsyncStorage.setItem('props', data)
+      AsyncStorage.safeSet('props', data)
       await retry(() => propsNode.secretAck(data), 2, 500).catch(logError)
     } catch (e) {
       logError(e)

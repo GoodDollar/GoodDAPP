@@ -67,6 +67,7 @@ const Config = {
   showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   suggestMobileApp: env.REACT_APP_SUGGEST_MOBILE_APP !== 'false',
   suggestMobileAppUpdate: env.REACT_APP_SUGGEST_MOBILE_APP_UPDATE === 'true',
+  suggestCodePushUpdate: env.REACT_APP_SUGGEST_CODE_PUSH_UPDATE !== 'false',
   faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
   faceTecProductionMode: env.REACT_APP_ZOOM_PRODUCTION_MODE === 'true',

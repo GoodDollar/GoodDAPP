@@ -41,9 +41,9 @@ export const handleLinks = async (logger = log) => {
   try {
     const { inviteCode } = params
 
-    //if invite code exists, persist in asyncstorage
+    // if invite code exists, persist in asyncstorage
     if (inviteCode) {
-      AsyncStorage.setItem(INVITE_CODE, inviteCode)
+      await AsyncStorage.setItem(INVITE_CODE, inviteCode)
     }
 
     let path = DeepLinking.pathname.slice(1)

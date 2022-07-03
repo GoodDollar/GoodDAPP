@@ -20,6 +20,8 @@ target 'GoodDollar' do
     :hermes_enabled => false
   )
 
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
   target 'GoodDollarTests' do
     inherit! :complete
     # Pods for testing

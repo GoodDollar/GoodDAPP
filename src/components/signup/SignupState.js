@@ -2,7 +2,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { assign, get, identity, isError, pickBy, toPairs } from 'lodash'
+import { assign, get, identity, isError, pick, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import moment from 'moment'
@@ -176,8 +176,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const getCountryCode = useCallback(async () => {
     try {
       const data = await API.getLocation()
+      const { country } = data || {}
 
-      data && setCountryCode(data.country)
+      if (country) {
+        setCountryCode(country)
+      }
     } catch (e) {
       log.error('Could not get user location', e.message, e)
     }
@@ -251,6 +254,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               .then(_ => moment(get(_, 'data.ping', Date.now())))
               .catch(e => moment())
               .then(_ => Math.max(Date.now(), _.valueOf()))
+
             const msg = (mobile || email) + String(torusProofNonce)
             const proof = goodWallet?.wallet?.eth?.accounts?.sign(msg, '0x' + privateKey)
 
@@ -376,8 +380,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         //because setting finished to true (!nextRoute) will trigger finishRegistration effect
       } else if (nextRoute && nextRoute.key === 'SMS') {
         try {
-          const result = await checkExisting(torusProvider, { mobile: _signupData.mobile }, undefined, {
-            fromSignupFlow: true,
+          const result = await checkExisting(torusProvider, pick(_signupData, 'mobile'), {
+            withWallet: false,
+            eventVars: { fromSignupFlow: true },
           })
 
           if (result !== 'signup') {
@@ -414,8 +419,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         try {
           setLoading(true)
 
-          const result = await checkExisting(torusProvider, { email: _signupData.email }, undefined, {
-            fromSignupFlow: true,
+          const result = await checkExisting(torusProvider, pick(_signupData, 'email'), {
+            withWallet: false,
+            eventVars: { fromSignupFlow: true },
           })
 
           if (result !== 'signup') {

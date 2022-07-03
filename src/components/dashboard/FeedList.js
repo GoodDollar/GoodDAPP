@@ -98,6 +98,8 @@ const FeedList = ({
   const handleFeedActionPress = useCallback(
     ({ id, status }: FeedEvent, actions: {}) => {
       const cancelEvent = async () => {
+        const revertTxState = () => userStorage.updateOTPLEventStatus(id, 'pending')
+
         if (canceledFeeds.current.includes(id)) {
           log.info('Already cancelled', id)
           return
@@ -116,7 +118,7 @@ const FeedList = ({
               id,
             })
 
-            userStorage.updateOTPLEventStatus(id, 'pending')
+            revertTxState()
             showErrorDialog(uiMessage, ExceptionCode.E11)
           })
         } catch (e) {
@@ -125,7 +127,7 @@ const FeedList = ({
           log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
 
           canceledFeeds.current.pop()
-          userStorage.updateOTPLEventStatus(id, 'pending')
+          revertTxState()
           showErrorDialog(uiMessage, ExceptionCode.E13)
         }
       }
@@ -184,9 +186,11 @@ const FeedList = ({
     [feeds],
   )
 
-  const manageDisplayQuickActionHint = useCallback(async () => {
+  useEffect(() => {
+    const { userProperties } = userStorage
+
     // Could be string containing date to show quick action hint after - otherwise boolean
-    const showQuickActionHintFlag = await userStorage.userProperties.getLocal('showQuickActionHint')
+    const showQuickActionHintFlag = userProperties.getLocal('showQuickActionHint')
 
     const _showBounce =
       typeof showQuickActionHintFlag === 'string'
@@ -194,9 +198,10 @@ const FeedList = ({
         : showQuickActionHintFlag
 
     setShowBounce(_showBounce)
+    setDisplayContent(true)
 
     if (_showBounce) {
-      await userStorage.userProperties.setLocal(
+      userProperties.setLocal(
         'showQuickActionHint',
         moment()
           .add(24, 'hours')
@@ -204,10 +209,6 @@ const FeedList = ({
       )
     }
   }, [setShowBounce, userStorage])
-
-  useEffect(() => {
-    manageDisplayQuickActionHint().finally(() => setDisplayContent(true))
-  }, [])
 
   return displayContent ? (
     <>

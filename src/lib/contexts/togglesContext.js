@@ -17,7 +17,7 @@ export const GlobalTogglesContextProvider = props => {
 
   useEffect(() => {
     if (isLoggedInRouter != null) {
-      AsyncStorage.setItem(IS_LOGGED_IN, isLoggedInRouter)
+      AsyncStorage.safeSet(IS_LOGGED_IN, isLoggedInRouter)
     }
   }, [isLoggedInRouter])
 

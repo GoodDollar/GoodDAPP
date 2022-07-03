@@ -42,18 +42,24 @@ Don’t worry, we’ll take care off you.\n`
   }, [])
 
   const callTopWallet = async () => {
-    setLoading(true)
     let isOk = false
+
+    setLoading(true)
+
     try {
       const { ok, error } = await goodWallet.verifyHasGas()
+
       if (error) {
         setCheatError(true)
       }
+
       isOk = ok
     } catch (e) {
       log.warn('verifyHasGasFailed', e.message, e)
     }
+
     setLoading(false)
+
     if (isOk) {
       gotoDb()
     }

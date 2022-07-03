@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
-import { first, forIn } from 'lodash'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { assign, first, forIn, pick, values } from 'lodash'
 
 import logger from '../../lib/logger/js-logger'
 
@@ -21,7 +21,7 @@ const useGoodDollarLogin = params => {
   const profile = useProfile()
   const goodWallet = useWallet()
   const [getParams] = usePropsRefs([params])
-  const [profileDetails, setProfileDetails] = useState({ country: '', isWhitelisted: null })
+  const [profileOptions, setProfileOptions] = useState({ country: '', isWhitelisted: null })
 
   const [parsedURL, setParsedURL] = useState({
     vendorAddress: null,
@@ -36,6 +36,35 @@ const useGoodDollarLogin = params => {
     isVendorWalletWhitelisted: true,
     isWebDomainDifferent: false,
   })
+
+  const [profileDetails, shortDetails] = useMemo(() => {
+    const { country } = profileOptions
+    const { requestedDetails } = parsedURL
+    const { email, mobile, fullName } = profile
+
+    const map = {
+      location: ['I', { country }],
+      name: ['n', { fullName }],
+      email: ['e', { email }],
+      mobile: ['m', { mobile }],
+    }
+
+    const details = {}
+    const short = {}
+
+    forIn(map, ([property, chunk], requested) => {
+      if (!requestedDetails.includes(requested)) {
+        return
+      }
+
+      const value = first(values(chunk))
+
+      assign(details, chunk)
+      short[property] = detail(value)
+    })
+
+    return [details, short]
+  }, [parsedURL, profileOptions, profile])
 
   const sendResponse = useCallback(
     async response => {
@@ -66,37 +95,35 @@ const useGoodDollarLogin = params => {
     const { accounts: signer } = wallet.eth
     const { privateKey } = first(accounts)
 
-    const { isWhitelisted, country } = profileDetails
-    const { requestedDetails } = parsedURL
-    const { email, walletAddress, mobile, fullName } = profile
-
-    const map = {
-      location: ['I', country],
-      name: ['n', fullName],
-      email: ['e', email],
-      mobile: ['m', mobile],
-    }
+    const { isWhitelisted } = profileOptions
+    const { walletAddress } = profile
 
     const response = {
+      ...shortDetails,
       a: detail(walletAddress),
       v: detail(isWhitelisted),
       nonce: detail(Date.now()),
     }
 
-    forIn(map, ([property, value], requested) => {
-      if (!requestedDetails.includes(requested)) {
-        return
-      }
-
-      response[property] = detail(value)
-    })
-
     const { signature } = signer.sign(JSON.stringify(response), privateKey)
 
     sendResponse({ ...response, sig: signature })
-  }, [goodWallet, parsedURL, profileDetails, profile, sendResponse])
+  }, [goodWallet, shortDetails, profileOptions, profile, sendResponse])
 
   useEffect(() => {
+    const getVendorWalletWhitelistedStatus = async id => {
+      if (!id) {
+        log.warn('No vendor ID specified, assuming as "not whitelisted"')
+        return false
+      }
+
+      try {
+        return await goodWallet.isVerified(id)
+      } catch (e) {
+        log.warn('Error fetching vendor walled whitelisted status', e.message, e)
+      }
+    }
+
     const fetchLocationAndWhiteListedStatus = async () => {
       const { login } = getParams() || {}
       const { id, v, r, web, cbu, rdu } = decodeBase64Params(login)
@@ -105,9 +132,9 @@ const useGoodDollarLogin = params => {
       const location = await API.getLocation()
       const isWebDomainDifferent = !web.includes(url)
       const isWhitelisted = await goodWallet.isCitizen()
-      const isVendorWalletWhitelisted = await goodWallet.isVerified(id)
+      const isVendorWalletWhitelisted = await getVendorWalletWhitelistedStatus(id)
 
-      setProfileDetails({ country: location?.name, isWhitelisted })
+      setProfileOptions({ country: location?.name, isWhitelisted })
       setWarnings({ isWebDomainDifferent, isVendorWalletWhitelisted })
 
       setParsedURL({
@@ -123,11 +150,15 @@ const useGoodDollarLogin = params => {
     fetchLocationAndWhiteListedStatus().catch(e =>
       log.warn('Error fetcing location and whitelisted status', e.message, e),
     )
-  }, [goodWallet, getParams, setProfileDetails, setWarnings, setParsedURL])
+  }, [goodWallet, getParams, setProfileOptions, setWarnings, setParsedURL])
+
+  const vendorDetails = pick(parsedURL || {}, 'vendorName', 'vendorURL', 'vendorAddress')
+  const { isWhitelisted } = profileOptions
 
   return {
+    isWhitelisted,
+    vendorDetails,
     profileDetails,
-    parsedURL,
     warnings,
     allow,
     deny,

@@ -159,6 +159,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
 
         const withdrawnOrSendError = t`Payment already withdrawn or canceled by sender`
         const wrongPaymentDetailsError = t`Wrong payment link or payment details`
+
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
             log.warn('Failed to complete withdraw', withdrawnOrSendError, new Error(withdrawnOrSendError), {
@@ -181,6 +182,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
                 return await handleWithdraw(params)
               }
             }
+
             log.warn('Could not find payment details', wrongPaymentDetailsError, new Error(wrongPaymentDetailsError), {
               status,
               transactionHash,
@@ -188,6 +190,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               category: ExceptionCategory.Human,
               dialogShown: true,
             })
+
             showErrorDialog(t`Could not find payment details.\nCheck your link or try again later.`, undefined, {
               onDismiss: screenProps.goToRoot,
             })

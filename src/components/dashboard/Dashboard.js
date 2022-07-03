@@ -47,6 +47,7 @@ import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
+import WalletConnect from '../walletconnect/WalletConnectScan'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -956,4 +957,5 @@ export default createStackNavigator({
   OutOfGasError,
   Rewards: Invite,
   HandlePaymentLink,
+  WalletConnect,
 })

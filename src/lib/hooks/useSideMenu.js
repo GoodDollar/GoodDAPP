@@ -55,6 +55,17 @@ export default (props = {}) => {
     let items = [
       {
         icon: 'profile',
+        name: t`WalletConnect`,
+        action: () => {
+          navigation.navigate({
+            routeName: 'WalletConnect',
+            type: 'Navigation/NAVIGATE',
+          })
+          slideOut()
+        },
+      },
+      {
+        icon: 'profile',
         name: t`My profile`,
         action: () => {
           navigation.navigate({

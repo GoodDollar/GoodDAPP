@@ -1,9 +1,9 @@
 import React, { memo, useCallback, useState } from 'react'
 import Withdraw from 'components/Withdraw'
-import { MyStake } from '@gooddollar/sdk/dist/core/staking'
+import { MyStake } from '@gooddollar/web3sdk/dist/core/staking'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { DAO_NETWORK, LIQUIDITY_PROTOCOL } from '@gooddollar/sdk/dist/constants'
+import { DAO_NETWORK, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk/dist/constants'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 
 interface PortfolioTableRowProps {

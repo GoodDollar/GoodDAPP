@@ -14,7 +14,7 @@ import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import Loader from 'components/Loader'
-import { claim, claimGood } from '@gooddollar/sdk/dist/core/staking'
+import { claim, claimGood } from '@gooddollar/web3sdk/dist/core/staking'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>

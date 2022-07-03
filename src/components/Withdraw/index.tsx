@@ -19,8 +19,8 @@ import Switch from 'components/Switch'
 import { useTokenContract } from 'hooks/useContract'
 import Loader from 'components/Loader'
 
-import { MyStake, withdraw } from '@gooddollar/sdk/dist/core/staking'
-import { LIQUIDITY_PROTOCOL } from '@gooddollar/sdk/dist/constants'
+import { MyStake, withdraw } from '@gooddollar/web3sdk/dist/core/staking'
+import { LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk/dist/constants'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)

@@ -2,6 +2,7 @@ import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
 
+import { noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
@@ -11,9 +12,12 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../lib/utils/sizes'
-import { isMobileNative } from '../../lib/utils/platform'
 import { theme } from '../theme/styles'
 
+import Config from '../../config/config'
+import { isMobileNative } from '../../lib/utils/platform'
+
+const { disableClaim } = Config
 const flipPerspective = isMobileNative ? undefined : CardFlip.defaultProps.perspective
 
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
@@ -87,6 +91,33 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
   </View>
 )
 
+const ButtonDisabled = ({ styles }) => (
+  <View>
+    <>
+      <Text
+        style={{ letterSpacing: 0.28 }}
+        color="white"
+        fontFamily={theme.fonts.slab}
+        fontWeight="bold"
+        fontSize={28}
+        textAlign="center"
+      >
+        Be Back
+      </Text>
+      <Text
+        style={{ letterSpacing: 0.28 }}
+        color="white"
+        fontFamily={theme.fonts.slab}
+        fontWeight="bold"
+        fontSize={28}
+        textAlign="center"
+      >
+        SOON
+      </Text>
+    </>
+  </View>
+)
+
 export const ButtonCountdown = ({ styles, nextClaim }) => (
   <View style={styles.countdownContainer}>
     <Text
@@ -140,17 +171,21 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
     testId="claim_button"
     compact={true}
     mode="contained"
-    onPress={onPress}
+    onPress={disableClaim ? noop : onPress}
     style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
   >
-    <ButtonContent
-      isCitizen={isCitizen}
-      showLabelOnly={showLabelOnly}
-      entitlement={entitlement}
-      nextClaim={nextClaim}
-      styles={styles}
-      isInQueue={isInQueue}
-    />
+    {disableClaim ? (
+      <ButtonDisabled styles={styles} />
+    ) : (
+      <ButtonContent
+        isCitizen={isCitizen}
+        showLabelOnly={showLabelOnly}
+        entitlement={entitlement}
+        nextClaim={nextClaim}
+        styles={styles}
+        isInQueue={isInQueue}
+      />
+    )}
   </CustomButton>
 )
 

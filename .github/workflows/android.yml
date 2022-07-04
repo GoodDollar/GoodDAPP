@@ -37,6 +37,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_FLAGS='--debug'" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ endsWith(github.ref, '/staging') }}
         run: |
@@ -53,6 +54,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_FLAGS=''" >> $GITHUB_ENV
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v1
         with:
@@ -79,7 +81,8 @@ jobs:
         run: |
           echo Code push release target version $BUILD_NUMBER
           yarn lingui:compile
-          npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
+          BUILD_VERSION=`node -pe "require('./package.json')['version']"`
+          npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t ${BUILD_VERSION}
 
   build:
     name: Build

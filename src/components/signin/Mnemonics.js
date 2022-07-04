@@ -25,21 +25,25 @@ import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } 
 import Wrapper from '../common/layout/Wrapper'
 import normalize from '../../lib/utils/normalizeText'
 import { theme } from '../theme/styles'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 const MAX_WORDS = 12
 
 const Mnemonics = ({ screenProps, navigation, styles }) => {
-  //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
+  // lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
+
   const [mnemonics, setMnemonics] = useState()
   const [isRecovering, setRecovering] = useState(false)
   const [isSubmitBlocked, setSubmitBlocked] = useState(true)
-  const { showDialog, hideDialog, showErrorDialog } = useDialog()
-  const userExists = useUserExists()
   const [errorMessage, setErrorMessage] = useState()
   const input = useRef()
+
+  const wallet = useWallet()
+  const userExists = useUserExists()
+  const { showDialog, hideDialog, showErrorDialog } = useDialog()
 
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
@@ -99,7 +103,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics
-      const { exists, fullName } = await userExists({ mnemonics })
+      const { exists, fullName } = await userExists(wallet)
 
       log.debug('userExists result:', { exists, fullName })
 
@@ -145,7 +149,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } finally {
       setRecovering(false)
     }
-  }, [setRecovering, mnemonics, showDialog, userExists])
+  }, [setRecovering, mnemonics, showDialog, userExists, wallet])
 
   const handleEnter = (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter') {

@@ -16,7 +16,22 @@ import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, flatten, get, identity, last, mapValues, maxBy, pickBy, range, sortBy, uniqBy, values } from 'lodash'
+import {
+  chunk,
+  flatten,
+  get,
+  identity,
+  keyBy,
+  last,
+  mapValues,
+  maxBy,
+  noop,
+  pickBy,
+  range,
+  sortBy,
+  uniqBy,
+  values,
+} from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
@@ -41,6 +56,11 @@ const log = logger.child({ from: 'GoodWalletV2' })
 
 // eslint-disable-next-line
 const retry = async asyncFn => retryCall(asyncFn, 1, 200)
+const safeCall = async (method, defaultValue = {}) => {
+  const result = await retry(() => method().call()).catch(noop)
+
+  return result || defaultValue
+}
 
 type EventLog = {
   event: string,
@@ -1121,16 +1141,39 @@ export class GoodWallet {
     return res
   }
 
+  // eslint-disable-next-line require-await
+  async canCollectBountyFor(invitees) {
+    const { methods } = this.invitesContract
+
+    if (invitees.length === 0) {
+      return {}
+    }
+
+    const calls = invitees.reduce(
+      (calls, addr) => ({
+        ...calls,
+        [addr]: methods.canCollectBountyFor(addr),
+      }),
+      {},
+    )
+
+    // entitelment is separate because it depends on msg.sender
+    const [[result]] = await retry(() => this.multicallFuse.all([[calls]]))
+
+    return result
+  }
+
   async collectInviteBounty(invitee) {
     try {
       const bountyFor = invitee || this.account
-      const canCollect = await retry(() => this.invitesContract.methods.canCollectBountyFor(bountyFor).call())
+      const statuses = await this.canCollectBountyFor([bountyFor])
+      const canCollect = statuses[bountyFor]
 
       if (canCollect) {
         const tx = this.invitesContract.methods.bountyFor(bountyFor)
-        const res = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 600000) })
+        const result = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 600000) })
 
-        return res
+        return result
       }
     } catch (e) {
       log.warn('collectInviteBounty failed:', e.message, e)
@@ -1204,11 +1247,32 @@ export class GoodWallet {
   }
 
   async getUserInviteBounty() {
-    const user = (await retry(() => this.invitesContract.methods.users(this.account).call()).catch(_ => {})) || {
-      level: 0,
+    const { invitesContract, account } = this
+    const { methods } = invitesContract
+
+    const user = await safeCall(() => methods.users(account), { level: 0 })
+    const level = await safeCall(() => methods.levels(user.level))
+    const bounty = parseInt(get(level, 'bounty', 10000)) / 100
+
+    return { bounty, user, level }
+  }
+
+  async getUserInvites() {
+    const { invitesContract, account, multicallFuse } = this
+    const { methods } = invitesContract
+
+    const callsMap = {
+      invitees: 'getInvitees',
+      pending: 'getPendingInvitees',
     }
-    const level = (await retry(() => this.invitesContract.methods.levels(user.level).call()).catch(_ => {})) || {}
-    return parseInt(get(level, 'bounty', 10000)) / 100
+
+    // entitelment is separate because it depends on msg.sender
+    const calls = mapValues(callsMap, method => methods[method](account))
+    const [[result]] = await retry(() => multicallFuse.all([[calls]]))
+    const { invitees, pending: statuses } = result
+    const pending = keyBy(statuses)
+
+    return { invitees, pending }
   }
 
   async getGasPrice(): Promise<number> {
@@ -1353,21 +1417,28 @@ export class GoodWallet {
     },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    let gas =
-      setgas ||
-      (await tx
-        .estimateGas()
-        .then(g => parseInt((g * 1.2).toFixed(0)))
-        .catch(e => log.debug('estimate gas failed'))) ||
-      300000
+    let gas = setgas
+
+    if (!gas) {
+      gas = await tx.estimateGas().catch(e => log.debug('estimate gas failed'))
+    }
+
+    if (!gas) {
+      gas = 300000
+    }
+
     gasPrice = gasPrice || this.gasPrice
+
     if (Config.network === 'develop' && setgas === undefined) {
       gas *= 2
     }
+
     log.debug('sendTransaction:', { gas, gasPrice })
+
     if (isVerifyHasGas !== true) {
       //prevent recursive endless loop when sendTransaction call came from verifyHasGas
       const { ok, error, message } = await this.verifyHasGas(gas * gasPrice)
+
       if (ok === false) {
         return Promise.reject(
           error
@@ -1376,6 +1447,7 @@ export class GoodWallet {
         )
       }
     }
+
     const res = new Promise((res, rej) => {
       tx.send({ gas, gasPrice, chainId: this.networkId })
         .on('transactionHash', h => {
@@ -1403,6 +1475,7 @@ export class GoodWallet {
           onError && onError(e)
         })
     })
+
     return res
   }
 

@@ -15,7 +15,7 @@ const useCheckExisting = () => {
     async (torusProvider, torusUser, options = {}) => {
       const { eventVars = {}, withWallet = null } = options || {}
 
-      const checkResult = await userExists(torusUser, withWallet).catch(e => {
+      const checkResult = await userExists(withWallet, torusUser).catch(e => {
         log.warn('userExists check failed:', e.message, e)
         return { exists: false }
       })

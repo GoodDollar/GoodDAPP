@@ -353,6 +353,25 @@ const Claim = props => {
     [showErrorDialog],
   )
 
+  const sendClaimTx = useCallback(async () => {
+    let receipt
+    let txHash
+
+    try {
+      receipt = await goodWallet.claim({ onTransactionHash: hash => (txHash = hash) })
+    } catch (exception) {
+      const { message } = exception
+
+      if (!txHash || !message.includes('Transaction with the same hash was already imported')) {
+        throw exception
+      }
+
+      receipt = await goodWallet.wallet.eth.getTransactionReceipt(txHash)
+    }
+
+    return receipt
+  }, [goodWallet])
+
   const handleClaim = useCallback(async () => {
     let curEntitlement
     let isWhitelisted = isCitizen
@@ -406,7 +425,7 @@ const Claim = props => {
 
     try {
       await _retry(async () => {
-        const receipt = await goodWallet.claim()
+        const receipt = await sendClaimTx()
 
         if (!receipt.status) {
           const exception = new Error('Failed to execute claim transaction')
@@ -415,8 +434,9 @@ const Claim = props => {
           throw exception
         }
 
-        const txHash = receipt.transactionHash
         const date = new Date()
+        const txHash = receipt.transactionHash
+
         const transactionEvent: TransactionEvent = {
           id: txHash,
           date: date.toISOString(),
@@ -477,7 +497,17 @@ const Claim = props => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, handleFaceVerification, dailyUbi, setDailyUbi, showDialog, onClaimError, goodWallet, userStorage])
+  }, [
+    setLoading,
+    handleFaceVerification,
+    dailyUbi,
+    setDailyUbi,
+    showDialog,
+    sendClaimTx,
+    onClaimError,
+    goodWallet,
+    userStorage,
+  ])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

@@ -381,7 +381,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       } else if (nextRoute && nextRoute.key === 'SMS') {
         try {
           const result = await checkExisting(torusProvider, pick(_signupData, 'mobile'), {
-            withWallet: false,
             eventVars: { fromSignupFlow: true },
           })
 
@@ -420,7 +419,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           setLoading(true)
 
           const result = await checkExisting(torusProvider, pick(_signupData, 'email'), {
-            withWallet: false,
             eventVars: { fromSignupFlow: true },
           })
 

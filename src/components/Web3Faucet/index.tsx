@@ -78,7 +78,7 @@ function Web3Faucet(): JSX.Element | null {
                 className="px-5"
                 borderRadius="6px"
                 disabled={securityNotice}
-                // onClick={() => window.location.replace("https://airdrop.gooddollar.org")}
+                onClick={() => window.location.replace("https://airdrop.gooddollar.org")}
             >
                 <span>{i18n._(t`GOOD Airdrop`)}</span>
             </ClaimButton >
@@ -93,7 +93,8 @@ function Web3Faucet(): JSX.Element | null {
                 }
                 offset={[0, 12]}
             >
-                <ClaimButton
+                {/* note -- disabled untill further notice
+                 <ClaimButton
                     className="px-5"
                     borderRadius="6px"
                     disabled={!claimActive}
@@ -115,7 +116,7 @@ function Web3Faucet(): JSX.Element | null {
                             />
                         </svg>
                     </div>
-                </ClaimButton>
+                </ClaimButton> */}
             </MouseoverTooltip>
 
         </div >

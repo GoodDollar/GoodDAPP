@@ -56,6 +56,7 @@ const Config = {
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',
   torusProxyContract: env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
+  disableClaim: env.REACT_APP_DISABLE_CLAIM === 'true',
   googleClientId: env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: env.REACT_APP_FACEBOOK_APP_ID,
   authSuccessDelay: Number(env.REACT_APP_SUCCESS_DELAY || 2000),

@@ -11,6 +11,10 @@ class PermissionsAPI {
     [Permissions.Clipboard]: 'clipboard-read',
   }
 
+  disabledPermissions = {
+    [Permissions.Notifications]: true,
+  }
+
   constructor(api, clipboardApi, mediaApi, log) {
     this.log = log
     this.api = api
@@ -25,12 +29,14 @@ class PermissionsAPI {
    * @return Promise<PermissionStatus> Status of the permission
    */
   async check(permission: Permission): Promise<PermissionStatus> {
-    const { platformPermissions } = this
-    const { Granted, Denied, Prompt, Undetermined } = PermissionStatuses
+    const { platformPermissions, disabledPermissions } = this
+    const { Granted, Denied, Prompt, Undetermined, Disabled } = PermissionStatuses
     const platformPermission = platformPermissions[permission]
 
-    if (permission === Permissions.Notifications) {
-      return Denied
+    // if permission is disabled - returning disabled status
+    // this needs to temporarly ignore notifications permissions requests on web
+    if (permission in disabledPermissions) {
+      return Disabled
     }
 
     // no platform permission found - that means feature doesn't requires permissions on this platform
@@ -60,8 +66,13 @@ class PermissionsAPI {
    * @return Promise<boolean> Was permission granted or nor
    */
   async request(permission: Permission): Promise<PermissionStatus> {
-    const platformPermission = this.platformPermissions[permission]
+    const { platformPermissions, disabledPermissions } = this
+    const platformPermission = platformPermissions[permission]
     const { Clipboard, Camera } = Permissions
+
+    if (permission in disabledPermissions) {
+      return false
+    }
 
     // no platform permission found - that means feature doesn't requires permissions on this platform
     if (!platformPermission) {

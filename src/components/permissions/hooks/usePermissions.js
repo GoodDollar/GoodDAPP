@@ -8,8 +8,10 @@ import { type Permission, Permissions, PermissionStatuses } from '../types'
 
 import CameraPermissionDialog from '../components/CameraPermissionDialog'
 import ClipboardPermissionDialog from '../components/ClipboardPermissionDialog'
+import NotificationsPermissionDialog from '../components/NotificationsPermissionDialog'
 import DeniedCameraPermissionDialog from '../components/DeniedCameraPermissionDialog'
 import DeniedClipboardPermissionDialog from '../components/DeniedClipboardPermissionDialog'
+import DeniedNotificationsPermissionDialog from '../components/DeniedNotificationsPermissionDialog'
 
 import { useDialog } from '../../../lib/dialog/useDialog'
 import useMountedState from '../../../lib/hooks/useMountedState'
@@ -18,7 +20,7 @@ import api from '../api/PermissionsAPI'
 import { isSafari } from '../../../lib/utils/platform'
 
 const { Clipboard, Camera, Notifications } = Permissions
-const { Undetermined, Granted, Denied, Prompt } = PermissionStatuses
+const { Undetermined, Granted, Denied, Prompt, Disabled } = PermissionStatuses
 
 const usePermissions = (permission: Permission, options = {}) => {
   const { promptPopups, deniedPopups } = usePermissions
@@ -115,6 +117,12 @@ const usePermissions = (permission: Permission, options = {}) => {
       case Denied:
         handleDenied()
         break
+      case Disabled:
+        // TODO: maybe we would need to handle disabled case separately
+        // and run correspinding callback prop. for now it will just
+        // call onDenied but without showing denied dialog
+        onDenied()
+        break
       case Undetermined:
       default:
         // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
@@ -142,19 +150,21 @@ const usePermissions = (permission: Permission, options = {}) => {
     }
   }, [])
 
+  // TODO: maybe we would need to return disabled status separately
+  // for now it permission disabled it will return allowed false
   return [allowed, requestPermission]
 }
 
 usePermissions.promptPopups = {
   [Camera]: CameraPermissionDialog,
   [Clipboard]: ClipboardPermissionDialog,
-  [Notifications]: null,
+  [Notifications]: NotificationsPermissionDialog,
 }
 
 usePermissions.deniedPopups = {
   [Camera]: DeniedCameraPermissionDialog,
   [Clipboard]: DeniedClipboardPermissionDialog,
-  [Notifications]: null,
+  [Notifications]: DeniedNotificationsPermissionDialog,
 }
 
 export default usePermissions

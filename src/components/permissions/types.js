@@ -9,7 +9,8 @@ export const Permissions = Object.freeze({
 export const PermissionStatuses = Object.freeze({
   Granted: 'granted',
   Denied: 'denied',
-  Prompt: 'propmt',
+  Prompt: 'prompt',
+  Disabled: 'disabled',
   Undetermined: 'undetermined',
 })
 

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { groupBy, noop } from 'lodash'
+import { filter, groupBy, keys, noop, values } from 'lodash'
 import { t } from '@lingui/macro'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
@@ -109,7 +109,10 @@ export const useInviteBonus = () => {
 
   const getCanCollect = useCallback(async () => {
     try {
-      return await goodWallet.canCollectBountyFor([goodWallet.account]).then(_ => _[goodWallet.account])
+      const { account } = goodWallet
+      const statuses = await goodWallet.canCollectBountyFor([account])
+
+      return statuses[account]
     } catch (e) {
       log.error('useInviteBonus: failed to get canCollect:', e.message, e)
       return false
@@ -206,8 +209,9 @@ export const useCollectBounty = () => {
 
   const checkBounties = async () => {
     try {
-      let { pending } = await goodWallet.getUserInvites(goodWallet.account)
-      pending = Object.keys(pending)
+      const invites = await goodWallet.getUserInvites(goodWallet.account)
+      const pending = keys(invites.pending)
+
       log.debug('checkBounties got pending invites:', { pending })
 
       if (pending.length > 0 && (await goodWallet.isCitizen()) === false) {
@@ -216,10 +220,10 @@ export const useCollectBounty = () => {
         return
       }
 
-      let hasBounty = await goodWallet.canCollectBountyFor(pending)
-      log.debug('checkBounties:', { hasBounty, pending })
+      const statuses = await goodWallet.canCollectBountyFor(pending)
+      const hasBounty = filter(values(statuses))
 
-      hasBounty = Object.values(hasBounty).filter(_ => _)
+      log.debug('checkBounties:', { hasBounty, pending })
       setCanCollect(hasBounty.length)
     } catch (e) {
       log.error('checkBounties failed:', e.message, e)

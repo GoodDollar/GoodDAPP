@@ -362,7 +362,7 @@ const Claim = props => {
     } catch (exception) {
       const { message } = exception
 
-      if (!txHash || message.includes('Transaction with the same hash was already imported')) {
+      if (!txHash || !message.includes('Transaction with the same hash was already imported')) {
         throw exception
       }
 

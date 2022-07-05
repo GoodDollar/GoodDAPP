@@ -91,8 +91,9 @@ function Web3Faucet(): JSX.Element | null {
 
         const amount = await check(web3, account).catch(e => {
             console.error(e)
-            return ''
+            return new Error('Something went wrong.. try again later.')
         })
+        if (amount instanceof Error) return amount;
 
         if (amount === '0') {
           setIsClaimed(true)
@@ -114,7 +115,7 @@ function Web3Faucet(): JSX.Element | null {
               refetch()
             }
         }
-    }, [web3, account, refetch, getData])
+    }, [web3, account, refetch, getData]) 
 
     const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable === true
     const securityNotice = true
@@ -134,6 +135,7 @@ function Web3Faucet(): JSX.Element | null {
                     (chainId as any) !== SupportedChainId.FUSE
                         ? i18n._(t`Please connect your Web3 wallet to the Fuse Network to Claim UBI.`)
                         : claimed ? i18n._(t`You've already claimed today. Come back in ${tillClaim}`)
+                        : claimable instanceof Error ? claimable.message
                         : i18n._(t`Click this button to Claim your Daily UBI in `) + ' G$'
                 }
                 offset={[0, 12]}

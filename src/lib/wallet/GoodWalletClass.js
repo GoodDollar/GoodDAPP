@@ -18,6 +18,8 @@ import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import {
   chunk,
+  filter,
+  findKey,
   flatten,
   get,
   identity,
@@ -1482,6 +1484,17 @@ export class GoodWallet {
   async isKnownFuseAddress(address) {
     const nonce = await this.wallet.eth.getTransactionCount(address)
     return nonce > 0
+  }
+
+  getContractName(address) {
+    const lcAddress = address.toLowerCase()
+    const checksum = this.wallet.utils.toChecksumAddress(address)
+    const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
+    const [fullName] = filter(values(ContractsAddress).map(findByKey))
+
+    if (fullName) {
+      return { fullName }
+    }
   }
 }
 

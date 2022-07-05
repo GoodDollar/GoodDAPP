@@ -8,6 +8,7 @@ import Text from '../../common/view/Text'
 import AlertOctagon from '../../../assets/alertOctagon.svg'
 import { openLink } from '../../../lib/utils/linking'
 import Config from '../../../config/config'
+import { weiToMask } from '../../../lib/wallet/utils'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -21,6 +22,7 @@ const onReadMorePress = () => openLink(Config.refundInfoLink)
 
 const RefundDialog = ({ theme, styles, amount, onReturn }) => {
   const currentDate = useMemo(() => moment().format('MM/DD/YY | hh:mma Z'), [])
+  const formattedAmount = useMemo(() => (amount ? weiToMask(amount) : 0), [])
 
   return (
     <View style={styles.container}>
@@ -35,7 +37,7 @@ const RefundDialog = ({ theme, styles, amount, onReturn }) => {
       </Text>
 
       <Text fontFamily={theme.fonts.roboto} fontSize={28} fontWeight="bold">
-        {amount} G$
+        {formattedAmount} G$
       </Text>
 
       <Text fontFamily={theme.fonts.roboto} fontSize={20} fontWeight="bold" style={styles.bottomTitle}>

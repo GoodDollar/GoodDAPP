@@ -20,6 +20,7 @@ import {
   chunk,
   filter,
   findKey,
+  first,
   flatten,
   get,
   identity,
@@ -1491,7 +1492,7 @@ export class GoodWallet {
     const checksum = this.wallet.utils.toChecksumAddress(address)
     const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
 
-    return filter(values(ContractsAddress).map(findByKey))
+    return first(filter(values(ContractsAddress).map(findByKey)))
   }
 }
 

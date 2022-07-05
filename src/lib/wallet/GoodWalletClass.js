@@ -1490,11 +1490,8 @@ export class GoodWallet {
     const lcAddress = address.toLowerCase()
     const checksum = this.wallet.utils.toChecksumAddress(address)
     const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
-    const [fullName] = filter(values(ContractsAddress).map(findByKey))
 
-    if (fullName) {
-      return { fullName }
-    }
+    return filter(values(ContractsAddress).map(findByKey))
   }
 }
 

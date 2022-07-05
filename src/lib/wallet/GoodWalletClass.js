@@ -16,7 +16,22 @@ import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { chunk, flatten, get, identity, last, mapValues, maxBy, pickBy, range, sortBy, uniqBy, values } from 'lodash'
+import {
+  chunk,
+  filter,
+  findKey,
+  flatten,
+  get,
+  identity,
+  last,
+  mapValues,
+  maxBy,
+  pickBy,
+  range,
+  sortBy,
+  uniqBy,
+  values,
+} from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
@@ -1409,6 +1424,17 @@ export class GoodWallet {
   async isKnownFuseAddress(address) {
     const nonce = await this.wallet.eth.getTransactionCount(address)
     return nonce > 0
+  }
+
+  getContractName(address) {
+    const lcAddress = address.toLowerCase()
+    const checksum = this.wallet.utils.toChecksumAddress(address)
+    const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
+    const [fullName] = filter(values(ContractsAddress).map(findByKey))
+
+    if (fullName) {
+      return { fullName }
+    }
   }
 }
 

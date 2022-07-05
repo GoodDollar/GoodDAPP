@@ -990,15 +990,19 @@ export class UserStorage {
 
     data.value = get(receiptEvent, 'value') || get(receiptEvent, 'amount') || amount
 
+    const fromGDUbi = data.address === this.wallet.UBIContract._address && 'GoodDollar UBI'
+
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||
         type === FeedItemType.EVENT_TYPE_CLAIM ||
         data.address === NULL_ADDRESS ||
+        fromGDUbi ||
         id.startsWith('0x') === false) &&
       'GoodDollar'
-    const fromEmailMobile = data.initiatorType && data.initiator
-    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGD || 'Unknown'
 
+    const fromEmailMobile = data.initiatorType && data.initiator
+
+    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || 'Unknown'
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {

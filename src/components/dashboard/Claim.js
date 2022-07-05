@@ -405,6 +405,10 @@ const Claim = props => {
     })
 
     try {
+      if (Config.disableClaim) {
+        throw new Error('Come back later')
+      }
+
       await _retry(async () => {
         const receipt = await goodWallet.claim()
 

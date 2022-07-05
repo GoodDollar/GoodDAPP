@@ -40,6 +40,7 @@ export const routeAndPathForCode = async (
   }
 
   const profile = (await userStorage.getPublicProfile(address)) || {}
+  const counterPartyDisplayName = profile?.fullName || goodWallet.getContractName(address)
 
   switch (screen) {
     case 'sendByQR':
@@ -51,7 +52,7 @@ export const routeAndPathForCode = async (
         amount,
         profile,
         vendorInfo,
-        counterPartyDisplayName: profile.fullName,
+        counterPartyDisplayName,
         action: ACTION_SEND_TO_ADDRESS,
         type: screen === 'sendByQR' ? 'QR' : 'receive',
       }

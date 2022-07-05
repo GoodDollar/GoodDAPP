@@ -113,6 +113,8 @@ const Config = {
   recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
   alchemyKey,
   textileKey: env.REACT_APP_TEXTILE_KEY,
+  enableRefund: env.REACT_APP_ENABLE_REFUND === 'true',
+  refundInfoLink: env.REACT_APP_REFUND_INFO_LINK || 'https://www.gooddollar.org/restoring-a-fair-gooddollar-ubi-pool/?utm_source=wallet',
   textileSecret: env.REACT_APP_TEXTILE_SECRET,
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
   realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',

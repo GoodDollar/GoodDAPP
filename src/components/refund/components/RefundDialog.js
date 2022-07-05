@@ -22,7 +22,7 @@ const onReadMorePress = () => openLink(Config.refundInfoLink)
 
 const RefundDialog = ({ theme, styles, amount, onReturn }) => {
   const currentDate = useMemo(() => moment().format('MM/DD/YY | hh:mma Z'), [])
-  const formattedAmount = useMemo(() => (amount ? weiToMask(amount) : 0), [])
+  const formattedAmount = useMemo(() => (amount ? weiToMask(amount) : 0), [amount])
 
   return (
     <View style={styles.container}>

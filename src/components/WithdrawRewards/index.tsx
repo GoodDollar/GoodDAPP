@@ -6,7 +6,7 @@ import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import Modal from 'components/Modal'
 import Button from 'components/Button'
-import useWeb3 from '../../hooks/useWeb3'
+import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
 import { useDispatch } from 'react-redux'
 import { addTransaction } from '../../state/transactions/actions'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
@@ -28,7 +28,7 @@ function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsPro
     const { i18n } = useLingui()
     const [status, setStatus] = useState<WithdrawRewardsState>('none')
     const [error, setError] = useState<Error>()
-    const web3 = useWeb3()
+    const { web3 } = useGdContextProvider()
     const dispatch = useDispatch()
 
     const [transactionList, setTransactionHash] = useState<any[]>([])

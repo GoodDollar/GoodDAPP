@@ -13,6 +13,7 @@ import { addTransaction } from 'state/transactions/actions'
 import { useDispatch } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
+import { SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
 import { Action } from 'pages/gd/Stake/StakeDeposit'
 import { getExplorerLink } from 'utils'
 import { t } from '@lingui/macro'
@@ -70,6 +71,8 @@ function SwapConfirmModal({
     const globalDispatch = useDispatch()
     const { chainId } = useActiveWeb3React()
     const { web3 } = useGdContextProvider()
+    const network = SupportedChainId[chainId]
+
     const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
     const getData = sendGa
@@ -111,7 +114,7 @@ function SwapConfirmModal({
                     tradeInfo: tradeInfo
                 })
             )
-            getData({event: "swap", action: "submittedSwap"})
+            getData({event: "swap", action: "submittedSwap", network: network})
             if (onConfirm) onConfirm()
         }
 
@@ -120,7 +123,7 @@ function SwapConfirmModal({
                                    action: "confirmSwap", 
                                    amount: buying ? minimumOutputSig : inputSig, 
                                    tokens: [inputSymbol, outputSymbol], 
-                                   type: buying ? 'buy' : 'sell',})
+                                   type: buying ? 'buy' : 'sell', network: network})
             const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)
 
             if (meta?.outputAmount.currency.name === 'GoodDollar') {

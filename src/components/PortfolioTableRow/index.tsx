@@ -5,6 +5,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { DAO_NETWORK, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk/dist/constants'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
+import sendGa from 'functions/sendGa'
 
 interface PortfolioTableRowProps {
     stake: MyStake
@@ -14,7 +15,12 @@ interface PortfolioTableRowProps {
 function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
-    const handleWithdrawOpen = useCallback(() => setWithdrawOpen(true), [])
+    const getData = sendGa
+    const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet' 
+    const handleWithdrawOpen = useCallback(() => {
+      getData({event: 'stake', action: 'withdrawStart', network: network})
+      setWithdrawOpen(true)
+    }, [])
 
     return (
         <>

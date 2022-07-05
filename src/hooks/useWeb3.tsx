@@ -6,6 +6,7 @@ import { useEnvWeb3, GdSDkContext } from '@gooddollar/web3sdk/dist/hooks/'
 import { DAO_NETWORK } from '@gooddollar/web3sdk/dist/constants/'
 import { getNetworkEnv } from '@gooddollar/web3sdk/dist/constants/addresses'
 
+// TODO: remove
 const Context = createContext<Web3 | null>(null)
 
 export function Web3ContextProvider({ children }: { children: ReactNode | ReactNodeArray }) {
@@ -33,6 +34,8 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
     return <GdSDkContext.Provider value={{web3: web3, activeNetwork: network, rpcs: rpcs}}>{children}</GdSDkContext.Provider>
 }
 
+
+// TODO: remove
 export default function useWeb3() {
     return useContext(Context)
 }

@@ -1,1 +1,0 @@
-{"version":3,"file":"CompoundContract.d.ts","sourceRoot":"","sources":["../../src/contracts/CompoundContract.ts"],"names":[],"mappings":"AAAA,OAAO,IAAI,MAAM,MAAM,CAAA;AACvB,OAAO,EAAE,QAAQ,EAAE,MAAM,mBAAmB,CAAA;AAK5C;;;;;GAKG;AACH,wBAAsB,gBAAgB,CAAC,IAAI,EAAE,IAAI,EAAE,OAAO,EAAE,MAAM,GAAG,OAAO,CAAC,QAAQ,CAAC,CAErF"}

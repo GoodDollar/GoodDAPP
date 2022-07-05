@@ -7,7 +7,6 @@ import { ButtonAction, ButtonDefault, ButtonText } from 'components/gd/Button'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTokenBalance } from 'state/wallet/hooks'
 import { Token } from '@sushiswap/sdk'
-import useWeb3 from 'hooks/useWeb3'
 import { addTransaction } from 'state/transactions/actions'
 import { useDispatch } from 'react-redux'
 import { getExplorerLink } from 'utils'
@@ -20,11 +19,9 @@ import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
 import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from '@gooddollar/web3sdk/dist/core/staking'
-import { LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk/dist/constants'
+import { LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
 import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
-
 import Share from 'components/Share'
-
 export interface StakeDepositModalProps {
     stake: Stake
     onDeposit?: () => any
@@ -54,6 +51,8 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     const { web3 } = useGdContextProvider()
+    const network = SupportedChainId[chainId]
+
     const [state, dispatch] = useReducer(
         (
             state: typeof initialState,
@@ -112,6 +111,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
         initialState
     )
     const tokenToDeposit = stake.tokens[state.token]
+
     const tokenToDepositBalance = useTokenBalance(
         account,
         useMemo(
@@ -263,7 +263,8 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         disabled={!state.value.match(/[^0.]/) || !web3 || !account || state.loading}
                         onClick={() =>
                             withLoading(async () => {
-                                getData({event: 'stake', action: 'stakeApprove', amount: state.value, type: stake.protocol})
+                                getData({event: 'stake', action: 'stakeApprove', 
+                                         amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
                                     await approve(web3!, stake.address, state.value, tokenToDeposit, () => {
@@ -309,7 +310,8 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                             disabled={state.loading}
                             onClick={() =>
                                 withLoading(async () => {
-                                    getData({event: 'stake', action: 'stakeDeposit', amount: state.value, type: stake.protocol})
+                                    getData({event: 'stake', action: 'stakeDeposit', 
+                                             amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
                                     const depositMethod =
                                         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
                                     await depositMethod(
@@ -319,7 +321,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                         tokenToDeposit,
                                         state.token === 'B',
                                         (transactionHash: string, from: string) => {
-                                            getData({event: 'stake', action: 'awesomeStake'})
+                                            getData({event: 'stake', action: 'awesomeStake', token: tokenToDeposit.symbol})
                                             dispatch({ type: 'DONE', payload: transactionHash })
                                             reduxDispatch(
                                                 addTransaction({

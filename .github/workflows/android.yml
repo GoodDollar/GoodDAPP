@@ -81,7 +81,7 @@ jobs:
         run: |
           echo Code push release target version $BUILD_NUMBER
           yarn lingui:compile
-          BUILD_VERSION=`node -pe "require('./package.json')['version']"`
+          BUILD_VERSION=`node -pe "require('./package.json')['version']"` | rev | cut -c3- | rev
           npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t ${BUILD_VERSION}
 
   build:

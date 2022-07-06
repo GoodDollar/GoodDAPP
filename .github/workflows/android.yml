@@ -75,13 +75,10 @@ jobs:
           echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
           echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
       - name: Code push release
-        env:
-          BUILD_NUMBER: ${{ github.run_number }}
-          CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         run: |
-          echo Code push release target version $BUILD_NUMBER
+          BUILD_VERSION=`node -pe "require('./package.json')['version']" | rev | cut -c5- | rev`
+          echo Code push release target version ${BUILD_VERSION}
           yarn lingui:compile
-          BUILD_VERSION=`node -pe "require('./package.json')['version']"` | rev | cut -c3- | rev
           npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t ${BUILD_VERSION}
 
   build:

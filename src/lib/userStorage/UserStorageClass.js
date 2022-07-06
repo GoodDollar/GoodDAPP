@@ -990,7 +990,8 @@ export class UserStorage {
 
     data.value = get(receiptEvent, 'value') || get(receiptEvent, 'amount') || amount
 
-    const fromGDUbi = data.address === this.wallet.UBIContract._address && 'GoodDollar UBI'
+    const ubiAddressLc = this.wallet.UBIContract._address
+    const fromGDUbi = (data.address || '').toLowerCase() === ubiAddressLc && 'GoodDollar UBI'
 
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||

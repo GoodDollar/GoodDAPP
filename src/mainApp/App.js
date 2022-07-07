@@ -28,18 +28,6 @@ export const App = () => {
   const AppWrapper = isMobile ? Fragment : SafeAreaView
   const wrapperProps = isMobile ? {} : { style: styles.safeAreaView }
 
-  // useEffect(() => {
-  //   log.debug('on mount')
-
-  //   const { _v8runtime: v8 } = global
-
-  //   log.debug({ Config })
-
-  //   if (isAndroidNative && v8) {
-  //     log.debug(`V8 version is ${v8().version}`)
-  //   }
-  // }, [])
-
   return (
     <PaperProvider theme={theme}>
       <AppWrapper {...wrapperProps}>

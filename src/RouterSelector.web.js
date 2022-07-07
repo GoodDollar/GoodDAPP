@@ -53,7 +53,6 @@ let AppRouter = React.lazy(async () => {
 
 const NestedRouter = memo(({ isLoggedIn }) => {
   useUpdateDialog()
-  useServiceWorker() // Only runs on Web
 
   useEffect(() => {
     let source, platform, params
@@ -80,7 +79,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   )
 })
 
-const RouterSelector = () => {
+const RouterWrapper = () => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
   // we use global state for signup process to signal user has registered
@@ -115,6 +114,12 @@ const RouterSelector = () => {
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedInRouter} />}
     </React.Suspense>
   )
+}
+
+const RouterSelector = () => {
+  useServiceWorker()
+
+  return <RouterWrapper />
 }
 
 export default RouterSelector

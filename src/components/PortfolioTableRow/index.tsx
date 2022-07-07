@@ -7,7 +7,7 @@ import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { ButtonAction } from 'components/gd/Button'
+import { ButtonAction, ButtonOutlined } from 'components/gd/Button'
 import ClaimRewards from 'components/ClaimRewards'
 import sendGa from 'functions/sendGa'
 
@@ -119,20 +119,20 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
                             noShadow={true}
                             requireNetwork={requireNetwork}
                             onClick={handleWithdrawOpen}
+                            ButtonEl={ButtonOutlined}
                         >
                             {i18n._(t`Withdraw Liquidity`)}
                         </ActionOrSwitchButton>
                         {
                         claimableStake &&
-                            <ButtonAction 
+                            <ButtonOutlined 
                                 className='mt-2' 
                                 size='sm' 
-                                noShadow={true} 
                                 borderRadius="6px" 
                                 onClick={handleClaimRewardsOpen}
                             >
                                 {i18n._(t`Claim rewards`)}
-                            </ButtonAction>
+                            </ButtonOutlined>
                         }
                     </div>
                 </td>
@@ -143,23 +143,22 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
                         size="sm"
                         width="100%"
                         borderRadius="6px"
-                        noShadow={true}
                         requireNetwork={requireNetwork}
                         onClick={handleWithdrawOpen}
+                        ButtonEl={ButtonOutlined}
                     >
                         {i18n._(t`Withdraw`)}
                     </ActionOrSwitchButton>
                     {   
                          claimableStake &&
-                            <ButtonAction 
+                            <ButtonOutlined 
                                 className='mt-2' 
-                                size='sm' 
-                                noShadow={true} 
+                                size='sm'  
                                 borderRadius="6px" 
                                 onClick={handleClaimRewardsOpen}
                             >
                                 {i18n._(t`Claim rewards`)}
-                            </ButtonAction>
+                            </ButtonOutlined>
                     }
                     </td>
             </tr>

@@ -232,14 +232,13 @@ const MobileCell = ({
                     </ActionOrSwitchButton>
                     {
                         claimableStake &&
-                            <ButtonAction  
+                            <ButtonOutlined  
                                 size='sm' 
-                                noShadow={true} 
                                 borderRadius="6px" 
                                 onClick={handleClaimRewardsOpen}
                             >
                                 {i18n._(t`Claim rewards`)}
-                            </ButtonAction>
+                            </ButtonOutlined>
                     }
                 </div>
             </CellSC>
@@ -444,7 +443,7 @@ const Portfolio = () => {
                                         size="default"
                                         noShadow={isMobile}
                                         requireNetwork={DAO_NETWORK.MAINNET}
-                                        ButtonEl={ButtonDefault}
+                                        ButtonEl={ButtonOutlined}
                                         className="actionButton"
                                     >
                                         {i18n._(t`Claim G$ rewards`)}
@@ -458,9 +457,9 @@ const Portfolio = () => {
                                 onClaim={update}
                                 type="GOOD"
                                 trigger={
-                                    <ButtonDefault size="default" className="md:mt-1 actionButton" width={'156px'}>
+                                    <ButtonOutlined size="default" className="md:mt-1 actionButton" width={'156px'}>
                                         {i18n._(t`Claim GOOD rewards`)}
-                                    </ButtonDefault>
+                                    </ButtonOutlined>
                                 }
                                 // trigger={<ButtonDefault width={'156px'}>{i18n._(t`Claim rewards`)}</ButtonDefault>}
                             />

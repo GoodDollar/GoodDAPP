@@ -23,6 +23,7 @@ import 'react-spring-bottom-sheet/dist/style.css'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
 import { type } from 'os'
+import { ButtonOutlined } from 'components/ButtonLegacy'
 
 const BottomSheetSC = styled(BottomSheet)`
     & div {
@@ -124,11 +125,11 @@ function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest 
                 )}
                 <div className="relative flex flex-col items-center mt-1">
                     {error && <p className="mb-5 warning">{error.message}</p>}
-                    <ButtonAction className="claim" disabled={status === 'pending'} onClick={handleClaim}>
+                    <ButtonOutlined className="claim" disabled={status === 'pending'} onClick={handleClaim}>
                         {status === 'pending'
                             ? i18n._(t`PENDING SIGN...`)
                             : `${i18n._(t`Claim Rewards`)}`}
-                    </ButtonAction>
+                    </ButtonOutlined>
                     {!isGovStake && (
                         <p className="mb-2 text-center claiming-hint">
                             {i18n._(t`Claiming your rewards will reset your multiplier`)}

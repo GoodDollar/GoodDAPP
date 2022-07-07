@@ -8,7 +8,7 @@ import Config from '../../config/config'
 import useShowUpdateDialog from './UpdateDialog'
 
 const { InstallMode } = codePush
-const { suggestMobileAppUpdate, suggestCodePushUpdate, newVersionUrl } = Config
+const { suggestMobileAppUpdate, suggestCodePushUpdate, newVersionUrl, codePushKey } = Config
 
 const log = logger.child({ from: 'useUpdateDialog' })
 
@@ -18,8 +18,8 @@ export default () => {
   useEffect(() => {
     const checkVersion = async () => {
       const currentVersion = VersionCheck.getCurrentVersion()
-      const latestVersion = await VersionCheck.getLatestVersion()
       const packageName = await VersionCheck.getPackageName()
+      const latestVersion = await VersionCheck.getLatestVersion({ packageName })
       const storeUrl = await VersionCheck.getStoreUrl({ packageName })
 
       log.debug('Versions', { currentVersion, latestVersion, storeUrl, packageName })
@@ -54,6 +54,7 @@ export default () => {
           .sync({
             updateDialog: true,
             installMode: InstallMode.IMMEDIATE,
+            deploymentKey: codePushKey,
           })
           .catch(e => {
             log.warn('Hot code push sync error', e.message, e)

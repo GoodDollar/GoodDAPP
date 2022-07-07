@@ -1052,7 +1052,7 @@ export async function claimGoodReward(
 
         transactions.push(stakersDistribution.methods.claimReputation(account, simpleStakingAddress).send({ from: account }))
     }
-    debugger;
+
     if (onSent)
       Promise.all(
         transactions.map(

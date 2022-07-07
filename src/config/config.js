@@ -69,6 +69,7 @@ const Config = {
   suggestMobileApp: env.REACT_APP_SUGGEST_MOBILE_APP !== 'false',
   suggestMobileAppUpdate: env.REACT_APP_SUGGEST_MOBILE_APP_UPDATE === 'true',
   suggestCodePushUpdate: env.REACT_APP_SUGGEST_CODE_PUSH_UPDATE !== 'false',
+  codePushDeploymentKey: env.REACT_APP_CODE_PUSH_KEY,
   faceTecEncryptionKey: fixNL(env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   faceTecLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
   faceTecProductionMode: env.REACT_APP_ZOOM_PRODUCTION_MODE === 'true',
@@ -177,7 +178,6 @@ const Config = {
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
   ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600),
-  codePushKey: env.REACT_APP_CODE_PUSH_KEY
 }
 
 //get and override settings from server

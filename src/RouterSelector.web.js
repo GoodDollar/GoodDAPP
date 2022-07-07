@@ -21,6 +21,7 @@ import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import { handleLinks } from './lib/utils/linking'
+import useServiceWorker from './lib/hooks/useServiceWorker'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -52,6 +53,7 @@ let AppRouter = React.lazy(async () => {
 
 const NestedRouter = memo(({ isLoggedIn }) => {
   useUpdateDialog()
+  useServiceWorker() // Only runs on Web
 
   useEffect(() => {
     let source, platform, params

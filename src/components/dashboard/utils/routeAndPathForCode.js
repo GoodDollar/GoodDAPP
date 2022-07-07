@@ -40,7 +40,7 @@ export const routeAndPathForCode = async (
   }
 
   const lcAddress = (address || '').toLowerCase()
-  const { _address: lcUBIAddress } = goodWallet.UBIContract
+  const lcUBIAddress = goodWallet.UBIContract._address.toLowerCase()
   const profile = (await userStorage.getPublicProfile(address)) || {}
   const counterPartyDisplayName =
     lcAddress === lcUBIAddress ? 'GoodDollar UBI' : profile?.fullName || goodWallet.getContractName(address)

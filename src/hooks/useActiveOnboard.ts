@@ -142,7 +142,7 @@ export function useOnboardConnect():OnboardConnectProps {
   const connectedWallets = useWallets()
 
   const previouslyConnected:any = JSON.parse(
-    localStorage.getItem('currentConnectWallet') ?? '{}'
+    localStorage.getItem('currentConnectWallet') ?? '[]'
   )
   
   const updateStorage = (newChainId:string, currentWallet:WalletState[]) => {
@@ -152,22 +152,24 @@ export function useOnboardConnect():OnboardConnectProps {
     setActivated(true)
   }
 
+  const connectOnboard = async() => {
+    // Coinbase reloads instead of sending accountsChanged event, so empty storage if no active address can be found
+    if (previouslyConnected[0].label[0] === 'Coinbase'){ 
+      const isStillActive = localStorage.getItem('-walletlink:https://www.walletlink.org:Addresses')
+      if (!isStillActive){
+        localStorage.removeItem('currentConnectWallet')
+        setTried(true)
+        return
+      }
+    }
+    // disableModals:true for silently connecting
+    await connect({ autoSelect: { label: previouslyConnected[0].label[0], disableModals: true}})
+    setActivated(true)
+  }
+
   // eager connect
   useEffect(() => {
-    async function connectOnboard() {
-      // Coinbase reloads instead of sending accountsChanged event, so empty storage if no active address can be found
-      if (previouslyConnected[0].label[0] === 'Coinbase'){ 
-        const isStillActive = localStorage.getItem('-walletlink:https://www.walletlink.org:Addresses')
-        if (!isStillActive){
-          localStorage.removeItem('currentConnectWallet')
-          setTried(true)
-          return
-        }
-      }
-      // disableModals:true for silently connecting
-      connect({ autoSelect: { label: previouslyConnected[0].label[0], disableModals: true}})
-    }
-    if (previouslyConnected[0] && !tried){
+    if (previouslyConnected.length && !tried){
       connectOnboard()
       setTried(true)
     } else if (activated || !previouslyConnected[0]) {
@@ -183,11 +185,11 @@ export function useOnboardConnect():OnboardConnectProps {
     }
 
     // disconnect
-    if (!isConnected && previouslyConnected[0] && tried){
+    if (!isConnected && previouslyConnected.length && (tried || activated)){
       const isWalletConnect = previouslyConnected[0].label[0] === 'WalletConnect'
       StoreOnboardState(connectedWallets, '0x1')
       setActivated(false)
-      if (isWalletConnect) {
+      if (isWalletConnect && activated) {
         localStorage.removeItem('walletconnect')
         window.location.reload() // temporarily necessary, as there is a irrecoverable error/bug when not reloading
       }

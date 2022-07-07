@@ -22,6 +22,7 @@ import { Percent } from '@sushiswap/sdk'
 import sendGa from 'functions/sendGa'
 
 import ShareTransaction from 'components/ShareTransaction'
+import { SupportedChainId } from 'sdk/constants/chains'
 
 export interface SwapConfirmModalProps extends SwapDetailsFields {
     className?: string
@@ -69,6 +70,7 @@ function SwapConfirmModal({
     const [from, to] = pair ?? []
     const globalDispatch = useDispatch()
     const { chainId } = useActiveWeb3React()
+    const network = SupportedChainId[chainId]
     const web3 = useWeb3()
     const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
@@ -111,7 +113,7 @@ function SwapConfirmModal({
                     tradeInfo: tradeInfo
                 })
             )
-            getData({event: "swap", action: "submittedSwap"})
+            getData({event: "swap", action: "submittedSwap", network: network})
             if (onConfirm) onConfirm()
         }
 
@@ -120,7 +122,7 @@ function SwapConfirmModal({
                                    action: "confirmSwap", 
                                    amount: buying ? minimumOutputSig : inputSig, 
                                    tokens: [inputSymbol, outputSymbol], 
-                                   type: buying ? 'buy' : 'sell',})
+                                   type: buying ? 'buy' : 'sell', network: network})
             const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)
 
             if (meta?.outputAmount.currency.name === 'GoodDollar') {

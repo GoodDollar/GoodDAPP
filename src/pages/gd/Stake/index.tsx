@@ -270,8 +270,10 @@ const StakeTable = ({
                                 noShadow={true}
                                 requireNetwork={network}
                                 onClick={() => {
-                                    setActiveStake(stake)
-                                    setActiveTableName()
+                                  getData({event: 'stake', action: 'stakeStart', token: stake.tokens.A.symbol,
+                                           type: stake.protocol, network: network})
+                                  setActiveStake(stake)
+                                  setActiveTableName()
                                 }}
                                 ButtonEl={ButtonOutlined}
                             >
@@ -416,7 +418,9 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
-                                              getData({event: 'stake', action: 'stakeStart', type: stake.protocol})
+                                              getData({event: 'stake', action: 'stakeStart', 
+                                                       token: stake.tokens.A.symbol, 
+                                                       type: stake.protocol, network: network})
                                               setActiveStake(stake)
                                               setActiveTableName()
                                             }}
@@ -434,7 +438,9 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
-                                              getData({event: 'stake', action: 'stakeStart', type: stake.protocol})
+                                              getData({event: 'stake', action: 'stakeStart', 
+                                                       token: stake.tokens.A.symbol, 
+                                                       type: stake.protocol, network: network})
                                               setActiveStake(stake)
                                               setActiveTableName()
                                             }}

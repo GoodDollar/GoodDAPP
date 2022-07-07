@@ -24,6 +24,7 @@ import Switch from 'components/Switch'
 
 import ShareTransaction from 'components/ShareTransaction'
 import Share from 'components/Share'
+import { SupportedChainId } from 'sdk/constants/chains'
 
 export interface StakeDepositModalProps {
     stake: Stake
@@ -53,6 +54,7 @@ const initialState = {
 const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepositModalProps) => {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
+    const network = SupportedChainId[chainId]
     const web3 = useWeb3()
     const [state, dispatch] = useReducer(
         (
@@ -112,6 +114,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
         initialState
     )
     const tokenToDeposit = stake.tokens[state.token]
+
     const tokenToDepositBalance = useTokenBalance(
         account,
         useMemo(
@@ -263,7 +266,8 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         disabled={!state.value.match(/[^0.]/) || !web3 || !account || state.loading}
                         onClick={() =>
                             withLoading(async () => {
-                                getData({event: 'stake', action: 'stakeApprove', amount: state.value, type: stake.protocol})
+                                getData({event: 'stake', action: 'stakeApprove', 
+                                         amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
                                     await approve(web3!, stake.address, state.value, tokenToDeposit, () => {
@@ -309,7 +313,8 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                             disabled={state.loading}
                             onClick={() =>
                                 withLoading(async () => {
-                                    getData({event: 'stake', action: 'stakeDeposit', amount: state.value, type: stake.protocol})
+                                    getData({event: 'stake', action: 'stakeDeposit', 
+                                             amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
                                     const depositMethod =
                                         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
                                     await depositMethod(
@@ -319,7 +324,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                         tokenToDeposit,
                                         state.token === 'B',
                                         (transactionHash: string, from: string) => {
-                                            getData({event: 'stake', action: 'awesomeStake'})
+                                            getData({event: 'stake', action: 'awesomeStake', token: tokenToDeposit.symbol})
                                             dispatch({ type: 'DONE', payload: transactionHash })
                                             reduxDispatch(
                                                 addTransaction({

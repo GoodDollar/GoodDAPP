@@ -9,6 +9,7 @@ import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ButtonAction } from 'components/gd/Button'
 import ClaimRewards from 'components/ClaimRewards'
+import sendGa from 'functions/sendGa'
 
 interface PortfolioTableRowProps {
     stake: MyStake
@@ -19,13 +20,18 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
     const [isClaimRewardsOpen, setClaimRewardsOpen] = useState(false)
-    const handleWithdrawOpen = useCallback(() => setWithdrawOpen(true), [])
     const handleClaimRewardsOpen = useCallback(() => setClaimRewardsOpen(true), [])
     const { chainId } = useActiveWeb3React()
 
     const requireNetwork = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
     const claimableStake = (chainId === (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.FUSE) ||
          (chainId !== (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.MAINNET)
+    const getData = sendGa
+    const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet' 
+    const handleWithdrawOpen = useCallback(() => {
+      getData({event: 'stake', action: 'withdrawStart', network: network})
+      setWithdrawOpen(true)
+    }, [])
 
     return (
         <>

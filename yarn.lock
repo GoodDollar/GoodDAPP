@@ -21034,10 +21034,10 @@ react-native-vector-icons@^6.6.0:
     prop-types "^15.7.2"
     yargs "^15.0.2"
 
-react-native-version-check@^3.4.2:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/react-native-version-check/-/react-native-version-check-3.4.2.tgz#f330c3050b5e8de249eb2dd53ef55c5a17bfa0cd"
-  integrity sha512-f2eHI6p60UlBzlcxuy4pQaGqCEmR5cNvRQuyG/pFydLdutYpa05zeg4KkTfHWdVmGHhiawyaAfto9QsnBZ70Ew==
+react-native-version-check@^3.4.3:
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-version-check/-/react-native-version-check-3.4.3.tgz#598a1a65d5edca6fe9acc6eba61b7b2e6ae77a25"
+  integrity sha512-E1FyaPR+sDwZAUzehV8q1tQQ8uZAS0pM49HEaXeYw+MHaf2mF8GFUPi3z2bwwN+kV2QHnCpRuPp4lcV6TVOuKw==
   dependencies:
     lodash.isfunction "^3.0.9"
     lodash.isnil "^4.0.0"

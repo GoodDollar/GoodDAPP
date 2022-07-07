@@ -4,7 +4,7 @@ import API from '../API'
 import { REGISTRATION_METHOD_TORUS } from '../constants/login'
 
 const fetchData = response => get(response, 'data', {})
-const fromDate = new Date('2022/07/07')
+const fromDate = new Date('2022/07/08')
 const REG_METHOD_KEY = 'regMethod'
 
 /**
@@ -23,7 +23,7 @@ const fixRegMethod = async (lastUpdate, prevVersion, log, goodWallet, userStorag
   }
 
   const response = await API.userExistsCheck({ identifier }).then(fetchData)
-  const { exists = false, provider = null } = get(response, 'data', {})
+  const { exists = false, provider = null } = response
 
   log.debug('got user data', { response })
 

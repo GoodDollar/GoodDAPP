@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const ClaimRewardsStyled = styled.div`
-    padding: 40px;
+    padding: 16px;
 
     .title {
         font-style: normal;
@@ -10,13 +10,19 @@ export const ClaimRewardsStyled = styled.div`
         line-height: 32px;
         text-align: center;
         color: #0D182D;
+        margin-bottom: 12px;
     }
 
-
-    .withdraw {
-        font-size: 20px;
-        height: 71px;
-        max-width: 387px;
+    .claim {
+        height: 48px;
+        max-width: 288px;
+        background: #0075FF;
+        text-transform: uppercase;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 24px;
+        border-radius: 8px;
     }
 
     .claiming-hint {
@@ -27,13 +33,14 @@ export const ClaimRewardsStyled = styled.div`
         text-align: center;
         color: #8499BB;
         margin-top: 8px;
+        margin-bottom: 0px;
     }
 
     .pending-hint {
         position: absolute;
         font-size: 12px;
         line-height: 14px;
-        bottom: -18px;
+        bottom: -130px;
     }
 
     .back-to-portfolio {
@@ -52,5 +59,14 @@ export const ClaimRewardsStyled = styled.div`
         line-height: 23px;
         letter-spacing: 0.35px;
         text-transform: uppercase;
+    }
+
+    .availableRewards {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 16px;
+        color: #8499BB;
+        margin-top: 16px;
     }
 `

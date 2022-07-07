@@ -12,10 +12,10 @@ import ClaimRewards from 'components/ClaimRewards'
 
 interface PortfolioTableRowProps {
     stake: MyStake
-    onWithdraw: () => void
+    onUpdate: () => void
 }
 
-function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
+function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
     const [isClaimRewardsOpen, setClaimRewardsOpen] = useState(false)
@@ -34,7 +34,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 setOpen={setWithdrawOpen}
                 token={`${stake.tokens.A.symbol}`}
                 protocol={stake.protocol}
-                onWithdraw={onWithdraw}
+                onWithdraw={onUpdate}
                 stake={stake}
             />
             <ClaimRewards 
@@ -42,7 +42,7 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 setOpen={setClaimRewardsOpen}
                 token={`${stake.tokens.A.symbol}`}
                 protocol={stake.protocol}
-                onWithdraw={onWithdraw}
+                onClaim={onUpdate}
                 stake={stake}
             />
             <tr>
@@ -143,7 +143,19 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                     >
                         {i18n._(t`Withdraw`)}
                     </ActionOrSwitchButton>
-                </td>
+                    {   
+                         claimableStake &&
+                            <ButtonAction 
+                                className='mt-2' 
+                                size='sm' 
+                                noShadow={true} 
+                                borderRadius="6px" 
+                                onClick={handleClaimRewardsOpen}
+                            >
+                                {i18n._(t`Claim rewards`)}
+                            </ButtonAction>
+                    }
+                    </td>
             </tr>
         </>
     )

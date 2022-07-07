@@ -982,7 +982,7 @@ export async function withdraw(
  * @param {Web3} web3 Web3 instance.
  * @param {function} [onSent] calls when transactions sent to a blockchain
  */
-export async function claimGood(
+export async function claimGoodRewards(
     web3: Web3,
     onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
     onReceipt?: () => void,
@@ -1027,11 +1027,54 @@ export async function claimGood(
 }
 
 /**
+ * Claim GOOD reward from a stake.
+ * @param {Web3} web3 Web3 instance.
+ * @param {function} [onSent] calls when transactions sent to a blockchain
+ */
+export async function claimGoodReward(
+    web3: Web3,
+    contractAddress: string,
+    onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
+    onReceipt?: () => void,
+    onError?: (e:any) => void
+): Promise<TransactionDetails[]> {
+    const chainId = await getChainId(web3)
+    const account = await getAccount(web3)
+
+    const transactions: any[] = []
+    if (chainId === SupportedChainId.FUSE) {
+        const contract = governanceStakingContract(web3)
+        transactions.push(contract.methods.withdrawRewards().send({ from: account }))
+    } else {
+        const stakersDistribution = await stakersDistributionContract(web3)
+        
+        const simpleStakingAddress: string[] = [contractAddress]
+
+        transactions.push(stakersDistribution.methods.claimReputation(account, simpleStakingAddress).send({ from: account }))
+    }
+    debugger;
+    if (onSent)
+      Promise.all(
+        transactions.map(
+          transaction => 
+            new Promise<string>((resolve, reject) => {
+              transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
+              transaction.on('receipt', onReceipt)
+              transaction.on('error', reject)
+              resolve('done')
+          }) 
+        )
+      )
+
+    return Promise.all(transactions)
+}
+
+/**
  * Claim G$ rewards from staking.
  * @param {Web3} web3 Web3 instance.
  * @param {function} [onSent] calls when transactions sent to a blockchain
  */
-export async function claim(
+export async function claimG$Rewards(
     web3: Web3,
     onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
     onReceipt?: () => void
@@ -1056,6 +1099,52 @@ export async function claim(
           transactions.push(simpleStaking.methods.withdrawRewards().send({ from: account }))
         }
       }
+    }
+
+    if (onSent) {
+        Promise.all(
+            transactions.map(
+                transaction =>
+                    new Promise<string>((resolve, reject) => {
+                        transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
+                        transaction.on('receipt', onReceipt)
+                        transaction.on('error', reject)
+                        resolve('done')
+                    }) 
+            )
+        )
+    }
+
+    return Promise.all(transactions)
+}
+
+
+/**
+ * Claim G$ reward from a stake.
+ * @param {Web3} web3 Web3 instance.
+ * @param {function} [onSent] calls when transactions sent to a blockchain
+ */
+export async function claimG$Reward(
+    web3: Web3,
+    contractAddress: string,
+    onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
+    onReceipt?: () => void
+): Promise<TransactionDetails[]> {
+    const chainId = await getChainId(web3)
+    const account = await getAccount(web3)
+
+    const transactions: any[] = []
+
+    if (contractAddress) {
+        const [rewardG$, rewardGDAO] = await Promise.all([
+          getRewardG$(web3, contractAddress, account, false),
+          getRewardGDAO(web3, contractAddress, account)
+        ])
+
+        if (!rewardG$.unclaimed.equalTo(0)) {
+          const simpleStaking = simpleStakingContractV2(web3, contractAddress)
+          transactions.push(simpleStaking.methods.withdrawRewards().send({ from: account }))
+        }
     }
 
     if (onSent) {

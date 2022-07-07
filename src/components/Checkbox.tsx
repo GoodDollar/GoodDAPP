@@ -1,32 +1,72 @@
-import QuestionHelper from 'components/QuestionHelper'
 import React from 'react'
-import Settings from './Settings'
-
-export type Color = 'pink' | 'blue'
-
-const COLOR = {
-    pink: 'focus:ring-pink',
-    blue: 'focus:ring-blue'
-}
+import styled from 'styled-components'
 
 export interface CheckboxProps {
-    color: Color
     set: (value: boolean) => void
 }
 
+const CheckboxSC = styled.div`
+    display: flex;
+    position: relative;
+
+    & label {
+        background-color: #fff;
+        border: 1px solid #CDD1E7;
+        border-radius: 50%;
+        cursor: pointer;
+        height: 16px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 16px;
+    }
+
+    & label:after {
+        border: 2px solid #fff;
+        border-radius: 1px;
+        border-top: none;
+        border-right: none;
+        content: "";
+        height: 6px;
+        left: 3px;
+        opacity: 0;
+        position: absolute;
+        top: 3px;
+        transform: rotate(-45deg);
+        width: 8px;
+    }
+
+    & input[type="checkbox"] {
+        visibility: hidden;
+    }
+
+    & input[type="checkbox"]:checked + label {
+        background-color: #0075FF;
+        border-color: #0075FF;
+    }
+
+    & input[type="checkbox"]:checked + label:after {
+        opacity: 1;
+}
+`
+
 function Checkbox({
-    color,
     set,
+    name,
     className = '',
     ...rest
 }: CheckboxProps & React.InputHTMLAttributes<HTMLInputElement>): JSX.Element {
     return (
-        <input
-            type="checkbox"
-            onChange={event => set(event.target.checked)}
-            className={`appearance-none h-5 w-5 rounded-sm ${COLOR[color]} ${className}`}
-            {...rest}
-        />
+        <CheckboxSC>
+            <input
+                type="checkbox"
+                onChange={event => set(event.target.checked)}
+                className={className}
+                {...rest}
+                id={name}
+            />
+            <label htmlFor={name}></label>
+        </CheckboxSC>
     )
 }
 

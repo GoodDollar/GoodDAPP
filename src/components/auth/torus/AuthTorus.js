@@ -43,7 +43,7 @@ import { TorusStatusCode } from './sdk/TorusSDK'
 const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles }) => {
-  const { initWalletAndStorage, login: loginWithWallet } = useContext(GoodWalletContext)
+  const { initWalletAndStorage } = useContext(GoodWalletContext)
   const { setLoggedInRouter } = useContext(GlobalTogglesContext)
   const { hideDialog, showErrorDialog } = useDialog()
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
@@ -263,7 +263,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       setActiveStep(2)
 
       // get full name, email, number, userId
-      const [goodWallet, userStorage] = await initWalletAndStorage(
+      const [goodWallet] = await initWalletAndStorage(
         web3Provider ? web3Provider : torusUser.privateKey,
         web3Provider ? provider.toUpperCase() : 'SEED',
       )
@@ -278,11 +278,6 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         case 'login': {
           // case of sign-in
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
-
-          // refresh JWT for a signed up one, server will sign it with permission to use realmdb
-          await loginWithWallet(true)
-          await userStorage.initRegistered()
-          await userStorage.userProperties.set('regMethod', REGISTRATION_METHOD_TORUS)
 
           setWalletPreparing(false)
           setSuccessfull(() => setLoggedInRouter(true))

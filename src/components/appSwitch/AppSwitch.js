@@ -62,28 +62,32 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     return isOutOfGas
-  }, [goodWallet, userStorage])
+  }, [goodWallet, userStorage, navigate])
 
   const showOutOfGasError = useDebouncedCallback(_showOutOfGasError, GAS_CHECK_DEBOUNCE_TIME, { leading: true })
 
   /*
     Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
-  const getRoute = useCallback((destinationPath = {}) => {
-    let { path, params } = destinationPath
+  const getRoute = useCallback(
+    (destinationPath = {}) => {
+      let { path, params } = destinationPath
+      const { paymentCode, code } = params || {}
 
-    if (path || params) {
-      path = path || 'AppNavigation/Dashboard/Home'
+      if (!path && !params) {
+        return
+      }
 
-      if (params && (params.paymentCode || params.code)) {
+      if (paymentCode || code) {
         path = 'AppNavigation/Dashboard/HandlePaymentLink'
+      } else if (!path) {
+        path = 'AppNavigation/Dashboard/Home'
       }
 
       return getRouteParams(navigation, path, params)
-    }
-
-    return undefined
-  }, [])
+    },
+    [navigation],
+  )
 
   /*
     If a user has a saved destination path from before logging in or from inside-app (receipt view?)
@@ -118,7 +122,7 @@ const AppSwitch = (props: LoadingProps) => {
         return navigate(destDetails)
       }
     },
-    [getRoute],
+    [getRoute, navigate],
   )
 
   /**

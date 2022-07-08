@@ -19,7 +19,7 @@ export default new class {
         let propertyTarget = storageApi
 
         // override methods clear, getItem, setItem, multiGet, multiSet
-        if ('clear' === property || property.match(/(get|set)/i)) {
+        if ('clear' === property || property.match?.(/(get|set)/i)) {
           propertyTarget = this
         }
 

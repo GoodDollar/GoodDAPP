@@ -37,6 +37,7 @@ const log = logger.child({ from: 'AppSwitch' })
  */
 const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
+  const { navigate, state } = navigation
   const [ready, setReady] = useState(false)
   const { showErrorDialog } = useDialog()
   const { initWalletAndStorage } = useContext(GoodWalletContext)
@@ -57,35 +58,32 @@ const AppSwitch = (props: LoadingProps) => {
     log.debug('outofgas check result:', { ok, error })
 
     if (isOutOfGas) {
-      navigation.navigate('OutOfGasError')
+      navigate('OutOfGasError')
     }
 
     return isOutOfGas
-  }, [navigation, goodWallet, userStorage])
+  }, [goodWallet, userStorage])
 
   const showOutOfGasError = useDebouncedCallback(_showOutOfGasError, GAS_CHECK_DEBOUNCE_TIME, { leading: true })
 
   /*
     Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
-  const getRoute = useCallback(
-    (destinationPath = {}) => {
-      let { path, params } = destinationPath
+  const getRoute = useCallback((destinationPath = {}) => {
+    let { path, params } = destinationPath
 
-      if (path || params) {
-        path = path || 'AppNavigation/Dashboard/Home'
+    if (path || params) {
+      path = path || 'AppNavigation/Dashboard/Home'
 
-        if (params && (params.paymentCode || params.code)) {
-          path = 'AppNavigation/Dashboard/HandlePaymentLink'
-        }
-
-        return getRouteParams(navigation, path, params)
+      if (params && (params.paymentCode || params.code)) {
+        path = 'AppNavigation/Dashboard/HandlePaymentLink'
       }
 
-      return undefined
-    },
-    [navigation],
-  )
+      return getRouteParams(navigation, path, params)
+    }
+
+    return undefined
+  }, [])
 
   /*
     If a user has a saved destination path from before logging in or from inside-app (receipt view?)
@@ -117,10 +115,10 @@ const AppSwitch = (props: LoadingProps) => {
       // once user logs in we can redirect him to saved destinationPath
       if (destDetails) {
         log.debug('destinationPath found:', destDetails)
-        return navigation.navigate(destDetails)
+        return navigate(destDetails)
       }
     },
-    [navigation, getRoute],
+    [getRoute],
   )
 
   /**
@@ -208,16 +206,7 @@ const AppSwitch = (props: LoadingProps) => {
         init()
       }
     }
-  }, [
-    restartWithMessage,
-    goodWallet,
-    userStorage,
-    initialize,
-    setReady,
-    showOutOfGasError,
-    isLoggedInCitizen,
-    isLoggedIn,
-  ])
+  }, [restartWithMessage, goodWallet, userStorage, initialize, showOutOfGasError, isLoggedInCitizen, isLoggedIn])
 
   const recheck = useCallback(() => {
     const { current: data } = deepLinkingRef
@@ -251,12 +240,12 @@ const AppSwitch = (props: LoadingProps) => {
       navigateToUrlAction()
     }
 
-    if (ready || !isMobileNative) {
+    if (!isMobileNative) {
       return noop
     }
 
     DeepLinking.subscribe(data => {
-      if (initializedRegistered && AppState.currentState === 'active') {
+      if (AppState.currentState === 'active') {
         log.debug('deepLinkingNavigation: got url', { data })
         navigateToUrlAction({ path: data.path, params: data.queryParams })
         return
@@ -268,7 +257,7 @@ const AppSwitch = (props: LoadingProps) => {
     return DeepLinking.unsubscribe
   }, [ready, init, userStorage, navigateToUrlAction])
 
-  const activeKey = navigation.state.routes[navigation.state.index].key
+  const activeKey = state.routes[state.index].key
   const descriptor = descriptors[activeKey]
 
   const display = ready ? (

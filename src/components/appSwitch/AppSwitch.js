@@ -37,7 +37,7 @@ const log = logger.child({ from: 'AppSwitch' })
  */
 const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
-  const { navigate, state } = navigation
+  const { state } = navigation
   const [ready, setReady] = useState(false)
   const { showErrorDialog } = useDialog()
   const { initWalletAndStorage } = useContext(GoodWalletContext)
@@ -54,6 +54,7 @@ const AppSwitch = (props: LoadingProps) => {
   } = useCheckAuthStatus()
 
   const _showOutOfGasError = useCallback(async () => {
+    const { navigate } = getNavigation()
     const { ok, error } = await goodWallet.verifyHasGas()
     const isOutOfGas = ok === false && error !== false
 
@@ -64,7 +65,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     return isOutOfGas
-  }, [goodWallet, userStorage, navigate])
+  }, [goodWallet, userStorage, getNavigation])
 
   const showOutOfGasError = useDebouncedCallback(_showOutOfGasError, GAS_CHECK_DEBOUNCE_TIME, { leading: true })
 
@@ -98,6 +99,7 @@ const AppSwitch = (props: LoadingProps) => {
   */
   const navigateToUrlAction = useCallback(
     async (destinationPath: { path: string, params: {} }) => {
+      const { navigate } = getNavigation()
       destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
       AsyncStorage.removeItem(DESTINATION_PATH)
 
@@ -124,7 +126,7 @@ const AppSwitch = (props: LoadingProps) => {
         return navigate(destDetails)
       }
     },
-    [getRoute, navigate],
+    [getRoute, getNavigation],
   )
 
   /**

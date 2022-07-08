@@ -1,5 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { AppState } from 'react-native'
 import { useDebouncedCallback } from 'use-debounce'
 import { SceneView } from '@react-navigation/core'
 import { isEmpty } from 'lodash'
@@ -46,7 +47,7 @@ const AppSwitch = (props: LoadingProps) => {
   const unsuccessfulLaunchAttemptsRef = useRef(0)
   const deepLinkingRef = useRef(null)
   const { initializedRegistered } = userStorage || {}
-  const [getNavigation] = usePropsRefs([navigation])
+  const [getNavigation, isRegistered] = usePropsRefs([navigation, initializedRegistered])
 
   const {
     authStatus: [isLoggedInCitizen, isLoggedIn],
@@ -100,6 +101,7 @@ const AppSwitch = (props: LoadingProps) => {
   const navigateToUrlAction = useCallback(
     async (destinationPath: { path: string, params: {} }) => {
       const { navigate } = getNavigation()
+
       destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
       AsyncStorage.removeItem(DESTINATION_PATH)
 
@@ -247,7 +249,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError, checkDeepLink])
 
-  const { appState } = useAppState({ onForeground: recheck })
+  useAppState({ onForeground: recheck })
 
   useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
@@ -264,18 +266,20 @@ const AppSwitch = (props: LoadingProps) => {
   }, [ready, init, initializedRegistered, navigateToUrlAction])
 
   useEffect(() => {
-    if (!isMobileNative) {
-      return
-    }
-
-    if (initializedRegistered) {
+    if (isMobileNative && initializedRegistered) {
       // once app becomes init registered we nee to re check deep link ref
       // otherwise it will be processed after app went background then activates again
       checkDeepLink()
     }
+  }, [initializedRegistered, checkDeepLink])
+
+  useEffect(() => {
+    if (!isMobileNative) {
+      return
+    }
 
     DeepLinking.subscribe(data => {
-      if (initializedRegistered && appState === 'active') {
+      if (isRegistered() && AppState.currentState === 'active') {
         openDeepLink(data)
         return
       }
@@ -284,7 +288,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return DeepLinking.unsubscribe
-  }, [appState, initializedRegistered, checkDeepLink, openDeepLink])
+  }, [isRegistered, checkDeepLink, openDeepLink])
 
   const activeKey = state.routes[state.index].key
   const descriptor = descriptors[activeKey]

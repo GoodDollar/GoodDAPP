@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import { AppState } from 'react-native'
 import { useDebouncedCallback } from 'use-debounce'
 import { SceneView } from '@react-navigation/core'
-import { isEmpty, noop } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
@@ -45,6 +45,7 @@ const AppSwitch = (props: LoadingProps) => {
   const userStorage = useUserStorage()
   const unsuccessfulLaunchAttemptsRef = useRef(0)
   const deepLinkingRef = useRef(null)
+  const { initializedRegistered } = userStorage || {}
 
   const {
     authStatus: [isLoggedInCitizen, isLoggedIn],
@@ -237,29 +238,29 @@ const AppSwitch = (props: LoadingProps) => {
   }, [initWalletAndStorage, isLoggedIn])
 
   useEffect(() => {
-    const { initializedRegistered } = userStorage || {}
-
-    if (!ready && initializedRegistered) {
-      init()
-      navigateToUrlAction()
+    if (ready || !initializedRegistered) {
+      return
     }
 
+    init()
+    navigateToUrlAction()
+
     if (!isMobileNative) {
-      return noop
+      return
     }
 
     DeepLinking.subscribe(data => {
-      if (AppState.currentState === 'active') {
-        log.debug('deepLinkingNavigation: got url', { data })
-        navigateToUrlAction({ path: data.path, params: data.queryParams })
+      if (AppState.currentState !== 'active') {
+        deepLinkingRef.current = data
         return
       }
 
-      deepLinkingRef.current = data
+      log.debug('deepLinkingNavigation: got url', { data })
+      navigateToUrlAction({ path: data.path, params: data.queryParams })
     })
 
     return DeepLinking.unsubscribe
-  }, [ready, init, userStorage, navigateToUrlAction])
+  }, [ready, init, initializedRegistered, navigateToUrlAction])
 
   const activeKey = state.routes[state.index].key
   const descriptor = descriptors[activeKey]

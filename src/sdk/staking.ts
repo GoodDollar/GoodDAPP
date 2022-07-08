@@ -977,6 +977,29 @@ export async function withdraw(
     return req
 }
 
+export async function promiseAll(
+  transactions: any[], 
+  account: string, 
+  chainId: number, 
+  onSent?: (firstTransactionHash: string, from: string, chainId: number) => void,
+  onReceipt?: () => void,
+  ):Promise<any[]> {
+  if (onSent){
+    Promise.all(
+      transactions.map(
+        transaction => 
+        new Promise<string>((resolve, reject) => {
+          transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
+          transaction.on('receipt', onReceipt)
+          transaction.on('error', reject)
+          resolve('done')
+      }) 
+      )
+    )
+  }
+  return Promise.all(transactions)
+}
+
 /**
  * Claim GOOD rewards from staking.
  * @param {Web3} web3 Web3 instance.
@@ -1009,21 +1032,8 @@ export async function claimGoodRewards(
 
         transactions.push(stakersDistribution.methods.claimReputation(account, simpleStakingAddresses).send({ from: account }))
     }
-    
-    if (onSent)
-      Promise.all(
-        transactions.map(
-          transaction => 
-            new Promise<string>((resolve, reject) => {
-              transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
-              transaction.on('receipt', onReceipt)
-              transaction.on('error', reject)
-              resolve('done')
-          }) 
-        )
-      )
 
-    return Promise.all(transactions)
+    return promiseAll(transactions, account, chainId, onSent, onReceipt)
 }
 
 /**
@@ -1053,20 +1063,7 @@ export async function claimGoodReward(
         transactions.push(stakersDistribution.methods.claimReputation(account, simpleStakingAddress).send({ from: account }))
     }
 
-    if (onSent)
-      Promise.all(
-        transactions.map(
-          transaction => 
-            new Promise<string>((resolve, reject) => {
-              transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
-              transaction.on('receipt', onReceipt)
-              transaction.on('error', reject)
-              resolve('done')
-          }) 
-        )
-      )
-
-    return Promise.all(transactions)
+    return promiseAll(transactions, account, chainId, onSent, onReceipt)
 }
 
 /**
@@ -1101,21 +1098,7 @@ export async function claimG$Rewards(
       }
     }
 
-    if (onSent) {
-        Promise.all(
-            transactions.map(
-                transaction =>
-                    new Promise<string>((resolve, reject) => {
-                        transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
-                        transaction.on('receipt', onReceipt)
-                        transaction.on('error', reject)
-                        resolve('done')
-                    }) 
-            )
-        )
-    }
-
-    return Promise.all(transactions)
+    return promiseAll(transactions, account, chainId, onSent, onReceipt)
 }
 
 
@@ -1147,19 +1130,5 @@ export async function claimG$Reward(
         }
     }
 
-    if (onSent) {
-        Promise.all(
-            transactions.map(
-                transaction =>
-                    new Promise<string>((resolve, reject) => {
-                        transaction.on('transactionHash', (hash: string) => onSent(hash, account, chainId))
-                        transaction.on('receipt', onReceipt)
-                        transaction.on('error', reject)
-                        resolve('done')
-                    }) 
-            )
-        )
-    }
-
-    return Promise.all(transactions)
+    return promiseAll(transactions, account, chainId, onSent, onReceipt)
 }

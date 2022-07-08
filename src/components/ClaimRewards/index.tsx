@@ -15,6 +15,7 @@ import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import Loader from 'components/Loader'
+import { SupportedChainId } from 'sdk/constants/chains'
 import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import { ChekboxItem, Reward } from './components'
 import { BottomSheet } from 'react-spring-bottom-sheet'
@@ -57,6 +58,10 @@ function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest 
     const [transactionHash, setTransactionHash] = useState<string>()
     const dispatch = useDispatch()
 
+    useEffect(() => {
+      if (chainId as any === SupportedChainId.FUSE) setSelectedReward('claimGOOD')
+    }, [selectedReward, chainId])
+
     const handleClaim = useCallback(async () => {
         if (!web3) return 
         try {
@@ -87,7 +92,7 @@ function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest 
           setStatus('none') 
           setError(e as Error)
         }
-    }, [setStatus, onClaim, type])
+    }, [setStatus, onClaim, type, selectedReward])
     
     const handleClose = useCallback(() => {
         setOpen(false)
@@ -119,8 +124,12 @@ function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest 
                 <Title className="flex justify-center flex-grow pt-2 pb-2 title">{i18n._(t`Claimable Rewards`)}</Title>
                 {!isGovStake && (
                     <div className='flex justify-center'>
-                        <ChekboxItem name={"claimAll"} checked={selectedReward === 'claimAll'} onClick={()=> setSelectedReward('claimAll')} label={i18n._(t`Claim All`)}/>
-                        <ChekboxItem name={"claimGOOD"} checked={selectedReward === 'claimGOOD'} onClick={()=> setSelectedReward('claimGOOD')} label={i18n._(t`Claim GOOD`)}/>
+                        <ChekboxItem name={"claimAll"} checked={selectedReward === 'claimAll'} 
+                                     onClick={()=> setSelectedReward('claimAll')} 
+                                     label={i18n._(t`Claim All`)}/>
+                        <ChekboxItem name={"claimGOOD"} checked={selectedReward === 'claimGOOD'} 
+                                     onClick={()=> setSelectedReward('claimGOOD')} 
+                                     label={i18n._(t`Claim GOOD`)}/>
                     </div>
                 )}
                 <div className="relative flex flex-col items-center mt-1">
@@ -140,9 +149,9 @@ function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest 
                     )}
                 </div>
                 <div>
-                    <p className='availableRewards mb-1'>{i18n._(t`Claiming the following rewards:`)}</p>
-                    {!isGovStake && <Reward name={i18n._(t`G$`)} amount={stake.rewards.reward.unclaimed.toSignificant(6)} active={selectedReward === 'claimAll'}/>}
-                    <Reward name={i18n._(t`GOOD`)} amount={stake.rewards.GDAO.unclaimed.toSignificant(6)} active={true}/>
+                    <p className='mb-1 availableRewards'>{i18n._(t`Claiming the following rewards:`)}</p>
+                    {!isGovStake && <Reward name={i18n._(t`G$`)} amount={stake.rewards.reward.unclaimed.toSignificant(6, {groupSeperator: ','})} active={selectedReward === 'claimAll'}/>}
+                    <Reward name={i18n._(t`GOOD`)} amount={stake.rewards.GDAO.unclaimed.toSignificant(6, {groupSeperator: ','})} active={true}/>
                 </div>
             </div>
         ) : (

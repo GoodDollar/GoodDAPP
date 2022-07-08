@@ -6,7 +6,7 @@ import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import Modal from 'components/Modal'
 import Button from 'components/Button'
-import { claim, claimGood } from '../../sdk/staking'
+import { claimG$Rewards, claimGoodRewards } from '../../sdk/staking'
 import useWeb3 from '../../hooks/useWeb3'
 import { TransactionDetails } from '../../sdk/constants/transactions'
 import { useDispatch } from 'react-redux'
@@ -39,7 +39,7 @@ function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsPro
         if (!web3) return 
         try {
             setStatus('pending')
-            const claimMethod = type === 'GOOD' ? claimGood : claim; 
+            const claimMethod = type === 'GOOD' ? claimGoodRewards : claimG$Rewards; 
             const transactions = await claimMethod(web3, (txHash: string, from: string, chainId: number) => {
               setTransactionHash(transactionHash => [...transactionHash, [{hash: txHash, chainId: chainId}]])
               setStatus('send') 

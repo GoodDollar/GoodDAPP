@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { TitleSC } from 'components/gd/Title'
-import { ButtonDefault } from 'components/gd/Button'
+import { ButtonOutlined } from 'components/gd/Button'
 import Table, { TableSC } from 'components/gd/Table'
 
 export const PortfolioTitleSC = styled.div`
@@ -89,7 +89,7 @@ export const PortfolioAnalyticSC = styled.div`
             width: 100%;
         }
 
-        ${ButtonDefault} {
+        ${ButtonOutlined} {
             width: 100%;
         }
 
@@ -176,7 +176,7 @@ export const PortfolioSC = styled.div`
                 min-height: 32px;
             }
 
-            ${ButtonDefault} {
+            ${ButtonOutlined} {
                 height: auto;
             }
         }
@@ -210,7 +210,7 @@ export const PortfolioSC = styled.div`
                 border-top-right-radius: 12px;
             }
 
-            tr.mobile ${ButtonDefault} {
+            tr.mobile ${ButtonOutlined} {
                 width: 100%;
             }
         }

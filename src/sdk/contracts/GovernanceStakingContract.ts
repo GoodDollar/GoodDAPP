@@ -17,9 +17,11 @@ import { Ether } from '@uniswap/sdk-core'
  * @constructor
  */
 export function governanceStakingContract(web3: Web3, address?: string) {
-    address = address ?? G$ContractAddresses(SupportedChainId.FUSE, 'GovernanceStakingV2')
+  const networkType = process.env.REACT_APP_NETWORK || 'staging'
+  const release = networkType === 'staging' ? 'GovernanceStaking' : 'GovernanceStakingV2'
+  address = address ?? G$ContractAddresses(SupportedChainId.FUSE, release)
 
-    return new web3.eth.Contract(GovernanceStaking.abi as AbiItem[], address)
+  return new web3.eth.Contract(GovernanceStaking.abi as AbiItem[], address)
 }
 
 export async function getGovernanceStakingContracts():Promise<{address:string | null, release: string}[]> {

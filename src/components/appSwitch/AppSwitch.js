@@ -1,6 +1,5 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { AppState } from 'react-native'
 import { useDebouncedCallback } from 'use-debounce'
 import { SceneView } from '@react-navigation/core'
 import { isEmpty } from 'lodash'
@@ -13,6 +12,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
+import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { identifyWith } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
@@ -46,6 +46,7 @@ const AppSwitch = (props: LoadingProps) => {
   const unsuccessfulLaunchAttemptsRef = useRef(0)
   const deepLinkingRef = useRef(null)
   const { initializedRegistered } = userStorage || {}
+  const [getNavigation] = usePropsRefs([navigation])
 
   const {
     authStatus: [isLoggedInCitizen, isLoggedIn],
@@ -85,9 +86,9 @@ const AppSwitch = (props: LoadingProps) => {
         path = 'AppNavigation/Dashboard/Home'
       }
 
-      return getRouteParams(navigation, path, params)
+      return getRouteParams(getNavigation(), path, params)
     },
-    [navigation],
+    [getNavigation],
   )
 
   /*
@@ -213,24 +214,38 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }, [restartWithMessage, goodWallet, userStorage, initialize, showOutOfGasError, isLoggedInCitizen, isLoggedIn])
 
-  const recheck = useCallback(() => {
+  const openDeepLink = useCallback(
+    data => {
+      const { path, queryParams } = data || {}
+
+      log.debug('deepLinkingNavigation: got url', { data })
+      navigateToUrlAction({ path, params: queryParams })
+    },
+    [navigateToUrlAction],
+  )
+
+  const checkDeepLink = useCallback(() => {
     const { current: data } = deepLinkingRef
 
-    if (data) {
-      log.debug('deepLinkingNavigation: got url', { data })
-
-      navigateToUrlAction({ path: data.path, params: data.queryParams })
-      deepLinkingRef.current = null
+    if (!data) {
+      return
     }
+
+    openDeepLink(data)
+    deepLinkingRef.current = null
+  }, [openDeepLink])
+
+  const recheck = useCallback(() => {
+    checkDeepLink()
 
     if (ready && userStorage && goodWallet) {
       userStorage.sync()
       refresh() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError()
     }
-  }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError, navigateToUrlAction])
+  }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError, checkDeepLink])
 
-  useAppState({ onForeground: recheck })
+  const { appState } = useAppState({ onForeground: recheck })
 
   useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
@@ -244,23 +259,30 @@ const AppSwitch = (props: LoadingProps) => {
 
     init()
     navigateToUrlAction()
+  }, [ready, init, initializedRegistered, navigateToUrlAction])
 
+  useEffect(() => {
     if (!isMobileNative) {
       return
     }
 
+    if (initializedRegistered) {
+      // once app becomes init registered we nee to re check deep link ref
+      // otherwise it will be processed after app went background then activates again
+      checkDeepLink()
+    }
+
     DeepLinking.subscribe(data => {
-      if (AppState.currentState !== 'active') {
-        deepLinkingRef.current = data
+      if (initializedRegistered && appState === 'active') {
+        openDeepLink(data)
         return
       }
 
-      log.debug('deepLinkingNavigation: got url', { data })
-      navigateToUrlAction({ path: data.path, params: data.queryParams })
+      deepLinkingRef.current = data
     })
 
     return DeepLinking.unsubscribe
-  }, [ready, init, initializedRegistered, navigateToUrlAction])
+  }, [appState, initializedRegistered, checkDeepLink, openDeepLink])
 
   const activeKey = state.routes[state.index].key
   const descriptor = descriptors[activeKey]

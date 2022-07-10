@@ -108,35 +108,30 @@ export const WcHeader = withStyles(getStylesFromProps)(({ styles, session: { pee
   )
 })
 
-export const ContractCall = ({ styles, txJson, explorer }) => {
+export const ContractCall = ({ styles, txJson, explorer, method }) => {
   const { decodedTx = {}, gasStatus, ...rest } = txJson
-  const {
-    decoded: { name, params },
-    error,
-  } = decodedTx
+  const { decoded: { name, params } = {}, error } = decodedTx
   const txParams = entries(rest).map(e => ({ name: e[0], value: e[1] }))
-
+  const isSign = method.includes('sign')
   return (
     <View style={styles.infoView}>
-      {error && gasStatus.hasEnoughGas && (
+      {!isSign && error && gasStatus.hasEnoughGas && (
         <Text color="red" fontWeight="bold">
           {t`This transaction might fail to save gas we recommend not to execute it`}
         </Text>
       )}
-      {!gasStatus.hasEnoughGas && (
+      {!isSign && !gasStatus.hasEnoughGas && (
         <Text color="red" fontWeight="bold">
           {t`Not enough balance to execute transaction. Balance: ${gasStatus.balance} Required: ${
             gasStatus.gasRequired
           }`}
         </Text>
       )}
-      {params && (
-        <Text fontSize={16} fontWeight={'bold'}>
-          Contrat Call:
-        </Text>
-      )}
       {name && (
         <>
+          <Text fontSize={16} fontWeight={'bold'}>
+            Contrat Call:
+          </Text>
           <Text style={styles.labelText}>{t`Contract Method`}</Text>
           <Text fontSize={12} textAlign={'start'}>
             {name}
@@ -149,7 +144,7 @@ export const ContractCall = ({ styles, txJson, explorer }) => {
             <Text style={styles.labelText}>{p.name}</Text>
             <Text fontSize={12} textAlign={'start'}>
               {p.value}
-              {isAddress(p.value) && (
+              {explorer && isAddress(p.value) && (
                 <Icon name="launch" onPress={() => Linking.openURL(`${explorer}/address/${p.value}`)} />
               )}
             </Text>
@@ -163,7 +158,7 @@ export const ContractCall = ({ styles, txJson, explorer }) => {
           <Text style={styles.labelText}>{p.name}</Text>
           <Text fontSize={12} textAlign={'start'}>
             {['gas', 'gasPrice', 'gasLimit', 'value'].includes(p.name) ? Number(p.value) : p.value}
-            {isAddress(p.value) && (
+            {explorer && isAddress(p.value) && (
               <Icon name="launch" onPress={() => Linking.openURL(`${explorer}/address/${p.value}`)} />
             )}
           </Text>
@@ -179,7 +174,9 @@ const Approve = ({ styles, session, payload, message, modalType, walletAddress, 
       case 'sign':
         return t`wants to sign this message:`
       case 'tx':
-        return t`wants to execute this transaction:`
+        return payload.method.includes('sign')
+          ? t`wants to sign this transaction:`
+          : t`wants to execute this transaction:`
       case 'connect':
         return t`wants to connect to your wallet:`
       case 'switchchain':
@@ -215,7 +212,7 @@ const Approve = ({ styles, session, payload, message, modalType, walletAddress, 
         return message
       }
       case 'tx': {
-        return <ContractCall styles={styles} txJson={message} explorer={explorer} />
+        return <ContractCall styles={styles} txJson={message} explorer={explorer} method={payload.method} />
       }
       case 'connect':
         return walletAddress
@@ -259,78 +256,85 @@ export const useSessionApproveModal = () => {
       return showErrorDialog(t`Unsupported request ${payload.method}`)
     }
 
-    showDialog({
-      showCloseButtons: false,
-      isMinHeight: false,
-      showButtons: true,
-      content: (
-        <ApproveModal
-          payload={payload}
-          message={message}
-          session={session}
-          walletAddress={walletAddress}
-          modalType={modalType}
-          explorer={explorer}
-          onScan={data => {
-            if (!data) {
-              return
-            }
-            const ok = onApprove(data)
-            if (!ok) {
-              showErrorDialog(t`Invalid QR Value: ${data}`)
-            }
-            hideDialog()
-          }}
-        />
-      ),
-      buttonsContainerStyle: {
-        width: '95%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: sizes.defaultDouble,
-      },
-      buttons: [
-        {
-          text: 'Reject',
-          onPress: async dismiss => {
-            // do something
-            try {
-              await onReject()
-              dismiss()
-            } catch (e) {
-              log.error('failed rejecting', e.message, e, { dialogShown: true, payload, modalType })
-              showErrorDialog(t`Could not reject request.`)
-            }
-          },
-          color: 'red',
-          style: {
-            width: '48%',
-            color: 'blue',
-            marginRight: 10,
-            borderRadius,
-          },
+    try {
+      showDialog({
+        showCloseButtons: false,
+        isMinHeight: false,
+        showButtons: true,
+        content: (
+          <ApproveModal
+            payload={payload}
+            message={message}
+            session={session}
+            walletAddress={walletAddress}
+            modalType={modalType}
+            explorer={explorer}
+            onScan={data => {
+              if (!data) {
+                return
+              }
+              const ok = onApprove(data)
+              if (!ok) {
+                showErrorDialog(t`Invalid QR Value: ${data}`)
+              }
+              hideDialog()
+            }}
+          />
+        ),
+        buttonsContainerStyle: {
+          width: '95%',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: sizes.defaultDouble,
         },
-        {
-          text: 'Approve',
-          onPress: async dismiss => {
-            // do something
-            try {
-              await onApprove()
-              dismiss()
-            } catch (e) {
-              log.error('failed approving', e.message, e, { dialogShown: true, payload, modalType })
-              showErrorDialog(t`Could not approve request.`)
-            }
+        buttons: [
+          {
+            text: 'Reject',
+            onPress: async dismiss => {
+              // do something
+              try {
+                await onReject()
+                dismiss()
+              } catch (e) {
+                log.error('failed rejecting', e.message, e, { dialogShown: true, payload, modalType })
+                showErrorDialog(t`Could not reject request.`)
+              }
+            },
+            color: 'red',
+            style: {
+              width: '48%',
+              color: 'blue',
+              marginRight: 10,
+              borderRadius,
+            },
           },
-          color: 'white',
-          style: {
-            borderRadius,
-            width: '48%',
-            backgroundColor: primary,
+          {
+            text: 'Approve',
+            onPress: async dismiss => {
+              // do something
+              try {
+                await onApprove()
+                dismiss()
+              } catch (e) {
+                log.error('failed approving', e.message, e, { dialogShown: true, payload, modalType })
+                showErrorDialog(t`Could not approve request.`)
+              }
+            },
+            color: 'white',
+            style: {
+              borderRadius,
+              width: '48%',
+              backgroundColor: primary,
+              display: modalType !== 'scan' ? 'block' : 'none',
+            },
           },
-        },
-      ],
-    })
+        ],
+      })
+    } catch (e) {
+      log.error('failed showing dialog', e.message, e, { dialogShown: true, payload, modalType })
+
+      showErrorDialog(t`Unable to process request: ${e.message}`)
+    }
   }, [])
 
   return { show, isDialogShown }

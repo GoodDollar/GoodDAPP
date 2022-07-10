@@ -18,7 +18,7 @@ const log = logger.child({ from: 'WalletConnectClient' })
 //8. edit gas
 //9. advanced edit tx values/contract call values
 //10. events
-
+//11. show warning if unable to decode contract call
 /**
  * Parses the read WalletConnet URI from QR Code.
  * If not valid, returns null.
@@ -52,7 +52,18 @@ export const useChainsList = () => {
     if (chainsCache.length) {
       return
     }
-    api.getChains().then(data => setChains(sortBy(data, 'name')))
+    api.getChains().then(data => {
+      const fuse = data.find(_ => _.chainId === 122)
+      fuse.explorers = [
+        ...(fuse.explorers || []),
+        {
+          name: 'fusescan',
+          standard: 'EIP3091',
+          url: 'https://explorer.fuse.io',
+        },
+      ]
+      setChains(sortBy(data, 'name'))
+    })
   }, [setChains])
   return chains
 }
@@ -70,6 +81,10 @@ const getWeb3 = rpc => {
   return tempWeb3
 }
 
+const getChainRpc = chainDetails => {
+  return first((chainDetails.rpc || chainDetails.rpcUrls).filter(_ => _.includes('${') === false))
+}
+
 // Create connector
 let cachedConnector
 export const useWalletConnectSession = () => {
@@ -83,8 +98,8 @@ export const useWalletConnectSession = () => {
 
   const decodeTx = useCallback(
     async (connector, tx, explorer, web3) => {
-      log.info('decodedTx:', { tx, chain, connector })
-      if (tx.data && explorer) {
+      log.info('decodetx:', { tx, chain, connector, explorer })
+      if (tx.data !== '0x' && explorer) {
         log.info('fetching contract data', { chain, explorer, contract: tx.to })
         const { result } = await api.getContractAbi(explorer, tx.to)
         log.info('got contract data', { result })
@@ -159,15 +174,12 @@ export const useWalletConnectSession = () => {
 
   const handleTxRequest = useCallback(
     async (message, payload, connector) => {
-      log.info('handleTxRequest', { message, payload, connector })
-      const web3 = getWeb3(first(chain.rpc || chain.rpcUrls))
+      const chainDetails = chain || chains.find(_ => Number(_.chainId) === Number(connector.session?.chainId))
+      const web3 = getWeb3(getChainRpc(chainDetails))
 
-      let explorer
-      if (chain.chainId === 122) {
-        explorer = 'https://explorer.fuse.io'
-      } else {
-        explorer = first(chain.explorerUrls)
-      }
+      let explorer = first(chainDetails.explorers)?.url
+
+      log.info('handleTxRequest', { message, payload, connector, chainDetails })
       const [decodedTx, balance] = await Promise.all([
         decodeTx(connector, message, explorer, web3),
         web3.eth.getBalance(wallet.account),
@@ -209,7 +221,7 @@ export const useWalletConnectSession = () => {
         onReject: () => connector.rejectRequest({ id: payload.id, error: 'USER_DECLINE' }),
       })
     },
-    [wallet, chain, showApprove, decodeTx],
+    [wallet, chain, chains, showApprove, decodeTx],
   )
 
   const handleScanRequest = useCallback(
@@ -245,7 +257,7 @@ export const useWalletConnectSession = () => {
       await activeConnector.updateSession({
         chainId: Number(chain.chainId),
         accounts: [wallet.account],
-        rpcUrl: first(chain.rpcUrls || chain.rpc),
+        rpcUrl: getChainRpc(chain),
       })
 
       setChain(chain)
@@ -256,20 +268,21 @@ export const useWalletConnectSession = () => {
   const handleSwitchChainRequest = useCallback(
     (payload, connector) => {
       log.info('handleSwitchChainRequest', { payload })
-      const chain = payload.params
+      const chain = payload.params[0]
       const chainDetails = chains.find(_ => Number(_.chainId) === Number(chain.chainId))
       showApprove({
         walletAddress: wallet.account,
         session: connector.session,
         modalType: 'switchchain',
-        message: `${chain.name || chainDetails.name || chain.chainId}: ${first(chain.rpcUrls || chain.rpc)}`,
+        message: `${chain.name || chainDetails.name || chain.chainId}: ${getChainRpc(chain)}`,
         onApprove: () => {
+          chain.explorers = chain.blockExplorerUrls
           switchChain(chain)
         },
         onReject: () => connector.rejectRequest({ id: payload.id, error: 'USER_DECLINE' }),
       })
     },
-    [showApprove],
+    [showApprove, chains, switchChain],
   )
 
   const handleSessionDisconnect = useCallback(
@@ -451,6 +464,8 @@ export const useWalletConnectSession = () => {
   }, [
     wallet,
     activeConnector,
+    chain,
+    chains,
     handleSessionDisconnect,
     handleSessionRequest,
     handleSignRequest,
@@ -497,24 +512,45 @@ export const useWalletConnectSession = () => {
     log.debug('setting chain:', { chainDetails })
     setChain(chainDetails)
 
-    // if (chains.length > 0) {
-    //   const payload = {
-    //     id: 1657446841779151,
-    //     jsonrpc: '2.0',
-    //     method: 'eth_sendTransaction',
-    //     params: [
-    //       {
-    //         from: '0x1379510d8b1dd389d4cf1b9c6c3c8cc3136d8e56',
-    //         to: '0xe3f85aad0c8dd7337427b9df5d0fb741d65eeeb5',
-    //         gasPrice: '0x2540be400',
-    //         gas: '0x3b90d',
-    //         value: '0x2d79883d2000',
-    //         data:
-    //           '0x7ff36ab5000000000000000000000000000000000000000000000000003221e606b24f2900000000000000000000000000000000000000000000000000000000000000800000000000000000000000001379510d8b1dd389d4cf1b9c6c3c8cc3136d8e560000000000000000000000000000000000000000000000000000000062caa66500000000000000000000000000000000000000000000000000000000000000030000000000000000000000000be9e53fd7edac9f859882afdda116645287c629000000000000000000000000620fd5fa44be6af63715ef4e65ddfa0387ad13f500000000000000000000000034ef2cc892a88415e9f02b91bfa9c91fc0be6bd4',
+    // if (activeConnector && chains.length > 0) {
+    // const payload = {
+    //   id: 1657446841779151,
+    //   jsonrpc: '2.0',
+    //   method: 'eth_sendTransaction',
+    //   params: [
+    //     {
+    //       from: '0x1379510d8b1dd389d4cf1b9c6c3c8cc3136d8e56',
+    //       to: '0xe3f85aad0c8dd7337427b9df5d0fb741d65eeeb5',
+    //       gasPrice: 1e9,
+    //       gas: '0x3b90d',
+    //       value: '0x2d79883d2000',
+    //       data:
+    //         '0x7ff36ab5000000000000000000000000000000000000000000000000003221e606b24f2900000000000000000000000000000000000000000000000000000000000000800000000000000000000000001379510d8b1dd389d4cf1b9c6c3c8cc3136d8e560000000000000000000000000000000000000000000000000000000062caa66500000000000000000000000000000000000000000000000000000000000000030000000000000000000000000be9e53fd7edac9f859882afdda116645287c629000000000000000000000000620fd5fa44be6af63715ef4e65ddfa0387ad13f500000000000000000000000034ef2cc892a88415e9f02b91bfa9c91fc0be6bd4',
+    //     },
+    //   ],
+    // }
+    // handleTxRequest(payload.params[0], payload, activeConnector)
+    // const payload = {
+    //   id: 1657446841779151,
+    //   jsonrpc: '2.0',
+    //   method: 'wallet_addEthereumChain',
+    //   params: [
+    //     {
+    //       chainId: '0x' + (122).toString(16),
+    //       chainName: 'fuse',
+    //       nativeCurrency: {
+    //         name: 'Fuse',
+    //         symbol: 'fuse',
+    //         decimals: 18,
     //       },
-    //     ],
-    //   }
-    //   handleTxRequest(payload.params[0], payload, activeConnector)
+    //       rpcUrls: ['https://rpc.fuse.io'],
+    //       blockExplorerUrls: ['https://explorer.fuse.io'],
+    //       iconUrls: [],
+    //     },
+    //   ],
+    // }
+    // // handleSwitchChainRequest(payload, activeConnector)
+    // handleUnsupportedRequest(payload, activeConnector)
     // }
   }, [activeConnector, chains, setChain, handleTxRequest])
 

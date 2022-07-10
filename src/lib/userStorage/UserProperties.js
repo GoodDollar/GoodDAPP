@@ -1,5 +1,5 @@
 // @flow
-import { assign, forIn, isNil, isPlainObject, isString, noop } from 'lodash'
+import { assign, forIn, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
 import EventEmitter from 'eventemitter3'
 
 import AsyncStorage from '../utils/asyncStorage'
@@ -44,6 +44,8 @@ export default class UserProperties {
 
   local = {}
 
+  lastStored = {}
+
   events = new EventEmitter()
 
   constructor(storage) {
@@ -73,6 +75,7 @@ export default class UserProperties {
 
   _syncProps(props) {
     this.data = assign({}, UserProperties.defaultProperties, props || {})
+    this.lastStored = { ...this.data }
   }
 
   async _syncFromRemote() {
@@ -187,17 +190,35 @@ export default class UserProperties {
    */
   async _storeProps(data, logLabel, logPayload = {}) {
     const logError = e => log.error(`${logLabel} user props failed:`, e.message, e, logPayload)
-
     try {
       await AsyncStorage.setItem('props', data)
 
       // dont await on this, sync in background
-      this.ready.then(() => retry(() => this.storage.encryptSettings(data), 2, 500).catch(logError))
+      this.ready.then(() => this.throttlePersist().catch(logError))
     } catch (e) {
       logError(e)
       throw e
     }
   }
+
+  // eslint-disable-next-line require-await
+  async persist() {
+    if (JSON.stringify(this.data) === JSON.stringify(this.lastStored)) {
+      return
+    }
+    await retry(() => this.storage.encryptSettings(this.data), 2, 500)
+    this.lastStored = { ...this.data }
+  }
+
+  throttlePersist = throttle(
+    () => {
+      return this.persist()
+    },
+    60000,
+    {
+      leading: true,
+    },
+  )
 
   _makeProps(field: string | object, value = null) {
     let props = {}

@@ -24,7 +24,6 @@ import { restart } from '../../lib/utils/system'
 import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 import { getRouteParams } from '../../lib/utils/navigation'
-
 type LoadingProps = {
   navigation: any,
   descriptors: any,
@@ -249,7 +248,13 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError, checkDeepLink])
 
-  useAppState({ onForeground: recheck })
+  const persist = useCallback(() => {
+    if (initializedRegistered) {
+      userStorage.userProperties.persist()
+    }
+  }, [userStorage, initializedRegistered])
+
+  useAppState({ onForeground: recheck, onBackground: persist })
 
   useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)

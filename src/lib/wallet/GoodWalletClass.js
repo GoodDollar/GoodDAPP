@@ -34,6 +34,7 @@ import {
 import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
+import { signTypedData } from '@metamask/eth-sig-util'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
@@ -829,6 +830,40 @@ export class GoodWallet {
     return signed
   }
 
+  async personalSign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
+    const accountPath = GoodWallet.AccountUsageToPath[accountType]
+    let signed = await this.wallet.eth.accounts.sign(toSign, this.accounts[accountPath].privateKey)
+
+    return signed.signature
+  }
+
+  // eslint-disable-next-line require-await
+  async signTypedData(message: string) {
+    const pkeyBuffer = Buffer.from(this.accounts[0].privateKey.slice(2), 'hex')
+    let parsedData = message
+    try {
+      parsedData = typeof message === 'string' && JSON.parse(message)
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+
+    // There are 3 types of messages
+    // v1 => basic data types
+    // v3 =>  has type / domain / primaryType
+    // v4 => same as v3 but also supports which supports arrays and recursive structs.
+    // Because v4 is backwards compatible with v3, we're supporting only v4
+
+    let version = 'v1'
+    if (typeof parsedData === 'object' && (parsedData.types || parsedData.primaryType || parsedData.domain)) {
+      version = 'v4'
+    }
+
+    return signTypedData({
+      data: parsedData,
+      privateKey: pkeyBuffer,
+      version: version.toUpperCase(),
+    })
+  }
+
   // eslint-disable-next-line require-await
   getEd25519Key(accountType: AccountUsage): TextileCrypto.PrivateKey {
     const pkeySeed = this.accounts[this.getAccountForType(accountType)].privateKey.slice(2)
@@ -1368,6 +1403,30 @@ export class GoodWallet {
         message: e.message,
       }
     }
+  }
+
+  // eslint-disable-next-line require-await
+  async signTransaction(tx) {
+    return this.accounts[0].signTransaction(tx)
+  }
+
+  async validateContractTX(abi, tx, decoded, tempWeb3) {
+    const contract = new tempWeb3.eth.Contract(abi, tx.to, { from: this.accounts[0].address })
+    let error
+    try {
+      await contract.methods[decoded.name](...decoded.params.map(_ => _.value)).call({ ...tx })
+    } catch (e) {
+      log.warn('contract tx simulation failed:', e.message, e, { contract })
+      error = e.message
+    }
+    return { error }
+  }
+
+  // eslint-disable-next-line require-await
+  async sendRawTransaction(tx, tempWeb3) {
+    tempWeb3.eth.accounts.wallet.add(this.accounts[0])
+    log.debug('sendRawTransaction', { tx })
+    return tempWeb3.eth.sendTransaction(tx)
   }
 
   /**

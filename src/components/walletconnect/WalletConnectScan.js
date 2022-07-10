@@ -1,26 +1,35 @@
 // @flow
-import React, { useCallback, useState } from 'react'
-import { ScrollView } from 'react-native'
+/* eslint-disable*/
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
+import { Picker, ScrollView, View } from 'react-native'
 import { t } from '@lingui/macro'
-
+import { sortBy } from 'lodash'
 // components
 import Wrapper from '../common/layout/Wrapper'
-import { CustomButton, Section } from '../common'
+import { CustomButton, Section, Image } from '../common'
 import InputText from '../common/form/InputText'
+import InputWithAdornment from '../common/form/InputWithAdornment'
+
 import { withStyles } from '../../lib/styles'
+import { isMobile } from '../../lib/utils/platform'
 import QrReader from '../dashboard/QR/QRScanner'
 import QRCameraPermissionDialog from '../dashboard/SendRecieveQRCameraPermissionDialog'
+import Icon from '../common/view/Icon'
 
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
 import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
+import { useClipboardPaste } from '../../lib/hooks/useClipboard'
 
 // utils
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
 import normalize from '../../lib/utils/normalizeText'
-import { readWalletConnectUri, useWalletConnectSession } from '../../lib/wallet/WalletConnectClient'
+import { readWalletConnectUri, useWalletConnectSession, useChainsList } from '../../lib/wallet/WalletConnectClient'
+import { WcHeader } from './WalletConnectModals'
+
+import wcExample from '../../assets/walletconnectExample.png'
 
 const log = logger.child({ from: 'WalletConnectScan' })
 
@@ -36,13 +45,152 @@ type WalletConnectProps = {
 
 const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
+const SwitchChain = ({ switchChain, chainId }) => {
+  const [chain, setChain] = useState(chainId)
+  const chains = useChainsList()
+
+  return (
+    <Section style={{ flexDirection: 'row', paddingHorizontal: 0 }}>
+      <Section.Text textAlign={'start'} style={{ flex: 1 }}>
+        Change Network:
+      </Section.Text>
+      <Picker
+        style={{ flex: 2, width: '100%' }}
+        selectedValue={chain}
+        onValueChange={(itemValue, itemIndex) => {
+          if (itemValue !== chain) {
+            switchChain && switchChain(chains[itemIndex])
+            setChain(itemValue)
+          }
+        }}
+      >
+        {chains.map(chain => (
+          <Picker.Item label={chain.name} value={chain.chainId} key={chain.chainId} />
+        ))}
+      </Picker>
+    </Section>
+  )
+}
+const ConnectedState = ({ session, disconnect, switchChain }) => {
+  return (
+    <Section>
+      <WcHeader session={session} />
+      <SwitchChain switchChain={switchChain} chainId={session.chainId} />
+      <CustomButton onPress={disconnect} color={'red'}>
+        {t`Disconnect`}
+      </CustomButton>
+    </Section>
+  )
+}
+
+const PasteCode = ({ handlePastePress, handleChange, setUri, uri, styles }) => (
+  <View>
+    <Section.Title fontWeight="medium">{t`Paste Code`}</Section.Title>
+    <View style={{ flexDirection: 'row' }}>
+      <View style={{ flex: 1, gap: 12, marginRight: 12 }}>
+        <Image source={wcExample} resizeMode={'contain'} style={{ width: '100%', height: 'auto' }} />
+      </View>
+      <View style={{ flex: 2, justifyContent: 'flex-end' }}>
+        <View>
+          {/* <View style={styles.pasteIcon}> */}
+          <InputWithAdornment
+            showAdornment={true}
+            adornment="paste"
+            adornmentSize={32}
+            adornmentAction={handlePastePress}
+            onChangeText={setUri}
+            value={uri}
+            placeholder="wc:1234123jakljasdkjasfd..."
+          />
+        </View>
+        <CustomButton onPress={() => handleChange(uri)} style={[styles.connectButton]}>{t`Connect`}</CustomButton>
+      </View>
+    </View>
+  </View>
+)
+
+const ScanCode = ({ hasCameraAccess, styles, handleChange, handleError, qrDelay }) => {
+  if (!hasCameraAccess) {
+    return null
+  }
+  return (
+    <View>
+      <Section.Title fontWeight="medium">{t`Scan Code`}</Section.Title>
+      <QrReader
+        delay={qrDelay}
+        onError={handleError}
+        onScan={e => {
+          if (e) {
+            handleChange(e)
+          }
+        }}
+        style={{ width: '100%' }}
+      />
+      <Divider size={30} />
+    </View>
+  )
+}
+
 const WalletConnectScan = ({ screenProps, styles, theme }: WalletConnectProps) => {
   const [qrDelay, setQrDelay] = useState(QR_DEFAULT_DELAY)
-  const setWalletConnectUri = useWalletConnectSession()
+  const {
+    wcConnect: setWalletConnectUri,
+    wcConnected,
+    wcSession,
+    wcDisconnect,
+    wcSwitchChain,
+  } = useWalletConnectSession()
+
   const [uri, setUri] = useState('')
-  const [enableScan, setEnableScan] = useState(true)
   const { showErrorDialog } = useDialog()
+
   const { pop, navigateTo } = screenProps
+
+  const handleChange = useCallback(
+    data => {
+      log.debug('handleChange:', { data })
+
+      if (data) {
+        setQrDelay(false)
+
+        try {
+          const validUri = readWalletConnectUri(data)
+
+          if (validUri === null) {
+            const error = new Error('Invalid QR Code.')
+
+            log.warn('Wrong QR code received', error.message, error, {
+              validUri,
+              category: ExceptionCategory.Human,
+              dialogShown: true,
+            })
+            showErrorDialog(t`Invalid QR Code.`)
+            setQrDelay(QR_DEFAULT_DELAY)
+          } else {
+            log.info('walletconnect uri:', { validUri })
+            setWalletConnectUri(validUri)
+          }
+        } catch (e) {
+          log.error('scan received failed', e.message, e)
+          setQrDelay(QR_DEFAULT_DELAY)
+          throw e
+        }
+      }
+    },
+    [setQrDelay, setWalletConnectUri, showErrorDialog],
+  )
+
+  const pasteUri = useClipboardPaste(data => {
+    setUri(data)
+  })
+
+  // check clipboard permission an show dialog is not allowed
+  const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
+    requestOnMounted: false,
+    onAllowed: pasteUri,
+    navigate: screenProps.navigate,
+  })
+  const handlePastePress = useCallback(requestClipboardPermissions)
 
   // check camera permission and show dialog if not allowed
   const handlePermissionDenied = useCallback(() => pop(), [pop])
@@ -52,45 +200,6 @@ const WalletConnectScan = ({ screenProps, styles, theme }: WalletConnectProps) =
     onDenied: handlePermissionDenied,
     navigate: navigateTo,
   })
-
-  // check browser compatibility with scanning
-  // if not compatible - then hide scanner
-  const disableScan = useCallback(() => setEnableScan(false))
-  const startScan = useCallback(() => {
-    setEnableScan(true)
-    requestPermission()
-  })
-
-  const handleChange = data => {
-    log.debug('handleChange:', { data })
-
-    if (data) {
-      setQrDelay(false)
-
-      try {
-        const validUri = readWalletConnectUri(data)
-
-        if (validUri === null) {
-          const error = new Error('Invalid QR Code.')
-
-          log.warn('Wrong QR code received', error.message, error, {
-            validUri,
-            category: ExceptionCategory.Human,
-            dialogShown: true,
-          })
-          showErrorDialog(t`Invalid QR Code.`)
-          setQrDelay(QR_DEFAULT_DELAY)
-        } else {
-          log.info('walletconnect uri:', { validUri })
-          setWalletConnectUri(validUri)
-        }
-      } catch (e) {
-        log.error('scan received failed', e.message, e)
-        setQrDelay(QR_DEFAULT_DELAY)
-        throw e
-      }
-    }
-  }
 
   const handleError = useCallback(
     exception => {
@@ -110,44 +219,23 @@ const WalletConnectScan = ({ screenProps, styles, theme }: WalletConnectProps) =
   )
 
   useCameraSupport({
-    onUnsupported: disableScan,
-    onSupported: startScan,
+    // onUnsupported: disableScan,
+    onSupported: requestPermission,
   })
 
   return (
     <Wrapper style={styles.wrapper}>
       <ScrollView style={styles.container}>
         <Divider size={30} />
-        <Section.Text fontSize={28} fontWeight="bold" fontFamily={theme.fonts.slab} color="black">
-          {t`WalletConnect`}
-        </Section.Text>
-        <Divider size={10} />
-        <Section.Text fontSize={15} fontWeight="medium" fontFamily="Roboto" color="black">
-          {t`Scan Code`}
-        </Section.Text>
-        <Divider size={30} />
-        {hasCameraAccess && enableScan && (
-          <>
-            <QrReader
-              delay={qrDelay}
-              onError={handleError}
-              onScan={e => {
-                if (e) {
-                  handleChange(e)
-                }
-              }}
-              style={{ width: '100%' }}
-            />
+        {wcConnected ? (
+          <ConnectedState session={wcSession} disconnect={wcDisconnect} switchChain={wcSwitchChain} />
+        ) : (
+          <View style={{ flexDirection: isMobile ? 'column' : 'column-reverse' }}>
+            <ScanCode {...{ hasCameraAccess, styles, handleChange, handleError, qrDelay }} />
             <Divider size={30} />
-          </>
+            <PasteCode {...{ handleChange, handlePastePress, uri, setUri, styles }} />
+          </View>
         )}
-        <Section.Text fontSize={15} fontWeight="medium" fontFamily="Roboto" color="black">
-          {t`Or input code`}
-        </Section.Text>
-        <Divider size={30} />
-        <InputText value={uri} onChangeText={setUri} placeholder="wc:1234123jakljasdkjasfd..." />
-        <CustomButton onPress={() => handleChange(uri)} style={[styles.connectButton]}>{t`Connect`}</CustomButton>
-        <Divider size={30} />
       </ScrollView>
     </Wrapper>
   )

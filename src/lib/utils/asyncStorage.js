@@ -34,6 +34,11 @@ export default new class {
     })
   }
 
+  // eslint-disable-next-line require-await
+  async getAllKeys() {
+    return this.storageApi.getAllKeys()
+  }
+
   async clear() {
     let backup = []
 

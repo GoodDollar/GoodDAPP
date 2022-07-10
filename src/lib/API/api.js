@@ -384,6 +384,16 @@ export class APIService {
   async sendLoginVendorDetails(url, responseObject) {
     return this.sharedClient.post(url, responseObject)
   }
+
+  // eslint-disable-next-line require-await
+  async getChains(): AxiosPromise<any> {
+    return this.sharedClient.get('https://chainid.network/chains.json')
+  }
+
+  // eslint-disable-next-line require-await
+  async getContractAbi(explorer, address): AxiosPromise<any> {
+    return this.sharedClient.get(`${explorer}/api?module=contract&action=getabi&address=${address}`)
+  }
 }
 
 const api = new APIService()

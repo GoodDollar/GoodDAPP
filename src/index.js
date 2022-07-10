@@ -2,6 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
+import fontMaterialCommunityIcons from 'react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'
 
 import AppHolder from './mainApp/AppHolder'
 import SmartBanner from './components/smartbanner/SmartBanner'
@@ -19,6 +20,10 @@ ReactDOM.render(
             @font-face {
               src: url(${fontMaterialIcons});
               font-family: MaterialIcons;
+            }
+            @font-face {
+              src: url(${fontMaterialCommunityIcons});
+              font-family: MaterialCommunityIcons;
             }
           `}</style>
   </ErrorBoundary>,

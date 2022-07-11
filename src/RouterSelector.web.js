@@ -21,6 +21,7 @@ import logger from './lib/logger/js-logger'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import { handleLinks } from './lib/utils/linking'
+import useServiceWorker from './lib/hooks/useServiceWorker'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -78,7 +79,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   )
 })
 
-const RouterSelector = () => {
+const RouterWrapper = () => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
   // we use global state for signup process to signal user has registered
@@ -113,6 +114,12 @@ const RouterSelector = () => {
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedInRouter} />}
     </React.Suspense>
   )
+}
+
+const RouterSelector = () => {
+  useServiceWorker()
+
+  return <RouterWrapper />
 }
 
 export default RouterSelector

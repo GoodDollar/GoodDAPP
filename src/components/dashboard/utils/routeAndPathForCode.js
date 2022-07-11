@@ -39,7 +39,11 @@ export const routeAndPathForCode = async (
     throw new Error("You can't send G$s to yourself, you already own your G$s")
   }
 
+  const lcAddress = (address || '').toLowerCase()
+  const lcUBIAddress = goodWallet.UBIContract._address.toLowerCase()
   const profile = (await userStorage.getPublicProfile(address)) || {}
+  const counterPartyDisplayName =
+    lcAddress === lcUBIAddress ? 'GoodDollar UBI' : profile?.fullName || goodWallet.getContractName(address)
 
   switch (screen) {
     case 'sendByQR':
@@ -51,7 +55,7 @@ export const routeAndPathForCode = async (
         amount,
         profile,
         vendorInfo,
-        counterPartyDisplayName: profile.fullName,
+        counterPartyDisplayName,
         action: ACTION_SEND_TO_ADDRESS,
         type: screen === 'sendByQR' ? 'QR' : 'receive',
       }

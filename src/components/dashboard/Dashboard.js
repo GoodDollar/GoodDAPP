@@ -48,6 +48,7 @@ import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import WalletConnect from '../walletconnect/WalletConnectScan'
+import useRefundDialog from '../refund/hooks/useRefundDialog'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -161,7 +162,8 @@ const Dashboard = props => {
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
 
-  useInviteCode() //preload user invite code
+  useRefundDialog(screenProps)
+  useInviteCode() // preload user invite code
 
   const headerAnimateStyles = {
     position: 'relative',

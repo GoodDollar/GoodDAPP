@@ -263,7 +263,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       setActiveStep(2)
 
       // get full name, email, number, userId
-      const goodWallet = await initWalletAndStorage(
+      const [goodWallet] = await initWalletAndStorage(
         web3Provider ? web3Provider : torusUser.privateKey,
         web3Provider ? provider.toUpperCase() : 'SEED',
       )

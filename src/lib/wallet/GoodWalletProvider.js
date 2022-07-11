@@ -73,7 +73,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         setWalletAndStorage({ goodWallet: wallet, userStorage: storage })
 
         log.info('initWalletAndStorage done')
-        return wallet
+        return [wallet, storage]
       } catch (e) {
         log.error('failed initializing wallet and userstorage:', e.message, e)
 

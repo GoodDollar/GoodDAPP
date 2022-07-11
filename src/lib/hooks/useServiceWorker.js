@@ -5,10 +5,11 @@ import isWebApp from '../utils/isWebApp'
 import { isMobile } from '../utils/platform'
 import { resetLastSplash } from '../../components/splash/Splash'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
+
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
 
-export default () => {
+const useServiceWorker = () => {
   const { setServiceWorkerUpdated, setInstallPrompt } = useContext(GlobalTogglesContext)
   const interval = useRef()
 
@@ -55,3 +56,5 @@ export default () => {
     return () => interval.current && clearInterval(interval.current)
   }, [setInstallPrompt, setServiceWorkerUpdated])
 }
+
+export default useServiceWorker

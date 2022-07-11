@@ -30,7 +30,7 @@ export default () => {
       log.debug('service worker:', 'sending skip waiting', active.clients)
 
       waiting.postMessage({ type: 'SKIP_WAITING' })
-      dismiss() // close popup, sometimes service worker doesnt update immediatly
+      dismiss() // close popup, sometimes service worker doesn't update immediately
     }
 
     const onOpenUrl = () => window.open(Config.newVersionUrl, '_blank')

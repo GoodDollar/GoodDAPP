@@ -6,7 +6,9 @@ export default () => {
 
   const onMount = useCallback(callbackFn => {
     mountedPromise.current.promise.then(callbackFn)
-  }, [])(() => {
+  }, [])
+
+  ;(() => {
     if (mountedPromise.current) {
       return
     }

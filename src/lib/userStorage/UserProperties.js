@@ -1,6 +1,7 @@
 // @flow
-import { assign, forIn, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
+import { assign, clone, forIn, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
 import EventEmitter from 'eventemitter3'
+import shallowEqual from 'fbjs/lib/shallowEqual'
 
 import AsyncStorage from '../utils/asyncStorage'
 import { retry } from '../utils/async'
@@ -58,6 +59,8 @@ export default class UserProperties {
       const localProps = await AsyncStorage.getItem('localProps')
 
       this.local = assign({}, localProps)
+      this.throttlePersist = throttle(() => this.persist(), 60000, { leading: true })
+
       log.debug('found local settings:', { props, localProps, local: this.local })
 
       // if not props then block
@@ -74,8 +77,9 @@ export default class UserProperties {
   }
 
   _syncProps(props) {
-    this.data = assign({}, UserProperties.defaultProperties, props || {})
-    this.lastStored = { ...this.data }
+    const data = assign({}, UserProperties.defaultProperties, props || {})
+
+    assign(this, { data, lastStored: clone(data) })
   }
 
   async _syncFromRemote() {
@@ -190,6 +194,7 @@ export default class UserProperties {
    */
   async _storeProps(data, logLabel, logPayload = {}) {
     const logError = e => log.error(`${logLabel} user props failed:`, e.message, e, logPayload)
+
     try {
       await AsyncStorage.setItem('props', data)
 
@@ -203,22 +208,16 @@ export default class UserProperties {
 
   // eslint-disable-next-line require-await
   async persist() {
-    if (JSON.stringify(this.data) === JSON.stringify(this.lastStored)) {
+    const { data, lastStored, storage } = this
+
+    // no need deep check as lastStored is just a shallow copy
+    if (shallowEqual(data, lastStored)) {
       return
     }
-    await retry(() => this.storage.encryptSettings(this.data), 2, 500)
-    this.lastStored = { ...this.data }
-  }
 
-  throttlePersist = throttle(
-    () => {
-      return this.persist()
-    },
-    60000,
-    {
-      leading: true,
-    },
-  )
+    await retry(() => storage.encryptSettings(data), 2, 500)
+    this.lastStored = clone(data)
+  }
 
   _makeProps(field: string | object, value = null) {
     let props = {}

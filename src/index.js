@@ -8,7 +8,7 @@ import AppHolder from './mainApp/AppHolder'
 import SmartBanner from './components/smartbanner/SmartBanner'
 
 import './index.css'
-import './components/common/view/Icon/index.css'
+import './assets/fonts/index.css'
 
 let ErrorBoundary = React.Fragment
 

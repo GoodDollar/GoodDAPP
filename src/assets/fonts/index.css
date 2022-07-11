@@ -1,11 +1,9 @@
 @font-face {
   font-family: 'gooddollar';
-  src: url('../../../../assets/fonts/gooddollar.eot');
-  src: url('../../../../assets/fonts/gooddollar.eot#iefix') format('embedded-opentype'),
-    url('../../../../assets/fonts/gooddollar.woff2') format('woff2'),
-    url('../../../../assets/fonts/gooddollar.woff') format('woff'),
-    url('../../../../assets/fonts/gooddollar.ttf') format('truetype'),
-    url('../../../../assets/fonts/gooddollar.svg#gooddollar') format('svg');
+  src: url('./gooddollar.eot');
+  src: url('./gooddollar.woff2') format('woff2'),
+    url('./gooddollar.woff') format('woff'), url('./gooddollar.ttf') format('truetype'),
+    url('./gooddollar.svg#gooddollar') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,11 +13,10 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'gooddollar';
-    src: url('../font/gooddollar.svg?59398881#gooddollar') format('svg');
+    src: url('./gooddollar.svg?51868212#gooddollar') format('svg');
   }
 }
 */
-
 [class^='icon-']:before,
 [class*=' icon-']:before {
   font-family: 'gooddollar';
@@ -281,6 +278,9 @@
 .icon-privacy-policy:before {
   content: '\e883';
 } /* '' */
+.icon-walletconnect:before {
+  content: '\e899';
+} /* '' */
 .icon-terms-of-use:before {
   content: '\e89f';
 } /* '' */

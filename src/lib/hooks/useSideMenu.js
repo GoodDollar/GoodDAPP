@@ -33,7 +33,10 @@ export default (props = {}) => {
   const slideToggle = useCallback(() => setMenu(!isMenuOn), [isMenuOn, setMenu])
   const slideIn = useCallback(() => !isMenuOn && setMenu(true), [isMenuOn, setMenu])
   const slideOut = useCallback(() => isMenuOn && setMenu(false), [isMenuOn, setMenu])
-  const isSelfCustody = userStorage.userProperties.get('regMethod') === REGISTRATION_METHOD_SELF_CUSTODY
+  const isSelfCustody = useMemo(
+    () => userStorage?.userProperties.get('regMethod') === REGISTRATION_METHOD_SELF_CUSTODY,
+    [userStorage],
+  )
 
   const bottomItems = useMemo(
     () => [
@@ -54,7 +57,8 @@ export default (props = {}) => {
   const topItems = useMemo(() => {
     let items = [
       {
-        icon: 'profile',
+        icon: 'walletconnect',
+        size: 14,
         name: t`WalletConnect`,
         action: () => {
           navigation.navigate({

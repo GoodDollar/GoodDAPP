@@ -10,7 +10,7 @@ const log = logger.child({ from: 'Image' })
 const isAutoHeight = ({ width, height }) => !!width && 'auto' === height
 
 const Image = ({ style = {}, source, ...props }) => {
-  const mountedState = useMountedState()
+  const [mountedState, onMount] = useMountedState()
   const [aspectRatio, setAspectRatio] = useState()
 
   const flattenStyle = useMemo(() => StyleSheet.flatten(style), [style])
@@ -29,14 +29,24 @@ const Image = ({ style = {}, source, ...props }) => {
   }, [flattenStyle, aspectRatio])
 
   useEffect(() => {
-    const onImageSize = (width, height) => setAspectRatio(width / height)
+    const onImageSize = (width, height) => {
+      // check is component still mounted
+      if (!mountedState.current) {
+        return
+      }
 
-    if (!mountedState.current || !uri || fixed) {
+      setAspectRatio(width / height)
+    }
+
+    const onImageError = e => log.error('Get image size error', e?.message, e, { uri })
+
+    if (!uri || fixed) {
       return
     }
 
-    NativeImage.getSize(uri, onImageSize, e => log.error('Get image size error', e?.message, e, { uri }))
-  }, [uri, fixed])
+    // await first mount
+    onMount(() => NativeImage.getSize(uri, onImageSize, onImageError))
+  }, [uri, fixed, onMount])
 
   if (!aspectRatio && !fixed) {
     return null

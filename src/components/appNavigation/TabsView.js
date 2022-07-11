@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { Platform, TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
-import config from '../../config/config'
-
 import { Icon, Text } from '../../components/common'
 
 import useOnPress from '../../lib/hooks/useOnPress'
@@ -13,7 +11,6 @@ import { isMobileNative } from '../../lib/utils/platform'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import { useInvited } from '../invite/useInvites'
 import { theme } from '../theme/styles'
-const { isEToro, enableInvites, showRewards } = config
 
 // const showSupportFirst = !isEToro && !showInvite && !showRewards
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
@@ -54,21 +51,19 @@ const styles = {
   },
   iconViewLeft: {
     alignItems: 'flex-start',
+    flex: 1,
   },
   iconViewRight: {
     alignItems: 'flex-end',
+    flex: 1,
   },
-  appBar: { overflow: 'hidden' },
+  appBar: { overflow: 'hidden', display: 'flex' },
 }
 
-const showRewardsFlag = showRewards || isEToro
-const showInviteFlag = enableInvites || isEToro
 const iconStyle = isMobileNative ? styles.iconView : styles.iconWidth
 
 const defaultLeftButtonStyles = [styles.marginLeft10, iconStyle, styles.iconViewLeft]
 const defaultRightButtonStyles = [iconStyle, styles.iconViewRight]
-
-const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : defaultLeftButtonStyles
 
 const RewardButton = React.memo(({ onPress, style }) => {
   const [, , , inviteState] = useInvited()
@@ -95,7 +90,6 @@ const RewardButton = React.memo(({ onPress, style }) => {
           </View>
         )}
       </TouchableOpacity>
-      <Appbar.Content />
     </>
   )
 })
@@ -118,13 +112,6 @@ const rewardStyles = {
   },
 }
 
-const EmptySpaceComponent = ({ style }) => (
-  <>
-    <View style={style} />
-    <Appbar.Content />
-  </>
-)
-
 const TabsView = React.memo(
   ({ navigation }) => {
     const { slideToggle } = useSideMenu()
@@ -135,9 +122,7 @@ const TabsView = React.memo(
 
     return (
       <Appbar.Header dark style={styles.appBar}>
-        {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
-        {showInviteFlag && <RewardButton onPress={goToRewards} style={inviteButtonStyles} />}
-        {!showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
+        <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />
         <TouchableOpacity onPress={_slideToggle} style={defaultRightButtonStyles}>
           <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
         </TouchableOpacity>

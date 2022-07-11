@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNetInfo } from '@react-native-community/netinfo'
 import { get } from 'lodash'
-import API from '../API/api'
+import API from '../API'
 import { delay } from '../utils/async'
 import { useWallet } from '../wallet/GoodWalletProvider'
 import logger from '../logger/js-logger'
@@ -120,18 +120,22 @@ export const useAPIConnection = () => {
   const apiReady = async () => {
     try {
       await API.ready
+
       const res = await Promise.race([
         API.ping()
           .then(_ => true)
           .catch(_ => 'ping error'),
         delay(3000).then(_ => 'timeout'),
       ])
+
       log.debug('apiReady:', { res })
+
       if (res !== true) {
         setIsConnection(false)
         await delay(3000)
         return apiReady()
       }
+
       setIsConnection(true)
       return
     } catch (e) {

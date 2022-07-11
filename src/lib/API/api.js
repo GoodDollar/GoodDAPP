@@ -1,60 +1,19 @@
 // @flow
 
 import axios from 'axios'
+import { get, identity, isError, isString } from 'lodash'
+
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { get, identity, isError, isObject, isString } from 'lodash'
+import Config from '../../config/config'
+
+import { JWT } from '../constants/localStorage'
+import AsyncStorage from '../utils/asyncStorage'
 
 import { throttleAdapter } from '../utils/axios'
-import AsyncStorage from '../utils/asyncStorage'
-import Config from '../../config/config'
-import { JWT } from '../constants/localStorage'
-import logger from '../logger/js-logger'
+import { fallback } from '../utils/async'
+import { log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
-import type { NameRecord } from '../../components/signup/NameForm'
-import type { EmailRecord } from '../../components/signup/EmailForm'
-import type { MobileRecord } from '../../components/signup/PhoneForm'
-
-const log = logger.child({ from: 'API' })
-
-export type Credentials = {
-  signature?: string, //signed with address used to login to the system
-  gdSignature?: string, //signed with address of user wallet holding G$
-  profileSignature?: string, //signed with address of user profile
-  profilePublickey?: string, //public key used for storing user profile
-  nonce?: string,
-  jwt?: string,
-}
-
-export type UserRecord = NameRecord &
-  EmailRecord &
-  MobileRecord &
-  Credentials & {
-    username?: string,
-  }
-
-export const defaultErrorMessage = 'Unexpected error happened during api call'
-
-export const getErrorMessage = apiError => {
-  let errorMessage
-
-  if (isString(apiError)) {
-    errorMessage = apiError
-  } else if (isObject(apiError)) {
-    // checking all cases:
-    // a) JS Error - will have .message property
-    // b) { ok: 0, message: 'Error message' } shape
-    // c) { ok: 0, error: 'Error message' } shape
-    const { message, error } = apiError
-
-    errorMessage = message || error
-  }
-
-  if (!errorMessage) {
-    errorMessage = defaultErrorMessage
-  }
-
-  return errorMessage
-}
+import type { Credentials, UserRecord } from './utils'
 
 /**
  * GoodServer Client.
@@ -71,13 +30,7 @@ export class APIService {
   constructor(jwt = null) {
     const shared = axios.create()
 
-    shared.interceptors.response.use(
-      ({ data }) => data,
-      // eslint-disable-next-line require-await
-      async exception => {
-        throw exception
-      },
-    )
+    shared.interceptors.response.use(({ data }) => data)
 
     this.sharedClient = shared
     this.init(jwt)
@@ -101,22 +54,6 @@ export class APIService {
 
       log.info('initializing api...', serverUrl, jwt)
 
-      // eslint-disable-next-line require-await
-      const exceptionHandler = async error => {
-        let exception = error
-
-        if (axios.isCancel(error)) {
-          exception = new Error('Http request was cancelled during API call')
-        }
-
-        const { message, response } = exception
-        const { data } = response || {}
-
-        // Do something with response error
-        log.warn('axios response error', message, exception)
-        throw data || exception
-      }
-
       let instance: AxiosInstance = axios.create({
         baseURL: serverUrl,
         timeout: apiTimeout,
@@ -124,16 +61,10 @@ export class APIService {
         adapter: throttleAdapter(1000),
       })
 
-      // eslint-disable-next-line require-await
-      instance.interceptors.request.use(identity, async exception => {
-        const { message } = exception
+      const { request, response } = instance.interceptors
 
-        // Do something with request error
-        log.warn('axios req error', message, exception)
-        throw exception
-      })
-
-      instance.interceptors.response.use(identity, exceptionHandler)
+      request.use(identity, requestErrorHandler)
+      response.use(responseHandler, responseErrorHandler)
 
       this.client = instance
       log.info('API ready', jwt)
@@ -224,18 +155,6 @@ export class APIService {
     const { client, sharedClient } = this
     const payload = { token }
 
-    const validateIpV6 = address => {
-      if (!address) {
-        throw new Error('Empty IP has been returned.')
-      }
-
-      if (!address.includes(':')) {
-        throw new Error("Client's ISP doesn't supports IPv6.")
-      }
-
-      return address
-    }
-
     const requestCloudflare = async () => {
       const trace = await sharedClient.get('https://www.cloudflare.com/cdn-cgi/trace')
       const [, address] = /ip=(.+?)\n/.exec(trace || '') || []
@@ -245,21 +164,31 @@ export class APIService {
       return address
     }
 
-    const fallbackToIpify = async () => {
+    const requestIpify = async () => {
       const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
 
       log.info('Ipify response', { ipv6Response })
       return get(ipv6Response, 'ip', '')
     }
 
+    // eslint-disable-next-line require-await
+    const withValidation = requestIP => async () =>
+      requestIP().then(address => {
+        if (!address) {
+          throw new Error('Empty IP has been returned.')
+        }
+
+        if (!address.includes(':')) {
+          throw new Error("Client's ISP doesn't supports IPv6.")
+        }
+
+        return address
+      })
+
     try {
-      const ip = await requestCloudflare()
-        .then(validateIpV6)
-        .catch(fallbackToIpify)
+      const ip = await fallback([requestCloudflare, requestIpify].map(withValidation))
 
       log.info('ip for captcha:', { ip })
-
-      validateIpV6(ip)
       payload.ipv6 = ip
     } catch (errorOrStatus) {
       let exception = errorOrStatus
@@ -449,6 +378,11 @@ export class APIService {
   // eslint-disable-next-line require-await
   async getMessageStrings() {
     return this.client.get('/strings')
+  }
+
+  // eslint-disable-next-line require-await
+  async sendLoginVendorDetails(url, responseObject) {
+    return this.sharedClient.post(url, responseObject)
   }
 }
 

@@ -95,6 +95,7 @@ export class UserProfileStorage implements ProfileStorage {
     try {
       const msg = new TextEncoder().encode(JSON.stringify(field))
       const encrypted = await this.privateKey.public.encrypt(msg).then(_ => Buffer.from(_).toString('base64'))
+
       logger.debug('encrypt result:', { field: encrypted })
       return encrypted
     } catch (e) {

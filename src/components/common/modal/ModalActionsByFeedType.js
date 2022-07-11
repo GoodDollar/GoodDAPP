@@ -85,6 +85,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
     try {
       await userStorage.cancelOTPLEvent(item.id)
+
       goodWallet
         .cancelOTLByTransactionHash(item.id)
         .catch(exception => handleCancelFailed(exception, ExceptionCode.E10, Blockchain))

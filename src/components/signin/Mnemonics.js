@@ -13,7 +13,7 @@ import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { withStyles } from '../../lib/styles'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
-import restart from '../../lib/utils/restart'
+import { restart } from '../../lib/utils/system'
 import useUserExists from '../../lib/login/useUserExists'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
@@ -25,21 +25,25 @@ import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } 
 import Wrapper from '../common/layout/Wrapper'
 import normalize from '../../lib/utils/normalizeText'
 import { theme } from '../theme/styles'
+import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 const MAX_WORDS = 12
 
 const Mnemonics = ({ screenProps, navigation, styles }) => {
-  //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
+  // lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
+
   const [mnemonics, setMnemonics] = useState()
   const [isRecovering, setRecovering] = useState(false)
   const [isSubmitBlocked, setSubmitBlocked] = useState(true)
-  const { showDialog, hideDialog, showErrorDialog } = useDialog()
-  const userExists = useUserExists()
   const [errorMessage, setErrorMessage] = useState()
   const input = useRef()
+
+  const wallet = useWallet()
+  const userExists = useUserExists()
+  const { showDialog, hideDialog, showErrorDialog } = useDialog()
 
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
@@ -61,8 +65,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const recover = useCallback(async () => {
     //required to wallet and storage are reinitialized
     const curVersion = await AsyncStorage.getItem('GD_version')
+
     await AsyncStorage.clear()
-    AsyncStorage.setItem('GD_version', curVersion)
+    AsyncStorage.safeSet('GD_version', curVersion)
 
     input.current.blur()
     setRecovering(true)
@@ -98,7 +103,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics
-      const { exists, fullName } = await userExists({ mnemonics })
+      const { exists, fullName } = await userExists(wallet)
+
       log.debug('userExists result:', { exists, fullName })
 
       if (exists) {
@@ -107,6 +113,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         // FIXME: RN INAPPLINKS
         const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
         const firstName = getFirstWord(fullName)
+
         showDialog({
           visible: true,
           image: <SuccessAnimation />,
@@ -124,6 +131,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           message: t`Hi ${firstName},` + '\n' + t`your wallet was recovered successfully`,
           onDismiss: () => restart(incomingRedirectUrl),
         })
+
         fireEvent(RECOVER_SUCCESS)
 
         // There is no error and Profile exists. Reload screen to start with users mnemonics
@@ -141,7 +149,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } finally {
       setRecovering(false)
     }
-  }, [setRecovering, mnemonics, showDialog, userExists])
+  }, [setRecovering, mnemonics, showDialog, userExists, wallet])
 
   const handleEnter = (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter') {

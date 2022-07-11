@@ -2,7 +2,7 @@
 import { useCallback, useContext, useMemo } from 'react'
 import { t } from '@lingui/macro'
 import AsyncStorage from '../utils/asyncStorage'
-import restart from '../utils/restart'
+import { restart } from '../utils/system'
 
 // hooks
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -22,7 +22,7 @@ import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 const log = logger.child({ from: 'useSideMenu' })
 
-const { dashboardUrl } = Config
+const { dashboardUrl, enableSelfCustody } = Config
 
 export default (props = {}) => {
   const { navigation } = props
@@ -104,7 +104,7 @@ export default (props = {}) => {
       {
         icon: 'lock',
         name: t`Backup Wallet`,
-        hidden: isSelfCustody === false,
+        hidden: enableSelfCustody === false || isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'BackupWallet',
@@ -154,6 +154,7 @@ export default (props = {}) => {
         name: t`Logout`,
         action: async () => {
           fireEvent(LOGOUT)
+
           try {
             await AsyncStorage.clear()
           } catch (e) {
@@ -161,6 +162,7 @@ export default (props = {}) => {
               log.error('AsyncStorage Error', e.message, e)
             }
           }
+
           slideOut()
           restart('/')
         },

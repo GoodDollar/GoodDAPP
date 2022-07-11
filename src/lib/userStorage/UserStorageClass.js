@@ -13,7 +13,7 @@ import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
-import API from '../API/api'
+import API from '../API'
 import pino from '../logger/js-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 
@@ -990,15 +990,20 @@ export class UserStorage {
 
     data.value = get(receiptEvent, 'value') || get(receiptEvent, 'amount') || amount
 
+    const ubiAddressLc = this.wallet.UBIContract._address
+    const fromGDUbi = (data.address || '').toLowerCase() === ubiAddressLc && 'GoodDollar UBI'
+
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||
         type === FeedItemType.EVENT_TYPE_CLAIM ||
         data.address === NULL_ADDRESS ||
+        fromGDUbi ||
         id.startsWith('0x') === false) &&
       'GoodDollar'
-    const fromEmailMobile = data.initiatorType && data.initiator
-    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGD || 'Unknown'
 
+    const fromEmailMobile = data.initiatorType && data.initiator
+
+    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || 'Unknown'
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {

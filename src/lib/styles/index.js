@@ -4,6 +4,16 @@ import { StyleSheet } from 'react-native'
 
 import { isFunction } from 'lodash'
 
+export const withOpacity = (color, opacity) => {
+  let decimal = opacity
+
+  if (!Number.isInteger(opacity) && opacity <= 1) {
+    decimal = Math.round(255 * opacity)
+  }
+
+  return `${color}${decimal.toString(16)}`
+}
+
 /**
  * HOC that injects `theme` from `withTheme` and `styles` using theme values into the `Component`
  * @param {*} mapThemeToStyles receives props and retuns an object with calculated styles

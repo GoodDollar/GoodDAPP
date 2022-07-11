@@ -10,7 +10,7 @@ import Text from '../common/view/Text'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import CustomButton from '../common/buttons/CustomButton'
-import API from '../../lib/API/api'
+import API from '../../lib/API'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import useProfile from '../../lib/userStorage/useProfile'
@@ -54,6 +54,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       setLoading(true)
 
       const { data } = await API[sendCodeRequestFn]({ [fieldToSend]: content })
+
       if (data.alreadyVerified) {
         logger.debug('send code', { data, fieldToSend, content })
         await userStorage.setProfileField(fieldToSend, content)

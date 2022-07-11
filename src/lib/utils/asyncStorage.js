@@ -3,7 +3,9 @@ import { isArray, isEmpty, isFunction } from 'lodash'
 
 import { AB_TESTING, DESTINATION_PATH, INVITE_CODE, IS_FIRST_VISIT } from '../constants/localStorage'
 import logger from '../logger/js-logger'
+import { tryJson } from './string'
 
+const accessorRe = /(get|set)/i
 const backupProps = [IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE]
 const log = logger.child({ from: 'AsyncStorage' })
 
@@ -18,7 +20,7 @@ export default new class {
         let propertyTarget = storageApi
 
         // override methods clear, getItem, setItem, multiGet, multiSet
-        if ('clear' === property || property.match(/(get|set)/i)) {
+        if ('clear' === property || accessorRe.test(property || '')) {
           propertyTarget = this
         }
 
@@ -53,6 +55,12 @@ export default new class {
     }
   }
 
+  safeSet(key, value) {
+    this.setItem(key, value).catch(e => {
+      log.warn('Error setting value to the AsyncStorage:', e.message, e, { key, value })
+    })
+  }
+
   async setItem(key, value) {
     const stringified = JSON.stringify(value)
 
@@ -62,7 +70,7 @@ export default new class {
   async getItem(key) {
     const jsonValue = await this.storageApi.getItem(key)
 
-    return this._parseValue(jsonValue)
+    return tryJson(jsonValue)
   }
 
   async multiSet(keyValuePairs) {
@@ -78,18 +86,6 @@ export default new class {
   async multiGet(keys) {
     const keyJsonValuePairs = await this.storageApi.multiGet(keys)
 
-    return keyJsonValuePairs.map(([key, jsonValue]) => [key, this._parseValue(jsonValue)])
-  }
-
-  _parseValue(jsonValue) {
-    if (jsonValue === null) {
-      return null
-    }
-
-    try {
-      return JSON.parse(jsonValue)
-    } catch {
-      return jsonValue
-    }
+    return keyJsonValuePairs.map(([key, jsonValue]) => [key, tryJson(jsonValue)])
   }
 }(AsyncStorage)

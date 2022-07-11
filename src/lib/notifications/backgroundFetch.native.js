@@ -65,7 +65,7 @@ export const initBGFetch = once((goodWallet, userStorage) => {
       return newFeedItem && feedItem
     })
 
-    userStorage.userProperties.set('lastSeenFeedNotification', Date.now())
+    userStorage.userProperties.safeSet('lastSeenFeedNotification', Date.now())
 
     log.info('new feed items', { newFeeds })
 

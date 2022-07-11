@@ -97,9 +97,11 @@ class SoftwareWalletProvider {
     //and we want privacy
     if (privateKeys == null) {
       let mulWallet = new MultipleAddressWallet(pkey, 10)
+
       privateKeys = mulWallet.wallets
       log.debug('Generating private keys from hdwallet', { privateKeys })
-      AsyncStorage.setItem(GD_USER_PRIVATEKEYS, privateKeys)
+
+      AsyncStorage.safeSet(GD_USER_PRIVATEKEYS, privateKeys)
     } else {
       log.debug('Existing private keys found')
     }
@@ -144,7 +146,7 @@ class SoftwareWalletProvider {
   _createHttpProvider() {
     const { infuraKey, publicUrl } = Config
     const { httpWeb3provider } = this.conf
-    const backend = ['infura', 'pokt'].find(server => httpWeb3provider.includes(server))
+    const backend = ['infura', 'pokt'].find(server => httpWeb3provider?.includes(server))
 
     let provider = httpWeb3provider
     let options = {}

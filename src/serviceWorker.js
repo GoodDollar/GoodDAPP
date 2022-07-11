@@ -11,6 +11,11 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read http://bit.ly/CRA-PWA
 
+import logger from './lib/logger/js-logger'
+
+const log = logger.child({ from: 'serviceWorker.js' })
+
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
   // [::1] is the IPv6 localhost address.
@@ -19,10 +24,14 @@ const isLocalhost = Boolean(
   window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
 )
 
+log.info('SW isLocalhost :', { isLocalhost })
+
 export function register(config) {
   if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href)
+    log.info('SW publicUrl :', { publicUrl })
+
     if (publicUrl.origin !== window.location.origin) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
@@ -52,6 +61,8 @@ export function register(config) {
         })
       } else {
         // Is not localhost. Just register service worker
+        log.info('registerValidSW', { swUrl, config })
+
         registerValidSW(swUrl, config)
       }
     })

@@ -14,7 +14,7 @@ import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
-import API from '../API/api'
+import API from '../API'
 import pino from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -567,7 +567,7 @@ export class UserStorage {
         // fetch trust data
         const { data } = await API.getTrust()
 
-        AsyncStorage.setItem('GD_trust', { data, lastFetch: Date.now() })
+        AsyncStorage.safeSet('GD_trust', { data, lastFetch: Date.now() })
         this.trust = data
       } else {
         this.trust = data
@@ -1305,16 +1305,19 @@ export class UserStorage {
       return
     }
 
+    const { walletAddressIndex } = this
     const attr = isMobilePhone(value) ? 'mobile' : isEmail(value) ? 'email' : 'walletAddress'
     const hashValue = UserStorage.cleanHashedFieldForIndex(attr, value)
 
     logger.info(`getUserProfilePublicKey by value <${value}>`, { attr, hashValue })
 
     let profilePublickey
+
     if (attr === 'walletAddress') {
-      profilePublickey = this.walletAddressIndex[hashValue]
+      profilePublickey = walletAddressIndex[hashValue]
       logger.info(`getUserProfilePublicKey from indexes`, { profilePublickey })
     }
+
     if (profilePublickey) {
       return profilePublickey
     }
@@ -1331,10 +1334,10 @@ export class UserStorage {
     profilePublickey = '~' + data.profilePublickey
 
     // wallet address has 1-1 connection with profile public key,
-    //so we can cache it
+    // so we can cache it
     if (attr === 'walletAddress') {
-      this.walletAddressIndex[hashValue] = profilePublickey
-      AsyncStorage.setItem('GD_walletIndex', this.walletAddressIndex)
+      walletAddressIndex[hashValue] = profilePublickey
+      AsyncStorage.safeSet('GD_walletIndex', walletAddressIndex)
     }
 
     return profilePublickey

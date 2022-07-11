@@ -93,7 +93,7 @@ export const maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string
 }
 
 export const prepareInviteCard = async (id, template, wallet) => {
-  const bounty = await wallet.getUserInviteBounty()
+  const { bounty } = await wallet.getUserInviteBounty()
   const { data } = template
   const { readMore } = data
 

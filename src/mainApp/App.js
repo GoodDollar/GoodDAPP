@@ -8,8 +8,6 @@ import LoadingIndicator from '../components/common/view/LoadingIndicator'
 
 import RouterSelector from '../RouterSelector'
 
-import useServiceWorker from '../lib/hooks/useServiceWorker'
-
 import { isMobile } from '../lib/utils/platform'
 import logger from '../lib/logger/js-logger'
 
@@ -29,19 +27,6 @@ const styles = StyleSheet.create({
 export const App = () => {
   const AppWrapper = isMobile ? Fragment : SafeAreaView
   const wrapperProps = isMobile ? {} : { style: styles.safeAreaView }
-  useServiceWorker() // Only runs on Web
-
-  // useEffect(() => {
-  //   log.debug('on mount')
-
-  //   const { _v8runtime: v8 } = global
-
-  //   log.debug({ Config })
-
-  //   if (isAndroidNative && v8) {
-  //     log.debug(`V8 version is ${v8().version}`)
-  //   }
-  // }, [])
 
   return (
     <PaperProvider theme={theme}>

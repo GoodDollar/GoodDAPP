@@ -29,7 +29,7 @@ const AppHolder = () => {
 
       //remove all local data so its not cached and user will re-login
       await Promise.all([AsyncStorage.clear()])
-      AsyncStorage.setItem('GD_version', current) // required for mnemonic recovery
+      AsyncStorage.safeSet('GD_version', current) // required for mnemonic recovery
     }
 
     const initializeApp = async () => {

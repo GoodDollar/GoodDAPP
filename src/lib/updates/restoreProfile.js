@@ -1,6 +1,6 @@
 import { get } from 'lodash'
 
-import API from '../API/api'
+import API from '../API'
 
 const fromDate = new Date('2021/09/09')
 

@@ -1,4 +1,4 @@
-import { defaultErrorMessage, getErrorMessage } from '../api'
+import { defaultErrorMessage, getErrorMessage } from '../utils'
 
 describe('API', () => {
   describe('getErrorMessage', () => {

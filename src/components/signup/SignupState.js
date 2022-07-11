@@ -2,7 +2,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { assign, get, identity, isError, pickBy, toPairs } from 'lodash'
+import { assign, get, identity, isError, pick, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import moment from 'moment'
@@ -25,7 +25,7 @@ import AuthProgressBar from '../auth/components/AuthProgressBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
-import API, { getErrorMessage } from '../../lib/API/api'
+import API, { getException } from '../../lib/API'
 import { useDialog } from '../../lib/dialog/useDialog'
 import BackButtonHandler from '../appNavigation/BackButtonHandler'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -176,8 +176,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const getCountryCode = useCallback(async () => {
     try {
       const data = await API.getLocation()
+      const { country } = data || {}
 
-      data && setCountryCode(data.country)
+      if (country) {
+        setCountryCode(country)
+      }
     } catch (e) {
       log.error('Could not get user location', e.message, e)
     }
@@ -251,6 +254,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
               .then(_ => moment(get(_, 'data.ping', Date.now())))
               .catch(e => moment())
               .then(_ => Math.max(Date.now(), _.valueOf()))
+
             const msg = (mobile || email) + String(torusProofNonce)
             const proof = goodWallet?.wallet?.eth?.accounts?.sign(msg, '0x' + privateKey)
 
@@ -263,9 +267,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         await API.addUser(requestPayload)
           .then(({ data }) => (newUserData = data))
-          .catch(e => {
-            const message = getErrorMessage(e)
-            const exception = new Error(message)
+          .catch(apiError => {
+            const exception = getException(apiError)
+            const { message } = exception
 
             // if user already exists just log.warn then continue signup
             if ('You cannot create more than 1 account with the same credentials' === message) {
@@ -273,8 +277,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             } else {
               // otherwise:
               // completing exception with response object received from axios
-              if (!isError(e)) {
-                exception.response = e
+              if (!isError(apiError)) {
+                exception.response = apiError
               }
 
               // re-throwing exception to be caught in the parent try {}
@@ -376,8 +380,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         //because setting finished to true (!nextRoute) will trigger finishRegistration effect
       } else if (nextRoute && nextRoute.key === 'SMS') {
         try {
-          const result = await checkExisting(torusProvider, { mobile: _signupData.mobile }, undefined, {
-            fromSignupFlow: true,
+          const result = await checkExisting(torusProvider, pick(_signupData, 'mobile'), {
+            eventVars: { fromSignupFlow: true },
           })
 
           if (result !== 'signup') {
@@ -414,8 +418,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         try {
           setLoading(true)
 
-          const result = await checkExisting(torusProvider, { email: _signupData.email }, undefined, {
-            fromSignupFlow: true,
+          const result = await checkExisting(torusProvider, pick(_signupData, 'email'), {
+            eventVars: { fromSignupFlow: true },
           })
 
           if (result !== 'signup') {

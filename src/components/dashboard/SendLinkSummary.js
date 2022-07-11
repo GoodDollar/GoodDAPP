@@ -12,7 +12,7 @@ import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { retry } from '../../lib/utils/async'
-import API from '../../lib/API/api'
+import API from '../../lib/API'
 
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
@@ -185,8 +185,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 ...vendorInfo,
                 senderEmail: vendorFields.email,
                 senderName: vendorFields.name,
-              }).catch(e => log.error('failed notifying vendor callback', e.message, e, { vendorInfo })),
-            )
+              }),
+            ).catch(e => log.error('failed notifying vendor callback', e.message, e, { vendorInfo }))
 
             // Save transaction
             const transactionEvent: TransactionEvent = {

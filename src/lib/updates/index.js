@@ -10,10 +10,19 @@ import upgradeProfileRealmDB from './upgradeProfileRealmdb'
 import upgradeProfile from './restoreProfile'
 import claimGOOD from './claimGOOD'
 import verifyCRM from './verifycrm'
+import fixRegMethod from './fixRegMethod'
 
 const log = logger.child({ from: 'updates' })
 
-const updates = [upgradeRealmDB, upgradeProfileRealmDB, upgradeProfile, uploadAvatars, claimGOOD, verifyCRM]
+const updates = [
+  upgradeRealmDB,
+  upgradeProfileRealmDB,
+  upgradeProfile,
+  uploadAvatars,
+  claimGOOD,
+  verifyCRM,
+  fixRegMethod,
+]
 
 const update = async (goodWallet, userStorage) => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {
@@ -75,4 +84,12 @@ const update = async (goodWallet, userStorage) => {
   await userStorage.userProperties.set('updates', updatesData)
 }
 
-export default update
+export default async (goodWallet, userStorage, from = null) => {
+  const logger = from || log
+
+  try {
+    await update(goodWallet, userStorage)
+  } catch (e) {
+    logger.warn('Run update failed', e.message, e)
+  }
+}

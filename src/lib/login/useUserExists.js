@@ -1,27 +1,37 @@
 // @flow
 import { useCallback } from 'react'
-import { default as API } from '../API/api'
-import { useWallet } from '../wallet/GoodWalletProvider'
+import { default as API, throwException } from '../API'
+import logger from '../logger/js-logger'
+
+const log = logger.child({ from: 'useUserExists' })
 
 const useUserExists = () => {
-  const goodWallet = useWallet()
-
   const userExists = useCallback(
     // eslint-disable-next-line require-await
-    async ({ mnemonics, privateKey, email, mobile }) => {
+    async (wallet = null, query = {}) => {
       let identifier
+      const { email, mobile } = query || {}
 
-      if (goodWallet) {
-        identifier = goodWallet.getAccountForType('login')
+      if (wallet) {
+        identifier = wallet.getAccountForType('login')
       }
 
-      if (![identifier, email, mobile].find(_ => _)) {
+      if (![identifier, email, mobile].some(Boolean)) {
         return { exists: false }
       }
 
-      return API.userExistsCheck({ identifier, email, mobile }).then(({ data }) => data)
+      try {
+        const { data } = await API.userExistsCheck({ identifier, email, mobile }).catch(throwException)
+
+        return data
+      } catch (exception) {
+        const { message } = exception
+
+        log.error('userExistsCheck failed: ', message, exception)
+        throw exception
+      }
     },
-    [goodWallet],
+    [],
   )
 
   return userExists

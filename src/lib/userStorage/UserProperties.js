@@ -1,6 +1,7 @@
 // @flow
-import { assign, forIn, isNil, isPlainObject, isString, noop } from 'lodash'
+import { assign, clone, forIn, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
 import EventEmitter from 'eventemitter3'
+import shallowEqual from 'fbjs/lib/shallowEqual'
 
 import AsyncStorage from '../utils/asyncStorage'
 import { retry } from '../utils/async'
@@ -44,6 +45,8 @@ export default class UserProperties {
 
   local = {}
 
+  lastStored = {}
+
   events = new EventEmitter()
 
   constructor(storage) {
@@ -56,6 +59,8 @@ export default class UserProperties {
       const localProps = await AsyncStorage.getItem('localProps')
 
       this.local = assign({}, localProps)
+      this.throttlePersist = throttle(() => this.persist(), 60000, { leading: true })
+
       log.debug('found local settings:', { props, localProps, local: this.local })
 
       // if not props then block
@@ -72,7 +77,9 @@ export default class UserProperties {
   }
 
   _syncProps(props) {
-    this.data = assign({}, UserProperties.defaultProperties, props || {})
+    const data = assign({}, UserProperties.defaultProperties, props || {})
+
+    assign(this, { data, lastStored: clone(data) })
   }
 
   async _syncFromRemote() {
@@ -192,11 +199,24 @@ export default class UserProperties {
       await AsyncStorage.setItem('props', data)
 
       // dont await on this, sync in background
-      this.ready.then(() => retry(() => this.storage.encryptSettings(data), 2, 500).catch(logError))
+      this.ready.then(() => this.throttlePersist().catch(logError))
     } catch (e) {
       logError(e)
       throw e
     }
+  }
+
+  // eslint-disable-next-line require-await
+  async persist() {
+    const { data, lastStored, storage } = this
+
+    // no need deep check as lastStored is just a shallow copy
+    if (shallowEqual(data, lastStored)) {
+      return
+    }
+
+    await retry(() => storage.encryptSettings(data), 2, 500)
+    this.lastStored = clone(data)
   }
 
   _makeProps(field: string | object, value = null) {

@@ -1,7 +1,6 @@
 // @flow
-import { assign, clone, forIn, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
+import { assign, clone, forIn, isEqual, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
 import EventEmitter from 'eventemitter3'
-import shallowEqual from 'fbjs/lib/shallowEqual'
 
 import AsyncStorage from '../utils/asyncStorage'
 import { retry } from '../utils/async'
@@ -211,7 +210,7 @@ export default class UserProperties {
     const { data, lastStored, storage } = this
 
     // no need deep check as lastStored is just a shallow copy
-    if (shallowEqual(data, lastStored)) {
+    if (isEqual(data, lastStored)) {
       return
     }
 

@@ -28,7 +28,7 @@ const useRefund = () => {
 
   useEffect(() => {
     const { userProperties } = userStorage || {}
-    const haveRefunded = userProperties ? userProperties.get(REFUNDED_FLAG) : false
+    const haveRefunded = userProperties ? userProperties.getLocal(REFUNDED_FLAG) : false
 
     const fetchAmountsFromEvents = async (contract, event, filters) => {
       const events = await contract.getPastEvents(event, filters)

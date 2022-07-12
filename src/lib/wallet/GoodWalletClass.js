@@ -670,7 +670,8 @@ export class GoodWallet {
 
       return Number(wallet.utils.fromWei(price))
     } catch (e) {
-      log.error('getReservePriceDAI failed:', e.message, e)
+      log.warn('getReservePriceDAI failed:', e.message, e)
+      throw e
     }
   }
 

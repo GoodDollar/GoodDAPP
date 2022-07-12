@@ -11,6 +11,7 @@ import upgradeProfile from './restoreProfile'
 import claimGOOD from './claimGOOD'
 import verifyCRM from './verifycrm'
 import fixRegMethod from './fixRegMethod'
+import resetRefund from './resetRefund'
 
 const log = logger.child({ from: 'updates' })
 
@@ -22,6 +23,7 @@ const updates = [
   claimGOOD,
   verifyCRM,
   fixRegMethod,
+  resetRefund,
 ]
 
 const update = async (goodWallet, userStorage) => {

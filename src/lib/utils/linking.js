@@ -24,14 +24,28 @@ export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank
     return
   }
 
-  try {
-    await Linking.openURL(uri)
-  } catch (e) {
-    const [, scheme] = schemeRe.exec(uri)
+  // need to return original promise for compatibility
+  let result
 
-    log.warn('Failed to open link', e.message, e, { uri })
-    throw new Error(`There aren't apps installed can handle '${scheme}' scheme`)
+  try {
+    result = await Linking.openURL(uri)
+  } catch (exception) {
+    let error = exception
+
+    // check does sheme supported to make sure the exception is about this case
+    const isSchemeSupported = await Linking.canOpenURL(uri).catch(() => false)
+
+    if (!isSchemeSupported) {
+      const [, scheme] = schemeRe.exec(uri)
+
+      error = new Error(`There aren't apps installed can handle '${scheme}' scheme`)
+    }
+
+    log.error('Failed to open link', error.message, error, { uri })
+    throw error
   }
+
+  return result
 }
 
 export const handleLinks = async (logger = log) => {

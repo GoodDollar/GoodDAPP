@@ -7,11 +7,11 @@ import { useUserStorage, useWallet } from '../../../lib/wallet/GoodWalletProvide
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
 
-const log = logger.child({ from: 'useRefund' })
+export const REFUNDED_FLAG = 'noRefundRequired'
 
 const { enableRefund } = Config
-const REFUNDED_FLAG = 'noRefundRequired'
 const EXPLORER_API = 'https://explorer.fuse.io/api'
+const log = logger.child({ from: 'useRefund' })
 
 const incidentStart = 17896430
 const incidentEnd = 17916430

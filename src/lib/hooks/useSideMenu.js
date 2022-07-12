@@ -22,7 +22,7 @@ import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 const log = logger.child({ from: 'useSideMenu' })
 
-const { dashboardUrl } = Config
+const { dashboardUrl, enableSelfCustody } = Config
 
 export default (props = {}) => {
   const { navigation } = props
@@ -104,7 +104,7 @@ export default (props = {}) => {
       {
         icon: 'lock',
         name: t`Backup Wallet`,
-        hidden: isSelfCustody === false,
+        hidden: enableSelfCustody === false || isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'BackupWallet',

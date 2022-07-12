@@ -35,7 +35,7 @@ const usePermissions = (permission: Permission, options = {}) => {
   } = options
 
   const { showDialog } = useDialog()
-  const mountedState = useMountedState()
+  const [mountedState] = useMountedState()
   const [allowed, setAllowed] = useState(false)
 
   const PromptPopup = promptPopup || promptPopups[permission]

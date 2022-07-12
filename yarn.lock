@@ -2462,10 +2462,10 @@
     emailjs "^2.2.0"
     text-encoding "^0.7.0"
 
-"@gooddollar/react-native-facetec@^1.0.23":
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/@gooddollar/react-native-facetec/-/react-native-facetec-1.0.23.tgz#b44dc233d14404c411717725474916119b27f50e"
-  integrity sha512-ApquLbxFrfCyW+Tc0mN0WW1UtUUWLTWvp9wLiwljd3NErXXvNDhvJ5e/Sd1wK6jtKIQyIdEsfdusUD5xlHzxWg==
+"@gooddollar/react-native-facetec@^1.0.24":
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/@gooddollar/react-native-facetec/-/react-native-facetec-1.0.24.tgz#6ab295ce84a4b318d0196da1bfc045c24fd1141b"
+  integrity sha512-JjaMQIjNBO0bAY9RJbTPAXjdWt2JpXftv/bazcsAKbF9Mfj64xy50JVIS40mFdc9S8Dw/uPKOulBTp/cVg8Nkw==
 
 "@gooddollar/react-native-side-menu@^2.0.2":
   version "2.0.2"
@@ -21034,10 +21034,10 @@ react-native-vector-icons@^6.6.0:
     prop-types "^15.7.2"
     yargs "^15.0.2"
 
-react-native-version-check@^3.4.2:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/react-native-version-check/-/react-native-version-check-3.4.2.tgz#f330c3050b5e8de249eb2dd53ef55c5a17bfa0cd"
-  integrity sha512-f2eHI6p60UlBzlcxuy4pQaGqCEmR5cNvRQuyG/pFydLdutYpa05zeg4KkTfHWdVmGHhiawyaAfto9QsnBZ70Ew==
+react-native-version-check@^3.4.3:
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-version-check/-/react-native-version-check-3.4.3.tgz#598a1a65d5edca6fe9acc6eba61b7b2e6ae77a25"
+  integrity sha512-E1FyaPR+sDwZAUzehV8q1tQQ8uZAS0pM49HEaXeYw+MHaf2mF8GFUPi3z2bwwN+kV2QHnCpRuPp4lcV6TVOuKw==
   dependencies:
     lodash.isfunction "^3.0.9"
     lodash.isnil "^4.0.0"

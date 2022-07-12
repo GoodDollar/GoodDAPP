@@ -358,6 +358,10 @@ const Claim = props => {
     let txHash
 
     try {
+      if (Config.disableClaim) {
+        throw new Error('Come back later')
+      }
+
       receipt = await goodWallet.claim({ onTransactionHash: hash => (txHash = hash) })
     } catch (exception) {
       const { message } = exception

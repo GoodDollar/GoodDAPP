@@ -18,6 +18,9 @@ import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import {
   chunk,
+  filter,
+  findKey,
+  first,
   flatten,
   get,
   identity,
@@ -655,16 +658,20 @@ export class GoodWallet {
   }
 
   async getReservePriceDAI() {
-    const { network, wallet, web3Mainnet } = this
+    try {
+      const { network, wallet, web3Mainnet } = this
 
-    const reserve = new web3Mainnet.eth.Contract(
-      GoodReserveCDai.abi,
-      get(ContractsAddress, `${network}-mainnet.GoodReserveCDai`),
-    )
+      const reserve = new web3Mainnet.eth.Contract(
+        GoodReserveCDai.abi,
+        get(ContractsAddress, `${network}-mainnet.GoodReserveCDai`),
+      )
 
-    const price = await retry(() => reserve.methods.currentPriceDAI().call())
+      const price = await retry(() => reserve.methods.currentPriceDAI().call())
 
-    return Number(wallet.utils.fromWei(price))
+      return Number(wallet.utils.fromWei(price))
+    } catch (e) {
+      log.error('getReservePriceDAI failed:', e.message, e)
+    }
   }
 
   async getClaimScreenStatsMainnet() {
@@ -672,9 +679,10 @@ export class GoodWallet {
       FundManagerABI.abi,
       get(ContractsAddress, `${this.network}-mainnet.GoodFundManager`),
     )
-    const cdai = new this.web3Mainnet.eth.Contract(cERC20ABI.abi, get(ContractsAddress, `${this.network}-mainnet.cDAI`))
 
+    const cdai = new this.web3Mainnet.eth.Contract(cERC20ABI.abi, get(ContractsAddress, `${this.network}-mainnet.cDAI`))
     const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContracts`, [])
+
     let gainCalls = stakingContracts.map(([addr, rewards]) => {
       const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 
@@ -691,9 +699,13 @@ export class GoodWallet {
     let [[stakeResult, interestResult], currentBlock] = await Promise.all([
       this.multicallMainnet.all([gainCalls, calls]),
       this.web3Mainnet.eth.getBlockNumber(),
-    ])
+    ]).catch(e => {
+      log.error('multicallMainnet / getBlockNumber failed:', e.message, e)
+      throw e
+    })
 
     const result = {}
+
     if (stakeResult) {
       stakeResult = stakeResult.map(({ currentGains }) => [
         parseInt(currentGains[3]) / 1e8,
@@ -709,21 +721,27 @@ export class GoodWallet {
       let [{ lastCollectedInterest }, { cdaiExchangeRate }] = interestResult
 
       cdaiExchangeRate = this.wallet.utils.fromWei(cdaiExchangeRate) / 1e10
+
       const estimatedBlocksSince = (Date.now() / 1000 - lastCollectedInterest) / 15
       const InterestCollectedEventsFilter = {
         fromBlock: (currentBlock - estimatedBlocksSince - 5000).toFixed(0),
         toBlock: (currentBlock - estimatedBlocksSince + 5000).toFixed(0),
       }
+
       const events = await retry(() =>
         fundManager.getPastEvents('FundsTransferred', InterestCollectedEventsFilter),
       ).catch(e => {
         log.error('InterestCollectedEvents failed:', e.message, e, {
           category: ExceptionCategory.Blockhain,
         })
+
         return []
       })
+
       log.debug('getInterestCollected:', { events })
+
       let interesInCDAI = parseInt(get(last(events), 'returnValues.cDAIinterestEarned', '0')) / 1e8 //convert to decimals. cdai is 8 decimals
+
       result.interestCollected = interesInCDAI * cdaiExchangeRate
     }
 
@@ -1482,6 +1500,14 @@ export class GoodWallet {
   async isKnownFuseAddress(address) {
     const nonce = await this.wallet.eth.getTransactionCount(address)
     return nonce > 0
+  }
+
+  getContractName(address) {
+    const lcAddress = address.toLowerCase()
+    const checksum = this.wallet.utils.toChecksumAddress(address)
+    const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
+
+    return first(filter(values(ContractsAddress).map(findByKey)))
   }
 }
 

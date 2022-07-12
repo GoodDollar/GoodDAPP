@@ -700,7 +700,7 @@ export class GoodWallet {
       this.multicallMainnet.all([gainCalls, calls]),
       this.web3Mainnet.eth.getBlockNumber(),
     ]).catch(e => {
-      log.error('multicallMainnet / getBlockNumber failed:', e.message, e)
+      log.warn('multicallMainnet / getBlockNumber failed:', e.message, e)
       throw e
     })
 

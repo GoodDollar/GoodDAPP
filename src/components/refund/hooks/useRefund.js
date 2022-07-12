@@ -1,4 +1,4 @@
-import { map, sum } from 'lodash'
+import { map, mapValues, sum, toLower } from 'lodash'
 import { useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 
@@ -17,6 +17,11 @@ const incidentStart = 17896430
 const incidentEnd = 17916430
 const claimAmount = 8210995
 
+// test data:
+// account = '0xd253A5203817225e9768C05E5996d642fb96bA86'
+// UBI contract addess = '0xd253A5203817225e9768C05E5996d642fb96bA86'
+// token contract address = '0x495d133b938596c9984d462f007b676bdc57ecec'
+
 const useRefund = () => {
   const userStorage = useUserStorage()
   const [shouldRefund, setShouldRefund] = useState(undefined)
@@ -24,7 +29,7 @@ const useRefund = () => {
   const wallet = useWallet()
 
   const claimAddress = useMemo(() => wallet?.UBIContract._address, [wallet])
-  const tokenAddress = useMemo(() => wallet?.tokenContract._address.toLowerCase(), [wallet])
+  const tokenAddress = useMemo(() => wallet?.tokenContract._address, [wallet])
 
   useEffect(() => {
     const { userProperties } = userStorage || {}
@@ -38,9 +43,10 @@ const useRefund = () => {
       return amounts
     }
 
-    const fetchAmountsFromExplorer = async (contractAddress, filters) => {
+    const fetchAmountsFromExplorer = async (contract, filters) => {
       const { filter, fromBlock } = filters
-      const { from, to } = filter
+      const { from, to } = mapValues(filter, toLower)
+      const contractAddress = toLower(contract)
 
       const {
         data: { result },
@@ -58,7 +64,7 @@ const useRefund = () => {
 
       // filter & map in a single iteration
       const amounts = result.reduce(
-        (values, { to: _to, value }) => (_to.toLowerCase() === to ? values.concat(Number(value)) : values),
+        (values, { to: _to, value }) => (_to === to ? values.concat(Number(value)) : values),
         [],
       )
 

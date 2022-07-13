@@ -29,7 +29,7 @@ export async function isWhitelisted(web3: Web3, account: string): Promise<boolea
 export async function check(web3: Web3, address: string): Promise<string> {
     const contract = await ubiSchemeContract(web3)
 
-    const result = await contract.methods.checkEntitlement(address).call()
+    const result = await contract.methods.checkEntitlement().call({from: address})
     debug('UBI', result.toString())
 
     return result.toString()

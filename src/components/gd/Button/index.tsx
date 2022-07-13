@@ -12,7 +12,7 @@ export const ButtonAction = styled.button<{
     justify-content: center;
     height: ${({ size }) => (size === 'sm' ? '32px' : '71px')};
     min-width: ${({ width = '100%' }) => width};
-    padding:5px 10px 5px 10px;
+    padding:5px 0px 5px 0px;
     border-radius: ${({ borderRadius = '20px' }) => borderRadius};
     color: ${({ theme }) => theme.color.main};
     background: ${({ theme }) => theme.color.text2};

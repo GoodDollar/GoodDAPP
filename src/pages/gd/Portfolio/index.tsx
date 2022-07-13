@@ -3,7 +3,7 @@ import { Layout } from 'components/gd/sushi'
 import { PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from './styled'
 import Title from 'components/gd/Title'
 import Card from 'components/gd/Card'
-import { ButtonAction, ButtonDefault, ButtonOutlined } from 'components/gd/Button'
+import { ButtonAction, ButtonDefault } from 'components/gd/Button'
 import Table from 'components/gd/Table'
 import WithdrawRewards from 'components/WithdrawRewards'
 import PortfolioTableRow from 'components/PortfolioTableRow'
@@ -226,19 +226,20 @@ const MobileCell = ({
                             stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
                         }
                         onClick={handleWithdrawOpen}
-                        ButtonEl={ButtonOutlined}
+                        ButtonEl={ButtonAction}
                     >
                         {i18n._(t`Withdraw`)}
                     </ActionOrSwitchButton>
                     {
                         claimableStake &&
-                            <ButtonOutlined  
+                            <ButtonAction  
                                 size='sm' 
+                                noShadow={true}
                                 borderRadius="6px" 
                                 onClick={handleClaimRewardsOpen}
                             >
                                 {i18n._(t`Claim rewards`)}
-                            </ButtonOutlined>
+                            </ButtonAction>
                     }
                 </div>
             </CellSC>
@@ -443,7 +444,7 @@ const Portfolio = () => {
                                         size="default"
                                         noShadow={isMobile}
                                         requireNetwork={DAO_NETWORK.MAINNET}
-                                        ButtonEl={ButtonOutlined}
+                                        ButtonEl={ButtonDefault}
                                         className="actionButton"
                                     >
                                         {i18n._(t`Claim G$ rewards`)}
@@ -457,9 +458,9 @@ const Portfolio = () => {
                                 onClaim={update}
                                 type="GOOD"
                                 trigger={
-                                    <ButtonOutlined size="default" className="md:mt-1 actionButton" width={'156px'}>
+                                    <ButtonDefault size="default" className="md:mt-1 actionButton" width={'156px'}>
                                         {i18n._(t`Claim GOOD rewards`)}
-                                    </ButtonOutlined>
+                                    </ButtonDefault>
                                 }
                                 // trigger={<ButtonDefault width={'156px'}>{i18n._(t`Claim rewards`)}</ButtonDefault>}
                             />

@@ -13,14 +13,6 @@ const log = logger.child({ from: 'Linking' })
 const schemeRe = /(.+?:)\/\//
 
 export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank', noopener: boolean = false) => {
-  const isSchemeSupported = await Linking.canOpenURL(uri)
-
-  if (!isSchemeSupported) {
-    const [, scheme] = schemeRe.exec(uri)
-
-    throw new Error(`There aren't apps installed can handle '${scheme}' scheme`)
-  }
-
   if (Platform.OS === 'web') {
     const args = [new URL(uri, window.location).toString(), target]
 
@@ -32,7 +24,28 @@ export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank
     return
   }
 
-  return Linking.openURL(uri)
+  // need to return original promise for compatibility
+  let result
+
+  try {
+    result = await Linking.openURL(uri)
+  } catch (exception) {
+    let error = exception
+
+    // check does sheme supported to make sure the exception is about this case
+    const isSchemeSupported = await Linking.canOpenURL(uri).catch(() => false)
+
+    if (!isSchemeSupported) {
+      const [, scheme] = schemeRe.exec(uri)
+
+      error = new Error(`There aren't apps installed can handle '${scheme}' scheme`)
+    }
+
+    log.error('Failed to open link', error.message, error, { uri })
+    throw error
+  }
+
+  return result
 }
 
 export const handleLinks = async (logger = log) => {

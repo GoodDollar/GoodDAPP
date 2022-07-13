@@ -40,7 +40,7 @@ export default (options = {}) => {
   } = options
 
   const { showDialog } = useDialog()
-  const mountedState = useMountedState()
+  const [mountedState] = useMountedState()
   const [isSupported, setSupported] = useState(false)
   const UnsupportedPopup = unsupportedPopup || SwitchToChromeOrSafari
   const OutdatedPopup = outdatedPopup || UpdateIOS

@@ -718,6 +718,8 @@ export class UserStorage {
     reset?: boolean,
     category: FeedCategory = FeedCategories.All,
   ): Promise<Array<FeedEvent>> {
+    await this.feedStorage.ready
+
     return this.feedStorage.getFeedPage(numResults, reset, category)
   }
 

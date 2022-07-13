@@ -272,9 +272,12 @@ const Dashboard = props => {
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
   //which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
-    await getFeedPage(true)
+    const { feedStorage } = userStorage
 
-    userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
+    await getFeedPage(true)
+    await feedStorage.ready
+
+    feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
   const onPreloadFeedPage = useCallback(

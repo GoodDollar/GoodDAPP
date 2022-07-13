@@ -9,7 +9,6 @@ import logger from '../logger/js-logger'
 import { isMobileNative } from '../utils/platform'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
-import { getProviderSupplier, isMetamaskProvider } from './utils'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 const { WebsocketProvider, HttpProvider } = Web3.providers
@@ -81,16 +80,9 @@ class SoftwareWalletProvider {
   async initSoftwareWallet(): Promise<Web3> {
     log.info('wallet config:', this.conf)
 
-    let web3: Web3 = this.conf.web3
     let pkey: ?string
-    if (web3) {
-      // https://github.com/ChainSafe/web3.js/issues/4780
-      // use web3.eth.personal.sign as workaround for metamask
-      const sign = isMetamaskProvider(web3.currentProvider) ? web3.eth.personal.sign : web3.eth.sign
-      pkey = await sign('GD_IDENTIFIERS', web3.eth.defaultAccount).then(_ => _.slice(2, 66)) //32 bytes psuedo key
-    } else {
-      pkey = this.conf.mnemonic || (await getMnemonics())
-    }
+
+    pkey = this.conf.mnemonic || (await getMnemonics())
     let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS)
 
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
@@ -106,10 +98,8 @@ class SoftwareWalletProvider {
       log.debug('Existing private keys found')
     }
 
-    if (!web3) {
-      let provider = this.getWeb3TransportProvider()
-      web3 = new Web3(provider, null, this.defaults)
-    }
+    let provider = this.getWeb3TransportProvider()
+    let web3 = new Web3(provider, null, this.defaults)
 
     assign(web3.eth, this.defaults)
     privateKeys.forEach(pkey => {
@@ -117,16 +107,8 @@ class SoftwareWalletProvider {
       web3.eth.accounts.wallet.add(wallet)
     })
 
-    switch (getProviderSupplier(web3.currentProvider)) {
-      case 'walletconnect':
-        web3.eth.defaultAccount = web3.eth.currentProvider.accounts[0]
-        break
-      case 'metamask':
-        web3.eth.defaultAccount = web3.eth.currentProvider.selectedAddress
-        break
-      default:
-        web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
-    }
+    web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
+
     return web3
   }
 

@@ -90,11 +90,7 @@ const useGoodDollarLogin = params => {
     sendResponse({ error: 'Authorization Denied' })
   }, [sendResponse])
 
-  const allow = useCallback(() => {
-    const { wallet, accounts } = goodWallet
-    const { accounts: signer } = wallet.eth
-    const { privateKey } = first(accounts)
-
+  const allow = useCallback(async () => {
     const { isWhitelisted } = profileOptions
     const { walletAddress } = profile
 
@@ -105,7 +101,7 @@ const useGoodDollarLogin = params => {
       nonce: detail(Date.now()),
     }
 
-    const { signature } = signer.sign(JSON.stringify(response), privateKey)
+    const signature = await goodWallet.sign(JSON.stringify(response))
 
     sendResponse({ ...response, sig: signature })
   }, [goodWallet, shortDetails, profileOptions, profile, sendResponse])

@@ -8,7 +8,7 @@ import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analy
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { INVITE_CODE } from '../../lib/constants/localStorage'
-
+import { InfoIcon } from '../common/modal/InfoIcon'
 import Config from '../../config/config'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -22,6 +22,7 @@ const wasOpenedProp = 'hasOpenedInviteScreen'
 export const useRegisterForInvites = () => {
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
+  const { showDialog } = useDialog()
 
   const registerForInvites = useCallback(
     async inviterInviteCode => {
@@ -37,6 +38,18 @@ export const useRegisterForInvites = () => {
       log.debug('joining invites contract:', { inviterInviteCode })
 
       try {
+        if (goodWallet.is3rdPartyWallet) {
+          const dialogPromise = new Promise((res, rej) => {
+            showDialog({
+              image: <InfoIcon />,
+              title: t`More G$ Rewards`,
+              message: t`Sign the next transaction with your wallet, to generate your unique invitation code.
+              So you can collect rewards for inviting your friends!`,
+              onDismiss: res,
+            })
+          })
+          await dialogPromise
+        }
         const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
 
         log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
@@ -57,7 +70,7 @@ export const useRegisterForInvites = () => {
         log.error('registerForInvites failed', e.message, e, { inviterInviteCode })
       }
     },
-    [userStorage, goodWallet],
+    [userStorage, goodWallet, showDialog],
   )
 
   return registerForInvites

@@ -47,7 +47,6 @@ import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 
 import {
-  getProviderSupplier,
   getTxLogArgs,
   NULL_ADDRESS,
   WITHDRAW_STATUS_COMPLETE,
@@ -189,9 +188,11 @@ export class GoodWallet {
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const ready = WalletFactory.create(this.config)
+    this.is3rdPartyWallet = this.config.type !== 'SEED'
     this.ready = ready
       .then(wallet => {
         log.info('GoodWallet initial wallet created.')
+
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
@@ -843,7 +844,7 @@ export class GoodWallet {
   getAccountForType(type: AccountUsage): string {
     const { defaultAccount } = get(this.wallet, 'eth', {})
 
-    if (type === 'gd' && ['metamask', 'walletconnect'].includes(getProviderSupplier(this.wallet.currentProvider))) {
+    if (type === 'gd' && this.is3rdPartyWallet) {
       return defaultAccount ?? ''
     }
     const accountPath = GoodWallet.AccountUsageToPath[type]
@@ -854,9 +855,7 @@ export class GoodWallet {
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
     const signMethod =
-      accountType === 'gd' && getProviderSupplier(this.wallet.currentProvider) === 'metamask'
-        ? this.wallet.eth.personal.sign
-        : this.wallet.eth.sign
+      accountType === 'gd' && this.is3rdPartyWallet ? this.wallet.eth.personal.sign : this.wallet.eth.sign
 
     let account = this.getAccountForType(accountType)
     let signed = await signMethod(toSign, account)

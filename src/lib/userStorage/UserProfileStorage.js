@@ -201,7 +201,10 @@ export class UserProfileStorage implements ProfileStorage {
       const index = {
         walletAddress: {
           hash: cleanHashedFieldForIndex('walletAddress', this.wallet.account),
-          proof: await this.wallet.sign(cleanHashedFieldForIndex('walletAddress', this.wallet.account)),
+          proof: await this.wallet.sign(
+            'You are signing this message to prove you own this wallet address: ' +
+              cleanHashedFieldForIndex('walletAddress', this.wallet.account),
+          ),
         },
       }
 

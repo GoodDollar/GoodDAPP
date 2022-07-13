@@ -17,6 +17,7 @@ import {
   GD_INITIAL_REG_METHOD,
   GD_USER_MNEMONIC,
   INVITE_CODE,
+  JWT,
 } from '../../lib/constants/localStorage'
 
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
@@ -287,8 +288,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           })
 
         //refresh JWT for a signed up one, server will sign it with permission to use realmdb
-        await loginWithWallet(true)
 
+        AsyncStorage.setItem(JWT, null)
+        await loginWithWallet()
         await userStorage.initRegistered()
 
         const [mnemonic] = await Promise.all([
@@ -315,7 +317,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             userStorage.setProfileField(fieldName, fieldValue, 'private'),
           ),
         )
-
         await Promise.all([
           userStorage.userProperties.set('registered', true),
           AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),

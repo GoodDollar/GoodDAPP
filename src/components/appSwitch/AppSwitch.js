@@ -6,7 +6,7 @@ import { SceneView } from '@react-navigation/core'
 import { isEmpty } from 'lodash'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import { DESTINATION_PATH } from '../../lib/constants/localStorage'
+import { DESTINATION_PATH, GD_PROVIDER } from '../../lib/constants/localStorage'
 
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -20,6 +20,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { restart } from '../../lib/utils/system'
 import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useOnboard } from '../auth/useOnboard'
 
 import { getRouteParams } from '../../lib/utils/navigation'
 type LoadingProps = {
@@ -45,6 +46,7 @@ const AppSwitch = (props: LoadingProps) => {
   const initializing = useRef(null)
   const { initializedRegistered } = userStorage || {}
   const [getNavigation, isRegistered] = usePropsRefs([navigation, initializedRegistered])
+  const { onboardConnect, web3 } = useOnboard()
 
   const _showOutOfGasError = useCallback(async () => {
     const { navigate } = getNavigation()
@@ -221,9 +223,18 @@ const AppSwitch = (props: LoadingProps) => {
       if (initializing.current) {
         return
       }
+      log.debug('calling initWalletAndStorage:', { web3 })
       try {
         initializing.current = true
-        await initWalletAndStorage(undefined, 'SEED')
+        const provider = await AsyncStorage.getItem(GD_PROVIDER)
+        log.debug('initLoggedInWallet', { provider })
+        let web3Result = web3
+        if (!web3 && provider === 'WEB3WALLET') {
+          web3Result = await onboardConnect()
+        }
+
+        await initWalletAndStorage(web3Result, provider)
+
         log.debug('storage and wallet ready')
       } catch (e) {
         if ('UnsignedJWTError' === e.name) {
@@ -247,7 +258,7 @@ const AppSwitch = (props: LoadingProps) => {
       }
     }
     run()
-  }, [initWalletAndStorage, initializing])
+  }, [initWalletAndStorage, initializing, web3])
 
   useEffect(() => {
     if (ready || !initializedRegistered) {

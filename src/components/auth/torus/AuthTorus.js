@@ -20,12 +20,11 @@ import {
   TORUS_REDIRECT_SUCCESS,
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
-import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
+import { GD_PROVIDER, GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import {
-  REGISTRATION_METHOD_METAMASK,
   REGISTRATION_METHOD_SELF_CUSTODY,
   REGISTRATION_METHOD_TORUS,
-  REGISTRATION_METHOD_WALLETCONNECT,
+  REGISTRATION_METHOD_WEB3WALLET,
 } from '../../../lib/constants/login'
 import { withStyles } from '../../../lib/styles'
 import config from '../../../config/config'
@@ -45,25 +44,13 @@ import SignUpIn from '../login/SignUpScreen'
 import DeepLinking from '../../../lib/utils/deepLinking'
 import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
 
-import * as metamask from '../../../lib/connectors/metamask'
-
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
 import mustache from '../../../lib/utils/mustache'
+import { useOnboard } from '../useOnboard'
 import useTorus from './hooks/useTorus'
 import { TorusStatusCode } from './sdk/TorusSDK'
-
 const log = logger.child({ from: 'AuthTorus' })
-
-async function metamaskLogin() {
-  await metamask.metaMask.activate()
-  const web3 = new Web3(Web3.givenProvider)
-  if (!web3.eth.defaultAccount) {
-    web3.eth.defaultAccount = metamask.metaMask.provider.selectedAddress
-  }
-
-  return web3
-}
 
 async function walletconnectLogin() {
   const rpc = Object.keys(config.ethereum).reduce((acc, key) => {
@@ -71,6 +58,7 @@ async function walletconnectLogin() {
     return acc
   }, {})
 
+  log.debug('walletconnect:', { rpc })
   const provider = new WalletConnectProvider({
     bridge: 'https://bridge.walletconnect.org',
     clientMeta: {
@@ -109,6 +97,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
+  const { onboardConnect } = useOnboard()
   const { navigate } = navigation
 
   const getTorusUserRedirect = async () => {
@@ -247,7 +236,8 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       | 'auth0-pwdless-email'
       | 'auth0-pwdless-sms'
       | 'walletconnect'
-      | 'metamask',
+      | 'web3wallet'
+      | 'selfCustody',
     torusUserRedirectPromise,
   ) => {
     const fromRedirect = !!torusUserRedirectPromise
@@ -259,6 +249,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       return
     }
 
+    AsyncStorage.setItem(GD_PROVIDER, provider.toUpperCase())
     if (provider === 'selfCustody') {
       initWalletAndStorage(undefined, 'SEED') //initialize the wallet (it will generate a mnemonic)
       return selfCustody()
@@ -280,14 +271,15 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
     let regMethod
 
     if (provider === 'walletconnect') {
-      regMethod = REGISTRATION_METHOD_WALLETCONNECT
+      regMethod = REGISTRATION_METHOD_WEB3WALLET
       web3Provider = await walletconnectLogin()
       torusUser = {
         publicAddress: web3Provider.currentProvider.accounts[0],
       }
-    } else if (provider === 'metamask') {
-      regMethod = REGISTRATION_METHOD_METAMASK
-      web3Provider = await metamaskLogin()
+    } else if (provider === 'web3wallet') {
+      regMethod = REGISTRATION_METHOD_WEB3WALLET
+      web3Provider = await onboardConnect()
+      log.debug('onboard result:', { web3Provider })
       torusUser = {
         publicAddress: web3Provider.address,
       }

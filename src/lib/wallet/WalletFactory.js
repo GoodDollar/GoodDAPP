@@ -2,12 +2,14 @@
 import Web3 from 'web3'
 import Config from '../../config/config'
 import SoftwareWalletProvider from './SoftwareWalletProvider'
+import ThirdPartyWalletProvider from './ThirdPartyWalletProvider'
 
 export type WalletConfig = {
   network_id: number,
   httpWeb3provider: string,
   websocketWeb3Provider: string,
   web3Transport: string,
+  type: 'SEED' | 'WEB3WALLET' | 'WALLETCONNECT' | 'OTHER',
 }
 const networkToId = network => {
   switch (network) {
@@ -28,11 +30,25 @@ export default class WalletFactory {
       walletConf.websocketWeb3Provider = walletConf.httpWeb3provider =
         walletConf.httpWeb3provider || Config.httpWeb3provider
     }
+    if (!walletConf.httpWeb3provider) {
+      delete walletConf.httpWeb3provider
+    }
 
-    let provider: SoftwareWalletProvider = new SoftwareWalletProvider({
-      ...Config.ethereum[networkToId(Config.network)],
-      ...walletConf,
-    })
-    return provider.ready
+    switch (walletConf.type) {
+      case 'SEED':
+      case 'OTHER': {
+        return new SoftwareWalletProvider({
+          ...Config.ethereum[networkToId(Config.network)],
+          ...walletConf,
+        }).ready
+      }
+      default:
+      case 'WEB3WALLET':
+      case 'WALLETCONNECT':
+        return new ThirdPartyWalletProvider({
+          ...Config.ethereum[networkToId(Config.network)],
+          ...walletConf,
+        }).ready
+    }
   }
 }

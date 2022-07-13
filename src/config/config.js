@@ -157,6 +157,7 @@ const Config = {
       network_id: 122,
       httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
       websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
+      explorer: 'https://explorer.fuse.io'
     },
     '4447': {
       network_id: 4447,

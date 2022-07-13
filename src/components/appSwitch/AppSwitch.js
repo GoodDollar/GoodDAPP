@@ -10,14 +10,12 @@ import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/dialog/useDialog'
-import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { identifyWith } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
-import { delay } from '../../lib/utils/async'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { restart } from '../../lib/utils/system'
@@ -40,18 +38,13 @@ const AppSwitch = (props: LoadingProps) => {
   const { state } = navigation
   const [ready, setReady] = useState(false)
   const { showErrorDialog } = useDialog()
-  const { initWalletAndStorage } = useContext(GoodWalletContext)
+  const { initWalletAndStorage, isCitizen, login } = useContext(GoodWalletContext)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
-  const unsuccessfulLaunchAttemptsRef = useRef(0)
   const deepLinkingRef = useRef(null)
+  const initializing = useRef(null)
   const { initializedRegistered } = userStorage || {}
   const [getNavigation, isRegistered] = usePropsRefs([navigation, initializedRegistered])
-
-  const {
-    authStatus: [isLoggedInCitizen, isLoggedIn],
-    refresh,
-  } = useCheckAuthStatus()
 
   const _showOutOfGasError = useCallback(async () => {
     const { navigate } = getNavigation()
@@ -130,22 +123,6 @@ const AppSwitch = (props: LoadingProps) => {
     [getRoute, getNavigation],
   )
 
-  /**
-   * Check's users' current auth status
-   * @returns {Promise<void>}
-   */
-  const initialize = useCallback(async () => {
-    AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
-
-    try {
-      const email = await userStorage.getProfileFieldValue('email')
-
-      identifyWith(email, undefined)
-    } catch (e) {
-      log.warn('Initialize with email failed', e.message, e)
-    }
-  }, [userStorage])
-
   const restartWithMessage = useCallback(
     async (message, withLogout = true) => {
       if (false !== withLogout) {
@@ -166,7 +143,7 @@ const AppSwitch = (props: LoadingProps) => {
       // after dynamic routes update, if user arrived here, then he is already loggedin
       // initialize the citizen status and wallet status
       // create jwt token and initialize the API service
-      log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
+      log.debug('initialize ready', { isCitizen })
 
       //identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
@@ -179,7 +156,15 @@ const AppSwitch = (props: LoadingProps) => {
         return
       }
 
-      initialize()
+      AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
+
+      try {
+        const email = await userStorage.getProfileFieldValue('email')
+
+        identifyWith(email, undefined)
+      } catch (e) {
+        log.warn('Initialize with email failed', e.message, e)
+      }
 
       // this needs to wait after initreg where we initialize the database
       runUpdates(goodWallet, userStorage, log)
@@ -187,35 +172,9 @@ const AppSwitch = (props: LoadingProps) => {
       log.debug('initialize done')
       setReady(true)
     } catch (e) {
-      if ('UnsignedJWTError' === e.name) {
-        return restartWithMessage(
-          "You haven't used GoodDollar app on this device for a long time. " +
-            'You need to sign in again. Make sure to use the same account you previously signed in with.',
-        )
-      }
-
-      const dialogShown = unsuccessfulLaunchAttemptsRef.current > 3
-
-      unsuccessfulLaunchAttemptsRef.current += 1
-
-      if (dialogShown) {
-        // if error in realmdb logout the user, he needs to signin/signup again
-        log.error('failed initializing app', e.message, e, { dialogShown })
-
-        if (e.message.includes('realmdb')) {
-          return restartWithMessage(
-            'We are sorry, but due to database upgrade, you need to perform the Signup process again. ' +
-              'Make sure to use the same account you previously signed in with.',
-          )
-        }
-
-        restartWithMessage('Wallet could not be loaded. Please refresh.', false)
-      } else {
-        await delay(1500)
-        init()
-      }
+      restartWithMessage('Wallet could not be loaded. Please refresh.', false)
     }
-  }, [restartWithMessage, goodWallet, userStorage, initialize, showOutOfGasError, isLoggedInCitizen, isLoggedIn])
+  }, [restartWithMessage, goodWallet, userStorage, showOutOfGasError, isCitizen])
 
   const openDeepLink = useCallback(
     data => {
@@ -243,10 +202,10 @@ const AppSwitch = (props: LoadingProps) => {
 
     if (ready && userStorage && goodWallet) {
       userStorage.sync()
-      refresh() //this will refresh the jwt token if wasnt active for a long time
+      login() //this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError()
     }
-  }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError, checkDeepLink])
+  }, [ready, login, goodWallet, userStorage, showOutOfGasError, checkDeepLink])
 
   const persist = useCallback(() => {
     if (initializedRegistered) {
@@ -258,8 +217,37 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
-    initWalletAndStorage(undefined, 'SEED', isLoggedIn).then(() => log.debug('storage and wallet ready'))
-  }, [initWalletAndStorage, isLoggedIn])
+    const run = async () => {
+      if (initializing.current) {
+        return
+      }
+      try {
+        initializing.current = true
+        await initWalletAndStorage(undefined, 'SEED')
+        log.debug('storage and wallet ready')
+      } catch (e) {
+        if ('UnsignedJWTError' === e.name) {
+          return restartWithMessage(
+            "You haven't used GoodDollar app on this device for a long time. " +
+              'You need to sign in again. Make sure to use the same account you previously signed in with.',
+          )
+        }
+
+        // if error in realmdb logout the user, he needs to signin/signup again
+        log.error('failed initializing app', e.message, e)
+
+        if (e.message.includes('realmdb')) {
+          return restartWithMessage(
+            'We are sorry, but due to database upgrade, you need to perform the Signup process again. ' +
+              'Make sure to use the same account you previously signed in with.',
+          )
+        }
+
+        restartWithMessage('Wallet could not be loaded. Please refresh.', false)
+      }
+    }
+    run()
+  }, [initWalletAndStorage, initializing])
 
   useEffect(() => {
     if (ready || !initializedRegistered) {

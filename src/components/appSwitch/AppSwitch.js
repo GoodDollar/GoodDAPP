@@ -57,7 +57,7 @@ const AppSwitch = (props: LoadingProps) => {
   const _showOutOfGasError = useCallback(async () => {
     const { state, navigate } = getNavigation()
     const { ok, error } = await goodWallet.verifyHasGas()
-    const isOutOfGas = true || (ok === false && error !== false)
+    const isOutOfGas = ok === false && error !== false
     const currentRoute = getRouteName(state)
 
     log.debug('outofgas check result:', { ok, error, currentRoute })

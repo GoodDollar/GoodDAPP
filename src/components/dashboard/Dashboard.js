@@ -164,6 +164,8 @@ const Dashboard = props => {
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
 
+  const { initializedRegistered = false } = userStorage || {}
+
   const headerAnimateStyles = {
     position: 'relative',
     height: headerHeightAnimValue,
@@ -275,7 +277,6 @@ const Dashboard = props => {
     const { feedStorage } = userStorage
 
     await getFeedPage(true)
-    await feedStorage.ready
 
     feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
@@ -506,7 +507,11 @@ const Dashboard = props => {
   }, [headerLarge, balance, update, avatarCenteredPosition, headerContentWidth])
 
   useEffect(() => {
-    log.debug('Dashboard didmount', navigation)
+    log.debug('Dashboard didmount', { navigation, initializedRegistered })
+    if (!initializedRegistered) {
+      return
+    }
+
     initDashboard()
 
     return function() {
@@ -519,7 +524,7 @@ const Dashboard = props => {
       resizeSubscriptionRef.current = null
       userStorage.feedStorage.feedEvents.off('updated', onFeedUpdated)
     }
-  }, [])
+  }, [initializedRegistered])
 
   /**
    * don't show delayed items such as add to home popup if some other dialog is showing

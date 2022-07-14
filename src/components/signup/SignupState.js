@@ -3,8 +3,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { assign, get, identity, isError, pick, pickBy, toPairs } from 'lodash'
-import { defer, from as fromPromise } from 'rxjs'
-import { retry } from 'rxjs/operators'
 import moment from 'moment'
 
 import { t } from '@lingui/macro'
@@ -36,6 +34,7 @@ import { parsePaymentLinkParams } from '../../lib/share'
 import AuthStateWrapper from '../auth/components/AuthStateWrapper'
 import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import { retry as retryCall } from '../../lib/utils/async'
 import type { SMSRecord } from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
@@ -43,12 +42,12 @@ import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
 
-// import MagicLinkInfo from './MagicLinkInfo'
-const log = logger.child({ from: 'SignupState' })
-
 export type SignupState = UserModel & SMSRecord & { invite_code?: string }
 
 type Ready = Promise<{ goodWallet: any, userStorage: any }>
+
+const log = logger.child({ from: 'SignupState' })
+const retry = asyncFn => retryCall(asyncFn, 1, 500)
 
 const routes = {
   Name: NameForm,
@@ -286,40 +285,37 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             }
           })
 
-        //refresh JWT for a signed up one, server will sign it with permission to use realmdb
+        // refresh JWT for a signed up one, server will sign it with permission to use realmdb
         await loginWithWallet(true)
 
         await userStorage.initRegistered()
 
-        const [mnemonic] = await Promise.all([
-          AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
-          userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
-        ])
+        const { userProperties } = userStorage
+        const tokenFields = toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token')))
 
         // trying to update profile 2 times, if failed anyway - re-throwing exception
-        await defer(() =>
-          fromPromise(
-            userStorage.setProfile({
-              ...requestPayload,
-              walletAddress: goodWallet.account,
-              mnemonic,
-            }),
-          ),
-        )
-          .pipe(retry(1))
-          .toPromise()
+        await retry(async () => {
+          // set reg method and invite code
+          const [mnemonic] = await Promise.all([
+            AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
+            userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
+          ])
 
-        //set tokens for other services returned from backend
-        await Promise.all(
-          toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) =>
-            userStorage.setProfileField(fieldName, fieldValue, 'private'),
-          ),
-        )
+          // set profile data
+          await userStorage.setProfile({
+            ...requestPayload,
+            walletAddress: goodWallet.account,
+            mnemonic,
+          })
 
-        await Promise.all([
-          userStorage.userProperties.set('registered', true),
-          AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
-        ])
+          // set tokens
+          await Promise.all(
+            tokenFields.map(([fieldName, fieldValue]) => userStorage.setProfileField(fieldName, fieldValue, 'private')),
+          )
+
+          // set registered flag
+          await Promise.all([userProperties.set('registered', true), AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)])
+        })
 
         fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
 

@@ -14,7 +14,6 @@ export * from './constants'
 export const {
   initAnalytics,
   identifyWith,
-  setUserEmail,
   identifyOnUserSignup,
   fireEvent,
   fireEventFromNavigation,

@@ -14,7 +14,7 @@ import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
-import { identifyWith, setUserEmail } from '../../lib/analytics/analytics'
+import { identifyWith } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
@@ -157,12 +157,10 @@ const AppSwitch = (props: LoadingProps) => {
 
         // identify user asap for analytics
         const identifier = goodWallet.getAccountForType('login')
+        const email = userStorage.getProfileFieldValue('email') || null
 
-        identifyWith(null, identifier)
+        identifyWith(email, identifier)
         AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
-
-        const email = userStorage.getProfileFieldValue('email')
-        setUserEmail(email)
 
         // this needs to wait after initreg where we initialize the database
         runUpdates(goodWallet, userStorage, log)

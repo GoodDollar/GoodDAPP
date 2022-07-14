@@ -159,31 +159,6 @@ export class AnalyticsClass {
     )
   }
 
-  setUserEmail = email => {
-    const { isAmplitudeEnabled, isSentryEnabled, isFullStoryEnabled, apis } = this
-    const { amplitude, sentry, fullStory } = apis
-
-    if (!email) {
-      return
-    }
-
-    if (isAmplitudeEnabled) {
-      amplitude.setUserProperties({ email })
-    }
-
-    if (isFullStoryEnabled) {
-      fullStory.setUserVars({ email })
-    }
-
-    if (isSentryEnabled) {
-      sentry.configureScope(scope => {
-        const { _user } = scope
-
-        scope.setUser({ ...(_user || {}), email })
-      })
-    }
-  }
-
   fireEvent = (event: string, data: any = {}) => {
     const { isAmplitudeEnabled, apis, logger } = this
     const { amplitude, googleAnalytics } = apis
@@ -243,6 +218,32 @@ export class AnalyticsClass {
 
     googleAnalytics.logEvent(event, data)
     logger.debug('Fired GoogleAnalytics event', { event, data })
+  }
+
+  /** @private */
+  setUserEmail(email) {
+    const { isAmplitudeEnabled, isSentryEnabled, isFullStoryEnabled, apis } = this
+    const { amplitude, sentry, fullStory } = apis
+
+    if (!email) {
+      return
+    }
+
+    if (isAmplitudeEnabled) {
+      amplitude.setUserProperties({ email })
+    }
+
+    if (isFullStoryEnabled) {
+      fullStory.setUserVars({ email })
+    }
+
+    if (isSentryEnabled) {
+      sentry.configureScope(scope => {
+        const { _user } = scope
+
+        scope.setUser({ ...(_user || {}), email })
+      })
+    }
   }
 
   // @private

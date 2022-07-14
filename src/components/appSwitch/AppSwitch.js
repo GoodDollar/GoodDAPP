@@ -22,6 +22,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { restart } from '../../lib/utils/system'
 import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { getRouteName } from '../appNavigation/stackNavigation'
 
 import { getRouteParams } from '../../lib/utils/navigation'
 type LoadingProps = {
@@ -54,17 +55,18 @@ const AppSwitch = (props: LoadingProps) => {
   } = useCheckAuthStatus()
 
   const _showOutOfGasError = useCallback(async () => {
-    const { navigate } = getNavigation()
+    const { state, navigate } = getNavigation()
     const { ok, error } = await goodWallet.verifyHasGas()
-    const isOutOfGas = ok === false && error !== false
+    const isOutOfGas = true || (ok === false && error !== false)
+    const currentRoute = getRouteName(state)
 
-    log.debug('outofgas check result:', { ok, error })
+    log.debug('outofgas check result:', { ok, error, currentRoute })
 
-    if (isOutOfGas) {
-      navigate('OutOfGasError')
+    if (!isOutOfGas || currentRoute === 'OutOfGasError') {
+      return
     }
 
-    return isOutOfGas
+    navigate('OutOfGasError')
   }, [goodWallet, userStorage, getNavigation])
 
   const showOutOfGasError = useDebouncedCallback(_showOutOfGasError, GAS_CHECK_DEBOUNCE_TIME, { leading: true })
@@ -173,11 +175,7 @@ const AppSwitch = (props: LoadingProps) => {
 
       identifyWith(undefined, identifier)
 
-      const isOutOfGas = await showOutOfGasError()
-
-      if (isOutOfGas) {
-        return
-      }
+      await showOutOfGasError()
 
       initialize()
 

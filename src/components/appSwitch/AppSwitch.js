@@ -161,10 +161,8 @@ const AppSwitch = (props: LoadingProps) => {
         identifyWith(null, identifier)
         AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
 
-        await userStorage
-          .getProfileFieldValue('email')
-          .then(setUserEmail)
-          .catch(e => log.warn('Initialize with email failed', e.message, e))
+        const email = userStorage.getProfileFieldValue('email')
+        setUserEmail(email)
 
         // this needs to wait after initreg where we initialize the database
         runUpdates(goodWallet, userStorage, log)

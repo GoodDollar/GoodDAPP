@@ -2,7 +2,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { assign, get, identity, isError, pick, pickBy, toPairs } from 'lodash'
+import { assign, fromPairs, get, identity, isError, pick, pickBy, toPairs } from 'lodash'
 import moment from 'moment'
 
 import { t } from '@lingui/macro'
@@ -295,26 +295,42 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         // trying to update profile 2 times, if failed anyway - re-throwing exception
         await retry(async () => {
-          // set reg method and invite code
+          const userProps = { regMethod, inviterInviteCode: inviteCode }
+
+          log.debug('set reg method and invite code', { userProps })
+
           const [mnemonic] = await Promise.all([
             AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
-            userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
+            userProperties.updateAll(userProps),
           ])
 
-          // set profile data
-          await userStorage.setProfile({
+          const profile = {
             ...requestPayload,
             walletAddress: goodWallet.account,
             mnemonic,
-          })
+          }
+
+          log.debug('got mnemonic, updating profile', { mnemonic, profile })
+
+          // set profile data
+          await userStorage.setProfile(profile)
+
+          log.debug('adding tokens', { tokens: fromPairs(tokenFields) })
 
           // set tokens
           await Promise.all(
             tokenFields.map(([fieldName, fieldValue]) => userStorage.setProfileField(fieldName, fieldValue, 'private')),
           )
 
+          log.debug('setting registered flag')
+
           // set registered flag
           await Promise.all([userProperties.set('registered', true), AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)])
+
+          log.debug('persist user props', pick(userProperties, 'data', 'lastStored'))
+
+          // persist user props
+          await userProperties.persist()
         })
 
         fireSignupEvent('SUCCESS', { torusProvider, inviteCode })

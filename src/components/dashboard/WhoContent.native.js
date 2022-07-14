@@ -11,6 +11,7 @@ import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
+import useFeedReady from '../../lib/userStorage/useFeedReady'
 import FeedContactItem from './FeedContactItem'
 import ItemSeparator from './ItemSeparator'
 
@@ -24,10 +25,14 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
   const [recentlyUsedList, setRecentlyUsedList] = useState([])
   const initialList = useRef()
   const inputRef = useRef()
+  const [, onFeedReady] = useFeedReady()
 
   const getUserFeed = async () => {
+    await onFeedReady()
+
     const userFeed = await userStorage.getFeedPage(20, true)
     const recent = userFeed.filter(({ type }) => type === 'send' || type === 'receive')
+
     setRecentFeedItems(recent)
   }
 

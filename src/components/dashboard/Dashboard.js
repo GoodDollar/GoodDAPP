@@ -48,6 +48,7 @@ import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
+import useFeedReady from '../../lib/userStorage/useFeedReady'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -160,11 +161,10 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
+  const [, onFeedReady] = useFeedReady()
 
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
-
-  const { initializedRegistered = false } = userStorage || {}
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -227,6 +227,8 @@ const Dashboard = props => {
       try {
         log.debug('getFeedPage:', { reset, feeds, didRender, tab })
 
+        await onFeedReady()
+
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset, tab)
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
@@ -264,7 +266,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab],
+    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab, onFeedReady],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -507,14 +509,11 @@ const Dashboard = props => {
   }, [headerLarge, balance, update, avatarCenteredPosition, headerContentWidth])
 
   useEffect(() => {
-    log.debug('Dashboard didmount', { navigation, initializedRegistered })
-    if (!initializedRegistered) {
-      return
-    }
+    log.debug('Dashboard didmount', { navigation })
 
     initDashboard()
 
-    return function() {
+    return () => {
       const { current: subscription } = resizeSubscriptionRef
 
       if (subscription) {
@@ -524,7 +523,7 @@ const Dashboard = props => {
       resizeSubscriptionRef.current = null
       userStorage.feedStorage.feedEvents.off('updated', onFeedUpdated)
     }
-  }, [initializedRegistered])
+  }, [])
 
   /**
    * don't show delayed items such as add to home popup if some other dialog is showing

@@ -14,7 +14,7 @@ import { useCheckAuthStatus } from '../../lib/login/checkAuthStatus'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
-import { identifyWith } from '../../lib/analytics/analytics'
+import { identifyWith, setUserEmail } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
@@ -132,22 +132,6 @@ const AppSwitch = (props: LoadingProps) => {
     [getRoute, getNavigation],
   )
 
-  /**
-   * Check's users' current auth status
-   * @returns {Promise<void>}
-   */
-  const initialize = useCallback(async () => {
-    AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
-
-    try {
-      const email = await userStorage.getProfileFieldValue('email')
-
-      identifyWith(email, undefined)
-    } catch (e) {
-      log.warn('Initialize with email failed', e.message, e)
-    }
-  }, [userStorage])
-
   const restartWithMessage = useCallback(
     async (message, withLogout = true) => {
       if (false !== withLogout) {
@@ -161,59 +145,75 @@ const AppSwitch = (props: LoadingProps) => {
     [showErrorDialog],
   )
 
-  const init = useCallback(async () => {
-    log.debug('initializing', { ready })
+  const init = useCallback(
+    async onRetry => {
+      log.debug('initializing', { ready })
 
-    try {
-      // after dynamic routes update, if user arrived here, then he is already loggedin
-      // initialize the citizen status and wallet status
-      // create jwt token and initialize the API service
-      log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
+      try {
+        // after dynamic routes update, if user arrived here, then he is already loggedin
+        // initialize the citizen status and wallet status
+        // create jwt token and initialize the API service
+        log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
-      //identify user asap for analytics
-      const identifier = goodWallet.getAccountForType('login')
+        // identify user asap for analytics
+        const identifier = goodWallet.getAccountForType('login')
 
-      identifyWith(undefined, identifier)
+        identifyWith(null, identifier)
+        AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
 
-      await showOutOfGasError()
+        await userStorage
+          .getProfileFieldValue('email')
+          .then(setUserEmail)
+          .catch(e => log.warn('Initialize with email failed', e.message, e))
 
-      initialize()
+        // this needs to wait after initreg where we initialize the database
+        runUpdates(goodWallet, userStorage, log)
+        showOutOfGasError()
 
-      // this needs to wait after initreg where we initialize the database
-      runUpdates(goodWallet, userStorage, log)
-
-      log.debug('initialize done')
-      setReady(true)
-    } catch (e) {
-      if ('UnsignedJWTError' === e.name) {
-        return restartWithMessage(
-          "You haven't used GoodDollar app on this device for a long time. " +
-            'You need to sign in again. Make sure to use the same account you previously signed in with.',
-        )
-      }
-
-      const dialogShown = unsuccessfulLaunchAttemptsRef.current > 3
-
-      unsuccessfulLaunchAttemptsRef.current += 1
-
-      if (dialogShown) {
-        // if error in realmdb logout the user, he needs to signin/signup again
-        log.error('failed initializing app', e.message, e, { dialogShown })
-
-        if (e.message.includes('realmdb')) {
+        log.debug('initialize done')
+        setReady(true)
+      } catch (e) {
+        if ('UnsignedJWTError' === e.name) {
           return restartWithMessage(
-            'We are sorry, but due to database upgrade, you need to perform the Signup process again. ' +
-              'Make sure to use the same account you previously signed in with.',
+            "You haven't used GoodDollar app on this device for a long time. " +
+              'You need to sign in again. Make sure to use the same account you previously signed in with.',
           )
         }
 
-        restartWithMessage('Wallet could not be loaded. Please refresh.', false)
-      } else {
-        await delay(1500)
-        init()
+        const dialogShown = unsuccessfulLaunchAttemptsRef.current > 3
+
+        unsuccessfulLaunchAttemptsRef.current += 1
+
+        if (dialogShown) {
+          // if error in realmdb logout the user, he needs to signin/signup again
+          log.error('failed initializing app', e.message, e, { dialogShown })
+
+          if (e.message.includes('realmdb')) {
+            return restartWithMessage(
+              'We are sorry, but due to database upgrade, you need to perform the Signup process again. ' +
+                'Make sure to use the same account you previously signed in with.',
+            )
+          }
+
+          restartWithMessage('Wallet could not be loaded. Please refresh.', false)
+        } else {
+          await delay(1500)
+          onRetry()
+        }
       }
-    }
-  }, [restartWithMessage, goodWallet, userStorage, initialize, showOutOfGasError, isLoggedInCitizen, isLoggedIn])
+    },
+    [restartWithMessage, goodWallet, userStorage, showOutOfGasError, isLoggedInCitizen, isLoggedIn],
+  )
+
+  // this needs to make sure we have init with the latest values
+  const [initRef] = usePropsRefs([init])
+
+  const initialize = useCallback(() => {
+    const initWithRetry = () => initRef(initWithRetry)
+
+    // on retry calls itself
+    initWithRetry()
+  }, [initRef])
 
   const openDeepLink = useCallback(
     data => {
@@ -264,9 +264,9 @@ const AppSwitch = (props: LoadingProps) => {
       return
     }
 
-    init()
+    initialize()
     navigateToUrlAction()
-  }, [ready, init, initializedRegistered, navigateToUrlAction])
+  }, [ready, initialize, initializedRegistered, navigateToUrlAction])
 
   useEffect(() => {
     if (isMobileNative && initializedRegistered) {

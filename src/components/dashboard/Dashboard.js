@@ -227,7 +227,7 @@ const Dashboard = props => {
       try {
         log.debug('getFeedPage:', { reset, feeds, didRender, tab })
 
-        await onFeedReady()
+        await onFeedReady
 
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset, tab)

@@ -1,23 +1,34 @@
-import { useCallback } from 'react'
-import usePropsRefs from '../hooks/usePropsRefs'
+import { useEffect } from 'react'
+import usePromise from '../hooks/usePromise'
 import { useUserStorage } from '../wallet/GoodWalletProvider'
 
-export const onFeedReady = async userStorage => {
-  const { feedStorage, initializedRegistered } = userStorage
+// eslint-disable-next-line require-await
+export const onFeedReady = async userStorage =>
+  new Promise(resolve => {
+    const checkReady = () => {
+      const { initializedRegistered, feedStorage } = userStorage
 
-  if (!initializedRegistered) {
-    await feedStorage.ready
-  }
-}
+      if (initializedRegistered) {
+        feedStorage.ready.then(resolve)
+        return
+      }
+
+      setTimeout(checkReady)
+    }
+
+    checkReady()
+  })
 
 const useFeedReady = () => {
   const userStorage = useUserStorage()
-  const { initializedRegistered } = userStorage
-  const [getStorage] = usePropsRefs([userStorage])
+  const { initializedRegistered, feedStorage } = userStorage
+  const [onReady, setReady] = usePromise()
 
-  const onReady = useCallback(async () => {
-    await onFeedReady(getStorage())
-  }, [getStorage])
+  useEffect(() => {
+    if (initializedRegistered) {
+      feedStorage.ready.then(setReady)
+    }
+  }, [setReady, feedStorage, initializedRegistered])
 
   return [initializedRegistered, onReady]
 }

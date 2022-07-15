@@ -28,7 +28,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
   const [, onFeedReady] = useFeedReady()
 
   const getUserFeed = async () => {
-    await onFeedReady()
+    await onFeedReady
 
     const userFeed = await userStorage.getFeedPage(20, true)
     const recent = userFeed.filter(({ type }) => type === 'send' || type === 'receive')

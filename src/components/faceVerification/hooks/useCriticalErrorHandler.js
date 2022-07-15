@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 import { t } from '@lingui/macro'
 
-import { useDialog } from '../../../../lib/dialog/useDialog'
-import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
+import { useDialog } from '../../../lib/dialog/useDialog'
+import usePropsRefs from '../../../lib/hooks/usePropsRefs'
 
 import { isCriticalIssue } from '../utils/redBox'
 import { isWeb } from '../../../../lib/utils/platform'

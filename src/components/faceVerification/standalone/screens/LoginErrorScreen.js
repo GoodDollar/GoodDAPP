@@ -1,5 +1,5 @@
 // libraries
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Linking, Platform, View } from 'react-native'
 import { noop } from 'lodash'
 import API from '../../../../lib/API/api'

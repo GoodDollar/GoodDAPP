@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 
-import Text from '../../../common/view/Text'
-import { CustomButton, Section, Wrapper } from '../../../common'
+import Text from '../../common/view/Text'
+import { CustomButton, Section, Wrapper } from '../../common'
 
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-import { isMobileOnly } from '../../../../lib/utils/platform'
-import { withStyles } from '../../../../lib/styles'
-import FVErrorLandscapeSVG from '../../../../assets/FaceVerification/FVErrorLandscape.svg'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { isMobileOnly } from '../../../lib/utils/platform'
+import { withStyles } from '../../../lib/styles'
+import FVErrorLandscapeSVG from '../../../assets/FaceVerification/FVErrorLandscape.svg'
 
-import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
-import useDeviceOrientation from '../../../../lib/hooks/useDeviceOrientation'
+import { fireEvent, FV_WRONGORIENTATION } from '../../../lib/analytics/analytics'
+import useDeviceOrientation from '../../../lib/hooks/useDeviceOrientation'
 
 const SVGHeight = {
   portrait: getDesignRelativeHeight(176, false),

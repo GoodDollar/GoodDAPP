@@ -1,7 +1,7 @@
 import { assign, get, isString } from 'lodash'
 
 import FaceTec from '@gooddollar/react-native-facetec/web'
-import logger from '../../../../lib/logger/js-logger'
+import logger from '../../../lib/logger/js-logger'
 
 import { parseVerificationOptions } from '../utils/options'
 import {

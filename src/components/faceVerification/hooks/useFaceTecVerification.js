@@ -2,8 +2,8 @@ import { useCallback, useRef } from 'react'
 import { assign, noop } from 'lodash'
 
 // logger & utils
-import logger from '../../../../lib/logger/js-logger'
-import { isEmulator } from '../../../../lib/utils/platform'
+import logger from '../../../lib/logger/js-logger'
+import { isEmulator } from '../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
@@ -11,7 +11,7 @@ import { FaceTecSDK } from '../sdk/FaceTecSDK'
 import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
 import { hideRedBox, hideRedBoxIfNonCritical } from '../utils/redBox'
 import { MAX_RETRIES_ALLOWED, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
-import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
+import usePropsRefs from '../../../lib/hooks/usePropsRefs'
 
 const log = logger.child({ from: 'useFaceTecVerification' })
 const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))

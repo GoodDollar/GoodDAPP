@@ -1,20 +1,8 @@
-// libraries
-import React, { useContext, useEffect } from 'react'
-import { Linking, Platform, View } from 'react-native'
-import { noop } from 'lodash'
-import API from '../../../../lib/API/api'
-
-// components
-import Text from '../../../common/view/Text'
-import { Section, Wrapper } from '../../../common'
-
 // utils
 import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../../lib/utils/sizes'
 import normalize from '../../../../lib/utils/normalizeText'
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser } from '../../../../lib/utils/platform'
-import { FVFlowContext } from '../../../../lib/fvflow/FVFlow'
-import logger from '../../../../lib/logger/js-logger'
 
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {

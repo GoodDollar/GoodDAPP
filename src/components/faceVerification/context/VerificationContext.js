@@ -1,5 +1,5 @@
 import { defaultVerificationState } from '../sdk/FaceTecSDK.constants'
-import { createObjectStorageContext } from '../../../../lib/contexts/utils'
+import { createObjectStorageContext } from '../../../lib/contexts/utils'
 
 export const VerificationStorage = createObjectStorageContext(defaultVerificationState)
 

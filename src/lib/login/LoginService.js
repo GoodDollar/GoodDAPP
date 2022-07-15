@@ -61,7 +61,7 @@ class LoginService {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  login(): Promise<Credentials> {
+  async login(): Promise<Credentials> {
     throw new Error('Method not implemented')
   }
 

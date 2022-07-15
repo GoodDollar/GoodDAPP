@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../../../__tests__/__util__'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 import ImportedUnrecoverableError from '../UnrecoverableError'
 
 const UnrecoverableError = withThemeProvider(ImportedUnrecoverableError)

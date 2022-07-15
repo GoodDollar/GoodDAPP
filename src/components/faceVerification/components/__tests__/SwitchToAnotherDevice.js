@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer'
 import { noop } from 'lodash'
 
 import ImportedSwitchToAnotherDevice from '../SwitchToAnotherDevice'
-import { withThemeProvider } from '../../../../../__tests__/__util__'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 
 describe('FaceVerification SwitchToAnotherDevice', () => {
   const SwitchToAnotherDevice = withThemeProvider(ImportedSwitchToAnotherDevice)

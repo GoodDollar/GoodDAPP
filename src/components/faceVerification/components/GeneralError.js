@@ -2,15 +2,15 @@ import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 
-import Text from '../../../common/view/Text'
-import { CustomButton, Section, Wrapper } from '../../../common'
+import Text from '../../common/view/Text'
+import { CustomButton, Section, Wrapper } from '../../common'
 
-import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isMobileOnly } from '../../../../lib/utils/platform'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-import FVErrorGeneralSVG from '../../../../assets/FaceVerification/FVErrorGeneral.svg'
+import { withStyles } from '../../../lib/styles'
+import { isBrowser, isMobileOnly } from '../../../lib/utils/platform'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import FVErrorGeneralSVG from '../../../assets/FaceVerification/FVErrorGeneral.svg'
 
-import { fireEvent, FV_GENERALERROR } from '../../../../lib/analytics/analytics'
+import { fireEvent, FV_GENERALERROR } from '../../../lib/analytics/analytics'
 
 const GeneralError = ({ styles, displayTitle, onRetry, exception }) => {
   useEffect(() => {

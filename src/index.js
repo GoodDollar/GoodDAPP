@@ -8,7 +8,7 @@ import './components/common/view/Icon/index.css'
 
 const BuildTarget = {
   FaceVerification: 'FV',
-  WalletApp: 'DAPP'
+  WalletApp: 'DAPP',
 }
 
 const importBuildTarget = async () => {

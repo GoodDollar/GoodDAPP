@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../../../__tests__/__util__'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 import ImportedDuplicateFoundError from '../DuplicateFoundError'
 
 const DuplicateFoundError = withThemeProvider(ImportedDuplicateFoundError)

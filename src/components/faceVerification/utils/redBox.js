@@ -1,7 +1,7 @@
 import { assign, get } from 'lodash'
 
-import Config from '../../../../config/config'
-import { isMobileNative } from '../../../../lib/utils/platform'
+import Config from '../../../config/config'
+import { isMobileNative } from '../../../lib/utils/platform'
 
 const unexpectedRe = /unexpected\s+issue/i
 const criticalIssues = ['UnrecoverableError', 'NotSupportedError', 'ResourceLoadingError', 'UnableToWhitelist']

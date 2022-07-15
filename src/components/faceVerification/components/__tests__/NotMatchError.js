@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../../../__tests__/__util__'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 import ImportedNotMatchError from '../NotMatchError'
 
 const NotMatchError = withThemeProvider(ImportedNotMatchError)

@@ -1,62 +1,42 @@
 // libraries
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo } from 'react'
 import { Platform, View } from 'react-native'
 
 import { get } from 'lodash'
 
 //components
-// import Separator from '../../../common/layout/Separator'
 import { t } from '@lingui/macro'
-import Text from '../../../common/view/Text'
+import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
 
-// import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
-
 // hooks
-import useOnPress from '../../../../lib/hooks/useOnPress'
-import useCameraSupport from '../../../browserSupport/hooks/useCameraSupport'
-import usePermissions from '../../../permissions/hooks/usePermissions'
+import useOnPress from '../../../lib/hooks/useOnPress'
+import useCameraSupport from '../../browserSupport/hooks/useCameraSupport'
+import usePermissions from '../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
+import useEnrollmentIdentifier from '../hooks/useEnrollmentIdentifier'
 
 // utils
-import { useUserStorage } from '../../../../lib/wallet/GoodWalletProvider'
-import logger from '../../../../lib/logger/js-logger'
-import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-import {
-  getDesignRelativeHeight,
-  getDesignRelativeWidth,
-
-  // isLargeDevice,
-  isSmallDevice,
-} from '../../../../lib/utils/sizes'
-import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isEmulator, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
-import { openLink } from '../../../../lib/utils/linking'
-import Config from '../../../../config/config'
-import { Permissions } from '../../../permissions/types'
-import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
-import { useDialog } from '../../../../lib/dialog/useDialog'
-import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
-import { FVFlowContext } from '../../../../lib/fvflow/FVFlow'
+import logger from '../../../lib/logger/js-logger'
+import { getFirstWord } from '../../../lib/utils/getFirstWord'
+import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../../lib/utils/sizes'
+import { withStyles } from '../../../lib/styles'
+import { isBrowser, isEmulator, isIOSWeb, isMobileSafari } from '../../../lib/utils/platform'
+import { openLink } from '../../../lib/utils/linking'
+import Config from '../../../config/config'
+import { Permissions } from '../../permissions/types'
+import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
+import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../lib/analytics/analytics'
+import { LoginFlowContext } from '../standalone/context/LoginFlowContext'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 
 // assets
-import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
-import FashionShootSVG from '../../../../assets/FaceVerification/FashionPhotoshoot.svg'
-import useProfile from '../../../../lib/userStorage/useProfile'
-
-// Localization
+import wait24hourIllustration from '../../../assets/Claim/wait24Hour.svg'
+import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
+import useProfile from '../../../lib/userStorage/useProfile'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
-
-// const { useABTesting } = createABTesting('FV_Intro_Screen')
-
-// const commonTextStyles = {
-//   textAlign: 'center',
-//   color: 'primary',
-//   fontSize: isLargeDevice ? 18 : 16,
-//   lineHeight: 25,
-// }
 
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>
@@ -75,56 +55,18 @@ const WalletDeletedPopupText = ({ styles }) => (
   </View>
 )
 
-// const IntroScreenA = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
-//   <Wrapper>
-//     <Section style={styles.topContainer} grow>
-//       <View style={styles.mainContent}>
-//         <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-//           {`${firstName},\nOnly a real live person\ncan claim G$’s`}
-//         </Section.Title>
-//         <View style={styles.illustration}>
-//           <FaceVerificationSmiley />
-//         </View>
-//         <View>
-//           <Separator width={2} />
-//           <Text textAlign="center" style={styles.descriptionContainer}>
-//             <Text {...commonTextStyles} fontWeight="bold">
-//               {`Once in a while\n`}
-//             </Text>
-//             <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
-//             <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
-//             <Text
-//               {...commonTextStyles}
-//               fontWeight="bold"
-//               textDecorationLine="underline"
-//               style={styles.descriptionUnderline}
-//               onPress={onLearnMore}
-//             >
-//               {`Learn more`}
-//             </Text>
-//           </Text>
-//           <Separator style={styles.bottomSeparator} width={2} />
-//         </View>
-//         <CustomButton style={styles.button} onPress={onVerify} disabled={!ready}>
-//           OK, VERIFY ME
-//         </CustomButton>
-//       </View>
-//     </Section>
-//   </Wrapper>
-// )
-
-const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
+const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
   <Wrapper>
     <Section style={styles.topContainer} grow>
-      <View style={styles.mainContentB}>
-        <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitleB}>
+      <View style={styles.mainContent}>
+        <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
           {firstName && `${firstName},`}
           <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
             {firstName ? `\n` : ''}
             {'Verify you are a real\nlive person'}
           </Section.Text>
         </Section.Title>
-        <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainTextB}>
+        <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
           {t`Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any third party`}
         </Section.Text>
         <Section.Text
@@ -137,7 +79,7 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
         >
           {t`Learn More`}
         </Section.Text>
-        <View style={styles.illustrationB}>
+        <View style={styles.illustration}>
           <FashionShootSVG />
         </View>
         <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
@@ -150,23 +92,21 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
 
 const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { fullName } = useProfile()
-  const { screenState, goToRoot, navigateTo, pop, push } = screenProps
-  const isValid = get(screenState, 'isValid', false)
-  const userStorage = useUserStorage()
-  let { faceIdentifier, firstName, isLoginFlow, loginFlowError, isLoginFlowReady } = useContext(FVFlowContext)
-  faceIdentifier = faceIdentifier || (userStorage && userStorage.getFaceIdentifier())
-  firstName = firstName || getFirstWord(fullName)
   const { showDialog } = useDialog()
 
-  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
-  const Intro = IntroScreenB
+  const { firstName, isLoginFlow, loginFlowError, isLoginFlowReady } = useContext(LoginFlowContext)
+  const { screenState, goToRoot, navigateTo, pop, push } = screenProps
+  const isValid = get(screenState, 'isValid', false)
 
-  // const [Intro, ab] = useABTesting(IntroScreenA, IntroScreenB)
+  const enrollmentIdentifier = useEnrollmentIdentifier()
+  const userName = useMemo(isLoginFlow ? firstName : getFirstWord(fullName))
+
+  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 
   const [disposing, checkDisposalState] = useDisposingState(
     {
       requestOnMounted: false,
-      enrollmentIdentifier: faceIdentifier,
+      enrollmentIdentifier,
       onComplete: isDisposing => {
         if (!isDisposing) {
           return
@@ -179,7 +119,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
         showDialog(dialogData)
       },
     },
-    [faceIdentifier],
+    [enrollmentIdentifier],
   )
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
@@ -217,34 +157,29 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
-    log.debug({ faceIdentifier, firstName })
+    log.debug({ enrollmentIdentifier, userName })
 
     if (isValid) {
-      //incase of FVFlowFlow
-      if (isLoginFlow) {
-        navigateTo('FVFlowDone')
-      } else {
-        pop({ isValid })
-      }
-    } else {
-      //fvflowready means we were able to login to backend so check disposal can work
-      if (faceIdentifier && (!isLoginFlow || isLoginFlowReady)) {
-        fireEvent(FV_INTRO)
-        checkDisposalState()
-      }
+      isLoginFlow ? navigateTo('LoginSuccessScreen') : pop({ isValid })
+      return
     }
-  }, [faceIdentifier, isLoginFlow, isLoginFlowReady])
+
+    if (enrollmentIdentifier && (!isLoginFlow || isLoginFlowReady)) {
+      fireEvent(FV_INTRO)
+      checkDisposalState()
+    }
+  }, [enrollmentIdentifier, isLoginFlow, isLoginFlowReady, navigateTo, pop, checkDisposalState])
 
   useEffect(() => {
-    if (loginFlowError || (isLoginFlow && !faceIdentifier)) {
-      navigateTo('FVFlowError')
+    if (isLoginFlow && (loginFlowError || !enrollmentIdentifier)) {
+      navigateTo('LoginErrorScreen')
     }
-  }, [isLoginFlow, faceIdentifier, loginFlowError])
+  }, [isLoginFlow, enrollmentIdentifier, loginFlowError, navigateTo])
 
   return (
     <Intro
       styles={styles}
-      firstName={firstName}
+      firstName={userName}
       onLearnMore={openPrivacy}
       onVerify={handleVerifyClick}
       ready={false === disposing}
@@ -269,32 +204,15 @@ const getStylesFromProps = ({ theme }) => ({
   mainContent: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    paddingLeft: getDesignRelativeWidth(theme.sizes.default * 3),
-    paddingRight: getDesignRelativeWidth(theme.sizes.default * 3),
-    width: '100%',
-  },
-  mainContentB: {
-    flexGrow: 1,
-    justifyContent: 'space-between',
     width: '100%',
   },
   mainTitle: {
-    marginTop: getDesignRelativeHeight(isBrowser ? 30 : isSmallDevice ? 10 : theme.sizes.defaultDouble),
-  },
-  mainTitleB: {
     marginTop: getDesignRelativeHeight(isBrowser ? 16 : 8),
   },
-  mainTextB: {
+  mainText: {
     marginTop: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
   },
   illustration: {
-    marginTop: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
-    marginBottom: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
-    height: getDesignRelativeWidth(isBrowser ? 220 : 180),
-    width: '100%',
-    alignItems: 'center',
-  },
-  illustrationB: {
     marginTop: getDesignRelativeHeight(20),
     marginBottom: getDesignRelativeHeight(31),
     width: '100%',

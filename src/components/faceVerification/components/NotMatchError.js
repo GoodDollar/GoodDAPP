@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 
-import Text from '../../../common/view/Text'
-import Separator from '../../../common/layout/Separator'
-import { CustomButton, Section, Wrapper } from '../../../common'
-import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
+import Text from '../../common/view/Text'
+import Separator from '../../common/layout/Separator'
+import { CustomButton, Section, Wrapper } from '../../common'
+import FaceVerificationErrorSmiley from '../../common/animations/FaceVerificationErrorSmiley'
 
-import { isMobileOnly } from '../../../../lib/utils/platform'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-import { withStyles } from '../../../../lib/styles'
+import { isMobileOnly } from '../../../lib/utils/platform'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { withStyles } from '../../../lib/styles'
 
-import { fireEvent, FV_NOTMATCHERROR } from '../../../../lib/analytics/analytics'
+import { fireEvent, FV_NOTMATCHERROR } from '../../../lib/analytics/analytics'
 
 const NotMatchError = ({ styles, displayTitle, onRetry, nav, exception }) => {
   const onContactSupport = useCallback(() => nav.navigateTo('Support'), [nav])

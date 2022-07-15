@@ -5,8 +5,8 @@ import { assignIn, get, isFinite, isString, mapKeys, memoize, pickBy, snakeCase 
 import FaceTec from '@gooddollar/react-native-facetec/web'
 
 import { resultFacescanUploadMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
-import { isLargeDevice } from '../../../../lib/utils/sizes'
-import { theme } from '../../../theme/styles'
+import { isLargeDevice } from '../../../lib/utils/sizes'
+import { theme } from '../../theme/styles'
 import './UICustomization.css'
 
 export const FACETEC_PUBLIC_PATH = '/facetec'

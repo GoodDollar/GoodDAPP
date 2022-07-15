@@ -3,9 +3,9 @@ import { assign, noop, over } from 'lodash'
 
 import { FaceTecUxEvent, sdk } from '@gooddollar/react-native-facetec'
 
-import api from '../../../../lib/API'
-import Config from '../../../../config/config'
-import logger from '../../../../lib/logger/js-logger'
+import api from '../../../lib/API'
+import Config from '../../../config/config'
+import logger from '../../../lib/logger/js-logger'
 
 import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 

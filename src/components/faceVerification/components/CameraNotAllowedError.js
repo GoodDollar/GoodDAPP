@@ -3,17 +3,17 @@ import React, { useEffect } from 'react'
 
 // components
 import { t } from '@lingui/macro'
-import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
+import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 // hooks
-import { useDialog } from '../../../../lib/dialog/useDialog'
+import { useDialog } from '../../../lib/dialog/useDialog'
 
 // utils
 import { FaceTecSessionStatus } from '../sdk/FaceTecSDK'
-import { fireEvent, FV_CANTACCESSCAMERA } from '../../../../lib/analytics/analytics'
+import { fireEvent, FV_CANTACCESSCAMERA } from '../../../lib/analytics/analytics'
 
 // assets
-import illustration from '../../../../assets/CameraPermissionError.svg'
+import illustration from '../../../assets/CameraPermissionError.svg'
 
 const { CameraDoesNotExist } = FaceTecSessionStatus
 

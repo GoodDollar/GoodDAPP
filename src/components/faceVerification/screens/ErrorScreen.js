@@ -11,8 +11,8 @@ import SwitchToAnotherDevice from '../components/SwitchToAnotherDevice'
 
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
-import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-import useProfile from '../../../../lib/userStorage/useProfile'
+import { getFirstWord } from '../../../lib/utils/getFirstWord'
+import useProfile from '../../../lib/userStorage/useProfile'
 
 const ErrorScreen = ({ styles, screenProps, navigation }) => {
   const profile = useProfile()

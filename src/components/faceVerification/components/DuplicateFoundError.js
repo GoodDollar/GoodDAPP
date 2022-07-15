@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 
-import Text from '../../../common/view/Text'
-import { CustomButton, Section, Wrapper } from '../../../common'
+import Text from '../../common/view/Text'
+import { CustomButton, Section, Wrapper } from '../../common'
 
-import { isMobileOnly } from '../../../../lib/utils/platform'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-import { withStyles } from '../../../../lib/styles'
-import FVErrorTwinSVG from '../../../../assets/FaceVerification/FVErrorTwin.svg'
+import { isMobileOnly } from '../../../lib/utils/platform'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { withStyles } from '../../../lib/styles'
+import FVErrorTwinSVG from '../../../assets/FaceVerification/FVErrorTwin.svg'
 
-import { fireEvent, FV_DUPLICATEERROR } from '../../../../lib/analytics/analytics'
+import { fireEvent, FV_DUPLICATEERROR } from '../../../lib/analytics/analytics'
 
 const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) => {
   const onContactSupport = useCallback(() => nav.navigateTo('Support'), [nav])

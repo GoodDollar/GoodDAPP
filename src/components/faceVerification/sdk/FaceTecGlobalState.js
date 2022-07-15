@@ -1,7 +1,7 @@
 import { Platform } from 'react-native'
 
-import Config from '../../../../config/config'
-import { retry } from '../../../../lib/utils/async'
+import Config from '../../../config/config'
+import { retry } from '../../../lib/utils/async'
 
 import faceVerificationApi from '../api/FaceVerificationApi'
 import { FaceTecSDK } from './FaceTecSDK'

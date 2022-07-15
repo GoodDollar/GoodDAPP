@@ -1,30 +1,36 @@
 // @flow
-import React, { createContext, useEffect, useRef, useState } from 'react'
-import type { Credentials } from '../../../../lib/API/api'
+import React, { createContext, useEffect, useRef } from 'react'
+
+import useLoginFlow from '../hooks/useLoginFlow'
+import DeepLinking from '../../../../lib/utils/deepLinking'
+
 import logger from '../../../../lib/logger/js-logger'
-import API, { getErrorMessage } from '../../../../lib/API/api'
-import DeepLinking from '../utils/deepLinking'
-import LoginService from '../../../../lib/login/LoginService'
 import Config from '../../../../config/config'
 
 const log = logger.child({ from: 'LoginFlowCtx' })
 const { isLoginFlow } = Config
 
 export const LoginFlowContext = createContext({
+  isLoginFlow,
   firstName: null,
   faceIdentifier: null,
-  isLoginFlow
+  loginFlowErrorL: null,
+  isLoginFlowReady: false,
+  rdu: null,
+  cbu: null,
 })
 
 const LoginFlowProvider = props => {
   const fvParams = useRef(DeepLinking.params)
   const { sig, nonce, fvsig, rdu, cbu } = fvParams.current
-  log.info('login params:', { sig, nonce, fvsig, rdu, cbu })
+  const { jwt, error } = useLoginFlow(sig, nonce, fvsig)
 
-  const { jwt, error } = useFVFlow(sig, nonce, fvsig)
+  useEffect(() => {
+    log.info('login params:', { sig, nonce, fvsig, rdu, cbu })
+  }, [])
 
   return (
-    <FVFlowContext.Provider
+    <LoginFlowContext.Provider
       value={{
         firstName: fvParams.current.firstName,
         faceIdentifier: (fvParams.current.fvsig || '').slice(0, 42),
@@ -36,7 +42,7 @@ const LoginFlowProvider = props => {
       }}
     >
       {props.children}
-    </FVFlowContext.Provider>
+    </LoginFlowContext.Provider>
   )
 }
 

@@ -1,4 +1,4 @@
-import Config from '../../../../config/config'
+import Config from '../../../config/config'
 
 export const unexpectedErrorMessage = 'An unexpected issue during the face verification API call'
 

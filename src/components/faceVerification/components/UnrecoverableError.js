@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 
-import { CustomButton, Section, Wrapper } from '../../../common'
-import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
+import { CustomButton, Section, Wrapper } from '../../common'
+import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 
-import { useDialog } from '../../../../lib/dialog/useDialog'
-import { isMobileOnly } from '../../../../lib/utils/platform'
-import logger from '../../../../lib/logger/js-logger'
+import { useDialog } from '../../../lib/dialog/useDialog'
+import { isMobileOnly } from '../../../lib/utils/platform'
+import logger from '../../../lib/logger/js-logger'
 
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-import { withStyles } from '../../../../lib/styles'
-import IllustrationSVG from '../../../../assets/FRUnrecoverableError.svg'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { withStyles } from '../../../lib/styles'
+import IllustrationSVG from '../../../assets/FRUnrecoverableError.svg'
 
 import { ExceptionType, isLicenseIssue } from '../utils/kindOfTheIssue'
 

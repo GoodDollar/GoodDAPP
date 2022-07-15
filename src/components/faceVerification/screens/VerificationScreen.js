@@ -1,15 +1,16 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext } from 'react'
 
 import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
 
-import { useUserStorage, useWallet } from '../../../../lib/wallet/GoodWalletProvider'
-import logger from '../../../../lib/logger/js-logger'
-import { FVFlowContext } from '../../../../lib/fvflow/FVFlow'
+import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
+import logger from '../../../lib/logger/js-logger'
+import { LoginFlowContext } from '../standalone/context/LoginFlowContext'
 
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
+import useEnrollemtnIdentifier from '../hooks/useEnrollmentIdentifier'
 
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 
@@ -21,19 +22,17 @@ import {
   FV_SUCCESS_ZOOM,
   FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
-} from '../../../../lib/analytics/analytics'
+} from '../../../lib/analytics/analytics'
 
-import { tryUntil } from '../../../../lib/utils/async'
+import { tryUntil } from '../../../lib/utils/async'
 
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
-  const userStorage = useUserStorage()
-
-  let { faceIdentifier, isLoginFlow } = useContext(FVFlowContext)
-  faceIdentifier = faceIdentifier || (userStorage && userStorage.getFaceIdentifier())
+  const { isLoginFlow } = useContext(FVFlowContext)
+  const enrollmentIdentifier = useEnrollemtnIdentifier()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -100,7 +99,15 @@ const FaceVerification = ({ screenProps }) => {
       // polling contracts for the whitelisted flag up to 30sec or until got true
       // fix: if still false, do not throw excetion, just return falsy status
       // on FVFlow we dont verify whitelisting, that is on the developer using the fvflow to test back in their app
-      const isCitizen = isLoginFlow || (await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000).catch(() => false))
+      let isCitizen = isLoginFlow
+
+      if (!isLoginFlow) {
+        try {
+          isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000)
+        } catch {
+          isCitizen = false
+        }
+      }
 
       // if still non whitelisted - showing error screen
       if (!isCitizen) {
@@ -123,7 +130,7 @@ const FaceVerification = ({ screenProps }) => {
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
-    [screenProps, resetAttempts, exceptionHandler, goodWallet],
+    [screenProps, resetAttempts, exceptionHandler, goodWallet, isLoginFlow],
   )
 
   // calculating retries allowed for FV session
@@ -135,7 +142,7 @@ const FaceVerification = ({ screenProps }) => {
 
   // Using zoom verification hook, passing completion callback
   const startVerification = useFaceTecVerification({
-    enrollmentIdentifier: faceIdentifier,
+    enrollmentIdentifier,
     onUIReady: uiReadyHandler,
     onCaptureDone: captureDoneHandler,
     onRetry: retryHandler,
@@ -155,12 +162,13 @@ const FaceVerification = ({ screenProps }) => {
 
   // "GOT IT" button handler
   const verifyFace = useCallback(() => {
-    if (!faceIdentifier) {
+    if (!enrollmentIdentifier) {
       return
     }
+
     fireEvent(FV_START)
     startVerification()
-  }, [startVerification, faceIdentifier])
+  }, [startVerification, enrollmentIdentifier])
 
   const [initialized] = useFaceTecSDK({
     onError: sdkExceptionHandler,

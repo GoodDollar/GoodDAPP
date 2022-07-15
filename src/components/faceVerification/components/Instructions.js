@@ -4,38 +4,20 @@ import { Image, Platform, View } from 'react-native'
 import { noop } from 'lodash'
 
 // components
-import Text from '../../../common/view/Text'
+import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
 
-// hooks
-// import createABTesting from '../../../../lib/hooks/useABTesting'
-
 // utils
-import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../../lib/utils/sizes'
-import normalize from '../../../../lib/utils/normalizeText'
-import { withStyles } from '../../../../lib/styles'
-import { isBrowser } from '../../../../lib/utils/platform'
-
-// import { FV_INSTRUCTIONS } from '../../../../lib/analytics/analytics'
+import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../lib/utils/sizes'
+import normalize from '../../../lib/utils/normalizeText'
+import { withStyles } from '../../../lib/styles'
+import { isBrowser } from '../../../lib/utils/platform'
 
 // assets
-import illustration from '../../../../assets/FRInstructions.png'
-
-// import QuestionMark from '../../../../assets/FaceVerification/FVQuestionMark.svg'
-// import CheckMark from '../../../../assets/FaceVerification/CheckMark.svg'
-// import { theme } from '../../../theme/styles'
-
-// const { useABTesting } = createABTesting('FV_Instructions_Screen')
-
-// const portrait = Platform.select({
-//   native: () => require('../../../../assets/FaceVerification/FVPortrait.png'),
-//   default: () => require('../../../../assets/FaceVerification/FVPortrait2x.png'),
-// })()
+import illustration from '../../../assets/FRInstructions.png'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
-
-  // Image.prefetch(portrait)
 }
 
 const Dot = () => (
@@ -49,7 +31,7 @@ const Dot = () => (
   </Text>
 )
 
-const InstructionsA = ({ styles, onDismiss = noop, ready }) => (
+const Instructions = ({ styles, onDismiss = noop, ready }) => (
   <Wrapper>
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
@@ -83,71 +65,6 @@ const InstructionsA = ({ styles, onDismiss = noop, ready }) => (
     </Section>
   </Wrapper>
 )
-
-// const InstructionsB = ({ styles, onDismiss = noop, ready }) => (
-//   <Wrapper>
-//     <Section style={styles.topContainerB} grow>
-//       <ImageBackground source={portrait} style={styles.imageBackgroundB} imageStyle={{ borderRadius: 5 }}>
-//         <View style={styles.mainContentB}>
-//           <View style={styles.descriptionContainerB}>
-//             <View style={styles.descriptionWrapperB}>
-//               <QuestionMark
-//                 style={{
-//                   //styles for svg need to be inline for web
-//                   position: 'absolute',
-//                   right: 0,
-//                   marginTop: 9,
-//                   marginRight: 10,
-//                 }}
-//               />
-//               <Text fontWeight="bold" style={[styles.textB, { paddingTop: 12 }]}>
-//                 Make sure you...
-//               </Text>
-//               <Section.Row
-//                 style={[
-//                   styles.infoRow,
-//                   {
-//                     marginTop: 7,
-//                   },
-//                 ]}
-//               >
-//                 <CheckMark style={{ marginRight: theme.sizes.default }} />
-//                 <Text style={styles.textB}>Hold Your Camera at Eye Level</Text>
-//               </Section.Row>
-//               <Section.Row
-//                 style={[
-//                   styles.infoRow,
-//                   {
-//                     paddingTop: 3,
-//                     paddingBottom: 14,
-//                   },
-//                 ]}
-//               >
-//                 <CheckMark style={{ marginRight: theme.sizes.default }} />
-//                 <Text style={styles.textB}>Light Your Face Evenly</Text>
-//               </Section.Row>
-//             </View>
-//           </View>
-//           <CustomButton
-//             style={[styles.button, { height: 53 }]}
-//             onPress={onDismiss}
-//             testID="dismiss_button"
-//             loading={!ready}
-//             enabled={ready}
-//           >
-//             GOT IT
-//           </CustomButton>
-//         </View>
-//       </ImageBackground>
-//     </Section>
-//   </Wrapper>
-// )
-
-const Instructions = ({ styles, onDismiss = noop, ready = false }) => {
-  // const [InstructionsComponent] = useABTesting(InstructionsA, InstructionsB, FV_INSTRUCTIONS)
-  const InstructionsComponent = InstructionsA
-  return <InstructionsComponent styles={styles} onDismiss={onDismiss} ready={ready} />
-}
 
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {

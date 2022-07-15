@@ -6,8 +6,6 @@ import { Provider as PaperProvider } from 'react-native-paper'
 import { SimpleStoreDialog } from '../../common/dialogs/CustomDialog'
 import LoadingIndicator from '../../common/view/LoadingIndicator'
 
-import AppRouter from './AppRouter'
-
 import { isMobile } from '../../../lib/utils/platform'
 import { GlobalTogglesContextProvider } from '../../../lib/contexts/togglesContext'
 import { DialogContextProvider } from '../../../lib/dialog/dialogContext'
@@ -15,6 +13,7 @@ import logger from '../../../lib/logger/js-logger'
 
 import { theme } from '../../theme/styles'
 import { GoodWalletProvider } from '../../../lib/wallet/GoodWalletProvider'
+import AppRouter from './AppRouter'
 
 // eslint-disable-next-line no-unused-vars
 const log = logger.child({ from: 'FV APP' })

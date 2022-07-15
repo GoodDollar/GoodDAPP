@@ -2,15 +2,15 @@ import React, { useMemo } from 'react'
 import { Portal } from 'react-native-paper'
 
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
-import createAppContainer from './lib/utils/createAppContainer'
 import { FVFlowContextProvider } from '../../../lib/fvflow/FVFlow'
 import { lazyScreens, withNavigationOptions } from '../../../lib/utils/navigation'
-import { LoginSuccessScreen, LoginErrorScreen } from '.'
-import { FaceVerification, FaceVerificationIntro, FaceVerificationError } from '..'
+import { FaceVerification, FaceVerificationError, FaceVerificationIntro } from '..'
 import logger from '../../../lib/logger/js-logger'
 
-import Blurred from './components/common/view/Blurred'
 import { Support } from '../../webView/webViewInstances'
+import Blurred from './components/common/view/Blurred'
+import createAppContainer from './lib/utils/createAppContainer'
+import { LoginErrorScreen, LoginSuccessScreen } from '.'
 
 const log = logger.child({ from: 'FVRouter' })
 

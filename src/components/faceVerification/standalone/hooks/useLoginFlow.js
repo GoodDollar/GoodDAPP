@@ -1,11 +1,8 @@
 // @flow
-import React, { createContext, useEffect, useRef, useState } from 'react'
-import type { Credentials } from '../../../../lib/API/api'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import LoginService from '../api/LoginFlowService'
+
 import logger from '../../../../lib/logger/js-logger'
-import API, { getErrorMessage } from '../../../../lib/API/api'
-import DeepLinking from '../utils/deepLinking'
-import LoginService from '../../../../lib/login/LoginService'
-import Config from '../../../../config/config'
 
 const log = logger.child({ from: 'useLoginFlow' })
 
@@ -13,28 +10,37 @@ const useLoginFlow = (signature, nonce, fvsig) => {
   const [jwt, setJWT] = useState()
   const [error, setError] = useState()
 
-  const doLogin = async () => {
-    const fvLogin = new FVFlow(signature, nonce, fvsig)
-    const { jwt } = await fvLogin.auth(true).catch(e => {
-      log.error('failed fvauth:', e.message, e)
+  const doLogin = useCallback(async () => {
+    const login = new LoginService(signature, nonce, fvsig)
 
-      setError(e.message)
-    })
+    try {
+      const { jwt } = await login.auth(true)
+
+      setJWT(jwt)
+    } catch(exception) {
+      const { message } = exception
+
+      log.error('failed fvauth:', message, exception)
+      setError(message)
+    }
 
     setJWT(jwt)
-  }
+  }, [setError, setJWT])
 
   useEffect(() => {
     log.info('useFVFlow mount:', { signature, nonce, fvsig })
+
     if (signature && nonce && fvsig) {
       doLogin()
-    } else if (!signature) {
+      return
+    }
+
+    if (!signature) {
       setError('Missing address for verification details')
     }
-  }, [signature, nonce, fvsig])
+  }, [signature, nonce, fvsig, doLogin])
 
   return { jwt, error }
 }
-
 
 export default useLoginFlow

@@ -1,10 +1,10 @@
 import { useCallback } from 'react'
 
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
-import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
+import usePropsRefs from '../../../lib/hooks/usePropsRefs'
 
-import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
-import logger from '../../../../lib/logger/js-logger'
+import { fireEvent, FV_TRYAGAINLATER } from '../../../lib/analytics/analytics'
+import logger from '../../../lib/logger/js-logger'
 import { hideRedBox } from '../utils/redBox'
 import useVerificationContext from './useVerificationContext'
 

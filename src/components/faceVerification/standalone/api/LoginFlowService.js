@@ -1,11 +1,12 @@
 // @flow
-import React, { createContext, useEffect, useRef, useState } from 'react'
-import type { Credentials } from '../../../../lib/API/api'
-import logger from '../../../../lib/logger/js-logger'
-import API, { getErrorMessage } from '../../../../lib/API/api'
-import DeepLinking from '../utils/deepLinking'
+import API, { getErrorMessage } from '../../../../lib/API'
+import DeepLinking from '../../../../lib/utils/deepLinking'
 import LoginService from '../../../../lib/login/LoginService'
+
 import Config from '../../../../config/config'
+import logger from '../../../../lib/logger/js-logger'
+
+import type { Credentials } from '../../../../lib/API'
 
 const log = logger.child({ from: 'LoginFlowService' })
 
@@ -18,7 +19,7 @@ class LoginFlowService extends LoginService {
     this.fvsig = fvsig
   }
 
-  login(): Promise<Credentials> {
+  async login(): Promise<Credentials> {
     const creds = {
       signature: this.signature,
       nonce: this.nonce,
@@ -26,13 +27,13 @@ class LoginFlowService extends LoginService {
     }
 
     log.info('returning creds', { creds })
-
     return creds
   }
 
   async requestJWT(creds: Credentials): Promise<?Credentials | Error> {
     try {
       let { jwt } = await this.validateJWTExistenceAndExpiration()
+
       log.debug('jwt validation result:', { jwt })
 
       if (!jwt) {

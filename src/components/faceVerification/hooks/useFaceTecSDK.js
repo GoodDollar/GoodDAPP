@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { assign, noop } from 'lodash'
 
-import usePropsRefs from '../../../../lib/hooks/usePropsRefs'
+import usePropsRefs from '../../../lib/hooks/usePropsRefs'
 
 import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 import { hideRedBoxIfNonCritical } from '../utils/redBox'
 
-import logger from '../../../../lib/logger/js-logger'
-import { isEmulator } from '../../../../lib/utils/platform'
+import logger from '../../../lib/logger/js-logger'
+import { isEmulator } from '../../../lib/utils/platform'
 
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import useCriticalErrorHandler from './useCriticalErrorHandler'

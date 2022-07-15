@@ -32,7 +32,7 @@ const FaceVerification = ({ screenProps }) => {
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 
-  let { faceIdentifier, isFVFlow } = useContext(FVFlowContext)
+  let { faceIdentifier, isLoginFlow } = useContext(FVFlowContext)
   faceIdentifier = faceIdentifier || (userStorage && userStorage.getFaceIdentifier())
 
   // Redirects to the error screen, passing exception
@@ -100,7 +100,7 @@ const FaceVerification = ({ screenProps }) => {
       // polling contracts for the whitelisted flag up to 30sec or until got true
       // fix: if still false, do not throw excetion, just return falsy status
       // on FVFlow we dont verify whitelisting, that is on the developer using the fvflow to test back in their app
-      const isCitizen = isFVFlow || (await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000).catch(() => false))
+      const isCitizen = isLoginFlow || (await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000).catch(() => false))
 
       // if still non whitelisted - showing error screen
       if (!isCitizen) {

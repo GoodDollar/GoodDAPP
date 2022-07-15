@@ -3,11 +3,11 @@ import React from 'react'
 import SmartBanner from '../components/smartbanner/SmartBanner'
 import AppHolder from './AppHolder'
 
-const App = () => (
+const WalletApp = () => (
   <>
     <SmartBanner />
     <AppHolder />
   </>
 )
 
-export default App
+export default WalletApp

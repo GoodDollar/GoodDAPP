@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/order
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeAndLocalizationProvider } from '../../../../__tests__/__util__'
+import { withThemeAndLocalizationProvider } from '../../../__tests__/__util__'
 import ImportedIntroScreen from '../screens/IntroScreen'
 
 const IntroScreen = withThemeAndLocalizationProvider(ImportedIntroScreen)

@@ -153,7 +153,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
   const userStorage = useUserStorage()
-  let { faceIdentifier, firstName, isFVFlow, fvflowError, isFVFlowReady } = useContext(FVFlowContext)
+  let { faceIdentifier, firstName, isLoginFlow, loginFlowError, isLoginFlowReady } = useContext(FVFlowContext)
   faceIdentifier = faceIdentifier || (userStorage && userStorage.getFaceIdentifier())
   firstName = firstName || getFirstWord(fullName)
   const { showDialog } = useDialog()
@@ -221,25 +221,25 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
     if (isValid) {
       //incase of FVFlowFlow
-      if (isFVFlow) {
+      if (isLoginFlow) {
         navigateTo('FVFlowDone')
       } else {
         pop({ isValid })
       }
     } else {
       //fvflowready means we were able to login to backend so check disposal can work
-      if (faceIdentifier && (!isFVFlow || isFVFlowReady)) {
+      if (faceIdentifier && (!isLoginFlow || isLoginFlowReady)) {
         fireEvent(FV_INTRO)
         checkDisposalState()
       }
     }
-  }, [faceIdentifier, isFVFlow, isFVFlowReady])
+  }, [faceIdentifier, isLoginFlow, isLoginFlowReady])
 
   useEffect(() => {
-    if (fvflowError || (isFVFlow && !faceIdentifier)) {
+    if (loginFlowError || (isLoginFlow && !faceIdentifier)) {
       navigateTo('FVFlowError')
     }
-  }, [isFVFlow, faceIdentifier, fvflowError])
+  }, [isLoginFlow, faceIdentifier, loginFlowError])
 
   return (
     <Intro

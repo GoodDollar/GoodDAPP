@@ -3,18 +3,18 @@ import React, { Fragment } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 
-import { SimpleStoreDialog } from '../components/common/dialogs/CustomDialog'
-import LoadingIndicator from '../components/common/view/LoadingIndicator'
+import { SimpleStoreDialog } from '../../common/dialogs/CustomDialog'
+import LoadingIndicator from '../../common/view/LoadingIndicator'
 
-import FVRouter from '../FVRouter'
+import AppRouter from './AppRouter'
 
-import { isMobile } from '../lib/utils/platform'
-import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
-import { DialogContextProvider } from '../lib/dialog/dialogContext'
-import logger from '../lib/logger/js-logger'
+import { isMobile } from '../../../lib/utils/platform'
+import { GlobalTogglesContextProvider } from '../../../lib/contexts/togglesContext'
+import { DialogContextProvider } from '../../../lib/dialog/dialogContext'
+import logger from '../../../lib/logger/js-logger'
 
-import { theme } from '../components/theme/styles'
-import { GoodWalletProvider } from '../lib/wallet/GoodWalletProvider'
+import { theme } from '../../theme/styles'
+import { GoodWalletProvider } from '../../../lib/wallet/GoodWalletProvider'
 
 // eslint-disable-next-line no-unused-vars
 const log = logger.child({ from: 'FV APP' })
@@ -39,7 +39,7 @@ const App = () => {
               <GoodWalletProvider>
                 <SimpleStoreDialog />
                 <LoadingIndicator />
-                <FVRouter />
+                <AppRouter />
               </GoodWalletProvider>
             </DialogContextProvider>
           </GlobalTogglesContextProvider>

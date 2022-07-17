@@ -23,7 +23,7 @@ import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { restart } from '../../lib/utils/system'
 import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
-import { useOnboard } from '../auth/useOnboard'
+import { useWalletConnector } from '../../lib/wallet/thirdparty/useWalletConnector'
 import { getRouteParams } from '../../lib/utils/navigation'
 import { truncateMiddle } from '../../lib/utils/string'
 
@@ -50,7 +50,7 @@ const AppSwitch = (props: LoadingProps) => {
   const initializing = useRef(null)
   const { initializedRegistered } = userStorage || {}
   const [getNavigation, isRegistered] = usePropsRefs([navigation, initializedRegistered])
-  const { onboardConnect, web3, connecting } = useOnboard()
+  const { walletConnect, web3, connecting } = useWalletConnector()
 
   const _showOutOfGasError = useCallback(async () => {
     const { navigate } = getNavigation()
@@ -231,7 +231,7 @@ const AppSwitch = (props: LoadingProps) => {
         initializing.current = undefined
       }
 
-      //if we are already initializing or onboard not ready
+      //if we are already initializing or wallet not ready
       if (initializing.current && web3 && goodWallet && goodWallet.account === web3.eth.defaultAccount) {
         //in case user switched back to his account
         return hideDialog()
@@ -295,15 +295,15 @@ const AppSwitch = (props: LoadingProps) => {
         log.debug('initWalletAndStorage:', { provider, web3 })
         let web3Result = web3
         if (!web3 && provider === 'WEB3WALLET') {
-          web3Result = await onboardConnect().catch()
+          web3Result = await walletConnect().catch()
           if (!web3Result) {
             return
           }
-          log.debug('initWalletAndStorage onboardConnect:', { web3Result })
+          log.debug('initWalletAndStorage walletConnect:', { web3Result })
           if (publicKey && publicKey !== web3Result.eth.defaultAccount) {
             //if different account then logged in, then wait for the logout dialog
             initializing.current = false
-            log.debug('initWalletAndStorage onboardConnect different account then logged in:', {
+            log.debug('initWalletAndStorage walletConnect different account then logged in:', {
               web3Result,
               publicKey,
             })

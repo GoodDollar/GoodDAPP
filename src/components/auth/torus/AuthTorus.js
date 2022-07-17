@@ -47,7 +47,7 @@ import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
 import mustache from '../../../lib/utils/mustache'
-import { useOnboard } from '../useOnboard'
+import { useWalletConnector } from '../../../lib/wallet/thirdparty/useWalletConnector'
 import useTorus from './hooks/useTorus'
 import { TorusStatusCode } from './sdk/TorusSDK'
 const log = logger.child({ from: 'AuthTorus' })
@@ -97,7 +97,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
   const { setWalletPreparing, setTorusInitialized, setSuccessfull, setActiveStep } = useContext(AuthContext)
   const checkExisting = useCheckExisting()
   const [torusSDK, sdkInitialized] = useTorus()
-  const { onboardConnect } = useOnboard()
+  const { walletConnect } = useWalletConnector()
   const { navigate } = navigation
 
   const getTorusUserRedirect = async () => {
@@ -279,11 +279,11 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
     } else if (provider === 'web3wallet') {
       regMethod = REGISTRATION_METHOD_WEB3WALLET
       try {
-        web3Provider = await onboardConnect()
+        web3Provider = await walletConnect()
       } catch (e) {
         return setWalletPreparing(false)
       }
-      log.debug('onboard result:', { web3Provider })
+      log.debug('walletConnect result:', { web3Provider })
       torusUser = {
         publicAddress: web3Provider.address,
       }

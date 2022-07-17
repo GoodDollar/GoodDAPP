@@ -2,7 +2,7 @@
 import Web3 from 'web3'
 import Config from '../../config/config'
 import SoftwareWalletProvider from './SoftwareWalletProvider'
-import ThirdPartyWalletProvider from './ThirdPartyWalletProvider'
+import ThirdPartyWalletProvider from './thirdparty/ThirdPartyWalletProvider'
 
 export type WalletConfig = {
   network_id: number,

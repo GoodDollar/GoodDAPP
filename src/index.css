@@ -16,6 +16,7 @@ html {
 @media (max-width: 475px) {
   html {
     font-size: 12px;
+    width: 100%;
   }
 }
 

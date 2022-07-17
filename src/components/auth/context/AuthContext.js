@@ -36,17 +36,15 @@ export const AuthContextProvider = ({ children }) => {
     [existingState],
   )
 
-  /* eslint-disable */
-
   const { torusInitialized, handleLoginMethod } = useMemo(() => torusOptions || { torusInitialized: false }, [
     torusOptions,
+    // eslint-disable-next-line array-bracket-newline
   ])
 
   const successScreenOptions = useMemo(() => successState || { delay: Config.authSuccessDelay, callback: null }, [
     successState,
+    // eslint-disable-next-line array-bracket-newline
   ])
-
-  /* eslint-enable */
 
   const setActiveStep = useCallback(
     step => {

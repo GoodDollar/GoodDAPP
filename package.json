@@ -107,6 +107,7 @@
     "@walletconnect/web3-provider": "1.7.4",
     "@web3-onboard/injected-wallets": "^2.0.12",
     "@web3-onboard/react": "^2.2.2",
+    "@web3-onboard/walletconnect": "^2.0.7",
     "@web3-react/core": "8.0.12-beta.0",
     "@web3-react/metamask": "8.0.8-beta.0",
     "FormData": "^0.10.1",

@@ -384,6 +384,13 @@ export class APIService {
   async sendLoginVendorDetails(url, responseObject) {
     return this.sharedClient.post(url, responseObject)
   }
+
+  // eslint-disable-next-line require-await
+  async getTokenTXs(explorer, token, address) {
+    return this.sharedClient
+      .get(explorer + `/api?module=account&action=tokentx&address=${address}&sort=asc&contractaddress=${token}`)
+      .then(_ => _.result)
+  }
 }
 
 const api = new APIService()

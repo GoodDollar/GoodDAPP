@@ -186,6 +186,7 @@ export class GoodWallet {
   init(): Promise<any> {
     const mainnetNetworkId = get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
+
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const ready = WalletFactory.create(this.config)
     this.ready = ready
@@ -370,6 +371,17 @@ export class GoodWallet {
   //eslint-disable-next-line require-await
   async watchEvents(fromBlock, lastBlockCallback) {
     this.setIsPollEvents(true)
+    if (!fromBlock) {
+      const explorer = Config.ethereum[this.networkId].explorer
+      const gdTXs = await retryCall(
+        () => API.getTokenTXs(explorer, this.tokenContract._address, this.account),
+        3,
+        500,
+      ).catch(_ => [])
+
+      fromBlock = first(gdTXs)?.blockNumber || (await this.getBlockNumber())
+      log.info('watchEvents: got txs from explorer', { gdTXs, fromBlock, explorer })
+    }
     const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
     lastBlockCallback(lastBlock)
     this.lastEventsBlock = lastBlock

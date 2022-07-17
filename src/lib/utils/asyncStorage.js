@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { isArray, isEmpty, isFunction } from 'lodash'
 
-import { AB_TESTING, DESTINATION_PATH, INVITE_CODE, IS_FIRST_VISIT } from '../constants/localStorage'
+import { AB_TESTING, DESTINATION_PATH, GD_PROVIDER, INVITE_CODE, IS_FIRST_VISIT } from '../constants/localStorage'
 import logger from '../logger/js-logger'
 import { tryJson } from './string'
 
 const accessorRe = /(get|set)/i
-const backupProps = [IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE]
+const backupProps = [IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE, GD_PROVIDER]
 const log = logger.child({ from: 'AsyncStorage' })
 
 export default new class {

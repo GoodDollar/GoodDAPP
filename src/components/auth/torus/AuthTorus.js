@@ -278,7 +278,11 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       }
     } else if (provider === 'web3wallet') {
       regMethod = REGISTRATION_METHOD_WEB3WALLET
-      web3Provider = await onboardConnect()
+      try {
+        web3Provider = await onboardConnect()
+      } catch (e) {
+        return setWalletPreparing(false)
+      }
       log.debug('onboard result:', { web3Provider })
       torusUser = {
         publicAddress: web3Provider.address,

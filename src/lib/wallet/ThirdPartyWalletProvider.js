@@ -10,15 +10,11 @@ import { isMetamaskProvider } from './utils'
 const log = logger.child({ from: 'ThirdPartyWalletProvider' })
 
 //TODO:
-//3. login name screen shows "ok we verified your phone" why?>
-//4. query explorer for first user tx for polling
 //5. delay between initial mass polling
 //6. fuse chain details should be dynamic
-//7. already have an account loop/wrong button text
-//8. already have an account with metamask for no reason?
-//10. handle account switch
-//11. handle unsupported chain switch
 //12. save onboard session to reconnect
+//13. user switches provider from metamask to walletconnect for example
+//14. dont show invite dialog if registered on blockchain already but not updated in props
 
 class ThirdPartyWalletProvider {
   ready: Promise<Web3>

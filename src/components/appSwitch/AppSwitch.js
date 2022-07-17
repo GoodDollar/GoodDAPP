@@ -4,9 +4,12 @@ import { AppState } from 'react-native'
 import { useDebouncedCallback } from 'use-debounce'
 import { SceneView } from '@react-navigation/core'
 import { isEmpty } from 'lodash'
+import { t } from '@lingui/macro'
+
+import { InfoIcon } from '../common/modal/InfoIcon'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import { DESTINATION_PATH, GD_PROVIDER } from '../../lib/constants/localStorage'
+import { DESTINATION_PATH, GD_PROVIDER, GD_USER_PRIVATEKEYS } from '../../lib/constants/localStorage'
 
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -21,8 +24,9 @@ import { isMobileNative } from '../../lib/utils/platform'
 import { restart } from '../../lib/utils/system'
 import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { useOnboard } from '../auth/useOnboard'
-
 import { getRouteParams } from '../../lib/utils/navigation'
+import { truncateMiddle } from '../../lib/utils/string'
+
 type LoadingProps = {
   navigation: any,
   descriptors: any,
@@ -38,7 +42,7 @@ const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
   const { state } = navigation
   const [ready, setReady] = useState(false)
-  const { showErrorDialog } = useDialog()
+  const { showDialog, hideDialog, showErrorDialog } = useDialog()
   const { initWalletAndStorage, isCitizen, login } = useContext(GoodWalletContext)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
@@ -46,7 +50,7 @@ const AppSwitch = (props: LoadingProps) => {
   const initializing = useRef(null)
   const { initializedRegistered } = userStorage || {}
   const [getNavigation, isRegistered] = usePropsRefs([navigation, initializedRegistered])
-  const { onboardConnect, web3 } = useOnboard()
+  const { onboardConnect, web3, connecting } = useOnboard()
 
   const _showOutOfGasError = useCallback(async () => {
     const { navigate } = getNavigation()
@@ -132,7 +136,7 @@ const AppSwitch = (props: LoadingProps) => {
       }
 
       showErrorDialog(message, '', {
-        onDismiss: () => restart('/'),
+        onDismiss: () => restart('/Welcome/Auth'),
       })
     },
     [showErrorDialog],
@@ -174,6 +178,7 @@ const AppSwitch = (props: LoadingProps) => {
       log.debug('initialize done')
       setReady(true)
     } catch (e) {
+      log.error('failed init', e.message, e)
       restartWithMessage('Wallet could not be loaded. Please refresh.', false)
     }
   }, [restartWithMessage, goodWallet, userStorage, showOutOfGasError, isCitizen])
@@ -219,23 +224,97 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
+    log.debug('initwalletandstorage start:', { initializing, web3, goodWallet, connecting })
     const run = async () => {
-      if (initializing.current) {
+      if (web3 === undefined && initializing.current) {
+        //incase web3 was disconnected
+        initializing.current = undefined
+      }
+
+      //if we are already initializing or onboard not ready
+      if (initializing.current && web3 && goodWallet && goodWallet.account === web3.eth.defaultAccount) {
+        //in case user switched back to his account
+        return hideDialog()
+      }
+
+      let [publicKey] = (await AsyncStorage.getItem(GD_USER_PRIVATEKEYS)) || []
+
+      if (
+        (web3 && publicKey !== web3.eth.defaultAccount) ||
+        (web3 && goodWallet && goodWallet.account !== web3.eth.defaultAccount)
+      ) {
+        const account = publicKey || goodWallet?.account
+        let dialogPromise = new Promise((res, rej) =>
+          showDialog({
+            image: <InfoIcon />,
+            showCloseButtons: false,
+            title: t`Do you want to logout?`,
+            message: t`Your wallet address has changed. Do you want to logout from ${truncateMiddle(
+              account,
+              20,
+            )} and login with: ${truncateMiddle(web3.eth.defaultAccount, 20)}?`,
+            buttons: [
+              {
+                text: 'Cancel',
+                onPress: dismiss => {
+                  res(false)
+                  showDialog({
+                    title: t`Change wallet`,
+                    message: t`Back to ${truncateMiddle(account, 20)}`,
+                    loading: true,
+                    showCloseButtons: false,
+                    buttons: [],
+                  })
+                },
+                mode: 'text',
+                color: 'lighterGray',
+              },
+              {
+                text: 'Logout',
+                color: 'red',
+                onPress: dismiss => {
+                  AsyncStorage.clear()
+                  res(true)
+                  dismiss()
+                },
+              },
+            ],
+          }),
+        )
+        const choice = await dialogPromise
+        log.debug('initWalletAndStorage: account changed , performing login again', { choice })
+        if (choice === false) {
+          return
+        }
+      } else if (initializing.current || web3 === false) {
         return
       }
-      log.debug('calling initWalletAndStorage:', { web3 })
       try {
         initializing.current = true
         const provider = await AsyncStorage.getItem(GD_PROVIDER)
-        log.debug('initLoggedInWallet', { provider })
+        log.debug('initWalletAndStorage:', { provider, web3 })
         let web3Result = web3
         if (!web3 && provider === 'WEB3WALLET') {
-          web3Result = await onboardConnect()
+          web3Result = await onboardConnect().catch()
+          if (!web3Result) {
+            return
+          }
+          log.debug('initWalletAndStorage onboardConnect:', { web3Result })
+          if (publicKey && publicKey !== web3Result.eth.defaultAccount) {
+            //if different account then logged in, then wait for the logout dialog
+            initializing.current = false
+            log.debug('initWalletAndStorage onboardConnect different account then logged in:', {
+              web3Result,
+              publicKey,
+            })
+
+            return
+          }
         }
 
         await initWalletAndStorage(web3Result, provider)
 
-        log.debug('storage and wallet ready')
+        log.debug('initWalletAndStorage: storage and wallet ready')
       } catch (e) {
         if ('UnsignedJWTError' === e.name) {
           return restartWithMessage(
@@ -245,7 +324,7 @@ const AppSwitch = (props: LoadingProps) => {
         }
 
         // if error in realmdb logout the user, he needs to signin/signup again
-        log.error('failed initializing app', e.message, e)
+        log.error('failed initWalletAndStorage', e.message, e)
 
         if (e.message.includes('realmdb')) {
           return restartWithMessage(
@@ -254,11 +333,11 @@ const AppSwitch = (props: LoadingProps) => {
           )
         }
 
-        restartWithMessage('Wallet could not be loaded. Please refresh.', false)
+        restartWithMessage('Wallet could not be loaded. Please refresh.')
       }
     }
     run()
-  }, [initWalletAndStorage, initializing, web3])
+  }, [initWalletAndStorage, initializing, web3, goodWallet])
 
   useEffect(() => {
     if (ready || !initializedRegistered) {

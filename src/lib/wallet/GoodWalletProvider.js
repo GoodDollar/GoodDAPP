@@ -8,9 +8,10 @@ import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
+import AsyncStorage from '../utils/asyncStorage'
+import { IS_LOGGED_IN } from '../constants/localStorage'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
-
 const log = logger.child({ from: 'GoodWalletProvider' })
 
 export const GoodWalletContext = React.createContext({
@@ -37,6 +38,16 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const db = getDB()
 
+  const verifyUserIsRegistered = async walletLogin => {
+    const { decoded, jwt } = await walletLogin.validateJWTExistenceAndExpiration()
+    const { aud } = decoded || {}
+
+    log.info('verifyUserIsRegistered: jwt data', { decoded, jwt, aud })
+
+    if (!decoded || aud === 'unsigned') {
+      throw new Error('jwt is of unsigned user', 'UnsignedJWTError')
+    }
+  }
   const update = useCallback(
     async goodWallet => {
       const calls = [
@@ -97,6 +108,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         }
 
         if (isLoggedInRouter) {
+          AsyncStorage.setItem(IS_LOGGED_IN, true)
           await storage.initRegistered()
           if (shouldLoginAndWatch()) {
             const { userProperties } = storage
@@ -105,7 +117,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
             // (because otherwise he wont have valid mongodb jwt)
             await userProperties.ready
 
-            const lastBlock = userProperties.get('lastBlock') || 6400000
+            const lastBlock = userProperties.get('lastBlock')
 
             log.debug('starting watchBalanceAndTXs', { lastBlock })
 
@@ -124,7 +136,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         log.info('initWalletAndStorage done')
         return [wallet, storage]
       } catch (e) {
-        log.error('failed initializing wallet and userstorage:', e.message, e)
+        log.warn('failed initializing wallet and userstorage:', e.message, e)
 
         throw e
       }
@@ -138,8 +150,11 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         const walletLogin = new GoodWalletLogin(wallet, storage)
 
         // the login also re-initialize the api with new jwt
-
         const { jwt } = await walletLogin.auth(refresh)
+        if (isLoggedInRouter) {
+          //verify user is registred and logged in
+          await verifyUserIsRegistered(walletLogin)
+        }
         setLoggedInJWT(walletLogin)
 
         log.info('walletLogin', { jwt, refresh })
@@ -153,7 +168,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       }
     },
-    [setLoggedInJWT],
+    [setLoggedInJWT, isLoggedInRouter],
   )
 
   const login = useCallback(

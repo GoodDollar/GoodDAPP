@@ -8,7 +8,7 @@ const log = logger.child({ from: 'useCheckExisting' })
 
 // check if email/mobile was used to register before and offer user to login instead
 const useCheckExisting = () => {
-  const { activeStep, setAlreadySignedUp } = useContext(AuthContext)
+  const { setAlreadySignedUp } = useContext(AuthContext)
   const userExists = useUserExists()
 
   const checkExisting = useCallback(
@@ -20,17 +20,18 @@ const useCheckExisting = () => {
         return { exists: false }
       })
 
-      const { exists, provider } = checkResult
+      const { exists, identifier } = checkResult
 
-      log.debug('checking userAlreadyExist', { provider, torusProvider, exists, activeStep })
+      log.debug('checking userAlreadyExist', { withWallet, torusProvider, checkResult })
+
+      // if identifier was sent in request and it exists then user was already signed up, during existing checks form signup we dont pass identifier,
+      // so it will never match here
+      if (identifier) {
+        return 'login'
+      }
 
       if (!exists) {
         return 'signup'
-      }
-
-      // User exists, it is not the number check and it is the correct login
-      if (provider?.includes(torusProvider) && !activeStep) {
-        return 'login'
       }
 
       const analyticsVars = { provider: torusProvider, ...eventVars }

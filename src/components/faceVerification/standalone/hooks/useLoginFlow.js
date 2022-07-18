@@ -12,11 +12,11 @@ const useLoginFlow = (signature, nonce, fvsig) => {
 
   useEffect(() => {
     const onError = exception => {
-       const { message } = exception
+      const { message } = exception
 
-       log.error('failed fvauth:', message, exception)
-       setError(message)
-     }
+      log.error('failed fvauth:', message, exception)
+      setError(message)
+    }
       
     log.info('useFVFlow mount:', { signature, nonce, fvsig })
 

@@ -21,8 +21,7 @@ export const LoginFlowContext = createContext({
 })
 
 const LoginFlowProvider = props => {
-  const fvParams = useRef(DeepLinking.params)
-  const { sig, nonce, fvsig, rdu, cbu, firstName } = fvParams.current
+  const { sig, nonce, fvsig, rdu, cbu, firstName } = useRef(DeepLinking.params).current
   const { jwt, error } = useLoginFlow(sig, nonce, fvsig)
   const faceIdentifier = (fvsig || '').slice(0, 42)
 

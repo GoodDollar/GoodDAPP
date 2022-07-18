@@ -81,7 +81,7 @@ const useGoodDollarLogin = params => {
     const { isWhitelisted } = profileOptions
     const { walletAddress } = profile
 
-    const response = addNonceAndSign({
+    const response = addNonceAndSign(goodWallet, {
       ...shortDetails,
       a: detail(walletAddress),
       v: detail(isWhitelisted),

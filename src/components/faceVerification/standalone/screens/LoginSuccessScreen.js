@@ -12,10 +12,12 @@ import { LoginFlowContext } from '../context/LoginFlowContext'
 
 import logger from '../../../../lib/logger/js-logger'
 import { addNonceAndSign, detail, redirectTo } from '../../../loginRedirect/utils'
+import { useWallet } from '../../../../lib/wallet/GoodWalletProvider'
 
 const log = logger.child({ from: 'LoginSuccessScreen' })
 
 const LoginSuccessScreen = ({ styles }) => {
+  const goodWallet = useWallet()
   const { rdu, cbu, faceIdentifier, firstName } = useContext(LoginFlowContext)
 
   useEffect(() => {
@@ -25,7 +27,7 @@ const LoginSuccessScreen = ({ styles }) => {
 
     const url = rdu || cbu
     const urlType = rdu ? 'rdu' : 'cbu'
-    const response = addNonceAndSign({
+    const response = addNonceAndSign(goodWallet, {
       n: detail(firstName),
       a: detail(faceIdentifier),
     })

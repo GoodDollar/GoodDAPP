@@ -1,6 +1,6 @@
 // libraries
 import React, { useEffect } from 'react'
-import { Linking, View } from 'react-native'
+import { View } from 'react-native'
 
 // components
 import Text from '../../../common/view/Text'
@@ -9,11 +9,12 @@ import { Section, Wrapper } from '../../../common'
 // utils
 import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 import { exitApp } from '../../../../lib/utils/system'
+import { openLink } from '../../../../lib/utils/linking'
 
 import withStyles from '../theme/withStyles'
 
 const DOCS_URL = 'https://doc.gooddollar/sdk/identity'
-const openDocs = () => Linking.openUrl(DOCS_URL)
+const openDocs = () => openLink(DOCS_URL, '_blank')
 
 const LoginErrorScreen = ({ styles }) => {
   useEffect(() => {

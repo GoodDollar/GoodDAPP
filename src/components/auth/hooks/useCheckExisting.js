@@ -24,8 +24,8 @@ const useCheckExisting = () => {
 
       log.debug('checking userAlreadyExist', { withWallet, torusProvider, checkResult })
 
-      // if identifier was sent in request and it exists then user was already signed up, during existing checks form signup we dont pass identifier,
-      // so it will never match here
+      // if identifier was sent in request and it exists then user was already signed up,
+      // during existing checks form signup we dont pass identifier, so it will never match here
       if (identifier) {
         return 'login'
       }

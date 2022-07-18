@@ -385,11 +385,25 @@ export class APIService {
     return this.sharedClient.post(url, responseObject)
   }
 
-  // eslint-disable-next-line require-await
-  async getTokenTXs(explorer, token, address) {
-    return this.sharedClient
-      .get(explorer + `/api?module=account&action=tokentx&address=${address}&sort=asc&contractaddress=${token}`)
-      .then(_ => _.result)
+  async getTokenTXs(token, address, fromBlock = null) {
+    const params = {
+      address,
+      sort: 'asc',
+      module: 'account',
+      action: 'tokentx',
+      contractaddress: token,
+    }
+
+    if (fromBlock) {
+      params.startblock = fromBlock
+    }
+
+    const { result } = await this.sharedClient.get('/', {
+      params,
+      baseURL: Config.networkExplorerUrl,
+    })
+
+    return result
   }
 }
 

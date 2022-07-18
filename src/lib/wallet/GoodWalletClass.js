@@ -55,6 +55,8 @@ import {
 } from './utils'
 
 const ZERO = new BN('0')
+const POKT_MAX_EVENTSBLOCKS = 100000
+
 const log = logger.child({ from: 'GoodWalletV2' })
 
 // eslint-disable-next-line
@@ -321,8 +323,6 @@ export class GoodWallet {
   }
 
   async pollEvents(fn, time, lastBlockCallback) {
-    const STEP = 10000 //pokt network max events request
-
     try {
       const run = async () => {
         if (this.isPollEvents === false) {
@@ -336,7 +336,7 @@ export class GoodWallet {
           return
         }
 
-        let nextLastBlock = Math.min(lastBlock, this.lastEventsBlock + STEP)
+        let nextLastBlock = Math.min(lastBlock, this.lastEventsBlock + POKT_MAX_EVENTSBLOCKS)
 
         //await callback to finish processing events before updating lastEventblock
         //we pass nextlastblock as null so the request naturally requests until the last block a node has,
@@ -414,8 +414,7 @@ export class GoodWallet {
   async syncTxWithBlockchain(startBlock) {
     const lastBlock = await this.wallet.eth.getBlockNumber()
     startBlock = Math.min(startBlock, lastBlock)
-    const STEP = 10000
-    const steps = range(startBlock, lastBlock, STEP)
+    const steps = range(startBlock, lastBlock, POKT_MAX_EVENTSBLOCKS)
     log.debug('Start sync tx from blockchain', {
       steps,
       startBlock,
@@ -423,11 +422,11 @@ export class GoodWallet {
     })
 
     try {
-      const chunks = chunk(steps, 100)
+      const chunks = chunk(steps, 10)
 
       for (let chunk of chunks) {
         const ps = chunk.map(async fromBlock => {
-          let toBlock = fromBlock + STEP
+          let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
 
           if (toBlock > lastBlock) {
             toBlock = lastBlock

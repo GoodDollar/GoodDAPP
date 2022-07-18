@@ -76,6 +76,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         return [wallet, storage]
       } catch (e) {
         log.error('failed initializing wallet and userstorage:', e.message, e)
+
+        throw e
       }
     },
     [],

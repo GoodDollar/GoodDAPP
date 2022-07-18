@@ -8,14 +8,12 @@ import usePropsRefs from '../../lib/hooks/usePropsRefs'
 
 import API from '../../lib/API/api'
 
-import { exitApp } from '../../lib/utils/system'
-import { openLink } from '../../lib/utils/linking'
-import { decodeBase64Params, encodeBase64Params } from '../../lib/utils/uri'
+import { decodeBase64Params } from '../../lib/utils/uri'
 
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { addNonceAndSign, detail, redirectTo } from './utils'
 
 const log = logger.child({ from: 'useGoodDollarLogin' })
-const detail = value => ({ value, attestation: '' })
 
 const useGoodDollarLogin = params => {
   const profile = useProfile()
@@ -70,18 +68,7 @@ const useGoodDollarLogin = params => {
     async response => {
       const { url, urlType } = parsedURL
 
-      if (urlType === 'rdu') {
-        openLink(`${url}?login=${encodeBase64Params(response)}`, '_self')
-        return
-      }
-
-      try {
-        await API.sendLoginVendorDetails(url, response)
-      } catch (e) {
-        log.warn('Error sending login vendor details', e.message, e)
-      } finally {
-        exitApp()
-      }
+      await redirectTo(url, urlType, response, log)
     },
     [parsedURL],
   )
@@ -91,23 +78,16 @@ const useGoodDollarLogin = params => {
   }, [sendResponse])
 
   const allow = useCallback(() => {
-    const { wallet, accounts } = goodWallet
-    const { accounts: signer } = wallet.eth
-    const { privateKey } = first(accounts)
-
     const { isWhitelisted } = profileOptions
     const { walletAddress } = profile
 
-    const response = {
+    const response = addNonceAndSign({
       ...shortDetails,
       a: detail(walletAddress),
       v: detail(isWhitelisted),
-      nonce: detail(Date.now()),
-    }
+    })
 
-    const { signature } = signer.sign(JSON.stringify(response), privateKey)
-
-    sendResponse({ ...response, sig: signature })
+    sendResponse(response)
   }, [goodWallet, shortDetails, profileOptions, profile, sendResponse])
 
   useEffect(() => {

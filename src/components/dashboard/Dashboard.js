@@ -79,7 +79,7 @@ const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNav
   title: 'Face Verification',
 })(
   lazyScreens(
-    () => import('./FaceVerification'),
+    () => import('../faceVerification'),
     'FaceVerification',
     'FaceVerificationIntro',
     'FaceVerificationError'

@@ -55,13 +55,13 @@ class LoginService {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getJWT(): Promise<?string> {
+  // eslint-disable-next-line
+  async getJWT(): Promise<?string> {
     return AsyncStorage.getItem(JWT)
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  login(): Promise<Credentials> {
+  // eslint-disable-next-line
+  async login(): Promise<Credentials> {
     throw new Error('Method not implemented')
   }
 

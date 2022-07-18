@@ -6,28 +6,34 @@ import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf
 import './index.css'
 import './components/common/view/Icon/index.css'
 
-let ErrorBoundary = React.Fragment
+const BuildTarget = {
+  FaceVerification: 'FV',
+  WalletApp: 'DAPP',
+}
 
-function importBuildTarget() {
-  if (process.env.REACT_APP_BUILD_TARGET === 'FV') {
-    return import('./mainApp/fv.js')
+// eslint-disable-next-line require-await
+const importBuildTarget = async () => {
+  switch (process.env.REACT_APP_BUILD_TARGET) {
+    case BuildTarget.FaceVerification:
+      return import('./components/faceVerification/standalone/App')
+    default:
+      return import('./mainApp/WalletApp')
   }
-  return import('./mainApp/wallet.js')
 }
 
 // Import the entry point and render it's default export
-importBuildTarget().then(({ default: Environment }) => {
+importBuildTarget().then(({ default: AppRoot }) => {
   ReactDOM.render(
     <React.StrictMode>
-      <ErrorBoundary>
-        <Environment />
+      <>
+        <AppRoot />
         <style type="text/css">{`
-            @font-face {
-              src: url(${fontMaterialIcons});
-              font-family: MaterialIcons;
-            }
-          `}</style>
-      </ErrorBoundary>
+          @font-face {
+            src: url(${fontMaterialIcons});
+            font-family: MaterialIcons;
+          }
+        `}</style>
+      </>
     </React.StrictMode>,
     document.getElementById('root'),
   )

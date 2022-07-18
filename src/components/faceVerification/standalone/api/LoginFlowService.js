@@ -37,7 +37,7 @@ class LoginFlowService extends LoginService {
 
       if (!jwt) {
         log.info('Calling server for authentication')
-        const response = await API.fvauth(creds)
+        const response = await API.fvAuth(creds)
         const { status, data, statusText } = response
 
         log.info('Got auth response', response)

@@ -1,7 +1,6 @@
 // libraries
 import React, { useContext, useEffect } from 'react'
 import { View } from 'react-native'
-import { noop } from 'lodash'
 
 // components
 import Text from '../../../common/view/Text'
@@ -16,7 +15,7 @@ import { addNonceAndSign, detail, redirectTo } from '../../../loginRedirect/util
 
 const log = logger.child({ from: 'LoginSuccessScreen' })
 
-const LoginSuccessScreen = ({ styles, onDismiss = noop, ready }) => {
+const LoginSuccessScreen = ({ styles }) => {
   const { rdu, cbu, faceIdentifier, firstName } = useContext(LoginFlowContext)
 
   useEffect(() => {

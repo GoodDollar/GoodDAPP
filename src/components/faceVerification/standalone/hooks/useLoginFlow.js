@@ -23,9 +23,7 @@ const useLoginFlow = (signature, nonce, fvsig) => {
       log.error('failed fvauth:', message, exception)
       setError(message)
     }
-
-    setJWT(jwt)
-  }, [setError, setJWT])
+  }, [setError, setJWT, signature, nonce, fvsig])
 
   useEffect(() => {
     log.info('useFVFlow mount:', { signature, nonce, fvsig })
@@ -38,7 +36,7 @@ const useLoginFlow = (signature, nonce, fvsig) => {
     if (!signature) {
       setError('Missing address for verification details')
     }
-  }, [signature, nonce, fvsig, doLogin])
+  }, [signature, nonce, fvsig, doLogin, setError])
 
   return { jwt, error }
 }

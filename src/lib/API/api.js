@@ -86,7 +86,7 @@ export class APIService {
     return this.client.post('/auth/eth', creds)
   }
 
-  fvauth(creds: Credentials): AxiosPromise<any> {
+  fvAuth(creds: Credentials): AxiosPromise<any> {
     return this.client.post('/auth/fv', creds)
   }
 

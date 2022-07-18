@@ -10,33 +10,29 @@ const useLoginFlow = (signature, nonce, fvsig) => {
   const [jwt, setJWT] = useState()
   const [error, setError] = useState()
 
-  const doLogin = useCallback(async () => {
-    const login = new LoginService(signature, nonce, fvsig)
-
-    try {
-      const { jwt } = await login.auth(true)
-
-      setJWT(jwt)
-    } catch (exception) {
-      const { message } = exception
-
-      log.error('failed fvauth:', message, exception)
-      setError(message)
-    }
-  }, [setError, setJWT, signature, nonce, fvsig])
-
   useEffect(() => {
+    const onError = exception => {
+       const { message } = exception
+
+       log.error('failed fvauth:', message, exception)
+       setError(message)
+     }
+      
     log.info('useFVFlow mount:', { signature, nonce, fvsig })
 
     if (signature && nonce && fvsig) {
-      doLogin()
+      const login = new LoginService(signature, nonce, fvsig)
+
+      login.auth(true).then(({ jwt }) => setJWT(jwt)).catch(onError)
       return
     }
 
     if (!signature) {
-      setError('Missing address for verification details')
+      const exception = new Error('Missing address for verification details')
+
+      onError(exception)
     }
-  }, [signature, nonce, fvsig, doLogin, setError])
+  }, [signature, nonce, fvsig, doLogin, setError, setJWT])
 
   return { jwt, error }
 }

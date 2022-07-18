@@ -13,7 +13,7 @@ export default (onInitialized = noop) => {
   const [sdk, setSDK] = useState(null)
   const [initialized, setInitialized] = useState(false)
   const onInitializedRef = useRef(onInitialized)
-  const mountedState = useMountedState()
+  const [mountedState] = useMountedState()
 
   useEffect(() => {
     onInitializedRef.current = onInitialized

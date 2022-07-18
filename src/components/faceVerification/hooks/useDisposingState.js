@@ -8,7 +8,7 @@ import useMountedState from '../../../lib/hooks/useMountedState'
 const log = logger.child({ from: 'useFaceTecVerification' })
 
 export default ({ enrollmentIdentifier, requestOnMounted = true, onComplete = noop, onError = noop }) => {
-  const mountedStateRef = useMountedState()
+  const [mountedState] = useMountedState()
 
   const [disposing, setDisposing] = useState(null)
 
@@ -28,7 +28,7 @@ export default ({ enrollmentIdentifier, requestOnMounted = true, onComplete = no
       log.debug('Got disposal state', { isDisposing, enrollmentIdentifier })
       onCompleteRef.current(isDisposing)
 
-      if (mountedStateRef.current) {
+      if (mountedState.current) {
         setDisposingRef.current(isDisposing)
       }
     } catch (exception) {

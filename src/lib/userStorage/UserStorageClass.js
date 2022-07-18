@@ -512,8 +512,6 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async getAllFeed() {
-    await this.feedStorage.ready
-
     return this.feedStorage.getAllFeed()
   }
 
@@ -754,13 +752,12 @@ export class UserStorage {
       return undefined
     }
 
+    const receiptReceived = get(prevFeedEvent, 'data.receiptEvent', get(prevFeedEvent, 'receiptReceived'))
+
     if (
       id.startsWith('0x') === false ||
-      get(
-        prevFeedEvent,
-        'data.receiptData',
-        get(prevFeedEvent, 'data.receiptEvent', prevFeedEvent && prevFeedEvent.receiptReceived),
-      )
+      get(prevFeedEvent, 'data.receiptData', receiptReceived) ||
+      prevFeedEvent.type === 'news'
     ) {
       return standardPrevFeedEvent
     }
@@ -990,15 +987,20 @@ export class UserStorage {
 
     data.value = get(receiptEvent, 'value') || get(receiptEvent, 'amount') || amount
 
+    const ubiAddressLc = this.wallet.UBIContract._address
+    const fromGDUbi = (data.address || '').toLowerCase() === ubiAddressLc && 'GoodDollar UBI'
+
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||
         type === FeedItemType.EVENT_TYPE_CLAIM ||
         data.address === NULL_ADDRESS ||
+        fromGDUbi ||
         id.startsWith('0x') === false) &&
       'GoodDollar'
-    const fromEmailMobile = data.initiatorType && data.initiator
-    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGD || 'Unknown'
 
+    const fromEmailMobile = data.initiatorType && data.initiator
+
+    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || 'Unknown'
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {

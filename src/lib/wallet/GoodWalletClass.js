@@ -18,6 +18,9 @@ import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import {
   chunk,
+  filter,
+  findKey,
+  first,
   flatten,
   get,
   identity,
@@ -25,6 +28,7 @@ import {
   last,
   mapValues,
   maxBy,
+  noop,
   pickBy,
   range,
   sortBy,
@@ -51,10 +55,17 @@ import {
 } from './utils'
 
 const ZERO = new BN('0')
+const POKT_MAX_EVENTSBLOCKS = 100000
+
 const log = logger.child({ from: 'GoodWalletV2' })
 
 // eslint-disable-next-line
 const retry = async asyncFn => retryCall(asyncFn, 1, 200)
+const safeCall = async (method, defaultValue = {}) => {
+  const result = await retry(() => method().call()).catch(noop)
+
+  return result || defaultValue
+}
 
 type EventLog = {
   event: string,
@@ -311,8 +322,6 @@ export class GoodWallet {
   }
 
   async pollEvents(fn, time, lastBlockCallback) {
-    const STEP = 10000 //pokt network max events request
-
     try {
       const run = async () => {
         if (this.isPollEvents === false) {
@@ -326,7 +335,7 @@ export class GoodWallet {
           return
         }
 
-        let nextLastBlock = Math.min(lastBlock, this.lastEventsBlock + STEP)
+        let nextLastBlock = Math.min(lastBlock, this.lastEventsBlock + POKT_MAX_EVENTSBLOCKS)
 
         //await callback to finish processing events before updating lastEventblock
         //we pass nextlastblock as null so the request naturally requests until the last block a node has,
@@ -393,8 +402,7 @@ export class GoodWallet {
   async syncTxWithBlockchain(startBlock) {
     const lastBlock = await this.wallet.eth.getBlockNumber()
     startBlock = Math.min(startBlock, lastBlock)
-    const STEP = 10000
-    const steps = range(startBlock, lastBlock, STEP)
+    const steps = range(startBlock, lastBlock, POKT_MAX_EVENTSBLOCKS)
     log.debug('Start sync tx from blockchain', {
       steps,
       startBlock,
@@ -402,11 +410,11 @@ export class GoodWallet {
     })
 
     try {
-      const chunks = chunk(steps, 100)
+      const chunks = chunk(steps, 10)
 
       for (let chunk of chunks) {
         const ps = chunk.map(async fromBlock => {
-          let toBlock = fromBlock + STEP
+          let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
 
           if (toBlock > lastBlock) {
             toBlock = lastBlock
@@ -649,16 +657,21 @@ export class GoodWallet {
   }
 
   async getReservePriceDAI() {
-    const { network, wallet, web3Mainnet } = this
+    try {
+      const { network, wallet, web3Mainnet } = this
 
-    const reserve = new web3Mainnet.eth.Contract(
-      GoodReserveCDai.abi,
-      get(ContractsAddress, `${network}-mainnet.GoodReserveCDai`),
-    )
+      const reserve = new web3Mainnet.eth.Contract(
+        GoodReserveCDai.abi,
+        get(ContractsAddress, `${network}-mainnet.GoodReserveCDai`),
+      )
 
-    const price = await retry(() => reserve.methods.currentPriceDAI().call())
+      const price = await retry(() => reserve.methods.currentPriceDAI().call())
 
-    return Number(wallet.utils.fromWei(price))
+      return Number(wallet.utils.fromWei(price))
+    } catch (e) {
+      log.warn('getReservePriceDAI failed:', e.message, e)
+      throw e
+    }
   }
 
   async getClaimScreenStatsMainnet() {
@@ -666,9 +679,10 @@ export class GoodWallet {
       FundManagerABI.abi,
       get(ContractsAddress, `${this.network}-mainnet.GoodFundManager`),
     )
-    const cdai = new this.web3Mainnet.eth.Contract(cERC20ABI.abi, get(ContractsAddress, `${this.network}-mainnet.cDAI`))
 
+    const cdai = new this.web3Mainnet.eth.Contract(cERC20ABI.abi, get(ContractsAddress, `${this.network}-mainnet.cDAI`))
     const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContracts`, [])
+
     let gainCalls = stakingContracts.map(([addr, rewards]) => {
       const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 
@@ -685,9 +699,13 @@ export class GoodWallet {
     let [[stakeResult, interestResult], currentBlock] = await Promise.all([
       this.multicallMainnet.all([gainCalls, calls]),
       this.web3Mainnet.eth.getBlockNumber(),
-    ])
+    ]).catch(e => {
+      log.warn('multicallMainnet / getBlockNumber failed:', e.message, e)
+      throw e
+    })
 
     const result = {}
+
     if (stakeResult) {
       stakeResult = stakeResult.map(({ currentGains }) => [
         parseInt(currentGains[3]) / 1e8,
@@ -703,21 +721,27 @@ export class GoodWallet {
       let [{ lastCollectedInterest }, { cdaiExchangeRate }] = interestResult
 
       cdaiExchangeRate = this.wallet.utils.fromWei(cdaiExchangeRate) / 1e10
+
       const estimatedBlocksSince = (Date.now() / 1000 - lastCollectedInterest) / 15
       const InterestCollectedEventsFilter = {
         fromBlock: (currentBlock - estimatedBlocksSince - 5000).toFixed(0),
         toBlock: (currentBlock - estimatedBlocksSince + 5000).toFixed(0),
       }
+
       const events = await retry(() =>
         fundManager.getPastEvents('FundsTransferred', InterestCollectedEventsFilter),
       ).catch(e => {
         log.error('InterestCollectedEvents failed:', e.message, e, {
           category: ExceptionCategory.Blockhain,
         })
+
         return []
       })
+
       log.debug('getInterestCollected:', { events })
+
       let interesInCDAI = parseInt(get(last(events), 'returnValues.cDAIinterestEarned', '0')) / 1e8 //convert to decimals. cdai is 8 decimals
+
       result.interestCollected = interesInCDAI * cdaiExchangeRate
     }
 
@@ -1137,26 +1161,37 @@ export class GoodWallet {
 
   // eslint-disable-next-line require-await
   async canCollectBountyFor(invitees) {
-    let calls = {}
+    const { methods } = this.invitesContract
+
     if (invitees.length === 0) {
       return {}
     }
-    invitees.forEach(addr => (calls[addr] = this.invitesContract.methods.canCollectBountyFor(addr)))
 
-    //entitelment is separate because it depends on msg.sender
-    let [[res]] = await retry(() => this.multicallFuse.all([calls]))
-    return res
+    const calls = invitees.reduce(
+      (calls, addr) => ({
+        ...calls,
+        [addr]: methods.canCollectBountyFor(addr),
+      }),
+      {},
+    )
+
+    // entitelment is separate because it depends on msg.sender
+    const [[result]] = await retry(() => this.multicallFuse.all([[calls]]))
+
+    return result
   }
 
   async collectInviteBounty(invitee) {
     try {
       const bountyFor = invitee || this.account
-      const canCollect = await this.canCollectBountyFor([bountyFor]).then(_ => _[bountyFor])
+      const statuses = await this.canCollectBountyFor([bountyFor])
+      const canCollect = statuses[bountyFor]
+
       if (canCollect) {
         const tx = this.invitesContract.methods.bountyFor(bountyFor)
-        const res = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 600000) })
+        const result = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 600000) })
 
-        return res
+        return result
       }
     } catch (e) {
       log.warn('collectInviteBounty failed:', e.message, e)
@@ -1230,24 +1265,31 @@ export class GoodWallet {
   }
 
   async getUserInviteBounty() {
-    const user = (await retry(() => this.invitesContract.methods.users(this.account).call()).catch(_ => {})) || {
-      level: 0,
-    }
-    const level = (await retry(() => this.invitesContract.methods.levels(user.level).call()).catch(_ => {})) || {}
-    return { bounty: parseInt(get(level, 'bounty', 10000)) / 100, user, level }
+    const { invitesContract, account } = this
+    const { methods } = invitesContract
+
+    const user = await safeCall(() => methods.users(account), { level: 0 })
+    const level = await safeCall(() => methods.levels(user.level))
+    const bounty = parseInt(get(level, 'bounty', 10000)) / 100
+
+    return { bounty, user, level }
   }
 
   async getUserInvites() {
-    const calls = [
-      {
-        invitees: this.invitesContract.methods.getInvitees(this.account),
-        pending: this.invitesContract.methods.getPendingInvitees(this.account),
-      },
-    ]
+    const { invitesContract, account, multicallFuse } = this
+    const { methods } = invitesContract
 
-    //entitelment is separate because it depends on msg.sender
-    let [[{ invitees, pending }]] = await retry(() => this.multicallFuse.all([calls]))
-    pending = keyBy(pending)
+    const callsMap = {
+      invitees: 'getInvitees',
+      pending: 'getPendingInvitees',
+    }
+
+    // entitelment is separate because it depends on msg.sender
+    const calls = mapValues(callsMap, method => methods[method](account))
+    const [[result]] = await retry(() => multicallFuse.all([[calls]]))
+    const { invitees, pending: statuses } = result
+    const pending = keyBy(statuses)
+
     return { invitees, pending }
   }
 
@@ -1393,22 +1435,28 @@ export class GoodWallet {
     },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    let gas =
-      setgas ||
-      (await tx
-        .estimateGas()
+    let gas = setgas
 
-        // .then(g => parseInt((g * 1.2).toFixed(0)))
-        .catch(e => log.debug('estimate gas failed'))) ||
-      300000
+    if (!gas) {
+      gas = await tx.estimateGas().catch(e => log.debug('estimate gas failed'))
+    }
+
+    if (!gas) {
+      gas = 300000
+    }
+
     gasPrice = gasPrice || this.gasPrice
+
     if (Config.network === 'develop' && setgas === undefined) {
       gas *= 2
     }
+
     log.debug('sendTransaction:', { gas, gasPrice })
+
     if (isVerifyHasGas !== true) {
       //prevent recursive endless loop when sendTransaction call came from verifyHasGas
       const { ok, error, message } = await this.verifyHasGas(gas * gasPrice)
+
       if (ok === false) {
         return Promise.reject(
           error
@@ -1417,6 +1465,7 @@ export class GoodWallet {
         )
       }
     }
+
     const res = new Promise((res, rej) => {
       tx.send({ gas, gasPrice, chainId: this.networkId })
         .on('transactionHash', h => {
@@ -1444,12 +1493,21 @@ export class GoodWallet {
           onError && onError(e)
         })
     })
+
     return res
   }
 
   async isKnownFuseAddress(address) {
     const nonce = await this.wallet.eth.getTransactionCount(address)
     return nonce > 0
+  }
+
+  getContractName(address) {
+    const lcAddress = address.toLowerCase()
+    const checksum = this.wallet.utils.toChecksumAddress(address)
+    const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
+
+    return first(filter(values(ContractsAddress).map(findByKey)))
   }
 }
 

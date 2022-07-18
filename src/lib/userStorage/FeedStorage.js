@@ -483,7 +483,7 @@ export class FeedStorage {
       updatedFeedEvent.fetchedOutbox = true
       updatedFeedEvent.data = { ...updatedFeedEvent.data, ...txData, ...counterPartyData }
 
-      if (isEqual(feedEvent, updatedFeedEvent) === false) {
+      if (updatedFeedEvent.type && !isEqual(feedEvent, updatedFeedEvent)) {
         await this.updateFeedEvent(updatedFeedEvent)
       }
 

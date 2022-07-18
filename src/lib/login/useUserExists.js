@@ -1,23 +1,18 @@
 // @flow
 import { useCallback } from 'react'
 import { default as API, throwException } from '../API'
-import { useWallet } from '../wallet/GoodWalletProvider'
 import logger from '../logger/js-logger'
 
 const log = logger.child({ from: 'useUserExists' })
 
 const useUserExists = () => {
-  const goodWallet = useWallet()
-
   const userExists = useCallback(
     // eslint-disable-next-line require-await
-    async ({ privateKey, email, mobile }, withWallet = null) => {
+    async (wallet = null, query = {}) => {
       let identifier
-      let wallet = withWallet || goodWallet
+      const { email, mobile } = query || {}
 
-      // setting wallet to explicit false will skip sending ID
-      // this needs for by email/mobile chrck, see SignupState
-      if (false !== withWallet && wallet) {
+      if (wallet) {
         identifier = wallet.getAccountForType('login')
       }
 
@@ -36,7 +31,7 @@ const useUserExists = () => {
         throw exception
       }
     },
-    [goodWallet],
+    [],
   )
 
   return userExists

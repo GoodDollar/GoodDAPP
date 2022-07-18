@@ -1,4 +1,5 @@
 import { first, groupBy, set, values } from 'lodash'
+import { onFeedReady } from '../userStorage/useFeedReady'
 
 import { analyzeAvatar, updateFeedEventAvatar } from './utils'
 
@@ -49,6 +50,8 @@ const uploadCounterPartyAvatar = async (feedEvents, userStorage) => {
  * @returns {Promise<void>}
  */
 const uploadAvatars = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
+  await onFeedReady(userStorage)
+
   const allEvents = await userStorage.getAllFeed()
   const eventsWithCounterParty = allEvents.filter(hasCounterPartyAvatar)
 

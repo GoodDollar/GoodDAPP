@@ -32,7 +32,7 @@ const useLoginFlow = (signature, nonce, fvsig) => {
 
       onError(exception)
     }
-  }, [signature, nonce, fvsig, doLogin, setError, setJWT])
+  }, [signature, nonce, fvsig, setError, setJWT])
 
   return { jwt, error }
 }

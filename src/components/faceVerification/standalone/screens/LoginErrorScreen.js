@@ -1,30 +1,23 @@
 // libraries
 import React, { useEffect } from 'react'
-import { Linking, Platform, View } from 'react-native'
-import { noop } from 'lodash'
-import API from '../../../../lib/API/api'
+import { Linking, View } from 'react-native'
 
 // components
 import Text from '../../../common/view/Text'
 import { Section, Wrapper } from '../../../common'
 
 // utils
-import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../../lib/utils/sizes'
-import normalize from '../../../../lib/utils/normalizeText'
-import withStyles from '../theme/withStyles'
-import { isBrowser } from '../../../../lib/utils/platform'
-import { FVFlowContext } from '../../../../lib/fvflow/FVFlow'
-import logger from '../../../../lib/logger/js-logger'
+import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
+import { exitApp } from '../../../../lib/utils/system'
 
-const log = logger.child({ from: 'LoginErrorScreen' })
+import withStyles from '../theme/withStyles'
 
 const DOCS_URL = 'https://doc.gooddollar/sdk/identity'
+const openDocs = () => Linking.openUrl(DOCS_URL)
 
-const LoginErrorScreen = ({ styles, onDismiss = noop, ready }) => {
+const LoginErrorScreen = ({ styles }) => {
   useEffect(() => {
-    if (Platform.OS === 'web') {
-      window.close()
-    }
+    exitApp()
   }, [])
 
   return (
@@ -42,7 +35,7 @@ const LoginErrorScreen = ({ styles, onDismiss = noop, ready }) => {
                 fontFamily="Roboto"
                 fontWeight="bold"
                 textDecorationLine="underline"
-                onPress={() => Linking.openUrl(DOCS_URL)}
+                onPress={openDocs}
               >{`${DOCS_URL}`}</Text>
             </View>
           </View>

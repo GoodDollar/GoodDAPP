@@ -1,9 +1,7 @@
 // @flow
 import API, { getErrorMessage } from '../../../../lib/API'
-import DeepLinking from '../../../../lib/utils/deepLinking'
 import LoginService from '../../../../lib/login/LoginService'
 
-import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
 
 import type { Credentials } from '../../../../lib/API'
@@ -19,6 +17,7 @@ class LoginFlowService extends LoginService {
     this.fvsig = fvsig
   }
 
+  // eslint-disable-next-line require-await
   async login(): Promise<Credentials> {
     const creds = {
       signature: this.signature,

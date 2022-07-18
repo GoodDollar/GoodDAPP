@@ -5,7 +5,7 @@ import { noop } from 'lodash'
 
 // components
 import Text from '../../common/view/Text'
-import { CustomButton, Section, Wrapper } from '../../../common'
+import { CustomButton, Section, Wrapper } from '../../common'
 
 // utils
 import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../lib/utils/sizes'

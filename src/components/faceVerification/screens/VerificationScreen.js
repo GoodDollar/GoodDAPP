@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 
 import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
@@ -31,7 +31,7 @@ const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
-  const { isLoginFlow } = useContext(FVFlowContext)
+  const { isLoginFlow } = useContext(LoginFlowContext)
   const enrollmentIdentifier = useEnrollemtnIdentifier()
 
   // Redirects to the error screen, passing exception

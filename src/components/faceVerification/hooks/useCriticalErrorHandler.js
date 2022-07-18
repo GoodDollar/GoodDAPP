@@ -5,7 +5,7 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 import usePropsRefs from '../../../lib/hooks/usePropsRefs'
 
 import { isCriticalIssue } from '../utils/redBox'
-import { isWeb } from '../../../../lib/utils/platform'
+import { isWeb } from '../../../lib/utils/platform'
 
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 

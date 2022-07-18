@@ -14,7 +14,7 @@ export const LoginFlowContext = createContext({
   isLoginFlow,
   firstName: null,
   faceIdentifier: null,
-  loginFlowErrorL: null,
+  loginFlowError: null,
   isLoginFlowReady: false,
   rdu: null,
   cbu: null,

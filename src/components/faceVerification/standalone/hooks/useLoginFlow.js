@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import LoginService from '../api/LoginFlowService'
 
 import logger from '../../../../lib/logger/js-logger'
@@ -17,7 +17,7 @@ const useLoginFlow = (signature, nonce, fvsig) => {
       const { jwt } = await login.auth(true)
 
       setJWT(jwt)
-    } catch(exception) {
+    } catch (exception) {
       const { message } = exception
 
       log.error('failed fvauth:', message, exception)

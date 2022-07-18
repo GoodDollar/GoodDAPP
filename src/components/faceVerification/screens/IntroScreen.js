@@ -7,7 +7,7 @@ import { get } from 'lodash'
 //components
 import { t } from '@lingui/macro'
 import Text from '../../common/view/Text'
-import { CustomButton, Section, Wrapper } from '../../../common'
+import { CustomButton, Section, Wrapper } from '../../common'
 
 // hooks
 import useOnPress from '../../../lib/hooks/useOnPress'

@@ -2,14 +2,14 @@ import React, { useMemo } from 'react'
 import { Portal } from 'react-native-paper'
 
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
-import { FVFlowContextProvider } from '../../../lib/fvflow/FVFlow'
-import { lazyScreens, withNavigationOptions } from '../../../lib/utils/navigation'
+import { withNavigationOptions } from '../../../lib/utils/navigation'
 import { FaceVerification, FaceVerificationError, FaceVerificationIntro } from '..'
 import logger from '../../../lib/logger/js-logger'
 
 import { Support } from '../../webView/webViewInstances'
-import Blurred from './components/common/view/Blurred'
-import createAppContainer from './lib/utils/createAppContainer'
+import Blurred from '../../common/view/Blurred'
+import createAppContainer from '../../../lib/utils/createAppContainer'
+import LoginFlowProvider from './context/LoginFlowContext'
 import { LoginErrorScreen, LoginSuccessScreen } from '.'
 
 const log = logger.child({ from: 'FVRouter' })
@@ -47,13 +47,13 @@ const Router = () => {
 
   return (
     <>
-      <FVFlowContextProvider>
+      <LoginFlowProvider>
         <Portal.Host>
           <Blurred whenDialog>
             <RouterWrapper />
           </Blurred>
         </Portal.Host>
-      </FVFlowContextProvider>
+      </LoginFlowProvider>
     </>
   )
 }

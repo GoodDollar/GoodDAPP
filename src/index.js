@@ -11,6 +11,7 @@ const BuildTarget = {
   WalletApp: 'DAPP',
 }
 
+// eslint-disable-next-line require-await
 const importBuildTarget = async () => {
   switch (process.env.REACT_APP_BUILD_TARGET) {
     case BuildTarget.FaceVerification:

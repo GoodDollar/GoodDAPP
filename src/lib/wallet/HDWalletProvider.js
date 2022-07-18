@@ -1,9 +1,18 @@
-import { first } from 'lodash'
-import ProviderEngine from 'web3-provider-engine'
-import FiltersSubprovider from 'web3-provider-engine/subproviders/filters.js'
-import HookedSubprovider from 'web3-provider-engine/subproviders/hooked-wallet.js'
-import RPCSubprovider from 'web3-provider-engine/subproviders/rpc'
-import Transaction from 'ethereumjs-tx'
+// import { first } from 'lodash'
+// import ProviderEngine from 'web3-provider-engine'
+// import FiltersSubprovider from 'web3-provider-engine/subproviders/filters.js'
+// import HookedSubprovider from 'web3-provider-engine/subproviders/hooked-wallet.js'
+// import RPCSubprovider from 'web3-provider-engine/subproviders/rpc'
+// import Transaction from 'ethereumjs-tx'
+
+const first = require('lodash').first
+const ProviderEngine = require('web3-provider-engine')
+const FiltersSubprovider = require('web3-provider-engine/subproviders/filters.js')
+const HookedSubprovider = require('web3-provider-engine/subproviders/hooked-wallet.js')
+process.browser = true //this is required for react native so rpcsubprovider imports xhr correctly
+const RPCSubprovider = require('web3-provider-engine/subproviders/rpc')
+process.browser = false
+const Transaction = require('ethereumjs-tx')
 
 class HDWalletProvider {
   constructor(walletsFromHD, providerUrl) {

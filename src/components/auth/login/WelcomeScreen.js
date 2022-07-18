@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Linking, View } from 'react-native'
 
 import { t, Trans } from '@lingui/macro'
@@ -22,7 +22,7 @@ import { getShadowStyles } from '../../../lib/utils/getStyles'
 import { isBrowser } from '../../../lib/utils/platform'
 
 import { CLICK_GETSTARTED, CLICK_LEARNMORE, fireEvent, GOTO_WELCOME } from '../../../lib/analytics/analytics'
-
+import AuthContext from '../context/AuthContext'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
@@ -36,10 +36,15 @@ import Illustration from '../../../assets/Auth/torusIllustration.svg'
 const AuthScreen = Config.torusEnabled ? AuthTorus : Auth
 
 const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
+  const { setActiveStep, setAlreadySignedUp, setWalletPreparing } = useContext(AuthContext)
+
   const { navigate } = navigation
 
   const onGetStarted = useCallback(() => {
     fireEvent(CLICK_GETSTARTED)
+    setActiveStep(0)
+    setAlreadySignedUp(false)
+    setWalletPreparing(false)
     navigate('Auth')
   }, [navigate])
 

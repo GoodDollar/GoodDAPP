@@ -123,10 +123,7 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 <LoginButton.Google handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
                 <LoginButton.Facebook handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
                 <LoginButton.Passwordless handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
-                <LoginButton.WalletConnect handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
-                {Platform.OS === 'web' ? (
-                  <LoginButton.MetaMask handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
-                ) : null}
+                <LoginButton.Wallet handleLoginMethod={handleLoginMethod} />
               </View>
               <Section.Stack style={styles.textButtonContainer}>
                 {Config.enableSelfCustody && (

@@ -2,10 +2,6 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { Platform } from 'react-native'
 import { get } from 'lodash'
-import Web3 from 'web3'
-
-import WalletConnectProvider from '@walletconnect/web3-provider'
-import QRCodeModal from '@walletconnect/qrcode-modal'
 
 import { t } from '@lingui/macro'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
@@ -51,44 +47,6 @@ import { useWalletConnector } from '../../../lib/wallet/thirdparty/useWalletConn
 import useTorus from './hooks/useTorus'
 import { TorusStatusCode } from './sdk/TorusSDK'
 const log = logger.child({ from: 'AuthTorus' })
-
-async function walletconnectLogin() {
-  const rpc = Object.keys(config.ethereum).reduce((acc, key) => {
-    acc[key] = config.ethereum[key].httpWeb3provider
-    return acc
-  }, {})
-
-  log.debug('walletconnect:', { rpc })
-  const provider = new WalletConnectProvider({
-    bridge: 'https://bridge.walletconnect.org',
-    clientMeta: {
-      name: 'GoodDollar Wallet',
-      url: 'https://wallet.gooddollar.org/',
-      icons: ['https://wallet.gooddollar.org/apple-icon.png'],
-      description:
-        'GoodDollar is a non-profit protocol and G$ digital coin to deliver universal basic income on a global scale.',
-    },
-    infuraId: config.infuraKey,
-    qrcodeModal: QRCodeModal,
-    rpc,
-  })
-
-  const connector = provider.connector
-
-  // force reconnect to trigger qr code modal
-  if (connector.connected) {
-    await connector.killSession()
-  }
-  await connector.connect()
-  await provider.enable()
-  const web3 = new Web3(provider)
-
-  if (!web3.eth.defaultAccount) {
-    web3.eth.defaultAccount = connector.accounts?.[0]
-  }
-
-  return web3
-}
 
 const AuthTorus = ({ screenProps, navigation, styles }) => {
   const { initWalletAndStorage } = useContext(GoodWalletContext)
@@ -235,7 +193,6 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       | 'auth0'
       | 'auth0-pwdless-email'
       | 'auth0-pwdless-sms'
-      | 'walletconnect'
       | 'web3wallet'
       | 'selfCustody',
     torusUserRedirectPromise,
@@ -270,13 +227,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
     let regMethod
 
-    if (provider === 'walletconnect') {
-      regMethod = REGISTRATION_METHOD_WEB3WALLET
-      web3Provider = await walletconnectLogin()
-      torusUser = {
-        publicAddress: web3Provider.currentProvider.accounts[0],
-      }
-    } else if (provider === 'web3wallet') {
+    if (provider === 'web3wallet') {
       regMethod = REGISTRATION_METHOD_WEB3WALLET
       try {
         web3Provider = await walletConnect()

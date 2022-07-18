@@ -78,10 +78,10 @@ export const useOnboard = () => {
   return {
     connect,
     disconnect,
-    connectedChain,
+    connectedChain: Number(connectedChain?.id),
     isValidChain,
     connecting,
-    accounts,
+    accounts: (accounts || []).map(_ => _.address),
     provider,
     setChain,
     walletName: wallet?.label,

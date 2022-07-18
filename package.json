@@ -101,15 +101,11 @@
     "@toruslabs/customauth-react-native-sdk": "^1.0.1",
     "@toruslabs/torus-direct-web-sdk": "5.0.2",
     "@tradle/react-native-http": "^2.0.1",
-    "@walletconnect/ethereum-provider": "1.7.4",
-    "@walletconnect/qrcode-modal": "1.7.4",
-    "@walletconnect/react-native-dapp": "1.7.4",
+    "@walletconnect/react-native-dapp": "^1.7.8",
     "@walletconnect/web3-provider": "1.7.4",
     "@web3-onboard/injected-wallets": "^2.0.12",
     "@web3-onboard/react": "^2.2.2",
     "@web3-onboard/walletconnect": "^2.0.7",
-    "@web3-react/core": "8.0.12-beta.0",
-    "@web3-react/metamask": "8.0.8-beta.0",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
     "abortcontroller-polyfill": "^1.7.3",
@@ -199,7 +195,7 @@
     "react-native-promise-rejection-utils": "^0.0.1",
     "react-native-push-notification": "^8.1.0",
     "react-native-qrcode-scanner": "^1.5.3",
-    "react-native-qrcode-svg": "^6.0.1",
+    "react-native-qrcode-svg": "6.1.2",
     "react-native-randombytes": "^3.5.3",
     "react-native-reanimated": "^1.7.0",
     "react-native-recaptcha-that-works": "^1.1.0",
@@ -210,8 +206,8 @@
     "react-native-safe-modules": "^1.0.0",
     "react-native-screens": "^2.1.0",
     "react-native-sqlite-2": "^3.5.2",
-    "react-native-svg": "^9.13.6",
-    "react-native-svg-transformer": "^0.14.3",
+    "react-native-svg": "12.3.0",
+    "react-native-svg-transformer": "^1.0.0",
     "react-native-swipeable-lists-gd": "0.0.3",
     "react-native-tcp": "^4.0.0",
     "react-native-udp": "^4.1.3",
@@ -351,7 +347,9 @@
     "workbox-webpack-plugin": "^4.3.1"
   },
   "resolutions": {
-    "hoist-non-react-statics": "^3.3.0"
+    "hoist-non-react-statics": "^3.3.0",
+    "react-native-svg": "12.3.0",
+    "react-native-qrcode-svg": "6.1.2"
   },
   "browserslist": [
     ">0.2%",

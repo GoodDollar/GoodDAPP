@@ -294,7 +294,7 @@ const AppSwitch = (props: LoadingProps) => {
         const provider = await AsyncStorage.getItem(GD_PROVIDER)
         log.debug('initWalletAndStorage:', { provider, web3 })
         let web3Result = web3
-        if (!web3 && provider === 'WEB3WALLET') {
+        if (!web3 && 'WEB3WALLET' === provider) {
           web3Result = await walletConnect().catch()
           if (!web3Result) {
             return

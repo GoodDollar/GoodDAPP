@@ -1,7 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { TouchableOpacity } from 'react-native'
-
-import detectEthereumProvider from '@metamask/detect-provider'
 
 import { t } from '@lingui/macro'
 import { noop } from 'lodash'
@@ -23,9 +21,6 @@ import { theme as mainTheme } from '../../theme/styles'
 import googleBtnIcon from '../../../assets/Auth/btn-google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
 import logger from '../../../lib/logger/js-logger'
-
-import * as metamask from '../../../lib/connectors/metamask'
-import { useDialog } from '../../../lib/dialog/useDialog'
 
 import Recaptcha from './Recaptcha'
 
@@ -200,11 +195,11 @@ LoginButton.Passwordless = withStyles(getStylesFromProps)(
   },
 )
 
-LoginButton.WalletConnect = withStyles(getStylesFromProps)(
+LoginButton.Wallet = withStyles(getStylesFromProps)(
   ({ styles, disabled, onPress = noop, handleLoginMethod, ...props }) => {
     const onAuth = useCallback(() => {
       onPress()
-      handleLoginMethod('walletconnect')
+      handleLoginMethod('web3wallet')
     }, [handleLoginMethod, onPress])
 
     return (
@@ -218,67 +213,10 @@ LoginButton.WalletConnect = withStyles(getStylesFromProps)(
         ]}
         onPress={onAuth}
         disabled={!handleLoginMethod || disabled}
-        testID="login_with_walletConnect"
+        testID="login_with_wallet"
         iconProps={{ viewBox: '0 0 11 22' }}
       >
-        {`${buttonPrefix} WalletConnect`}
-      </LoginButton>
-    )
-  },
-)
-
-LoginButton.MetaMask = withStyles(getStylesFromProps)(
-  ({ styles, disabled, onPress = noop, handleLoginMethod, ...props }) => {
-    const onAuth = useCallback(() => {
-      onPress()
-      handleLoginMethod('web3wallet')
-    }, [handleLoginMethod, onPress])
-
-    const [metamaskInstalled, setMetamaskInstalled] = useState(false)
-
-    useEffect(() => {
-      detectEthereumProvider().then(provider => {
-        if (provider) {
-          setMetamaskInstalled(true)
-        } else {
-          log.debug('MetaMask is not installed')
-        }
-      })
-    }, [])
-
-    const { showErrorDialog } = useDialog()
-
-    const { useError, useIsActive } = metamask.hooks
-
-    const error = useError()
-
-    const isActive = useIsActive()
-
-    useEffect(() => {
-      if (error) {
-        showErrorDialog(error.message, error)
-      }
-    }, [error])
-
-    if (!metamaskInstalled) {
-      return null
-    }
-
-    return (
-      <LoginButton
-        style={[
-          styles.buttonLayout,
-          styles.buttonsMargin,
-          {
-            backgroundColor: mainTheme.colors.metamMaskOrange,
-          },
-        ]}
-        onPress={onAuth}
-        disabled={!handleLoginMethod || disabled}
-        testID="login_with_metamask"
-        iconProps={{ viewBox: '0 0 11 22' }}
-      >
-        {isActive ? `Disconnect` : `${buttonPrefix} MetaMask`}
+        {`${buttonPrefix} Wallet`}
       </LoginButton>
     )
   },

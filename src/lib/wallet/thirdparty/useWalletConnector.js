@@ -97,7 +97,7 @@ export const useWalletConnector = () => {
       const web3 = new Web3(provider)
       wrapModalProxy(web3)
       if (!web3.eth.defaultAccount) {
-        web3.eth.defaultAccount = accounts[0].address
+        web3.eth.defaultAccount = accounts?.[0]
       }
       curProvider.current = provider
       AsyncStorage.setItem(GD_WEB3WALLET, walletName)

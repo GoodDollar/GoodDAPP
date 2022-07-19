@@ -512,8 +512,6 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async getAllFeed() {
-    await this.feedStorage.ready
-
     return this.feedStorage.getAllFeed()
   }
 

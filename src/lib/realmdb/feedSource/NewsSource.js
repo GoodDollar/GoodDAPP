@@ -86,7 +86,7 @@ export default class NewsSource extends FeedSource {
 
       log.info('ceramic sync from remote done')
     } catch (exception) {
-      log.error('ceramic sync from remote failed', exception, exception.message)
+      log.error('ceramic sync from remote failed', exception.message, exception)
     }
   }
 

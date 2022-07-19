@@ -2,9 +2,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { assign, get, identity, isError, pick, pickBy, toPairs } from 'lodash'
-import { defer, from as fromPromise } from 'rxjs'
-import { retry } from 'rxjs/operators'
+import { assign, get, identity, isError, pick } from 'lodash'
 import moment from 'moment'
 
 import { t } from '@lingui/macro'
@@ -12,13 +10,7 @@ import useCheckExisting from '../auth/hooks/useCheckExisting'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
 import AuthContext from '../auth/context/AuthContext'
-import {
-  DESTINATION_PATH,
-  GD_INITIAL_REG_METHOD,
-  GD_USER_MNEMONIC,
-  INVITE_CODE,
-  JWT,
-} from '../../lib/constants/localStorage'
+import { DESTINATION_PATH, GD_USER_MNEMONIC, INVITE_CODE, JWT } from '../../lib/constants/localStorage'
 
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
@@ -37,6 +29,7 @@ import { parsePaymentLinkParams } from '../../lib/share'
 import AuthStateWrapper from '../auth/components/AuthStateWrapper'
 import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import { retry as retryCall } from '../../lib/utils/async'
 import type { SMSRecord } from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
@@ -44,12 +37,12 @@ import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
 
-// import MagicLinkInfo from './MagicLinkInfo'
-const log = logger.child({ from: 'SignupState' })
-
 export type SignupState = UserModel & SMSRecord & { invite_code?: string }
 
 type Ready = Promise<{ goodWallet: any, userStorage: any }>
+
+const log = logger.child({ from: 'SignupState' })
+const retry = asyncFn => retryCall(asyncFn, 1, 500)
 
 const routes = {
   Name: NameForm,
@@ -237,8 +230,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         requestPayload.regMethod = regMethod
 
-        let newUserData
-
         if (regMethod === REGISTRATION_METHOD_TORUS) {
           const { mobile, email, privateKey, accessToken, idToken } = torusUser
 
@@ -266,61 +257,64 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           }
         }
 
-        await API.addUser(requestPayload)
-          .then(({ data }) => (newUserData = data))
-          .catch(apiError => {
-            const exception = getException(apiError)
-            const { message } = exception
+        await API.addUser(requestPayload).catch(apiError => {
+          const exception = getException(apiError)
+          const { message } = exception
 
-            // if user already exists just log.warn then continue signup
-            if ('You cannot create more than 1 account with the same credentials' === message) {
-              log.warn('User already exists during addUser() call:', message, exception)
-            } else {
-              // otherwise:
-              // completing exception with response object received from axios
-              if (!isError(apiError)) {
-                exception.response = apiError
-              }
-
-              // re-throwing exception to be caught in the parent try {}
-              throw exception
+          // if user already exists just log.warn then continue signup
+          if ('You cannot create more than 1 account with the same credentials' === message) {
+            log.warn('User already exists during addUser() call:', message, exception)
+          } else {
+            // otherwise:
+            // completing exception with response object received from axios
+            if (!isError(apiError)) {
+              exception.response = apiError
             }
-          })
+
+            // re-throwing exception to be caught in the parent try {}
+            throw exception
+          }
+        })
 
         //refresh JWT for a signed up one, server will sign it with permission to use realmdb
-
         AsyncStorage.setItem(JWT, null)
         await loginWithWallet()
         await userStorage.initRegistered()
 
-        const [mnemonic] = await Promise.all([
-          AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
-          userStorage.userProperties.updateAll({ regMethod, inviterInviteCode: inviteCode }),
-        ])
+        const { userProperties } = userStorage
 
         // trying to update profile 2 times, if failed anyway - re-throwing exception
-        await defer(() =>
-          fromPromise(
-            userStorage.setProfile({
-              ...requestPayload,
-              walletAddress: goodWallet.account,
-              mnemonic,
-            }),
-          ),
-        )
-          .pipe(retry(1))
-          .toPromise()
+        await retry(async () => {
+          const userProps = { regMethod, inviterInviteCode: inviteCode }
 
-        //set tokens for other services returned from backend
-        await Promise.all(
-          toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) =>
-            userStorage.setProfileField(fieldName, fieldValue, 'private'),
-          ),
-        )
-        await Promise.all([
-          userStorage.userProperties.set('registered', true),
-          AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
-        ])
+          log.debug('set reg method and invite code', { userProps })
+
+          const [mnemonic] = await Promise.all([
+            AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
+            userProperties.updateAll(userProps),
+          ])
+
+          const profile = {
+            ...requestPayload,
+            walletAddress: goodWallet.account,
+            mnemonic,
+          }
+
+          log.debug('got mnemonic, updating profile', { mnemonic, profile })
+
+          // set profile data
+          await userStorage.setProfile(profile)
+
+          log.debug('setting registered flag')
+
+          // set registered flag
+          userProperties.set('registered', true)
+
+          log.debug('persist user props', pick(userProperties, 'data', 'lastStored'))
+
+          // persist user props
+          await userProperties.persist()
+        })
 
         fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
 

@@ -48,6 +48,7 @@ import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
+import useFeedReady from '../../lib/userStorage/useFeedReady'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -160,6 +161,7 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
+  const [, onFeedReady] = useFeedReady()
 
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
@@ -225,6 +227,8 @@ const Dashboard = props => {
       try {
         log.debug('getFeedPage:', { reset, feeds, didRender, tab })
 
+        await onFeedReady
+
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset, tab)
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
@@ -262,7 +266,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab],
+    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab, onFeedReady],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -272,9 +276,11 @@ const Dashboard = props => {
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
   //which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
+    const { feedStorage } = userStorage
+
     await getFeedPage(true)
 
-    userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
+    feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
   const onPreloadFeedPage = useCallback(
@@ -503,10 +509,11 @@ const Dashboard = props => {
   }, [headerLarge, balance, update, avatarCenteredPosition, headerContentWidth])
 
   useEffect(() => {
-    log.debug('Dashboard didmount', navigation)
+    log.debug('Dashboard didmount', { navigation })
+
     initDashboard()
 
-    return function() {
+    return () => {
       const { current: subscription } = resizeSubscriptionRef
 
       if (subscription) {

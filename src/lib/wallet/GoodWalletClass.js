@@ -189,7 +189,7 @@ export class GoodWallet {
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const ready = WalletFactory.create(this.config)
-    this.is3rdPartyWallet = this.config.type !== 'SEED'
+    this.is3rdPartyWallet = this.config.type === 'WEB3WALLET'
     this.ready = ready
       .then(wallet => {
         log.info('GoodWallet initial wallet created.')

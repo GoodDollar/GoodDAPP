@@ -9,7 +9,7 @@ export type WalletConfig = {
   httpWeb3provider: string,
   websocketWeb3Provider: string,
   web3Transport: string,
-  type: 'SEED' | 'WEB3WALLET' | 'SELFCUSTODY' | 'OTHER',
+  type: 'SEED' | 'WEB3WALLET',
 }
 const networkToId = network => {
   switch (network) {
@@ -35,15 +35,13 @@ export default class WalletFactory {
     }
 
     switch (walletConf.type) {
-      case 'SELFCUSTODY':
-      case 'SEED':
-      case 'OTHER': {
+      default:
+      case 'SEED': {
         return new SoftwareWalletProvider({
           ...Config.ethereum[networkToId(Config.network)],
           ...walletConf,
         }).ready
       }
-      default:
       case 'WEB3WALLET':
         return new ThirdPartyWalletProvider({
           ...Config.ethereum[networkToId(Config.network)],

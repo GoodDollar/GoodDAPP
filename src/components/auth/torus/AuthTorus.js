@@ -206,7 +206,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       return
     }
 
-    AsyncStorage.setItem(GD_PROVIDER, provider.toUpperCase())
+    AsyncStorage.setItem(GD_PROVIDER, provider === 'web3wallet' ? 'WEB3WALLET' : 'SEED')
     if (provider === 'selfCustody') {
       initWalletAndStorage(undefined, 'SEED') //initialize the wallet (it will generate a mnemonic)
       return selfCustody()

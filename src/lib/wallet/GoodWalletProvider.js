@@ -73,13 +73,13 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   )
 
   const initWalletAndStorage = useCallback(
-    async (seedOrWeb3, type: 'SEED' | 'WEB3WALLET' | 'SEFLCUSTODY' | 'OTHER') => {
+    async (seedOrWeb3, type: 'SEED' | 'WEB3WALLET') => {
       try {
         log.info('initWalletAndStorage', { seedOrWeb3, type, isLoggedInRouter })
         const web3 = 'WEB3WALLET' === type ? seedOrWeb3 : undefined
         const wallet = new GoodWallet({
           type,
-          mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
+          mnemonic: type === 'WEB3WALLET' ? undefined : seedOrWeb3,
           web3,
           web3Transport: Config.web3TransportProvider,
         })

@@ -220,30 +220,6 @@ export class AnalyticsClass {
     logger.debug('Fired GoogleAnalytics event', { event, data })
   }
 
-  // @private
-  // eslint-disable-next-line require-await
-  async initAmplitude(key) {
-    const { apis, isAmplitudeEnabled } = this
-    const { amplitude } = apis
-
-    if (!isAmplitudeEnabled) {
-      return
-    }
-
-    return new Promise(resolve => {
-      const onError = err => {
-        this.logger.warn('Amplitude init error', err)
-        resolve(false)
-      }
-      const onSuccess = () => {
-        this.logger.debug('Amplitude init success')
-        resolve(true)
-      }
-
-      amplitude.init(key, null, { includeUtm: true, onError }, onSuccess)
-    })
-  }
-
   /** @private */
   setUserEmail(email) {
     const { isAmplitudeEnabled, isSentryEnabled, isFullStoryEnabled, apis } = this
@@ -268,6 +244,30 @@ export class AnalyticsClass {
         scope.setUser({ ...(_user || {}), email })
       })
     }
+  }
+
+  // @private
+  // eslint-disable-next-line require-await
+  async initAmplitude(key) {
+    const { apis, isAmplitudeEnabled } = this
+    const { amplitude } = apis
+
+    if (!isAmplitudeEnabled) {
+      return
+    }
+
+    return new Promise(resolve => {
+      const onError = err => {
+        this.logger.warn('Amplitude init error', err)
+        resolve(false)
+      }
+      const onSuccess = () => {
+        this.logger.debug('Amplitude init success')
+        resolve(true)
+      }
+
+      amplitude.init(key, null, { includeUtm: true, onError }, onSuccess)
+    })
   }
 
   // @private

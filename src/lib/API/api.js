@@ -394,6 +394,11 @@ export class APIService {
   async getContractAbi(explorer, address): AxiosPromise<any> {
     return this.sharedClient.get(`${explorer}/api?module=contract&action=getabi&address=${address}`)
   }
+
+  // eslint-disable-next-line require-await
+  async queryTheGraph(subgraph, graphql): AxiosPromise<any> {
+    return this.sharedClient.post(`https://api.thegraph.com/subgraphs/name/gooddollar/${subgraph}`, { query: graphql })
+  }
 }
 
 const api = new APIService()

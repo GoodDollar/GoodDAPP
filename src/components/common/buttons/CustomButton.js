@@ -86,7 +86,7 @@ const TextContent = withStyles(mapPropsToStyles)(
       // if set to dark, then text will be white.
       // if 'color' is specified, use the color for the text
       // if not, then button will be using 'primary' color
-      const textColor = (dark && 'white') || color || 'primary'
+      const textColor = color || (dark && 'white') || 'primary'
 
       return (
         <Text
@@ -204,7 +204,7 @@ const CustomButton = (props: ButtonProps) => {
             size={23}
           />
         )}
-        <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.color}>
+        <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.textColor}>
           {children}
         </TextContent>
         {icon && iconAlignment === 'right' && (

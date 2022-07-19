@@ -512,8 +512,6 @@ export class UserStorage {
    */
   // eslint-disable-next-line require-await
   async getAllFeed() {
-    await this.feedStorage.ready
-
     return this.feedStorage.getAllFeed()
   }
 
@@ -754,13 +752,12 @@ export class UserStorage {
       return undefined
     }
 
+    const receiptReceived = get(prevFeedEvent, 'data.receiptEvent', get(prevFeedEvent, 'receiptReceived'))
+
     if (
       id.startsWith('0x') === false ||
-      get(
-        prevFeedEvent,
-        'data.receiptData',
-        get(prevFeedEvent, 'data.receiptEvent', prevFeedEvent && prevFeedEvent.receiptReceived),
-      )
+      get(prevFeedEvent, 'data.receiptData', receiptReceived) ||
+      prevFeedEvent.type === 'news'
     ) {
       return standardPrevFeedEvent
     }

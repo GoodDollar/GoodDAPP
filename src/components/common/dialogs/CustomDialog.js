@@ -173,7 +173,7 @@ const SimpleStoreDialog = () => {
   )
 }
 
-const DialogButton = ({ loading, dismiss, onPress, style, disabled, mode, Component, key, ...buttonProps }) => {
+const DialogButton = ({ loading, dismiss, onPress, style, disabled, mode, Component, ...buttonProps }) => {
   const pressHandler = useCallback(() => {
     if (onPress) {
       onPress()
@@ -195,7 +195,6 @@ const DialogButton = ({ loading, dismiss, onPress, style, disabled, mode, Compon
       style={style}
       disabled={disabled}
       loading={loading}
-      key={key}
     >
       {buttonProps.text}
     </CustomButton>

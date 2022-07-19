@@ -6,7 +6,7 @@ import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import Modal from 'components/Modal'
 import Button from 'components/Button'
-import useWeb3 from '../../hooks/useWeb3'
+import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
 import { useDispatch } from 'react-redux'
 import { addTransaction } from '../../state/transactions/actions'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
@@ -14,7 +14,7 @@ import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import Loader from 'components/Loader'
-import { claim, claimGood } from '@gooddollar/sdk/dist/core/staking'
+import { claimG$Rewards, claimGoodRewards } from '@gooddollar/web3sdk/dist/core/staking'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>
@@ -28,7 +28,7 @@ function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsPro
     const { i18n } = useLingui()
     const [status, setStatus] = useState<WithdrawRewardsState>('none')
     const [error, setError] = useState<Error>()
-    const web3 = useWeb3()
+    const { web3 } = useGdContextProvider()
     const dispatch = useDispatch()
 
     const [transactionList, setTransactionHash] = useState<any[]>([])
@@ -37,7 +37,7 @@ function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsPro
         if (!web3) return 
         try {
             setStatus('pending')
-            const claimMethod = type === 'GOOD' ? claimGood : claim; 
+            const claimMethod = type === 'GOOD' ? claimGoodRewards : claimG$Rewards; 
             const transactions = await claimMethod(web3, (txHash: string, from: string, chainId: number) => {
               setTransactionHash(transactionHash => [...transactionHash, [{hash: txHash, chainId: chainId}]])
               setStatus('send') 

@@ -12,14 +12,14 @@ import { useCurrencyBalance } from 'state/wallet/hooks'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useG$ from 'hooks/useG$'
 
-import { approveBuy, BuyInfo, getBuyMeta, getBuyMetaReverse } from '@gooddollar/sdk/dist/core'
+import { approveBuy, BuyInfo, getBuyMeta, getBuyMetaReverse } from '@gooddollar/web3sdk/dist/core'
 import {
     approveSell,
     getSellMeta,
     getSellMetaReverse,
     SellInfo
-} from '@gooddollar/sdk/dist/core'
-import { SupportedChainId } from '@gooddollar/sdk/dist/constants'
+} from '@gooddollar/web3sdk/dist/core'
+import { SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
 import SwapConfirmModal from './SwapConfirmModal'
 import { FUSE } from 'constants/index'
 import { useDispatch } from 'react-redux'
@@ -34,7 +34,7 @@ import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
 import sendGa from 'functions/sendGa'
 
-import { useGdContextProvider } from '@gooddollar/sdk/dist/hooks'
+import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
 
 function Swap() {
     const { i18n } = useLingui()
@@ -45,14 +45,15 @@ function Swap() {
     })
     // console.log('slippageTollerance -->', {slippageTolerance})
     const { account, chainId } = useActiveWeb3React()
+    const network = SupportedChainId[chainId]
     const [swapPair, setSwapPair] = useState<SwapVariant>({
-        token: SupportedChainId[Number(chainId)] === 'FUSE' ? FUSE : ETHER,
+        token: network === 'FUSE' ? FUSE : ETHER,
         value: ''
     })
 
     useEffect(() => {
         setSwapPair({
-            token: SupportedChainId[Number(chainId)] === 'FUSE' ? FUSE : ETHER,
+            token: network === 'FUSE' ? FUSE : ETHER,
             value: ''
         })
     }, [chainId]) // on first render chainId is undefined
@@ -136,7 +137,8 @@ function Swap() {
     const handleApprove = async () => {
         if (!meta || !web3) return
         try {
-          getData({event: 'swap', action: 'approveSwap', type: buying ? 'buy' : 'sell'})
+          getData({event: 'swap', action: 'approveSwap', 
+                   type: buying ? 'buy' : 'sell', network: network})
             setApproving(true)
             if (buying) {
                 await approveBuy(web3, meta)
@@ -389,7 +391,7 @@ function Swap() {
                                         (buying && [ETHER, FUSE].includes(swapPair.token) ? false : !approved)
                                     }
                                     onClick={() => {
-                                      getData({event: 'swap', action: 'startSwap', type: buying ? 'buy' : 'sell'})
+                                      getData({event: 'swap', action: 'startSwap', type: buying ? 'buy' : 'sell', network: network})
                                       setShowConfirm(true)
                                     }}>
                                     {i18n._(t`Swap`)}

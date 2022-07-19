@@ -7,12 +7,12 @@ import SwapInfo from '../SwapInfo'
 import { ButtonAction, ButtonDefault } from 'components/gd/Button'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { Currency } from '@sushiswap/sdk'
-import { buy, BuyInfo } from '@gooddollar/sdk/dist/core'
-import { sell, SellInfo } from '@gooddollar/sdk/dist/core'
+import { buy, BuyInfo } from '@gooddollar/web3sdk/dist/core'
+import { sell, SellInfo } from '@gooddollar/web3sdk/dist/core'
 import { addTransaction } from 'state/transactions/actions'
 import { useDispatch } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useGdContextProvider } from '@gooddollar/sdk/dist/hooks'
+import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
 import { Action } from 'pages/gd/Stake/StakeDeposit'
 import { getExplorerLink } from 'utils'
 import { t } from '@lingui/macro'
@@ -22,6 +22,7 @@ import { Percent } from '@sushiswap/sdk'
 import sendGa from 'functions/sendGa'
 
 import ShareTransaction from 'components/ShareTransaction'
+import { SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
 
 export interface SwapConfirmModalProps extends SwapDetailsFields {
     className?: string
@@ -69,6 +70,7 @@ function SwapConfirmModal({
     const [from, to] = pair ?? []
     const globalDispatch = useDispatch()
     const { chainId } = useActiveWeb3React()
+    const network = SupportedChainId[chainId]
     const { web3 } = useGdContextProvider()
     const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
@@ -111,7 +113,7 @@ function SwapConfirmModal({
                     tradeInfo: tradeInfo
                 })
             )
-            getData({event: "swap", action: "submittedSwap"})
+            getData({event: "swap", action: "submittedSwap", network: network})
             if (onConfirm) onConfirm()
         }
 
@@ -120,7 +122,7 @@ function SwapConfirmModal({
                                    action: "confirmSwap", 
                                    amount: buying ? minimumOutputSig : inputSig, 
                                    tokens: [inputSymbol, outputSymbol], 
-                                   type: buying ? 'buy' : 'sell',})
+                                   type: buying ? 'buy' : 'sell', network: network})
             const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)
 
             if (meta?.outputAmount.currency.name === 'GoodDollar') {

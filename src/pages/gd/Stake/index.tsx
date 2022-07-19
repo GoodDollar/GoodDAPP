@@ -16,10 +16,10 @@ import usePromise from 'hooks/usePromise'
 import { QuestionHelper } from 'components'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 
-import { LIQUIDITY_PROTOCOL, DAO_NETWORK } from '@gooddollar/sdk/dist/constants'
-import { useEnvWeb3 } from '@gooddollar/sdk/dist/hooks/'
-import { getList as getStakes, Stake } from '@gooddollar/sdk/dist/core/staking'
-import { useGdContextProvider, useGovernanceStaking} from '@gooddollar/sdk/dist/hooks/'
+import { LIQUIDITY_PROTOCOL, DAO_NETWORK } from '@gooddollar/web3sdk/dist/constants'
+import { useEnvWeb3 } from '@gooddollar/web3sdk/dist/hooks/'
+import { getList as getStakes, Stake } from '@gooddollar/web3sdk/dist/core/staking'
+import { useGdContextProvider, useGovernanceStaking} from '@gooddollar/web3sdk/dist/hooks/'
 
 import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
@@ -266,8 +266,10 @@ const StakeTable = ({
                                 noShadow={true}
                                 requireNetwork={network}
                                 onClick={() => {
-                                    setActiveStake(stake)
-                                    setActiveTableName()
+                                  getData({event: 'stake', action: 'stakeStart', token: stake.tokens.A.symbol,
+                                           type: stake.protocol, network: network})
+                                  setActiveStake(stake)
+                                  setActiveTableName()
                                 }}
                                 ButtonEl={ButtonOutlined}
                             >
@@ -412,7 +414,9 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
-                                              getData({event: 'stake', action: 'stakeStart', type: stake.protocol})
+                                              getData({event: 'stake', action: 'stakeStart', 
+                                                       token: stake.tokens.A.symbol, 
+                                                       type: stake.protocol, network: network})
                                               setActiveStake(stake)
                                               setActiveTableName()
                                             }}
@@ -430,7 +434,9 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireNetwork={network}
                                             onClick={() => {
-                                              getData({event: 'stake', action: 'stakeStart', type: stake.protocol})
+                                              getData({event: 'stake', action: 'stakeStart', 
+                                                       token: stake.tokens.A.symbol, 
+                                                       type: stake.protocol, network: network})
                                               setActiveStake(stake)
                                               setActiveTableName()
                                             }}

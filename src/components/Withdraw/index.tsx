@@ -19,8 +19,10 @@ import Switch from 'components/Switch'
 import { useTokenContract } from 'hooks/useContract'
 import Loader from 'components/Loader'
 
-import { MyStake, withdraw } from '@gooddollar/sdk/dist/core/staking'
-import { LIQUIDITY_PROTOCOL } from '@gooddollar/sdk/dist/constants'
+import { MyStake, withdraw } from '@gooddollar/web3sdk/dist/core/staking'
+import { LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
+import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
+import sendGa from 'functions/sendGa'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)
@@ -42,11 +44,13 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     const [status, setStatus] = useState<WithdrawState>('none')
     const totalStake = useMemo(() => parseFloat(stake.stake.amount.toExact()), [stake])
     const [withdrawInInterestToken, setWithdrawInInterestToken] = useState(false)
-    const web3 = useWeb3()
+    const { web3 } = useGdContextProvider()
     const [percentage, setPercentage] = useState<string>('50')
     const [withdrawAmount, setWithdrawAmount] = useState<number>(totalStake * (Number(percentage) / 100))
     const { chainId } = useActiveWeb3React()
+    const network = SupportedChainId[chainId]
     const [error, setError] = useState<Error>()
+    const getData = sendGa
 
     const isGovStake = protocol === LIQUIDITY_PROTOCOL.GOODDAO
 
@@ -59,6 +63,8 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
         if (!web3) return
         try {
             setStatus('pending')
+            getData({event: 'stake', action: 'withdrawApprove', 
+                     amount: withdrawAmount, type: protocol, network: network})
             await withdraw(
                 web3,
                 stake,
@@ -67,6 +73,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                 (transactionHash: string, from: string) => {
                     setTransactionHash(transactionHash)
                     setStatus('send')
+                    getData({event: 'stake', action: 'withdrawSuccess', amount: withdrawAmount, type: protocol, network: network})
                     dispatch(
                         addTransaction({
                             chainId: chainId!,
@@ -92,6 +99,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     }, [setStatus, onWithdraw, percentage])
 
     const handleClose = useCallback(() => {
+        setStatus('none')
         setOpen(false)
     }, [])
 

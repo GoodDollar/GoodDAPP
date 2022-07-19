@@ -12,7 +12,7 @@ export const ButtonAction = styled.button<{
     justify-content: center;
     height: ${({ size }) => (size === 'sm' ? '32px' : '71px')};
     min-width: ${({ width = '100%' }) => width};
-    padding:5px 10px 5px 10px;
+    padding:5px 0px 5px 0px;
     border-radius: ${({ borderRadius = '20px' }) => borderRadius};
     color: ${({ theme }) => theme.color.main};
     background: ${({ theme }) => theme.color.text2};
@@ -101,6 +101,7 @@ export const ButtonOutlined = styled.button<{
     justify-content: center;
     height: ${({ size }) => (size === 'sm' ? '32px' : '42px')};
     width: ${({ width = '100%' }) => width};
+    padding:5px 10px 5px 10px;
     border-radius: ${({ borderRadius = '6px' }) => borderRadius};
     color: ${({ theme }) => theme.color.text2};
     background: transparent;
@@ -117,6 +118,13 @@ export const ButtonOutlined = styled.button<{
     :disabled {
         opacity: 0.5;
         cursor: auto;
+    }
+    @media ${({ theme }) => theme.media.md} {
+        font-size: 12px;
+        line-height: 14px;
+        border-radius: 6px;
+        width: auto;
+        display: block;
     }
 `
 

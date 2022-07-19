@@ -94,7 +94,7 @@ const injectedBN = injectedModule({
 const walletConnectBN = walletConnectModule({
   bridge: 'https://bridge.walletconnect.org',
   qrcodeModalOptions: {
-    mobileLinks: ['metamask']
+    mobileLinks: ['rainbow', 'metamask', 'argent', 'trust', 'imtoken', 'pillar']
   }
 })
 
@@ -138,9 +138,6 @@ export const onboard = init({
   },
   accountCenter: {
     desktop: {
-      enabled: false,
-    },
-    mobile: {
       enabled: false,
     }
   },

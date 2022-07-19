@@ -139,6 +139,7 @@
     "react-app-rewired": "^2.1.8",
     "react-device-detect": "^1.6.2",
     "react-dom": "^17.0.2",
+    "react-error-overlay": "6.0.9",
     "react-feather": "^2.0.8",
     "react-ga": "^2.5.7",
     "react-helmet": "^6.1.0",
@@ -185,7 +186,9 @@
   "license": "GPL-3.0-or-later",
   "resolutions": {
     "@types/react": "17.0.2",
-    "@types/react-dom": "17.0.2"
+    "@types/react-dom": "17.0.2",
+    "@web3-onboard/core": "2.2.5",
+    "react-error-overlay": "6.0.9"
   },
   "dependencies": {
     "@ethersproject/abi": "5.6.1",
@@ -225,13 +228,14 @@
     "@types/text-mask-addons": "^3.8.1",
     "@uniswap/sdk-core": "^3.0.0",
     "@web3-onboard/common": "^2.0.5",
-    "@web3-onboard/core": "2.2.1",
+    "@web3-onboard/core": "2.2.12",
     "@web3-onboard/injected-wallets": "^2.0.5",
-    "@web3-onboard/react": "2.1.1",
+    "@web3-onboard/react": "2.1.8",
     "@web3-onboard/walletconnect": "^2.0.1",
     "@web3-onboard/walletlink": "^2.0.0",
     "ethers": "5.6.8",
     "react-share": "^4.4.0",
+    "react-spring-bottom-sheet": "^3.4.1",
     "react-text-mask": "^5.4.3",
     "text-mask-addons": "^3.8.0",
     "web3": "1.7.3"

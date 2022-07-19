@@ -1,4 +1,4 @@
-import { getTokens } from '@gooddollar/sdk/dist/methods'
+import { getTokens } from '@gooddollar/web3sdk/dist/methods'
 import useActiveWeb3React from './useActiveWeb3React'
 import { useEffect, useState } from 'react'
 import { Token } from '@sushiswap/sdk'

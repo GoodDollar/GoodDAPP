@@ -22,7 +22,7 @@ import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 const log = logger.child({ from: 'useSideMenu' })
 
-const { dashboardUrl, enableSelfCustody } = Config
+const { dashboardUrl } = Config
 
 export default (props = {}) => {
   const { navigation } = props
@@ -89,21 +89,6 @@ export default (props = {}) => {
           slideOut()
         },
       },
-
-      // {
-      //   icon: 'link',
-      //   name: 'Magic Link',
-      //   size: 18,
-      //   hidden: isSelfCustody === false,
-      //   action: () => {
-      //     navigation.navigate({
-      //       routeName: 'MagicLinkInfo',
-      //       type: 'Navigation/NAVIGATE',
-      //     })
-      //     slideOut()
-      //   },
-      // },
-
       {
         icon: 'export-wallet',
         size: 18,
@@ -118,8 +103,8 @@ export default (props = {}) => {
       },
       {
         icon: 'lock',
-        name: t`Backup Wallet`,
-        hidden: enableSelfCustody === false || isSelfCustody === false,
+        name: t`Backup Wallet`, // the reason was fixed so we could revert the workaround
+        hidden: !isSelfCustody, // been used and check for reg method = self custody as before
         action: () => {
           navigation.navigate({
             routeName: 'BackupWallet',

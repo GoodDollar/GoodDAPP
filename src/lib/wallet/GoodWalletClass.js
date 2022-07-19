@@ -53,6 +53,9 @@ import {
   WITHDRAW_STATUS_UNKNOWN,
 } from './utils'
 
+import pricesQuery from './queries/reservePrices.gql'
+import interestQuery from './queries/interestReceived.gql'
+
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 100000
 
@@ -655,21 +658,11 @@ export class GoodWallet {
     return result
   }
 
-  //throttle querying blockchain/thegraph to once an hour
+  // throttle querying blockchain/thegraph to once an hour
   getReservePriceDAI = throttle(
     async () => {
       try {
-        const priceResult = await retry(() =>
-          API.queryTheGraph(
-            'goodsubgraphs',
-            `{
-        reserveHistories(first: 1 orderBy:block orderDirection:desc) {
-          blockTimestamp
-          closePriceDAI
-        }
-      }`,
-          ),
-        )
+        const priceResult = await retry(() => API.graphQuery(pricesQuery))
 
         const { closePriceDAI } = get(priceResult, 'data.reserveHistories[0]')
         return Number(closePriceDAI)
@@ -682,7 +675,7 @@ export class GoodWallet {
     { leading: true },
   )
 
-  //throttle querying blockchain/thegraph to once an hour
+  // throttle querying blockchain/thegraph to once an hour
   getClaimScreenStatsMainnet = throttle(
     async () => {
       const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContractsV3`, [])
@@ -692,22 +685,9 @@ export class GoodWallet {
         return { currentGains: stakingContract.methods.currentGains(true, true) }
       })
 
-      const interestCall = () =>
-        API.queryTheGraph(
-          'goodsubgraphs',
-          `{
-        reserveHistories(first: 1 orderBy:block orderDirection:desc where:{ubiMintedFromInterest_gt:0}) {
-          blockTimestamp
-          openPriceDAI
-          interestReceivedDAI
-          ubiMintedFromExpansion
-        }
-      }`,
-        )
-
       let [[stakeResult], reserveHistories] = await Promise.all([
         retry(() => this.multicallMainnet.all([gainCalls])),
-        retry(interestCall),
+        retry(() => API.graphQuery(interestQuery)),
       ]).catch(e => {
         log.warn('multicallMainnet / getBlockNumber failed:', e.message, e)
         throw e

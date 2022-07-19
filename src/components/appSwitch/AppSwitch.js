@@ -216,6 +216,12 @@ const AppSwitch = (props: LoadingProps) => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
     log.debug('initwalletandstorage start:', { initializing, web3, goodWallet, connecting })
     const run = async () => {
+      const provider = await AsyncStorage.getItem(GD_PROVIDER)
+      const isThirdParty = provider === 'WEB3WALLET'
+      if (isThirdParty === false && initializing.current) {
+        //if torus and initializing nothing to do here anymore
+        return
+      }
       if (web3 === undefined && initializing.current) {
         //incase web3 was disconnected
         initializing.current = undefined
@@ -281,7 +287,6 @@ const AppSwitch = (props: LoadingProps) => {
       }
       try {
         initializing.current = true
-        const provider = await AsyncStorage.getItem(GD_PROVIDER)
         log.debug('initWalletAndStorage:', { provider, web3 })
         let web3Result = web3
         if (!web3 && 'WEB3WALLET' === provider) {

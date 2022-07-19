@@ -2,11 +2,11 @@ import BackgroundFetch from 'react-native-background-fetch'
 // eslint-disable-next-line import/default
 import PushNotification from 'react-native-push-notification'
 import moment from 'moment'
-import { get, once } from 'lodash'
+import { get, includes, once } from 'lodash'
 
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../logger/js-logger'
-import { IS_LOGGED_IN } from '../constants/localStorage'
+import { IS_LOGGED_IN, OLD_NOTIFICATIONS } from '../constants/localStorage'
 import { onFeedReady } from '../userStorage/useFeedReady'
 
 //TODO: how would this handle metamask accounts??
@@ -32,6 +32,7 @@ export const initBGFetch = once((goodWallet, userStorage) => {
     log.info('[BackgroundFetch] taskId: ', taskId)
 
     const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
+    const oldNotifications = await AsyncStorage.getItem(OLD_NOTIFICATIONS)
 
     log.info('isLoggedIn', isLoggedIn)
 
@@ -39,52 +40,63 @@ export const initBGFetch = once((goodWallet, userStorage) => {
       return BackgroundFetch.finish(taskId)
     }
 
-    try {
-      await hasConnection()
-      await onFeedReady(userStorage)
-    } catch (e) {
-      return BackgroundFetch.finish(taskId)
+    const checkNotifications = async isInitialCall => {
+      try {
+        await hasConnection()
+        await onFeedReady(userStorage)
+      } catch (e) {
+        return BackgroundFetch.finish(taskId)
+      }
+
+      const lastFeedCheck = userStorage.userProperties.get('lastSeenFeedNotification')
+      const feed = await userStorage.getFeedPage(20, true)
+
+      log.info('lastFeedCheck', lastFeedCheck)
+      log.info('feed', feed)
+
+      const hasNewPayment = (type, status) => {
+        return type === 'receive' && status === 'completed'
+      }
+
+      const hasNewPaymentWithdraw = (type, status) => {
+        return type === 'send' && status === 'completed'
+      }
+
+      const newFeeds = feed.filter(feedItem => {
+        const { date, type, status } = feedItem
+        const feedDate = moment(new Date(date)).valueOf()
+        const isActual =
+          (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) &&
+          lastFeedCheck < feedDate &&
+          !includes(oldNotifications, feedItem.id)
+        return isActual && feedItem
+      })
+
+      userStorage.userProperties.safeSet('lastSeenFeedNotification', Date.now())
+
+      log.info('new feed items', { newFeeds })
+
+      log.info('pushing local notifications for feed items:', { total: newFeeds.length })
+
+      newFeeds.map(async feed => {
+        if (!isInitialCall) {
+          PushNotification.localNotification({
+            title: `Payment from/to ${get(feed, 'data.counterPartyDisplayName', 'Unknown')} received/accepted`,
+            message: `G$ ${get(feed, 'data.amount', 0)}`,
+            id: feed.id,
+            userInfo: { id: feed.id },
+          })
+        } else {
+          await AsyncStorage.setItem(OLD_NOTIFICATIONS, feed.id)
+        }
+      })
     }
 
-    const lastFeedCheck = userStorage.userProperties.get('lastSeenFeedNotification')
-    const feed = await userStorage.getFeedPage(20, true)
+    // Check notifications immediately on headless task call
+    await checkNotifications(true)
 
-    log.info('lastFeedCheck', lastFeedCheck)
-    log.info('feed', feed)
-
-    const hasNewPayment = (type, status) => {
-      return type === 'receive' && status === 'completed'
-    }
-
-    const hasNewPaymentWithdraw = (type, status) => {
-      return type === 'send' && status === 'completed'
-    }
-
-    const newFeeds = feed.filter(feedItem => {
-      const { type, status, date } = feedItem
-      const feedDate = moment(new Date(date)).valueOf()
-      const newFeedItem =
-        (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) && lastFeedCheck < feedDate
-      return newFeedItem && feedItem
-    })
-
-    userStorage.userProperties.safeSet('lastSeenFeedNotification', Date.now())
-
-    log.info('new feed items', { newFeeds })
-
-    if (newFeeds.length === 0) {
-      return BackgroundFetch.finish(taskId)
-    }
-
-    log.info('pushing local notifications for feed items:', { total: newFeeds.length })
-    newFeeds.map(feed =>
-      PushNotification.localNotification({
-        title: `Payment from/to ${get(feed, 'data.counterPartyDisplayName', 'Unknown')} received/accepted`,
-        message: `G$ ${get(feed, 'data.amount', 0)}`,
-        id: feed.id,
-        userInfo: { id: feed.id },
-      }),
-    )
+    // Subscribe to feed update
+    // userStorage.feedStorage.feedEvents.on('updated', checkNotifications)
   }
 
   const androidHeadlessTask = async ({ taskId }) => {

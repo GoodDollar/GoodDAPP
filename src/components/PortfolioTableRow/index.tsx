@@ -3,18 +3,28 @@ import Withdraw from 'components/Withdraw'
 import { MyStake } from '@gooddollar/web3sdk/dist/core/staking'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { DAO_NETWORK, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk/dist/constants'
+import { DAO_NETWORK, LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { ButtonAction } from 'components/gd/Button'
+import ClaimRewards from 'components/ClaimRewards'
 import sendGa from 'functions/sendGa'
 
 interface PortfolioTableRowProps {
     stake: MyStake
-    onWithdraw: () => void
+    onUpdate: () => void
 }
 
-function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
+function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
+    const [isClaimRewardsOpen, setClaimRewardsOpen] = useState(false)
+    const handleClaimRewardsOpen = useCallback(() => setClaimRewardsOpen(true), [])
+    const { chainId } = useActiveWeb3React()
+
+    const requireNetwork = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
+    const claimableStake = (chainId === (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.FUSE) ||
+         (chainId !== (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.MAINNET)
     const getData = sendGa
     const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet' 
     const handleWithdrawOpen = useCallback(() => {
@@ -29,7 +39,15 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                 setOpen={setWithdrawOpen}
                 token={`${stake.tokens.A.symbol}`}
                 protocol={stake.protocol}
-                onWithdraw={onWithdraw}
+                onWithdraw={onUpdate}
+                stake={stake}
+            />
+            <ClaimRewards 
+                open={isClaimRewardsOpen}
+                setOpen={setClaimRewardsOpen}
+                token={`${stake.tokens.A.symbol}`}
+                protocol={stake.protocol}
+                onClaim={onUpdate}
                 stake={stake}
             />
             <tr>
@@ -91,20 +109,30 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                         .toSignificant(6, { groupSeparator: ',' })}{' '}
                     {stake.rewards.GDAO.claimed.currency.symbol}
                 </td>
-                <td>
-                    <div className="flex justify-end">
+                <td className="flex content-center justify-center">
+                    <div className="flex flex-col justify-end" style={{width: "140px"}}>
                         <ActionOrSwitchButton
                             size="sm"
                             width="100%"
                             borderRadius="6px"
                             noShadow={true}
-                            requireNetwork={
-                                stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-                            }
+                            requireNetwork={requireNetwork}
                             onClick={handleWithdrawOpen}
+                            ButtonEl={ButtonAction}
                         >
-                            {i18n._(t`Withdraw`)}
+                            {i18n._(t`Withdraw Liquidity`)}
                         </ActionOrSwitchButton>
+                        {
+                        claimableStake &&
+                            <ButtonAction 
+                                className='mt-2' 
+                                size='sm' 
+                                borderRadius="6px"
+                                onClick={handleClaimRewardsOpen}
+                            >
+                                {i18n._(t`Claim rewards`)}
+                            </ButtonAction>
+                        }
                     </div>
                 </td>
             </tr>
@@ -114,15 +142,24 @@ function PortfolioTableRow({ stake, onWithdraw }: PortfolioTableRowProps) {
                         size="sm"
                         width="100%"
                         borderRadius="6px"
-                        noShadow={true}
-                        requireNetwork={
-                            stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-                        }
+                        requireNetwork={requireNetwork}
                         onClick={handleWithdrawOpen}
+                        ButtonEl={ButtonAction}
                     >
                         {i18n._(t`Withdraw`)}
                     </ActionOrSwitchButton>
-                </td>
+                    {   
+                         claimableStake &&
+                            <ButtonAction 
+                                className='mt-2' 
+                                size='sm'  
+                                borderRadius="6px" 
+                                onClick={handleClaimRewardsOpen}
+                            >
+                                {i18n._(t`Claim rewards`)}
+                            </ButtonAction>
+                    }
+                    </td>
             </tr>
         </>
     )

@@ -14,7 +14,7 @@ import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import Loader from 'components/Loader'
-import { claim, claimGood } from '@gooddollar/web3sdk/dist/core/staking'
+import { claimG$Rewards, claimGoodRewards } from '@gooddollar/web3sdk/dist/core/staking'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>
@@ -37,7 +37,7 @@ function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsPro
         if (!web3) return 
         try {
             setStatus('pending')
-            const claimMethod = type === 'GOOD' ? claimGood : claim; 
+            const claimMethod = type === 'GOOD' ? claimGoodRewards : claimG$Rewards; 
             const transactions = await claimMethod(web3, (txHash: string, from: string, chainId: number) => {
               setTransactionHash(transactionHash => [...transactionHash, [{hash: txHash, chainId: chainId}]])
               setStatus('send') 

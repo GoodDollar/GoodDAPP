@@ -17,9 +17,10 @@ import { Currency, CurrencyAmount, Fraction } from '@uniswap/sdk-core'
 import Switch from 'components/Switch'
 import { useTokenContract } from 'hooks/useContract'
 import Loader from 'components/Loader'
+
 import { MyStake, withdraw } from '@gooddollar/web3sdk/dist/core/staking'
 import { LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
-import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks/'
+import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
 import sendGa from 'functions/sendGa'
 
 function formatNumber(value: number) {
@@ -97,6 +98,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     }, [setStatus, onWithdraw, percentage])
 
     const handleClose = useCallback(() => {
+        setStatus('none')
         setOpen(false)
     }, [])
 

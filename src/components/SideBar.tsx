@@ -318,7 +318,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                             </defs>
                         </svg>
                     </div>
-                      <div className="details flex flex-col">                  
+                      <div className="flex flex-col details">                  
                         <WalletBalance balances={balances} chainId={chainId} />
                         <br />
                         {localStorage.getItem(`${chainId}_metamask_import_status`) !== 'true' && (

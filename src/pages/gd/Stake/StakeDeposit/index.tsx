@@ -21,7 +21,9 @@ import Switch from 'components/Switch'
 import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from '@gooddollar/web3sdk/dist/core/staking'
 import { LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
 import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
+
 import Share from 'components/Share'
+
 export interface StakeDepositModalProps {
     stake: Stake
     onDeposit?: () => any
@@ -50,9 +52,8 @@ const initialState = {
 const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepositModalProps) => {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
-    const { web3 } = useGdContextProvider()
     const network = SupportedChainId[chainId]
-
+    const { web3 } = useGdContextProvider()
     const [state, dispatch] = useReducer(
         (
             state: typeof initialState,

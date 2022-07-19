@@ -3,7 +3,7 @@ import { Layout } from 'components/gd/sushi'
 import { PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from './styled'
 import Title from 'components/gd/Title'
 import Card from 'components/gd/Card'
-import { ButtonDefault, ButtonOutlined } from 'components/gd/Button'
+import { ButtonAction, ButtonDefault } from 'components/gd/Button'
 import Table from 'components/gd/Table'
 import WithdrawRewards from 'components/WithdrawRewards'
 import PortfolioTableRow from 'components/PortfolioTableRow'
@@ -17,6 +17,7 @@ import { useLingui } from '@lingui/react'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import AppNotice from 'components/AppNotice'
+import { getNetworkEnv } from '@gooddollar/web3sdk/dist/constants/addresses'
 import { useWindowSize } from 'hooks/useWindowSize'
 import Withdraw from 'components/Withdraw'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
@@ -25,6 +26,7 @@ import { DAO_NETWORK, portfolioSupportedAt, SupportedChainId, LIQUIDITY_PROTOCOL
 import { useEnvWeb3 } from '@gooddollar/web3sdk/dist/hooks'
 
 import styled from 'styled-components'
+import ClaimRewards from 'components/ClaimRewards'
 
 const MobileTableSC = styled.div``
 
@@ -85,13 +87,13 @@ const CellSC = styled.div`
     .withdraw {
         display: flex;
         flex-wrap: nowrap;
-        gap: 16px;
+        gap: 8px;
         grid-area: f;
     }
 `
 
 const MobileCell = ({
-    onWithdraw,
+    onUpdate,
     stake,
     token,
     protocol,
@@ -101,12 +103,20 @@ const MobileCell = ({
     rewardsGOOD
 }: {
     stake: MyStake
-    onWithdraw: () => void
+    onUpdate: () => void
     [prop: string]: any
 }) => {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
+    const [isClaimRewardsOpen, setClaimRewardsOpen] = useState(false)
+    const { chainId } = useActiveWeb3React()
+
+    const requireNetwork = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
+    const claimableStake = (chainId === (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.FUSE) ||
+    (chainId !== (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.MAINNET)
+
     const handleWithdrawOpen = useCallback(() => setWithdrawOpen(true), [])
+    const handleClaimRewardsOpen = useCallback(() => setClaimRewardsOpen(true), [])
 
     return (
         <Card className="mb-6 md:mb-4 card">
@@ -116,9 +126,17 @@ const MobileCell = ({
                     setOpen={setWithdrawOpen}
                     token={`${stake.tokens.A.symbol}`}
                     protocol={stake.protocol}
-                    onWithdraw={onWithdraw}
+                    onWithdraw={onUpdate}
                     stake={stake}
                 />
+                <ClaimRewards 
+                    open={isClaimRewardsOpen}
+                    setOpen={setClaimRewardsOpen}
+                    token={`${stake.tokens.A.symbol}`}
+                    protocol={stake.protocol}
+                    onClaim={onUpdate}
+                    stake={stake}
+                 />
                 <div className="flex items-center font-bold token flex-nowrap">
                     <AsyncTokenIcon
                         address={stake.tokens.A.address}
@@ -206,22 +224,33 @@ const MobileCell = ({
                             stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
                         }
                         onClick={handleWithdrawOpen}
-                        ButtonEl={ButtonOutlined}
+                        ButtonEl={ButtonAction}
                     >
                         {i18n._(t`Withdraw`)}
                     </ActionOrSwitchButton>
+                    {
+                        claimableStake &&
+                            <ButtonAction  
+                                size='sm' 
+                                noShadow={true}
+                                borderRadius="6px" 
+                                onClick={handleClaimRewardsOpen}
+                            >
+                                {i18n._(t`Claim rewards`)}
+                            </ButtonAction>
+                    }
                 </div>
             </CellSC>
         </Card>
     )
 }
 
-const MobileTable = ({ stakes, cells, onWithdraw }: { stakes?: MyStake[]; cells: any; onWithdraw: () => void }) => {
+const MobileTable = ({ stakes, cells, onUpdate }: { stakes?: MyStake[]; cells: any; onUpdate: () => void }) => {
     const [type, token, protocol, stakeAmount, G$rewards, multiplier, rewardsGOOD] = cells
 
     const getCells = stakes?.map((stake, index) => (
         <MobileCell
-            onWithdraw={onWithdraw}
+            onUpdate={onUpdate}
             token={token}
             protocol={protocol}
             stakeAmount={stakeAmount}
@@ -242,7 +271,7 @@ const Portfolio = () => {
 
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
-
+    const network = getNetworkEnv() 
     const { width } = useWindowSize()
 
     const isMobile = width ? width <= 768 : undefined
@@ -283,7 +312,7 @@ const Portfolio = () => {
     ]
 
     const [data, , , update] = usePromise(async () => {
-        const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account) : []
+        const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account, network) : []
         return {
             list,
             aggregated: list.reduce( 
@@ -445,7 +474,7 @@ const Portfolio = () => {
                             show={true}
                         ></AppNotice>
                     )}
-                    <MobileTable cells={headings} stakes={data?.list} onWithdraw={update} />
+                    <MobileTable cells={headings} stakes={data?.list} onUpdate={update} />
                 </>
             ) : (
                 <Card className="card" contentWrapped={false} style={{ position: 'relative' }}>
@@ -473,7 +502,7 @@ const Portfolio = () => {
                         }
                     >
                         {data?.list.map(stake => (
-                            <PortfolioTableRow stake={stake} key={stake.address} onWithdraw={update} />
+                            <PortfolioTableRow stake={stake} key={stake.address} onUpdate={update} />
                         ))}
                     </Table>
                 </Card>

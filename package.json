@@ -222,7 +222,6 @@
     "@ethersproject/wallet": "5.6.0",
     "@ethersproject/web": "5.6.0",
     "@ethersproject/wordlists": "5.6.0",
-    "@gooddollar/goodprotocol": "file:.yalc/@gooddollar/goodprotocol",
     "@headlessui/react": "1.5.0",
     "@lufycz/sushi-data": "^2.0.0-canary-21",
     "@types/react-text-mask": "^5.4.8",
@@ -237,6 +236,7 @@
     "@web3-onboard/walletlink": "^2.0.0",
     "ethers": "5.6.9",
     "react-share": "^4.4.0",
+    "react-spring-bottom-sheet": "^3.4.1",
     "react-text-mask": "^5.4.3",
     "text-mask-addons": "^3.8.0",
     "web3": "1.7.3"

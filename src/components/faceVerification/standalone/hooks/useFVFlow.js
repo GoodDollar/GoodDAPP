@@ -1,12 +1,12 @@
 // @flow
-import { useCallback, useEffect, useState } from 'react'
-import LoginService from '../api/LoginFlowService'
+import { useEffect, useState } from 'react'
+import LoginService from '../api/FVFlowService'
 
 import logger from '../../../../lib/logger/js-logger'
 
-const log = logger.child({ from: 'useLoginFlow' })
+const log = logger.child({ from: 'useFVFlow' })
 
-const useLoginFlow = (signature, nonce, fvsig) => {
+const useFVFlow = (signature, nonce, fvsig) => {
   const [jwt, setJWT] = useState()
   const [error, setError] = useState()
 
@@ -17,13 +17,17 @@ const useLoginFlow = (signature, nonce, fvsig) => {
       log.error('failed fvauth:', message, exception)
       setError(message)
     }
-      
+
     log.info('useFVFlow mount:', { signature, nonce, fvsig })
 
     if (signature && nonce && fvsig) {
       const login = new LoginService(signature, nonce, fvsig)
 
-      login.auth(true).then(({ jwt }) => setJWT(jwt)).catch(onError)
+      login
+        .auth(true)
+        .then(({ jwt }) => setJWT(jwt))
+        .catch(onError)
+
       return
     }
 
@@ -37,4 +41,4 @@ const useLoginFlow = (signature, nonce, fvsig) => {
   return { jwt, error }
 }
 
-export default useLoginFlow
+export default useFVFlow

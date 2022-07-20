@@ -1,14 +1,14 @@
 import { useContext, useMemo } from 'react'
 
 import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
-import { LoginFlowContext } from '../standalone/context/LoginFlowContext'
+import { FVFlowContext } from '../standalone/context/FVFlowContext'
 
 const useEnrollmentIdentifier = () => {
   const userStorage = useUserStorage()
-  const { faceIdentifier, isLoginFlow } = useContext(LoginFlowContext)
+  const { faceIdentifier, isFVFlow } = useContext(FVFlowContext)
 
   const enrollmentIdentifier = useMemo(() => {
-    if (isLoginFlow) {
+    if (isFVFlow) {
       return faceIdentifier
     }
 

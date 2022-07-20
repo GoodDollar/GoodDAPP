@@ -8,17 +8,17 @@ import { Section, Wrapper } from '../../../common'
 
 // utils
 import withStyles from '../theme/withStyles'
-import { LoginFlowContext } from '../context/LoginFlowContext'
+import { FVFlowContext } from '../context/FVFlowContext'
 
 import logger from '../../../../lib/logger/js-logger'
 import { addNonceAndSign, detail, redirectTo } from '../../../loginRedirect/utils'
 import { useWallet } from '../../../../lib/wallet/GoodWalletProvider'
 
-const log = logger.child({ from: 'LoginSuccessScreen' })
+const log = logger.child({ from: 'FVFlowSuccess' })
 
-const LoginSuccessScreen = ({ styles }) => {
+const FVFlowSuccess = ({ styles }) => {
   const goodWallet = useWallet()
-  const { rdu, cbu, faceIdentifier, firstName } = useContext(LoginFlowContext)
+  const { rdu, cbu, faceIdentifier, firstName } = useContext(FVFlowContext)
 
   useEffect(() => {
     if (!rdu && !cbu) {
@@ -50,4 +50,4 @@ const LoginSuccessScreen = ({ styles }) => {
   )
 }
 
-export default withStyles(LoginSuccessScreen)
+export default withStyles(FVFlowSuccess)

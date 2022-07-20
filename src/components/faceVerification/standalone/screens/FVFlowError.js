@@ -16,7 +16,7 @@ import withStyles from '../theme/withStyles'
 const DOCS_URL = 'https://doc.gooddollar/sdk/identity'
 const openDocs = () => openLink(DOCS_URL, '_blank')
 
-const LoginErrorScreen = ({ styles }) => {
+const FVFlowError = ({ styles }) => {
   useEffect(() => {
     exitApp()
   }, [])
@@ -46,4 +46,4 @@ const LoginErrorScreen = ({ styles }) => {
   )
 }
 
-export default withStyles(LoginErrorScreen)
+export default withStyles(FVFlowError)

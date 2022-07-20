@@ -6,9 +6,9 @@ import logger from '../../../../lib/logger/js-logger'
 
 import type { Credentials } from '../../../../lib/API'
 
-const log = logger.child({ from: 'LoginFlowService' })
+const log = logger.child({ from: 'FVFlowService' })
 
-class LoginFlowService extends LoginService {
+class FVFlowService extends LoginService {
   constructor(signature, nonce, fvsig) {
     super()
 
@@ -61,4 +61,4 @@ class LoginFlowService extends LoginService {
   }
 }
 
-export default LoginFlowService
+export default FVFlowService

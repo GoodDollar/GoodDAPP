@@ -10,8 +10,8 @@ import { Support } from '../../webView/webViewInstances'
 import Blurred from '../../common/view/Blurred'
 import createAppContainer from '../../../lib/utils/createAppContainer'
 import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
-import LoginFlowProvider from './context/LoginFlowContext'
-import { LoginErrorScreen, LoginSuccessScreen } from '.'
+import FVFlowProvider from './context/FVFlowContext'
+import { FVFlowError, FVFlowSuccess } from '.'
 
 const log = logger.child({ from: 'FVRouter' })
 
@@ -22,8 +22,8 @@ const LoginFlowScreens = withNavigationOptions({
   FaceVerification,
   FaceVerificationIntro,
   FaceVerificationError,
-  LoginSuccessScreen,
-  LoginErrorScreen,
+  FVFlowSuccess,
+  FVFlowError,
 })
 
 const generateRouter = () => {
@@ -51,13 +51,13 @@ const Router = () => {
 
   return (
     <>
-      <LoginFlowProvider>
+      <FVFlowProvider>
         <Portal.Host>
           <Blurred whenDialog>
             <RouterWrapper />
           </Blurred>
         </Portal.Host>
-      </LoginFlowProvider>
+      </FVFlowProvider>
     </>
   )
 }

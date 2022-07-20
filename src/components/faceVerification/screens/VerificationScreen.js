@@ -5,7 +5,7 @@ import Instructions from '../components/Instructions'
 
 import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../lib/logger/js-logger'
-import { LoginFlowContext } from '../standalone/context/LoginFlowContext'
+import { FVFlowContext } from '../standalone/context/FVFlowContext'
 
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
@@ -31,7 +31,7 @@ const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
-  const { isLoginFlow } = useContext(LoginFlowContext)
+  const { isFVFlow } = useContext(FVFlowContext)
   const enrollmentIdentifier = useEnrollemtnIdentifier()
 
   // Redirects to the error screen, passing exception
@@ -99,9 +99,9 @@ const FaceVerification = ({ screenProps }) => {
       // polling contracts for the whitelisted flag up to 30sec or until got true
       // fix: if still false, do not throw excetion, just return falsy status
       // on FVFlow we dont verify whitelisting, that is on the developer using the fvflow to test back in their app
-      let isCitizen = isLoginFlow
+      let isCitizen = isFVFlow
 
-      if (!isLoginFlow) {
+      if (!isFVFlow) {
         try {
           isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000)
         } catch {
@@ -130,7 +130,7 @@ const FaceVerification = ({ screenProps }) => {
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
-    [screenProps, resetAttempts, exceptionHandler, goodWallet, isLoginFlow],
+    [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow],
   )
 
   // calculating retries allowed for FV session

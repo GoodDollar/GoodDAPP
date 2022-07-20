@@ -28,7 +28,7 @@ import { Permissions } from '../../permissions/types'
 import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../lib/analytics/analytics'
-import { LoginFlowContext } from '../standalone/context/LoginFlowContext'
+import { FVFlowContext } from '../standalone/context/FVFlowContext'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 
 // assets
@@ -94,12 +94,12 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { fullName } = useProfile()
   const { showDialog } = useDialog()
 
-  const { firstName, isLoginFlow, loginFlowError, isLoginFlowReady } = useContext(LoginFlowContext)
+  const { firstName, isFVFlow, fvFlowError, isFVFlowReady } = useContext(FVFlowContext)
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
 
   const enrollmentIdentifier = useEnrollmentIdentifier()
-  const userName = useMemo(isLoginFlow ? firstName : getFirstWord(fullName))
+  const userName = useMemo(isFVFlow ? firstName : getFirstWord(fullName))
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 
@@ -160,21 +160,21 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     log.debug({ enrollmentIdentifier, userName })
 
     if (isValid) {
-      isLoginFlow ? navigateTo('LoginSuccessScreen') : pop({ isValid })
+      isFVFlow ? navigateTo('FVFlowSuccess') : pop({ isValid })
       return
     }
 
-    if (enrollmentIdentifier && (!isLoginFlow || isLoginFlowReady)) {
+    if (enrollmentIdentifier && (!isFVFlow || isFVFlowReady)) {
       fireEvent(FV_INTRO)
       checkDisposalState()
     }
-  }, [enrollmentIdentifier, isLoginFlow, isLoginFlowReady, navigateTo, pop, checkDisposalState])
+  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigateTo, pop, checkDisposalState])
 
   useEffect(() => {
-    if (isLoginFlow && (loginFlowError || !enrollmentIdentifier)) {
-      navigateTo('LoginErrorScreen')
+    if (isFVFlow && (fvFlowError || !enrollmentIdentifier)) {
+      navigateTo('FVFlowError')
     }
-  }, [isLoginFlow, enrollmentIdentifier, loginFlowError, navigateTo])
+  }, [isFVFlow, enrollmentIdentifier, fvFlowError, navigateTo])
 
   return (
     <Intro

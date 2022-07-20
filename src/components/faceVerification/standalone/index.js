@@ -1,2 +1,2 @@
-export { default as LoginSuccessScreen } from './screens/LoginSuccessScreen'
-export { default as LoginErrorScreen } from './screens/LoginErrorScreen'
+export { default as FVFlowSuccess } from './screens/FVFlowSuccess'
+export { default as FVFlowError } from './screens/FVFlowError'

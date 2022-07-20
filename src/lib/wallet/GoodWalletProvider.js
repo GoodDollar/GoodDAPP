@@ -133,12 +133,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     async (wallet, storage, withRefresh = false) => {
       const walletLogin = new GoodWalletLogin(wallet, storage)
 
-      const sendRequest = refresh =>
-        walletLogin.auth(refresh).catch(e => (refresh ? throwException(e) : sendRequest(true)))
+      const requestAuth = refresh =>
+        walletLogin.auth(refresh).catch(e => (refresh ? throwException(e) : requestAuth(true)))
 
       try {
         // the login also re-initialize the api with new jwt
-        const { jwt } = await sendRequest(withRefresh)
+        const { jwt } = await requestAuth(withRefresh)
 
         setLoggedInJWT(walletLogin)
         log.info('walletLogin', { jwt, withRefresh })

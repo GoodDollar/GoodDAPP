@@ -1,16 +1,15 @@
 import { map, mapValues, sum, toLower } from 'lodash'
 import { useEffect, useMemo, useState } from 'react'
-import axios from 'axios'
 
 import { useUserStorage, useWallet } from '../../../lib/wallet/GoodWalletProvider'
 
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
+import API from '../../../lib/API'
 
 export const REFUNDED_FLAG = 'noRefundRequired'
 
 const { enableRefund } = Config
-const EXPLORER_API = 'https://explorer.fuse.io/api'
 const log = logger.child({ from: 'useRefund' })
 
 const incidentStart = 17896430
@@ -53,20 +52,7 @@ const useRefund = () => {
       const { filter, fromBlock } = filters
       const { from, to } = mapValues(filter, toLower)
       const contractAddress = toLower(contract)
-
-      const {
-        data: { result },
-      } = await axios({
-        url: '/',
-        baseURL: EXPLORER_API,
-        params: {
-          module: 'account',
-          action: 'tokentx',
-          address: from,
-          contractaddress: contractAddress,
-          startblock: fromBlock,
-        },
-      })
+      const result = await API.getTokenTXs(contractAddress, from, fromBlock)
 
       // filter & map in a single iteration
       const amounts = result.reduce((values, txData) => {

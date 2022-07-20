@@ -388,6 +388,36 @@ export class APIService {
   async sendLoginVendorDetails(url, responseObject) {
     return this.sharedClient.post(url, responseObject)
   }
+
+  async getTokenTXs(token, address, fromBlock = null) {
+    const params = {
+      address,
+      sort: 'asc',
+      module: 'account',
+      action: 'tokentx',
+      contractaddress: token,
+    }
+
+    if (fromBlock) {
+      params.startblock = fromBlock
+    }
+
+    const { result } = await this.sharedClient.get('/api', {
+      params,
+      baseURL: Config.networkExplorerUrl,
+    })
+
+    return result
+  }
+
+  // eslint-disable-next-line require-await
+  async graphQuery(query, subgraph = 'goodsubgraphs'): AxiosPromise<any> {
+    const payload = { query }
+    const options = { baseURL: Config.graphQlUrl }
+    const url = '/' + encodeURIComponent(subgraph)
+
+    return this.sharedClient.post(url, payload, options)
+  }
 }
 
 const api = new APIService()

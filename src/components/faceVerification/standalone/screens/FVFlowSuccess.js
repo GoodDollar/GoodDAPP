@@ -7,33 +7,22 @@ import Text from '../../../common/view/Text'
 import { Section, Wrapper } from '../../../common'
 
 // utils
-import withStyles from '../theme/withStyles'
 import { FVFlowContext } from '../context/FVFlowContext'
+import { redirectTo } from '../../../../lib/utils/linking'
 
-import logger from '../../../../lib/logger/js-logger'
-import { addNonceAndSign, detail, redirectTo } from '../../../loginRedirect/utils'
-import { useWallet } from '../../../../lib/wallet/GoodWalletProvider'
+import withStyles from '../theme/withStyles'
 
-const log = logger.child({ from: 'FVFlowSuccess' })
-
-const FVFlowSuccess = ({ styles }) => {
-  const goodWallet = useWallet()
-  const { rdu, cbu, faceIdentifier, firstName } = useContext(FVFlowContext)
+const FVFlowSuccess = ({ styles, screenProps }) => {
+  const { rdu, cbu } = useContext(FVFlowContext)
+  const { screenState } = screenProps
 
   useEffect(() => {
-    if (!rdu && !cbu) {
-      return
-    }
-
     const url = rdu || cbu
-    const urlType = rdu ? 'rdu' : 'cbu'
-    const response = addNonceAndSign(goodWallet, {
-      n: detail(firstName),
-      a: detail(faceIdentifier),
-    })
 
-    redirectTo(url, urlType, response, log)
-  }, [firstName, faceIdentifier, rdu, cbu])
+    if (url) {
+      redirectTo(url, rdu ? 'rdu' : 'cbu', screenState || {})
+    }
+  }, [rdu, cbu, screenState])
 
   return (
     <Wrapper>

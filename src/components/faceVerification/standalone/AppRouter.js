@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Portal } from 'react-native-paper'
 
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
@@ -9,7 +9,6 @@ import logger from '../../../lib/logger/js-logger'
 import { Support } from '../../webView/webViewInstances'
 import Blurred from '../../common/view/Blurred'
 import createAppContainer from '../../../lib/utils/createAppContainer'
-import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
 import FVFlowProvider from './context/FVFlowContext'
 import { FVFlowError, FVFlowSuccess } from '.'
 
@@ -43,11 +42,6 @@ const generateRouter = () => {
 const Router = () => {
   // will exec once during first render
   const RouterWrapper = useMemo(generateRouter, [])
-  const { initWalletAndStorage } = useContext(GoodWalletContext)
-
-  useEffect(() => {
-    initWalletAndStorage(undefined, 'SEED')
-  }, [])
 
   return (
     <>

@@ -12,7 +12,6 @@ import { DialogContextProvider } from '../../../lib/dialog/dialogContext'
 import logger from '../../../lib/logger/js-logger'
 
 import { theme } from '../../theme/styles'
-import { GoodWalletProvider } from '../../../lib/wallet/GoodWalletProvider'
 import AppRouter from './AppRouter'
 
 // eslint-disable-next-line no-unused-vars
@@ -35,11 +34,9 @@ const App = () => {
         <Fragment>
           <GlobalTogglesContextProvider>
             <DialogContextProvider>
-              <GoodWalletProvider>
-                <SimpleStoreDialog />
-                <LoadingIndicator />
-                <AppRouter />
-              </GoodWalletProvider>
+              <SimpleStoreDialog />
+              <LoadingIndicator />
+              <AppRouter />
             </DialogContextProvider>
           </GlobalTogglesContextProvider>
         </Fragment>

@@ -99,7 +99,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const isValid = get(screenState, 'isValid', false)
 
   const enrollmentIdentifier = useEnrollmentIdentifier()
-  const userName = useMemo(isFVFlow ? firstName : getFirstWord(fullName))
+  const userName = useMemo(isFVFlow ? firstName : getFirstWord(fullName), [isFVFlow, firstName, fullName])
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 
@@ -160,7 +160,9 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     log.debug({ enrollmentIdentifier, userName })
 
     if (isValid) {
-      isFVFlow ? navigateTo('FVFlowSuccess') : pop({ isValid })
+      const state = { isValid }
+
+      isFVFlow ? navigateTo('FVFlowSuccess', state) : pop(state)
       return
     }
 

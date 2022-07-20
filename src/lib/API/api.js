@@ -385,7 +385,7 @@ export class APIService {
   }
 
   // eslint-disable-next-line require-await
-  async sendLoginVendorDetails(url, responseObject) {
+  async invokeCallbackUrl(url, responseObject) {
     return this.sharedClient.post(url, responseObject)
   }
 

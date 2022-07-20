@@ -11,7 +11,8 @@ import API from '../../lib/API/api'
 import { decodeBase64Params } from '../../lib/utils/uri'
 
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
-import { addNonceAndSign, detail, redirectTo } from './utils'
+import { redirectTo } from '../../lib/utils/linking'
+import { addNonceAndSign, detail } from './utils'
 
 const log = logger.child({ from: 'useGoodDollarLogin' })
 
@@ -68,7 +69,7 @@ const useGoodDollarLogin = params => {
     async response => {
       const { url, urlType } = parsedURL
 
-      await redirectTo(url, urlType, response, log)
+      await redirectTo(url, urlType, response)
     },
     [parsedURL],
   )

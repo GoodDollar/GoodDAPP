@@ -8,6 +8,7 @@ import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
+import { throwException } from '../exceptions/utils'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
 
@@ -40,7 +41,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const update = useCallback(
     async goodWallet => {
       const { tokenContract, UBIContract, identityContract, account } = goodWallet
-      
+
       const calls = [
         {
           balance: tokenContract.methods.balanceOf(account),
@@ -89,7 +90,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         await storage.ready
 
         if (loginAndWatch) {
-          await Promise.all([_login(wallet, storage, false), update(wallet)])
+          await Promise.all([doLogin(wallet, storage, false), update(wallet)])
         }
 
         if (isLoggedInRouter) {
@@ -128,23 +129,22 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     [setWeb3, setWalletAndStorage, isLoggedInRouter],
   )
 
-  const _login = useCallback(
-    async (wallet, storage, refresh) => {
+  const doLogin = useCallback(
+    async (wallet, storage, withRefresh = false) => {
+      const walletLogin = new GoodWalletLogin(wallet, storage)
+
+      const sendRequest = refresh =>
+        walletLogin.auth(refresh).catch(e => (refresh ? throwException(e) : sendRequest(true)))
+
       try {
-        const walletLogin = new GoodWalletLogin(wallet, storage)
-
         // the login also re-initialize the api with new jwt
+        const { jwt } = await sendRequest(withRefresh)
 
-        const { jwt } = await walletLogin.auth(refresh)
         setLoggedInJWT(walletLogin)
+        log.info('walletLogin', { jwt, withRefresh })
 
-        log.info('walletLogin', { jwt, refresh })
         return walletLogin
       } catch (e) {
-        //retry once in case jwt needs refresh
-        if (!refresh) {
-          return _login(wallet, storage, true)
-        }
         log.error('failed auth:', e.message, e)
         throw e
       }
@@ -153,21 +153,24 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   )
 
   const login = useCallback(
-    async refresh => {
+    async (withRefresh = false) => {
+      let refresh = withRefresh
+
       if (isLoggedInJWT) {
         const { decoded, jwt } = await isLoggedInJWT.validateJWTExistenceAndExpiration()
+
         if (!decoded || !jwt) {
           refresh = true
         }
       }
+
       if ((!refresh && isLoggedInJWT) || !goodWallet || !userStorage) {
         return isLoggedInJWT
       }
 
-      const result = await _login(goodWallet, userStorage, refresh)
-      return result
+      return doLogin(goodWallet, userStorage, refresh)
     },
-    [goodWallet, userStorage, isLoggedInJWT, _login],
+    [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
 
   return (

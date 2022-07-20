@@ -42,7 +42,7 @@ const AppSwitch = (props: LoadingProps) => {
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const deepLinkingRef = useRef(null)
-  const initializing = useRef(null)
+  const initializingRef = useRef(null)
   const { initializedRegistered } = userStorage || {}
   const [getNavigation, isRegistered] = usePropsRefs([navigation, initializedRegistered])
 
@@ -217,10 +217,10 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
-    if (initializing.current) {
+    if (initializingRef.current) {
       return
     }
-    
+
     const onInitializationFailed = e => {
       if ('UnsignedJWTError' === e.name) {
         return restartWithMessage(
@@ -241,12 +241,12 @@ const AppSwitch = (props: LoadingProps) => {
 
       restartWithMessage('Wallet could not be loaded. Please refresh.', false)
     }
-    
-    initializing.current = true
+
+    initializingRef.current = true
     initWalletAndStorage(undefined, 'SEED')
       .then(() => log.debug('storage and wallet ready'))
       .catch(onInitializationFailed)
-      .finally(() => (initializing.current = false))    
+      .finally(() => (initializingRef.current = false))
   }, [initWalletAndStorage, restartWithMessage])
 
   useEffect(() => {

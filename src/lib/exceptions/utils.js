@@ -138,3 +138,7 @@ export const throwExceptionWithCode = (message, name) => {
 
   throw exception
 }
+
+export const throwException = exception => {
+  throw exception
+}

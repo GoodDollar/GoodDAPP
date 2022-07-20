@@ -39,15 +39,17 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const update = useCallback(
     async goodWallet => {
+      const { tokenContract, UBIContract, identityContract, account } = goodWallet
+      
       const calls = [
         {
-          balance: goodWallet.tokenContract.methods.balanceOf(goodWallet.account),
+          balance: tokenContract.methods.balanceOf(account),
         },
         {
-          ubi: goodWallet.UBIContract.methods.checkEntitlement(goodWallet.account),
+          ubi: UBIContract.methods.checkEntitlement(account),
         },
         {
-          isCitizen: goodWallet.identityContract.methods.isWhitelisted(goodWallet.account),
+          isCitizen: identityContract.methods.isWhitelisted(account),
         },
       ]
 
@@ -78,18 +80,22 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         } else {
           setWeb3(seedOrWeb3)
         }
+
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
 
         const storage = new UserStorage(wallet, db, new UserProperties(db))
+        const loginAndWatch = shouldLoginAndWatch()
 
         await storage.ready
-        if (shouldLoginAndWatch()) {
+
+        if (loginAndWatch) {
           await Promise.all([_login(wallet, storage, false), update(wallet)])
         }
 
         if (isLoggedInRouter) {
           await storage.initRegistered()
-          if (shouldLoginAndWatch()) {
+
+          if (loginAndWatch) {
             const { userProperties } = storage
 
             // only if user signed up then we can await for his properties
@@ -101,7 +107,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
             log.debug('starting watchBalanceAndTXs', { lastBlock })
 
             wallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.set('lastBlock', parseInt(toBlock)))
-
             wallet.balanceChanged(() => update(wallet))
           }
         }

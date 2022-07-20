@@ -202,7 +202,7 @@ const AppSwitch = (props: LoadingProps) => {
 
     if (ready && userStorage && goodWallet) {
       userStorage.sync()
-      login() //this will refresh the jwt token if wasnt active for a long time
+      login() // this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError()
     }
   }, [ready, login, goodWallet, userStorage, showOutOfGasError, checkDeepLink])
@@ -217,37 +217,37 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
-    const run = async () => {
-      if (initializing.current) {
-        return
-      }
-      try {
-        initializing.current = true
-        await initWalletAndStorage(undefined, 'SEED')
-        log.debug('storage and wallet ready')
-      } catch (e) {
-        if ('UnsignedJWTError' === e.name) {
-          return restartWithMessage(
-            "You haven't used GoodDollar app on this device for a long time. " +
-              'You need to sign in again. Make sure to use the same account you previously signed in with.',
-          )
-        }
-
-        // if error in realmdb logout the user, he needs to signin/signup again
-        log.error('failed initializing app', e.message, e)
-
-        if (e.message.includes('realmdb')) {
-          return restartWithMessage(
-            'We are sorry, but due to database upgrade, you need to perform the Signup process again. ' +
-              'Make sure to use the same account you previously signed in with.',
-          )
-        }
-
-        restartWithMessage('Wallet could not be loaded. Please refresh.', false)
-      }
+    if (initializing.current) {
+      return
     }
-    run()
-  }, [initWalletAndStorage, initializing])
+    
+    const onInitializationFailed = e => {
+      if ('UnsignedJWTError' === e.name) {
+        return restartWithMessage(
+          "You haven't used GoodDollar app on this device for a long time. " +
+            'You need to sign in again. Make sure to use the same account you previously signed in with.',
+        )
+      }
+
+      // if error in realmdb logout the user, he needs to signin/signup again
+      log.error('failed initializing app', e.message, e)
+
+      if (e.message.includes('realmdb')) {
+        return restartWithMessage(
+          'We are sorry, but due to database upgrade, you need to perform the Signup process again. ' +
+            'Make sure to use the same account you previously signed in with.',
+        )
+      }
+
+      restartWithMessage('Wallet could not be loaded. Please refresh.', false)
+    }
+    
+    initializing.current = true
+    initWalletAndStorage(undefined, 'SEED')
+      .then(() => log.debug('storage and wallet ready'))
+      .catch(onInitializationFailed)
+      .finally(() => (initializing.current = false))    
+  }, [initWalletAndStorage, restartWithMessage])
 
   useEffect(() => {
     if (ready || !initializedRegistered) {

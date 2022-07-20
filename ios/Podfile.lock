@@ -415,7 +415,7 @@ PODS:
     - React-Core
   - react-native-contacts (5.2.8):
     - React-Core
-  - react-native-facetec (1.0.23):
+  - react-native-facetec (1.0.24):
     - React
   - react-native-get-random-values (1.8.0):
     - React-Core
@@ -430,7 +430,7 @@ PODS:
   - react-native-udp (4.1.5):
     - CocoaAsyncSocket
     - React-Core
-  - react-native-version-check (3.4.2):
+  - react-native-version-check (3.4.3):
     - React
   - react-native-webview (11.22.2):
     - React-Core
@@ -936,14 +936,14 @@ SPEC CHECKSUMS:
   react-native-camera: b8cc03e2feec0c04403d0998e37cf519d8fd4c6f
   react-native-config: 7cd105e71d903104e8919261480858940a6b9c0e
   react-native-contacts: 7b5e16196278636030c3fbbb9505543984b01697
-  react-native-facetec: 9ab549871654781c001dde76dc07db6d684a35d0
+  react-native-facetec: 518ddbd9a551a8b2b281bb70afa6b267d1850e54
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 3d3769f0d65de15c83a9bf1346f8be71de5a24bf
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
   react-native-udp: 8864b1211857e9d8224ae5cbaf8580970fb99de1
-  react-native-version-check: d8b8900e6ce03ae1568cb22ef9451f2508188883
+  react-native-version-check: e85c2e21d0955b7cdfd91c0ddacc3edf14b7abd7
   react-native-webview: 159034a856a6e95995f5bf2eed40d70b103d6572
   React-perflogger: 939564c838f8b6ec099b4f858559f0f406c99745
   React-RCTActionSheet: b5135d36ee35ebd883c4fe043db7bd8cbba7516e
@@ -989,6 +989,6 @@ SPEC CHECKSUMS:
   Yoga: e6db7a0be0e80eeb70c04663605e4f6a050ab013
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: b7c38aed5f63af0d3f7c6d61c4c354516b9b56a4
+PODFILE CHECKSUM: e4bdc9bca958e2f2cb0dac2bcab60e5b42059b57
 
 COCOAPODS: 1.11.3

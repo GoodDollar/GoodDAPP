@@ -398,7 +398,7 @@ export class APIService {
       params.startblock = fromBlock
     }
 
-    const { result } = await this.sharedClient.get('/', {
+    const { result } = await this.sharedClient.get('/api', {
       params,
       baseURL: Config.networkExplorerUrl,
     })

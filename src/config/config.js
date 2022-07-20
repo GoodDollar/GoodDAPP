@@ -35,37 +35,37 @@ const ethereum = {
     network_id: 1,
     httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://explorer.fuse.io/api',
+    explorer: 'https://explorer.mainnet.aurora.dev',
   },
   '42': {
     network_id: 42,
     httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://explorer.fuse.io/api',
+    explorer: 'https://kovan.etherscan.io',
   },
   '3': {
     network_id: 3,
     httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://explorer.fuse.io/api',
+    explorer: 'https://ropsten.etherscan.io',
   },
   '121': {
     network_id: 121,
     httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
     websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
-    explorer: 'https://explorer.fuse.io/api',
+    explorer: 'https://explorer.fuse.io',
   },
   '122': {
     network_id: 122,
     httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
     websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
-    explorer: 'https://explorer.fuse.io/api',
+    explorer: 'https://explorer.fuse.io',
   },
   '4447': {
     network_id: 4447,
     httpWeb3provider: 'http://localhost:8545/',
     websocketWeb3Provider: 'ws://localhost:8545/ws',
-    explorer: 'https://explorer.fuse.io/api',
+    explorer: 'https://explorer.fuse.io',
   },
 }
 

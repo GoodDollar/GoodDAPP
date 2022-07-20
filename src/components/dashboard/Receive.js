@@ -62,7 +62,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
           <Section.Text fontSize={16} fontWeight="medium" style={styles.mainText}>
             {t`Let someone scan your wallet address`}
           </Section.Text>
-          <QRCode value={share.url} />
+          <QRCode value={share.url} size={150} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center" style={styles.orText}>
           <Section.Text fontSize={14}>- OR -</Section.Text>

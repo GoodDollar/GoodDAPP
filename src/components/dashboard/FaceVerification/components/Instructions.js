@@ -70,15 +70,17 @@ const InstructionsA = ({ styles, onDismiss = noop, ready }) => (
             </Text>
           </View>
         </View>
-        <CustomButton
-          loading={!ready}
-          enabled={ready}
-          style={[styles.button]}
-          onPress={onDismiss}
-          testID="dismiss_button"
-        >
-          GOT IT
-        </CustomButton>
+        <Section.Stack>
+          <CustomButton
+            loading={!ready}
+            enabled={ready}
+            style={[styles.button]}
+            onPress={onDismiss}
+            testID="dismiss_button"
+          >
+            GOT IT
+          </CustomButton>
+        </Section.Stack>
       </View>
     </Section>
   </Wrapper>

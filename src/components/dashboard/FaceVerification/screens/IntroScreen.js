@@ -139,9 +139,11 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
         <View style={styles.illustrationB}>
           <FashionShootSVG />
         </View>
-        <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
-          {t`OK, VERIFY ME`}
-        </CustomButton>
+        <Section.Stack>
+          <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
+            {t`OK, VERIFY ME`}
+          </CustomButton>
+        </Section.Stack>
       </View>
     </Section>
   </Wrapper>

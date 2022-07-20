@@ -26,7 +26,6 @@ import {
   keyBy,
   mapValues,
   maxBy,
-  noop,
   pickBy,
   range,
   sortBy,
@@ -41,13 +40,15 @@ import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
 import API from '../API'
-import { delay, retry as retryCall } from '../utils/async'
+import { delay, retry } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 
 import {
   getTxLogArgs,
   NULL_ADDRESS,
+  retryCall,
+  safeCall,
   WITHDRAW_STATUS_COMPLETE,
   WITHDRAW_STATUS_PENDING,
   WITHDRAW_STATUS_UNKNOWN,
@@ -60,14 +61,6 @@ const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 100000
 
 const log = logger.child({ from: 'GoodWalletV2' })
-
-// eslint-disable-next-line
-const retry = async asyncFn => retryCall(asyncFn, 1, 200)
-const safeCall = async (method, defaultValue = {}) => {
-  const result = await retry(() => method().call()).catch(noop)
-
-  return result || defaultValue
-}
 
 type EventLog = {
   event: string,
@@ -190,6 +183,7 @@ export class GoodWallet {
   init(): Promise<any> {
     const mainnetNetworkId = get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
+
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const ready = WalletFactory.create(this.config)
     this.ready = ready
@@ -199,7 +193,7 @@ export class GoodWallet {
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
         this.wallet.eth.defaultAccount = this.account
-        this.networkId = ContractsAddress[Config.network].networkId
+        this.networkId = Config.networkId
         this.network = Config.network
         log.info(`networkId: ${this.networkId}`)
         this.gasPrice = wallet.utils.toWei('1', 'gwei')
@@ -330,7 +324,7 @@ export class GoodWallet {
           return
         }
 
-        let lastBlock = await retry(() => this.wallet.eth.getBlockNumber())
+        let lastBlock = await retryCall(() => this.wallet.eth.getBlockNumber())
 
         if (lastBlock <= this.lastEventsBlock) {
           // if next block not mined yet
@@ -370,9 +364,28 @@ export class GoodWallet {
   }
 
   //eslint-disable-next-line require-await
-  async watchEvents(fromBlock, lastBlockCallback) {
+  async watchEvents(startFrom, lastBlockCallback) {
+    const { tokenContract, account } = this
+    const { _address: tokenAddress } = tokenContract
+    let fromBlock = startFrom
+
     this.setIsPollEvents(true)
+
+    if (!startFrom) {
+      const fetchTokenTxs = () => API.getTokenTXs(tokenAddress, account)
+      const [firstTx] = await retry(fetchTokenTxs, 3, 500).catch(() => [])
+
+      fromBlock = get(firstTx, 'blockNumber')
+
+      if (!fromBlock) {
+        fromBlock = await this.getBlockNumber()
+      }
+
+      log.info('watchEvents: got txs from explorer', { firstTx, fromBlock })
+    }
+
     const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
+
     lastBlockCallback(lastBlock)
     this.lastEventsBlock = lastBlock
 
@@ -456,7 +469,7 @@ export class GoodWallet {
       identity,
     )
 
-    const events = await retry(() => contract.getPastEvents('Transfer', fromEventsFilter)).catch((e = {}) => {
+    const events = await retryCall(() => contract.getPastEvents('Transfer', fromEventsFilter)).catch((e = {}) => {
       //just warn about block not  found which is recoverable
       const logFunc = e.code === -32000 ? 'warn' : 'error'
       log[logFunc]('pollSendEvents failed:', e.message, e, {
@@ -484,7 +497,7 @@ export class GoodWallet {
       identity,
     )
 
-    const events = await retry(() => contract.getPastEvents('Transfer', toEventsFilter)).catch((e = {}) => {
+    const events = await retryCall(() => contract.getPastEvents('Transfer', toEventsFilter)).catch((e = {}) => {
       //just warn about block not  found which is recoverable
       const logFunc = e.code === -32000 ? 'warn' : 'error'
       log[logFunc]('pollReceiveEvents failed:', e.message, e, {
@@ -514,7 +527,7 @@ export class GoodWallet {
 
     log.debug('pollOTPLEvents call', { fromEventsFilter })
 
-    const eventsCancel = await retry(() =>
+    const eventsCancel = await retryCall(() =>
       contract.getPastEvents('PaymentCancel', Object.assign({}, fromEventsFilter)),
     ).catch((e = {}) => {
       //just warn about block not  found which is recoverable
@@ -527,7 +540,7 @@ export class GoodWallet {
     })
 
     // const eventsWithdraw = []
-    const eventsWithdraw = await retry(() => contract.getPastEvents('PaymentWithdraw', fromEventsFilter)).catch(
+    const eventsWithdraw = await retryCall(() => contract.getPastEvents('PaymentWithdraw', fromEventsFilter)).catch(
       (e = {}) => {
         //just warn about block not  found which is recoverable
         const logFunc = e.code === -32000 ? 'warn' : 'error'
@@ -612,7 +625,7 @@ export class GoodWallet {
 
   async checkEntitlement(): Promise<number> {
     try {
-      return await retry(() =>
+      return await retryCall(() =>
         this.UBIContract.methods
           .checkEntitlement()
           .call()
@@ -662,7 +675,7 @@ export class GoodWallet {
   getReservePriceDAI = throttle(
     async () => {
       try {
-        const priceResult = await retry(() => API.graphQuery(pricesQuery))
+        const priceResult = await retryCall(() => API.graphQuery(pricesQuery))
 
         const { closePriceDAI } = get(priceResult, 'data.reserveHistories[0]')
         return Number(closePriceDAI)
@@ -686,8 +699,8 @@ export class GoodWallet {
       })
 
       let [[stakeResult], reserveHistories] = await Promise.all([
-        retry(() => this.multicallMainnet.all([gainCalls])),
-        retry(() => API.graphQuery(interestQuery)),
+        retryCall(() => this.multicallMainnet.all([gainCalls])),
+        retryCall(() => API.graphQuery(interestQuery)),
       ]).catch(e => {
         log.warn('multicallMainnet / getBlockNumber failed:', e.message, e)
         throw e
@@ -767,7 +780,7 @@ export class GoodWallet {
 
   async balanceOf(): Promise<number> {
     try {
-      const balance = await retry(() => this.tokenContract.methods.balanceOf(this.account).call())
+      const balance = await retryCall(() => this.tokenContract.methods.balanceOf(this.account).call())
       const balanceValue = toBN(balance)
 
       return balanceValue.toNumber()
@@ -783,7 +796,7 @@ export class GoodWallet {
     const { wallet, account } = this
 
     try {
-      const balance = await retry(() => wallet.eth.getBalance(account))
+      const balance = await retryCall(() => wallet.eth.getBalance(account))
       const balanceValue = parseInt(balance)
 
       if (isNaN(balanceValue)) {
@@ -832,7 +845,7 @@ export class GoodWallet {
    */
   isVerified(address: string): Promise<boolean> {
     try {
-      return retry(() => this.identityContract.methods.isWhitelisted(address).call())
+      return retryCall(() => this.identityContract.methods.isWhitelisted(address).call())
     } catch (exception) {
       const { message } = exception
 
@@ -843,7 +856,7 @@ export class GoodWallet {
 
   lastVerified(): Promise<Date> {
     try {
-      return retry(() =>
+      return retryCall(() =>
         this.identityContract.methods
           .dateAdded(this.account)
           .call()
@@ -872,7 +885,7 @@ export class GoodWallet {
    */
   async getTxFee(): Promise<number> {
     try {
-      const { 0: fee, 1: senderPays } = await retry(() => this.tokenContract.methods.getFees(1).call())
+      const { 0: fee, 1: senderPays } = await retryCall(() => this.tokenContract.methods.getFees(1).call())
 
       return senderPays ? toBN(fee) : ZERO
     } catch (exception) {
@@ -889,7 +902,7 @@ export class GoodWallet {
    */
   async calculateTxFee(amount): Promise<boolean> {
     try {
-      const { 0: fee, 1: senderPays } = await retry(() => this.tokenContract.methods.getFees(amount).call())
+      const { 0: fee, 1: senderPays } = await retryCall(() => this.tokenContract.methods.getFees(amount).call())
 
       return senderPays ? toBN(fee) : ZERO
     } catch (exception) {
@@ -1004,7 +1017,7 @@ export class GoodWallet {
    */
   isPaymentLinkAvailable(link: string): Promise<boolean> {
     try {
-      return retry(() => this.oneTimePaymentsContract.methods.hasPayment(link).call())
+      return retryCall(() => this.oneTimePaymentsContract.methods.hasPayment(link).call())
     } catch (exception) {
       const { message } = exception
 
@@ -1021,7 +1034,7 @@ export class GoodWallet {
   async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
     try {
       const hashedCode = this.getWithdrawLink(otlCode)
-      const { paymentAmount, hasPayment, paymentSender: sender } = await retry(() =>
+      const { paymentAmount, hasPayment, paymentSender: sender } = await retryCall(() =>
         this.oneTimePaymentsContract.methods.payments(hashedCode).call(),
       )
 
@@ -1141,7 +1154,7 @@ export class GoodWallet {
     )
 
     // entitelment is separate because it depends on msg.sender
-    const [[result]] = await retry(() => this.multicallFuse.all([[calls]]))
+    const [[result]] = await retryCall(() => this.multicallFuse.all([[calls]]))
 
     return result
   }
@@ -1167,7 +1180,7 @@ export class GoodWallet {
   async isInviterCodeValid(inviterCode) {
     try {
       const byteCode = this.wallet.utils.fromUtf8(inviterCode)
-      const registered = await retry(() => this.invitesContract.methods.codeToUser(byteCode).call())
+      const registered = await retryCall(() => this.invitesContract.methods.codeToUser(byteCode).call())
 
       return registered !== NULL_ADDRESS
     } catch (e) {
@@ -1178,7 +1191,7 @@ export class GoodWallet {
 
   async hasJoinedInvites(): [boolean, string, string] {
     try {
-      const user = await retry(() => this.invitesContract.methods.users(this.account).call())
+      const user = await retryCall(() => this.invitesContract.methods.users(this.account).call())
 
       return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
     } catch (e) {
@@ -1196,7 +1209,7 @@ export class GoodWallet {
         : this.wallet.utils.fromUtf8(bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength))
 
       //check under which account invitecode is registered, maybe we have a collission
-      const registered = !hasJoined && (await retry(() => this.invitesContract.methods.codeToUser(myCode).call()))
+      const registered = !hasJoined && (await retryCall(() => this.invitesContract.methods.codeToUser(myCode).call()))
 
       log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
 
@@ -1251,7 +1264,7 @@ export class GoodWallet {
 
     // entitelment is separate because it depends on msg.sender
     const calls = mapValues(callsMap, method => methods[method](account))
-    const [[result]] = await retry(() => multicallFuse.all([[calls]]))
+    const [[result]] = await retryCall(() => multicallFuse.all([[calls]]))
     const { invitees, pending: statuses } = result
     const pending = keyBy(statuses)
 
@@ -1262,7 +1275,7 @@ export class GoodWallet {
     let gasPrice = this.gasPrice
 
     try {
-      const networkGasPrice = await retry(() => this.wallet.eth.getGasPrice().then(toBN))
+      const networkGasPrice = await retryCall(() => this.wallet.eth.getGasPrice().then(toBN))
 
       if (networkGasPrice.gt(toBN('0'))) {
         gasPrice = networkGasPrice.toString()
@@ -1328,7 +1341,10 @@ export class GoodWallet {
       }
 
       //self serve using faucet. we verify nativeBalance to prevent loop with sendTransaction which calls this function also
-      if (nativeBalance >= TOP_GWEI && (await retry(() => this.faucetContract.methods.canTop(this.account).call()))) {
+      if (
+        nativeBalance >= TOP_GWEI &&
+        (await retryCall(() => this.faucetContract.methods.canTop(this.account).call()))
+      ) {
         log.info('verifyHasGas using faucet...')
 
         const toptx = this.faucetContract.methods.topWallet(this.account)

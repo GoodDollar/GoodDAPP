@@ -166,7 +166,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         // (because otherwise he wont have valid mongodb jwt)
         await userProperties.ready
 
-        const lastBlock = userProperties.get('lastBlock') || 6400000
+        const lastBlock = userProperties.get('lastBlock')
 
         log.debug('starting watchBalanceAndTXs', { lastBlock })
 

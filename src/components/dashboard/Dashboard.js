@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Dimensions, Easing, Linking, Platform, TouchableOpacity, View } from 'react-native'
+import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
 import { concat, get, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
@@ -15,8 +15,7 @@ import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/ut
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
 import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
-import { fireEvent, GOTO_TAB_FEED, INVITE_BANNER, SCROLL_FEED } from '../../lib/analytics/analytics'
-import Config from '../../config/config'
+import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
 import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -48,6 +47,7 @@ import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
+import useFeedReady from '../../lib/userStorage/useFeedReady'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -69,7 +69,6 @@ import SendLinkSummary from './SendLinkSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
-import CryptoLiteracyBanner from './FeedItems/CryptoLiteracyDecemberBanner'
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 
 const log = logger.child({ from: 'Dashboard' })
@@ -91,7 +90,6 @@ let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
-const { isCryptoLiteracy } = Config
 
 export type DashboardProps = {
   navigation: any,
@@ -160,6 +158,7 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
+  const [, onFeedReady] = useFeedReady()
 
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
@@ -202,13 +201,6 @@ const Dashboard = props => {
     [balance, headerLarge],
   )
 
-  const onBannerClicked = useOnPress(() => {
-    fireEvent(INVITE_BANNER)
-    Linking.openURL('https://ubi.gd/give')
-  }, [navigation])
-
-  const listHeaderComponent = isCryptoLiteracy ? <CryptoLiteracyBanner onPress={onBannerClicked} /> : null
-
   const listFooterComponent = <Separator color="transparent" width={50} />
 
   const handleDeleteRedirect = useCallback(() => {
@@ -224,6 +216,8 @@ const Dashboard = props => {
 
       try {
         log.debug('getFeedPage:', { reset, feeds, didRender, tab })
+
+        await onFeedReady
 
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset, tab)
@@ -262,7 +256,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab],
+    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab, onFeedReady],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)
@@ -272,9 +266,11 @@ const Dashboard = props => {
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
   //which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
+    const { feedStorage } = userStorage
+
     await getFeedPage(true)
 
-    userStorage.feedStorage.feedEvents.on('updated', onFeedUpdated)
+    feedStorage.feedEvents.on('updated', onFeedUpdated)
   }
 
   const onPreloadFeedPage = useCallback(
@@ -503,10 +499,11 @@ const Dashboard = props => {
   }, [headerLarge, balance, update, avatarCenteredPosition, headerContentWidth])
 
   useEffect(() => {
-    log.debug('Dashboard didmount', navigation)
+    log.debug('Dashboard didmount', { navigation })
+
     initDashboard()
 
-    return function() {
+    return () => {
       const { current: subscription } = resizeSubscriptionRef
 
       if (subscription) {
@@ -754,7 +751,6 @@ const Dashboard = props => {
         initialNumToRender={10}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
-        listHeaderComponent={listHeaderComponent}
         listFooterComponent={listFooterComponent}
         onEndReachedThreshold={0.8}
         windowSize={10} // Determines the maximum number of items rendered outside of the visible area

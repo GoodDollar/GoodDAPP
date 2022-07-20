@@ -2,11 +2,11 @@
 import { Linking, Platform } from 'react-native'
 
 import { DESTINATION_PATH, INVITE_CODE } from '../constants/localStorage'
-import { fireEvent, SIGNIN_FAILED } from '../../lib/analytics/analytics'
+import { fireEvent, SIGNIN_FAILED } from '../analytics/analytics'
 
-import DeepLinking from '../../lib/utils/deepLinking'
+import logger from '../logger/js-logger'
+import DeepLinking from './deepLinking'
 
-import logger from '../../lib/logger/js-logger'
 import AsyncStorage from './asyncStorage'
 
 const log = logger.child({ from: 'Linking' })

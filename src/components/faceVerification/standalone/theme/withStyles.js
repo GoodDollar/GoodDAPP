@@ -48,6 +48,13 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+
+  action: {
+    width: '100%',
+  },
+  actionsSpace: {
+    marginBottom: getDesignRelativeHeight(16),
+  },
 })
 
 export default withStyles(getStylesFromProps)

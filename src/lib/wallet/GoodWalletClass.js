@@ -1,11 +1,10 @@
 // @flow
+
 import GoodDollarABI from '@gooddollar/goodprotocol/artifacts/abis/IGoodDollar.min.json'
 import IdentityABI from '@gooddollar/goodprotocol/artifacts/abis/IIdentity.min.json'
 import cERC20ABI from '@gooddollar/goodprotocol/artifacts/abis/cERC20.min.json'
-import GoodReserveCDai from '@gooddollar/goodprotocol/artifacts/abis/GoodReserveCDai.min.json'
 import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/abis/SimpleStakingV2.min.json'
 import UBIABI from '@gooddollar/goodprotocol/artifacts/abis/UBIScheme.min.json'
-import FundManagerABI from '@gooddollar/goodprotocol/artifacts/abis/GoodFundManager.min.json'
 import GOODToken from '@gooddollar/goodprotocol/artifacts/abis/GReputation.min.json'
 import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
@@ -25,12 +24,12 @@ import {
   get,
   identity,
   keyBy,
-  last,
   mapValues,
   maxBy,
   pickBy,
   range,
   sortBy,
+  throttle,
   uniqBy,
   values,
 } from 'lodash'
@@ -54,6 +53,9 @@ import {
   WITHDRAW_STATUS_PENDING,
   WITHDRAW_STATUS_UNKNOWN,
 } from './utils'
+
+import pricesQuery from './queries/reservePrices.gql'
+import interestQuery from './queries/interestReceived.gql'
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 100000
@@ -669,97 +671,60 @@ export class GoodWallet {
     return result
   }
 
-  async getReservePriceDAI() {
-    try {
-      const { network, wallet, web3Mainnet } = this
+  // throttle querying blockchain/thegraph to once an hour
+  getReservePriceDAI = throttle(
+    async () => {
+      try {
+        const priceResult = await retryCall(() => API.graphQuery(pricesQuery))
 
-      const reserve = new web3Mainnet.eth.Contract(
-        GoodReserveCDai.abi,
-        get(ContractsAddress, `${network}-mainnet.GoodReserveCDai`),
-      )
-
-      const price = await retryCall(() => reserve.methods.currentPriceDAI().call())
-
-      return Number(wallet.utils.fromWei(price))
-    } catch (e) {
-      log.warn('getReservePriceDAI failed:', e.message, e)
-      throw e
-    }
-  }
-
-  async getClaimScreenStatsMainnet() {
-    const fundManager = new this.web3Mainnet.eth.Contract(
-      FundManagerABI.abi,
-      get(ContractsAddress, `${this.network}-mainnet.GoodFundManager`),
-    )
-
-    const cdai = new this.web3Mainnet.eth.Contract(cERC20ABI.abi, get(ContractsAddress, `${this.network}-mainnet.cDAI`))
-    const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContracts`, [])
-
-    let gainCalls = stakingContracts.map(([addr, rewards]) => {
-      const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
-
-      return { currentGains: stakingContract.methods.currentGains(true, true) }
-    })
-
-    const calls = [
-      {
-        lastCollectedInterest: fundManager.methods.lastCollectedInterest(),
-      },
-      { cdaiExchangeRate: cdai.methods.exchangeRateStored() },
-    ]
-
-    let [[stakeResult, interestResult], currentBlock] = await Promise.all([
-      this.multicallMainnet.all([gainCalls, calls]),
-      this.web3Mainnet.eth.getBlockNumber(),
-    ]).catch(e => {
-      log.warn('multicallMainnet / getBlockNumber failed:', e.message, e)
-      throw e
-    })
-
-    const result = {}
-
-    if (stakeResult) {
-      stakeResult = stakeResult.map(({ currentGains }) => [
-        parseInt(currentGains[3]) / 1e8,
-        parseInt(currentGains[4]) / 1e8,
-      ])
-
-      // console.log({ stakeData, lastCollectData })
-      result.totalFundsStaked = stakeResult.reduce((prev, cur) => prev + cur[0], 0)
-      result.pendingInterest = stakeResult.reduce((prev, cur) => prev + cur[1], 0)
-    }
-
-    if (interestResult) {
-      let [{ lastCollectedInterest }, { cdaiExchangeRate }] = interestResult
-
-      cdaiExchangeRate = this.wallet.utils.fromWei(cdaiExchangeRate) / 1e10
-
-      const estimatedBlocksSince = (Date.now() / 1000 - lastCollectedInterest) / 15
-      const InterestCollectedEventsFilter = {
-        fromBlock: (currentBlock - estimatedBlocksSince - 5000).toFixed(0),
-        toBlock: (currentBlock - estimatedBlocksSince + 5000).toFixed(0),
+        const { closePriceDAI } = get(priceResult, 'data.reserveHistories[0]')
+        return Number(closePriceDAI)
+      } catch (e) {
+        log.warn('getReservePriceDAI failed:', e.message, e)
+        throw e
       }
+    },
+    1000 * 60 * 60,
+    { leading: true },
+  )
 
-      const events = await retryCall(() =>
-        fundManager.getPastEvents('FundsTransferred', InterestCollectedEventsFilter),
-      ).catch(e => {
-        log.error('InterestCollectedEvents failed:', e.message, e, {
-          category: ExceptionCategory.Blockhain,
-        })
+  // throttle querying blockchain/thegraph to once an hour
+  getClaimScreenStatsMainnet = throttle(
+    async () => {
+      const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContractsV3`, [])
+      let gainCalls = stakingContracts.map(([addr, rewards]) => {
+        const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 
-        return []
+        return { currentGains: stakingContract.methods.currentGains(true, true) }
       })
 
-      log.debug('getInterestCollected:', { events })
+      let [[stakeResult], reserveHistories] = await Promise.all([
+        retryCall(() => this.multicallMainnet.all([gainCalls])),
+        retryCall(() => API.graphQuery(interestQuery)),
+      ]).catch(e => {
+        log.warn('multicallMainnet / getBlockNumber failed:', e.message, e)
+        throw e
+      })
 
-      let interesInCDAI = parseInt(get(last(events), 'returnValues.cDAIinterestEarned', '0')) / 1e8 //convert to decimals. cdai is 8 decimals
+      const { interestReceivedDAI } = get(reserveHistories, 'data.reserveHistories[0]', {})
+      log.debug('getInterestCollected:', { stakeResult, reserveHistories, interestReceivedDAI })
 
-      result.interestCollected = interesInCDAI * cdaiExchangeRate
-    }
+      const result = { interestCollected: interestReceivedDAI }
+      if (stakeResult) {
+        stakeResult = stakeResult.map(({ currentGains }) => [
+          parseInt(currentGains[3]) / 1e8,
+          parseInt(currentGains[4]) / 1e8,
+        ])
 
-    return result
-  }
+        result.totalFundsStaked = stakeResult.reduce((prev, cur) => prev + cur[0], 0)
+        result.pendingInterest = stakeResult.reduce((prev, cur) => prev + cur[1], 0)
+      }
+
+      return result
+    },
+    1000 * 60 * 60,
+    { leading: true },
+  )
 
   /**
    * Sets an id and place a callback function for this id, for the sent event

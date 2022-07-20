@@ -405,6 +405,15 @@ export class APIService {
 
     return result
   }
+
+  // eslint-disable-next-line require-await
+  async graphQuery(query, subgraph = 'goodsubgraphs'): AxiosPromise<any> {
+    const payload = { query }
+    const options = { baseURL: Config.graphQlUrl }
+    const url = '/' + encodeURIComponent(subgraph)
+
+    return this.sharedClient.post(url, payload, options)
+  }
 }
 
 const api = new APIService()

@@ -138,29 +138,28 @@ const AppSwitch = (props: LoadingProps) => {
     [showErrorDialog],
   )
 
-  const init = useCallback(
-    async onRetry => {
-      log.debug('initializing', { ready })
+  const initialize = useCallback(() => {
+    log.debug('initializing', { ready })
 
-      try {
-        // after dynamic routes update, if user arrived here, then he is already loggedin
-        // initialize the citizen status and wallet status
-        // create jwt token and initialize the API service
-        log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
+    try {
+      // after dynamic routes update, if user arrived here, then he is already loggedin
+      // initialize the citizen status and wallet status
+      // create jwt token and initialize the API service
+      log.debug('initialize ready', { isCitizen })
 
-        // identify user asap for analytics
-        const identifier = goodWallet.getAccountForType('login')
-        const email = userStorage.getProfileFieldValue('email') || null
+      // identify user asap for analytics
+      const identifier = goodWallet.getAccountForType('login')
+      const email = userStorage.getProfileFieldValue('email') || null
 
-        identifyWith(email, identifier)
-        AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
+      identifyWith(email, identifier)
+      AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
 
-        // this needs to wait after initreg where we initialize the database
-        runUpdates(goodWallet, userStorage, log)
-        showOutOfGasError()
+      // this needs to wait after initreg where we initialize the database
+      runUpdates(goodWallet, userStorage, log)
+      showOutOfGasError()
 
-        log.debug('initialize done')
-        setReady(true)
+      log.debug('initialize done')
+      setReady(true)
     } catch (e) {
       restartWithMessage('Wallet could not be loaded. Please refresh.', false)
     }

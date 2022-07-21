@@ -8,7 +8,6 @@ import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
-import { throwException } from '../exceptions/utils'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
 
@@ -134,7 +133,14 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       const walletLogin = new GoodWalletLogin(wallet, storage)
 
       const requestAuth = refresh =>
-        walletLogin.auth(refresh).catch(e => (refresh ? throwException(e) : requestAuth(true)))
+        walletLogin.auth(refresh).catch(exception => {
+          if (refresh) {
+            throw exception
+          }
+
+          // if no refresh was requested, retry with refresh
+          return requestAuth(true)
+        })
 
       try {
         // the login also re-initialize the api with new jwt

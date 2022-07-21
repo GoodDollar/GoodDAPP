@@ -40,7 +40,7 @@
 		D2008D73257E7D7200BFAF1F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2008D72257E7D7200BFAF1F /* GoogleService-Info.plist */; };
 		D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D726BAB12759C0550092D71C /* LaunchScreen.storyboard */; };
 		D73AC0FC277B5C8700DB2C7E /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = D73AC0FB277B5C8700DB2C7E /* AppIcon.appiconset */; };
-		D73AC0FE277B5D9C00DB2C7E /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		D73AC0FE277B5D9C00DB2C7E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		DB9407204D574FE784DEFFBA /* RobotoSlab-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD2413EB372049FEA212B762 /* RobotoSlab-ExtraBold.ttf */; };
 		DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */ = {isa = PBXBuildFile; fileRef = 93E02E113E3842B8892E0408 /* gooddollar.woff */; };
 		E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */; };
@@ -437,7 +437,7 @@
 				A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */,
 				E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */,
 				D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */,
-				D73AC0FE277B5D9C00DB2C7E /* BuildFile in Resources */,
+				D73AC0FE277B5D9C00DB2C7E /* (null) in Resources */,
 				0613FF83B35F4C5C877B0A13 /* Roboto-Medium.ttf in Resources */,
 				63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */,
 				AD667D3DF1084153B388B849 /* Roboto-Regular.ttf in Resources */,
@@ -711,6 +711,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = GoodDollar/GoodDollar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 97K3Q6WTLM;
@@ -741,6 +742,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = GoodDollar/GoodDollar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;

@@ -18,7 +18,7 @@ function Web3Network(): JSX.Element | null {
           className="flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto"
           onClick={() => toggleNetworkModal()}
         >
-          <ButtonOutlined>
+          <ButtonOutlined style={{padding: "0"}}>
               <div className="grid items-center grid-flow-col px-3 py-2 rounded-lg pointer-events-auto auto-cols-max">
                   <img
                       src={NETWORK_ICON[chainId]}

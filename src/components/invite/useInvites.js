@@ -40,18 +40,19 @@ export const useRegisterForInvites = () => {
       try {
         if (goodWallet.is3rdPartyWallet) {
           const [hasJoined, invitedBy] = await goodWallet.hasJoinedInvites()
+          
           if (!hasJoined || (inviterInviteCode && invitedBy.match(/0x0+$/))) {
-            const dialogPromise = new Promise((res, rej) => {
+            await new Promise(onDismiss => {
               showDialog({
                 image: <InfoIcon />,
                 title: t`More G$ Rewards`,
                 message: t`Sign the next transaction with your wallet,\nso you can collect your invite rewards!`,
-                onDismiss: res,
+                onDismiss,
               })
-            })
-            await dialogPromise
+            })            
           }
         }
+        
         const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
 
         log.debug('joined invites contract:', { inviteCode, inviterInviteCode })

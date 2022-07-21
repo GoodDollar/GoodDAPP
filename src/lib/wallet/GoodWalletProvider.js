@@ -48,6 +48,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       throw new Error('jwt is of unsigned user', 'UnsignedJWTError')
     }
   }
+
   const update = useCallback(
     async goodWallet => {
       const calls = [
@@ -76,6 +77,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     async (seedOrWeb3, type: 'SEED' | 'WEB3WALLET') => {
       try {
         log.info('initWalletAndStorage', { seedOrWeb3, type, isLoggedInRouter })
+
         const web3 = 'WEB3WALLET' === type ? seedOrWeb3 : undefined
         const wallet = new GoodWallet({
           type,
@@ -91,7 +93,9 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         } else {
           setWeb3(seedOrWeb3)
         }
+
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
+        
         const storage = new UserStorage(wallet, db, new UserProperties(db))
 
         await storage.ready
@@ -103,6 +107,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         if (isLoggedInRouter) {
           AsyncStorage.setItem(IS_LOGGED_IN, true)
           await storage.initRegistered()
+
           if (shouldLoginAndWatch()) {
             const { userProperties } = storage
 
@@ -144,10 +149,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         // the login also re-initialize the api with new jwt
         const { jwt } = await walletLogin.auth(refresh)
+
         if (isLoggedInRouter) {
           //verify user is registred and logged in
           await verifyUserIsRegistered(walletLogin)
         }
+        
         setLoggedInJWT(walletLogin)
 
         log.info('walletLogin', { jwt, refresh })

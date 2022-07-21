@@ -29,6 +29,7 @@ export const useWalletConnector = () => {
   const curProvider = useRef()
   const [resolveProvider, setResolveProvider] = useState()
   const { showDialog, hideDialog } = useDialog()
+
   const {
     setChain,
     isValidChain,
@@ -91,14 +92,17 @@ export const useWalletConnector = () => {
     if (provider && web3 && provider === curProvider.current && !connecting) {
       resolveProvider && resolveProvider.res(web3)
     }
+
     if (provider && provider !== curProvider.current) {
       log.debug('create wallet effect creating new wallet:', { provider, isValidChain, curProvider, resolveProvider })
 
       const web3 = new Web3(provider)
       wrapModalProxy(web3)
+      
       if (!web3.eth.defaultAccount) {
         web3.eth.defaultAccount = accounts?.[0]
       }
+      
       curProvider.current = provider
       AsyncStorage.setItem(GD_WEB3WALLET, walletName)
       resolveProvider && resolveProvider.res(web3)
@@ -110,6 +114,7 @@ export const useWalletConnector = () => {
 
   useEffect(() => {
     log.debug('chain changed', { provider, connectedChain })
+
     if (!provider) {
       return
     }

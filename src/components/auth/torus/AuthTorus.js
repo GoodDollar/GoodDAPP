@@ -207,6 +207,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
     }
 
     AsyncStorage.setItem(GD_PROVIDER, provider === 'web3wallet' ? 'WEB3WALLET' : 'SEED')
+    
     if (provider === 'selfCustody') {
       initWalletAndStorage(undefined, 'SEED') //initialize the wallet (it will generate a mnemonic)
       return selfCustody()
@@ -229,18 +230,22 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
     if (provider === 'web3wallet') {
       regMethod = REGISTRATION_METHOD_WEB3WALLET
+      
       try {
         web3Provider = await walletConnect()
       } catch (e) {
         return setWalletPreparing(false)
       }
+
       log.debug('walletConnect result:', { web3Provider })
+      
       torusUser = {
         publicAddress: web3Provider.address,
       }
     } else {
-      regMethod = REGISTRATION_METHOD_TORUS
       let torusResponse
+      
+      regMethod = REGISTRATION_METHOD_TORUS      
 
       try {
         // don't expect response if in redirect mode, this method will be called again with response from effect

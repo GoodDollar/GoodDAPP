@@ -824,20 +824,19 @@ export class GoodWallet {
     if (type === 'gd' && this.is3rdPartyWallet) {
       return defaultAccount ?? ''
     }
+    
     const accountPath = GoodWallet.AccountUsageToPath[type]
     const account = get(this.accounts, [accountPath, 'address'], defaultAccount)
 
     return account ? account.toString() : ''
   }
 
-  async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
-    const signMethod =
-      accountType === 'gd' && this.is3rdPartyWallet ? this.wallet.eth.personal.sign : this.wallet.eth.sign
+  async sign(message: string, accountType: AccountUsage = 'gd'): Promise<string> {
+    const { eth } = this.wallet
+    const signer = accountType === 'gd' && this.is3rdPartyWallet ? eth.personal : eth
+    const pKey = this.getAccountForType(accountType)
 
-    let account = this.getAccountForType(accountType)
-    let signed = await signMethod(toSign, account)
-
-    return signed
+    return signer.sign(message, pKey)
   }
 
   // eslint-disable-next-line require-await

@@ -18,23 +18,24 @@ export const useWalletConnect = () => {
   useEffect(() => {
     if (!connected) {
       setProvider(undefined)
-    } else {
-      try {
-        const web3Provider = new Web3Provider({
-          connector: connector,
-          qrcode: false,
-          rpc: { 122: 'https://rpc.fuse.io' },
+      return
+    }
+    
+    try {
+      const web3Provider = new Web3Provider({
+        connector: connector,
+        qrcode: false,
+        rpc: { 122: 'https://rpc.fuse.io' },
+      })
+      web3Provider
+        .enable()
+        .then(accounts => {
+          log.debug('connected web3Provider', { acc: web3Provider.accounts, web3Provider })
+          setProvider(web3Provider)
         })
-        web3Provider
-          .enable()
-          .then(accounts => {
-            log.debug('connected web3Provider', { acc: web3Provider.accounts, web3Provider })
-            setProvider(web3Provider)
-          })
-          .catch(e => log.warn('useEffect enable failed:', e.message, e))
-      } catch (e) {
-        log.warn('useEffect connected failed:', e.message, e)
-      }
+        .catch(e => log.warn('useEffect enable failed:', e.message, e))
+    } catch (e) {
+      log.warn('useEffect connected failed:', e.message, e)
     }
   }, [connected])
 
@@ -47,6 +48,7 @@ export const useWalletConnect = () => {
       if (!connected) {
         return
       }
+
       connector.sendCustomRequest({ method: 'wallet_switchEthereumChain', params: [{ chainId }] })
     },
     [connected, connector],
@@ -56,15 +58,18 @@ export const useWalletConnect = () => {
     if (connected) {
       return
     }
-    setConnecting(true)
+
     try {
+      setConnecting(true)
+      
       const session = await connect({ chainId: 122 })
+
       log.debug('connectSession', { session, connector })
     } catch (e) {
       log.warn('connectSession failed:', e.message, e)
-    }
-
-    setConnecting(false)
+    } finally {
+      setConnecting(false)
+    }  
   }, [connect, setConnecting, setProvider, connector, connected])
 
   return {

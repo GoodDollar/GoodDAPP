@@ -57,6 +57,7 @@ init({
 })
 export const useOnboard = () => {
   const [chainInfo, setChain] = useSetChain()
+
   const [
     {
       wallet, // the wallet that has been connected or null if not yet connected
@@ -75,6 +76,7 @@ export const useOnboard = () => {
 
   const { connectedChain } = chainInfo || {}
   const { accounts, provider } = wallet || {}
+
   return {
     connect,
     disconnect,

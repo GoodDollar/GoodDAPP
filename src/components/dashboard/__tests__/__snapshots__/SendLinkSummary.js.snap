@@ -80,7 +80,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
@@ -254,7 +254,7 @@ a few seconds to complete
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-minWidth-bcqeeo"
           style={
             Object {
               "WebkitBoxFlex": 3,

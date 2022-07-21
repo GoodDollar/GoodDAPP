@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 import { get } from 'lodash'
 
 import Text from '../../../common/view/Text'
@@ -50,6 +50,7 @@ const GeneralError = ({ styles, displayTitle, onRetry, exception }) => {
         <View style={styles.action}>
           <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
         </View>
+        <SafeAreaView />
       </View>
     </Wrapper>
   )

@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useMemo } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
 
@@ -285,6 +285,7 @@ const SendReason = (props: AmountProps) => {
             />
           </Section.Stack>
         </Section.Row>
+        <SafeAreaView />
       </Section>
     </Wrapper>
   )

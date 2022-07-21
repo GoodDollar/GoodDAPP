@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { SafeAreaView, View } from 'react-native'
+import { View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import { noop } from 'lodash'
 import useOnPress from '../../../lib/hooks/useOnPress'
@@ -172,56 +172,53 @@ const CustomButton = (props: ButtonProps) => {
   const onButtonPressed = useOnPress(onPress)
 
   return (
-    <>
-      <BaseButton
-        dark={dark}
-        testID={testID}
-        mode={mode}
-        contentStyle={[styles.contentStyle, contentStyle]}
-        theme={{ ...theme, roundness }}
-        uppercase={uppercase}
-        disabled={disabled || loading}
-        onPress={onButtonPressed}
-        {...buttonProps}
-        color={color}
-        style={[styles.buttonStyle, style]}
-      >
-        <View style={styles.contentWrapper}>
-          {icon && (!iconAlignment || iconAlignment === 'left') && (
-            <IconButton
-              icon={icon}
-              theme={theme}
-              dark={dark}
-              size={iconSize || 14}
-              style={iconStyle || styles.leftIcon}
-              color={iconColor}
-            />
-          )}
-          {loading && (
-            <ActivityIndicator
-              style={styles.activityIndicator}
-              animating={loading}
-              color={dark ? theme.colors.surface : color}
-              size={23}
-            />
-          )}
-          <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.textColor}>
-            {children}
-          </TextContent>
-          {icon && iconAlignment === 'right' && (
-            <IconButton
-              icon={icon}
-              theme={theme}
-              dark={dark}
-              size={iconSize || 14}
-              style={iconStyle || styles.rightIcon}
-              color={iconColor}
-            />
-          )}
-        </View>
-      </BaseButton>
-      <SafeAreaView />
-    </>
+    <BaseButton
+      dark={dark}
+      testID={testID}
+      mode={mode}
+      contentStyle={[styles.contentStyle, contentStyle]}
+      theme={{ ...theme, roundness }}
+      uppercase={uppercase}
+      disabled={disabled || loading}
+      onPress={onButtonPressed}
+      {...buttonProps}
+      color={color}
+      style={[styles.buttonStyle, style]}
+    >
+      <View style={styles.contentWrapper}>
+        {icon && (!iconAlignment || iconAlignment === 'left') && (
+          <IconButton
+            icon={icon}
+            theme={theme}
+            dark={dark}
+            size={iconSize || 14}
+            style={iconStyle || styles.leftIcon}
+            color={iconColor}
+          />
+        )}
+        {loading && (
+          <ActivityIndicator
+            style={styles.activityIndicator}
+            animating={loading}
+            color={dark ? theme.colors.surface : color}
+            size={23}
+          />
+        )}
+        <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.textColor}>
+          {children}
+        </TextContent>
+        {icon && iconAlignment === 'right' && (
+          <IconButton
+            icon={icon}
+            theme={theme}
+            dark={dark}
+            size={iconSize || 14}
+            style={iconStyle || styles.rightIcon}
+            color={iconColor}
+          />
+        )}
+      </View>
+    </BaseButton>
   )
 }
 

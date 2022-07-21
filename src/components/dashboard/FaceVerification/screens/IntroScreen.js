@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useEffect } from 'react'
-import { Platform, View } from 'react-native'
+import { Platform, SafeAreaView, View } from 'react-native'
 import { get } from 'lodash'
 
 //components
@@ -139,12 +139,11 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
         <View style={styles.illustrationB}>
           <FashionShootSVG />
         </View>
-        <Section.Stack>
-          <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
-            {t`OK, VERIFY ME`}
-          </CustomButton>
-        </Section.Stack>
+        <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
+          {t`OK, VERIFY ME`}
+        </CustomButton>
       </View>
+      <SafeAreaView />
     </Section>
   </Wrapper>
 )

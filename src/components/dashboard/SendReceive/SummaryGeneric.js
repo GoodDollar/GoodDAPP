@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { Platform, View } from 'react-native'
+import { Platform, SafeAreaView, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { BackButton } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
@@ -209,18 +209,22 @@ const SummaryGeneric = ({
             <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
           </Section.Row>
         )}
-        <Section.Row>
-          <Section.Row grow={1} justifyContent="flex-start">
-            <BackButton mode="text" screenProps={screenProps}>
-              Cancel
-            </BackButton>
+        <Section.Stack>
+          <Section.Row>
+            <Section.Row grow={1} justifyContent="flex-start">
+              <BackButton mode="text" screenProps={screenProps}>
+                Cancel
+              </BackButton>
+            </Section.Row>
+            <Section.Stack grow={3}>
+              <CustomButton disabled={formHasErrors()} onPress={_onPress} loading={loading}>
+                {address ? 'Confirm' : 'Confirm & Share Link'}
+              </CustomButton>
+            </Section.Stack>
           </Section.Row>
-          <Section.Stack grow={3}>
-            <CustomButton disabled={formHasErrors()} onPress={_onPress} loading={loading}>
-              {address ? 'Confirm' : 'Confirm & Share Link'}
-            </CustomButton>
-          </Section.Stack>
-        </Section.Row>
+
+          <SafeAreaView />
+        </Section.Stack>
       </Section>
       <SurveySend handleCheckSurvey={setSurvey} />
     </Wrapper>

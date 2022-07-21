@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { Image, Platform, SafeAreaView, View } from 'react-native'
 import { noop } from 'lodash'
 
 // components
@@ -70,18 +70,17 @@ const InstructionsA = ({ styles, onDismiss = noop, ready }) => (
             </Text>
           </View>
         </View>
-        <Section.Stack>
-          <CustomButton
-            loading={!ready}
-            enabled={ready}
-            style={[styles.button]}
-            onPress={onDismiss}
-            testID="dismiss_button"
-          >
-            GOT IT
-          </CustomButton>
-        </Section.Stack>
+        <CustomButton
+          loading={!ready}
+          enabled={ready}
+          style={[styles.button]}
+          onPress={onDismiss}
+          testID="dismiss_button"
+        >
+          GOT IT
+        </CustomButton>
       </View>
+      <SafeAreaView />
     </Section>
   </Wrapper>
 )

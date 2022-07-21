@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, SafeAreaView, StyleSheet } from 'react-native'
 import { BN } from 'web3-utils'
 import { t } from '@lingui/macro'
 import logger from '../../lib/logger/js-logger'
@@ -123,6 +123,7 @@ const Amount = (props: AmountProps) => {
               />
             </Section.Stack>
           </Section.Row>
+          <SafeAreaView />
         </Section>
       </Wrapper>
     </KeyboardAvoidingView>

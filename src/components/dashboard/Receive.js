@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { PixelRatio, View } from 'react-native'
+import { PixelRatio, SafeAreaView, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
@@ -93,6 +93,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
               {SHARE_TEXT}
             </CopyButton>
           )}
+          <SafeAreaView />
         </Section.Stack>
       </Section>
     </Wrapper>

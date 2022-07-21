@@ -155,6 +155,20 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
   const shareLinkClicked = useCallback(() => fireEventAnalytics('Sharelink'), [])
 
+  const [txHash, isTx] = useMemo(() => {
+    const hash = get(item, 'data.receiptHash', item.id)
+
+    return [hash, hash && hash.startsWith('0x')]
+  }, [item])
+
+  const goToTxDetails = useCallback(() => {
+    if (!isTx) {
+      return
+    }
+
+    openLink(`${config.networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
+  }, [txHash, isTx])
+
   useEffect(() => {
     if ('sendpending' !== item.displayType) {
       return
@@ -290,20 +304,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     case 'empty':
       return null
     default: {
-      const txHash = get(item, 'data.receiptHash', item.id)
-      const isTx = txHash && txHash.startsWith('0x')
-
       // receive / withdraw / notification / sendcancelled / sendcompleted
       return (
         <Section.Row style={[styles.buttonsView, isTx && styles.linkButtonView]}>
           {isTx && (
             <Section.Stack style={styles.txHashWrapper}>
-              <Section.Text
-                fontSize={11}
-                textDecorationLine="underline"
-                onPress={() => openLink('https://explorer.fuse.io/tx/' + txHash)}
-                textAlign="left"
-              >
+              <Section.Text fontSize={11} textDecorationLine="underline" onPress={goToTxDetails} textAlign="left">
                 {`Transaction Details`}
               </Section.Text>
               <Section.Text

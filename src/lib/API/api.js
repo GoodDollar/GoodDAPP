@@ -385,19 +385,34 @@ export class APIService {
     return this.sharedClient.post(url, responseObject)
   }
 
-  // eslint-disable-next-line require-await
-  async getChains(): AxiosPromise<any> {
-    return this.sharedClient.get('https://chainid.network/chains.json')
+  async getTokenTXs(token, address, fromBlock = null) {
+    const params = {
+      address,
+      sort: 'asc',
+      module: 'account',
+      action: 'tokentx',
+      contractaddress: token,
+    }
+
+    if (fromBlock) {
+      params.startblock = fromBlock
+    }
+
+    const { result } = await this.sharedClient.get('/api', {
+      params,
+      baseURL: Config.networkExplorerUrl,
+    })
+
+    return result
   }
 
   // eslint-disable-next-line require-await
-  async getContractAbi(explorer, address): AxiosPromise<any> {
-    return this.sharedClient.get(`${explorer}/api?module=contract&action=getabi&address=${address}`)
-  }
+  async graphQuery(query, subgraph = 'goodsubgraphs'): AxiosPromise<any> {
+    const payload = { query }
+    const options = { baseURL: Config.graphQlUrl }
+    const url = '/' + encodeURIComponent(subgraph)
 
-  // eslint-disable-next-line require-await
-  async queryTheGraph(subgraph, graphql): AxiosPromise<any> {
-    return this.sharedClient.post(`https://api.thegraph.com/subgraphs/name/gooddollar/${subgraph}`, { query: graphql })
+    return this.sharedClient.post(url, payload, options)
   }
 }
 

@@ -186,7 +186,7 @@ export function useOnboardConnect():OnboardConnectProps {
 
     // disconnect
     if (!isConnected && previouslyConnected.length && (tried || activated)){
-      const isWalletConnect = previouslyConnected[0].label[0] === 'WalletConnect'
+      const isWalletConnect = previouslyConnected[0].label[0] === 'WalletConnect' || 'ZenGo'
       StoreOnboardState(connectedWallets, '0x1')
       setActivated(false)
       if (isWalletConnect && activated) {

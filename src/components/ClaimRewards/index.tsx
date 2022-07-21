@@ -155,7 +155,12 @@ function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest 
             </div>
         ) : (
             <div className='m-6 mt-0'>
-                <Title className="flex justify-center flex-grow pt-3">{i18n._(t`Success!`)}</Title>
+                <Title className="flex justify-center flex-grow pt-3">
+                  { status === 'send' ?
+                    i18n._(t`Please wait`) :
+                    i18n._(t`Success!`)
+                  }
+                </Title>
                 <div className="flex items-center justify-center gap-2 pt-7 pb-7">
                     {status === 'send'
                         ? i18n._(t`Transaction was sent to the blockchain `)

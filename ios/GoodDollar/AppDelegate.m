@@ -111,13 +111,11 @@
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-  [RNBranch application:app openURL:url options:options];
-    return YES;
+  return [RNBranch application:app openURL:url options:options];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
-   [RNBranch continueUserActivity:userActivity];
-   return YES;
+  return [RNBranch continueUserActivity:userActivity];
 }
 
 #ifdef FB_SONARKIT_ENABLED

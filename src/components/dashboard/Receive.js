@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { PixelRatio, SafeAreaView, View } from 'react-native'
+import { PixelRatio, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
@@ -52,7 +52,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
       <TopBar hideBalance={false} push={screenProps.push}>
         <View style={{ height: 44 }} />
       </TopBar>
-      <Section grow>
+      <Section grow style={styles.topContainer}>
         {isBrowser && <View style={styles.emptySpace} />}
         <Section.Stack
           alignItems="center"
@@ -93,7 +93,6 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
               {SHARE_TEXT}
             </CopyButton>
           )}
-          <SafeAreaView />
         </Section.Stack>
       </Section>
     </Wrapper>
@@ -119,6 +118,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainText: {
     marginBottom: getDesignRelativeHeight(24),
+  },
+  topContainer: {
+    marginBottom: theme.paddings.bottomPadding,
   },
 })
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { SafeAreaView, View } from 'react-native'
+import { View } from 'react-native'
 import { get } from 'lodash'
 
 import Text from '../../../common/view/Text'
@@ -50,7 +50,6 @@ const GeneralError = ({ styles, displayTitle, onRetry, exception }) => {
         <View style={styles.action}>
           <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
         </View>
-        <SafeAreaView />
       </View>
     </Wrapper>
   )
@@ -72,6 +71,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingRight: getDesignRelativeWidth(theme.sizes.default),
       paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
       borderRadius: 5,
+      marginBottom: theme.paddings.bottomPadding,
     },
     errorImage: {
       height: getDesignRelativeWidth(isBrowser ? 220 : 166),

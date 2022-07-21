@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useState } from 'react'
-import { KeyboardAvoidingView, SafeAreaView, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView } from 'react-native'
 import { BN } from 'web3-utils'
 import { t } from '@lingui/macro'
 import logger from '../../lib/logger/js-logger'
@@ -10,26 +10,35 @@ import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNa
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { gdToWei, weiToGd } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
+import { withStyles } from '../../lib/styles'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
   navigation: any,
+  styles: any,
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   keyboardAvoidWrapper: {
     width: '100%',
     height: '100%',
     display: 'flex',
     flexGrow: 1,
   },
+  buttonsContainer: {
+    marginBottom: theme.paddings.bottomPadding,
+  },
+  nextButtonContainer: {
+    minWidth: getDesignRelativeWidth(244),
+  },
 })
 
 const log = logger.child({ from: 'Amount' })
 
 const Amount = (props: AmountProps) => {
-  const { screenProps } = props
+  const { screenProps, styles } = props
   const { push } = screenProps
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
@@ -93,7 +102,7 @@ const Amount = (props: AmountProps) => {
           {showScanQR && <ScanQRButton onPress={handlePressQR} />}
           {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
         </TopBar>
-        <Section grow>
+        <Section grow style={styles.buttonsContainer}>
           <Section.Stack grow justifyContent="flex-start">
             <AmountInput
               maxLength={20}
@@ -109,7 +118,7 @@ const Amount = (props: AmountProps) => {
                 {t`Cancel`}
               </BackButton>
             </Section.Row>
-            <Section.Stack grow={3}>
+            <Section.Stack grow={3} style={styles.nextButtonContainer}>
               <NextButton
                 nextRoutes={
                   isReceive
@@ -123,7 +132,6 @@ const Amount = (props: AmountProps) => {
               />
             </Section.Stack>
           </Section.Row>
-          <SafeAreaView />
         </Section>
       </Wrapper>
     </KeyboardAvoidingView>
@@ -132,4 +140,4 @@ const Amount = (props: AmountProps) => {
 
 Amount.navigationOptions = navigationOptions
 
-export default Amount
+export default withStyles(getStylesFromProps)(Amount)

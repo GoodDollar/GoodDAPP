@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useEffect } from 'react'
-import { Platform, SafeAreaView, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 
 //components
@@ -143,7 +143,6 @@ const IntroScreenB = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
           {t`OK, VERIFY ME`}
         </CustomButton>
       </View>
-      <SafeAreaView />
     </Section>
   </Wrapper>
 )
@@ -243,6 +242,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: getDesignRelativeWidth(theme.sizes.default),
     paddingRight: getDesignRelativeWidth(theme.sizes.default),
     paddingTop: getDesignRelativeHeight(isSmallDevice ? 10 : theme.sizes.defaultDouble),
+    marginBottom: theme.paddings.bottomPadding,
   },
   mainContent: {
     flexGrow: 1,

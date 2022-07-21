@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Platform, SafeAreaView } from 'react-native'
+import { Platform } from 'react-native'
 import { t } from '@lingui/macro'
 import { CustomButton, Section, Wrapper } from '../../common'
 import UserAvatar from '../../common/view/UserAvatar'
@@ -159,7 +159,6 @@ const ViewOrUploadAvatar = props => {
             </Section.Stack>
           </>
         )}
-        <SafeAreaView />
       </Section>
     </Wrapper>
   )
@@ -174,6 +173,7 @@ const getStylesFromProps = ({ theme }) => {
     section: {
       flex: 1,
       position: 'relative',
+      marginBottom: theme.paddings.bottomPadding,
     },
     avatarRow: {
       justifyContent: 'center',

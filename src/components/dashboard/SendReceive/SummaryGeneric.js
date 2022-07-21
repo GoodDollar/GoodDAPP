@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { Platform, SafeAreaView, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { BackButton } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
@@ -209,22 +209,18 @@ const SummaryGeneric = ({
             <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
           </Section.Row>
         )}
-        <Section.Stack>
-          <Section.Row>
-            <Section.Row grow={1} justifyContent="flex-start">
-              <BackButton mode="text" screenProps={screenProps}>
-                Cancel
-              </BackButton>
-            </Section.Row>
-            <Section.Stack grow={3}>
-              <CustomButton disabled={formHasErrors()} onPress={_onPress} loading={loading}>
-                {address ? 'Confirm' : 'Confirm & Share Link'}
-              </CustomButton>
-            </Section.Stack>
+        <Section.Row>
+          <Section.Row grow={1} justifyContent="flex-start">
+            <BackButton mode="text" screenProps={screenProps}>
+              Cancel
+            </BackButton>
           </Section.Row>
-
-          <SafeAreaView />
-        </Section.Stack>
+          <Section.Stack grow={3} style={styles.nextButtonContainer}>
+            <CustomButton disabled={formHasErrors()} onPress={_onPress} loading={loading}>
+              {address ? 'Confirm' : 'Confirm & Share Link'}
+            </CustomButton>
+          </Section.Stack>
+        </Section.Row>
       </Section>
       <SurveySend handleCheckSurvey={setSurvey} />
     </Wrapper>
@@ -236,6 +232,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    marginBottom: theme.paddings.bottomPadding,
   },
   sendIconWrapper: {
     height: getDesignRelativeHeight(75),
@@ -304,6 +301,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   marginForNoCreds: {
     marginBottom: getDesignRelativeHeight(100),
+  },
+  nextButtonContainer: {
+    minWidth: getDesignRelativeWidth(244),
   },
 })
 

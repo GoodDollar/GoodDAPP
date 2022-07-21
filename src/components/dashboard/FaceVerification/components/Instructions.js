@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { Image, Platform, SafeAreaView, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import { noop } from 'lodash'
 
 // components
@@ -80,7 +80,6 @@ const InstructionsA = ({ styles, onDismiss = noop, ready }) => (
           GOT IT
         </CustomButton>
       </View>
-      <SafeAreaView />
     </Section>
   </Wrapper>
 )
@@ -163,6 +162,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: getDesignRelativeWidth(theme.sizes.default),
     paddingRight: getDesignRelativeWidth(theme.sizes.default),
     paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    marginBottom: theme.paddings.bottomPadding,
   },
   topContainerB: {
     paddingVertical: 0,

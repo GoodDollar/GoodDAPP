@@ -1,12 +1,13 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { assign, get, map, zipObject } from 'lodash'
+import { assign, get, map, noop, zipObject } from 'lodash'
 
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 
 import pino from '../logger/js-logger'
+import { retry } from '../utils/async'
 
 const DECIMALS = 2
 const log = pino.child({ from: 'withdraw' })
@@ -189,4 +190,13 @@ export const executeWithdraw = async (
 
     throw e
   }
+}
+
+// eslint-disable-next-line
+export const retryCall = async asyncFn => retry(asyncFn, 1, 200)
+
+export const safeCall = async (method, defaultValue = {}) => {
+  const result = await retryCall(() => method().call()).catch(noop)
+
+  return result || defaultValue
 }

@@ -127,6 +127,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     skipSMS: skipMobile,
     skipEmailConfirmation: Config.skipEmailVerification || skipEmail,
     skipMagicLinkInfo: true, //isRegMethodSelfCustody === false,
+    torusProvider,
   }
 
   const { goodWallet, userStorage, login: loginWithWallet, isLoggedInJWT } = useContext(GoodWalletContext)

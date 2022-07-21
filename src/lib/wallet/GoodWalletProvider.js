@@ -165,19 +165,22 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   )
 
   const login = useCallback(
-    async refresh => {
+    async (withRefresh = false) => {
+      let refresh = withRefresh
+      
       if (isLoggedInJWT) {
         const { decoded, jwt } = await isLoggedInJWT.validateJWTExistenceAndExpiration()
+        
         if (!decoded || !jwt) {
           refresh = true
         }
       }
+      
       if ((!refresh && isLoggedInJWT) || !goodWallet || !userStorage) {
         return isLoggedInJWT
       }
 
-      const result = await _login(goodWallet, userStorage, refresh)
-      return result
+      return _login(goodWallet, userStorage, refresh)
     },
     [goodWallet, userStorage, isLoggedInJWT, _login],
   )

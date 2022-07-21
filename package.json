@@ -153,6 +153,7 @@
     "punycode": "^1.4.1",
     "qrcode.react": "^0.9.3",
     "qs": "^6.8.0",
+    "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-add-to-homescreen": "^1.1.0",
     "react-app-rewire-hot-loader": "^2.0.1",

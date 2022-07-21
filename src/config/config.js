@@ -1,6 +1,8 @@
-import { get, noop, once } from 'lodash'
+import { get, noop } from 'lodash'
 import moment from 'moment'
-import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
+
+import contractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
+import { version as contractsVersion } from '@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
 
 import { isWeb } from '../lib/utils/platform'
@@ -21,20 +23,68 @@ const isPhaseZero = 0 === phase
 const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
 
-const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
-const cryptoLiteracyEndDate = env.REACT_APP_CRYPTO_LITERACY_END_DATE || '2021-12-31'
+
+const alchemyKey = env.REACT_APP_ALCHEMY_KEY
+const network = env.REACT_APP_NETWORK || 'fuse'
+const { networkId } = contractsAddress[network]
+
+const fuseNetwork = {
+  httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
+  websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
+  explorer: 'https://explorer.fuse.io',
+}
+
+const ethereum = {
+  '1': {
+    network_id: 1,
+    httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://explorer.mainnet.aurora.dev',
+  },
+  '42': {
+    network_id: 42,
+    httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://kovan.etherscan.io',
+  },
+  '3': {
+    network_id: 3,
+    httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://ropsten.etherscan.io',
+  },
+  '121': {
+    ...fuseNetwork,
+    network_id: 121,
+  },
+  '122': {
+    ...fuseNetwork,
+    network_id: 122,
+  },
+  '4447': {
+    ...fuseNetwork,
+    network_id: 4447,
+    httpWeb3provider: 'http://localhost:8545/',
+    websocketWeb3Provider: 'ws://localhost:8545/ws',
+  },
+}
 
 const Config = {
   env: appEnv,
   version: appEnv === 'test' ? '1.0' : version, //hard code for tests snapshots
   contractsVersion,
+  network,
+  networkId,
+  ethereum,
   isEToro,
   phase,
   isPhaseZero,
   isPhaseOne,
   isPhaseTwo,
+  publicUrl,
+  alchemyKey,
   newVersionUrl: env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: forceLogLevel || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
@@ -45,10 +95,8 @@ const Config = {
   pinataSecret: env.REACT_APP_PINATA_SECRET,
   pinataBaseUrl: env.REACT_APP_PINATA_API_URL || 'https://api.pinata.cloud',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
-  publicUrl,
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: env.REACT_APP_INFURA_KEY,
-  network: env.REACT_APP_NETWORK || 'fuse',
   interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 8, // default is 1Week, add 1 day because its not exact
   goodDollarPriceInfoUrl: env.REACT_APP_PRICE_INFO_URL || 'https://datastudio.google.com/u/0/reporting/f1ce8f56-058c-4e31-bfd4-1a741482642a/page/p_97jwocmrmc',
   marketUrl: env.REACT_APP_MARKET_URL || 'https://gooddollarmarketplace.sharetribe.com/en',
@@ -96,7 +144,6 @@ const Config = {
   sentryDSN: env.REACT_APP_SENTRY_DSN,
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
-  isCryptoLiteracy: moment().isSameOrBefore(cryptoLiteracyEndDate, 'day'),
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: env.REACT_APP_FLAGS_URL || 'https://flagicons.lipis.dev/flags/4x3/',
   claimQueue: env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
@@ -113,58 +160,12 @@ const Config = {
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
   recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
-  alchemyKey,
   textileKey: env.REACT_APP_TEXTILE_KEY,
   enableRefund: env.REACT_APP_ENABLE_REFUND === 'true',
   refundInfoLink: env.REACT_APP_REFUND_INFO_LINK || 'https://www.gooddollar.org/restoring-a-fair-gooddollar-ubi-pool/?utm_source=wallet',
   textileSecret: env.REACT_APP_TEXTILE_SECRET,
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
   realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
-  ethereum: {
-    '1': {
-      network_id: 1,
-
-      // httpWeb3provider: `https://kovan.infura.io/v3/`,
-      httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
-
-      // websocketWeb3Provider: 'wss://kovan.infura.io/ws',
-      websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
-    },
-    '42': {
-      network_id: 42,
-
-      // httpWeb3provider: `https://kovan.infura.io/v3/`,
-      httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
-
-      // websocketWeb3Provider: 'wss://kovan.infura.io/ws',
-      websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
-    },
-    '3': {
-      network_id: 3,
-      httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-
-      // httpWeb3provider: 'https://ropsten.infura.io/v3/',
-      websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-
-      // websocketWeb3Provider: 'wss://ropsten.infura.io/ws',
-    },
-    '121': {
-      network_id: 121,
-      httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
-      websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
-    },
-    '122': {
-      network_id: 122,
-      httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
-      websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
-      explorer: 'https://explorer.fuse.io'
-    },
-    '4447': {
-      network_id: 4447,
-      httpWeb3provider: 'http://localhost:8545/',
-      websocketWeb3Provider: 'ws://localhost:8545/ws',
-    },
-  },
   nodeEnv: env.NODE_ENV,
   forcePeer: forcePeer && forcePeer[1],
   peersProb: (env.REACT_APP_GUN_PEERS_PROB || '1,0.5').split(',').map(Number),
@@ -179,21 +180,9 @@ const Config = {
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
   ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600),
+  graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
+  networkExplorerUrl: ethereum[networkId].explorer,
 }
-
-//get and override settings from server
-export const serverSettings = once(() => {
-  return fetch(Config.serverUrl + '/auth/settings', {
-    headers: { 'Content-Type': 'application/json' },
-    method: 'POST',
-    body: JSON.stringify({ env: Config.env }),
-  })
-    .then(r => r.json())
-    .catch(e => {
-      return { fromServer: 'error' }
-    })
-    .then(settings => Object.assign(Config, settings))
-})
 
 global.config = Config
 

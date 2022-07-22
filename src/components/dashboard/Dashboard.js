@@ -47,7 +47,6 @@ import Separator from '../common/layout/Separator'
 import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
-import useFeedReady from '../../lib/userStorage/useFeedReady'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -158,7 +157,6 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
-  const [, onFeedReady] = useFeedReady()
 
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
@@ -217,7 +215,7 @@ const Dashboard = props => {
       try {
         log.debug('getFeedPage:', { reset, feeds, didRender, tab })
 
-        await onFeedReady
+        await userStorage.registeredReady
 
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset, tab)
@@ -256,7 +254,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab, onFeedReady],
+    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)

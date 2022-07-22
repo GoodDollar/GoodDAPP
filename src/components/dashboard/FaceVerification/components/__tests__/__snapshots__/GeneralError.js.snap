@@ -14,7 +14,7 @@ exports[`FaceVerification GeneralError matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flex-13awgt0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-height-1pi2tsx r-justifyContent-1d7fvdj r-paddingBottom-1mdbw0j r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flex-13awgt0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-height-1pi2tsx r-justifyContent-1d7fvdj r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta"
     >
       <div
         className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1d7fvdj r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co r-width-13qz1uu"

@@ -109,6 +109,7 @@ exports[`QRCode matches snapshot 1`] = `
               "overlayVerticalPadding": 65,
             },
             "paddings": Object {
+              "bottomPadding": 0,
               "defaultMargin": 8,
               "mainContainerPadding": 8,
             },
@@ -242,6 +243,7 @@ exports[`QRCode matches snapshot 2`] = `
               "overlayVerticalPadding": 65,
             },
             "paddings": Object {
+              "bottomPadding": 0,
               "defaultMargin": 8,
               "mainContainerPadding": 8,
             },

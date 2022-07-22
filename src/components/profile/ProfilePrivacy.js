@@ -212,10 +212,10 @@ const InfoIcon = ({ color, onPress, size, style }) => {
 
 const getStylesFromProps = ({ theme }) => {
   const wrapper = {
-    borderRadius: 0,
     paddingLeft: 0,
     paddingRight: 0,
     paddingBottom: getDesignRelativeHeight(10),
+    marginBottom: theme.paddings.bottomPadding,
   }
 
   if (isSmallDevice) {

@@ -246,7 +246,7 @@ const AppSwitch = (props: LoadingProps) => {
   }, [ready, refresh, props, goodWallet, userStorage, showOutOfGasError, checkDeepLink])
 
   const persist = useCallback(() => {
-    const { initializedRegistered, userProperties } = userStorage
+    const { initializedRegistered, userProperties } = userStorage || {}
 
     if (initializedRegistered) {
       userProperties.persist()
@@ -290,7 +290,8 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     DeepLinking.subscribe(data => {
-      if (userStorage.initializedRegistered && AppState.currentState === 'active') {
+      const { initializedRegistered } = userStorage || {}
+      if (initializedRegistered && AppState.currentState === 'active') {
         openDeepLink(data)
         return
       }

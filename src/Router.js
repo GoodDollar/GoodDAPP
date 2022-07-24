@@ -19,7 +19,7 @@ import { navigationConfig } from './components/appNavigation/navigationConfig'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 import { isInstalledApp } from './lib/utils/platform'
-import { VerificationContextProvider } from './components/dashboard/FaceVerification/context/VerificationContext'
+import { VerificationContextProvider } from './components/faceVerification/context/VerificationContext'
 
 const DisconnectedSplash = () => <Splash animation={false} />
 

@@ -86,6 +86,10 @@ export class APIService {
     return this.client.post('/auth/eth', creds)
   }
 
+  fvAuth(creds: Credentials): AxiosPromise<any> {
+    return this.client.post('/auth/fv', creds)
+  }
+
   /**
    * `/user/add` post api call
    * @param {UserRecord} user
@@ -381,7 +385,7 @@ export class APIService {
   }
 
   // eslint-disable-next-line require-await
-  async sendLoginVendorDetails(url, responseObject) {
+  async invokeCallbackUrl(url, responseObject) {
     return this.sharedClient.post(url, responseObject)
   }
 

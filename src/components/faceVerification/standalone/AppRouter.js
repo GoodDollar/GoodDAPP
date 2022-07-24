@@ -14,28 +14,26 @@ import { FVFlowError, FVFlowSuccess } from '.'
 
 const log = logger.child({ from: 'FVRouter' })
 
-const LoginFlowScreens = withNavigationOptions({
+const FVFlowScreens = withNavigationOptions({
   navigationBarHidden: false,
   title: 'Face Verification',
 })({
-  FaceVerification,
   FaceVerificationIntro,
+  FaceVerification,
   FaceVerificationError,
   FVFlowSuccess,
   FVFlowError,
 })
 
 const generateRouter = () => {
-  const initialRouteName = 'FaceVerificationIntro'
-
   const routes = {
-    ...LoginFlowScreens,
+    ...FVFlowScreens,
     Support,
   }
 
   const router = createStackNavigator(routes, {})
 
-  log.debug('Generated fv router', { initialRouteName })
+  log.debug('Generated fv router')
   return createAppContainer(router)
 }
 

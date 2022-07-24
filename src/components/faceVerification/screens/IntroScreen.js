@@ -99,7 +99,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const isValid = get(screenState, 'isValid', false)
 
   const enrollmentIdentifier = useEnrollmentIdentifier()
-  const userName = useMemo(isFVFlow ? firstName : getFirstWord(fullName), [isFVFlow, firstName, fullName])
+  const userName = useMemo(() => (isFVFlow ? firstName : getFirstWord(fullName)), [isFVFlow, firstName, fullName])
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 
@@ -174,9 +174,9 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
   useEffect(() => {
     if (isFVFlow && (fvFlowError || !enrollmentIdentifier)) {
-      navigateTo('FVFlowError')
+      navigation.navigate('FVFlowError')
     }
-  }, [isFVFlow, enrollmentIdentifier, fvFlowError, navigateTo])
+  }, [isFVFlow, enrollmentIdentifier, fvFlowError])
 
   return (
     <Intro

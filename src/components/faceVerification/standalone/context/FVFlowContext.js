@@ -5,13 +5,11 @@ import useFVFlow from '../hooks/useFVFlow'
 import DeepLinking from '../../../../lib/utils/deepLinking'
 
 import logger from '../../../../lib/logger/js-logger'
-import Config from '../../../../config/config'
 
-const log = logger.child({ from: 'LoginFlowCtx' })
-const { isFVFlow } = Config
+const log = logger.child({ from: 'FVFlowCtx' })
 
 export const FVFlowContext = createContext({
-  isFVFlow,
+  isFVFlow: false,
   firstName: null,
   faceIdentifier: null,
   fvFlowError: null,
@@ -38,7 +36,7 @@ const FVFlowProvider = props => {
       value={{
         firstName,
         faceIdentifier,
-        isFVFlow,
+        isFVFlow: true, //when we render this provider we are always in fvflow
         fvFlowError: error,
         isFVFlowReady: !!jwt,
         rdu,

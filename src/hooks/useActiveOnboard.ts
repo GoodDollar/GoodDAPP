@@ -90,8 +90,9 @@ export function onboardContext(wstate: WalletState[]):ActiveOnboardInterface {
 
 export function useActiveOnboard<T = any>():ActiveOnboardInterface<T> {
   const connectedWallets = useWallets()
-  const newContext = useMemo<ActiveOnboardInterface<Web3Provider>>(() => {
+  const context = useMemo<ActiveOnboardInterface<Web3Provider>>(() => {
     if (connectedWallets.length > 0) {
+      // console.log('update ActiveOnboard context')
       const newContext = onboardContext(connectedWallets)
       return newContext
     } else {
@@ -99,7 +100,7 @@ export function useActiveOnboard<T = any>():ActiveOnboardInterface<T> {
     }
   }, [connectedWallets])
 
-  return newContext
+  return context
 }
 
 

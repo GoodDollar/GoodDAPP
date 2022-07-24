@@ -49,8 +49,8 @@ function PercentInputControls({ value, onPercentChange, disabled, type, ...rest 
         <PercentInputControlsStyled>
             <div className="flex justify-between items-center">
                 <label htmlFor="percent">
-                  { type === 'savings' ? 
-                    i18n._(t`How much earnings would you like to donate`) :
+                  { type === 'savingsDeposit' ? 
+                    i18n._(t`How much rewards would you like to donate`) :
                     i18n._(t`How much would you like to withdraw?`)
                   }
                 </label>

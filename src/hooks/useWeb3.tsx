@@ -7,8 +7,7 @@ import { useEnvWeb3, GdSDkContext } from '@gooddollar/web3sdk/dist/hooks/'
 import { DAO_NETWORK } from '@gooddollar/web3sdk/dist/constants/'
 import { getNetworkEnv } from '@gooddollar/web3sdk/dist/constants/addresses'
 
-import { Web3Provider, Fuse, useMulticallAtChain, CallsResult,  } from '@gooddollar/web3sdk-v2'
-import { Mainnet, Ropsten, Kovan, Call } from "@usedapp/core"
+import { Web3Provider } from '@gooddollar/web3sdk-v2'
 
 // TODO: remove
 const Context = createContext<Web3 | null>(null)
@@ -46,14 +45,13 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
     )
     const webprovider = useMemo(() => (eipProvider && new ethers.providers.Web3Provider(eipProvider as any)), [eipProvider])
 
-
     const mainnetChains = [1, 3, 42]
     let network = getNetworkEnv(defaultNetwork)
     if (mainnetChains.indexOf(chainId) !== -1) {
       network += '-mainnet'
     }
     const fuseEnv = network.split("-")[0] || "production";
-    // console.log('networks -->', {network, defaultNetwork}) 
+    console.log('networks -->', {network, defaultNetwork}) 
 
     // console.log('web3provider -- network -->', {webprovider, network})
 
@@ -66,7 +64,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
           web3Provider={webprovider} 
           env={fuseEnv}
           config={{
-            pollingInterval: 30000,
+            pollingInterval: 15,
             networks: [],
             readOnlyUrls: {
               122: 'https://rpc.fuse.io'

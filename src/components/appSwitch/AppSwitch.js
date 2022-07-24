@@ -37,15 +37,18 @@ const log = logger.child({ from: 'AppSwitch' })
 const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
   const { state } = navigation
-  const [ready, setReady] = useState(false)
+
   const { showErrorDialog } = useDialog()
-  const { initWalletAndStorage, isCitizen, login } = useContext(GoodWalletContext)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
-  const deepLinkingRef = useRef(null)
+  const { initWalletAndStorage, isCitizen, login } = useContext(GoodWalletContext)
+
+  const [ready, setReady] = useState(false)
+  const [initializedRegistered, setRegistered] = useState(false)
+
   const initializingRef = useRef(null)
-  const { initializedRegistered } = userStorage || {}
-  const [getNavigation, isRegistered] = usePropsRefs([navigation, initializedRegistered])
+  const deepLinkingRef = useRef(null)
+  const [getNavigation] = usePropsRefs([navigation])
 
   const _showOutOfGasError = useCallback(async () => {
     const { state, navigate } = getNavigation()
@@ -197,12 +200,21 @@ const AppSwitch = (props: LoadingProps) => {
   }, [ready, login, goodWallet, userStorage, showOutOfGasError, checkDeepLink])
 
   const persist = useCallback(() => {
+    const { initializedRegistered, userProperties } = userStorage
+
     if (initializedRegistered) {
-      userStorage.userProperties.persist()
+      userProperties.persist()
     }
-  }, [userStorage, initializedRegistered])
+  }, [userStorage])
 
   useAppState({ onForeground: recheck, onBackground: persist })
+
+  useEffect(() => {
+    // update intializedRegistered value for other effects depending on it
+    if (userStorage) {
+      userStorage.registeredReady.then(setRegistered)
+    }
+  }, [userStorage, setRegistered])
 
   useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
@@ -261,7 +273,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     DeepLinking.subscribe(data => {
-      if (isRegistered() && AppState.currentState === 'active') {
+      if (userStorage.initializedRegistered && AppState.currentState === 'active') {
         openDeepLink(data)
         return
       }
@@ -270,7 +282,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return DeepLinking.unsubscribe
-  }, [isRegistered, checkDeepLink, openDeepLink])
+  }, [userStorage, checkDeepLink, openDeepLink])
 
   const activeKey = state.routes[state.index].key
   const descriptor = descriptors[activeKey]

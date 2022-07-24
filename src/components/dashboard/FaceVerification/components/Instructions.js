@@ -162,6 +162,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: getDesignRelativeWidth(theme.sizes.default),
     paddingRight: getDesignRelativeWidth(theme.sizes.default),
     paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    marginBottom: theme.paddings.bottomPadding,
   },
   topContainerB: {
     paddingVertical: 0,

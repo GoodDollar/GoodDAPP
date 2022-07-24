@@ -30,6 +30,12 @@ const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'fuse'
 const { networkId } = contractsAddress[network]
 
+const fuseNetwork = {
+  httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
+  websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
+  explorer: 'https://explorer.fuse.io',
+}
+
 const ethereum = {
   '1': {
     network_id: 1,
@@ -50,22 +56,18 @@ const ethereum = {
     explorer: 'https://ropsten.etherscan.io',
   },
   '121': {
+    ...fuseNetwork,
     network_id: 121,
-    httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
-    websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
-    explorer: 'https://explorer.fuse.io',
   },
   '122': {
+    ...fuseNetwork,
     network_id: 122,
-    httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
-    websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
-    explorer: 'https://explorer.fuse.io',
   },
   '4447': {
+    ...fuseNetwork,
     network_id: 4447,
     httpWeb3provider: 'http://localhost:8545/',
     websocketWeb3Provider: 'ws://localhost:8545/ws',
-    explorer: 'https://explorer.fuse.io',
   },
 }
 

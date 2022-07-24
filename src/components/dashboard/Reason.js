@@ -275,7 +275,7 @@ const SendReason = (props: AmountProps) => {
               Cancel
             </BackButton>
           </Section.Row>
-          <Section.Stack style={{ minWidth: getDesignRelativeWidth(244) }}>
+          <Section.Stack grow={3} style={styles.nextButtonContainer}>
             <NextButton
               disabled={isDisabledNextButton !== false}
               nextRoutes={nextRoutes}
@@ -293,7 +293,7 @@ const SendReason = (props: AmountProps) => {
 const styles = StyleSheet.create({
   wrapper: {
     paddingTop: 37,
-    paddingBottom: theme.sizes.default * 3,
+    marginBottom: theme.paddings.bottomPadding,
   },
   container: {
     justifyContent: 'flex-start',
@@ -322,6 +322,9 @@ const styles = StyleSheet.create({
   },
   outerBoxMargin: {
     marginHorizontal: 4,
+  },
+  nextButtonContainer: {
+    minWidth: getDesignRelativeWidth(244),
   },
 })
 

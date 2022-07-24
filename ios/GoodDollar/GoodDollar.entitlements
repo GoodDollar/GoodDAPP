@@ -4,6 +4,8 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
+		<string>applinks:gooddev.netlify.app</string>
+		<string>applinks:goodqa.netlify.app</string>
 		<string>applinks:gooddollar.app.link</string>
 		<string>applinks:gooddollar-alternate.app.link</string>
 		<string>applinks:wallet.gooddollar.org</string>

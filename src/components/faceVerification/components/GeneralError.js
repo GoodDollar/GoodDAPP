@@ -71,6 +71,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingRight: getDesignRelativeWidth(theme.sizes.default),
       paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
       borderRadius: 5,
+      marginBottom: theme.paddings.bottomPadding,
     },
     errorImage: {
       height: getDesignRelativeWidth(isBrowser ? 220 : 166),

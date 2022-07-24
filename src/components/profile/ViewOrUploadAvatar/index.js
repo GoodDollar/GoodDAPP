@@ -173,6 +173,7 @@ const getStylesFromProps = ({ theme }) => {
     section: {
       flex: 1,
       position: 'relative',
+      marginBottom: theme.paddings.bottomPadding,
     },
     avatarRow: {
       justifyContent: 'center',

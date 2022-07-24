@@ -14,7 +14,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-17gur6a r-flexGrow-16y2uox r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
@@ -405,9 +405,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 }
               />
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-17gur6a r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-zIndex-184en5c"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-zIndex-184en5c"
                 style={
                   Object {
+                    "borderBottomLeftRadius": "0px",
+                    "borderBottomRightRadius": "0px",
+                    "borderTopLeftRadius": "0px",
+                    "borderTopRightRadius": "0px",
                     "width": "0px",
                   }
                 }

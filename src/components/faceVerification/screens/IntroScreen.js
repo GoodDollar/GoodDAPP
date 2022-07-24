@@ -202,6 +202,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: getDesignRelativeWidth(theme.sizes.default),
     paddingRight: getDesignRelativeWidth(theme.sizes.default),
     paddingTop: getDesignRelativeHeight(isSmallDevice ? 10 : theme.sizes.defaultDouble),
+    marginBottom: theme.paddings.bottomPadding,
   },
   mainContent: {
     flexGrow: 1,

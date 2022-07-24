@@ -269,6 +269,8 @@ export class UserStorage {
    */
   ready: Promise<boolean> = null
 
+  registeredReady: Promise<boolean> = null
+
   constructor(wallet: GoodWallet, database: DB, userProperties) {
     this.gun = defaultGun
     this.wallet = wallet
@@ -331,22 +333,25 @@ export class UserStorage {
    * Initialize wallet, user, feed and subscribe to events
    */
   async initRegistered() {
-    logger.debug('Initializing UserStorage for registered user', this.initializedRegistered)
+    const { initializedRegistered, userProperties, profileStorage } = this
 
-    if (this.initializedRegistered) {
+    logger.debug('Initializing UserStorage for registered user', initializedRegistered)
+
+    if (initializedRegistered) {
       return
     }
 
     await this.initDatabases()
 
     //after we initialize the database wait for user properties which depands on database
-    await Promise.all([this.userProperties.ready, this.profileStorage.init(), this.initFeed()])
+    await Promise.all([userProperties.ready, profileStorage.init(), this.initFeed()])
 
-    logger.debug('subscribing to wallet events')
+    const { feedStorage, setRegistered } = this
 
     logger.debug('done initializing registered userstorage')
-    this.initializedRegistered = true
+    feedStorage.ready.then(() => setRegistered(true))
 
+    this.initializedRegistered = true
     return true
   }
 
@@ -362,8 +367,9 @@ export class UserStorage {
 
   init(): Promise {
     const { wallet } = this
+    const registeredReady = new Promise(resolve => (this.setRegistered = resolve))
 
-    this.ready = (async () => {
+    const ready = (async () => {
       try {
         // firstly, awaiting for wallet is ready
         await wallet.ready
@@ -389,7 +395,8 @@ export class UserStorage {
       }
     })()
 
-    return this.ready
+    assign(this, { ready, registeredReady })
+    return ready
   }
 
   /**

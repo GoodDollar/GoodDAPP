@@ -1,18 +1,17 @@
 import React, { Fragment, useCallback, useMemo } from 'react'
-import { Image, Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { t } from '@lingui/macro'
-import { SvgUri as Svg } from 'react-native-svg'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
 import Icon from '../common/view/Icon'
+import Image from '../common/view/Image'
 import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
 import API from '../../lib/API'
-import { isMobileNative } from '../../lib/utils/platform'
 import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
 
 const defaultErrors = {}
@@ -94,18 +93,6 @@ const ProfileDataTable = ({
     }
   }, [setLockSubmit, verifyEmail, errors])
 
-  const flagImage = useMemo(() => {
-    if (!countryFlagUrl || !showCustomFlag) {
-      return null
-    }
-
-    if (countryFlagUrl.endsWith('.svg') && isMobileNative) {
-      return <Svg uri={countryFlagUrl} width={24} height={24} />
-    }
-
-    return <Image source={{ uri: countryFlagUrl }} style={styles.flag} />
-  }, [countryFlagUrl, showCustomFlag])
-
   return (
     <Section.Row alignItems="center" grow={1}>
       <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
@@ -149,7 +136,9 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {flagImage}
+              {Boolean(countryFlagUrl) && showCustomFlag && (
+                <Image source={{ uri: countryFlagUrl }} style={styles.flag} />
+              )}
               <InputRounded
                 containerStyle={countryFlagUrl && styles.disabledPhoneContainer}
                 disabled={true}

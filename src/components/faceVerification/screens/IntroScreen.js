@@ -97,9 +97,10 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { firstName, isFVFlow, fvFlowError, isFVFlowReady } = useContext(FVFlowContext)
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
+  const { navigate } = navigation
 
   const enrollmentIdentifier = useEnrollmentIdentifier()
-  const userName = useMemo(() => (isFVFlow ? firstName : getFirstWord(fullName)), [isFVFlow, firstName, fullName])
+  const userName = useMemo(() => isFVFlow ? firstName : getFirstWord(fullName), [isFVFlow, firstName, fullName])
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 
@@ -173,10 +174,14 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigateTo, pop, checkDisposalState])
 
   useEffect(() => {
-    if (isFVFlow && (fvFlowError || !enrollmentIdentifier)) {
-      navigation.navigate('FVFlowError')
+    if (!isFVFlow || !navigate) {
+      return
     }
-  }, [isFVFlow, enrollmentIdentifier, fvFlowError])
+
+    if (fvFlowError || !enrollmentIdentifier) {
+      navigate('FVFlowError')
+    }
+  }, [isFVFlow, enrollmentIdentifier, fvFlowError, navigate])
 
   return (
     <Intro

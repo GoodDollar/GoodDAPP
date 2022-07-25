@@ -59,6 +59,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7.x'
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
@@ -130,6 +133,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7.x'
       - name: fix max_user_watches
         run: |
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p

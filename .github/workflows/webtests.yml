@@ -105,6 +105,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7.x'
 
       - name: Install npm dependencies
         uses: bahmutov/npm-install@v1

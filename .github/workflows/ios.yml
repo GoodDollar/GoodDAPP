@@ -55,6 +55,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7.x'
       # install app deps
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
@@ -128,6 +131,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7.x'
       - name: fix max_user_watches
         run: |
           sudo sysctl -w kern.maxfiles=524288

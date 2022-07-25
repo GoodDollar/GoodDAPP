@@ -9,7 +9,7 @@ import logger from '../../../../lib/logger/js-logger'
 const log = logger.child({ from: 'FVFlowCtx' })
 
 export const FVFlowContext = createContext({
-  isFVFlow: false,
+  isFVFlow: false, // false as default will be changed to true on first provider render
   firstName: null,
   faceIdentifier: null,
   fvFlowError: null,
@@ -36,7 +36,7 @@ const FVFlowProvider = props => {
       value={{
         firstName,
         faceIdentifier,
-        isFVFlow: true, //when we render this provider we are always in fvflow
+        isFVFlow: true, // when we render this provider we are always in fvflow
         fvFlowError: error,
         isFVFlowReady: !!jwt,
         rdu,

@@ -23,5 +23,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     aspectRatio: getSVGAspectRatio(WavesSVG),
+    transform: [{ rotateY: '180deg' }],
   },
 })

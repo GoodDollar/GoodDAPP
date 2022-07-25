@@ -48,7 +48,6 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
-import { IS_NOTIFIED_OF_CLAIM } from '../../lib/constants/localStorage'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -481,8 +480,6 @@ const Claim = props => {
 
         // reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
-
-        await AsyncStorage.setItem(IS_NOTIFIED_OF_CLAIM, false)
 
         showDialog({
           image: <LoadingAnimation success speed={2} />,

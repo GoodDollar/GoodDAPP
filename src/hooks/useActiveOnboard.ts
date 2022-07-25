@@ -140,6 +140,7 @@ export function useOnboardConnect():OnboardConnectProps {
   const [{ wallet, connecting}, connect, disconnect] = useConnectWallet()
   const [ {chains, connectedChain, settingChain}, setChain] = useSetChain()
   const connectedWallets = useWallets()
+  const walletConnectLabels = ['WalletConnect', 'ZenGo']
 
   const previouslyConnected:any = JSON.parse(
     localStorage.getItem('currentConnectWallet') ?? '[]'
@@ -186,7 +187,7 @@ export function useOnboardConnect():OnboardConnectProps {
 
     // disconnect
     if (!isConnected && previouslyConnected.length && (tried || activated)){
-      const isWalletConnect = previouslyConnected[0].label[0] === 'WalletConnect'
+      const isWalletConnect = walletConnectLabels.includes(previouslyConnected[0].label[0])
       StoreOnboardState(connectedWallets, '0x1')
       setActivated(false)
       if (isWalletConnect && activated) {

@@ -17,7 +17,7 @@ exports[`Splash matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundImage-o7i658 r-height-1pi2tsx r-opacity-1oec5bt r-position-u8s1d r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundImage-o7i658 r-height-1pi2tsx r-opacity-1oec5bt r-position-u8s1d r-transform-1defyd4 r-width-13qz1uu"
       />
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1777fci r-overflow-1udh08x"

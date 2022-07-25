@@ -59,7 +59,7 @@ jobs:
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn --frozen-lockfile --network-timeout 100000
+          install-command: yarn --immutable
       # extract/decrypt secrets, finalize env preparation
       - name: add .env secrets
         env:
@@ -143,7 +143,7 @@ jobs:
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn --frozen-lockfile --network-timeout 100000
+          install-command: yarn --immutable
       - name: Restore Pods cache
         uses: actions/cache@v2
         with:

@@ -100,7 +100,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { navigate } = navigation
 
   const enrollmentIdentifier = useEnrollmentIdentifier()
-  const userName = useMemo(() => isFVFlow ? firstName : getFirstWord(fullName), [isFVFlow, firstName, fullName])
+  const userName = useMemo(() => (isFVFlow ? firstName : getFirstWord(fullName)), [isFVFlow, firstName, fullName])
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 

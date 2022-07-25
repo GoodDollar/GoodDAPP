@@ -182,6 +182,7 @@ const Config = {
   ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600),
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
   networkExplorerUrl: ethereum[networkId].explorer,
+  isFVFlow: process.env.REACT_APP_BUILD_TARGET === 'FV',
 }
 
 global.config = Config

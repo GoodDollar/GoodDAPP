@@ -5,9 +5,12 @@ import { DESTINATION_PATH, INVITE_CODE } from '../constants/localStorage'
 import { fireEvent, SIGNIN_FAILED } from '../analytics/analytics'
 
 import logger from '../logger/js-logger'
+import API from '../API'
 import DeepLinking from './deepLinking'
 
 import AsyncStorage from './asyncStorage'
+import { encodeBase64Params } from './uri'
+import { exitApp } from './system'
 
 const log = logger.child({ from: 'Linking' })
 const schemeRe = /(.+?:)\/\//
@@ -76,5 +79,19 @@ export const handleLinks = async (logger = log) => {
     }
 
     logger.error('parsing in-app link failed', e.message, e, params)
+  }
+}
+
+export const redirectTo = async (url, type: 'rdu' | 'cbu', params = {}) => {
+  if (type === 'rdu') {
+    return openLink(`${url}?login=${encodeBase64Params(params)}`, '_self')
+  }
+
+  try {
+    await API.invokeCallbackUrl(url, params)
+  } catch (e) {
+    log.warn('Error sending login vendor details', e.message, e)
+  } finally {
+    exitApp()
   }
 }

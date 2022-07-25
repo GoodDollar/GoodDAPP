@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { t } from '@lingui/macro'
+import { SvgUri as Svg } from 'react-native-svg'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
@@ -11,6 +12,7 @@ import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
 import API from '../../lib/API'
+import { isMobileNative } from '../../lib/utils/platform'
 import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
 
 const defaultErrors = {}
@@ -92,6 +94,18 @@ const ProfileDataTable = ({
     }
   }, [setLockSubmit, verifyEmail, errors])
 
+  const flagImage = useMemo(() => {
+    if (!countryFlagUrl || !showCustomFlag) {
+      return null
+    }
+
+    if (countryFlagUrl.endsWith('.svg') && isMobileNative) {
+      return <Svg uri={countryFlagUrl} width={24} height={24} />
+    }
+
+    return <Image source={{ uri: countryFlagUrl }} style={styles.flag} />
+  }, [countryFlagUrl, showCustomFlag])
+
   return (
     <Section.Row alignItems="center" grow={1}>
       <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
@@ -135,9 +149,7 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {!phoneMeta || !showCustomFlag || !countryFlagUrl ? null : (
-                <Image source={{ uri: countryFlagUrl }} style={styles.flag} />
-              )}
+              {flagImage}
               <InputRounded
                 containerStyle={countryFlagUrl && styles.disabledPhoneContainer}
                 disabled={true}
@@ -213,11 +225,10 @@ const getStylesFromProps = ({ theme, errors }) => {
       height: 24,
       width: 24,
       borderWidth: 1,
-      borderStyle: 'solid',
       borderColor: theme.colors.lightGray,
-      borderRadius: Platform.select({
-        web: '50%',
-        default: 24 / 2,
+      ...Platform.select({
+        web: { borderRadius: '50%', borderStyle: 'solid' },
+        default: { borderRadius: 24 / 2 },
       }),
     },
     disabledPhoneContainer: {

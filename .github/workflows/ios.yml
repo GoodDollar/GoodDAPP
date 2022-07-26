@@ -219,6 +219,7 @@ jobs:
 #        run: |
 #          echo "deploying to ${{ env.APPCENTER_NAME }}"
 #          npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+      -
       - name: Upload app to TestFlight
         if: ${{ env.TARGET_BRANCH == '3819-appstore-publishing' }}
         uses: apple-actions/upload-testflight-build@v1

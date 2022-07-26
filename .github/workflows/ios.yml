@@ -24,7 +24,8 @@ jobs:
   codepush:
     name: Hot Code Push
     runs-on: macOS-latest
-    if: github.event_name != 'workflow_dispatch'
+    # temporary disabled
+    if: github.event_name != 'workflow_dispatch' && false
     steps:
       - name: Pre-checks - Env is Dev
         run: |
@@ -84,7 +85,7 @@ jobs:
     runs-on: macOS-latest
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag :
     if: |
-      endsWith(github.ref, '3728-update-ios-ci-workflow') ||
+      endsWith(github.ref, '3819-appstore-publishing') ||
       github.event_name == 'workflow_dispatch' ||
       (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
@@ -213,18 +214,19 @@ jobs:
             -archivePath ./build/GoodDollar.xcarchive \
             -exportOptionsPlist $PWD/ci.plist \
             -exportPath $PWD/build
-      - name: Deploy to App Center
-        run: |
-          echo "deploying to ${{ env.APPCENTER_NAME }}"
-          npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+#        temporary disabled
+#      - name: Deploy to App Center
+#        run: |
+#          echo "deploying to ${{ env.APPCENTER_NAME }}"
+#          npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
       - name: Upload app to TestFlight
-        if: ${{ env.TARGET_BRANCH == 'staging' }}
+        if: ${{ env.TARGET_BRANCH == '3819-appstore-publishing' }}
         uses: apple-actions/upload-testflight-build@v1
         with:
           app-path: "ios/build/GoodDollar.ipa"
           issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
           api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
-          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY_BASE_64 | base64 --decode }}
       - name: Distribute to stores via AppCenter - PROD ONLY
         id: appcenter-publish
         if: ${{ env.IS_PROD }}

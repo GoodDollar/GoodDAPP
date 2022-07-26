@@ -1,15 +1,11 @@
-import { get, isNil, isString } from 'lodash'
+import { get, isString } from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Image as NativeImage, StyleSheet, View } from 'react-native'
-import { SvgUri as Svg } from 'react-native-svg'
+import { Image as NativeImage, StyleSheet } from 'react-native'
 
-import { isMobileNative } from '../../../lib/utils/platform'
 import useMountedState from '../../../lib/hooks/useMountedState'
 import logger from '../../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'Image' })
-
-const SVG_EXT = '.svg'
 
 const isAutoHeight = ({ width, height }) => !!width && 'auto' === height
 
@@ -21,7 +17,6 @@ const Image = ({ style = {}, source, ...props }) => {
 
   // image source could be base64 data uri
   const uri = useMemo(() => get(source, 'uri', isString(source) ? source : null), [source])
-  const isNativeSvg = useMemo(() => uri?.endsWith(SVG_EXT) && isMobileNative, [uri])
   const fixed = !isAutoHeight(flattenStyle)
 
   const imageStyle = useMemo(() => {
@@ -32,19 +27,6 @@ const Image = ({ style = {}, source, ...props }) => {
           aspectRatio,
         }
   }, [flattenStyle, aspectRatio])
-
-  const svgStyle = useMemo(() => {
-    const { width, height, borderRadius, ...restStyles } = flattenStyle
-    return {
-      ...restStyles,
-      overflow: 'hidden',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: !isNil(width) ? width - 4 : undefined,
-      height: !isNil(height) ? height - 4 : undefined,
-      borderRadius: !isNil(borderRadius) ? borderRadius - 2 : undefined,
-    }
-  }, [flattenStyle])
 
   useEffect(() => {
     const onImageSize = (width, height) => {
@@ -68,14 +50,6 @@ const Image = ({ style = {}, source, ...props }) => {
 
   if (!aspectRatio && !fixed) {
     return null
-  }
-
-  if (isNativeSvg) {
-    return (
-      <View style={svgStyle}>
-        <Svg uri={uri} width={flattenStyle.width} height={flattenStyle.height} />
-      </View>
-    )
   }
 
   return <NativeImage {...props} source={source} style={imageStyle} />

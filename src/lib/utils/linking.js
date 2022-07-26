@@ -53,7 +53,7 @@ export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank
 }
 
 export const handleLinks = async (logger = log) => {
-  const { params } = DeepLinking
+  const { params, pathname } = DeepLinking
 
   try {
     const { inviteCode } = params
@@ -63,7 +63,7 @@ export const handleLinks = async (logger = log) => {
       await AsyncStorage.setItem(INVITE_CODE, inviteCode)
     }
 
-    let path = get(DeepLinking, 'pathname', '').slice(1)
+    let path =(pathname || '').slice(1)
     path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
 
     if (params && Object.keys(params).length > 0) {

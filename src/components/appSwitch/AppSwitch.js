@@ -274,6 +274,7 @@ const AppSwitch = (props: LoadingProps) => {
 
     DeepLinking.subscribe(data => {
       const { initializedRegistered } = userStorage || {}
+
       if (initializedRegistered && AppState.currentState === 'active') {
         openDeepLink(data)
         return

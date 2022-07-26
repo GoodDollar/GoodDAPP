@@ -23,7 +23,7 @@ class AnimationBase extends React.Component {
 
     this.onUnmount && this.onUnmount()
 
-    if (!isIOSNative || !this.subscription) {
+    if (!this.subscription) {
       return
     }
 

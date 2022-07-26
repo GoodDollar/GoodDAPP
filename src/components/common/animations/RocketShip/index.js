@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { AppState, View } from 'react-native'
+import { View } from 'react-native'
 
 import AnimationBase from '../Base'
 import { getScreenHeight } from '../../../../lib/utils/orientation'
@@ -18,10 +18,8 @@ const styles = {
 }
 
 class RocketShip extends AnimationBase {
-  finished = false
-
   onMount = () => {
-    const { anim, onAppStateChange } = this
+    const { anim } = this
 
     if (!isMobileNative) {
       anim.addEventListener('enterFrame', ({ currentTime }) => {
@@ -34,11 +32,6 @@ class RocketShip extends AnimationBase {
     }
 
     anim.play()
-    this.subscription = AppState.addEventListener('change', onAppStateChange)
-  }
-
-  onUnmount = () => {
-    this.subscription.remove()
   }
 
   onFinish = isCancelled => {
@@ -47,20 +40,6 @@ class RocketShip extends AnimationBase {
     }
 
     this.anim.play(cycleStart, cycleEnd)
-  }
-
-  onAppStateChange = newState => {
-    const { anim } = this
-    const [wasActive, becomeActive] = [AppState.currentState, newState].map(state => 'active' === state)
-
-    if (wasActive && !becomeActive) {
-      anim.pause()
-      return
-    }
-
-    if (!wasActive && becomeActive) {
-      anim.resume()
-    }
   }
 
   render() {

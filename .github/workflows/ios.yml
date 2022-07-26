@@ -219,7 +219,9 @@ jobs:
 #        run: |
 #          echo "deploying to ${{ env.APPCENTER_NAME }}"
 #          npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-      -
+      - name: TestFlight preparation
+        run: |
+          echo {{ $secrets.APPSTORE_API_PRIVATE_KEY_BASE_64 }} | base64 --decode > $HOME/AppstoreApiPrivateKey.p8
       - name: Upload app to TestFlight
         if: ${{ env.TARGET_BRANCH == '3819-appstore-publishing' }}
         uses: apple-actions/upload-testflight-build@v1
@@ -227,7 +229,7 @@ jobs:
           app-path: "ios/build/GoodDollar.ipa"
           issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
           api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
-          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY_BASE_64 }} | base64 --decode
+          api-private-key: $HOME/AppstoreApiPrivateKey.p8
       - name: Distribute to stores via AppCenter - PROD ONLY
         id: appcenter-publish
         if: ${{ env.IS_PROD }}

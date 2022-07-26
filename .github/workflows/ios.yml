@@ -235,6 +235,5 @@ jobs:
           echo steps.appcenter-publish.exit_code
       - name: Distribute to stores via Xcode - PROD ONLY
         # Run only if distribution via AppCenter failed
-        if: env.IS_PROD && steps.appcenter-publish.exit_code != 0
-        run: |
-          xcrun altool --upload-app -t ios -f ios/build/GoodDollar.ipa -u ${{ secrets.$APPLEID_USERNAME }} -p ${{ secrets.$APPLEID_PASSWORD }} --verbose
+        if: ${{ env.IS_PROD && steps.appcenter-publish.exit_code != 0 }}
+        run: xcrun altool --upload-app -t ios -f ios/build/GoodDollar.ipa -u ${{ secrets.APPLEID_USERNAME }} -p ${{ secrets.APPLEID_PASSWORD }} --verbose

@@ -1,17 +1,10 @@
 import React from 'react'
 import { cloneDeep, once } from 'lodash'
-import { AppState } from 'react-native'
-import { isIOSNative, isMobileNative } from '../../../lib/utils/platform'
+import { isMobileNative } from '../../../lib/utils/platform'
 
 class AnimationBase extends React.Component {
   componentDidMount() {
     this.initAnimation()
-
-    if (!isIOSNative) {
-      return
-    }
-
-    this.subscription = AppState.addEventListener('change', this.handleAppStateChange)
   }
 
   componentWillUnmount() {
@@ -22,18 +15,6 @@ class AnimationBase extends React.Component {
     }
 
     this.onUnmount && this.onUnmount()
-
-    if (!this.subscription) {
-      return
-    }
-
-    this.subscription.remove()
-  }
-
-  handleAppStateChange = nextAppState => {
-    if (nextAppState === 'active' && this.anim) {
-      this.anim.play()
-    }
   }
 
   started = once(() => {

@@ -39,24 +39,27 @@ class RocketShip extends AnimationBase {
     }
   }
 
+  appStateListenerCallback = nextState => {
+    if (this.state.prevAppState === 'active' && nextState.match(/inactive|background/)) {
+      this.state.progress.stopAnimation(lastAnimValue => this.setState({ lastAnimValue }))
+    }
+    if (this.state.prevAppState.match(/inactive|background/) && nextState === 'active') {
+      this.startAnimation(this.state.lastAnimValue, op)
+    }
+    this.setState({ prevAppState: nextState })
+  }
+
   componentDidMount() {
     this.state.progress.addListener(this.animationListenerCallback)
 
-    AppState.addEventListener('change', nextState => {
-      if (this.state.prevAppState === 'active' && nextState.match(/inactive|background/)) {
-        this.state.progress.stopAnimation(lastAnimValue => this.setState({ lastAnimValue }))
-      }
-      if (this.state.prevAppState.match(/inactive|background/) && nextState === 'active') {
-        this.startAnimation(this.state.lastAnimValue, op)
-      }
-      this.setState({ prevAppState: nextState })
-    })
+    this.appStateSubscriber = AppState.addEventListener('change', this.appStateListenerCallback)
 
     this.startAnimation(0, op)
   }
 
   componentWillUnmount() {
     this.state.progress.removeAllListeners()
+    this.appStateSubscriber.remove()
   }
 
   render() {

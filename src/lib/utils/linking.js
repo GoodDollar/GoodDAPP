@@ -1,5 +1,6 @@
 // @flow
 import { Linking, Platform } from 'react-native'
+import { get } from 'lodash'
 
 import { DESTINATION_PATH, INVITE_CODE } from '../constants/localStorage'
 import { fireEvent, SIGNIN_FAILED } from '../analytics/analytics'
@@ -52,7 +53,7 @@ export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank
 }
 
 export const handleLinks = async (logger = log) => {
-  const params = DeepLinking.params
+  const { params } = DeepLinking
 
   try {
     const { inviteCode } = params
@@ -62,7 +63,7 @@ export const handleLinks = async (logger = log) => {
       await AsyncStorage.setItem(INVITE_CODE, inviteCode)
     }
 
-    let path = DeepLinking.pathname.slice(1)
+    let path = get(DeepLinking, 'pathname', '').slice(1)
     path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
 
     if (params && Object.keys(params).length > 0) {

@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useMemo } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
@@ -136,7 +136,11 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {CountryFlag && <CountryFlag style={styles.flag} />}
+              {CountryFlag && (
+                <View style={styles.flagContainer}>
+                  <CountryFlag width={30} height={30} />
+                </View>
+              )}
               <InputRounded
                 containerStyle={CountryFlag && styles.disabledPhoneContainer}
                 disabled={true}
@@ -208,9 +212,12 @@ const getStylesFromProps = ({ theme, errors }) => {
       position: 'relative',
       marginVertical: 4,
     },
-    flag: {
+    flagContainer: {
       height: 24,
       width: 24,
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden',
       borderWidth: 1,
       borderColor: theme.colors.lightGray,
       ...Platform.select({

@@ -37,14 +37,13 @@ export const getCountryCodeForFlag = country => {
   }
 }
 
-export default countryCode => {
-  if (countryCode === undefined) {
-    return
-  }
+export default countryCode =>
+  useMemo(() => {
+    if (countryCode === undefined) {
+      return
+    }
 
-  return useMemo(() => {
     const code = getCountryCodeForFlag(countryCode)
 
     return getCountryFlag(code)
   }, [countryCode])
-}

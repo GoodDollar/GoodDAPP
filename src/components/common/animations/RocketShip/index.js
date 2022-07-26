@@ -1,77 +1,81 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { Animated, AppState, Easing, View } from 'react-native'
+import { AppState, View } from 'react-native'
 
 import AnimationBase from '../Base'
 import { getScreenHeight } from '../../../../lib/utils/orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+import { isMobileNative } from '../../../../lib/utils/platform'
 
 const { animationData, imageAssetsFolder } = getAnimationData('RocketShip', require('./data'))
-const { fr, op } = animationData
 
-const styles = { marginTop: -getScreenHeight() / 60, width: '100%' }
+const cycleStart = 29
+const cycleEnd = 195
+
+const styles = {
+  marginTop: -getScreenHeight() / 60,
+  width: '100%',
+}
 
 class RocketShip extends AnimationBase {
-  state = {
-    progress: new Animated.Value(0),
-    prevAppState: 'active',
-    lastAnimValue: 0,
-  }
+  finished = false
 
-  static getDuration(start, end) {
-    return fr * end - fr * start
-  }
+  onMount = () => {
+    const { anim, onAppStateChange } = this
 
-  startAnimation(start, end) {
-    this.state.progress.setValue(start)
-    Animated.timing(this.state.progress, {
-      toValue: end,
-      duration: RocketShip.getDuration(start, end),
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start()
-  }
+    if (!isMobileNative) {
+      anim.addEventListener('enterFrame', ({ currentTime }) => {
+        if (currentTime < cycleEnd) {
+          return
+        }
 
-  animationListenerCallback = ({ value }) => {
-    if (value >= op - 2) {
-      this.state.progress.stopAnimation()
-      this.startAnimation(29, op)
+        anim.goToAndPlay(cycleStart, true)
+      })
     }
+
+    anim.play()
+    this.subscription = AppState.addEventListener('change', onAppStateChange)
   }
 
-  appStateListenerCallback = nextState => {
-    if (this.state.prevAppState === 'active' && nextState.match(/inactive|background/)) {
-      this.state.progress.stopAnimation(lastAnimValue => this.setState({ lastAnimValue }))
+  onUnmount = () => {
+    this.subscription.remove()
+  }
+
+  onFinish = isCancelled => {
+    if (!isMobileNative || isCancelled) {
+      return
     }
-    if (this.state.prevAppState.match(/inactive|background/) && nextState === 'active') {
-      this.startAnimation(this.state.lastAnimValue, op)
+
+    this.anim.play(cycleStart, cycleEnd)
+  }
+
+  onAppStateChange = newState => {
+    const { anim } = this
+    const [wasActive, becomeActive] = [AppState.currentState, newState].map(state => 'active' === state)
+
+    if (wasActive && !becomeActive) {
+      anim.pause()
+      return
     }
-    this.setState({ prevAppState: nextState })
-  }
 
-  componentDidMount() {
-    this.state.progress.addListener(this.animationListenerCallback)
-
-    this.appStateSubscriber = AppState.addEventListener('change', this.appStateListenerCallback)
-
-    this.startAnimation(0, op)
-  }
-
-  componentWillUnmount() {
-    this.state.progress.removeAllListeners()
-    this.appStateSubscriber.remove()
+    if (!wasActive && becomeActive) {
+      anim.resume()
+    }
   }
 
   render() {
-    const progress = this.state.progress.interpolate({ inputRange: [0, op], outputRange: [0, 1] })
+    const { onFinish, setAnim } = this
+    const source = this.improveAnimationData(animationData)
+
     return (
       <View>
         <Lottie
+          onAnimationFinish={onFinish}
           loop={false}
           imageAssetsFolder={imageAssetsFolder}
-          progress={progress}
+          ref={setAnim}
           style={styles}
-          source={this.improveAnimationData(animationData)}
+          source={source}
           enableMergePathsAndroidForKitKatAndAbove
         />
       </View>

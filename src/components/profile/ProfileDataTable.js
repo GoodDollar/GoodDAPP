@@ -138,7 +138,7 @@ const ProfileDataTable = ({
             <Fragment>
               {CountryFlag && (
                 <View style={styles.flagContainer}>
-                  <CountryFlag width={30} height={30} />
+                  <CountryFlag style={styles.flag} />
                 </View>
               )}
               <InputRounded
@@ -224,6 +224,10 @@ const getStylesFromProps = ({ theme, errors }) => {
         web: { borderRadius: '50%', borderStyle: 'solid' },
         default: { borderRadius: 24 / 2 },
       }),
+    },
+    flag: {
+      width: 30,
+      height: 30,
     },
     disabledPhoneContainer: {
       paddingLeft: 10,

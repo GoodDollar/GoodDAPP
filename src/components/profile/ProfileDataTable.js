@@ -4,9 +4,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { t } from '@lingui/macro'
-import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
+import useCountryFlag from '../../lib/hooks/useCountryFlag'
 import Icon from '../common/view/Icon'
-import Image from '../common/view/Image'
 import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
@@ -35,7 +34,8 @@ const ProfileDataTable = ({
     showCustomFlag,
     mobile,
   ])
-  const countryFlagUrl = useCountryFlagUrl(phoneMeta ? phoneMeta.country : undefined)
+
+  const CountryFlag = useCountryFlag(phoneMeta ? phoneMeta.country : undefined)
 
   const verifyEdit = useCallback(
     (field, content) => {
@@ -136,11 +136,9 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {Boolean(countryFlagUrl) && showCustomFlag && (
-                <Image source={{ uri: countryFlagUrl }} style={styles.flag} />
-              )}
+              {CountryFlag && <CountryFlag style={styles.flag} />}
               <InputRounded
-                containerStyle={countryFlagUrl && styles.disabledPhoneContainer}
+                containerStyle={CountryFlag && styles.disabledPhoneContainer}
                 disabled={true}
                 error={errors.mobile}
                 icon="phone"

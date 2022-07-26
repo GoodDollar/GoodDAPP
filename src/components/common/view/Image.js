@@ -1,6 +1,6 @@
-import { get, isString } from 'lodash'
+import { get, isNil, isString } from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Image as NativeImage, StyleSheet } from 'react-native'
+import { Image as NativeImage, StyleSheet, View } from 'react-native'
 import { SvgUri as Svg } from 'react-native-svg'
 
 import { isMobileNative } from '../../../lib/utils/platform'
@@ -33,6 +33,19 @@ const Image = ({ style = {}, source, ...props }) => {
         }
   }, [flattenStyle, aspectRatio])
 
+  const svgStyle = useMemo(() => {
+    const { width, height, borderRadius, ...restStyles } = flattenStyle
+    return {
+      ...restStyles,
+      overflow: 'hidden',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: !isNil(width) ? width - 4 : undefined,
+      height: !isNil(height) ? height - 4 : undefined,
+      borderRadius: !isNil(borderRadius) ? borderRadius - 2 : undefined,
+    }
+  }, [flattenStyle])
+
   useEffect(() => {
     const onImageSize = (width, height) => {
       // check is component still mounted
@@ -58,7 +71,11 @@ const Image = ({ style = {}, source, ...props }) => {
   }
 
   if (isNativeSvg) {
-    return <Svg uri={uri} width={flattenStyle.width} height={flattenStyle.height} />
+    return (
+      <View style={svgStyle}>
+        <Svg uri={uri} width={flattenStyle.width} height={flattenStyle.height} />
+      </View>
+    )
   }
 
   return <NativeImage {...props} source={source} style={imageStyle} />

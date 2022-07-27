@@ -229,7 +229,10 @@ jobs:
           echo '~/private_keys/AuthKey_$API_KEY.p8'
           echo ~/private_keys/AuthKey_$API_KEY.p8
       - name: TestFlight preparation
-        run: echo "${{ secrets.APPSTORE_API_PRIVATE_KEY_BASE_64 }}" | base64 --decode > ${KEY_PATH}
+        run: |
+          mkdir -p ./private_keys
+          touch $KEY_PATH
+          echo "${{ secrets.APPSTORE_API_PRIVATE_KEY_BASE_64 }}" | base64 --decode > $KEY_PATH
         env:
           KEY_PATH: './private_keys/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8'
 

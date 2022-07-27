@@ -1,10 +1,10 @@
 import React, { Fragment, useCallback, useMemo } from 'react'
-import { Image, Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { t } from '@lingui/macro'
-import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
+import useCountryFlag from '../../lib/hooks/useCountryFlag'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
@@ -34,7 +34,8 @@ const ProfileDataTable = ({
     showCustomFlag,
     mobile,
   ])
-  const countryFlagUrl = useCountryFlagUrl(phoneMeta ? phoneMeta.country : undefined)
+
+  const CountryFlag = useCountryFlag(phoneMeta ? phoneMeta.country : undefined)
 
   const verifyEdit = useCallback(
     (field, content) => {
@@ -135,11 +136,13 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {!phoneMeta || !showCustomFlag || !countryFlagUrl ? null : (
-                <Image source={{ uri: countryFlagUrl }} style={styles.flag} />
+              {CountryFlag && (
+                <View style={styles.flagContainer}>
+                  <CountryFlag style={styles.flag} />
+                </View>
               )}
               <InputRounded
-                containerStyle={countryFlagUrl && styles.disabledPhoneContainer}
+                containerStyle={CountryFlag && styles.disabledPhoneContainer}
                 disabled={true}
                 error={errors.mobile}
                 icon="phone"
@@ -209,16 +212,22 @@ const getStylesFromProps = ({ theme, errors }) => {
       position: 'relative',
       marginVertical: 4,
     },
-    flag: {
+    flagContainer: {
       height: 24,
       width: 24,
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden',
       borderWidth: 1,
-      borderStyle: 'solid',
       borderColor: theme.colors.lightGray,
-      borderRadius: Platform.select({
-        web: '50%',
-        default: 24 / 2,
+      ...Platform.select({
+        web: { borderRadius: '50%', borderStyle: 'solid' },
+        default: { borderRadius: 24 / 2 },
       }),
+    },
+    flag: {
+      width: 30,
+      height: 30,
     },
     disabledPhoneContainer: {
       paddingLeft: 10,

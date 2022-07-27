@@ -693,14 +693,9 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexDirection-eqz5dr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(248,175,64,1.00)",
               "borderBottomColor": "rgba(255,255,255,1.00)",
               "borderBottomLeftRadius": "70px",
@@ -719,17 +714,13 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
               "borderTopStyle": "solid",
               "borderTopWidth": "8px",
               "boxShadow": "0px 0px 0px rgba(0,0,0,1.00)",
-              "display": "flex",
               "height": "140px",
-              "justifyContent": "center",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
-              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",

@@ -227,6 +227,7 @@ const getStylesFromProps = ({ theme }) => {
     section: {
       flexGrow: 1,
       padding: theme.sizes.defaultDouble,
+      marginBottom: theme.paddings.bottomPadding,
     },
   }
 }

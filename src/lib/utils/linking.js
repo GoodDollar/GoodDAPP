@@ -14,6 +14,7 @@ import { exitApp } from './system'
 
 const log = logger.child({ from: 'Linking' })
 const schemeRe = /(.+?:)\/\//
+const defaultPath = 'AppNavigation/Dashboard/Home'
 
 export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank', noopener: boolean = false) => {
   if (Platform.OS === 'web') {
@@ -52,7 +53,7 @@ export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank
 }
 
 export const handleLinks = async (logger = log) => {
-  const params = DeepLinking.params
+  const { params, pathname } = DeepLinking
 
   try {
     const { inviteCode } = params
@@ -62,8 +63,7 @@ export const handleLinks = async (logger = log) => {
       await AsyncStorage.setItem(INVITE_CODE, inviteCode)
     }
 
-    let path = DeepLinking.pathname.slice(1)
-    path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
+    const path = (pathname || '').slice(1) || defaultPath
 
     if (params && Object.keys(params).length > 0) {
       const dest = { path, params }

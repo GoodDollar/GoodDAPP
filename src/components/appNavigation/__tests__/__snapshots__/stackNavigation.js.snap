@@ -102,13 +102,11 @@ exports[`PushButton matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
     style={
       Object {
         "WebkitAlignItems": "stretch",
         "WebkitBoxAlign": "stretch",
-        "WebkitBoxPack": "center",
-        "WebkitJustifyContent": "center",
         "alignItems": "stretch",
         "backgroundColor": "rgba(0,175,255,1.00)",
         "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -128,8 +126,6 @@ exports[`PushButton matches snapshot 1`] = `
         "borderTopStyle": "solid",
         "borderTopWidth": "0px",
         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-        "display": "flex",
-        "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
         "marginRight": "0px",
@@ -137,7 +133,6 @@ exports[`PushButton matches snapshot 1`] = `
         "minHeight": "44px",
         "minWidth": "64px",
         "msFlexAlign": "stretch",
-        "msFlexPack": "center",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",

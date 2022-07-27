@@ -26,8 +26,7 @@ exports[`FaceVerification GeneralError matches snapshot 1`] = `
           <span
             className="css-text-901oao css-textHasAncestor-16my406 r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           />
-          ,
-Something went wrong
+          Something went wrong
 on our side...
         </div>
         <div
@@ -61,13 +60,11 @@ capture your beauty :)
         className="css-view-1dbjc4n r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-display-6koalj r-marginBottom-p1pxzi r-marginTop-1mnahxq r-paddingLeft-gy4na3 r-paddingRight-9aemit"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-paddingLeft-gy4na3 r-paddingRight-9aemit"
           style={
             Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
               "alignItems": "stretch",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -87,13 +84,11 @@ capture your beauty :)
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-              "justifyContent": "center",
               "marginLeft": "0px",
               "marginRight": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
-              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",

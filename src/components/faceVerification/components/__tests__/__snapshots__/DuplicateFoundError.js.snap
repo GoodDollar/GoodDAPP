@@ -23,11 +23,7 @@ exports[`FaceVerification DuplicateFoundError matches snapshot 1`] = `
           className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406 r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-          />
-          ,
-Unfortunately we found 
+          Unfortunately we found 
 your twin...
         </div>
         <div

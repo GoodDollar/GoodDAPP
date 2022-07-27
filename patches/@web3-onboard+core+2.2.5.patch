@@ -1,0 +1,12 @@
+diff --git a/node_modules/@web3-onboard/core/dist/index.js b/node_modules/@web3-onboard/core/dist/index.js
+index 2b0b7b1..9bc80e4 100644
+--- a/node_modules/@web3-onboard/core/dist/index.js
++++ b/node_modules/@web3-onboard/core/dist/index.js
+@@ -4771,6 +4771,7 @@ function create_fragment$b(ctx) {
+ 			t9 = space();
+ 			div5 = element("div");
+ 			attr(div0, "class", "icon-container flex svelte-1o88d5s");
++      attr(div0, "part", "sidebar-heading-img"); // patch -- target logo icon container
+ 			attr(h4, "class", "subheading svelte-1o88d5s");
+ 			attr(p, "class", "description svelte-1o88d5s");
+ 			attr(div1, "class", "indicator relative svelte-1o88d5s");

@@ -240,17 +240,17 @@ jobs:
           echo "${{ secrets.APPSTORE_API_PRIVATE_KEY_BASE_64 }}" | base64 --decode > $KEY_PATH
         env:
           KEY_PATH: './private_keys/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8'
-#      - name: Upload app to TestFlight
-#        if: ${{ env.TARGET_BRANCH == '3819-appstore-publishing' }}
-#        uses: apple-actions/upload-testflight-build@v1
-#        with:
-#          app-path: "ios/build/GoodDollar.ipa"
-#          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
-#          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
-#          api-private-key: ./private_keys/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8
       - name: Upload app to TestFlight
-        run: |
-          xcrun altool --upload-app -t ios -f ./ios/build/GoodDollar.ipa -u ${{ secrets.APPLEID_USERNAME }} -p ${{ secrets.APPLEID_PASSWORD }} --verbose
+        if: ${{ env.TARGET_BRANCH == '3819-appstore-publishing' }}
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: "ios/build/GoodDollar.ipa"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ./private_keys/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8
+#      - name: Upload app to TestFlight
+#        run: |
+#          xcrun altool --upload-app -t ios -f ./ios/build/GoodDollar.ipa -u ${{ secrets.APPLEID_USERNAME }} -p ${{ secrets.APPLEID_PASSWORD }} --verbose
 
       - name: Distribute to stores via AppCenter - PROD ONLY
         id: appcenter-publish

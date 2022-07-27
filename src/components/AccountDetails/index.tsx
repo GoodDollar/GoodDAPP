@@ -17,6 +17,7 @@ import Title from '../gd/Title'
 import { ButtonOutlined } from '../gd/Button'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { walletConnectLabels } from '../../hooks/useActiveOnboard'
 
 import { 
   useConnectWallet
@@ -276,7 +277,7 @@ export default function AccountDetails({
                                 {formatConnectorName()}
                                 <div className="mt-3.5 mb-3.5">
                                   {
-                                    wallet?.label && wallet.label === "WalletConnect" && (
+                                    wallet?.label && walletConnectLabels.includes(wallet.label) && (
                                       <WalletAction
                                         width={'85px'}
                                         size="sm"

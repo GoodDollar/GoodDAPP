@@ -226,8 +226,7 @@ jobs:
         run: |
           mkdir -p ~/private_keys
           echo -n "$PRIVATE_API_KEY_BASE64" | base64 --decode --output ~/private_keys/AuthKey_$API_KEY.p8
-          echo '~/private_keys/AuthKey_$API_KEY.p8'
-          echo ~/private_keys/AuthKey_$API_KEY.p8
+          cat ~/private_keys/AuthKey_$API_KEY.p8
       - name: TestFlight preparation
         run: |
           mkdir -p ./private_keys
@@ -235,7 +234,6 @@ jobs:
           echo "${{ secrets.APPSTORE_API_PRIVATE_KEY_BASE_64 }}" | base64 --decode > $KEY_PATH
         env:
           KEY_PATH: './private_keys/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8'
-
       - name: Upload app to TestFlight
         if: ${{ env.TARGET_BRANCH == '3819-appstore-publishing' }}
         uses: apple-actions/upload-testflight-build@v1

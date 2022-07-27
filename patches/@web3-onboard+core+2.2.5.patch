@@ -1,8 +1,16 @@
 diff --git a/node_modules/@web3-onboard/core/dist/index.js b/node_modules/@web3-onboard/core/dist/index.js
-index 2b0b7b1..9bc80e4 100644
+index 2b0b7b1..0294524 100644
 --- a/node_modules/@web3-onboard/core/dist/index.js
 +++ b/node_modules/@web3-onboard/core/dist/index.js
-@@ -4771,6 +4771,7 @@ function create_fragment$b(ctx) {
+@@ -2159,6 +2159,7 @@ function create_fragment$m(ctx) {
+ 			attr(div1, "class", "modal-overflow relative flex justify-center svelte-1mh1h9");
+ 			attr(div2, "class", "flex relative max-height svelte-1mh1h9");
+ 			attr(div3, "class", "flex modal-position absolute svelte-1mh1h9");
++      attr(div3, "part", "main-modal"); // patch -- style main modal
+ 			attr(div4, "class", "background flex items-center justify-center relative svelte-1mh1h9");
+ 			attr(section, "class", "fixed svelte-1mh1h9");
+ 		},
+@@ -4771,6 +4772,7 @@ function create_fragment$b(ctx) {
  			t9 = space();
  			div5 = element("div");
  			attr(div0, "class", "icon-container flex svelte-1o88d5s");

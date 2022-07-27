@@ -73,6 +73,11 @@ const GlobalStyle = createGlobalStyle`
     max-width: 100%;
     height: fit-content;
   }
+  onboard-v2::part(main-modal) {
+    @media screen and (max-width: 420px) {
+      width: 90%;
+    }
+  }
 `
 
 ReactDOM.render(

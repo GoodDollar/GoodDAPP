@@ -140,7 +140,8 @@ function Web3Faucet(): JSX.Element | null {
                 }
                 offset={[0, 12]}
             >
-                <ClaimButton
+                {/* note -- disabled untill further notice
+                 <ClaimButton
                     className="px-5"
                     borderRadius="6px"
                     disabled={!claimActive}
@@ -162,7 +163,7 @@ function Web3Faucet(): JSX.Element | null {
                             />
                         </svg>
                     </div>
-                </ClaimButton>
+                </ClaimButton> */}
             </MouseoverTooltip>
 
         </div >

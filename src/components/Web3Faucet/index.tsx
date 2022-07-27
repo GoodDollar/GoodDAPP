@@ -140,7 +140,7 @@ function Web3Faucet(): JSX.Element | null {
                 }
                 offset={[0, 12]}
             >
-                <ClaimButton
+                 <ClaimButton
                     className="px-5"
                     borderRadius="6px"
                     disabled={!claimActive}

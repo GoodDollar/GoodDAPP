@@ -1,1 +1,1 @@
-export const dailyClaimTime = new Date().setUTCHours(15, 0, 0, 0)
+export const dailyClaimTime = new Date().setHours(15, 0, 0, 0)

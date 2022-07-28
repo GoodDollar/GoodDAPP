@@ -7,10 +7,10 @@ import { t } from '@lingui/macro'
 
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../logger/js-logger'
-import { IS_LOGGED_IN, OLD_NOTIFICATIONS } from '../constants/localStorage'
+import { IS_LOGGED_IN, LAST_CLAIM_NOTIFICATIONS, OLD_NOTIFICATIONS } from '../constants/localStorage'
 import { onFeedReady } from '../userStorage/useFeedReady'
 import { dailyClaimTime } from '../constants/cron'
-import { bgFetchFrequency, CLAIM_NOTIFICATION, FEED_NOTIFICATIONS } from '../constants/bgFetch'
+import { CLAIM_NOTIFICATION, FEED_NOTIFICATIONS } from '../constants/bgFetch'
 
 //TODO: how would this handle metamask accounts??
 
@@ -33,16 +33,16 @@ const log = logger.child({ from: 'backgroundFetch' })
 const dailyClaimNotification = async goodWallet => {
   const { entitlement: dailyUBI } = await goodWallet.getClaimScreenStatsFuse()
 
-  // We should notify once: only in first bg-fetch call after daily claim time.
-  // notificationTimeout is time of next bg-fetch call:
-  const notificationTimeout = dailyClaimTime + bgFetchFrequency
-  const needToNotify = dailyUBI && Date.now() >= dailyClaimTime && Date.now() < Date.now(notificationTimeout)
+  // We should notify once: only in first bg-fetch call after daily claim time
+  const lastClaimNotification = await AsyncStorage.getItem(LAST_CLAIM_NOTIFICATIONS)
+  const needToNotify = dailyUBI && Date.now() >= dailyClaimTime && lastClaimNotification < dailyClaimTime
 
   if (needToNotify) {
     PushNotification.localNotification({
       title: t`Your daily UBI Claim is ready`,
       message: t`You can claim your daily UBI`,
     })
+    await AsyncStorage.setItem(LAST_CLAIM_NOTIFICATIONS, Date.now())
   }
 }
 

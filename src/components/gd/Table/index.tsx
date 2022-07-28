@@ -17,7 +17,7 @@ export const TableSC = styled.table`
 
         thead {
             th {
-                padding: 0 8px 3px;
+                padding: 0 6px 3px;
             }
         }
 

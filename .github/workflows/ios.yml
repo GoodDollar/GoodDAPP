@@ -256,7 +256,7 @@ jobs:
         id: appcenter-publish
 #        if: ${{ env.IS_PROD }}
         run: |
-          npx appcenter distribute stores publish --token ${{ secrets.APPCENTER_IOS_PROD }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+          npx appcenter distribute stores publish --token ${{ secrets.APPCENTER_IOS_DEV }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
       - name: echo AppCenter distribution exit code
         run: |
           echo steps.appcenter-publish.exit_code

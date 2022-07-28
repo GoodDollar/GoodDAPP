@@ -1,0 +1,25 @@
+diff --git a/src/node-haste/DependencyGraph.js b/src/node-haste/DependencyGraph.js
+index 13cbb76996f09587ed5772dcf1326425740163b1..36f73b865fcca3300e2fe5a670a1e620ef8be0fb 100644
+--- a/src/node-haste/DependencyGraph.js
++++ b/src/node-haste/DependencyGraph.js
+@@ -25,6 +25,8 @@ const ModuleCache = require("./ModuleCache");
+
+ const ci = require("ci-info");
+
++const crypto = require("crypto");
++
+ const fs = require("fs");
+
+ const path = require("path");
+@@ -241,10 +243,7 @@ class DependencyGraph extends EventEmitter {
+     const sha1 = this._hasteFS.getSha1(resolvedPath);
+
+     if (!sha1) {
+-      throw new ReferenceError(`SHA-1 for file ${filename} (${resolvedPath}) is not computed.
+-         Potential causes:
+-           1) You have symlinks in your project - watchman does not follow symlinks.
+-           2) Check \`blockList\` in your metro.config.js and make sure it isn't excluding the file path.`);
++      return crypto.createHash('sha1').update(fs.readFileSync(resolvedPath)).digest('hex');
+     }
+
+     return sha1;

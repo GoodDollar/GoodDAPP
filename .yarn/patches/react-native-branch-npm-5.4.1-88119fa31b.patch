@@ -1,28 +1,30 @@
-diff --git a/node_modules/react-native-branch/android/src/main/java/io/branch/rnbranch/RNBranchModule.java b/node_modules/react-native-branch/android/src/main/java/io/branch/rnbranch/RNBranchModule.java
-index 2f5429e..ff4d96c 100644
---- a/node_modules/react-native-branch/android/src/main/java/io/branch/rnbranch/RNBranchModule.java
-+++ b/node_modules/react-native-branch/android/src/main/java/io/branch/rnbranch/RNBranchModule.java
-@@ -105,6 +105,8 @@ public class RNBranchModule extends ReactContextBaseJavaModule {
+diff --git a/android/src/main/java/io/branch/rnbranch/RNBranchModule.java b/android/src/main/java/io/branch/rnbranch/RNBranchModule.java
+index 2f5429ebb67f93c113cf7d8b1ecabf0d1e2a56ad..d20bf68f818f9545ea822db8de225cc650a99bba 100644
+--- a/android/src/main/java/io/branch/rnbranch/RNBranchModule.java
++++ b/android/src/main/java/io/branch/rnbranch/RNBranchModule.java
+@@ -105,6 +105,9 @@ public class RNBranchModule extends ReactContextBaseJavaModule {
      public static void reInitSession(Activity reactActivity) {
          Branch branch = Branch.getInstance();
          Intent intent = reactActivity.getIntent();
++
 +        setupNetworking(branch);
 +
          if (intent != null) {
              intent.putExtra("branch_force_new_session", true);
              notifyJSOfInitSessionStart(reactActivity, intent.getData());
-@@ -744,6 +746,7 @@ public class RNBranchModule extends ReactContextBaseJavaModule {
- 
+@@ -745,6 +748,8 @@ public class RNBranchModule extends ReactContextBaseJavaModule {
      private static Branch setupBranch(Context context) {
          Branch branch = Branch.getInstance(context);
+
 +        setupNetworking(branch);
- 
++
          if (!mInitialized) {
              Log.i(REACT_CLASS, "Initializing Branch SDK v. " + BuildConfig.VERSION_NAME);
-@@ -766,6 +769,15 @@ public class RNBranchModule extends ReactContextBaseJavaModule {
-         return branch;
+
+@@ -777,6 +782,15 @@ public class RNBranchModule extends ReactContextBaseJavaModule {
+         return universalObject;
      }
- 
+
 +    private static void setupNetworking(Branch branch) {
 +        int retryCount = 10;
 +        int retryInterval = 3000;
@@ -32,6 +34,6 @@ index 2f5429e..ff4d96c 100644
 +        branch.setNetworkTimeout(retryInterval * retryCount);
 +    }
 +
-     private BranchUniversalObject findUniversalObjectOrReject(final String ident, final Promise promise) {
-         BranchUniversalObject universalObject = mUniversalObjectMap.get(ident);
- 
+     public ContentMetadata createContentMetadata(ReadableMap map) {
+         ContentMetadata metadata = new ContentMetadata();
+

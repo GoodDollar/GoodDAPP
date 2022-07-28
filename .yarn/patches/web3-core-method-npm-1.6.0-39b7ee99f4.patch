@@ -1,7 +1,7 @@
-diff --git a/node_modules/web3-core-method/lib/index.js b/node_modules/web3-core-method/lib/index.js
-index fdda4b0..22f4f5b 100644
---- a/node_modules/web3-core-method/lib/index.js
-+++ b/node_modules/web3-core-method/lib/index.js
+diff --git a/lib/index.js b/lib/index.js
+index fdda4b0d57398b342b20fe1cffc835e5be44fa04..22f4f5bcfffa10bf018b77a9c429e14ee4324b3e 100644
+--- a/lib/index.js
++++ b/lib/index.js
 @@ -47,6 +47,7 @@ var Method = function Method(options) {
      this.transactionBlockTimeout = options.transactionBlockTimeout || 50;
      this.transactionConfirmationBlocks = options.transactionConfirmationBlocks || 24;
@@ -19,10 +19,10 @@ index fdda4b0..22f4f5b 100644
          };
          if (!this.requestManager.provider.on) {
              startInterval();
-diff --git a/node_modules/web3-core-method/src/index.js b/node_modules/web3-core-method/src/index.js
-index 374f442..78eeb87 100644
---- a/node_modules/web3-core-method/src/index.js
-+++ b/node_modules/web3-core-method/src/index.js
+diff --git a/src/index.js b/src/index.js
+index 374f442aebac97c9027ad149b01e3277af8a351e..63a9c324b39f96794f0b7988f0f3ce07f4eeb8b3 100644
+--- a/src/index.js
++++ b/src/index.js
 @@ -56,6 +56,7 @@ var Method = function Method(options) {
      this.transactionBlockTimeout = options.transactionBlockTimeout || 50;
      this.transactionConfirmationBlocks = options.transactionConfirmationBlocks || 24;
@@ -31,6 +31,15 @@ index 374f442..78eeb87 100644
      this.defaultCommon = options.defaultCommon;
      this.defaultChain = options.defaultChain;
      this.defaultHardfork = options.defaultHardfork;
+@@ -179,7 +180,7 @@ Method.prototype.formatOutput = function (result) {
+ Method.prototype.toPayload = function (args) {
+     var call = this.getCall(args);
+     var callback = this.extractCallback(args);
+-
++
+     var params = this.formatInput(args);
+     this.validateArgs(params);
+
 @@ -548,7 +549,7 @@ Method.prototype._confirmTransaction = function (defer, result, payload) {
      // start watching for confirmation depending on the support features of the provider
      var startWatching = function (existingReceipt) {
@@ -38,5 +47,14 @@ index 374f442..78eeb87 100644
 -            intervalId = setInterval(checkConfirmation.bind(null, existingReceipt, true), 1000);
 +            intervalId = setInterval(checkConfirmation.bind(null, existingReceipt, true), method.transactionPollingInterval);
          };
- 
+
          if (!this.requestManager.provider.on) {
+@@ -689,7 +690,7 @@ Method.prototype.buildCall = function () {
+         // SENDS the SIGNED SIGNATURE
+         var sendSignedTx = function (sign) {
+
+-            var signedPayload = { ... payload,
++            var signedPayload = { ... payload,
+                 method: 'eth_sendRawTransaction',
+                 params: [sign.rawTransaction]
+             };

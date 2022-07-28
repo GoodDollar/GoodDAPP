@@ -1,8 +1,8 @@
-diff --git a/node_modules/react-native-gesture-handler/gestureHandlerRootHOC.web.js b/node_modules/react-native-gesture-handler/gestureHandlerRootHOC.web.js
+diff --git a/gestureHandlerRootHOC.web.js b/gestureHandlerRootHOC.web.js
 new file mode 100644
-index 0000000..63dcdcc
+index 0000000000000000000000000000000000000000..5ce025770a211dc78b0c780b42a196d9139ad6d7
 --- /dev/null
-+++ b/node_modules/react-native-gesture-handler/gestureHandlerRootHOC.web.js
++++ b/gestureHandlerRootHOC.web.js
 @@ -0,0 +1,11 @@
 +/**
 + * This file will be loaded by babel when building for web instead of gestureHandlerRootHOC.js.
@@ -15,4 +15,3 @@ index 0000000..63dcdcc
 +  // All other targets (ios, web, macos, ect...) should do nothing.
 +  return Component;
 +}
-\ No newline at end of file

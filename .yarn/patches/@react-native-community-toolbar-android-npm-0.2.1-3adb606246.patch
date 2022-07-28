@@ -1,8 +1,8 @@
-diff --git a/node_modules/@react-native-community/toolbar-android/js/ToolbarAndroid.web.js b/node_modules/@react-native-community/toolbar-android/js/ToolbarAndroid.web.js
-index 31f0017..d006a30 100644
---- a/node_modules/@react-native-community/toolbar-android/js/ToolbarAndroid.web.js
-+++ b/node_modules/@react-native-community/toolbar-android/js/ToolbarAndroid.web.js
-@@ -9,15 +9,4 @@
+diff --git a/js/ToolbarAndroid.web.js b/js/ToolbarAndroid.web.js
+index 31f0017d04f007405aa68ac2a78dc17188f73611..964c49a2d79fce4a3a97d81ce0c1cf8a2579c7de 100644
+--- a/js/ToolbarAndroid.web.js
++++ b/js/ToolbarAndroid.web.js
+@@ -9,15 +9,5 @@
  
  'use strict';
  
@@ -16,6 +16,6 @@ index 31f0017..d006a30 100644
 -  // in such situation shall caused compile-error because it really should not be used for web.
 -  m = {};
 -}
--
--module.exports = m;
 +module.exports = function () {};
+ 
+-module.exports = m;

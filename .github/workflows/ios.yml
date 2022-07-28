@@ -8,17 +8,17 @@ on:
       types:
         - closed
 
-workflow_dispatch:
-  inputs:
-    release:
-      description: 'release type'
-      required: true
-      default: ''
-      type: choice
-      options:
-        - master
-        - staging
-        - next
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'release type'
+        required: true
+        default: ''
+        type: choice
+        options:
+          - master
+          - staging
+          - next
 
 jobs:
   codepush:

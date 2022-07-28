@@ -224,7 +224,7 @@ jobs:
           npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 #        run: |
 
-      - name: Distribute to stores via AppCenter - PROD ONLY
+      - name: Distribute to stores - PROD ONLY
         id: appcenter-publish
         if: ${{ env.IS_PROD }}
         run: |

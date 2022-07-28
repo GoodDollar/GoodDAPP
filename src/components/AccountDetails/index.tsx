@@ -17,6 +17,7 @@ import Title from '../gd/Title'
 import { ButtonOutlined } from '../gd/Button'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { walletConnectLabels } from '../../hooks/useActiveOnboard'
 
 import { 
   useConnectWallet
@@ -66,6 +67,10 @@ const AccountGroupingRow = styled.div`
         ${({ theme }) => theme.flexRowNoWrap}
         align-items: center;
     }
+
+    @media screen and (max-width: 384px) {
+      flex-direction: column;
+    }
 `
 
 const AccountSection = styled.div`
@@ -106,6 +111,10 @@ const LowerSection = styled.div`
         font-weight: 400;
         color: ${({ theme }) => theme.text3};
     }
+
+    @media screen and (max-width: 384px) {
+      padding-top: 0.5rem;
+    }
 `
 
 const AccountControl = styled.div`
@@ -131,6 +140,10 @@ const AccountControl = styled.div`
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
+    @media screen and (max-width: 384px){
+      justify-content: center;
+    }
 `
 
 const AddressLink = styled(ExternalLink) <{ hasENS: boolean; isENS: boolean }>`
@@ -143,6 +156,11 @@ const AddressLink = styled(ExternalLink) <{ hasENS: boolean; isENS: boolean }>`
     line-height: 19px;
     text-decoration-line: underline;
     color: ${({ theme }) => theme.color.text2};
+    span {
+      @media screen and (max-width: 384px) {
+        width: 120px;
+      }
+    }
 `
 
 const CloseIcon = styled.div`
@@ -180,7 +198,11 @@ const TransactionListWrapper = styled.div`
     ${({ theme }) => theme.flexColumnNoWrap};
 `
 
-const WalletAction = styled(ButtonOutlined)``
+const WalletAction = styled(ButtonOutlined)`
+  &:hover {
+    opacity: 0.6;
+  }
+`
 
 function renderTransactions(transactions: string[]) {
     return (
@@ -210,7 +232,7 @@ export default function AccountDetails({
     const { i18n } = useLingui()
     const { chainId, account, label } = useActiveWeb3React()
     const dispatch = useDispatch<AppDispatch>()
-    const [{ wallet, connecting}, connect] = useConnectWallet()
+    const [{ wallet, connecting}, connect, disconnect] = useConnectWallet()
 
     function formatConnectorName() {
         let name = ''
@@ -226,8 +248,16 @@ export default function AccountDetails({
 
     const changeWallet = useCallback(async () => {
       toggleWalletModal()
-      await connect({})
+      await connect()
     }, [toggleWalletModal, connect])
+
+    const disconnectWallet = useCallback(async () => {
+      if (wallet){
+        toggleWalletModal()
+        await disconnect({label: wallet.label}) 
+        await connect()
+      }
+    }, [toggleWalletModal, connect, disconnect])
 
     const clearAllTransactionsCallback = useCallback(() => {
         if (chainId) dispatch(clearAllTransactions({ chainId }))
@@ -245,11 +275,28 @@ export default function AccountDetails({
                         <InfoCard>
                             <AccountGroupingRow>
                                 {formatConnectorName()}
-                                <div>
+                                <div className="mt-3.5 mb-3.5">
+                                  {
+                                    wallet?.label && walletConnectLabels.includes(wallet.label) && (
+                                      <WalletAction
+                                        width={'85px'}
+                                        size="sm"
+                                        style={{marginRight: "5px"}}
+                                        onClick={disconnectWallet}
+                                      >
+                                      {i18n._(t`Disconnect`)}
+                                    </WalletAction>
+                                    ) 
+                                  }
                                   <WalletAction
                                       width={'75px'}
                                       size="sm"
-                                      onClick={changeWallet}
+                                      style={{marginRight: "-5px"}}
+                                      onClick={
+                                        wallet?.label === "MetaMask" ?
+                                        disconnectWallet :
+                                        changeWallet
+                                      }
                                   >
                                       {i18n._(t`Change`)}
                                   </WalletAction>
@@ -259,13 +306,13 @@ export default function AccountDetails({
                                 <AccountControl>
                                     {ENSName ? (
                                         <>
-                                            <div>
+                                            <div className="text-center justify-center">
                                                 <p> {ENSName}</p>
                                             </div>
                                         </>
                                     ) : (
                                         <>
-                                            <div>
+                                            <div className="text-center justify-center">
                                                 <p> {account && shortenAddress(account)}</p>
                                             </div>
                                         </>

@@ -29,6 +29,8 @@ type OnboardConnectProps = {
   tried: boolean
 }
 
+export const walletConnectLabels: Readonly<string[]> = ["WalletConnect", "ZenGo"]
+
 export type ActiveOnboard<T= any> = Omit<Web3ReactContextInterface<Web3Provider>, 'activate' | 'deactivate' | 'setError' | 'connector'>
 
 export interface EIP1193ProviderExtended extends EIP1193Provider {
@@ -186,7 +188,7 @@ export function useOnboardConnect():OnboardConnectProps {
 
     // disconnect
     if (!isConnected && previouslyConnected.length && (tried || activated)){
-      const isWalletConnect = previouslyConnected[0].label[0] === 'WalletConnect'
+      const isWalletConnect = walletConnectLabels.includes(previouslyConnected[0].label[0])
       StoreOnboardState(connectedWallets, '0x1')
       setActivated(false)
       if (isWalletConnect && activated) {

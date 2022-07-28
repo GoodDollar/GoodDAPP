@@ -8,6 +8,7 @@ import injectedModule from '@web3-onboard/injected-wallets'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import walletLinkModule from '@web3-onboard/walletlink'
 import { init } from '@web3-onboard/react'
+import zenGoModule from './Zengo/'
 // ** blockNative update **//
 
 export enum AdditionalChainIds {
@@ -98,10 +99,18 @@ const walletConnectBN = walletConnectModule({
   }
 })
 
+const zenGoBN = zenGoModule({
+  bridge: 'https://bridge.walletconnect.org',
+  qrcodeModalOptions: {
+    desktopLinks: ['zengo', 'metamask'],
+    mobileLinks: ['metamask', 'zengo'] // TODO: has to be tested on IOS, android does not show list
+  }
+})
+
 // const walletLink = walletLinkModule({ darkMode: true })
 
 export const onboard = init({
-  wallets: [injectedBN, walletConnectBN],
+  wallets: [injectedBN, walletConnectBN, zenGoBN],
   chains: [
     {
       id: '0x1',

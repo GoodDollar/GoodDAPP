@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { debounce } from 'lodash'
+import { t } from '@lingui/macro'
 import { validateFullName } from '../../lib/validators/validateFullName'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
@@ -28,14 +29,14 @@ export type NameRecord = {
 class NameForm extends React.Component<Props, State> {
   constructor(props) {
     super(props)
-
-    const fullName = props.screenProps.data.fullName || ''
+    const { fullName = '', torusProvider = '' } = props.screenProps.data
     const errorMessage = validateFullName(fullName)
 
     this.state = {
       errorMessage: '',
-      fullName,
       isValid: errorMessage === '',
+      fullName,
+      torusProvider,
     }
   }
 
@@ -70,7 +71,7 @@ class NameForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { fullName, errorMessage } = this.state
+    const { fullName, errorMessage, torusProvider } = this.state
     const { key } = this.props.navigation.state
     const { styles } = this.props
     const { loading } = this.props.screenProps.data
@@ -93,18 +94,20 @@ class NameForm extends React.Component<Props, State> {
               textTransform="uppercase"
               style={{ marginBottom: getDesignRelativeHeight(14) }}
             >
-              Personal Details
+              {t`Personal Details`}
             </Text>
             <Section.Stack justifyContent="center" style={styles.row}>
-              <Section.Title
-                color="darkIndigo"
-                fontSize={18}
-                fontWeight="400"
-                textTransform="none"
-                style={{ marginVertical: 0 }}
-              >
-                Thanks, we verified your phone.
-              </Section.Title>
+              {torusProvider.includes('auth0') && (
+                <Section.Title
+                  color="darkIndigo"
+                  fontSize={18}
+                  fontWeight="400"
+                  textTransform="none"
+                  style={{ marginVertical: 0 }}
+                >
+                  {t`Thanks, we verified your phone.`}
+                </Section.Title>
+              )}
               <Section.Title
                 color="darkIndigo"
                 fontSize={18}
@@ -112,7 +115,7 @@ class NameForm extends React.Component<Props, State> {
                 textTransform="none"
                 style={{ marginVertical: 0 }}
               >
-                What is your full name?
+                {t`What is your full name?`}
               </Section.Title>
             </Section.Stack>
             <Section.Stack justifyContent="center" style={styles.bottomRow}>
@@ -136,7 +139,7 @@ class NameForm extends React.Component<Props, State> {
                   letterSpacing={0.14}
                   fontFamily="Roboto"
                 >
-                  {`This can't be changed later.`}
+                  {t`This can't be changed later.`}
                 </Text>
               ) : null}
             </Section.Stack>

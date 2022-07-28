@@ -25,6 +25,7 @@ const options = {
 }
 
 const log = logger.child({ from: 'backgroundFetch' })
+
 export const initBGFetch = once((goodWallet, userStorage) => {
   const task = async taskId => {
     log.info('[BackgroundFetch] taskId: ', taskId)
@@ -39,6 +40,7 @@ export const initBGFetch = once((goodWallet, userStorage) => {
 
     try {
       await hasConnection()
+      await userStorage.registeredReady
     } catch (e) {
       return BackgroundFetch.finish(taskId)
     }

@@ -127,13 +127,11 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    transform: [{ rotateY: '180deg' }],
     position: 'relative',
     backgroundColor: 'transparent',
     flex: 1,
   },
   content: {
-    transform: [{ rotateY: '180deg' }],
     overflow: 'hidden',
   },
   title: {

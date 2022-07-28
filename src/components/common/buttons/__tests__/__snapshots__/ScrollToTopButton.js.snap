@@ -11,7 +11,7 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "opacity": 0,
+          "opacity": 1,
         }
       }
     >

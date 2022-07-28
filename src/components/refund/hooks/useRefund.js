@@ -1,21 +1,25 @@
-import { map, sum } from 'lodash'
+import { map, mapValues, sum, toLower } from 'lodash'
 import { useEffect, useMemo, useState } from 'react'
-import axios from 'axios'
 
 import { useUserStorage, useWallet } from '../../../lib/wallet/GoodWalletProvider'
 
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
+import API from '../../../lib/API'
 
 export const REFUNDED_FLAG = 'noRefundRequired'
 
 const { enableRefund } = Config
-const EXPLORER_API = 'https://explorer.fuse.io/api'
 const log = logger.child({ from: 'useRefund' })
 
 const incidentStart = 17896430
 const incidentEnd = 17916430
 const claimAmount = 8210995
+
+// test data:
+// account = '0x64E9644DF7C6457Fb09f984ea9527F5506864879'
+// UBI contract addess = '0xd253A5203817225e9768C05E5996d642fb96bA86'
+// token contract address = '0x495d133b938596c9984d462f007b676bdc57ecec'
 
 const useRefund = () => {
   const userStorage = useUserStorage()
@@ -23,12 +27,18 @@ const useRefund = () => {
   const [refundAmount, setRefundAmount] = useState(0)
   const wallet = useWallet()
 
-  const claimAddress = useMemo(() => wallet?.UBIContract._address, [wallet])
-  const tokenAddress = useMemo(() => wallet?.tokenContract._address.toLowerCase(), [wallet])
+  const [claimAddress, tokenAddress] = useMemo(() => {
+    const getAddress = contract => wallet[contract]._address
+
+    if (!wallet) {
+      return []
+    }
+
+    return ['UBIContract', 'tokenContract'].map(getAddress)
+  }, [wallet])
 
   useEffect(() => {
     const { userProperties } = userStorage || {}
-    const haveRefunded = userProperties ? userProperties.getLocal(REFUNDED_FLAG) : false
 
     const fetchAmountsFromEvents = async (contract, event, filters) => {
       const events = await contract.getPastEvents(event, filters)
@@ -38,29 +48,22 @@ const useRefund = () => {
       return amounts
     }
 
-    const fetchAmountsFromExplorer = async (contractAddress, filters) => {
+    const fetchAmountsFromExplorer = async (contract, filters) => {
       const { filter, fromBlock } = filters
-      const { from, to } = filter
-
-      const {
-        data: { result },
-      } = await axios({
-        url: '/',
-        baseURL: EXPLORER_API,
-        params: {
-          module: 'account',
-          action: 'tokentx',
-          address: from,
-          contractaddress: contractAddress,
-          startblock: fromBlock,
-        },
-      })
+      const { from, to } = mapValues(filter, toLower)
+      const contractAddress = toLower(contract)
+      const result = await API.getTokenTXs(contractAddress, from, fromBlock)
 
       // filter & map in a single iteration
-      const amounts = result.reduce(
-        (values, { to: _to, value }) => (_to.toLowerCase() === to ? values.concat(Number(value)) : values),
-        [],
-      )
+      const amounts = result.reduce((values, txData) => {
+        const { to: toAddress, value } = txData
+
+        if (toAddress !== to) {
+          return values
+        }
+
+        return [...values, Number(value)]
+      }, [])
 
       log.debug('Got amounts from explorer', { amounts })
       return amounts
@@ -101,10 +104,9 @@ const useRefund = () => {
       userProperties.setLocal(REFUNDED_FLAG, true)
     }
 
-    if (!enableRefund || !userProperties || !wallet || haveRefunded) {
+    if (!enableRefund || !userProperties || !wallet) {
       log.debug('Check send receive skipping', {
         enableRefund,
-        haveRefunded,
         wallet: !!wallet,
         userProperties: !!userProperties,
       })
@@ -112,7 +114,16 @@ const useRefund = () => {
       return
     }
 
-    checkSentReceived()
+    userProperties.ready.then(() => {
+      const haveRefunded = userProperties.getLocal(REFUNDED_FLAG)
+
+      log.debug('Checking refunded flag state', { haveRefunded })
+
+      if (!haveRefunded) {
+        log.debug('Checking send receive')
+        checkSentReceived()
+      }
+    })
   }, [wallet, userStorage, claimAddress, tokenAddress])
 
   return [shouldRefund, refundAmount, claimAddress]

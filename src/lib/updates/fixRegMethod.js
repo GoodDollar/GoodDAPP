@@ -1,11 +1,9 @@
 import { get } from 'lodash'
 
 import API from '../API'
-import { REGISTRATION_METHOD_TORUS } from '../constants/login'
 
 const fetchData = response => get(response, 'data', {})
-const fromDate = new Date('2022/07/08')
-const REG_METHOD_KEY = 'regMethod'
+const fromDate = new Date('2022/07/14')
 
 /**
  * @returns {Promise<void>}
@@ -13,32 +11,32 @@ const REG_METHOD_KEY = 'regMethod'
 const fixRegMethod = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
   const { userProperties } = userStorage
   const identifier = goodWallet.getAccountForType('login')
-  const regMethod = userProperties.get(REG_METHOD_KEY)
+  const { regMethod: regMethodFromProps, registered } = userProperties.getAll()
 
-  log.debug('got reg method', { regMethod })
-
-  if (REGISTRATION_METHOD_TORUS === regMethod) {
-    log.debug('reg method OK, skipping')
-    return
-  }
+  log.debug('got reg method', { regMethod: regMethodFromProps })
 
   const response = await API.userExistsCheck({ identifier }).then(fetchData)
-  const { exists = false, provider = null } = response
+  const { exists = false, regMethod = 'selfCustody' } = response
 
   log.debug('got user data', { response })
 
-  if (!exists || !provider) {
+  if (!exists) {
     log.debug('account not exists, skipping')
+    return
+  }
+
+  if (registered && regMethodFromProps === regMethod) {
+    log.debug('registered set and regMethod matches, skipping', { regMethod, registered })
     return
   }
 
   log.debug('ready to fix regMethod, updating user props')
 
   try {
-    await userProperties.set(REG_METHOD_KEY, REGISTRATION_METHOD_TORUS)
-    log.debug('regMethod fixed')
+    await userProperties.updateAll({ regMethod, registered: true })
+    log.debug('regMethod and registered flag fixed')
   } catch (e) {
-    log.error('failed to fix regMethod', e.message, e)
+    log.error('failed to fix regMethod and registered flag', e.message, e)
   }
 }
 

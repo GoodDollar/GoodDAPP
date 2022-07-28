@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.41.1-4",
+  "version": "1.41.1-6",
   "engines": {
     "node": ">=12",
     "npm": "6.x"
@@ -37,8 +37,6 @@
     "docs": "node scripts/docs.js",
     "web:serveo": "export REACT_APP_WEB3_RPC=https://gdchain.serveo.net;export REACT_APP_SERVER_URL=https://gdserver.serveo.net;export REACT_APP_GUN_PUBLIC_URL=https://gdserver.serveo.net/gun;npm run web:local",
     "version": "auto-changelog -p && git add CHANGELOG.md",
-    "cypress:lin": "export NODE_ENV=development && npx cypress open",
-    "cypress:win": "set \"NODE_ENV=development\" && npx cypress open",
     "add-locale": "lingui add-locale",
     "lingui:extract": "lingui extract --clean",
     "lingui:compile": "lingui compile && node scripts/i18n.js",
@@ -130,12 +128,12 @@
     "jsonwebtoken": "^8.5.1",
     "loadjs": "^3.6.1",
     "lodash": "^4.17.21",
-    "lottie-ios": "^3.2.3",
-    "lottie-react-native": "^4.1.3",
+    "lottie-ios": "^3.4.0",
+    "lottie-react-native": "lottie-react-native/lottie-react-native#bb7b81bb51e5cd0bd06e3cd12606fc48bb3e84f8",
     "lottie-react-web": "^2.2.2",
     "mnid": "^0.1.3",
     "mobile-device-detect": "^0.2.3",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
     "multiformats": "^9.6.4",
     "node-libs-react-native": "^1.2.1",
@@ -148,6 +146,7 @@
     "punycode": "^1.4.1",
     "qrcode.react": "^0.9.3",
     "qs": "^6.8.0",
+    "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-add-to-homescreen": "^1.1.0",
     "react-app-rewire-hot-loader": "^2.0.1",
@@ -271,6 +270,7 @@
     "babel-loader": "~8.1.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-import": "^1.13.0",
+    "babel-plugin-import-graphql": "^2.8.1",
     "babel-plugin-inline-dotenv": "^1.5.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-macros": "^3.1.0",
@@ -284,9 +284,6 @@
     "copy-webpack-plugin": "5.1.2",
     "coveralls": "^3.0.3",
     "css-loader": "^4.3.0",
-    "cypress": "^4.7.0",
-    "cypress-terminal-report": "^1.3.1",
-    "cypress-xpath": "^1.4.0",
     "detox": "^17.6.1",
     "documentation": "9.3.1",
     "eslint": "^7.32.0",
@@ -305,6 +302,7 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin-alt": "^0.4.14",
     "fs-extra": "7.0.0",
+    "graphql": "^16.5.0",
     "html-webpack-plugin": "^4.3.0",
     "husky": "^1.3.1",
     "identity-obj-proxy": "3.0.0",
@@ -340,6 +338,9 @@
     "web-encoding": "^1.1.5",
     "webpack-manifest-plugin": "^2.2.0",
     "workbox-webpack-plugin": "^4.3.1"
+  },
+  "dependenciesMeta": {
+    "lottie-react-native": {}
   },
   "resolutions": {
     "hoist-non-react-statics": "^3.3.0"
@@ -431,5 +432,6 @@
       }
     },
     "test-runner": "jest"
-  }
+  },
+  "packageManager": "yarn@3.2.2"
 }

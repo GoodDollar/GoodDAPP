@@ -86,6 +86,10 @@ export class APIService {
     return this.client.post('/auth/eth', creds)
   }
 
+  fvAuth(creds: Credentials): AxiosPromise<any> {
+    return this.client.post('/auth/fv', creds)
+  }
+
   /**
    * `/user/add` post api call
    * @param {UserRecord} user
@@ -381,8 +385,38 @@ export class APIService {
   }
 
   // eslint-disable-next-line require-await
-  async sendLoginVendorDetails(url, responseObject) {
+  async invokeCallbackUrl(url, responseObject) {
     return this.sharedClient.post(url, responseObject)
+  }
+
+  async getTokenTXs(token, address, fromBlock = null) {
+    const params = {
+      address,
+      sort: 'asc',
+      module: 'account',
+      action: 'tokentx',
+      contractaddress: token,
+    }
+
+    if (fromBlock) {
+      params.startblock = fromBlock
+    }
+
+    const { result } = await this.sharedClient.get('/api', {
+      params,
+      baseURL: Config.networkExplorerUrl,
+    })
+
+    return result
+  }
+
+  // eslint-disable-next-line require-await
+  async graphQuery(query, subgraph = 'goodsubgraphs'): AxiosPromise<any> {
+    const payload = { query }
+    const options = { baseURL: Config.graphQlUrl }
+    const url = '/' + encodeURIComponent(subgraph)
+
+    return this.sharedClient.post(url, payload, options)
   }
 }
 

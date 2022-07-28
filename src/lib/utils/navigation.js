@@ -1,4 +1,4 @@
-import { assign, isArray } from 'lodash'
+import { assign, forIn, isArray, isPlainObject } from 'lodash'
 import { suspenseWithIndicator } from '../../components/common/view/LoadingIndicator'
 import { lazyExport } from './async'
 
@@ -32,8 +32,15 @@ export const lazyScreens = (dynamicImport, ...components) =>
   lazyExport(dynamicImport, suspenseWithIndicator, ...components)
 
 export const withNavigationOptions = navigationOptions => screen => {
-  const screens = isArray(screen) ? screen : [screen]
+  const addOptions = screen => assign(screen, { navigationOptions })
 
-  screens.forEach(screen => assign(screen, { navigationOptions }))
+  if (isPlainObject(screen)) {
+    forIn(screen, addOptions)
+  } else {
+    const screens = isArray(screen) ? screen : [screen]
+
+    screens.forEach(addOptions)
+  }
+
   return screen
 }

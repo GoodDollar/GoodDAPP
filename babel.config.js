@@ -13,6 +13,7 @@ module.exports = function(api) {
       ],
     ],
     plugins: [
+      'import-graphql',
       'react-native-paper/babel',
       'lodash',
       'transform-class-properties',

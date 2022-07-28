@@ -34,7 +34,7 @@ class ClaimButton extends AnimationBase {
     set(animationData, 'layers[4].ks.p.k[3].s[0]', gap)
   }
 
-  onMount() {
+  onMount = () => {
     if (Platform.OS === 'web') {
       this.anim.onEnterFrame = e => {
         const { stopOnClaim } = this.state

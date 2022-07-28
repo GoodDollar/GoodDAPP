@@ -3543,7 +3543,6 @@ __metadata:
     node-webcrypto-ossl: ^2.1.3
     node-xml-lite: 0.0.7
     numeral: ^2.0.6
-    patch-package: ^6.4.7
     path-browserify: 0.0.0
     pn: ^1.1.0
     pnp-webpack-plugin: ^1.6.4
@@ -24963,7 +24962,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"patch-package@latest, patch-package@npm:^6.4.7":
+patch-package@latest:
   version: 6.4.7
   resolution: "patch-package@npm:6.4.7"
   dependencies:

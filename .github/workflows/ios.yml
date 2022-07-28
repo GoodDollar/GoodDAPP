@@ -219,11 +219,10 @@ jobs:
             -archivePath ./build/GoodDollar.xcarchive \
             -exportOptionsPlist $PWD/ci.plist \
             -exportPath $PWD/build
-#        temporary disabled
-#      - name: Deploy to App Center
-#        run: |
-#          echo "deploying to ${{ env.APPCENTER_NAME }}"
-#          npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
+      - name: Deploy to App Center
+        run: |
+          echo "deploying to ${{ env.APPCENTER_NAME }}"
+          npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
       - name: Install private API key P8
         env:
           PRIVATE_API_KEY_BASE64: ${{ secrets.APPSTORE_API_PRIVATE_KEY_BASE_64 }}

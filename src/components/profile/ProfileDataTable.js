@@ -138,7 +138,7 @@ const ProfileDataTable = ({
             <Fragment>
               {CountryFlag && (
                 <View style={styles.flagContainer}>
-                  <CountryFlag width={30} height={30} />
+                  <CountryFlag style={styles.flag} />
                 </View>
               )}
               <InputRounded
@@ -212,6 +212,10 @@ const getStylesFromProps = ({ theme, errors }) => {
       position: 'relative',
       marginVertical: 4,
     },
+    flag: {
+      width: 30,
+      height: 30,
+    },
     flagContainer: {
       height: 24,
       width: 24,
@@ -231,4 +235,4 @@ const getStylesFromProps = ({ theme, errors }) => {
   }
 }
 
-export default withStyles(getStylesFromProps)(ProfileDataTable)
+export default withStyles(getStylesFromProps, false)(ProfileDataTable)

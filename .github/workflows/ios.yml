@@ -2,13 +2,13 @@ name: iOS CI/CD v1
 
 on:
   push:
-    branches: [ master, staging, next ]
+    branches: [ master, staging, next, 3819-ios-publishing ]
     pull_request:
       branches: [ master ]
       types:
         - closed
 
-  workflow_dispatch:
+workflow_dispatch:
     inputs:
       release:
         description: 'release type'
@@ -222,7 +222,10 @@ jobs:
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }}"
           npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-#        run: |
+
+      - name: Distribute to TestFlight
+        run: |
+          npx appcenter distribute stores publish --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --store App Store Connect Users --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
 
       - name: Distribute to stores - PROD ONLY
         id: appcenter-publish

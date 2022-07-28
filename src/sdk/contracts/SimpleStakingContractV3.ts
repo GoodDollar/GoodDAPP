@@ -88,10 +88,10 @@ export async function getSimpleStakingContractAddressesV3(web3: Web3): Promise<s
  */
 
 // TODO: Add function description
-export function getUsdOracle(protocol: LIQUIDITY_PROTOCOL, web3: Web3) {
+export async function getUsdOracle(protocol: LIQUIDITY_PROTOCOL, web3: Web3) {
   let usdOracle: string, deploymentName: string
-
-  let chainId = web3.givenProvider.networkVersion as SupportedChainId
+  const chainId = await getChainId(web3)
+  console.log('web3 getUsdOracle -->', {chainId, web3})
   const CURRENT_NETWORK = getNetworkEnv()
 
   deploymentName = 'production-mainnet'

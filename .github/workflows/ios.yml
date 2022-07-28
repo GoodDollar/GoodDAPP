@@ -9,16 +9,16 @@ on:
         - closed
 
 workflow_dispatch:
-    inputs:
-      release:
-        description: 'release type'
-        required: true
-        default: ''
-        type: choice
-        options:
-          - master
-          - staging
-          - next
+  inputs:
+    release:
+      description: 'release type'
+      required: true
+      default: ''
+      type: choice
+      options:
+        - master
+        - staging
+        - next
 
 jobs:
   codepush:

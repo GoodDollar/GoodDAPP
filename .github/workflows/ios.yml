@@ -2,7 +2,7 @@ name: iOS CI/CD v1
 
 on:
   push:
-    branches: [ master, staging, next, 3819-appstore-publishing ]
+    branches: [ master, staging, next ]
     pull_request:
       branches: [ master ]
       types:

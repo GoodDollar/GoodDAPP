@@ -210,7 +210,7 @@ jobs:
             -sdk iphoneos \
             -configuration Release \
             -archivePath ./build/GoodDollar.xcarchive \
-            PROVISIONING_PROFILE="/Users/mobileios/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision"
+            PROVISIONING_PROFILE="/Users/mobileios/Library/MobileDevice/Provisioning\ Profiles/appstore_pp.mobileprovision"
             CODE_SIGN_IDENTITY="org.gooddollar"
       - name: Export app
         run: |
@@ -224,12 +224,12 @@ jobs:
           echo "deploying to ${{ env.APPCENTER_NAME }}"
           npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
-      - name: Distribute to TestFlight
-        run: |
-          npx appcenter distribute stores publish --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --store App Store Connect Users --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
-
-      - name: Distribute to stores - PROD ONLY
-        id: appcenter-publish
-        if: ${{ env.IS_PROD }}
-        run: |
-          npx appcenter distribute stores publish --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+#      - name: Distribute to TestFlight
+#        run: |
+#          npx appcenter distribute stores publish --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --store App Store Connect Users --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+#
+#      - name: Distribute to stores - PROD ONLY
+#        id: appcenter-publish
+#        if: ${{ env.IS_PROD }}
+#        run: |
+#          npx appcenter distribute stores publish --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"

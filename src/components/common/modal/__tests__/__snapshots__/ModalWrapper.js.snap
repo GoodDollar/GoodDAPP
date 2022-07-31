@@ -16,7 +16,7 @@ exports[`ModalWrapper matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-width-13qz1uu"
         style={
           Object {
             "WebkitAlignSelf": "flex-start",
@@ -24,27 +24,22 @@ exports[`ModalWrapper matches snapshot 1`] = `
             "backgroundColor": "rgba(0,0,0,0.00)",
             "height": "0px",
             "msFlexItemAlign": "start",
-            "width": "100%",
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
               "WebkitAlignSelf": "center",
-              "WebkitFlexShrink": 0,
               "alignSelf": "center",
-              "flexShrink": 0,
               "marginBottom": "0px",
               "marginTop": "0px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
-              "msFlexNegative": 0,
               "msGridRowAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "width": "100%",
             }
           }
         >

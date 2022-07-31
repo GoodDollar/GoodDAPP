@@ -1,0 +1,13 @@
+diff --git a/build/index.js b/build/index.js
+index 78d8feb866be06c57e3e546b4e4f60a10e757e24..e99aaf9774e9febd65fe53c08843925cda8d878a 100644
+--- a/build/index.js
++++ b/build/index.js
+@@ -86,6 +86,8 @@ class JSDOMEnvironment {
+
+     global.ArrayBuffer = ArrayBuffer; // Node's error-message stack size is limited at 10, but it's pretty useful
+     // to see more than that when a test fails.
++    global.Uint8Array = Uint8Array; // this patch is fixing Uint8Array redefined by JSDOM.
++    // TextileCrypto is failing without this override
+
+     this.global.Error.stackTraceLimit = 100;
+     (0, _jestUtil().installCommonGlobals)(global, config.globals); // Report uncaught errors.

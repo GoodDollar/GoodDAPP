@@ -23,12 +23,18 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>gooddollar</string>
+			<key>CFBundleURLName</key>
+			<string>org.gooddollar</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>gooddollar</string>
@@ -118,6 +124,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -128,5 +136,17 @@
 	<false/>
 	<key>branch_app_domain</key>
 	<string>gooddollar.app.link</string>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_ikHIYZgGRpA8nYBtiRlGHpkhBDaBI273</string>
+	</dict>
+	<key>branch_universal_link_domains</key>
+	<array>
+		<string>gooddollar.app.link</string>
+		<string>gooddollar-alternate.app.link</string>
+		<string>gooddollar.test.app.link</string>
+		<string>gooddollar-alternate.test.app.link</string>
+	</array>
 </dict>
 </plist>

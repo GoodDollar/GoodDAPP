@@ -215,7 +215,7 @@ const SummaryGeneric = ({
               Cancel
             </BackButton>
           </Section.Row>
-          <Section.Stack grow={3}>
+          <Section.Stack grow={3} style={styles.nextButtonContainer}>
             <CustomButton disabled={formHasErrors()} onPress={_onPress} loading={loading}>
               {address ? 'Confirm' : 'Confirm & Share Link'}
             </CustomButton>
@@ -232,6 +232,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    marginBottom: theme.paddings.bottomPadding,
   },
   sendIconWrapper: {
     height: getDesignRelativeHeight(75),
@@ -300,6 +301,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   marginForNoCreds: {
     marginBottom: getDesignRelativeHeight(100),
+  },
+  nextButtonContainer: {
+    minWidth: getDesignRelativeWidth(244),
   },
 })
 

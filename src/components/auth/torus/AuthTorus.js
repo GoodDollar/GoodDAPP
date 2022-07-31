@@ -36,7 +36,6 @@ import DeepLinking from '../../../lib/utils/deepLinking'
 import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
-import mustache from '../../../lib/utils/mustache'
 import useTorus from './hooks/useTorus'
 import { TorusStatusCode } from './sdk/TorusSDK'
 
@@ -144,10 +143,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
           android: 'Chrome',
         })
 
-        suggestion = mustache(
-          t`Your default browser isn't supported. Please, set {suggestedBrowser} as default and try again.`,
-          { suggestedBrowser },
-        )
+        suggestion = t`Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
         break
       }
       case UserCancel:
@@ -157,7 +153,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         break
     }
 
-    showErrorDialog(t`We were unable to load the wallet.` + ` ${suggestion}`)
+    showErrorDialog(t`We were unable to load the wallet. ${suggestion}`)
   }
 
   const selfCustodyLogin = useCallback(() => {

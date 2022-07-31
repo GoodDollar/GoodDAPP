@@ -59,10 +59,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7.x'
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn --frozen-lockfile
+          install-command: yarn --immutable
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
@@ -130,13 +133,16 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7.x'
       - name: fix max_user_watches
         run: |
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn --frozen-lockfile
+          install-command: yarn --immutable
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
@@ -177,7 +183,7 @@ jobs:
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
           npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-      - name: Distribute to stores - PROD or STAGING (temporary)
-        if: ${{ env.ENV == 'prod' || env.ENV == 'staging' }}
+      - name: Distribute to stores - PROD only
+        if: ${{ env.ENV == 'prod' }}
         run: |
           npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

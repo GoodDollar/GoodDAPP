@@ -2,7 +2,7 @@ name: iOS CI/CD v1
 
 on:
   push:
-    branches: [ master, staging, next, 3728-update-ios-ci-workflow ]
+    branches: [ master, staging, next ]
     pull_request:
       branches: [ master ]
       types:
@@ -55,11 +55,14 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7.x'
       # install app deps
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn --frozen-lockfile --network-timeout 100000
+          install-command: yarn --immutable
       # extract/decrypt secrets, finalize env preparation
       - name: add .env secrets
         env:
@@ -84,7 +87,6 @@ jobs:
     runs-on: macOS-latest
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag :
     if: |
-      endsWith(github.ref, '3728-update-ios-ci-workflow') ||
       github.event_name == 'workflow_dispatch' ||
       (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
@@ -128,6 +130,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7.x'
       - name: fix max_user_watches
         run: |
           sudo sysctl -w kern.maxfiles=524288
@@ -143,7 +148,7 @@ jobs:
       - name: Cache & install npm dependencies
         uses: bahmutov/npm-install@v1
         with:
-          install-command: yarn --frozen-lockfile --network-timeout 100000
+          install-command: yarn --immutable
       - name: Restore Pods cache
         uses: actions/cache@v2
         with:
@@ -171,8 +176,8 @@ jobs:
       - name: set version
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
-          echo "setting version ${BUILD_VERSION}.${GITHUB_RUN_NUMBER}"
-          plutil -replace CFBundleVersion -string ${BUILD_VERSION}.${GITHUB_RUN_NUMBER} ./ios/GoodDollar/Info.plist
+          echo "setting version ${BUILD_VERSION}"
+          plutil -replace CFBundleVersion -string ${BUILD_VERSION} ./ios/GoodDollar/Info.plist
           plutil -replace CFBundleShortVersionString -string ${BUILD_VERSION} ./ios/GoodDollar/Info.plist
       # build & export
       - name: Build preparation
@@ -217,7 +222,10 @@ jobs:
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }}"
           npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-#      - name: Distribute to stores - PROD ONLY
-#        if: ${{ env.IS_PROD }}
 #        run: |
-#          npx appcenter distribute stores publish --token ${{ secrets.APPCENTER_IOS_PROD }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+
+      - name: Distribute to stores - PROD ONLY
+        id: appcenter-publish
+        if: ${{ env.IS_PROD }}
+        run: |
+          npx appcenter distribute stores publish --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"

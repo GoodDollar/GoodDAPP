@@ -15,15 +15,13 @@ import { isBrowser } from '../../../lib/utils/platform'
 import Illustration from '../../../assets/Auth/Illustration.svg'
 
 import Config from '../../../config/config'
-import { restart } from '../../../lib/utils/system'
 
 const { authSuccessDelay } = Config
-const defaultAfterShown = () => restart('/')
 
 const WelcomeGD = ({ theme, styles, screenProps, navigation, showDelay, afterShown }) => {
   useEffect(() => {
     const delay = showDelay || authSuccessDelay
-    const callback = afterShown || defaultAfterShown
+    const callback = afterShown
     const timeoutId = setTimeout(callback, delay)
 
     return () => void clearTimeout(timeoutId)

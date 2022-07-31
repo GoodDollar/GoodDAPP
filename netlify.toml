@@ -49,9 +49,12 @@ command = "CI= rm -f .env* && CI= yarn build"
 
 [build.environment]
 NODE_VERSION = "14.17.6"
+PYTHON_VERSION = "3.7"
 GENERATE_SOURCEMAP = "true"
 NODE_ENV = "development"
-YARN_FLAGS = "--production=false"
+YARN_CACHE_FOLDER = "/opt/buildhome/.yarn_cache"
+YARN_FLAGS = "--immutable"
+YARN_VERSION = "3.2.2"
 REACT_APP_SERVICE_WORKER = "true"
 REACT_APP_ENV = "development"
 REACT_APP_LOG_LEVEL = "debug"
@@ -76,6 +79,9 @@ REACT_APP_IPFS_LAZY_UPLOAD = "false"
 REACT_APP_REALM_APP_ID = "wallet_dev-dhiht"
 REACT_APP_PUBLIC_URL = "https://gooddev.netlify.app"
 REACT_APP_CERAMIC_NODE_URL = "https://ceramic.gooddollar.org"
+
+[context.fv-standalone.environment]
+REACT_APP_BUILD_TARGET = 'FV'
 
 [context.master.environment]
 REACT_APP_CERAMIC_NODE_URL = "https://ceramic-clay.3boxlabs.com"

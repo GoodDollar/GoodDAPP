@@ -1,0 +1,21 @@
+diff --git a/js/ToolbarAndroid.web.js b/js/ToolbarAndroid.web.js
+index 31f0017d04f007405aa68ac2a78dc17188f73611..964c49a2d79fce4a3a97d81ce0c1cf8a2579c7de 100644
+--- a/js/ToolbarAndroid.web.js
++++ b/js/ToolbarAndroid.web.js
+@@ -9,15 +9,5 @@
+ 
+ 'use strict';
+ 
+-let m;
+-try {
+-  // This is an optional dependency. However, webpack might still show warning message.
+-  m = require('react-native/Libraries/Components/UnimplementedViews/UnimplementedView');
+-} catch {
+-  // If failed to find react-native UnimplementedView, just returns an empty module so
+-  // this won't cause bundling related error, however any subsequent attempt of using this module
+-  // in such situation shall caused compile-error because it really should not be used for web.
+-  m = {};
+-}
++module.exports = function () {};
+ 
+-module.exports = m;

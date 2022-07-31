@@ -1,7 +1,7 @@
 // @flow
 // libraries
 import React, { useCallback, useMemo } from 'react'
-import { Linking, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { t } from '@lingui/macro'
 import { entries } from 'lodash'
@@ -12,15 +12,13 @@ import QrReader from '../dashboard/QR/QRScanner'
 
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
-
-// components
-
-// import { type IClientMeta } from '@walletconnect/types'
+import { openLink } from '../../lib/utils/linking'
 
 // hooks
 import { useDialog } from '../../lib/dialog/useDialog'
 
 const log = logger.child({ from: 'WalletConnectModals' })
+
 const getStylesFromProps = ({ theme }) => {
   const { colors, sizes } = theme
   const { defaultDouble } = sizes
@@ -79,7 +77,7 @@ export const WcHeader = withStyles(getStylesFromProps)(({ styles, session: { pee
   const dappName = peerMeta?.name
   const dappURL = peerMeta?.url
   const dappIcon = peerMeta?.icons?.[0]
-  chainId = chainId || peerMeta?.chainId || 1
+  const chain = chainId || peerMeta?.chainId || 1
   return (
     <>
       <View style={styles.header}>
@@ -101,18 +99,31 @@ export const WcHeader = withStyles(getStylesFromProps)(({ styles, session: { pee
         </View>
         <View>
           <Text style={styles.detailHeading}>{t`Chain`}</Text>
-          <Text style={styles.detail}>{chainId}</Text>
+          <Text style={styles.detail}>{chain}</Text>
         </View>
       </View>
     </>
   )
 })
 
+const Launch = ({ explorer, address }) => {
+  const onLaunch = useCallback(() => {
+    openLink(`${explorer}/address/` + encodeURIComponent(address || ''))
+  }, [address, explorer])
+
+  if (!explorer || !isAddress(address)) {
+    return null
+  }
+
+  return <Icon name="launch" onPress={onLaunch} />
+}
+
 export const ContractCall = ({ styles, txJson, explorer, method }) => {
   const { decodedTx = {}, gasStatus, ...rest } = txJson
   const { decoded: { name, params } = {}, error } = decodedTx
   const txParams = entries(rest).map(e => ({ name: e[0], value: e[1] }))
   const isSign = method.includes('sign')
+
   return (
     <View style={styles.infoView}>
       {!isSign && error && gasStatus.hasEnoughGas && (
@@ -139,34 +150,31 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
         </>
       )}
       {params &&
-        params.map(p => (
-          <React.Fragment key={p.name}>
-            <Text style={styles.labelText}>{p.name}</Text>
+        params.map(({ name, value }) => (
+          <React.Fragment key={name}>
+            <Text style={styles.labelText}>{name}</Text>
             <Text fontSize={12} textAlign={'start'}>
-              {p.value}
-              {explorer && isAddress(p.value) && (
-                <Icon name="launch" onPress={() => Linking.openURL(`${explorer}/address/${p.value}`)} />
-              )}
+              {value}
+              <Launch explorer={explorer} address={value} />
             </Text>
           </React.Fragment>
         ))}
       <Text fontSize={16} fontWeight={'bold'}>
         Transaction Request:
       </Text>
-      {txParams.map(p => (
-        <React.Fragment key={p.name}>
-          <Text style={styles.labelText}>{p.name}</Text>
+      {txParams.map(({ name, value }) => (
+        <React.Fragment key={name}>
+          <Text style={styles.labelText}>{name}</Text>
           <Text fontSize={12} textAlign={'start'}>
-            {['gas', 'gasPrice', 'gasLimit', 'value'].includes(p.name) ? Number(p.value) : p.value}
-            {explorer && isAddress(p.value) && (
-              <Icon name="launch" onPress={() => Linking.openURL(`${explorer}/address/${p.value}`)} />
-            )}
+            {['gas', 'gasPrice', 'gasLimit', 'value'].includes(name) ? Number(value) : value}
+            <Launch explorer={explorer} address={value} />
           </Text>
         </React.Fragment>
       ))}
     </View>
   )
 }
+
 const Approve = ({ styles, session, payload, message, modalType, walletAddress, onScan, explorer }) => {
   const requestText = useMemo(() => {
     switch (modalType) {
@@ -252,6 +260,7 @@ export const useSessionApproveModal = () => {
 
   const show = useCallback(({ session, payload, message, walletAddress, onReject, onApprove, modalType, explorer }) => {
     log.debug('showing dialog', { session, payload, message, walletAddress, onReject, onApprove, modalType })
+
     if (modalType === 'error') {
       return showErrorDialog(t`Unsupported request ${payload.method}`)
     }
@@ -273,6 +282,8 @@ export const useSessionApproveModal = () => {
               if (!data) {
                 return
               }
+
+              //in case of qr code scan request onApprove is sync
               const ok = onApprove(data)
               if (!ok) {
                 showErrorDialog(t`Invalid QR Value: ${data}`)

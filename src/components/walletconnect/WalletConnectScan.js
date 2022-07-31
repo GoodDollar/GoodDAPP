@@ -67,6 +67,7 @@ const WalletConnectScan = ({ screenProps, styles, theme }: WalletConnectProps) =
               category: ExceptionCategory.Human,
               dialogShown: true,
             })
+
             showErrorDialog(t`Invalid QR Code.`)
             setQrDelay(QR_DEFAULT_DELAY)
           } else {

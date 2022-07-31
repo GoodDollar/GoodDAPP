@@ -1433,12 +1433,14 @@ export class GoodWallet {
   async validateContractTX(abi, tx, decoded, tempWeb3) {
     const contract = new tempWeb3.eth.Contract(abi, tx.to, { from: this.accounts[0].address })
     let error
+
     try {
       await contract.methods[decoded.name](...decoded.params.map(_ => _.value)).call({ ...tx })
     } catch (e) {
       log.warn('contract tx simulation failed:', e.message, e, { contract })
       error = e.message
     }
+
     return { error }
   }
 

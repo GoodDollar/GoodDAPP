@@ -104,3 +104,4 @@ service-worker.js
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+.yalc.lock

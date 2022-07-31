@@ -8,6 +8,7 @@ import { first, sortBy } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
+import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
 import { useWallet } from './GoodWalletProvider'
@@ -59,7 +60,7 @@ export const useChainsList = () => {
         {
           name: 'fusescan',
           standard: 'EIP3091',
-          url: 'https://explorer.fuse.io',
+          url: Config.ethereum['122'].explorer,
         },
       ]
       setChains(sortBy(data, 'name'))

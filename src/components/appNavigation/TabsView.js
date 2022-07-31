@@ -1,5 +1,4 @@
 //@flow
-/*eslint-disable*/
 import React, { useEffect, useState } from 'react'
 import { Platform, TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
@@ -52,11 +51,9 @@ const styles = {
   },
   iconViewLeft: {
     alignItems: 'flex-start',
-    // flex: 1,
   },
   iconViewRight: {
     alignItems: 'flex-end',
-    // flex: 1,
   },
   appBar: { overflow: 'hidden', display: 'flex', justifyContent: 'space-between' },
 }

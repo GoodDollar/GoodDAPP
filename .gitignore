@@ -97,6 +97,7 @@ service-worker.js
 
 # Yarn
 .pnp.*
+.yarnrc
 .yarn/*
 !.yarn/patches
 !.yarn/plugins

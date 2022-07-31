@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { assign, fromPairs, get, identity, isError, pick, pickBy, toPairs } from 'lodash'
@@ -147,6 +147,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const { success: signupSuccess, setWalletPreparing, setSuccessfull, activeStep, setActiveStep } = useContext(
     AuthContext,
   )
+  const addSignupContact = useRef(false)
 
   const navigateWithFocus = useCallback(
     (routeKey: string) => {
@@ -586,7 +587,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const { email } = signupData
 
     // perform this again for torus and on email change. torus has also mobile verification that doesn't set email
-    if (!email || !isLoggedInJWT) {
+    if (!email || !isLoggedInJWT || addSignupContact.current) {
       return
     }
 
@@ -595,7 +596,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     //add user to crm once we have his email
     API.addSignupContact(signupData)
-      .then(() => log.info('addSignupContact success', { state: signupData }))
+      .then(() => {
+        addSignupContact.current = true
+        log.info('addSignupContact success', { state: signupData })
+      })
       .catch(e => log.error('addSignupContact failed', e.message, e))
   }, [signupData.email, isLoggedInJWT])
 

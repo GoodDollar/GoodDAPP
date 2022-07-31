@@ -1,20 +1,14 @@
 // @flow
-/* eslint-disable*/
-import React, { useCallback, useMemo, useEffect, useState } from 'react'
-import { Picker, ScrollView, View } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import { ScrollView, View } from 'react-native'
 import { t } from '@lingui/macro'
-import { sortBy } from 'lodash'
+
 // components
 import Wrapper from '../common/layout/Wrapper'
-import { CustomButton, Section, Image } from '../common'
-import InputText from '../common/form/InputText'
-import InputWithAdornment from '../common/form/InputWithAdornment'
 
 import { withStyles } from '../../lib/styles'
 import { isMobile } from '../../lib/utils/platform'
-import QrReader from '../dashboard/QR/QRScanner'
 import QRCameraPermissionDialog from '../dashboard/SendRecieveQRCameraPermissionDialog'
-import Icon from '../common/view/Icon'
 
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
@@ -26,11 +20,8 @@ import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
 import normalize from '../../lib/utils/normalizeText'
-import { readWalletConnectUri, useWalletConnectSession, useChainsList } from '../../lib/wallet/WalletConnectClient'
-import { WcHeader } from './WalletConnectModals'
-
-import wcExample from '../../assets/walletconnectExample.png'
-
+import { readWalletConnectUri, useWalletConnectSession } from '../../lib/wallet/WalletConnectClient'
+import { ConnectedState, Divider, PasteCode, ScanCode } from './components'
 const log = logger.child({ from: 'WalletConnectScan' })
 
 const TITLE = `WalletConnect`
@@ -41,94 +32,6 @@ type WalletConnectProps = {
   styles: {},
   theme: {},
   screenProps: any,
-}
-
-const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
-
-const SwitchChain = ({ switchChain, chainId }) => {
-  const [chain, setChain] = useState(chainId)
-  const chains = useChainsList()
-
-  return (
-    <Section style={{ flexDirection: 'row', paddingHorizontal: 0 }}>
-      <Section.Text textAlign={'start'} style={{ flex: 1 }}>
-        Change Network:
-      </Section.Text>
-      <Picker
-        style={{ flex: 2, width: '100%' }}
-        selectedValue={chain}
-        onValueChange={(itemValue, itemIndex) => {
-          if (itemValue !== chain) {
-            switchChain && switchChain(chains[itemIndex])
-            setChain(itemValue)
-          }
-        }}
-      >
-        {chains.map(chain => (
-          <Picker.Item label={chain.name} value={chain.chainId} key={chain.chainId} />
-        ))}
-      </Picker>
-    </Section>
-  )
-}
-const ConnectedState = ({ session, disconnect, switchChain }) => {
-  return (
-    <Section>
-      <WcHeader session={session} />
-      <SwitchChain switchChain={switchChain} chainId={session.chainId} />
-      <CustomButton onPress={disconnect} color={'red'}>
-        {t`Disconnect`}
-      </CustomButton>
-    </Section>
-  )
-}
-
-const PasteCode = ({ handlePastePress, handleChange, setUri, uri, styles }) => (
-  <View>
-    <Section.Title fontWeight="medium">{t`Paste Code`}</Section.Title>
-    <View style={{ flexDirection: 'row' }}>
-      <View style={{ flex: 1, gap: 12, marginRight: 12 }}>
-        <Image source={wcExample} resizeMode={'contain'} style={{ width: '100%', height: 'auto' }} />
-      </View>
-      <View style={{ flex: 2, justifyContent: 'flex-end' }}>
-        <View>
-          {/* <View style={styles.pasteIcon}> */}
-          <InputWithAdornment
-            showAdornment={true}
-            adornment="paste"
-            adornmentSize={32}
-            adornmentAction={handlePastePress}
-            onChangeText={setUri}
-            value={uri}
-            placeholder="wc:1234123jakljasdkjasfd..."
-          />
-        </View>
-        <CustomButton onPress={() => handleChange(uri)} style={[styles.connectButton]}>{t`Connect`}</CustomButton>
-      </View>
-    </View>
-  </View>
-)
-
-const ScanCode = ({ hasCameraAccess, styles, handleChange, handleError, qrDelay }) => {
-  if (!hasCameraAccess) {
-    return null
-  }
-  return (
-    <View>
-      <Section.Title fontWeight="medium">{t`Scan Code`}</Section.Title>
-      <QrReader
-        delay={qrDelay}
-        onError={handleError}
-        onScan={e => {
-          if (e) {
-            handleChange(e)
-          }
-        }}
-        style={{ width: '100%' }}
-      />
-      <Divider size={30} />
-    </View>
-  )
 }
 
 const WalletConnectScan = ({ screenProps, styles, theme }: WalletConnectProps) => {

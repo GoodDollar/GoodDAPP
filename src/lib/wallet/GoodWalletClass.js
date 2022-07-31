@@ -40,6 +40,7 @@ import { signTypedData } from '@metamask/eth-sig-util'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
+import { tryJson } from '../utils/string'
 import API from '../API'
 import { delay, retry } from '../utils/async'
 import { generateShareLink } from '../share'
@@ -842,11 +843,7 @@ export class GoodWallet {
   // eslint-disable-next-line require-await
   async signTypedData(message: string) {
     const pkeyBuffer = Buffer.from(this.accounts[0].privateKey.slice(2), 'hex')
-    let parsedData = message
-    try {
-      parsedData = typeof message === 'string' && JSON.parse(message)
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
+    let parsedData = tryJson(message)
 
     // There are 3 types of messages
     // v1 => basic data types

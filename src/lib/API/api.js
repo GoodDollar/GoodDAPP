@@ -411,6 +411,27 @@ export class APIService {
   }
 
   // eslint-disable-next-line require-await
+  async getChains(): AxiosPromise<any> {
+    return this.sharedClient.get('https://chainid.network/chains.json')
+  }
+
+  // eslint-disable-next-line require-await
+  async getContractAbi(explorer, address): AxiosPromise<any> {
+    const params = {
+      module: 'contract',
+      action: 'getabi',
+      address,
+    }
+
+    const { result } = await this.sharedClient.get('/api', {
+      params,
+      baseURL: explorer,
+    })
+
+    return result
+  }
+
+  // eslint-disable-next-line require-await
   async graphQuery(query, subgraph = 'goodsubgraphs'): AxiosPromise<any> {
     const payload = { query }
     const options = { baseURL: Config.graphQlUrl }

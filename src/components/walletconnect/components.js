@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Picker, View } from 'react-native'
+import { Picker, Platform, View } from 'react-native'
 import { t } from '@lingui/macro'
 
 import { CustomButton, Image, Section } from '../common'
@@ -17,7 +17,7 @@ export const SwitchChain = ({ switchChain, chainId }) => {
 
   return (
     <Section style={{ flexDirection: 'row', paddingHorizontal: 0 }}>
-      <Section.Text textAlign={'start'} style={{ flex: 1 }}>
+      <Section.Text textAlign={'left'} style={{ flex: 1 }}>
         {t`Change Network:`}
       </Section.Text>
       <Picker
@@ -54,7 +54,11 @@ export const PasteCode = ({ handlePastePress, handleChange, setUri, uri, styles 
     <Section.Title fontWeight="medium">{t`Paste Code`}</Section.Title>
     <View style={{ flexDirection: 'row' }}>
       <View style={{ flex: 1, gap: 12, marginRight: 12 }}>
-        <Image source={wcExample} resizeMode={'contain'} style={{ width: '100%', height: 'auto' }} />
+        <Image
+          source={wcExample}
+          resizeMode={'contain'}
+          style={{ width: '100%', height: Platform.select({ web: 'auto', default: undefined }), aspectRatio: 1 }}
+        />
       </View>
       <View style={{ flex: 2, justifyContent: 'flex-end' }}>
         <View>

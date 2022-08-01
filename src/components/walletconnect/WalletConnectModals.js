@@ -53,7 +53,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'flex-start',
       marginTop: 20,
       width: '100%',
-      textAlign: 'start',
+      textAlign: 'left',
       fontSize: 14,
       maxHeight: 400,
     },
@@ -144,7 +144,7 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
             Contrat Call:
           </Text>
           <Text style={styles.labelText}>{t`Contract Method`}</Text>
-          <Text fontSize={12} textAlign={'start'}>
+          <Text fontSize={12} textAlign={'left'}>
             {name}
           </Text>
         </>
@@ -153,7 +153,7 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
         params.map(({ name, value }) => (
           <React.Fragment key={name}>
             <Text style={styles.labelText}>{name}</Text>
-            <Text fontSize={12} textAlign={'start'}>
+            <Text fontSize={12} textAlign={'left'}>
               {value}
               <Launch explorer={explorer} address={value} />
             </Text>
@@ -165,7 +165,7 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
       {txParams.map(({ name, value }) => (
         <React.Fragment key={name}>
           <Text style={styles.labelText}>{name}</Text>
-          <Text fontSize={12} textAlign={'start'}>
+          <Text fontSize={12} textAlign={'left'}>
             {['gas', 'gasPrice', 'gasLimit', 'value'].includes(name) ? Number(value) : value}
             <Launch explorer={explorer} address={value} />
           </Text>
@@ -238,7 +238,7 @@ const Approve = ({ styles, session, payload, message, modalType, walletAddress, 
         <ScrollView style={styles.data} showsHorizontalScrollIndicator={false}>
           {modalType === 'scan' && <QrReader delay={300} onError={() => {}} onScan={onScan} />}
           {['connect', 'sign', 'switchchain'].includes(modalType) && (
-            <Text fontSize={12} textAlign={'start'}>
+            <Text fontSize={12} textAlign={'left'}>
               {displayData}
             </Text>
           )}
@@ -336,7 +336,7 @@ export const useSessionApproveModal = () => {
               borderRadius,
               width: '48%',
               backgroundColor: primary,
-              display: modalType !== 'scan' ? 'block' : 'none',
+              display: modalType !== 'scan' ? 'flex' : 'none',
             },
           },
         ],

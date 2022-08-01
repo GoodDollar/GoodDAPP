@@ -30,7 +30,7 @@ const log = logger.child({ from: 'WalletConnectClient' })
 export const readWalletConnectUri = link => {
   // checks that the link has the expected strings in it
   const eip1328UriFormat = /wc:[\w\d-]+@\d+\?bridge=.*&key=[a-z0-9]+/
-  const validUri = link.match(eip1328UriFormat)[0]
+  const validUri = first(link.match(eip1328UriFormat))
 
   if (!validUri) {
     return null
@@ -102,7 +102,7 @@ export const useWalletConnectSession = () => {
       log.info('decodetx:', { tx, chain, connector, explorer })
       if (tx.data !== '0x' && explorer) {
         log.info('fetching contract data', { chain, explorer, contract: tx.to })
-        const { result } = await api.getContractAbi(explorer, tx.to)
+        const result = await api.getContractAbi(explorer, tx.to)
         log.info('got contract data', { result })
         if (!result) {
           return
@@ -292,7 +292,7 @@ export const useWalletConnectSession = () => {
       log.info('ending session:', { session })
       connector?.killSession({ message: 'USER_TERMINATED' }).catch()
       setConnector(undefined)
-      AsyncStorage.setItem('walletconnect', undefined)
+      AsyncStorage.removeItem('walletconnect')
       await delay(500)
     },
     [setConnector],

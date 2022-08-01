@@ -1,7 +1,8 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { t } from '@lingui/macro'
+import { get } from 'lodash'
 
 // components
 import Wrapper from '../common/layout/Wrapper'
@@ -12,6 +13,7 @@ import QRCameraPermissionDialog from '../dashboard/SendRecieveQRCameraPermission
 
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
+import { Permissions } from '../permissions/types'
 import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
 import { useClipboardPaste } from '../../lib/hooks/useClipboard'
 
@@ -34,8 +36,9 @@ type WalletConnectProps = {
   screenProps: any,
 }
 
-const WalletConnectScan = ({ screenProps, styles, theme }: WalletConnectProps) => {
+const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletConnectProps) => {
   const [qrDelay, setQrDelay] = useState(QR_DEFAULT_DELAY)
+  const wcIncomingLink = get(navigation, 'state.params.wcUri')
   const {
     wcConnect: setWalletConnectUri,
     wcConnected,
@@ -48,6 +51,12 @@ const WalletConnectScan = ({ screenProps, styles, theme }: WalletConnectProps) =
   const { showErrorDialog } = useDialog()
 
   const { pop, navigateTo } = screenProps
+
+  useEffect(() => {
+    if (wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
+      handleChange(wcIncomingLink)
+    }
+  }, [wcIncomingLink])
 
   const handleChange = useCallback(
     data => {

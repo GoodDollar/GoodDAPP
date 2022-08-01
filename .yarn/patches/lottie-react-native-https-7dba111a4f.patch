@@ -1,0 +1,78 @@
+diff --git a/src/ios/LottieReactNative/ContainerView.swift b/src/ios/LottieReactNative/ContainerView.swift
+index cd8ed10df2307c405b83001da19f4613c8f1b727..aae5ccb92fc53f33da0d3d7c52ce31a035531ac1 100644
+--- a/src/ios/LottieReactNative/ContainerView.swift
++++ b/src/ios/LottieReactNative/ContainerView.swift
+@@ -17,7 +17,7 @@ class ContainerView: RCTView {
+         super.traitCollectionDidChange(previousTraitCollection)
+         if #available(iOS 13.0, tvOS 13.0, *) {
+             if (self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+-                applyProperties()
++                applyProperties(false)
+                 print("dark mode changed")
+             }
+         }
+@@ -50,10 +50,10 @@ class ContainerView: RCTView {
+         loop = isLooping ? .loop : .playOnce
+         animationView?.loopMode = loop
+     }
+-    
++
+     @objc func setTextFiltersIOS(_ newTextFilters: [NSDictionary]) {
+         textFilters = newTextFilters
+-        
++
+         if (textFilters.count > 0) {
+             var filters = [String:String]()
+             for filter in textFilters {
+@@ -61,7 +61,7 @@ class ContainerView: RCTView {
+                 let value = filter.value(forKey: "text") as! String
+                 filters[key] = value;
+             }
+-            
++
+             let starAnimationView = AnimationView()
+             starAnimationView.textProvider = DictionaryTextProvider(filters)
+             starAnimationView.animation = animationView?.animation
+@@ -71,12 +71,12 @@ class ContainerView: RCTView {
+ 
+     @objc func setSourceURL(_ newSourceURLString: String) {
+         var url = URL(string: newSourceURLString)
+-        
++
+         if(url?.scheme == nil) {
+             // interpret raw URL paths as relative to the resource bundle
+             url = URL(fileURLWithPath: newSourceURLString, relativeTo: Bundle.main.resourceURL)
+         }
+-    
++
+         if(url != nil) {
+             DispatchQueue.global(qos: .default).async {
+                 do {
+@@ -195,12 +195,17 @@ class ContainerView: RCTView {
+         applyProperties()
+     }
+ 
+-    func applyProperties() {
++    func applyProperties(_ shouldUpdateProgress: Bool = true) {
+         guard let animationView = animationView else { return }
+         let isPlaying = animationView.isAnimationPlaying
+-        animationView.currentProgress = progress
++
++        if (shouldUpdateProgress) {
++            animationView.currentProgress = progress
++        }
++
+         animationView.animationSpeed = speed
+         animationView.loopMode = loop
++
+         if (colorFilters.count > 0) {
+             for filter in colorFilters {
+                 let keypath: String = "\(filter.value(forKey: "keypath") as! String).**.Color"
+@@ -209,6 +214,7 @@ class ContainerView: RCTView {
+                 animationView.setValueProvider(colorFilterValueProvider, keypath: fillKeypath)
+             }
+         }
++
+         if isPlaying {
+            resume()
+         }

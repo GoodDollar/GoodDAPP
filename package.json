@@ -41,7 +41,7 @@
     "lingui:extract": "lingui extract --clean",
     "lingui:compile": "lingui compile && node scripts/i18n.js",
     "lingui": "npm run lingui:extract --clean && npm run lingui:compile",
-    "postinstall": "patch-package && cp patches/realm+1.3.0-package-patched.json node_modules/realm-web/package.json",
+    "postinstall": "cp .yarn/patches/realm+1.3.0-package-patched.json node_modules/realm-web/package.json",
     "code-push:dev": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-development -d Staging  -t `git rev-list master --first-parent --count`",
     "code-push:stage": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-staging -d Staging  -t `git rev-list master --first-parent --count`",
     "code-push:prod": "appcenter codepush release-react -a GoodDollar/GoodDollar-Android-production -d Production  -t `git rev-list master --first-parent --count`"
@@ -138,7 +138,6 @@
     "multiformats": "^9.6.4",
     "node-libs-react-native": "^1.2.1",
     "numeral": "^2.0.6",
-    "patch-package": "^6.4.7",
     "path-browserify": "0.0.0",
     "pnp-webpack-plugin": "^1.6.4",
     "process": "^0.11.10",
@@ -343,7 +342,17 @@
     "lottie-react-native": {}
   },
   "resolutions": {
-    "hoist-non-react-statics": "^3.3.0"
+    "hoist-non-react-statics": "^3.3.0",
+    "lottie-react-native": "patch:lottie-react-native@https://github.com/lottie-react-native/lottie-react-native.git#.yarn/patches/lottie-react-native-https-7dba111a4f.patch",
+    "webpack-dev-server": "patch:webpack-dev-server@npm:3.11.1#.yarn/patches/webpack-dev-server-npm-3.11.1-9edb45f7e5.patch",
+    "@react-native-community/toolbar-android": "patch:@react-native-community/toolbar-android@npm:0.2.1#.yarn/patches/@react-native-community-toolbar-android-npm-0.2.1-3adb606246.patch",
+    "jest-environment-jsdom": "patch:jest-environment-jsdom@npm:26.6.2#.yarn/patches/jest-environment-jsdom-npm-26.6.2-defa486869.patch",
+    "metro": "patch:metro@npm:0.66.2#.yarn/patches/metro-npm-0.66.2-6bf2522f94.patch",
+    "react-native-branch": "patch:react-native-branch@npm:5.4.1#.yarn/patches/react-native-branch-npm-5.4.1-88119fa31b.patch",
+    "react-native-gesture-handler": "patch:react-native-gesture-handler@npm:1.10.3#.yarn/patches/react-native-gesture-handler-npm-1.10.3-be0b33cc52.patch",
+    "react-native-tcp": "patch:react-native-tcp@npm:4.0.0#.yarn/patches/react-native-tcp-npm-4.0.0-b88d3de807.patch",
+    "react-native": "patch:react-native@npm:0.65.2#.yarn/patches/react-native-npm-0.65.2-326cd156c0.patch",
+    "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch"
   },
   "browserslist": [
     ">0.2%",

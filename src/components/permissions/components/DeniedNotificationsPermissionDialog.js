@@ -3,13 +3,14 @@ import React from 'react'
 
 // components
 import { t } from '@lingui/macro'
+import illustration from '../../../assets/NotificationPermissionError.svg'
 import DeniedPermissionDialog from './DeniedPermissionDialog'
 
 // TODO: add image, change texts
 export default props => (
   <DeniedPermissionDialog
-    errorMessage={t`We can't send You notifications...`}
-    title={t`Go to your device settings & enable notifications`}
+    title={t`Oops! You need to enable notifications on your phone.`}
+    image={illustration}
     {...props}
   />
 )

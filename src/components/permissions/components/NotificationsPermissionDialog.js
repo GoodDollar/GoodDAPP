@@ -2,14 +2,16 @@ import React from 'react'
 
 import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+import illustration from '../../../assets/NotificationPermission.svg'
 
 // TODO: add image, change texts
 export default ({ onDismiss }) => (
   <ExplanationDialog
-    title={t`Please allow us sending You notifications`}
+    title={t`Would you like to be reminded of your daily claims?`}
+    image={illustration}
     buttons={[
       {
-        text: t`OK`,
+        text: t`ENABLE NOTIFICATIONS`,
         action: onDismiss,
       },
     ]}

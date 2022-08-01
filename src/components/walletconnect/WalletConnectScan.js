@@ -50,7 +50,7 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   const [uri, setUri] = useState('')
   const { showErrorDialog } = useDialog()
 
-  const { pop, navigateTo } = screenProps
+  const { navigateTo } = screenProps
 
   useEffect(() => {
     if (wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
@@ -105,12 +105,9 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   })
   const handlePastePress = useCallback(requestClipboardPermissions)
 
-  // check camera permission and show dialog if not allowed
-  const handlePermissionDenied = useCallback(() => pop(), [pop])
   const [hasCameraAccess, requestPermission] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
     promptPopup: QRCameraPermissionDialog,
-    onDenied: handlePermissionDenied,
     navigate: navigateTo,
   })
 

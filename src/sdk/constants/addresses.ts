@@ -49,15 +49,15 @@ export const UNI_ADDRESS: AddressMap = constructSameAddressMap('0x1f9840a85d5aF5
 /* Uniswap's factory addresses per network. */
 export const UNISWAP_FACTORY_ADDRESSES: AddressMap = {
     ...constructSameAddressMap(V2_FACTORY_ADDRESS),
-    [SupportedChainId.FUSE]: '0x1d1f1A7280D67246665Bb196F38553b469294f3a'
+    [SupportedChainId.FUSE]: '0x1998E4b0F1F922367d8Ec20600ea2b86df55f34E'
 }
 
 /* Uniswap's initialization hash codes for calculating pair addresses per network. */
 export const UNISWAP_INIT_CODE_HASH: AddressMap = {
     ...constructSameAddressMap(INIT_CODE_HASH),
-    [SupportedChainId.FUSE]: '0x04990f130515035f22e76663517440918b83941b25a4ec04ecdf4b2898e846aa'
+    [SupportedChainId.FUSE]: '0xe5f5532292e2e2a7aee3c2bb13e6d26dca6e8cc0a843ddd6f37c436c23cfab22'
 }
 
 export const UNISWAP_CONTRACT_ADDRESS: AddressMap = {
-    [SupportedChainId.FUSE]: '0xFB76e9E7d88E308aB530330eD90e84a952570319'
+    [SupportedChainId.FUSE]: '0xE3F85aAd0c8DD7337427B9dF5d0fB741d65EEEB5'
 }

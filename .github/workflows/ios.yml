@@ -133,6 +133,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '13.0'
       - uses: actions/setup-python@v4
         with:
           python-version: '3.7.x'

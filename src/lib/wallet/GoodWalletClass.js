@@ -843,18 +843,15 @@ export class GoodWallet {
   // eslint-disable-next-line require-await
   async signTypedData(message: string) {
     const pkeyBuffer = Buffer.from(this.accounts[0].privateKey.slice(2), 'hex')
-    let parsedData = tryJson(message)
+    const parsedData = tryJson(message)
 
     // There are 3 types of messages
     // v1 => basic data types
     // v3 =>  has type / domain / primaryType
     // v4 => same as v3 but also supports which supports arrays and recursive structs.
     // Because v4 is backwards compatible with v3, we're supporting only v4
-
-    let version = 'v1'
-    if (typeof parsedData === 'object' && (parsedData.types || parsedData.primaryType || parsedData.domain)) {
-      version = 'v4'
-    }
+    const { types, primaryType, domain } = parsedData || {}
+    const version = types || primaryType || domain ? 'v4' : 'v1'
 
     return signTypedData({
       data: parsedData,

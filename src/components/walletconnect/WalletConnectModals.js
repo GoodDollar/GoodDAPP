@@ -4,7 +4,7 @@ import React, { useCallback, useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { t } from '@lingui/macro'
-import { entries } from 'lodash'
+import { entries, first } from 'lodash'
 import { isAddress } from 'web3-utils'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Image, Text } from '../common'
@@ -76,8 +76,9 @@ const getStylesFromProps = ({ theme }) => {
 export const WcHeader = withStyles(getStylesFromProps)(({ styles, session: { peerMeta, chainId } = {} }) => {
   const dappName = peerMeta?.name
   const dappURL = peerMeta?.url
-  const dappIcon = peerMeta?.icons?.[0]
+  const dappIcon = first(peerMeta?.icons)
   const chain = chainId || peerMeta?.chainId || 1
+
   return (
     <>
       <View style={styles.header}>
@@ -121,7 +122,7 @@ const Launch = ({ explorer, address }) => {
 export const ContractCall = ({ styles, txJson, explorer, method }) => {
   const { decodedTx = {}, gasStatus, ...rest } = txJson
   const { decoded: { name, params } = {}, error } = decodedTx
-  const txParams = entries(rest).map(e => ({ name: e[0], value: e[1] }))
+  const txParams = entries(rest).map(([name, value]) => ({ name, value }))
   const isSign = method.includes('sign')
 
   return (

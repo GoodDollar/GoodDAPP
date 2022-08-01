@@ -62,7 +62,7 @@ export const useChainsList = () => {
       const ordered = sortBy(chains, 'name')
 
       setChains(ordered)
-      setCache(CHAINS_CACHE_KEY, chains)
+      setCache(CHAINS_CACHE_KEY, ordered)
     })
   }, [setChains, setCache, hasCache])
 

@@ -1,4 +1,5 @@
-import React, { createContext, useEffect, useState } from 'react'
+import { omit } from 'lodash'
+import React, { createContext, useCallback, useEffect, useState } from 'react'
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
@@ -14,6 +15,11 @@ export const GlobalTogglesContextProvider = props => {
   const [isMobileSafariKeyboardShown, setMobileSafariKeyboardShown] = useState()
   const [isLoadingIndicator, setLoadingIndicator] = useState()
   const [feedLoadAnimShown, setFeedLoadAnimShown] = useState()
+  const [cache, updateCache] = useState({})
+
+  const hasCache = useCallback(key => key in cache, [cache])
+  const setCache = useCallback((key, value) => updateCache(cache => ({ ...cache, [key]: value })), [updateCache])
+  const clearCache = useCallback((key = null) => updateCache(cache => (key ? omit(cache, key) : {})), [updateCache])
 
   useEffect(() => {
     if (isLoggedInRouter != null) {
@@ -48,6 +54,10 @@ export const GlobalTogglesContextProvider = props => {
         setMobileSafariKeyboardShown,
         setLoadingIndicator,
         setFeedLoadAnimShown,
+        cache,
+        hasCache,
+        setCache,
+        clearCache,
       }}
     >
       {props.children}

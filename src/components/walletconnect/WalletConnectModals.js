@@ -272,7 +272,7 @@ export const useSessionApproveModal = () => {
       }
 
       // in case of qr code scan request onApprove is sync
-      const ok = onApprove(data)
+      const ok = await onApprove(data)
 
       if (!ok) {
         showErrorDialog(t`Invalid QR Value: ${data}`)

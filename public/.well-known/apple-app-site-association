@@ -5,11 +5,8 @@
         "appIDs": [
           "97K3Q6WTLM.org.gooddollar"
         ],
-        "components": [
-          {
-            "/": "/",
-            "comment": "Matches the base url"
-          }
+        "paths": [
+          "*"
         ]
       }
     ]

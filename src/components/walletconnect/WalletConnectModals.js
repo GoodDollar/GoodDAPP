@@ -266,6 +266,43 @@ export const useSessionApproveModal = () => {
       return showErrorDialog(t`Unsupported request ${payload.method}`)
     }
 
+    const afterScan = data => {
+      if (!data) {
+        return
+      }
+
+      // in case of qr code scan request onApprove is sync
+      const ok = onApprove(data)
+
+      if (!ok) {
+        showErrorDialog(t`Invalid QR Value: ${data}`)
+      }
+
+      hideDialog()
+    }
+
+    const approve = async dismiss => {
+      // do something
+      try {
+        await onApprove()
+        dismiss()
+      } catch (e) {
+        log.error('failed approving', e.message, e, { dialogShown: true, payload, modalType })
+        showErrorDialog(t`Could not approve request.`)
+      }
+    }
+
+    const reject = async dismiss => {
+      // do something
+      try {
+        await onReject()
+        dismiss()
+      } catch (e) {
+        log.error('failed rejecting', e.message, e, { dialogShown: true, payload, modalType })
+        showErrorDialog(t`Could not reject request.`)
+      }
+    }
+
     try {
       showDialog({
         showCloseButtons: false,
@@ -279,18 +316,7 @@ export const useSessionApproveModal = () => {
             walletAddress={walletAddress}
             modalType={modalType}
             explorer={explorer}
-            onScan={data => {
-              if (!data) {
-                return
-              }
-
-              //in case of qr code scan request onApprove is sync
-              const ok = onApprove(data)
-              if (!ok) {
-                showErrorDialog(t`Invalid QR Value: ${data}`)
-              }
-              hideDialog()
-            }}
+            onScan={afterScan}
           />
         ),
         buttonsContainerStyle: {
@@ -302,16 +328,7 @@ export const useSessionApproveModal = () => {
         buttons: [
           {
             text: 'Reject',
-            onPress: async dismiss => {
-              // do something
-              try {
-                await onReject()
-                dismiss()
-              } catch (e) {
-                log.error('failed rejecting', e.message, e, { dialogShown: true, payload, modalType })
-                showErrorDialog(t`Could not reject request.`)
-              }
-            },
+            onPress: reject,
             color: 'red',
             style: {
               width: '48%',
@@ -322,16 +339,7 @@ export const useSessionApproveModal = () => {
           },
           {
             text: 'Approve',
-            onPress: async dismiss => {
-              // do something
-              try {
-                await onApprove()
-                dismiss()
-              } catch (e) {
-                log.error('failed approving', e.message, e, { dialogShown: true, payload, modalType })
-                showErrorDialog(t`Could not approve request.`)
-              }
-            },
+            onPress: approve,
             color: 'white',
             style: {
               borderRadius,

@@ -5,7 +5,8 @@ import { AB_TESTING, DESTINATION_PATH, GD_PROVIDER, INVITE_CODE, IS_FIRST_VISIT 
 import logger from '../logger/js-logger'
 import { tryJson } from './string'
 
-const accessorRe = /(get|set)/i
+const accessorRe = /(get|set|clear)/i
+const nonAccessorRe = /allkeys/i
 const backupProps = [IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE, GD_PROVIDER]
 const log = logger.child({ from: 'AsyncStorage' })
 
@@ -18,9 +19,11 @@ export default new class {
         const { storageApi } = target
         let propertyValue
         let propertyTarget = storageApi
+        const propName = property || ''
 
         // override methods clear, getItem, setItem, multiGet, multiSet
-        if ('clear' === property || accessorRe.test(property || '')) {
+        // do not override getAllKeys
+        if (accessorRe.test(propName) && !nonAccessorRe.test(propName)) {
           propertyTarget = this
         }
 

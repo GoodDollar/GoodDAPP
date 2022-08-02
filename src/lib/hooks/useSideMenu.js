@@ -22,7 +22,7 @@ import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 const log = logger.child({ from: 'useSideMenu' })
 
-const { dashboardUrl, enableSelfCustody } = Config
+const { dashboardUrl } = Config
 
 export default (props = {}) => {
   const { navigation } = props
@@ -33,7 +33,10 @@ export default (props = {}) => {
   const slideToggle = useCallback(() => setMenu(!isMenuOn), [isMenuOn, setMenu])
   const slideIn = useCallback(() => !isMenuOn && setMenu(true), [isMenuOn, setMenu])
   const slideOut = useCallback(() => isMenuOn && setMenu(false), [isMenuOn, setMenu])
-  const isSelfCustody = userStorage.userProperties.get('regMethod') === REGISTRATION_METHOD_SELF_CUSTODY
+  const isSelfCustody = useMemo(
+    () => userStorage?.userProperties.get('regMethod') === REGISTRATION_METHOD_SELF_CUSTODY,
+    [userStorage],
+  )
 
   const bottomItems = useMemo(
     () => [
@@ -53,6 +56,18 @@ export default (props = {}) => {
 
   const topItems = useMemo(() => {
     let items = [
+      {
+        icon: 'walletconnect',
+        size: 14,
+        name: t`WalletConnect`,
+        action: () => {
+          navigation.navigate({
+            routeName: 'WalletConnect',
+            type: 'Navigation/NAVIGATE',
+          })
+          slideOut()
+        },
+      },
       {
         icon: 'profile',
         name: t`My profile`,
@@ -74,21 +89,6 @@ export default (props = {}) => {
           slideOut()
         },
       },
-
-      // {
-      //   icon: 'link',
-      //   name: 'Magic Link',
-      //   size: 18,
-      //   hidden: isSelfCustody === false,
-      //   action: () => {
-      //     navigation.navigate({
-      //       routeName: 'MagicLinkInfo',
-      //       type: 'Navigation/NAVIGATE',
-      //     })
-      //     slideOut()
-      //   },
-      // },
-
       {
         icon: 'export-wallet',
         size: 18,
@@ -103,8 +103,8 @@ export default (props = {}) => {
       },
       {
         icon: 'lock',
-        name: t`Backup Wallet`,
-        hidden: enableSelfCustody === false || isSelfCustody === false,
+        name: t`Backup Wallet`, // the reason was fixed so we could revert the workaround
+        hidden: !isSelfCustody, // been used and check for reg method = self custody as before
         action: () => {
           navigation.navigate({
             routeName: 'BackupWallet',

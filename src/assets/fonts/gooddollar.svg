@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg">
-<metadata>Copyright (C) 2020 by original authors @ fontello.com</metadata>
+<metadata>Copyright (C) 2022 by original authors @ fontello.com</metadata>
 <defs>
 <font id="gooddollar" horiz-adv-x="1000" >
 <font-face font-family="gooddollar" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
@@ -155,6 +155,8 @@
 <glyph glyph-name="time" unicode="&#xe852;" d="M647-148c-133 0-259 52-353 146s-146 220-146 353 52 259 146 353 220 146 353 146 259-52 353-146 146-220 146-353-52-259-146-353-220-146-353-146z m0 901c-107 0-209-41-285-117-76-76-118-178-118-285s42-209 118-285c76-76 178-118 285-118s209 42 285 118c76 76 118 177 118 285s-42 209-118 285c-76 75-177 117-285 117z m225-466c0 27-21 48-48 48h-145v242c0 26-22 48-48 48-27 0-49-21-49-48v-290c0-27 22-48 49-48h193c27 0 48 21 48 48z" horiz-adv-x="1294" />
 
 <glyph glyph-name="privacy-policy" unicode="&#xe883;" d="M813 384h-626a315 315 0 0 0 626 0m-618-114h610a315 315 0 0 0-610 0m714 80a416 416 0 0 1-98 266 401 401 0 0 1-311 143 409 409 0 1 1 409-409" horiz-adv-x="1000" />
+
+<glyph glyph-name="walletconnect" unicode="&#xe899;" d="M332 654c265 259 693 259 958 0l31-31c14-13 14-34 0-47l-108-107c-7-6-18-6-24 0l-44 43c-185 181-484 181-668 0l-47-46c-7-6-17-6-24 0l-109 107c-13 13-13 34 0 47l35 34z m1183-220l97-95c13-13 13-34 0-47l-437-428c-13-13-35-13-48 0 0 0 0 0 0 0l-310 304c-3 3-9 3-12 0 0 0 0 0 0 0l-310-304c-13-13-35-13-48 0 0 0 0 0 0 0l-437 428c-13 13-13 34 0 47l97 95c13 13 35 13 48 0l310-304c3-3 9-3 12 0 0 0 0 0 0 0l310 304c13 13 35 13 48 0 0 0 0 0 0 0l310-304c3-3 8-3 12 0l310 304c13 13 34 13 48 0z" horiz-adv-x="1622" />
 
 <glyph glyph-name="terms-of-use" unicode="&#xe89f;" d="M160 64a46 46 0 0 1 46-45h92a46 46 0 0 1 0 91h-92a46 46 0 0 1-46-46m0 184a46 46 0 0 1 46-46h183a46 46 0 0 1 0 91h-183a46 46 0 0 1-46-45m0 183a46 46 0 0 1 46-46h321a46 46 0 0 1 0 92h-321a46 46 0 0 1-46-46m0 183a46 46 0 0 1 46-46h321a46 46 0 0 1 0 92h-321a46 46 0 0 1-46-46m474-671h-538v814h538z m96-47v907a47 47 0 0 1-48 47h-191c-89-1-138 0-251 0h-192a47 47 0 0 1-48-46v-907a47 47 0 0 1 48-47h634a47 47 0 0 1 48 47" horiz-adv-x="730" />
 </font>

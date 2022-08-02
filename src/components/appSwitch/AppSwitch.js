@@ -75,14 +75,19 @@ const AppSwitch = (props: LoadingProps) => {
   */
   const getRoute = useCallback(
     (destinationPath = {}) => {
-      let { path, params } = destinationPath
-      const { paymentCode, code } = params || {}
+      let { path, params, link } = destinationPath
+      const { paymentCode, code, uri } = params || {}
 
-      if (!path && !params) {
+      const isWalletConnect = (link || uri || '').match(/wc:[\w\d-]+@\d+/)
+
+      if (!path && !params && !isWalletConnect) {
         return
       }
 
-      if (paymentCode || code) {
+      if (isWalletConnect) {
+        path = 'AppNavigation/Dashboard/WalletConnect'
+        params = { ...params, wcUri: decodeURIComponent(uri || link) }
+      } else if (paymentCode || code) {
         path = 'AppNavigation/Dashboard/HandlePaymentLink'
       } else if (!path) {
         path = 'AppNavigation/Dashboard/Home'
@@ -99,7 +104,7 @@ const AppSwitch = (props: LoadingProps) => {
     user completes signup and becomes loggedin which just updates this component
   */
   const navigateToUrlAction = useCallback(
-    async (destinationPath: { path: string, params: {} }) => {
+    async (destinationPath: { path: string, params: {}, link: string }) => {
       const { navigate } = getNavigation()
 
       destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
@@ -175,10 +180,10 @@ const AppSwitch = (props: LoadingProps) => {
 
   const openDeepLink = useCallback(
     data => {
-      const { path, queryParams } = data || {}
+      const { path, queryParams, link } = data || {}
 
       log.debug('deepLinkingNavigation: got url', { data })
-      navigateToUrlAction({ path, params: queryParams })
+      navigateToUrlAction({ path, params: queryParams, link })
     },
     [navigateToUrlAction],
   )

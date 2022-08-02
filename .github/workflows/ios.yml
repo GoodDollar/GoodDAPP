@@ -79,9 +79,11 @@ jobs:
           BUILD_NUMBER: ${{ github.run_number }}
           CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         run: |
-          echo Code push release target version $BUILD_NUMBER
+          BUILD_VERSION=`node -pe "require('./package.json')['version']"`
+          FORMATTED_VERSION=${BUILD_VERSION%.*}.x
+          echo Code push release target version ${FORMATTED_VERSION}
           yarn lingui:compile
-          npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t $BUILD_NUMBER
+          npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production -t ${FORMATTED_VERSION}
 
   build:
     runs-on: macOS-latest

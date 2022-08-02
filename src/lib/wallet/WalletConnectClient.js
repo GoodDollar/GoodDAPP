@@ -4,13 +4,15 @@ import WalletConnect from '@walletconnect/client'
 import web3Utils from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import Web3 from 'web3'
-import { first, sortBy } from 'lodash'
+import { first, isEmpty, sortBy } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
 import logger from '../logger/js-logger'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
+import useGlobalCache from '../hooks/useGlobalCache'
 import { useWallet } from './GoodWalletProvider'
+
 const log = logger.child({ from: 'WalletConnectClient' })
 
 //TODO:
@@ -44,21 +46,18 @@ export const getWalletConnectTopic = link => {
   return topic
 }
 
-let chainsCache = []
-
 export const useChainsList = () => {
-  const [chains, setChains] = useState(chainsCache)
-  chainsCache = chains
+  const [chains, setChains] = useGlobalCache('chainsCache')
 
   useEffect(() => {
-    if (chainsCache.length) {
+    if (!isEmpty(chains)) {
       return
     }
 
     api.getChains().then(data => {
       setChains(sortBy(data, 'name'))
     })
-  }, [setChains])
+  }, [chains, setChains])
 
   return chains
 }

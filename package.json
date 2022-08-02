@@ -228,6 +228,7 @@
     "rxjs": "^6.4.0",
     "smartbanner.js": "^1.17.0",
     "source-map-explorer": "^2.5.2",
+    "state-pool": "^0.7.1",
     "stream-browserify": "^1.0.0",
     "string_decoder": "^0.10.31",
     "timers-browserify": "^1.4.2",

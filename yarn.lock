@@ -3645,6 +3645,7 @@ __metadata:
     serve: ^11.0.0
     smartbanner.js: ^1.17.0
     source-map-explorer: ^2.5.2
+    state-pool: ^0.7.1
     stream-browserify: ^1.0.0
     string_decoder: ^0.10.31
     svg2png: ^4.1.1
@@ -18033,6 +18034,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immer@npm:>=6.0.3":
+  version: 9.0.15
+  resolution: "immer@npm:9.0.15"
+  checksum: 92e3d63e810e3c3c2bb61b70c45443e37ef983ad12924e3edaf03725ae5979618f5b473439bb3bb4a8c4769f25132f18dec10ea15c40f0b20da5691ff96ff611
+  languageName: node
+  linkType: hard
+
 "import-cwd@npm:^2.0.0":
   version: 2.1.0
   resolution: "import-cwd@npm:2.1.0"
@@ -31276,6 +31284,17 @@ patch-package@latest:
   bin:
     sgf: bin/cli.js
   checksum: dd40ce04a5e078c922107fdc9f1ba32768f25d7f5f6c606d9b37f578da705ca2e86664a728a1c3dc743f318dc6bdffd9a650e6100a00bc8e86e0d8b2ba06b896
+  languageName: node
+  linkType: hard
+
+"state-pool@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "state-pool@npm:0.7.1"
+  dependencies:
+    immer: ">=6.0.3"
+  peerDependencies:
+    react: ">=16.8.3"
+  checksum: 9373af497a241c7ff314d6965039c57275c6731de1bcc141a78bf5c698c77434fc54de22ac6ffd29cf136c6cd1ced490c41a971edfea24ef9f8421c5f37eff05
   languageName: node
   linkType: hard
 

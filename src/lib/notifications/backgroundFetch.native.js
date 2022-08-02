@@ -5,6 +5,7 @@ import moment from 'moment'
 import { get, includes, once } from 'lodash'
 import { t } from '@lingui/macro'
 
+import { Notifications } from 'react-native-notifications'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../logger/js-logger'
 import { IS_LOGGED_IN, LAST_CLAIM_NOTIFICATIONS, OLD_NOTIFICATIONS } from '../constants/localStorage'
@@ -32,6 +33,14 @@ const log = logger.child({ from: 'backgroundFetch' })
 
 const dailyClaimNotification = async goodWallet => {
   const { entitlement: dailyUBI } = await goodWallet.getClaimScreenStatsFuse()
+  Notifications.postLocalNotification({
+    body: 'Local notification!',
+    title: 'Local Notification Title',
+    sound: 'chime.aiff',
+    category: 'SOME_CATEGORY',
+    userInfo: {},
+    fireDate: new Date(),
+  })
 
   // We should notify once: only in first bg-fetch call after daily claim time
   const lastClaimNotification = await AsyncStorage.getItem(LAST_CLAIM_NOTIFICATIONS)
@@ -48,7 +57,14 @@ const dailyClaimNotification = async goodWallet => {
 
 const feedNotifications = async (userStorage, hasConnection) => {
   const taskId = FEED_NOTIFICATIONS
-
+  Notifications.postLocalNotification({
+    body: 'Local notification!',
+    title: 'Local Notification Title',
+    sound: 'chime.aiff',
+    category: 'SOME_CATEGORY',
+    userInfo: {},
+    fireDate: new Date(),
+  })
   log.info('[BackgroundFetch] taskId: ', taskId)
 
   const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
@@ -128,11 +144,6 @@ export const initBGFetch = once((goodWallet, userStorage) => {
     }
   }
 
-  const androidHeadlessTask = async ({ taskId }) => {
-    log.info('[BackgroundFetch HeadlessTask] start: ', taskId)
-    await task(taskId)
-  }
-
   const taskManagerErrorHandler = error => {
     log.info('[js] RNBackgroundFetch failed to start')
   }
@@ -144,7 +155,6 @@ export const initBGFetch = once((goodWallet, userStorage) => {
   const hasConnection = async () => Promise.race([Promise.all([goodWallet.ready, userStorage.ready]), waitUntil(10000)])
 
   BackgroundFetch.configure(options, task, taskManagerErrorHandler)
-  BackgroundFetch.registerHeadlessTask(androidHeadlessTask)
   BackgroundFetch.scheduleTask({ taskId: FEED_NOTIFICATIONS })
   BackgroundFetch.scheduleTask({ taskId: CLAIM_NOTIFICATION })
 })

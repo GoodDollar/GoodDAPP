@@ -19,6 +19,8 @@
 #import <RNBranch/RNBranch.h>
 #import <Firebase.h>
 #import <CodePush/CodePush.h>
+#import "RNNotifications.h"
+
 
 #ifdef FB_SONARKIT_ENABLED
 
@@ -49,6 +51,7 @@
 
   [self initializeBackgroundFetch];
   [self initializeNotifications];
+  [RNNotifications startMonitorNotifications];
 
   return YES;
 }
@@ -123,6 +126,18 @@
   [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
 
   [client start];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [RNNotifications didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  [RNNotifications didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+  [RNNotifications didReceiveBackgroundNotification:userInfo withCompletionHandler:completionHandler];
 }
 
 #endif

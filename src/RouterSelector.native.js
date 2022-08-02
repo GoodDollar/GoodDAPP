@@ -1,6 +1,7 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import { first } from 'lodash'
 
+import { Notifications } from 'react-native-notifications'
 import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
 import { delay } from './lib/utils/async'
@@ -34,6 +35,17 @@ let SignupRouter = React.lazy(() =>
 
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
+  useEffect(() => {
+    Notifications.registerRemoteNotifications()
+
+    Notifications.events().registerNotificationReceivedForeground((notification, completion) => {
+      completion({ alert: false, sound: false, badge: false })
+    })
+
+    Notifications.events().registerNotificationOpened((notification, completion) => {
+      completion()
+    })
+  }, [])
 
   // always wait for full splash on native
   return Promise.all([

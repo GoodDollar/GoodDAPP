@@ -4,7 +4,7 @@ import WalletConnect from '@walletconnect/client'
 import web3Utils from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import Web3 from 'web3'
-import { first, sortBy } from 'lodash'
+import { first, maxBy, sortBy } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
@@ -86,6 +86,7 @@ export const useWalletConnectSession = () => {
   const [activeConnector, setConnector] = useState()
   const [chain, setChain] = useState()
   const [pendingTxs, setPending] = useState([])
+  const [chainPendingTxs, setChainPendingTxs] = useState([])
 
   const wallet = useWallet()
   const { show: showApprove } = useSessionApproveModal()
@@ -179,12 +180,14 @@ export const useWalletConnectSession = () => {
         decodeTx(connector, message, explorer, web3),
         web3.eth.getBalance(wallet.account),
       ])
-      const gasRequired = Number(message.gas) * Number(message.gasPrice)
+
+      const eip1599Gas = () => Number(message.maxFeeParGas) + Number(message.maxPriorityFeePerGas)
+      const gasRequired = Number(message.gas) * (message.gasPrice ? Number(message.gasPrice) : eip1599Gas())
       const gasStatus = { balance, hasEnoughGas: balance >= gasRequired, gasRequired }
       showApprove({
         walletAddress: wallet.account,
         session: connector.session,
-        message: { ...message, decodedTx, gasStatus },
+        message: { ...message, decodedTx, gasStatus, gasRequired },
         payload,
         modalType: 'tx',
         explorer,
@@ -197,16 +200,7 @@ export const useWalletConnectSession = () => {
             }
 
             if (payload.method === 'eth_sendTransaction') {
-              const txPromisEvent = wallet.sendRawTransaction(message, web3)
-              txPromisEvent.on('transactionHash', result => {
-                log.info('tx send success:', { result })
-                connector.approveRequest({ id: payload.id, result })
-                AsyncStorage.setItem(`GD_WALLETCONNECT_PENDING_${result}`, { txHash: result, payload })
-              })
-              txPromisEvent.on('receipt', result => {
-                log.info('tx receipt:', { result })
-                AsyncStorage.removeItem(`GD_WALLETCONNECT_PENDING_${result.transactionHash}`)
-              })
+              return sendTx(message, payload, web3, chainDetails, connector)
             }
           } catch (e) {
             connector.rejectRequest({ error: e.message, id: payload.id })
@@ -354,6 +348,57 @@ export const useWalletConnectSession = () => {
     ],
   )
 
+  const sendTx = useCallback(
+    async (params, payload, web3, chainDetails, connector) => {
+      const nonce = await web3.eth.getTransactionCount(wallet.account)
+      let txHash
+      const onTransactionHash = result => {
+        txHash = result
+        log.info('tx send success:', { result })
+        payload?.id && connector.approveRequest({ id: payload.id, result })
+        const txData = {
+          txHash,
+          params,
+          nonce,
+          chainId: chainDetails.chainId,
+        }
+        setPending([...pendingTxs, txData])
+        AsyncStorage.setItem(`GD_WALLETCONNECT_PENDING_${result}`, txData)
+      }
+
+      const onReceipt = result => {
+        log.info('tx receipt:', { result })
+        const toRemove = pendingTxs.filter(_ => _.chainId === chainDetails.chainId && _.nonce <= nonce)
+        toRemove.forEach(_ => AsyncStorage.removeItem(`GD_WALLETCONNECT_PENDING_${_.txHash}`))
+        setPending(pendingTxs.filter(_ => !toRemove.includes(_))) //remove expired txs
+      }
+
+      const onError = e => {
+        log.info('tx error:', { e })
+        setPending(pendingTxs.filter(_ => _.txHash !== txHash))
+        connector.rejectRequest({ error: e.message, id: payload.id })
+        txHash && AsyncStorage.removeItem(`GD_WALLETCONNECT_PENDING_${txHash}`)
+      }
+      const txPromisEvent = wallet.sendRawTransaction(params, web3, { onError, onReceipt, onTransactionHash })
+      return txPromisEvent
+    },
+    [wallet, setPending, pendingTxs],
+  )
+
+  const cancelTx = useCallback(async () => {
+    const web3 = getWeb3(getChainRpc(chain))
+    const minGasPrice = await web3.eth.getGasPrice()
+    const { params } = maxBy(chainPendingTxs, _ => Number(_.params?.gasPrice || _.params?.maxFeeParGas))
+    const gasPrice = Math.max(Number(minGasPrice), Number(params.gasPrice || params.maxFeeParGas) * 1.1).toFixed(0)
+    return sendTx(
+      { from: wallet.account, to: wallet.account, gasPrice, value: 0, gas: 21000 },
+      {},
+      web3,
+      chain,
+      activeConnector,
+    )
+  }, [sendTx, chain, activeConnector, chainPendingTxs])
+
   useEffect(() => {
     if (!activeConnector) {
       return
@@ -487,7 +532,7 @@ export const useWalletConnectSession = () => {
 
   const loadPendingTxs = async () => {
     const txKeys = (await AsyncStorage.getAllKeys()).filter(_ => _.startsWith('GD_WALLETCONNECT_PENDING_'))
-    const txs = await AsyncStorage.multiGet(txKeys)
+    const txs = (await AsyncStorage.multiGet(txKeys)).map(_ => _[1])
     setPending(txs)
   }
 
@@ -551,6 +596,17 @@ export const useWalletConnectSession = () => {
     **/
   }, [activeConnector, chains, setChain, handleTxRequest])
 
+  useEffect(() => {
+    ;(async () => {
+      if (chain && pendingTxs) {
+        const web3 = getWeb3(getChainRpc(chain))
+        const curNonce = await web3.eth.getTransactionCount(wallet.account)
+        const stillPending = pendingTxs.filter(_ => _.chainId === chain.chainId && _.nonce === curNonce)
+        setChainPendingTxs(stillPending)
+      }
+    })()
+  }, [pendingTxs, chain, wallet, setChainPendingTxs])
+
   return {
     wcConnect: connect,
     wcConnected: activeConnector?.connected,
@@ -558,6 +614,7 @@ export const useWalletConnectSession = () => {
     wcDisconnect: disconnect,
     wcSwitchChain: switchChain,
     wcChain: chain,
-    pendingTxs,
+    chainPendingTxs,
+    cancelTx,
   }
 }

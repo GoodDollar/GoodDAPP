@@ -1442,10 +1442,14 @@ export class GoodWallet {
   }
 
   // eslint-disable-next-line require-await
-  async sendRawTransaction(tx, tempWeb3) {
+  async sendRawTransaction(tx, tempWeb3, callbacks = {}) {
     tempWeb3.eth.accounts.wallet.add(this.accounts[0])
     log.debug('sendRawTransaction', { tx })
-    return tempWeb3.eth.sendTransaction(tx)
+    const promiEvent = tempWeb3.eth.sendTransaction(tx)
+    callbacks.onTransactionHash && promiEvent.on('transactionHash', callbacks.onTransactionHash)
+    callbacks.onError && promiEvent.on('error', callbacks.onError)
+    callbacks.onReceipt && promiEvent.on('receipt', callbacks.onReceipt)
+    return promiEvent
   }
 
   /**

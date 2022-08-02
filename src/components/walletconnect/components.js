@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { Picker, Platform, View } from 'react-native'
 import { t } from '@lingui/macro'
 
-import { CustomButton, Image, Section } from '../common'
+import { truncateMiddle } from '../../lib/utils/string'
+import { CustomButton, Image, Section, Text } from '../common'
 import InputWithAdornment from '../common/form/InputWithAdornment'
 import QrReader from '../dashboard/QR/QRScanner'
 import wcExample from '../../assets/walletconnectExample.png'
 import { useChainsList } from '../../lib/wallet/WalletConnectClient'
-import { WcHeader } from './WalletConnectModals'
+import { useDialog } from '../../lib/dialog/useDialog'
+import { Launch, WcHeader } from './WalletConnectModals'
 
 export const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
@@ -37,7 +39,47 @@ export const SwitchChain = ({ switchChain, chainId }) => {
     </Section>
   )
 }
-export const ConnectedState = ({ session, disconnect, switchChain }) => {
+
+const PendingTxs = ({ explorer, cancelTx, txs }) => {
+  const [canceling, setCanceling] = useState([])
+  const { showErrorDialog } = useDialog()
+  const onCancel = async txHash => {
+    setCanceling([...canceling, txHash])
+    try {
+      await cancelTx()
+    } catch (e) {
+      showErrorDialog(t`Canceling transaction failed.`, e.message)
+    } finally {
+      setCanceling(canceling.filter(_ => _ !== txHash))
+    }
+  }
+  if (!txs?.length) {
+    return null
+  }
+  return (
+    <Section>
+      <Section.Title fontSize={16}>{t`Pending Transactions`}</Section.Title>
+      {txs.map(({ txHash }) => (
+        <Section
+          key={txHash}
+          style={{ flexDirection: 'row', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+        >
+          <Text style={{ color: 'lightBlue', flex: 1 }} fontSize={12}>
+            {truncateMiddle(txHash, 20)}
+            <Launch explorer={explorer} txHash={txHash} />
+          </Text>
+          <View>
+            <CustomButton
+              onPress={() => onCancel(txHash)}
+              loading={canceling.includes(txHash)}
+            >{t`Cancel`}</CustomButton>
+          </View>
+        </Section>
+      ))}
+    </Section>
+  )
+}
+export const ConnectedState = ({ session, disconnect, switchChain, chainPendingTxs, cancelTx, explorer }) => {
   return (
     <Section>
       <WcHeader session={session} />
@@ -45,6 +87,7 @@ export const ConnectedState = ({ session, disconnect, switchChain }) => {
       <CustomButton onPress={disconnect} color={'red'}>
         {t`Disconnect`}
       </CustomButton>
+      <PendingTxs txs={chainPendingTxs} cancelTx={cancelTx} explorer={explorer} />
     </Section>
   )
 }

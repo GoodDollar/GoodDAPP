@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { t } from '@lingui/macro'
-import { get } from 'lodash'
+import { first, get } from 'lodash'
 
 // components
 import Wrapper from '../common/layout/Wrapper'
@@ -45,6 +45,9 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
     wcSession,
     wcDisconnect,
     wcSwitchChain,
+    wcChain,
+    chainPendingTxs,
+    cancelTx,
   } = useWalletConnectSession()
 
   const [uri, setUri] = useState('')
@@ -138,7 +141,14 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
       <ScrollView style={styles.container}>
         <Divider size={30} />
         {wcConnected ? (
-          <ConnectedState session={wcSession} disconnect={wcDisconnect} switchChain={wcSwitchChain} />
+          <ConnectedState
+            cancelTx={cancelTx}
+            chainPendingTxs={chainPendingTxs}
+            session={wcSession}
+            disconnect={wcDisconnect}
+            switchChain={wcSwitchChain}
+            explorer={first(wcChain?.explorers)?.url}
+          />
         ) : (
           <View style={{ flexDirection: isMobile ? 'column' : 'column-reverse' }}>
             <ScanCode {...{ hasCameraAccess, styles, handleChange, handleError, qrDelay }} />

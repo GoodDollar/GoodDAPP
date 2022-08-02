@@ -107,12 +107,12 @@ export const WcHeader = withStyles(getStylesFromProps)(({ styles, session: { pee
   )
 })
 
-const Launch = ({ explorer, address }) => {
+export const Launch = ({ explorer, address, txHash }) => {
   const onLaunch = useCallback(() => {
-    openLink(`${explorer}/address/` + encodeURIComponent(address || ''))
+    openLink(`${explorer}/` + (address ? 'address/' : 'transaction/') + encodeURIComponent(address || txHash || ''))
   }, [address, explorer])
 
-  if (!explorer || !isAddress(address)) {
+  if (!explorer || (!isAddress(address) && !txHash)) {
     return null
   }
 
@@ -284,19 +284,19 @@ export const useSessionApproveModal = () => {
     const approve = async dismiss => {
       // do something
       try {
-        await onApprove()
         dismiss()
+        await onApprove()
       } catch (e) {
         log.error('failed approving', e.message, e, { dialogShown: true, payload, modalType })
-        showErrorDialog(t`Could not approve request.`)
+        showErrorDialog(t`Could not approve request.`, e.message)
       }
     }
 
     const reject = async dismiss => {
       // do something
       try {
-        await onReject()
         dismiss()
+        await onReject()
       } catch (e) {
         log.error('failed rejecting', e.message, e, { dialogShown: true, payload, modalType })
         showErrorDialog(t`Could not reject request.`)

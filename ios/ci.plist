@@ -11,7 +11,7 @@
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>org.gooddollar</key>
-		<string>GoodDollar AppStore</string>
+		<string>AppStore (iOS Distribution)</string>
 	</dict>
 	<key>signingCertificate</key>
 	<string>iPhone Distribution: GoodDollar Limited</string>

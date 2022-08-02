@@ -95,20 +95,21 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         }
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
-        
+
         const storage = new UserStorage(wallet, db, new UserProperties(db))
+        const loginAndWatch = shouldLoginAndWatch()
 
         await storage.ready
 
-        if (shouldLoginAndWatch()) {
-          await Promise.all([_login(wallet, storage, false), update(wallet)])
+        if (loginAndWatch) {
+          await Promise.all([doLogin(wallet, storage, false), update(wallet)])
         }
 
         if (isLoggedInRouter) {
           AsyncStorage.setItem(IS_LOGGED_IN, true)
           await storage.initRegistered()
 
-          if (shouldLoginAndWatch()) {
+          if (loginAndWatch) {
             const { userProperties } = storage
 
             // only if user signed up then we can await for his properties
@@ -120,7 +121,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
             log.debug('starting watchBalanceAndTXs', { lastBlock })
 
             wallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.set('lastBlock', parseInt(toBlock)))
-
             wallet.balanceChanged(() => update(wallet))
           }
         }
@@ -142,7 +142,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     [setWeb3, setWalletAndStorage, isLoggedInRouter],
   )
 
-  const _login = useCallback(
+  const doLogin = useCallback(
     async (wallet, storage, refresh) => {
       try {
         const walletLogin = new GoodWalletLogin(wallet, storage)
@@ -154,15 +154,15 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
           //verify user is registred and logged in
           await verifyUserIsRegistered(walletLogin)
         }
-        
-        setLoggedInJWT(walletLogin)
 
+        setLoggedInJWT(walletLogin)
         log.info('walletLogin', { jwt, refresh })
+
         return walletLogin
       } catch (e) {
         //retry once in case jwt needs refresh
         if (!refresh) {
-          return _login(wallet, storage, true)
+          return doLogin(wallet, storage, true)
         }
         log.error('failed auth:', e.message, e)
         throw e
@@ -174,22 +174,22 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const login = useCallback(
     async (withRefresh = false) => {
       let refresh = withRefresh
-      
+
       if (isLoggedInJWT) {
         const { decoded, jwt } = await isLoggedInJWT.validateJWTExistenceAndExpiration()
-        
+
         if (!decoded || !jwt) {
           refresh = true
         }
       }
-      
+
       if ((!refresh && isLoggedInJWT) || !goodWallet || !userStorage) {
         return isLoggedInJWT
       }
 
-      return _login(goodWallet, userStorage, refresh)
+      return doLogin(goodWallet, userStorage, refresh)
     },
-    [goodWallet, userStorage, isLoggedInJWT, _login],
+    [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
 
   return (

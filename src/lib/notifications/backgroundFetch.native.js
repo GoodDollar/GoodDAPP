@@ -7,7 +7,6 @@ import { get, once } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import logger from '../logger/js-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'
-import { onFeedReady } from '../userStorage/useFeedReady'
 
 //TODO: how would this handle metamask accounts??
 
@@ -41,7 +40,7 @@ export const initBGFetch = once((goodWallet, userStorage) => {
 
     try {
       await hasConnection()
-      await onFeedReady(userStorage)
+      await userStorage.registeredReady
     } catch (e) {
       return BackgroundFetch.finish(taskId)
     }

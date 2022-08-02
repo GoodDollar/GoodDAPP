@@ -271,7 +271,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Row style={{ width: '100%', alignItems: 'center' }}>
           <TextInput
-            disabled={inviteCodeUsed}
+            editable={!inviteCodeUsed}
             value={extractedCode}
             onChangeText={setCode}
             style={{
@@ -280,6 +280,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
               marginRight: 12,
             }}
             placeholder="Paste your invite code/link here"
+            placeholderTextColor={theme.colors.gray50Percent}
           />
           <CustomButton
             textStyle={{ fontSize: 14, color: theme.colors.white }}

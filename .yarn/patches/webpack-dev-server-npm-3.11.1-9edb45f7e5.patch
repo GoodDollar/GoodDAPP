@@ -1,0 +1,23 @@
+diff --git a/client/utils/createSocketUrl.js b/client/utils/createSocketUrl.js
+index f214a2debd8928f0bd31d40b1b1db7e14eeeed4e..506ab1436cc6c64b89a12c37a7657f8709f4ff76 100644
+--- a/client/utils/createSocketUrl.js
++++ b/client/utils/createSocketUrl.js
+@@ -65,7 +65,8 @@ function getSocketUrl(urlParts, loc) {
+   // they are not provided
+ 
+ 
+-  var sockHost = query.sockHost || hostname;
++  var sockProtocol = protocol || loc.protocol;
++  var sockHost = query.sockHost || hostname || loc.hostname;
+   var sockPath = query.sockPath || '/sockjs-node';
+   var sockPort = query.sockPort || port;
+ 
+@@ -74,7 +75,7 @@ function getSocketUrl(urlParts, loc) {
+   }
+ 
+   return url.format({
+-    protocol: protocol,
++    protocol: sockProtocol,
+     auth: auth,
+     hostname: sockHost,
+     port: sockPort,

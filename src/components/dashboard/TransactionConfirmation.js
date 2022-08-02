@@ -91,6 +91,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    marginBottom: theme.paddings.bottomPadding,
   },
   textContainer: {
     marginTop: 'auto',

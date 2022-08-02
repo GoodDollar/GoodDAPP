@@ -42,7 +42,6 @@ import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
 
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import AuthContext from '../context/AuthContext'
-import mustache from '../../../lib/utils/mustache'
 import { useWalletConnector } from '../../../lib/wallet/thirdparty/useWalletConnector'
 import useTorus from './hooks/useTorus'
 import { TorusStatusCode } from './sdk/TorusSDK'
@@ -151,10 +150,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
           android: 'Chrome',
         })
 
-        suggestion = mustache(
-          t`Your default browser isn't supported. Please, set {suggestedBrowser} as default and try again.`,
-          { suggestedBrowser },
-        )
+        suggestion = t`Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
         break
       }
       case UserCancel:
@@ -164,7 +160,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         break
     }
 
-    showErrorDialog(t`We were unable to load the wallet.` + ` ${suggestion}`)
+    showErrorDialog(t`We were unable to load the wallet. ${suggestion}`)
   }
 
   const selfCustodyLogin = useCallback(() => {
@@ -207,7 +203,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
     }
 
     AsyncStorage.setItem(GD_PROVIDER, provider === 'web3wallet' ? 'WEB3WALLET' : 'SEED')
-    
+
     if (provider === 'selfCustody') {
       initWalletAndStorage(undefined, 'SEED') //initialize the wallet (it will generate a mnemonic)
       return selfCustody()
@@ -230,7 +226,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
     if (provider === 'web3wallet') {
       regMethod = REGISTRATION_METHOD_WEB3WALLET
-      
+
       try {
         web3Provider = await walletConnect()
       } catch (e) {
@@ -238,14 +234,14 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       }
 
       log.debug('walletConnect result:', { web3Provider })
-      
+
       torusUser = {
         publicAddress: web3Provider.address,
       }
     } else {
       let torusResponse
-      
-      regMethod = REGISTRATION_METHOD_TORUS      
+
+      regMethod = REGISTRATION_METHOD_TORUS
 
       try {
         // don't expect response if in redirect mode, this method will be called again with response from effect

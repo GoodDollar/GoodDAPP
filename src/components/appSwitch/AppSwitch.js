@@ -48,9 +48,9 @@ const AppSwitch = (props: LoadingProps) => {
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const deepLinkingRef = useRef(null)
-  const initializing = useRef(null)
-  const { initializedRegistered } = userStorage || {}
-  const [getNavigation, isRegistered] = usePropsRefs([navigation, initializedRegistered])
+  const initializingRef = useRef(null)
+  const [initializedRegistered, setRegistered] = useState(false)
+  const [getNavigation] = usePropsRefs([navigation])
   const { walletConnect, web3, connecting } = useWalletConnector()
 
   const _showOutOfGasError = useCallback(async () => {
@@ -199,36 +199,45 @@ const AppSwitch = (props: LoadingProps) => {
 
     if (ready && userStorage && goodWallet) {
       userStorage.sync()
-      login() //this will refresh the jwt token if wasnt active for a long time
+      login() // this will refresh the jwt token if wasnt active for a long time
       showOutOfGasError()
     }
   }, [ready, login, goodWallet, userStorage, showOutOfGasError, checkDeepLink])
 
   const persist = useCallback(() => {
+    const { initializedRegistered, userProperties } = userStorage || {}
+
     if (initializedRegistered) {
-      userStorage.userProperties.persist()
+      userProperties.persist()
     }
-  }, [userStorage, initializedRegistered])
+  }, [userStorage])
 
   useAppState({ onForeground: recheck, onBackground: persist })
 
   useEffect(() => {
+    // update intializedRegistered value for other effects depending on it
+    if (userStorage) {
+      userStorage.registeredReady.then(setRegistered)
+    }
+  }, [userStorage, setRegistered])
+
+  useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
-    log.debug('initwalletandstorage start:', { initializing, web3, goodWallet, connecting })
+    log.debug('initwalletandstorage start:', { initializingRef, web3, goodWallet, connecting })
     const run = async () => {
       const provider = await AsyncStorage.getItem(GD_PROVIDER)
       const isThirdParty = provider === 'WEB3WALLET'
-      if (isThirdParty === false && initializing.current) {
+      if (isThirdParty === false && initializingRef.current) {
         //if torus and initializing nothing to do here anymore
         return
       }
-      if (web3 === undefined && initializing.current) {
+      if (web3 === undefined && initializingRef.current) {
         //incase web3 was disconnected
-        initializing.current = undefined
+        initializingRef.current = undefined
       }
 
       //if we are already initializing or wallet not ready
-      if (initializing.current && web3 && goodWallet && goodWallet.account === web3.eth.defaultAccount) {
+      if (initializingRef.current && web3 && goodWallet && goodWallet.account === web3.eth.defaultAccount) {
         //in case user switched back to his account
         return hideDialog()
       }
@@ -282,11 +291,11 @@ const AppSwitch = (props: LoadingProps) => {
         if (choice === false) {
           return
         }
-      } else if (initializing.current || web3 === false) {
+      } else if (initializingRef.current || web3 === false) {
         return
       }
       try {
-        initializing.current = true
+        initializingRef.current = true
         log.debug('initWalletAndStorage:', { provider, web3 })
         let web3Result = web3
         if (!web3 && 'WEB3WALLET' === provider) {
@@ -297,7 +306,7 @@ const AppSwitch = (props: LoadingProps) => {
           log.debug('initWalletAndStorage walletConnect:', { web3Result })
           if (publicKey && publicKey !== web3Result.eth.defaultAccount) {
             //if different account then logged in, then wait for the logout dialog
-            initializing.current = false
+            initializingRef.current = false
             log.debug('initWalletAndStorage walletConnect different account then logged in:', {
               web3Result,
               publicKey,
@@ -331,8 +340,9 @@ const AppSwitch = (props: LoadingProps) => {
         restartWithMessage('Wallet could not be loaded. Please refresh.')
       }
     }
+
     run()
-  }, [initWalletAndStorage, initializing, web3, goodWallet])
+  }, [initWalletAndStorage, initializingRef, web3, goodWallet])
 
   useEffect(() => {
     if (ready || !initializedRegistered) {
@@ -357,7 +367,9 @@ const AppSwitch = (props: LoadingProps) => {
     }
 
     DeepLinking.subscribe(data => {
-      if (isRegistered() && AppState.currentState === 'active') {
+      const { initializedRegistered } = userStorage || {}
+
+      if (initializedRegistered && AppState.currentState === 'active') {
         openDeepLink(data)
         return
       }
@@ -366,7 +378,7 @@ const AppSwitch = (props: LoadingProps) => {
     })
 
     return DeepLinking.unsubscribe
-  }, [isRegistered, checkDeepLink, openDeepLink])
+  }, [userStorage, checkDeepLink, openDeepLink])
 
   const activeKey = state.routes[state.index].key
   const descriptor = descriptors[activeKey]

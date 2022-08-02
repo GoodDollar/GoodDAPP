@@ -1,5 +1,6 @@
 import { DefaultTheme } from 'react-native-paper'
 
+import { Platform } from 'react-native'
 import normalize from '../../lib/utils/normalizeText'
 import { calculateFontFamily } from '../../lib/utils/fonts'
 
@@ -49,6 +50,10 @@ export const theme = {
   paddings: {
     defaultMargin: 8,
     mainContainerPadding: 8,
+    bottomPadding: Platform.select({
+      ios: 16,
+      default: 0,
+    }),
   },
   sizes: {
     default: 8,

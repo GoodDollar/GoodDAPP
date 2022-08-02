@@ -8,7 +8,6 @@ import { first, sortBy } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
-import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
 import { useWallet } from './GoodWalletProvider'
@@ -46,26 +45,21 @@ export const getWalletConnectTopic = link => {
 }
 
 let chainsCache = []
+
 export const useChainsList = () => {
   const [chains, setChains] = useState(chainsCache)
   chainsCache = chains
+
   useEffect(() => {
     if (chainsCache.length) {
       return
     }
+
     api.getChains().then(data => {
-      const fuse = data.find(_ => _.chainId === 122)
-      fuse.explorers = [
-        ...(fuse.explorers || []),
-        {
-          name: 'fusescan',
-          standard: 'EIP3091',
-          url: Config.ethereum['122'].explorer,
-        },
-      ]
       setChains(sortBy(data, 'name'))
     })
   }, [setChains])
+
   return chains
 }
 
@@ -102,7 +96,7 @@ export const useWalletConnectSession = () => {
       log.info('decodetx:', { tx, chain, connector, explorer })
       if (tx.data !== '0x' && explorer) {
         log.info('fetching contract data', { chain, explorer, contract: tx.to })
-        const result = await api.getContractAbi(explorer, tx.to)
+        const result = await api.getContractAbi(tx.to, explorer)
         log.info('got contract data', { result })
         if (!result) {
           return

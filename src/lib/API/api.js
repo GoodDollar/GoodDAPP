@@ -1,10 +1,10 @@
 // @flow
 
 import axios from 'axios'
-import { get, identity, isError, isString } from 'lodash'
+import { find, get, identity, isError, isString } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import Config from '../../config/config'
+import Config, { fuseNetwork } from '../../config/config'
 
 import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
@@ -410,13 +410,28 @@ export class APIService {
     return result
   }
 
-  // eslint-disable-next-line require-await
   async getChains(): AxiosPromise<any> {
-    return this.sharedClient.get('https://chainid.network/chains.json')
+    const { explorer, explorerName, network_id: network } = fuseNetwork
+    const chains = await this.sharedClient.get('/chains.json', {
+      baseURL: Config.chainIdUrl,
+    })
+
+    const fuse = find(chains, { chainId: network })
+
+    if (fuse && !fuse.explorers) {
+      fuse.explorers = [
+        {
+          name: explorerName,
+          url: explorer,
+          standard: 'EIP3091',
+        },
+      ]
+    }
+
+    return chains
   }
 
-  // eslint-disable-next-line require-await
-  async getContractAbi(explorer, address): AxiosPromise<any> {
+  async getContractAbi(address, explorer = null): AxiosPromise<any> {
     const params = {
       module: 'contract',
       action: 'getabi',
@@ -425,7 +440,7 @@ export class APIService {
 
     const { result } = await this.sharedClient.get('/api', {
       params,
-      baseURL: explorer,
+      baseURL: explorer || Config.networkExplorerUrl,
     })
 
     return result

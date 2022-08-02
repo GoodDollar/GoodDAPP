@@ -6,7 +6,6 @@ import { get, includes, once } from 'lodash'
 import { t } from '@lingui/macro'
 
 import { Notifications } from 'react-native-notifications'
-import AsyncStorage from '../utils/asyncStorage'
 import logger from '../logger/js-logger'
 import { IS_LOGGED_IN, LAST_CLAIM_NOTIFICATIONS, OLD_NOTIFICATIONS } from '../constants/localStorage'
 import { onFeedReady } from '../userStorage/useFeedReady'
@@ -31,7 +30,7 @@ const options = {
 
 const log = logger.child({ from: 'backgroundFetch' })
 
-const dailyClaimNotification = async goodWallet => {
+const dailyClaimNotification = async (userStorage, goodWallet) => {
   const { entitlement: dailyUBI } = await goodWallet.getClaimScreenStatsFuse()
   Notifications.postLocalNotification({
     body: 'Local notification!',
@@ -43,7 +42,7 @@ const dailyClaimNotification = async goodWallet => {
   })
 
   // We should notify once: only in first bg-fetch call after daily claim time
-  const lastClaimNotification = await AsyncStorage.getItem(LAST_CLAIM_NOTIFICATIONS)
+  const lastClaimNotification = await userStorage.userProperties.get(LAST_CLAIM_NOTIFICATIONS)
   const needToNotify = dailyUBI && Date.now() >= dailyClaimTime && lastClaimNotification < dailyClaimTime
 
   if (needToNotify) {
@@ -51,7 +50,7 @@ const dailyClaimNotification = async goodWallet => {
       title: t`Your daily UBI Claim is ready`,
       message: t`You can claim your daily UBI`,
     })
-    await AsyncStorage.setItem(LAST_CLAIM_NOTIFICATIONS, Date.now())
+    await userStorage.userProperties.safeSet(LAST_CLAIM_NOTIFICATIONS, Date.now())
   }
 }
 
@@ -67,8 +66,8 @@ const feedNotifications = async (userStorage, hasConnection) => {
   })
   log.info('[BackgroundFetch] taskId: ', taskId)
 
-  const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
-  const oldNotifications = await AsyncStorage.getItem(OLD_NOTIFICATIONS)
+  const isLoggedIn = await userStorage.userProperties.get(IS_LOGGED_IN)
+  const oldNotifications = await userStorage.userProperties.get(OLD_NOTIFICATIONS)
 
   log.info('isLoggedIn', isLoggedIn)
 
@@ -123,7 +122,7 @@ const feedNotifications = async (userStorage, hasConnection) => {
           userInfo: { id: feed.id },
         })
       } else {
-        await AsyncStorage.setItem(OLD_NOTIFICATIONS, feed.id)
+        await userStorage.userProperties.safeSet(OLD_NOTIFICATIONS, [oldNotifications, feed.id])
       }
     })
   }
@@ -140,7 +139,7 @@ export const initBGFetch = once((goodWallet, userStorage) => {
     if (taskId === FEED_NOTIFICATIONS) {
       await feedNotifications(userStorage, hasConnection)
     } else if (taskId === CLAIM_NOTIFICATION) {
-      await dailyClaimNotification(goodWallet)
+      await dailyClaimNotification(userStorage, goodWallet)
     }
   }
 

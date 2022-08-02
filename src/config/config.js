@@ -30,12 +30,10 @@ const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'fuse'
 const { networkId } = contractsAddress[network]
 
-export const fuseNetwork = {
+const fuseNetwork = {
   httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
-  explorerName: 'fusescan',
-  network_id: 122,
 }
 
 const ethereum = {
@@ -43,28 +41,28 @@ const ethereum = {
     network_id: 1,
     httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://etherscan.io',
-    explorerName: 'etherscan',
+    explorer: 'https://explorer.mainnet.aurora.dev',
   },
   '42': {
     network_id: 42,
     httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://kovan.etherscan.io',
-    explorerName: 'etherscan',
   },
   '3': {
     network_id: 3,
     httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://ropsten.etherscan.io',
-    explorerName: 'etherscan',
   },
   '121': {
     ...fuseNetwork,
     network_id: 121,
   },
-  '122': fuseNetwork,
+  '122': {
+    ...fuseNetwork,
+    network_id: 122,
+  },
   '4447': {
     ...fuseNetwork,
     network_id: 4447,
@@ -182,7 +180,6 @@ const Config = {
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
   ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600),
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
-  chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
   networkExplorerUrl: ethereum[networkId].explorer,
   isFVFlow: process.env.REACT_APP_BUILD_TARGET === 'FV',
 }

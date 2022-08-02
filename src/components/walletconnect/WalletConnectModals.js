@@ -266,7 +266,7 @@ export const useSessionApproveModal = () => {
       return showErrorDialog(t`Unsupported request ${payload.method}`)
     }
 
-    const afterScan = async data => {
+    const afterScan = data => {
       if (!data) {
         return
       }

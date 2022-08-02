@@ -1,5 +1,5 @@
 //@flow
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import WalletConnect from '@walletconnect/client'
 import web3Utils from 'web3-utils'
 import abiDecoder from 'abi-decoder'
@@ -8,11 +8,10 @@ import { first, sortBy } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
+import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
-import { GlobalTogglesContext } from '../contexts/togglesContext'
 import { useWallet } from './GoodWalletProvider'
-
 const log = logger.child({ from: 'WalletConnectClient' })
 
 //TODO:
@@ -43,29 +42,30 @@ export const readWalletConnectUri = link => {
 export const getWalletConnectTopic = link => {
   const eip1328UriFormat = /wc:([\w\d-]+)@\d+\?bridge=.*&key=[a-z0-9]+/
   const topic = link.match(eip1328UriFormat)[1]
-
   return topic
 }
 
-const CHAINS_CACHE_KEY = 'chains'
-
+let chainsCache = []
 export const useChainsList = () => {
-  const { cache, hasCache, setCache } = useContext(GlobalTogglesContext)
-  const [chains, setChains] = useState(cache[CHAINS_CACHE_KEY])
-
+  const [chains, setChains] = useState(chainsCache)
+  chainsCache = chains
   useEffect(() => {
-    if (hasCache(CHAINS_CACHE_KEY)) {
+    if (chainsCache.length) {
       return
     }
-
-    api.getChains().then(chains => {
-      const ordered = sortBy(chains, 'name')
-
-      setChains(ordered)
-      setCache(CHAINS_CACHE_KEY, chains)
+    api.getChains().then(data => {
+      const fuse = data.find(_ => _.chainId === 122)
+      fuse.explorers = [
+        ...(fuse.explorers || []),
+        {
+          name: 'fusescan',
+          standard: 'EIP3091',
+          url: Config.ethereum['122'].explorer,
+        },
+      ]
+      setChains(sortBy(data, 'name'))
     })
-  }, [setChains, setCache, hasCache])
-
+  }, [setChains])
   return chains
 }
 
@@ -102,7 +102,7 @@ export const useWalletConnectSession = () => {
       log.info('decodetx:', { tx, chain, connector, explorer })
       if (tx.data !== '0x' && explorer) {
         log.info('fetching contract data', { chain, explorer, contract: tx.to })
-        const result = await api.getContractAbi(tx.to, explorer)
+        const result = await api.getContractAbi(explorer, tx.to)
         log.info('got contract data', { result })
         if (!result) {
           return
@@ -127,8 +127,7 @@ export const useWalletConnectSession = () => {
         walletAddress: wallet.account,
         session,
         modalType: 'connect',
-        // eslint-disable-next-line require-await
-        onApprove: async () => {
+        onApprove: () => {
           connector.approveSession({ chainId: 1, accounts: [wallet.account] })
         },
         onReject: () => connector.rejectSession({ message: 'USER_DECLINE' }),

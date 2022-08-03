@@ -1,13 +1,11 @@
 import BackgroundFetch from 'react-native-background-fetch'
 // eslint-disable-next-line import/default
-import PushNotification from 'react-native-push-notification'
 import moment from 'moment'
-import { get, includes, once } from 'lodash'
+import { get, once } from 'lodash'
 import { t } from '@lingui/macro'
-
 import { Notifications } from 'react-native-notifications'
 import logger from '../logger/js-logger'
-import { IS_LOGGED_IN, LAST_CLAIM_NOTIFICATIONS, OLD_NOTIFICATIONS } from '../constants/localStorage'
+import { IS_LOGGED_IN, LAST_CLAIM_NOTIFICATION, LAST_FEED_NOTIFICATION } from '../constants/localStorage'
 import { onFeedReady } from '../userStorage/useFeedReady'
 import { dailyClaimTime } from '../constants/cron'
 import { CLAIM_NOTIFICATION, FEED_NOTIFICATIONS } from '../constants/bgFetch'
@@ -32,42 +30,26 @@ const log = logger.child({ from: 'backgroundFetch' })
 
 const dailyClaimNotification = async (userStorage, goodWallet) => {
   const { entitlement: dailyUBI } = await goodWallet.getClaimScreenStatsFuse()
-  Notifications.postLocalNotification({
-    body: 'Local notification!',
-    title: 'Local Notification Title',
-    sound: 'chime.aiff',
-    category: 'SOME_CATEGORY',
-    userInfo: {},
-    fireDate: new Date(),
-  })
 
   // We should notify once: only in first bg-fetch call after daily claim time
-  const lastClaimNotification = await userStorage.userProperties.get(LAST_CLAIM_NOTIFICATIONS)
+  const lastClaimNotification = await userStorage.userProperties.get(LAST_CLAIM_NOTIFICATION)
   const needToNotify = dailyUBI && Date.now() >= dailyClaimTime && lastClaimNotification < dailyClaimTime
 
   if (needToNotify) {
-    PushNotification.localNotification({
+    Notifications.postLocalNotification({
       title: t`Your daily UBI Claim is ready`,
-      message: t`You can claim your daily UBI`,
+      body: t`You can claim your daily UBI`,
+      fireDate: new Date(),
     })
-    await userStorage.userProperties.safeSet(LAST_CLAIM_NOTIFICATIONS, Date.now())
+    await userStorage.userProperties.safeSet(LAST_CLAIM_NOTIFICATION, Date.now())
   }
 }
 
 const feedNotifications = async (userStorage, hasConnection) => {
   const taskId = FEED_NOTIFICATIONS
-  Notifications.postLocalNotification({
-    body: 'Local notification!',
-    title: 'Local Notification Title',
-    sound: 'chime.aiff',
-    category: 'SOME_CATEGORY',
-    userInfo: {},
-    fireDate: new Date(),
-  })
   log.info('[BackgroundFetch] taskId: ', taskId)
 
   const isLoggedIn = await userStorage.userProperties.get(IS_LOGGED_IN)
-  const oldNotifications = await userStorage.userProperties.get(OLD_NOTIFICATIONS)
 
   log.info('isLoggedIn', isLoggedIn)
 
@@ -83,10 +65,10 @@ const feedNotifications = async (userStorage, hasConnection) => {
       return BackgroundFetch.finish(taskId)
     }
 
-    const lastFeedCheck = userStorage.userProperties.get('lastSeenFeedNotification')
+    const lastFeedNotification = await userStorage.userProperties.get(LAST_FEED_NOTIFICATION)
     const feed = await userStorage.getFeedPage(20, true)
 
-    log.info('lastFeedCheck', lastFeedCheck)
+    log.info('lastFeedCheck', lastFeedNotification)
     log.info('feed', feed)
 
     const hasNewPayment = (type, status) => {
@@ -101,13 +83,9 @@ const feedNotifications = async (userStorage, hasConnection) => {
       const { date, type, status } = feedItem
       const feedDate = moment(new Date(date)).valueOf()
       const isActual =
-        (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) &&
-        lastFeedCheck < feedDate &&
-        !includes(oldNotifications, feedItem.id)
+        (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) && lastFeedNotification < feedDate
       return isActual && feedItem
     })
-
-    userStorage.userProperties.safeSet('lastSeenFeedNotification', Date.now())
 
     log.info('new feed items', { newFeeds })
 
@@ -115,15 +93,16 @@ const feedNotifications = async (userStorage, hasConnection) => {
 
     newFeeds.map(async feed => {
       if (!isInitialCall) {
-        PushNotification.localNotification({
+        Notifications.postLocalNotification({
           title: t`Payment from/to ${get(feed, 'data.counterPartyDisplayName', 'Unknown')} received/accepted`,
-          message: t`G$ ${get(feed, 'data.amount', 0)}`,
+          body: t`G$ ${get(feed, 'data.amount', 0)}`,
           id: feed.id,
           userInfo: { id: feed.id },
+          fireDate: new Date(),
         })
-      } else {
-        await userStorage.userProperties.safeSet(OLD_NOTIFICATIONS, [oldNotifications, feed.id])
       }
+
+      await userStorage.userProperties.safeSet(LAST_FEED_NOTIFICATION, feed.date)
     })
   }
 
@@ -154,6 +133,6 @@ export const initBGFetch = once((goodWallet, userStorage) => {
   const hasConnection = async () => Promise.race([Promise.all([goodWallet.ready, userStorage.ready]), waitUntil(10000)])
 
   BackgroundFetch.configure(options, task, taskManagerErrorHandler)
-  BackgroundFetch.scheduleTask({ taskId: FEED_NOTIFICATIONS })
-  BackgroundFetch.scheduleTask({ taskId: CLAIM_NOTIFICATION })
+  BackgroundFetch.scheduleTask({ taskId: FEED_NOTIFICATIONS, periodic: true })
+  BackgroundFetch.scheduleTask({ taskId: CLAIM_NOTIFICATION, periodic: true })
 })

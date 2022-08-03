@@ -217,7 +217,7 @@ jobs:
             -sdk iphoneos \
             -configuration Release \
             -archivePath ./build/GoodDollar.xcarchive \
-            PROVISIONING_PROFILE="/Users/mobileios/Library/MobileDevice/Provisioning\ Profiles/appstore_pp.mobileprovision"
+            PROVISIONING_PROFILE="~/Library/MobileDevice/Provisioning\ Profiles/appstore_pp.mobileprovision"
             CODE_SIGN_IDENTITY="org.gooddollar"
       - name: Export app
         run: |

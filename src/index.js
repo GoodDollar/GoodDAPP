@@ -2,9 +2,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
+import fontMaterialCommunityIcons from 'react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'
 
 import './index.css'
-import './components/common/view/Icon/index.css'
+import './assets/fonts/index.css'
 
 const BuildTarget = {
   FaceVerification: 'FV',
@@ -28,9 +29,13 @@ importBuildTarget().then(({ default: AppRoot }) => {
       <>
         <AppRoot />
         <style type="text/css">{`
-          @font-face {
+           @font-face {
             src: url(${fontMaterialIcons});
             font-family: MaterialIcons;
+          }
+          @font-face {
+            src: url(${fontMaterialCommunityIcons});
+            font-family: MaterialCommunityIcons;
           }
         `}</style>
       </>

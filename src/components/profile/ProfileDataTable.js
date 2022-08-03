@@ -17,6 +17,24 @@ const defaultErrors = {}
 const defaultStoredProfile = {}
 const defaultProfile = {}
 
+const CountryFlag = withStyles(
+  () => ({
+    flag: {
+      width: 30,
+      height: 30,
+    },
+  }),
+  false,
+)(({ styles, code }) => {
+  const CountryFlag = useCountryFlag(code)
+
+  if (!CountryFlag) {
+    return null
+  }
+
+  return <CountryFlag style={styles.flag} />
+})
+
 const ProfileDataTable = ({
   profile = defaultProfile,
   storedProfile = defaultStoredProfile,
@@ -35,7 +53,7 @@ const ProfileDataTable = ({
     mobile,
   ])
 
-  const CountryFlag = useCountryFlag(phoneMeta ? phoneMeta.country : undefined)
+  const { country: countryCode = null } = phoneMeta || {}
 
   const verifyEdit = useCallback(
     (field, content) => {
@@ -136,13 +154,13 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {CountryFlag && (
+              {countryCode && (
                 <View style={styles.flagContainer}>
-                  <CountryFlag style={styles.flag} />
+                  <CountryFlag code={countryCode} />
                 </View>
               )}
               <InputRounded
-                containerStyle={CountryFlag && styles.disabledPhoneContainer}
+                containerStyle={countryCode && styles.disabledPhoneContainer}
                 disabled={true}
                 error={errors.mobile}
                 icon="phone"
@@ -171,10 +189,6 @@ const ProfileDataTable = ({
       </KeyboardAwareScrollView>
     </Section.Row>
   )
-}
-
-ProfileDataTable.defaultProps = {
-  errors: {},
 }
 
 const getStylesFromProps = ({ theme, errors }) => {
@@ -212,10 +226,6 @@ const getStylesFromProps = ({ theme, errors }) => {
       position: 'relative',
       marginVertical: 4,
     },
-    flag: {
-      width: 30,
-      height: 30,
-    },
     flagContainer: {
       height: 24,
       width: 24,
@@ -235,4 +245,4 @@ const getStylesFromProps = ({ theme, errors }) => {
   }
 }
 
-export default withStyles(getStylesFromProps, false)(ProfileDataTable)
+export default withStyles(getStylesFromProps)(ProfileDataTable)

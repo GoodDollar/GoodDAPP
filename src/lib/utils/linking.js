@@ -53,7 +53,7 @@ export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank
 }
 
 export const handleLinks = async (logger = log) => {
-  const { params, pathname } = DeepLinking
+  const { params, pathname, link } = DeepLinking
 
   try {
     const { inviteCode } = params
@@ -65,8 +65,9 @@ export const handleLinks = async (logger = log) => {
 
     const path = (pathname || '').slice(1) || defaultPath
 
-    if (params && Object.keys(params).length > 0) {
-      const dest = { path, params }
+    const isWalletConnect = (link || '').match(/wc:[\w\d-]+@\d+/)
+    if (isWalletConnect || (params && Object.keys(params).length > 0)) {
+      const dest = { path, params, link }
 
       logger.debug('Saving destination url', dest)
       await AsyncStorage.setItem(DESTINATION_PATH, dest)

@@ -7,6 +7,10 @@ class DeepLinkingWeb {
 
   query = window.location.search
 
+  get link() {
+    return decodeURI(window.location.href)
+  }
+
   get params() {
     const decodedHref = decodeURI(window.location.href)
     const { params } = createUrlObject(decodedHref)

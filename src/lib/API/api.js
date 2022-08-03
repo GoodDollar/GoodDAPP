@@ -1,10 +1,10 @@
 // @flow
 
 import axios from 'axios'
-import { get, identity, isError, isString } from 'lodash'
+import { find, get, identity, isError, isString } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import Config from '../../config/config'
+import Config, { fuseNetwork } from '../../config/config'
 
 import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
@@ -405,6 +405,42 @@ export class APIService {
     const { result } = await this.sharedClient.get('/api', {
       params,
       baseURL: Config.networkExplorerUrl,
+    })
+
+    return result
+  }
+
+  async getChains(): AxiosPromise<any> {
+    const { explorer, explorerName, network_id: network } = fuseNetwork
+    const chains = await this.sharedClient.get('/chains.json', {
+      baseURL: Config.chainIdUrl,
+    })
+
+    const fuse = find(chains, { chainId: network })
+
+    if (fuse && !fuse.explorers) {
+      fuse.explorers = [
+        {
+          name: explorerName,
+          url: explorer,
+          standard: 'EIP3091',
+        },
+      ]
+    }
+
+    return chains
+  }
+
+  async getContractAbi(address, explorer = null): AxiosPromise<any> {
+    const params = {
+      module: 'contract',
+      action: 'getabi',
+      address,
+    }
+
+    const { result } = await this.sharedClient.get('/api', {
+      params,
+      baseURL: explorer || Config.networkExplorerUrl,
     })
 
     return result

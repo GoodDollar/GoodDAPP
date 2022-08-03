@@ -9,15 +9,23 @@ import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
 import logger from '../logger/js-logger'
+import {
+  fireEvent,
+  WALLETCONNECT_SCAN,
+  WALLETCONNECT_SESSION,
+  WALLETCONNECT_SIGN,
+  WALLETCONNECT_SWITCHCHAIN,
+  WALLETCONNECT_TX,
+  WALLETCONNECT_TXSIGN,
+  WALLETCONNECT_UNSUPPORTED,
+} from '../analytics/analytics'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
 import { useWallet } from './GoodWalletProvider'
 const log = logger.child({ from: 'WalletConnectClient' })
 
 //TODO:
-//7. cancel tx
 //8. edit gas
 //9. advanced edit tx values/contract call values
-//10. events
 //11. show warning if unable to decode contract call
 /**
  * Parses the read WalletConnet URI from QR Code.
@@ -123,12 +131,18 @@ export const useWalletConnectSession = () => {
         session,
         modalType: 'connect',
         onApprove: () => {
-          connector.approveSession({ chainId: 1, accounts: [wallet.account] })
+          const requestedChain = session.chainId || 122
+          if (Number(chain?.chainId) !== Number(requestedChain)) {
+            const chainDetails = chains.find(_ => Number(_.chainId) === Number(requestedChain))
+            setChain(chainDetails)
+          }
+          connector.approveSession({ chainId: requestedChain, accounts: [wallet.account] })
+          fireEvent(WALLETCONNECT_SESSION, { peerMeta: session.peerMeta })
         },
         onReject: () => connector.rejectSession({ message: 'USER_DECLINE' }),
       })
     },
-    [showApprove, wallet],
+    [showApprove, wallet, chain, chains],
   )
 
   const handleSignRequest = useCallback(
@@ -157,6 +171,7 @@ export const useWalletConnectSession = () => {
 
             log.info('sign request approved:', { result })
             connector.approveRequest({ id: payload.id, result })
+            fireEvent(WALLETCONNECT_SIGN, { peerMeta: connector.session.peerMeta })
           } catch (e) {
             connector.rejectRequest({ error: e.message, id: payload.id })
             throw e
@@ -197,9 +212,11 @@ export const useWalletConnectSession = () => {
               const result = await wallet.signTransaction(message)
               log.info('tx sign success:', { result })
               connector.approveRequest({ id: payload.id, result })
+              fireEvent(WALLETCONNECT_TXSIGN, { to: payload.to, peerMeta: connector.session.peerMeta })
             }
 
             if (payload.method === 'eth_sendTransaction') {
+              fireEvent(WALLETCONNECT_TX, { to: payload.to, peerMeta: connector.session.peerMeta })
               return sendTx(message, payload, web3, chainDetails, connector)
             }
           } catch (e) {
@@ -229,6 +246,7 @@ export const useWalletConnectSession = () => {
           log.debug('scan result:', { result, data, payload })
           if (result) {
             connector.approveRequest({ id: payload.id, result })
+            fireEvent(WALLETCONNECT_SCAN, { peerMeta: connector.session.peerMeta })
             return true
           }
           connector.rejectSession({ id: payload.id, message: 'NO_REGEX_MATCH', result })
@@ -266,6 +284,7 @@ export const useWalletConnectSession = () => {
         message: `${chain.name || chainDetails.name || chain.chainId}: ${getChainRpc(chain)}`,
         onApprove: () => {
           chain.explorers = chain.blockExplorerUrls
+          fireEvent(WALLETCONNECT_SWITCHCHAIN, { chain, peerMeta: connector.session.peerMeta })
           switchChain(chain)
         },
         onReject: () => connector.rejectRequest({ id: payload.id, error: 'USER_DECLINE' }),
@@ -296,6 +315,7 @@ export const useWalletConnectSession = () => {
         modalType: 'error',
       })
       connector.rejectRequest({ error: 'METHOD_NOT_SUPPORTED', id: payload.id })
+      fireEvent(WALLETCONNECT_UNSUPPORTED, { method: payload.method, peerMeta: connector.session.peerMeta })
     },
     [wallet],
   )

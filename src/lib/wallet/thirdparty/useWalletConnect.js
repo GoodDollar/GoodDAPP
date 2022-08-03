@@ -8,7 +8,7 @@ import { chains } from './ThirdPartyWalletProvider'
 const log = logger.child({ from: 'useWalletConnect' })
 
 export const useWalletConnect = () => {
-  const connector = useWC()
+  const connector = useWC() //depands on walletconnectcontextprovider
   const { connect, connected, chainId, accounts } = connector
   const [connecting, setConnecting] = useState(false)
   const [provider, setProvider] = useState()
@@ -20,7 +20,7 @@ export const useWalletConnect = () => {
       setProvider(undefined)
       return
     }
-    
+
     try {
       const web3Provider = new Web3Provider({
         connector: connector,
@@ -61,7 +61,7 @@ export const useWalletConnect = () => {
 
     try {
       setConnecting(true)
-      
+
       const session = await connect({ chainId: 122 })
 
       log.debug('connectSession', { session, connector })
@@ -69,7 +69,7 @@ export const useWalletConnect = () => {
       log.warn('connectSession failed:', e.message, e)
     } finally {
       setConnecting(false)
-    }  
+    }
   }, [connect, setConnecting, setProvider, connector, connected])
 
   return {

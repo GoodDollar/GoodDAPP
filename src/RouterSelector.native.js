@@ -35,17 +35,6 @@ let SignupRouter = React.lazy(() =>
 
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
-  useEffect(() => {
-    Notifications.registerRemoteNotifications()
-
-    Notifications.events().registerNotificationReceivedForeground((notification, completion) => {
-      completion({ alert: false, sound: false, badge: false })
-    })
-
-    Notifications.events().registerNotificationOpened((notification, completion) => {
-      completion()
-    })
-  }, [])
 
   // always wait for full splash on native
   return Promise.all([
@@ -62,7 +51,17 @@ let AppRouter = React.lazy(() => {
 
 const RouterSelector = () => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
+  useEffect(() => {
+    Notifications.registerRemoteNotifications()
 
+    Notifications.events().registerNotificationReceivedForeground((notification, completion) => {
+      completion({ alert: false, sound: false, badge: false })
+    })
+
+    Notifications.events().registerNotificationOpened((notification, completion) => {
+      completion()
+    })
+  }, [])
   useUpdateDialog()
 
   const Router = useMemo(() => (isLoggedInRouter ? AppRouter : SignupRouter), [isLoggedInRouter])

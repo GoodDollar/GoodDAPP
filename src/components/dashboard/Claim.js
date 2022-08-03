@@ -9,16 +9,12 @@ import { retry } from '../../lib/utils/async'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
-// import useOnPress from '../../lib/hooks/useOnPress'
-// import { isBrowser } from '../../lib/utils/platform'
-import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
 import API from '../../lib/API'
 
-// import { openLink } from '../../lib/utils/linking'
 import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import {
@@ -247,9 +243,6 @@ const Claim = props => {
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
-  // A function which will open 'learn more' page in a new tab
-  // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
-
   // format number of people who did claim today
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
 
@@ -362,7 +355,14 @@ const Claim = props => {
         throw new Error('Come back later')
       }
 
-      receipt = await goodWallet.claim({ onTransactionHash: hash => (txHash = hash) })
+      receipt = await goodWallet.claim({
+        onTransactionHash: hash => {
+          txHash = hash
+
+          // first enQueueTX needs to happen just as we receive the txhash, so it writes the "pending" record to db
+          // actually when claiming it is not important to have the pending status record in the DB, so its removed for now
+        },
+      })
     } catch (exception) {
       const { message } = exception
 
@@ -440,21 +440,6 @@ const Claim = props => {
 
         const date = new Date()
         const txHash = receipt.transactionHash
-
-        const transactionEvent: TransactionEvent = {
-          id: txHash,
-          date: date.toISOString(),
-          createdDate: date.toISOString(),
-          type: 'claim',
-          data: {
-            from: 'GoodDollar',
-            amount: curEntitlement,
-          },
-        }
-
-        userStorage
-          .enqueueTX(transactionEvent)
-          .catch(e => log.warn('Failed to enqueue TX:', e.message, e, { transactionEvent }))
 
         AsyncStorage.safeSet('GD_AddWebAppLastClaim', date.toISOString())
         fireEvent(CLAIM_SUCCESS, { txHash, claimValue: curEntitlement })

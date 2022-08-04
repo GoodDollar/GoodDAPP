@@ -64,7 +64,7 @@ const injectedBN = injectedModule({
   filter: {
     ["Binance Smart Wallet"]: false,
     ["MetaMask"]: true,
-    ["Coinbase Wallet"]: true, // both injected / wallet-module enabled for coinbase in-app browser
+    ["Coinbase Wallet"]: ['desktop'], // both injected / wallet-module enabled for coinbase in-app browser.. filter out on desktop to avoid duplicate buttons
     ["detected"]: true,
     ["trust"]: false,
     ["opera"]: false,

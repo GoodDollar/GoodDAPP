@@ -2,7 +2,6 @@ import FileAPI from 'promisify-file-reader'
 import { CID } from 'multiformats/cid'
 import { get, sortBy } from 'lodash'
 import axios from 'axios'
-
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 
@@ -12,17 +11,13 @@ import { normalizeDataUrl } from '../utils/base64'
 
 class IpfsStorage {
   constructor(httpFactory, config, logger) {
-    const { pinataApiKey, pinataSecret, pinataBaseUrl, ipfsGateways } = config
+    const { ipfsGateways, ipfsUploadGateway } = config
 
     this.client = httpFactory.create({
       withCredentials: true,
       maxContentLength: 'Infinity',
       maxBodyLength: 'Infinity',
-      baseURL: pinataBaseUrl,
-      headers: {
-        pinata_api_key: pinataApiKey,
-        pinata_secret_api_key: pinataSecret,
-      },
+      baseURL: ipfsUploadGateway,
     })
 
     this.logger = logger
@@ -37,12 +32,12 @@ class IpfsStorage {
     // eslint-disable-next-line require-await
     const { data } = await withTemporaryFile(dataUrl, async file => {
       form.append('file', file)
-      form.append('pinataOptions', '{"cidVersion": 1}')
-
-      return client.post('pinning/pinFileToIPFS', form)
+      return client.post('/', form)
     })
-
-    return get(data, 'IpfsHash')
+    const v1 = CID.parse(data.cid)
+      .toV1()
+      .toString()
+    return v1
   }
 
   async load(cid, withMetadata = false) {

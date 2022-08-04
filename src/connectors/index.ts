@@ -9,6 +9,7 @@ import walletConnectModule from '@web3-onboard/walletconnect'
 import walletLinkModule from '@web3-onboard/walletlink'
 import { init } from '@web3-onboard/react'
 import zenGoModule from './Zengo/'
+import coinbaseWalletModule from '@web3-onboard/coinbase'
 // ** blockNative update **//
 
 export enum AdditionalChainIds {
@@ -63,7 +64,7 @@ const injectedBN = injectedModule({
   filter: {
     ["Binance Smart Wallet"]: false,
     ["MetaMask"]: true,
-    ["Coinbase Wallet"]: false,
+    ["Coinbase Wallet"]: true, // both injected / wallet-module enabled for coinbase in-app browser
     ["detected"]: true,
     ["trust"]: false,
     ["opera"]: false,
@@ -99,6 +100,8 @@ const walletConnectBN = walletConnectModule({
   }
 })
 
+const coinbaseWalletSdk = coinbaseWalletModule()
+
 const zenGoBN = zenGoModule({
   bridge: 'https://bridge.walletconnect.org',
   qrcodeModalOptions: {
@@ -110,7 +113,7 @@ const zenGoBN = zenGoModule({
 // const walletLink = walletLinkModule({ darkMode: true })
 
 export const onboard = init({
-  wallets: [injectedBN, walletConnectBN, zenGoBN],
+  wallets: [injectedBN, walletConnectBN, zenGoBN, coinbaseWalletSdk],
   chains: [
     {
       id: '0x1',
@@ -134,7 +137,7 @@ export const onboard = init({
       id: '0x7a',
       token: 'FUSE',
       label: 'Fuse Network',
-      rpcUrl: process.env.REACT_APP_FUSE_RPC ?? 'https://fuse-mainnet.gateway.pokt.network/v1/lb/6238bcde27bdef003b45720c'
+      rpcUrl: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'
     }
   ],
   appMetadata: {

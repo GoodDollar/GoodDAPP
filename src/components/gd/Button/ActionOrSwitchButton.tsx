@@ -25,7 +25,8 @@ export const ActionOrSwitchButton = ({
     onClick?: any
     ButtonEl?: any
     disabled?: boolean
-    className?: string
+    className?: string,
+    page?: string
 }) => {
     const toggleNetworkModal = useNetworkModalToggle()
     const { i18n } = useLingui()
@@ -38,7 +39,7 @@ export const ActionOrSwitchButton = ({
         return <ButtonEl {...props}>{children}</ButtonEl>
 
     return (
-        <ButtonEl {...props} onClick={toggleNetworkModal}>
+        <ButtonEl {...props} width={props.page === 'Stake' ? '130px' : props.width} onClick={toggleNetworkModal}>
             {i18n._(`Switch to {network}`, { network: requireNetwork })}
         </ButtonEl>
     )

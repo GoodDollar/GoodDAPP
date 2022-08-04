@@ -413,6 +413,7 @@ const StakeTable = ({
                                             borderRadius="6px"
                                             noShadow={true}
                                             requireNetwork={network}
+                                            page='Stake'
                                             onClick={() => {
                                               getData({event: 'stake', action: 'stakeStart', 
                                                        token: stake.tokens.A.symbol, 

@@ -21,6 +21,8 @@ import { theme as mainTheme } from '../../theme/styles'
 import googleBtnIcon from '../../../assets/Auth/btn-google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
 import ethBtnIcon from '../../../assets/Auth/btn-ethw.svg'
+import mobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
+
 import logger from '../../../lib/logger/js-logger'
 
 import Recaptcha from './Recaptcha'
@@ -188,6 +190,7 @@ LoginButton.Passwordless = withStyles(getStylesFromProps)(
           disabled={!handleLoginMethod || disabled}
           textColor="#8499BB"
           testID="login_with_auth0"
+          icon={mobileBtnIcon}
         >
           {t`${buttonPrefix} Passwordless`}
         </LoginButton>
@@ -216,7 +219,7 @@ LoginButton.Wallet = withStyles(getStylesFromProps)(
         disabled={!handleLoginMethod || disabled}
         testID="login_with_wallet"
         icon={ethBtnIcon}
-        iconProps={{ width: 21, height: 21 }}
+        iconProps={{ width: 24, height: 24 }}
       >
         {`Connect Wallet`}
       </LoginButton>

@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useMemo, useEffect } from 'react'
+import React, { useState, useReducer, useEffect, memo } from 'react'
 import { ethers } from 'ethers'
 
 import Modal from 'components/Modal/'
@@ -13,15 +13,14 @@ import { addTransaction } from 'state/transactions/actions'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 
-import PercentInputControls, { PercentInputControlsProps, restrictValue } from 'components/Withdraw/PercentInputControls'
 import Loader from 'components/Loader'
 
-import { G$ } from '@gooddollar/web3sdk/dist/constants/tokens'
-import { useTokenBalance } from 'state/wallet/hooks'
-import { Token } from '@sushiswap/sdk'
+// import { useTokenBalance } from 'state/wallet/hooks'
+// import { useTokenBalance } from '@usedapp/core'
+// import { Token } from '@sushiswap/sdk'
 
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useTransferAndCall, useWithdrawSavings } from '@gooddollar/web3sdk-v2'
+import { useG$Balance, useSavingsFunctions } from '@gooddollar/web3sdk-v2'
 import { TransactionReceipt } from '@ethersproject/providers'
 import { TransactionStatus } from '@usedapp/core'
 
@@ -47,7 +46,7 @@ const TransactionCopy = {
     },
     action: 'Deposit to',
     transaction: {
-      summary: 'deposited to savings',
+      summary: 'G$ deposited to savings',
     }
   },
   withdraw: {
@@ -57,93 +56,90 @@ const TransactionCopy = {
       done: 'Success',
     },
     transaction: {
-      summary: 'withdrawn from savings',
+      summary: 'G$ withdrawn from savings',
+    }
+  },
+  claim: {
+    title: {
+      init: 'Claim Rewards',
+      loading: 'Claiming. . .',
+      done: 'Success'
+    },
+    transaction: {
+      summary: 'Claimed savings rewards'
     }
   }
 }
 
-type ModalType = 'deposit' | 'withdraw'
+export type ModalType = 'deposit' | 'withdraw' | 'claim'
 
-export const SavingsModal = (
+const SavingsModal = (
   {type, network, toggle, isOpen}: 
   {type: ModalType, network: string, toggle: () => void, isOpen: boolean}):JSX.Element => {
   const { i18n } = useLingui()
-  const { chainId, account } = useActiveWeb3React()
-
-  const [percentage, setPercentage] = useState<string>('50')
+  console.log('savingsmodal render')
+  const { chainId, account } = useActiveWeb3React() 
+  const [balance, setBalance] = useState<string>('0')
   const [txStatus, setTxStatus] = useState<TransactionStatus>({status: 'None'})
-  const [withdrawAmount, setWithdrawAmount] = useState<number>(0)
   const reduxDispatch = useDispatch()
+  
+  const { depositBalance, withdrawBalance } = useG$Balance(10, network)
 
-  const {transfer, state: transferStatus} = useTransferAndCall(network)
-  const {withdraw, state: withdrawStatus} = useWithdrawSavings(network)
+  useEffect(() => {
+      setBalance(type === 'withdraw' ? withdrawBalance : depositBalance)
+  }, [depositBalance, withdrawBalance, type])
 
-  const addSavingsTransaction = async (tx: TransactionReceipt, amount: string) => {
+  const {
+    transfer,
+    withdraw,
+    claim,
+    transferState,
+    withdrawState,
+    claimState
+  } = useSavingsFunctions(network)
+
+  const addSavingsTransaction = async (tx: TransactionReceipt, amount?: string) => {
     dispatch({type: 'DONE', payload: tx.transactionHash})
     reduxDispatch(
       addTransaction({
-        chainId: chainId,
+        chainId: 122, // todo: move back to chainId
         hash: tx.transactionHash,
         from: tx.from,
-        summary: i18n._(t`${amount}G$ ${TransactionCopy[type].transaction.summary}`)
+        summary: i18n._(t`${amount} ${TransactionCopy[type].transaction.summary}`)
       })
     )
   }
   
-  const deposit = async (amount:string, donation:string) => {
+  const depositOrWithdraw = async (amount:string) => {
     if (account) {
-      const encDonation = ethers.utils.defaultAbiCoder.encode(["uint32"], [parseInt(donation)])
-      const depositAmount = (parseFloat(amount) * 1e2).toString()
-      await transfer(depositAmount, encDonation).then((tx) => {
-        if (tx){
-          addSavingsTransaction(tx, amount)  
-          return        
-        } else {
-          return
+      const parsedAmount = (parseFloat(amount) * 1e2).toString()
+      const tx = type === 'claim' ? await withdraw(parsedAmount) : await transfer(parsedAmount)
+      if (tx){
+        addSavingsTransaction(tx, amount)  
+        return        
+      }
+    }
+  }
+
+  const claimRewards = async () => {
+    if (account) {
+      await claim().then((tx) => {
+        if (tx) {
+          addSavingsTransaction(tx)
         }
       })
-      return
     }
   }
-
-  const withdrawSavings = async (amount:string) => {
-    if (account) {
-      const withdrawAmount = (parseFloat(amount) * 1e2).toString()
-      await withdraw(withdrawAmount).then((tx) => {
-        if (tx){
-          addSavingsTransaction(tx, amount)          
-        } 
-      }) 
-    }
-  }
-
-  // TODO: change to withdraw rewards
-  // const claimRewards = useClaimRewards(activeNetwork)
-
-  // const claim = async () => {
-  //   if (account) {
-  //     const txReceipt = claimRewards.claim().then((res) => {
-  //       console.log('response claim -->', {res})
-  //       return res
-  //     })
-  //   }
-  // }
-
-  // TODO: add get/use withdraw balance
-  // useEffect(() => {
-  //   if (!error && stats){
-  //     setWithdrawBalance(parseInt(stats.principle) * (Number(percentage) / 100))
-  //   }
-  // }, [stats, percentage, error])
 
   useEffect(() => {
     if (type === 'deposit'){
-      setTxStatus(transferStatus)
+      setTxStatus(transferState)
+    } else if (type === 'withdraw') {
+      setTxStatus(withdrawState)
     } else {
-      setTxStatus(withdrawStatus)
+      setTxStatus(claimState)
     }
-
-  }, [transferStatus, withdrawStatus, type])
+  }, [transferState, withdrawState, claimState, type])
 
   // TODO: specify towards savings save flow
   const [state, dispatch] = useReducer(
@@ -216,24 +212,6 @@ export const SavingsModal = (
     }
   }
 
-  const tokenToDeposit = G$[122]
-  //TODO: Create useSavingsBalance
-  const tokenToDepositBalance = useTokenBalance(
-    account,
-    useMemo(
-        () =>
-            chainId &&
-            new Token(
-                chainId,
-                tokenToDeposit.address,
-                tokenToDeposit.decimals,
-                tokenToDeposit.symbol,
-                tokenToDeposit.name
-            ),
-        [tokenToDeposit, chainId]
-    )
-  )
-
   return (
     <Modal isOpen={isOpen} onDismiss={() => {
       dispatch({ type: 'TOGGLE_INIT' })
@@ -267,35 +245,29 @@ export const SavingsModal = (
               </div>
             ) :
             <div>
-              <div className="flex flex-col mb-4">
-                <span>How much would you like to {type}</span>
-                <SwapInput
-                  balance={tokenToDepositBalance?.toSignificant(6, { groupSeparator: ',' })}
-                  autoMax
-                  disabled={state.loading}
-                  value={state.value}
-                  onMax={() => {
-                    dispatch({
-                        type: 'CHANGE_VALUE',
-                        payload: tokenToDepositBalance?.toExact() ?? '0'
-                    })
-                  }}
-                  onChange={e =>
-                    dispatch({
-                        type: 'CHANGE_VALUE',
-                        payload: e.currentTarget.value
-                    })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <PercentInputControls
-                  value={percentage}
-                  onPercentChange={setPercentage}
-                  disabled={txStatus.status === 'PendingSignature'}
-                  type={'savingsDeposit'}
-                />
-              </div>
+              {type !== 'claim' &&                   
+                <div className="flex flex-col mb-4">
+                    <span>How much would you like to {type}</span>
+                    <SwapInput
+                      balance={balance}
+                      autoMax
+                      disabled={state.loading}
+                      value={state.value}
+                      onMax={() => {
+                        dispatch({
+                            type: 'CHANGE_VALUE',
+                            payload: balance ?? '0' //todo: format balances
+                        })
+                      }}
+                      onChange={e =>
+                        dispatch({
+                            type: 'CHANGE_VALUE',
+                            payload: e.currentTarget.value
+                        })
+                      }
+                    />
+                </div>
+              }
               <div>
                 <button style={{
                   border: '1px solid blue', 
@@ -304,12 +276,10 @@ export const SavingsModal = (
                   marginTop: '10px'
                 }} onClick={() => {
                   withLoading(async () => {
-                    if (type === 'deposit'){
-                      await deposit(state.value, percentage)
-                      console.log('deposit done or failed')
+                    if (type === 'claim'){
+                      await claimRewards()
                     } else {
-                      await withdrawSavings(state.value)
-                      console.log('withdraw done or failed')
+                      await depositOrWithdraw(state.value)
                     }
                   })
                 }}> {type} </button>
@@ -320,3 +290,5 @@ export const SavingsModal = (
       </Modal>
   )
 }
+
+export default memo(SavingsModal)

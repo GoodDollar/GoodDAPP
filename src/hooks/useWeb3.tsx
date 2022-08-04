@@ -51,7 +51,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
       network += '-mainnet'
     }
     const fuseEnv = network.split("-")[0] || "production";
-    console.log('networks -->', {network, defaultNetwork}) 
+    // console.log('networks -->', {network, defaultNetwork}) 
 
     // console.log('web3provider -- network -->', {webprovider, network})
 
@@ -64,7 +64,8 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
           web3Provider={webprovider} 
           env={fuseEnv}
           config={{
-            pollingInterval: 15,
+            refresh: 100,
+            pollingInterval: 20000,
             networks: [],
             readOnlyUrls: {
               122: 'https://rpc.fuse.io'

@@ -14,25 +14,17 @@ export const SavingsStats = ({stakerInfo}:{stakerInfo: StakerInfo}):JSX.Element 
       title: i18n._(t`Balance`),
       questionText: i18n._(t`Your current savings balance`),
     },
+    // {
+    //   title: i18n._(t`G$'s to withdraw`),
+    //   questionText: i18n._(t`How much G$'s you have earned with your savings account`),
+    // },
     {
-      title: i18n._(t`G$'s to withdraw`),
-      questionText: i18n._(t`How much G$'s you have earned with your savings account`),
+      title: i18n._(t`Rewards Earned`),
+      questionText: i18n._(t`How much rewards are pending to be claimed`)
     },
     {
-      title: i18n._(t`G$'s to donate`),
-      questionText: i18n._(t`How much rewards you have donated across your deposits`),
-    },
-    {
-      title: i18n._(t`Rewards Donated`),
-      questionText: i18n._(t`How much rewards you have donated across your deposits`),
-    },
-    {
-      title: i18n._(t`Rewards Paid`),
-      questionText: i18n._(t`How much rewards you have received from your savings`),
-    },
-    {
-      title: i18n._(t`Average Donation`),
-      questionText: i18n._(t`This is the average of the amount you donate`),
+      title: i18n._(t`lastSharePrice`),
+      questionText: i18n._(t`Last share price`),
     },
     {
       title: i18n._(t`shares`),
@@ -56,14 +48,10 @@ export const SavingsStats = ({stakerInfo}:{stakerInfo: StakerInfo}):JSX.Element 
         }>
         <tr>
           <td>G$ {stakerInfo?.deposit}</td>
-          <td>G$ {stakerInfo?.earnedAfterDonation}</td>
-          <td>G$ {stakerInfo?.totalToDonate}</td>
-          <td>G$ {stakerInfo?.rewardsDonated}</td>
-          <td>G$ {stakerInfo?.rewardsPaid}</td>
-          <td>{stakerInfo?.avgDonationRatio}%</td>
+          <td>G$ {stakerInfo?.earned}</td>
+          <td>G$ {stakerInfo?.lastSharePrice}</td>
           <td>{stakerInfo?.shares}</td>
         </tr>
-
       </Table>
     </div>   
   )

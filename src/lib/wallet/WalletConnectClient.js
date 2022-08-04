@@ -405,6 +405,11 @@ export const useWalletConnectSession = () => {
     }
     const connector = activeConnector
 
+    //since connector is cached it could an already existing one, so we clear the subscriptions
+    connector.off('disconnect')
+    connector.off('call_request')
+    connector.off('session_request')
+
     // Subscribe to session requests
     connector.on('session_request', (error, payload) => {
       log.debug('session:', { payload, error })
@@ -496,11 +501,12 @@ export const useWalletConnectSession = () => {
       handleSessionDisconnect(connector)
     })
 
-    return () => {
-      connector.off('disconnect')
-      connector.off('call_request')
-      connector.off('session_request')
-    }
+    //DO NOT STOP SUBSCRIPTIONS ON UNMOUNT, so user sees incoming requests even when in other screens
+    // return () => {
+    //   connector.off('disconnect')
+    //   connector.off('call_request')
+    //   connector.off('session_request')
+    // }
   }, [
     wallet,
     activeConnector,

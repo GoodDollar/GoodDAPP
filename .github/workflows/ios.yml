@@ -217,7 +217,7 @@ jobs:
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }}"
           npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-      - name: Distribute to stores - PROD ONLY
-        if: ${{ env.IS_PROD }}
-        run: |
-          npx appcenter distribute stores publish --token ${{ secrets.APPCENTER_IOS_PROD }} --app "${{ env.APPCENTER_NAME }}" --store App Store Connect Users --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+#      - name: Distribute to stores - PROD ONLY
+#        if: ${{ env.IS_PROD }}
+#        run: |
+#          npx appcenter distribute stores publish --token ${{ secrets.APPCENTER_IOS_PROD }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"

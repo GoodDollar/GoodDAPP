@@ -95,6 +95,7 @@ const Config = {
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   ipfsGateways: ipfsGateways.split(',').map(gatewayTmpl => mustache(gatewayTmpl)),
+  ipfsUploadGateway: env.REACT_APP_IPFS_UPLOADGATEWAY || 'https://ipfsgateway.goodworker.workers.dev',
   ipfsLazyUpload: env.REACT_APP_IPFS_LAZY_UPLOAD === 'true',
   pinataApiKey: env.REACT_APP_PINATA_API_KEY,
   pinataSecret: env.REACT_APP_PINATA_SECRET,

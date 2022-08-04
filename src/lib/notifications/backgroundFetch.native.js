@@ -37,8 +37,8 @@ const dailyClaimNotification = async (userStorage, goodWallet) => {
 
   if (needToNotify) {
     Notifications.postLocalNotification({
-      title: t`Your daily UBI Claim is ready`,
-      body: t`You can claim your daily UBI`,
+      title: t`Your daily UBI Claim is ready!`,
+      body: t`You can claim your daily GoodDollar UBI`,
       fireDate: new Date(),
     })
     await userStorage.userProperties.safeSet(LAST_CLAIM_NOTIFICATION, Date.now())

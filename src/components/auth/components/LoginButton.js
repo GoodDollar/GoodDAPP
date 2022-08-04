@@ -20,6 +20,7 @@ import { theme as mainTheme } from '../../theme/styles'
 
 import googleBtnIcon from '../../../assets/Auth/btn-google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
+import ethBtnIcon from '../../../assets/Auth/btn-ethw.svg'
 import logger from '../../../lib/logger/js-logger'
 
 import Recaptcha from './Recaptcha'
@@ -208,15 +209,16 @@ LoginButton.Wallet = withStyles(getStylesFromProps)(
           styles.buttonLayout,
           styles.buttonsMargin,
           {
-            backgroundColor: mainTheme.colors.walletConnectBlue,
+            backgroundColor: mainTheme.colors.darkBlue,
           },
         ]}
         onPress={onAuth}
         disabled={!handleLoginMethod || disabled}
         testID="login_with_wallet"
-        iconProps={{ viewBox: '0 0 11 22' }}
+        icon={ethBtnIcon}
+        iconProps={{ width: 21, height: 21 }}
       >
-        {`${buttonPrefix} Wallet`}
+        {`Connect Wallet`}
       </LoginButton>
     )
   },

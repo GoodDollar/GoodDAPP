@@ -1,5 +1,4 @@
 import FileAPI from 'promisify-file-reader'
-import { CID } from 'multiformats/cid'
 import { get, sortBy } from 'lodash'
 import axios from 'axios'
 import Config from '../../config/config'
@@ -8,6 +7,7 @@ import logger from '../../lib/logger/js-logger'
 import { fallback } from '../utils/async'
 import { withTemporaryFile } from '../utils/fs'
 import { normalizeDataUrl } from '../utils/base64'
+import { toV1 } from './utils'
 
 class IpfsStorage {
   constructor(httpFactory, config, logger) {
@@ -34,10 +34,8 @@ class IpfsStorage {
       form.append('file', file)
       return client.post('/', form)
     })
-    const v1 = CID.parse(data.cid)
-      .toV1()
-      .toString()
-    return v1
+
+    return toV1(data.cid)
   }
 
   async load(cid, withMetadata = false) {
@@ -60,9 +58,7 @@ class IpfsStorage {
 
     // try gateways and update failed counters
     try {
-      const v1 = CID.parse(cid)
-        .toV1()
-        .toString()
+      const v1 = toV1(cid)
 
       logger.debug('lookup cid:', { cid, v1 })
       // eslint-disable-next-line require-await

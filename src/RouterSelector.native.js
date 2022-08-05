@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { first } from 'lodash'
 
-import { Notifications } from 'react-native-notifications'
 import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
 import { delay } from './lib/utils/async'
@@ -14,7 +13,7 @@ import logger from './lib/logger/js-logger'
 import './lib/utils/debugUserAgent'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import AsyncStorage from './lib/utils/asyncStorage'
-import { OLD_NOTIFICATIONS } from './lib/constants/localStorage'
+import { useNotifications } from './lib/notifications/backgroundActions'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -41,7 +40,6 @@ let AppRouter = React.lazy(() => {
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     initAnalyticsAndFireAppOpen(),
     delay(animationDuration),
-    AsyncStorage.setItem(OLD_NOTIFICATIONS, []),
   ])
     .then(first)
     .finally(() => {
@@ -51,17 +49,8 @@ let AppRouter = React.lazy(() => {
 
 const RouterSelector = () => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
-  useEffect(() => {
-    Notifications.registerRemoteNotifications()
 
-    Notifications.events().registerNotificationReceivedForeground((notification, completion) => {
-      completion({ alert: false, sound: false, badge: false })
-    })
-
-    Notifications.events().registerNotificationOpened((notification, completion) => {
-      completion()
-    })
-  }, [])
+  useNotifications()
   useUpdateDialog()
 
   const Router = useMemo(() => (isLoggedInRouter ? AppRouter : SignupRouter), [isLoggedInRouter])

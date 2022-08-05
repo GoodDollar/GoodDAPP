@@ -51,7 +51,6 @@
 
   [self initializeBackgroundFetch];
   [self initializeNotifications];
-  [RNNotifications startMonitorNotifications];
 
   return YES;
 }
@@ -111,6 +110,7 @@
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
 
   center.delegate = self;
+  [RNNotifications startMonitorNotifications];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {

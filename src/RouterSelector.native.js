@@ -13,7 +13,6 @@ import logger from './lib/logger/js-logger'
 import './lib/utils/debugUserAgent'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import AsyncStorage from './lib/utils/asyncStorage'
-import { OLD_NOTIFICATIONS } from './lib/constants/localStorage'
 import { useNotifications } from './lib/notifications/backgroundActions'
 
 const log = logger.child({ from: 'RouterSelector' })
@@ -41,7 +40,6 @@ let AppRouter = React.lazy(() => {
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     initAnalyticsAndFireAppOpen(),
     delay(animationDuration),
-    AsyncStorage.setItem(OLD_NOTIFICATIONS, []),
   ])
     .then(first)
     .finally(() => {

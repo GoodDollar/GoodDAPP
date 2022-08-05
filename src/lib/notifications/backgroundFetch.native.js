@@ -35,10 +35,6 @@ export const initBGFetch = once((goodWallet, userStorage) => {
       return
     }
 
-    // Temporary only claim notification enabled
-    // if (taskId === FEED_NOTIFICATIONS) {
-    //   await feedNotifications(userStorage, hasConnection)
-    // } else
     if (taskId === CLAIM_NOTIFICATION) {
       await dailyClaimNotification(userStorage, goodWallet)
     }

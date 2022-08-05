@@ -2,7 +2,7 @@ name: iOS CI/CD v1
 
 on:
   push:
-    branches: [ master, staging, next, 3819-ios-publishing ]
+    branches: [ master, staging, next ]
     pull_request:
       branches: [ master ]
       types:
@@ -233,9 +233,3 @@ jobs:
         if: ${{ env.IS_PROD }}
         run: |
           npx appcenter distribute stores publish --token ${{ secrets.APPCENTER_IOS_PROD }} --app "${{ env.APPCENTER_NAME }}" --store App\ Store\ Connect\ Users --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"
-#
-#      - name: Distribute to stores - PROD ONLY
-#        id: appcenter-publish
-#        if: ${{ env.IS_PROD }}
-#        run: |
-#          npx appcenter distribute stores publish --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --store Production --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"

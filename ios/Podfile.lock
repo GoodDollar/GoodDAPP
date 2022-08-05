@@ -151,7 +151,7 @@ PODS:
     - GoogleUtilities/Network (~> 7.4)
     - "GoogleUtilities/NSData+zlib (~> 7.4)"
     - nanopb (~> 2.30908.0)
-  - GoogleDataTransport (9.1.4):
+  - GoogleDataTransport (9.2.0):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
@@ -177,9 +177,9 @@ PODS:
   - JWT (3.0.0-beta.14):
     - Base64 (~> 1.1.2)
   - libevent (2.1.12)
-  - lottie-ios (3.2.3)
-  - lottie-react-native (4.1.3):
-    - lottie-ios (~> 3.2.3)
+  - lottie-ios (3.4.0)
+  - lottie-react-native (5.1.3):
+    - lottie-ios (~> 3.4.0)
     - React-Core
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
@@ -195,10 +195,10 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (3.3.1):
     - RNPermissions
-  - PromiseKit/CorePromise (6.17.1)
-  - PromiseKit/Foundation (6.17.1):
+  - PromiseKit/CorePromise (6.18.0)
+  - PromiseKit/Foundation (6.18.0):
     - PromiseKit/CorePromise
-  - PromisesObjC (2.1.0)
+  - PromisesObjC (2.1.1)
   - RCT-Folly (2021.04.26.00):
     - boost-for-react-native
     - DoubleConversion
@@ -415,7 +415,7 @@ PODS:
     - React-Core
   - react-native-contacts (5.2.8):
     - React-Core
-  - react-native-facetec (1.0.23):
+  - react-native-facetec (1.0.24):
     - React
   - react-native-get-random-values (1.8.0):
     - React-Core
@@ -430,7 +430,7 @@ PODS:
   - react-native-udp (4.1.5):
     - CocoaAsyncSocket
     - React-Core
-  - react-native-version-check (3.4.2):
+  - react-native-version-check (3.4.3):
     - React
   - react-native-webview (11.22.2):
     - React-Core
@@ -905,20 +905,20 @@ SPEC CHECKSUMS:
   GenericJSON: a6e74e2c457f8693caab08e0eafde7d97e6666de
   glog: 5337263514dd6f09803962437687240c5dc39aa4
   GoogleAppMeasurement: 5ba1164e3c844ba84272555e916d0a6d3d977e91
-  GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
+  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
-  lottie-react-native: b561920bba7ec727ec94a473b683cffba00faece
+  lottie-ios: 69495122151a378fdc7d1bb4c5930347e37baf1f
+  lottie-react-native: abce87292600ca8e11ff7891a3518ee0ff173cb9
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   Permission-Camera: bae27a8503530770c35aadfecbb97ec71823382a
   Permission-Contacts: 795936e988352bbf628334378eec5c3728db7140
   Permission-LocationWhenInUse: 006c85c8de0c05b5d8be8e8029e4f6b813270293
   Permission-PhotoLibrary: ddb5a158725b29cb12e9e477e8a5f5151c66cc3c
-  PromiseKit: ee485df3d4dc570594d7e7aecae6352697dc6a4c
-  PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
+  PromiseKit: 879fa89b55fcb8f11ade9aad0c9721850bb71b9f
+  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
   RCTRequired: 1b65ab453de585b0f939824780bd26cdf6fb07f8
   RCTRestart: dd19aab87fc1118e05b6b5b91b959105647f56b4
@@ -936,14 +936,14 @@ SPEC CHECKSUMS:
   react-native-camera: b8cc03e2feec0c04403d0998e37cf519d8fd4c6f
   react-native-config: 7cd105e71d903104e8919261480858940a6b9c0e
   react-native-contacts: 7b5e16196278636030c3fbbb9505543984b01697
-  react-native-facetec: 9ab549871654781c001dde76dc07db6d684a35d0
+  react-native-facetec: 518ddbd9a551a8b2b281bb70afa6b267d1850e54
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 3d3769f0d65de15c83a9bf1346f8be71de5a24bf
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
   react-native-udp: 8864b1211857e9d8224ae5cbaf8580970fb99de1
-  react-native-version-check: d8b8900e6ce03ae1568cb22ef9451f2508188883
+  react-native-version-check: e85c2e21d0955b7cdfd91c0ddacc3edf14b7abd7
   react-native-webview: 159034a856a6e95995f5bf2eed40d70b103d6572
   React-perflogger: 939564c838f8b6ec099b4f858559f0f406c99745
   React-RCTActionSheet: b5135d36ee35ebd883c4fe043db7bd8cbba7516e
@@ -989,6 +989,6 @@ SPEC CHECKSUMS:
   Yoga: e6db7a0be0e80eeb70c04663605e4f6a050ab013
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: b7c38aed5f63af0d3f7c6d61c4c354516b9b56a4
+PODFILE CHECKSUM: e4bdc9bca958e2f2cb0dac2bcab60e5b42059b57
 
 COCOAPODS: 1.11.3

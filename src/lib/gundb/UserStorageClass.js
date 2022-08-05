@@ -12,7 +12,7 @@ import isEmail from '../../lib/validators/isEmail'
 
 import { retry } from '../utils/async'
 
-import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
+import FaceVerificationAPI from '../../components/faceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API'
 import pino from '../logger/js-logger'

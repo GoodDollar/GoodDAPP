@@ -1,0 +1,13 @@
+diff --git a/scripts/react-native-xcode.sh b/scripts/react-native-xcode.sh
+index b5f7544d3e8376e20edcfae1cbf2ea2d91cb6b61..203a9ab186a82d50cfbb3e9b59fc70ee773bdf2a 100755
+--- a/scripts/react-native-xcode.sh
++++ b/scripts/react-native-xcode.sh
+@@ -81,7 +81,7 @@ fi
+ 
+ # Find path to Node
+ # shellcheck source=/dev/null
+-source "$RN_DIR/scripts/find-node.sh"
++source "$REACT_NATIVE_DIR/scripts/find-node.sh"
+ 
+ # check and assign NODE_BINARY env
+ # shellcheck source=/dev/null

@@ -1,6 +1,7 @@
 // @flow
-import { assign, clone, forIn, isEqual, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
+import { assign, clone, forIn, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
 import EventEmitter from 'eventemitter3'
+import shallowEqual from 'fbjs/lib/shallowEqual'
 
 import AsyncStorage from '../utils/asyncStorage'
 import { retry } from '../utils/async'
@@ -29,7 +30,6 @@ export default class UserProperties {
     showQuickActionHint: true,
     registered: false,
     startClaimingAdded: false,
-    lastBlock: 6400000, // default block to start sync from
     lastTxSyncDate: 0,
     hasOpenedGoodMarket: false,
     hasOpenedInviteScreen: false,
@@ -208,14 +208,19 @@ export default class UserProperties {
   // eslint-disable-next-line require-await
   async persist() {
     const { data, lastStored, storage } = this
+    const propsUpdated = shallowEqual(data, lastStored)
+
+    log.debug('persist called:', { data, lastStored, propsUpdated })
 
     // no need deep check as lastStored is just a shallow copy
-    if (isEqual(data, lastStored)) {
+    if (propsUpdated) {
+      log.debug('persist: props unchanged, skipping')
       return
     }
 
     await retry(() => storage.encryptSettings(data), 2, 500)
     this.lastStored = clone(data)
+    log.debug('persist: stored new props')
   }
 
   _makeProps(field: string | object, value = null) {

@@ -39,8 +39,6 @@ const log = logger.child({ from: 'Invite' })
 
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
-const { isCryptoLiteracy } = Config
-
 const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const InvitedUser = ({ address, status }) => {
@@ -273,7 +271,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Row style={{ width: '100%', alignItems: 'center' }}>
           <TextInput
-            disabled={inviteCodeUsed}
+            editable={!inviteCodeUsed}
             value={extractedCode}
             onChangeText={setCode}
             style={{
@@ -282,6 +280,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
               marginRight: 12,
             }}
             placeholder="Paste your invite code/link here"
+            placeholderTextColor={theme.colors.gray50Percent}
           />
           <CustomButton
             textStyle={{ fontSize: 14, color: theme.colors.white }}
@@ -500,39 +499,16 @@ const Invite = ({ screenProps, styles }) => {
           {`Get ${bounty}G$`}
         </Section.Text>
         <Trans>
-          {isCryptoLiteracy ? (
-            <Section.Text
-              letterSpacing={0.1}
-              fontWeight={'bold'}
-              fontSize={20}
-              color={theme.colors.text}
-              lineHeight={34}
-            >
-              For{' '}
-              <Section.Text
-                letterSpacing={0.1}
-                fontWeight={'bold'}
-                fontSize={20}
-                color={theme.colors.red}
-                lineHeight={34}
-              >
-                EVERY FRIEND
-              </Section.Text>{' '}
-              you invite during {'\n'}
-              Crypto Literacy November
-            </Section.Text>
-          ) : (
-            <Section.Text
-              letterSpacing={0.1}
-              fontWeight={'bold'}
-              fontFamily={theme.fonts.slab}
-              fontSize={20}
-              color={theme.colors.primary}
-              lineHeight={34}
-            >
-              For Each Friend You Invite!
-            </Section.Text>
-          )}
+          <Section.Text
+            letterSpacing={0.1}
+            fontWeight={'bold'}
+            fontFamily={theme.fonts.slab}
+            fontSize={20}
+            color={theme.colors.primary}
+            lineHeight={34}
+          >
+            For Each Friend You Invite!
+          </Section.Text>
         </Trans>
       </Section.Stack>
       <Divider size={theme.sizes.defaultDouble} />

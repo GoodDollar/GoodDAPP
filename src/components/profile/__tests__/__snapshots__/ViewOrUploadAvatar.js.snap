@@ -14,7 +14,7 @@ exports[`ViewAvatar matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-marginBottom-p1pxzi r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
@@ -159,7 +159,7 @@ exports[`ViewAvatar matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-17s6mgv r-minHeight-h10h58 r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
           style={
             Object {
               "backgroundColor": "rgba(0,175,255,1.00)",
@@ -180,7 +180,6 @@ exports[`ViewAvatar matches snapshot 1`] = `
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-              "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "auto",

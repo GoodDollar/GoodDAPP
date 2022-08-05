@@ -8,29 +8,39 @@ class AnimationBase extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.anim) {
-      if (!isMobileNative) {
-        this.anim.destroy()
-      }
+    const { anim, onUnmount } = this
+
+    if (anim && !isMobileNative) {
+      anim.destroy()
     }
 
-    this.onUnmount && this.onUnmount()
+    if (onUnmount) {
+      onUnmount()
+    }
   }
 
   started = once(() => {
-    this.onStart && this.onStart()
+    const { onStart } = this
+
+    if (onStart) {
+      onStart()
+    }
   })
 
   initAnimation = () => {
-    if (this.anim) {
-      if (!isMobileNative) {
-        this.anim.addEventListener('enterFrame', this.started)
-      }
-      this.onMount && this.onMount()
-    } else {
-      setTimeout(() => {
-        this.initAnimation()
-      }, 100)
+    const { anim, initAnimation, started, onMount } = this
+
+    if (!anim) {
+      setTimeout(initAnimation, 100)
+      return
+    }
+
+    if (!isMobileNative) {
+      anim.addEventListener('enterFrame', started)
+    }
+
+    if (onMount) {
+      onMount()
     }
   }
 

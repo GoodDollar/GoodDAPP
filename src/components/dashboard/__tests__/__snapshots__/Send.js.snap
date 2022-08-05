@@ -160,7 +160,7 @@ exports[`Send matches snapshot 1`] = `
                 autoComplete="on"
                 autoCorrect="on"
                 autoFocus={true}
-                className="css-textinput-11aywtz r-flexGrow-16y2uox r-margin-crgep1 r-paddingHorizontal-1e081e0 r-placeholderTextColor-1xktb6b r-textAlign-fdjqy7 r-zIndex-184en5c"
+                className="css-textinput-11aywtz r-flexGrow-16y2uox r-fontSize-ubezar r-margin-crgep1 r-paddingHorizontal-1e081e0 r-placeholderTextColor-1xktb6b r-textAlign-fdjqy7 r-zIndex-184en5c"
                 dir="auto"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -174,7 +174,6 @@ exports[`Send matches snapshot 1`] = `
                   Object {
                     "color": "rgba(34,34,34,1.00)",
                     "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontSize": "16px",
                     "height": "64px",
                     "paddingBottom": "0px",
                     "paddingTop": "0px",

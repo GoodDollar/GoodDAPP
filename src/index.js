@@ -2,25 +2,44 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
-
-import AppHolder from './mainApp/AppHolder'
-import SmartBanner from './components/smartbanner/SmartBanner'
+import fontMaterialCommunityIcons from 'react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'
 
 import './index.css'
-import './components/common/view/Icon/index.css'
+import './assets/fonts/index.css'
 
-let ErrorBoundary = React.Fragment
+const BuildTarget = {
+  FaceVerification: 'FV',
+  WalletApp: 'DAPP',
+}
 
-ReactDOM.render(
-  <ErrorBoundary>
-    <SmartBanner />
-    <AppHolder />
-    <style type="text/css">{`
-            @font-face {
-              src: url(${fontMaterialIcons});
-              font-family: MaterialIcons;
-            }
-          `}</style>
-  </ErrorBoundary>,
-  document.getElementById('root'),
-)
+// eslint-disable-next-line require-await
+const importBuildTarget = async () => {
+  switch (process.env.REACT_APP_BUILD_TARGET) {
+    case BuildTarget.FaceVerification:
+      return import('./components/faceVerification/standalone/App')
+    default:
+      return import('./mainApp/WalletApp')
+  }
+}
+
+// Import the entry point and render it's default export
+importBuildTarget().then(({ default: AppRoot }) => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <>
+        <AppRoot />
+        <style type="text/css">{`
+           @font-face {
+            src: url(${fontMaterialIcons});
+            font-family: MaterialIcons;
+          }
+          @font-face {
+            src: url(${fontMaterialCommunityIcons});
+            font-family: MaterialCommunityIcons;
+          }
+        `}</style>
+      </>
+    </React.StrictMode>,
+    document.getElementById('root'),
+  )
+})

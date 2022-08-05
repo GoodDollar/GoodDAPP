@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -34,20 +34,37 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [dailyUBI, setDailyUBI] = useState()
   const [isCitizen, setIsCitizen] = useState()
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
-  const lastLoginRef = useRef(null)
+
   const db = getDB()
 
-  // when new wallet set the web3provider for future use with usedapp
-  useEffect(() => {
-    if (!goodWallet) {
-      return
-    }
+  const update = useCallback(
+    async goodWallet => {
+      const { tokenContract, UBIContract, identityContract, account } = goodWallet
 
-    setWeb3(new HDWalletProvider(goodWallet.accounts, goodWallet.wallet._provider.host))
-  }, [goodWallet, setWeb3])
+      const calls = [
+        {
+          balance: tokenContract.methods.balanceOf(account),
+        },
+        {
+          ubi: UBIContract.methods.checkEntitlement(account),
+        },
+        {
+          isCitizen: identityContract.methods.isWhitelisted(account),
+        },
+      ]
+
+      // entitelment is separate because it depends on msg.sender
+      const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
+
+      setBalance(parseInt(balance))
+      setDailyUBI(parseInt(ubi))
+      setIsCitizen(isCitizen)
+    },
+    [setBalance, setDailyUBI, setIsCitizen],
+  )
 
   const initWalletAndStorage = useCallback(
-    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER', initRegistered = false) => {
+    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER') => {
       try {
         const wallet = new GoodWallet({
           mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
@@ -56,14 +73,42 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         })
 
         await wallet.ready
+
+        // when new wallet set the web3provider for future use with usedapp
+        if (type === 'SEED') {
+          setWeb3(new HDWalletProvider(wallet.accounts, wallet.wallet._provider.host))
+        } else {
+          setWeb3(seedOrWeb3)
+        }
+
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
 
         const storage = new UserStorage(wallet, db, new UserProperties(db))
+        const loginAndWatch = shouldLoginAndWatch()
 
         await storage.ready
 
-        if (initRegistered) {
+        if (loginAndWatch) {
+          await Promise.all([doLogin(wallet, storage, false), update(wallet)])
+        }
+
+        if (isLoggedInRouter) {
           await storage.initRegistered()
+
+          if (loginAndWatch) {
+            const { userProperties } = storage
+
+            // only if user signed up then we can await for his properties
+            // (because otherwise he wont have valid mongodb jwt)
+            await userProperties.ready
+
+            const lastBlock = userProperties.get('lastBlock') || 6400000
+
+            log.debug('starting watchBalanceAndTXs', { lastBlock })
+
+            wallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.set('lastBlock', parseInt(toBlock)))
+            wallet.balanceChanged(() => update(wallet))
+          }
         }
 
         log.info('initWalletAndStorage storage done')
@@ -80,122 +125,59 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       }
     },
-    [],
+    [setWeb3, setWalletAndStorage, isLoggedInRouter],
+  )
+
+  const doLogin = useCallback(
+    async (wallet, storage, withRefresh = false) => {
+      const walletLogin = new GoodWalletLogin(wallet, storage)
+
+      const requestAuth = refresh =>
+        walletLogin.auth(refresh).catch(exception => {
+          if (refresh) {
+            throw exception
+          }
+
+          // if no refresh was requested, retry with refresh
+          return requestAuth(true)
+        })
+
+      try {
+        // the login also re-initialize the api with new jwt
+        const { jwt } = await requestAuth(withRefresh)
+
+        setLoggedInJWT(walletLogin)
+        log.info('walletLogin', { jwt, withRefresh })
+
+        return walletLogin
+      } catch (e) {
+        log.error('failed auth:', e.message, e)
+        throw e
+      }
+    },
+    [setLoggedInJWT],
   )
 
   const login = useCallback(
-    async refresh => {
+    async (withRefresh = false) => {
+      let refresh = withRefresh
+
+      if (isLoggedInJWT) {
+        const { decoded, jwt } = await isLoggedInJWT.validateJWTExistenceAndExpiration()
+
+        if (!decoded || !jwt) {
+          refresh = true
+        }
+      }
+
       if ((!refresh && isLoggedInJWT) || !goodWallet || !userStorage) {
         return isLoggedInJWT
       }
 
-      const signIn = async () => {
-        const walletLogin = new GoodWalletLogin(goodWallet, userStorage)
-
-        // the login also re-initialize the api with new jwt
-        const { jwt } = await walletLogin.auth(refresh).catch(e => {
-          log.error('failed auth:', e.message, e)
-
-          throw e
-        })
-
-        setLoggedInJWT(walletLogin)
-
-        log.info('walletLogin', { jwt, refresh })
-        return walletLogin
-      }
-
-      const { current: lastLogin } = lastLoginRef
-
-      if (lastLogin) {
-        const { withRefresh, call } = lastLogin
-        const loginResponse = await call
-
-        if (withRefresh === refresh) {
-          return loginResponse
-        }
-      }
-
-      const promise = signIn().finally(() => (lastLoginRef.current = null))
-
-      lastLoginRef.current = {
-        call: promise,
-        withRefresh: refresh,
-      }
-
-      return promise
+      return doLogin(goodWallet, userStorage, refresh)
     },
-    [goodWallet, userStorage, isLoggedInJWT, setLoggedInJWT],
+    [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
-
-  // perform login on wallet change
-  useEffect(() => {
-    let eventId
-
-    const update = async () => {
-      const calls = [
-        {
-          balance: goodWallet.tokenContract.methods.balanceOf(goodWallet.account),
-        },
-        {
-          ubi: goodWallet.UBIContract.methods.checkEntitlement(goodWallet.account),
-        },
-        {
-          isCitizen: goodWallet.identityContract.methods.isWhitelisted(goodWallet.account),
-        },
-      ]
-
-      // entitelment is separate because it depends on msg.sender
-      const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
-
-      setBalance(parseInt(balance))
-      setDailyUBI(parseInt(ubi))
-      setIsCitizen(isCitizen)
-    }
-
-    const loginAndWatch = async () => {
-      const { userProperties } = userStorage
-
-      await login()
-
-      // init initial wallet balance/dailyubi
-      await update()
-
-      if (isLoggedInRouter) {
-        // only if user signed up then we can await for his properties
-        // (because otherwise he wont have valid mongodb jwt)
-        await userProperties.ready
-
-        const lastBlock = userProperties.get('lastBlock') || 6400000
-
-        log.debug('starting watchBalanceAndTXs', { lastBlock })
-
-        goodWallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.set('lastBlock', parseInt(toBlock)))
-
-        eventId = goodWallet.balanceChanged(update)
-      }
-    }
-
-    if (goodWallet && userStorage) {
-      log.debug('on wallet ready')
-
-      if (shouldLoginAndWatch()) {
-        loginAndWatch()
-      }
-    }
-
-    return () => {
-      log.debug('stop watching', { eventId })
-
-      if (goodWallet) {
-        goodWallet.setIsPollEvents(false)
-      }
-
-      if (eventId) {
-        goodWallet.unsubscribeFromEvent(eventId)
-      }
-    }
-  }, [goodWallet, userStorage, isLoggedInRouter, login, shouldLoginAndWatch, setBalance, setDailyUBI, setIsCitizen])
 
   return (
     <GoodWalletContext.Provider

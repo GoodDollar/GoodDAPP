@@ -70,18 +70,6 @@ exports[`NameForm matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                  dir="auto"
-                  style={
-                    Object {
-                      "marginBottom": "0px",
-                      "marginTop": "0px",
-                    }
-                  }
-                >
-                  Thanks, we verified your phone.
-                </div>
-                <div
                   className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                   style={
@@ -305,18 +293,6 @@ exports[`NameForm matches snapshot with empty value 1`] = `
               <div
                 className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginVertical-1r5su4o"
               >
-                <div
-                  className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                  dir="auto"
-                  style={
-                    Object {
-                      "marginBottom": "0px",
-                      "marginTop": "0px",
-                    }
-                  }
-                >
-                  Thanks, we verified your phone.
-                </div>
                 <div
                   className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"

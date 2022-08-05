@@ -21,7 +21,7 @@ class ShareButton extends AnimationBase {
 
   playUntil = 90 //shorten dead animation
 
-  onMount() {
+  onMount = () => {
     let isDone = false
     this.anim.onComplete = this.onAnimationFinish
 

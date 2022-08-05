@@ -268,7 +268,7 @@ exports[`Profile matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-padding-nsbfu8 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-marginBottom-p1pxzi r-padding-nsbfu8 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
             >
               <div
                 className="css-view-1dbjc4n r-height-1ewlvqg r-width-13qz1uu"

@@ -68,6 +68,7 @@ class DeepLinkingNative {
   }
 
   _listener = ({ error, params, uri }) => {
+    log.debug('branch listener', { params, uri })
     if (error) {
       const exception = new Error(error)
 
@@ -98,9 +99,10 @@ class DeepLinkingNative {
     const { pathname } = createUrlObject(link)
 
     assign(queryParams, decodedParams)
+    assign(this, { link: decodedLink })
     assign(this, { pathname })
     assign(this.params, queryParams)
-    assign(this.callbackParams, { originalLink: link, path: pathname, queryParams, branch: ccParams })
+    assign(this.callbackParams, { link: decodedLink, path: pathname, queryParams, branch: ccParams })
 
     log.debug('calling deeplink callbacks with:', {
       originalLink: link,

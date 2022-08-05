@@ -26,20 +26,11 @@ exports[`AppNavigation matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-overflow-1udh08x"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-overflow-1udh08x"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,175,255,1.00)",
-              "flexDirection": "row",
               "height": "56px",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
               "paddingLeft": "4px",
               "paddingRight": "4px",
             }
@@ -90,14 +81,12 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="-1"
           >
             <h1
-              className="css-reset-4rbku5 css-text-901oao css-textOneLine-1hf3ou5 r-fontSize-adyw6z"
+              className="css-reset-4rbku5 css-text-901oao css-textOneLine-1hf3ou5 r-color-jwli3a r-fontSize-adyw6z r-fontWeight-majxgm"
               dir="auto"
               role="heading"
               style={
                 Object {
-                  "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontWeight": "500",
                   "textAlign": "left",
                 }
               }
@@ -1181,45 +1170,6 @@ exports[`AppNavigation matches snapshot 1`] = `
               tabIndex="0"
             >
               <scrollToTop.svg />
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-position-u8s1d"
-          style={
-            Object {
-              "bottom": "-60px",
-              "left": "50%",
-              "right": "50%",
-              "zIndex": 0,
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n r-backgroundColor-1jb27wt r-borderTopLeftRadius-1ct94d3 r-borderTopRightRadius-3y0fky r-cursor-1loqt21 r-flexDirection-18u37iz r-justifyContent-1777fci r-paddingBottom-xd6kpl r-paddingTop-tskmnb r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
-          >
-            <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
-              dir="auto"
-              style={
-                Object {
-                  "fontFamily": "gooddollar",
-                  "fontSize": "36px",
-                  "fontStyle": "normal",
-                }
-              }
-            >
-              
             </div>
           </div>
         </div>

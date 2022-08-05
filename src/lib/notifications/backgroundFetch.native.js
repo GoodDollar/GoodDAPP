@@ -3,9 +3,8 @@ import BackgroundFetch from 'react-native-background-fetch'
 import { once } from 'lodash'
 import logger from '../logger/js-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'
-import { CLAIM_NOTIFICATION } from '../constants/bgFetch'
 import AsyncStorage from '../utils/asyncStorage'
-import { dailyClaimNotification } from './backgroundActions'
+import { CLAIM_NOTIFICATION, dailyClaimNotification } from './backgroundActions'
 
 //TODO: how would this handle metamask accounts??
 

@@ -6,7 +6,7 @@ import logger from '../logger/js-logger'
 
 const log = logger.child({ from: 'backgroundFetch' })
 
-export const FEED_NOTIFICATIONS = 'feed-notification'
+export const CLAIM_NOTIFICATION = 'claim-notification'
 
 export const dailyClaimTime = new Date().setUTCHours(12)
 
@@ -44,4 +44,3 @@ export const useNotifications = () => {
     })
   }, [])
 }
-

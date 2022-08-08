@@ -12,8 +12,6 @@ import Config from './config/config'
 import logger from './lib/logger/js-logger'
 import './lib/utils/debugUserAgent'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
-import AsyncStorage from './lib/utils/asyncStorage'
-import { useNotifications } from './lib/notifications/backgroundActions'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -50,7 +48,6 @@ let AppRouter = React.lazy(() => {
 const RouterSelector = () => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
-  useNotifications()
   useUpdateDialog()
 
   const Router = useMemo(() => (isLoggedInRouter ? AppRouter : SignupRouter), [isLoggedInRouter])

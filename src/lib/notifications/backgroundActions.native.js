@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { Notifications } from 'react-native-notifications'
 import { t } from '@lingui/macro'
-import { LAST_CLAIM_NOTIFICATION } from '../constants/localStorage'
 import logger from '../logger/js-logger'
 
 const log = logger.child({ from: 'backgroundFetch' })
@@ -10,28 +9,33 @@ export const CLAIM_NOTIFICATION = 'claim-notification'
 
 export const dailyClaimTime = new Date().setUTCHours(12)
 
+export const notificationsCategories = {
+  CLAIM: 'CLAIM',
+}
+
 export const dailyClaimNotification = async (userStorage, goodWallet) => {
   try {
-    const { entitlement: dailyUBI } = await goodWallet.getClaimScreenStatsFuse()
+    const dailyUBI = await goodWallet.checkEntitlement()
 
     // We should notify once: only in first bg-fetch call after daily claim time
-    const lastClaimNotification = await userStorage.userProperties.get(LAST_CLAIM_NOTIFICATION)
+    const lastClaimNotification = await userStorage.userProperties.get('lastClaimNotification')
     const needToNotify = dailyUBI && Date.now() >= dailyClaimTime && lastClaimNotification < dailyClaimTime
 
     if (needToNotify) {
       Notifications.postLocalNotification({
         title: t`Your daily UBI Claim is ready!`,
-        body: t`You can claim your daily GoodDollar UBI`,
+        body: dailyUBI,
         fireDate: new Date(),
+        category: notificationsCategories.CLAIM,
       })
-      await userStorage.userProperties.safeSet(LAST_CLAIM_NOTIFICATION, Date.now())
+      await userStorage.userProperties.safeSet('lastClaimNotification', Date.now())
     }
   } catch (e) {
     log.error('dailyClaimNotification failed:', e.message, e)
   }
 }
 
-export const useNotifications = () => {
+export const useNotifications = navigation => {
   useEffect(() => {
     Notifications.registerRemoteNotifications()
 
@@ -40,6 +44,13 @@ export const useNotifications = () => {
     })
 
     Notifications.events().registerNotificationOpened((notification, completion) => {
+      completion()
+    })
+
+    Notifications.events().registerNotificationOpened((notification, completion) => {
+      if (notification.payload.category === notificationsCategories.CLAIM) {
+        navigation.navigate('Claim')
+      }
       completion()
     })
   }, [])

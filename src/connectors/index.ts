@@ -89,7 +89,6 @@ const injectedBN = injectedModule({
     ["oneInch"]: false,
     ["tokenary"]: false,
     ["tally"]: false,
-
   }
 })
 

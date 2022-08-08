@@ -4523,8 +4523,6 @@ __metadata:
     "@vitalets/google-translate-api": ^7.0.0
     "@walletconnect/ethereum-provider": 1.5.0
     "@web3-onboard/coinbase": ^2.0.10
-    "@web3-onboard/common": ^2.1.7
-    "@web3-onboard/core": ^2.6.0
     "@web3-onboard/injected-wallets": ^2.0.15
     "@web3-onboard/react": ^2.2.5
     "@web3-onboard/walletconnect": ^2.0.8
@@ -6137,7 +6135,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/common@npm:^2.0.6, @web3-onboard/common@npm:^2.1.6, @web3-onboard/common@npm:^2.1.7":
+"@web3-onboard/common@npm:^2.1.6, @web3-onboard/common@npm:^2.1.7":
   version: 2.1.7
   resolution: "@web3-onboard/common@npm:2.1.7"
   dependencies:
@@ -6150,21 +6148,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@npm:2.2.5":
-  version: 2.2.5
-  resolution: "@web3-onboard/core@npm:2.2.5"
+"@web3-onboard/core@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "@web3-onboard/core@npm:2.6.0"
   dependencies:
-    "@web3-onboard/common": ^2.0.6
+    "@web3-onboard/common": ^2.1.7
+    bignumber.js: ^9.0.0
+    bnc-sdk: ^4.4.1
     bowser: ^2.11.0
     ethers: 5.5.3
     eventemitter3: ^4.0.7
     joi: 17.6.0
     lodash.merge: ^4.6.2
     lodash.partition: ^4.6.0
+    nanoid: ^4.0.0
     rxjs: ^7.5.2
     svelte: ^3.46.4
     svelte-i18n: ^3.3.13
-  checksum: 7e0733de4f81cce3cdab98f7b294672b3fe1fef62bc9d2e92e3c5dabd801740a820a2ab81232f809c16ffccbef547758f67466fa6f1bfc9c8a120bc9efb4b0dd
+  checksum: 7ca68ad8b87d85a3df84821d987fd4d74d754d439e2be3195f80e13a9927cd28df2130730b7336d03d5e729dec4d1188809b9a173bf25c3aa312385c7a05a829
   languageName: node
   linkType: hard
 
@@ -7903,6 +7904,18 @@ __metadata:
   version: 5.2.1
   resolution: "bn.js@npm:5.2.1"
   checksum: 3dd8c8d38055fedfa95c1d5fc3c99f8dd547b36287b37768db0abab3c239711f88ff58d18d155dd8ad902b0b0cee973747b7ae20ea12a09473272b0201c9edd3
+  languageName: node
+  linkType: hard
+
+"bnc-sdk@npm:^4.4.1":
+  version: 4.5.0
+  resolution: "bnc-sdk@npm:4.5.0"
+  dependencies:
+    crypto-es: ^1.2.2
+    nanoid: ^3.3.1
+    rxjs: ^6.6.3
+    sturdy-websocket: ^0.1.12
+  checksum: 6ef1b9682bf028c5571d2d67fd515a19867a223e44516c3c1f6e7044c97ed439a36b2e70f4a17f28fde4ec8491ed88bb2485e8f05b33a2d5a805e614f01e1f9b
   languageName: node
   linkType: hard
 
@@ -9744,6 +9757,13 @@ __metadata:
     randombytes: ^2.0.0
     randomfill: ^1.0.3
   checksum: c1609af82605474262f3eaa07daa0b2140026bd264ab316d4bf1170272570dbe02f0c49e29407fe0d3634f96c507c27a19a6765fb856fed854a625f9d15618e2
+  languageName: node
+  linkType: hard
+
+"crypto-es@npm:^1.2.2":
+  version: 1.2.7
+  resolution: "crypto-es@npm:1.2.7"
+  checksum: e2c215f3524e40fa756ffabb0d7fd190306a70c9210b8333a446677ac596bc0ab04bc5315d6bb967aab157867edada7bdcf8a4f18e35a2a4b78285f13440037b
   languageName: node
   linkType: hard
 
@@ -16636,6 +16656,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.defaults@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "lodash.defaults@npm:4.2.0"
+  checksum: 84923258235592c8886e29de5491946ff8c2ae5c82a7ac5cddd2e3cb697e6fbdfbbb6efcca015795c86eec2bb953a5a2ee4016e3735a3f02720428a40efbb8f1
+  languageName: node
+  linkType: hard
+
 "lodash.flatmap@npm:^4.5.0":
   version: 4.5.0
   resolution: "lodash.flatmap@npm:4.5.0"
@@ -17780,12 +17807,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.3.4":
+"nanoid@npm:^3.3.1, nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
   bin:
     nanoid: bin/nanoid.cjs
   checksum: 2fddd6dee994b7676f008d3ffa4ab16035a754f4bb586c61df5a22cf8c8c94017aadd360368f47d653829e0569a92b129979152ff97af23a558331e47e37cd9c
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "nanoid@npm:4.0.0"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 7d5946df5c6d383694195b781ae7b5067c149d164ec71e910d6b06676309c3459b68af570b944fb5ecd5065d19df464f05700d141d70bb712ff8ca06642fd8df
   languageName: node
   linkType: hard
 
@@ -23679,6 +23715,15 @@ __metadata:
   version: 2.0.1
   resolution: "strip-json-comments@npm:2.0.1"
   checksum: 1074ccb63270d32ca28edfb0a281c96b94dc679077828135141f27d52a5a398ef5e78bcf22809d23cadc2b81dfbe345eb5fd8699b385c8b1128907dec4a7d1e1
+  languageName: node
+  linkType: hard
+
+"sturdy-websocket@npm:^0.1.12":
+  version: 0.1.12
+  resolution: "sturdy-websocket@npm:0.1.12"
+  dependencies:
+    lodash.defaults: ^4.2.0
+  checksum: 25e90a03ed8a1c0636d056053cff18bb19a8e807daab4e1bb89c6826b2360e5257e740ce5e04594a4de1d2f1baf4d1788f48d8a67f5d4be54fb4d7653f18b798
   languageName: node
   linkType: hard
 

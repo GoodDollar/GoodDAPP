@@ -11,7 +11,7 @@ import { mapValues, pick, startCase } from 'lodash'
 import { t } from '@lingui/macro'
 import { Switch } from 'react-native-switch'
 
-import { useDebouncedCallback } from 'use-debounce'
+import { useDebounce } from 'use-debounce'
 import Wrapper from '../common/layout/Wrapper'
 import { Icon, Section, Text } from '../common'
 
@@ -132,15 +132,11 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     })
   }, [showDialog])
 
-  /**
-   * filters the fields to be updated
-   */
-  const valuesToBeUpdated = useMemo(() => profileFields.filter(field => privacy[field] !== initialPrivacy[field]), [
-    privacy,
-    initialPrivacy,
-  ])
+  const debouncedPrivacy = useDebounce(privacy, 500)
 
-  const handleSave = useCallback(async () => {
+  useEffect(() => {
+    const valuesToBeUpdated = profileFields.filter(field => privacy[field] !== initialPrivacy[field])
+
     if (!valuesToBeUpdated.length) {
       return
     }
@@ -150,23 +146,15 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
       valuesToBeUpdated,
     })
 
-    try {
-      // updates fields
-      await Promise.all(valuesToBeUpdated.map(field => userStorage.setProfileFieldPrivacy(field, privacy[field])))
-
-      // resets initial privacy states with currently set values
-      setInitialPrivacy(privacy)
-    } catch (e) {
-      log.error('Failed to save new privacy', e.message, e)
-    }
-  }, [valuesToBeUpdated, setInitialPrivacy, privacy, userStorage])
-
-  const handleSaveDebounced = useDebouncedCallback(handleSave, 500)
-
-  // TODO: I do not understand how does it works, commented out temporarly
-  // useEffect(() => {
-  //   handleSaveDebounced()
-  // }, [handleSaveDebounced])
+    /* eslint-disable */
+    Promise
+      .all(valuesToBeUpdated.map( // update fields
+        field => userStorage.setProfileFieldPrivacy(field, privacy[field])
+      ))
+      .then(() => setInitialPrivacy(privacy)) // resets initial privacy states with currently set values
+      .catch(e => log.error('Failed to save new privacy', e.message, e))
+    /* eslint-enable */
+  }, [debouncedPrivacy, initialPrivacy, setInitialPrivacy, userStorage])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>

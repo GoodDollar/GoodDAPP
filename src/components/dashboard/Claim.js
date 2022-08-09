@@ -34,6 +34,7 @@ import {
   fireGoogleAnalyticsEvent,
   INVITE_BOUNTY,
 } from '../../lib/analytics/analytics'
+import usePermissions from '../permissions/hooks/usePermissions'
 
 import Config from '../../config/config'
 import { isMobileNative } from '../../lib/utils/platform'
@@ -219,6 +220,7 @@ const Claim = props => {
   const { dailyUBI: entitlement, isCitizen } = useWalletData()
   const { appState } = useAppState()
   const userStorage = useUserStorage()
+  const { userProperties } = userStorage || {}
 
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const { isValid } = screenState
@@ -239,6 +241,13 @@ const Claim = props => {
   const [interestPending, setInterestPending] = useState()
 
   const [interestCollected, setInterestCollected] = useState()
+
+  const [allowedNotificationPermissions, requestNotificationPermissions] = usePermissions(Permissions.Notifications, {
+    requestOnMounted: false,
+    onAllowed: () => userProperties.setLocal('shouldRemindClaims', true),
+    onDenied: () => userProperties.setLocal('shouldRemindClaims', false),
+    navigate,
+  })
 
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
@@ -485,6 +494,9 @@ const Claim = props => {
       onClaimError(e)
     } finally {
       setLoading(false)
+      if (!allowedNotificationPermissions) {
+        requestNotificationPermissions()
+      }
     }
   }, [
     setLoading,

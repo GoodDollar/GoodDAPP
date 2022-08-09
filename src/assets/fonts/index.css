@@ -104,6 +104,9 @@
 .icon-envelope:before {
   content: '\e810';
 } /* '' */
+.icon-gear:before { 
+  content: '\e811'; 
+} /* '' */
 .icon-claim-filled-old:before {
   content: '\e812';
 } /* '' */

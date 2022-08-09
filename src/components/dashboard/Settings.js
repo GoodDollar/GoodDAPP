@@ -132,26 +132,26 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     })
   }, [showDialog])
 
-  const debouncedPrivacy = useDebounce(privacy, 500)
+  const [debouncedPrivacy] = useDebounce(privacy, 500)
 
   useEffect(() => {
-    const valuesToBeUpdated = profileFields.filter(field => privacy[field] !== initialPrivacy[field])
+    const valuesToBeUpdated = profileFields.filter(field => debouncedPrivacy[field] !== initialPrivacy[field])
 
     if (!valuesToBeUpdated.length) {
       return
     }
 
     fireEvent(PROFILE_PRIVACY, {
-      privacy: valuesToBeUpdated.map(k => privacy[k]),
+      privacy: valuesToBeUpdated.map(k => debouncedPrivacy[k]),
       valuesToBeUpdated,
     })
 
     /* eslint-disable */
     Promise
       .all(valuesToBeUpdated.map( // update fields
-        field => userStorage.setProfileFieldPrivacy(field, privacy[field])
+        field => userStorage.setProfileFieldPrivacy(field, debouncedPrivacy[field])
       ))
-      .then(() => setInitialPrivacy(privacy)) // resets initial privacy states with currently set values
+      .then(() => setInitialPrivacy(debouncedPrivacy)) // resets initial privacy states with currently set values
       .catch(e => log.error('Failed to save new privacy', e.message, e))
     /* eslint-enable */
   }, [debouncedPrivacy, initialPrivacy, setInitialPrivacy, userStorage])

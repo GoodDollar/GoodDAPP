@@ -28,6 +28,8 @@ import { Permissions } from '../permissions/types'
 
 // assets
 import OptionsRow from '../profile/OptionsRow'
+import Config from '../../config/config'
+import { isWeb } from '../../lib/utils/platform'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -43,6 +45,8 @@ const tips = {
 // fields to manage privacy of
 const profileFields = ['mobile', 'email']
 const titles = { mobile: 'Phone number', email: 'Email' }
+
+const { enableWebNotifications } = Config
 
 const PrivacyOption = ({ title, value, field, setPrivacy }) => {
   const handlePrivacyChange = useCallback(
@@ -165,33 +169,37 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     <Wrapper style={styles.mainWrapper} withGradient={false}>
       <Section grow style={styles.wrapper}>
         <Section.Stack grow justifyContent="flex-start">
-          <Section.Row justifyContent="center" style={styles.subtitleRow}>
-            <Section.Text fontWeight="bold" color="gray">
-              {t`Notifications`}
-            </Section.Text>
-          </Section.Row>
-          <Section.Row style={styles.switchRowContainer}>
-            <Text>{t`Claim Reminders`}</Text>
+          {isWeb && !enableWebNotifications ? null : (
+            <>
+              <Section.Row justifyContent="center" style={styles.subtitleRow}>
+                <Section.Text fontWeight="bold" color="gray">
+                  {t`Notifications`}
+                </Section.Text>
+              </Section.Row>
+              <Section.Row style={styles.switchRowContainer}>
+                <Text>{t`Claim Reminders`}</Text>
 
-            <Switch
-              value={shouldRemindClaims}
-              onValueChange={handleClaimReminders}
-              circleSize={16}
-              barHeight={20}
-              circleBorderWidth={0}
-              backgroundActive={'#0891B2'}
-              backgroundInactive={'#D4D4D4'}
-              circleActiveColor={'#fff'}
-              circleInActiveColor={'#fff'}
-              changeValueImmediately
-              renderActiveText={false}
-              renderInActiveText={false}
-              switchLeftPx={1.6}
-              switchRightPx={1.6}
-              switchWidthMultiplier={40 / 16}
-              switchBorderRadius={30}
-            />
-          </Section.Row>
+                <Switch
+                  value={shouldRemindClaims}
+                  onValueChange={handleClaimReminders}
+                  circleSize={16}
+                  barHeight={20}
+                  circleBorderWidth={0}
+                  backgroundActive={'#0891B2'}
+                  backgroundInactive={'#D4D4D4'}
+                  circleActiveColor={'#fff'}
+                  circleInActiveColor={'#fff'}
+                  changeValueImmediately
+                  renderActiveText={false}
+                  renderInActiveText={false}
+                  switchLeftPx={1.6}
+                  switchRightPx={1.6}
+                  switchWidthMultiplier={40 / 16}
+                  switchBorderRadius={30}
+                />
+              </Section.Row>
+            </>
+          )}
           <Section.Row justifyContent="center" style={styles.subtitleRow}>
             <Section.Text fontWeight="bold" color="gray">
               {t`Manage your privacy settings`}

@@ -1,9 +1,11 @@
 // @flow
 import { invokeMap, isFunction } from 'lodash'
+import Config from '../../../config/config'
 
 import logger from '../../../lib/logger/js-logger'
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
 
+const { enableWebNotifications } = Config
 class PermissionsAPI {
   // permissions enum to platform permissions map
   platformPermissions = {
@@ -12,7 +14,7 @@ class PermissionsAPI {
   }
 
   disabledPermissions = {
-    [Permissions.Notifications]: true,
+    [Permissions.Notifications]: !enableWebNotifications,
   }
 
   constructor(api, clipboardApi, mediaApi, log) {

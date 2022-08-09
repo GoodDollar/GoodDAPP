@@ -48,6 +48,7 @@ import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
+import { useNotifications } from '../../lib/notifications/backgroundActions'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -159,6 +160,7 @@ const Dashboard = props => {
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
 
+  useNotifications(navigation)
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
 

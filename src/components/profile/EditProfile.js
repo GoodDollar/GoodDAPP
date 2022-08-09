@@ -93,7 +93,7 @@ const EditProfile = ({ screenProps, styles }) => {
         return false
       }
 
-      //create profile only with updated/new fields so we don't resave data
+      // create profile only with updated/new fields so we don't resave data
       const toupdate = pickBy(profile, (v, k) => {
         if (typeof v === 'function') {
           return true

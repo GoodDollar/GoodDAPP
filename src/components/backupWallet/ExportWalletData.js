@@ -34,7 +34,7 @@ const checkmarkIconSize = 28
 
 const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
-//TODO: handle 3rd party wallet
+// TODO: handle 3rd party wallet
 const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
   const goodWallet = useWallet()

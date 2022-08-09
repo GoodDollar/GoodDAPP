@@ -103,7 +103,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
       // payment link (from send)
       handleWithdraw(params)
     } else if (code) {
-      //payment request (from receive)
+      // payment request (from receive)
       checkCode(params)
     } else {
       const exception = new Error('code or paymentCode are missing.')

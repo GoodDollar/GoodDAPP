@@ -26,7 +26,7 @@ export default class TransactionsSource extends FeedSource {
 
     storage.setItem('GD_lastRealmSync', Date.now())
 
-    //sync items that we failed to save
+    // sync items that we failed to save
     const failedSync = await Feed.find({ sync: false }).toArray()
 
     if (failedSync.length) {

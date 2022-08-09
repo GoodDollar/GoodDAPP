@@ -156,7 +156,7 @@ export class FeedStorage {
       }),
     )
 
-    //mark as initialized, ie resolve ready promise
+    // mark as initialized, ie resolve ready promise
     await this.storage.ready
     this.storage.on(data => this.emitUpdate(data))
 
@@ -273,7 +273,7 @@ export class FeedStorage {
         e => this.wallet.erc20Contract._address.toLowerCase() === e.address.toLowerCase() && e.name === 'Transfer',
       )
 
-      //we are not listening to the PaymentDeposit event so check here
+      // we are not listening to the PaymentDeposit event so check here
       if (
         gdTransferEvents.find(
           e =>
@@ -304,7 +304,7 @@ export class FeedStorage {
 
   async handleReceipt(receipt) {
     try {
-      //format receipt
+      // format receipt
       receipt.logs.forEach(e => {
         e.data = {}
         e.events.forEach(d => (e.data[d.name] = d.value))
@@ -325,8 +325,8 @@ export class FeedStorage {
   }
 
   async handleReceiptUpdate(txType, receipt) {
-    //receipt received via websockets/polling need mutex to prevent race
-    //with enqueuing the initial TX data
+    // receipt received via websockets/polling need mutex to prevent race
+    // with enqueuing the initial TX data
     // const release = await this.feedMutex.lock()
     try {
       const receiptDate = await this.wallet.wallet.eth
@@ -363,7 +363,7 @@ export class FeedStorage {
         }
       }
 
-      //get existing or make a new event (calling getFeedItem again because this is after mutex, maybe something changed)
+      // get existing or make a new event (calling getFeedItem again because this is after mutex, maybe something changed)
       feedEvent = feedEvent ||
         (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
           id: receipt.transactionHash,
@@ -397,7 +397,7 @@ export class FeedStorage {
           otplStatus =
             get(txEvent, 'data.to', 'to') === get(txEvent, 'data.from', 'from') ? TxStatus.CANCELED : TxStatus.COMPLETED
 
-          //if withdraw event is of our sent payment, then we change type to "send"
+          // if withdraw event is of our sent payment, then we change type to "send"
           if (get(txEvent, 'data.from').toLowerCase() === this.walletAddress.toLowerCase()) {
             type = FeedItemType.EVENT_TYPE_SEND
           }
@@ -414,9 +414,9 @@ export class FeedStorage {
           break
       }
 
-      //get initial TX data from queue, if not in queue then it must be a receive TX ie
-      //not initiated by user
-      //other option is that TX was started on another wallet instance
+      // get initial TX data from queue, if not in queue then it must be a receive TX ie
+      // not initiated by user
+      // other option is that TX was started on another wallet instance
       const initialEvent = this.dequeueTX(receipt.transactionHash) || { data: {} }
 
       log.debug('handleReceiptUpdate got enqueued event:', receipt.transactionHash, {
@@ -432,7 +432,7 @@ export class FeedStorage {
 
       log.debug('handleReceiptUpdate type', { feedEvent, type })
 
-      //merge incoming receipt data into existing event
+      // merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
@@ -597,7 +597,7 @@ export class FeedStorage {
 
     await this.ready //wait before accessing feedIds cache
 
-    //a race exists between enqueuing and receipt from websockets/polling
+    // a race exists between enqueuing and receipt from websockets/polling
     // const release = await this.feedMutex.lock()
     try {
       const existingEvent = await this.storage.read(event.id)
@@ -613,7 +613,7 @@ export class FeedStorage {
 
       this.feedQ[event.id] = event
 
-      //encrypt tx details in outbox so receiver can read details
+      // encrypt tx details in outbox so receiver can read details
       if (event.type === FeedItemType.EVENT_TYPE_SENDDIRECT) {
         this.addToOutbox(event)
       }

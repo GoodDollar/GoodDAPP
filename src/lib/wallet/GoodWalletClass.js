@@ -339,9 +339,9 @@ export class GoodWallet {
 
         let nextLastBlock = Math.min(lastBlock, this.lastEventsBlock + POKT_MAX_EVENTSBLOCKS)
 
-        //await callback to finish processing events before updating lastEventblock
-        //we pass nextlastblock as null so the request naturally requests until the last block a node has,
-        //this is to prevent errors where some nodes for some reason still dont have the last block
+        // await callback to finish processing events before updating lastEventblock
+        // we pass nextlastblock as null so the request naturally requests until the last block a node has,
+        // this is to prevent errors where some nodes for some reason still dont have the last block
         const events = flatten(await fn(nextLastBlock < lastBlock ? nextLastBlock : null))
 
         if (events.length) {
@@ -369,7 +369,7 @@ export class GoodWallet {
     this.pollEventsTimeout = setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
   }
 
-  //eslint-disable-next-line require-await
+  // eslint-disable-next-line require-await
   async watchEvents(startFrom, lastBlockCallback) {
     const { tokenContract, account } = this
     const { _address: tokenAddress } = tokenContract
@@ -476,7 +476,7 @@ export class GoodWallet {
     )
 
     const events = await retryCall(() => contract.getPastEvents('Transfer', fromEventsFilter)).catch((e = {}) => {
-      //just warn about block not  found which is recoverable
+      // just warn about block not  found which is recoverable
       const logFunc = e.code === -32000 ? 'warn' : 'error'
       log[logFunc]('pollSendEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
@@ -504,7 +504,7 @@ export class GoodWallet {
     )
 
     const events = await retryCall(() => contract.getPastEvents('Transfer', toEventsFilter)).catch((e = {}) => {
-      //just warn about block not  found which is recoverable
+      // just warn about block not  found which is recoverable
       const logFunc = e.code === -32000 ? 'warn' : 'error'
       log[logFunc]('pollReceiveEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
@@ -536,7 +536,7 @@ export class GoodWallet {
     const eventsCancel = await retryCall(() =>
       contract.getPastEvents('PaymentCancel', Object.assign({}, fromEventsFilter)),
     ).catch((e = {}) => {
-      //just warn about block not  found which is recoverable
+      // just warn about block not  found which is recoverable
       const logFunc = e.code === -32000 ? 'warn' : 'error'
       log[logFunc]('pollOTPLEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
@@ -548,7 +548,7 @@ export class GoodWallet {
     // const eventsWithdraw = []
     const eventsWithdraw = await retryCall(() => contract.getPastEvents('PaymentWithdraw', fromEventsFilter)).catch(
       (e = {}) => {
-        //just warn about block not  found which is recoverable
+        // just warn about block not  found which is recoverable
         const logFunc = e.code === -32000 ? 'warn' : 'error'
         log[logFunc]('pollOTPLEvents failed:', e.message, e, {
           category: ExceptionCategory.Blockhain,
@@ -659,7 +659,7 @@ export class GoodWallet {
       },
     ]
 
-    //entitelment is separate because it depends on msg.sender
+    // entitelment is separate because it depends on msg.sender
     const [[[res]], entitlement] = await Promise.all([this.multicallFuse.all([calls]), this.checkEntitlement()])
     res.entitlement = entitlement
     res.claimers = res.dailyStats[0]
@@ -990,7 +990,7 @@ export class GoodWallet {
     // https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
-    //don't wait for transaction return immediately with hash code and link (not using await here)
+    // don't wait for transaction return immediately with hash code and link (not using await here)
     return this.sendTransaction(transferAndCall, callbacks, { gas })
   }
 
@@ -1154,7 +1154,7 @@ export class GoodWallet {
    * @returns {Promise<TransactionReceipt>}
    */
   async cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    //check if already canceled
+    // check if already canceled
     const isValid = await this.isPaymentLinkAvailable(hashedCode)
     if (isValid) {
       const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
@@ -1241,18 +1241,18 @@ export class GoodWallet {
         ? inviteCode
         : this.wallet.utils.fromUtf8(bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength))
 
-      //check under which account invitecode is registered, maybe we have a collission
+      // check under which account invitecode is registered, maybe we have a collission
       const registered = !hasJoined && (await retryCall(() => this.invitesContract.methods.codeToUser(myCode).call()))
 
       log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
 
-      //code collision
+      // code collision
       if (hasJoined === false && registered !== this.account && registered !== NULL_ADDRESS) {
         log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
         return this.joinInvites(inviter, codeLength + 1)
       }
 
-      //not registered or not marked inviter
+      // not registered or not marked inviter
       if (!hasJoined || (inviter && invitedBy === NULL_ADDRESS)) {
         const tx = this.invitesContract.methods.join(
           myCode,
@@ -1267,7 +1267,7 @@ export class GoodWallet {
         })
       }
 
-      //already registered
+      // already registered
       return this.wallet.utils.toUtf8(myCode)
     } catch (e) {
       log.warn('joinInvites failed:', e.message, e)
@@ -1357,6 +1357,7 @@ export class GoodWallet {
     const minWei = wei ? wei : 250000 * 1e9
 
     const release = await gasMutex.lock()
+
     try {
       const { topWallet = true } = options
 
@@ -1374,7 +1375,7 @@ export class GoodWallet {
         }
       }
 
-      //self serve using faucet. we verify nativeBalance to prevent loop with sendTransaction which calls this function also
+      // self serve using faucet. we verify nativeBalance to prevent loop with sendTransaction which calls this function also
       if (
         nativeBalance >= TOP_GWEI &&
         (await retryCall(() => this.faucetContract.methods.canTop(this.account).call()))
@@ -1388,12 +1389,13 @@ export class GoodWallet {
             log.error('verifyHasGas faucet failed', e.message, e)
             return false
           })
+
         if (ok) {
           return { ok }
         }
       }
 
-      //if we cant use faucet or it failed then fallback to adminwallet api
+      // if we cant use faucet or it failed then fallback to adminwallet api
       log.info('verifyHasGas no gas, asking for top wallet from server', {
         nativeBalance,
         required: minWei,
@@ -1419,6 +1421,7 @@ export class GoodWallet {
       }
     } catch (e) {
       log.error('verifyHasGas failed:', e.message, e, { minWei })
+
       return {
         ok: false,
         error: true,
@@ -1501,7 +1504,7 @@ export class GoodWallet {
     log.debug('sendTransaction:', { gas, gasPrice })
 
     if (isVerifyHasGas !== true) {
-      //prevent recursive endless loop when sendTransaction call came from verifyHasGas
+      // prevent recursive endless loop when sendTransaction call came from verifyHasGas
       const { ok, error, message } = await this.verifyHasGas(gas * gasPrice)
 
       if (ok === false) {

@@ -38,7 +38,7 @@ export const useConnectionWeb3 = () => {
     if (wallet) {
       log.debug('isWeb3Connection')
 
-      //verify a blockchain method works ok (balanceOf)
+      // verify a blockchain method works ok (balanceOf)
       if (
         wallet.wallet.currentProvider.connected &&
         (await wallet
@@ -49,7 +49,7 @@ export const useConnectionWeb3 = () => {
         log.debug('web3 settings connection back')
         setIsConnection(true)
       } else {
-        //if not connected and not reconnecting than try to force reconnect
+        // if not connected and not reconnecting than try to force reconnect
         if (wallet.wallet.currentProvider.reconnecting === false) {
           wallet.wallet.currentProvider.reconnect()
         }
@@ -75,7 +75,7 @@ export const useConnectionWeb3 = () => {
     const bindEvents = method => {
       log.debug('web3 binding listeners', method)
 
-      //websocketprovider (https://github.com/ethereum/web3.js/issues/3500) provider has bug not calling events correctly, so we subscribe directly to websocket connection
+      // websocketprovider (https://github.com/ethereum/web3.js/issues/3500) provider has bug not calling events correctly, so we subscribe directly to websocket connection
       const callMethod = method === 'remove' ? 'removeEventListener' : 'addEventListener'
       const connection = get(wallet, 'wallet.currentProvider.connection')
       if (connection === undefined) {

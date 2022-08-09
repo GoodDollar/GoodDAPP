@@ -4,6 +4,7 @@ import { FetchResult } from '@react-native-community/push-notification-ios'
 import AsyncStorage from './lib/utils/asyncStorage'
 import logger from './lib/logger/js-logger'
 
+// TODO: do we need this ?
 const log = logger.child({ from: 'pushNotifications' })
 
 const setFeedOpened = async data => {

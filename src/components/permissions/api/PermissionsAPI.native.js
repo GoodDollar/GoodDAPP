@@ -2,9 +2,10 @@
 
 import { Platform } from 'react-native'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
-import { every } from 'lodash'
+import { every, values } from 'lodash'
 // eslint-disable-next-line import/default
 import PushNotification from 'react-native-push-notification'
+
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
 import { isAndroidNative } from '../../../lib/utils/platform'
 
@@ -38,7 +39,8 @@ export default new class {
     if (Permissions.Notifications === permission) {
       const checkPermissionPromise = new Promise((resolve, reject) => {
         PushNotification.checkPermissions(status => {
-          const checkResult = every(Object.values(status), Boolean)
+          const checkResult = every(values(status))
+
           if (checkResult) {
             return resolve(RESULTS.GRANTED)
           }
@@ -75,9 +77,8 @@ export default new class {
     // so in case of request notifications we just re-call check
     if (Permissions.Notifications === permission) {
       const request = await PushNotification.requestPermissions(notificationOptions)
-      const isPermitted = every(Object.values(request), Boolean)
 
-      return isPermitted
+      return every(values(request))
     }
 
     // if no platform permission found - that means feature
@@ -86,8 +87,6 @@ export default new class {
       return true
     }
 
-    const result = await api.request(platformPermission)
-
-    return RESULTS.GRANTED === result
+    return api.request(platformPermission).then(result => RESULTS.GRANTED === result)
   }
 }({ request, check })

@@ -91,7 +91,7 @@ export {
   iosSupportedWeb,
 }
 
-//from https://github.com/f2etw/detect-inapp/blob/master/src/inapp.js
+// from https://github.com/f2etw/detect-inapp/blob/master/src/inapp.js
 export class DetectWebview {
   BROWSER = {
     messenger: /\bFB[\w_]+\/(Messenger|MESSENGER)/,

@@ -67,7 +67,7 @@ const checkInviteCode = async () => {
   const params = get(destinationPath, 'params')
   const paymentParams = params && parsePaymentLinkParams(params)
 
-  //get inviteCode from url or from payment link
+  // get inviteCode from url or from payment link
   return (
     (await AsyncStorage.getItem(INVITE_CODE)) ||
     get(destinationPath, 'params.inviteCode') ||
@@ -187,9 +187,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
   }, [setCountryCode])
 
-  //keep privatekey from torus as master seed before initializing wallet
-  //so wallet can use it, if torus is enabled and we don't have pkey then require re-login
-  //this is true in case of refresh
+  // keep privatekey from torus as master seed before initializing wallet
+  // so wallet can use it, if torus is enabled and we don't have pkey then require re-login
+  // this is true in case of refresh
   const checkTorusLogin = useCallback(() => {
     const masterSeed = torusUserFromProps.privateKey
 
@@ -201,7 +201,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     return !!masterSeed
   }, [torusUserFromProps, regMethod, navigation.navigate])
 
-  //trigger finishRegistration
+  // trigger finishRegistration
   useEffect(() => {
     if (goodWallet && userStorage && ready && signupData.finished) {
       finishRegistration(signupData).then(ok => ok & setSuccessfull(() => setLoggedInRouter(true)))
@@ -381,7 +381,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, signupData)
 
-      //setting finished to true will trigger finishRegistration effect
+      // setting finished to true will trigger finishRegistration effect
       const _signupData = { ...signupData, ...data, lastStep: navigation.state.index, finished: !nextRoute }
 
       setSignupData(_signupData)
@@ -390,8 +390,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       if (!nextRoute) {
         setLoading(false)
 
-        //do nothing here
-        //because setting finished to true (!nextRoute) will trigger finishRegistration effect
+        // do nothing here
+        // because setting finished to true (!nextRoute) will trigger finishRegistration effect
       } else if (nextRoute && nextRoute.key === 'SMS') {
         try {
           const result = await checkExisting(torusProvider, pick(_signupData, 'mobile'), {
@@ -545,11 +545,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
   }, [navigateWithFocus, navigation, signupData])
 
-  //this effect will finish initializing when login, wallet and userstorage are available
+  // this effect will finish initializing when login, wallet and userstorage are available
   useEffect(() => {
     const source = '' //TODO: get this from somewhere
     if (!ready && goodWallet && userStorage) {
-      //lazy login in background while user starts registration
+      // lazy login in background while user starts registration
       ;(async () => {
         log.debug('ready: Starting initialization', { isRegMethodSelfCustody, torusUserFromProps })
 
@@ -563,14 +563,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
   }, [goodWallet, userStorage, signupData.email, ready])
 
-  //on mount effect to do some basi checks and init
+  // on mount effect to do some basi checks and init
   useEffect(() => {
     const onMount = async () => {
-      //if email from torus then identify user
+      // if email from torus then identify user
       signupData.email && identifyOnUserSignup(signupData.email)
 
-      //get user country code for phone
-      //read torus seed
+      // get user country code for phone
+      // read torus seed
       if (signupData.skipPhone === false) {
         await getCountryCode()
       }
@@ -594,7 +594,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     // once email appears in the state - identifying and setting 'identified' flag
     identifyOnUserSignup(email)
 
-    //add user to crm once we have his email
+    // add user to crm once we have his email
     API.addSignupContact(signupData)
       .then(() => {
         addSignupContact.current = true

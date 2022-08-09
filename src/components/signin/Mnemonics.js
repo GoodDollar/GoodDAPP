@@ -1,5 +1,5 @@
 // @flow
-//eslint-disable-next-line
+// eslint-disable-next-line
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Platform } from 'react-native'
@@ -63,7 +63,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   }
 
   const recover = useCallback(async () => {
-    //required to wallet and storage are reinitialized
+    // required to wallet and storage are reinitialized
     const curVersion = await AsyncStorage.getItem('GD_version')
 
     await AsyncStorage.clear()
@@ -99,7 +99,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
     try {
       // We need to try to get a new address using new mnenonics
-      //eslint-disable-next-line
+      // eslint-disable-next-line
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics

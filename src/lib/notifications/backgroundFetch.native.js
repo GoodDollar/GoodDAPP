@@ -1,12 +1,12 @@
 import BackgroundFetch from 'react-native-background-fetch'
 // eslint-disable-next-line import/default
-import { once } from 'lodash'
+import { once, values } from 'lodash'
 import logger from '../logger/js-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
-import { CLAIM_NOTIFICATION, dailyClaimNotification } from './backgroundActions'
+import { dailyClaimNotification, NotificationsCategories } from './backgroundActions'
 
-//TODO: how would this handle metamask accounts??
+// TODO: how would this handle metamask accounts??
 
 const options = {
   forceAlarmManager: false,
@@ -33,8 +33,12 @@ export const initBGFetch = once((goodWallet, userStorage) => {
       return
     }
 
-    if (taskId === CLAIM_NOTIFICATION) {
-      await dailyClaimNotification(userStorage, goodWallet)
+    switch (taskId) {
+      case NotificationsCategories.CLAIM_NOTIFICATION:
+        await dailyClaimNotification(userStorage, goodWallet)
+        break
+      default:
+        break
     }
   }
 
@@ -43,7 +47,5 @@ export const initBGFetch = once((goodWallet, userStorage) => {
   }
 
   BackgroundFetch.configure(options, task, taskManagerErrorHandler)
-
-  // BackgroundFetch.scheduleTask({ taskId: FEED_NOTIFICATIONS, periodic: true })
-  BackgroundFetch.scheduleTask({ taskId: CLAIM_NOTIFICATION, periodic: true })
+  values(NotificationsCategories).forEach(taskId => BackgroundFetch.scheduleTask({ taskId, periodic: true }))
 })

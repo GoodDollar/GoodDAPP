@@ -283,7 +283,7 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
       />
     )
   } else if (get(feed, 'data.readMore') === false) {
-    //if readMore is exactly false we don't show anything
+    // if readMore is exactly false we don't show anything
     result = null
   } else {
     result = (

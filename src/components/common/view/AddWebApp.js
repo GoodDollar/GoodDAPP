@@ -165,7 +165,7 @@ const AddWebApp = () => {
 
   const handleInstallApp = () => {
     if (installPrompt) {
-      //calling prompt from a non async context, async may happen to cause browser to say its not from user gesture
+      // calling prompt from a non async context, async may happen to cause browser to say its not from user gesture
       installPrompt
         .prompt()
         .then(_ => handleUserPromptChoice())
@@ -211,7 +211,7 @@ const AddWebApp = () => {
   }
 
   const checkShowDialog = async () => {
-    //dont show add to home on pure desktop
+    // dont show add to home on pure desktop
     if (isMobileWeb === false && Config.showAddToHomeDesktop === false) {
       return
     }

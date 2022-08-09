@@ -227,8 +227,8 @@ const Dashboard = props => {
 
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
-          //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
-          //so we use a global variable
+          // subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
+          // so we use a global variable
 
           res = (await feedPromise) || []
           res.length > 0 && !didRender && setFeedLoadAnimShown(true)
@@ -263,10 +263,10 @@ const Dashboard = props => {
 
   const [feedLoaded, setFeedLoaded] = useState(false)
 
-  //subscribeToFeed probably should be an effect that updates the feed items
-  //as they come in, currently on each new item it simply reset the feed
-  //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
-  //which would lead to many unwanted subscribe/unsubscribe
+  // subscribeToFeed probably should be an effect that updates the feed items
+  // as they come in, currently on each new item it simply reset the feed
+  // currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
+  // which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
     const { feedStorage } = userStorage
 
@@ -349,8 +349,8 @@ const Dashboard = props => {
 
   const showDelayed = useCallback(() => {
     const id = setTimeout(() => {
-      //wait until not loading and not showing other modal (see use effect)
-      //mark as displayed
+      // wait until not loading and not showing other modal (see use effect)
+      // mark as displayed
       setShowDelayedTimer(true)
       setAddWebApp({ showInitial: true, showDialog: false })
     }, 2000)

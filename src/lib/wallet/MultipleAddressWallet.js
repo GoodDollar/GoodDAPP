@@ -19,7 +19,7 @@ class MultipleAddressWallet {
     logger.debug('MultipleAddressWallet ', { mnemonic }, { numOfAccounts })
     this.numOfAccounts = numOfAccounts
 
-    //for torus login we use the private key as seed not a mnemonic phrase
+    // for torus login we use the private key as seed not a mnemonic phrase
     if (conf.torusEnabled === false) {
       this.seed = bip39.mnemonicToSeed(mnemonic)
     } else {

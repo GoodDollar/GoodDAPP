@@ -27,7 +27,7 @@ const useServiceWorker = () => {
       }
 
       const onRegister = reg => {
-        //force check for service worker update
+        // force check for service worker update
         reg.update()
         interval.current = setInterval(() => reg.update(), 60 * 60 * 1000)
         if (reg.waiting) {

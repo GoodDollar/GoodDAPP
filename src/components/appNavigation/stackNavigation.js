@@ -204,9 +204,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
     }
     this.trans = false
 
-    //NOTICE: for some reason this doesnt work when inside setState callback only in gotoRoot
-    //and when called from a page like SendLinkSummary when opening a payment request, ie not opening dashboard first
-    //not sure that we need to keep stack as state variable at all
+    // NOTICE: for some reason this doesnt work when inside setState callback only in gotoRoot
+    // and when called from a page like SendLinkSummary when opening a payment request, ie not opening dashboard first
+    // not sure that we need to keep stack as state variable at all
 
     navigation.navigate(route)
   }

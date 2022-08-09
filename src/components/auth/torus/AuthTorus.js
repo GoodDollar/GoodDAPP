@@ -101,7 +101,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         throw new Error('Missing privateKey from torus response')
       }
 
-      //set masterseed so wallet can use it in 'ready' where we check if user exists
+      // set masterseed so wallet can use it in 'ready' where we check if user exists
       await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
       fireEvent(TORUS_SUCCESS, { provider })
       log.debug('torus login success', { torusUser, provider })
@@ -164,8 +164,8 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
   const selfCustody = useCallback(async () => {
     const curSeed = (await AsyncStorage.getItem(GD_USER_MASTERSEED)) || (await AsyncStorage.getItem(GD_USER_MNEMONIC))
 
-    //in case user started torus signup but came back here we need to re-initialize wallet/storage with
-    //new credentials
+    // in case user started torus signup but came back here we need to re-initialize wallet/storage with
+    // new credentials
     if (curSeed) {
       log.debug('selfcustody clear storage')
       await AsyncStorage.clear()

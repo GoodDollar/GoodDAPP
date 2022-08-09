@@ -165,7 +165,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
 
   const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
 
-  //if code wasnt a url it will not have any query params and will then use code as default
+  // if code wasnt a url it will not have any query params and will then use code as default
   const extractedCode = useMemo(() => get(createUrlObject(code), 'params.inviteCode', code), [code])
   const isValidCode = extractedCode.length >= 10 && extractedCode.length <= 32 && extractedCode !== ownInviteCode
 
@@ -221,7 +221,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
     }
   }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, registerForInvites])
 
-  //manages the get reward button state (disabled/enabled)
+  // manages the get reward button state (disabled/enabled)
   useEffect(() => {
     log.debug('updating disabled state:', { extractedCode, isValidCode, ownInviteCode, inviteCodeUsed })
 
@@ -474,7 +474,7 @@ const Invite = ({ screenProps, styles }) => {
   }
 
   useEffect(() => {
-    //reset state for rewards icon in navbar
+    // reset state for rewards icon in navbar
     if (inviteState.pending || inviteState.approved) {
       userStorage.userProperties.safeSet('lastInviteState', inviteState)
     }

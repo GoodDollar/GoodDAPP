@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable no-unused-vars */
 
 // libraries
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -9,6 +10,7 @@ import { mapValues, pick, startCase } from 'lodash'
 // custom components
 import { t } from '@lingui/macro'
 import { Switch } from 'react-native-switch'
+
 import { useDebouncedCallback } from 'use-debounce'
 import Wrapper from '../common/layout/Wrapper'
 import { Icon, Section, Text } from '../common'
@@ -161,9 +163,10 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
   const handleSaveDebounced = useDebouncedCallback(handleSave, 500)
 
-  useEffect(() => {
-    handleSaveDebounced()
-  }, [handleSaveDebounced])
+  // TODO: I do not understand how does it works, commented out temporarly
+  // useEffect(() => {
+  //   handleSaveDebounced()
+  // }, [handleSaveDebounced])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>

@@ -31,7 +31,7 @@ class LoginService {
     this.jwt = jwt
 
     if (jwt) {
-      //prettier-ignore
+      // prettier-ignore
       AsyncStorage
         .setItem(JWT, jwt)
         .catch(e => log.error('Failed to store JWT to AsyncStorage', e.message, e, { jwt }))
@@ -67,7 +67,7 @@ class LoginService {
 
   async auth(refresh = false): Promise<?Credentials | Error> {
     if (refresh) {
-      //prettier-ignore
+      // prettier-ignore
       AsyncStorage
         .setItem(JWT, null)
         .catch(e => log.error('Failed to clear JWT in the AsyncStorage', e.message, e))

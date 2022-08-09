@@ -1,16 +1,16 @@
 import { useEffect } from 'react'
 import { Notifications } from 'react-native-notifications'
 import { t } from '@lingui/macro'
+
 import logger from '../logger/js-logger'
+import usePropsRefs from '../hooks/usePropsRefs'
 
 const log = logger.child({ from: 'backgroundFetch' })
 
-export const CLAIM_NOTIFICATION = 'claim-notification'
-
 export const dailyClaimTime = new Date().setUTCHours(12)
 
-export const notificationsCategories = {
-  CLAIM: 'CLAIM',
+export const NotificationsCategories = {
+  CLAIM_NOTIFICATION: 'claim-notification',
 }
 
 export const dailyClaimNotification = async (userStorage, goodWallet) => {
@@ -26,8 +26,9 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
         title: t`Your daily UBI Claim is ready!`,
         body: dailyUBI,
         fireDate: new Date(),
-        category: notificationsCategories.CLAIM,
+        category: NotificationsCategories.CLAIM_NOTIFICATION,
       })
+
       await userStorage.userProperties.safeSet('lastClaimNotification', Date.now())
     }
   } catch (e) {
@@ -36,7 +37,12 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
 }
 
 export const useNotifications = navigation => {
+  const [getNavigation] = usePropsRefs([navigation])
+
   useEffect(() => {
+    // eslint-disable-next-line require-await
+    const onClaimNotification = async navigation => navigation.navigate('Claim')
+
     Notifications.registerRemoteNotifications()
 
     Notifications.events().registerNotificationReceivedForeground((notification, completion) => {
@@ -47,10 +53,18 @@ export const useNotifications = navigation => {
       completion()
     })
 
-    Notifications.events().registerNotificationOpened((notification, completion) => {
-      if (notification.payload.category === notificationsCategories.CLAIM) {
-        navigation.navigate('Claim')
+    Notifications.events().registerNotificationOpened(async (notification, completion) => {
+      const navigation = getNavigation()
+      const { category } = notification?.payload || {}
+
+      switch (category) {
+        case NotificationsCategories.CLAIM_NOTIFICATION:
+          await onClaimNotification(navigation)
+          break
+        default:
+          break
       }
+
       completion()
     })
   }, [])

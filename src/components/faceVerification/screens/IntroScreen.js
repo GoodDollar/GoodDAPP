@@ -4,7 +4,7 @@ import { Platform, View } from 'react-native'
 
 import { get } from 'lodash'
 
-//components
+// components
 import { t } from '@lingui/macro'
 import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../common'

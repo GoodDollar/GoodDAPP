@@ -117,7 +117,7 @@ const AppSwitch = (props: LoadingProps) => {
         log.debug('navigateToUrlAction destinationPath empty getting web params from url', { params })
 
         if (pathname && pathname.length < 2 && !isEmpty(params)) {
-          //this makes sure query params are passed as part of navigation
+          // this makes sure query params are passed as part of navigation
           destinationPath = { params }
         }
       }

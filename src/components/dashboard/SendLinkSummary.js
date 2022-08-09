@@ -132,7 +132,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 onPress: () => {
                   hideDialog()
 
-                  //this is async so we go directly back to screen and not through stack
+                  // this is async so we go directly back to screen and not through stack
                   navigateTo('SendLinkSummary', {
                     amount,
                     reason,

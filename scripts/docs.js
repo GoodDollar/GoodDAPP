@@ -137,7 +137,7 @@ async function generateDocs(baseFolder, deep, perFile = true) {
           const outputFolder = camelCaseToDash(`${filePath.replace(baseFolder, BASE_DOCS_FOLDER)}/`)
           console.log('creating docs folder:', outputFolder)
           await execPromise(`mkdir -p ${outputFolder}`)
-          //adding '*.js' causes documentation to not be generated for sub folders
+          // adding '*.js' causes documentation to not be generated for sub folders
           const childrenDocs = await doGenerateDocs(filePath, deep - 1)
           const newDoc = { src: filePath, childrenDocs }
           console.log('Generated folder docs:', { childrenDocs })
@@ -193,8 +193,8 @@ async function generateDocs(baseFolder, deep, perFile = true) {
 
   await execPromise('rm -rf docs/*')
   const childrenDocs = await doGenerateDocs(baseFolder, deep)
-  //currently let gitbook handle TOC
-  //generateToc(childrenDocs)
+  // currently let gitbook handle TOC
+  // generateToc(childrenDocs)
 
   if (DELETE_EMPTY_DOCS) {
     console.log('Deleting empty docs...')

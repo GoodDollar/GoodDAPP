@@ -274,7 +274,7 @@ declare module "lodash" {
     indexOf<T>(array: void | null, value?: ?T, fromIndex?: ?number): -1;
     initial<T>(array: ?Array<T>): Array<T>;
     intersection<T>(...arrays?: Array<$ReadOnlyArray<T>>): Array<T>;
-    //Workaround until (...parameter: T, parameter2: U) works
+    // Workaround until (...parameter: T, parameter2: U) works
     intersectionBy<T>(
       a1?: ?$ReadOnlyArray<T>,
       iteratee?: ?ValueOnlyIteratee<T>
@@ -297,7 +297,7 @@ declare module "lodash" {
       a4?: ?$ReadOnlyArray<T>,
       iteratee?: ?ValueOnlyIteratee<T>
     ): Array<T>;
-    //Workaround until (...parameter: T, parameter2: U) works
+    // Workaround until (...parameter: T, parameter2: U) works
     intersectionWith<T>(
       a1?: ?$ReadOnlyArray<T>,
       comparator?: ?Comparator<T>
@@ -396,7 +396,7 @@ declare module "lodash" {
     takeRightWhile<T>(array?: ?Array<T>, predicate?: ?Predicate<T>): Array<T>;
     takeWhile<T>(array?: ?Array<T>, predicate?: ?Predicate<T>): Array<T>;
     union<T>(...arrays?: Array<$ReadOnlyArray<T>>): Array<T>;
-    //Workaround until (...parameter: T, parameter2: U) works
+    // Workaround until (...parameter: T, parameter2: U) works
     unionBy<T>(
       a1?: ?$ReadOnlyArray<T>,
       iteratee?: ?ValueOnlyIteratee<T>
@@ -419,7 +419,7 @@ declare module "lodash" {
       a4: $ReadOnlyArray<T>,
       iteratee?: ValueOnlyIteratee<T>
     ): Array<T>;
-    //Workaround until (...parameter: T, parameter2: U) works
+    // Workaround until (...parameter: T, parameter2: U) works
     unionWith<T>(a1?: ?Array<T>, comparator?: ?Comparator<T>): Array<T>;
     unionWith<T>(
       a1: $ReadOnlyArray<T>,
@@ -446,7 +446,7 @@ declare module "lodash" {
     unzipWith<T>(array: ?Array<T>, iteratee?: ?Iteratee<T>): Array<T>;
     without<T>(array?: ?$ReadOnlyArray<T>, ...values?: Array<?T>): Array<T>;
     xor<T>(...array: Array<Array<T>>): Array<T>;
-    //Workaround until (...parameter: T, parameter2: U) works
+    // Workaround until (...parameter: T, parameter2: U) works
     xorBy<T>(a1?: ?Array<T>, iteratee?: ?ValueOnlyIteratee<T>): Array<T>;
     xorBy<T>(
       a1: Array<T>,
@@ -466,7 +466,7 @@ declare module "lodash" {
       a4: Array<T>,
       iteratee?: ValueOnlyIteratee<T>
     ): Array<T>;
-    //Workaround until (...parameter: T, parameter2: U) works
+    // Workaround until (...parameter: T, parameter2: U) works
     xorWith<T>(a1?: ?Array<T>, comparator?: ?Comparator<T>): Array<T>;
     xorWith<T>(
       a1: Array<T>,

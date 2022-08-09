@@ -89,8 +89,8 @@ class SoftwareWalletProvider {
     }
     let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS)
 
-    //we start from addres 1, since from address 0 pubkey all public keys can  be generated
-    //and we want privacy
+    // we start from addres 1, since from address 0 pubkey all public keys can  be generated
+    // and we want privacy
     if (privateKeys == null) {
       let mulWallet = new MultipleAddressWallet(pkey, 10)
 

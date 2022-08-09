@@ -142,7 +142,7 @@ const ClaimAmountBox = ({ dailyUbi }) => {
     return null
   }
 
-  //for native we don't have translate 50%, so we get the width from the rendering event onLayout
+  // for native we don't have translate 50%, so we get the width from the rendering event onLayout
   const updateSize = event => {
     if (isMobileNative === false) {
       return
@@ -386,7 +386,7 @@ const Claim = props => {
     return receipt
   }, [goodWallet])
 
-  const handleClaim = useCallback(async () => {
+  const onClaim = useCallback(async () => {
     let curEntitlement
     let isWhitelisted = isCitizen
 
@@ -491,13 +491,12 @@ const Claim = props => {
           fireEvent(INVITE_BOUNTY, { from: 'invitee' })
         }
       })
+
+      return true
     } catch (e) {
       onClaimError(e)
     } finally {
       setLoading(false)
-      if (!allowedNotificationPermissions) {
-        requestNotificationPermissions()
-      }
     }
   }, [
     setLoading,
@@ -511,6 +510,16 @@ const Claim = props => {
     userStorage,
   ])
 
+  const handleClaim = useCallback(async () => {
+    const claimed = await onClaim()
+
+    if (!claimed || allowedNotificationPermissions) {
+      return
+    }
+
+    requestNotificationPermissions()
+  }, [onClaim, requestNotificationPermissions, allowedNotificationPermissions])
+
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)
 
@@ -521,7 +530,7 @@ const Claim = props => {
       // or dailyUbi changed meaning a new cycle started
       gatherStats(true)
       if (isReachedZero && dailyUbi === 0) {
-        //keep polling if timer is 0 but dailyubi still didnt update
+        // keep polling if timer is 0 but dailyubi still didnt update
         startPolling()
       }
     }
@@ -785,7 +794,7 @@ const getStylesFromProps = ({ theme }) => {
       letterSpacing: 0.42,
     },
     claimButtonContainer: {
-      //style passed to button
+      // style passed to button
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,

@@ -160,11 +160,11 @@ export class FeedStorage {
       })
       .then(ids => ids || {})
 
-    //mark as initialized, ie resolve ready promise
+    // mark as initialized, ie resolve ready promise
     this.feedInitialized = true
     this.setReady()
 
-    //no need to block on this
+    // no need to block on this
     this._syncFeedCache()
   }
 
@@ -327,7 +327,7 @@ export class FeedStorage {
         e => this.wallet.erc20Contract._address.toLowerCase() === e.address.toLowerCase() && e.name === 'Transfer',
       )
 
-      //we are not listening to the PaymentDeposit event so check here
+      // we are not listening to the PaymentDeposit event so check here
       if (
         gdTransferEvents.find(
           e =>
@@ -357,7 +357,7 @@ export class FeedStorage {
 
   async handleReceipt(receipt) {
     try {
-      //format receipt
+      // format receipt
       receipt.logs.forEach(e => {
         e.data = {}
         e.events.forEach(d => (e.data[d.name] = d.value))
@@ -378,8 +378,8 @@ export class FeedStorage {
   }
 
   async handleReceiptUpdate(txType, receipt) {
-    //receipt received via websockets/polling need mutex to prevent race
-    //with enqueuing the initial TX data
+    // receipt received via websockets/polling need mutex to prevent race
+    // with enqueuing the initial TX data
     const release = await this.feedMutex.lock()
 
     try {
@@ -418,7 +418,7 @@ export class FeedStorage {
         }
       }
 
-      //get existing or make a new event (calling getFeedItem again because this is after mutex, maybe something changed)
+      // get existing or make a new event (calling getFeedItem again because this is after mutex, maybe something changed)
       const feedEvent = (await this.getFeedItemByTransactionHash(eventTxHash)) || {
         id: eventTxHash,
         createdDate: receiptDate.toString(),
@@ -433,28 +433,28 @@ export class FeedStorage {
           otplStatus =
             get(txEvent, 'data.to', 'to') === get(txEvent, 'data.from', 'from') ? TxStatus.CANCELED : TxStatus.COMPLETED
 
-          //if withdraw event is of our sent payment, then we change type to "send"
+          // if withdraw event is of our sent payment, then we change type to "send"
           if (get(txEvent, 'data.from').toLowerCase() === this.walletAddress.toLowerCase()) {
             type = FeedItemType.EVENT_TYPE_SEND
           }
 
           break
         case TxType.TX_OTPL_DEPOSIT:
-          //update index for payment links by paymentId, so we can update when we receive withdraw event
+          // update index for payment links by paymentId, so we can update when we receive withdraw event
           this.feed.get('codeToTxHash').put({ [txEvent.data.paymentId]: feedEvent.id })
           otplStatus = TxStatus.PENDING
           break
         case TxType.TX_OTPL_CANCEL:
-          //update index for payment links by paymentId, so we can update when we receive withdraw event
+          // update index for payment links by paymentId, so we can update when we receive withdraw event
           status = TxStatus.CANCELED
           break
         default:
           break
       }
 
-      //get initial TX data from queue, if not in queue then it must be a receive TX ie
-      //not initiated by user
-      //other option is that TX was started on another wallet instance
+      // get initial TX data from queue, if not in queue then it must be a receive TX ie
+      // not initiated by user
+      // other option is that TX was started on another wallet instance
       const initialEvent = this.dequeueTX(receipt.transactionHash) || {
         data: {},
       }
@@ -472,7 +472,7 @@ export class FeedStorage {
 
       log.debug('handleReceiptUpdate type', { feedEvent, type })
 
-      //merge incoming receipt data into existing event
+      // merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
@@ -585,7 +585,7 @@ export class FeedStorage {
               data: feedEvent.data,
             })
 
-            //this will create counterPartyFullName, counterPartySmallAvatar
+            // this will create counterPartyFullName, counterPartySmallAvatar
             if (feedEvent.data[camelCase(`counterParty ${field}`)] !== value) {
               feedEvent.data[camelCase(`counterParty ${field}`)] = value
               await delay(500) //delay so we don't hit the dashboard feed debounce timeout
@@ -595,7 +595,7 @@ export class FeedStorage {
       })
     }
 
-    //TODO: get user+avatar or contract name
+    // TODO: get user+avatar or contract name
     log.debug('updateFeedEventCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
     switch (feedEvent.type) {
@@ -643,7 +643,7 @@ export class FeedStorage {
 
     await this.ready //wait before accessing feedIds cache
 
-    //a race exists between enqueuing and receipt from websockets/polling
+    // a race exists between enqueuing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
 
     try {
@@ -668,7 +668,7 @@ export class FeedStorage {
           .put(event.id)
       }
 
-      //encrypt tx details in outbox so receiver can read details
+      // encrypt tx details in outbox so receiver can read details
       if (event.type === FeedItemType.EVENT_TYPE_SENDDIRECT) {
         this.addToOutbox(event)
       }
@@ -696,8 +696,8 @@ export class FeedStorage {
   async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
     log.debug('updateFeedEvent:', event.id, { event })
 
-    //saving index by onetime code so we can retrieve and update it once withdrawn
-    //or skip own withdraw
+    // saving index by onetime code so we can retrieve and update it once withdrawn
+    // or skip own withdraw
     const { feed } = this
 
     let { date } = event
@@ -708,7 +708,7 @@ export class FeedStorage {
     date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
 
-    //check if we need to update the day index location
+    // check if we need to update the day index location
     if (previouseventDate) {
       let prevdate = new Date(previouseventDate)
       prevdate = isValidDate(prevdate) ? prevdate : date

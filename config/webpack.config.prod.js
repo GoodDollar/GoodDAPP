@@ -218,7 +218,7 @@ module.exports = {
       'react-native': 'react-native-web',
       'lottie-react-native': 'react-native-web-lottie',
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
-      //hack to remove duplicate usage in dependencies
+      // hack to remove duplicate usage in dependencies
       'bn.js': paths.appNodeModules + '/bn.js',
     },
     plugins: [
@@ -552,7 +552,7 @@ module.exports = {
         // public/ and not a SPA route
         new RegExp('/[^/]+\\.[^/]+$'),
       ],
-      //fonts caching from https://developers.google.com/web/tools/workbox/guides/common-recipes
+      // fonts caching from https://developers.google.com/web/tools/workbox/guides/common-recipes
       runtimeCaching: [
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com/,

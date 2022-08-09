@@ -65,6 +65,7 @@ export default (props = {}) => {
             routeName: 'WalletConnect',
             type: 'Navigation/NAVIGATE',
           })
+
           slideOut()
         },
       },
@@ -76,6 +77,7 @@ export default (props = {}) => {
             routeName: 'Profile',
             type: 'Navigation/NAVIGATE',
           })
+
           slideOut()
         },
       },
@@ -86,6 +88,7 @@ export default (props = {}) => {
         hidden: !installPrompt && !isMobileSafari,
         action: () => {
           setAddWebApp({ showInitial: false, showDialog: true })
+
           slideOut()
         },
       },
@@ -98,6 +101,7 @@ export default (props = {}) => {
             routeName: 'ExportWallet',
             type: 'Navigation/NAVIGATE',
           })
+
           slideOut()
         },
       },
@@ -110,6 +114,7 @@ export default (props = {}) => {
             routeName: 'BackupWallet',
             type: 'Navigation/NAVIGATE',
           })
+
           slideOut()
         },
       },

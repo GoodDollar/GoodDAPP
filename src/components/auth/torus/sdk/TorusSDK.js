@@ -78,7 +78,7 @@ class TorusSDK {
     const strategy = strategies[withVerifier]
     const response = await strategy.triggerLogin().catch(_fetchStatusCode)
 
-    //no response in case of redirect flow
+    // no response in case of redirect flow
     if (!this.popupMode) {
       return response
     }

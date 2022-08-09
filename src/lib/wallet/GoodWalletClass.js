@@ -37,6 +37,7 @@ import moment from 'moment'
 import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
 import { signTypedData } from '@metamask/eth-sig-util'
+import Mutex from 'await-mutex'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
@@ -131,6 +132,9 @@ const MultiCalls = {
   1: '0x5Eb3fa2DFECdDe21C950813C665E9364fa609bD2',
   122: '0x2219bf813a0f8f28d801859c215a5a94cca90ed1',
 }
+
+const gasMutex = new Mutex()
+
 export class GoodWallet {
   static AccountUsageToPath = {
     gd: 0,
@@ -1352,6 +1356,7 @@ export class GoodWallet {
     const TOP_GWEI = 110000 * 1e9 //the gas fee for topWallet faucet call
     const minWei = wei ? wei : 250000 * 1e9
 
+    const release = await gasMutex.lock()
     try {
       const { topWallet = true } = options
 
@@ -1419,6 +1424,8 @@ export class GoodWallet {
         error: true,
         message: e.message,
       }
+    } finally {
+      release()
     }
   }
 

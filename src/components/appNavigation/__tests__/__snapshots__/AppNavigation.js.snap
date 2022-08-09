@@ -26,7 +26,7 @@ exports[`AppNavigation matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-overflow-1udh08x"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-overflow-1udh08x"
           style={
             Object {
               "backgroundColor": "rgba(0,175,255,1.00)",
@@ -73,27 +73,6 @@ exports[`AppNavigation matches snapshot 1`] = `
             </div>
           </div>
           <div
-            aria-disabled={true}
-            className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            tabIndex="-1"
-          >
-            <h1
-              className="css-reset-4rbku5 css-text-901oao css-textOneLine-1hf3ou5 r-color-jwli3a r-fontSize-adyw6z r-fontWeight-majxgm"
-              dir="auto"
-              role="heading"
-              style={
-                Object {
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "textAlign": "left",
-                }
-              }
-              tabIndex="0"
-            />
-          </div>
-          <div
             className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
             onClick={[Function]}
             onContextMenu={[Function]}
@@ -112,13 +91,14 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-fontSize-adyw6z"
+              className="css-text-901oao"
               data-testid="burger_button"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "gooddollar",
+                  "fontSize": "20px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                   "marginRight": "10px",
@@ -308,11 +288,12 @@ exports[`AppNavigation matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                     >
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontSize-adyw6z r-fontWeight-1it3c9n r-marginRight-88pszg"
+                        className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n r-marginRight-88pszg"
                         dir="auto"
                         style={
                           Object {
                             "fontFamily": "gooddollar",
+                            "fontSize": "20px",
                             "fontStyle": "normal",
                           }
                         }
@@ -465,11 +446,12 @@ exports[`AppNavigation matches snapshot 1`] = `
                         Receive
                       </div>
                       <div
-                        className="css-text-901oao r-color-jwli3a r-fontSize-adyw6z r-fontWeight-1it3c9n r-marginLeft-1ow6zhx"
+                        className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n r-marginLeft-1ow6zhx"
                         dir="auto"
                         style={
                           Object {
                             "fontFamily": "gooddollar",
+                            "fontSize": "20px",
                             "fontStyle": "normal",
                           }
                         }

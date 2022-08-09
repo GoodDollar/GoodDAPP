@@ -191,44 +191,6 @@ exports[`Profile matches snapshot 1`] = `
               }
             >
               <div
-                className="css-view-1dbjc4n r-left-1d2f490 r-position-u8s1d"
-              >
-                <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
-                  onClick={[Function]}
-                  onContextMenu={[Function]}
-                  onKeyDown={[Function]}
-                  style={
-                    Object {
-                      "WebkitTransitionDuration": "0s",
-                      "transitionDuration": "0s",
-                    }
-                  }
-                  tabIndex="0"
-                >
-                  <div
-                    className="css-text-901oao r-color-jwli3a"
-                    dir="auto"
-                    style={
-                      Object {
-                        "fontFamily": "gooddollar",
-                        "fontSize": "23px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
-                      }
-                    }
-                  >
-                    
-                  </div>
-                </div>
-                <div
-                  className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1p6fy00 r-marginTop-19qrga8 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                  dir="auto"
-                >
-                  Privacy
-                </div>
-              </div>
-              <div
                 className="css-view-1dbjc4n r-position-u8s1d r-right-zchlnj"
               >
                 <div
@@ -428,6 +390,118 @@ exports[`Profile matches snapshot 1`] = `
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+                style={
+                  Object {
+                    "WebkitBoxPack": "end",
+                    "WebkitJustifyContent": "flex-end",
+                    "justifyContent": "flex-end",
+                    "marginBottom": "16px",
+                    "msFlexPack": "end",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
+                    />
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-17gur6a r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+                    >
+                      <div
+                        aria-disabled={true}
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-y68mpx r-borderRadius-17gur6a r-borderWidth-1yadl64 r-height-1w2pmg r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+                        onClick={[Function]}
+                        onContextMenu={[Function]}
+                        onKeyDown={[Function]}
+                        style={
+                          Object {
+                            "WebkitTransitionDuration": "0s",
+                            "transitionDuration": "0s",
+                          }
+                        }
+                        tabIndex="-1"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-17gur6a r-height-1w2pmg r-width-1h2t8mc"
+                        >
+                          <unknownProfile.svg />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp"
+                    >
+                      <div
+                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        dir="auto"
+                      >
+                        My Face Record ID
+                      </div>
+                      <div
+                        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        dir="auto"
+                      >
+                        c26741e42BcAF...e1BA28EaE21cF
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
+                    />
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-17gur6a r-cursor-1loqt21 r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-maxHeight-46g5hj r-minWidth-bcqeeo r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onKeyDown={[Function]}
+                          style={
+                            Object {
+                              "WebkitTransitionDuration": "0s",
+                              "transitionDuration": "0s",
+                            }
+                          }
+                          tabIndex="0"
+                        >
+                          <div
+                            className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+                            dir="auto"
+                            style={
+                              Object {
+                                "fontFamily": "gooddollar",
+                                "fontSize": "22px",
+                                "fontStyle": "normal",
+                              }
+                            }
+                          >
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        dir="auto"
+                      >
+                        Copy ID
                       </div>
                     </div>
                   </div>

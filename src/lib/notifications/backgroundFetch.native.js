@@ -9,7 +9,6 @@ import { CLAIM_NOTIFICATION, dailyClaimNotification } from './backgroundActions'
 //TODO: how would this handle metamask accounts??
 
 const options = {
-  minimumFetchInterval: 0,
   forceAlarmManager: false,
   stopOnTerminate: false,
   startOnBoot: true,

@@ -71,6 +71,7 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
+import Settings from './Settings'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -946,6 +947,8 @@ export default createStackNavigator({
     path: ':action/TransactionConfirmation',
     params: { action: ACTION_SEND },
   },
+
+  Settings,
 
   // PP: PrivacyPolicy,
   // PrivacyArticle,

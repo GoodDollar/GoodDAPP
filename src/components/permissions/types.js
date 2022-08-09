@@ -3,12 +3,14 @@
 export const Permissions = Object.freeze({
   Camera: 'camera',
   Clipboard: 'clipboard',
+  Notifications: 'notifications',
 })
 
 export const PermissionStatuses = Object.freeze({
   Granted: 'granted',
   Denied: 'denied',
-  Prompt: 'propmt',
+  Prompt: 'prompt',
+  Disabled: 'disabled',
   Undetermined: 'undetermined',
 })
 

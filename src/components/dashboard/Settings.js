@@ -1,18 +1,17 @@
 // @flow
 
 // libraries
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { Platform, TouchableOpacity } from 'react-native'
 import { mapValues, pick, startCase } from 'lodash'
 
 // custom components
 import { t } from '@lingui/macro'
+import { Switch } from 'react-native-switch'
+import { useDebouncedCallback } from 'use-debounce'
 import Wrapper from '../common/layout/Wrapper'
-import { CustomButton, Icon, Section, Text } from '../common'
-import Avatar from '../common/view/Avatar'
-import { BackButton } from '../appNavigation/stackNavigation'
-import BorderedBox from '../common/view/BorderedBox'
+import { Icon, Section, Text } from '../common'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
@@ -24,10 +23,13 @@ import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
+import usePermissions from '../permissions/hooks/usePermissions'
+import { Permissions } from '../permissions/types'
 
 // assets
-import useProfile from '../../lib/userStorage/useProfile'
-import OptionsRow from './OptionsRow'
+import OptionsRow from '../profile/OptionsRow'
+import Config from '../../config/config'
+import { isWeb } from '../../lib/utils/platform'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -44,16 +46,7 @@ const tips = {
 const profileFields = ['mobile', 'email']
 const titles = { mobile: 'Phone number', email: 'Email' }
 
-const ProfileAvatar = withStyles(() => ({
-  avatar: {
-    borderWidth: 0,
-    backgroundColor: 'transparent',
-  },
-}))(({ styles, style }) => {
-  const { smallAvatar: avatar } = useProfile()
-
-  return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
-})
+const { enableWebNotifications } = Config
 
 const PrivacyOption = ({ title, value, field, setPrivacy }) => {
   const handlePrivacyChange = useCallback(
@@ -70,8 +63,27 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
   )
 }
 
-const ProfilePrivacy = ({ screenProps, styles, theme }) => {
+const Settings = ({ screenProps, styles, theme, navigation }) => {
+  const { navigate } = navigation
   const userStorage = useUserStorage()
+  const { userProperties } = userStorage || {}
+  const [shouldRemindClaims, setRemindClaims] = useState(userProperties.getLocal('shouldRemindClaims'))
+
+  const handleRemindChange = useCallback(
+    value => {
+      userProperties.setLocal('shouldRemindClaims', value)
+      setRemindClaims(value)
+    },
+    [userProperties, setRemindClaims],
+  )
+
+  const [allowedNotificationPermissions, requestNotificationPermissions] = usePermissions(Permissions.Notifications, {
+    requestOnMounted: false,
+    onAllowed: () => handleRemindChange(true),
+    onDenied: () => handleRemindChange(false),
+    navigate,
+  })
+
   const [initialPrivacy, setInitialPrivacy] = useState(() => {
     const profile = userStorage.getProfile()
 
@@ -79,11 +91,18 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
   })
 
   const [privacy, setPrivacy] = useState(initialPrivacy)
-  const [loading, setLoading] = useState(false)
   const { showDialog } = useDialog()
 
-  // bordered box required data
-  const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
+  const handleClaimReminders = useCallback(
+    value => {
+      if (!allowedNotificationPermissions) {
+        requestNotificationPermissions()
+      }
+
+      handleRemindChange(value)
+    },
+    [allowedNotificationPermissions, requestNotificationPermissions, handleRemindChange],
+  )
 
   const handleSaveShowTips = useCallback(() => {
     showDialog({
@@ -120,7 +139,9 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
   ])
 
   const handleSave = useCallback(async () => {
-    setLoading(true)
+    if (!valuesToBeUpdated.length) {
+      return
+    }
 
     fireEvent(PROFILE_PRIVACY, {
       privacy: valuesToBeUpdated.map(k => privacy[k]),
@@ -135,18 +156,53 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
       setInitialPrivacy(privacy)
     } catch (e) {
       log.error('Failed to save new privacy', e.message, e)
-    } finally {
-      setLoading(false)
     }
-  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy, userStorage])
+  }, [valuesToBeUpdated, setInitialPrivacy, privacy, userStorage])
+
+  const handleSaveDebounced = useDebouncedCallback(handleSave, 500)
+
+  useEffect(() => {
+    handleSaveDebounced()
+  }, [handleSaveDebounced])
 
   return (
-    <Wrapper style={styles.mainWrapper}>
+    <Wrapper style={styles.mainWrapper} withGradient={false}>
       <Section grow style={styles.wrapper}>
         <Section.Stack grow justifyContent="flex-start">
+          {isWeb && !enableWebNotifications ? null : (
+            <>
+              <Section.Row justifyContent="center" style={styles.subtitleRow}>
+                <Section.Text fontWeight="bold" color="gray">
+                  {t`Notifications`}
+                </Section.Text>
+              </Section.Row>
+              <Section.Row style={styles.switchRowContainer}>
+                <Text>{t`Claim Reminders`}</Text>
+
+                <Switch
+                  value={shouldRemindClaims}
+                  onValueChange={handleClaimReminders}
+                  circleSize={16}
+                  barHeight={20}
+                  circleBorderWidth={0}
+                  backgroundActive={'#0891B2'}
+                  backgroundInactive={'#D4D4D4'}
+                  circleActiveColor={'#fff'}
+                  circleInActiveColor={'#fff'}
+                  changeValueImmediately
+                  renderActiveText={false}
+                  renderInActiveText={false}
+                  switchLeftPx={1.6}
+                  switchRightPx={1.6}
+                  switchWidthMultiplier={40 / 16}
+                  switchBorderRadius={30}
+                />
+              </Section.Row>
+            </>
+          )}
           <Section.Row justifyContent="center" style={styles.subtitleRow}>
             <Section.Text fontWeight="bold" color="gray">
-              Manage your privacy settings
+              {t`Manage your privacy settings`}
             </Section.Text>
             <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={handleSaveShowTips} />
           </Section.Row>
@@ -162,31 +218,7 @@ const ProfilePrivacy = ({ screenProps, styles, theme }) => {
               />
             ))}
           </Section.Stack>
-          <Section grow justifyContent="center">
-            <BorderedBox
-              image={ProfileAvatar}
-              title="My Face Record ID"
-              content={faceRecordId}
-              truncateContent
-              copyButtonText="Copy ID"
-              enableIndicateAction
-            />
-          </Section>
         </Section.Stack>
-        <Section.Row alignItems="flex-end" style={styles.buttonsRow}>
-          <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>
-            Cancel
-          </BackButton>
-          <CustomButton
-            onPress={handleSave}
-            mode="contained"
-            loading={loading}
-            disabled={!valuesToBeUpdated.length}
-            style={styles.growTen}
-          >
-            Save
-          </CustomButton>
-        </Section.Row>
       </Section>
     </Wrapper>
   )
@@ -240,6 +272,7 @@ const getStylesFromProps = ({ theme }) => {
     subtitleRow: {
       maxHeight: '16%',
       marginBottom: getDesignRelativeHeight(isSmallDevice ? 20 : 30),
+      marginTop: theme.sizes.defaultQuadruple,
     },
     buttonsRow: {
       paddingHorizontal: theme.sizes.defaultDouble,
@@ -257,13 +290,26 @@ const getStylesFromProps = ({ theme }) => {
         default: { backgroundColor: 'transparent' },
       }),
     },
+    switchRowContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderStyle: 'solid',
+      borderBottomColor: theme.colors.lightGray,
+      borderTopColor: theme.colors.lightGray,
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      paddingVertical: theme.paddings.mainContainerPadding,
+      paddingHorizontal: theme.sizes.defaultQuadruple,
+      marginBottom: theme.sizes.defaultQuadruple,
+    },
   }
 }
 
-const profilePrivacy = withStyles(getStylesFromProps)(ProfilePrivacy)
+const settings = withStyles(getStylesFromProps)(Settings)
 
-profilePrivacy.navigationOptions = {
-  title: 'PROFILE PRIVACY',
+settings.navigationOptions = {
+  title: 'SETTINGS',
 }
 
-export default profilePrivacy
+export default settings

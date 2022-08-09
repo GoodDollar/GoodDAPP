@@ -189,6 +189,7 @@ const Config = {
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
   networkExplorerUrl: ethereum[networkId].explorer,
   isFVFlow: process.env.REACT_APP_BUILD_TARGET === 'FV',
+  enableWebNotifications: process.env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true'
 }
 
 global.config = Config

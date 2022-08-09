@@ -21,4 +21,5 @@ PushNotification.configure({
     setFeedOpened(data).catch(onError)
     notification.finish(FetchResult.NoData)
   },
+  requestPermissions: false,
 })

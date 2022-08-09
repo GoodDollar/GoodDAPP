@@ -114,6 +114,17 @@ export default (props = {}) => {
         },
       },
       {
+        icon: 'gear',
+        name: t`Settings`,
+        action: () => {
+          navigation.navigate({
+            routeName: 'Settings',
+            type: 'Navigation/NAVIGATE',
+          })
+          slideOut()
+        },
+      },
+      {
         icon: 'statistics',
         centered: true,
         name: t`Statistics`,

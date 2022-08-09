@@ -3594,6 +3594,7 @@ __metadata:
     react-native-linear-gradient: ^2.5.6
     react-native-localize: ^2.2.1
     react-native-masked-text: ^1.13.0
+    react-native-notifications: ^4.3.1
     react-native-os: ^1.2.6
     react-native-otp: ^1.0.0
     react-native-paper: ^3.4.0
@@ -27805,6 +27806,16 @@ patch-package@latest:
     date-and-time: 0.9.0
     tinymask: 1.0.2
   checksum: d1ccd591a5262c322333d56e2c4ac7e2729e8cddc55225f5495e55904506935797c6d165ca8a36185627ff1845e5a29accbab6a63ec9d6712a6a1e9613f391ee
+  languageName: node
+  linkType: hard
+
+"react-native-notifications@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "react-native-notifications@npm:4.3.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 2b9d7bbdaf9b5b691be3db11f55c2fe24292aa5c0a39af972926bfe91a8b9f4f4981bbea98ab160c168ef8052f66835f9491095205acb4dcdbc9b6effd5ca879
   languageName: node
   linkType: hard
 

@@ -3,14 +3,33 @@ import React from 'react'
 
 // components
 import { t } from '@lingui/macro'
+import { Linking } from 'react-native'
 import illustration from '../../../assets/NotificationPermissionError.svg'
-import DeniedPermissionDialog from './DeniedPermissionDialog'
+import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
-// TODO: add image, change texts
 export default props => (
-  <DeniedPermissionDialog
+  <ExplanationDialog
     title={t`Oops! You need to enable notifications on your phone.`}
     image={illustration}
+    buttonsContainerStyle={{
+      flexDirection: 'column',
+    }}
+    buttons={[
+      {
+        text: t`GO TO SETTINGS`,
+        action: () => {
+          props.onDismiss()
+          props.hideDialog()
+          Linking.openSettings()
+        },
+        style: { width: '100%', marginBottom: 8 },
+      },
+      {
+        text: t`MAYBE LATER`,
+        action: props.hideDialog,
+        mode: 'text',
+      },
+    ]}
     {...props}
   />
 )

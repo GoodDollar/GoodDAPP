@@ -4,15 +4,26 @@ import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import illustration from '../../../assets/NotificationPermission.svg'
 
-// TODO: add image, change texts
-export default ({ onDismiss }) => (
+export default ({ onDismiss, hideDialog }) => (
   <ExplanationDialog
     title={t`Would you like to be reminded of your daily claims?`}
     image={illustration}
+    buttonsContainerStyle={{
+      flexDirection: 'column',
+    }}
     buttons={[
       {
         text: t`ENABLE NOTIFICATIONS`,
-        action: onDismiss,
+        action: () => {
+          onDismiss()
+          hideDialog()
+        },
+        style: { width: '100%', marginBottom: 8 },
+      },
+      {
+        text: t`MAYBE LATER`,
+        action: hideDialog,
+        mode: 'text',
       },
     ]}
   />

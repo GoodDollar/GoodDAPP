@@ -1,6 +1,7 @@
 #!/bin/sh
 
 echo "Decrypting files - using IS_PROD value of: $IS_PROD"
+rm -rf ~/Library/MobileDevice/Provisioning\ Profiles
 mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 
 echo $IOS_CERTIFICATE | base64 --decode > ./Certificates.p12

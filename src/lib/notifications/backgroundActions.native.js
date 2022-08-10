@@ -19,9 +19,13 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
     const dailyUBI = await goodWallet.checkEntitlement()
 
     // We should notify once: only in first bg-fetch call after daily claim time
-    const _dailyClaimTime = Config.claimNotificationTestMode ? Date.now() : dailyClaimTime
+    const notificationFrequency = Config.claimNotificationFrequency
+    const _dailyClaimTime = notificationFrequency ? Date.now() : dailyClaimTime
     const lastClaimNotification = await userStorage.userProperties.get('lastClaimNotification')
-    const needToNotify = dailyUBI && Date.now() >= _dailyClaimTime && lastClaimNotification < _dailyClaimTime
+    const endOfDelay =
+      lastClaimNotification && lastClaimNotification && lastClaimNotification + notificationFrequency * 60 * 1000
+    const needToNotify =
+      dailyUBI && Date.now() >= _dailyClaimTime && lastClaimNotification < _dailyClaimTime && Date.now() > endOfDelay
 
     if (needToNotify) {
       Notifications.postLocalNotification({

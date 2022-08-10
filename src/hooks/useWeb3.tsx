@@ -2,9 +2,7 @@ import useActiveWeb3React from './useActiveWeb3React'
 import React, { createContext, ReactNode, ReactNodeArray, useContext, useMemo } from 'react'
 import Web3 from 'web3'
 
-import { useEnvWeb3, GdSDkContext } from '@gooddollar/web3sdk/dist/hooks/'
-import { DAO_NETWORK } from '@gooddollar/web3sdk/dist/constants/'
-import { getNetworkEnv } from '@gooddollar/web3sdk/dist/constants/addresses'
+import { useEnvWeb3, GdSdkContext, DAO_NETWORK, getNetworkEnv } from '@gooddollar/web3sdk'
 
 const Context = createContext<Web3 | null>(null)
 
@@ -30,7 +28,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
       JSON.stringify(rpcs)
     )
     const network = getNetworkEnv(defaultNetwork)
-    return <GdSDkContext.Provider value={{web3: web3, activeNetwork: network, rpcs: rpcs}}>{children}</GdSDkContext.Provider>
+    return <GdSdkContext.Provider value={{web3: web3, activeNetwork: network, rpcs: rpcs}}>{children}</GdSdkContext.Provider>
 }
 
 export default function useWeb3() {

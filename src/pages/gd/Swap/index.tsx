@@ -12,14 +12,6 @@ import { useCurrencyBalance } from 'state/wallet/hooks'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useG$ from 'hooks/useG$'
 
-import { approveBuy, BuyInfo, getBuyMeta, getBuyMetaReverse } from '@gooddollar/web3sdk/dist/core'
-import {
-    approveSell,
-    getSellMeta,
-    getSellMetaReverse,
-    SellInfo
-} from '@gooddollar/web3sdk/dist/core'
-import { SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
 import SwapConfirmModal from './SwapConfirmModal'
 import { FUSE } from 'constants/index'
 import { useDispatch } from 'react-redux'
@@ -34,7 +26,17 @@ import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
 import sendGa from 'functions/sendGa'
 
-import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
+import {
+  approve,
+  BuyInfo, 
+  getBuyMeta, 
+  getBuyMetaReverse,
+  getSellMeta,
+  getSellMetaReverse,
+  SellInfo,
+  SupportedChainId,
+  useGdContextProvider,
+} from '@gooddollar/web3sdk'
 
 function Swap() {
     const { i18n } = useLingui()
@@ -136,15 +138,12 @@ function Swap() {
 
     const handleApprove = async () => {
         if (!meta || !web3) return
+        const type = buying ? 'buy' : 'sell'
         try {
           getData({event: 'swap', action: 'approveSwap', 
-                   type: buying ? 'buy' : 'sell', network: network})
+                   type: type, network: network})
             setApproving(true)
-            if (buying) {
-                await approveBuy(web3, meta)
-            } else {
-                await approveSell(web3, meta)
-            }
+            await approve(web3, meta, type)
             setApproved(true)
         } finally {
             setApproving(false)

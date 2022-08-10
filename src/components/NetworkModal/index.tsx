@@ -12,10 +12,13 @@ import { AdditionalChainId } from '../../constants'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { getNetworkEnv } from '@gooddollar/web3sdk/dist/constants/addresses'
-import { UnsupportedChainId } from '@gooddollar/web3sdk/dist/utils/errors'
 import { useSetChain, useWallets } from '@web3-onboard/react'
-import {useGdContextProvider} from '@gooddollar/web3sdk/dist/hooks'
+
+import {
+  getNetworkEnv,
+  UnsupportedChainId,
+  useGdContextProvider,
+} from '@gooddollar/web3sdk'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {

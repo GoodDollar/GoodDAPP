@@ -18,9 +18,15 @@ import sendGa from 'functions/sendGa'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
-import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from '@gooddollar/web3sdk/dist/core/staking'
-import { LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
-import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
+import { 
+  Stake,
+  approveStake,
+  stake as deposit, 
+  stakeGov as depositGov,
+  getTokenPriceInUSDC,
+  LIQUIDITY_PROTOCOL, SupportedChainId,
+  useGdContextProvider
+} from '@gooddollar/web3sdk'
 
 import Share from 'components/Share'
 
@@ -268,7 +274,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                          amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
-                                    await approve(web3!, stake.address, state.value, tokenToDeposit, () => {
+                                    await approveStake(web3!, stake.address, state.value, tokenToDeposit, () => {
                                         dispatch({ type: 'CHANGE_SIGNED' })
                                     })
                                 ])

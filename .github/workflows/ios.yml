@@ -200,7 +200,6 @@ jobs:
         env:
           IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
           IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
-          IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
           IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
       - name: Build app
         env:

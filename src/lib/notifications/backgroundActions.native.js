@@ -4,6 +4,7 @@ import { t } from '@lingui/macro'
 
 import logger from '../logger/js-logger'
 import usePropsRefs from '../hooks/usePropsRefs'
+import Config from '../../config/config'
 
 const log = logger.child({ from: 'backgroundFetch' })
 
@@ -18,13 +19,14 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
     const dailyUBI = await goodWallet.checkEntitlement()
 
     // We should notify once: only in first bg-fetch call after daily claim time
+    const _dailyClaimTime = Config.claimNotificationTestMode ? Date.now() : dailyClaimTime
     const lastClaimNotification = await userStorage.userProperties.get('lastClaimNotification')
-    const needToNotify = dailyUBI && Date.now() >= dailyClaimTime && lastClaimNotification < dailyClaimTime
+    const needToNotify = dailyUBI && Date.now() >= _dailyClaimTime && lastClaimNotification < _dailyClaimTime
 
     if (needToNotify) {
       Notifications.postLocalNotification({
-        title: t`Your daily UBI Claim is ready!`,
-        body: dailyUBI,
+        title: t`It's that time of the day 💸 💙`,
+        body: t`Claim your free GoodDollars now. It takes 10 seconds.`,
         fireDate: new Date(),
         category: NotificationsCategories.CLAIM_NOTIFICATION,
       })

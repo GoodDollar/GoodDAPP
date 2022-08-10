@@ -35,6 +35,7 @@ export default class UserProperties {
     hasOpenedInviteScreen: false,
     goodMarketClicked: false,
     inviteBonusCollected: false,
+    lastClaimNotification: null,
     inviterInviteCode: null,
     inviteCode: null,
     lastInviteState: { pending: 0, approved: 0 },

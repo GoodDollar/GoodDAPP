@@ -187,7 +187,6 @@
   "resolutions": {
     "@types/react": "17.0.2",
     "@types/react-dom": "17.0.2",
-    "@web3-onboard/core": "2.2.5",
     "react-error-overlay": "6.0.9"
   },
   "dependencies": {
@@ -227,12 +226,11 @@
     "@types/react-text-mask": "^5.4.8",
     "@types/text-mask-addons": "^3.8.1",
     "@uniswap/sdk-core": "^3.0.0",
-    "@web3-onboard/common": "^2.0.5",
-    "@web3-onboard/core": "2.2.12",
-    "@web3-onboard/injected-wallets": "^2.0.5",
-    "@web3-onboard/react": "2.1.8",
-    "@web3-onboard/walletconnect": "^2.0.1",
-    "@web3-onboard/walletlink": "^2.0.0",
+    "@web3-onboard/coinbase": "^2.0.10",
+    "@web3-onboard/injected-wallets": "^2.0.15",
+    "@web3-onboard/react": "^2.2.5",
+    "@web3-onboard/walletconnect": "^2.0.8",
+    "@web3-onboard/walletlink": "^2.0.6",
     "ethers": "5.6.8",
     "react-share": "^4.4.0",
     "react-spring-bottom-sheet": "^3.4.1",

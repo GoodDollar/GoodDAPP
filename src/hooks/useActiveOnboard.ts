@@ -29,7 +29,12 @@ type OnboardConnectProps = {
   tried: boolean
 }
 
-export const walletConnectLabels: Readonly<string[]> = ["WalletConnect", "ZenGo"]
+export const WalletLabels: Readonly<string[]> = ["WalletConnect", "ZenGo", "Coinbase Wallet"]
+export const WalletLinkKeys: Readonly<string[]> = [
+  '-walletlink:https://www.walletlink.org:Addresses',
+  '-walletlink:https://www.walletlink.org:session:secret',
+  '-walletlink:https://www.walletlink.org:session:id'
+]
 
 export type ActiveOnboard<T= any> = Omit<Web3ReactContextInterface<Web3Provider>, 'activate' | 'deactivate' | 'setError' | 'connector'>
 
@@ -156,7 +161,7 @@ export function useOnboardConnect():OnboardConnectProps {
 
   const connectOnboard = async() => {
     // Coinbase reloads instead of sending accountsChanged event, so empty storage if no active address can be found
-    if (previouslyConnected[0].label[0] === 'Coinbase'){ 
+    if (previouslyConnected[0].label[0] === 'Coinbase Wallet'){ 
       const isStillActive = localStorage.getItem('-walletlink:https://www.walletlink.org:Addresses')
       if (!isStillActive){
         localStorage.removeItem('currentConnectWallet')
@@ -188,10 +193,18 @@ export function useOnboardConnect():OnboardConnectProps {
 
     // disconnect
     if (!isConnected && previouslyConnected.length && (tried || activated)){
-      const isWalletConnect = walletConnectLabels.includes(previouslyConnected[0].label[0])
+      const toReload = WalletLabels.includes(previouslyConnected[0].label[0])
       StoreOnboardState(connectedWallets, '0x1')
       setActivated(false)
-      if (isWalletConnect && activated) {
+
+      if (previouslyConnected[0].label[0] === 'Coinbase Wallet' && activated){
+        for (let i=0; i < WalletLinkKeys.length;i++) {
+          localStorage.removeItem(WalletLinkKeys[i])
+          window.location.reload()
+        }
+      }
+
+      if (toReload && activated) {
         localStorage.removeItem('walletconnect')
         window.location.reload() // temporarily necessary, as there is a irrecoverable error/bug when not reloading
       }

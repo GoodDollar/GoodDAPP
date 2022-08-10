@@ -9,6 +9,7 @@ import walletConnectModule from '@web3-onboard/walletconnect'
 import walletLinkModule from '@web3-onboard/walletlink'
 import { init } from '@web3-onboard/react'
 import zenGoModule from './Zengo/'
+import coinbaseWalletModule from '@web3-onboard/coinbase'
 // ** blockNative update **//
 
 export enum AdditionalChainIds {
@@ -63,7 +64,7 @@ const injectedBN = injectedModule({
   filter: {
     ["Binance Smart Wallet"]: false,
     ["MetaMask"]: true,
-    ["Coinbase Wallet"]: false,
+    ["Coinbase Wallet"]: true,
     ["detected"]: true,
     ["trust"]: false,
     ["opera"]: false,
@@ -88,7 +89,6 @@ const injectedBN = injectedModule({
     ["oneInch"]: false,
     ["tokenary"]: false,
     ["tally"]: false,
-
   }
 })
 
@@ -98,6 +98,8 @@ const walletConnectBN = walletConnectModule({
     mobileLinks: ['rainbow', 'metamask', 'argent', 'trust', 'imtoken', 'pillar']
   }
 })
+
+const coinbaseWalletSdk = coinbaseWalletModule()
 
 const zenGoBN = zenGoModule({
   bridge: 'https://bridge.walletconnect.org',
@@ -109,8 +111,9 @@ const zenGoBN = zenGoModule({
 
 // const walletLink = walletLinkModule({ darkMode: true })
 
+
 export const onboard = init({
-  wallets: [injectedBN, walletConnectBN, zenGoBN],
+  wallets: [injectedBN, walletConnectBN, zenGoBN, coinbaseWalletSdk],
   chains: [
     {
       id: '0x1',
@@ -134,7 +137,7 @@ export const onboard = init({
       id: '0x7a',
       token: 'FUSE',
       label: 'Fuse Network',
-      rpcUrl: process.env.REACT_APP_FUSE_RPC ?? 'https://fuse-mainnet.gateway.pokt.network/v1/lb/6238bcde27bdef003b45720c'
+      rpcUrl: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'
     }
   ],
   appMetadata: {
@@ -147,6 +150,9 @@ export const onboard = init({
   },
   accountCenter: {
     desktop: {
+      enabled: false,
+    },
+    mobile: {
       enabled: false,
     }
   },
@@ -223,7 +229,40 @@ export const onboard = init({
         "poweredBy": "powered by",
         "addAccount": "Add Account",
         "setPrimaryAccount": "Set Primary Account",
-        "disconnectWallet": "Disconnect Wallet"
+        "disconnectWallet": "Disconnect Wallet",
+        "copyAddress": "Copy Wallet address"
+      },
+      "notify": {
+        "transaction": {
+          "txRequest": "Your transaction is waiting for you to confirm",
+          "nsfFail": "You have insufficient funds for this transaction",
+          "txUnderpriced": "The gas price for your transaction is too low, try a higher gas price",
+          "txRepeat": "This could be a repeat transaction",
+          "txAwaitingApproval": "You have a previous transaction waiting for you to confirm",
+          "txConfirmReminder": "Please confirm your transaction to continue",
+          "txSendFail": "You rejected the transaction",
+          "txSent": "Your transaction has been sent to the network",
+          "txStallPending": "Your transaction has stalled before it was sent, please try again",
+          "txStuck": "Your transaction is stuck due to a nonce gap",
+          "txPool": "Your transaction has started",
+          "txStallConfirmed": "Your transaction has stalled and hasn't been confirmed",
+          "txSpeedUp": "Your transaction has been sped up",
+          "txCancel": "Your transaction is being canceled",
+          "txFailed": "Your transaction has failed",
+          "txConfirmed": "Your transaction has succeeded",
+          "txError": "Oops something went wrong, please try again"
+        },
+        "watched": {
+          "txPool": "Your account is {verb} {formattedValue} {asset} {preposition} {counterpartyShortened}",
+          "txSpeedUp": "Transaction for {formattedValue} {asset} {preposition} {counterpartyShortened} has been sped up",
+          "txCancel": "Transaction for {formattedValue} {asset} {preposition} {counterpartyShortened} has been canceled",
+          "txConfirmed": "Your account successfully {verb} {formattedValue} {asset} {preposition} {counterpartyShortened}",
+          "txFailed": "Your account failed to {verb} {formattedValue} {asset} {preposition} {counterpartyShortened}"
+        },
+        "time": {
+          "minutes": "min",
+          "seconds": "sec"
+        }
       }
     }
   }

@@ -43,6 +43,6 @@ export function OnboardConnectButton():JSX.Element {
   }
 
   return (
-    <OnboardButton onClick={() => connect({})}>{i18n._(t`Connect to a wallet`)}</OnboardButton>
+    <OnboardButton onClick={() => connect()}>{i18n._(t`Connect to a wallet`)}</OnboardButton>
   )
 }

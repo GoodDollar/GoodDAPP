@@ -16,7 +16,8 @@ export const NotificationsCategories = {
 
 export const dailyClaimNotification = async (userStorage, goodWallet) => {
   const { userProperties } = userStorage
-  const now = Date.now()
+  const dateNow = new Date()
+  const now = dateNow.getTime()
 
   try {
     const dailyUBI = await goodWallet.checkEntitlement()
@@ -44,11 +45,11 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
     Notifications.postLocalNotification({
       title: t`It's that time of the day 💸 💙`,
       body: t`Claim your free GoodDollars now. It takes 10 seconds.`,
-      fireDate: new Date(),
+      fireDate: dateNow,
       category: NotificationsCategories.CLAIM_NOTIFICATION,
     })
 
-    await userStorage.userProperties.safeSet('lastClaimNotification', Date.now())
+    await userStorage.userProperties.safeSet('lastClaimNotification', now)
   } catch (e) {
     log.error('dailyClaimNotification failed:', e.message, e)
   }

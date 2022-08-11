@@ -158,7 +158,7 @@ const AppSwitch = (props: LoadingProps) => {
       // create jwt token and initialize the API service
       log.debug('initialize ready', { isCitizen })
 
-      //identify user asap for analytics
+      // identify user asap for analytics
       const identifier = goodWallet.getAccountForType('login')
       const email = userStorage.getProfileFieldValue('email') || null
 

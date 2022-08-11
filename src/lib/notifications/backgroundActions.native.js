@@ -15,28 +15,40 @@ export const NotificationsCategories = {
 }
 
 export const dailyClaimNotification = async (userStorage, goodWallet) => {
+  const { userProperties } = userStorage
+  const now = Date.now()
+
   try {
     const dailyUBI = await goodWallet.checkEntitlement()
+    const lastClaimNotification = userProperties.get('lastClaimNotification')
 
-    // We should notify once: only in first bg-fetch call after daily claim time
-    const notificationFrequency = Config.testClaimNotificationFrequency
-    const _dailyClaimTime = notificationFrequency ? Date.now() : dailyClaimTime
-    const lastClaimNotification = await userStorage.userProperties.get('lastClaimNotification')
-    const endOfDelay =
-      lastClaimNotification && lastClaimNotification && lastClaimNotification + notificationFrequency * 60 * 1000
-    const needToNotify =
-      dailyUBI && Date.now() >= _dailyClaimTime && lastClaimNotification < _dailyClaimTime && Date.now() > endOfDelay
-
-    if (needToNotify) {
-      Notifications.postLocalNotification({
-        title: t`It's that time of the day 💸 💙`,
-        body: t`Claim your free GoodDollars now. It takes 10 seconds.`,
-        fireDate: new Date(),
-        category: NotificationsCategories.CLAIM_NOTIFICATION,
-      })
-
-      await userStorage.userProperties.safeSet('lastClaimNotification', Date.now())
+    // no daily UBI or just notified - return
+    if (!dailyUBI || (lastClaimNotification && now <= lastClaimNotification)) {
+      return
     }
+
+    // notify if current time is dailyClaimTime or later
+    let needToNotify = now >= dailyClaimTime
+    const { testClaimNotificationFrequency } = Config
+
+    // if test mode enabled
+    if (testClaimNotificationFrequency && !needToNotify) {
+      // then notify if no last notification or test interval (in minutes) was spent after last notificaton
+      needToNotify = !lastClaimNotification || now - lastClaimNotification >= testClaimNotificationFrequency * 60 * 1000
+    }
+
+    if (!needToNotify) {
+      return
+    }
+
+    Notifications.postLocalNotification({
+      title: t`It's that time of the day 💸 💙`,
+      body: t`Claim your free GoodDollars now. It takes 10 seconds.`,
+      fireDate: new Date(),
+      category: NotificationsCategories.CLAIM_NOTIFICATION,
+    })
+
+    await userStorage.userProperties.safeSet('lastClaimNotification', Date.now())
   } catch (e) {
     log.error('dailyClaimNotification failed:', e.message, e)
   }

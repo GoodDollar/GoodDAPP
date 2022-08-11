@@ -1,16 +1,10 @@
 // @flow
 
-import { first } from 'lodash'
-
 export const detail = value => ({ value, attestation: '' })
 
-export const addNonceAndSign = (goodWallet, response) => {
-  const { wallet, accounts } = goodWallet
-  const { accounts: signer } = wallet.eth
-  const { privateKey } = first(accounts)
-
+export const addNonceAndSign = async (goodWallet, response) => {
   const completeResponse = { ...response, nonce: detail(Date.now()) }
-  const { signature } = signer.sign(JSON.stringify(completeResponse), privateKey)
+  const signature = await goodWallet.sign(JSON.stringify(completeResponse))
 
   return { ...completeResponse, sig: signature }
 }

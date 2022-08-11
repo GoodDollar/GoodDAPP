@@ -12,10 +12,9 @@ import { decodeBase64Params } from '../../lib/utils/uri'
 
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { redirectTo } from '../../lib/utils/linking'
+import { addNonceAndSign, detail } from './utils'
 
 const log = logger.child({ from: 'useGoodDollarLogin' })
-
-const detail = value => ({ value, attestation: '' })
 
 const useGoodDollarLogin = params => {
   const profile = useProfile()
@@ -83,16 +82,13 @@ const useGoodDollarLogin = params => {
     const { isWhitelisted } = profileOptions
     const { walletAddress } = profile
 
-    const response = {
+    const response = await addNonceAndSign(goodWallet, {
       ...shortDetails,
       a: detail(walletAddress),
       v: detail(isWhitelisted),
-      nonce: detail(Date.now()),
-    }
+    })
 
-    const signature = await goodWallet.sign(JSON.stringify(response))
-
-    sendResponse(signature)
+    sendResponse(response)
   }, [goodWallet, shortDetails, profileOptions, profile, sendResponse])
 
   useEffect(() => {

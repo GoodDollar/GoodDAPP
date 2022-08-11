@@ -278,7 +278,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           }
         })
 
-        //refresh JWT for a signed up one, server will sign it with permission to use realmdb
+        // refresh JWT for a signed up one, server will sign it with permission to use realmdb
         AsyncStorage.setItem(JWT, null)
         await loginWithWallet()
         await userStorage.initRegistered()

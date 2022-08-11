@@ -59,8 +59,8 @@ class ThirdPartyWalletProvider {
 
     let [publicKey, ...privateKeys] = (await AsyncStorage.getItem(GD_USER_PRIVATEKEYS)) || []
 
-    //we start from addres 1, since from address 0 pubkey all public keys can  be generated
-    //and we want privacy
+    // we start from addres 1, since from address 0 pubkey all public keys can  be generated
+    // and we want privacy
     if (privateKeys == null || publicKey !== web3.eth.defaultAccount) {
       pkey = await sign(THIRDPARTYWALLET_IDENTIFIERS, web3.eth.defaultAccount).then(_ => _.slice(2, 66)) //32 bytes psuedo key
       let mulWallet = new MultipleAddressWallet(pkey, 10)

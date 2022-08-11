@@ -77,7 +77,6 @@ const AppSwitch = (props: LoadingProps) => {
     (destinationPath = {}) => {
       let { path, params, link } = destinationPath
       const { paymentCode, code, uri } = params || {}
-
       const isWalletConnect = (link || uri || '').match(/wc:[\w\d-]+@\d+/)
 
       if (!path && !params && !isWalletConnect) {
@@ -109,7 +108,6 @@ const AppSwitch = (props: LoadingProps) => {
 
       destinationPath = destinationPath || (await AsyncStorage.getItem(DESTINATION_PATH))
       AsyncStorage.removeItem(DESTINATION_PATH)
-
       log.debug('navigateToUrlAction:', { destinationPath })
 
       // if no special destinationPath check if we have incoming params from web url, such as payment link/request
@@ -229,21 +227,24 @@ const AppSwitch = (props: LoadingProps) => {
   useEffect(() => {
     // initialize with initRegistered = true only if user is loggedin correctly (ie jwt not expired)
     log.debug('initwalletandstorage start:', { initializingRef, web3, goodWallet, connecting })
+
     const run = async () => {
       const provider = await AsyncStorage.getItem(GD_PROVIDER)
       const isThirdParty = provider === 'WEB3WALLET'
+
       if (isThirdParty === false && initializingRef.current) {
-        //if torus and initializing nothing to do here anymore
+        // if torus and initializing nothing to do here anymore
         return
       }
+
       if (web3 === undefined && initializingRef.current) {
-        //incase web3 was disconnected
+        // incase web3 was disconnected
         initializingRef.current = undefined
       }
 
-      //if we are already initializing or wallet not ready
+      // if we are already initializing or wallet not ready
       if (initializingRef.current && web3 && goodWallet && goodWallet.account === web3.eth.defaultAccount) {
-        //in case user switched back to his account
+        // in case user switched back to his account
         return hideDialog()
       }
 
@@ -254,7 +255,8 @@ const AppSwitch = (props: LoadingProps) => {
         (web3 && goodWallet && goodWallet.account !== web3.eth.defaultAccount)
       ) {
         const account = publicKey || goodWallet?.account
-        let dialogPromise = new Promise((res, rej) =>
+
+        const choice = await new Promise((res, rej) =>
           showDialog({
             image: <InfoIcon />,
             showCloseButtons: false,
@@ -291,26 +293,33 @@ const AppSwitch = (props: LoadingProps) => {
             ],
           }),
         )
-        const choice = await dialogPromise
+
         log.debug('initWalletAndStorage: account changed , performing login again', { choice })
+
         if (choice === false) {
           return
         }
       } else if (initializingRef.current || web3 === false) {
         return
       }
+
       try {
+        let web3Result = web3
+
         initializingRef.current = true
         log.debug('initWalletAndStorage:', { provider, web3 })
-        let web3Result = web3
+
         if (!web3 && 'WEB3WALLET' === provider) {
           web3Result = await walletConnect().catch()
+
           if (!web3Result) {
             return
           }
+
           log.debug('initWalletAndStorage walletConnect:', { web3Result })
+
           if (publicKey && publicKey !== web3Result.eth.defaultAccount) {
-            //if different account then logged in, then wait for the logout dialog
+            // if different account then logged in, then wait for the logout dialog
             initializingRef.current = false
             log.debug('initWalletAndStorage walletConnect different account then logged in:', {
               web3Result,

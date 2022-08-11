@@ -151,7 +151,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         const { jwt } = await walletLogin.auth(refresh)
 
         if (isLoggedInRouter) {
-          //verify user is registred and logged in
+          // verify user is registred and logged in
           await verifyUserIsRegistered(walletLogin)
         }
 
@@ -160,7 +160,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         return walletLogin
       } catch (e) {
-        //retry once in case jwt needs refresh
+        // retry once in case jwt needs refresh
         if (!refresh) {
           return doLogin(wallet, storage, true)
         }

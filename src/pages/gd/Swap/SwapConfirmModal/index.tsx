@@ -7,12 +7,9 @@ import SwapInfo from '../SwapInfo'
 import { ButtonAction, ButtonDefault } from 'components/gd/Button'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { Currency } from '@sushiswap/sdk'
-import { buy, BuyInfo } from '@gooddollar/web3sdk/dist/core'
-import { sell, SellInfo } from '@gooddollar/web3sdk/dist/core'
 import { addTransaction } from 'state/transactions/actions'
 import { useDispatch } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
 import { Action } from 'pages/gd/Stake/StakeDeposit'
 import { getExplorerLink } from 'utils'
 import { t } from '@lingui/macro'
@@ -22,7 +19,15 @@ import { Percent } from '@sushiswap/sdk'
 import sendGa from 'functions/sendGa'
 
 import ShareTransaction from 'components/ShareTransaction'
-import { SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
+
+import {
+  buy, 
+  BuyInfo,
+  sell,
+  SellInfo,
+  useGdContextProvider,
+  SupportedChainId
+} from '@gooddollar/web3sdk'
 
 export interface SwapConfirmModalProps extends SwapDetailsFields {
     className?: string

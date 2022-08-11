@@ -3,9 +3,7 @@ import React, { createContext, ReactNode, ReactNodeArray, useContext, useEffect,
 import Web3 from 'web3'
 import { ethers } from 'ethers'
 
-import { useEnvWeb3, GdSDkContext } from '@gooddollar/web3sdk/dist/hooks/'
-import { DAO_NETWORK } from '@gooddollar/web3sdk/dist/constants/'
-import { getNetworkEnv } from '@gooddollar/web3sdk/dist/constants/addresses'
+import { useEnvWeb3, GdSdkContext, DAO_NETWORK, getNetworkEnv } from '@gooddollar/web3sdk'
 
 import { Web3Provider } from '@gooddollar/web3sdk-v2'
 
@@ -28,7 +26,7 @@ export function useNetwork() {
       'GD_RPCS',
       JSON.stringify(rpcs)
     )
-
+    
     return { defaultNetwork, rpcs }
 }
 
@@ -55,7 +53,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
 
     // console.log('web3provider -- network -->', {webprovider, network})
 
-    return <GdSDkContext.Provider value={{
+    return <GdSdkContext.Provider value={{
       web3: web3, 
       activeNetwork: defaultNetwork, 
       rpcs: rpcs
@@ -80,7 +78,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
         >
           {children}
         </Web3Provider>
-    </GdSDkContext.Provider>
+    </GdSdkContext.Provider>
 }
 
 

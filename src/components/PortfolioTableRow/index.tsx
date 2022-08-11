@@ -1,14 +1,19 @@
 import React, { memo, useCallback, useState } from 'react'
 import Withdraw from 'components/Withdraw'
-import { MyStake } from '@gooddollar/web3sdk/dist/core/staking'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { DAO_NETWORK, LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ButtonAction } from 'components/gd/Button'
 import ClaimRewards from 'components/ClaimRewards'
 import sendGa from 'functions/sendGa'
+
+import {
+  MyStake,
+  DAO_NETWORK,
+  LIQUIDITY_PROTOCOL,
+  SupportedChainId,
+} from '@gooddollar/web3sdk'
 
 interface PortfolioTableRowProps {
     stake: MyStake

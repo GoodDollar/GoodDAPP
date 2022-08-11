@@ -18,9 +18,7 @@ import Switch from 'components/Switch'
 import { useTokenContract } from 'hooks/useContract'
 import Loader from 'components/Loader'
 
-import { MyStake, withdraw } from '@gooddollar/web3sdk/dist/core/staking'
-import { LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk/dist/constants'
-import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
+import { MyStake, withdraw, LIQUIDITY_PROTOCOL, SupportedChainId, useGdContextProvider } from '@gooddollar/web3sdk'
 import sendGa from 'functions/sendGa'
 
 function formatNumber(value: number) {

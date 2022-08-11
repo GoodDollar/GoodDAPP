@@ -16,10 +16,14 @@ import usePromise from 'hooks/usePromise'
 import { QuestionHelper } from 'components'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 
-import { LIQUIDITY_PROTOCOL, DAO_NETWORK } from '@gooddollar/web3sdk/dist/constants'
-import { useEnvWeb3 } from '@gooddollar/web3sdk/dist/hooks/'
-import { getList as getStakes, Stake } from '@gooddollar/web3sdk/dist/core/staking'
-import { useGdContextProvider, useGovernanceStaking} from '@gooddollar/web3sdk/dist/hooks/'
+import { 
+  LIQUIDITY_PROTOCOL, 
+  DAO_NETWORK, 
+  useEnvWeb3, 
+  getList as getStakes, 
+  Stake, 
+  useGdContextProvider, 
+  useGovernanceStaking } from '@gooddollar/web3sdk'
 
 import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'

@@ -6,7 +6,6 @@ import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import Modal from 'components/Modal'
 import Button from 'components/Button'
-import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
 import { useDispatch } from 'react-redux'
 import { addTransaction } from '../../state/transactions/actions'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
@@ -14,7 +13,8 @@ import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import Loader from 'components/Loader'
-import { claimG$Rewards, claimGoodRewards } from '@gooddollar/web3sdk/dist/core/staking'
+
+import { useGdContextProvider, claimG$Rewards, claimGoodRewards } from '@gooddollar/web3sdk'
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>

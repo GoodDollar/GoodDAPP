@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { getTokenList } from '@gooddollar/web3sdk/dist/core'
+import { getTokenList } from '@gooddollar/web3sdk'
 import { ETHER, Currency, Token } from '@sushiswap/sdk'
 import { AdditionalChainId, FUSE } from 'constants/index'
 

@@ -9,9 +9,9 @@ type GaData = {
 }
 
 export default function sendGa(data: GaData): void {
-  const { event, action, type, amount, tokens} = data
+  const { event, action, type, amount, tokens, network} = data
   if (window.dataLayer){
-    const trackData = {event: event, action: action, type: type, amount: amount, tokens: tokens}
+    const trackData = {event: event, action: action, type: type, amount: amount, tokens: tokens, network: network}
     const output = JSON.parse(JSON.stringify(trackData))
     window.dataLayer.push(output)
   }

@@ -17,13 +17,13 @@ import { useLingui } from '@lingui/react'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import AppNotice from 'components/AppNotice'
-import { getNetworkEnv } from '@gooddollar/web3sdk/dist/constants/addresses'
 import { useWindowSize } from 'hooks/useWindowSize'
 import Withdraw from 'components/Withdraw'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
-import { getMyList, MyStake } from '@gooddollar/web3sdk/dist/core'
-import { DAO_NETWORK, portfolioSupportedAt, SupportedChainId, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk/dist/constants'
-import { useEnvWeb3 } from '@gooddollar/web3sdk/dist/hooks'
+import { 
+  getNetworkEnv, useEnvWeb3, getMyList, 
+  MyStake, DAO_NETWORK, portfolioSupportedAt, 
+  SupportedChainId, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk'
 
 import styled from 'styled-components'
 import ClaimRewards from 'components/ClaimRewards'

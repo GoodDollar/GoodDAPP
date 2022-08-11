@@ -7,14 +7,14 @@
 	<key>destination</key>
 	<string>export</string>
 	<key>method</key>
-	<string>ad-hoc</string>
+	<string>app-store</string>
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>org.gooddollar</key>
-		<string>GoodDollar AdHoc (iOS Distribution)</string>
+		<string>AppStore (iOS Distribution)</string>
 	</dict>
 	<key>signingCertificate</key>
-	<string>iPhone Distribution: GoodDollar Limited</string>
+	<string>iPhone Distribution: GoodDollar Limited (97K3Q6WTLM)</string>
 	<key>signingStyle</key>
 	<string>manual</string>
 	<key>stripSwiftSymbols</key>

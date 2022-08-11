@@ -1,6 +1,14 @@
 [build]
 command = "CI= rm -f .env* && CI= yarn build"
 
+[[redirects]]
+  from = "/*"
+  to = "https://www.gooddollar.org/terms"
+  status = 451
+  force = true
+  conditions = {Country=["IR","KP"]}
+  headers = {Link="<https://www.gooddollar.org/terms>"}
+
 [[headers]]
   for = "*"
   [headers.values]

@@ -120,7 +120,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
             log.debug('starting watchBalanceAndTXs', { lastBlock })
 
-            wallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.set('lastBlock', parseInt(toBlock)))
+            wallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.safeSet('lastBlock', parseInt(toBlock)))
             wallet.balanceChanged(() => update(wallet))
           }
         }

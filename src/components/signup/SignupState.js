@@ -310,7 +310,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           log.debug('setting registered flag')
 
           // set registered flag
-          userProperties.set('registered', true)
+          await userProperties.set('registered', true)
 
           log.debug('persist user props', pick(userProperties, 'data', 'lastStored'))
 

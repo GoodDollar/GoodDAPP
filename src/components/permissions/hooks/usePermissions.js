@@ -8,8 +8,10 @@ import { type Permission, Permissions, PermissionStatuses } from '../types'
 
 import CameraPermissionDialog from '../components/CameraPermissionDialog'
 import ClipboardPermissionDialog from '../components/ClipboardPermissionDialog'
+import NotificationsPermissionDialog from '../components/NotificationsPermissionDialog'
 import DeniedCameraPermissionDialog from '../components/DeniedCameraPermissionDialog'
 import DeniedClipboardPermissionDialog from '../components/DeniedClipboardPermissionDialog'
+import DeniedNotificationsPermissionDialog from '../components/DeniedNotificationsPermissionDialog'
 
 import { useDialog } from '../../../lib/dialog/useDialog'
 import useMountedState from '../../../lib/hooks/useMountedState'
@@ -17,8 +19,8 @@ import useMountedState from '../../../lib/hooks/useMountedState'
 import api from '../api/PermissionsAPI'
 import { isSafari } from '../../../lib/utils/platform'
 
-const { Clipboard, Camera } = Permissions
-const { Undetermined, Granted, Denied, Prompt } = PermissionStatuses
+const { Clipboard, Camera, Notifications } = Permissions
+const { Undetermined, Granted, Denied, Prompt, Disabled } = PermissionStatuses
 
 const usePermissions = (permission: Permission, options = {}) => {
   const { promptPopups, deniedPopups } = usePermissions
@@ -32,7 +34,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     navigate,
   } = options
 
-  const { showDialog } = useDialog()
+  const { showDialog, hideDialog } = useDialog()
   const [mountedState] = useMountedState()
   const [allowed, setAllowed] = useState(false)
 
@@ -62,7 +64,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     () =>
       showPopup({
         type: 'error',
-        content: <DeniedPopup onDismiss={onDenied} navigate={navigate} />,
+        content: <DeniedPopup onDismiss={onDenied} hideDialog={hideDialog} navigate={navigate} />,
         onDismiss: onDenied,
       }),
     [onDenied, showPopup, DeniedPopup],
@@ -72,7 +74,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     const isAllowed = await api.request(permission)
 
     // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happers during processing transaction
+    // screen could call redirect back if error happens during processing transaction
     if (!mountedState.current) {
       return
     }
@@ -87,7 +89,7 @@ const usePermissions = (permission: Permission, options = {}) => {
 
   const handleRequestFlow = useCallback(async () => {
     // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happers during processing transaction
+    // screen could call redirect back if error happens during processing transaction
     if (!mountedState.current) {
       return
     }
@@ -95,7 +97,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     const status = await api.check(permission)
 
     // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happers during processing transaction
+    // screen could call redirect back if error happens during processing transaction
     if (!mountedState.current) {
       return
     }
@@ -103,7 +105,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     switch (status) {
       case Prompt:
         showPopup({
-          content: <PromptPopup onDismiss={handleRequest} />,
+          content: <PromptPopup onDismiss={handleRequest} hideDialog={hideDialog} />,
           onDismiss: handleRequest,
         })
 
@@ -115,10 +117,16 @@ const usePermissions = (permission: Permission, options = {}) => {
       case Denied:
         handleDenied()
         break
+      case Disabled:
+        // TODO: maybe we would need to handle disabled case separately
+        // and run correspinding callback prop. for now it will just
+        // call onDenied but without showing denied dialog
+        onDenied()
+        break
       case Undetermined:
       default:
         // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
-        // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appers when you're calling readText()
+        // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appears when you're calling readText()
         if (Clipboard === permission && isSafari) {
           handleAllowed()
           break
@@ -142,17 +150,21 @@ const usePermissions = (permission: Permission, options = {}) => {
     }
   }, [])
 
+  // TODO: maybe we would need to return disabled status separately
+  // for now it permission disabled it will return allowed false
   return [allowed, requestPermission]
 }
 
 usePermissions.promptPopups = {
   [Camera]: CameraPermissionDialog,
   [Clipboard]: ClipboardPermissionDialog,
+  [Notifications]: NotificationsPermissionDialog,
 }
 
 usePermissions.deniedPopups = {
   [Camera]: DeniedCameraPermissionDialog,
   [Clipboard]: DeniedClipboardPermissionDialog,
+  [Notifications]: DeniedNotificationsPermissionDialog,
 }
 
 export default usePermissions

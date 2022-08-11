@@ -40,7 +40,7 @@ class DeepLinkingNative {
 
       log.info('subscribing activating callback', this._isFirstRun)
       if (this._isFirstRun === false) {
-        //if we had a link previously then call callback
+        // if we had a link previously then call callback
         navigationCallback(this.callbackParams)
       }
     }
@@ -84,7 +84,7 @@ class DeepLinkingNative {
 
     const link = uri || referringLink || url || nonBranchLink
 
-    //no link do nothing
+    // no link do nothing
     if (!link) {
       return
     }

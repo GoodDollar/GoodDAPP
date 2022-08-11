@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { t } from '@lingui/macro'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -8,38 +8,47 @@ import UserAvatar from '../common/view/UserAvatar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import RoundIconButton from '../common/buttons/RoundIconButton'
-import { usePublicProfile } from '../../lib/userStorage/useProfile'
+import useProfile, { usePublicProfile } from '../../lib/userStorage/useProfile'
 import { theme } from '../theme/styles'
+import BorderedBox from '../common/view/BorderedBox'
+import Avatar from '../common/view/Avatar'
+import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
+
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
-import ProfilePrivacy from './ProfilePrivacy'
 import ViewAvatar from './ViewOrUploadAvatar'
 import VerifyEdit from './VerifyEdit'
 import VerifyEditCode from './VerifyEditCode'
 
 const avatarSize = getDesignRelativeWidth(136)
 
+const ProfileAvatar = withStyles(() => ({
+  avatar: {
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+  },
+}))(({ styles, style }) => {
+  const { smallAvatar: avatar } = useProfile()
+
+  return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
+})
+
 const ProfileWrapper = ({ screenProps, styles }) => {
   const profile = usePublicProfile()
+  const userStorage = useUserStorage()
+
   const { fullName } = profile
 
   const handleAvatarPress = useCallback(() => screenProps.push(`ViewAvatar`), [screenProps])
 
-  const handlePrivacyPress = useCallback(() => screenProps.push(`ProfilePrivacy`), [screenProps])
-
   const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
+
+  // bordered box required data
+  const faceRecordId = useMemo(() => userStorage?.getFaceIdentifier() || '', [userStorage])
 
   return (
     <Wrapper>
       <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
-        <RoundIconButton
-          label={'Privacy'}
-          iconName={'privacy'}
-          iconSize={23}
-          onPress={handlePrivacyPress}
-          containerStyle={styles.iconLeft}
-        />
-
         <RoundIconButton
           label={'Edit'}
           iconName={'edit'}
@@ -52,6 +61,17 @@ const ProfileWrapper = ({ screenProps, styles }) => {
       <Section style={styles.section}>
         <View style={styles.emptySpace} />
         <ProfileDataTable profile={profile} showCustomFlag />
+
+        <Section grow justifyContent="flex-end" style={{ marginBottom: 16 }}>
+          <BorderedBox
+            image={ProfileAvatar}
+            title="My Face Record ID"
+            content={faceRecordId}
+            truncateContent
+            copyButtonText="Copy ID"
+            enableIndicateAction
+          />
+        </Section>
       </Section>
       <View style={styles.userDataWrapper}>
         <UserAvatar
@@ -131,7 +151,6 @@ const Profile = withStyles(getStylesFromProps)(ProfileWrapper)
 const routes = {
   Profile,
   EditProfile,
-  ProfilePrivacy,
   ViewAvatar,
   VerifyEdit,
   VerifyEditCode,

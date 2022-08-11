@@ -95,6 +95,7 @@ const Config = {
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   ipfsGateways: ipfsGateways.split(',').map(gatewayTmpl => mustache(gatewayTmpl)),
+  ipfsUploadGateway: env.REACT_APP_IPFS_UPLOADGATEWAY || 'https://ipfsgateway.goodworker.workers.dev',
   ipfsLazyUpload: env.REACT_APP_IPFS_LAZY_UPLOAD === 'true',
   pinataApiKey: env.REACT_APP_PINATA_API_KEY,
   pinataSecret: env.REACT_APP_PINATA_SECRET,
@@ -104,11 +105,12 @@ const Config = {
   infuraKey: env.REACT_APP_INFURA_KEY,
   interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 8, // default is 1Week, add 1 day because its not exact
   goodDollarPriceInfoUrl: env.REACT_APP_PRICE_INFO_URL || 'https://datastudio.google.com/u/0/reporting/f1ce8f56-058c-4e31-bfd4-1a741482642a/page/p_97jwocmrmc',
-  marketUrl: env.REACT_APP_MARKET_URL || 'https://gooddollarmarketplace.sharetribe.com/en',
+  marketUrl: env.REACT_APP_MARKET_URL || 'https://goodmarkets.xyz/',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',
   torusProxyContract: env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
+  testClaimNotificationFrequency: appEnv === 'production' ? null : env.REACT_APP_TEST_CLAIM_NOTIFICATION_FREQUENCY,
   disableClaim: env.REACT_APP_DISABLE_CLAIM === 'true',
   googleClientId: env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: env.REACT_APP_FACEBOOK_APP_ID,
@@ -188,6 +190,7 @@ const Config = {
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
   networkExplorerUrl: ethereum[networkId].explorer,
   isFVFlow: process.env.REACT_APP_BUILD_TARGET === 'FV',
+  enableWebNotifications: process.env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true'
 }
 
 global.config = Config

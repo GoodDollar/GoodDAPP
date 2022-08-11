@@ -1,9 +1,8 @@
 // @flow
-import { isPlainObject, once, sortBy } from 'lodash'
+import { first, isPlainObject, once, sortBy } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
-
 import Mutex from 'await-mutex'
 import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
@@ -161,12 +160,21 @@ class RealmDB implements DB, ProfileDB {
   async wrapQuery(callback) {
     await this._pingRealmDB()
 
-    try {
-      return await _retry(callback)
-    } catch (e) {
-      log.error('RealmDB error:', e.message, e)
-      throw e
-    }
+    // no need to declare fn if it wull be used just nowe
+    return _retry(async () => {
+      try {
+        // no need to declare redundant var. return await is allowed to catch an error
+        return await callback()
+      } catch (exception) {
+        // try to extract mongodb error code for message grouping in analytics
+        let { error = '', message } = exception
+        const errorCode = first(error.match(/^E\d+/))
+
+        message = errorCode || message
+        log.error('RealmDB error:', message, exception, { errorCode, message })
+        throw exception
+      }
+    })
   }
 
   /**

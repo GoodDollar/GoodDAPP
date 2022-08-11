@@ -85,13 +85,14 @@ class SoftwareWalletProvider {
     pkey = this.conf.mnemonic || (await getMnemonics())
     let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS)
 
-    //in case format of ThirdPartyWalletProvider
+    // in case format of ThirdPartyWalletProvider
     if (privateKeys?.[0].length < 64) {
       privateKeys = undefined
     }
 
-    //we start from addres 1, since from address 0 pubkey all public keys can  be generated
-    //and we want privacy
+    // we start from addres 1, since from address 0 pubkey all public keys can  be generated
+    // and we want privacy
+    
     if (privateKeys == null) {
       let mulWallet = new MultipleAddressWallet(pkey, 10)
 

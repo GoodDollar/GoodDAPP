@@ -48,6 +48,7 @@ import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
+import { useNotifications } from '../../lib/notifications/backgroundActions'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -70,6 +71,7 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 
 import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
+import Settings from './Settings'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -159,6 +161,7 @@ const Dashboard = props => {
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
 
+  useNotifications(navigation)
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
 
@@ -224,8 +227,8 @@ const Dashboard = props => {
 
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
-          //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
-          //so we use a global variable
+          // subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
+          // so we use a global variable
 
           res = (await feedPromise) || []
           res.length > 0 && !didRender && setFeedLoadAnimShown(true)
@@ -260,10 +263,10 @@ const Dashboard = props => {
 
   const [feedLoaded, setFeedLoaded] = useState(false)
 
-  //subscribeToFeed probably should be an effect that updates the feed items
-  //as they come in, currently on each new item it simply reset the feed
-  //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
-  //which would lead to many unwanted subscribe/unsubscribe
+  // subscribeToFeed probably should be an effect that updates the feed items
+  // as they come in, currently on each new item it simply reset the feed
+  // currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
+  // which would lead to many unwanted subscribe/unsubscribe
   const subscribeToFeed = async () => {
     const { feedStorage } = userStorage
 
@@ -346,8 +349,8 @@ const Dashboard = props => {
 
   const showDelayed = useCallback(() => {
     const id = setTimeout(() => {
-      //wait until not loading and not showing other modal (see use effect)
-      //mark as displayed
+      // wait until not loading and not showing other modal (see use effect)
+      // mark as displayed
       setShowDelayedTimer(true)
       setAddWebApp({ showInitial: true, showDialog: false })
     }, 2000)
@@ -944,6 +947,8 @@ export default createStackNavigator({
     path: ':action/TransactionConfirmation',
     params: { action: ACTION_SEND },
   },
+
+  Settings,
 
   // PP: PrivacyPolicy,
   // PrivacyArticle,

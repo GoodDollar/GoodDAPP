@@ -157,7 +157,7 @@ class SmsForm extends React.Component<Props, State> {
                 handleSkip={this.handleSkip}
                 tries={this.state.tries}
                 onFinish={() => {
-                  //reset smsaction state
+                  // reset smsaction state
                   this.setState({ ...this.state, resentCode: false })
                 }}
               />
@@ -170,10 +170,10 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-//tries decides which options we show
-//first  two tries "send sms"
-//third try "send via call" or "skip"
-//fourth "skip"
+// tries decides which options we show
+// first  two tries "send sms"
+// third try "send via call" or "skip"
+// fourth "skip"
 const SMSAction = ({
   handleRetry,
   handleRetryWithCall,

@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import { useCallback, useEffect, useState } from 'react'
 import WalletConnect from '@walletconnect/client'
 import web3Utils from 'web3-utils'
@@ -23,10 +23,11 @@ import { useSessionApproveModal } from '../../components/walletconnect/WalletCon
 import { useWallet } from './GoodWalletProvider'
 const log = logger.child({ from: 'WalletConnectClient' })
 
-//TODO:
-//8. edit gas
-//9. advanced edit tx values/contract call values
-//11. show warning if unable to decode contract call
+// TODO:
+// 8. edit gas
+// 9. advanced edit tx values/contract call values
+// 11. show warning if unable to decode contract call
+
 /**
  * Parses the read WalletConnet URI from QR Code.
  * If not valid, returns null.
@@ -423,7 +424,17 @@ export const useWalletConnectSession = () => {
     if (!activeConnector) {
       return
     }
+
     const connector = activeConnector
+
+    const unsubscrube = () => {
+      connector.off('disconnect')
+      connector.off('call_request')
+      connector.off('session_request')
+    }
+
+    // since connector is cached it could an already existing one, so we clear the subscriptions
+    unsubscrube()
 
     // Subscribe to session requests
     connector.on('session_request', (error, payload) => {
@@ -446,9 +457,11 @@ export const useWalletConnectSession = () => {
 
       try {
         let message
+
         if (payload.method === 'eth_sign') {
           message = payload?.params?.[1]
         }
+
         if (method === 'personal_sign') {
           message = payload?.params?.[0]
           log.debug('personal_sign:', { message })
@@ -457,6 +470,7 @@ export const useWalletConnectSession = () => {
             log.debug('personal_sign:', { message })
           }
         }
+
         if (payload.method.includes('eth_signTypedData')) {
           if (payload.params.length && payload.params[0]) {
             message = payload?.params?.[0] ?? null
@@ -465,7 +479,9 @@ export const useWalletConnectSession = () => {
             }
           }
         }
+
         log.debug('sign message:', { message })
+
         if (message) {
           return handleSignRequest(message, payload, connector)
         }
@@ -513,14 +529,12 @@ export const useWalletConnectSession = () => {
       if (error) {
         throw error
       }
+
       handleSessionDisconnect(connector)
     })
 
-    return () => {
-      connector.off('disconnect')
-      connector.off('call_request')
-      connector.off('session_request')
-    }
+    // DO NOT STOP SUBSCRIPTIONS ON UNMOUNT, so user sees incoming requests even when in other screens
+    // return unsubscrube
   }, [
     wallet,
     activeConnector,

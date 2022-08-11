@@ -57,7 +57,7 @@ export class UserProfileStorage implements ProfileStorage {
 
   walletAddressIndex = {}
 
-  //unecrypted profile field values
+  // unecrypted profile field values
   profile: Profile = {}
 
   constructor(wallet: GoodWallet, profiledb: ProfileDB, privateKey: TextileCrypto.PrivateKey) {
@@ -151,7 +151,7 @@ export class UserProfileStorage implements ProfileStorage {
 
     await Promise.all(
       Object.keys(profile).map(async field => {
-        //only encrypt fields with .value format ie(ProfileField)
+        // only encrypt fields with .value format ie(ProfileField)
         if (profile[field]?.value) {
           return (encryptProfile[field] = {
             ...profile[field],
@@ -159,7 +159,7 @@ export class UserProfileStorage implements ProfileStorage {
           })
         }
 
-        //non encrypted fields
+        // non encrypted fields
         encryptProfile[field] = profile[field]
       }),
     )
@@ -174,7 +174,7 @@ export class UserProfileStorage implements ProfileStorage {
    */
   async setProfile(profile: UserModel, update: boolean = false): Promise<void> {
     if (!update) {
-      //inject walletaddress field for new profile
+      // inject walletaddress field for new profile
       profile.walletAddress = this.wallet.account
     }
 
@@ -295,7 +295,7 @@ export class UserProfileStorage implements ProfileStorage {
     return this.getPublicProfile('walletAddress', walletAddress)
   }
 
-  //TODO: in the future it should also validate the index.field.proof
+  // TODO: in the future it should also validate the index.field.proof
   getProfilesByHashIndex(field: string, value: string): Promise<any> {
     const hashed = cleanHashedFieldForIndex(field, value)
     return this.profiledb.getProfilesBy({ [`index.${field}.hash`]: hashed })

@@ -321,8 +321,8 @@ export class UserStorage {
     let gunuser = gun.user()
     let mnemonic = ''
 
-    //hack to get gun working. these seems to preload data gun needs to login
-    //otherwise it get stuck on a clean incognito
+    // hack to get gun working. these seems to preload data gun needs to login
+    // otherwise it get stuck on a clean incognito
     const existingUser = await this.gun.get('~@' + username).onThen(null, { wait: 3000 })
     logger.debug('getMnemonic:', { existingUser })
     const authUserInGun = (username, password) => {
@@ -424,8 +424,8 @@ export class UserStorage {
       this.gunuser.create(username, password, user => {
         logger.debug('gundb user created', user)
 
-        //if username exists its not an error we can create
-        //multiple accounts under same username
+        // if username exists its not an error we can create
+        // multiple accounts under same username
         // if (user.err) {
         //   return rej(user.err)
         // }
@@ -469,7 +469,7 @@ export class UserStorage {
     }
     this.user = this.gunuser.is
 
-    //try to make sure all gun SEA  decryption keys are preloaded
+    // try to make sure all gun SEA  decryption keys are preloaded
     this.gunuser.get('trust').load()
 
     logger.debug('GunDB logged in', {
@@ -1050,7 +1050,7 @@ export class UserStorage {
       case 'masked':
         display = maskField(field, value)
 
-        //undo invalid masked field
+        // undo invalid masked field
         if (display === value) {
           privacy = 'public'
         }
@@ -1215,7 +1215,7 @@ export class UserStorage {
       standardPrevFeedEvent,
     })
 
-    //if for some reason we don't have the receipt(from blockchain) yet then fetch it
+    // if for some reason we don't have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
       logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
@@ -1224,7 +1224,7 @@ export class UserStorage {
       return standardPrevFeedEvent
     }
 
-    //update the event
+    // update the event
     let updatedEvent = await this.feedStorage.handleReceipt(receipt)
     if (updatedEvent === undefined) {
       return standardPrevFeedEvent
@@ -1521,7 +1521,7 @@ export class UserStorage {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
-  //displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
+  // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
   _extractDisplayType(event) {
     switch (event.type) {
       case FeedItemType.EVENT_TYPE_BONUS:
@@ -1549,7 +1549,7 @@ export class UserStorage {
 
     let gunProfile = (byIndex || byAddress) && this.gun.get(byIndex || byAddress).get('profile')
 
-    //need to return object so promise.all doesn't resolve node
+    // need to return object so promise.all doesn't resolve node
     return {
       gunProfile,
     }

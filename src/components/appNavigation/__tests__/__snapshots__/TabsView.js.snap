@@ -22,13 +22,18 @@ exports[`TabsView matches snapshot 1`] = `
           "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "space-between",
           "alignItems": "center",
           "backgroundColor": "rgba(0,175,255,1.00)",
+          "display": "flex",
           "flexDirection": "row",
           "height": "56px",
+          "justifyContent": "space-between",
           "msFlexAlign": "center",
           "msFlexDirection": "row",
+          "msFlexPack": "justify",
           "overflowX": "hidden",
           "overflowY": "hidden",
           "paddingLeft": "4px",
@@ -73,29 +78,6 @@ exports[`TabsView matches snapshot 1`] = `
         </div>
       </div>
       <div
-        aria-disabled={true}
-        className="css-view-1dbjc4n r-flex-13awgt0 r-paddingHorizontal-1e081e0"
-        onClick={[Function]}
-        onContextMenu={[Function]}
-        onKeyDown={[Function]}
-        tabIndex="-1"
-      >
-        <h1
-          className="css-reset-4rbku5 css-text-901oao css-textOneLine-1hf3ou5 r-fontSize-adyw6z"
-          dir="auto"
-          role="heading"
-          style={
-            Object {
-              "color": "rgba(255,255,255,1.00)",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontWeight": "500",
-              "textAlign": "left",
-            }
-          }
-          tabIndex="0"
-        />
-      </div>
-      <div
         className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
         onClick={[Function]}
         onContextMenu={[Function]}
@@ -114,13 +96,14 @@ exports[`TabsView matches snapshot 1`] = `
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-fontSize-adyw6z"
+          className="css-text-901oao"
           data-testid="burger_button"
           dir="auto"
           style={
             Object {
               "color": "rgba(255,255,255,1.00)",
               "fontFamily": "gooddollar",
+              "fontSize": "20px",
               "fontStyle": "normal",
               "fontWeight": "normal",
               "marginRight": "10px",

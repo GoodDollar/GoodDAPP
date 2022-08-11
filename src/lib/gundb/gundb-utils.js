@@ -55,7 +55,7 @@ const fetchKey = memoize(async (path, node) => {
     .then()
 
   if (encryptedKey == null) {
-    //retry fetch and increase wait
+    // retry fetch and increase wait
     encryptedKey = await gun
       .get('~' + ownerPub)
       .get('trust')
@@ -65,9 +65,9 @@ const fetchKey = memoize(async (path, node) => {
   }
   let secureKey
 
-  //check if we are trused by owner
+  // check if we are trused by owner
   if (ownerPub !== user.pair().pub) {
-    //generate shared secret
+    // generate shared secret
     const shared = await SEA.secret(ownerPub, user.pair())
     secureKey = await SEA.decrypt(encryptedKey, shared)
   } else {

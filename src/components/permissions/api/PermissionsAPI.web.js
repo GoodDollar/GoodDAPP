@@ -1,14 +1,20 @@
 // @flow
 import { invokeMap, isFunction } from 'lodash'
+import Config from '../../../config/config'
 
 import logger from '../../../lib/logger/js-logger'
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
 
+const { enableWebNotifications } = Config
 class PermissionsAPI {
   // permissions enum to platform permissions map
   platformPermissions = {
     [Permissions.Camera]: 'camera',
     [Permissions.Clipboard]: 'clipboard-read',
+  }
+
+  disabledPermissions = {
+    [Permissions.Notifications]: !enableWebNotifications,
   }
 
   constructor(api, clipboardApi, mediaApi, log) {
@@ -25,9 +31,15 @@ class PermissionsAPI {
    * @return Promise<PermissionStatus> Status of the permission
    */
   async check(permission: Permission): Promise<PermissionStatus> {
-    const { platformPermissions } = this
-    const { Granted, Denied, Prompt, Undetermined } = PermissionStatuses
+    const { platformPermissions, disabledPermissions } = this
+    const { Granted, Denied, Prompt, Undetermined, Disabled } = PermissionStatuses
     const platformPermission = platformPermissions[permission]
+
+    // if permission is disabled - returning disabled status
+    // this needs to temporarly ignore notifications permissions requests on web
+    if (permission in disabledPermissions) {
+      return Disabled
+    }
 
     // no platform permission found - that means feature doesn't requires permissions on this platform
     if (!platformPermission) {
@@ -56,8 +68,13 @@ class PermissionsAPI {
    * @return Promise<boolean> Was permission granted or nor
    */
   async request(permission: Permission): Promise<PermissionStatus> {
-    const platformPermission = this.platformPermissions[permission]
+    const { platformPermissions, disabledPermissions } = this
+    const platformPermission = platformPermissions[permission]
     const { Clipboard, Camera } = Permissions
+
+    if (permission in disabledPermissions) {
+      return false
+    }
 
     // no platform permission found - that means feature doesn't requires permissions on this platform
     if (!platformPermission) {

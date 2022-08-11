@@ -21,7 +21,7 @@ export default () => {
   const handleWalletNotConnected = useCallback(() => {
     log.debug('isWeb3Connection not connected')
 
-    //if not connected and not reconnecting than try to force reconnect
+    // if not connected and not reconnecting than try to force reconnect
     if (wallet.wallet.currentProvider.reconnecting === false) {
       log.debug('isWeb3Connection forcing reconnect')
       wallet.wallet.currentProvider.reconnect()

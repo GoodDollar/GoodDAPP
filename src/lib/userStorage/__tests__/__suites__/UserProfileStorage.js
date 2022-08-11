@@ -47,14 +47,14 @@ export default () =>
       expect(user_id).not.toBeNull()
       expect(_id).not.toBeNull()
 
-      //expect(publicKey).toEqual(userProfileStorage.privateKey.public.toString())
+      // expect(publicKey).toEqual(userProfileStorage.privateKey.public.toString())
       expect(walletAddress.display).toEqual(goodWallet.account)
       expect(index.walletAddress.hash).toEqual(goodWallet.wallet.utils.sha3(goodWallet.account.toLowerCase()))
 
       for (const key in fields) {
         const { privacy, display } = fields[key]
 
-        //skip non profile fields
+        // skip non profile fields
         if (!privacy) {
           continue
         }
@@ -69,7 +69,7 @@ export default () =>
       for (const key in fields) {
         const { value } = fields[key]
 
-        //skip non core profile fields
+        // skip non core profile fields
         if (!value) {
           continue
         }

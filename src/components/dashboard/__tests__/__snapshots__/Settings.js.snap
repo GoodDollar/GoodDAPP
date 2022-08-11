@@ -1,0 +1,381 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Settings matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-backgroundColor-1b3fm86 r-backgroundImage-ye2ihm r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
+  >
+    <div
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
+    >
+      <div
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
+        style={
+          Object {
+            "WebkitBoxPack": "start",
+            "WebkitJustifyContent": "flex-start",
+            "justifyContent": "flex-start",
+            "msFlexPack": "start",
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-p1pxzi r-marginTop-1v1z2uz r-maxHeight-15n77fl"
+          style={
+            Object {
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "justifyContent": "center",
+              "msFlexPack": "center",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            dir="auto"
+          >
+            Manage your privacy settings
+          </div>
+          <div
+            className="css-view-1dbjc4n r-cursor-1loqt21 r-marginLeft-1rngwi6 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onKeyDown={[Function]}
+            style={
+              Object {
+                "WebkitTransitionDuration": "0s",
+                "transitionDuration": "0s",
+              }
+            }
+            tabIndex="0"
+          >
+            <div
+              className="css-text-901oao r-fontSize-ubezar"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,175,255,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                }
+              }
+            >
+              
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-padding-t60dpp"
+          style={
+            Object {
+              "WebkitBoxPack": "start",
+              "WebkitJustifyContent": "flex-start",
+              "justifyContent": "flex-start",
+              "msFlexPack": "start",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
+          >
+            <div
+              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
+            >
+              <div
+                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Private
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
+            >
+              <div
+                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Masked
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
+            >
+              <div
+                className="css-text-901oao r-color-181bzza r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Public
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
+          >
+            <div
+              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              Phone number
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
+            >
+              <div
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "borderBottomColor": "rgba(85,85,85,1.00)",
+                      "borderBottomLeftRadius": "10px",
+                      "borderBottomRightRadius": "10px",
+                      "borderBottomWidth": "2px",
+                      "borderLeftColor": "rgba(85,85,85,1.00)",
+                      "borderLeftWidth": "2px",
+                      "borderRightColor": "rgba(85,85,85,1.00)",
+                      "borderRightWidth": "2px",
+                      "borderTopColor": "rgba(85,85,85,1.00)",
+                      "borderTopLeftRadius": "10px",
+                      "borderTopRightRadius": "10px",
+                      "borderTopWidth": "2px",
+                      "height": "20px",
+                      "marginBottom": "8px",
+                      "marginLeft": "8px",
+                      "marginRight": "8px",
+                      "marginTop": "8px",
+                      "width": "20px",
+                    }
+                  }
+                />
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
+            >
+              <div
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "borderBottomColor": "rgba(85,85,85,1.00)",
+                      "borderBottomLeftRadius": "10px",
+                      "borderBottomRightRadius": "10px",
+                      "borderBottomWidth": "2px",
+                      "borderLeftColor": "rgba(85,85,85,1.00)",
+                      "borderLeftWidth": "2px",
+                      "borderRightColor": "rgba(85,85,85,1.00)",
+                      "borderRightWidth": "2px",
+                      "borderTopColor": "rgba(85,85,85,1.00)",
+                      "borderTopLeftRadius": "10px",
+                      "borderTopRightRadius": "10px",
+                      "borderTopWidth": "2px",
+                      "height": "20px",
+                      "marginBottom": "8px",
+                      "marginLeft": "8px",
+                      "marginRight": "8px",
+                      "marginTop": "8px",
+                      "width": "20px",
+                    }
+                  }
+                />
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
+            >
+              <div
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "borderBottomColor": "rgba(85,85,85,1.00)",
+                      "borderBottomLeftRadius": "10px",
+                      "borderBottomRightRadius": "10px",
+                      "borderBottomWidth": "2px",
+                      "borderLeftColor": "rgba(85,85,85,1.00)",
+                      "borderLeftWidth": "2px",
+                      "borderRightColor": "rgba(85,85,85,1.00)",
+                      "borderRightWidth": "2px",
+                      "borderTopColor": "rgba(85,85,85,1.00)",
+                      "borderTopLeftRadius": "10px",
+                      "borderTopRightRadius": "10px",
+                      "borderTopWidth": "2px",
+                      "height": "20px",
+                      "marginBottom": "8px",
+                      "marginLeft": "8px",
+                      "marginRight": "8px",
+                      "marginTop": "8px",
+                      "width": "20px",
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-padding-edyy15 r-paddingLeft-gu0qjt"
+          >
+            <div
+              className="css-text-901oao r-color-181bzza r-flexGrow-16xksha r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              Email
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
+            >
+              <div
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "borderBottomColor": "rgba(85,85,85,1.00)",
+                      "borderBottomLeftRadius": "10px",
+                      "borderBottomRightRadius": "10px",
+                      "borderBottomWidth": "2px",
+                      "borderLeftColor": "rgba(85,85,85,1.00)",
+                      "borderLeftWidth": "2px",
+                      "borderRightColor": "rgba(85,85,85,1.00)",
+                      "borderRightWidth": "2px",
+                      "borderTopColor": "rgba(85,85,85,1.00)",
+                      "borderTopLeftRadius": "10px",
+                      "borderTopRightRadius": "10px",
+                      "borderTopWidth": "2px",
+                      "height": "20px",
+                      "marginBottom": "8px",
+                      "marginLeft": "8px",
+                      "marginRight": "8px",
+                      "marginTop": "8px",
+                      "width": "20px",
+                    }
+                  }
+                />
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
+            >
+              <div
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "borderBottomColor": "rgba(85,85,85,1.00)",
+                      "borderBottomLeftRadius": "10px",
+                      "borderBottomRightRadius": "10px",
+                      "borderBottomWidth": "2px",
+                      "borderLeftColor": "rgba(85,85,85,1.00)",
+                      "borderLeftWidth": "2px",
+                      "borderRightColor": "rgba(85,85,85,1.00)",
+                      "borderRightWidth": "2px",
+                      "borderTopColor": "rgba(85,85,85,1.00)",
+                      "borderTopLeftRadius": "10px",
+                      "borderTopRightRadius": "10px",
+                      "borderTopWidth": "2px",
+                      "height": "20px",
+                      "marginBottom": "8px",
+                      "marginLeft": "8px",
+                      "marginRight": "8px",
+                      "marginTop": "8px",
+                      "width": "20px",
+                    }
+                  }
+                />
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-minWidth-1c8i11 r-width-1ih7r1r"
+            >
+              <div
+                aria-live="polite"
+                className="css-cursor-18t94o4 css-view-1dbjc4n r-borderRadius-6ncur5 r-overflow-1udh08x r-position-bnwqim"
+                onClick={[Function]}
+                onContextMenu={[Function]}
+                onKeyDown={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "borderBottomColor": "rgba(85,85,85,1.00)",
+                      "borderBottomLeftRadius": "10px",
+                      "borderBottomRightRadius": "10px",
+                      "borderBottomWidth": "2px",
+                      "borderLeftColor": "rgba(85,85,85,1.00)",
+                      "borderLeftWidth": "2px",
+                      "borderRightColor": "rgba(85,85,85,1.00)",
+                      "borderRightWidth": "2px",
+                      "borderTopColor": "rgba(85,85,85,1.00)",
+                      "borderTopLeftRadius": "10px",
+                      "borderTopRightRadius": "10px",
+                      "borderTopWidth": "2px",
+                      "height": "20px",
+                      "marginBottom": "8px",
+                      "marginLeft": "8px",
+                      "marginRight": "8px",
+                      "marginTop": "8px",
+                      "width": "20px",
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

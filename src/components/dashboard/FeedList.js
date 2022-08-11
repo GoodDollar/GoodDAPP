@@ -72,7 +72,7 @@ const FeedList = ({
 
   const handleItemSelection = handleFeedSelection
 
-  //shouldnt be required with latest react-native-web
+  // shouldnt be required with latest react-native-web
   // const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
 
   // const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])

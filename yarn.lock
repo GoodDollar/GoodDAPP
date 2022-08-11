@@ -4239,6 +4239,7 @@ __metadata:
     react-native-linear-gradient: ^2.5.6
     react-native-localize: ^2.2.1
     react-native-masked-text: ^1.13.0
+    react-native-notifications: ^4.3.1
     react-native-os: ^1.2.6
     react-native-otp: ^1.0.0
     react-native-paper: ^3.4.0
@@ -4261,6 +4262,7 @@ __metadata:
     react-native-svg: 12.3.0
     react-native-svg-transformer: ^1.0.0
     react-native-swipeable-lists-gd: 0.0.3
+    react-native-switch: ^1.5.1
     react-native-tcp: ^4.0.0
     react-native-udp: ^4.1.3
     react-native-url-polyfill: ^1.3.0
@@ -22883,7 +22885,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 434bfe9bc3ec10f34598e12e37aa0761193c75614d030ca08f34259789801e2d3984f1a8f6d5cef21e02e9d84cc962ea83d56c3c65cb8036fc39995b5cd04cf7
+  checksum: 6c1fa43d3eaf13975db833e3888cd65e3cc3e079f05ea762b359fcb963dfc682823cec09dfd56ae56455d49ccf1354274da44cb327665d93bb18831c04eaeeb8
   languageName: node
   linkType: hard
 
@@ -22901,7 +22903,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 00bcdb6e66c36abdeea2c2cb5a34094b659c66a270372a05cfa30b5f8c941d48dd910ff82947c16150f56a507ed24705a9fbfdcb332344b927ad01b655ca9fd9
+  checksum: 409473309e9029f795c6f4fed391c9d1dfe4591b4b0dd88555408c325cd003e28faabd94e87b59ae0bc97037b31f7837f3309c478565f5905c4a4816edaeed2d
   languageName: node
   linkType: hard
 
@@ -29172,6 +29174,16 @@ patch-package@latest:
   languageName: node
   linkType: hard
 
+"react-native-notifications@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "react-native-notifications@npm:4.3.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 2b9d7bbdaf9b5b691be3db11f55c2fe24292aa5c0a39af972926bfe91a8b9f4f4981bbea98ab160c168ef8052f66835f9491095205acb4dcdbc9b6effd5ca879
+  languageName: node
+  linkType: hard
+
 "react-native-os@npm:^1.2.6":
   version: 1.2.6
   resolution: "react-native-os@npm:1.2.6"
@@ -29442,6 +29454,17 @@ patch-package@latest:
     react: "*"
     react-native: "*"
   checksum: b8be48879e9de813f9a3c67f7fabb5d6e8a16efa6ff9a1dc1a1e9fb6f9591818c1ea2173a6cbe32856ecb314550c6387cbe1387b28f999bdc7053df7f8dabb39
+  languageName: node
+  linkType: hard
+
+"react-native-switch@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "react-native-switch@npm:1.5.1"
+  dependencies:
+    prop-types: ^15.6.0
+  peerDependencies:
+    react-native: ">=0.29"
+  checksum: 0ee7af977fac9fce5a5eac1981be9db80c527d0499c2149a40d848811bfd489048864a7bcc34f537f1dc011ef778e5495bd5f96d678c71cd8215616f0403fc29
   languageName: node
   linkType: hard
 

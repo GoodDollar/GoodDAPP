@@ -9,16 +9,12 @@ import { retry } from '../../lib/utils/async'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
-// import useOnPress from '../../lib/hooks/useOnPress'
-// import { isBrowser } from '../../lib/utils/platform'
-import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
 import API from '../../lib/API'
 
-// import { openLink } from '../../lib/utils/linking'
 import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import {
@@ -38,6 +34,7 @@ import {
   fireGoogleAnalyticsEvent,
   INVITE_BOUNTY,
 } from '../../lib/analytics/analytics'
+import usePermissions from '../permissions/hooks/usePermissions'
 
 import Config from '../../config/config'
 import { isMobileNative } from '../../lib/utils/platform'
@@ -48,6 +45,7 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
+import { Permissions } from '../permissions/types'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -144,7 +142,7 @@ const ClaimAmountBox = ({ dailyUbi }) => {
     return null
   }
 
-  //for native we don't have translate 50%, so we get the width from the rendering event onLayout
+  // for native we don't have translate 50%, so we get the width from the rendering event onLayout
   const updateSize = event => {
     if (isMobileNative === false) {
       return
@@ -223,6 +221,7 @@ const Claim = props => {
   const { dailyUBI: entitlement, isCitizen } = useWalletData()
   const { appState } = useAppState()
   const userStorage = useUserStorage()
+  const { userProperties } = userStorage || {}
 
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
   const { isValid } = screenState
@@ -244,11 +243,15 @@ const Claim = props => {
 
   const [interestCollected, setInterestCollected] = useState()
 
+  const [allowedNotificationPermissions, requestNotificationPermissions] = usePermissions(Permissions.Notifications, {
+    requestOnMounted: false,
+    onAllowed: () => userProperties.setLocal('shouldRemindClaims', true),
+    onDenied: () => userProperties.setLocal('shouldRemindClaims', false),
+    navigate,
+  })
+
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
-
-  // A function which will open 'learn more' page in a new tab
-  // const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
 
   // format number of people who did claim today
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
@@ -362,7 +365,14 @@ const Claim = props => {
         throw new Error('Come back later')
       }
 
-      receipt = await goodWallet.claim({ onTransactionHash: hash => (txHash = hash) })
+      receipt = await goodWallet.claim({
+        onTransactionHash: hash => {
+          txHash = hash
+
+          // first enQueueTX needs to happen just as we receive the txhash, so it writes the "pending" record to db
+          // actually when claiming it is not important to have the pending status record in the DB, so its removed for now
+        },
+      })
     } catch (exception) {
       const { message } = exception
 
@@ -376,7 +386,7 @@ const Claim = props => {
     return receipt
   }, [goodWallet])
 
-  const handleClaim = useCallback(async () => {
+  const onClaim = useCallback(async () => {
     let curEntitlement
     let isWhitelisted = isCitizen
 
@@ -441,21 +451,6 @@ const Claim = props => {
         const date = new Date()
         const txHash = receipt.transactionHash
 
-        const transactionEvent: TransactionEvent = {
-          id: txHash,
-          date: date.toISOString(),
-          createdDate: date.toISOString(),
-          type: 'claim',
-          data: {
-            from: 'GoodDollar',
-            amount: curEntitlement,
-          },
-        }
-
-        userStorage
-          .enqueueTX(transactionEvent)
-          .catch(e => log.warn('Failed to enqueue TX:', e.message, e, { transactionEvent }))
-
         AsyncStorage.safeSet('GD_AddWebAppLastClaim', date.toISOString())
         fireEvent(CLAIM_SUCCESS, { txHash, claimValue: curEntitlement })
 
@@ -496,6 +491,8 @@ const Claim = props => {
           fireEvent(INVITE_BOUNTY, { from: 'invitee' })
         }
       })
+
+      return true
     } catch (e) {
       onClaimError(e)
     } finally {
@@ -513,6 +510,16 @@ const Claim = props => {
     userStorage,
   ])
 
+  const handleClaim = useCallback(async () => {
+    const claimed = await onClaim()
+
+    if (!claimed || allowedNotificationPermissions) {
+      return
+    }
+
+    requestNotificationPermissions()
+  }, [onClaim, requestNotificationPermissions, allowedNotificationPermissions])
+
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)
 
@@ -523,7 +530,7 @@ const Claim = props => {
       // or dailyUbi changed meaning a new cycle started
       gatherStats(true)
       if (isReachedZero && dailyUbi === 0) {
-        //keep polling if timer is 0 but dailyubi still didnt update
+        // keep polling if timer is 0 but dailyubi still didnt update
         startPolling()
       }
     }
@@ -787,7 +794,7 @@ const getStylesFromProps = ({ theme }) => {
       letterSpacing: 0.42,
     },
     claimButtonContainer: {
-      //style passed to button
+      // style passed to button
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,

@@ -319,7 +319,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     throw new Error(`Link couldn't be generated`)
   }
 
-  //remove == of base64 not required then uri encode component to encode +/
+  // remove == of base64 not required then uri encode component to encode +/
   let paramsBase64 = encodeURIComponent(
     Buffer.from(JSON.stringify(params))
       .toString('base64')
@@ -338,7 +338,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
 
 // should be non-async to avoid possible 'non-user interaction' issues
 export const shareAction = (shareObj, showErrorDialog, customErrorMessage) => {
-  //on native only message field is available on both android and ios
+  // on native only message field is available on both android and ios
   if (isMobileNative) {
     shareObj = {
       message: [shareObj.title, shareObj.message, shareObj.url]

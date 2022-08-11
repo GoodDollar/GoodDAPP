@@ -1,2 +1,2 @@
-//TODO: web push notifications
+// TODO: web push notifications
 export const initBGFetch = () => {}

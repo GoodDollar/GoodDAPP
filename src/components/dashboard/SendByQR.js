@@ -98,7 +98,7 @@ const SendByQR = ({ screenProps }: Props) => {
           const decoded = decodeURI(data)
           const address = extractEthAddress(decoded)
 
-          //check if data is already a wallet address
+          // check if data is already a wallet address
           if (isAddress(address)) {
             const isKnownAddress = await goodWallet.isKnownFuseAddress(address)
 

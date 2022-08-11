@@ -31,7 +31,7 @@ const Auth = (props: Props) => {
     props.navigation.navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
 
     if (Platform.OS === 'web') {
-      //Hack to get keyboard up on mobile need focus from user event such as click
+      // Hack to get keyboard up on mobile need focus from user event such as click
       setTimeout(() => {
         const el = document.getElementById('Name_input')
         if (el) {

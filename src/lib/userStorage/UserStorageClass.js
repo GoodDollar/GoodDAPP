@@ -343,7 +343,7 @@ export class UserStorage {
 
     await this.initDatabases()
 
-    //after we initialize the database wait for user properties which depands on database
+    // after we initialize the database wait for user properties which depands on database
     await Promise.all([userProperties.ready, profileStorage.init(), this.initFeed()])
 
     const { feedStorage, setRegistered } = this
@@ -774,7 +774,7 @@ export class UserStorage {
       standardPrevFeedEvent,
     })
 
-    //if for some reason we don't have the receipt(from blockchain) yet then fetch it
+    // if for some reason we don't have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
       logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
@@ -784,7 +784,7 @@ export class UserStorage {
       return standardPrevFeedEvent
     }
 
-    //update the event
+    // update the event
     let updatedEvent = await this.feedStorage.handleReceipt(receipt)
 
     if (updatedEvent === undefined) {
@@ -1024,7 +1024,7 @@ export class UserStorage {
     return data
   }
 
-  //displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
+  // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
   _extractDisplayType(event) {
     switch (event.type) {
       case FeedItemType.EVENT_TYPE_BONUS:

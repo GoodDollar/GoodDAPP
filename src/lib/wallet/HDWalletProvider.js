@@ -1,12 +1,13 @@
 /* eslint-disable import/order */
 
-const { first } = require('lodash')
 const { requireBrowser } = require('../utils/system')
+const Transaction = require('ethereumjs-tx')
+const { first } = require('lodash')
+
 const ProviderEngine = require('web3-provider-engine')
 const FiltersSubprovider = require('web3-provider-engine/subproviders/filters.js')
 const HookedSubprovider = require('web3-provider-engine/subproviders/hooked-wallet.js')
 const RPCSubprovider = requireBrowser('web3-provider-engine/subproviders/rpc')
-const Transaction = require('ethereumjs-tx')
 
 class HDWalletProvider {
   constructor(walletsFromHD, providerUrl) {

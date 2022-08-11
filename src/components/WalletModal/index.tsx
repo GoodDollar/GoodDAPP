@@ -12,6 +12,7 @@ import { ButtonAction } from 'components/gd/Button'
 import NetworkModal from 'components/NetworkModal'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useSetChain } from '@web3-onboard/react'
+import { UnsupportedChainId } from '@gooddollar/web3sdk'
 
 const CloseIcon = styled.div`
     position: absolute;

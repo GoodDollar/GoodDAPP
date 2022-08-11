@@ -14,3 +14,5 @@ export const restart = (fromUrl = null) => {
 export const retryImport = fn => retry(fn, 5, 1000)
 
 export const exitApp = () => window.close()
+
+export const requireBrowser = require

@@ -11,6 +11,7 @@ import SpinnerCheckMark from '../../../components/common/animations/SpinnerCheck
 import logger from '../../logger/js-logger'
 import { useConnector } from './useConnector'
 import { chains } from './ThirdPartyWalletProvider'
+
 const log = logger.child({ from: 'WalletConnector' })
 
 const LoadingAnimation = ({ success, speed = 3 }) => (
@@ -45,6 +46,7 @@ export const useWalletConnector = () => {
   const wrapModalProxy = web3 => {
     ;['eth.personal.sign', 'eth.send', 'eth.sendTransaction'].forEach(methodPath => {
       const old = get(web3, methodPath)
+
       set(web3, methodPath, async (...args) => {
         try {
           showDialog({
@@ -53,8 +55,8 @@ export const useWalletConnector = () => {
             title: t`Please sign with your wallet...`,
             showCloseButtons: false,
           })
-          const res = await old(...args)
-          return res
+
+          return await old(...args)
         } finally {
           hideDialog()
         }
@@ -63,12 +65,11 @@ export const useWalletConnector = () => {
   }
   const walletConnect = useCallback(async () => {
     const lastWalletLabel = await AsyncStorage.getItem(GD_WEB3WALLET)
+
     log.debug({ lastWalletLabel })
     connect(lastWalletLabel ? { autoSelect: { label: lastWalletLabel, disableModals: true } } : undefined)
-    const providerPromise = new Promise((res, rej) => {
-      setResolveProvider({ res, rej })
-    })
-    return providerPromise
+
+    return new Promise((res, rej) => setResolveProvider({ res, rej }))
   }, [setResolveProvider, connect, web3])
 
   useEffect(() => {
@@ -105,7 +106,11 @@ export const useWalletConnector = () => {
 
       curProvider.current = provider
       AsyncStorage.setItem(GD_WEB3WALLET, walletName)
-      resolveProvider && resolveProvider.res(web3)
+
+      if (resolveProvider) {
+        resolveProvider.res(web3)
+      }
+
       setWeb3(web3)
     } else if (!provider && !resolveProvider) {
       setWeb3(undefined) // mark that we initialized

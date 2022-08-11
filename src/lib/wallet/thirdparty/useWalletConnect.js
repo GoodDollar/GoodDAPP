@@ -27,6 +27,7 @@ export const useWalletConnect = () => {
         qrcode: false,
         rpc: { 122: 'https://rpc.fuse.io' },
       })
+
       web3Provider
         .enable()
         .then(accounts => {

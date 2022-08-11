@@ -40,6 +40,7 @@ init({
     },
   },
 })
+
 export const useOnboard = () => {
   const [chainInfo, setChain] = useSetChain()
 

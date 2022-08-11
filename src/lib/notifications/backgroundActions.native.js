@@ -49,7 +49,7 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
       category: NotificationsCategories.CLAIM_NOTIFICATION,
     })
 
-    await userProperties.safeSet('lastClaimNotification', now)
+    userProperties.safeSet('lastClaimNotification', now)
   } catch (e) {
     log.error('dailyClaimNotification failed:', e.message, e)
   }

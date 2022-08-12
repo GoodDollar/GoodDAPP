@@ -2,7 +2,7 @@ name: iOS CI/CD v1
 
 on:
   push:
-    branches: [ master, staging, next, revert-adhoc-flow ]
+    branches: [ master, staging, next ]
     pull_request:
       branches: [ master ]
       types:
@@ -91,7 +91,6 @@ jobs:
     if: |
       github.event_name == 'workflow_dispatch' ||
       (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
-      (endsWith(github.ref, '/revert-adhoc-flow')) ||
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
       (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))
     steps:

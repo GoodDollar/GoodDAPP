@@ -1,0 +1,924 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00E356F31AD99517003FC87E /* GoodDollarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GoodDollarTests.m */; };
+		033B8C0A8940430D912EC4AC /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 87C6E460098F4D6485C02C84 /* Roboto-Bold.ttf */; };
+		0613FF83B35F4C5C877B0A13 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4DD3B67B684149EA91ADA521 /* Roboto-Medium.ttf */; };
+		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1923EC9A71E2463C9A438D02 /* RobotoSlab-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74A90ADEA4224FBFB6A030FA /* RobotoSlab-Black.ttf */; };
+		1C070547A367412CA2FF3034 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A2D9A90A0ED4E3E99EB30A4 /* Roboto-Thin.ttf */; };
+		2468CB4566EF6A4C59CB5CAD /* libPods-GoodDollar-GoodDollarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADDC9D7A0B5DD4C7FFA27300 /* libPods-GoodDollar-GoodDollarTests.a */; };
+		28BEA857639F48198085A31F /* RobotoSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3574781F765446BDA13679A8 /* RobotoSlab-Bold.ttf */; };
+		2A3935F8CEB2401F907182DF /* RobotoSlab-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5CA8E5A9B504B4A9C260DC4 /* RobotoSlab-Light.ttf */; };
+		2D937317297B4E47B382219E /* RobotoSlab-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 606D706266A94D118D223001 /* RobotoSlab-Medium.ttf */; };
+		2FF5A9749E634C41B5508DCD /* RobotoSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77E20F18A1D644E28CD22FBA /* RobotoSlab-Regular.ttf */; };
+		477F7AF867B84C89B5DD55C3 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E177BA7F034F44F4A748FB5F /* Roboto-BoldItalic.ttf */; };
+		5453E5E92409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5E82409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m */; };
+		5453E5EB2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */; };
+		5453E5ED240AA27E00E3DC92 /* DeepLink+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */; };
+		5453E5F0240ABC1400E3DC92 /* branch.json in Resources */ = {isa = PBXBuildFile; fileRef = 5453E5EF240ABC1400E3DC92 /* branch.json */; };
+		5453E5F1240AD05900E3DC92 /* GoodDollar.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */; };
+		5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EAE46A7BAAA4CB2A16C5F44 /* gooddollar.ttf */; };
+		5EFEBE756EFA8A8FE9173B7A /* libPods-GoodDollar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C35615CEBA4CF2A83C02B5BB /* libPods-GoodDollar.a */; };
+		63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B34616F6789742CFA153D77C /* Roboto-MediumItalic.ttf */; };
+		670FC1ABA9C54C1CA52E7B43 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 12CAFADFA277443C9001EECC /* Roboto-ThinItalic.ttf */; };
+		7FA30B95B63940169D389363 /* RobotoSlab-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B41A081D208C4F11B70E1831 /* RobotoSlab-Thin.ttf */; };
+		8663785C851A40F09EDAAE23 /* RobotoSlab-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D11EE70BD14046B099CB21C6 /* RobotoSlab-ExtraLight.ttf */; };
+		A1EA9A99772440ABA619D4F9 /* gooddollar.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 74AA1BFFCDA447CAB2F46C3E /* gooddollar.woff2 */; };
+		A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D1086647BF104227BE66D1EA /* Roboto-Light.ttf */; };
+		AB13C56C918E4FA9A349F99E /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0158E997AD6E4CEAAA74798A /* Roboto-Black.ttf */; };
+		AB8B506C5EA54364B15ED529 /* gooddollar.svg in Resources */ = {isa = PBXBuildFile; fileRef = 11F6638F3D3947698C30536C /* gooddollar.svg */; };
+		AD667D3DF1084153B388B849 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6F2EFC83C7D4021A4812BC2 /* Roboto-Regular.ttf */; };
+		C726B909C5AF4C5483297A33 /* RobotoSlab-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7288696CA664B4AB10353AE /* RobotoSlab-SemiBold.ttf */; };
+		D2008D73257E7D7200BFAF1F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2008D72257E7D7200BFAF1F /* GoogleService-Info.plist */; };
+		D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D726BAB12759C0550092D71C /* LaunchScreen.storyboard */; };
+		D73AC0FC277B5C8700DB2C7E /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = D73AC0FB277B5C8700DB2C7E /* AppIcon.appiconset */; };
+		D73AC0FE277B5D9C00DB2C7E /* (null) in Resources */ = {isa = PBXBuildFile; };
+		DB9407204D574FE784DEFFBA /* RobotoSlab-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD2413EB372049FEA212B762 /* RobotoSlab-ExtraBold.ttf */; };
+		DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */ = {isa = PBXBuildFile; fileRef = 93E02E113E3842B8892E0408 /* gooddollar.woff */; };
+		E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */; };
+		E621C99C23E83AC30047715D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E621C99A23E83AC30047715D /* File.swift */; };
+		E632CC5F23FAE3450096DF79 /* RocketShip_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5C23FAE3450096DF79 /* RocketShip_0.png */; };
+		E632CC6023FAE3450096DF79 /* RocketShip_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5D23FAE3450096DF79 /* RocketShip_0@2x.png */; };
+		E632CC6123FAE3450096DF79 /* RocketShip_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5E23FAE3450096DF79 /* RocketShip_0@3x.png */; };
+		EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */; };
+		FE722EDEC57B4C4D89CDD9F7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FABE8676831A432DA7210B81 /* libz.tbd */; };
+		FE7F9276E81C4092953052B5 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9717AB5AC1648A29F31922C /* Roboto-BlackItalic.ttf */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00E356F41AD99517003FC87E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
+			remoteInfo = GoodDollar;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00E356EE1AD99517003FC87E /* GoodDollarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoodDollarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* GoodDollarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodDollarTests.m; sourceTree = "<group>"; };
+		0158E997AD6E4CEAAA74798A /* Roboto-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Black.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Black.ttf"; sourceTree = "<group>"; };
+		11F6638F3D3947698C30536C /* gooddollar.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = gooddollar.svg; path = ../src/assets/fonts/gooddollar.svg; sourceTree = "<group>"; };
+		12CAFADFA277443C9001EECC /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-ThinItalic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* GoodDollar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoodDollar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = GoodDollar/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = GoodDollar/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = GoodDollar/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = GoodDollar/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = GoodDollar/main.m; sourceTree = "<group>"; };
+		2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-LightItalic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
+		3574781F765446BDA13679A8 /* RobotoSlab-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Bold.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-Bold.ttf"; sourceTree = "<group>"; };
+		3BC9C08D1FA148B2A3D3F031 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		430FFA271F824393AABCFF04 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		447F67DDF34643DDA0768D5B /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		4A2D9A90A0ED4E3E99EB30A4 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Thin.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		4A2DE3B08AA45BC150B19083 /* Pods-GoodDollar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodDollar.release.xcconfig"; path = "Target Support Files/Pods-GoodDollar/Pods-GoodDollar.release.xcconfig"; sourceTree = "<group>"; };
+		4DD3B67B684149EA91ADA521 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		503435BD5C8549679380F2C6 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		5453E5E82409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
+		5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "RNPushNotificationIOS+AppDelegate.m"; path = "GoodDollar/RNPushNotificationIOS+AppDelegate.m"; sourceTree = "<group>"; };
+		5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "DeepLink+AppDelegate.m"; path = "GoodDollar/DeepLink+AppDelegate.m"; sourceTree = "<group>"; };
+		5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = GoodDollar.entitlements; path = GoodDollar/GoodDollar.entitlements; sourceTree = "<group>"; };
+		5453E5EF240ABC1400E3DC92 /* branch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = branch.json; path = ../branch.json; sourceTree = "<group>"; };
+		606D706266A94D118D223001 /* RobotoSlab-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Medium.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-Medium.ttf"; sourceTree = "<group>"; };
+		669EF8BFFEBF4BA48B02FA6E /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		6EC8EDAD8014A8521592C1CC /* Pods-GoodDollar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodDollar.debug.xcconfig"; path = "Target Support Files/Pods-GoodDollar/Pods-GoodDollar.debug.xcconfig"; sourceTree = "<group>"; };
+		724EE82D2F9C46B6B7490630 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		74A90ADEA4224FBFB6A030FA /* RobotoSlab-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Black.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-Black.ttf"; sourceTree = "<group>"; };
+		74AA1BFFCDA447CAB2F46C3E /* gooddollar.woff2 */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = gooddollar.woff2; path = ../src/assets/fonts/gooddollar.woff2; sourceTree = "<group>"; };
+		77E20F18A1D644E28CD22FBA /* RobotoSlab-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Regular.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-Regular.ttf"; sourceTree = "<group>"; };
+		7EAE46A7BAAA4CB2A16C5F44 /* gooddollar.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = gooddollar.ttf; path = ../src/assets/fonts/gooddollar.ttf; sourceTree = "<group>"; };
+		8454EB4B6A0B4856ADECF695 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		87C6E460098F4D6485C02C84 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		8C4D974938974960825B8430 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		8FAA3B99F12345D3885D6EE2 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		93E02E113E3842B8892E0408 /* gooddollar.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = gooddollar.woff; path = ../src/assets/fonts/gooddollar.woff; sourceTree = "<group>"; };
+		977449608F3D4807A013B32A /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		9CCAFF4478E640FABF678756 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		ADDC9D7A0B5DD4C7FFA27300 /* libPods-GoodDollar-GoodDollarTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoodDollar-GoodDollarTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B34616F6789742CFA153D77C /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-MediumItalic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
+		B41A081D208C4F11B70E1831 /* RobotoSlab-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Thin.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-Thin.ttf"; sourceTree = "<group>"; };
+		B6F2EFC83C7D4021A4812BC2 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		B7288696CA664B4AB10353AE /* RobotoSlab-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-SemiBold.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-SemiBold.ttf"; sourceTree = "<group>"; };
+		B97C1C712B958C9DD617421E /* Pods-GoodDollar-GoodDollarTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodDollar-GoodDollarTests.debug.xcconfig"; path = "Target Support Files/Pods-GoodDollar-GoodDollarTests/Pods-GoodDollar-GoodDollarTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BD2413EB372049FEA212B762 /* RobotoSlab-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-ExtraBold.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-ExtraBold.ttf"; sourceTree = "<group>"; };
+		BF28918AF2EC44F180A4AF05 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		C0BCB518696742F68B975E4B /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		C35615CEBA4CF2A83C02B5BB /* libPods-GoodDollar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoodDollar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5CA8E5A9B504B4A9C260DC4 /* RobotoSlab-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Light.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-Light.ttf"; sourceTree = "<group>"; };
+		C935A646369E4CB39DFE4C5B /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		D1086647BF104227BE66D1EA /* Roboto-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Light.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Light.ttf"; sourceTree = "<group>"; };
+		D11EE70BD14046B099CB21C6 /* RobotoSlab-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-ExtraLight.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-ExtraLight.ttf"; sourceTree = "<group>"; };
+		D2008D72257E7D7200BFAF1F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D726BAB12759C0550092D71C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = GoodDollar/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D73AC0FB277B5C8700DB2C7E /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon.appiconset; path = GoodDollar/Images.xcassets/AppIcon.appiconset; sourceTree = "<group>"; };
+		D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Italic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Italic.ttf"; sourceTree = "<group>"; };
+		E177BA7F034F44F4A748FB5F /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BoldItalic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
+		E51AAC4C1A61478CB461B936 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		E621C99A23E83AC30047715D /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		E621C99B23E83AC30047715D /* GoodDollar-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GoodDollar-Bridging-Header.h"; sourceTree = "<group>"; };
+		E632CC5C23FAE3450096DF79 /* RocketShip_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_0.png; path = assets/animations/RocketShip/RocketShip_0.png; sourceTree = "<group>"; };
+		E632CC5D23FAE3450096DF79 /* RocketShip_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_0@2x.png"; path = "assets/animations/RocketShip/RocketShip_0@2x.png"; sourceTree = "<group>"; };
+		E632CC5E23FAE3450096DF79 /* RocketShip_0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_0@3x.png"; path = "assets/animations/RocketShip/RocketShip_0@3x.png"; sourceTree = "<group>"; };
+		E667FC29240FE2A8003F304F /* Send_0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Send_0@3x.png"; path = "assets/animations/Send/Send_0@3x.png"; sourceTree = "<group>"; };
+		E667FC2A240FE2A8003F304F /* Received_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Received_0@2x.png"; path = "assets/animations/Received/Received_0@2x.png"; sourceTree = "<group>"; };
+		E667FC2B240FE2A9003F304F /* Received_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Received_0.png; path = assets/animations/Received/Received_0.png; sourceTree = "<group>"; };
+		E667FC2C240FE2A9003F304F /* Send_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Send_0@2x.png"; path = "assets/animations/Send/Send_0@2x.png"; sourceTree = "<group>"; };
+		E667FC2D240FE2A9003F304F /* Send_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Send_0.png; path = assets/animations/Send/Send_0.png; sourceTree = "<group>"; };
+		E667FC2E240FE2A9003F304F /* Received_0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Received_0@3x.png"; path = "assets/animations/Received/Received_0@3x.png"; sourceTree = "<group>"; };
+		ECFA4BBB2FCF428AA976BC2D /* Pods-GoodDollar-GoodDollarTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodDollar-GoodDollarTests.release.xcconfig"; path = "Target Support Files/Pods-GoodDollar-GoodDollarTests/Pods-GoodDollar-GoodDollarTests.release.xcconfig"; sourceTree = "<group>"; };
+		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F7F00E88304443CE80D1CEE9 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		F9717AB5AC1648A29F31922C /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BlackItalic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		FABE8676831A432DA7210B81 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00E356EB1AD99517003FC87E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2468CB4566EF6A4C59CB5CAD /* libPods-GoodDollar-GoodDollarTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE722EDEC57B4C4D89CDD9F7 /* libz.tbd in Frameworks */,
+				5EFEBE756EFA8A8FE9173B7A /* libPods-GoodDollar.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00E356EF1AD99517003FC87E /* GoodDollarTests */ = {
+			isa = PBXGroup;
+			children = (
+				00E356F21AD99517003FC87E /* GoodDollarTests.m */,
+				00E356F01AD99517003FC87E /* Supporting Files */,
+			);
+			path = GoodDollarTests;
+			sourceTree = "<group>";
+		};
+		00E356F01AD99517003FC87E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				00E356F11AD99517003FC87E /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		13B07FAE1A68108700A75B9A /* GoodDollar */ = {
+			isa = PBXGroup;
+			children = (
+				D726BAB12759C0550092D71C /* LaunchScreen.storyboard */,
+				5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */,
+				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
+				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				13B07FB61A68108700A75B9A /* Info.plist */,
+				13B07FB71A68108700A75B9A /* main.m */,
+				5453E5E82409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m */,
+				5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */,
+				5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */,
+			);
+			name = GoodDollar;
+			sourceTree = "<group>";
+		};
+		2C4C1FF0C9A44611A84FAD12 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D73AC0FB277B5C8700DB2C7E /* AppIcon.appiconset */,
+				E68AD00923EC103E003F59C4 /* animations */,
+				9CCAFF4478E640FABF678756 /* AntDesign.ttf */,
+				669EF8BFFEBF4BA48B02FA6E /* Entypo.ttf */,
+				F7F00E88304443CE80D1CEE9 /* EvilIcons.ttf */,
+				E51AAC4C1A61478CB461B936 /* Feather.ttf */,
+				8FAA3B99F12345D3885D6EE2 /* FontAwesome.ttf */,
+				503435BD5C8549679380F2C6 /* FontAwesome5_Brands.ttf */,
+				977449608F3D4807A013B32A /* FontAwesome5_Regular.ttf */,
+				724EE82D2F9C46B6B7490630 /* FontAwesome5_Solid.ttf */,
+				3BC9C08D1FA148B2A3D3F031 /* Fontisto.ttf */,
+				C0BCB518696742F68B975E4B /* Foundation.ttf */,
+				447F67DDF34643DDA0768D5B /* Ionicons.ttf */,
+				8454EB4B6A0B4856ADECF695 /* MaterialCommunityIcons.ttf */,
+				C935A646369E4CB39DFE4C5B /* MaterialIcons.ttf */,
+				BF28918AF2EC44F180A4AF05 /* Octicons.ttf */,
+				8C4D974938974960825B8430 /* SimpleLineIcons.ttf */,
+				430FFA271F824393AABCFF04 /* Zocial.ttf */,
+				11F6638F3D3947698C30536C /* gooddollar.svg */,
+				7EAE46A7BAAA4CB2A16C5F44 /* gooddollar.ttf */,
+				93E02E113E3842B8892E0408 /* gooddollar.woff */,
+				74AA1BFFCDA447CAB2F46C3E /* gooddollar.woff2 */,
+				0158E997AD6E4CEAAA74798A /* Roboto-Black.ttf */,
+				F9717AB5AC1648A29F31922C /* Roboto-BlackItalic.ttf */,
+				87C6E460098F4D6485C02C84 /* Roboto-Bold.ttf */,
+				E177BA7F034F44F4A748FB5F /* Roboto-BoldItalic.ttf */,
+				D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */,
+				D1086647BF104227BE66D1EA /* Roboto-Light.ttf */,
+				2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */,
+				4DD3B67B684149EA91ADA521 /* Roboto-Medium.ttf */,
+				B34616F6789742CFA153D77C /* Roboto-MediumItalic.ttf */,
+				B6F2EFC83C7D4021A4812BC2 /* Roboto-Regular.ttf */,
+				4A2D9A90A0ED4E3E99EB30A4 /* Roboto-Thin.ttf */,
+				12CAFADFA277443C9001EECC /* Roboto-ThinItalic.ttf */,
+				3574781F765446BDA13679A8 /* RobotoSlab-Bold.ttf */,
+				606D706266A94D118D223001 /* RobotoSlab-Medium.ttf */,
+				77E20F18A1D644E28CD22FBA /* RobotoSlab-Regular.ttf */,
+				74A90ADEA4224FBFB6A030FA /* RobotoSlab-Black.ttf */,
+				BD2413EB372049FEA212B762 /* RobotoSlab-ExtraBold.ttf */,
+				D11EE70BD14046B099CB21C6 /* RobotoSlab-ExtraLight.ttf */,
+				C5CA8E5A9B504B4A9C260DC4 /* RobotoSlab-Light.ttf */,
+				B7288696CA664B4AB10353AE /* RobotoSlab-SemiBold.ttf */,
+				B41A081D208C4F11B70E1831 /* RobotoSlab-Thin.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				FABE8676831A432DA7210B81 /* libz.tbd */,
+				C35615CEBA4CF2A83C02B5BB /* libPods-GoodDollar.a */,
+				ADDC9D7A0B5DD4C7FFA27300 /* libPods-GoodDollar-GoodDollarTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		83CBB9F61A601CBA00E9B192 = {
+			isa = PBXGroup;
+			children = (
+				13B07FAE1A68108700A75B9A /* GoodDollar */,
+				832341AE1AAA6A7D00B99B32 /* Libraries */,
+				00E356EF1AD99517003FC87E /* GoodDollarTests */,
+				83CBBA001A601CBA00E9B192 /* Products */,
+				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				E233CBF5F47BEE60B243DCF8 /* Pods */,
+				2C4C1FF0C9A44611A84FAD12 /* Resources */,
+				D2008D72257E7D7200BFAF1F /* GoogleService-Info.plist */,
+				5453E5EF240ABC1400E3DC92 /* branch.json */,
+				E621C99A23E83AC30047715D /* File.swift */,
+				E621C99B23E83AC30047715D /* GoodDollar-Bridging-Header.h */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
+		};
+		83CBBA001A601CBA00E9B192 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				13B07F961A680F5B00A75B9A /* GoodDollar.app */,
+				00E356EE1AD99517003FC87E /* GoodDollarTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E233CBF5F47BEE60B243DCF8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6EC8EDAD8014A8521592C1CC /* Pods-GoodDollar.debug.xcconfig */,
+				4A2DE3B08AA45BC150B19083 /* Pods-GoodDollar.release.xcconfig */,
+				B97C1C712B958C9DD617421E /* Pods-GoodDollar-GoodDollarTests.debug.xcconfig */,
+				ECFA4BBB2FCF428AA976BC2D /* Pods-GoodDollar-GoodDollarTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E68AD00923EC103E003F59C4 /* animations */ = {
+			isa = PBXGroup;
+			children = (
+				E667FC2B240FE2A9003F304F /* Received_0.png */,
+				E667FC2A240FE2A8003F304F /* Received_0@2x.png */,
+				E667FC2E240FE2A9003F304F /* Received_0@3x.png */,
+				E667FC2D240FE2A9003F304F /* Send_0.png */,
+				E667FC2C240FE2A9003F304F /* Send_0@2x.png */,
+				E667FC29240FE2A8003F304F /* Send_0@3x.png */,
+				E632CC5C23FAE3450096DF79 /* RocketShip_0.png */,
+				E632CC5D23FAE3450096DF79 /* RocketShip_0@2x.png */,
+				E632CC5E23FAE3450096DF79 /* RocketShip_0@3x.png */,
+			);
+			name = animations;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		00E356ED1AD99517003FC87E /* GoodDollarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "GoodDollarTests" */;
+			buildPhases = (
+				D0ADE8BF7403BA795C74AAF6 /* [CP] Check Pods Manifest.lock */,
+				00E356EA1AD99517003FC87E /* Sources */,
+				00E356EB1AD99517003FC87E /* Frameworks */,
+				00E356EC1AD99517003FC87E /* Resources */,
+				F5E5D0418737E87120B5CD86 /* [CP] Embed Pods Frameworks */,
+				B42C7DAFD6865B46475FD602 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00E356F51AD99517003FC87E /* PBXTargetDependency */,
+			);
+			name = GoodDollarTests;
+			productName = GoodDollarTests;
+			productReference = 00E356EE1AD99517003FC87E /* GoodDollarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		13B07F861A680F5B00A75B9A /* GoodDollar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "GoodDollar" */;
+			buildPhases = (
+				1759397D0EB90AA7B2079B89 /* [CP] Check Pods Manifest.lock */,
+				FD10A7F022414F080027D42C /* Start Packager */,
+				13B07F871A680F5B00A75B9A /* Sources */,
+				13B07F8C1A680F5B00A75B9A /* Frameworks */,
+				13B07F8E1A680F5B00A75B9A /* Resources */,
+				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				93A6772F0EA674B2287C3A9E /* [CP] Embed Pods Frameworks */,
+				BAE9FE3F367112EFB987C425 /* [CP] Copy Pods Resources */,
+				AF59FDFBCFAC72116D789544 /* [CP-User] [RNFB] Core Configuration */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GoodDollar;
+			productName = GoodDollar;
+			productReference = 13B07F961A680F5B00A75B9A /* GoodDollar.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		83CBB9F71A601CBA00E9B192 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1210;
+				TargetAttributes = {
+					00E356ED1AD99517003FC87E = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1120;
+					};
+				};
+			};
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "GoodDollar" */;
+			compatibilityVersion = "Xcode 12.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 83CBB9F61A601CBA00E9B192;
+			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				13B07F861A680F5B00A75B9A /* GoodDollar */,
+				00E356ED1AD99517003FC87E /* GoodDollarTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00E356EC1AD99517003FC87E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		13B07F8E1A680F5B00A75B9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5453E5F1240AD05900E3DC92 /* GoodDollar.entitlements in Resources */,
+				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				E632CC6023FAE3450096DF79 /* RocketShip_0@2x.png in Resources */,
+				D73AC0FC277B5C8700DB2C7E /* AppIcon.appiconset in Resources */,
+				AB8B506C5EA54364B15ED529 /* gooddollar.svg in Resources */,
+				E632CC6123FAE3450096DF79 /* RocketShip_0@3x.png in Resources */,
+				5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */,
+				E632CC5F23FAE3450096DF79 /* RocketShip_0.png in Resources */,
+				DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */,
+				A1EA9A99772440ABA619D4F9 /* gooddollar.woff2 in Resources */,
+				AB13C56C918E4FA9A349F99E /* Roboto-Black.ttf in Resources */,
+				D2008D73257E7D7200BFAF1F /* GoogleService-Info.plist in Resources */,
+				FE7F9276E81C4092953052B5 /* Roboto-BlackItalic.ttf in Resources */,
+				033B8C0A8940430D912EC4AC /* Roboto-Bold.ttf in Resources */,
+				477F7AF867B84C89B5DD55C3 /* Roboto-BoldItalic.ttf in Resources */,
+				EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */,
+				A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */,
+				E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */,
+				D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */,
+				D73AC0FE277B5D9C00DB2C7E /* (null) in Resources */,
+				0613FF83B35F4C5C877B0A13 /* Roboto-Medium.ttf in Resources */,
+				63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */,
+				AD667D3DF1084153B388B849 /* Roboto-Regular.ttf in Resources */,
+				5453E5F0240ABC1400E3DC92 /* branch.json in Resources */,
+				1C070547A367412CA2FF3034 /* Roboto-Thin.ttf in Resources */,
+				670FC1ABA9C54C1CA52E7B43 /* Roboto-ThinItalic.ttf in Resources */,
+				28BEA857639F48198085A31F /* RobotoSlab-Bold.ttf in Resources */,
+				2D937317297B4E47B382219E /* RobotoSlab-Medium.ttf in Resources */,
+				2FF5A9749E634C41B5508DCD /* RobotoSlab-Regular.ttf in Resources */,
+				1923EC9A71E2463C9A438D02 /* RobotoSlab-Black.ttf in Resources */,
+				DB9407204D574FE784DEFFBA /* RobotoSlab-ExtraBold.ttf in Resources */,
+				8663785C851A40F09EDAAE23 /* RobotoSlab-ExtraLight.ttf in Resources */,
+				2A3935F8CEB2401F907182DF /* RobotoSlab-Light.ttf in Resources */,
+				C726B909C5AF4C5483297A33 /* RobotoSlab-SemiBold.ttf in Resources */,
+				7FA30B95B63940169D389363 /* RobotoSlab-Thin.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		1759397D0EB90AA7B2079B89 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GoodDollar-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		93A6772F0EA674B2287C3A9E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF59FDFBCFAC72116D789544 /* [CP-User] [RNFB] Core Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "[CP-User] [RNFB] Core Configuration";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    _JSON_OUTPUT_BASE64=$(python -c 'import json,sys,base64;print(base64.b64encode(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"').read())['${_JSON_ROOT}'])))' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
+		};
+		B42C7DAFD6865B46475FD602 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar-GoodDollarTests/Pods-GoodDollar-GoodDollarTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar-GoodDollarTests/Pods-GoodDollar-GoodDollarTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoodDollar-GoodDollarTests/Pods-GoodDollar-GoodDollarTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BAE9FE3F367112EFB987C425 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0ADE8BF7403BA795C74AAF6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GoodDollar-GoodDollarTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5E5D0418737E87120B5CD86 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar-GoodDollarTests/Pods-GoodDollar-GoodDollarTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar-GoodDollarTests/Pods-GoodDollar-GoodDollarTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoodDollar-GoodDollarTests/Pods-GoodDollar-GoodDollarTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD10A7F022414F080027D42C /* Start Packager */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Start Packager";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00E356EA1AD99517003FC87E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00E356F31AD99517003FC87E /* GoodDollarTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		13B07F871A680F5B00A75B9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				5453E5EB2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m in Sources */,
+				E621C99C23E83AC30047715D /* File.swift in Sources */,
+				5453E5ED240AA27E00E3DC92 /* DeepLink+AppDelegate.m in Sources */,
+				5453E5E92409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 13B07F861A680F5B00A75B9A /* GoodDollar */;
+			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		00E356F61AD99517003FC87E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B97C1C712B958C9DD617421E /* Pods-GoodDollar-GoodDollarTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = GoodDollarTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GoodDollar.app/GoodDollar";
+			};
+			name = Debug;
+		};
+		00E356F71AD99517003FC87E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ECFA4BBB2FCF428AA976BC2D /* Pods-GoodDollar-GoodDollarTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				COPY_PHASE_STRIP = NO;
+				INFOPLIST_FILE = GoodDollarTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GoodDollar.app/GoodDollar";
+			};
+			name = Release;
+		};
+		13B07F941A680F5B00A75B9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EC8EDAD8014A8521592C1CC /* Pods-GoodDollar.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = GoodDollar/GoodDollar.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97K3Q6WTLM;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = GoodDollar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.gooddollar;
+				PRODUCT_NAME = GoodDollar;
+				PROVISIONING_PROFILE_SPECIFIER = "AppStore (iOS Distribution)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		13B07F951A680F5B00A75B9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A2DE3B08AA45BC150B19083 /* Pods-GoodDollar.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = GoodDollar/GoodDollar.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97K3Q6WTLM;
+				INFOPLIST_FILE = GoodDollar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.gooddollar;
+				PRODUCT_NAME = GoodDollar;
+				PROVISIONING_PROFILE_SPECIFIER = "AppStore (iOS Distribution)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		83CBBA201A601CBA00E9B192 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		83CBBA211A601CBA00E9B192 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "GoodDollarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00E356F61AD99517003FC87E /* Debug */,
+				00E356F71AD99517003FC87E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "GoodDollar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13B07F941A680F5B00A75B9A /* Debug */,
+				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "GoodDollar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83CBBA201A601CBA00E9B192 /* Debug */,
+				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
+}

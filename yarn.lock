@@ -3461,9 +3461,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@npm:1.0.19":
-  version: 1.0.19
-  resolution: "@gooddollar/goodprotocol@npm:1.0.19"
+"@gooddollar/goodprotocol@npm:1.0.20":
+  version: 1.0.20
+  resolution: "@gooddollar/goodprotocol@npm:1.0.20"
   dependencies:
     "@celo-tools/celo-ethers-wrapper": ^0.1.0
     "@celo/contractkit": ^2.0.0
@@ -3479,7 +3479,7 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.5.11
     truffle-source-verify: ^0.0.6
-  checksum: e4dd4399b708ad8a4eee663fcc4536e3c47f9db702bdc58c9857afde574a9e0db492b3c732d980df9e586645c3c5be3829a198abcbbbb43610e7e12793e3fb3b
+  checksum: 7fd3619282ea76108c6957003990ff72452f75e0a97d64e99132b9fe4830a1c09a960eedb2237eca11dd4bf46bc436d0946b1ccd104b5caf707bf6b99a5f0f50
   languageName: node
   linkType: hard
 
@@ -4780,7 +4780,7 @@ __metadata:
     "@ethersproject/wordlists": 5.6.0
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/goodprotocol": 1.0.19
+    "@gooddollar/goodprotocol": 1.0.20
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": ^3.12.1

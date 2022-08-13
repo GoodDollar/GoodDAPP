@@ -220,7 +220,7 @@
     "@ethersproject/wallet": "5.6.0",
     "@ethersproject/web": "5.6.0",
     "@ethersproject/wordlists": "5.6.0",
-    "@gooddollar/goodprotocol": "1.0.19",
+    "@gooddollar/goodprotocol": "1.0.20",
     "@headlessui/react": "1.5.0",
     "@lufycz/sushi-data": "^2.0.0-canary-21",
     "@types/react-text-mask": "^5.4.8",

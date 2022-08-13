@@ -15,7 +15,6 @@ import useG$ from 'hooks/useG$'
 import SwapConfirmModal from './SwapConfirmModal'
 import { FUSE } from 'constants/index'
 import { useDispatch } from 'react-redux'
-import SwapDescriptions from './SwapDescriptions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
@@ -28,7 +27,7 @@ import sendGa from 'functions/sendGa'
 
 import {
   approve,
-  BuyInfo, 
+  SwapInfo as BuyInfo, 
   getBuyMeta, 
   getBuyMetaReverse,
   getSellMeta,

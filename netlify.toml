@@ -6,7 +6,7 @@ command = "CI= rm -f .env* && CI= yarn build"
   to = "https://www.gooddollar.org/terms"
   status = 451
   force = true
-  conditions = {Country=["IR","KP"]}
+  conditions = {Country=["IR","KP","GB"]}
   headers = {Link="<https://www.gooddollar.org/terms>"}
 
 [[headers]]

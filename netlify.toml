@@ -19,12 +19,12 @@ command = "CI= rm -f .env* && CI= yarn build --ignore-engines"
 [[headers]]
   for = "/service-worker.js"
   [headers.values]
-    cache-control = "max-age=0,no-cache,no-store,must-revalidate"
+    Cache-Control = "max-age=0,no-cache,no-store,must-revalidate"
 
 [[headers]]
   for = "/torus/sw.js"
   [headers.values]
-    cache-control = "max-age=0,no-cache,no-store,must-revalidate"
+    Cache-Control = "max-age=0,no-cache,no-store,must-revalidate"
 
 [[headers]]
   for = "/torus/redirect"
@@ -49,7 +49,7 @@ command = "CI= rm -f .env* && CI= yarn build --ignore-engines"
 [[headers]]
   for = "/zoom/resources/*_cache.wasm"
     [headers.values]
-      cache-control = '''
+      Cache-Control = '''
         max-age=0,
         no-cache,
         no-store,

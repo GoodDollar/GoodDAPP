@@ -7,11 +7,11 @@
 	<key>destination</key>
 	<string>export</string>
 	<key>method</key>
-	<string>Test</string>
+	<string>ad-hoc</string>
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>org.gooddollar</key>
-		<string>Test</string>
+		<string>GoodDollar AdHoc (iOS Distribution)</string>
 	</dict>
 	<key>signingCertificate</key>
 	<string>iPhone Distribution: GoodDollar Limited</string>

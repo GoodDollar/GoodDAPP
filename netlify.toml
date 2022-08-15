@@ -1,5 +1,5 @@
 [build]
-command = "CI= rm -f .env* && CI= yarn build"
+command = "CI= rm -f .env* && CI= yarn build --ignore-engines"
 
 [[redirects]]
   from = "/*"
@@ -56,8 +56,6 @@ command = "CI= rm -f .env* && CI= yarn build"
         must-revalidate'''
 
 [build.environment]
-NODE_VERSION = "14.17.6"
-PYTHON_VERSION = "3.7"
 GENERATE_SOURCEMAP = "true"
 NODE_ENV = "development"
 YARN_CACHE_FOLDER = "/opt/buildhome/.yarn_cache"

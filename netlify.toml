@@ -4,9 +4,9 @@ command = "CI= rm -f .env* && CI= yarn build --ignore-engines"
 [[redirects]]
   from = "/*"
   to = "https://www.gooddollar.org/terms"
-  status = 451
+  status = 302
   force = true
-  conditions = {Country=["IR","KP","GB"]}
+  conditions = {Country=["IR","KP"]}
   headers = {Link="<https://www.gooddollar.org/terms>"}
 
 [[headers]]

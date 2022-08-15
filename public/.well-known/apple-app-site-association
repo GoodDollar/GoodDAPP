@@ -6,6 +6,7 @@
           "97K3Q6WTLM.org.gooddollar"
         ],
         "paths": [
+          "NOT /torus/*",
           "*"
         ]
       }

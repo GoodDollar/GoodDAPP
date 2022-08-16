@@ -32,7 +32,7 @@ export default new class {
   }
 
   async check(permission: Permission): Promise<PermissionStatus> {
-    const { api, platformPermissions, _statusToResult } = this
+    const { api, platformPermissions, _toResult } = this
     const platformPermission = platformPermissions[permission]
     const { Granted, Denied, Prompt, Undetermined } = PermissionStatuses
 
@@ -82,11 +82,11 @@ export default new class {
 
     return api.request(platformPermission).then(result => RESULTS.GRANTED === result)
   }
-  
+
   /** @private */
   _toResult(status) {
-    const statusValues = this.notificationOptions.map(option => status[option])    
-    
+    const statusValues = this.notificationOptions.map(option => status[option])
+
     if (every(statusValues)) {
       return RESULTS.GRANTED
     }

@@ -5,14 +5,18 @@ mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 
 echo $IOS_CERTIFICATE | base64 --decode > ./Certificates.p12
 
-if [ "$IS_PROD" ]; then
+if $IS_PROD; then
+    echo "AppStore provisioning profile configuration :"
     echo $IOS_STORE_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
     /usr/libexec/PlistBuddy -c 'set objects:13B07F951A680F5B00A75B9A:buildSettings:PROVISIONING_PROFILE_SPECIFIER AppStore (iOS Distribution)' ./ios/GoodDollar.xcodeproj/project.pbxproj
+    /usr/libexec/PlistBuddy -c 'set objects:13B07F941A680F5B00A75B9A:buildSettings:PROVISIONING_PROFILE_SPECIFIER AppStore (iOS Distribution)' ./ios/GoodDollar.xcodeproj/project.pbxproj
     /usr/libexec/PlistBuddy -c 'set method app-store' ./ios/ci.plist
     /usr/libexec/PlistBuddy -c 'set provisioningProfiles:org.gooddollar AppStore (iOS Distribution)' ./ios/ci.plist
   else
+    echo "AdHoc provisioning profile configuration :"
     echo $IOS_ADHOC_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
     /usr/libexec/PlistBuddy -c 'set objects:13B07F951A680F5B00A75B9A:buildSettings:PROVISIONING_PROFILE_SPECIFIER GoodDollar AdHoc (iOS Distribution)' ./ios/GoodDollar.xcodeproj/project.pbxproj
+    /usr/libexec/PlistBuddy -c 'set objects:13B07F941A680F5B00A75B9A:buildSettings:PROVISIONING_PROFILE_SPECIFIER GoodDollar AdHoc (iOS Distribution)' ./ios/GoodDollar.xcodeproj/project.pbxproj
     /usr/libexec/PlistBuddy -c 'set method ad-hoc' ./ios/ci.plist
     /usr/libexec/PlistBuddy -c 'set provisioningProfiles:org.gooddollar GoodDollar AdHoc (iOS Distribution)' ./ios/ci.plist
 fi

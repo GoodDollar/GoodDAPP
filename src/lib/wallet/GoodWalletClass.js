@@ -1362,24 +1362,33 @@ export class GoodWallet {
       const { topWallet = true } = options
 
       let nativeBalance = await this.balanceOfNative()
+      let hasBalance = nativeBalance >= minWei
 
-      if (nativeBalance > minWei) {
+      // also request for gas if we wont have enough after TX to do a refill
+      let noGasAfterTx = topWallet && nativeBalance - minWei < TOP_GWEI
+
+      if (hasBalance && !noGasAfterTx) {
         return {
           ok: true,
         }
       }
 
-      if (!topWallet) {
+      if (!hasBalance && !topWallet) {
+        // !hasbalance is just to make it readable, it was tested in previous if
         return {
           ok: false,
         }
       }
 
       // self serve using faucet. we verify nativeBalance to prevent loop with sendTransaction which calls this function also
-      if (
-        nativeBalance >= TOP_GWEI &&
-        (await retryCall(() => this.faucetContract.methods.canTop(this.account).call()))
-      ) {
+      const canTop = await retryCall(() => this.faucetContract.methods.canTop(this.account).call())
+
+      // cant use faucet anymore this day/week
+      if (!canTop) {
+        return { ok: false || hasBalance }
+      }
+
+      if (nativeBalance >= TOP_GWEI) {
         log.info('verifyHasGas using faucet...')
 
         const toptx = this.faucetContract.methods.topWallet(this.account)
@@ -1391,12 +1400,13 @@ export class GoodWallet {
           })
 
         if (ok) {
-          return { ok }
+          return { ok: ok || hasBalance }
         }
       }
 
       // if we cant use faucet or it failed then fallback to adminwallet api
       log.info('verifyHasGas no gas, asking for top wallet from server', {
+        hasBalance,
         nativeBalance,
         required: minWei,
         address: this.account,
@@ -1407,7 +1417,7 @@ export class GoodWallet {
 
       if (!data || data.ok !== 1) {
         return {
-          ok: false,
+          ok: false || hasBalance,
           error:
             !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
           message: get(data, 'error'),

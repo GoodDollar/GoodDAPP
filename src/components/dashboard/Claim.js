@@ -375,12 +375,16 @@ const Claim = props => {
       })
     } catch (exception) {
       const { message } = exception
-
+      log.error('SendClaimTx error : ', message, exception)
       if (!txHash || !message.includes('Transaction with the same hash was already imported')) {
         throw exception
       }
 
-      receipt = await goodWallet.wallet.eth.getTransactionReceipt(txHash)
+      try {
+        receipt = await goodWallet.wallet.eth.getTransactionReceipt(txHash)
+      } catch (e) {
+        log.error('getTransactionReceipt error : ', e.message, e)
+      }
     }
 
     return receipt

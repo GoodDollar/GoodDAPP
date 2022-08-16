@@ -7,6 +7,7 @@ import { every } from 'lodash'
 import PushNotification from 'react-native-push-notification'
 
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
+import { isAndroidNative } from '../../../lib/utils/platform'
 
 export default new class {
   // permissions enum to platform permissions map
@@ -19,7 +20,10 @@ export default new class {
     }),
   }
 
-  notificationOptions = ['alert', 'badge', 'sound']
+  notificationOptions = Platform.select({
+    ios: ['alert', 'badge', 'sound'],
+    android: ['alert'],
+  })
 
   constructor(api) {
     this.api = api
@@ -32,6 +36,10 @@ export default new class {
     const result = every(statusValues)
     if (result) {
       return RESULTS.GRANTED
+    }
+
+    if (isAndroidNative) {
+      return RESULTS.BLOCKED
     }
 
     return status.authorizationStatus === 1 ? RESULTS.BLOCKED : RESULTS.DENIED
@@ -53,12 +61,6 @@ export default new class {
           const checkResult = checkStatus(status)
 
           resolve(checkResult)
-
-          // if (checkResult) {
-          //   return resolve(RESULTS.GRANTED)
-          // }
-
-          // resolve(isAndroidNative ? RESULTS.BLOCKED : RESULTS.DENIED)
         })
       })
 

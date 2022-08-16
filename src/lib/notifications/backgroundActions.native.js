@@ -62,8 +62,6 @@ export const useNotifications = navigation => {
     // eslint-disable-next-line require-await
     const onClaimNotification = async navigation => navigation.navigate('Claim')
 
-    Notifications.registerRemoteNotifications()
-
     Notifications.events().registerNotificationReceivedForeground((notification, completion) => {
       completion({ alert: false, sound: false, badge: false })
     })

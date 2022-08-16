@@ -67,17 +67,7 @@ export const useNotifications = navigation => {
     // eslint-disable-next-line require-await
     const onClaimNotification = async navigation => navigation.navigate('Claim')
 
-    const foregroundSubscription = Notifications.events().registerNotificationReceivedForeground(
-      (notification, completion) => {
-        completion({ alert: false, sound: false, badge: false })
-      },
-    )
-
-    const openSubscription = Notifications.events().registerNotificationOpened((notification, completion) => {
-      completion()
-    })
-
-    const openAsyncSubscription = Notifications.events().registerNotificationOpened(
+    const subscription = Notifications.events().registerNotificationOpened(
       async (notification, completion) => {
         const navigation = getNavigation()
         const { category } = notification?.payload || {}
@@ -95,9 +85,7 @@ export const useNotifications = navigation => {
     )
 
     return () => {
-      foregroundSubscription.remove()
-      openSubscription.remove()
-      openAsyncSubscription.remove()
+      subscription.remove()
     }
   }, [])
 }

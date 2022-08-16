@@ -124,7 +124,7 @@ jobs:
 
       - name: install goodcontracts
         if: "steps.contractsCache.outputs.cache-hit != 'true' && matrix.chunk == env.WALLET_CHUNK"
-        run: yarn test:setup
+        run: ./scripts/blockchainTestSetup.sh
 
       - name: run tests and code coverage
         run: |

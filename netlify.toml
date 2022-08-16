@@ -1,10 +1,10 @@
 [build]
-command = "CI= rm -f .env* && CI= yarn build"
+command = "CI= rm -f .env* && CI= yarn build --ignore-engines"
 
 [[redirects]]
   from = "/*"
   to = "https://www.gooddollar.org/terms"
-  status = 451
+  status = 302
   force = true
   conditions = {Country=["IR","KP"]}
   headers = {Link="<https://www.gooddollar.org/terms>"}
@@ -19,12 +19,12 @@ command = "CI= rm -f .env* && CI= yarn build"
 [[headers]]
   for = "/service-worker.js"
   [headers.values]
-    cache-control = "max-age=0,no-cache,no-store,must-revalidate"
+    Cache-Control = "max-age=0,no-cache,no-store,must-revalidate"
 
 [[headers]]
   for = "/torus/sw.js"
   [headers.values]
-    cache-control = "max-age=0,no-cache,no-store,must-revalidate"
+    Cache-Control = "max-age=0,no-cache,no-store,must-revalidate"
 
 [[headers]]
   for = "/torus/redirect"
@@ -49,15 +49,13 @@ command = "CI= rm -f .env* && CI= yarn build"
 [[headers]]
   for = "/zoom/resources/*_cache.wasm"
     [headers.values]
-      cache-control = '''
+      Cache-Control = '''
         max-age=0,
         no-cache,
         no-store,
         must-revalidate'''
 
 [build.environment]
-NODE_VERSION = "14.17.6"
-PYTHON_VERSION = "3.7"
 GENERATE_SOURCEMAP = "true"
 NODE_ENV = "development"
 YARN_CACHE_FOLDER = "/opt/buildhome/.yarn_cache"

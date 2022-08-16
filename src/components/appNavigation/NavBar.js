@@ -55,6 +55,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           color="white"
           size={36}
           style={styles.walletButton}
+          hasContainerSize={false}
         />
       )}
     </NavigationBar>

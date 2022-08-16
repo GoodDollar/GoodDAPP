@@ -132,11 +132,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '13.2'
-      - name: Select Xcode version
-        run: sudo xcode-select -s '/Applications/Xcode_13.2.app/Contents/Developer'
       - uses: actions/setup-python@v4
         with:
           python-version: '3.7.x'
@@ -200,6 +195,7 @@ jobs:
         env:
           IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
           IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
+          IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
           IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
       - name: Build app
         env:
@@ -215,7 +211,7 @@ jobs:
             -sdk iphoneos \
             -configuration Release \
             -archivePath ./build/GoodDollar.xcarchive \
-            PROVISIONING_PROFILE="~/Library/MobileDevice/Provisioning\ Profiles/appstore_pp.mobileprovision"
+            PROVISIONING_PROFILE="~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision"
             CODE_SIGN_IDENTITY="org.gooddollar"
       - name: Export app
         run: |

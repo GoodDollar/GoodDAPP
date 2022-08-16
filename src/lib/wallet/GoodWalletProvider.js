@@ -9,7 +9,8 @@ import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
 import { GoodWallet } from './GoodWalletClass'
-import HDWalletProvider from './HDWalletProvider'
+
+// import HDWalletProvider from './HDWalletProvider'
 
 const log = logger.child({ from: 'GoodWalletProvider' })
 
@@ -28,7 +29,8 @@ export const GoodWalletContext = React.createContext({
 export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
   const [{ goodWallet, userStorage }, setWalletAndStorage] = useState({})
-  const [web3Provider, setWeb3] = useState()
+
+  // const [web3Provider, setWeb3] = useState()
   const [isLoggedInJWT, setLoggedInJWT] = useState()
   const [balance, setBalance] = useState()
   const [dailyUBI, setDailyUBI] = useState()
@@ -74,12 +76,13 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         await wallet.ready
 
-        // when new wallet set the web3provider for future use with usedapp
-        if (type === 'SEED') {
-          setWeb3(new HDWalletProvider(wallet.accounts, wallet.wallet._provider.host))
-        } else {
-          setWeb3(seedOrWeb3)
-        }
+        //HDWalletProvider causes extra polling and maybe some xhr errors
+        // // when new wallet set the web3provider for future use with usedapp
+        // if (type === 'SEED') {
+        //   setWeb3(new HDWalletProvider(wallet.accounts, wallet.wallet._provider.host))
+        // } else {
+        //   setWeb3(seedOrWeb3)
+        // }
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
 
@@ -125,7 +128,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       }
     },
-    [setWeb3, setWalletAndStorage, isLoggedInRouter],
+    [setWalletAndStorage, isLoggedInRouter],
   )
 
   const doLogin = useCallback(
@@ -185,7 +188,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         userStorage,
         goodWallet,
         initWalletAndStorage,
-        web3Provider,
         login,
         isLoggedInJWT,
         balance,

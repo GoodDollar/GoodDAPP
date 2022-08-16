@@ -2,7 +2,7 @@ name: iOS CI/CD v1
 
 on:
   push:
-    branches: [ master, staging, next, adhoc-flow ]
+    branches: [ master, staging, next ]
     pull_request:
       branches: [ master ]
       types:
@@ -90,7 +90,6 @@ jobs:
     # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag :
     if: |
       github.event_name == 'workflow_dispatch' ||
-      (endsWith(github.ref, '/adhoc-flow')) ||
       (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
       (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
       (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))

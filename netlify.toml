@@ -56,6 +56,7 @@ command = "CI= rm -f .env* && CI= yarn build --ignore-engines"
         must-revalidate'''
 
 [build.environment]
+PYTHON_VERSION = "3.7"
 GENERATE_SOURCEMAP = "true"
 NODE_ENV = "development"
 YARN_CACHE_FOLDER = "/opt/buildhome/.yarn_cache"

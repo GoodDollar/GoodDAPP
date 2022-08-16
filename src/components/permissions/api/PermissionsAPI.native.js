@@ -2,7 +2,8 @@
 
 import { Platform } from 'react-native'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
-import { every } from 'lodash'
+import { bindAll, every } from 'lodash'
+
 // eslint-disable-next-line import/default
 import PushNotification from 'react-native-push-notification'
 
@@ -29,24 +30,8 @@ export default new class {
     this.api = api
   }
 
-  checkStatus = status => {
-    const { notificationOptions } = this
-
-    const statusValues = notificationOptions.map(option => status[option])
-    const result = every(statusValues)
-    if (result) {
-      return RESULTS.GRANTED
-    }
-
-    if (isAndroidNative) {
-      return RESULTS.BLOCKED
-    }
-
-    return status.authorizationStatus === 1 ? RESULTS.BLOCKED : RESULTS.DENIED
-  }
-
   async check(permission: Permission): Promise<PermissionStatus> {
-    const { api, platformPermissions, checkStatus } = this
+    const { api, platformPermissions, _statusToResult } = this
     const platformPermission = platformPermissions[permission]
     const { Granted, Denied, Prompt, Undetermined } = PermissionStatuses
 
@@ -56,15 +41,7 @@ export default new class {
 
     // to check notifications permissions we should use separate method
     if (Permissions.Notifications === permission) {
-      const checkPermissionPromise = new Promise((resolve, reject) => {
-        PushNotification.checkPermissions(status => {
-          const checkResult = checkStatus(status)
-
-          resolve(checkResult)
-        })
-      })
-
-      result = await checkPermissionPromise
+      result = await new Promise(resolve => PushNotification.checkPermissions(status => resolve(_toResult(status))))
     } else if (platformPermissions) {
       // if platform permissions was set - calling api
       result = await api.check(platformPermission)
@@ -84,7 +61,7 @@ export default new class {
   }
 
   async request(permission: Permission): Promise<boolean> {
-    const { api, platformPermissions, notificationOptions, checkStatus } = this
+    const { api, platformPermissions, notificationOptions, _toResult } = this
     const platformPermission = platformPermissions[permission]
 
     // there's only check notifications method available
@@ -93,7 +70,7 @@ export default new class {
     if (Permissions.Notifications === permission) {
       const requestResult = await PushNotification.requestPermissions(notificationOptions)
 
-      return checkStatus(requestResult) === RESULTS.GRANTED
+      return _toResult(requestResult) === RESULTS.GRANTED
     }
 
     // if no platform permission found - that means feature
@@ -103,5 +80,16 @@ export default new class {
     }
 
     return api.request(platformPermission).then(result => RESULTS.GRANTED === result)
+  }
+  
+  /** @private */
+  _toResult(status) {
+    const statusValues = this.notificationOptions.map(option => status[option])    
+    
+    if (every(statusValues)) {
+      return RESULTS.GRANTED
+    }
+
+    return isAndroidNative || status.authorizationStatus === 1 ? RESULTS.BLOCKED : RESULTS.DENIED
   }
 }({ request, check })

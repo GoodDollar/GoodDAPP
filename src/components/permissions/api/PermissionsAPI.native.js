@@ -28,6 +28,7 @@ export default new class {
 
   constructor(api) {
     this.api = api
+    bindAll(this, '_toResult')
   }
 
   async check(permission: Permission): Promise<PermissionStatus> {

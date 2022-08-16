@@ -360,6 +360,16 @@ const Claim = props => {
     let receipt
     let txHash
 
+    const getTxReceiptByHash = async () => {
+      try {
+        receipt = await goodWallet.wallet.eth.getTransactionReceipt(txHash)
+      } catch (exception) {
+        log.error('getTransactionReceipt error : ', exception.message, exception)
+
+        throw exception
+      }
+    }
+
     try {
       if (Config.disableClaim) {
         throw new Error('Come back later')
@@ -375,16 +385,14 @@ const Claim = props => {
       })
     } catch (exception) {
       const { message } = exception
+
       log.error('SendClaimTx error : ', message, exception)
+
       if (!txHash || !message.includes('Transaction with the same hash was already imported')) {
         throw exception
       }
 
-      try {
-        receipt = await goodWallet.wallet.eth.getTransactionReceipt(txHash)
-      } catch (e) {
-        log.error('getTransactionReceipt error : ', e.message, e)
-      }
+      receipt = await getTxReceiptByHash()
     }
 
     return receipt

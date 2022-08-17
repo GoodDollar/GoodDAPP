@@ -162,7 +162,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     if (screenStateRef.current?.from === 'Claim') {
       handleClaimReminders(true)
     }
-  }, [])
+  }, [handleClaimReminders])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>

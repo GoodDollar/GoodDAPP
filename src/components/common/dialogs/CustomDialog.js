@@ -15,6 +15,7 @@ import { theme } from '../../theme/styles'
 import Text from '../view/Text'
 import Section from '../layout/Section'
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
+import { DialogContext } from '../../../lib/dialog/dialogContext'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -68,6 +69,7 @@ const CustomDialog = ({
   isMinHeight = true,
 }: DialogProps) => {
   const globalToggleState = useContext(GlobalTogglesContext)
+  const dialogState = useContext(DialogContext)
   const defaultImage = type === 'error' ? <ErrorAnimation /> : loading ? <LoadingIcon /> : <SuccessIcon />
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
@@ -102,12 +104,14 @@ const CustomDialog = ({
           <View style={styles.content}>
             {content ? (
               // eslint-disable-next-line prettier/prettier
-              // need to pass down the global GlobalTogglesContext value
+              // need to pass down the global GlobalTogglesContext and DialogContext values
               // as it's done in RN Paper's <Portal /> source with theme/settings providers:
               // https://github.com/callstack/react-native-paper/blob/main/src/components/Portal/Portal.tsx#L54
               // otherwise useContext(GlobalTogglesContext) will return undefined for
               // any custom dialog component (e.g. ExplanationDialog and other ones)
-              <GlobalTogglesContext.Provider value={globalToggleState}>{content}</GlobalTogglesContext.Provider>
+              <GlobalTogglesContext.Provider value={globalToggleState}>
+                <DialogContext.Provider value={dialogState}>{content}</DialogContext.Provider>
+              </GlobalTogglesContext.Provider>
             ) : (
               <>
                 {children}

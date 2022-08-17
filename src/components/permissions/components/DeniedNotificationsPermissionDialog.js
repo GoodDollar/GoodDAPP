@@ -7,7 +7,7 @@ import { Linking } from 'react-native'
 import illustration from '../../../assets/NotificationPermissionError.svg'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
-export default props => (
+export default ({ onCancel, onDismiss, hideDialog, ...props }) => (
   <ExplanationDialog
     title={t`Oops! You need to enable notifications on your phone.`}
     image={illustration}
@@ -18,15 +18,18 @@ export default props => (
       {
         text: t`GO TO SETTINGS`,
         action: () => {
-          props.onDismiss()
-          props.hideDialog()
+          onDismiss()
+          hideDialog()
           Linking.openSettings()
         },
         style: { width: '100%', marginBottom: 8 },
       },
       {
         text: t`MAYBE LATER`,
-        action: props.hideDialog,
+        action: () => {
+          onCancel()
+          hideDialog()
+        },
         mode: 'text',
       },
     ]}

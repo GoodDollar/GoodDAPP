@@ -52,6 +52,7 @@ import ButtonBlock from './Claim/ButtonBlock'
 
 type ClaimProps = DashboardProps
 
+const NotificationPermissionAskKey = 'askedPermissionsAfterClaim'
 const log = logger.child({ from: 'Claim' })
 // eslint-disable-next-line require-await
 const _retry = async asyncFn => retry(asyncFn, 1, Config.blockchainTimeout)
@@ -247,6 +248,7 @@ const Claim = props => {
     requestOnMounted: false,
     onAllowed: () => userProperties.setLocal('shouldRemindClaims', true),
     onDenied: () => userProperties.setLocal('shouldRemindClaims', false),
+    onCancel: () => userProperties.setLocal('shouldRemindClaims', false),
     navigate,
   })
 
@@ -525,12 +527,18 @@ const Claim = props => {
   const handleClaim = useCallback(async () => {
     const claimed = await onClaim()
 
-    if (!claimed || allowedNotificationPermissions) {
+    if (!userProperties) {
       return
     }
 
+    const asked = userProperties.getLocal(NotificationPermissionAskKey)
+
+    if (!claimed || allowedNotificationPermissions || asked) {
+      return
+    }
+    userProperties.setLocal(NotificationPermissionAskKey, true)
     requestNotificationPermissions()
-  }, [onClaim, requestNotificationPermissions, allowedNotificationPermissions])
+  }, [onClaim, requestNotificationPermissions, allowedNotificationPermissions, userProperties])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

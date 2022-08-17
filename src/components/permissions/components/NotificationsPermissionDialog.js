@@ -4,7 +4,7 @@ import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import illustration from '../../../assets/NotificationPermission.svg'
 
-export default ({ onDismiss, hideDialog }) => (
+export default ({ onDismiss, hideDialog, onCancel }) => (
   <ExplanationDialog
     title={t`Would you like to be reminded of your daily claims?`}
     image={illustration}
@@ -22,7 +22,10 @@ export default ({ onDismiss, hideDialog }) => (
       },
       {
         text: t`MAYBE LATER`,
-        action: hideDialog,
+        action: () => {
+          onCancel()
+          hideDialog()
+        },
         mode: 'text',
       },
     ]}

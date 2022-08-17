@@ -83,6 +83,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     requestOnMounted: false,
     onAllowed: () => handleRemindChange(true),
     onDenied: () => handleRemindChange(false),
+    onCancel: () => handleRemindChange(false),
     navigate,
   })
 

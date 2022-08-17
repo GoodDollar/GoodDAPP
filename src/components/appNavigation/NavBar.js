@@ -42,6 +42,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           reverseColor={'transparent'}
           size={22}
           style={styles.backButton}
+          wrapper={false}
         />
       ) : null}
       {title && !showLogo ? <Appbar.Content title={title} titleStyle={styles.titleStyle} /> : null}

@@ -34,7 +34,6 @@ import {
   fireGoogleAnalyticsEvent,
   INVITE_BOUNTY,
 } from '../../lib/analytics/analytics'
-import usePermissions from '../permissions/hooks/usePermissions'
 
 import Config from '../../config/config'
 import { isMobileNative } from '../../lib/utils/platform'
@@ -45,7 +44,6 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
-import { Permissions } from '../permissions/types'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -242,14 +240,6 @@ const Claim = props => {
   const [interestPending, setInterestPending] = useState()
 
   const [interestCollected, setInterestCollected] = useState()
-
-  const [allowedNotificationPermissions, requestNotificationPermissions] = usePermissions(Permissions.Notifications, {
-    requestOnMounted: false,
-    onAllowed: () => userProperties.setLocal('shouldRemindClaims', true),
-    onDenied: () => userProperties.setLocal('shouldRemindClaims', false),
-    onCancel: () => userProperties.setLocal('shouldRemindClaims', false),
-    navigate,
-  })
 
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
@@ -526,19 +516,19 @@ const Claim = props => {
   const handleClaim = useCallback(async () => {
     const claimed = await onClaim()
 
-    if (!userProperties) {
+    if (!userProperties || !claimed) {
       return
     }
 
     const asked = userProperties.getLocal('askedPermissionsAfterClaim')
 
-    if (!claimed || allowedNotificationPermissions || asked) {
+    if (asked) {
       return
     }
 
     userProperties.setLocal('askedPermissionsAfterClaim', true)
-    requestNotificationPermissions()
-  }, [onClaim, requestNotificationPermissions, allowedNotificationPermissions, userProperties])
+    navigate('Settings', { from: 'Claim' })
+  }, [onClaim, userProperties, navigate])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

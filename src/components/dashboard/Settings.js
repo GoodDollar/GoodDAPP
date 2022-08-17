@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 // libraries
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { Platform, TouchableOpacity } from 'react-native'
 import { mapValues, pick, startCase } from 'lodash'
@@ -70,6 +70,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   const userStorage = useUserStorage()
   const { userProperties } = userStorage || {}
   const [shouldRemindClaims, setRemindClaims] = useState(userProperties.getLocal('shouldRemindClaims'))
+  const screenStateRef = useRef(screenProps?.screenState)
 
   const handleRemindChange = useCallback(
     value => {
@@ -97,7 +98,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
   const handleClaimReminders = useCallback(
     value => {
-      if (!allowedNotificationPermissions) {
+      if (value && !allowedNotificationPermissions) {
         requestNotificationPermissions()
         return
       }
@@ -156,6 +157,12 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
       .catch(e => log.error('Failed to save new privacy', e.message, e))
     /* eslint-enable */
   }, [debouncedPrivacy, initialPrivacy, setInitialPrivacy, userStorage])
+
+  useEffect(() => {
+    if (screenStateRef.current?.from === 'Claim') {
+      handleClaimReminders(true)
+    }
+  }, [])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>

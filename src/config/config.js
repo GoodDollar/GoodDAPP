@@ -189,8 +189,9 @@ const Config = {
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
   networkExplorerUrl: ethereum[networkId].explorer,
-  isFVFlow: process.env.REACT_APP_BUILD_TARGET === 'FV',
-  enableWebNotifications: process.env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true'
+  isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
+  enableWebNotifications: env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true',
+  enableHDWallet: env.REACT_APP_ENABLE_HD_WALLET === 'true',
 }
 
 global.config = Config

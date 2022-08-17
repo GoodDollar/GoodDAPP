@@ -7,7 +7,7 @@ import { Linking } from 'react-native'
 import illustration from '../../../assets/NotificationPermissionError.svg'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
-export default ({ onDismiss, ...props }) => {
+export default ({ onDismiss, hideDialog, ...props }) => {
   const openSettings = useCallback(() => {
     onDismiss()
     Linking.openSettings()
@@ -25,11 +25,13 @@ export default ({ onDismiss, ...props }) => {
           text: t`GO TO SETTINGS`,
           action: openSettings,
           style: { width: '100%', marginBottom: 8 },
+          hideDialog,
         },
         {
           text: t`MAYBE LATER`,
           action: onDismiss,
           mode: 'text',
+          hideDialog,
         },
       ]}
       {...props}

@@ -3342,7 +3342,7 @@ __metadata:
     "@textile/threaddb": ^0.1.0
     "@textile/threads-client": ^2.1.2
     "@textile/threads-id": ^0.5.1
-    "@toruslabs/customauth-react-native-sdk": ^1.0.1
+    "@toruslabs/customauth-react-native-sdk": ^3.0.1
     "@toruslabs/torus-direct-web-sdk": 5.0.2
     "@tradle/react-native-http": ^2.0.1
     "@walletconnect/client": ^1.7.8
@@ -5660,12 +5660,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toruslabs/customauth-react-native-sdk@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "@toruslabs/customauth-react-native-sdk@npm:1.0.2"
+"@toruslabs/customauth-react-native-sdk@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@toruslabs/customauth-react-native-sdk@npm:3.0.1"
   peerDependencies:
-    react-native: ">=0.66"
-  checksum: 2d4f8a78c917ec32829b0b14a317fc089ce3b97445ed04d7dd6a31d4e27191565344e19a965200be581fb97514a2afbf32f775d34acda8be49d6c7ee0ee694ee
+    react-native: "*"
+  checksum: c0351dcf37abb39285bf34cf446d54e9705ea05f6efd7bf0ec2f67cb9c74410958ea764f95954183a2b657dee84895404f353e69c2a1ab6276039039aa5c8ab7
   languageName: node
   linkType: hard
 

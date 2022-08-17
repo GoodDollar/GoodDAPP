@@ -1562,12 +1562,17 @@ export class GoodWallet {
     return nonce > 0
   }
 
-  getContractName(address) {
+  // eslint-disable-next-line require-await
+  async getContractName(address) {
     const lcAddress = address.toLowerCase()
     const checksum = this.wallet.utils.toChecksumAddress(address)
     const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
 
-    return first(filter(values(ContractsAddress).map(findByKey)))
+    const found = first(filter(values(ContractsAddress).map(findByKey)))
+    if (found) {
+      return found
+    }
+    return API.getContractName(address)
   }
 }
 

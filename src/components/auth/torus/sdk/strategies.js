@@ -73,6 +73,9 @@ export class FacebookStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'facebook',
       verifier: torusFacebook,
       clientId: facebookAppId,
+      jwtParams: {
+        prompt: 'login',
+      },
     })
   }
 }
@@ -86,6 +89,9 @@ export class GoogleLegacyStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'google',
       verifier: torusGoogle,
       clientId: googleClientId,
+      jwtParams: {
+        prompt: 'login',
+      },
     })
   }
 }
@@ -105,6 +111,9 @@ export class GoogleStrategy extends AbstractLoginStrategy {
 
           // for mainnet torus uses a different verifier
           verifier: config.env === 'production' ? 'google' : 'google-shubs',
+          jwtParams: {
+            prompt: 'login',
+          },
         },
       ],
     })
@@ -127,6 +136,7 @@ export class Auth0Strategy extends AbstractAuth0Strategy {
           jwtParams: {
             connection: 'Username-Password-Authentication',
             domain: auth0ServerUri,
+            prompt: 'login',
           },
         },
       ],
@@ -151,6 +161,7 @@ export class PaswordlessEmailStrategy extends AbstractAuth0Strategy {
             connection: '',
             domain: auth0ServerUri,
             verifierIdField: 'name',
+            prompt: 'login',
           },
         },
       ],
@@ -171,6 +182,7 @@ export class PaswordlessSMSStrategy extends AbstractAuth0Strategy {
         connection: '',
         domain: auth0ServerUri,
         verifierIdField: 'name',
+        prompt: 'login',
       },
     })
   }

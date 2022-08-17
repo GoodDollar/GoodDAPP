@@ -6,7 +6,7 @@ command = "CI= rm -f .env* && CI= yarn build --ignore-engines"
   to = "https://www.gooddollar.org/terms"
   status = 302
   force = true
-  conditions = {Country=["BY", "CU", "CD", "IQ", "IR", "KP", "RU", "SD", "SS", "SY", "ZW"]}
+  conditions = {Country=["IR","KP"]}
   headers = {Link="<https://www.gooddollar.org/terms>"}
 
 [[headers]]

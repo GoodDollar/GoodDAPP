@@ -149,10 +149,12 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     })
 
     /* eslint-disable */
-    Promise
-      .all(valuesToBeUpdated.map( // update fields
-        field => userStorage.setProfileFieldPrivacy(field, debouncedPrivacy[field])
-      ))
+    Promise.all(
+      valuesToBeUpdated.map(
+        // update fields
+        field => userStorage.setProfileFieldPrivacy(field, debouncedPrivacy[field]),
+      ),
+    )
       .then(() => setInitialPrivacy(debouncedPrivacy)) // resets initial privacy states with currently set values
       .catch(e => log.error('Failed to save new privacy', e.message, e))
     /* eslint-enable */
@@ -161,6 +163,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   useEffect(() => {
     if (screenStateRef.current?.from === 'Claim') {
       handleClaimReminders(true)
+      screenStateRef.current = null
     }
   }, [handleClaimReminders])
 

@@ -20,9 +20,9 @@ const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, style = d
 
   const isTextMode = mode === 'text'
   const handleActionPress = useCallback(() => {
-    action()
     hideDialog()
-  }, [action])
+    action()
+  }, [hideDialog, action])
 
   return (
     <CustomButton

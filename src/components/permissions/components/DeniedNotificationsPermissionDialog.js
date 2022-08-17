@@ -1,5 +1,5 @@
 // libraries
-import React from 'react'
+import React, { useCallback } from 'react'
 
 // components
 import { t } from '@lingui/macro'
@@ -7,32 +7,37 @@ import { Linking } from 'react-native'
 import illustration from '../../../assets/NotificationPermissionError.svg'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
-export default props => (
-  <ExplanationDialog
-    title={t`Oops! You need to enable notifications on your phone.`}
-    image={illustration}
-    buttonsContainerStyle={{
-      flexDirection: 'column',
-    }}
-    buttons={[
-      {
-        text: t`GO TO SETTINGS`,
-        action: () => {
-          props.onDismiss()
-          props.hideDialog()
-          Linking.openSettings()
+export default ({ onDismiss, hideDialog, ...props }) => {
+  const openSettings = useCallback(() => {
+    onDismiss()
+    Linking.openSettings()
+  }, [onDismiss])
+
+  return (
+    <ExplanationDialog
+      title={t`Oops! You need to enable notifications on your phone.`}
+      image={illustration}
+      buttonsContainerStyle={{
+        flexDirection: 'column',
+      }}
+      buttons={[
+        {
+          text: t`GO TO SETTINGS`,
+          action: openSettings,
+          style: { width: '100%', marginBottom: 8 },
+          hideDialog,
         },
-        style: { width: '100%', marginBottom: 8 },
-      },
-      {
-        text: t`MAYBE LATER`,
-        action: props.hideDialog,
-        mode: 'text',
-      },
-    ]}
-    {...props}
-  />
-)
+        {
+          text: t`MAYBE LATER`,
+          action: onDismiss,
+          mode: 'text',
+          hideDialog,
+        },
+      ]}
+      {...props}
+    />
+  )
+}
 
 /*
  - Usage example

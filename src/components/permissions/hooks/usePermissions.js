@@ -102,11 +102,13 @@ const usePermissions = (permission: Permission, options = {}) => {
       return
     }
 
+    const onPrompted = result => (true === result) ? handleRequest() : handleDenied()
+
     switch (status) {
       case Prompt:
         showPopup({
-          content: <PromptPopup onDismiss={handleRequest} hideDialog={hideDialog} />,
-          onDismiss: handleRequest,
+          content: <PromptPopup onDismiss={onPrompted} hideDialog={hideDialog} />,
+          onDismiss: onPrompted,
         })
 
         onPrompt()
@@ -136,7 +138,7 @@ const usePermissions = (permission: Permission, options = {}) => {
         handleRequest()
         break
     }
-  }, [PromptPopup, onPrompt, handleRequest])
+  }, [PromptPopup, onPrompt, handleRequest, showPopup])
 
   const requestPermission = useCallback(() => {
     if (!requestOnMounted) {

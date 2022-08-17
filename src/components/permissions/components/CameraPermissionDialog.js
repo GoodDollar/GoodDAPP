@@ -1,22 +1,26 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import illustration from '../../../assets/CameraPermission.svg'
 
-export default ({ onDismiss }) => (
-  <ExplanationDialog
-    title={t`Enable camera access` + `\n` + t`to claim G$'s`}
-    image={illustration}
-    imageHeight={128}
-    buttons={[
-      {
-        text: t`I UNDERSTAND`,
-        action: onDismiss,
-      },
-    ]}
-  />
-)
+export default ({ onDismiss }) => {
+  const onPrompt = useCallback(() => onDismiss(true), [onDismiss])
+
+  return (
+    <ExplanationDialog
+      title={t`Enable camera access` + `\n` + t`to claim G$'s`}
+      image={illustration}
+      imageHeight={128}
+      buttons={[
+        {
+          text: t`I UNDERSTAND`,
+          action: onPrompt,
+        },
+      ]}
+    />
+  )
+}
 
 /*
  - Usage example

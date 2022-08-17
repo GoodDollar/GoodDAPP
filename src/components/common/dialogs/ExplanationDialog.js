@@ -7,26 +7,21 @@ import { isEmpty, noop } from 'lodash'
 import { CustomButton, Text } from '../../common'
 
 // utils
+import { useDialog } from '../../../lib/dialog/useDialog'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import normalizeText from '../../../lib/utils/normalizeText'
 
 const defaultCustomStyle = {}
 
-const ExplanationButton = ({
-  text = 'OK',
-  action = noop,
-  hideDialog = noop,
-  mode,
-  styles,
-  style = defaultCustomStyle,
-}) => {
+const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, style = defaultCustomStyle }) => {
   const { buttonText, textModeButtonText, textModeButton } = styles
+  const { hideDialog } = useDialog()
 
   const isTextMode = mode === 'text'
   const handleActionPress = useCallback(() => {
-    action()
     hideDialog()
+    action()
   }, [hideDialog, action])
 
   return (

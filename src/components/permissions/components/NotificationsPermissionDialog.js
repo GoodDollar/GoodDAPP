@@ -4,7 +4,7 @@ import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import illustration from '../../../assets/NotificationPermission.svg'
 
-export default ({ onDismiss, onCancel, hideDialog }) => {
+export default ({ onDismiss, onCancel }) => {
   const onPrompt = useCallback(() => onDismiss(true), [onDismiss])
 
   return (
@@ -19,13 +19,11 @@ export default ({ onDismiss, onCancel, hideDialog }) => {
           text: t`ENABLE NOTIFICATIONS`,
           action: onPrompt,
           style: { width: '100%', marginBottom: 8 },
-          hideDialog,
         },
         {
           text: t`MAYBE LATER`,
           action: onDismiss,
           mode: 'text',
-          hideDialog,
         },
       ]}
     />

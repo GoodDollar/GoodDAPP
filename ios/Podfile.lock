@@ -17,9 +17,10 @@ PODS:
     - JWT (~> 3.0.0-beta.12)
     - React-Core
     - SSZipArchive (~> 2.2.2)
-  - CryptoSwift (1.4.3)
-  - CustomAuth (2.1.0):
-    - Torus-utils (~> 1.3.0)
+  - CryptoSwift (1.5.1)
+  - CustomAuth (4.0.1):
+    - JWTDecode (~> 2.6)
+    - Torus-utils (~> 3.0.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.65.2)
   - FBReactNativeSpec (0.65.2):
@@ -176,6 +177,7 @@ PODS:
     - GoogleUtilities/Logger
   - JWT (3.0.0-beta.14):
     - Base64 (~> 1.1.2)
+  - JWTDecode (2.6.3)
   - libevent (2.1.12)
   - lottie-ios (3.4.0)
   - lottie-react-native (5.1.3):
@@ -508,8 +510,8 @@ PODS:
     - React-Core
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
-  - RNCustomAuthSdk (1.0.2):
-    - CustomAuth (~> 2.1.0)
+  - RNCustomAuthSdk (3.0.1):
+    - CustomAuth (~> 4.0.1)
     - React
   - RNDeviceInfo (7.4.0):
     - React-Core
@@ -562,15 +564,17 @@ PODS:
   - TOCropViewController (2.6.1)
   - toolbar-android (0.2.1):
     - React
-  - Torus-fetchNodeDetails (1.3.0):
+  - Torus-fetchNodeDetails (3.0.0):
     - PromiseKit/Foundation (~> 6.0)
-    - web3.swift (~> 0.8.1)
-  - Torus-utils (1.3.0):
-    - CryptoSwift (~> 1.4.1)
+    - web3.swift (~> 0.9.3)
+  - Torus-utils (3.0.0):
+    - CryptoSwift (~> 1.5.1)
     - PromiseKit/Foundation (~> 6.0)
     - secp256k1.swift (~> 0.1.4)
-    - Torus-fetchNodeDetails (~> 1.3.0)
-  - web3.swift (0.8.2):
+    - Torus-fetchNodeDetails (~> 3.0.0)
+    - TweetNacl
+  - TweetNacl (1.0.2)
+  - web3.swift (0.9.3):
     - BigInt (~> 5.0.0)
     - GenericJSON (~> 2.0)
     - secp256k1.swift (~> 0.1)
@@ -710,6 +714,7 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - JWT
+    - JWTDecode
     - libevent
     - nanopb
     - OpenSSL-Universal
@@ -721,6 +726,7 @@ SPEC REPOS:
     - TOCropViewController
     - Torus-fetchNodeDetails
     - Torus-utils
+    - TweetNacl
     - web3.swift
     - YogaKit
 
@@ -887,8 +893,8 @@ SPEC CHECKSUMS:
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
-  CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
-  CustomAuth: 404244ccfe3ef82cf2f28603244b0e92448325b6
+  CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
+  CustomAuth: d392381016783e281df11f175efbba2096feab19
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   FBLazyVector: da2f5e2c1244ccd895cd1c9e30284a6140d757cb
   FBReactNativeSpec: fe46c577739a1b11991fd671109bf1d7380cafd0
@@ -913,6 +919,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
+  JWTDecode: 33e5e26e5ddbd21b2065820894c08fef0cad9509
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: 69495122151a378fdc7d1bb4c5930347e37baf1f
   lottie-react-native: abce87292600ca8e11ff7891a3518ee0ff173cb9
@@ -967,7 +974,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 466b9df1a14bccda91da86e0b7d9a345d78e1673
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
-  RNCustomAuthSdk: f111e2c5327245fea719a4aefe60d833d4137f45
+  RNCustomAuthSdk: ca3bdec521524b339ce09c75729bdde50304e1f1
   RNDeviceInfo: 9538a884f862fe4aa0d7cead9f34e292d41ba8f6
   RNFBAnalytics: f76bfa164ac235b00505deb9fc1776634056898c
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
@@ -989,12 +996,13 @@ SPEC CHECKSUMS:
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   toolbar-android: 2a73856e98b750d7e71ce4644d3f41cc98211719
-  Torus-fetchNodeDetails: f25e2edb3919441bcd135fa03aa53c511305bd1b
-  Torus-utils: b7ce3b4890cdc43f058b71e6e2c99d00e048ddd5
-  web3.swift: 8034153a81569424312ef4113c6f7a002bbcc2f1
+  Torus-fetchNodeDetails: 186d6bc852bfd943f8d25154f25b5cc5fd6a03b1
+  Torus-utils: e3bbb4f884fce6290b43a86ee88544fbd5addb91
+  TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
+  web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
   Yoga: e6db7a0be0e80eeb70c04663605e4f6a050ab013
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: e4bdc9bca958e2f2cb0dac2bcab60e5b42059b57
+PODFILE CHECKSUM: fdaa84efa8934f316555597b4d62ad40c37c92fd
 
 COCOAPODS: 1.11.3

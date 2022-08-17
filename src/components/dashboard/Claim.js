@@ -52,7 +52,6 @@ import ButtonBlock from './Claim/ButtonBlock'
 
 type ClaimProps = DashboardProps
 
-const NotificationPermissionAskKey = 'askedPermissionsAfterClaim'
 const log = logger.child({ from: 'Claim' })
 // eslint-disable-next-line require-await
 const _retry = async asyncFn => retry(asyncFn, 1, Config.blockchainTimeout)
@@ -531,12 +530,13 @@ const Claim = props => {
       return
     }
 
-    const asked = userProperties.getLocal(NotificationPermissionAskKey)
+    const asked = userProperties.getLocal('askedPermissionsAfterClaim')
 
     if (!claimed || allowedNotificationPermissions || asked) {
       return
     }
-    userProperties.setLocal(NotificationPermissionAskKey, true)
+
+    userProperties.setLocal('askedPermissionsAfterClaim', true)
     requestNotificationPermissions()
   }, [onClaim, requestNotificationPermissions, allowedNotificationPermissions, userProperties])
 

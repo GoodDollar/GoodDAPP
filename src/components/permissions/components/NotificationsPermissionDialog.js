@@ -1,36 +1,34 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import illustration from '../../../assets/NotificationPermission.svg'
 
-export default ({ onDismiss, hideDialog, onCancel }) => (
-  <ExplanationDialog
-    title={t`Would you like to be reminded of your daily claims?`}
-    image={illustration}
-    buttonsContainerStyle={{
-      flexDirection: 'column',
-    }}
-    buttons={[
-      {
-        text: t`ENABLE NOTIFICATIONS`,
-        action: () => {
-          onDismiss()
-          hideDialog()
+export default ({ onDismiss, onCancel }) => {
+  const onPrompt = useCallback(() => onDismiss(true), [onDismiss])
+
+  return (
+    <ExplanationDialog
+      title={t`Would you like to be reminded of your daily claims?`}
+      image={illustration}
+      buttonsContainerStyle={{
+        flexDirection: 'column',
+      }}
+      buttons={[
+        {
+          text: t`ENABLE NOTIFICATIONS`,
+          action: onPrompt,
+          style: { width: '100%', marginBottom: 8 },
         },
-        style: { width: '100%', marginBottom: 8 },
-      },
-      {
-        text: t`MAYBE LATER`,
-        action: () => {
-          onCancel()
-          hideDialog()
+        {
+          text: t`MAYBE LATER`,
+          action: onDismiss,
+          mode: 'text',
         },
-        mode: 'text',
-      },
-    ]}
-  />
-)
+      ]}
+    />
+  )
+}
 
 /*
  - Usage example

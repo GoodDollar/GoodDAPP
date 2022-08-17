@@ -83,7 +83,6 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     requestOnMounted: false,
     onAllowed: () => handleRemindChange(true),
     onDenied: () => handleRemindChange(false),
-    onCancel: () => handleRemindChange(false),
     navigate,
   })
 
@@ -100,6 +99,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     value => {
       if (!allowedNotificationPermissions) {
         requestNotificationPermissions()
+        return
       }
 
       handleRemindChange(value)

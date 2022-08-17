@@ -102,11 +102,7 @@ const usePermissions = (permission: Permission, options = {}) => {
       return
     }
 
-    const onPrompted = result => {
-      if (true === result) {
-        handleRequest()
-      }
-    }
+    const onPrompted = result => (true === result) ? handleRequest() : handleDenied()
 
     switch (status) {
       case Prompt:

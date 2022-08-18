@@ -1,11 +1,11 @@
 #!/bin/sh
 
-echo "Decrypting files - using IS_PROD value of: $IS_PROD"
+echo "Decrypting files - using ENV value of: $ENV"
 mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 
 echo $IOS_CERTIFICATE | base64 --decode > ./Certificates.p12
 
-if $IS_PROD; then
+if [ $ENV -eq 'prod' ] then
     echo "AppStore provisioning profile configuration :"
     echo $IOS_STORE_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
     /usr/libexec/PlistBuddy -c 'set objects:13B07F951A680F5B00A75B9A:buildSettings:PROVISIONING_PROFILE_SPECIFIER AppStore (iOS Distribution)' ./ios/GoodDollar.xcodeproj/project.pbxproj

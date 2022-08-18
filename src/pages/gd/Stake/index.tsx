@@ -181,6 +181,7 @@ const StakeTable = ({
                                 address={stake.tokens.A.address}
                                 chainId={stake.tokens.A.chainId as number}
                                 className="block w-5 h-5 mr-2 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
+                                network={network}
                             />
                             <div>
                                 <div className="whitespace-nowrap">

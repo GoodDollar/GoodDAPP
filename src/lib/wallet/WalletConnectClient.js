@@ -10,6 +10,7 @@ import { delay } from '../utils/async'
 import api from '../../lib/API/api'
 import logger from '../logger/js-logger'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
+import Config from '../../config/config'
 import { useWallet } from './GoodWalletProvider'
 const log = logger.child({ from: 'WalletConnectClient' })
 
@@ -123,7 +124,7 @@ export const useWalletConnectSession = () => {
         session,
         modalType: 'connect',
         onApprove: () => {
-          connector.approveSession({ chainId: 1, accounts: [wallet.account] })
+          connector.approveSession({ chainId: Config.wcDefaultChainId, accounts: [wallet.account] })
         },
         onReject: () => connector.rejectSession({ message: 'USER_DECLINE' }),
       })

@@ -1,8 +1,0 @@
-{
-  "version": "v1",
-  "packages": {
-    "@gooddollar/web3sdk": {
-      "signature": "ae298e0bea07b1c18bf5738227c71bac"
-    }
-  }
-}

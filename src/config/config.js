@@ -192,6 +192,7 @@ const Config = {
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
   enableWebNotifications: env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true',
   enableHDWallet: env.REACT_APP_ENABLE_HD_WALLET === 'true',
+  wcDefaultChainId: (env.REACT_APP_WALLETCONNECT_DEFAULT_CHAINID || 1),
 }
 
 global.config = Config

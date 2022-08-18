@@ -5,7 +5,7 @@ import React from 'react'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import { ButtonAction } from './index'
 import { useLingui } from '@lingui/react'
-import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
+import { DAO_NETWORK, SupportedChainId } from '@gooddollar/web3sdk'
 import { useNetworkModalToggle } from 'state/application/hooks'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

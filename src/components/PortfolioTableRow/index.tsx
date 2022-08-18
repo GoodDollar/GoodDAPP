@@ -1,15 +1,19 @@
 import React, { memo, useCallback, useState } from 'react'
 import Withdraw from 'components/Withdraw'
-import { MyStake } from '../../sdk/staking'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
-import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ButtonAction } from 'components/gd/Button'
 import ClaimRewards from 'components/ClaimRewards'
 import sendGa from 'functions/sendGa'
+
+import {
+  MyStake,
+  DAO_NETWORK,
+  LIQUIDITY_PROTOCOL,
+  SupportedChainId,
+} from '@gooddollar/web3sdk'
 
 interface PortfolioTableRowProps {
     stake: MyStake
@@ -110,7 +114,7 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
                         .toSignificant(6, { groupSeparator: ',' })}{' '}
                     {stake.rewards.GDAO.claimed.currency.symbol}
                 </td>
-                <td className="flex justify-center content-center">
+                <td className="flex content-center justify-center">
                     <div className="flex flex-col justify-end" style={{width: "140px"}}>
                         <ActionOrSwitchButton
                             size="sm"

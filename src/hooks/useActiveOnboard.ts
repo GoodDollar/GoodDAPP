@@ -10,8 +10,8 @@ import { WalletState } from '@web3-onboard/core'
 import type { Account } from '@web3-onboard/core/dist/types'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import web3Utils from 'web3-utils'
-import { SupportedChainId } from 'sdk/constants/chains'
-import { UnsupportedChainId } from 'sdk/utils/errors'
+
+import { SupportedChainId, UnsupportedChainId } from '@gooddollar/web3sdk'
 
 import { 
   useConnectWallet,

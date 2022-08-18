@@ -7,24 +7,20 @@ import { ButtonAction } from 'components/gd/Button'
 import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
 import PercentInputControls from 'components/Withdraw/PercentInputControls'
 import Button from 'components/Button'
-import { MyStake, withdraw } from '../../sdk/staking'
 import useWeb3 from '../../hooks/useWeb3'
 import { addTransaction } from '../../state/transactions/actions'
 import { useDispatch } from 'react-redux'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
-import { TransactionDetails } from '../../sdk/constants/transactions'
 import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { getSimpleStakingContractAddresses, simpleStakingContract } from 'sdk/contracts/SimpleStakingContract'
 import { Currency, CurrencyAmount, Fraction } from '@uniswap/sdk-core'
 import Switch from 'components/Switch'
-import { getTokenByAddress } from 'sdk/methods/tokenLists'
 import { useTokenContract } from 'hooks/useContract'
 import Loader from 'components/Loader'
-import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
+
+import { MyStake, withdraw, LIQUIDITY_PROTOCOL, SupportedChainId, useGdContextProvider } from '@gooddollar/web3sdk'
 import sendGa from 'functions/sendGa'
-import { SupportedChainId } from 'sdk/constants/chains'
 
 function formatNumber(value: number) {
     return Intl.NumberFormat('en-US', { style: 'decimal', maximumFractionDigits: 4 }).format(value)
@@ -46,7 +42,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
     const [status, setStatus] = useState<WithdrawState>('none')
     const totalStake = useMemo(() => parseFloat(stake.stake.amount.toExact()), [stake])
     const [withdrawInInterestToken, setWithdrawInInterestToken] = useState(false)
-    const web3 = useWeb3()
+    const { web3 } = useGdContextProvider()
     const [percentage, setPercentage] = useState<string>('50')
     const [withdrawAmount, setWithdrawAmount] = useState<number>(totalStake * (Number(percentage) / 100))
     const { chainId } = useActiveWeb3React()

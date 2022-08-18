@@ -9,22 +9,22 @@ import { useLingui } from '@lingui/react'
 import Modal from 'components/Modal'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import { ButtonOutlined } from 'components/gd/Button'
-
 import Table from 'components/gd/Table'
-import useWeb3 from 'hooks/useWeb3'
-import { getList as getStakes, Stake } from 'sdk/staking'
 import { Wrapper } from './styled'
 import StakeDeposit from './StakeDeposit'
 import usePromise from 'hooks/usePromise'
-// import { stakesSupportedAt, SupportedChainId } from 'sdk/constants/chains'
-// import Placeholder from 'components/gd/Placeholder'
 import { QuestionHelper } from 'components'
-import { useGovernanceStaking } from 'sdk/hooks/gov/useGovernanceStaking'
-import { useEnvWeb3 } from 'sdk/hooks/useEnvWeb3'
-import { DAO_NETWORK, SupportedChainId } from 'sdk/constants/chains'
-import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
-import { getNetworkEnv } from 'sdk/constants/addresses'
+
+import { 
+  LIQUIDITY_PROTOCOL, 
+  DAO_NETWORK, 
+  useEnvWeb3, 
+  getList as getStakes, 
+  Stake, 
+  useGdContextProvider, 
+  useGovernanceStaking } from '@gooddollar/web3sdk'
+
 import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
@@ -181,6 +181,7 @@ const StakeTable = ({
                                 address={stake.tokens.A.address}
                                 chainId={stake.tokens.A.chainId as number}
                                 className="block w-5 h-5 mr-2 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
+                                network={network}
                             />
                             <div>
                                 <div className="whitespace-nowrap">
@@ -475,15 +476,17 @@ const StakesSC = styled.div`
 
 export default function Stakes(): JSX.Element | null {
     const { i18n } = useLingui()
-    const governanceStaking = useGovernanceStaking()
-    const web3 = useWeb3()
-    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET) 
+    const { web3 } = useGdContextProvider()
+    const { chainId } = useActiveWeb3React()
+    const governanceStaking = useGovernanceStaking(web3, chainId)
+    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId) 
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
         const stakes = await (
           web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
 
         return stakes
     }, [web3, mainnetWeb3])
+
     const sorted = useSearchAndSort(
         stakes,
         { keys: ['tokens.A.symbol', 'tokens.B.symbol', 'tokens.A.name', 'tokens.B.name'], threshold: 0.1 },

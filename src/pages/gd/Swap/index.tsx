@@ -11,19 +11,10 @@ import { Currency, ETHER } from '@sushiswap/sdk'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useG$ from 'hooks/useG$'
-import useWeb3 from 'hooks/useWeb3'
-import { approve as approveBuy, BuyInfo, getMeta as getBuyMeta, getMetaReverse as getBuyMetaReverse } from 'sdk/buy'
-import {
-    approve as approveSell,
-    getMeta as getSellMeta,
-    getMetaReverse as getSellMetaReverse,
-    SellInfo
-} from 'sdk/sell'
-import { SupportedChainId } from 'sdk/constants/chains'
+
 import SwapConfirmModal from './SwapConfirmModal'
 import { FUSE } from 'constants/index'
 import { useDispatch } from 'react-redux'
-import SwapDescriptions from './SwapDescriptions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
@@ -34,6 +25,18 @@ import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
 import sendGa from 'functions/sendGa'
 
+import {
+  approve,
+  SwapInfo as BuyInfo, 
+  getBuyMeta, 
+  getBuyMetaReverse,
+  getSellMeta,
+  getSellMetaReverse,
+  SellInfo,
+  SupportedChainId,
+  useGdContextProvider,
+} from '@gooddollar/web3sdk'
+
 function Swap() {
     const { i18n } = useLingui()
     const [buying, setBuying] = useState(true)
@@ -41,6 +44,7 @@ function Swap() {
         custom: false,
         value: '0.1'
     })
+    // console.log('slippageTollerance -->', {slippageTolerance})
     const { account, chainId } = useActiveWeb3React()
     const network = SupportedChainId[chainId]
     const [swapPair, setSwapPair] = useState<SwapVariant>({
@@ -71,7 +75,8 @@ function Swap() {
     const [meta, setMeta] = useState<undefined | null | BuyInfo | SellInfo>()
     const pairBalance = useCurrencyBalance(account ?? undefined, swapPair.token)
     const swapBalance = useCurrencyBalance(account ?? undefined, G$)
-    const web3 = useWeb3()
+    const {web3} = useGdContextProvider()
+
     const [lastEdited, setLastEdited] = useState<{ field: 'external' | 'internal' }>()
 
     const [calcExternal, setCalcExternal] = useState(false)
@@ -132,15 +137,12 @@ function Swap() {
 
     const handleApprove = async () => {
         if (!meta || !web3) return
+        const type = buying ? 'buy' : 'sell'
         try {
           getData({event: 'swap', action: 'approveSwap', 
-                   type: buying ? 'buy' : 'sell', network: network})
+                   type: type, network: network})
             setApproving(true)
-            if (buying) {
-                await approveBuy(web3, meta)
-            } else {
-                await approveSell(web3, meta)
-            }
+            await approve(web3, meta, type)
             setApproved(true)
         } finally {
             setApproving(false)

@@ -1,15 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ButtonDefault } from '../gd/Button'
-import { SupportedChainId } from '../../sdk/constants/chains'
 import usePromise from '../../hooks/usePromise'
-import { check, claim, isWhitelisted } from '../../sdk/ubi'
-import useWeb3 from '../../hooks/useWeb3'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import sendGa from 'functions/sendGa'
+
+import {
+  SupportedChainId,
+  check,
+  claim,
+  isWhitelisted,
+  useGdContextProvider
+} from '@gooddollar/web3sdk'
 
 const ClaimButton = styled(ButtonDefault).attrs(props => ({
     disabled: false as boolean,
@@ -61,7 +66,7 @@ function Web3Faucet(): JSX.Element | null {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     const network = SupportedChainId[chainId]
-    const web3 = useWeb3()
+    const { web3 } = useGdContextProvider()
     const getData = sendGa
 
     const [claimed, setIsClaimed] = useState(false)

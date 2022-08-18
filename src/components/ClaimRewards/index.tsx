@@ -6,8 +6,6 @@ import Title from 'components/gd/Title'
 import { ButtonAction } from 'components/gd/Button'
 import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
 import Button from 'components/Button'
-import { claimG$Reward, claimGoodReward, MyStake } from '../../sdk/staking'
-import useWeb3 from '../../hooks/useWeb3'
 import { addTransaction } from '../../state/transactions/actions'
 import { useDispatch } from 'react-redux'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
@@ -15,10 +13,16 @@ import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import Loader from 'components/Loader'
-import { SupportedChainId } from 'sdk/constants/chains'
-import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import { ChekboxItem, Reward } from './components'
 import { BottomSheet } from 'react-spring-bottom-sheet'
+// import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
+import {
+  claimG$Reward,
+  claimGoodReward,
+  MyStake,
+  useGdContextProvider,
+  LIQUIDITY_PROTOCOL, SupportedChainId,
+} from '@gooddollar/web3sdk'
 
 import 'react-spring-bottom-sheet/dist/style.css'
 import { useWindowSize } from 'hooks/useWindowSize'
@@ -45,7 +49,7 @@ type ClaimState = 'none' | 'pending' | 'send' | 'success'
 function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest }: ClaimProps) {
     const { i18n } = useLingui() 
     const [status, setStatus] = useState<ClaimState>('none')
-    const web3 = useWeb3()
+    const { web3 }  = useGdContextProvider()
     const { chainId } = useActiveWeb3React()
     const [error, setError] = useState<Error>()
     const [selectedReward, setSelectedReward] = useState<'claimAll' | 'claimGOOD'>('claimAll')

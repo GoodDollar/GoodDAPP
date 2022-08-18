@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { getList } from 'sdk/tokens'
+import { getTokenList } from '@gooddollar/web3sdk'
 import { ETHER, Currency, Token } from '@sushiswap/sdk'
 import { AdditionalChainId, FUSE } from 'constants/index'
 
@@ -35,7 +35,7 @@ export function useTokens() {
         chainId &&
             (async () => {
                 try {
-                    const list = await getList(chainId as any)
+                    const list = await getTokenList(chainId as any)
                     setTokens(
                         list.map(currency =>
                             currency.isNative

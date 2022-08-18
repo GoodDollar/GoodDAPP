@@ -1,4 +1,4 @@
-import React, { CSSProperties, memo, ReactNode, useEffect, useReducer, useState } from 'react'
+import React, { CSSProperties, memo, ReactNode, useEffect, useState } from 'react'
 import { SwapConfirmModalSC } from './styled'
 import Modal from 'components/Modal'
 import Title from 'components/gd/Title'
@@ -7,13 +7,9 @@ import SwapInfo from '../SwapInfo'
 import { ButtonAction, ButtonDefault } from 'components/gd/Button'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { Currency } from '@sushiswap/sdk'
-import { buy, BuyInfo } from 'sdk/buy'
-import { sell, SellInfo } from 'sdk/sell'
 import { addTransaction } from 'state/transactions/actions'
 import { useDispatch } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import useWeb3 from 'hooks/useWeb3'
-import { Action } from 'pages/gd/Stake/StakeDeposit'
 import { getExplorerLink } from 'utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -22,7 +18,15 @@ import { Percent } from '@sushiswap/sdk'
 import sendGa from 'functions/sendGa'
 
 import ShareTransaction from 'components/ShareTransaction'
-import { SupportedChainId } from 'sdk/constants/chains'
+
+import {
+  buy, 
+  SwapInfo as BuyInfo,
+  sell,
+  SellInfo,
+  useGdContextProvider,
+  SupportedChainId
+} from '@gooddollar/web3sdk'
 
 export interface SwapConfirmModalProps extends SwapDetailsFields {
     className?: string
@@ -71,7 +75,7 @@ function SwapConfirmModal({
     const globalDispatch = useDispatch()
     const { chainId } = useActiveWeb3React()
     const network = SupportedChainId[chainId]
-    const web3 = useWeb3()
+    const { web3 } = useGdContextProvider()
     const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
     const getData = sendGa

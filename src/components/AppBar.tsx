@@ -16,7 +16,7 @@ import { ReactComponent as X } from '../assets/images/x.svg'
 import { t } from '@lingui/macro'
 import SideBar from './SideBar'
 import usePromise from '../hooks/usePromise'
-import { g$Price } from '../sdk/apollo'
+import { g$Price } from '@gooddollar/web3sdk'
 import NetworkModal from './NetworkModal'
 import AppNotice from './AppNotice'
 import { isMobile } from 'react-device-detect'
@@ -137,6 +137,7 @@ function AppBar(): JSX.Element {
     const userEthBalance = useETHBalances((account ? [account] : []), chainId)?.[account ?? '']
     const [G$Price] = usePromise(async () => {
         try {
+          // const data = '0.0000'
             const data = await g$Price()
             return data.DAI
         } catch {

@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import Stakes from 'pages/gd/Stake'
 import DatastudioDashboard from 'pages/gd/DatastudioDashboard'
 import Swap from 'pages/gd/Swap'
-import { RedirectHashRoutes, RedirectPathToSwapOnly } from 'pages/SwapDeprecated/redirects'
+import { RedirectHashRoutes, RedirectPathToSwapOnly } from 'pages/routes/redirects'
 import Portfolio from 'pages/gd/Portfolio'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 

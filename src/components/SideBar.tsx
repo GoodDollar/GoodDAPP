@@ -8,7 +8,7 @@ import DiscordLogo from '../assets/images/discord-logo-new.png'
 import TelegramLogo from '../assets/images/telegram.png'
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
 import usePromise from '../hooks/usePromise'
-import { getTokens } from '../sdk/methods/tokenLists'
+import { getTokens } from '@gooddollar/web3sdk'
 import { Token } from '@sushiswap/sdk'
 import { useTokenBalance } from '../state/wallet/hooks'
 import { AdditionalChainId } from '../constants'
@@ -318,7 +318,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean, cl
                             </defs>
                         </svg>
                     </div>
-                      <div className="details flex flex-col">                  
+                      <div className="flex flex-col details">                  
                         <WalletBalance balances={balances} chainId={chainId} />
                         <br />
                         {localStorage.getItem(`${chainId}_metamask_import_status`) !== 'true' && (

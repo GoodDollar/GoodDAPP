@@ -8,24 +8,22 @@ import Table from 'components/gd/Table'
 import WithdrawRewards from 'components/WithdrawRewards'
 import PortfolioTableRow from 'components/PortfolioTableRow'
 import usePromise from 'hooks/usePromise'
-import { getMyList } from 'sdk/staking'
 import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { DAO_NETWORK, portfolioSupportedAt, SupportedChainId } from 'sdk/constants/chains'
 import Placeholder from 'components/gd/Placeholder'
 import { QuestionHelper } from 'components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { useEnvWeb3 } from 'sdk/hooks/useEnvWeb3'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import AppNotice from 'components/AppNotice'
-import { getNetworkEnv } from 'sdk/constants/addresses'
 import { useWindowSize } from 'hooks/useWindowSize'
-import { MyStake } from '../../../sdk/staking'
 import Withdraw from 'components/Withdraw'
-import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
+import { 
+  getNetworkEnv, useEnvWeb3, getMyList, 
+  MyStake, DAO_NETWORK, portfolioSupportedAt, 
+  SupportedChainId, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk'
 
 import styled from 'styled-components'
 import ClaimRewards from 'components/ClaimRewards'
@@ -270,6 +268,7 @@ const MobileTable = ({ stakes, cells, onUpdate }: { stakes?: MyStake[]; cells: a
 const Portfolio = () => {
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
+
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
     const network = getNetworkEnv() 
@@ -316,33 +315,27 @@ const Portfolio = () => {
         const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account, network) : []
         return {
             list,
-            aggregated: list.reduce(
+            aggregated: list.reduce( 
                 (acc, stake) => {
-                    return !acc
-                        ? {
-                              myStake: stake.stake.amount$,
-                              rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
-                              rewardsG$$: stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed),
-                              rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
-                              rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
-                              rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
-                              rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
-                          }
-                        : {
-                              myStake: acc.myStake.add(stake.stake.amount$),
-                              rewardsG$: acc.rewardsG$
-                                  .add(stake.rewards.reward.claimed)
-                                  .add(stake.rewards.reward.unclaimed),
-                              rewardsG$$: acc.rewardsG$$
-                                  .add(stake.rewards.reward$.claimed)
-                                  .add(stake.rewards.reward$.unclaimed),
-                              rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
-                              rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
-                              rewardsGDAO: acc.rewardsGDAO
-                                  .add(stake.rewards.GDAO.claimed)
-                                  .add(stake.rewards.GDAO.unclaimed),
-                              rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
-                          }
+                    return !acc 
+                      ? {
+                          myStake: stake.stake.amount$,
+                          rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
+                          rewardsG$$: stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed),
+                          rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
+                          rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
+                          rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
+                          rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
+                        } 
+                      : {
+                        myStake: acc.myStake.add(stake.stake.amount$),
+                        rewardsG$: acc.rewardsG$.add(stake.rewards.reward.claimed).add(stake.rewards.reward.unclaimed),
+                        rewardsG$$: acc.rewardsG$$.add(stake.rewards.reward$.claimed).add(stake.rewards.reward$.unclaimed),
+                        rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
+                        rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
+                        rewardsGDAO: acc.rewardsGDAO.add(stake.rewards.GDAO.claimed).add(stake.rewards.GDAO.unclaimed),
+                        rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
+                     }
                 },
                 undefined as
                     | undefined

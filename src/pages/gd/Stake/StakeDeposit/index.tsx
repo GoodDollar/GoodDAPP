@@ -4,27 +4,31 @@ import Title from 'components/gd/Title'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
 import SwapInput from 'pages/gd/Swap/SwapInput'
 import { ButtonAction, ButtonDefault, ButtonText } from 'components/gd/Button'
-import { Stake, approve, stake as deposit, stakeGov as depositGov, getTokenPriceInUSDC } from 'sdk/staking'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTokenBalance } from 'state/wallet/hooks'
 import { Token } from '@sushiswap/sdk'
-import useWeb3 from 'hooks/useWeb3'
 import { addTransaction } from 'state/transactions/actions'
 import { useDispatch } from 'react-redux'
 import { getExplorerLink } from 'utils'
 import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
 import { Link } from 'react-router-dom'
-import { TransactionDetails } from 'sdk/constants/transactions'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { LIQUIDITY_PROTOCOL } from 'sdk/constants/protocols'
 import sendGa from 'functions/sendGa'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
-import ShareTransaction from 'components/ShareTransaction'
+import { 
+  Stake,
+  approveStake,
+  stake as deposit, 
+  stakeGov as depositGov,
+  getTokenPriceInUSDC,
+  LIQUIDITY_PROTOCOL, SupportedChainId,
+  useGdContextProvider
+} from '@gooddollar/web3sdk'
+
 import Share from 'components/Share'
-import { SupportedChainId } from 'sdk/constants/chains'
 
 export interface StakeDepositModalProps {
     stake: Stake
@@ -55,7 +59,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     const network = SupportedChainId[chainId]
-    const web3 = useWeb3()
+    const { web3 } = useGdContextProvider()
     const [state, dispatch] = useReducer(
         (
             state: typeof initialState,
@@ -270,7 +274,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                          amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
-                                    await approve(web3!, stake.address, state.value, tokenToDeposit, () => {
+                                    await approveStake(web3!, stake.address, state.value, tokenToDeposit, () => {
                                         dispatch({ type: 'CHANGE_SIGNED' })
                                     })
                                 ])
@@ -338,7 +342,6 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                             )
                                         }
                                     )
-
                                     if (onDeposit) onDeposit()
                                 })
                             }

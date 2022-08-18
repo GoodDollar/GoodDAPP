@@ -22,10 +22,10 @@
         "jsx": "react-jsx",
         "downlevelIteration": true,
         "allowSyntheticDefaultImports": true,
-        "types": ["jest"],
+        "types": ["jest", "bn.js"],
         "baseUrl": "./src",
         "typeRoots": ["./node_modules/@types", "./types", "./node_modules/@react-spring/types", "./src"]
     },
-    "exclude": ["node_modules", "cypress", "onboard_patch_reference"],
+    "exclude": ["node_modules", "cypress", "onboard_patch_reference", ".yalc"],
     "include": ["./src", "./src/**/*.d.ts", "./types"]
 }

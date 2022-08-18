@@ -14,7 +14,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { OnboardConnectButton } from '../BlockNativeOnboard'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
-import { UnsupportedChainId } from 'sdk/utils/errors'
+import { UnsupportedChainId } from '@gooddollar/web3sdk'
 
 const IconWrapper = styled.div<{ size?: number }>`
     ${({ theme }) => theme.flexColumnNoWrap};

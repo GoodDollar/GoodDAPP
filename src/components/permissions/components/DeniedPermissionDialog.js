@@ -20,6 +20,11 @@ export default ({ onDismiss, navigate, ...dialogProps }) => {
           action: navigateToSupport,
           mode: 'text',
         },
+        {
+          text: t`Maybe later`,
+          action: onDismiss,
+          mode: 'text',
+        },
       ]}
     />
   )

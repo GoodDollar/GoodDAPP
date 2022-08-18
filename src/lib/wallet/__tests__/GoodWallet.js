@@ -38,11 +38,10 @@ describe('Wallet Initialization', () => {
     expect(goodWallet.getAccountForType('faceVerification')).toBe(goodWallet.accounts[5].address)
   })
 
-  it('should have connection', async () => {
+  it('should have connection to blockchain', async () => {
     await goodWallet.ready
-    await goodWallet.wallet.eth.getBalance(goodWallet.account)
-    const connected = goodWallet.wallet.currentProvider.connected
-    expect(connected).toBeTruthy()
+    const block = await goodWallet.wallet.eth.getBlockNumber()
+    expect(Number(block)).toBeGreaterThan(0)
   })
 })
 

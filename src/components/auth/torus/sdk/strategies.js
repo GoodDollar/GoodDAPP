@@ -1,12 +1,12 @@
 import { Platform } from 'react-native'
 import { replace } from 'lodash'
-import { isIOSNative } from '../../../../lib/utils/platform'
 
-const IosMobileLoginConfig = {
-  jwtParams: {
-    prompt: isIOSNative ? 'login' : undefined,
+const jwtParams = Platform.select({
+  default: {},
+  ios: {
+    prompt: 'login',
   },
-}
+})
 
 /* eslint-disable require-await */
 export const LoginStrategy = {
@@ -80,7 +80,7 @@ export class FacebookStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'facebook',
       verifier: torusFacebook,
       clientId: facebookAppId,
-      ...IosMobileLoginConfig,
+      jwtParams,
     })
   }
 }
@@ -94,7 +94,7 @@ export class GoogleLegacyStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'google',
       verifier: torusGoogle,
       clientId: googleClientId,
-      ...IosMobileLoginConfig,
+      jwtParams,
     })
   }
 }
@@ -114,7 +114,7 @@ export class GoogleStrategy extends AbstractLoginStrategy {
 
           // for mainnet torus uses a different verifier
           verifier: config.env === 'production' ? 'google' : 'google-shubs',
-          ...IosMobileLoginConfig,
+          jwtParams,
         },
       ],
     })
@@ -137,7 +137,7 @@ export class Auth0Strategy extends AbstractAuth0Strategy {
           jwtParams: {
             connection: 'Username-Password-Authentication',
             domain: auth0ServerUri,
-            ...IosMobileLoginConfig.jwtParams,
+            ...jwtParams,
           },
         },
       ],
@@ -162,7 +162,7 @@ export class PaswordlessEmailStrategy extends AbstractAuth0Strategy {
             connection: '',
             domain: auth0ServerUri,
             verifierIdField: 'name',
-            ...IosMobileLoginConfig.jwtParams,
+            ...jwtParams,
           },
         },
       ],
@@ -183,7 +183,7 @@ export class PaswordlessSMSStrategy extends AbstractAuth0Strategy {
         connection: '',
         domain: auth0ServerUri,
         verifierIdField: 'name',
-        ...IosMobileLoginConfig.jwtParams,
+        ...jwtParams,
       },
     })
   }

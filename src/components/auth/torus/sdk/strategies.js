@@ -1,5 +1,12 @@
 import { Platform } from 'react-native'
 import { replace } from 'lodash'
+import { isIOSNative } from '../../../../lib/utils/platform'
+
+const IosMobileLoginConfig = {
+  jwtParams: {
+    prompt: isIOSNative ? 'login' : undefined,
+  },
+}
 
 /* eslint-disable require-await */
 export const LoginStrategy = {
@@ -73,9 +80,7 @@ export class FacebookStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'facebook',
       verifier: torusFacebook,
       clientId: facebookAppId,
-      jwtParams: {
-        prompt: 'login',
-      },
+      ...IosMobileLoginConfig,
     })
   }
 }
@@ -89,9 +94,7 @@ export class GoogleLegacyStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'google',
       verifier: torusGoogle,
       clientId: googleClientId,
-      jwtParams: {
-        prompt: 'login',
-      },
+      ...IosMobileLoginConfig,
     })
   }
 }
@@ -111,9 +114,7 @@ export class GoogleStrategy extends AbstractLoginStrategy {
 
           // for mainnet torus uses a different verifier
           verifier: config.env === 'production' ? 'google' : 'google-shubs',
-          jwtParams: {
-            prompt: 'login',
-          },
+          ...IosMobileLoginConfig,
         },
       ],
     })
@@ -136,7 +137,7 @@ export class Auth0Strategy extends AbstractAuth0Strategy {
           jwtParams: {
             connection: 'Username-Password-Authentication',
             domain: auth0ServerUri,
-            prompt: 'login',
+            ...IosMobileLoginConfig.jwtParams,
           },
         },
       ],
@@ -161,7 +162,7 @@ export class PaswordlessEmailStrategy extends AbstractAuth0Strategy {
             connection: '',
             domain: auth0ServerUri,
             verifierIdField: 'name',
-            prompt: 'login',
+            ...IosMobileLoginConfig.jwtParams,
           },
         },
       ],
@@ -182,7 +183,7 @@ export class PaswordlessSMSStrategy extends AbstractAuth0Strategy {
         connection: '',
         domain: auth0ServerUri,
         verifierIdField: 'name',
-        prompt: 'login',
+        ...IosMobileLoginConfig.jwtParams,
       },
     })
   }

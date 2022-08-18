@@ -108,7 +108,7 @@ const usePermissions = (permission: Permission, options = {}) => {
       case Prompt:
         showPopup({
           content: <PromptPopup onDismiss={onPrompted} />,
-          onDismiss: onPrompted,
+          onDismiss: handleDenied,
         })
 
         onPrompt()

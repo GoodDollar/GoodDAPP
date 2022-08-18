@@ -3309,7 +3309,7 @@ __metadata:
     "@ceramicnetwork/stream-tile": ^2.1.3
     "@expo/react-native-action-sheet": ^3.9.0
     "@gooddollar/goodcontracts": ^2.6.2
-    "@gooddollar/goodprotocol": ^1.0.23
+    "@gooddollar/goodprotocol": ^1.0.27
     "@gooddollar/gun": ^0.2020.902
     "@gooddollar/gun-asyncstorage": ^1.0.3
     "@gooddollar/gun-pk-auth": ^1.1.0
@@ -3567,15 +3567,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/goodprotocol@npm:^1.0.23":
-  version: 1.0.23
-  resolution: "@gooddollar/goodprotocol@npm:1.0.23"
+"@gooddollar/goodprotocol@npm:^1.0.27":
+  version: 1.0.27
+  resolution: "@gooddollar/goodprotocol@npm:1.0.27"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.2
     "@jsier/retrier": ^1.2.4
     "@openzeppelin/contracts": ^4.5.0
     "@openzeppelin/contracts-upgradeable": ^4.3.2
-    "@typechain/hardhat": ^2.2.0
+    "@typechain/hardhat": ^6.1.2
     async-promise-pool: ^1.0.4
     ethers-multicall: ^0.2.1
     openzeppelin-solidity: ^4.3.2
@@ -3583,7 +3583,7 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.5.11
     truffle-source-verify: ^0.0.6
-  checksum: 190dc909901be9cbf153586c0a3dc34cdea9f1fb37f545de993cd068705cb236a6a53c982120f81efde350d839e4d8e4fb79c191285e5c526a72fdbc4f9df947
+  checksum: 7e81e83bb12cd741226a363959ad92ca44deb51e302d0c89a2861a71a5b447c23483d93abf234e972c8f289328b9449aa73edf100b3f8a8be518ffb56a4f786b
   languageName: node
   linkType: hard
 
@@ -5758,16 +5758,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typechain/hardhat@npm:^2.2.0":
-  version: 2.3.1
-  resolution: "@typechain/hardhat@npm:2.3.1"
+"@typechain/hardhat@npm:^6.1.2":
+  version: 6.1.2
+  resolution: "@typechain/hardhat@npm:6.1.2"
   dependencies:
     fs-extra: ^9.1.0
-  peerDependencies:
-    hardhat: ^2.0.10
     lodash: ^4.17.15
-    typechain: ^5.1.2
-  checksum: f6090b80e3c75e47bb02c9b2c669258e976ccf06502c168b851ad7ca20f53cb554dcb8104bc7ca608f2111baa047ee8e52ce6153eb80450edb9736ba5ebfb12f
+  peerDependencies:
+    "@ethersproject/abi": ^5.4.7
+    "@ethersproject/providers": ^5.4.7
+    "@typechain/ethers-v5": ^10.1.0
+    ethers: ^5.4.7
+    hardhat: ^2.9.9
+    typechain: ^8.1.0
+  checksum: 875753de831825c95c30e6792949f38f69fcee888c1936042414c8d030ecc181817cc0f5cbf6f1764f30779b5f840201eb29addda45713fd0b58a71693102a2c
   languageName: node
   linkType: hard
 

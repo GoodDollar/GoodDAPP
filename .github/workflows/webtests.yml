@@ -86,6 +86,7 @@ jobs:
     strategy:
       matrix:
         chunk: ${{ fromJson(needs.setup.outputs['test-chunk-ids']) }}
+        fail-fast: false # remove
     if: "github.event_name != 'workflow_dispatch' && !contains(github.event.head_commit.message,'skip ci') && !contains(github.event.head_commit.message,'skip build')"
     env:
       REACT_ENV: 'development'

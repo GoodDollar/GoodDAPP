@@ -36,7 +36,7 @@ import {
 } from '../../lib/analytics/analytics'
 
 import Config from '../../config/config'
-import { isMobileNative } from '../../lib/utils/platform'
+import { isMobileNative, isWeb } from '../../lib/utils/platform'
 import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'
 import { WavesBox } from '../common/view/WavesBox'
@@ -516,19 +516,16 @@ const Claim = props => {
   const handleClaim = useCallback(async () => {
     const claimed = await onClaim()
 
-    if (!userProperties || !claimed) {
+    if (!userProperties || (isWeb && !Config.enableWebNotifications) || !claimed) {
       return
     }
 
-    const asked = userProperties.getLocal('askedPermissionsAfterClaim')
-
-    if (asked) {
+    if (userProperties.getLocal('askedPermissionsAfterClaim')) {
       return
     }
 
-    userProperties.setLocal('askedPermissionsAfterClaim', true)
     navigate('Settings', { from: 'Claim' })
-  }, [onClaim, userProperties, navigate])
+  }, [onClaim, navigate, userProperties])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

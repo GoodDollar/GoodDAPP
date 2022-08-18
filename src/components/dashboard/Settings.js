@@ -77,6 +77,10 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
   const handleRemindChange = useCallback(
     value => {
+      if (value) {
+        userProperties.setLocal('askedPermissionsAfterClaim', true)
+      }
+
       userProperties.setLocal('shouldRemindClaims', value)
       setRemindClaims(value)
     },

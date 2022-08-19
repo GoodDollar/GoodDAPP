@@ -23,7 +23,7 @@ type IconProps = {
  * @param {String} props.name icon name
  * @returns {React.Node}
  */
-const IconButton = ({ styles, theme, text, onPress, disabled, name, style, ...iconProps }: IconProps) => {
+const IconButton = ({ styles, theme, text, onPress, disabled, style, ...iconProps }: IconProps) => {
   const _onPress = useOnPress(onPress)
   return (
     <TouchableOpacity
@@ -33,7 +33,6 @@ const IconButton = ({ styles, theme, text, onPress, disabled, name, style, ...ic
     >
       <CustomIcon
         color={theme.colors.darkBlue}
-        name={name}
         reverse
         reverseColor={disabled ? 'rgba(0, 0, 0, 0.32)' : '#282c34'}
         size={16}

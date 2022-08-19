@@ -124,7 +124,7 @@ export const useWalletConnectSession = () => {
         session,
         modalType: 'connect',
         onApprove: () => {
-          connector.approveSession({ chainId: 122, accounts: [wallet.account] })
+          connector.approveSession({ chainId: Config.wcDefaultChainId, accounts: [wallet.account] })
         },
         onReject: () => connector.rejectSession({ message: 'USER_DECLINE' }),
       })

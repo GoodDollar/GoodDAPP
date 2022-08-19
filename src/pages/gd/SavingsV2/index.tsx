@@ -1,6 +1,6 @@
 import React, { useCallback, memo, useState, useEffect } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useGdContextProvider, ActiveNetworks } from '@gooddollar/web3sdk/dist/hooks'
+import { useGdContextProvider } from '@gooddollar/web3sdk'
 import { SavingsSDK } from '@gooddollar/web3sdk-v2'
 import { ButtonAction, ButtonDefault, ButtonText } from 'components/gd/Button'
 import sendGa from 'functions/sendGa'

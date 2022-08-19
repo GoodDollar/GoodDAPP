@@ -15,6 +15,7 @@ import StakeDeposit from './StakeDeposit'
 import usePromise from 'hooks/usePromise'
 import { QuestionHelper } from 'components'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
+import { Savings } from './Savings'
 
 import { 
   LIQUIDITY_PROTOCOL, 
@@ -553,6 +554,8 @@ export default function Stakes(): JSX.Element | null {
                     )}
                 </Modal>
             </StakesSC>
+
+            <Savings network={DAO_NETWORK.FUSE} chainId={chainId} />
         </Layout>
     )
 }

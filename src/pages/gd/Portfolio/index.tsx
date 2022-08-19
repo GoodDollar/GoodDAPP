@@ -27,6 +27,7 @@ import {
 
 import styled from 'styled-components'
 import ClaimRewards from 'components/ClaimRewards'
+import { SavingsAccount } from './SavingsAccount'
 
 const MobileTableSC = styled.div``
 
@@ -357,7 +358,8 @@ const Portfolio = () => {
     useCallbackOnFocus(update)
 
     const portfolio = (
-        <>
+        <>  
+            <SavingsAccount account={account} network={network} /> 
             <Card className="sm:mb-6 md:mb-4 card">
                 <PortfolioAnalyticSC className="flex">
                     <div className="flex flex-col segment">

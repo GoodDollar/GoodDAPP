@@ -14,10 +14,7 @@ import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 
 import Loader from 'components/Loader'
-
-// import { useTokenBalance } from 'state/wallet/hooks'
-// import { useTokenBalance } from '@usedapp/core'
-// import { Token } from '@sushiswap/sdk'
+import { ButtonAction } from 'components/gd/Button'
 
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useG$Balance, useSavingsFunctions } from '@gooddollar/web3sdk-v2'
@@ -26,7 +23,7 @@ import { TransactionStatus } from '@usedapp/core'
 
 // TODO: Change to savings specific state
 const initialState = {
-  token: 'A' as 'A' | 'B', // stake.tokens.A or stake.tokens.B,
+  token: 'A' as 'A' | 'B',
   value: '',
   dollarEquivalent: undefined as undefined | string,
   approved: false,
@@ -113,7 +110,7 @@ const SavingsModal = (
   const depositOrWithdraw = async (amount:string) => {
     if (account) {
       const parsedAmount = (parseFloat(amount) * 1e2).toString()
-      const tx = type === 'claim' ? await withdraw(parsedAmount) : await transfer(parsedAmount)
+      const tx = type === 'withdraw' ? await withdraw(parsedAmount) : await transfer(parsedAmount)
       if (tx){
         addSavingsTransaction(tx, amount)  
         return        
@@ -269,8 +266,9 @@ const SavingsModal = (
                 </div>
               }
               <div>
-                <button style={{
-                  border: '1px solid blue', 
+                <ButtonAction 
+                  className={"claim-reward"}
+                  style={{   
                   borderRadius: '5px',
                   padding: '5px',
                   marginTop: '10px'
@@ -282,7 +280,7 @@ const SavingsModal = (
                       await depositOrWithdraw(state.value)
                     }
                   })
-                }}> {type} </button>
+                }}> {type} </ButtonAction>
               </div>
             </div>
           }

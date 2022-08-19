@@ -4,20 +4,17 @@ import { View } from 'react-native'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
-const CustomIcon = ({ styles, theme, name, color, size, borderRadius = 8, wrapper = true, reverse, reverseColor }) => {
-  const wrapperSize = useMemo(() => (wrapper ? borderRadius * 2 : null), [wrapper, borderRadius])
-
+const CustomIcon = ({ styles, theme, name, color, size, circleSize = 16, wrapper = true, reverse, reverseColor }) => {
+  const borderRadius = useMemo(() => circleSize / 2, [circleSize])
   return (
     <View
       style={[
         styles.imageIcon,
         {
+          width: circleSize,
+          height: circleSize,
           borderRadius,
           backgroundColor: reverse ? color : reverseColor,
-        },
-        wrapper && {
-          width: wrapperSize,
-          height: wrapperSize,
         },
       ]}
     >

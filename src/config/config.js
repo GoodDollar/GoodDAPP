@@ -81,7 +81,6 @@ const Config = {
   version: appEnv === 'test' ? '1.0' : version, //hard code for tests snapshots
   contractsVersion,
   network,
-  networkId,
   ethereum,
   isEToro,
   phase,
@@ -188,6 +187,7 @@ const Config = {
   ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600),
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
+  networkId: ethereum[networkId].network_id,
   networkExplorerUrl: ethereum[networkId].explorer,
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
   enableWebNotifications: env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true',
@@ -196,6 +196,4 @@ const Config = {
 
 global.config = Config
 
-// Forcing value as number, if not MNID encoder/decoder may fail
-// Config.networkId = Config.ethereum[Config.networkId].network_id
 export default Config

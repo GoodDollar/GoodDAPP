@@ -34,10 +34,9 @@ import {
   fireGoogleAnalyticsEvent,
   INVITE_BOUNTY,
 } from '../../lib/analytics/analytics'
-import usePermissions from '../permissions/hooks/usePermissions'
 
 import Config from '../../config/config'
-import { isMobileNative } from '../../lib/utils/platform'
+import { isMobileNative, isWeb } from '../../lib/utils/platform'
 import { BigGoodDollar, Section, WrapperClaim } from '../common/'
 import useAppState from '../../lib/hooks/useAppState'
 import { WavesBox } from '../common/view/WavesBox'
@@ -45,7 +44,6 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
-import { Permissions } from '../permissions/types'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -243,13 +241,6 @@ const Claim = props => {
 
   const [interestCollected, setInterestCollected] = useState()
 
-  const [allowedNotificationPermissions, requestNotificationPermissions] = usePermissions(Permissions.Notifications, {
-    requestOnMounted: false,
-    onAllowed: () => userProperties.setLocal('shouldRemindClaims', true),
-    onDenied: () => userProperties.setLocal('shouldRemindClaims', false),
-    navigate,
-  })
-
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
@@ -360,6 +351,16 @@ const Claim = props => {
     let receipt
     let txHash
 
+    const getTxReceiptByHash = async () => {
+      try {
+        receipt = await goodWallet.wallet.eth.getTransactionReceipt(txHash)
+      } catch (exception) {
+        log.error('getTransactionReceipt error : ', exception.message, exception)
+
+        throw exception
+      }
+    }
+
     try {
       if (Config.disableClaim) {
         throw new Error('Come back later')
@@ -375,16 +376,14 @@ const Claim = props => {
       })
     } catch (exception) {
       const { message } = exception
+
       log.error('SendClaimTx error : ', message, exception)
+
       if (!txHash || !message.includes('Transaction with the same hash was already imported')) {
         throw exception
       }
 
-      try {
-        receipt = await goodWallet.wallet.eth.getTransactionReceipt(txHash)
-      } catch (e) {
-        log.error('getTransactionReceipt error : ', e.message, e)
-      }
+      receipt = await getTxReceiptByHash()
     }
 
     return receipt
@@ -517,12 +516,16 @@ const Claim = props => {
   const handleClaim = useCallback(async () => {
     const claimed = await onClaim()
 
-    if (!claimed || allowedNotificationPermissions) {
+    if (!userProperties || (isWeb && !Config.enableWebNotifications) || !claimed) {
       return
     }
 
-    requestNotificationPermissions()
-  }, [onClaim, requestNotificationPermissions, allowedNotificationPermissions])
+    if (userProperties.getLocal('askedPermissionsAfterClaim')) {
+      return
+    }
+
+    navigate('Settings', { from: 'Claim' })
+  }, [onClaim, navigate, userProperties])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

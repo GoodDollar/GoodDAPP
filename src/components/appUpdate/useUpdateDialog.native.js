@@ -55,7 +55,7 @@ export default () => {
       if (suggestCodePushUpdate && !hasNewVersion) {
         await codePush
           .sync({
-            updateDialog: true,
+            updateDialog: false,
             installMode: InstallMode.IMMEDIATE,
             deploymentKey: codePushDeploymentKey,
           })

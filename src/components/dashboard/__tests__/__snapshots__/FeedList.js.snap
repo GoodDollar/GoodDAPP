@@ -5,7 +5,7 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onScroll={[Function]}
     onTouchEnd={[Function]}
     onTouchMove={[Function]}
@@ -13,6 +13,7 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
     onWheel={[Function]}
     style={
       Object {
+        "display": "flex",
         "height": "1px",
       }
     }
@@ -486,7 +487,7 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "opacity": 1,
+          "opacity": 0,
         }
       }
     >
@@ -624,9 +625,10 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     tabIndex="-1"
                   >
                     <div
-                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      className="css-view-1dbjc4n"
                       style={
                         Object {
+                          "backgroundColor": "rgba(0,0,0,0.00)",
                           "borderBottomLeftRadius": "-1px",
                           "borderBottomRightRadius": "-1px",
                           "borderTopLeftRadius": "-1px",
@@ -897,7 +899,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "opacity": 1,
+          "opacity": 0,
         }
       }
     >

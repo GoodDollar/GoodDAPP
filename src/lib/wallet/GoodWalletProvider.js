@@ -13,6 +13,7 @@ import { IS_LOGGED_IN } from '../constants/localStorage'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
 const log = logger.child({ from: 'GoodWalletProvider' })
+const { enableHDWallet } = Config
 
 export const GoodWalletContext = React.createContext({
   userStorage: undefined,
@@ -29,6 +30,7 @@ export const GoodWalletContext = React.createContext({
 export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
   const [{ goodWallet, userStorage }, setWalletAndStorage] = useState({})
+
   const [web3Provider, setWeb3] = useState()
   const [isLoggedInJWT, setLoggedInJWT] = useState()
   const [balance, setBalance] = useState()
@@ -87,11 +89,17 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         })
         await wallet.ready
 
+        // HDWalletProvider causes extra polling and maybe some xhr errors
         // when new wallet set the web3provider for future use with usedapp
-        if (type === 'SEED') {
-          setWeb3(new HDWalletProvider(wallet.accounts, wallet.wallet.currentProvider.host))
-        } else {
-          setWeb3(seedOrWeb3)
+        // so enableHDWallet (aka REACT_APP_ENABLE_HD_WALLET is false by default)
+        if (enableHDWallet) {
+          let web3 = seedOrWeb3
+
+          if (type === 'SEED') {
+            web3 = new HDWalletProvider(wallet.accounts, wallet.wallet.currentProvider.host)
+          }
+
+          setWeb3(web3)
         }
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
@@ -192,23 +200,25 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
 
-  return (
-    <GoodWalletContext.Provider
-      value={{
-        userStorage,
-        goodWallet,
-        initWalletAndStorage,
-        web3Provider,
-        login,
-        isLoggedInJWT,
-        balance,
-        dailyUBI,
-        isCitizen,
-      }}
-    >
-      {children}
-    </GoodWalletContext.Provider>
-  )
+  let contextValue = {
+    userStorage,
+    goodWallet,
+    initWalletAndStorage,
+    login,
+    isLoggedInJWT,
+    balance,
+    dailyUBI,
+    isCitizen,
+  }
+
+  if (enableHDWallet) {
+    contextValue = {
+      ...contextValue,
+      web3Provider,
+    }
+  }
+
+  return <GoodWalletContext.Provider value={contextValue}>{children}</GoodWalletContext.Provider>
 }
 
 export const useWallet = () => {

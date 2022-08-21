@@ -63,7 +63,7 @@ class SoftwareWalletProvider {
     defaultBlock: 'latest',
 
     // defaultGas: 140000,
-    defaultGasPrice: 1000000,
+    defaultGasPrice: 10000000,
     transactionBlockTimeout: 2,
     transactionConfirmationBlocks: 1,
     transactionPollingTimeout: 30,
@@ -92,7 +92,7 @@ class SoftwareWalletProvider {
 
     // we start from addres 1, since from address 0 pubkey all public keys can  be generated
     // and we want privacy
-    
+
     if (privateKeys == null) {
       let mulWallet = new MultipleAddressWallet(pkey, 10)
 

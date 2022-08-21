@@ -19,7 +19,7 @@ class HDWalletProvider {
     // eslint-disable-next-line camelcase
     const tmp_wallets = this.wallets
 
-    this.engine = new ProviderEngine()
+    this.engine = new ProviderEngine({ pollingInterval: 5000 }) // fuse 5 seconds block
 
     this.engine.addProvider(
       new HookedSubprovider({

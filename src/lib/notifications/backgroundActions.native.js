@@ -18,6 +18,11 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
   const { userProperties } = userStorage
   const dateNow = new Date()
   const now = dateNow.getTime()
+  const shouldRemindClaims = userProperties.getLocal('shouldRemindClaims')
+
+  if (!shouldRemindClaims) {
+    return
+  }
 
   try {
     const dailyUBI = await goodWallet.checkEntitlement()
@@ -62,17 +67,7 @@ export const useNotifications = navigation => {
     // eslint-disable-next-line require-await
     const onClaimNotification = async navigation => navigation.navigate('Claim')
 
-    Notifications.registerRemoteNotifications()
-
-    Notifications.events().registerNotificationReceivedForeground((notification, completion) => {
-      completion({ alert: false, sound: false, badge: false })
-    })
-
-    Notifications.events().registerNotificationOpened((notification, completion) => {
-      completion()
-    })
-
-    Notifications.events().registerNotificationOpened(async (notification, completion) => {
+    const subscription = Notifications.events().registerNotificationOpened(async (notification, completion) => {
       const navigation = getNavigation()
       const { category } = notification?.payload || {}
 
@@ -86,5 +81,9 @@ export const useNotifications = navigation => {
 
       completion()
     })
+
+    return () => {
+      subscription.remove()
+    }
   }, [])
 }

@@ -16,6 +16,7 @@ import { openLink } from '../../lib/utils/linking'
 
 // hooks
 import { useDialog } from '../../lib/dialog/useDialog'
+import Config from '../../config/config'
 
 const log = logger.child({ from: 'WalletConnectModals' })
 
@@ -77,7 +78,7 @@ export const WcHeader = withStyles(getStylesFromProps)(({ styles, session: { pee
   const dappName = peerMeta?.name
   const dappURL = peerMeta?.url
   const dappIcon = first(peerMeta?.icons)
-  const chain = chainId || peerMeta?.chainId || 1
+  const chain = chainId || peerMeta?.chainId || Config.networkId
 
   return (
     <>

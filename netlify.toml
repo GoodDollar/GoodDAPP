@@ -9,6 +9,11 @@ command = "CI= rm -f .env* && CI= yarn build --ignore-engines"
   conditions = {Country=["IR","KP"]}
   headers = {Link="<https://www.gooddollar.org/terms>"}
 
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
 [[headers]]
   for = "*"
   [headers.values]

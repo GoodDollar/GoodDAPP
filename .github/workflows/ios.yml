@@ -106,7 +106,6 @@ jobs:
           echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_DEV }}" >> $GITHUB_ENV
-          echo "IS_PROD=false" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |
@@ -114,7 +113,6 @@ jobs:
           echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-staging" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_STAGING }}" >> $GITHUB_ENV
-          echo "IS_PROD=false" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ env.TARGET_BRANCH == 'next' }}
         run: |
@@ -122,7 +120,6 @@ jobs:
           echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-iOS-production" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_IOS_PROD }}" >> $GITHUB_ENV
-          echo "IS_PROD=true" >> $GITHUB_ENV
       # setup actions
       - uses: actions/checkout@v2
         with:
@@ -185,26 +182,25 @@ jobs:
       - name: Build preparation
         env:
           ENVFILE: './.env.${{ env.ENV }}'
-          IS_PROD: ${{ env.IS_PROD }}
         run: |
           yarn lingui:compile
           yarn animation:assets
-          echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
+          echo "Creating release using env: ${ENVFILE}"
       - name: Setup provisioning profile
-        run: ./.github/secrets/decrypt_secrets.sh
         env:
           IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
           IOS_STORE_PROFILE: ${{ secrets.IOS_STORE_PROFILE }}
           IOS_ADHOC_PROFILE: ${{ secrets.IOS_ADHOC_PROFILE }}
           IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          ENV: ${{ env.ENV }}
+        run: ./.github/secrets/decrypt_secrets.sh
       - name: Build app
         env:
           ENVFILE: './.env.${{ env.ENV }}'
-          IS_PROD: ${{ env.IS_PROD }}
         run: |
           yarn lingui:compile
           yarn animation:assets
-          echo "Creating release using env: ${ENVFILE}, is_prod: ${IS_PROD}"
+          echo "Creating release using env: ${ENVFILE}"
           cd ios && xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \
@@ -226,6 +222,6 @@ jobs:
           npx appcenter distribute release --token ${{ env.APPCENTER_TOKEN }} --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
 
       - name: Distribute to stores - PROD ONLY
-        if: ${{ env.IS_PROD }}
+        if: ${{ env.ENV == 'prod' }}
         run: |
           npx appcenter distribute stores publish --token ${{ secrets.APPCENTER_IOS_PROD }} --app "${{ env.APPCENTER_NAME }}" --store App\ Store\ Connect\ Users --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:'%h %s')"

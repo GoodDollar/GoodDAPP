@@ -1,6 +1,13 @@
 import { Platform } from 'react-native'
 import { replace } from 'lodash'
 
+const jwtParams = Platform.select({
+  default: {},
+  ios: {
+    prompt: 'login',
+  },
+})
+
 /* eslint-disable require-await */
 export const LoginStrategy = {
   Facebook: 'facebook',
@@ -73,6 +80,7 @@ export class FacebookStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'facebook',
       verifier: torusFacebook,
       clientId: facebookAppId,
+      jwtParams,
     })
   }
 }
@@ -86,6 +94,7 @@ export class GoogleLegacyStrategy extends AbstractLoginStrategy {
       typeOfLogin: 'google',
       verifier: torusGoogle,
       clientId: googleClientId,
+      jwtParams,
     })
   }
 }
@@ -105,6 +114,7 @@ export class GoogleStrategy extends AbstractLoginStrategy {
 
           // for mainnet torus uses a different verifier
           verifier: config.env === 'production' ? 'google' : 'google-shubs',
+          jwtParams,
         },
       ],
     })
@@ -127,6 +137,7 @@ export class Auth0Strategy extends AbstractAuth0Strategy {
           jwtParams: {
             connection: 'Username-Password-Authentication',
             domain: auth0ServerUri,
+            ...jwtParams,
           },
         },
       ],
@@ -151,6 +162,7 @@ export class PaswordlessEmailStrategy extends AbstractAuth0Strategy {
             connection: '',
             domain: auth0ServerUri,
             verifierIdField: 'name',
+            ...jwtParams,
           },
         },
       ],
@@ -171,6 +183,7 @@ export class PaswordlessSMSStrategy extends AbstractAuth0Strategy {
         connection: '',
         domain: auth0ServerUri,
         verifierIdField: 'name',
+        ...jwtParams,
       },
     })
   }

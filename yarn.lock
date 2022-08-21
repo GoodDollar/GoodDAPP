@@ -3949,7 +3949,7 @@ __metadata:
     "@ceramicnetwork/stream-tile": ^2.1.3
     "@expo/react-native-action-sheet": ^3.9.0
     "@gooddollar/goodcontracts": ^2.6.2
-    "@gooddollar/goodprotocol": ^1.0.23
+    "@gooddollar/goodprotocol": ^1.0.27
     "@gooddollar/gun": ^0.2020.902
     "@gooddollar/gun-asyncstorage": ^1.0.3
     "@gooddollar/gun-pk-auth": ^1.1.0
@@ -3982,7 +3982,7 @@ __metadata:
     "@textile/threaddb": ^0.1.0
     "@textile/threads-client": ^2.1.2
     "@textile/threads-id": ^0.5.1
-    "@toruslabs/customauth-react-native-sdk": ^1.0.1
+    "@toruslabs/customauth-react-native-sdk": ^3.0.1
     "@toruslabs/torus-direct-web-sdk": 5.0.2
     "@tradle/react-native-http": ^2.0.1
     "@walletconnect/client": ^1.7.8
@@ -4212,15 +4212,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/goodprotocol@npm:^1.0.23":
-  version: 1.0.23
-  resolution: "@gooddollar/goodprotocol@npm:1.0.23"
+"@gooddollar/goodprotocol@npm:^1.0.27":
+  version: 1.0.27
+  resolution: "@gooddollar/goodprotocol@npm:1.0.27"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.2
     "@jsier/retrier": ^1.2.4
     "@openzeppelin/contracts": ^4.5.0
     "@openzeppelin/contracts-upgradeable": ^4.3.2
-    "@typechain/hardhat": ^2.2.0
+    "@typechain/hardhat": ^6.1.2
     async-promise-pool: ^1.0.4
     ethers-multicall: ^0.2.1
     openzeppelin-solidity: ^4.3.2
@@ -4228,7 +4228,7 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.5.11
     truffle-source-verify: ^0.0.6
-  checksum: 190dc909901be9cbf153586c0a3dc34cdea9f1fb37f545de993cd068705cb236a6a53c982120f81efde350d839e4d8e4fb79c191285e5c526a72fdbc4f9df947
+  checksum: 7e81e83bb12cd741226a363959ad92ca44deb51e302d0c89a2861a71a5b447c23483d93abf234e972c8f289328b9449aa73edf100b3f8a8be518ffb56a4f786b
   languageName: node
   linkType: hard
 
@@ -6335,12 +6335,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toruslabs/customauth-react-native-sdk@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "@toruslabs/customauth-react-native-sdk@npm:1.0.2"
+"@toruslabs/customauth-react-native-sdk@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@toruslabs/customauth-react-native-sdk@npm:3.0.1"
   peerDependencies:
-    react-native: ">=0.66"
-  checksum: 2d4f8a78c917ec32829b0b14a317fc089ce3b97445ed04d7dd6a31d4e27191565344e19a965200be581fb97514a2afbf32f775d34acda8be49d6c7ee0ee694ee
+    react-native: "*"
+  checksum: c0351dcf37abb39285bf34cf446d54e9705ea05f6efd7bf0ec2f67cb9c74410958ea764f95954183a2b657dee84895404f353e69c2a1ab6276039039aa5c8ab7
   languageName: node
   linkType: hard
 
@@ -6433,23 +6433,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trysound/sax@npm:0.2.0":
-  version: 0.2.0
-  resolution: "@trysound/sax@npm:0.2.0"
-  checksum: 11226c39b52b391719a2a92e10183e4260d9651f86edced166da1d95f39a0a1eaa470e44d14ac685ccd6d3df7e2002433782872c0feeb260d61e80f21250e65c
-  languageName: node
-  linkType: hard
-
-"@typechain/hardhat@npm:^2.2.0":
-  version: 2.3.1
-  resolution: "@typechain/hardhat@npm:2.3.1"
+"@typechain/hardhat@npm:^6.1.2":
+  version: 6.1.2
+  resolution: "@typechain/hardhat@npm:6.1.2"
   dependencies:
     fs-extra: ^9.1.0
-  peerDependencies:
-    hardhat: ^2.0.10
     lodash: ^4.17.15
-    typechain: ^5.1.2
-  checksum: f6090b80e3c75e47bb02c9b2c669258e976ccf06502c168b851ad7ca20f53cb554dcb8104bc7ca608f2111baa047ee8e52ce6153eb80450edb9736ba5ebfb12f
+  peerDependencies:
+    "@ethersproject/abi": ^5.4.7
+    "@ethersproject/providers": ^5.4.7
+    "@typechain/ethers-v5": ^10.1.0
+    ethers: ^5.4.7
+    hardhat: ^2.9.9
+    typechain: ^8.1.0
+  checksum: 875753de831825c95c30e6792949f38f69fcee888c1936042414c8d030ecc181817cc0f5cbf6f1764f30779b5f840201eb29addda45713fd0b58a71693102a2c
   languageName: node
   linkType: hard
 
@@ -22767,7 +22764,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 6c1fa43d3eaf13975db833e3888cd65e3cc3e079f05ea762b359fcb963dfc682823cec09dfd56ae56455d49ccf1354274da44cb327665d93bb18831c04eaeeb8
+  checksum: 19574d772c4e8dbbebd4968b610e0f7e28fe020138b6313b82d0dc7d22f1f123266714fc1cec0a72160ac83c3bff3aa1dcfafcb2647ee13b751797c8d1382d2c
   languageName: node
   linkType: hard
 
@@ -22785,7 +22782,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 409473309e9029f795c6f4fed391c9d1dfe4591b4b0dd88555408c325cd003e28faabd94e87b59ae0bc97037b31f7837f3309c478565f5905c4a4816edaeed2d
+  checksum: d3fb8bcc59beb7f185b3c37aa70e375f37b829d5af7d53574b3fd314b66e2b997fa2770a794baf68a57e612473440f7d2528a211f5c4f8f617763b3f0d53d065
   languageName: node
   linkType: hard
 

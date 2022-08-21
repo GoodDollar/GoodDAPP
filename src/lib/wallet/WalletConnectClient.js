@@ -20,6 +20,7 @@ import {
   WALLETCONNECT_UNSUPPORTED,
 } from '../analytics/analytics'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
+import Config from '../../config/config'
 import { useWallet } from './GoodWalletProvider'
 const log = logger.child({ from: 'WalletConnectClient' })
 
@@ -132,7 +133,7 @@ export const useWalletConnectSession = () => {
         session,
         modalType: 'connect',
         onApprove: () => {
-          const requestedChain = session.chainId || 122
+          let requestedChain = session.chainId || Config.networkId
           if (Number(chain?.chainId) !== Number(requestedChain)) {
             const chainDetails = chains.find(_ => Number(_.chainId) === Number(requestedChain))
             setChain(chainDetails)

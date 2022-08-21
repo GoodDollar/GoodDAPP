@@ -194,7 +194,7 @@ export class GoodWallet {
     const ready = WalletFactory.create(this.config)
     this.is3rdPartyWallet = this.config.type === 'WEB3WALLET'
     this.ready = ready
-      .then(wallet => {
+      .then(async wallet => {
         log.info('GoodWallet initial wallet created.')
 
         this.wallet = wallet
@@ -204,7 +204,7 @@ export class GoodWallet {
         this.networkId = Config.networkId
         this.network = Config.network
         log.info(`networkId: ${this.networkId}`)
-        this.gasPrice = wallet.utils.toWei('1', 'gwei')
+        this.gasPrice = (await wallet.eth.getGasPrice()) || wallet.utils.toWei('10', 'gwei')
         this.wallet.eth.defaultGasPrice = this.gasPrice
         this.multicallFuse = new MultiCall(this.wallet, MultiCalls[this.networkId])
         this.multicallMainnet = new MultiCall(this.web3Mainnet, MultiCalls[mainnetNetworkId])
@@ -1371,24 +1371,33 @@ export class GoodWallet {
       const { topWallet = true } = options
 
       let nativeBalance = await this.balanceOfNative()
+      let hasBalance = nativeBalance >= minWei
 
-      if (nativeBalance > minWei) {
+      // also request for gas if we wont have enough after TX to do a refill
+      let noGasAfterTx = topWallet && nativeBalance - minWei < TOP_GWEI
+
+      if (hasBalance && !noGasAfterTx) {
         return {
           ok: true,
         }
       }
 
-      if (!topWallet) {
+      if (!hasBalance && !topWallet) {
+        // !hasbalance is just to make it readable, it was tested in previous if
         return {
           ok: false,
         }
       }
 
       // self serve using faucet. we verify nativeBalance to prevent loop with sendTransaction which calls this function also
-      if (
-        nativeBalance >= TOP_GWEI &&
-        (await retryCall(() => this.faucetContract.methods.canTop(this.account).call()))
-      ) {
+      const canTop = await retryCall(() => this.faucetContract.methods.canTop(this.account).call())
+
+      // cant use faucet anymore this day/week
+      if (!canTop) {
+        return { ok: false || hasBalance }
+      }
+
+      if (nativeBalance >= TOP_GWEI) {
         log.info('verifyHasGas using faucet...')
 
         const toptx = this.faucetContract.methods.topWallet(this.account)
@@ -1400,12 +1409,13 @@ export class GoodWallet {
           })
 
         if (ok) {
-          return { ok }
+          return { ok: ok || hasBalance }
         }
       }
 
       // if we cant use faucet or it failed then fallback to adminwallet api
       log.info('verifyHasGas no gas, asking for top wallet from server', {
+        hasBalance,
         nativeBalance,
         required: minWei,
         address: this.account,
@@ -1416,7 +1426,7 @@ export class GoodWallet {
 
       if (!data || data.ok !== 1) {
         return {
-          ok: false,
+          ok: false || hasBalance,
           error:
             !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
           message: get(data, 'error'),
@@ -1561,12 +1571,14 @@ export class GoodWallet {
     return nonce > 0
   }
 
-  getContractName(address) {
+  // eslint-disable-next-line require-await
+  async getContractName(address) {
     const lcAddress = address.toLowerCase()
     const checksum = this.wallet.utils.toChecksumAddress(address)
     const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
+    const contractName = first(filter(values(ContractsAddress).map(findByKey)))
 
-    return first(filter(values(ContractsAddress).map(findByKey)))
+    return contractName || API.getContractName(address)
   }
 }
 

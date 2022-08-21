@@ -446,6 +446,21 @@ export class APIService {
     return result
   }
 
+  async getContractName(address, explorer = null): AxiosPromise<any> {
+    const params = {
+      module: 'contract',
+      action: 'getsourcecode',
+      address,
+    }
+
+    const { result } = await this.sharedClient.get('/api', {
+      params,
+      baseURL: explorer || Config.networkExplorerUrl,
+    })
+
+    return result?.ContractName
+  }
+
   // eslint-disable-next-line require-await
   async graphQuery(query, subgraph = 'goodsubgraphs'): AxiosPromise<any> {
     const payload = { query }

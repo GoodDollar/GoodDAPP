@@ -2,10 +2,10 @@
 /* eslint-disable no-unused-vars */
 
 // libraries
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { Platform, TouchableOpacity } from 'react-native'
-import { mapValues, pick, startCase } from 'lodash'
+import { get, mapValues, pick, startCase } from 'lodash'
 
 // custom components
 import { t } from '@lingui/macro'
@@ -69,10 +69,18 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { navigate } = navigation
   const userStorage = useUserStorage()
   const { userProperties } = userStorage || {}
+
+  const { from: wentFrom } = screenProps?.screenState || {}
+  const onWentFromClaimProcessedRef = useRef(false)
+
   const [shouldRemindClaims, setRemindClaims] = useState(userProperties.getLocal('shouldRemindClaims'))
 
   const handleRemindChange = useCallback(
     value => {
+      if (value) {
+        userProperties.setLocal('askedPermissionsAfterClaim', true)
+      }
+
       userProperties.setLocal('shouldRemindClaims', value)
       setRemindClaims(value)
     },
@@ -97,8 +105,9 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
   const handleClaimReminders = useCallback(
     value => {
-      if (!allowedNotificationPermissions) {
+      if (value && !allowedNotificationPermissions) {
         requestNotificationPermissions()
+        return
       }
 
       handleRemindChange(value)
@@ -147,14 +156,25 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     })
 
     /* eslint-disable */
-    Promise
-      .all(valuesToBeUpdated.map( // update fields
-        field => userStorage.setProfileFieldPrivacy(field, debouncedPrivacy[field])
-      ))
+    Promise.all(
+      valuesToBeUpdated.map(
+        // update fields
+        field => userStorage.setProfileFieldPrivacy(field, debouncedPrivacy[field]),
+      ),
+    )
       .then(() => setInitialPrivacy(debouncedPrivacy)) // resets initial privacy states with currently set values
       .catch(e => log.error('Failed to save new privacy', e.message, e))
     /* eslint-enable */
   }, [debouncedPrivacy, initialPrivacy, setInitialPrivacy, userStorage])
+
+  useEffect(() => {
+    if (onWentFromClaimProcessedRef.current || 'Claim' !== wentFrom) {
+      return
+    }
+
+    handleClaimReminders(true)
+    onWentFromClaimProcessedRef.current = true
+  }, [handleClaimReminders, wentFrom])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>

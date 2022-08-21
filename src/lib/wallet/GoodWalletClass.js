@@ -193,7 +193,7 @@ export class GoodWallet {
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const ready = WalletFactory.create(this.config)
     this.ready = ready
-      .then(wallet => {
+      .then(async wallet => {
         log.info('GoodWallet initial wallet created.')
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
@@ -202,7 +202,7 @@ export class GoodWallet {
         this.networkId = Config.networkId
         this.network = Config.network
         log.info(`networkId: ${this.networkId}`)
-        this.gasPrice = wallet.utils.toWei('1', 'gwei')
+        this.gasPrice = (await wallet.eth.getGasPrice()) || wallet.utils.toWei('10', 'gwei')
         this.wallet.eth.defaultGasPrice = this.gasPrice
         this.multicallFuse = new MultiCall(this.wallet, MultiCalls[this.networkId])
         this.multicallMainnet = new MultiCall(this.web3Mainnet, MultiCalls[mainnetNetworkId])

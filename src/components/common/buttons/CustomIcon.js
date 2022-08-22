@@ -5,16 +5,18 @@ import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
 const CustomIcon = ({ styles, theme, name, color, size, circleSize = 16, wrapper = true, reverse, reverseColor }) => {
-  const borderRadius = useMemo(() => circleSize / 2, [circleSize])
+  const borderRadius = useMemo(() => (wrapper ? circleSize / 2 : null), [circleSize, wrapper])
   return (
     <View
       style={[
         styles.imageIcon,
         {
+          backgroundColor: reverse ? color : reverseColor,
+        },
+        wrapper && {
           width: circleSize,
           height: circleSize,
           borderRadius,
-          backgroundColor: reverse ? color : reverseColor,
         },
       ]}
     >

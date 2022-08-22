@@ -202,7 +202,7 @@ export class GoodWallet {
         this.networkId = Config.networkId
         this.network = Config.network
         log.info(`networkId: ${this.networkId}`)
-        this.gasPrice = (await wallet.eth.getGasPrice()) || wallet.utils.toWei('10', 'gwei')
+        this.gasPrice = (await wallet.eth.getGasPrice()) || wallet.utils.toWei(String(Config.defaultGasPrice), 'gwei')
         this.wallet.eth.defaultGasPrice = this.gasPrice
         this.multicallFuse = new MultiCall(this.wallet, MultiCalls[this.networkId])
         this.multicallMainnet = new MultiCall(this.web3Mainnet, MultiCalls[mainnetNetworkId])

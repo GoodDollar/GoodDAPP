@@ -36,7 +36,7 @@ const IconButton = ({ styles, theme, text, onPress, disabled, style, ...iconProp
         reverse
         reverseColor={disabled ? 'rgba(0, 0, 0, 0.32)' : '#282c34'}
         size={16}
-        circleSize={32}
+        circle={32}
         {...iconProps}
       />
       {text && (

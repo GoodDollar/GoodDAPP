@@ -54,7 +54,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           onPress={goBack}
           color="white"
           size={36}
-          circleSize={36}
+          circle={36}
           style={styles.walletButton}
         />
       )}

@@ -4,8 +4,13 @@ import { View } from 'react-native'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
-const CustomIcon = ({ styles, theme, name, color, size, circleSize = 16, wrapper = true, reverse, reverseColor }) => {
-  const borderRadius = useMemo(() => (wrapper ? circleSize / 2 : null), [circleSize, wrapper])
+const CustomIcon = ({ styles, theme, name, color, size, circle = 16, wrapper = true, reverse, reverseColor }) => {
+  const [_circle, borderRadius] = useMemo(() => {
+    const _circle = circle !== false
+
+    return [_circle, _circle ? circle / 2 : null]
+  }, [circle, wrapper])
+
   return (
     <View
       style={[
@@ -13,9 +18,9 @@ const CustomIcon = ({ styles, theme, name, color, size, circleSize = 16, wrapper
         {
           backgroundColor: reverse ? color : reverseColor,
         },
-        wrapper && {
-          width: circleSize,
-          height: circleSize,
+        _circle && {
+          width: circle,
+          height: circle,
           borderRadius,
         },
       ]}

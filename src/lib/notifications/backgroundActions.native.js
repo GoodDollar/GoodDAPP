@@ -71,6 +71,7 @@ export const useNotifications = navigation => {
     
     const onForeground = (notification, completion) => {
       log.info(`Notification received in foreground: ${notification.title} : ${notification.body}`)
+      // should call completion otherwise notifications won't receive
       completion({ alert: false, sound: false, badge: false })
     }
     

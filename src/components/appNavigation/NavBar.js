@@ -41,6 +41,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           reverse={false}
           reverseColor="transparent"
           size={22}
+          circle={false}
           style={styles.backButton}
         />
       ) : null}
@@ -54,7 +55,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           onPress={goBack}
           color="white"
           size={36}
-          circle={36}
+          circle={false}
           style={styles.walletButton}
         />
       )}

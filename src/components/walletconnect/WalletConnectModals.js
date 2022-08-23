@@ -78,7 +78,7 @@ export const WcHeader = withStyles(getStylesFromProps)(({ styles, session: { pee
   const dappName = peerMeta?.name
   const dappURL = peerMeta?.url
   const dappIcon = first(peerMeta?.icons)
-  const chain = chainId || peerMeta?.chainId || Config.wcDefaultChainId
+  const chain = chainId || peerMeta?.chainId || Config.networkId
 
   return (
     <>

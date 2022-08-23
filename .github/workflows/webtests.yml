@@ -119,11 +119,11 @@ jobs:
         if: matrix.chunk == env.WALLET_CHUNK
         name: cache goodcontracts
         with:
-          path: node_modules/@gooddollar/goodprotocol
-          key: ${{ hashFiles('node_modules/@gooddollar/goodprotocol/yarn.lock') }}
+          path: /tmp/goodprotocol
+          key: ${{ hashFiles('/tmp/goodprotocol/yarn.lock') }}
 
       - name: install goodcontracts
-        if: "steps.contractsCache.outputs.cache-hit != 'true' && matrix.chunk == env.WALLET_CHUNK"
+        if: matrix.chunk == env.WALLET_CHUNK
         run: ./scripts/blockchainTestSetup.sh
 
       - name: run tests and code coverage

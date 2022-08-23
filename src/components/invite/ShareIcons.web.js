@@ -85,7 +85,7 @@ export default ({ shareUrl }) => {
               onShare(props.service)
             }}
           >
-            <IconButton {...props} name={name} circleSize={36} />
+            <IconButton {...props} name={name} circle={36} />
           </Component>
         </Section.Stack>
       ))}

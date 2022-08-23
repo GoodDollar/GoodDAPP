@@ -22,12 +22,12 @@ exports[`IconButton disabled matches snapshot 1`] = `
       style={
         Object {
           "backgroundColor": "rgba(12,38,61,1.00)",
-          "borderBottomLeftRadius": "8px",
-          "borderBottomRightRadius": "8px",
-          "borderTopLeftRadius": "8px",
-          "borderTopRightRadius": "8px",
-          "height": "16px",
-          "width": "16px",
+          "borderBottomLeftRadius": "16px",
+          "borderBottomRightRadius": "16px",
+          "borderTopLeftRadius": "16px",
+          "borderTopRightRadius": "16px",
+          "height": "32px",
+          "width": "32px",
         }
       }
     >
@@ -78,12 +78,12 @@ exports[`IconButton enabled matches snapshot 1`] = `
       style={
         Object {
           "backgroundColor": "rgba(12,38,61,1.00)",
-          "borderBottomLeftRadius": "8px",
-          "borderBottomRightRadius": "8px",
-          "borderTopLeftRadius": "8px",
-          "borderTopRightRadius": "8px",
-          "height": "16px",
-          "width": "16px",
+          "borderBottomLeftRadius": "16px",
+          "borderBottomRightRadius": "16px",
+          "borderTopLeftRadius": "16px",
+          "borderTopRightRadius": "16px",
+          "height": "32px",
+          "width": "32px",
         }
       }
     >

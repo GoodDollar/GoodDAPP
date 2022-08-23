@@ -15,6 +15,7 @@
 
 // React native plugins / services
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
+#import <UserNotifications/UserNotifications.h>
 #import <RNBranch/RNBranch.h>
 #import <Firebase.h>
 #import <CodePush/CodePush.h>
@@ -47,9 +48,8 @@
 
   self.window = [self initializeWindow:rootViewController];
 
-  [RNNotifications startMonitorNotifications];
   [self initializeBackgroundFetch];
-  [self initializeNotifications];
+  [RNNotifications startMonitorNotifications];
 
   return YES;
 }
@@ -72,6 +72,18 @@
   rootViewController.view = rootView;
 
   return rootViewController;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [RNNotifications didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  [RNNotifications didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+  [RNNotifications didReceiveBackgroundNotification:userInfo withCompletionHandler:completionHandler];
 }
 
 - (UIWindow *) initializeWindow:(UIViewController *)rootViewController
@@ -104,24 +116,19 @@
   [[TSBackgroundFetch sharedInstance] didFinishLaunching];
 }
 
+- (void) initializeNotifications
+{
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+
+  center.delegate = self;
+}
+
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
   return [RNBranch application:app openURL:url options:options];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
   return [RNBranch continueUserActivity:userActivity];
-}
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [RNNotifications didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  [RNNotifications didFailToRegisterForRemoteNotificationsWithError:error];
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-  [RNNotifications didReceiveBackgroundNotification:userInfo withCompletionHandler:completionHandler];
 }
 
 #ifdef FB_SONARKIT_ENABLED

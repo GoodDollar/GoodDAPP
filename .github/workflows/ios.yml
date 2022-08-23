@@ -144,10 +144,30 @@ jobs:
       - name: Setup CocoaPods
         run: sudo gem install cocoapods
       # install app deps
-      - name: Cache & install npm dependencies
-        uses: bahmutov/npm-install@v1
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      - name: Restore yarn cache
+        uses: actions/cache@v3
+        id: restore-yarn-cache
         with:
-          install-command: yarn --immutable
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: yarn-cache-folder-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-cache-folder-
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
+      - name: Install yarn dependencies
+        run: yarn --immutable
+        if: |
+          steps.restore-yarn-cache.outputs.cache-hit != 'true' ||
+          steps.cache-node-modules.outputs.cache-hit != 'true'
       - name: Restore Pods cache
         uses: actions/cache@v2
         with:

@@ -36,7 +36,6 @@ const mapStylesToProps = ({ theme }) => ({
   },
   title: {
     color: theme.colors.red,
-    fontFamily: theme.fonts.slab,
     fontSize: 22,
     lineHeight: 29,
     textAlign: 'center',

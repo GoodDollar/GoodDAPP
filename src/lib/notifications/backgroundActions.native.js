@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Notifications } from 'react-native-notifications'
 import { t } from '@lingui/macro'
+import { invokeMap } from 'lodash'
 
 import logger from '../logger/js-logger'
 import usePropsRefs from '../hooks/usePropsRefs'
@@ -66,26 +67,36 @@ export const useNotifications = navigation => {
   useEffect(() => {
     // eslint-disable-next-line require-await
     const onClaimNotification = async navigation => navigation.navigate('Claim')
+    const events = Notifications.events()
+    
+    const onForeground = (notification, completion) => {
+      log.info(`Notification received in foreground: ${notification.title} : ${notification.body}`)
+      // should call completion otherwise notifications won't receive
+      completion({ alert: false, sound: false, badge: false })
+    }
+    
+    const onOpened = async (notification, completion) => {
+      const navigation = getNavigation()
+      const { category } = notification?.payload || {}
 
-    const subscription = Notifications.events().registerNotificationOpened(
-      async (notification, completion) => {
-        const navigation = getNavigation()
-        const { category } = notification?.payload || {}
+      switch (category) {
+        case NotificationsCategories.CLAIM_NOTIFICATION:
+          await onClaimNotification(navigation)
+          break
+        default:
+          break
+      }
 
-        switch (category) {
-          case NotificationsCategories.CLAIM_NOTIFICATION:
-            await onClaimNotification(navigation)
-            break
-          default:
-            break
-        }
-
-        completion()
-      },
-    )
+      completion()
+    }
+    
+    const subscriptions = [
+      events.registerNotificationReceivedForeground(onForeground),
+      events.registerNotificationOpened(onOpened),
+    ]    
 
     return () => {
-      subscription.remove()
+      invokeMap(subscriptions, 'remove')
     }
   }, [])
 }

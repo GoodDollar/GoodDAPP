@@ -15,12 +15,10 @@
 
 // React native plugins / services
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
-#import <UserNotifications/UserNotifications.h>
 #import <RNBranch/RNBranch.h>
 #import <Firebase.h>
 #import <CodePush/CodePush.h>
-#import "RNNotifications.h"
-
+#import <RNNotifications.h>
 
 #ifdef FB_SONARKIT_ENABLED
 
@@ -104,13 +102,6 @@
 - (void) initializeBackgroundFetch
 {
   [[TSBackgroundFetch sharedInstance] didFinishLaunching];
-}
-
-- (void) initializeNotifications
-{
-  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-
-  center.delegate = self;
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {

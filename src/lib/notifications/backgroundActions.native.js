@@ -64,25 +64,28 @@ export const useNotifications = navigation => {
   const [getNavigation] = usePropsRefs([navigation])
 
   useEffect(() => {
+    Notifications.events().registerNotificationReceivedForeground((notification, completion) => {
+      log.info(`Notification received in foreground: ${notification.title} : ${notification.body}`)
+      completion({ alert: false, sound: false, badge: false })
+    })
+
     // eslint-disable-next-line require-await
     const onClaimNotification = async navigation => navigation.navigate('Claim')
 
-    const subscription = Notifications.events().registerNotificationOpened(
-      async (notification, completion) => {
-        const navigation = getNavigation()
-        const { category } = notification?.payload || {}
+    const subscription = Notifications.events().registerNotificationOpened(async (notification, completion) => {
+      const navigation = getNavigation()
+      const { category } = notification?.payload || {}
 
-        switch (category) {
-          case NotificationsCategories.CLAIM_NOTIFICATION:
-            await onClaimNotification(navigation)
-            break
-          default:
-            break
-        }
+      switch (category) {
+        case NotificationsCategories.CLAIM_NOTIFICATION:
+          await onClaimNotification(navigation)
+          break
+        default:
+          break
+      }
 
-        completion()
-      },
-    )
+      completion()
+    })
 
     return () => {
       subscription.remove()

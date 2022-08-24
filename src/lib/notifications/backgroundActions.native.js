@@ -68,13 +68,21 @@ export const useNotifications = navigation => {
     // eslint-disable-next-line require-await
     const onClaimNotification = async navigation => navigation.navigate('Claim')
     const events = Notifications.events()
-    
+
     const onForeground = (notification, completion) => {
       log.info(`Notification received in foreground: ${notification.title} : ${notification.body}`)
+
       // should call completion otherwise notifications won't receive
       completion({ alert: false, sound: false, badge: false })
     }
-    
+
+    const onBackground = (notification, completion) => {
+      log.info(`Notification received in background: ${notification.title} : ${notification.body}`)
+
+      // should call completion otherwise notifications won't receive in background
+      completion({ alert: true, sound: false, badge: true })
+    }
+
     const onOpened = async (notification, completion) => {
       const navigation = getNavigation()
       const { category } = notification?.payload || {}
@@ -89,11 +97,12 @@ export const useNotifications = navigation => {
 
       completion()
     }
-    
+
     const subscriptions = [
       events.registerNotificationReceivedForeground(onForeground),
+      events.registerNotificationReceivedBackground(onBackground),
       events.registerNotificationOpened(onOpened),
-    ]    
+    ]
 
     return () => {
       invokeMap(subscriptions, 'remove')

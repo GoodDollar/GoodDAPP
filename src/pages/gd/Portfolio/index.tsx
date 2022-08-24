@@ -359,7 +359,6 @@ const Portfolio = () => {
 
     const portfolio = (
         <>  
-            <SavingsAccount account={account} network={network} /> 
             <Card className="sm:mb-6 md:mb-4 card">
                 <PortfolioAnalyticSC className="flex">
                     <div className="flex flex-col segment">
@@ -463,7 +462,7 @@ const Portfolio = () => {
                     </div>
                 </PortfolioAnalyticSC>
             </Card>
-            <PortfolioTitleSC className="mb-3 md:pl-2">{i18n._(`Positions`)}</PortfolioTitleSC>
+            <PortfolioTitleSC className="mb-3 md:pl-2">{i18n._(`Stake Positions`)}</PortfolioTitleSC>
             {isMobile ? (
                 <>
                     {showNotice && (
@@ -509,6 +508,9 @@ const Portfolio = () => {
                     </Table>
                 </Card>
             )}
+            
+            <PortfolioTitleSC className="mb-3 md:pl-2 mt-4">{i18n._(`Savings`)}</PortfolioTitleSC>
+            <SavingsAccount account={account} network={network} />
         </>
     )
 

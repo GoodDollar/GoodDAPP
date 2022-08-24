@@ -235,15 +235,7 @@ export default function AccountDetails({
     const [{ wallet, connecting}, connect, disconnect] = useConnectWallet()
 
     function formatConnectorName() {
-        let name = ''
-        Object.keys(SUPPORTED_WALLETS).map(key => {
-            if (label === SUPPORTED_WALLETS[key].name) {
-                return (name = SUPPORTED_WALLETS[key].name)
-            }
-            return true
-        })
-
-        return `${i18n._(t`Connected with`)} ${name}`
+        return `${i18n._(t`Connected with`)} ${wallet?.label}`
     }
 
     const changeWallet = useCallback(async () => {
@@ -257,7 +249,7 @@ export default function AccountDetails({
         await disconnect({label: wallet.label}) 
         await connect()
       }
-    }, [toggleWalletModal, connect, disconnect])
+    }, [toggleWalletModal, connect, disconnect, wallet])
 
     const clearAllTransactionsCallback = useCallback(() => {
         if (chainId) dispatch(clearAllTransactions({ chainId }))

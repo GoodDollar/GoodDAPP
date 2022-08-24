@@ -6,6 +6,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
 import { t } from '@lingui/macro'
+import { Notifications } from 'react-native-notifications'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -547,6 +548,10 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
+    Notifications.postLocalNotification({
+      title: t`It's that time of the day 💸 💙`,
+      body: t`Claim your free GoodDollars now. It takes 10 seconds.`,
+    })
     if (appState === 'active') {
       if (feedRef.current.length) {
         getNotificationItem()

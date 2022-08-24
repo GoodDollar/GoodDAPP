@@ -40,7 +40,7 @@ function SwapDetails({
                 title={i18n._(t`Minimum received`)}
                 value={minimumReceived}
                 tip={i18n._(
-                    t`Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.`
+                    t`The minimum amount of tokens to receive.`
                 )}
             />
             <SwapInfo

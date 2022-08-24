@@ -57,6 +57,8 @@ const initialState = {
 
 const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepositModalProps) => {
     const { i18n } = useLingui()
+    //note: 
+    // (bug-minor) chainId is cached here at default 1 when using an action button. Only seems to break loading icons on dev..
     const { chainId, account } = useActiveWeb3React()
     const network = SupportedChainId[chainId]
     const { web3 } = useGdContextProvider()

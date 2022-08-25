@@ -1145,6 +1145,13 @@ export class UserStorage {
     return this.profileStorage.deleteProfile()
   }
 
+  async deleteFaceSnapshot(): Promise<void> {
+    const faceIdentifier = this.getFaceIdentifier()
+    const signature = await this.wallet.sign(faceIdentifier, 'faceVerification')
+
+    await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, signature)
+  }
+
   /**
    * Delete the user account.
    * Deleting profile and clearing local storage
@@ -1156,10 +1163,7 @@ export class UserStorage {
     const { wallet, userProperties, _trackStatus } = this
 
     try {
-      const faceIdentifier = this.getFaceIdentifier()
-      const signature = await wallet.sign(faceIdentifier, 'faceVerification')
-
-      await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, signature)
+      await this.deleteFaceSnapshot()
       deleteAccountResult = await API.deleteAccount()
 
       if (get(deleteAccountResult, 'data.ok', false)) {

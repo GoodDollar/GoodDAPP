@@ -104,13 +104,15 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { showDialog } = useDialog()
 
   const handleClaimReminders = useCallback(
-    value => {
-      if (value && !allowedNotificationPermissions) {
-        requestNotificationPermissions()
+    (newValue, options) => {
+      const { fromClaim = false } = options || {}
+
+      if (newValue && !allowedNotificationPermissions) {
+        requestNotificationPermissions(fromClaim ? { promptPopup: false } : {})
         return
       }
 
-      handleRemindChange(value)
+      handleRemindChange(newValue)
     },
     [allowedNotificationPermissions, requestNotificationPermissions, handleRemindChange],
   )
@@ -172,7 +174,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
       return
     }
 
-    handleClaimReminders(true)
+    handleClaimReminders(true, { fromClaim: true })
     onWentFromClaimProcessedRef.current = true
   }, [handleClaimReminders, wentFrom])
 

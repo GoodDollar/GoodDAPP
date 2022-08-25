@@ -87,58 +87,74 @@ const usePermissions = (permission: Permission, options = {}) => {
     handleAllowed()
   }, [permission, handleAllowed, handleDenied])
 
-  const handleRequestFlow = useCallback(async () => {
-    // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happens during processing transaction
-    if (!mountedState.current) {
-      return
-    }
+  const handlePrompt = useCallback(
+    options => {
+      const { promptPopup } = options || {}
+      const PopupComponent = promptPopup || PromptPopup
+      const onPrompted = result => (true === result ? handleRequest() : handleDenied())
 
-    const status = await api.check(permission)
-
-    // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happens during processing transaction
-    if (!mountedState.current) {
-      return
-    }
-
-    const onPrompted = result => (true === result ? handleRequest() : handleDenied())
-
-    switch (status) {
-      case Prompt:
+      if (promptPopup === false) {
+        onPrompted(true)
+      } else {
         showPopup({
-          content: <PromptPopup onDismiss={onPrompted} />,
+          content: <PopupComponent onDismiss={onPrompted} />,
           onDismiss: handleDenied,
         })
+      }
 
-        onPrompt()
-        break
-      case Granted:
-        handleAllowed()
-        break
-      case Denied:
-        handleDenied()
-        break
-      case Disabled:
-        // TODO: maybe we would need to handle disabled case separately
-        // and run correspinding callback prop. for now it will just
-        // call onDenied but without showing denied dialog
-        onDenied()
-        break
-      case Undetermined:
-      default:
-        // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
-        // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appears when you're calling readText()
-        if (Clipboard === permission && isSafari) {
+      onPrompt()
+    },
+    [handleRequest, onPrompt, PromptPopup],
+  )
+
+  const handleRequestFlow = useCallback(
+    async options => {
+      // re-checking mounted state after each delayed / async operation as send link
+      // screen could call redirect back if error happens during processing transaction
+      if (!mountedState.current) {
+        return
+      }
+
+      const status = await api.check(permission)
+
+      // re-checking mounted state after each delayed / async operation as send link
+      // screen could call redirect back if error happens during processing transaction
+      if (!mountedState.current) {
+        return
+      }
+
+      switch (status) {
+        case Prompt:
+          handlePrompt(options)
+          break
+        case Granted:
           handleAllowed()
           break
-        }
+        case Denied:
+          handleDenied()
+          break
+        case Disabled:
+          // TODO: maybe we would need to handle disabled case separately
+          // and run correspinding callback prop. for now it will just
+          // call onDenied but without showing denied dialog
+          onDenied()
+          break
+        case Undetermined:
+        default:
+          // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
+          // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appears when you're calling readText()
+          if (Clipboard === permission && isSafari) {
+            handleAllowed()
+            break
+          }
 
-        onPrompt()
-        handleRequest()
-        break
-    }
-  }, [PromptPopup, onPrompt, handleRequest])
+          onPrompt()
+          handleRequest()
+          break
+      }
+    },
+    [handlePrompt, handleRequest],
+  )
 
   const requestPermission = useCallback(() => {
     if (!requestOnMounted) {

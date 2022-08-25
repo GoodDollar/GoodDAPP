@@ -44,6 +44,7 @@ import useTimer from '../../lib/hooks/useTimer'
 
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
+import useClaimNotificationsDialog from '../permissions/hooks/useClaimNotificationsDialog'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -251,6 +252,8 @@ const Claim = props => {
   const extraInfoAmountFormatter = useCallback(number => formatWithSIPrefix(weiToGd(number)), [])
 
   const [nextClaim, isReachedZero, updateTimer] = useTimer()
+
+  const askForClaimNotifications = useClaimNotificationsDialog()
 
   const gatherStats = useCallback(
     async (all = false) => {
@@ -524,7 +527,7 @@ const Claim = props => {
       return
     }
 
-    navigate('Settings', { from: 'Claim' })
+    askForClaimNotifications(() => navigate('Settings', { from: 'Claim' }))
   }, [onClaim, navigate, userProperties])
 
   // constantly update stats but only for some data

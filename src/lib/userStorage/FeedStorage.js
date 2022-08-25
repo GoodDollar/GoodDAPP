@@ -543,9 +543,10 @@ export class FeedStorage {
   async _readProfileCache(address) {
     const { profilesCache } = this
     let profile = profilesCache[address]
+    const onFindError = e => log.error('_readProfileCache failed', e.message, e, { address })
 
     if (!profile) {
-      profile = await this.db.Profiles.findById(address)
+      profile = await this.db.Profiles.findById(address).catch(onFindError)
 
       if (profile) {
         const { fullName, smallAvatar } = profile
@@ -560,10 +561,12 @@ export class FeedStorage {
 
   async _writeProfileCache(profile) {
     const { address, fullName, smallAvatar } = profile
+    const onSaveError = e => log.error('_writeProfileCache failed', e.message, e, { profile })
 
     log.debug('_writeProfileCache', asLogRecord(profile))
     this.profilesCache[address] = { fullName, smallAvatar }
-    await this.db.Profiles.save({ _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() })
+    const options = { _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() }
+    await this.db.Profiles.save(options).catch(onSaveError)
   }
 
   /**
@@ -667,8 +670,9 @@ export class FeedStorage {
    */
   async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
     await this.ready //wait before accessing feedIds cache
+    const onReadError = e => log.error('Storage read failed', e.message, e, { transactionHash })
 
-    const feedItem = await this.storage.read(transactionHash)
+    const feedItem = await this.storage.read(transactionHash).catch(onReadError)
     if (feedItem) {
       return feedItem
     }
@@ -682,8 +686,12 @@ export class FeedStorage {
    * @param {string} hashedCode sha3 of the code
    * @returns transaction id that generated the code
    */
-  getFeedItemByPaymentId(hashedCode: string): Promise<string> {
-    return this.storage.readByPaymentId(hashedCode)
+  async getFeedItemByPaymentId(hashedCode: string): Promise<string> {
+    try {
+      return await this.storage.readByPaymentId(hashedCode)
+    } catch (e) {
+      log.error('getFeedItemByPaymentId failed', e.message, e, { hashedCode })
+    }
   }
 
   /**
@@ -842,8 +850,12 @@ export class FeedStorage {
     const recipientPublicKey = this.userStorage.profilePrivateKey.public.toString()
     const txData = await this.storage.getFromOutbox(recipientPublicKey, event.id)
 
-    log.debug('getFromOutbox saved data', txData)
-    return txData || {}
+    try {
+      log.debug('getFromOutbox saved data', txData)
+      return txData || {}
+    } catch (e) {
+      log.error('getFromOutbox failed', e.message, e, { event, recipientPublicKey })
+    }
   }
 
   emitUpdate = debounce(

@@ -543,7 +543,10 @@ export class FeedStorage {
   async _readProfileCache(address) {
     const { profilesCache } = this
     let profile = profilesCache[address]
-    const onFindError = e => log.error('_readProfileCache failed', e.message, e, { address })
+    const onFindError = e => {
+      log.error('_readProfileCache failed', e.message, e, { address })
+      throw e
+    }
 
     if (!profile) {
       profile = await this.db.Profiles.findById(address).catch(onFindError)
@@ -561,12 +564,18 @@ export class FeedStorage {
 
   async _writeProfileCache(profile) {
     const { address, fullName, smallAvatar } = profile
-    const onSaveError = e => log.error('_writeProfileCache failed', e.message, e, { profile })
 
     log.debug('_writeProfileCache', asLogRecord(profile))
     this.profilesCache[address] = { fullName, smallAvatar }
     const options = { _id: address, fullName, smallAvatar, lastUpdated: new Date().toISOString() }
-    await this.db.Profiles.save(options).catch(onSaveError)
+
+    try {
+      await this.db.Profiles.save(options)
+    } catch (e) {
+      log.error('_writeProfileCache failed', e.message, e, { options })
+
+      throw e
+    }
   }
 
   /**
@@ -670,7 +679,10 @@ export class FeedStorage {
    */
   async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
     await this.ready //wait before accessing feedIds cache
-    const onReadError = e => log.error('Storage read failed', e.message, e, { transactionHash })
+    const onReadError = e => {
+      log.error('Storage read failed', e.message, e, { transactionHash })
+      throw e
+    }
 
     const feedItem = await this.storage.read(transactionHash).catch(onReadError)
     if (feedItem) {
@@ -691,6 +703,8 @@ export class FeedStorage {
       return await this.storage.readByPaymentId(hashedCode)
     } catch (e) {
       log.error('getFeedItemByPaymentId failed', e.message, e, { hashedCode })
+
+      throw e
     }
   }
 
@@ -855,6 +869,8 @@ export class FeedStorage {
       return txData || {}
     } catch (e) {
       log.error('getFromOutbox failed', e.message, e, { event, recipientPublicKey })
+
+      throw e
     }
   }
 

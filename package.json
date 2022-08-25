@@ -40,7 +40,8 @@
     "add-locale": "lingui add-locale",
     "lingui:extract": "lingui extract --clean",
     "lingui:compile": "lingui compile && node scripts/i18n.js",
-    "lingui": "npm run lingui:extract --clean && npm run lingui:compile"
+    "lingui": "npm run lingui:extract --clean && npm run lingui:compile",
+    "postinstall": "cp .yarn/patches/realm+1.7.1-package-patched.json node_modules/realm-web/package.json"
   },
   "repository": {
     "type": "git",

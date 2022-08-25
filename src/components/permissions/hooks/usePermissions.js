@@ -90,10 +90,10 @@ const usePermissions = (permission: Permission, options = {}) => {
   const handlePrompt = useCallback(
     options => {
       const { promptPopup: popupOption } = options || {}
-      const showPopup = popupOption !== false && promptPopup !== false
+      const shouldShowPopup = popupOption !== false && promptPopup !== false
       const onPrompted = result => (true === result ? handleRequest() : handleDenied())
 
-      if (showPopup) {
+      if (shouldShowPopup) {
         const PopupComponent = popupOption || PromptPopup
 
         showPopup({
@@ -158,11 +158,14 @@ const usePermissions = (permission: Permission, options = {}) => {
     [handlePrompt, handleRequest],
   )
 
-  const requestPermission = useCallback(() => {
-    if (!requestOnMounted) {
-      handleRequestFlow()
-    }
-  }, [handleRequestFlow, requestOnMounted])
+  const requestPermission = useCallback(
+    options => {
+      if (!requestOnMounted) {
+        handleRequestFlow(options)
+      }
+    },
+    [handleRequestFlow, requestOnMounted],
+  )
 
   useEffect(() => {
     if (requestOnMounted) {

@@ -89,22 +89,24 @@ const usePermissions = (permission: Permission, options = {}) => {
 
   const handlePrompt = useCallback(
     options => {
-      const { promptPopup } = options || {}
-      const PopupComponent = promptPopup || PromptPopup
+      const { promptPopup: popupOption } = options || {}
+      const showPopup = popupOption !== false && promptPopup !== false
       const onPrompted = result => (true === result ? handleRequest() : handleDenied())
 
-      if (promptPopup === false) {
-        onPrompted(true)
-      } else {
+      if (showPopup) {
+        const PopupComponent = popupOption || PromptPopup
+
         showPopup({
           content: <PopupComponent onDismiss={onPrompted} />,
           onDismiss: handleDenied,
         })
+      } else {
+        onPrompted(true)
       }
 
       onPrompt()
     },
-    [handleRequest, onPrompt, PromptPopup],
+    [handleRequest, onPrompt, promptPopup, PromptPopup],
   )
 
   const handleRequestFlow = useCallback(

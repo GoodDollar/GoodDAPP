@@ -10,7 +10,8 @@ import { assign, isString, once } from 'lodash'
 import Config from '../../config/config'
 import { batch } from '../../lib/utils/async'
 
-const { ceramicNodeURL, ceramicBatchSize } = Config
+const { ceramicNodeURL, ceramicBatchSize, ceramicSyncTimeout } = Config
+const syncOptions = { syncTimeoutSeconds: ceramicSyncTimeout / 1000 }
 const hexadecimalRe = /^[0-9a-f]+$/i
 
 export const isValidHistoryId = id => isString(id) && id.length === 40 && hexadecimalRe.test(id)
@@ -70,7 +71,7 @@ export class CeramicModel {
   }
 
   static async loadDocument(id: any): Promise<TileDocument> {
-    return TileDocument.load(this.ceramic, id)
+    return TileDocument.load(this.ceramic, id, syncOptions)
   }
 
   /** @private */

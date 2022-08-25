@@ -50,6 +50,7 @@
 
   [self initializeBackgroundFetch];
   [RNNotifications startMonitorNotifications];
+  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
 
   return YES;
 }

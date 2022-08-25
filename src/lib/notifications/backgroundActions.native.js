@@ -12,7 +12,7 @@ const log = logger.child({ from: 'backgroundFetch' })
 export const dailyClaimTime = new Date().setUTCHours(12)
 
 export const NotificationsCategories = {
-  CLAIM_NOTIFICATION: 'claim-notification',
+  CLAIM_NOTIFICATION: 'org.gooddollar.claim-notification',
 }
 
 export const dailyClaimNotification = async (userStorage, goodWallet) => {
@@ -69,13 +69,6 @@ export const useNotifications = navigation => {
     const onClaimNotification = async navigation => navigation.navigate('Claim')
     const events = Notifications.events()
 
-    const onForeground = (notification, completion) => {
-      log.info(`Notification received in foreground: ${notification.title} : ${notification.body}`)
-
-      // should call completion otherwise notifications won't receive
-      completion({ alert: false, sound: false, badge: false })
-    }
-
     const onBackground = (notification, completion) => {
       log.info(`Notification received in background: ${notification.title} : ${notification.body}`)
 
@@ -99,7 +92,6 @@ export const useNotifications = navigation => {
     }
 
     const subscriptions = [
-      events.registerNotificationReceivedForeground(onForeground),
       events.registerNotificationReceivedBackground(onBackground),
       events.registerNotificationOpened(onOpened),
     ]

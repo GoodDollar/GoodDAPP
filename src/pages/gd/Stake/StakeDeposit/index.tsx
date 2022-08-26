@@ -276,7 +276,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                          amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
-                                    await approveStake(web3!, stake.address, state.value, tokenToDeposit, () => {
+                                    await approveStake(web3!, stake.protocol, stake.address, state.value, tokenToDeposit, () => {
                                         dispatch({ type: 'CHANGE_SIGNED' })
                                     })
                                 ])

@@ -192,7 +192,6 @@ const Config = {
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
   enableWebNotifications: env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true',
   enableHDWallet: env.REACT_APP_ENABLE_HD_WALLET === 'true',
-  estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
 }
 

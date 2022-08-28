@@ -16,6 +16,7 @@ import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import {
+  assign,
   chunk,
   filter,
   findKey,
@@ -26,6 +27,7 @@ import {
   keyBy,
   mapValues,
   maxBy,
+  noop,
   pickBy,
   range,
   sortBy,
@@ -191,22 +193,30 @@ export class GoodWallet {
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
 
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
+
     const ready = WalletFactory.create(this.config)
+
     this.ready = ready
       .then(wallet => {
+        const { defaultGasPrice, estimateGasPrice, network, networkId } = Config
+
         log.info('GoodWallet initial wallet created.')
+
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
         this.wallet.eth.defaultAccount = this.account
-        this.networkId = Config.networkId
-        this.network = Config.network
+        this.gasPrice = wallet.utils.toWei(String(defaultGasPrice), 'gwei')
+
+        assign(this, { network, networkId })
         log.info(`networkId: ${this.networkId}`)
 
-        wallet.eth
-          .getGasPrice()
-          .catch(_ => wallet.utils.toWei(String(Config.defaultGasPrice), 'gwei'))
-          .then(_ => (this.gasPrice = _))
+        if (estimateGasPrice) {
+          wallet.eth
+            .getGasPrice()
+            .then(price => (this.gasPrice = price))
+            .catch(noop)
+        }
 
         this.multicallFuse = new MultiCall(this.wallet, MultiCalls[this.networkId])
         this.multicallMainnet = new MultiCall(this.web3Mainnet, MultiCalls[mainnetNetworkId])
@@ -1357,8 +1367,8 @@ export class GoodWallet {
    * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
-    const TOP_GWEI = 110000 * 1e9 //the gas fee for topWallet faucet call
-    const minWei = wei ? wei : 250000 * 1e9
+    const TOP_GWEI = 110000 * Number(this.gasPrice) //the gas fee for topWallet faucet call
+    const minWei = wei ? wei : 250000 * Number(this.gasPrice)
 
     const release = await gasMutex.lock()
 

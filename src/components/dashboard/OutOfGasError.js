@@ -10,6 +10,7 @@ import Text from '../common/view/Text'
 import OopsSVG from '../../assets/oops.svg'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
+import useAppState from '../../lib/hooks/useAppState'
 
 const log = logger.child({ from: 'OutOfGasError' })
 
@@ -41,7 +42,7 @@ Don’t worry, we’ll take care off you.\n`
     callTopWallet()
   }, [])
 
-  const callTopWallet = async () => {
+  const callTopWallet = useCallback(async () => {
     let isOk = false
 
     setLoading(true)
@@ -63,9 +64,9 @@ Don’t worry, we’ll take care off you.\n`
     if (isOk) {
       gotoDb()
     }
-  }
+  }, [goodWallet, setCheatError, setLoading, gotoDb])
 
-  log.debug(props.screenProps)
+  useAppState({ onForeground: callTopWallet })
 
   return (
     <Wrapper>

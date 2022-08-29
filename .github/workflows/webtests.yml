@@ -120,7 +120,7 @@ jobs:
         name: cache goodcontracts
         with:
           path: /tmp/goodprotocol
-          key: ${{ hashFiles('/tmp/goodprotocol/yarn.lock') }}
+          key: ${{ hashFiles('node_modules/@gooddollar/goodprotocol/yarn.lock') }}
 
       - name: install goodcontracts
         if: matrix.chunk == env.WALLET_CHUNK

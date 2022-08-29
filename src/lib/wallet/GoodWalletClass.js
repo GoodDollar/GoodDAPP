@@ -1516,7 +1516,7 @@ export class GoodWallet {
     }
 
     if (!gas) {
-      gas = 300000
+      gas = isVerifyHasGas ? 110000 : 300000
     }
 
     gasPrice = gasPrice || this.gasPrice

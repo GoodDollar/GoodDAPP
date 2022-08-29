@@ -34,11 +34,12 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     testWallet2.watchEvents(lastBlock, () => {})
   })
 
+  // eslint-disable-next-line require-await
   it('should be whitelisted and with gas', async () => {
     expect(testWallet.isCitizen()).resolves.toBeTruthy()
     expect(testWallet2.isCitizen()).resolves.toBeTruthy()
-    const b1 = await testWallet.balanceOfNative()
-    expect(b1).toBeGreaterThan(10000000)
+    expect(testWallet.verifyHasGas(null, { topWallet: false })).resolves.toBeTruthy()
+    expect(testWallet2.verifyHasGas(null, { topWallet: false })).resolves.toBeTruthy()
   })
 
   it('should estimate gas', async () => {

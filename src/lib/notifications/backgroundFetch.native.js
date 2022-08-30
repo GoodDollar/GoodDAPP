@@ -5,6 +5,7 @@ import { useCallback, useEffect } from 'react'
 import logger from '../logger/js-logger'
 import { useUserStorage, useWallet } from '../wallet/GoodWalletProvider'
 import { fireEvent, NOTIFICATION_ERROR, NOTIFICATION_SENT } from '../analytics/analytics'
+import { noopAsync } from '../utils/async'
 // eslint-disable-next-line import/named
 import { dailyClaimNotification, NotificationsCategories } from './backgroundActions'
 
@@ -23,6 +24,8 @@ const options = {
   periodic: true,
 }
 
+const DEFAULT_TASK = 'BackgroundFetch'
+const defaultTaskProcessor = noopAsync
 const log = logger.child({ from: 'backgroundFetch' })
 
 const onTimeout = taskId => {
@@ -65,6 +68,8 @@ export const useBackgroundFetch = (auto = false) => {
     // eslint-disable-next-line require-await
     async taskId => {
       switch (taskId) {
+        case DEFAULT_TASK:
+          return defaultTaskProcessor()
         case NotificationsCategories.CLAIM_NOTIFICATION:
           return dailyClaimNotification(userStorage, goodWallet)
         default:

@@ -28,6 +28,20 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
     await adminWallet.topWallet(testWallet2.account, 0, true)
 
+    await adminWallet.web3.eth.sendTransaction({
+      to: testWallet.account,
+      gas: 21000,
+      gasPrice: 1e10,
+      value: adminWallet.web3.utils.toWei('1', 'ether'),
+    })
+
+    await adminWallet.web3.eth.sendTransaction({
+      to: testWallet2.account,
+      gas: 21000,
+      gasPrice: 1e10,
+      value: adminWallet.web3.utils.toWei('1', 'ether'),
+    })
+
     const lastBlock = await testWallet.getBlockNumber()
 
     testWallet.watchEvents(lastBlock, () => {})

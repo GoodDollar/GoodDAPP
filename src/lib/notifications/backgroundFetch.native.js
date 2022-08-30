@@ -4,6 +4,7 @@ import { once, values } from 'lodash'
 import logger from '../logger/js-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
+// eslint-disable-next-line import/named
 import { dailyClaimNotification, NotificationsCategories } from './backgroundActions'
 
 // TODO: how would this handle metamask accounts??
@@ -23,11 +24,11 @@ const options = {
 
 const log = logger.child({ from: 'backgroundFetch' })
 
-export const initBGFetch = once((goodWallet, userStorage) => {
-  const task = async taskId => {
+export const initBGFetch = once(async (goodWallet, userStorage) => {
+  const onEvent = async taskId => {
     const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
 
-    log.info('isLoggedIn', isLoggedIn)
+    log.info('RNBackgroundFetch event', { isLoggedIn, taskId })
 
     if (!isLoggedIn) {
       return
@@ -40,12 +41,34 @@ export const initBGFetch = once((goodWallet, userStorage) => {
       default:
         break
     }
+
+    BackgroundFetch.finish(taskId)
   }
 
-  const taskManagerErrorHandler = error => {
-    log.info('[js] RNBackgroundFetch failed to start', error)
+  const onTimeout = taskId => {
+    log.info('[js] RNBackgroundFetch task timeout', taskId)
+    BackgroundFetch.finish(taskId)
   }
 
-  BackgroundFetch.configure(options, task, taskManagerErrorHandler)
-  values(NotificationsCategories).forEach(taskId => BackgroundFetch.scheduleTask({ taskId, periodic: true }))
+  const scheduleTask = async taskId => {
+    const result = await BackgroundFetch.scheduleTask({ taskId, delay: 0, ...options })
+
+    if (!result) {
+      throw new Error(`BackgroundFetch scheduleTask failed, taskId: ${taskId}`)
+    }
+  }
+
+  try {
+    const configureStatus = await BackgroundFetch.configure(options, onEvent, onTimeout)
+
+    if (configureStatus !== BackgroundFetch.STATUS_AVAILABLE) {
+      throw new Error(`BackgroundFetch configure failed with status ${configureStatus}`)
+    }
+
+    await Promise.all(values(NotificationsCategories).map(scheduleTask))
+  } catch (e) {
+    log.error('initBGFetch failed', e.message, e)
+
+    throw e
+  }
 })

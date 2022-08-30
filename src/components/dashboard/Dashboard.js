@@ -13,10 +13,10 @@ import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
-import { initBGFetch } from '../../lib/notifications/backgroundFetch'
+import { useBackgroundFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
-import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
@@ -156,10 +156,10 @@ const Dashboard = props => {
   const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur, setAddWebApp, isLoadingIndicator, setFeedLoadAnimShown } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
-  const goodWallet = useWallet()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
+  const initBGFetch = useBackgroundFetch()
 
   useNotifications(navigation)
   useRefundDialog(screenProps)
@@ -392,7 +392,7 @@ const Dashboard = props => {
     // InteractionManager.runAfterInteractions(handleFeedEvent)
     resizeSubscriptionRef.current = Dimensions.addEventListener('change', handleResize)
 
-    initBGFetch(goodWallet, userStorage)
+    initBGFetch()
   }
 
   useEffect(() => {

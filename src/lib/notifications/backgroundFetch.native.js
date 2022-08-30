@@ -1,9 +1,9 @@
 import BackgroundFetch from 'react-native-background-fetch'
 // eslint-disable-next-line import/default
 import { once, values } from 'lodash'
+import { useCallback, useEffect } from 'react'
 import logger from '../logger/js-logger'
-import { IS_LOGGED_IN } from '../constants/localStorage'
-import AsyncStorage from '../utils/asyncStorage'
+import { useUserStorage, useWallet } from '../wallet/GoodWalletProvider'
 // eslint-disable-next-line import/named
 import { dailyClaimNotification, NotificationsCategories } from './backgroundActions'
 
@@ -24,40 +24,20 @@ const options = {
 
 const log = logger.child({ from: 'backgroundFetch' })
 
-export const initBGFetch = once(async (goodWallet, userStorage) => {
-  const onEvent = async taskId => {
-    const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
+const onTimeout = taskId => {
+  log.info('[js] RNBackgroundFetch task timeout', taskId)
+  BackgroundFetch.finish(taskId)
+}
 
-    log.info('RNBackgroundFetch event', { isLoggedIn, taskId })
+const scheduleTask = async taskId => {
+  const result = await BackgroundFetch.scheduleTask({ taskId, delay: 15 * 60 * 1000, ...options })
 
-    if (!isLoggedIn) {
-      return
-    }
-
-    switch (taskId) {
-      case NotificationsCategories.CLAIM_NOTIFICATION:
-        await dailyClaimNotification(userStorage, goodWallet)
-        break
-      default:
-        break
-    }
-
-    BackgroundFetch.finish(taskId)
+  if (!result) {
+    throw new Error(`BackgroundFetch scheduleTask failed, taskId: ${taskId}`)
   }
+}
 
-  const onTimeout = taskId => {
-    log.info('[js] RNBackgroundFetch task timeout', taskId)
-    BackgroundFetch.finish(taskId)
-  }
-
-  const scheduleTask = async taskId => {
-    const result = await BackgroundFetch.scheduleTask({ taskId, delay: 15 * 60 * 1000, ...options })
-
-    if (!result) {
-      throw new Error(`BackgroundFetch scheduleTask failed, taskId: ${taskId}`)
-    }
-  }
-
+const initialize = once(async onEvent => {
   try {
     const configureStatus = await BackgroundFetch.configure(options, onEvent, onTimeout)
 
@@ -72,3 +52,34 @@ export const initBGFetch = once(async (goodWallet, userStorage) => {
     throw e
   }
 })
+
+export const useBackgroundFetch = (auto = false) => {
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
+
+  const initBGFetch = useCallback(
+    () =>
+      initialize(async taskId => {
+        log.info('RNBackgroundFetch event', { taskId })
+
+        switch (taskId) {
+          case NotificationsCategories.CLAIM_NOTIFICATION:
+            await dailyClaimNotification(userStorage, goodWallet)
+            break
+          default:
+            break
+        }
+
+        BackgroundFetch.finish(taskId)
+      }),
+    [userStorage, goodWallet],
+  )
+
+  useEffect(() => {
+    if (auto) {
+      initBGFetch()
+    }
+  }, [auto, initBGFetch])
+
+  return initBGFetch
+}

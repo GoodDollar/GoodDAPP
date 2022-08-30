@@ -1,9 +1,10 @@
 import BackgroundFetch from 'react-native-background-fetch'
 // eslint-disable-next-line import/default
-import { once, values } from 'lodash'
+import { once, pickBy, values } from 'lodash'
 import { useCallback, useEffect } from 'react'
 import logger from '../logger/js-logger'
 import { useUserStorage, useWallet } from '../wallet/GoodWalletProvider'
+import { fireEvent, NOTIFICATION_ERROR, NOTIFICATION_SENT } from '../analytics/analytics'
 // eslint-disable-next-line import/named
 import { dailyClaimNotification, NotificationsCategories } from './backgroundActions'
 
@@ -47,7 +48,10 @@ const initialize = once(async onEvent => {
 
     await Promise.all(values(NotificationsCategories).map(scheduleTask))
   } catch (e) {
-    log.error('initBGFetch failed', e.message, e)
+    const { message: error } = e
+
+    log.error('initBGFetch failed', error, e)
+    fireEvent(NOTIFICATION_ERROR, { error })
 
     throw e
   }
@@ -57,22 +61,38 @@ export const useBackgroundFetch = (auto = false) => {
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 
+  const runTask = useCallback(
+    // eslint-disable-next-line require-await
+    async taskId => {
+      switch (taskId) {
+        case NotificationsCategories.CLAIM_NOTIFICATION:
+          return dailyClaimNotification(userStorage, goodWallet)
+        default:
+          throw new Error('Unknown / unsupported background fetch task received')
+      }
+    },
+    [userStorage, goodWallet],
+  )
+
   const initBGFetch = useCallback(
     () =>
       initialize(async taskId => {
         log.info('RNBackgroundFetch event', { taskId })
 
-        switch (taskId) {
-          case NotificationsCategories.CLAIM_NOTIFICATION:
-            await dailyClaimNotification(userStorage, goodWallet)
-            break
-          default:
-            break
+        try {
+          const payload = await runTask(taskId)
+
+          fireEvent(NOTIFICATION_SENT, { payload })
+        } catch (e) {
+          const { message: error, payload } = e
+
+          log.error('Failed to process background fetch task', error, e, { payload })
+          fireEvent(NOTIFICATION_ERROR, pickBy({ payload, error }))
         }
 
         BackgroundFetch.finish(taskId)
       }),
-    [userStorage, goodWallet],
+    [runTask],
   )
 
   useEffect(() => {

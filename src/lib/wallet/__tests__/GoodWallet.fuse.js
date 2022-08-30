@@ -148,7 +148,6 @@ describe('GoodWalletShare/ReceiveTokens', () => {
       expect(cancelTX).toBeTruthy()
     }
     run()
-
     let eventId = testWallet2.subscribeToEvent('receiptUpdated', receipt => {
       expect(receipt).toBeTruthy()
       const event = receipt.logs.find(_ => _.name === 'PaymentCancel')

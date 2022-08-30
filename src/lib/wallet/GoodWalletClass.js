@@ -1000,12 +1000,8 @@ export class GoodWallet {
     const otpAddress = this.oneTimePaymentsContract._address
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
 
-    // Fixed gas amount so it can work locally with ganache
-    // https://github.com/trufflesuite/ganache-core/issues/417
-    const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
-
     // don't wait for transaction return immediately with hash code and link (not using await here)
-    return this.sendTransaction(transferAndCall, callbacks, { gas })
+    return this.sendTransaction(transferAndCall, callbacks)
   }
 
   /**
@@ -1367,7 +1363,7 @@ export class GoodWallet {
    * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
-    const TOP_GWEI = 110000 * Number(this.gasPrice) //the gas fee for topWallet faucet call
+    const TOP_GWEI = 100000 * Number(this.gasPrice) //the gas fee for topWallet faucet call
     const minWei = wei ? wei : 250000 * Number(this.gasPrice)
 
     const release = await gasMutex.lock()
@@ -1406,7 +1402,10 @@ export class GoodWallet {
         log.info('verifyHasGas using faucet...')
 
         const toptx = this.faucetContract.methods.topWallet(this.account)
-        const ok = await this.sendTransaction(toptx, undefined, { isVerifyHasGas: true })
+        const ok = await this.sendTransaction(toptx, undefined, {
+          isVerifyHasGas: true,
+          gas: await toptx.estimateGas().catch(e => Math.min(170000, (nativeBalance / this.gasPrice).toFixed(0))),
+        })
           .then(_ => true)
           .catch(e => {
             log.error('verifyHasGas faucet failed', e.message, e)
@@ -1516,7 +1515,7 @@ export class GoodWallet {
     }
 
     if (!gas) {
-      gas = isVerifyHasGas ? 110000 : 300000
+      gas = 300000
     }
 
     gasPrice = gasPrice || this.gasPrice

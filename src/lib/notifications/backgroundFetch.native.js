@@ -51,7 +51,7 @@ export const initBGFetch = once(async (goodWallet, userStorage) => {
   }
 
   const scheduleTask = async taskId => {
-    const result = await BackgroundFetch.scheduleTask({ taskId, delay: 0, ...options })
+    const result = await BackgroundFetch.scheduleTask({ taskId, delay: 15 * 60 * 1000, ...options })
 
     if (!result) {
       throw new Error(`BackgroundFetch scheduleTask failed, taskId: ${taskId}`)

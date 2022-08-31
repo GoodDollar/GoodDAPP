@@ -89,6 +89,7 @@
         android:name="com.transistorsoft.tsbackgroundfetch.BootReceiver"
         android:exported="true"
         tools:node="merge"
+        tools:replace="android:exported"
       />
 
       <!-- RNPushNotification -->

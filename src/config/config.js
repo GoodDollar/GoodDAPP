@@ -185,6 +185,7 @@ const Config = {
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
   ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600),
+  ceramicSyncTimeout: env.REACT_APP_CERAMIC_SYNC_TIMEOUT || 5000,
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
   networkId: ethereum[networkId].network_id,
@@ -192,6 +193,8 @@ const Config = {
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
   enableWebNotifications: env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true',
   enableHDWallet: env.REACT_APP_ENABLE_HD_WALLET === 'true',
+  estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
+  defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
 }
 
 global.config = Config

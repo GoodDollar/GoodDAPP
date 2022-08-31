@@ -197,8 +197,8 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (3.3.1):
     - RNPermissions
-  - PromiseKit/CorePromise (6.18.0)
-  - PromiseKit/Foundation (6.18.0):
+  - PromiseKit/CorePromise (6.18.1)
+  - PromiseKit/Foundation (6.18.1):
     - PromiseKit/CorePromise
   - PromisesObjC (2.1.1)
   - RCT-Folly (2021.04.26.00):
@@ -502,8 +502,8 @@ PODS:
     - React-cxxreact (= 0.65.2)
     - React-jsi (= 0.65.2)
     - React-perflogger (= 0.65.2)
-  - RNBackgroundFetch (3.1.0):
-    - React
+  - RNBackgroundFetch (4.1.2):
+    - React-Core
   - RNCAsyncStorage (1.17.6):
     - React-Core
   - RNCClipboard (1.5.1):
@@ -929,7 +929,7 @@ SPEC CHECKSUMS:
   Permission-Contacts: 795936e988352bbf628334378eec5c3728db7140
   Permission-LocationWhenInUse: 006c85c8de0c05b5d8be8e8029e4f6b813270293
   Permission-PhotoLibrary: ddb5a158725b29cb12e9e477e8a5f5151c66cc3c
-  PromiseKit: 879fa89b55fcb8f11ade9aad0c9721850bb71b9f
+  PromiseKit: 49d70c53d5d20e346beaea4b276b5dd2ab446bb4
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
   RCTRequired: 1b65ab453de585b0f939824780bd26cdf6fb07f8
@@ -970,7 +970,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: ccbce3086f3a296f2773d1d4feb7d4e56b0d5737
   React-runtimeexecutor: 5bedf6e704373fe9f0cc54aa35a112e5b0051b94
   ReactCommon: bf5dc45e9ec73a75f00de565f2519d6f8594ddf5
-  RNBackgroundFetch: 8dbb63141792f1473e863a0797ffbd5d987af2fc
+  RNBackgroundFetch: eef260dc500d8ed344fed205fe617d056e381978
   RNCAsyncStorage: 466b9df1a14bccda91da86e0b7d9a345d78e1673
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45

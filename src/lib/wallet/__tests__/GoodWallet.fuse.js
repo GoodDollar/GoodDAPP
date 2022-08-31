@@ -28,17 +28,32 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
     await adminWallet.topWallet(testWallet2.account, 0, true)
 
+    await adminWallet.web3.eth.sendTransaction({
+      to: testWallet.account,
+      gas: 21000,
+      gasPrice: 1e10,
+      value: adminWallet.web3.utils.toWei('1', 'ether'),
+    })
+
+    await adminWallet.web3.eth.sendTransaction({
+      to: testWallet2.account,
+      gas: 21000,
+      gasPrice: 1e10,
+      value: adminWallet.web3.utils.toWei('1', 'ether'),
+    })
+
     const lastBlock = await testWallet.getBlockNumber()
 
     testWallet.watchEvents(lastBlock, () => {})
     testWallet2.watchEvents(lastBlock, () => {})
   })
 
+  // eslint-disable-next-line require-await
   it('should be whitelisted and with gas', async () => {
     expect(testWallet.isCitizen()).resolves.toBeTruthy()
     expect(testWallet2.isCitizen()).resolves.toBeTruthy()
-    const b1 = await testWallet.balanceOfNative()
-    expect(b1).toBeGreaterThan(10000000)
+    expect(testWallet.verifyHasGas(null, { topWallet: false })).resolves.toBeTruthy()
+    expect(testWallet2.verifyHasGas(null, { topWallet: false })).resolves.toBeTruthy()
   })
 
   it('should estimate gas', async () => {
@@ -147,7 +162,6 @@ describe('GoodWalletShare/ReceiveTokens', () => {
       expect(cancelTX).toBeTruthy()
     }
     run()
-
     let eventId = testWallet2.subscribeToEvent('receiptUpdated', receipt => {
       expect(receipt).toBeTruthy()
       const event = receipt.logs.find(_ => _.name === 'PaymentCancel')

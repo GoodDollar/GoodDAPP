@@ -61,10 +61,6 @@ exports[`Profile matches snapshot 1`] = `
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
-                "borderBottomLeftRadius": "8px",
-                "borderBottomRightRadius": "8px",
-                "borderTopLeftRadius": "8px",
-                "borderTopRightRadius": "8px",
               }
             }
           >

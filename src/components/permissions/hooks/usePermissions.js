@@ -87,64 +87,85 @@ const usePermissions = (permission: Permission, options = {}) => {
     handleAllowed()
   }, [permission, handleAllowed, handleDenied])
 
-  const handleRequestFlow = useCallback(async () => {
-    // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happens during processing transaction
-    if (!mountedState.current) {
-      return
-    }
+  const handlePrompt = useCallback(
+    options => {
+      const { promptPopup: popupOption } = options || {}
+      const shouldShowPopup = popupOption !== false && promptPopup !== false
+      const onPrompted = result => (true === result ? handleRequest() : handleDenied())
 
-    const status = await api.check(permission)
+      if (shouldShowPopup) {
+        const PopupComponent = popupOption || PromptPopup
 
-    // re-checking mounted state after each delayed / async operation as send link
-    // screen could call redirect back if error happens during processing transaction
-    if (!mountedState.current) {
-      return
-    }
-
-    const onPrompted = result => (true === result ? handleRequest() : handleDenied())
-
-    switch (status) {
-      case Prompt:
         showPopup({
-          content: <PromptPopup onDismiss={onPrompted} />,
+          content: <PopupComponent onDismiss={onPrompted} />,
           onDismiss: handleDenied,
         })
+      } else {
+        onPrompted(true)
+      }
 
-        onPrompt()
-        break
-      case Granted:
-        handleAllowed()
-        break
-      case Denied:
-        handleDenied()
-        break
-      case Disabled:
-        // TODO: maybe we would need to handle disabled case separately
-        // and run correspinding callback prop. for now it will just
-        // call onDenied but without showing denied dialog
-        onDenied()
-        break
-      case Undetermined:
-      default:
-        // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
-        // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appears when you're calling readText()
-        if (Clipboard === permission && isSafari) {
+      onPrompt()
+    },
+    [handleRequest, onPrompt, promptPopup, PromptPopup],
+  )
+
+  const handleRequestFlow = useCallback(
+    async options => {
+      // re-checking mounted state after each delayed / async operation as send link
+      // screen could call redirect back if error happens during processing transaction
+      if (!mountedState.current) {
+        return
+      }
+
+      const status = await api.check(permission)
+
+      // re-checking mounted state after each delayed / async operation as send link
+      // screen could call redirect back if error happens during processing transaction
+      if (!mountedState.current) {
+        return
+      }
+
+      switch (status) {
+        case Prompt:
+          handlePrompt(options)
+          break
+        case Granted:
           handleAllowed()
           break
-        }
+        case Denied:
+          handleDenied()
+          break
+        case Disabled:
+          // TODO: maybe we would need to handle disabled case separately
+          // and run correspinding callback prop. for now it will just
+          // call onDenied but without showing denied dialog
+          onDenied()
+          break
+        case Undetermined:
+        default:
+          // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
+          // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appears when you're calling readText()
+          if (Clipboard === permission && isSafari) {
+            handleAllowed()
+            break
+          }
 
-        onPrompt()
-        handleRequest()
-        break
-    }
-  }, [PromptPopup, onPrompt, handleRequest])
+          onPrompt()
+          handleRequest()
+          break
+      }
+    },
+    [handlePrompt, handleRequest],
+  )
 
-  const requestPermission = useCallback(() => {
-    if (!requestOnMounted) {
-      handleRequestFlow()
-    }
-  }, [handleRequestFlow, requestOnMounted])
+  const requestPermission = useCallback(
+    options => {
+      if (!requestOnMounted) {
+        handleRequestFlow(options)
+      }
+    },
+    [handleRequestFlow, requestOnMounted],
+  )
 
   useEffect(() => {
     if (requestOnMounted) {

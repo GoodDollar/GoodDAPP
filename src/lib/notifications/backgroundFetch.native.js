@@ -1,9 +1,12 @@
 import BackgroundFetch from 'react-native-background-fetch'
 // eslint-disable-next-line import/default
-import { once, values } from 'lodash'
+import { once, pickBy, values } from 'lodash'
+import { useCallback, useEffect } from 'react'
 import logger from '../logger/js-logger'
-import { IS_LOGGED_IN } from '../constants/localStorage'
-import AsyncStorage from '../utils/asyncStorage'
+import { useUserStorage, useWallet } from '../wallet/GoodWalletProvider'
+import { fireEvent, NOTIFICATION_ERROR, NOTIFICATION_SENT } from '../analytics/analytics'
+import { noopAsync } from '../utils/async'
+// eslint-disable-next-line import/named
 import { dailyClaimNotification, NotificationsCategories } from './backgroundActions'
 
 // TODO: how would this handle metamask accounts??
@@ -21,31 +24,87 @@ const options = {
   periodic: true,
 }
 
+const DEFAULT_TASK = 'BackgroundFetch'
+const defaultTaskProcessor = noopAsync
 const log = logger.child({ from: 'backgroundFetch' })
 
-export const initBGFetch = once((goodWallet, userStorage) => {
-  const task = async taskId => {
-    const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
+const onTimeout = taskId => {
+  log.info('[js] RNBackgroundFetch task timeout', taskId)
+  BackgroundFetch.finish(taskId)
+}
 
-    log.info('isLoggedIn', isLoggedIn)
+const scheduleTask = async taskId => {
+  const result = await BackgroundFetch.scheduleTask({ taskId, delay: 15 * 60 * 1000, ...options })
 
-    if (!isLoggedIn) {
-      return
+  if (!result) {
+    throw new Error(`BackgroundFetch scheduleTask failed, taskId: ${taskId}`)
+  }
+}
+
+const initialize = once(async onEvent => {
+  try {
+    const configureStatus = await BackgroundFetch.configure(options, onEvent, onTimeout)
+
+    if (configureStatus !== BackgroundFetch.STATUS_AVAILABLE) {
+      throw new Error(`BackgroundFetch configure failed with status ${configureStatus}`)
     }
 
-    switch (taskId) {
-      case NotificationsCategories.CLAIM_NOTIFICATION:
-        await dailyClaimNotification(userStorage, goodWallet)
-        break
-      default:
-        break
-    }
-  }
+    await Promise.all(values(NotificationsCategories).map(scheduleTask))
+  } catch (e) {
+    const { message: error } = e
 
-  const taskManagerErrorHandler = error => {
-    log.info('[js] RNBackgroundFetch failed to start', error)
-  }
+    log.error('initBGFetch failed', error, e)
+    fireEvent(NOTIFICATION_ERROR, { error })
 
-  BackgroundFetch.configure(options, task, taskManagerErrorHandler)
-  values(NotificationsCategories).forEach(taskId => BackgroundFetch.scheduleTask({ taskId, periodic: true }))
+    throw e
+  }
 })
+
+export const useBackgroundFetch = (auto = false) => {
+  const goodWallet = useWallet()
+  const userStorage = useUserStorage()
+
+  const runTask = useCallback(
+    // eslint-disable-next-line require-await
+    async taskId => {
+      switch (taskId) {
+        case DEFAULT_TASK:
+          return defaultTaskProcessor()
+        case NotificationsCategories.CLAIM_NOTIFICATION:
+          return dailyClaimNotification(userStorage, goodWallet)
+        default:
+          throw new Error('Unknown / unsupported background fetch task received')
+      }
+    },
+    [userStorage, goodWallet],
+  )
+
+  const initBGFetch = useCallback(
+    () =>
+      initialize(async taskId => {
+        log.info('RNBackgroundFetch event', { taskId })
+
+        try {
+          const payload = await runTask(taskId)
+
+          fireEvent(NOTIFICATION_SENT, { payload })
+        } catch (e) {
+          const { message: error, payload } = e
+
+          log.error('Failed to process background fetch task', error, e, { payload })
+          fireEvent(NOTIFICATION_ERROR, pickBy({ payload, error }))
+        }
+
+        BackgroundFetch.finish(taskId)
+      }),
+    [runTask],
+  )
+
+  useEffect(() => {
+    if (auto) {
+      initBGFetch()
+    }
+  }, [auto, initBGFetch])
+
+  return initBGFetch
+}

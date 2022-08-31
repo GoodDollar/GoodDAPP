@@ -16,6 +16,7 @@ import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import {
+  assign,
   chunk,
   filter,
   findKey,
@@ -26,6 +27,7 @@ import {
   keyBy,
   mapValues,
   maxBy,
+  noop,
   pickBy,
   range,
   sortBy,
@@ -191,21 +193,31 @@ export class GoodWallet {
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
 
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
+
     const ready = WalletFactory.create(this.config)
     this.is3rdPartyWallet = this.config.type === 'WEB3WALLET'
     this.ready = ready
-      .then(async wallet => {
+      .then(wallet => {
+        const { defaultGasPrice, estimateGasPrice, network, networkId } = Config
+
         log.info('GoodWallet initial wallet created.')
 
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
         this.wallet.eth.defaultAccount = this.account
-        this.networkId = Config.networkId
-        this.network = Config.network
+        this.gasPrice = wallet.utils.toWei(String(defaultGasPrice), 'gwei')
+
+        assign(this, { network, networkId })
         log.info(`networkId: ${this.networkId}`)
-        this.gasPrice = (await wallet.eth.getGasPrice()) || wallet.utils.toWei('10', 'gwei')
-        this.wallet.eth.defaultGasPrice = this.gasPrice
+
+        if (estimateGasPrice) {
+          wallet.eth
+            .getGasPrice()
+            .then(price => (this.gasPrice = price))
+            .catch(noop)
+        }
+
         this.multicallFuse = new MultiCall(this.wallet, MultiCalls[this.networkId])
         this.multicallMainnet = new MultiCall(this.web3Mainnet, MultiCalls[mainnetNetworkId])
 
@@ -995,12 +1007,8 @@ export class GoodWallet {
     const otpAddress = this.oneTimePaymentsContract._address
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
 
-    // Fixed gas amount so it can work locally with ganache
-    // https://github.com/trufflesuite/ganache-core/issues/417
-    const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
-
     // don't wait for transaction return immediately with hash code and link (not using await here)
-    return this.sendTransaction(transferAndCall, callbacks, { gas })
+    return this.sendTransaction(transferAndCall, callbacks)
   }
 
   /**
@@ -1362,8 +1370,8 @@ export class GoodWallet {
    * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
-    const TOP_GWEI = 110000 * 1e9 //the gas fee for topWallet faucet call
-    const minWei = wei ? wei : 250000 * 1e9
+    const TOP_GWEI = 100000 * Number(this.gasPrice) //the gas fee for topWallet faucet call
+    const minWei = wei ? wei : 200000 * Number(this.gasPrice)
 
     const release = await gasMutex.lock()
 
@@ -1401,7 +1409,10 @@ export class GoodWallet {
         log.info('verifyHasGas using faucet...')
 
         const toptx = this.faucetContract.methods.topWallet(this.account)
-        const ok = await this.sendTransaction(toptx, undefined, { isVerifyHasGas: true })
+        const ok = await this.sendTransaction(toptx, undefined, {
+          isVerifyHasGas: true,
+          gas: await toptx.estimateGas().catch(e => Math.min(170000, (nativeBalance / this.gasPrice).toFixed(0))),
+        })
           .then(_ => true)
           .catch(e => {
             log.error('verifyHasGas faucet failed', e.message, e)

@@ -19,8 +19,7 @@
 #import <RNBranch/RNBranch.h>
 #import <Firebase.h>
 #import <CodePush/CodePush.h>
-#import "RNNotifications.h"
-
+#import <RNNotifications.h>
 
 #ifdef FB_SONARKIT_ENABLED
 
@@ -50,7 +49,7 @@
   self.window = [self initializeWindow:rootViewController];
 
   [self initializeBackgroundFetch];
-  [self initializeNotifications];
+  [RNNotifications startMonitorNotifications];
 
   return YES;
 }
@@ -73,6 +72,18 @@
   rootViewController.view = rootView;
 
   return rootViewController;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [RNNotifications didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  [RNNotifications didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+  [RNNotifications didReceiveBackgroundNotification:userInfo withCompletionHandler:completionHandler];
 }
 
 - (UIWindow *) initializeWindow:(UIViewController *)rootViewController
@@ -110,7 +121,6 @@
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
 
   center.delegate = self;
-  [RNNotifications startMonitorNotifications];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
@@ -134,18 +144,6 @@
   [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
 
   [client start];
-}
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [RNNotifications didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  [RNNotifications didFailToRegisterForRemoteNotificationsWithError:error];
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-  [RNNotifications didReceiveBackgroundNotification:userInfo withCompletionHandler:completionHandler];
 }
 
 #endif

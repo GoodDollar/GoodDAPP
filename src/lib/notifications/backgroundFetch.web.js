@@ -1,2 +1,4 @@
+import { noop } from 'lodash'
+
 // TODO: web push notifications
-export const initBGFetch = () => {}
+export const useBackgroundFetch = () => noop

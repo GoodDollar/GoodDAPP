@@ -39,10 +39,10 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           onPress={goBack}
           color="white"
           reverse={false}
-          reverseColor={'transparent'}
+          reverseColor="transparent"
           size={22}
+          circle={false}
           style={styles.backButton}
-          wrapper={false}
         />
       ) : null}
       {title && !showLogo ? <Appbar.Content title={title} titleStyle={styles.titleStyle} /> : null}
@@ -51,12 +51,12 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
         <IconButton
           name="wallet"
           reverse={false}
-          reverseColor={'transparent'}
+          reverseColor="transparent"
           onPress={goBack}
           color="white"
           size={36}
+          circle={false}
           style={styles.walletButton}
-          wrapper={false}
         />
       )}
     </NavigationBar>

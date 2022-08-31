@@ -1364,7 +1364,7 @@ export class GoodWallet {
    */
   async verifyHasGas(wei: number, options = {}) {
     const TOP_GWEI = 100000 * Number(this.gasPrice) //the gas fee for topWallet faucet call
-    const minWei = wei ? wei : 250000 * Number(this.gasPrice)
+    const minWei = wei ? wei : 200000 * Number(this.gasPrice)
 
     const release = await gasMutex.lock()
 

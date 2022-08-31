@@ -90,6 +90,7 @@
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@sentry/browser": "^6.14.1",
     "@sentry/react-native": "^3.2.3",
+    "@snapshot-labs/snapshot.js": "^0.4.25",
     "@textile/crypto": "^4.1.1",
     "@textile/threaddb": "^0.1.0",
     "@textile/threads-client": "^2.1.2",

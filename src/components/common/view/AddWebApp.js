@@ -125,7 +125,7 @@ const AddWebApp = () => {
       showAtBottom: true,
       showTooltipArrow: true,
       isMinHeight: false,
-      onDismiss: () => handleLater(),
+      onDismiss: handleLater,
     })
   }
 

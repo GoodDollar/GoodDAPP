@@ -96,7 +96,6 @@ export const isMetamaskProvider = provider =>
   provider?.isMetaMask || provider?.walletMeta?.name?.toLowerCase() === 'metamask'
 export const isWalletConnectProvider = provider => provider?.isWalletConnect
 
-
 export const getProviderSupplier = provider => {
   // must check for walletconnect before metamask cause metamask provider may be supplied by walletconnect
   if (isWalletConnectProvider(provider)) {

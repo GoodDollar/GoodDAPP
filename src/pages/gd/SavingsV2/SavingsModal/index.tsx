@@ -80,17 +80,17 @@ const SavingsModal = (
   const [txStatus, setTxStatus] = useState<TransactionStatus>({status: 'None'})
   const reduxDispatch = useDispatch()
   
-  const { depositBalance, withdrawBalance } = useG$Balance(10, network)
+  const { g$Balance, savingsBalance } = useG$Balance(10, network)
 
   const [percentage, setPercentage] = useState<string>('50')
-  const [withdrawAmount, setWithdrawAmount] = useState<number>(parseInt(withdrawBalance) * (Number(percentage) / 100))
+  const [withdrawAmount, setWithdrawAmount] = useState<number>(parseInt(savingsBalance) * (Number(percentage) / 100))
 
   useEffect(() => {
-      setBalance(type === 'withdraw' ? withdrawBalance : depositBalance)
+      setBalance(type === 'withdraw' ? savingsBalance : g$Balance)
       if (type === 'withdraw'){
-        setWithdrawAmount(parseFloat(withdrawBalance) * (Number(percentage) / 100))
+        setWithdrawAmount(parseFloat(savingsBalance) * (Number(percentage) / 100))
       }
-  }, [depositBalance, withdrawBalance, type, percentage])
+  }, [g$Balance, savingsBalance, type, percentage])
 
   const {
     transfer,
@@ -136,9 +136,9 @@ const SavingsModal = (
 
   const withdrawAll = async () => {
     if (account) {
-      const tx = await withdraw(withdrawBalance, account)
+      const tx = await withdraw(savingsBalance, account)
       if (tx) {
-        addSavingsTransaction(tx, withdrawBalance)
+        addSavingsTransaction(tx, savingsBalance)
       }
     }
   }
@@ -242,7 +242,7 @@ const SavingsModal = (
           </Title>
             {
               txStatus.status === 'Exception' && txStatus.errorMessage && (
-                <div className='mb-2 error flex justify-center'>{txStatus.errorMessage}</div>
+                <div className='flex justify-center mb-2 error'>{txStatus.errorMessage}</div>
               )
             }
           {

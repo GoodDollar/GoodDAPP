@@ -64,6 +64,8 @@ const SignupText = ({ screenProps }) => {
 }
 
 const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
+  const { enable3rdPartyWallets, enableSelfCustody } = Config
+
   const { success: signupSuccess, activeStep } = useContext(AuthContext)
 
   const [_selfCustodySignup, _selfCustodyLogin] = useMemo(
@@ -123,10 +125,10 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 <LoginButton.Google handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
                 <LoginButton.Facebook handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
                 <LoginButton.Passwordless handleLoginMethod={handleLoginMethod} disabled={!sdkInitialized} />
-                <LoginButton.Wallet handleLoginMethod={handleLoginMethod} />
+                {enable3rdPartyWallets && <LoginButton.Wallet handleLoginMethod={handleLoginMethod} />}
               </View>
               <Section.Stack style={styles.textButtonContainer}>
-                {Config.enableSelfCustody && (
+                {enableSelfCustody && (
                   <View>
                     <CustomButton
                       compact

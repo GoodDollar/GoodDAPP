@@ -24,7 +24,7 @@ const options = {
   periodic: true,
 }
 
-const DEFAULT_TASK = 'BackgroundFetch'
+const DEFAULT_TASK = 'react-native-background-fetch'
 const defaultTaskProcessor = noopAsync
 const log = logger.child({ from: 'backgroundFetch' })
 

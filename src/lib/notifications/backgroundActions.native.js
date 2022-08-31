@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Notifications } from 'react-native-notifications'
 import { t } from '@lingui/macro'
-import { assign, invokeMap } from 'lodash'
+import { assign, invokeMap, pickBy } from 'lodash'
 
 import logger from '../logger/js-logger'
 import usePropsRefs from '../hooks/usePropsRefs'
@@ -94,12 +94,12 @@ export const useNotifications = navigation => {
             throw new Error('Unknown / unsupported notification received')
         }
 
-        fireEvent(NOTIFICATION_TAPPED, { payload })
+        fireEvent(NOTIFICATION_TAPPED, pickBy({ payload }))
       } catch (e) {
         const { message: error } = e
 
         log.error('Failed to process notification', error, e, { payload })
-        fireEvent(NOTIFICATION_ERROR, { payload, error })
+        fireEvent(NOTIFICATION_ERROR, pickBy({ payload, error }))
       }
 
       completion()

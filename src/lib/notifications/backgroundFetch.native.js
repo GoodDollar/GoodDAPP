@@ -87,7 +87,7 @@ export const useBackgroundFetch = (auto = false) => {
         try {
           const payload = await runTask(taskId)
 
-          fireEvent(NOTIFICATION_SENT, { payload })
+          payload && fireEvent(NOTIFICATION_SENT, { payload })
         } catch (e) {
           const { message: error, payload } = e
 

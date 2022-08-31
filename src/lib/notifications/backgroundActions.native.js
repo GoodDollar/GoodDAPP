@@ -29,28 +29,22 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
   const payload = {
     title: t`It's that time of the day 💸 💙`,
     body: t`Claim your free GoodDollars now. It takes 10 seconds.`,
-    fireDate: dateNow,
     category: NotificationsCategories.CLAIM_NOTIFICATION,
   }
 
   try {
     const dailyUBI = await goodWallet.checkEntitlement()
-    const lastClaimNotification = userProperties.get('lastClaimNotification')
+    const lastClaimNotification = userProperties.get('lastClaimNotification') || 0
 
     // no daily UBI or just notified - return
     if (!dailyUBI || (lastClaimNotification && now <= lastClaimNotification)) {
       return
     }
 
-    // notify if current time is dailyClaimTime or later
-    let needToNotify = now >= dailyClaimTime
-    const { testClaimNotificationFrequency } = Config
+    const { testClaimNotification } = Config
 
-    // if test mode enabled
-    if (testClaimNotificationFrequency && !needToNotify) {
-      // then notify if no last notification or test interval (in minutes) was spent after last notificaton
-      needToNotify = !lastClaimNotification || now - lastClaimNotification >= testClaimNotificationFrequency * 60 * 1000
-    }
+    // notify if current time is dailyClaimTime or later OR test notifications are enabled
+    const needToNotify = now >= dailyClaimTime || testClaimNotification
 
     if (!needToNotify) {
       return
@@ -83,7 +77,7 @@ export const useNotifications = navigation => {
       fireEvent(NOTIFICATION_RECEIVED, { payload })
 
       // should call completion otherwise notifications won't receive in background
-      completion({ alert: true, sound: false, badge: true })
+      completion({ alert: true, sound: true, badge: false })
     }
 
     const onOpened = async (notification, completion) => {
@@ -112,8 +106,8 @@ export const useNotifications = navigation => {
     }
 
     const subscriptions = [
-      events.registerNotificationReceivedBackground(onReceived),
       events.registerNotificationReceivedForeground(onReceived),
+      events.registerNotificationReceivedBackground(onReceived),
       events.registerNotificationOpened(onOpened),
     ]
 

@@ -46,7 +46,7 @@ export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: Chain
       questionText: i18n._(t`Total currently saved`)
     },
     {
-      title: i18n._(t`Total Rewards Paid`),
+      title: i18n._(t`Total Rewards Earned`),
       questionText: i18n._(t`total rewards cashed out`),
     },
   ]

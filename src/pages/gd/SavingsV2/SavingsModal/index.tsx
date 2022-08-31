@@ -5,6 +5,7 @@ import Modal from 'components/Modal/'
 import { StakeDepositSC } from 'pages/gd/Stake/StakeDeposit/styled'
 import Title from 'components/gd/Title'
 import SwapInput from 'pages/gd/Swap/SwapInput'
+import PercentInputControls from 'components/Withdraw/PercentInputControls'
 
 import { useDispatch } from 'react-redux'
 import type { Action } from 'pages/gd/Stake/StakeDeposit'
@@ -74,7 +75,6 @@ const SavingsModal = (
   {type, network, toggle, isOpen}: 
   {type: ModalType, network: string, toggle: () => void, isOpen: boolean}):JSX.Element => {
   const { i18n } = useLingui()
-  console.log('savingsmodal render')
   const { chainId, account } = useActiveWeb3React() 
   const [balance, setBalance] = useState<string>('0')
   const [txStatus, setTxStatus] = useState<TransactionStatus>({status: 'None'})
@@ -82,9 +82,15 @@ const SavingsModal = (
   
   const { depositBalance, withdrawBalance } = useG$Balance(10, network)
 
+  const [percentage, setPercentage] = useState<string>('50')
+  const [withdrawAmount, setWithdrawAmount] = useState<number>(parseInt(withdrawBalance) * (Number(percentage) / 100))
+
   useEffect(() => {
       setBalance(type === 'withdraw' ? withdrawBalance : depositBalance)
-  }, [depositBalance, withdrawBalance, type])
+      if (type === 'withdraw'){
+        setWithdrawAmount(parseFloat(withdrawBalance) * (Number(percentage) / 100))
+      }
+  }, [depositBalance, withdrawBalance, type, percentage])
 
   const {
     transfer,
@@ -125,6 +131,15 @@ const SavingsModal = (
           addSavingsTransaction(tx)
         }
       })
+    }
+  }
+
+  const withdrawAll = async () => {
+    if (account) {
+      const tx = await withdraw(withdrawBalance, account)
+      if (tx) {
+        addSavingsTransaction(tx, withdrawBalance)
+      }
     }
   }
 
@@ -244,25 +259,34 @@ const SavingsModal = (
             <div>
               {type !== 'claim' &&                   
                 <div className="flex flex-col mb-4">
-                    <span>How much would you like to {type}</span>
-                    <SwapInput
-                      balance={balance}
-                      autoMax
-                      disabled={state.loading}
-                      value={state.value}
-                      onMax={() => {
-                        dispatch({
-                            type: 'CHANGE_VALUE',
-                            payload: balance ?? '0' //todo: format balances
-                        })
-                      }}
-                      onChange={e =>
-                        dispatch({
-                            type: 'CHANGE_VALUE',
-                            payload: e.currentTarget.value
-                        })
-                      }
-                    />
+                    {
+                      type === 'deposit' ?
+                      <>
+                        <span>How much would you like to {type}</span> 
+                        <SwapInput
+                          balance={balance}
+                          autoMax
+                          disabled={state.loading}
+                          value={state.value}
+                          onMax={() => {
+                            dispatch({
+                                type: 'CHANGE_VALUE',
+                                payload: balance ?? '0' //todo: format balances
+                            })
+                          }}
+                          onChange={e =>
+                            dispatch({
+                                type: 'CHANGE_VALUE',
+                                payload: e.currentTarget.value
+                            })
+                          }
+                        />
+                      </> :
+                      <PercentInputControls
+                        value={percentage}
+                        onPercentChange={setPercentage} 
+                      />
+                    }
                 </div>
               }
               <div>
@@ -277,10 +301,15 @@ const SavingsModal = (
                     if (type === 'claim'){
                       await claimRewards()
                     } else {
+                      percentage === '100' ?
+                      await withdrawAll() :
                       await depositOrWithdraw(state.value)
                     }
                   })
-                }}> {type} </ButtonAction>
+                }}> 
+                  {type} {' '} 
+                  {type === 'withdraw' ? withdrawAmount.toFixed(2) + ' G$ ' : ''} 
+                </ButtonAction>
               </div>
             </div>
           }

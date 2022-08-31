@@ -1,6 +1,5 @@
 import React, {useState, useCallback} from 'react'
 import Card from 'components/gd/Card'
-import { PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from '../styled'
 import Title from 'components/gd/Title'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -39,17 +38,21 @@ export const SavingsCard = ({ account, network}:
           title: i18n._(t`PROTOCOL`),
           questionText: i18n._(t`This is the protocol that the token is staked to.`)
       },
+      // {
+      //     title: i18n._(t`Deposit`),
+      //     questionText: i18n._(t`Total amount on value deposited`)
+      // },
       {
-          title: i18n._(t`Deposit`),
-          questionText: i18n._(t`Total amount on value deposited`)
+        title: i18n._(t`Balance`),
+        questionText: i18n._(t`Total available balance to withdraw`)
       },
       {
-        title: `${i18n._(t`PAID REWARDS`)}`,
-        questionText: i18n._(t`How many rewards there has been withdrawn.`)
+        title: `${i18n._(t`CLAIMABLE REWARDS`)}`,
+        questionText: i18n._(t`How much tokens your savings has accumulated so far.`)
       },
       {
-          title: `${i18n._(t`CLAIMABLE REWARDS`)}`,
-          questionText: i18n._(t`How much tokens your savings has accumulated so far.`)
+        title: `${i18n._(t`REWARDS EARNED`)}`,
+        questionText: i18n._(t`How many rewards have you earned and withdrawn so far.`)
       },
 
     ]
@@ -79,19 +82,19 @@ export const SavingsCard = ({ account, network}:
                 <td>{i18n._(t`GoodDAO`)}</td>
                 <td>
                   <div className="flex flex-col segment">
-                      {stats?.deposit.toFixed(2)}{' '}G$ <br></br>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex flex-col segment">
-                      <div>{stats?.rewardsPaid.toFixed(2)} G$</div>
-                      <div>?????.?? GOOD</div>
+                      {stats?.balance.toFixed(2)}{' '}G$ <br></br>
                   </div>
                 </td>
                 <td>
                   <div className="flex flex-col segment">
                     <div>{stats?.earned.toFixed(2)}{' '} G$</div>
                     <div>?????.?? GOOD</div>
+                  </div>
+                </td>
+                <td>
+                  <div className="flex flex-col segment">
+                      <div>{stats?.rewardsPaid.toFixed(2)} G$</div>
+                      <div>?????.?? GOOD</div>
                   </div>
                 </td>
                 <td className="flex content-center justify-center">

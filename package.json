@@ -192,7 +192,7 @@
   },
   "dependencies": {
     "@gooddollar/goodprotocol": "file:.yalc/@gooddollar/goodprotocol",
-    "@gooddollar/web3sdk": "^0.1.4",
+    "@gooddollar/web3sdk": "^0.1.6",
     "@headlessui/react": "1.5.0",
     "@lufycz/sushi-data": "^2.0.0-canary-21",
     "@types/react-text-mask": "^5.4.8",

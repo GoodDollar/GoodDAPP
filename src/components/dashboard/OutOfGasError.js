@@ -19,7 +19,7 @@ const OutOfGasError = props => {
   const isValid = get(props, 'screenProps.screenState.isValid', undefined)
   const ERROR = t`In order for transactions to go through,
 you need ‘Gas’ which is a virtual money.
-Don’t worry, we’ll take care off you.\n`
+Don’t worry, we’ll take care of you.`
   const ERROR_BOLD = t`We're giving it to you for FREE, FOREVER.`
   const TITLE = t`Ooops,
   You're out of gas...`
@@ -88,6 +88,7 @@ Don’t worry, we’ll take care off you.\n`
               <Text style={styles.description} fontSize={13} fontWeight={'bold'} color={theme.colors.primary}>
                 <Text fontWeight={'regular'} fontSize={13} color={theme.colors.primary}>
                   {ERROR}
+                  {`\n`}
                 </Text>
                 <Text fontWeight={'bold'} fontSize={13} color={theme.colors.primary}>
                   {ERROR_BOLD}

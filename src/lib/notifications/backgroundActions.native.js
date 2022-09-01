@@ -7,6 +7,7 @@ import logger from '../logger/js-logger'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { fireEvent, NOTIFICATION_ERROR, NOTIFICATION_RECEIVED, NOTIFICATION_TAPPED } from '../analytics/analytics'
 import Config from '../../config/config'
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 
 const log = logger.child({ from: 'backgroundFetch' })
 
@@ -64,10 +65,23 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
 
 export const useNotifications = navigation => {
   const [getNavigation] = usePropsRefs([navigation])
+  const userStorage = useUserStorage()
+  const { userProperties } = userStorage || {}
 
   useEffect(() => {
+    if (!userProperties) {
+      return
+    }
+
+    const shouldRemindClaims = userProperties.getLocal('shouldRemindClaims')
+
+    if (!shouldRemindClaims) {
+      return
+    }
+
     // eslint-disable-next-line require-await
     const onClaimNotification = async navigation => navigation.navigate('Claim')
+    Notifications.registerRemoteNotifications()
     const events = Notifications.events()
 
     const onReceived = (notification, completion) => {
@@ -114,5 +128,5 @@ export const useNotifications = navigation => {
     return () => {
       invokeMap(subscriptions, 'remove')
     }
-  }, [])
+  }, [userProperties])
 }

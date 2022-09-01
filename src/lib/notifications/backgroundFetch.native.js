@@ -26,6 +26,7 @@ const options = {
 // eslint-disable-next-line require-await
 const defaultTaskProcessor = async () => false
 const DEFAULT_TASK = 'react-native-background-fetch'
+const TEST_TASK = 'org.gooddollar.fetch'
 const log = logger.child({ from: 'backgroundFetch' })
 
 const onTimeout = taskId => {
@@ -69,11 +70,12 @@ export const useBackgroundFetch = (auto = false) => {
     async taskId => {
       switch (taskId) {
         case DEFAULT_TASK:
+        case TEST_TASK:
           return defaultTaskProcessor()
         case NotificationsCategories.CLAIM_NOTIFICATION:
           return dailyClaimNotification(userStorage, goodWallet)
         default:
-          throw new Error('Unknown / unsupported background fetch task received')
+          throw new Error(`Unknown / unsupported background fetch task received: ${taskId}`)
       }
     },
     [userStorage, goodWallet],

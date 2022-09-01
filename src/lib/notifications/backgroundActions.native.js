@@ -25,7 +25,7 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
   const now = dateNow.getTime()
 
   if (!notificationsEnabled(userStorage)) {
-    return
+    return false
   }
 
   const payload = {
@@ -40,14 +40,14 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
 
     // no daily UBI or just notified - return
     if (!dailyUBI || (lastClaimNotification && now <= lastClaimNotification)) {
-      return
+      return false
     }
 
     // notify if current time is dailyClaimTime or later OR test notifications are enabled
     const needToNotify = now >= dailyClaimTime || testClaimNotification
 
     if (!needToNotify) {
-      return
+      return false
     }
 
     Notifications.postLocalNotification(payload)

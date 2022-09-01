@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Notifications } from 'react-native-notifications'
 import { t } from '@lingui/macro'
 import { assign, invokeMap, pickBy } from 'lodash'
@@ -7,8 +7,11 @@ import logger from '../logger/js-logger'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { fireEvent, NOTIFICATION_ERROR, NOTIFICATION_RECEIVED, NOTIFICATION_TAPPED } from '../analytics/analytics'
 import Config from '../../config/config'
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 
+const { testClaimNotification } = Config
 const log = logger.child({ from: 'backgroundFetch' })
+const notificationsEnabled = userStorage => userStorage?.userProperties?.getLocal('shouldRemindClaims') || false
 
 export const dailyClaimTime = new Date().setUTCHours(12)
 
@@ -20,9 +23,8 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
   const { userProperties } = userStorage
   const dateNow = new Date()
   const now = dateNow.getTime()
-  const shouldRemindClaims = userProperties.getLocal('shouldRemindClaims')
 
-  if (!shouldRemindClaims) {
+  if (!notificationsEnabled(userStorage)) {
     return
   }
 
@@ -40,8 +42,6 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
     if (!dailyUBI || (lastClaimNotification && now <= lastClaimNotification)) {
       return
     }
-
-    const { testClaimNotification } = Config
 
     // notify if current time is dailyClaimTime or later OR test notifications are enabled
     const needToNotify = now >= dailyClaimTime || testClaimNotification
@@ -63,12 +63,17 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
 }
 
 export const useNotifications = navigation => {
+  const userStorage = useUserStorage()
   const [getNavigation] = usePropsRefs([navigation])
+  const shouldRemindClaims = useMemo(() => notificationsEnabled(userStorage), [userStorage])
 
   useEffect(() => {
+    if (!shouldRemindClaims) {
+      return
+    }
+
     // eslint-disable-next-line require-await
     const onClaimNotification = async navigation => navigation.navigate('Claim')
-    const events = Notifications.events()
 
     const onReceived = (notification, completion) => {
       const { payload, title, body } = notification || {}
@@ -105,6 +110,9 @@ export const useNotifications = navigation => {
       completion()
     }
 
+    Notifications.registerRemoteNotifications()
+
+    const events = Notifications.events()
     const subscriptions = [
       events.registerNotificationReceivedForeground(onReceived),
       events.registerNotificationReceivedBackground(onReceived),
@@ -114,5 +122,5 @@ export const useNotifications = navigation => {
     return () => {
       invokeMap(subscriptions, 'remove')
     }
-  }, [])
+  }, [shouldRemindClaims])
 }

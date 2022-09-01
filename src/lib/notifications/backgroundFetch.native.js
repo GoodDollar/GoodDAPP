@@ -5,7 +5,6 @@ import { useCallback, useEffect } from 'react'
 import logger from '../logger/js-logger'
 import { useUserStorage, useWallet } from '../wallet/GoodWalletProvider'
 import { fireEvent, NOTIFICATION_ERROR, NOTIFICATION_SENT } from '../analytics/analytics'
-import { noopAsync } from '../utils/async'
 // eslint-disable-next-line import/named
 import { dailyClaimNotification, NotificationsCategories } from './backgroundActions'
 
@@ -24,8 +23,9 @@ const options = {
   periodic: true,
 }
 
+// eslint-disable-next-line require-await
+const defaultTaskProcessor = async () => false
 const DEFAULT_TASK = 'react-native-background-fetch'
-const defaultTaskProcessor = noopAsync
 const log = logger.child({ from: 'backgroundFetch' })
 
 const onTimeout = taskId => {
@@ -87,7 +87,9 @@ export const useBackgroundFetch = (auto = false) => {
         try {
           const payload = await runTask(taskId)
 
-          fireEvent(NOTIFICATION_SENT, pickBy({ payload }))
+          if (false !== payload) {
+            fireEvent(NOTIFICATION_SENT, pickBy({ payload }))
+          }
         } catch (e) {
           const { message: error, payload } = e
 

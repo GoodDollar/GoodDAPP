@@ -97,10 +97,10 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       }
 
       if (!torusUser.privateKey) {
-        const e = new Error('Missing privateKey from torus response')
+        const exception = new Error('Missing privateKey from torus response')
 
-        log.error('torus login failed', e.message, e, { torusUser, provider, curSeed, curMnemonic })
-        throw e
+        exception.payload = { torusUser, provider, curSeed, curMnemonic }
+        throw exception
       }
 
       // set masterseed so wallet can use it in 'ready' where we check if user exists
@@ -128,11 +128,12 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
   const handleTorusError = (exception, options) => {
     const { provider, fromRedirect = false } = options || {}
-    const { message = '', name } = exception || {}
+    const { name, message = '', payload = {} } = exception || {}
     const { UserCancel, BrowserNotAllowed } = TorusStatusCode
     let suggestion
 
     log.error('torus signin failed:', message, exception, {
+      ...payload,
       provider,
       fromRedirect,
       dialogShown: true,

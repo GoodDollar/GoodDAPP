@@ -38,18 +38,13 @@ export class AnalyticsClass {
     const { apis, apisFactory, sentryDSN, amplitudeKey, version, network, logger, env, phase, loggerApi } = this
 
     const apisDetected = apisFactory()
-    const { fullStory, amplitude, sentry, googleAnalytics } = apisDetected
+    const { amplitude, sentry, googleAnalytics } = apisDetected
 
     const isSentryEnabled = !!(sentry && sentryDSN)
     const isAmplitudeEnabled = !!(amplitude && amplitudeKey)
-    const isFullStoryEnabled = !!(fullStory && env === 'production')
 
     assign(apis, apisDetected)
-    assign(this, { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled })
-
-    if (fullStory && !isFullStoryEnabled) {
-      fullStory.onReady(() => fullStory.shutdown())
-    }
+    assign(this, { isSentryEnabled, isAmplitudeEnabled })
 
     if (isAmplitudeEnabled) {
       logger.info('preinitializing Amplitude with license key')
@@ -92,7 +87,6 @@ export class AnalyticsClass {
     }
 
     logger.debug('available analytics:', {
-      FS: isFullStoryEnabled,
       Sentry: isSentryEnabled,
       Amplitude: isAmplitudeEnabled,
       Google: !!googleAnalytics,
@@ -105,19 +99,11 @@ export class AnalyticsClass {
   }
 
   identifyWith = (email, identifier = null) => {
-    const { apis, version, phase, logger } = this
-    const { amplitude, sentry, fullStory } = apis
-    const { isAmplitudeEnabled, isSentryEnabled, isFullStoryEnabled } = this
+    const { apis, logger, isAmplitudeEnabled, isSentryEnabled } = this
+    const { amplitude, sentry } = apis
 
     if (isAmplitudeEnabled && identifier) {
       amplitude.setUserId(identifier)
-    }
-
-    if (isFullStoryEnabled) {
-      fullStory.identify(identifier, {
-        appVersion: version,
-        phase,
-      })
     }
 
     if (isSentryEnabled) {
@@ -134,7 +120,6 @@ export class AnalyticsClass {
       'Analytics services identified with:',
       { email, identifier },
       {
-        FS: isFullStoryEnabled,
         Sentry: isSentryEnabled,
         Amplitude: isAmplitudeEnabled,
       },
@@ -144,7 +129,7 @@ export class AnalyticsClass {
   // eslint-disable-next-line require-await
   identifyOnUserSignup = async email => {
     const { logger } = this
-    const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled } = this
+    const { isSentryEnabled, isAmplitudeEnabled } = this
 
     this.setUserEmail(email)
 
@@ -152,7 +137,6 @@ export class AnalyticsClass {
       'Analytics services identified during new user signup:',
       { email },
       {
-        FS: isFullStoryEnabled,
         Sentry: isSentryEnabled,
         Amplitude: isAmplitudeEnabled,
       },
@@ -222,8 +206,8 @@ export class AnalyticsClass {
 
   /** @private */
   setUserEmail(email) {
-    const { isAmplitudeEnabled, isSentryEnabled, isFullStoryEnabled, apis } = this
-    const { amplitude, sentry, fullStory } = apis
+    const { isAmplitudeEnabled, isSentryEnabled, apis } = this
+    const { amplitude, sentry } = apis
 
     if (!email) {
       return
@@ -231,10 +215,6 @@ export class AnalyticsClass {
 
     if (isAmplitudeEnabled) {
       amplitude.setUserProperties({ email })
-    }
-
-    if (isFullStoryEnabled) {
-      fullStory.setUserVars({ email })
     }
 
     if (isSentryEnabled) {
@@ -311,7 +291,7 @@ export class AnalyticsClass {
   // @private
   onErrorLogged(args) {
     const { Unexpected, Network, Human } = ExceptionCategory
-    const { apis, isSentryEnabled, isFullStoryEnabled, env, logger } = this
+    const { isSentryEnabled, env, logger } = this
     const isRunningTests = env === 'test'
 
     try {
@@ -320,13 +300,8 @@ export class AnalyticsClass {
 
       let categoryToPassIntoLog = category
       let errorToPassIntoLog
-      let sessionUrlAtTime
 
       logger.debug('processing error log:', args)
-
-      if (isFullStoryEnabled && apis.fullStory.ready) {
-        sessionUrlAtTime = apis.fullStory.getCurrentSessionURL(true)
-      }
 
       if (isString(eMsg) && !isEmpty(eMsg)) {
         const lowerCased = toLower(eMsg)
@@ -349,7 +324,6 @@ export class AnalyticsClass {
           context,
           logContext,
           dialogShown,
-          sessionUrlAtTime,
           reason: logMessage,
           category: categoryToPassIntoLog,
         }
@@ -375,7 +349,6 @@ export class AnalyticsClass {
         logContext,
         eMsg,
         context,
-        sessionUrlAtTime,
       }
 
       const sentryTags = {

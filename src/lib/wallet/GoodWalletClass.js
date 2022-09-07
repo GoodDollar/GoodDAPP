@@ -1393,12 +1393,7 @@ export class GoodWallet {
       // self serve using faucet. we verify nativeBalance to prevent loop with sendTransaction which calls this function also
       const canTop = await retryCall(() => this.faucetContract.methods.canTop(this.account).call())
 
-      // cant use faucet anymore this day/week
-      if (!canTop) {
-        return { ok: false || hasBalance }
-      }
-
-      if (nativeBalance >= TOP_GWEI) {
+      if (canTop && nativeBalance >= TOP_GWEI) {
         log.info('verifyHasGas using faucet...')
 
         const toptx = this.faucetContract.methods.topWallet(this.account)

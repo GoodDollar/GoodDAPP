@@ -38,15 +38,12 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
     const dailyUBI = await goodWallet.checkEntitlement()
     const lastClaimNotification = userProperties.get('lastClaimNotification') || 0
 
+    // notify if haven't notified in period OR test notifications are enabled
+    const isRightTime = now >= dailyClaimTime && lastClaimNotification < dailyClaimTime
+    const needToNotify = isRightTime || testClaimNotification
+
     // no daily UBI or just notified - return
-    if (!dailyUBI || (lastClaimNotification && now <= lastClaimNotification)) {
-      return false
-    }
-
-    // notify if current time is dailyClaimTime or later OR test notifications are enabled
-    const needToNotify = now >= dailyClaimTime || testClaimNotification
-
-    if (!needToNotify) {
+    if (!dailyUBI || !needToNotify) {
       return false
     }
 

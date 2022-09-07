@@ -160,14 +160,16 @@ class RealmDB implements DB, ProfileDB {
   async wrapQuery(callback) {
     await this._pingRealmDB()
 
-    return _retry(callback).catch(exception => {
+    try {
+      return await _retry(callback)
+    } catch (exception) {
       // try to extract mongodb error code for message grouping in analytics
       let { error = '', message } = exception
       const errorCode = first(error.match(/^E\d+/))
 
       log.error('query failed after retries:', errorCode || message, exception, { errorCode, message })
       throw exception
-    })
+    }
   }
 
   /**

@@ -109,8 +109,8 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
         </View>
         <View style={styles.illustration}>
           <Illustration
-            width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}
-            height={getDesignRelativeHeight(217, false)}
+            width={isBrowser ? '100%' : getDesignRelativeWidth(276)}
+            height={getDesignRelativeHeight(217)}
             viewBox="0 0 248.327 194.594"
           />
         </View>

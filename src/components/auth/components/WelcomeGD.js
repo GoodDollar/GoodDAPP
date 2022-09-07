@@ -55,8 +55,8 @@ const WelcomeGD = ({ theme, styles, screenProps, navigation, showDelay, afterSho
         </Text>
         <View style={styles.illustration}>
           <Illustration
-            width={getDesignRelativeWidth(isBrowser ? 331 : 276, false)}
-            height={getDesignRelativeHeight(177, false)}
+            width={getDesignRelativeWidth(isBrowser ? 331 : 276)}
+            height={getDesignRelativeHeight(177)}
             viewBox="0 0 284.793 192.715"
           />
         </View>
@@ -74,7 +74,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     illustration: {
       flex: 1,
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 8, false),
+      marginTop: getDesignRelativeHeight(theme.sizes.default * 8),
       alignSelf: 'center',
     },
   }

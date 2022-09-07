@@ -1,24 +1,9 @@
 import { theme } from '../../components/theme/styles'
-import { getScreenHeight, getScreenWidth, isPortrait } from './orientation'
+import { getScreenHeight, getScreenWidth } from './orientation'
 import { isMobile } from './platform'
 
-const DESIGN_WIDTH = 360
-const DESIGN_HEIGHT = 640 - 24
-
-/**
- * Receives a size matching the designs baseSize and converts to dp on the current device
- * @param {number} width
- * @param {boolean} isMax
- * @param {number} baseSize device size on designs
- * @param {number} currentSize device size on current device
- */
-const getDesignRelativeSize = (size, isMax = true, baseSize, currentSize) => {
-  const sizeInVW = size / baseSize
-  const relativeSize = currentSize * sizeInVW
-  const calculatedSize = isMax ? Math.min(size, relativeSize) : relativeSize
-
-  return calculatedSize
-}
+const DESIGN_WIDTH = 428
+const DESIGN_HEIGHT = 926
 
 // had to re-defined those utils set as an class instance
 // to allow mocking getMaxDeviceWidth/Height.
@@ -47,23 +32,16 @@ const sizes = new class {
    * @param {number} width
    * @param {boolean} isMax: should or shouldnt use Math.min
    */
-  getDesignRelativeWidth(width, isMax = true) {
-    const { getMaxDeviceWidth, getMaxDeviceHeight } = sizes
-    const screenWidth = isPortrait() ? getMaxDeviceWidth() : getMaxDeviceHeight()
-
-    return getDesignRelativeSize(width, isMax, DESIGN_WIDTH, screenWidth)
+  getDesignRelativeWidth(width) {
+    return horizontalCoefficient * width
   }
 
   /**
    * Receives a height matching the designs height and converts to dp on the current device
    * @param {number} height
-   * @param {boolean} isMax: should or shouldnt use Math.min
    */
-  getDesignRelativeHeight(height, isMax = true) {
-    const { getMaxDeviceWidth, getMaxDeviceHeight } = sizes
-    const screenHeight = isPortrait() ? getMaxDeviceHeight() : getMaxDeviceWidth()
-
-    return getDesignRelativeSize(height, isMax, DESIGN_HEIGHT, screenHeight)
+  getDesignRelativeHeight(height) {
+    return verticalCoefficient * height
   }
 
   // eslint-disable-next-line
@@ -77,6 +55,10 @@ export const { getMaxDeviceWidth, getMaxDeviceHeight, getDesignRelativeWidth, ge
 
 const width = getScreenWidth()
 const height = getScreenHeight()
+
+const verticalCoefficient = height / DESIGN_HEIGHT
+
+const horizontalCoefficient = width / DESIGN_WIDTH
 
 export const isSmallDevice = width < 350
 export const isMediumDevice = width >= 350 && width < 395

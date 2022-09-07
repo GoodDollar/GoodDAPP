@@ -22,7 +22,7 @@ import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
 
 const log = logger.child({ from: 'RealmDB' })
-const _retry = fn => retry(fn, 1, 2000)
+const _retry = fn => retry(fn, 3, 1000)
 
 export interface DB {
   init(db: ThreadDB): void;
@@ -152,7 +152,7 @@ class RealmDB implements DB, ProfileDB {
         await this._connectRealmDB()
       }
     } catch (e) {
-      log.error('RealmDB error:', e.message, e)
+      log.error('_pingRealmDB failed:', e.message, e)
       throw e
     }
   }
@@ -160,20 +160,13 @@ class RealmDB implements DB, ProfileDB {
   async wrapQuery(callback) {
     await this._pingRealmDB()
 
-    // no need to declare fn if it wull be used just nowe
-    return _retry(async () => {
-      try {
-        // no need to declare redundant var. return await is allowed to catch an error
-        return await callback()
-      } catch (exception) {
-        // try to extract mongodb error code for message grouping in analytics
-        let { error = '', message } = exception
-        const errorCode = first(error.match(/^E\d+/))
+    return _retry(callback).catch(exception => {
+      // try to extract mongodb error code for message grouping in analytics
+      let { error = '', message } = exception
+      const errorCode = first(error.match(/^E\d+/))
 
-        message = errorCode || message
-        log.error('RealmDB error:', message, exception, { errorCode, message })
-        throw exception
-      }
+      log.error('query failed after retries:', errorCode || message, exception, { errorCode, message })
+      throw exception
     })
   }
 

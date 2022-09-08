@@ -16,13 +16,19 @@ import type { Profile } from '../userStorage/UserStorageClass'
 import type { FeedCategory } from '../userStorage/FeedCategory'
 import { FeedCategories } from '../userStorage/FeedCategory'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
-import { retry } from '../utils/async'
+import { retry, retryWhile } from '../utils/async'
 import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
 
+const isCORSIssue = exception => {
+  const { message } = exception || {}
+
+  return (message || '').startsWith('Failed to fetch')
+}
+
 const log = logger.child({ from: 'RealmDB' })
-const _retry = fn => retry(fn, 3, 1000)
+const _retry = fn => retry(() => retryWhile(fn, isCORSIssue, -1, 5000), 3, 1000)
 
 export interface DB {
   init(db: ThreadDB): void;

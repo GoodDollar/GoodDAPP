@@ -2,7 +2,7 @@
 import { lazy } from 'react'
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { assign, chunk, first, identity, isError, isFunction, isObject, isString, once } from 'lodash'
+import { assign, chunk, constant, first, identity, isError, isFunction, isObject, isString, once } from 'lodash'
 
 const exportDefault = component => module => ({ default: module[component] })
 
@@ -47,9 +47,7 @@ export const retry = async (asyncFn, retries = 5, interval = 0) =>
       retryWhen(attempts =>
         attempts.pipe(
           mergeMap((attempt, index) => {
-            const retryAttempt = index + 1
-
-            if (retryAttempt > retries) {
+            if (retries >= 0 && index >= retries) {
               return throwError(attempt)
             }
 
@@ -70,6 +68,38 @@ export const fallback = async asyncFns =>
 
     return promise.catch(next)
   })
+
+export const retryWhile = async (asyncFn, condition = constant(false), retries = -1, interval = 0) => {
+  let lastRejection
+
+  const completionHandler = result => {
+    lastRejection = null
+    return result
+  }
+
+  const errorHandler = error => {
+    if (condition(error)) {
+      throw error
+    }
+
+    lastRejection = error
+  }
+
+  const result = await retry(
+    () =>
+      asyncFn()
+        .then(completionHandler)
+        .catch(errorHandler),
+    retries,
+    interval,
+  )
+
+  if (lastRejection) {
+    throw lastRejection
+  }
+
+  return result
+}
 
 export const tryUntil = async (asyncFn, condition = identity, retries = 5, interval = 0) => {
   const completionHandler = async result => {

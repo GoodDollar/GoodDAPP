@@ -13,8 +13,6 @@ const { testClaimNotification } = Config
 const log = logger.child({ from: 'backgroundFetch' })
 const notificationsEnabled = userStorage => userStorage?.userProperties?.getLocal('shouldRemindClaims') || false
 
-export const dailyClaimTime = new Date().setUTCHours(12)
-
 export const NotificationsCategories = {
   CLAIM_NOTIFICATION: 'org.gooddollar.claim-notification',
 }
@@ -23,6 +21,7 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
   const { userProperties } = userStorage
   const dateNow = new Date()
   const now = dateNow.getTime()
+  const dailyClaimTime = dateNow.setUTCHours(12)
 
   if (!notificationsEnabled(userStorage)) {
     return false

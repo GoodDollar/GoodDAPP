@@ -3735,6 +3735,7 @@ __metadata:
     FormData: ^0.10.1
     abi-decoder: ^1.2.0
     abortcontroller-polyfill: ^1.7.3
+    add: ^2.0.6
     amplitude-js: ^8.8.0
     appcenter-cli: 2.*
     artillery: ^1.6.0-28
@@ -3898,7 +3899,7 @@ __metadata:
     react-native-sqlite-2: ^3.5.2
     react-native-svg: ^9.13.6
     react-native-svg-transformer: ^0.14.3
-    react-native-swipeable-lists-gd: 0.0.3
+    react-native-swipeable-list: ^0.1.2
     react-native-switch: ^1.5.1
     react-native-tcp: ^4.0.0
     react-native-udp: ^4.1.3
@@ -3949,6 +3950,7 @@ __metadata:
     webpack-manifest-plugin: ^2.2.0
     websocket: ^1.0.31
     workbox-webpack-plugin: ^4.3.1
+    yarn: ^1.22.19
   languageName: unknown
   linkType: soft
 
@@ -7438,6 +7440,13 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: aca0aabf98826717920ac2583fdcad0a6fbe4e583fdb6e843af2594e907455aeafe30b1e14f1757cd83ce1776773cf8296ffc3a4acf13f0bd3dfebcf1db6ae80
+  languageName: node
+  linkType: hard
+
+"add@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "add@npm:2.0.6"
+  checksum: e2d23d40494565dfed4acd65e478570c444db5ac6c053551ed429c39ea0f2c99d83df63e7befec936df601827d2254d06a2fb6f7dcfd2022e810b25eab818b8c
   languageName: node
   linkType: hard
 
@@ -28405,13 +28414,13 @@ patch-package@latest:
   languageName: node
   linkType: hard
 
-"react-native-swipeable-lists-gd@npm:0.0.3":
-  version: 0.0.3
-  resolution: "react-native-swipeable-lists-gd@npm:0.0.3"
+"react-native-swipeable-list@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "react-native-swipeable-list@npm:0.1.2"
   peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: b8be48879e9de813f9a3c67f7fabb5d6e8a16efa6ff9a1dc1a1e9fb6f9591818c1ea2173a6cbe32856ecb314550c6387cbe1387b28f999bdc7053df7f8dabb39
+    react: ">=16.11.0"
+    react-native: ">=0.61.4"
+  checksum: 2ad2ab2d7c1f44dc81525a96b8542b62d4802af1703414afeaefe11a6819d18e8572bdaa8c96332bca64ecbb6c2b7e4644efbaa9006f69276b480bac74d7835a
   languageName: node
   linkType: hard
 
@@ -36674,6 +36683,16 @@ patch-package@latest:
     y18n: ^3.2.1
     yargs-parser: ^4.2.0
   checksum: 8d2b8766071e2b049ee3d919c6165f2dca4586d0e131cc4f48eab0f8149aaad57f5c53fa9bf40f6d209aca75ae98347745d66411e66bd12c95a5f7eeb85d5081
+  languageName: node
+  linkType: hard
+
+"yarn@npm:^1.22.19":
+  version: 1.22.19
+  resolution: "yarn@npm:1.22.19"
+  bin:
+    yarn: bin/yarn.js
+    yarnpkg: bin/yarn.js
+  checksum: b43d2cc5fee7e933beb12a8aee7dfceca9e9ef2dd17c5d04d15a12ab7bec5f5744ea34a07b86e013da7f291a18c4e1ad8f70e150f5ed2f4666e6723c7f0a8452
   languageName: node
   linkType: hard
 

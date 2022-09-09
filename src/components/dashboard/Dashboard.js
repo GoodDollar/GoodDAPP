@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, get, uniqBy } from 'lodash'
+import { concat, findIndex, get, keys, set, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
@@ -9,7 +9,6 @@ import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
-import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
@@ -157,7 +156,6 @@ const Dashboard = props => {
   const { setDialogBlur, setAddWebApp, isLoadingIndicator, setFeedLoadAnimShown } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
-  const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
   const initBGFetch = useBackgroundFetch()
 
@@ -276,13 +274,20 @@ const Dashboard = props => {
   }
 
   const onPreloadFeedPage = useCallback(
-    event => {
-      const currentTab = getCurrentTab()
+    ({ event, modify }) => {
+      const updatedItemIndex = findIndex(feedRef.current, item => item.id === event.id)
 
-      log.debug('feed cache updated', { event, currentTab })
-      getFeedPage(true, currentTab)
+      log.debug('feed cache updated', { event, modify })
+
+      if (updatedItemIndex === -1) {
+        return
+      }
+
+      //no need to refresh all feed on each update, just update the needed items
+      keys(modify).forEach(key => set(feedRef.current[updatedItemIndex], key, modify[key]))
+      setFeeds(feedRef.current)
     },
-    [getCurrentTab, getFeedPage],
+    [setFeeds],
   )
 
   // this delay seems to solve error from dexie about indexeddb transaction
@@ -367,7 +372,7 @@ const Dashboard = props => {
 
   const _nextFeed = useCallback(
     ({ distanceFromEnd }) => {
-      if (distanceFromEnd > 0 && feedRef.current.length > 0) {
+      if (feedRef.current.length > 0) {
         log.debug('getNextFeed called', feedRef.current.length, { distanceFromEnd })
         return getFeedPage()
       }
@@ -750,16 +755,17 @@ const Dashboard = props => {
       <FeedList
         data={feedRef.current}
         handleFeedSelection={handleFeedSelection}
-        initialNumToRender={10}
+        initialNumToRender={15}
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
         listFooterComponent={listFooterComponent}
-        onEndReachedThreshold={0.8}
-        windowSize={10} // Determines the maximum number of items rendered outside of the visible area
+        onEndReachedThreshold={2}
+        windowSize={15} // Determines the maximum number of items rendered outside of the visible area
         onScrollEnd={handleScrollEnd}
         onScroll={handleScroll}
         headerLarge={headerLarge}
-        scrollEventThrottle={300}
+        scrollEventThrottle={200}
+        maxToRenderPerBatch={40}
       />
       {itemModal && (
         <FeedModalList

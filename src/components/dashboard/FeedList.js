@@ -1,7 +1,7 @@
 // @flow
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
-import { SwipeableFlatList } from 'react-native-swipeable-lists-gd'
+import SwipeableFlatList from 'react-native-swipeable-list'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
 
@@ -33,16 +33,6 @@ export type FeedListProps = {
   listFooterComponent: React.ReactNode,
 }
 
-const getItemLayout = (_: any, index: number) => {
-  const [length, separator, header] = [72, 1, 30]
-
-  return {
-    index,
-    length,
-    offset: (length + separator) * index + header,
-  }
-}
-
 const Item = memo(({ item, handleFeedSelection, index }) => {
   return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} index={index} />
 })
@@ -60,6 +50,8 @@ const FeedList = ({
   listFooterComponent,
   headerLarge,
   windowSize,
+  maxToRenderPerBatch,
+  scrollEventThrottle,
 }: FeedListProps) => {
   const { showErrorDialog } = useDialog()
   const flRef = useRef()
@@ -69,8 +61,6 @@ const FeedList = ({
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const feeds = useFeeds(data)
-
-  const handleItemSelection = handleFeedSelection
 
   // shouldnt be required with latest react-native-web
   // const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
@@ -86,8 +76,8 @@ const FeedList = ({
   }, [])
 
   const renderItemComponent = useCallback(
-    ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
-    [handleItemSelection],
+    ({ item, index }) => <Item item={item} handleFeedSelection={handleFeedSelection} index={index} />,
+    [handleFeedSelection],
   )
 
   /**
@@ -183,7 +173,7 @@ const FeedList = ({
         </FeedActions>
       )
     },
-    [feeds],
+    [feeds, handleFeedActionPress],
   )
 
   useEffect(() => {
@@ -213,11 +203,10 @@ const FeedList = ({
   return displayContent ? (
     <>
       <AnimatedSwipeableFlatList
-        bounceFirstRowOnMount={showBounce}
+        shouldBounceOnMount={showBounce}
         style={styles.scrollView}
         contentContainerStyle={styles.scrollableView}
         data={feeds}
-        getItemLayout={getItemLayout}
         initialNumToRender={initialNumToRender || 10}
         key="vf"
         keyExtractor={keyExtractor}
@@ -238,6 +227,8 @@ const FeedList = ({
         onScroll={onScroll}
         ref={flRef}
         windowSize={windowSize}
+        maxToRenderPerBatch={maxToRenderPerBatch}
+        scrollEventThrottle={scrollEventThrottle}
       />
       <ScrollToTopButton onPress={scrollToTop} show={headerLarge} />
     </>

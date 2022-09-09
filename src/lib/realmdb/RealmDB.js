@@ -16,19 +16,35 @@ import type { Profile } from '../userStorage/UserStorageClass'
 import type { FeedCategory } from '../userStorage/FeedCategory'
 import { FeedCategories } from '../userStorage/FeedCategory'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
-import { retry, retryWhile } from '../utils/async'
+import { retry } from '../utils/async'
 import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
 
-const isCORSIssue = exception => {
+// when 'failed to fetch' doesn't counts attempt
+// and increases delay before next try to 5 seconds
+const _retryMiddleware = (exception, options, defaultOptions) => {
+  const { retries } = options
+  const { interval } = defaultOptions
   const { message } = exception || {}
 
-  return (message || '').startsWith('Failed to fetch')
+  // if not failed to fetch - do not change attempts
+  // and reset interval to the default one
+  if (!(message || '').startsWith('Failed to fetch')) {
+    return { retries, interval }
+  }
+
+  // otherwise increase total attempts available by 1
+  // (which is the same as do not count current attempt)
+  // and increase delay interval to 5 seconds
+  return {
+    retries: retries + 1,
+    interval: 5000,
+  }
 }
 
 const log = logger.child({ from: 'RealmDB' })
-const _retry = fn => retry(() => retryWhile(fn, isCORSIssue, -1, 5000), 3, 1000)
+const _retry = fn => retry(fn, 3, 1000, _retryMiddleware)
 
 export interface DB {
   init(db: ThreadDB): void;

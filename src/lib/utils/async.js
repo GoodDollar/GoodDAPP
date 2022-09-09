@@ -2,7 +2,7 @@
 import { lazy } from 'react'
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { assign, chunk, constant, first, identity, isError, isFunction, isObject, isString, once } from 'lodash'
+import { assign, chunk, first, identity, isError, isFunction, isObject, isString, once } from 'lodash'
 
 const exportDefault = component => module => ({ default: module[component] })
 
@@ -41,22 +41,30 @@ export const withDelay = async (asyncFn, millis) => Promise.all([asyncFn, delay(
 export const withTimeout = async (asyncFn, timeoutMs = 60000, errorMessage = 'Timed out') =>
   Promise.race([asyncFn(), timeout(timeoutMs, errorMessage)])
 
-export const retry = async (asyncFn, retries = 5, interval = 0) =>
-  defer(() => fromPromise(asyncFn()))
+const defaultRetryMiddleware = (rejection, options, defaultOptions) => defaultOptions
+
+export const retry = async (asyncFn, retries = 5, interval = 0, middleware = defaultRetryMiddleware) => {
+  const defaultOpts = { retries, interval }
+  let opts = { ...defaultOpts }
+
+  return defer(() => fromPromise(asyncFn()))
     .pipe(
       retryWhen(attempts =>
         attempts.pipe(
           mergeMap((attempt, index) => {
-            if (retries >= 0 && index >= retries) {
+            opts = { ...middleware(attempt, opts, defaultOpts) }
+
+            if (index >= opts.retries) {
               return throwError(attempt)
             }
 
-            return timer(interval || 0)
+            return timer(opts.interval || 0)
           }),
         ),
       ),
     )
     .toPromise()
+}
 
 export const fallback = async asyncFns =>
   asyncFns.reduce(async (current, next) => {
@@ -68,38 +76,6 @@ export const fallback = async asyncFns =>
 
     return promise.catch(next)
   })
-
-export const retryWhile = async (asyncFn, condition = constant(false), retries = -1, interval = 0) => {
-  let lastRejection
-
-  const completionHandler = result => {
-    lastRejection = null
-    return result
-  }
-
-  const errorHandler = error => {
-    if (condition(error)) {
-      throw error
-    }
-
-    lastRejection = error
-  }
-
-  const result = await retry(
-    () =>
-      asyncFn()
-        .then(completionHandler)
-        .catch(errorHandler),
-    retries,
-    interval,
-  )
-
-  if (lastRejection) {
-    throw lastRejection
-  }
-
-  return result
-}
 
 export const tryUntil = async (asyncFn, condition = identity, retries = 5, interval = 0) => {
   const completionHandler = async result => {

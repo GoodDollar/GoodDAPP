@@ -21,24 +21,18 @@ import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
 
-// when 'failed to fetch' doesn't counts attempt
-// and increases delay before next try to 5 seconds
+// when 'failed to fetch' increase delay before next try to 5 seconds
 const _retryMiddleware = (exception, options, defaultOptions) => {
-  const { retries } = options
-  const { interval } = defaultOptions
   const { message } = exception || {}
 
-  // if not failed to fetch - do not change attempts
-  // and reset interval to the default one
+  // if not failed to fetch - reset interval to the default one
   if (!(message || '').startsWith('Failed to fetch')) {
-    return { retries, interval }
+    return defaultOptions
   }
 
-  // otherwise increase total attempts available by 1
-  // (which is the same as do not count current attempt)
-  // and increase delay interval to 5 seconds
+  // otherwise increase delay interval to 5 seconds
   return {
-    retries: retries + 1,
+    ...options,
     interval: 5000,
   }
 }

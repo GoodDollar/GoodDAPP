@@ -21,19 +21,20 @@ import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
 
-// when 'failed to fetch' increase delay before next try to 5 seconds
+// when 'failed to fetch' increase delay before next try for 1.5x times
 const _retryMiddleware = (exception, options, defaultOptions) => {
+  const { interval } = options
   const { message } = exception || {}
 
-  // if not failed to fetch - reset interval to the default one
+  // if not 'failed to fetch' - reset interval to the default one
   if (!(message || '').startsWith('Failed to fetch')) {
     return defaultOptions
   }
 
-  // otherwise increase delay interval to 5 seconds
+  // otherwise increase delay interval 1.5x from current value
   return {
     ...options,
-    interval: 5000,
+    interval: (3 * interval) >> 1,
   }
 }
 

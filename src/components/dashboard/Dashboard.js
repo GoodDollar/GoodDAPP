@@ -13,7 +13,6 @@ import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
-import { useBackgroundFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
 import { useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
@@ -159,7 +158,6 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
-  const initBGFetch = useBackgroundFetch()
 
   useNotifications(navigation)
   useRefundDialog(screenProps)
@@ -391,8 +389,6 @@ const Dashboard = props => {
 
     // InteractionManager.runAfterInteractions(handleFeedEvent)
     resizeSubscriptionRef.current = Dimensions.addEventListener('change', handleResize)
-
-    initBGFetch()
   }
 
   useEffect(() => {

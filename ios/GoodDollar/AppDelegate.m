@@ -14,7 +14,6 @@
 #import <React/RCTRootView.h>
 
 // React native plugins / services
-#import <TSBackgroundFetch/TSBackgroundFetch.h>
 #import <UserNotifications/UserNotifications.h>
 #import <RNBranch/RNBranch.h>
 #import <Firebase.h>
@@ -48,7 +47,6 @@
 
   self.window = [self initializeWindow:rootViewController];
 
-  [self initializeBackgroundFetch];
   [RNNotifications startMonitorNotifications];
 
   return YES;
@@ -82,10 +80,6 @@
   [RNNotifications didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-  [RNNotifications didReceiveBackgroundNotification:userInfo withCompletionHandler:completionHandler];
-}
-
 - (UIWindow *) initializeWindow:(UIViewController *)rootViewController
 {
   UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -109,11 +103,6 @@
 - (void) initializeBranch:(NSDictionary *)launchOptions
 {
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
-}
-
-- (void) initializeBackgroundFetch
-{
-  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
 }
 
 - (void) initializeNotifications

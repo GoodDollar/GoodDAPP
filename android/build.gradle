@@ -51,7 +51,6 @@ allprojects {
         }
 
         maven { url "$rootDir/../node_modules/detox/Detox-android"}
-        maven { url "$rootDir/../node_modules/react-native-background-fetch/android/libs" }
 
         mavenCentral()
         google()

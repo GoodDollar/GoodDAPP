@@ -21,8 +21,25 @@ import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
 
+// when 'failed to fetch' increase delay before next try for 1.5x times
+const _retryMiddleware = (exception, options, defaultOptions) => {
+  const { interval } = options
+  const { message } = exception || {}
+
+  // if not 'failed to fetch' - reset interval to the default one
+  if (!(message || '').startsWith('Failed to fetch')) {
+    return defaultOptions
+  }
+
+  // otherwise increase delay interval 1.5x from current value
+  return {
+    ...options,
+    interval: (3 * interval) >> 1,
+  }
+}
+
 const log = logger.child({ from: 'RealmDB' })
-const _retry = fn => retry(fn, 3, 1000)
+const _retry = fn => retry(fn, 3, 1000, _retryMiddleware)
 
 export interface DB {
   init(db: ThreadDB): void;

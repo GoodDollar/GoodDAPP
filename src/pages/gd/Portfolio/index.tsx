@@ -509,7 +509,6 @@ const Portfolio = () => {
                 </Card>
             )}
             
-            <PortfolioTitleSC className="mb-3 md:pl-2 mt-4">{i18n._(`Savings`)}</PortfolioTitleSC>
             <SavingsAccount account={account} network={network} />
         </>
     )

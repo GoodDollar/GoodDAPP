@@ -115,8 +115,11 @@ const SavingsModal = (
   
   const depositOrWithdraw = async (amount:string) => {
     if (account) {
-      const parsedAmount = (parseFloat(amount) * 1e2).toString()
-      const tx = type === 'withdraw' ? await withdraw(parsedAmount) : await transfer(parsedAmount)
+      const parsedAmount = (parseFloat(withdrawAmount.toFixed(2)) * 1e2).toString()
+      const tx = type === 'withdraw' ? 
+        await withdraw(parsedAmount) : 
+        await transfer((parseFloat(amount) * 1e2).toString())
+
       if (tx){
         addSavingsTransaction(tx, amount)  
         return        
@@ -143,6 +146,7 @@ const SavingsModal = (
     }
   }
 
+  //NOTE-TO-SELF/RB4C -- Think of cleaner solution
   useEffect(() => {
     if (type === 'deposit'){
       setTxStatus(transferState)

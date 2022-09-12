@@ -27,15 +27,15 @@ export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: Chain
   const headings = [
     {
       title: i18n._(t`Token`),
-      questionText: i18n._(t`.....`)
+      questionText: i18n._(t`This is the token that you can deposit into the savings contract.`)
     },
     {
       title: i18n._(t`Protocol`),
-      questionText: i18n._(t`Your current savings balance`),
+      questionText: i18n._(t`Your current savings balance.`),
     },
     {
       title: i18n._(t`Fixed Apy`),
-      questionText: i18n._(t`The fixed annual interest`),
+      questionText: i18n._(t`The fixed annual interest.`),
     },
     // {
     //   title: i18n._(t`G$'s to withdraw`),
@@ -43,11 +43,11 @@ export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: Chain
     // },
     {
       title: i18n._(t`Total Staked`),
-      questionText: i18n._(t`Total currently saved`)
+      questionText: i18n._(t`Total currently saved.`)
     },
     {
-      title: i18n._(t`Total Rewards Earned`),
-      questionText: i18n._(t`total rewards cashed out`),
+      title: i18n._(t`Total Rewards Paid`),
+      questionText: i18n._(t`Total rewards claimed.`),
     },
   ]
   return (
@@ -83,8 +83,8 @@ export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: Chain
             <td>G$</td>
             <td>GoodDollar</td>
             <td>{stats?.apy.toFixed(0)}%</td>
-            <td>{stats?.totalStaked}G$</td>
-            <td>{stats?.totalRewardsPaid}G$</td>
+            <td>G$ {stats?.totalStaked.toFixed(2, {groupSeparator: ','})}</td>
+            <td>G$ {stats?.totalRewardsPaid.toFixed(2, {groupSeparator: ','})}</td>
             <td>
               <ActionOrSwitchButton 
                 size="sm"

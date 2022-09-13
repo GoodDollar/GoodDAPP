@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import { ChainId } from '@sushiswap/sdk'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
+import { LoadingPlaceHolder } from 'theme/components'
 
 const SavingsDeposit = styled.div`
   margin-top: 10px;
@@ -19,7 +20,7 @@ const SavingsDeposit = styled.div`
 
 export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: ChainId}):JSX.Element  => {
   const [isOpen, setIsOpen] = useState(false)
-  const { stats, error } = useGlobalStats(30, 'fuse')
+  const { stats } = useGlobalStats(30, 'fuse')
   const { i18n } = useLingui()
   const toggleModal = useCallback(() => setIsOpen(!isOpen), [setIsOpen, isOpen])
   const g$ = G$[chainId]
@@ -82,9 +83,9 @@ export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: Chain
             </td>
             <td>G$</td>
             <td>GoodDollar</td>
-            <td>{stats?.apy.toFixed(0)}%</td>
-            <td>G$ {stats?.totalStaked.toFixed(2, {groupSeparator: ','})}</td>
-            <td>G$ {stats?.totalRewardsPaid.toFixed(2, {groupSeparator: ','})}</td>
+            <td>{stats?.apy ? <>{stats?.apy.toFixed(0)} %</> : <LoadingPlaceHolder />}</td>
+            <td>{stats?.totalStaked ? <>G$ {stats?.totalStaked.toFixed(2, {groupSeparator: ','})}</> : <LoadingPlaceHolder />}</td>
+            <td>{stats?.totalRewardsPaid ? <>G$ {stats?.totalRewardsPaid.toFixed(2, {groupSeparator: ','})} </> : <LoadingPlaceHolder />}</td>
             <td>
               <ActionOrSwitchButton 
                 size="sm"

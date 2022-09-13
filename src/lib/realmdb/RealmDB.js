@@ -34,7 +34,7 @@ const _retryMiddleware = (exception, options, defaultOptions) => {
   // otherwise increase delay interval 1.5x from current value
   return {
     ...options,
-    interval: (3 * interval) >> 1,
+    interval: Math.floor(1.5 * interval),
   }
 }
 

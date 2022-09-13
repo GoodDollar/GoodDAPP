@@ -3763,9 +3763,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk@npm:^0.1.6":
-  version: 0.1.6
-  resolution: "@gooddollar/web3sdk@npm:0.1.6"
+"@gooddollar/web3sdk@npm:^0.1.7":
+  version: 0.1.7
+  resolution: "@gooddollar/web3sdk@npm:0.1.7"
   dependencies:
     "@apollo/client": ^3.2.0
     "@gooddollar/goodprotocol": ^1.0.27
@@ -3787,7 +3787,7 @@ __metadata:
     web3-eth: ^1.7.5
     web3-eth-contract: ^1.7.5
     web3-utils: ^1.7.5
-  checksum: cc2c7999e6770c0f654ee0730ed63a7f5ee06ed24c44dabd5298c9d92d7e514dc10e9688302c48ea4922327189162e3709638da7de3648e69d2b78c17ca5d118
+  checksum: dcc576a63abdd08cb3961b2a4f65602ece5d9693609487e4f64c61e129cc26ef14a69f27347545c80c98ff7bab0a00a848822b69e5f44f66c1cfac7be1867790
   languageName: node
   linkType: hard
 
@@ -5103,7 +5103,7 @@ __metadata:
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
     "@gooddollar/goodprotocol": ^1.0.27
-    "@gooddollar/web3sdk": ^0.1.6
+    "@gooddollar/web3sdk": ^0.1.7
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": ^3.12.1
@@ -10231,9 +10231,9 @@ __metadata:
   linkType: hard
 
 "core-js@npm:^3.1.3":
-  version: 3.25.0
-  resolution: "core-js@npm:3.25.0"
-  checksum: 5a72740bf5babaf2e6203da4c0e831a0b97c3fe6f21b4c1aa8601d3a927660a22128dd8f0e86ce84778c4e5372ab0fc03c7944afa7e215c7fb13b2c79d5d5504
+  version: 3.25.1
+  resolution: "core-js@npm:3.25.1"
+  checksum: bfacb078e790913841e2d5008b9b6705ae56ed23f83c7f0ae08d330d874561012611089d53b71520105234ed0abba36f28d91b391514a16541a8c8d98c464239
   languageName: node
   linkType: hard
 
@@ -13268,7 +13268,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.0.0, fast-glob@npm:^3.1.1, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
+"fast-glob@npm:^3.0.0":
+  version: 3.2.12
+  resolution: "fast-glob@npm:3.2.12"
+  dependencies:
+    "@nodelib/fs.stat": ^2.0.2
+    "@nodelib/fs.walk": ^1.2.3
+    glob-parent: ^5.1.2
+    merge2: ^1.3.0
+    micromatch: ^4.0.4
+  checksum: 0b1990f6ce831c7e28c4d505edcdaad8e27e88ab9fa65eedadb730438cfc7cde4910d6c975d6b7b8dc8a73da4773702ebcfcd6e3518e73938bb1383badfe01c2
+  languageName: node
+  linkType: hard
+
+"fast-glob@npm:^3.1.1, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
   version: 3.2.11
   resolution: "fast-glob@npm:3.2.11"
   dependencies:

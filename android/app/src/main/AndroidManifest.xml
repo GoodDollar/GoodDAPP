@@ -94,6 +94,9 @@
 
       <!-- RNPushNotification -->
       <meta-data android:name="com.dieam.reactnativepushnotification.notification_color" android:resource="@android:color/white"/>
+      <meta-data android:name="com.dieam.reactnativepushnotification.notification_foreground"
+                 android:value="true"/>
+
       <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
       <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
       <receiver

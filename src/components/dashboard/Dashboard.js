@@ -276,7 +276,7 @@ const Dashboard = props => {
 
   const onPreloadFeedPage = useCallback(
     async ({ event, modify = {} }) => {
-      log.debug('feed cache updated', { event, modify, shouldFilterItem: shouldFilterItem(modify) })
+      log.debug('feed cache updated', { event, modify })
 
       if (shouldFilterItem(modify)) {
         remove(feedRef.current, feedItem => feedItem.id === event.id)

@@ -1,0 +1,24 @@
+diff --git a/Swipeable/SwipeableRow.js b/Swipeable/SwipeableRow.js
+index f8fd076527ccc27fea2320252c305abd8bbdf38c..6e790595db4e063fc77a84aa7730a42633a7fdce 100644
+--- a/Swipeable/SwipeableRow.js
++++ b/Swipeable/SwipeableRow.js
+@@ -187,11 +187,18 @@ class SwipeableRow extends React.Component {
+             );
+         }
+ 
++        const maxSwipeDistance = this.props.maxSwipeDistance ?? 0;
++        const translateXValue = this.state.currentLeft.interpolate({ 
++            inputRange: [-maxSwipeDistance, CLOSED_LEFT_POSITION], 
++            outputRange: [-maxSwipeDistance, CLOSED_LEFT_POSITION],
++            extrapolate: 'clamp'
++        })
++
+         // The swipeable item
+         const swipeableView = (
+             <Animated.View
+                 onLayout={this._onSwipeableViewLayout}
+-                style={{ transform: [{ translateX: this.state.currentLeft }] }}
++                style={{ transform: [{ translateX: translateXValue }] }}
+             >
+                 {this.props.children}
+             </Animated.View>

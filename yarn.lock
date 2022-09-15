@@ -28414,13 +28414,23 @@ patch-package@latest:
   languageName: node
   linkType: hard
 
-"react-native-swipeable-list@npm:^0.1.2":
+"react-native-swipeable-list@npm:0.1.2":
   version: 0.1.2
   resolution: "react-native-swipeable-list@npm:0.1.2"
   peerDependencies:
     react: ">=16.11.0"
     react-native: ">=0.61.4"
   checksum: 2ad2ab2d7c1f44dc81525a96b8542b62d4802af1703414afeaefe11a6819d18e8572bdaa8c96332bca64ecbb6c2b7e4644efbaa9006f69276b480bac74d7835a
+  languageName: node
+  linkType: hard
+
+"react-native-swipeable-list@patch:react-native-swipeable-list@npm:0.1.2#.yarn/patches/react-native-swipeable-list-npm-0.1.2-23ca1c3192.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
+  version: 0.1.2
+  resolution: "react-native-swipeable-list@patch:react-native-swipeable-list@npm%3A0.1.2#.yarn/patches/react-native-swipeable-list-npm-0.1.2-23ca1c3192.patch::version=0.1.2&hash=3dbcc9&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  peerDependencies:
+    react: ">=16.11.0"
+    react-native: ">=0.61.4"
+  checksum: 6d83a65ba86033e723bd29b3ea46a9a216c1866e06ddefa83787161ed3029c296378f8ffe459de04dc0861b25103544fe185aeec415def244149c7ac7fd96b28
   languageName: node
   linkType: hard
 

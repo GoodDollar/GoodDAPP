@@ -354,7 +354,8 @@
     "react-native-gesture-handler": "patch:react-native-gesture-handler@npm:1.10.3#.yarn/patches/react-native-gesture-handler-npm-1.10.3-be0b33cc52.patch",
     "react-native-tcp": "patch:react-native-tcp@npm:4.0.0#.yarn/patches/react-native-tcp-npm-4.0.0-b88d3de807.patch",
     "react-native": "patch:react-native@npm:0.65.2#.yarn/patches/react-native-npm-0.65.2-326cd156c0.patch",
-    "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch"
+    "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch",
+    "react-native-swipeable-list": "patch:react-native-swipeable-list@npm:0.1.2#.yarn/patches/react-native-swipeable-list-npm-0.1.2-23ca1c3192.patch"
   },
   "browserslist": [
     ">0.2%",

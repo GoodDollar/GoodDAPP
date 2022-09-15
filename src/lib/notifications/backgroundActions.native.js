@@ -21,7 +21,7 @@ export const dailyClaimNotification = async (userStorage, goodWallet) => {
   const { userProperties } = userStorage
   const dateNow = new Date()
   const now = dateNow.getTime()
-  const dailyClaimTime = dateNow.setUTCHours(12)
+  const dailyClaimTime = dateNow.setUTCHours(12, 0, 0, 0)
 
   if (!notificationsEnabled(userStorage)) {
     return false

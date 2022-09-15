@@ -1,6 +1,5 @@
 // @flow
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { Animated } from 'react-native'
 import SwipeableFlatList from 'react-native-swipeable-list'
 import { get, isFunction, noop } from 'lodash'
 import moment from 'moment'
@@ -19,8 +18,6 @@ import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
 
 const log = logger.child({ from: 'ShareButton' })
 
-const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
-
 export type FeedListProps = {
   data: any,
   onEndReached: any,
@@ -33,9 +30,9 @@ export type FeedListProps = {
   listFooterComponent: React.ReactNode,
 }
 
-const Item = memo(({ item, handleFeedSelection, index }) => {
-  return <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} index={index} />
-})
+const Item = memo(({ item, handleFeedSelection, index }) => (
+  <FeedListItem key={keyExtractor(item)} item={item} handleFeedSelection={handleFeedSelection} index={index} />
+))
 
 const FeedList = ({
   data,
@@ -61,11 +58,6 @@ const FeedList = ({
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const feeds = useFeeds(data)
-
-  // shouldnt be required with latest react-native-web
-  // const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
-
-  // const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])
 
   const scrollToTop = useCallback(() => {
     const list = get(flRef, 'current._flatListRef', {})
@@ -180,7 +172,7 @@ const FeedList = ({
     const { userProperties } = userStorage
 
     // Could be string containing date to show quick action hint after - otherwise boolean
-    const showQuickActionHintFlag = userProperties.getLocal('showQuickActionHint')
+    const showQuickActionHintFlag = userProperties.getLocal('showQuickActionHint') || true
 
     const _showBounce =
       typeof showQuickActionHintFlag === 'string'
@@ -202,8 +194,8 @@ const FeedList = ({
 
   return displayContent ? (
     <>
-      <AnimatedSwipeableFlatList
-        shouldBounceOnMount={showBounce}
+      <SwipeableFlatList
+        bounceFirstRowOnMount={showBounce}
         style={styles.scrollView}
         contentContainerStyle={styles.scrollableView}
         data={feeds}
@@ -226,6 +218,7 @@ const FeedList = ({
         viewabilityConfig={VIEWABILITY_CONFIG}
         onScroll={onScroll}
         ref={flRef}
+        extraData={{ handleFeedSelection }}
         windowSize={windowSize}
         maxToRenderPerBatch={maxToRenderPerBatch}
         scrollEventThrottle={scrollEventThrottle}

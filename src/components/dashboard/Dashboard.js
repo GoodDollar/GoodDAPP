@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, findIndex, get, keys, set, uniqBy } from 'lodash'
+import { concat, findIndex, get, remove, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
@@ -48,6 +48,7 @@ import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
 import { useNotifications } from '../../lib/notifications/backgroundActions'
+import { shouldFilterItem } from '../../lib/realmdb/feed'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -274,17 +275,23 @@ const Dashboard = props => {
   }
 
   const onPreloadFeedPage = useCallback(
-    ({ event, modify }) => {
-      const updatedItemIndex = findIndex(feedRef.current, item => item.id === event.id)
+    async ({ event, modify = {} }) => {
+      log.debug('feed cache updated', { event, modify, shouldFilterItem: shouldFilterItem(modify) })
 
-      log.debug('feed cache updated', { event, modify })
+      if (shouldFilterItem(modify)) {
+        remove(feedRef.current, feedItem => feedItem.id === event.id)
+        setFeeds(feedRef.current)
+        return
+      }
+
+      const updatedItemIndex = findIndex(feedRef.current, item => item.id === event.id)
 
       if (updatedItemIndex === -1) {
         return
       }
 
-      //no need to refresh all feed on each update, just update the needed items
-      keys(modify).forEach(key => set(feedRef.current[updatedItemIndex], key, modify[key]))
+      // no need to refresh all feed on each update, just update the needed items
+      feedRef.current[updatedItemIndex] = await userStorage.getFormatedEventById(event.id)
       setFeeds(feedRef.current)
     },
     [setFeeds],
@@ -755,7 +762,7 @@ const Dashboard = props => {
       <FeedList
         data={feedRef.current}
         handleFeedSelection={handleFeedSelection}
-        initialNumToRender={15}
+        initialNumToRender={15} // How many items to render in the initial batch in order to improve perceived performance of scroll-to-top actions.
         onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
         listFooterComponent={listFooterComponent}
@@ -765,7 +772,8 @@ const Dashboard = props => {
         onScroll={handleScroll}
         headerLarge={headerLarge}
         scrollEventThrottle={200}
-        maxToRenderPerBatch={40}
+        maxToRenderPerBatch={40} // This controls the amount of items rendered per batch, setting a bigger number means less visual blank areas when scrolling
+        // More items per batch means longer periods of JavaScript execution
       />
       {itemModal && (
         <FeedModalList

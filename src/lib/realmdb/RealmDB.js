@@ -19,7 +19,7 @@ import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { retry } from '../utils/async'
 import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
-import { makeCategoryMatcher } from './feed'
+import { makeCategoryMatcher, shouldFilterItem } from './feed'
 
 const log = logger.child({ from: 'RealmDB' })
 const _retry = fn => retry(fn, 3, 1000)
@@ -480,7 +480,6 @@ class RealmDB implements DB, ProfileDB {
   // eslint-disable-next-line require-await
   async getFeedPage(numResults, offset, category: FeedCategory = FeedCategories.Alls): Promise<any> {
     try {
-      const hiddenStates = ['deleted', 'cancelled', 'canceled']
       const categoryMatcher = makeCategoryMatcher(category)
 
       const res = await this.db.Feed.table
@@ -488,9 +487,7 @@ class RealmDB implements DB, ProfileDB {
         .reverse()
         .offset(offset)
         .filter(item => {
-          const { status, otplStatus } = item
-
-          if ([status, otplStatus].some(state => hiddenStates.includes(state))) {
+          if (shouldFilterItem(item)) {
             return false
           }
 

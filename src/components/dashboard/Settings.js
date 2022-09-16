@@ -25,7 +25,6 @@ import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
-import { Permissions } from '../permissions/types'
 
 // assets
 import OptionsRow from '../profile/OptionsRow'
@@ -68,7 +67,6 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
 const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { navigate } = navigation
   const userStorage = useUserStorage()
-  const { userProperties } = userStorage || {}
 
   const { from: wentFrom } = screenProps?.screenState || {}
   const onWentFromClaimProcessedRef = useRef(false)

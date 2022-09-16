@@ -15,7 +15,6 @@ const { notificationTime, notificationSchedule } = Config
 const NOTIFICATION = {
   title: "It's that time of the day 💸 💙",
   message: 'Claim your free GoodDollars now. It takes 10 seconds.',
-  category: NotificationsCategories.CLAIM_NOTIFICATION,
 }
 
 export { useNotificationsSupport } from './useNotifications.common'
@@ -38,8 +37,9 @@ export const useNotificationsOptions = options => {
           channelId: CHANNEL_ID,
           date: notificationTime,
           repeatType: notificationSchedule,
+          allowWhileIdle: true,
           userInfo: {
-            category: CHANNEL_ID,
+            category: NotificationsCategories.CLAIM_NOTIFICATION,
             ...NOTIFICATION,
           },
         })

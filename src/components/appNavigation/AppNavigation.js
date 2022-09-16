@@ -12,7 +12,6 @@ import { useNotifications } from '../../lib/notifications/hooks/useNotifications
 import { NotificationsCategories } from '../../lib/notifications/constants'
 import { fireEvent, NOTIFICATION_ERROR, NOTIFICATION_TAPPED } from '../../lib/analytics/analytics'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
-import { isWeb } from '../../lib/utils/platform'
 import { navigationOptions } from './navigationConfig'
 
 /**
@@ -55,6 +54,9 @@ const AppNavigation = ({ navigation }: AppNavigationProps) => {
     (notification, category) => {
       const { navigate } = getNavigation()
       const { payload } = notification || {}
+
+      log.info('Notification opened', { payload, category })
+
       try {
         switch (category) {
           case NotificationsCategories.CLAIM_NOTIFICATION:
@@ -75,10 +77,7 @@ const AppNavigation = ({ navigation }: AppNavigationProps) => {
     [getNavigation],
   )
 
-  if (!isWeb) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useNotifications(onOpened)
-  }
+  useNotifications(onOpened)
 
   return <AppNavigator navigation={navigation} screenProps={{ routes }} />
 }

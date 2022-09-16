@@ -8,7 +8,6 @@ import { version } from '../../package.json'
 import { isWeb } from '../lib/utils/platform'
 import { appEnv, fixNL, appUrl as publicUrl } from '../lib/utils/env'
 import mustache from '../lib/utils/mustache'
-import NotificationConfig from '../lib/notifications/config'
 
 import env from './env'
 
@@ -76,6 +75,30 @@ const ethereum = {
     websocketWeb3Provider: 'ws://localhost:8545/ws',
   },
 }
+
+
+
+const NotificationTestConfig = {
+  notificationSchedule: 'minute', // repeat in each minute
+  notificationTime: new Date(Date.now() + 60 * 1000), // 1 minute after app been started
+}
+
+const NotificationProdConfig = {
+  notificationSchedule: 'day', // repeat daily
+  notificationTime: (() => {
+    // 12 PM UTC
+    const date = new Date()
+
+    date.setUTCHours(12, 0, 0, 0)
+    return date
+  })(),
+}
+
+const NotificationConfig = env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? 
+  NotificationTestConfig 
+  : 
+  NotificationProdConfig
+
 
 const Config = {
   env: appEnv,

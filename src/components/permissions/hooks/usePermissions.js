@@ -41,6 +41,16 @@ const usePermissions = (permission: Permission, options = {}) => {
   const PromptPopup = promptPopup || promptPopups[permission]
   const DeniedPopup = deniedPopup || deniedPopups[permission]
 
+  const initializeAllowed = useCallback(async () => {
+    if (!mountedState.current) {
+      return
+    }
+
+    const status = await api.check(permission)
+
+    setAllowed(status === Granted)
+  }, [setAllowed])
+
   const showPopup = useCallback(
     ({ onDismiss = noop, ...props }) =>
       showDialog({
@@ -172,6 +182,10 @@ const usePermissions = (permission: Permission, options = {}) => {
       handleRequestFlow()
     }
   }, [])
+
+  useEffect(() => {
+    initializeAllowed()
+  }, [initializeAllowed])
 
   // TODO: maybe we would need to return disabled status separately
   // for now it permission disabled it will return allowed false

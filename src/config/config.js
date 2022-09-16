@@ -8,6 +8,7 @@ import { version } from '../../package.json'
 import { isWeb } from '../lib/utils/platform'
 import { appEnv, fixNL, appUrl as publicUrl } from '../lib/utils/env'
 import mustache from '../lib/utils/mustache'
+import NotificationConfig from '../lib/notifications/config'
 
 import env from './env'
 
@@ -195,6 +196,7 @@ const Config = {
   enableHDWallet: env.REACT_APP_ENABLE_HD_WALLET === 'true',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
+  ...NotificationConfig
 }
 
 global.config = Config

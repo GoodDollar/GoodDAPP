@@ -32,6 +32,7 @@ import { Permissions } from '../permissions/types'
 import OptionsRow from '../profile/OptionsRow'
 import Config from '../../config/config'
 import { isWeb } from '../../lib/utils/platform'
+import { useNotificationsOptions } from '../../lib/notifications/hooks/useNotifications'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -73,24 +74,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { from: wentFrom } = screenProps?.screenState || {}
   const onWentFromClaimProcessedRef = useRef(false)
 
-  const [shouldRemindClaims, setRemindClaims] = useState(userProperties.getLocal('shouldRemindClaims'))
-
-  const handleRemindChange = useCallback(
-    value => {
-      if (value) {
-        userProperties.setLocal('askedPermissionsAfterClaim', true)
-      }
-
-      userProperties.setLocal('shouldRemindClaims', value)
-      setRemindClaims(value)
-    },
-    [userProperties, setRemindClaims],
-  )
-
-  const [allowedNotificationPermissions, requestNotificationPermissions] = usePermissions(Permissions.Notifications, {
-    requestOnMounted: false,
-    onAllowed: () => handleRemindChange(true),
-    onDenied: () => handleRemindChange(false),
+  const [allowed, switchOption] = useNotificationsOptions({
     navigate,
   })
 
@@ -107,14 +91,13 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     (newValue, options) => {
       const { fromClaim = false } = options || {}
 
-      if (newValue && !allowedNotificationPermissions) {
-        requestNotificationPermissions(fromClaim ? { promptPopup: false } : {})
-        return
+      if (newValue === true) {
+        userProperties.setLocal('askedPermissionsAfterClaim', true)
       }
 
-      handleRemindChange(newValue)
+      switchOption(newValue, fromClaim ? { promptPopup: false } : {})
     },
-    [allowedNotificationPermissions, requestNotificationPermissions, handleRemindChange],
+    [switchOption, allowed],
   )
 
   const handleSaveShowTips = useCallback(() => {
@@ -193,7 +176,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                 <Text>{t`Claim Reminders`}</Text>
 
                 <Switch
-                  value={shouldRemindClaims}
+                  value={allowed}
                   onValueChange={handleClaimReminders}
                   circleSize={16}
                   barHeight={20}

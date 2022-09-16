@@ -1,44 +1,26 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Notifications } from 'react-native-notifications'
 // eslint-disable-next-line import/default
 import PushNotification from 'react-native-push-notification'
 
-import { noop } from 'lodash/util'
-import usePermissions from '../../components/permissions/hooks/usePermissions'
-import { Permissions } from '../../components/permissions/types'
-import { useUserStorage } from '../wallet/GoodWalletProvider'
-import Config from './config'
-import { getInitialNotification } from './apis'
-
-export const notificationsAvailable = true
+import { noop } from 'lodash'
+import Config from '../../../config/config'
+import { NotificationsAPI } from '../api/NotificationsApi'
+import { CHANNEL_ID, NotificationsCategories } from '../constants'
+import { getCategory, useNotificationsStateSwitch, useStoreProperty } from './useNotifications.common'
 
 const { notificationTime, notificationSchedule } = Config
-const CHANNEL_ID = 'org.gooddollar.notifications.claim'
 
 const NOTIFICATION = {
   title: "It's that time of the day 💸 💙",
   message: 'Claim your free GoodDollars now. It takes 10 seconds.',
+  category: NotificationsCategories.CLAIM_NOTIFICATION,
 }
 
-const getScheduleId = userStorage => {
-  if (!userStorage) {
-    return null
-  }
+export { useNotificationsSupport } from './useNotifications.common'
 
-  return userStorage.userProperties.getLocal('notificationsScheduleId')
-}
-
-const getCategory = notification => {
-  const { payload } = notification || {}
-  const { category } = payload || {}
-
-  return category
-}
-
-export const useNotificationsOptions = () => {
-  const userStorage = useUserStorage()
-  const [scheduleId, setScheduleId] = useState(() => getScheduleId(userStorage))
-  const enabled = useMemo(() => !!scheduleId, [scheduleId])
+export const useNotificationsOptions = options => {
+  const [scheduleId, setScheduleId] = useStoreProperty('notificationsScheduleId')
   const updateState = useCallback(
     value => {
       let newScheduleId = null
@@ -63,36 +45,11 @@ export const useNotificationsOptions = () => {
       }
 
       setScheduleId(newScheduleId)
-      userStorage.userProperties.safeSet('notificationsScheduleId', newScheduleId)
     },
-    [scheduleId, setScheduleId, userStorage],
+    [scheduleId, setScheduleId],
   )
 
-  const onAllowed = useCallback(() => updateState(true), [updateState])
-  const [allowed, requestPermission] = usePermissions(Permissions.Notifications, {
-    requestOnMounted: false,
-    onAllowed,
-  })
-
-  const toggleEnabled = useCallback(
-    newState => {
-      if (newState === enabled) {
-        return
-      }
-
-      if (newState && !allowed) {
-        requestPermission()
-        return
-      }
-
-      updateState(newState)
-    },
-    [allowed, enabled, requestPermission, updateState],
-  )
-
-  useEffect(() => {
-    setScheduleId(getScheduleId(userStorage))
-  }, [userStorage])
+  const switchState = useNotificationsStateSwitch(scheduleId, updateState, options)
 
   useEffect(() => {
     PushNotification.createChannel({
@@ -100,18 +57,16 @@ export const useNotificationsOptions = () => {
       channelName: 'GoodDollar claim notifications',
     })
   }, [])
-  return [enabled, toggleEnabled]
+
+  return switchState
 }
 
 export const useNotifications = (onOpened = noop, onReceived = noop) => {
-  const [enabled, toggleEnabled] = useNotificationsOptions()
+  const [enabled] = useNotificationsOptions()
   const mountedRef = useRef(false)
 
-  // TODO: finish notifications connection
-  // toggleEnabled(true)
-
   const receivedHandler = useCallback(
-    (notification, completion) => {
+    (notification, completion = noop) => {
       onReceived(notification, getCategory(notification))
 
       // should call completion otherwise notifications won't receive in background
@@ -136,16 +91,17 @@ export const useNotifications = (onOpened = noop, onReceived = noop) => {
     mountedRef.current = true
     Notifications.registerRemoteNotifications()
 
-    getInitialNotification()
+    NotificationsAPI.getInitialNotification()
       .catch(noop)
       .then(notification => {
         if (!notification) {
           return
         }
 
+        receivedHandler(notification)
         openedHandler(notification)
       })
-  }, [enabled, openedHandler])
+  }, [enabled, openedHandler, receivedHandler])
 
   useEffect(() => {
     if (!enabled) {

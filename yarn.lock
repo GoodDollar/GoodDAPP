@@ -3712,7 +3712,7 @@ __metadata:
     "@react-native-community/clipboard": ^1.5.1
     "@react-native-community/eslint-config": ^2.0.0
     "@react-native-community/netinfo": ^6.0.2
-    "@react-native-community/push-notification-ios": ^1.2.0
+    "@react-native-community/push-notification-ios": ^1.10.1
     "@react-native-community/toolbar-android": ^0.2.1
     "@react-native-firebase/analytics": ^12.8.0
     "@react-native-firebase/app": ^12.8.0
@@ -3882,7 +3882,7 @@ __metadata:
     react-native-permissions: ^3.1.0
     react-native-phone-input: ^0.2.4
     react-native-promise-rejection-utils: ^0.0.1
-    react-native-push-notification: ^8.1.0
+    react-native-push-notification: ^8.1.1
     react-native-qrcode-scanner: ^1.5.3
     react-native-qrcode-svg: ^6.0.1
     react-native-randombytes: ^3.5.3
@@ -5050,7 +5050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/push-notification-ios@npm:^1.2.0":
+"@react-native-community/push-notification-ios@npm:^1.10.1":
   version: 1.10.1
   resolution: "@react-native-community/push-notification-ios@npm:1.10.1"
   dependencies:
@@ -21922,7 +21922,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 9e04820d95677271d5bb58d70f482fcf2b10ffe30c57ed285ce2a09d0f7b6a4f156b7e55b8adaa2ef8dd384e12f0eed2b6198d9a3cdae5aa6e32e3d40c93f495
+  checksum: 19574d772c4e8dbbebd4968b610e0f7e28fe020138b6313b82d0dc7d22f1f123266714fc1cec0a72160ac83c3bff3aa1dcfafcb2647ee13b751797c8d1382d2c
   languageName: node
   linkType: hard
 
@@ -21940,7 +21940,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 077c7a40661d9756ee5411ad4bb4a37037021b542a51032ff5ed507b0b0478b32e779add51f16ad23d188664deb8c014ddca5ce55076c817439819df11357426
+  checksum: d3fb8bcc59beb7f185b3c37aa70e375f37b829d5af7d53574b3fd314b66e2b997fa2770a794baf68a57e612473440f7d2528a211f5c4f8f617763b3f0d53d065
   languageName: node
   linkType: hard
 
@@ -28209,7 +28209,7 @@ patch-package@latest:
   languageName: node
   linkType: hard
 
-"react-native-push-notification@npm:^8.1.0":
+"react-native-push-notification@npm:^8.1.1":
   version: 8.1.1
   resolution: "react-native-push-notification@npm:8.1.1"
   peerDependencies:

@@ -42,18 +42,12 @@
 
   [self initializeAnalytics];
   [self initializeBranch:launchOptions];
+  [self initializeNotifications];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   UIViewController *rootViewController = [self initializeRootViewController:bridge];
 
   self.window = [self initializeWindow:rootViewController];
-
-  // Define UNUserNotificationCenter
-  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-  center.delegate = self;
-
-  // Listen for notifications
-  [RNNotifications startMonitorNotifications];
 
   return YES;
 }
@@ -137,6 +131,16 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 - (void) initializeBranch:(NSDictionary *)launchOptions
 {
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
+}
+
+- (void) initializeNotifications
+{
+  // Define UNUserNotificationCenter
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  center.delegate = self;
+
+  // Listen for notifications
+  [RNNotifications startMonitorNotifications];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {

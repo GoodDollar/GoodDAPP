@@ -224,30 +224,41 @@ export const useWalletData = () => {
   return { dailyUBI, balance, isCitizen }
 }
 
-const getStoreProperty = (userStorage, property) => {
+const getUserProperty = (userStorage, property, local = false) => {
   if (!userStorage) {
     return null
   }
 
-  return userStorage.userProperties.getLocal(property)
+  const { userProperties } = userStorage
+  return local ? userProperties.getLocal(property) : userProperties.get(property)
 }
 
-export const useStoreProperty = property => {
+const useUserProperty = (property, local = false) => {
   const userStorage = useUserStorage()
 
-  const [propertyValue, setPropertyValue] = useState(() => getStoreProperty(userStorage, property))
+  const [propertyValue, setPropertyValue] = useState(() => getUserProperty(userStorage, property, local))
 
   const updatePropertyValue = useCallback(
     newValue => {
+      const { userProperties } = userStorage
+
       setPropertyValue(newValue)
-      userStorage.userProperties.setLocal(property, newValue)
+
+      if (local) {
+        userProperties.setLocal(property, newValue)
+        return
+      }
+
+      userProperties.safeSet(property, newValue)
     },
     [setPropertyValue, userStorage, property],
   )
 
   useEffect(() => {
-    setPropertyValue(getStoreProperty(userStorage, property))
-  }, [property, userStorage, setPropertyValue])
+    setPropertyValue(getUserProperty(userStorage, property, local))
+  }, [property, userStorage, setPropertyValue, local])
 
   return [propertyValue, updatePropertyValue]
 }
+
+export const useLocalProperty = property => useUserProperty(property, true)

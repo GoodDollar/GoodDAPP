@@ -7,7 +7,7 @@ import { noop } from 'lodash'
 import Config from '../../../config/config'
 import { NotificationsAPI } from '../api/NotificationsApi'
 import { CHANNEL_ID, NotificationsCategories } from '../constants'
-import { useStoreProperty } from '../../wallet/GoodWalletProvider'
+import { useLocalProperty } from '../../wallet/GoodWalletProvider'
 import { getCategory, useNotificationsStateSwitch } from './useNotifications.common'
 
 const { notificationTime, notificationSchedule } = Config
@@ -20,7 +20,7 @@ const NOTIFICATION = {
 export { useNotificationsSupport } from './useNotifications.common'
 
 export const useNotificationsOptions = options => {
-  const [scheduleId, setScheduleId] = useStoreProperty('notificationsScheduleId')
+  const [scheduleId, setScheduleId] = useLocalProperty('notificationsScheduleId')
   const updateState = useCallback(
     value => {
       let newScheduleId = null

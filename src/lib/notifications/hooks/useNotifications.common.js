@@ -1,3 +1,4 @@
+import { noop } from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import usePermissions from '../../../components/permissions/hooks/usePermissions'
 import { Permissions } from '../../../components/permissions/types'
@@ -25,7 +26,7 @@ export const useNotificationsSupport = () => {
 }
 
 export const useNotificationsStateSwitch = (storeProp, updateState, options = {}) => {
-  const { onPermissionRequest, ...otherOptions } = options
+  const { onPermissionRequest = noop, ...requestOpts } = options
   const enabled = useMemo(() => !!storeProp, [storeProp])
   const _onAllowed = useCallback(() => {
     updateState(true)
@@ -34,7 +35,7 @@ export const useNotificationsStateSwitch = (storeProp, updateState, options = {}
   const [allowed, requestPermission] = usePermissions(Permissions.Notifications, {
     onAllowed: _onAllowed,
     requestOnMounted: false,
-    ...otherOptions,
+    ...requestOpts,
   })
 
   const toggleEnabled = useCallback(
@@ -44,8 +45,7 @@ export const useNotificationsStateSwitch = (storeProp, updateState, options = {}
       }
 
       if (newState && !allowed) {
-        const options = onPermissionRequest() || {}
-        requestPermission(options)
+        requestPermission(onPermissionRequest() || {})
         return
       }
 

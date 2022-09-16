@@ -78,12 +78,12 @@ const ethereum = {
 
 
 
-const NotificationTestConfig = {
+const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute
   notificationTime: new Date(Date.now() + 60 * 1000), // 1 minute after app been started
 }
 
-const NotificationProdConfig = {
+const notifyOpts = {
   notificationSchedule: 'day', // repeat daily
   notificationTime: (() => {
     // 12 PM UTC
@@ -93,12 +93,6 @@ const NotificationProdConfig = {
     return date
   })(),
 }
-
-const NotificationConfig = env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? 
-  NotificationTestConfig 
-  : 
-  NotificationProdConfig
-
 
 const Config = {
   env: appEnv,
@@ -219,7 +213,7 @@ const Config = {
   enableHDWallet: env.REACT_APP_ENABLE_HD_WALLET === 'true',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
-  ...NotificationConfig
+  ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts)
 }
 
 global.config = Config

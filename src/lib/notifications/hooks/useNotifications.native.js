@@ -7,7 +7,8 @@ import { noop } from 'lodash'
 import Config from '../../../config/config'
 import { NotificationsAPI } from '../api/NotificationsApi'
 import { CHANNEL_ID, NotificationsCategories } from '../constants'
-import { getCategory, useNotificationsStateSwitch, useStoreProperty } from './useNotifications.common'
+import { useStoreProperty } from '../../wallet/GoodWalletProvider'
+import { getCategory, useNotificationsStateSwitch } from './useNotifications.common'
 
 const { notificationTime, notificationSchedule } = Config
 

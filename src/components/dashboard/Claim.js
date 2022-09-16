@@ -523,10 +523,11 @@ const Claim = props => {
       return
     }
 
-    if (userProperties.getLocal('askedPermissionsAfterClaim')) {
+    if (userProperties.getLocal('askedPermissionsAfterClaim') === true) {
       return
     }
 
+    userProperties.setLocal('askedPermissionsAfterClaim', true)
     askForClaimNotifications(() => navigate('Settings', { from: 'Claim' }))
   }, [onClaim, navigate, userProperties])
 

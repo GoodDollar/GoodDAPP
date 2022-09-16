@@ -1,7 +1,5 @@
-export const BROADCAST_CHANNEL = 'org.gooddollar.notifications'
-
-export const CHANNEL_ID = BROADCAST_CHANNEL + '.claim'
+export const CHANNEL_ID = 'org.gooddollar.notifications'
 
 export const NotificationsCategories = {
-  CLAIM_NOTIFICATION: 'org.gooddollar.claim-notification',
+  CLAIM_NOTIFICATION: CHANNEL_ID + '.claim',
 }

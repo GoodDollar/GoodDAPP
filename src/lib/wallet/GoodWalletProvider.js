@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -222,4 +222,32 @@ export const useWalletData = () => {
   const { dailyUBI, balance, isCitizen } = useContext(GoodWalletContext)
 
   return { dailyUBI, balance, isCitizen }
+}
+
+const getStoreProperty = (userStorage, property) => {
+  if (!userStorage) {
+    return null
+  }
+
+  return userStorage.userProperties.getLocal(property)
+}
+
+export const useStoreProperty = property => {
+  const userStorage = useUserStorage()
+
+  const [propertyValue, setPropertyValue] = useState(() => getStoreProperty(userStorage, property))
+
+  const updatePropertyValue = useCallback(
+    newValue => {
+      setPropertyValue(newValue)
+      userStorage.userProperties.setLocal(property, newValue)
+    },
+    [setPropertyValue, userStorage, property],
+  )
+
+  useEffect(() => {
+    setPropertyValue(getStoreProperty(userStorage, property))
+  }, [property, userStorage, setPropertyValue])
+
+  return [propertyValue, updatePropertyValue]
 }

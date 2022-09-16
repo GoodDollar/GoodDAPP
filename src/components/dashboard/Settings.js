@@ -25,7 +25,6 @@ import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
-import usePermissions from '../permissions/hooks/usePermissions'
 import { Permissions } from '../permissions/types'
 
 // assets
@@ -74,8 +73,11 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { from: wentFrom } = screenProps?.screenState || {}
   const onWentFromClaimProcessedRef = useRef(false)
 
+  const onPermissionRequest = useCallback(() => ('Claim' === wentFrom ? { promptPopup: false } : {}), [wentFrom])
+
   const [allowed, switchOption] = useNotificationsOptions({
     navigate,
+    onPermissionRequest,
   })
 
   const [initialPrivacy, setInitialPrivacy] = useState(() => {
@@ -86,19 +88,6 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
   const [privacy, setPrivacy] = useState(initialPrivacy)
   const { showDialog } = useDialog()
-
-  const handleClaimReminders = useCallback(
-    (newValue, options) => {
-      const { fromClaim = false } = options || {}
-
-      if (newValue === true) {
-        userProperties.setLocal('askedPermissionsAfterClaim', true)
-      }
-
-      switchOption(newValue, fromClaim ? { promptPopup: false } : {})
-    },
-    [switchOption, allowed],
-  )
 
   const handleSaveShowTips = useCallback(() => {
     showDialog({
@@ -153,13 +142,13 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   }, [debouncedPrivacy, initialPrivacy, setInitialPrivacy, userStorage])
 
   useEffect(() => {
-    if (onWentFromClaimProcessedRef.current || 'Claim' !== wentFrom) {
+    if (true === onWentFromClaimProcessedRef.current || 'Claim' !== wentFrom) {
       return
     }
 
-    handleClaimReminders(true, { fromClaim: true })
+    switchOption(true)
     onWentFromClaimProcessedRef.current = true
-  }, [handleClaimReminders, wentFrom])
+  }, [switchOption])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>
@@ -177,7 +166,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
                 <Switch
                   value={allowed}
-                  onValueChange={handleClaimReminders}
+                  onValueChange={switchOption}
                   circleSize={16}
                   barHeight={20}
                   circleBorderWidth={0}

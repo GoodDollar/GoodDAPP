@@ -192,7 +192,7 @@
   },
   "dependencies": {
     "@gooddollar/goodprotocol": "file:.yalc/@gooddollar/goodprotocol",
-    "@gooddollar/web3sdk": "^0.1.6",
+    "@gooddollar/web3sdk": "^0.1.7",
     "@headlessui/react": "1.5.0",
     "@lufycz/sushi-data": "^2.0.0-canary-21",
     "@types/react-text-mask": "^5.4.8",
@@ -210,7 +210,7 @@
     "react-text-mask": "^5.4.3",
     "rxjs": "^7.5.6",
     "text-mask-addons": "^3.8.0",
-    "web3": "1.7.5"
+    "web3": "1.8.0"
   },
   "packageManager": "yarn@3.2.1"
 }

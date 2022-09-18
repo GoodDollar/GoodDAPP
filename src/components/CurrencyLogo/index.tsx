@@ -31,6 +31,7 @@ export const getTokenLogoURL = (address: string, chainId: any) => {
     } else if (chainId === AdditionalChainId.FUSE) {
         imageURL = getFuseTokenLogoURL(address)
     } else if (chainId === ChainId.KOVAN) {
+      console.log('kovan')
         imageURL = getKovanTokenLogoURL(address)
     } else if (chainId === ChainId.ROPSTEN) {
         imageURL = getRopstenTokenLogoURL(address)

@@ -521,13 +521,7 @@ const Portfolio = () => {
                     portfolio
                 ) : (
                     <Placeholder className="mx-4">
-                        {!portfolioSupportedAt.includes(chainId)
-                            ? i18n._(
-                                  t`Switch your network to ${
-                                      SupportedChainId[portfolioSupportedAt[0] as any]
-                                  } to work with Portfolio`
-                              )
-                            : i18n._(t`Connect to a wallet`)}
+                        {i18n._(t`Connect a wallet to see your portfolio`)}
                     </Placeholder>
                 )}
             </PortfolioSC>

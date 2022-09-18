@@ -3,7 +3,7 @@ import Card from 'components/gd/Card'
 import Title from 'components/gd/Title'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import SavingsModal, { ModalType } from '../../SavingsV2/SavingsModal'
+import SavingsModal, { ModalType } from 'components/SavingsModal'
 
 import Table from 'components/gd/Table'
 import { QuestionHelper } from 'components'

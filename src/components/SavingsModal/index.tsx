@@ -146,7 +146,6 @@ const SavingsModal = (
     }
   }
 
-  //NOTE-TO-SELF/RB4C -- Think of cleaner solution
   useEffect(() => {
     if (type === 'deposit'){
       setTxStatus(transferState)

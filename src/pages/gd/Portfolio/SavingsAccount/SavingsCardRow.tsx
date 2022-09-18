@@ -1,21 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useStakerInfo } from '@gooddollar/web3sdk-v2'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import { DAO_NETWORK, G$ } from '@gooddollar/web3sdk'
-import { ModalType } from 'pages/gd/SavingsV2/SavingsModal'
+import { ModalType } from 'components/SavingsModal'
 import { LoadingPlaceHolder } from 'theme/components'
 
 
-const errorCopy = 'Unable to fetch data, refresh, try again later or contact support if issue persists.'
+const errorCopy = 'Error loading.. refresh, try again later or contact support if issue persists.'
 
 //TODO: Move to components
 export const SavingsCardRow = (
   {account, network, toggleModal}:
   {account:string, network:string, toggleModal:(type?:ModalType) => void}):JSX.Element => {
   const { i18n } = useLingui()
-  const { stats } = useStakerInfo(30, account, network)
+  const { stats, error } = useStakerInfo(10, account, network)
+
+  useEffect(() => {
+    if (error){
+      console.error('Unable to fetch staker info:', {error})
+    }
+  }, [error])
 
   return (
     <tr>
@@ -45,7 +51,7 @@ export const SavingsCardRow = (
       </td>
       {/* <td>
         <div className="flex flex-col segment">
-            <div>{stats?.rewardsPaid.g$Minted.toFixed(2, {groupSeparator: ','})} G$</div> // will be added later
+            <div>{stats?.rewardsPaid.g$Minted.toFixed(2, {groupSeparator: ','})} G$</div> // will maybe added later
             <div>{stats?.rewardsPaid.goodMinted.toFixed(2, {groupSeparator: ','})} GOOD</div>
         </div>
       </td> */}

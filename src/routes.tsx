@@ -16,8 +16,7 @@ function Routes(): JSX.Element {
             <Route exact strict path="/dashboard" component={DatastudioDashboard} />
             <Route exact strict path="/swap" component={Swap} key={chainId} />
             <Route exact strict path="/stakes" component={Stakes} />
-            <Route exact strict path="/portfolio" component={Portfolio} />
-            {/* <Route exact strict path="/savings" component={Savings} /> -- v2*/} 
+            <Route exact strict path="/portfolio" component={Portfolio} /> 
             <Route exact strict path="/" component={RedirectHashRoutes} />
             <Route component={RedirectPathToSwapOnly} />
         </Switch>

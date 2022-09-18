@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import Table from 'components/gd/Table'
 import Title from 'components/gd/Title'
 import { QuestionHelper } from 'components'
@@ -6,7 +6,7 @@ import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import { DAO_NETWORK, SupportedChainId, G$ } from '@gooddollar/web3sdk'
 import { useGlobalStats } from '@gooddollar/web3sdk-v2'
-import SavingsModal from '../../SavingsV2/SavingsModal'
+import SavingsModal from 'components/SavingsModal'
 import { Wrapper } from '../styled'
 import styled from 'styled-components'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
@@ -20,10 +20,16 @@ const SavingsDeposit = styled.div`
 
 export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: ChainId}):JSX.Element  => {
   const [isOpen, setIsOpen] = useState(false)
-  const { stats } = useGlobalStats(30, 'fuse')
+  const { stats, error } = useGlobalStats(10, 'fuse')
   const { i18n } = useLingui()
   const toggleModal = useCallback(() => setIsOpen(!isOpen), [setIsOpen, isOpen])
   const g$ = G$[chainId]
+
+  useEffect(() => {
+    if (error){
+      console.error('Unable to fetch global stats:', {error})
+    }
+  }, [error])
 
   const headings = [
     {
@@ -83,9 +89,11 @@ export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: Chain
             </td>
             <td>G$</td>
             <td>GoodDollar</td>
-            <td>{stats?.apy ? <>{stats?.apy.toFixed(0)} %</> : <LoadingPlaceHolder />}</td>
-            <td>{stats?.totalStaked ? <>G$ {stats?.totalStaked.toFixed(2, {groupSeparator: ','})}</> : <LoadingPlaceHolder />}</td>
-            <td>{stats?.totalRewardsPaid ? <>G$ {stats?.totalRewardsPaid.toFixed(2, {groupSeparator: ','})} </> : <LoadingPlaceHolder />}</td>
+            <td>{error || !stats?.apy ? <LoadingPlaceHolder /> : <>{stats?.apy.toFixed(0)} %</>}</td>
+            <td>{error || !stats?.totalStaked ? <LoadingPlaceHolder /> : 
+              <>G$ {stats?.totalStaked.toFixed(2, {groupSeparator: ','})}</>}</td>
+            <td>{error || !stats?.totalRewardsPaid ? <LoadingPlaceHolder /> :
+              <>G$ {stats?.totalRewardsPaid.toFixed(2, {groupSeparator: ','})} </>}</td>
             <td>
               <ActionOrSwitchButton 
                 size="sm"

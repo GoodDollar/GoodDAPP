@@ -13,6 +13,7 @@ import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import { ChainId } from '@sushiswap/sdk'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
 import { LoadingPlaceHolder } from 'theme/components'
+import sendGa from 'functions/sendGa'
 
 const SavingsDeposit = styled.div`
   margin-top: 10px;
@@ -24,6 +25,7 @@ export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: Chain
   const { i18n } = useLingui()
   const toggleModal = useCallback(() => setIsOpen(!isOpen), [setIsOpen, isOpen])
   const g$ = G$[chainId]
+  const getData = sendGa
 
   useEffect(() => {
     if (error){
@@ -101,7 +103,10 @@ export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: Chain
                 borderRadius="6px"
                 noShadow={true}
                 requireNetwork={network}
-                onClick={toggleModal}> Deposit G$ </ActionOrSwitchButton>
+                onClick={() => {
+                  getData({event: 'savings', action: 'savingsStart'})
+                  toggleModal()
+                }}> Deposit G$ </ActionOrSwitchButton>
             </td>
           </tr>
         </Table>

@@ -6,6 +6,7 @@ import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import { DAO_NETWORK, G$ } from '@gooddollar/web3sdk'
 import { ModalType } from 'components/SavingsModal'
 import { LoadingPlaceHolder } from 'theme/components'
+import sendGa from 'functions/sendGa'
 
 
 const errorCopy = 'Error loading.. refresh, try again later or contact support if issue persists.'
@@ -16,6 +17,7 @@ export const SavingsCardRow = (
   {account:string, network:string, toggleModal:(type?:ModalType) => void}):JSX.Element => {
   const { i18n } = useLingui()
   const { stats, error } = useStakerInfo(10, account, network)
+  const getData = sendGa
 
   useEffect(() => {
     if (error){
@@ -65,7 +67,8 @@ export const SavingsCardRow = (
             requireNetwork={DAO_NETWORK.FUSE}
             noShadow={true}
             onClick={() => {
-            toggleModal('withdraw')
+              getData({event: 'savings', action: 'startWithdraw'})
+              toggleModal('withdraw')
           }}> {i18n._(t`Withdraw G$`)} </ActionOrSwitchButton>
           <div className={"mb-1"}></div>
           <ActionOrSwitchButton
@@ -75,6 +78,7 @@ export const SavingsCardRow = (
             borderRadius="6px"
             requireNetwork={DAO_NETWORK.FUSE} 
             onClick={() => {
+              getData({event: 'savings', action: 'startClaim'})
               toggleModal('claim')
             }}> {i18n._(t`Claim Rewards`)} </ActionOrSwitchButton>
           </div>

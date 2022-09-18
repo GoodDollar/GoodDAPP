@@ -121,8 +121,8 @@ export const Launch = ({ explorer, address, txHash }) => {
 }
 
 export const ContractCall = ({ styles, txJson, explorer, method }) => {
-  const { decodedTx = {}, gasStatus, ...rest } = txJson
-  const { decoded: { name, params } = {}, error } = decodedTx
+  const { decodedTx = {}, gasStatus, error, ...rest } = txJson
+  const { decoded: { name, params } = {} } = decodedTx
   const txParams = entries(rest).map(([name, value]) => ({ name, value }))
   const isSign = method.includes('sign')
 

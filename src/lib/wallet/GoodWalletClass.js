@@ -1455,20 +1455,6 @@ export class GoodWallet {
     return this.accounts[0].signTransaction(tx)
   }
 
-  async validateContractTX(abi, tx, decoded, tempWeb3) {
-    const contract = new tempWeb3.eth.Contract(abi, tx.to, { from: this.accounts[0].address })
-    let error
-
-    try {
-      await contract.methods[decoded.name](...decoded.params.map(_ => _.value)).call({ ...tx })
-    } catch (e) {
-      log.warn('contract tx simulation failed:', e.message, e, { contract })
-      error = e.message
-    }
-
-    return { error }
-  }
-
   // eslint-disable-next-line require-await
   async sendRawTransaction(tx, tempWeb3, callbacks = {}) {
     tempWeb3.eth.accounts.wallet.add(this.accounts[0])

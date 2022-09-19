@@ -20,7 +20,7 @@ const useFVFlow = (signature, nonce, fvsig, account) => {
 
     log.info('useFVFlow mount:', { signature, nonce, fvsig, account })
 
-    if (signature && nonce && fvsig) {
+    if (fvsig && account) {
       const login = new LoginService(signature, nonce, fvsig, account)
 
       login

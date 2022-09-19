@@ -91,7 +91,7 @@ export class APIService {
   }
 
   fvAuth(creds: Credentials): AxiosPromise<any> {
-    return this.client.post('/auth/fv', creds)
+    return this.client.post('/auth/fv2', creds)
   }
 
   /**

@@ -6,7 +6,7 @@ import logger from '../../../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'useFVFlow' })
 
-const useFVFlow = (signature, nonce, fvsig) => {
+const useFVFlow = (signature, nonce, fvsig, account) => {
   const [jwt, setJWT] = useState()
   const [error, setError] = useState()
 
@@ -18,10 +18,10 @@ const useFVFlow = (signature, nonce, fvsig) => {
       setError(message)
     }
 
-    log.info('useFVFlow mount:', { signature, nonce, fvsig })
+    log.info('useFVFlow mount:', { signature, nonce, fvsig, account })
 
     if (signature && nonce && fvsig) {
-      const login = new LoginService(signature, nonce, fvsig)
+      const login = new LoginService(signature, nonce, fvsig, account)
 
       login
         .auth(true)
@@ -36,7 +36,7 @@ const useFVFlow = (signature, nonce, fvsig) => {
 
       onError(exception)
     }
-  }, [signature, nonce, fvsig, setError, setJWT])
+  }, [signature, nonce, fvsig, account, setError, setJWT])
 
   return { jwt, error }
 }

@@ -9,12 +9,13 @@ import type { Credentials } from '../../../../lib/API'
 const log = logger.child({ from: 'FVFlowService' })
 
 class FVFlowService extends LoginService {
-  constructor(signature, nonce, fvsig) {
+  constructor(signature, nonce, fvsig, account) {
     super()
 
     this.signature = signature
     this.nonce = nonce
     this.fvsig = fvsig
+    this.account = account
   }
 
   // eslint-disable-next-line require-await
@@ -23,6 +24,7 @@ class FVFlowService extends LoginService {
       signature: this.signature,
       nonce: this.nonce,
       fvsig: this.fvsig,
+      account: this.account,
     }
 
     log.info('returning creds', { creds })

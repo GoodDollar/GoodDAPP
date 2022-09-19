@@ -39,5 +39,6 @@ export const makeCategoryMatcher = category => ({ type }) => {
 
 export const shouldFilterItem = ({ status, otplStatus }) => {
   const hiddenStates = ['deleted', 'cancelled', 'canceled']
+
   return [status, otplStatus].some(state => hiddenStates.includes(state))
 }

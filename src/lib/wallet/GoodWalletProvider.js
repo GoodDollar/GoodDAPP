@@ -251,7 +251,7 @@ const useUserProperty = (property, local = false) => {
 
       userProperties.safeSet(property, newValue)
     },
-    [setPropertyValue, userStorage, property],
+    [setPropertyValue, userStorage, property, local],
   )
 
   useEffect(() => {

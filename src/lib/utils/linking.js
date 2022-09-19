@@ -85,7 +85,10 @@ export const handleLinks = async (logger = log) => {
 
 export const redirectTo = async (url, type: 'rdu' | 'cbu', params = {}) => {
   if (type === 'rdu') {
-    return openLink(`${url}?login=${encodeBase64Params(params)}`, '_self')
+    const urlParams = Object.entries(params)
+      .map(([key, value]) => `${key}=${encodeBase64Params(value)}`)
+      .join('&')
+    return openLink(`${url}?${urlParams || ''}`, '_self')
   }
 
   try {

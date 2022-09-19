@@ -78,6 +78,10 @@ export class APIService {
     return this.client.get('/auth/ping', { throttle: false })
   }
 
+  isWhitelisted(address): AxiosPromise<any> {
+    return this.client.get(`/userWhitelisted/${address}`, { throttle: false })
+  }
+
   /**
    * `/auth/eth` post api call
    * @param {Credentials} creds

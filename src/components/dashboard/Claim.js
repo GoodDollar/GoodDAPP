@@ -523,11 +523,13 @@ const Claim = props => {
       return
     }
 
-    if (userProperties.getLocal('askedPermissionsAfterClaim')) {
+    if (userProperties.getLocal('askedPermissionsAfterClaim') === true) {
       return
     }
 
-    askForClaimNotifications(() => navigate('Settings', { from: 'Claim' }))
+    const onDismiss = () => userProperties.setLocal('askedPermissionsAfterClaim', true)
+
+    askForClaimNotifications(() => navigate('Settings', { from: 'Claim' }), onDismiss)
   }, [onClaim, navigate, userProperties])
 
   // constantly update stats but only for some data

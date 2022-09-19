@@ -146,7 +146,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
     switchOption(true)
     onWentFromClaimProcessedRef.current = true
-  }, [switchOption])
+  }, [switchOption, wentFrom])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>

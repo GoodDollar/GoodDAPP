@@ -183,14 +183,22 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     }
   }, [isFVFlow, enrollmentIdentifier, fvFlowError, navigate])
 
+  useEffect(() => {
+    if (isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier) {
+      handleVerifyClick()
+    }
+  }, [isFVFlow, isFVFlowReady, disposing, enrollmentIdentifier])
+
   return (
-    <Intro
-      styles={styles}
-      firstName={userName}
-      onLearnMore={openPrivacy}
-      onVerify={handleVerifyClick}
-      ready={false === disposing}
-    />
+    !isFVFlow && (
+      <Intro
+        styles={styles}
+        firstName={userName}
+        onLearnMore={openPrivacy}
+        onVerify={handleVerifyClick}
+        ready={false === disposing}
+      />
+    )
   )
 }
 

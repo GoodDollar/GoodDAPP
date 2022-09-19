@@ -41,24 +41,30 @@ export const withDelay = async (asyncFn, millis) => Promise.all([asyncFn, delay(
 export const withTimeout = async (asyncFn, timeoutMs = 60000, errorMessage = 'Timed out') =>
   Promise.race([asyncFn(), timeout(timeoutMs, errorMessage)])
 
-export const retry = async (asyncFn, retries = 5, interval = 0) =>
-  defer(() => fromPromise(asyncFn()))
+const defaultRetryMiddleware = (rejection, options, defaultOptions) => defaultOptions
+
+export const retry = async (asyncFn, retries = 5, interval = 0, middleware = defaultRetryMiddleware) => {
+  const defaultOpts = { retries, interval }
+  let opts = { ...defaultOpts }
+
+  return defer(() => fromPromise(asyncFn()))
     .pipe(
       retryWhen(attempts =>
         attempts.pipe(
           mergeMap((attempt, index) => {
-            const retryAttempt = index + 1
+            opts = { ...middleware(attempt, opts, defaultOpts) }
 
-            if (retryAttempt > retries) {
+            if (index >= opts.retries) {
               return throwError(attempt)
             }
 
-            return timer(interval || 0)
+            return timer(opts.interval || 0)
           }),
         ),
       ),
     )
     .toPromise()
+}
 
 export const fallback = async asyncFns =>
   asyncFns.reduce(async (current, next) => {

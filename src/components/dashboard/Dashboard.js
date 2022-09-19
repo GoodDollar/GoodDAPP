@@ -12,7 +12,6 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { weiToGd, weiToMask } from '../../lib/wallet/utils'
-import { useBackgroundFetch } from '../../lib/notifications/backgroundFetch'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
 import { useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
@@ -47,7 +46,6 @@ import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
-import { useNotifications } from '../../lib/notifications/backgroundActions'
 import { shouldFilterItem } from '../../lib/realmdb/feed'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
@@ -158,9 +156,7 @@ const Dashboard = props => {
   const userStorage = useUserStorage()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [price, showPrice] = useGoodDollarPrice()
-  const initBGFetch = useBackgroundFetch()
 
-  useNotifications(navigation)
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
 
@@ -403,8 +399,6 @@ const Dashboard = props => {
 
     // InteractionManager.runAfterInteractions(handleFeedEvent)
     resizeSubscriptionRef.current = Dimensions.addEventListener('change', handleResize)
-
-    initBGFetch()
   }
 
   useEffect(() => {
@@ -514,7 +508,6 @@ const Dashboard = props => {
 
   useEffect(() => {
     log.debug('Dashboard didmount', { navigation })
-
     initDashboard()
 
     return () => {

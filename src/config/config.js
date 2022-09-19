@@ -76,6 +76,24 @@ const ethereum = {
   },
 }
 
+
+
+const notifyOptsTest = {
+  notificationSchedule: 'minute', // repeat in each minute
+  notificationTime: new Date(Date.now() + 60 * 1000), // 1 minute after app been started
+}
+
+const notifyOpts = {
+  notificationSchedule: 'day', // repeat daily
+  notificationTime: (() => {
+    // 12 PM UTC
+    const date = new Date()
+
+    date.setUTCHours(12, 0, 0, 0)
+    return date
+  })(),
+}
+
 const Config = {
   env: appEnv,
   version: appEnv === 'test' ? '1.0' : version, //hard code for tests snapshots
@@ -195,6 +213,7 @@ const Config = {
   enableHDWallet: env.REACT_APP_ENABLE_HD_WALLET === 'true',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
+  ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts)
 }
 
 global.config = Config

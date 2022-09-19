@@ -27,6 +27,7 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         mavenLocal()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
@@ -51,10 +52,8 @@ allprojects {
         }
 
         maven { url "$rootDir/../node_modules/detox/Detox-android"}
-        maven { url "$rootDir/../node_modules/react-native-background-fetch/android/libs" }
 
         mavenCentral()
-        google()
         jcenter()
 
         maven { url 'https://www.jitpack.io' }

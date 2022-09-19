@@ -3712,7 +3712,7 @@ __metadata:
     "@react-native-community/clipboard": ^1.5.1
     "@react-native-community/eslint-config": ^2.0.0
     "@react-native-community/netinfo": ^6.0.2
-    "@react-native-community/push-notification-ios": ^1.2.0
+    "@react-native-community/push-notification-ios": ^1.10.1
     "@react-native-community/toolbar-android": ^0.2.1
     "@react-native-firebase/analytics": ^12.8.0
     "@react-native-firebase/app": ^12.8.0
@@ -3856,7 +3856,6 @@ __metadata:
     react-meta-tags: ^1.0.1
     react-native: ^0.65.2
     react-native-animatable: 1.3.3
-    react-native-background-fetch: ^4.1.1
     react-native-branch: ^5.1.0
     react-native-camera: ^3.42.0
     react-native-card-flip: ^1.0.7
@@ -3884,7 +3883,7 @@ __metadata:
     react-native-permissions: ^3.1.0
     react-native-phone-input: ^0.2.4
     react-native-promise-rejection-utils: ^0.0.1
-    react-native-push-notification: ^8.1.0
+    react-native-push-notification: ^8.1.1
     react-native-qrcode-scanner: ^1.5.3
     react-native-qrcode-svg: ^6.0.1
     react-native-randombytes: ^3.5.3
@@ -5053,7 +5052,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/push-notification-ios@npm:^1.2.0":
+"@react-native-community/push-notification-ios@npm:^1.10.1":
   version: 1.10.1
   resolution: "@react-native-community/push-notification-ios@npm:1.10.1"
   dependencies:
@@ -27867,15 +27866,6 @@ patch-package@latest:
   languageName: node
   linkType: hard
 
-"react-native-background-fetch@npm:^4.1.1":
-  version: 4.1.2
-  resolution: "react-native-background-fetch@npm:4.1.2"
-  peerDependencies:
-    react-native: ">=0.28.0"
-  checksum: 5e013899889641e017fe8370a85ab0e680a38c23314723bacaf6e216f007a51c3a673d4debcb130a76e799d97ae22d3e2b38f026f95dee0abf497b1ea4bf57a7
-  languageName: node
-  linkType: hard
-
 "react-native-branch@npm:5.4.1":
   version: 5.4.1
   resolution: "react-native-branch@npm:5.4.1"
@@ -28228,7 +28218,7 @@ patch-package@latest:
   languageName: node
   linkType: hard
 
-"react-native-push-notification@npm:^8.1.0":
+"react-native-push-notification@npm:^8.1.1":
   version: 8.1.1
   resolution: "react-native-push-notification@npm:8.1.1"
   peerDependencies:

@@ -101,15 +101,14 @@ export const useWalletConnectSession = () => {
         const result = await api.getContractAbi(tx.to, explorer)
         log.info('got contract data', { result })
         if (!result) {
-          return
+          return {}
         }
         const abi = JSON.parse(result)
         abiDecoder.addABI(abi)
         const decoded = abiDecoder.decodeMethod(tx.data)
         log.info('decoded:', { decoded })
-        const callData = await wallet.validateContractTX(abi, tx, decoded, web3)
-        log.info('validateCall', { callData })
-        return { ...callData, decoded }
+
+        return { decoded }
       }
     },
     [chain, wallet],
@@ -182,13 +181,27 @@ export const useWalletConnectSession = () => {
         web3.eth.getBalance(wallet.account),
       ])
 
+      let error
+      let estimatedGas
+      try {
+        estimatedGas = await web3.eth.estimateGas(message)
+      } catch (e) {
+        error = e.message
+      }
+      log.info('validateCall', { error, estimatedGas })
+
+      // We must pass a number through the bridge
+      if (!message.gas) {
+        message.gas = estimatedGas || '300000'
+      }
+
       const eip1599Gas = () => Number(message.maxFeeParGas) + Number(message.maxPriorityFeePerGas)
       const gasRequired = Number(message.gas) * (message.gasPrice ? Number(message.gasPrice) : eip1599Gas())
       const gasStatus = { balance, hasEnoughGas: balance >= gasRequired, gasRequired }
       showApprove({
         walletAddress: wallet.account,
         session: connector.session,
-        message: { ...message, decodedTx, gasStatus, gasRequired },
+        message: { ...message, error, decodedTx, gasStatus, gasRequired },
         payload,
         modalType: 'tx',
         explorer,
@@ -469,19 +482,16 @@ export const useWalletConnectSession = () => {
         if (['eth_signTransaction', 'eth_sendTransaction'].includes(payload.method)) {
           const transaction = payload?.params?.[0] ?? null
 
-          // // Backwards compatibility with param name change
-          // if (transaction.gas && !transaction.gasLimit) {
-          //   transaction.gasLimit = transaction.gas
-          // }
-
-          // We must pass a number through the bridge
-          if (!transaction.gas) {
-            transaction.gas = '8000000'
-          }
-
           // Fallback for dapps sending no data
           if (!transaction.data) {
             transaction.data = '0x'
+          }
+          if (!transaction.value) {
+            transaction.value = '0x0'
+          }
+
+          if (!transaction.gas && transaction.gasLimit) {
+            transaction.gas = transaction.gasLimit
           }
 
           return handleTxRequest(transaction, payload, connector)

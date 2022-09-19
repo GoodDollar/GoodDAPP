@@ -21,6 +21,7 @@
     <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
       android:name=".MainApplication"
@@ -84,16 +85,11 @@
            </intent-filter>
       </activity>
 
-      <!-- RNBackgroundFetch -->
-      <receiver
-        android:name="com.transistorsoft.tsbackgroundfetch.BootReceiver"
-        android:exported="true"
-        tools:node="merge"
-        tools:replace="android:exported"
-      />
-
       <!-- RNPushNotification -->
       <meta-data android:name="com.dieam.reactnativepushnotification.notification_color" android:resource="@android:color/white"/>
+      <meta-data android:name="com.dieam.reactnativepushnotification.notification_foreground"
+                 android:value="false"/>
+
       <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
       <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
       <receiver
@@ -106,6 +102,14 @@
               <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
           </intent-filter>
       </receiver>
+
+       <service
+            android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
       <!-- Branch keys -->
       <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ikHIYZgGRpA8nYBtiRlGHpkhBDaBI273"/>

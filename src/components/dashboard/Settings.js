@@ -25,13 +25,12 @@ import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
-import usePermissions from '../permissions/hooks/usePermissions'
-import { Permissions } from '../permissions/types'
 
 // assets
 import OptionsRow from '../profile/OptionsRow'
 import Config from '../../config/config'
 import { isWeb } from '../../lib/utils/platform'
+import { useNotificationsOptions } from '../../lib/notifications/hooks/useNotifications'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -68,30 +67,15 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
 const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { navigate } = navigation
   const userStorage = useUserStorage()
-  const { userProperties } = userStorage || {}
 
   const { from: wentFrom } = screenProps?.screenState || {}
   const onWentFromClaimProcessedRef = useRef(false)
 
-  const [shouldRemindClaims, setRemindClaims] = useState(userProperties.getLocal('shouldRemindClaims'))
+  const onPermissionRequest = useCallback(() => ('Claim' === wentFrom ? { promptPopup: false } : {}), [wentFrom])
 
-  const handleRemindChange = useCallback(
-    value => {
-      if (value) {
-        userProperties.setLocal('askedPermissionsAfterClaim', true)
-      }
-
-      userProperties.setLocal('shouldRemindClaims', value)
-      setRemindClaims(value)
-    },
-    [userProperties, setRemindClaims],
-  )
-
-  const [allowedNotificationPermissions, requestNotificationPermissions] = usePermissions(Permissions.Notifications, {
-    requestOnMounted: false,
-    onAllowed: () => handleRemindChange(true),
-    onDenied: () => handleRemindChange(false),
+  const [allowed, switchOption] = useNotificationsOptions({
     navigate,
+    onPermissionRequest,
   })
 
   const [initialPrivacy, setInitialPrivacy] = useState(() => {
@@ -102,20 +86,6 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
   const [privacy, setPrivacy] = useState(initialPrivacy)
   const { showDialog } = useDialog()
-
-  const handleClaimReminders = useCallback(
-    (newValue, options) => {
-      const { fromClaim = false } = options || {}
-
-      if (newValue && !allowedNotificationPermissions) {
-        requestNotificationPermissions(fromClaim ? { promptPopup: false } : {})
-        return
-      }
-
-      handleRemindChange(newValue)
-    },
-    [allowedNotificationPermissions, requestNotificationPermissions, handleRemindChange],
-  )
 
   const handleSaveShowTips = useCallback(() => {
     showDialog({
@@ -170,13 +140,13 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   }, [debouncedPrivacy, initialPrivacy, setInitialPrivacy, userStorage])
 
   useEffect(() => {
-    if (onWentFromClaimProcessedRef.current || 'Claim' !== wentFrom) {
+    if (true === onWentFromClaimProcessedRef.current || 'Claim' !== wentFrom) {
       return
     }
 
-    handleClaimReminders(true, { fromClaim: true })
+    switchOption(true)
     onWentFromClaimProcessedRef.current = true
-  }, [handleClaimReminders, wentFrom])
+  }, [switchOption, wentFrom])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>
@@ -193,8 +163,8 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                 <Text>{t`Claim Reminders`}</Text>
 
                 <Switch
-                  value={shouldRemindClaims}
-                  onValueChange={handleClaimReminders}
+                  value={allowed}
+                  onValueChange={switchOption}
                   circleSize={16}
                   barHeight={20}
                   circleBorderWidth={0}

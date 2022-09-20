@@ -117,6 +117,11 @@ export const useNotifications = (onOpened = noop, onReceived = noop) => {
       events.registerNotificationOpened(openedHandler),
     ]
 
+    PushNotification.configure({
+      requestPermissions: false,
+      onNotification: openedHandler,
+    })
+
     return () => {
       subscriptions.forEach(subscription => subscription.remove())
     }

@@ -449,7 +449,7 @@ const Portfolio = () => {
                 </Card>
             )}
             
-            <SavingsAccount account={account} network={network} />
+            <SavingsAccount account={account} network={network} chainId={chainId}/>
         </>
     )
 

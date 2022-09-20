@@ -24,7 +24,7 @@ const SavingsDeposit = styled.div`
 
 export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: ChainId}):JSX.Element  => {
   const [isOpen, setIsOpen] = useState(false)
-  const { stats, error } = useGlobalStats(10, 'fuse')
+  const { stats, error } = useGlobalStats(10, chainId, network)
   const { i18n } = useLingui()
   const toggleModal = useCallback(() => setIsOpen(!isOpen), [setIsOpen, isOpen])
   const { width } = useWindowSize()

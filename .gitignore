@@ -49,3 +49,4 @@ deploy.sh
 /playground
 
 .certs
+yalc.lock

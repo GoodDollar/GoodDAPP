@@ -14,14 +14,15 @@ import { DAO_NETWORK } from '@gooddollar/web3sdk'
 import sendGa from 'functions/sendGa'    
 
 export const SavingsCardTableMobile = (
-  {account, network, hasBalance, headings, toggleModal}:
+  {account, network, hasBalance, chainId, headings, toggleModal}:
   {account:string, 
-   network:string, 
+   network:string,
+   chainId: number, 
    hasBalance: boolean | undefined, 
    headings: HeadingCopy,
    toggleModal:(type?:ModalType) => void}):JSX.Element => {
     const { i18n } = useLingui()
-    const { stats, error } = useStakerInfo(10, account, network)
+    const { stats, error } = useStakerInfo(10, account, chainId, network)
     const getData = sendGa
 
     return (

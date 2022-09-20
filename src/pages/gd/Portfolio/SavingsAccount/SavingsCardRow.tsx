@@ -13,10 +13,10 @@ const errorCopy = 'Error loading.. refresh, try again later or contact support i
 
 //TODO: Move to components
 export const SavingsCardRow = (
-  {account, network, toggleModal}:
-  {account:string, network:string, toggleModal:(type?:ModalType) => void}):JSX.Element => {
+  {account, network, chainId, toggleModal}:
+  {account:string, network:string, chainId: number, toggleModal:(type?:ModalType) => void}):JSX.Element => {
   const { i18n } = useLingui()
-  const { stats, error } = useStakerInfo(10, account, network)
+  const { stats, error } = useStakerInfo(10, account, chainId, network)
   const getData = sendGa
 
   useEffect(() => {

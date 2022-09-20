@@ -24,7 +24,7 @@ export const SavingsDepositMobile = (
    chainId: ChainId, 
    headings:HeadingCopy, 
    toggleModal:(type?:ModalType) => void}):JSX.Element  => { 
-    const { stats, error } = useGlobalStats(10, 'fuse')
+    const { stats, error } = useGlobalStats(10, chainId, network)
     const { i18n } = useLingui()
     const getData = sendGa
 
@@ -64,7 +64,7 @@ export const SavingsDepositMobile = (
             </div>
           </div>
         )))}
-        <div style={{gridArea: 'f'}}>
+        <div className="savingdeposit">
           <ActionOrSwitchButton 
           size="sm"
           width="130px"

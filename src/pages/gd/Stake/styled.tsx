@@ -188,6 +188,10 @@ export const CellSC = styled.div`
         gap: 16px;
         grid-area: f;
     }
+    
+    .savingdeposit {
+      grid-area: f;
+    }
 
     &:not(:last-of-type):after {
         position: absolute;

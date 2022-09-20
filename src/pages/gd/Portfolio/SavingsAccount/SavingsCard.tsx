@@ -18,8 +18,8 @@ export type HeadingCopy = {
   statsKey: string // key to use for mobile 'tables'
 }[]
 
-export const SavingsCard = ({ account, network, hasBalance}:
-  { account:string, network:string, hasBalance:boolean | undefined}):JSX.Element => {
+export const SavingsCard = ({ account, network, chainId, hasBalance}:
+  { account:string, network:string, chainId: number, hasBalance:boolean | undefined}):JSX.Element => {
     const { i18n } = useLingui()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -76,8 +76,8 @@ export const SavingsCard = ({ account, network, hasBalance}:
       )}
       {
         isMobile ? 
-          <SavingsCardTableMobile account={account} network={network} 
-            hasBalance={hasBalance} headings={headings} toggleModal={toggleModal}/>
+          <SavingsCardTableMobile account={account} network={network} chainId={chainId}
+            hasBalance={hasBalance} headings={headings} toggleModal={toggleModal} />
         :
         <Card className="sm:mb-6 md:mb-4 card" contentWrapped={false} style={{position: 'relative'}}>
           <Table
@@ -95,7 +95,7 @@ export const SavingsCard = ({ account, network, hasBalance}:
           >
             {
               hasBalance && (
-                <SavingsCardRow account={account} network={network} toggleModal={toggleModal} />
+                <SavingsCardRow account={account} network={network} chainId={chainId} toggleModal={toggleModal} />
               ) 
             }
           </Table>

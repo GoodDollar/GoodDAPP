@@ -1,0 +1,83 @@
+import React from 'react'
+
+import Title from 'components/gd/Title'
+import { QuestionHelper } from 'components'
+import { LoadingPlaceHolder } from 'theme/components'
+import { ButtonOutlined } from 'components/gd/Button'
+import { CellSC } from '../styled'
+
+import { useLingui } from '@lingui/react'
+import { t } from '@lingui/macro'
+import { DAO_NETWORK } from '@gooddollar/web3sdk'
+import { useGlobalStats } from '@gooddollar/web3sdk-v2'
+import { ChainId } from '@sushiswap/sdk'
+import sendGa from 'functions/sendGa'
+import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
+import { ModalType } from 'components/SavingsModal'
+
+import type { HeadingCopy } from '../../Portfolio/SavingsAccount/SavingsCard'
+
+
+export const SavingsDepositMobile = (
+  {network, chainId, headings, toggleModal}:
+  {network: DAO_NETWORK, 
+   chainId: ChainId, 
+   headings:HeadingCopy, 
+   toggleModal:(type?:ModalType) => void}):JSX.Element  => { 
+    const { stats, error } = useGlobalStats(10, 'fuse')
+    const { i18n } = useLingui()
+    const getData = sendGa
+
+  return (
+    <>
+      <CellSC>
+        {headings.map((item, index) => (
+          index !== 0 && ( // skip token header on mobile
+          <div key={index}>
+            <div key={index} className="flex flex-grow-1">
+              <Title type="category" className="flex items-center title">
+                {item.title} <QuestionHelper text={item.questionText || ''} />
+              </Title>
+            </div>
+            <div className="font-bold value">
+              {error ?
+                <LoadingPlaceHolder /> :
+                stats && (
+                  (() => {
+                    switch (item.statsKey) {
+                      case 'token':
+                        return <div>{i18n._(t`G$`)}</div>
+                      case 'protocol':
+                        return <div>{i18n._(t`GoodDollar`)}</div>
+                      case 'apy':
+                        return <div>{stats?.apy?.toFixed(0)} %</div>
+                      case 'totalStaked':
+                        return <>G$ {stats?.totalStaked?.toFixed(2, {groupSeparator: ','})}</>
+                      case 'totalRewardsPaid':
+                        return <>G$ {stats?.totalRewardsPaid?.toFixed(2, {groupSeparator: ','})} </>
+                      default: 
+                        return
+                    }
+                  })()
+                ) 
+              }
+            </div>
+          </div>
+        )))}
+        <div style={{gridArea: 'f'}}>
+          <ActionOrSwitchButton 
+          size="sm"
+          width="130px"
+          borderRadius="6px"
+          noShadow={true}
+          requireNetwork={network}
+          ButtonEl={ButtonOutlined}
+          onClick={() => {
+            getData({event: 'savings', action: 'savingsStart'})
+            toggleModal()
+          }}> Deposit G$ </ActionOrSwitchButton>
+        </div>
+      </CellSC>
+    </>
+  )
+}

@@ -3,6 +3,68 @@ import { TitleSC } from 'components/gd/Title'
 import { ButtonDefault } from 'components/gd/Button'
 import Table, { TableSC } from 'components/gd/Table'
 
+export const CellSC = styled.div`
+    display: grid;
+    grid-gap: 17px;
+    grid-template-areas:
+        't t'
+        'a b'
+        'c d'
+        'e e'
+        'f f';
+
+    .part {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .key {
+        text-transform: capitalize;
+        font-size: 10px;
+        line-height: 14px;
+        font-weight: 500;
+    }
+
+    .value {
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: bold;
+    }
+
+    .token {
+        grid-area: t;
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .protocol {
+        grid-area: a;
+    }
+
+    .multiplier {
+        grid-area: b;
+    }
+
+    .grewards {
+        grid-area: c;
+    }
+
+    .goodrewards {
+        grid-area: d;
+    }
+
+    .stake {
+        grid-area: e;
+    }
+
+    .withdraw {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        grid-area: f;
+    }
+`
+
 export const PortfolioTitleSC = styled.div`
     font-style: normal;
     font-weight: 900;

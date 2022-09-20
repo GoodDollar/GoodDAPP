@@ -18,7 +18,7 @@ export const ActionOrSwitchButton = ({
     width?: string
     borderRadius?: string
     error?: boolean
-    size?: 'default' | 'sm'
+    size?: 'default' | 'sm' | 'm'
     noShadow?: boolean
     requireNetwork: DAO_NETWORK
     children: any

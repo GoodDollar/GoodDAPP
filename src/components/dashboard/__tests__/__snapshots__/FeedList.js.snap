@@ -5,18 +5,12 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-height-109y4c4 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onScroll={[Function]}
     onTouchEnd={[Function]}
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     onWheel={[Function]}
-    style={
-      Object {
-        "display": "flex",
-        "height": "1px",
-      }
-    }
   >
     <div
       className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox"
@@ -516,17 +510,12 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-height-109y4c4 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onScroll={[Function]}
     onTouchEnd={[Function]}
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     onWheel={[Function]}
-    style={
-      Object {
-        "height": "1px",
-      }
-    }
   >
     <div
       className="css-view-1dbjc4n r-display-6koalj r-flexGrow-16y2uox"
@@ -899,7 +888,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "opacity": 0,
+          "opacity": 1,
         }
       }
     >

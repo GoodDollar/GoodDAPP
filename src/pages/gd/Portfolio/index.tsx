@@ -448,8 +448,11 @@ const Portfolio = () => {
                     </Table>
                 </Card>
             )}
-            
-            <SavingsAccount account={account} network={network} chainId={chainId}/>
+            {
+              network !== 'production' && (
+                <SavingsAccount account={account} network={network} chainId={chainId}/>
+              )
+            }
         </>
     )
 

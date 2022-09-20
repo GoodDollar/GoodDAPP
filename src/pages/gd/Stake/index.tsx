@@ -22,7 +22,8 @@ import {
   DAO_NETWORK, 
   useEnvWeb3, 
   getList as getStakes, 
-  Stake, 
+  Stake,
+  getNetworkEnv, 
   useGdContextProvider, 
   useGovernanceStaking } from '@gooddollar/web3sdk'
 
@@ -406,7 +407,8 @@ export default function Stakes(): JSX.Element | null {
     const { web3 } = useGdContextProvider()
     const { chainId } = useActiveWeb3React()
     const governanceStaking = useGovernanceStaking(web3, chainId)
-    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId) 
+    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId)
+    const network = getNetworkEnv() 
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
         const stakes = await (
           web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
@@ -481,8 +483,9 @@ export default function Stakes(): JSX.Element | null {
                     )}
                 </Modal>
             </StakesSC>
-
-            <Savings network={DAO_NETWORK.FUSE} chainId={chainId} />
+            {network !== 'production' ? 
+              <Savings network={DAO_NETWORK.FUSE} chainId={chainId} /> : <></>
+            } 
         </Layout>
     )
 }

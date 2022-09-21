@@ -3,7 +3,7 @@ import { Notifications } from 'react-native-notifications'
 // eslint-disable-next-line import/default
 import PushNotification from 'react-native-push-notification'
 
-import { noop } from 'lodash'
+import { invokeMap, noop } from 'lodash'
 import Config from '../../../config/config'
 import { NotificationsAPI } from '../api/NotificationsApi'
 import { CHANNEL_ID, NotificationsCategories } from '../constants'
@@ -118,7 +118,7 @@ export const useNotifications = (onOpened = noop, onReceived = noop) => {
     ]
 
     return () => {
-      subscriptions.forEach(subscription => subscription.remove())
+      invokeMap(subscriptions, 'remove')
     }
   }, [enabled, receivedHandler, openedHandler])
 }

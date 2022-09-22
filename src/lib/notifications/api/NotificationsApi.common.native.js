@@ -18,4 +18,10 @@ export class NotificationsAPIClass {
   isSupported() {
     return true
   }
+
+  _makeFromPayload(payload) {
+    const { title, message } = payload
+
+    return { title, body: message, payload }
+  }
 }

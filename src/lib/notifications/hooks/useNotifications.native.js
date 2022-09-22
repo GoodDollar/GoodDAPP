@@ -5,6 +5,7 @@ import PushNotification from 'react-native-push-notification'
 
 import { invokeMap, noop } from 'lodash'
 import { EventEmitter } from 'eventemitter3'
+import { Platform } from 'react-native'
 import Config from '../../../config/config'
 import { NotificationsAPI } from '../api/NotificationsApi'
 import { CHANNEL_ID, NotificationsCategories } from '../constants'
@@ -12,21 +13,23 @@ import { useLocalProperty } from '../../wallet/GoodWalletProvider'
 import { getCategory, useNotificationsStateSwitch } from './useNotifications.common'
 
 const { notificationTime, notificationSchedule } = Config
-
-const eventEmitter = new EventEmitter()
-
-PushNotification.configure({
-  requestPermissions: false,
-  popInitialNotification: false,
-  onNotification: notification => {
-    const { data, ...otherFields } = notification
-    eventEmitter.emit('opened', { ...otherFields, payload: data })
-  },
-})
+let bridge = null
 
 const NOTIFICATION = {
   title: "It's that time of the day 💸 💙",
   message: 'Claim your free GoodDollars now. It takes 10 seconds.',
+}
+
+const initializeNotificationsAndroid = () => {
+  const onNotification = ({ data: payload, ...rest }) => bridge.emit('opened', { ...rest, payload })
+
+  bridge = new EventEmitter()
+
+  PushNotification.configure({
+    requestPermissions: false,
+    popInitialNotification: false,
+    onNotification,
+  })
 }
 
 export { useNotificationsSupport } from './useNotifications.common'
@@ -128,11 +131,21 @@ export const useNotifications = (onOpened = noop, onReceived = noop) => {
       events.registerNotificationOpened(openedHandler),
     ]
 
-    eventEmitter.on('opened', openedHandler)
+    if (bridge) {
+      bridge.on('opened', openedHandler)
+    }
 
     return () => {
-      eventEmitter.off('opened', openedHandler)
+      if (bridge) {
+        bridge.off('opened', openedHandler)
+      }
+
       invokeMap(subscriptions, 'remove')
     }
   }, [enabled, receivedHandler, openedHandler])
 }
+
+Platform.select({
+  android: initializeNotificationsAndroid,
+  default: noop,
+})()

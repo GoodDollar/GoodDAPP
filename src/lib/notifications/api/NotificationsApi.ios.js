@@ -9,9 +9,8 @@ export const NotificationsAPI = new class extends NotificationsAPIClass {
 
     if (!notification) {
       const { _data } = await PushNotificationIOS.getInitialNotification()
-      const { title, message } = _data
 
-      notification = { title, body: message, payload: _data }
+      notification = this._makeFromPayload(_data)
     }
 
     return notification

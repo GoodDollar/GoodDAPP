@@ -2,11 +2,19 @@
 import { lazy } from 'react'
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { assign, chunk, first, identity, isError, isFunction, isObject, isString, once } from 'lodash'
+import { assign, chunk, first, identity, isError, isFunction, isObject, isString, last, once } from 'lodash'
 
 const exportDefault = component => module => ({ default: module[component] })
 
 export const noopAsync = async () => true
+
+export const nodeize = functionWithCallback => (...args) => {
+  const callback = last(args)
+  const newArgs = args.slice(0, -1)
+
+  newArgs.push(result => callback(undefined, result))
+  return functionWithCallback(...newArgs)
+}
 
 export const lazyExport = (dynamicImport, ...exportComponents) => {
   const [hocFn, ...rest] = exportComponents

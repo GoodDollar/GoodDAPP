@@ -4,6 +4,8 @@ import { Notifications } from 'react-native-notifications'
 import PushNotification from 'react-native-push-notification'
 
 import { invokeMap, noop } from 'lodash'
+import { EventEmitter } from 'eventemitter3'
+import { Platform } from 'react-native'
 import Config from '../../../config/config'
 import { NotificationsAPI } from '../api/NotificationsApi'
 import { CHANNEL_ID, NotificationsCategories } from '../constants'
@@ -11,10 +13,23 @@ import { useLocalProperty } from '../../wallet/GoodWalletProvider'
 import { getCategory, useNotificationsStateSwitch } from './useNotifications.common'
 
 const { notificationTime, notificationSchedule } = Config
+let bridge = null
 
 const NOTIFICATION = {
   title: "It's that time of the day 💸 💙",
   message: 'Claim your free GoodDollars now. It takes 10 seconds.',
+}
+
+const initializeNotificationsAndroid = () => {
+  const onNotification = ({ data: payload, ...rest }) => bridge.emit('opened', { ...rest, payload })
+
+  bridge = new EventEmitter()
+
+  PushNotification.configure({
+    requestPermissions: false,
+    popInitialNotification: false,
+    onNotification,
+  })
 }
 
 export { useNotificationsSupport } from './useNotifications.common'
@@ -90,7 +105,6 @@ export const useNotifications = (onOpened = noop, onReceived = noop) => {
     }
 
     mountedRef.current = true
-    Notifications.registerRemoteNotifications()
 
     NotificationsAPI.getInitialNotification()
       .catch(noop)
@@ -117,8 +131,21 @@ export const useNotifications = (onOpened = noop, onReceived = noop) => {
       events.registerNotificationOpened(openedHandler),
     ]
 
+    if (bridge) {
+      bridge.on('opened', openedHandler)
+    }
+
     return () => {
+      if (bridge) {
+        bridge.off('opened', openedHandler)
+      }
+
       invokeMap(subscriptions, 'remove')
     }
   }, [enabled, receivedHandler, openedHandler])
 }
+
+Platform.select({
+  android: initializeNotificationsAndroid,
+  default: noop,
+})()

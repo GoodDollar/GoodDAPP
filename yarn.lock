@@ -4415,7 +4415,7 @@ __metadata:
     ramda: ^0.27.1
   peerDependencies:
     "@babel/core": ^7.0.0
-    babel-plugin-macros: 2 || 3
+    babel-plugin-macros: 2 || 3
     typescript: 2 || 3 || 4
   bin:
     lingui: lingui.js
@@ -4480,7 +4480,7 @@ __metadata:
   peerDependencies:
     "@lingui/core": ^3.13.0
     "@lingui/react": ^3.13.0
-    babel-plugin-macros: 2 || 3
+    babel-plugin-macros: 2 || 3
   checksum: 246f56a5458f2c730f05551ca47f14f45dc3fea01988f93eafafd5e2d19661f7b6894afad72df22f332e1d560efd4b492248d37c99f67f845d276aa0504f541e
   languageName: node
   linkType: hard
@@ -6171,7 +6171,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/unist@npm:*":
+"@types/unist@npm:*, @types/unist@npm:^2.0.0":
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
   checksum: 25cb860ff10dde48b54622d58b23e66214211a61c84c0f15f88d38b61aa1b53d4d46e42b557924a93178c501c166aa37e28d7f6d994aba13d24685326272d5db
@@ -25658,7 +25658,7 @@ __metadata:
 
 "typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>":
   version: 4.7.4
-  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"
+  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver

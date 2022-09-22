@@ -1,5 +1,5 @@
 // libraries
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { View } from 'react-native'
 import { t } from '@lingui/macro'
 
@@ -11,40 +11,29 @@ import { Section, Wrapper } from '../../../common'
 import { FVFlowContext } from '../context/FVFlowContext'
 import { redirectTo } from '../../../../lib/utils/linking'
 import API from '../../../../lib/API'
-import { retry } from '../../../../lib/utils/async'
+import { tryUntil } from '../../../../lib/utils/async'
 import withStyles from '../theme/withStyles'
-const FVFlowSuccess = ({ styles, screenProps }) => {
-  const [counter, setCounter] = useState(30)
-  const { rdu, cbu, account } = useContext(FVFlowContext)
-  const { screenState } = screenProps
+import useCountdown from '../../../../lib/hooks/useCountdown'
 
-  const waitForWhitelisted = () => {
-    return retry(
-      async () => {
-        const { isWhitelisted } = await API.isWhitelisted(account)
-        if (isWhitelisted) {
-          return true
-        }
-        throw new Error('not whitelisted')
-      },
-      5,
-      5000,
-    ).catch(e => false)
-  }
+const waitForWhitelisted = account =>
+  tryUntil(() => API.isWhitelisted(account), ({ isWhitelisted }) => isWhitelisted, 5, 5000)
+
+const FVFlowSuccess = ({ styles, screenProps }) => {
+  const [counter] = useCountdown(30)
+  const { rdu, cbu, account } = useContext(FVFlowContext)
 
   useEffect(() => {
     const url = rdu || cbu
+    const urlType = rdu ? 'rdu' : 'cbu'
 
-    waitForWhitelisted(account).then(isWhitelisted => {
-      if (url) {
-        redirectTo(url, rdu ? 'rdu' : 'cbu', { verified: isWhitelisted })
-      }
-    })
-  }, [rdu, cbu, screenState])
+    if (!url) {
+      return
+    }
 
-  useEffect(() => {
-    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000)
-  }, [counter])
+    waitForWhitelisted(account)
+      .catch(() => false)
+      .then(verified => redirectTo(url, urlType, { verified }))
+  }, [rdu, cbu])
 
   return (
     <Wrapper>

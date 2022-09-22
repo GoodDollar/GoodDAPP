@@ -79,7 +79,7 @@ export class APIService {
   }
 
   isWhitelisted(address): AxiosPromise<any> {
-    return this.client.get(`/userWhitelisted/${address}`, { throttle: false })
+    return this.client.get(`/userWhitelisted/${encodeURIComponent(address)}`, { throttle: false })
   }
 
   /**

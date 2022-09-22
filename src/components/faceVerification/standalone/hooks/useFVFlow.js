@@ -20,22 +20,19 @@ const useFVFlow = (signature, nonce, fvsig, account) => {
 
     log.info('useFVFlow mount:', { signature, nonce, fvsig, account })
 
-    if (fvsig && account) {
-      const login = new LoginService(signature, nonce, fvsig, account)
-
-      login
-        .auth(true)
-        .then(({ jwt }) => setJWT(jwt))
-        .catch(onError)
-
-      return
-    }
-
-    if (!signature) {
+    if (!fvsig || !account) {
       const exception = new Error('Missing address for verification details')
 
       onError(exception)
+      return
     }
+
+    const login = new LoginService(signature, nonce, fvsig, account)
+
+    login
+      .auth(true)
+      .then(({ jwt }) => setJWT(jwt))
+      .catch(onError)
   }, [signature, nonce, fvsig, account, setError, setJWT])
 
   return { jwt, error }

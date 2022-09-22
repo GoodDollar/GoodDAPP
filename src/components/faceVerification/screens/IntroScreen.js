@@ -189,16 +189,18 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     }
   }, [isFVFlow, isFVFlowReady, disposing, enrollmentIdentifier])
 
+  if (isFVFlow) {
+    return null
+  }
+
   return (
-    !isFVFlow && (
-      <Intro
-        styles={styles}
-        firstName={userName}
-        onLearnMore={openPrivacy}
-        onVerify={handleVerifyClick}
-        ready={false === disposing}
-      />
-    )
+    <Intro
+      styles={styles}
+      firstName={userName}
+      onLearnMore={openPrivacy}
+      onVerify={handleVerifyClick}
+      ready={false === disposing}
+    />
   )
 }
 

@@ -12,7 +12,6 @@ import { useNotifications } from '../../lib/notifications/hooks/useNotifications
 import { NotificationsCategories } from '../../lib/notifications/constants'
 import { fireEvent, NOTIFICATION_ERROR, NOTIFICATION_TAPPED } from '../../lib/analytics/analytics'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
-import { getNotificationPayload } from '../../lib/notifications/hooks/useNotifications.common'
 import { navigationOptions } from './navigationConfig'
 
 /**
@@ -54,7 +53,7 @@ const AppNavigation = ({ navigation }: AppNavigationProps) => {
   const onOpened = useCallback(
     (notification, category) => {
       const { navigate } = getNavigation()
-      const payload = getNotificationPayload(notification)
+      const { payload } = notification || {}
 
       log.info('Notification opened', { payload, category })
 

@@ -1,22 +1,11 @@
 import { noop } from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Platform } from 'react-native'
 import usePermissions from '../../../components/permissions/hooks/usePermissions'
 import { Permissions } from '../../../components/permissions/types'
 import { NotificationsAPI } from '../api/NotificationsApi'
 
-export const getNotificationPayload = notification => {
-  const field = Platform.select({
-    ios: 'payload',
-    android: 'data',
-  })
-
-  return (notification || {})[field]
-}
-
 export const getCategory = notification => {
-  const payload = getNotificationPayload(notification)
-
+  const { payload } = notification || {}
   const { category } = payload || {}
 
   return category

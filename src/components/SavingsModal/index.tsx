@@ -18,7 +18,7 @@ import Loader from 'components/Loader'
 import { ButtonAction } from 'components/gd/Button'
 
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useSavingsBalance, useSavingsFunctions } from '@gooddollar/web3sdk-v2'
+import { useSavingsBalance, useSavingsFunctions, SavingsSDK } from '@gooddollar/web3sdk-v2'
 import { TransactionReceipt } from '@ethersproject/providers'
 import { TransactionStatus } from '@usedapp/core'
 import sendGa from 'functions/sendGa'
@@ -85,12 +85,15 @@ const SavingsModal = (
   const { g$Balance, savingsBalance } = useSavingsBalance(10, network)
 
   const [percentage, setPercentage] = useState<string>('50')
-  const [withdrawAmount, setWithdrawAmount] = useState<number>(parseInt(savingsBalance) * (Number(percentage) / 100))
+  const [withdrawAmount, setWithdrawAmount] = useState<number>((parseInt(balance) * (Number(percentage) / 100)))
 
   useEffect(() => {
-      setBalance(type === 'withdraw' ? savingsBalance : g$Balance)
+      const balance = type === 'withdraw' ? 
+        parseFloat( (parseInt(savingsBalance.value) / 1e2).toString() ).toFixed(2) : 
+        parseFloat( (parseInt(g$Balance.value) / 1e2).toString()).toFixed(2)
+      setBalance(balance)
       if (type === 'withdraw'){
-        setWithdrawAmount(parseFloat(savingsBalance) * (Number(percentage) / 100))
+        setWithdrawAmount(parseFloat(balance) * (Number(percentage) / 100))
       }
   }, [g$Balance, savingsBalance, type, percentage])
 
@@ -144,13 +147,29 @@ const SavingsModal = (
     }
   }
 
+  const withdrawtest = async () => {
+    if (account){
+      const prov = new ethers.providers.JsonRpcProvider("https://rpc.fuse.io")
+      const signer = prov.getSigner(account)
+      console.log('signer -->', {signer})
+      console.log('provider -->', {prov: signer.provider})
+      const signerTest = signer.provider.getSigner()
+      console.log('signer test -->', {signerTest})
+      const sdk = new SavingsSDK(signer.provider, 'fuse')
+
+      sdk.onTokenTransfer(account, '100000').then((res) => {
+        console.log(res)
+      })
+    }
+  }
+
   const withdrawAll = async () => {
     if (account) {
       getData({event: 'savings', action: 'withdrawAllSend'})
-      const tx = await withdraw(savingsBalance, account)
+      const tx = await withdraw(balance, account)
       if (tx) {
         getData({event: 'savings', action: 'withdrawAllSuccess'})
-        addSavingsTransaction(tx, savingsBalance)
+        addSavingsTransaction(tx, balance)
       }
     }
   }
@@ -315,7 +334,8 @@ const SavingsModal = (
                     } else {
                       percentage === '100' ?
                       await withdrawAll() :
-                      await depositOrWithdraw(state.value)
+                      // await depositOrWithdraw(state.value)
+                      await withdrawtest()
                     } 
                   })
                 }}> 

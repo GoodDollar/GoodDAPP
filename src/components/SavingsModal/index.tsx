@@ -1,5 +1,4 @@
 import React, { useState, useReducer, useEffect, memo } from 'react'
-import { ethers } from 'ethers'
 
 import Modal from 'components/Modal/'
 import { StakeDepositSC } from 'pages/gd/Stake/StakeDeposit/styled'
@@ -18,7 +17,7 @@ import Loader from 'components/Loader'
 import { ButtonAction } from 'components/gd/Button'
 
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useSavingsBalance, useSavingsFunctions, SavingsSDK } from '@gooddollar/web3sdk-v2'
+import { useSavingsBalance, useSavingsFunctions } from '@gooddollar/web3sdk-v2'
 import { TransactionReceipt } from '@ethersproject/providers'
 import { TransactionStatus } from '@usedapp/core'
 import sendGa from 'functions/sendGa'
@@ -143,22 +142,6 @@ const SavingsModal = (
           getData({event: 'savings', action: 'claimSuccess'})
           addSavingsTransaction(tx)
         }
-      })
-    }
-  }
-
-  const withdrawtest = async () => {
-    if (account){
-      const prov = new ethers.providers.JsonRpcProvider("https://rpc.fuse.io")
-      const signer = prov.getSigner(account)
-      console.log('signer -->', {signer})
-      console.log('provider -->', {prov: signer.provider})
-      const signerTest = signer.provider.getSigner()
-      console.log('signer test -->', {signerTest})
-      const sdk = new SavingsSDK(signer.provider, 'fuse')
-
-      sdk.onTokenTransfer(account, '100000').then((res) => {
-        console.log(res)
       })
     }
   }
@@ -334,8 +317,7 @@ const SavingsModal = (
                     } else {
                       percentage === '100' ?
                       await withdrawAll() :
-                      // await depositOrWithdraw(state.value)
-                      await withdrawtest()
+                      await depositOrWithdraw(state.value)
                     } 
                   })
                 }}> 

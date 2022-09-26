@@ -2,6 +2,7 @@ import useActiveWeb3React from './useActiveWeb3React'
 import React, { createContext, ReactNode, ReactNodeArray, useContext, useEffect, useMemo } from 'react'
 import Web3 from 'web3'
 import { ethers } from 'ethers'
+import type { ExternalProvider } from '@ethersproject/providers'
 
 import { useEnvWeb3, GdSdkContext, DAO_NETWORK, getNetworkEnv } from '@gooddollar/web3sdk'
 
@@ -30,8 +31,6 @@ export function useNetwork() {
     return { defaultNetwork, rpcs }
 }
 
-//TODO: make proper keys for fuse rpc
-
 export function Web3ContextProvider({ children }: { children: ReactNode | ReactNodeArray }) {
     const { defaultNetwork, rpcs } = useNetwork()
     const { eipProvider, chainId } = useActiveWeb3React()
@@ -41,7 +40,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
     const web3 = useMemo(() => (eipProvider ? new Web3(eipProvider as any) : mainnetWeb3), 
       [eipProvider, mainnetWeb3]
     )
-    const webprovider = useMemo(() => (eipProvider && new ethers.providers.Web3Provider(eipProvider as any)), [eipProvider])
+    const webprovider = useMemo(() => (eipProvider && new ethers.providers.Web3Provider(eipProvider as ExternalProvider)), [eipProvider])
 
     const mainnetChains = [1, 3, 42]
     let network = getNetworkEnv(defaultNetwork)

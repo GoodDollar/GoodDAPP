@@ -303,7 +303,7 @@ const SavingsModal = (
                     }
                 </div>
               }
-              <div>
+              <div className="flex flex-row">
                 <ButtonAction 
                   className={"claim-reward"}
                   style={{   

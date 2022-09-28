@@ -208,7 +208,7 @@ const MobileTable = ({ stakes, cells, onUpdate }: { stakes?: MyStake[]; cells: a
 
 const Portfolio = () => {
     const { i18n } = useLingui()
-    const { chainId, account } = useActiveWeb3React()
+    const { chainId, account, library } = useActiveWeb3React()
 
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
@@ -449,7 +449,7 @@ const Portfolio = () => {
                 </Card>
             )}
             {
-              network !== 'production' && (
+              network !== 'production' && library && (
                 <SavingsAccount account={account} network={network} chainId={chainId}/>
               )
             }

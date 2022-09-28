@@ -8,7 +8,6 @@ import { CellSC } from '../styled'
 
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
-import { DAO_NETWORK } from '@gooddollar/web3sdk'
 import { useGlobalStats } from '@gooddollar/web3sdk-v2'
 import { ChainId } from '@sushiswap/sdk'
 import sendGa from 'functions/sendGa'
@@ -20,7 +19,7 @@ import type { HeadingCopy } from '../../Portfolio/SavingsAccount/SavingsCard'
 
 export const SavingsDepositMobile = (
   {network, chainId, headings, toggleModal}:
-  {network: DAO_NETWORK, 
+  {network: string, 
    chainId: ChainId, 
    headings:HeadingCopy, 
    toggleModal:(type?:ModalType) => void}):JSX.Element  => { 
@@ -52,9 +51,9 @@ export const SavingsDepositMobile = (
                       case 'apy':
                         return <div>{stats?.apy?.toFixed(0)} %</div>
                       case 'totalStaked':
-                        return <>G$ {stats?.totalStaked?.toFixed(2, {groupSeparator: ','})}</>
+                        return <>{stats?.totalStaked?.format({useFixedPrecision: true, fixedPrecisionDigits: 2})}</>
                       case 'totalRewardsPaid':
-                        return <>G$ {stats?.totalRewardsPaid?.toFixed(2, {groupSeparator: ','})} </>
+                        return <>{stats?.totalRewardsPaid?.format()} </>
                       default: 
                         return
                     }
@@ -66,16 +65,16 @@ export const SavingsDepositMobile = (
         )))}
         <div className="savingdeposit">
           <ActionOrSwitchButton 
-          size="sm"
-          width="130px"
-          borderRadius="6px"
-          noShadow={true}
-          requireNetwork={network}
-          ButtonEl={ButtonOutlined}
-          onClick={() => {
-            getData({event: 'savings', action: 'savingsStart'})
-            toggleModal()
-          }}> Deposit G$ </ActionOrSwitchButton>
+            size="sm"
+            width="130px"
+            borderRadius="6px"
+            noShadow={true}
+            requireNetwork={"FUSE"}
+            ButtonEl={ButtonOutlined}
+            onClick={() => {
+              getData({event: 'savings', action: 'savingsStart'})
+              toggleModal()
+            }}> Deposit G$ </ActionOrSwitchButton>
         </div>
       </CellSC>
     </>

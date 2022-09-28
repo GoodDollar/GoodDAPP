@@ -4,7 +4,7 @@ import Title from 'components/gd/Title'
 import { QuestionHelper } from 'components'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
-import { DAO_NETWORK, SupportedChainId, G$ } from '@gooddollar/web3sdk'
+import { SupportedChainId, G$ } from '@gooddollar/web3sdk'
 import { useGlobalStats } from '@gooddollar/web3sdk-v2'
 import SavingsModal from 'components/SavingsModal'
 import { Wrapper } from '../styled'
@@ -22,7 +22,7 @@ const SavingsDeposit = styled.div`
   margin-top: 10px;
 `
 
-export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: ChainId}):JSX.Element  => {
+export const Savings = ({network, chainId}:{network: string, chainId: ChainId}):JSX.Element  => {
   const [isOpen, setIsOpen] = useState(false)
   const { stats, error } = useGlobalStats(10, chainId, network)
   const { i18n } = useLingui()
@@ -110,16 +110,16 @@ export const Savings = ({network, chainId}:{network: DAO_NETWORK, chainId: Chain
               <td>{i18n._(t`GoodDollar`)}</td>
               <td>{error || !stats?.apy ? <LoadingPlaceHolder /> : <>{stats?.apy.toFixed(0)} %</>}</td>
               <td>{error || !stats?.totalStaked ? <LoadingPlaceHolder /> : 
-                <>G$ {stats?.totalStaked.toFixed(2, {groupSeparator: ','})}</>}</td>
+                <> {stats?.totalStaked.format({useFixedPrecision: true, fixedPrecisionDigits: 2})}</>}</td>
               <td>{error || !stats?.totalRewardsPaid ? <LoadingPlaceHolder /> :
-                <>G$ {stats?.totalRewardsPaid.toFixed(2, {groupSeparator: ','})} </>}</td>
+                <>{stats?.totalRewardsPaid.format()} </>}</td>
               <td>
                 <ActionOrSwitchButton 
                   size="sm"
                   width="130px"
                   borderRadius="6px"
                   noShadow={true}
-                  requireNetwork={network}
+                  requireNetwork={"FUSE"}
                   onClick={() => {
                     getData({event: 'savings', action: 'savingsStart'})
                     toggleModal()

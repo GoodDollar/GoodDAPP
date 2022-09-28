@@ -49,11 +49,11 @@ export const SavingsCardTableMobile = (
                         case 'protocol':
                           return <div>{i18n._(t`GoodDAO`)}</div>
                         case 'principle':
-                          return  <div>{stats?.[item.statsKey]?.toFixed(2, {groupSeparator: ','})}{' '} G$</div>
+                          return  <div>{stats?.[item.statsKey]?.format({useFixedPrecision: true, fixedPrecisionDigits: 2})}</div>
                         case 'claimable':
                           return (<>
-                            <div>{stats?.[item.statsKey]?.g$Reward.toFixed(2, {groupSeparator: ','})} G$</div>
-                            <div>{stats?.[item.statsKey]?.goodReward.toFixed(2, {groupSeparator: ','})} GOOD</div>
+                            <div>{stats?.[item.statsKey]?.g$Reward.format()}</div>
+                            <div>{stats?.[item.statsKey]?.goodReward.format()}</div>
                           </>)
                         default: 
                           return
@@ -72,7 +72,7 @@ export const SavingsCardTableMobile = (
                   width="130px"
                   size="m"
                   borderRadius="6px"
-                  requireNetwork={DAO_NETWORK.FUSE}
+                  requireNetwork={"FUSE"}
                   noShadow={true}
                   onClick={() => {
                     getData({event: 'savings', action: 'startWithdraw'})
@@ -84,7 +84,7 @@ export const SavingsCardTableMobile = (
                   size="m"
                   noShadow={true}
                   borderRadius="6px"
-                  requireNetwork={DAO_NETWORK.FUSE} 
+                  requireNetwork={"FUSE"} 
                   onClick={() => {
                     getData({event: 'savings', action: 'startClaim'})
                     toggleModal('claim')

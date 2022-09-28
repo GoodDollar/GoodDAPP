@@ -3010,7 +3010,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodcontracts@npm:^2.6.2":
+"@gooddollar/goodcontracts@npm:^2.6.2, @gooddollar/goodcontracts@npm:^2.6.4":
   version: 2.6.4
   resolution: "@gooddollar/goodcontracts@npm:2.6.4"
   dependencies:
@@ -3018,26 +3018,6 @@ __metadata:
     truffle-plugin-verify: ^0.3.11
     truffle-safe-hdwallet-provider: 0.0.7
   checksum: b754248bb33758a0977148436e12652e7347974226184264b18019a843100082126ceae07a73ba25438fb46201ee4a8b93cf31090987624578d5e89a4ef0ada5
-  languageName: node
-  linkType: hard
-
-"@gooddollar/goodprotocol@npm:1.0.29-beta.1":
-  version: 1.0.29-beta.1
-  resolution: "@gooddollar/goodprotocol@npm:1.0.29-beta.1"
-  dependencies:
-    "@gooddollar/goodcontracts": ^2.6.2
-    "@jsier/retrier": ^1.2.4
-    "@openzeppelin/contracts": ^4.5.0
-    "@openzeppelin/contracts-upgradeable": ^4.3.2
-    "@typechain/hardhat": ^6.1.2
-    async-promise-pool: ^1.0.4
-    ethers-multicall: ^0.2.1
-    openzeppelin-solidity: ^4.3.2
-    patch-package: latest
-    press-any-key: ^0.1.1
-    truffle-plugin-verify: ^0.5.11
-    truffle-source-verify: ^0.0.6
-  checksum: 58ec2bd087ce328c4e8354902d36b23719fd81f2404c96945b76d7af9eae55c92d0ef637d5f4048a4a62b9584ab7ce150799f8e0e320a5f8e475971a57cbc4c9
   languageName: node
   linkType: hard
 
@@ -3058,6 +3038,26 @@ __metadata:
     truffle-plugin-verify: ^0.5.11
     truffle-source-verify: ^0.0.6
   checksum: 9dd22b3e0f5d49b2705abc2c11dffbff3411d528e0d4f66716be275fbe7e4b113280efaf812209bcf62b45c6c9f4e724761cc07f6e8ae29c1375d2a4f499b145
+  languageName: node
+  linkType: hard
+
+"@gooddollar/goodprotocol@npm:^1.0.29-beta.2":
+  version: 1.0.29-beta.2
+  resolution: "@gooddollar/goodprotocol@npm:1.0.29-beta.2"
+  dependencies:
+    "@gooddollar/goodcontracts": ^2.6.4
+    "@jsier/retrier": ^1.2.4
+    "@openzeppelin/contracts": ^4.5.0
+    "@openzeppelin/contracts-upgradeable": ^4.3.2
+    "@typechain/hardhat": ^6.1.2
+    async-promise-pool: ^1.0.4
+    ethers-multicall: ^0.2.1
+    openzeppelin-solidity: ^4.3.2
+    patch-package: latest
+    press-any-key: ^0.1.1
+    truffle-plugin-verify: ^0.5.11
+    truffle-source-verify: ^0.0.6
+  checksum: cfcc1b635f7621eecb80d6e926480fc398baf5b219bb31cc0b445c95a39cffc497e9815246786e2329a5e80c013ee3d1350bad38b7d1eef839dbeba154e30dee
   languageName: node
   linkType: hard
 
@@ -4411,7 +4411,7 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/goodprotocol": 1.0.29-beta.1
+    "@gooddollar/goodprotocol": ^1.0.29-beta.2
     "@gooddollar/web3sdk": ^0.1.7
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1

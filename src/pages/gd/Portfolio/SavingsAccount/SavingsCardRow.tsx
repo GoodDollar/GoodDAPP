@@ -32,7 +32,7 @@ export const SavingsCardRow = (
       <td>{i18n._(t`GoodDAO`)}</td>
       <td>
         <div className="flex flex-col segment">
-          {stats?.principle ? (<>{stats.principle.toFixed(2, {groupSeparator: ','})} {' '} G$</>) 
+          {stats?.principle ? (<>{stats.principle.format({useFixedPrecision: true, fixedPrecisionDigits: 2})}</>) 
           : <LoadingPlaceHolder />}
         </div>  
       </td>
@@ -40,8 +40,8 @@ export const SavingsCardRow = (
         <div className="flex flex-col segment">
           {stats?.claimable ? (
               <>
-                <div>{stats.claimable.g$Reward.toFixed(2, {groupSeparator: ','})}{' '} G$</div>
-                <div>{stats.claimable.goodReward.toFixed(2, {groupSeparator: ','})}{' '} GOOD</div>
+                <div>{stats.claimable.g$Reward.format()}</div>
+                <div>{stats.claimable.goodReward.format()}</div>
               </>
             ) : 
             <div className="flex flex-col">

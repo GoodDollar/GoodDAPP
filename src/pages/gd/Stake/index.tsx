@@ -410,7 +410,7 @@ const StakesSC = styled.div`
 export default function Stakes(): JSX.Element | null {
     const { i18n } = useLingui()
     const { web3 } = useGdContextProvider()
-    const { chainId, library } = useActiveWeb3React()
+    const { chainId } = useActiveWeb3React()
     const governanceStaking = useGovernanceStaking(web3, chainId)
     const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId)
     const network = getNetworkEnv() 
@@ -488,8 +488,8 @@ export default function Stakes(): JSX.Element | null {
                     )}
                 </Modal>
             </StakesSC>
-            {network !== 'production' && library ? 
-              <Savings network={network} chainId={chainId} /> : <></>
+            {network !== 'production' ? 
+              <Savings /> : <></>
             } 
         </Layout>
     )

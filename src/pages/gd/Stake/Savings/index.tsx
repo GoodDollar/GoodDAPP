@@ -10,21 +10,24 @@ import SavingsModal from 'components/SavingsModal'
 import { Wrapper } from '../styled'
 import styled from 'styled-components'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
-import { ChainId } from '@sushiswap/sdk'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
 import { LoadingPlaceHolder } from 'theme/components'
 import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { SavingsDepositMobile } from './SavingsDepositMobile'
 import { HeadingCopy } from '../../Portfolio/SavingsAccount/SavingsCard'
+import { useNetwork } from 'hooks/useWeb3'
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 
 const SavingsDeposit = styled.div`
   margin-top: 10px;
 `
 
-export const Savings = ({network, chainId}:{network: string, chainId: ChainId}):JSX.Element  => {
+export const Savings = ():JSX.Element  => {
   const [isOpen, setIsOpen] = useState(false)
-  const { stats, error } = useGlobalStats(10, chainId, network)
+  const { currentNetwork } = useNetwork()
+  const { chainId } = useActiveWeb3React()
+  const { stats, error } = useGlobalStats(10, chainId, currentNetwork)
   const { i18n } = useLingui()
   const toggleModal = useCallback(() => setIsOpen(!isOpen), [setIsOpen, isOpen])
   const { width } = useWindowSize()
@@ -73,7 +76,7 @@ export const Savings = ({network, chainId}:{network: string, chainId: ChainId}):
     <SavingsDeposit>
       <div className="mt-12"></div>
       { chainId === (SupportedChainId.FUSE as number) && (
-          <SavingsModal type="deposit" network={network} toggle={toggleModal} isOpen={isOpen} />
+          <SavingsModal type="deposit" network={currentNetwork} toggle={toggleModal} isOpen={isOpen} />
         )
       }
       <Title className={`md:pl-4`}>{i18n._(t`Savings`)}</Title>
@@ -81,7 +84,7 @@ export const Savings = ({network, chainId}:{network: string, chainId: ChainId}):
         {
           isMobile ? 
           <SavingsDepositMobile 
-            network={network} 
+            network={currentNetwork} 
             chainId={chainId} 
             headings={headings} 
             toggleModal={toggleModal} /> :

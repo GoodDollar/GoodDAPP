@@ -450,8 +450,8 @@ const Portfolio = () => {
                 </Card>
             )}
             {
-              network !== 'production' && library && (
-                <SavingsAccount account={account} network={network} chainId={chainId}/>
+              network !== 'production' && (
+                <SavingsAccount account={account} />
               )
             }
         </>

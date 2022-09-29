@@ -4,6 +4,7 @@ import Title from 'components/gd/Title'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import SavingsModal, { ModalType } from 'components/SavingsModal'
+import { useNetwork } from 'hooks/useWeb3'
 
 import Table from 'components/gd/Table'
 import { QuestionHelper } from 'components'
@@ -11,6 +12,7 @@ import { useWindowSize } from 'hooks/useWindowSize'
 
 import { SavingsCardRow } from './SavingsCardRow'
 import { SavingsCardTableMobile } from './SavingsCardTableMobile'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 export type HeadingCopy = {
   title: string,
@@ -18,10 +20,11 @@ export type HeadingCopy = {
   statsKey: string // key to use for mobile 'tables'
 }[]
 
-export const SavingsCard = ({ account, network, chainId, hasBalance}:
-  { account:string, network:string, chainId: number, hasBalance:boolean | undefined}):JSX.Element => {
+export const SavingsCard = ({ account, hasBalance}:
+  { account:string, hasBalance:boolean | undefined}):JSX.Element => {
     const { i18n } = useLingui()
-
+    const { chainId } = useActiveWeb3React()
+    const { currentNetwork } = useNetwork()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [type, setType] = useState<ModalType>()
     const { width } = useWindowSize()
@@ -72,11 +75,11 @@ export const SavingsCard = ({ account, network, chainId, hasBalance}:
     return (
       <>
       { type && hasBalance && (
-          <SavingsModal type={type} network={network} toggle={toggleModal} isOpen={isModalOpen} />  
+          <SavingsModal type={type} network={currentNetwork} toggle={toggleModal} isOpen={isModalOpen} />  
       )}
       {
         isMobile ? 
-          <SavingsCardTableMobile account={account} network={network} chainId={chainId}
+          <SavingsCardTableMobile account={account} network={currentNetwork} chainId={chainId}
             hasBalance={hasBalance} headings={headings} toggleModal={toggleModal} />
         :
         <Card className="sm:mb-6 md:mb-4 card" contentWrapped={false} style={{position: 'relative'}}>
@@ -95,7 +98,7 @@ export const SavingsCard = ({ account, network, chainId, hasBalance}:
           >
             {
               hasBalance && (
-                <SavingsCardRow account={account} network={network} chainId={chainId} toggleModal={toggleModal} />
+                <SavingsCardRow account={account} network={currentNetwork} chainId={chainId} toggleModal={toggleModal} />
               ) 
             }
           </Table>

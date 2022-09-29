@@ -1,10 +1,8 @@
 // libraries
 import React, { useContext, useEffect } from 'react'
 import { View } from 'react-native'
-import { t } from '@lingui/macro'
 
 // components
-import Text from '../../../common/view/Text'
 import { Section, Wrapper } from '../../../common'
 
 // utils
@@ -14,12 +12,22 @@ import API from '../../../../lib/API'
 import { tryUntil } from '../../../../lib/utils/async'
 import withStyles from '../theme/withStyles'
 import useCountdown from '../../../../lib/hooks/useCountdown'
+import WaitForCompleted from '../../components/WaitForCompleted'
+
+const checkWhitelistedAttempts = 6
+const checkWhitelistedDelay = 5000
+const checkWhitelistedTimeout = Math.floor(((checkWhitelistedAttempts + 1) * checkWhitelistedDelay) / 1000)
 
 const waitForWhitelisted = account =>
-  tryUntil(() => API.isWhitelisted(account), ({ isWhitelisted }) => isWhitelisted, 5, 5000)
+  tryUntil(
+    () => API.isWhitelisted(account),
+    ({ isWhitelisted }) => isWhitelisted,
+    checkWhitelistedAttempts - 1,
+    checkWhitelistedDelay,
+  )
 
 const FVFlowSuccess = ({ styles, screenProps }) => {
-  const [counter] = useCountdown(30)
+  const [counter] = useCountdown(checkWhitelistedTimeout)
   const { rdu, cbu, account } = useContext(FVFlowContext)
 
   useEffect(() => {
@@ -41,9 +49,7 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
         <View style={styles.mainContent}>
           <View style={styles.descriptionContainer}>
             <View style={styles.descriptionWrapper}>
-              <Text style={styles.text}>
-                {t('Please wait while your verification is being completed...')} {counter}
-              </Text>
+              <WaitForCompleted counter={counter} />
             </View>
           </View>
         </View>

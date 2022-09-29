@@ -28,7 +28,9 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-export const Spinner = ({ loading }) => <ActivityIndicator animating={loading} color={Colors.lightBlue800} />
+export const Spinner = ({ loading, ...props }) => (
+  <ActivityIndicator {...props} animating={loading} color={Colors.lightBlue800} />
+)
 
 export const Indicator = withStyles(getStylesFromProps)(({ styles, loading }) => (
   <Portal>

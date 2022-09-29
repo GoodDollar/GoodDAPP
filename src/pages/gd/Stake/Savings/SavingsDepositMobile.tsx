@@ -8,7 +8,7 @@ import { CellSC } from '../styled'
 
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
-import { useGlobalStats } from '@gooddollar/web3sdk-v2'
+import { SupportedChains, useGlobalStats } from '@gooddollar/web3sdk-v2'
 import { ChainId } from '@sushiswap/sdk'
 import sendGa from 'functions/sendGa'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
@@ -69,7 +69,7 @@ export const SavingsDepositMobile = (
             width="130px"
             borderRadius="6px"
             noShadow={true}
-            requireNetwork={"FUSE"}
+            requireChain={SupportedChains.FUSE}
             ButtonEl={ButtonOutlined}
             onClick={() => {
               getData({event: 'savings', action: 'savingsStart'})

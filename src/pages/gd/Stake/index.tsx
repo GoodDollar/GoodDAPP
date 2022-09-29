@@ -30,6 +30,7 @@ import {
 import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 
 const StakeTable = ({
     list,
@@ -197,7 +198,7 @@ const StakeTable = ({
                                 size="sm"
                                 borderRadius="6px"
                                 noShadow={true}
-                                requireNetwork={network}
+                                requireChain={SupportedChains[network.toUpperCase() as keyof typeof SupportedChains]}
                                 onClick={() => {
                                   getData({event: 'stake', action: 'stakeStart', token: stake.tokens.A.symbol,
                                            type: stake.protocol, network: network})
@@ -345,7 +346,9 @@ const StakeTable = ({
                                             width="78px"
                                             borderRadius="6px"
                                             noShadow={true}
-                                            requireNetwork={network}
+                                            requireChain={
+                                              SupportedChains[network.toUpperCase() as keyof typeof SupportedChains]
+                                            }
                                             page='Stake'
                                             onClick={() => {
                                               getData({event: 'stake', action: 'stakeStart', 
@@ -366,7 +369,9 @@ const StakeTable = ({
                                             size="sm"
                                             borderRadius="6px"
                                             noShadow={true}
-                                            requireNetwork={network}
+                                            requireChain={
+                                              SupportedChains[network.toUpperCase() as keyof typeof SupportedChains]
+                                            }
                                             onClick={() => {
                                               getData({event: 'stake', action: 'stakeStart', 
                                                        token: stake.tokens.A.symbol, 

@@ -7,10 +7,9 @@ import { useLingui } from '@lingui/react'
 import { ModalType } from 'components/SavingsModal'
 import { QuestionHelper } from 'components'
 import type { HeadingCopy } from './SavingsCard'
-import { useStakerInfo } from '@gooddollar/web3sdk-v2'
+import { useStakerInfo, SupportedChains } from '@gooddollar/web3sdk-v2'
 import { LoadingPlaceHolder } from 'theme/components'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
-import { DAO_NETWORK } from '@gooddollar/web3sdk'
 import sendGa from 'functions/sendGa'    
 
 export const SavingsCardTableMobile = (
@@ -72,7 +71,7 @@ export const SavingsCardTableMobile = (
                   width="130px"
                   size="m"
                   borderRadius="6px"
-                  requireNetwork={"FUSE"}
+                  requireChain={SupportedChains.FUSE}
                   noShadow={true}
                   onClick={() => {
                     getData({event: 'savings', action: 'startWithdraw'})
@@ -84,7 +83,7 @@ export const SavingsCardTableMobile = (
                   size="m"
                   noShadow={true}
                   borderRadius="6px"
-                  requireNetwork={"FUSE"} 
+                  requireChain={SupportedChains.FUSE} 
                   onClick={() => {
                     getData({event: 'savings', action: 'startClaim'})
                     toggleModal('claim')

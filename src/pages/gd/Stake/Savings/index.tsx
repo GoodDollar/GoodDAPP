@@ -5,7 +5,7 @@ import { QuestionHelper } from 'components'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import { SupportedChainId, G$ } from '@gooddollar/web3sdk'
-import { useGlobalStats } from '@gooddollar/web3sdk-v2'
+import { SupportedChains, useGlobalStats } from '@gooddollar/web3sdk-v2'
 import SavingsModal from 'components/SavingsModal'
 import { Wrapper } from '../styled'
 import styled from 'styled-components'
@@ -119,7 +119,7 @@ export const Savings = ({network, chainId}:{network: string, chainId: ChainId}):
                   width="130px"
                   borderRadius="6px"
                   noShadow={true}
-                  requireNetwork={"FUSE"}
+                  requireChain={SupportedChains.FUSE}
                   onClick={() => {
                     getData({event: 'savings', action: 'savingsStart'})
                     toggleModal()

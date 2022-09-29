@@ -10,10 +10,10 @@ import sendGa from 'functions/sendGa'
 
 import {
   MyStake,
-  DAO_NETWORK,
   LIQUIDITY_PROTOCOL,
   SupportedChainId,
 } from '@gooddollar/web3sdk'
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 
 interface PortfolioTableRowProps {
     stake: MyStake
@@ -27,9 +27,9 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
     const handleClaimRewardsOpen = useCallback(() => setClaimRewardsOpen(true), [])
     const { chainId } = useActiveWeb3React()
 
-    const requireNetwork = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-    const claimableStake = (chainId === (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.FUSE) ||
-         (chainId !== (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.MAINNET)
+    const requireChain = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? SupportedChains.FUSE : SupportedChains.MAINNET
+    const claimableStake = (chainId === (SupportedChains.FUSE as number) && requireChain === SupportedChains.FUSE) ||
+         (chainId !== (SupportedChainId.FUSE as number) && requireChain === SupportedChains.MAINNET)
     const getData = sendGa
     const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet' 
     const handleWithdrawOpen = useCallback(() => {
@@ -121,7 +121,7 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
                             width="100%"
                             borderRadius="6px"
                             noShadow={true}
-                            requireNetwork={requireNetwork}
+                            requireChain={requireChain}
                             onClick={handleWithdrawOpen}
                             ButtonEl={ButtonAction}
                         >
@@ -147,7 +147,7 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
                         size="sm"
                         width="100%"
                         borderRadius="6px"
-                        requireNetwork={requireNetwork}
+                        requireChain={requireChain}
                         onClick={handleWithdrawOpen}
                         ButtonEl={ButtonAction}
                     >

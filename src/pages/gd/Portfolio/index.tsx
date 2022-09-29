@@ -29,6 +29,7 @@ import styled from 'styled-components'
 import ClaimRewards from 'components/ClaimRewards'
 import { SavingsAccount } from './SavingsAccount'
 import { CellSC } from './styled'
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 
 const MobileTableSC = styled.div``
 
@@ -161,8 +162,8 @@ const MobileCell = ({
                         width="100%"
                         borderRadius="6px"
                         noShadow={true}
-                        requireNetwork={
-                            stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
+                        requireChain={
+                            stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? SupportedChains.FUSE : SupportedChains.MAINNET
                         }
                         onClick={handleWithdrawOpen}
                         ButtonEl={ButtonAction}
@@ -377,7 +378,7 @@ const Portfolio = () => {
                                         width="156px"
                                         size="default"
                                         noShadow={isMobile}
-                                        requireNetwork={DAO_NETWORK.MAINNET}
+                                        requireChain={SupportedChains.MAINNET}
                                         ButtonEl={ButtonDefault}
                                         className="actionButton"
                                     >

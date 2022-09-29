@@ -3,10 +3,10 @@ import { useStakerInfo } from '@gooddollar/web3sdk-v2'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
-import { DAO_NETWORK, G$ } from '@gooddollar/web3sdk'
 import { ModalType } from 'components/SavingsModal'
 import { LoadingPlaceHolder } from 'theme/components'
 import sendGa from 'functions/sendGa'
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 
 
 const errorCopy = 'Error loading.. refresh, try again later or contact support if issue persists.'
@@ -64,7 +64,7 @@ export const SavingsCardRow = (
             width="130px"
             size="sm"
             borderRadius="6px"
-            requireNetwork={DAO_NETWORK.FUSE}
+            requireChain={SupportedChains.FUSE}
             noShadow={true}
             onClick={() => {
               getData({event: 'savings', action: 'startWithdraw'})
@@ -76,7 +76,7 @@ export const SavingsCardRow = (
             size="sm"
             noShadow={true}
             borderRadius="6px"
-            requireNetwork={DAO_NETWORK.FUSE} 
+            requireChain={SupportedChains.FUSE} 
             onClick={() => {
               getData({event: 'savings', action: 'startClaim'})
               toggleModal('claim')

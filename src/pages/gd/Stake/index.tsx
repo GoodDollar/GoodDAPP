@@ -17,15 +17,16 @@ import { QuestionHelper } from 'components'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import { Savings } from './Savings'
 
-import { 
-  LIQUIDITY_PROTOCOL, 
-  DAO_NETWORK, 
-  useEnvWeb3, 
-  getList as getStakes, 
-  Stake,
-  getNetworkEnv, 
-  useGdContextProvider, 
-  useGovernanceStaking } from '@gooddollar/web3sdk'
+import {
+    LIQUIDITY_PROTOCOL,
+    DAO_NETWORK,
+    useEnvWeb3,
+    getList as getStakes,
+    Stake,
+    getNetworkEnv,
+    useGdContextProvider,
+    useGovernanceStaking
+} from '@gooddollar/web3sdk'
 
 import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
@@ -198,12 +199,17 @@ const StakeTable = ({
                                 size="sm"
                                 borderRadius="6px"
                                 noShadow={true}
-                                requireChain={SupportedChains[network.toUpperCase() as keyof typeof SupportedChains]}
+                                requireChain={network.toUpperCase() as keyof typeof SupportedChains}
                                 onClick={() => {
-                                  getData({event: 'stake', action: 'stakeStart', token: stake.tokens.A.symbol,
-                                           type: stake.protocol, network: network})
-                                  setActiveStake(stake)
-                                  setActiveTableName()
+                                    getData({
+                                        event: 'stake',
+                                        action: 'stakeStart',
+                                        token: stake.tokens.A.symbol,
+                                        type: stake.protocol,
+                                        network: network
+                                    })
+                                    setActiveStake(stake)
+                                    setActiveTableName()
                                 }}
                                 ButtonEl={ButtonOutlined}
                             >
@@ -346,16 +352,18 @@ const StakeTable = ({
                                             width="78px"
                                             borderRadius="6px"
                                             noShadow={true}
-                                            requireChain={
-                                              SupportedChains[network.toUpperCase() as keyof typeof SupportedChains]
-                                            }
-                                            page='Stake'
+                                            requireChain={network.toUpperCase() as keyof typeof SupportedChains}
+                                            page="Stake"
                                             onClick={() => {
-                                              getData({event: 'stake', action: 'stakeStart', 
-                                                       token: stake.tokens.A.symbol, 
-                                                       type: stake.protocol, network: network})
-                                              setActiveStake(stake)
-                                              setActiveTableName()
+                                                getData({
+                                                    event: 'stake',
+                                                    action: 'stakeStart',
+                                                    token: stake.tokens.A.symbol,
+                                                    type: stake.protocol,
+                                                    network: network
+                                                })
+                                                setActiveStake(stake)
+                                                setActiveTableName()
                                             }}
                                         >
                                             {' '}
@@ -369,15 +377,17 @@ const StakeTable = ({
                                             size="sm"
                                             borderRadius="6px"
                                             noShadow={true}
-                                            requireChain={
-                                              SupportedChains[network.toUpperCase() as keyof typeof SupportedChains]
-                                            }
+                                            requireChain={network.toUpperCase() as keyof typeof SupportedChains}
                                             onClick={() => {
-                                              getData({event: 'stake', action: 'stakeStart', 
-                                                       token: stake.tokens.A.symbol, 
-                                                       type: stake.protocol, network: network})
-                                              setActiveStake(stake)
-                                              setActiveTableName()
+                                                getData({
+                                                    event: 'stake',
+                                                    action: 'stakeStart',
+                                                    token: stake.tokens.A.symbol,
+                                                    type: stake.protocol,
+                                                    network: network
+                                                })
+                                                setActiveStake(stake)
+                                                setActiveTableName()
                                             }}
                                         >
                                             {' '}
@@ -413,10 +423,9 @@ export default function Stakes(): JSX.Element | null {
     const { chainId } = useActiveWeb3React()
     const governanceStaking = useGovernanceStaking(web3, chainId)
     const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId)
-    const network = getNetworkEnv() 
+    const network = getNetworkEnv()
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
-        const stakes = await (
-          web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
+        const stakes = await (web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
 
         return stakes
     }, [web3, mainnetWeb3])
@@ -488,9 +497,7 @@ export default function Stakes(): JSX.Element | null {
                     )}
                 </Modal>
             </StakesSC>
-            {network !== 'production' ? 
-              <Savings /> : <></>
-            } 
+            {network !== 'production' ? <Savings /> : <></>}
         </Layout>
     )
 }

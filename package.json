@@ -131,7 +131,7 @@
     "postcss": "^7",
     "postcss-preset-env": "^6.7.0",
     "postinstall-postinstall": "^2.1.0",
-    "prettier": "^1.17.0",
+    "prettier": "^2.7.1",
     "qs": "^6.9.4",
     "react": "^17.0.2",
     "react-app-rewire-hot-loader": "^2.0.1",

@@ -396,8 +396,8 @@ const Dashboard = props => {
     const easingOut = Easing.out(Easing.quad)
 
     // calculate left margin for aligning the balance to the right
-    // - 20 is to give more space to the number, otherwise (in native) it gets cut on the right side
-    const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidthRef.current - 20
+    // - 24 is to give more space to the number, otherwise (in native) it gets cut on the right side
+    const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidthRef.current - 24
 
     if (headerLarge) {
       // useNativeDriver is always false because native doesnt support animating height

@@ -8,7 +8,7 @@ import { ButtonAction } from 'components/gd/Button'
 import ClaimRewards from 'components/ClaimRewards'
 import sendGa from 'functions/sendGa'
 
-import { MyStake, LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk'
+import { MyStake, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk'
 import { SupportedChains } from '@gooddollar/web3sdk-v2'
 
 interface PortfolioTableRowProps {
@@ -26,7 +26,7 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
     const requireChain = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'FUSE' : 'MAINNET'
     const claimableStake =
         (chainId === (SupportedChains.FUSE as number) && requireChain === 'FUSE') ||
-        (chainId !== (SupportedChainId.FUSE as number) && requireChain === 'MAINNET')
+        (chainId !== (SupportedChains.FUSE as number) && requireChain === 'MAINNET')
     const getData = sendGa
     const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet'
     const handleWithdrawOpen = useCallback(() => {

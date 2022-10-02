@@ -8,7 +8,7 @@ import { CellSC } from '../styled'
 
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
-import { SupportedChains, useGlobalStats } from '@gooddollar/web3sdk-v2'
+import { useSavingsStats } from '@gooddollar/web3sdk-v2'
 import sendGa from 'functions/sendGa'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import { ModalType } from 'components/Savings/SavingsModal'
@@ -22,7 +22,7 @@ export const SavingsDepositMobile = ({
     headings: HeadingCopy
     toggleModal: (type?: ModalType) => void
 }): JSX.Element => {
-    const { stats, error } = useGlobalStats(10)
+    const { stats, error } = useSavingsStats(10)
     const { i18n } = useLingui()
     const getData = sendGa
 

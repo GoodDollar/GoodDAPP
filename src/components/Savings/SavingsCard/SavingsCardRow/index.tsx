@@ -9,7 +9,7 @@ import sendGa from 'functions/sendGa'
 
 export const SavingsCardRow = ({
     account,
-    toggleModal,
+    toggleModal
 }: {
     account: string
     toggleModal: (type?: ModalType) => void

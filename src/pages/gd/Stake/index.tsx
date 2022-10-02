@@ -32,7 +32,6 @@ import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
 import { SupportedChains } from '@gooddollar/web3sdk-v2'
-
 const StakeTable = ({
     list,
     error,

@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
 import { useModalOpen, useNetworkModalToggle } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/types'
@@ -12,13 +11,9 @@ import { AdditionalChainId } from '../../constants'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useSetChain, useWallets } from '@web3-onboard/react'
+import { useSetChain } from '@web3-onboard/react'
 
-import {
-  getNetworkEnv,
-  UnsupportedChainId,
-  useGdContextProvider,
-} from '@gooddollar/web3sdk'
+import { getNetworkEnv, UnsupportedChainId } from '@gooddollar/web3sdk'
 
 const PARAMS: {
     [chainId in ChainId | AdditionalChainId]?: {
@@ -168,15 +163,14 @@ const TextWrapper = styled.div`
 
 export default function NetworkModal(): JSX.Element | null {
     const { i18n } = useLingui()
-    const {chainId, error} = useActiveWeb3React()
+    const { chainId, error } = useActiveWeb3React()
 
-    const [ {chains, connectedChain}, setChain] = useSetChain()
+    const [, setChain] = useSetChain()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
 
     const networkLabel: string | null = error ? null : (NETWORK_LABEL as any)[chainId]
-    const {activeNetwork} = useGdContextProvider()
-    const network = getNetworkEnv(activeNetwork)
+    const network = getNetworkEnv()
 
     const allowedNetworks = useMemo(() => {
         switch (true) {
@@ -232,9 +226,9 @@ export default function NetworkModal(): JSX.Element | null {
                                         ChainId.ROPSTEN
                                     ].includes(key as any)
                                 ) {
-                                  setChain({chainId: `0x${key.toString(16)}`})
+                                    setChain({ chainId: `0x${key.toString(16)}` })
                                 } else {
-                                  setChain({chainId: `0x7a`})
+                                    setChain({ chainId: `0x7a` })
                                 }
                             }}
                         />

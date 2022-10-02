@@ -32,32 +32,29 @@ export const ActionOrSwitchButton = ({
     const toggleNetworkModal = useNetworkModalToggle()
     const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
-    const { activeNetwork } = useGdContextProvider()
-    let testChain = undefined
+    const { contractsEnv } = useGdContextProvider()
 
     if (requireChain === 'MAINNET') {
-        const mainnetIds = [1, 3, 42]
-        if (mainnetIds.includes(chainId)) {
-            switch (activeNetwork) {
-                case 'production':
-                    testChain = 'mainnet'
-                    break
-                case 'staging':
-                    testChain = 'kovan'
-                    break
-                case 'fuse':
-                    testChain = 'ropsten'
-                    break
-            }
-            return <ButtonEl {...props}>{children}</ButtonEl>
+        switch (contractsEnv) {
+            case 'production':
+                requireChain = 'MAINNET'
+                break
+            case 'staging':
+                requireChain = 'KOVAN'
+                break
+            case 'fuse':
+                requireChain = 'ROPSTEN'
+                break
         }
-    } else if (SupportedChains[requireChain] === (chainId as number)) {
+    }
+
+    if (SupportedChains[requireChain] === (chainId as number)) {
         return <ButtonEl {...props}>{children}</ButtonEl>
     }
 
     return (
         <ButtonEl {...props} width={props.page === 'Stake' ? '130px' : props.width} onClick={toggleNetworkModal}>
-            {i18n._(`Switch to {chain}`, { chain: testChain ?? requireChain })}
+            {i18n._(`Switch to {chain}`, { chain: requireChain })}
         </ButtonEl>
     )
 }

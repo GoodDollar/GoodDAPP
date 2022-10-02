@@ -2,7 +2,7 @@ import useActiveWeb3React from './useActiveWeb3React'
 import React, { ReactNode, ReactNodeArray, useMemo } from 'react'
 import Web3 from 'web3'
 import { ethers } from 'ethers'
-import type { ExternalProvider } from '@ethersproject/providers'
+import { ExternalProvider } from '@ethersproject/providers'
 
 import { useEnvWeb3, GdSdkContext, DAO_NETWORK, getNetworkEnv } from '@gooddollar/web3sdk'
 
@@ -20,24 +20,28 @@ type NetworkSettings = {
 }
 
 export function useNetwork(): NetworkSettings {
-    const currentNetwork = process.env.REACT_APP_NETWORK ?? ''
-
+    const currentNetwork = process.env.REACT_APP_NETWORK || 'fuse'
     const rpcs = {
-        MAINNET_RPC: process.env.REACT_APP_MAINNET_RPC,
-        ROPSTEN_RPC: process.env.REACT_APP_ROPSTEN_RPC,
-        KOVAN_RPC: process.env.REACT_APP_KOVAN_RPC,
-        FUSE_RPC: process.env.REACT_APP_FUSE_RPC,
-        CELO_RPC: process.env.REACT_APP_CELO_RPC,
+        MAINNET_RPC:
+            process.env.REACT_APP_MAINNET_RPC ||
+            (ethers.getDefaultProvider('mainnet') as any).providerConfigs[0].provider.connection.url,
+        KOVAN_RPC:
+            process.env.REACT_APP_KOVAN_RPC ||
+            (ethers.getDefaultProvider('kovan') as any).providerConfigs[0].provider.connection.url,
+        ROPSTEN_RPC:
+            process.env.REACT_APP_ROPSTEN_RPC ||
+            (ethers.getDefaultProvider('ropsten') as any).providerConfigs[0].provider.connection.url,
+        FUSE_RPC: process.env.REACT_APP_FUSE_RPC || 'https://rpc.fuse.io',
+        CELO_RPC: process.env.REACT_APP_CELO_RPC || 'https://forno.celo.org'
     }
-    localStorage.setItem('GD_NETWORK', JSON.stringify(currentNetwork))
-    localStorage.setItem('GD_RPCS', JSON.stringify(rpcs))
+    localStorage.setItem('GD_RPCS', JSON.stringify(rpcs)) //this is required for sdk v1
 
     return { currentNetwork, rpcs }
 }
 
 export function Web3ContextProvider({ children }: { children: ReactNode | ReactNodeArray }): JSX.Element {
-    const { currentNetwork, rpcs } = useNetwork()
-    const { eipProvider, chainId } = useActiveWeb3React()
+    const { rpcs } = useNetwork()
+    const { eipProvider } = useActiveWeb3React()
 
     const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET)
 
@@ -46,35 +50,31 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
         () =>
             eipProvider
                 ? new ethers.providers.Web3Provider(eipProvider as ExternalProvider)
-                : new ethers.providers.JsonRpcProvider(rpcs.FUSE_RPC),
+                : new ethers.providers.JsonRpcBatchProvider(rpcs.FUSE_RPC),
         [eipProvider, rpcs.FUSE_RPC]
     )
 
-    const mainnetChains = [1, 3, 42]
-    let network = getNetworkEnv(currentNetwork)
-    if (mainnetChains.indexOf(chainId) !== -1) {
-        network += '-mainnet'
-    }
-    const fuseEnv = network.split('-')[0] || 'production'
+    const contractsEnv = getNetworkEnv()
 
+    console.log('Gd Web3 Context', { contractsEnv, eipProvider: eipProvider, webprovider, rpcs })
     return (
         <GdSdkContext.Provider
             value={{
                 web3: web3,
-                activeNetwork: currentNetwork,
-                rpcs: rpcs,
+                contractsEnv,
+                rpcs: rpcs
             }}
         >
             <Web3Provider
                 web3Provider={webprovider}
-                env={fuseEnv}
+                env={contractsEnv}
                 config={{
                     refresh: 100,
                     pollingInterval: 20000,
                     networks: [],
                     readOnlyUrls: {
-                        122: 'https://rpc.fuse.io',
-                    },
+                        122: 'https://rpc.fuse.io'
+                    }
                 }}
                 // config={{ multicallVersion: 1, networks: [Fuse, Mainnet, Ropsten, Kovan], readOnlyUrls: {
                 //   122: 'https://rpc.fuse.io',

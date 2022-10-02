@@ -20,7 +20,7 @@ export type HeadingCopy = {
 
 export const SavingsCard = ({
     account,
-    hasBalance,
+    hasBalance
 }: {
     account: string
     hasBalance: boolean | undefined
@@ -47,28 +47,28 @@ export const SavingsCard = ({
         {
             title: i18n._(t`TYPE`),
             questionText: i18n._(t``),
-            statsKey: '',
+            statsKey: ''
         },
         {
             title: i18n._(t`TOKEN`),
             questionText: i18n._(t`This is the token that is currently being staked.`),
-            statsKey: 'token',
+            statsKey: 'token'
         },
         {
             title: i18n._(t`PROTOCOL`),
             questionText: i18n._(t`This is the protocol that the token is staked to.`),
-            statsKey: 'protocol',
+            statsKey: 'protocol'
         },
         {
             title: i18n._(t`DEPOSIT`),
             questionText: i18n._(t`The total of your deposits which accumulates the rewards.`),
-            statsKey: 'principle',
+            statsKey: 'principle'
         },
         {
             title: `${i18n._(t`CLAIMABLE REWARDS`)}`,
             questionText: i18n._(t`How much tokens your deposits have accumulated so far.`),
-            statsKey: 'claimable',
-        },
+            statsKey: 'claimable'
+        }
         // {
         //   title: `${i18n._(t`REWARDS EARNED`)}`,
         //   questionText: i18n._(t`How many rewards have you earned and withdrawn.`) // to be added for V2
@@ -77,7 +77,8 @@ export const SavingsCard = ({
 
     return (
         <>
-            {type && hasBalance && <SavingsModal type={type} toggle={toggleModal} isOpen={isModalOpen} />}
+            {//TODO: fix when no account connected
+            type && hasBalance && <SavingsModal type={type} toggle={toggleModal} isOpen={isModalOpen} />}
             {isMobile ? (
                 <SavingsCardTableMobile
                     account={account}

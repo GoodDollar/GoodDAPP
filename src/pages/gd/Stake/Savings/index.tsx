@@ -43,17 +43,17 @@ export const Savings = (): JSX.Element => {
         {
             title: i18n._(t`Token`),
             questionText: i18n._(t`This is the token that you can deposit into the savings contract.`),
-            statsKey: 'token',
+            statsKey: 'token'
         },
         {
             title: i18n._(t`Protocol`),
             questionText: i18n._(t`Your current savings balance.`),
-            statsKey: 'protocol',
+            statsKey: 'protocol'
         },
         {
             title: i18n._(t`Fixed Apy`),
             questionText: i18n._(t`The fixed annual interest.`),
-            statsKey: 'apy',
+            statsKey: 'apy'
         },
         // {
         //   title: i18n._(t`G$'s to withdraw`),
@@ -62,18 +62,19 @@ export const Savings = (): JSX.Element => {
         {
             title: i18n._(t`Total Staked`),
             questionText: i18n._(t`Total currently saved.`),
-            statsKey: 'totalStaked',
+            statsKey: 'totalStaked'
         },
         {
             title: i18n._(t`Total Rewards Paid`),
             questionText: i18n._(t`Total rewards claimed.`),
-            statsKey: 'totalRewardsPaid',
-        },
+            statsKey: 'totalRewardsPaid'
+        }
     ]
     return (
         <SavingsDeposit>
             <div className="mt-12"></div>
-            {chainId === (SupportedChainId.FUSE as number) && (
+            {//TODO: fix when no account connected
+            chainId === (SupportedChainId.FUSE as number) && (
                 <SavingsModal type="deposit" toggle={toggleModal} isOpen={isOpen} />
             )}
             <Title className={`md:pl-4`}>{i18n._(t`Savings`)}</Title>
@@ -115,7 +116,7 @@ export const Savings = (): JSX.Element => {
                                         {' '}
                                         {stats?.totalStaked.format({
                                             useFixedPrecision: true,
-                                            fixedPrecisionDigits: 2,
+                                            fixedPrecisionDigits: 2
                                         })}
                                     </>
                                 )}

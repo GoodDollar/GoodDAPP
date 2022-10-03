@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useStakerInfo } from '@gooddollar/web3sdk-v2'
+import { useStakerInfo, SupportedSavingsNetworks } from '@gooddollar/web3sdk-v2'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
@@ -9,13 +9,13 @@ import sendGa from 'functions/sendGa'
 
 export const SavingsCardRow = ({
     account,
-    toggleModal
+    toggleModal,
 }: {
     account: string
     toggleModal: (type?: ModalType) => void
 }): JSX.Element => {
     const { i18n } = useLingui()
-    const { stats, error } = useStakerInfo(10, account)
+    const { stats, error } = useStakerInfo(10, account, SupportedSavingsNetworks.FUSE)
     const getData = sendGa
 
     useEffect(() => {

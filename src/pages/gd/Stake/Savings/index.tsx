@@ -5,7 +5,7 @@ import { QuestionHelper } from 'components'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import { SupportedChainId, G$ } from '@gooddollar/web3sdk'
-import { useSavingsStats } from '@gooddollar/web3sdk-v2'
+import { useSavingsStats, SupportedSavingsNetworks } from '@gooddollar/web3sdk-v2'
 import SavingsModal from 'components/Savings/SavingsModal'
 import { Wrapper } from '../styled'
 import styled from 'styled-components'
@@ -24,8 +24,8 @@ const SavingsDeposit = styled.div`
 
 export const Savings = (): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false)
-    const { chainId } = useActiveWeb3React()
-    const { stats, error } = useSavingsStats(10)
+    const { account, chainId } = useActiveWeb3React()
+    const { stats, error } = useSavingsStats(10, SupportedSavingsNetworks.FUSE)
     const { i18n } = useLingui()
     const toggleModal = useCallback(() => setIsOpen(!isOpen), [setIsOpen, isOpen])
     const { width } = useWindowSize()
@@ -43,17 +43,17 @@ export const Savings = (): JSX.Element => {
         {
             title: i18n._(t`Token`),
             questionText: i18n._(t`This is the token that you can deposit into the savings contract.`),
-            statsKey: 'token'
+            statsKey: 'token',
         },
         {
             title: i18n._(t`Protocol`),
             questionText: i18n._(t`Your current savings balance.`),
-            statsKey: 'protocol'
+            statsKey: 'protocol',
         },
         {
             title: i18n._(t`Fixed Apy`),
             questionText: i18n._(t`The fixed annual interest.`),
-            statsKey: 'apy'
+            statsKey: 'apy',
         },
         // {
         //   title: i18n._(t`G$'s to withdraw`),
@@ -62,19 +62,18 @@ export const Savings = (): JSX.Element => {
         {
             title: i18n._(t`Total Staked`),
             questionText: i18n._(t`Total currently saved.`),
-            statsKey: 'totalStaked'
+            statsKey: 'totalStaked',
         },
         {
             title: i18n._(t`Total Rewards Paid`),
             questionText: i18n._(t`Total rewards claimed.`),
-            statsKey: 'totalRewardsPaid'
-        }
+            statsKey: 'totalRewardsPaid',
+        },
     ]
     return (
         <SavingsDeposit>
             <div className="mt-12"></div>
-            {//TODO: fix when no account connected
-            chainId === (SupportedChainId.FUSE as number) && (
+            {chainId === (SupportedChainId.FUSE as number) && account && (
                 <SavingsModal type="deposit" toggle={toggleModal} isOpen={isOpen} />
             )}
             <Title className={`md:pl-4`}>{i18n._(t`Savings`)}</Title>
@@ -116,7 +115,7 @@ export const Savings = (): JSX.Element => {
                                         {' '}
                                         {stats?.totalStaked.format({
                                             useFixedPrecision: true,
-                                            fixedPrecisionDigits: 2
+                                            fixedPrecisionDigits: 2,
                                         })}
                                     </>
                                 )}

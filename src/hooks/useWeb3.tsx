@@ -32,7 +32,7 @@ export function useNetwork(): NetworkSettings {
             process.env.REACT_APP_ROPSTEN_RPC ||
             (ethers.getDefaultProvider('ropsten') as any).providerConfigs[0].provider.connection.url,
         FUSE_RPC: process.env.REACT_APP_FUSE_RPC || 'https://rpc.fuse.io',
-        CELO_RPC: process.env.REACT_APP_CELO_RPC || 'https://forno.celo.org'
+        CELO_RPC: process.env.REACT_APP_CELO_RPC || 'https://forno.celo.org',
     }
     localStorage.setItem('GD_RPCS', JSON.stringify(rpcs)) //this is required for sdk v1
 
@@ -49,7 +49,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
     const webprovider = useMemo(
         () =>
             eipProvider
-                ? new ethers.providers.Web3Provider(eipProvider as ExternalProvider)
+                ? new ethers.providers.Web3Provider(eipProvider as ExternalProvider, 'any')
                 : new ethers.providers.JsonRpcBatchProvider(rpcs.FUSE_RPC),
         [eipProvider, rpcs.FUSE_RPC]
     )
@@ -62,7 +62,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
             value={{
                 web3: web3,
                 contractsEnv,
-                rpcs: rpcs
+                rpcs: rpcs,
             }}
         >
             <Web3Provider
@@ -73,8 +73,8 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
                     pollingInterval: 20000,
                     networks: [],
                     readOnlyUrls: {
-                        122: 'https://rpc.fuse.io'
-                    }
+                        122: 'https://rpc.fuse.io',
+                    },
                 }}
                 // config={{ multicallVersion: 1, networks: [Fuse, Mainnet, Ropsten, Kovan], readOnlyUrls: {
                 //   122: 'https://rpc.fuse.io',

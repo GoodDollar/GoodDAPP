@@ -17,7 +17,7 @@ import Loader from 'components/Loader'
 import { ButtonAction } from 'components/gd/Button'
 
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useSavingsBalance, useSavingsFunctions, SupportedSavingsNetworks } from '@gooddollar/web3sdk-v2'
+import { useSavingsBalance, useSavingsFunctions, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 import { TransactionReceipt } from '@ethersproject/providers'
 import { TransactionStatus } from '@usedapp/core'
 import sendGa from 'functions/sendGa'
@@ -87,7 +87,7 @@ const SavingsModal = ({
     const reduxDispatch = useDispatch()
     const getData = sendGa
 
-    const { g$Balance, savingsBalance } = useSavingsBalance(10, SupportedSavingsNetworks.FUSE)
+    const { g$Balance, savingsBalance } = useSavingsBalance(10, SupportedV2Networks.FUSE)
 
     const [percentage, setPercentage] = useState<string>('50')
     const [withdrawAmount, setWithdrawAmount] = useState<number>(parseInt(balance) * (Number(percentage) / 100))
@@ -103,9 +103,7 @@ const SavingsModal = ({
         }
     }, [g$Balance, savingsBalance, type, percentage])
 
-    const { transfer, withdraw, claim, transferState, withdrawState, claimState } = useSavingsFunctions(
-        SupportedSavingsNetworks.FUSE
-    )
+    const { transfer, withdraw, claim, transferState, withdrawState, claimState } = useSavingsFunctions()
 
     const addSavingsTransaction = async (tx: TransactionReceipt, amount?: string) => {
         // getData({event: 'savings', action: [type]+'Success'})

@@ -7,7 +7,7 @@ import { useLingui } from '@lingui/react'
 import { ModalType } from 'components/Savings/SavingsModal'
 import { QuestionHelper } from 'components'
 import type { HeadingCopy } from '..'
-import { SupportedChains, useStakerInfo, SupportedSavingsNetworks } from '@gooddollar/web3sdk-v2'
+import { useStakerInfo, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 import { LoadingPlaceHolder } from 'theme/components'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import sendGa from 'functions/sendGa'
@@ -24,7 +24,7 @@ export const SavingsCardTableMobile = ({
     toggleModal: (type?: ModalType) => void
 }): JSX.Element => {
     const { i18n } = useLingui()
-    const { stats, error } = useStakerInfo(10, account, SupportedSavingsNetworks.FUSE)
+    const { stats, error } = useStakerInfo(10, account, SupportedV2Networks.FUSE)
     const getData = sendGa
 
     return (

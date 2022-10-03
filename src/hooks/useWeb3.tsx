@@ -56,7 +56,6 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
 
     const contractsEnv = getNetworkEnv()
 
-    console.log('Gd Web3 Context', { contractsEnv, eipProvider: eipProvider, webprovider, rpcs })
     return (
         <GdSdkContext.Provider
             value={{

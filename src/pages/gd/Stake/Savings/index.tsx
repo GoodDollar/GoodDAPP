@@ -5,7 +5,7 @@ import { QuestionHelper } from 'components'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
 import { SupportedChainId, G$ } from '@gooddollar/web3sdk'
-import { useSavingsStats, SupportedSavingsNetworks } from '@gooddollar/web3sdk-v2'
+import { useSavingsStats, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 import SavingsModal from 'components/Savings/SavingsModal'
 import { Wrapper } from '../styled'
 import styled from 'styled-components'
@@ -25,7 +25,7 @@ const SavingsDeposit = styled.div`
 export const Savings = (): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false)
     const { account, chainId } = useActiveWeb3React()
-    const { stats, error } = useSavingsStats(10, SupportedSavingsNetworks.FUSE)
+    const { stats, error } = useSavingsStats(10, SupportedV2Networks.FUSE)
     const { i18n } = useLingui()
     const toggleModal = useCallback(() => setIsOpen(!isOpen), [setIsOpen, isOpen])
     const { width } = useWindowSize()

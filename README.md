@@ -33,9 +33,10 @@ yarn start
 For local-development and working with the @gooddollarorg library repo we use Yalc
 Usages -->
   ```npm i yalc -g``` (yarn global is deprecated after v2)
-  from library repository:
-    1. ```yalc publish --private``` (first time)
-    2. ```yalc publish --private --push ``` (update send to all locally installed instances)
+  from library repository from root of the package you want to publish, not root of mono:
+    1. ```yarn build```
+    1. ```yalc publish``` (first time)
+    2. ```yalc publish --push ``` (update send to all locally installed instances)
   from protocolUI:
     1. ```yalc link @gooddollarorg/<packageName>```
 

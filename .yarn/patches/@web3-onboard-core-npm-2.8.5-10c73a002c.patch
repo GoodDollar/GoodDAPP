@@ -1,0 +1,41 @@
+diff --git a/dist/Index-308a6e87.js b/dist/Index-308a6e87.js
+index 7be955a6a7159c9034c07768894eb6d36feadace..2097a5c1e2573c62a93876edb7350cc5c9b989af 100644
+--- a/dist/Index-308a6e87.js
++++ b/dist/Index-308a6e87.js
+@@ -1191,6 +1191,7 @@ function create_default_slot(ctx) {
+ 			button1 = element("button");
+ 			t7 = text(t7_value);
+ 			attr(div0, "class", "icon-container flex justify-center items-center svelte-10lq1b5");
++      attr(div0, "part", "sidebar-heading-img");
+ 			attr(h4, "class", "svelte-10lq1b5");
+ 			attr(p, "class", "svelte-10lq1b5");
+ 			attr(button0, "class", "button-neutral-solid-b rounded svelte-10lq1b5");
+diff --git a/dist/index-97e525ea.js b/dist/index-97e525ea.js
+index 3bf3e340679d0454865d9c0ece5091a96bcb8ea9..67237e50767fa50c9b3319e38e13b508c13975ec 100644
+--- a/dist/index-97e525ea.js
++++ b/dist/index-97e525ea.js
+@@ -5513,6 +5513,7 @@ function create_else_block$1(ctx) {
+ 			if (!src_url_equal(img.src, img_src_value = /*logo*/ ctx[3] || /*icon*/ ctx[2])) attr(img, "src", img_src_value);
+ 			attr(img, "alt", "logo");
+ 			attr(img, "class", "svelte-kwt38y");
++      attr(img, "part", "sidebar-heading-image");
+ 		},
+ 		m(target, anchor) {
+ 			insert(target, img, anchor);
+@@ -5641,6 +5642,7 @@ function create_fragment$5(ctx) {
+ 			t9 = space();
+ 			div5 = element("div");
+ 			attr(div0, "class", "icon-container flex svelte-kwt38y");
++      attr(div0, "part", "sidebar-heading-img")
+ 			attr(h4, "class", "subheading svelte-kwt38y");
+ 			attr(p, "class", "description svelte-kwt38y");
+ 			attr(div1, "class", "indicator relative svelte-kwt38y");
+@@ -5666,7 +5668,7 @@ function create_fragment$5(ctx) {
+ 			attr(div5, "class", "indicator relative svelte-kwt38y");
+ 			toggle_class(div5, "on", /*step*/ ctx[0] === 'connectedWallet');
+ 			attr(div6, "class", "indicators flex items-center svelte-kwt38y");
+-			attr(div7, "class", "inner-container svelte-kwt38y");
++			attr(div7, "class", "inner-container just-a-test svelte-kwt38y");
+ 			attr(div8, "class", "sidebar svelte-kwt38y");
+ 		},
+ 		m(target, anchor) {

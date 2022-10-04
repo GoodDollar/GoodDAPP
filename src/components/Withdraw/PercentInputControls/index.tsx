@@ -7,13 +7,14 @@ import cn from 'classnames'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
-interface PercentInputControlsProps {
+export interface PercentInputControlsProps {
     value: string
     onPercentChange: (value: string) => void
-    disabled?: boolean
+    disabled?: boolean,
+    type?: string
 }
 
-const restrictValue = (value: string | undefined) => {
+export const restrictValue = (value: string | undefined) => {
     if (!value) return '0'
     let result = value.replace('%', '')
     if (!result) return '0'
@@ -23,7 +24,7 @@ const restrictValue = (value: string | undefined) => {
 
 const percentMask = createNumberMask({ prefix: '', suffix: '%', integerLimit: 3 })
 
-function PercentInputControls({ value, onPercentChange, disabled, ...rest }: PercentInputControlsProps) {
+function PercentInputControls({ value, onPercentChange, disabled, type, ...rest }: PercentInputControlsProps) {
     const { i18n } = useLingui()
     const [percentValue, setPercentValue] = useState(value)
     const handleChange = useCallback(
@@ -47,7 +48,12 @@ function PercentInputControls({ value, onPercentChange, disabled, ...rest }: Per
     return (
         <PercentInputControlsStyled>
             <div className="flex justify-between items-center">
-                <label htmlFor="percent">{i18n._(t`How much would you like to withdraw?`)}</label>
+                <label htmlFor="percent">
+                  { type === 'savingsDeposit' ? 
+                    i18n._(t`How much rewards would you like to donate`) :
+                    i18n._(t`How much would you like to withdraw?`)
+                  }
+                </label>
                 <MaskedInput
                     name="percent"
                     className="percent-input"

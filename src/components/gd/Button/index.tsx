@@ -4,13 +4,13 @@ export const ButtonAction = styled.button<{
     width?: string
     borderRadius?: string
     error?: boolean
-    size?: 'default' | 'sm'
+    size?: 'default' | 'sm' | 'm'
     noShadow?: boolean
 }>`
     display: flex;
     align-items: center;
     justify-content: center;
-    height: ${({ size }) => (size === 'sm' ? '32px' : '71px')};
+    height: ${({ size }) => (size === 'sm' ? '32px' : (size === 'm' ? '40px' : '71px'))};
     min-width: ${({ width = '100%' }) => width};
     padding:5px 0px 5px 0px;
     border-radius: ${({ borderRadius = '20px' }) => borderRadius};
@@ -20,8 +20,8 @@ export const ButtonAction = styled.button<{
     cursor: pointer;
 
     font-style: normal;
-    font-weight: ${({ size }) => (size === 'sm' ? '500' : '900')};
-    font-size: ${({ size }) => (size === 'sm' ? '14px' : '20px')};
+    font-weight: ${({ size }) => (size === 'sm' || 'm' ? '500' : '900')};
+    font-size: ${({ size }) => (size === 'sm' || 'm' ? '14px' : '20px')};
     line-height: 16px;
     text-align: center;
     text-transform: capitalize;

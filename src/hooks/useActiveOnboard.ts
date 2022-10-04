@@ -2,7 +2,8 @@ import { EIP1193Provider } from '@web3-onboard/common'
 import React, {
   useState,
   useEffect,
-  useCallback
+  useCallback,
+  useMemo
 } from 'react'
 import { Web3Provider } from '@ethersproject/providers'
 import { ChainId } from '@sushiswap/sdk'
@@ -95,14 +96,14 @@ export function onboardContext(wstate: WalletState[]):ActiveOnboardInterface {
 }
 
 export function useActiveOnboard<T = any>():ActiveOnboardInterface<T> {
-  const [context, setContext] = useState<ActiveOnboardInterface<Web3Provider>>({active: false, chainId: 1})
   const connectedWallets = useWallets()
-  useEffect(() => {
-    if (connectedWallets.length > 0) {      
+  const context = useMemo<ActiveOnboardInterface<Web3Provider>>(() => {
+    if (connectedWallets.length > 0) {
+      // console.log('update ActiveOnboard context')
       const newContext = onboardContext(connectedWallets)
-      setContext(newContext)
+      return newContext
     } else {
-      setContext({active: false, chainId: 1})
+      return ({active: false, chainId: 122})
     }
   }, [connectedWallets])
 

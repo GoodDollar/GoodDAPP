@@ -20,77 +20,21 @@ import AppNotice from 'components/AppNotice'
 import { useWindowSize } from 'hooks/useWindowSize'
 import Withdraw from 'components/Withdraw'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
-import { 
-  getNetworkEnv, useEnvWeb3, getMyList, 
-  MyStake, DAO_NETWORK, portfolioSupportedAt, 
-  SupportedChainId, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk'
-
+import {
+    getNetworkEnv,
+    useEnvWeb3,
+    getMyList,
+    MyStake,
+    DAO_NETWORK,
+    LIQUIDITY_PROTOCOL
+} from '@gooddollar/web3sdk'
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 import styled from 'styled-components'
 import ClaimRewards from 'components/ClaimRewards'
+import { SavingsAccount } from './SavingsAccount'
+import { CellSC } from './styled'
 
 const MobileTableSC = styled.div``
-
-const CellSC = styled.div`
-    display: grid;
-    grid-gap: 17px;
-    grid-template-areas:
-        't t'
-        'a b'
-        'c d'
-        'e e'
-        'f f';
-
-    .part {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .key {
-        text-transform: capitalize;
-        font-size: 10px;
-        line-height: 14px;
-        font-weight: 500;
-    }
-
-    .value {
-        font-size: 12px;
-        line-height: 14px;
-        font-weight: bold;
-    }
-
-    .token {
-        grid-area: t;
-        font-size: 18px;
-        line-height: 24px;
-    }
-
-    .protocol {
-        grid-area: a;
-    }
-
-    .multiplier {
-        grid-area: b;
-    }
-
-    .grewards {
-        grid-area: c;
-    }
-
-    .goodrewards {
-        grid-area: d;
-    }
-
-    .stake {
-        grid-area: e;
-    }
-
-    .withdraw {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 8px;
-        grid-area: f;
-    }
-`
 
 const MobileCell = ({
     onUpdate,
@@ -112,8 +56,9 @@ const MobileCell = ({
     const { chainId } = useActiveWeb3React()
 
     const requireNetwork = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-    const claimableStake = (chainId === (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.FUSE) ||
-    (chainId !== (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.MAINNET)
+    const claimableStake =
+        (chainId === (SupportedChains.FUSE as number) && requireNetwork === DAO_NETWORK.FUSE) ||
+        (chainId !== (SupportedChains.FUSE as number) && requireNetwork === DAO_NETWORK.MAINNET)
 
     const handleWithdrawOpen = useCallback(() => setWithdrawOpen(true), [])
     const handleClaimRewardsOpen = useCallback(() => setClaimRewardsOpen(true), [])
@@ -129,14 +74,14 @@ const MobileCell = ({
                     onWithdraw={onUpdate}
                     stake={stake}
                 />
-                <ClaimRewards 
+                <ClaimRewards
                     open={isClaimRewardsOpen}
                     setOpen={setClaimRewardsOpen}
                     token={`${stake.tokens.A.symbol}`}
                     protocol={stake.protocol}
                     onClaim={onUpdate}
                     stake={stake}
-                 />
+                />
                 <div className="flex items-center font-bold token flex-nowrap">
                     <AsyncTokenIcon
                         address={stake.tokens.A.address}
@@ -220,25 +165,17 @@ const MobileCell = ({
                         width="100%"
                         borderRadius="6px"
                         noShadow={true}
-                        requireNetwork={
-                            stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-                        }
+                        requireChain={stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'FUSE' : 'MAINNET'}
                         onClick={handleWithdrawOpen}
                         ButtonEl={ButtonAction}
                     >
                         {i18n._(t`Withdraw`)}
                     </ActionOrSwitchButton>
-                    {
-                        claimableStake &&
-                            <ButtonAction  
-                                size='sm' 
-                                noShadow={true}
-                                borderRadius="6px" 
-                                onClick={handleClaimRewardsOpen}
-                            >
-                                {i18n._(t`Claim rewards`)}
-                            </ButtonAction>
-                    }
+                    {claimableStake && (
+                        <ButtonAction size="sm" noShadow={true} borderRadius="6px" onClick={handleClaimRewardsOpen}>
+                            {i18n._(t`Claim rewards`)}
+                        </ButtonAction>
+                    )}
                 </div>
             </CellSC>
         </Card>
@@ -267,11 +204,11 @@ const MobileTable = ({ stakes, cells, onUpdate }: { stakes?: MyStake[]; cells: a
 
 const Portfolio = () => {
     const { i18n } = useLingui()
-    const { chainId, account } = useActiveWeb3React()
+    const { account } = useActiveWeb3React()
 
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
-    const network = getNetworkEnv() 
+    const network = getNetworkEnv()
     const { width } = useWindowSize()
 
     const isMobile = width ? width <= 768 : undefined
@@ -315,27 +252,33 @@ const Portfolio = () => {
         const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account, network) : []
         return {
             list,
-            aggregated: list.reduce( 
+            aggregated: list.reduce(
                 (acc, stake) => {
-                    return !acc 
-                      ? {
-                          myStake: stake.stake.amount$,
-                          rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
-                          rewardsG$$: stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed),
-                          rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
-                          rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
-                          rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
-                          rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
-                        } 
-                      : {
-                        myStake: acc.myStake.add(stake.stake.amount$),
-                        rewardsG$: acc.rewardsG$.add(stake.rewards.reward.claimed).add(stake.rewards.reward.unclaimed),
-                        rewardsG$$: acc.rewardsG$$.add(stake.rewards.reward$.claimed).add(stake.rewards.reward$.unclaimed),
-                        rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
-                        rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
-                        rewardsGDAO: acc.rewardsGDAO.add(stake.rewards.GDAO.claimed).add(stake.rewards.GDAO.unclaimed),
-                        rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
-                     }
+                    return !acc
+                        ? {
+                              myStake: stake.stake.amount$,
+                              rewardsG$: stake.rewards.reward.claimed.add(stake.rewards.reward.unclaimed),
+                              rewardsG$$: stake.rewards.reward$.claimed.add(stake.rewards.reward$.unclaimed),
+                              rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
+                              rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
+                              rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
+                              rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
+                          }
+                        : {
+                              myStake: acc.myStake.add(stake.stake.amount$),
+                              rewardsG$: acc.rewardsG$
+                                  .add(stake.rewards.reward.claimed)
+                                  .add(stake.rewards.reward.unclaimed),
+                              rewardsG$$: acc.rewardsG$$
+                                  .add(stake.rewards.reward$.claimed)
+                                  .add(stake.rewards.reward$.unclaimed),
+                              rewardsG$Unclaimed: acc.rewardsG$Unclaimed.add(stake.rewards.reward.unclaimed),
+                              rewardsG$Unclaimed$: acc.rewardsG$Unclaimed$.add(stake.rewards.reward$.unclaimed),
+                              rewardsGDAO: acc.rewardsGDAO
+                                  .add(stake.rewards.GDAO.claimed)
+                                  .add(stake.rewards.GDAO.unclaimed),
+                              rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
+                          }
                 },
                 undefined as
                     | undefined
@@ -436,7 +379,7 @@ const Portfolio = () => {
                                         width="156px"
                                         size="default"
                                         noShadow={isMobile}
-                                        requireNetwork={DAO_NETWORK.MAINNET}
+                                        requireChain={'MAINNET'}
                                         ButtonEl={ButtonDefault}
                                         className="actionButton"
                                     >
@@ -461,7 +404,7 @@ const Portfolio = () => {
                     </div>
                 </PortfolioAnalyticSC>
             </Card>
-            <PortfolioTitleSC className="mb-3 md:pl-2">{i18n._(`Positions`)}</PortfolioTitleSC>
+            <PortfolioTitleSC className="mb-3 md:pl-2">{i18n._(`Stake Positions`)}</PortfolioTitleSC>
             {isMobile ? (
                 <>
                     {showNotice && (
@@ -507,6 +450,7 @@ const Portfolio = () => {
                     </Table>
                 </Card>
             )}
+            {network !== 'production' && <SavingsAccount account={account} />}
         </>
     )
 
@@ -517,9 +461,7 @@ const Portfolio = () => {
                 {account ? (
                     portfolio
                 ) : (
-                    <Placeholder className="mx-4">
-                        {i18n._(t`Connect a wallet to see your portfolio`)}
-                    </Placeholder>
+                    <Placeholder className="mx-4">{i18n._(t`Connect a wallet to see your portfolio`)}</Placeholder>
                 )}
             </PortfolioSC>
         </Layout>

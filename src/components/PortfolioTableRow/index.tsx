@@ -8,12 +8,8 @@ import { ButtonAction } from 'components/gd/Button'
 import ClaimRewards from 'components/ClaimRewards'
 import sendGa from 'functions/sendGa'
 
-import {
-  MyStake,
-  DAO_NETWORK,
-  LIQUIDITY_PROTOCOL,
-  SupportedChainId,
-} from '@gooddollar/web3sdk'
+import { MyStake, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk'
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 
 interface PortfolioTableRowProps {
     stake: MyStake
@@ -27,15 +23,16 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
     const handleClaimRewardsOpen = useCallback(() => setClaimRewardsOpen(true), [])
     const { chainId } = useActiveWeb3React()
 
-    const requireNetwork = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? DAO_NETWORK.FUSE : DAO_NETWORK.MAINNET
-    const claimableStake = (chainId === (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.FUSE) ||
-         (chainId !== (SupportedChainId.FUSE as number) && requireNetwork === DAO_NETWORK.MAINNET)
+    const requireChain = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'FUSE' : 'MAINNET'
+    const claimableStake =
+        (chainId === (SupportedChains.FUSE as number) && requireChain === 'FUSE') ||
+        (chainId !== (SupportedChains.FUSE as number) && requireChain === 'MAINNET')
     const getData = sendGa
-    const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet' 
+    const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet'
     const handleWithdrawOpen = useCallback(() => {
-      getData({event: 'stake', action: 'withdrawStart', network: network})
-      setWithdrawOpen(true)
-    }, [])
+        getData({ event: 'stake', action: 'withdrawStart', network: network })
+        setWithdrawOpen(true)
+    }, [getData, network])
 
     return (
         <>
@@ -47,7 +44,7 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
                 onWithdraw={onUpdate}
                 stake={stake}
             />
-            <ClaimRewards 
+            <ClaimRewards
                 open={isClaimRewardsOpen}
                 setOpen={setClaimRewardsOpen}
                 token={`${stake.tokens.A.symbol}`}
@@ -115,29 +112,28 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
                     {stake.rewards.GDAO.claimed.currency.symbol}
                 </td>
                 <td className="flex content-center justify-center">
-                    <div className="flex flex-col justify-end" style={{width: "140px"}}>
+                    <div className="flex flex-col justify-end" style={{ width: '140px' }}>
                         <ActionOrSwitchButton
                             size="sm"
                             width="100%"
                             borderRadius="6px"
                             noShadow={true}
-                            requireNetwork={requireNetwork}
+                            requireChain={requireChain}
                             onClick={handleWithdrawOpen}
                             ButtonEl={ButtonAction}
                         >
                             {i18n._(t`Withdraw Liquidity`)}
                         </ActionOrSwitchButton>
-                        {
-                        claimableStake &&
-                            <ButtonAction 
-                                className='mt-2' 
-                                size='sm' 
+                        {claimableStake && (
+                            <ButtonAction
+                                className="mt-2"
+                                size="sm"
                                 borderRadius="6px"
                                 onClick={handleClaimRewardsOpen}
                             >
                                 {i18n._(t`Claim rewards`)}
                             </ButtonAction>
-                        }
+                        )}
                     </div>
                 </td>
             </tr>
@@ -147,24 +143,18 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
                         size="sm"
                         width="100%"
                         borderRadius="6px"
-                        requireNetwork={requireNetwork}
+                        requireChain={requireChain}
                         onClick={handleWithdrawOpen}
                         ButtonEl={ButtonAction}
                     >
                         {i18n._(t`Withdraw`)}
                     </ActionOrSwitchButton>
-                    {   
-                         claimableStake &&
-                            <ButtonAction 
-                                className='mt-2' 
-                                size='sm'  
-                                borderRadius="6px" 
-                                onClick={handleClaimRewardsOpen}
-                            >
-                                {i18n._(t`Claim rewards`)}
-                            </ButtonAction>
-                    }
-                    </td>
+                    {claimableStake && (
+                        <ButtonAction className="mt-2" size="sm" borderRadius="6px" onClick={handleClaimRewardsOpen}>
+                            {i18n._(t`Claim rewards`)}
+                        </ButtonAction>
+                    )}
+                </td>
             </tr>
         </>
     )

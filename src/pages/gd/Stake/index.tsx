@@ -10,99 +10,28 @@ import Modal from 'components/Modal'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import { ButtonOutlined } from 'components/gd/Button'
 import Table from 'components/gd/Table'
-import { Wrapper } from './styled'
+import { Wrapper, CellSC } from './styled'
 import StakeDeposit from './StakeDeposit'
 import usePromise from 'hooks/usePromise'
 import { QuestionHelper } from 'components'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
+import { Savings } from './Savings'
 
-import { 
-  LIQUIDITY_PROTOCOL, 
-  DAO_NETWORK, 
-  useEnvWeb3, 
-  getList as getStakes, 
-  Stake, 
-  useGdContextProvider, 
-  useGovernanceStaking } from '@gooddollar/web3sdk'
+import {
+    LIQUIDITY_PROTOCOL,
+    DAO_NETWORK,
+    useEnvWeb3,
+    getList as getStakes,
+    Stake,
+    getNetworkEnv,
+    useGdContextProvider,
+    useGovernanceStaking
+} from '@gooddollar/web3sdk'
 
 import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
-
-const CellSC = styled.div`
-    position: relative;
-    padding: 16px 0;
-    display: grid;
-    grid-gap: 17px;
-    grid-template-areas:
-        't t t'
-        'a b c'
-        'd e e'
-        'f f f';
-
-    .part {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .title {
-        text-transform: capitalize;
-        font-size: 10px;
-        line-height: 14px;
-        font-weight: 500;
-    }
-
-    .value {
-        font-size: 12px;
-        line-height: 14px;
-        font-weight: bold;
-    }
-
-    .token {
-        grid-area: t;
-        font-size: 18px;
-        line-height: 24px;
-    }
-
-    .protocol {
-        grid-area: a;
-    }
-
-    .apy {
-        grid-area: b;
-    }
-
-    .socialapy {
-        grid-area: c;
-    }
-
-    .liquidity {
-        grid-area: d;
-    }
-
-    .total {
-        grid-area: e;
-    }
-
-    .stake {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 16px;
-        grid-area: f;
-    }
-
-    &:not(:last-of-type):after {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        content: '';
-        height: 0;
-        border: 1px solid #e9ecff;
-        width: calc(100% + 34px);
-    }
-`
-
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 const StakeTable = ({
     list,
     error,
@@ -269,12 +198,17 @@ const StakeTable = ({
                                 size="sm"
                                 borderRadius="6px"
                                 noShadow={true}
-                                requireNetwork={network}
+                                requireChain={network.toUpperCase() as keyof typeof SupportedChains}
                                 onClick={() => {
-                                  getData({event: 'stake', action: 'stakeStart', token: stake.tokens.A.symbol,
-                                           type: stake.protocol, network: network})
-                                  setActiveStake(stake)
-                                  setActiveTableName()
+                                    getData({
+                                        event: 'stake',
+                                        action: 'stakeStart',
+                                        token: stake.tokens.A.symbol,
+                                        type: stake.protocol,
+                                        network: network
+                                    })
+                                    setActiveStake(stake)
+                                    setActiveTableName()
                                 }}
                                 ButtonEl={ButtonOutlined}
                             >
@@ -417,14 +351,18 @@ const StakeTable = ({
                                             width="78px"
                                             borderRadius="6px"
                                             noShadow={true}
-                                            requireNetwork={network}
-                                            page='Stake'
+                                            requireChain={network.toUpperCase() as keyof typeof SupportedChains}
+                                            page="Stake"
                                             onClick={() => {
-                                              getData({event: 'stake', action: 'stakeStart', 
-                                                       token: stake.tokens.A.symbol, 
-                                                       type: stake.protocol, network: network})
-                                              setActiveStake(stake)
-                                              setActiveTableName()
+                                                getData({
+                                                    event: 'stake',
+                                                    action: 'stakeStart',
+                                                    token: stake.tokens.A.symbol,
+                                                    type: stake.protocol,
+                                                    network: network
+                                                })
+                                                setActiveStake(stake)
+                                                setActiveTableName()
                                             }}
                                         >
                                             {' '}
@@ -438,13 +376,17 @@ const StakeTable = ({
                                             size="sm"
                                             borderRadius="6px"
                                             noShadow={true}
-                                            requireNetwork={network}
+                                            requireChain={network.toUpperCase() as keyof typeof SupportedChains}
                                             onClick={() => {
-                                              getData({event: 'stake', action: 'stakeStart', 
-                                                       token: stake.tokens.A.symbol, 
-                                                       type: stake.protocol, network: network})
-                                              setActiveStake(stake)
-                                              setActiveTableName()
+                                                getData({
+                                                    event: 'stake',
+                                                    action: 'stakeStart',
+                                                    token: stake.tokens.A.symbol,
+                                                    type: stake.protocol,
+                                                    network: network
+                                                })
+                                                setActiveStake(stake)
+                                                setActiveTableName()
                                             }}
                                         >
                                             {' '}
@@ -479,10 +421,10 @@ export default function Stakes(): JSX.Element | null {
     const { web3 } = useGdContextProvider()
     const { chainId } = useActiveWeb3React()
     const governanceStaking = useGovernanceStaking(web3, chainId)
-    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId) 
+    const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId)
+    const network = getNetworkEnv()
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
-        const stakes = await (
-          web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
+        const stakes = await (web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
 
         return stakes
     }, [web3, mainnetWeb3])
@@ -554,6 +496,7 @@ export default function Stakes(): JSX.Element | null {
                     )}
                 </Modal>
             </StakesSC>
+            {network !== 'production' ? <Savings /> : <></>}
         </Layout>
     )
 }

@@ -103,7 +103,9 @@ const SavingsModal = ({
         }
     }, [g$Balance, savingsBalance, type, percentage])
 
-    const { transfer, withdraw, claim, transferState, withdrawState, claimState } = useSavingsFunctions()
+    const { transfer, withdraw, claim, transferState, withdrawState, claimState } = useSavingsFunctions(
+        SupportedV2Networks.FUSE
+    )
 
     const addSavingsTransaction = async (tx: TransactionReceipt, amount?: string) => {
         // getData({event: 'savings', action: [type]+'Success'})
@@ -121,7 +123,7 @@ const SavingsModal = ({
     const depositOrWithdraw = async (amount: string) => {
         if (account) {
             getData({ event: 'savings', action: [type] + 'Send', amount: amount })
-            const parsedAmount = (parseFloat(withdrawAmount.toFixed(2)) * 1e2).toString()
+            const parsedAmount = (parseFloat(withdrawAmount.toFixed(0)) * 1e2).toString()
             const tx =
                 type === 'withdraw'
                     ? await withdraw(parsedAmount)

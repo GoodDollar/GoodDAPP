@@ -3025,9 +3025,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@npm:^1.0.29-beta.2":
-  version: 1.0.29-beta.3
-  resolution: "@gooddollar/goodprotocol@npm:1.0.29-beta.3"
+"@gooddollar/goodprotocol@npm:1.0.29-beta.4, @gooddollar/goodprotocol@npm:^1.0.29-beta.4":
+  version: 1.0.29-beta.4
+  resolution: "@gooddollar/goodprotocol@npm:1.0.29-beta.4"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.4
     "@jsier/retrier": ^1.2.4
@@ -3041,7 +3041,52 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.5.11
     truffle-source-verify: ^0.0.6
-  checksum: cd0bbdd3c51ea94d44cc677ae9db068c0f6a47054c335034a88efab0e54bf27edfe41a15c5e600e4986186bbb660e6536552d3edeef10774e2bf8dace44ca32c
+  checksum: bfe57660d6b041fdea7c48fbafb990ff5fba8bd26aafeea66e897be1e657b9acf88f7d41ce3fa8f7b7fe4c80e6db73178df76a851c8971daef27de3c912e4184
+  languageName: node
+  linkType: hard
+
+"@gooddollar/web3sdk-v2@npm:^0.1.24":
+  version: 0.1.24
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.24"
+  dependencies:
+    "@gooddollar/goodprotocol": ^1.0.29-beta.4
+    "@usedapp/core": ^1.0.9
+    eventemitter3: ^4.0.7
+    react-use-promise: ^0.5.0
+  peerDependencies:
+    ethers: 5.*
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    react-native-web: ^0.18.1
+  checksum: 8838a33a3b0d1e8f804c0670d15a441c596b310e7ec9bb048bdad7be5909caa0ac4726551ca27183f7872fb217f56295fde34f407225647d5e676d700958c67b
+  languageName: node
+  linkType: hard
+
+"@gooddollar/web3sdk@npm:^0.1.10":
+  version: 0.1.10
+  resolution: "@gooddollar/web3sdk@npm:0.1.10"
+  dependencies:
+    "@apollo/client": ^3.2.0
+    "@gooddollar/goodprotocol": 1.0.29-beta.4
+    "@sushiswap/default-token-list": ^27.1.0
+    "@sushiswap/sdk": 5.0.0-canary.7
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/token-lists": ^1.0.0-beta.28
+    "@uniswap/v2-periphery": ^1.1.0-beta.0
+    "@uniswap/v2-sdk": ^3.0.0
+    bignumber.js: ^9.0.0
+    ethers: ^5.6.4
+    jsbi: ^3.1.5
+    lodash: 4.17.21
+    lodash.flatmap: ^4.5.0
+    numeral: ^2.0.6
+    rollup-plugin-multi-input: ^1.3.1
+    web3: ^1.7.5
+    web3-core-method: 1.7.5
+    web3-eth: ^1.7.5
+    web3-eth-contract: ^1.7.5
+    web3-utils: ^1.7.5
+  checksum: 54856a3b319bda4ed3f211a8f1deb9a8e9a29795996269999e18ec3e01400dc20cd4c7b490ce111f4caa9018094fd4bff947323b3d0eee2a926247fa4f06eec0
   languageName: node
   linkType: hard
 
@@ -4347,6 +4392,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sushiswap/default-token-list@npm:^27.1.0":
+  version: 27.9.0
+  resolution: "@sushiswap/default-token-list@npm:27.9.0"
+  checksum: a3a2da501fca924b367f7c0f0519091b1a641c277f64ec7cfde2e38d8c1f71272ca15ac954f04b2f6338e0b236171458a9132f22600eeb286973f9b0faf8a3e3
+  languageName: node
+  linkType: hard
+
 "@sushiswap/interface@workspace:.":
   version: 0.0.0-use.local
   resolution: "@sushiswap/interface@workspace:."
@@ -4360,7 +4412,9 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/goodprotocol": ^1.0.29-beta.2
+    "@gooddollar/goodprotocol": ^1.0.29-beta.4
+    "@gooddollar/web3sdk": ^0.1.10
+    "@gooddollar/web3sdk-v2": ^0.1.24
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": ^3.12.1
@@ -5734,7 +5788,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uniswap/token-lists@npm:^1.0.0-beta.19, @uniswap/token-lists@npm:^1.0.0-beta.27":
+"@uniswap/token-lists@npm:^1.0.0-beta.19, @uniswap/token-lists@npm:^1.0.0-beta.27, @uniswap/token-lists@npm:^1.0.0-beta.28":
   version: 1.0.0-beta.30
   resolution: "@uniswap/token-lists@npm:1.0.0-beta.30"
   checksum: 4138b15eab65c2d20749ab7dcf37f838198a349c402c40d810bcb11ab35dfee6b905d5fb7167e676ac863a562ba0a075bf6dd7fcc1e88dffe8b07fc58ce336ca
@@ -9569,7 +9623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.0.0, core-js@npm:^3.6.5":
+"core-js@npm:^3.0.0, core-js@npm:^3.1.3, core-js@npm:^3.6.5":
   version: 3.25.4
   resolution: "core-js@npm:3.25.4"
   checksum: bdcd545637082e8cfa7e47e33e0a210d91c6defea3869af3d2c39b4b66fef5683c83bd91760c32ae486497301a801a9862cc3064322859babd5b73cf601d1b84
@@ -12157,7 +12211,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^5.0.0, ethers@npm:^5.7.0":
+"ethers@npm:^5.0.0, ethers@npm:^5.6.4, ethers@npm:^5.7.0":
   version: 5.7.1
   resolution: "ethers@npm:5.7.1"
   dependencies:
@@ -12581,7 +12635,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.1.1, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
+"fast-glob@npm:^3.0.0, fast-glob@npm:^3.1.1, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
   version: 3.2.12
   resolution: "fast-glob@npm:3.2.12"
   dependencies:
@@ -22397,6 +22451,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rollup-plugin-multi-input@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "rollup-plugin-multi-input@npm:1.3.1"
+  dependencies:
+    core-js: ^3.1.3
+    fast-glob: ^3.0.0
+    lodash: ^4.17.11
+  checksum: b4e3288ac5173b8e7ec236a8ae6fd20110d90a22b51ea7eb89034e7011615edd3d55e018ba684af1fbb04bcaa469398b4913b21a18517417e40895e14ff8a503
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-terser@npm:^5.3.1":
   version: 5.3.1
   resolution: "rollup-plugin-terser@npm:5.3.1"
@@ -25954,6 +26019,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"web3-core-helpers@npm:1.7.5":
+  version: 1.7.5
+  resolution: "web3-core-helpers@npm:1.7.5"
+  dependencies:
+    web3-eth-iban: 1.7.5
+    web3-utils: 1.7.5
+  checksum: b7eafe44f7225961e76edefd53083df6b7e2621bc4fda6e44e08e64889f6a092b0da1c9a6a649fa4682c6f485a94b328b30f2cff26e9bd46513bfcfea0650696
+  languageName: node
+  linkType: hard
+
 "web3-core-helpers@npm:1.8.0":
   version: 1.8.0
   resolution: "web3-core-helpers@npm:1.8.0"
@@ -25961,6 +26036,19 @@ __metadata:
     web3-eth-iban: 1.8.0
     web3-utils: 1.8.0
   checksum: f0af1cfb790b2c51ac29d19d0c77cc4caf8e363ffc069b4943bbd4ebf602bd04835af6c5c4f8b2601ee3c8157b8c658783a7ddf3cd82a9c1d9c15091a624249a
+  languageName: node
+  linkType: hard
+
+"web3-core-method@npm:1.7.5":
+  version: 1.7.5
+  resolution: "web3-core-method@npm:1.7.5"
+  dependencies:
+    "@ethersproject/transactions": ^5.6.2
+    web3-core-helpers: 1.7.5
+    web3-core-promievent: 1.7.5
+    web3-core-subscriptions: 1.7.5
+    web3-utils: 1.7.5
+  checksum: d36e3554eb79805760ce5f49c9c580a57ecb8b488052ccc2f22918310dd7dca4e6d764992d73493d07ae60f7bde2cc4cf9548aa1cad5850b007c9b0d445d93c6
   languageName: node
   linkType: hard
 
@@ -25974,6 +26062,15 @@ __metadata:
     web3-core-subscriptions: 1.8.0
     web3-utils: 1.8.0
   checksum: 5b73af8a34c94cfaee8dd69435fe78cc6eccde2e30c2d9632b4efa96d18b8ee13012d14ed6cfe4350db6f9ea2e04c53e55a47ac31db013728812427828338290
+  languageName: node
+  linkType: hard
+
+"web3-core-promievent@npm:1.7.5":
+  version: 1.7.5
+  resolution: "web3-core-promievent@npm:1.7.5"
+  dependencies:
+    eventemitter3: 4.0.4
+  checksum: 63108e24a35652a47b700df59bd9337658c5714e60660a5908439cc44c6a09240d56e9195b01fded536b0247d61c288fa3c93a02368aabafbcc0c0d30e2c01db
   languageName: node
   linkType: hard
 
@@ -25996,6 +26093,16 @@ __metadata:
     web3-providers-ipc: 1.8.0
     web3-providers-ws: 1.8.0
   checksum: df4d8295a9b0e328c63498c5cc8a828d2f1d7f7e6f6893daa1f4b1ce2de5ed9fd428838606ec267f47c83b610340909c30975e51ab7e07564a1ec598043fb3ba
+  languageName: node
+  linkType: hard
+
+"web3-core-subscriptions@npm:1.7.5":
+  version: 1.7.5
+  resolution: "web3-core-subscriptions@npm:1.7.5"
+  dependencies:
+    eventemitter3: 4.0.4
+    web3-core-helpers: 1.7.5
+  checksum: f7bc85a56f5ea4ccdea8a0b91eed57abeee2646ac16e7c14638280af5296de914361e20e0952f3f80c2942a122aaca6ef5556c02b1c7bbf6282eb9f3e92b3d99
   languageName: node
   linkType: hard
 
@@ -26053,7 +26160,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3-eth-contract@npm:1.8.0":
+"web3-eth-contract@npm:1.8.0, web3-eth-contract@npm:^1.7.5":
   version: 1.8.0
   resolution: "web3-eth-contract@npm:1.8.0"
   dependencies:
@@ -26085,6 +26192,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"web3-eth-iban@npm:1.7.5":
+  version: 1.7.5
+  resolution: "web3-eth-iban@npm:1.7.5"
+  dependencies:
+    bn.js: ^5.2.1
+    web3-utils: 1.7.5
+  checksum: 342605eb0c597ffbcc1b41e61723f4893634df795bd0611d0db56ded734b9a87711bf43d2e98b2abe95d144ccfb9325f0423c757ab6b54a34ab0e129da7096f0
+  languageName: node
+  linkType: hard
+
 "web3-eth-iban@npm:1.8.0":
   version: 1.8.0
   resolution: "web3-eth-iban@npm:1.8.0"
@@ -26109,7 +26226,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3-eth@npm:1.8.0":
+"web3-eth@npm:1.8.0, web3-eth@npm:^1.7.5":
   version: 1.8.0
   resolution: "web3-eth@npm:1.8.0"
   dependencies:
@@ -26237,7 +26354,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3-utils@npm:1.8.0":
+"web3-utils@npm:1.7.5":
+  version: 1.7.5
+  resolution: "web3-utils@npm:1.7.5"
+  dependencies:
+    bn.js: ^5.2.1
+    ethereum-bloom-filters: ^1.0.6
+    ethereumjs-util: ^7.1.0
+    ethjs-unit: 0.1.6
+    number-to-bn: 1.7.0
+    randombytes: ^2.1.0
+    utf8: 3.0.0
+  checksum: 7eaffb2e59922c7c0c7c3c3e20f700036c89274495c6f664bb3db67cc37d543138596dd86dcc24f3c430ed27f2c6a12b682792a2d922b020c102de6f7873bacb
+  languageName: node
+  linkType: hard
+
+"web3-utils@npm:1.8.0, web3-utils@npm:^1.7.5":
   version: 1.8.0
   resolution: "web3-utils@npm:1.8.0"
   dependencies:
@@ -26252,7 +26384,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3@npm:1.8.0":
+"web3@npm:1.8.0, web3@npm:^1.7.5":
   version: 1.8.0
   resolution: "web3@npm:1.8.0"
   dependencies:

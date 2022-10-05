@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState } from 'react'
 import { Portal } from 'react-native-paper'
 
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
@@ -39,7 +39,7 @@ const generateRouter = () => {
 
 const Router = () => {
   // will exec once during first render
-  const RouterWrapper = useMemo(generateRouter, [])
+  const [RouterWrapper] = useState(generateRouter)
 
   return (
     <>

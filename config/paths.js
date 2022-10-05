@@ -73,7 +73,7 @@ const resolveIndex = env => {
     return paths.appIndexJs;
   }
 
-  return resolveModule(resolveApp, `src/index.${target}`),
+  return resolveModule(resolveApp, `src/index.${target}`);
 }
 
 // config after eject: we're in ./config/

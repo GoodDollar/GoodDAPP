@@ -66,8 +66,18 @@ const resolveModule = (resolveFn, filePath) => {
   return resolveFn(`${filePath}.js`);
 };
 
+const resolveIndex = env => {
+  const target = (env.raw.REACT_APP_BUILD_TARGET || '').toLowerCase();
+
+  if (!target) {
+    return paths.appIndexJs;
+  }
+
+  return resolveModule(resolveApp, `src/index.${target}`),
+}
+
 // config after eject: we're in ./config/
-module.exports = {
+const paths = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
@@ -87,5 +97,9 @@ module.exports = {
   servedPath: getServedPath(resolveApp('package.json'))
 };
 
-module.exports.moduleFileExtensions = moduleFileExtensions;
+module.exports = {
+  ...paths,
+  moduleFileExtensions,
+  resolveIndex,
+}
 

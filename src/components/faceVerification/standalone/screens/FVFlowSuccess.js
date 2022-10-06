@@ -3,26 +3,45 @@ import React, { useContext, useEffect } from 'react'
 import { View } from 'react-native'
 
 // components
-import Text from '../../../common/view/Text'
 import { Section, Wrapper } from '../../../common'
 
 // utils
 import { FVFlowContext } from '../context/FVFlowContext'
 import { redirectTo } from '../../../../lib/utils/linking'
-
+import API from '../../../../lib/API'
+import { tryUntil } from '../../../../lib/utils/async'
 import withStyles from '../theme/withStyles'
+import useCountdown from '../../../../lib/hooks/useCountdown'
+import WaitForCompleted from '../../components/WaitForCompleted'
+
+const checkWhitelistedAttempts = 6
+const checkWhitelistedDelay = 5000
+const checkWhitelistedTimeout = Math.floor(((checkWhitelistedAttempts + 1) * checkWhitelistedDelay) / 1000)
+
+const waitForWhitelisted = account =>
+  tryUntil(
+    () => API.isWhitelisted(account),
+    ({ isWhitelisted }) => isWhitelisted,
+    checkWhitelistedAttempts - 1,
+    checkWhitelistedDelay,
+  )
 
 const FVFlowSuccess = ({ styles, screenProps }) => {
-  const { rdu, cbu } = useContext(FVFlowContext)
-  const { screenState } = screenProps
+  const [counter] = useCountdown(checkWhitelistedTimeout)
+  const { rdu, cbu, account } = useContext(FVFlowContext)
 
   useEffect(() => {
     const url = rdu || cbu
+    const urlType = rdu ? 'rdu' : 'cbu'
 
-    if (url) {
-      redirectTo(url, rdu ? 'rdu' : 'cbu', screenState || {})
+    if (!url) {
+      return
     }
-  }, [rdu, cbu, screenState])
+
+    waitForWhitelisted(account)
+      .catch(() => false)
+      .then(verified => redirectTo(url, urlType, { verified }))
+  }, [rdu, cbu])
 
   return (
     <Wrapper>
@@ -30,7 +49,7 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
         <View style={styles.mainContent}>
           <View style={styles.descriptionContainer}>
             <View style={styles.descriptionWrapper}>
-              <Text style={styles.text}>You can close this window and go back to the App</Text>
+              <WaitForCompleted counter={counter} />
             </View>
           </View>
         </View>

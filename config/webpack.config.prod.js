@@ -41,7 +41,8 @@ const publicUrl = publicPath.slice(0, -1)
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
 const reactEnv = env.raw.REACT_APP_ENV
-const isFvFlowEnv = env.raw.REACT_APP_BUILD_TARGET === 'FV'
+const target = (env.raw.REACT_APP_BUILD_TARGET || '').toLowerCase()
+
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
 if (env.stringified['process.env'].NODE_ENV !== '"production"') {
@@ -109,7 +110,7 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the app code.
-  entry: [paths.appIndexJs],
+  entry: [paths.resolveIndex(env)],
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -610,7 +611,7 @@ module.exports = {
         formatter: typescriptFormatter,
       }),
     // upload sourcemaps to Sentry (QA & prod only)
-    ('development' !== reactEnv && !isFvFlowEnv ) &&
+    ('development' !== reactEnv && 'fv' !== target) &&
       new SentryCliPlugin({
         rewrite: true,
         release: `${env.raw.VERSION}+${reactEnv}`,

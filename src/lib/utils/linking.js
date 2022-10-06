@@ -1,6 +1,7 @@
 // @flow
 import { Linking, Platform } from 'react-native'
 
+import { mapValues } from 'lodash'
 import { DESTINATION_PATH, INVITE_CODE } from '../constants/localStorage'
 import { fireEvent, SIGNIN_FAILED } from '../analytics/analytics'
 
@@ -85,7 +86,9 @@ export const handleLinks = async (logger = log) => {
 
 export const redirectTo = async (url, type: 'rdu' | 'cbu', params = {}) => {
   if (type === 'rdu') {
-    return openLink(`${url}?login=${encodeBase64Params(params)}`, '_self')
+    const urlParams = new URLSearchParams(mapValues(params, encodeBase64Params))
+
+    return openLink(`${url}?${urlParams.toString()}`, '_self')
   }
 
   try {

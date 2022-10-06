@@ -78,6 +78,10 @@ export class APIService {
     return this.client.get('/auth/ping', { throttle: false })
   }
 
+  isWhitelisted(address): AxiosPromise<any> {
+    return this.client.get(`/userWhitelisted/${encodeURIComponent(address)}`, { throttle: false })
+  }
+
   /**
    * `/auth/eth` post api call
    * @param {Credentials} creds
@@ -87,7 +91,7 @@ export class APIService {
   }
 
   fvAuth(creds: Credentials): AxiosPromise<any> {
-    return this.client.post('/auth/fv', creds)
+    return this.client.post('/auth/fv2', creds)
   }
 
   /**

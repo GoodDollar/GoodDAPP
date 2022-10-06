@@ -69,7 +69,7 @@ const useGoodDollarLogin = params => {
     async response => {
       const { url, urlType } = parsedURL
 
-      await redirectTo(url, urlType, response)
+      await redirectTo(url, urlType, { login: response })
     },
     [parsedURL],
   )

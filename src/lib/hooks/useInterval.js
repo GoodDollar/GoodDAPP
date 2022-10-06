@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 
 const useInterval = (callback, delay = 1000, autoStart = true) => {
   const callbackRef = useRef(callback)
@@ -18,7 +18,7 @@ const useInterval = (callback, delay = 1000, autoStart = true) => {
     intervalRef.current = setInterval(() => callbackRef.current(), delay)
   }, [stop, delay])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     callbackRef.current = callback
   }, [callback])
 

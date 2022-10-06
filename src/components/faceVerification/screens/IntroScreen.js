@@ -8,6 +8,7 @@ import { get } from 'lodash'
 import { t } from '@lingui/macro'
 import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../common'
+import WaitForCompleted from '../components/WaitForCompleted'
 
 // hooks
 import useOnPress from '../../../lib/hooks/useOnPress'
@@ -182,6 +183,24 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       navigate('FVFlowError')
     }
   }, [isFVFlow, enrollmentIdentifier, fvFlowError, navigate])
+
+  useEffect(() => {
+    if (isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier) {
+      handleVerifyClick()
+    }
+  }, [isFVFlow, isFVFlowReady, disposing, enrollmentIdentifier])
+
+  if (isFVFlow) {
+    return (
+      <Wrapper>
+        <Section style={styles.topContainer} grow>
+          <View style={styles.mainContent}>
+            <WaitForCompleted />
+          </View>
+        </Section>
+      </Wrapper>
+    )
+  }
 
   return (
     <Intro

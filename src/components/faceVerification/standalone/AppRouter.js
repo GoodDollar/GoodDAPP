@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Portal } from 'react-native-paper'
+import { once } from 'lodash'
 
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { withNavigationOptions } from '../../../lib/utils/navigation'
@@ -25,7 +26,8 @@ const FVFlowScreens = withNavigationOptions({
   FVFlowError,
 })
 
-const generateRouter = () => {
+// will exec once during first render
+const generateRouter = once(() => {
   const routes = {
     ...FVFlowScreens,
     Support,
@@ -35,11 +37,10 @@ const generateRouter = () => {
 
   log.debug('Generated fv router')
   return createAppContainer(router)
-}
+})
 
 const Router = () => {
-  // will exec once during first render
-  const [RouterWrapper] = useState(generateRouter)
+  const RouterWrapper = generateRouter()
 
   return (
     <>

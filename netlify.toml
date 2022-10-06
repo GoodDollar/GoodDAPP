@@ -139,7 +139,6 @@ REACT_APP_FACE_VERIFICATION_PRIVACY_URL = "https://medium.com/gooddollar/gooddol
 REACT_APP_WEB3_SITE_URL = "https://w3next.gooddollar.org"
 REACT_APP_USE_TORUS = "true"
 REACT_APP_TORUS_NETWORK = "mainnet"
-REACT_APP_TORUS_PROXY_CONTRACT = "0x638646503746d5456209e33a2ff5e3226d698bea"
 REACT_APP_TORUS_GOOGLE = "gooddollar-google"
 REACT_APP_TORUS_FACEBOOK = "gooddollar-facebook"
 REACT_APP_TORUS_GOOGLEAUTH0 = "gooddollar-google-auth0"

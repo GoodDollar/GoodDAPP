@@ -35,14 +35,19 @@ class TorusSDK {
   }
 
   constructor(config, options, logger) {
-    const { env, torusProxyContract, torusNetwork, torusUxMode = 'popup' } = config
+    const { env, torusNetwork, torusUxMode = 'popup' } = config
 
     const torusOptions = defaults({}, options, {
-      proxyContractAddress: torusProxyContract, // details for test net
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
       uxMode: torusUxMode,
     })
+
+    // Temporary fix for ropsten deprecation
+    if (torusOptions.network === 'testnet') {
+      torusOptions.networkUrl =
+        'https://billowing-responsive-arm.ropsten.discover.quiknode.pro/e1f91ad991da6c4a3558e1d2450238ea1fe17af1/'
+    }
 
     this.torus = new Torus(config, torusOptions)
     this.popupMode = torusOptions.uxMode === 'popup'

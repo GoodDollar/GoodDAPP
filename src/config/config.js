@@ -125,7 +125,6 @@ const Config = {
   marketUrl: env.REACT_APP_MARKET_URL || 'https://goodmarkets.xyz/',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'testnet',
-  torusProxyContract: env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   testClaimNotification: appEnv === 'production' ? false : env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true',
   disableClaim: env.REACT_APP_DISABLE_CLAIM === 'true',

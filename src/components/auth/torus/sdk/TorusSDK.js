@@ -45,8 +45,9 @@ class TorusSDK {
 
     // Temporary fix for ropsten deprecation
     if (torusOptions.network === 'testnet') {
-      torusOptions.networkUrl =
+      torusOptions.network =
         'https://billowing-responsive-arm.ropsten.discover.quiknode.pro/e1f91ad991da6c4a3558e1d2450238ea1fe17af1/'
+      torusOptions.proxyContractAddress = '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183'
     }
 
     this.torus = new Torus(config, torusOptions)

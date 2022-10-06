@@ -34,10 +34,10 @@ const PARAMS: {
         nativeCurrency: {
             name: 'Ethereum',
             symbol: 'ETH',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: ['https://mainnet.infura.io/v3'],
-        blockExplorerUrls: ['https://etherscan.com']
+        blockExplorerUrls: ['https://etherscan.com'],
     },
     [ChainId.FANTOM]: {
         chainId: '0xfa',
@@ -45,10 +45,10 @@ const PARAMS: {
         nativeCurrency: {
             name: 'Fantom',
             symbol: 'FTM',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: ['https://rpcapi.fantom.network'],
-        blockExplorerUrls: ['https://ftmscan.com']
+        blockExplorerUrls: ['https://ftmscan.com'],
     },
     [ChainId.BSC]: {
         chainId: '0x38',
@@ -56,10 +56,10 @@ const PARAMS: {
         nativeCurrency: {
             name: 'Binance Coin',
             symbol: 'BNB',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: ['https://bsc-dataseed.binance.org'],
-        blockExplorerUrls: ['https://bscscan.com']
+        blockExplorerUrls: ['https://bscscan.com'],
     },
     [ChainId.MATIC]: {
         chainId: '0x89',
@@ -67,13 +67,13 @@ const PARAMS: {
         nativeCurrency: {
             name: 'Matic',
             symbol: 'MATIC',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: [
             //'https://matic-mainnet.chainstacklabs.com/'
-            'https://rpc-mainnet.maticvigil.com'
+            'https://rpc-mainnet.maticvigil.com',
         ],
-        blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com']
+        blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com'],
     },
     [ChainId.HECO]: {
         chainId: '0x80',
@@ -81,10 +81,10 @@ const PARAMS: {
         nativeCurrency: {
             name: 'Heco Token',
             symbol: 'HT',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: ['https://http-mainnet.hecochain.com'],
-        blockExplorerUrls: ['https://hecoinfo.com']
+        blockExplorerUrls: ['https://hecoinfo.com'],
     },
     [ChainId.XDAI]: {
         chainId: '0x64',
@@ -92,10 +92,10 @@ const PARAMS: {
         nativeCurrency: {
             name: 'xDai Token',
             symbol: 'xDai',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: ['https://rpc.xdaichain.com'],
-        blockExplorerUrls: ['https://blockscout.com/poa/xdai']
+        blockExplorerUrls: ['https://blockscout.com/poa/xdai'],
     },
     [ChainId.HARMONY]: {
         chainId: '0x63564C40',
@@ -103,10 +103,10 @@ const PARAMS: {
         nativeCurrency: {
             name: 'One Token',
             symbol: 'ONE',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: ['https://api.s0.t.hmny.io'],
-        blockExplorerUrls: ['https://explorer.harmony.one/']
+        blockExplorerUrls: ['https://explorer.harmony.one/'],
     },
     [ChainId.AVALANCHE]: {
         chainId: '0xA86A',
@@ -114,10 +114,10 @@ const PARAMS: {
         nativeCurrency: {
             name: 'Avalanche Token',
             symbol: 'AVAX',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-        blockExplorerUrls: ['https://explorer.avax.network']
+        blockExplorerUrls: ['https://explorer.avax.network'],
     },
     [ChainId.OKEX]: {
         chainId: '0x42',
@@ -125,10 +125,10 @@ const PARAMS: {
         nativeCurrency: {
             name: 'OKEx Token',
             symbol: 'OKT',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: ['https://exchainrpc.okex.org'],
-        blockExplorerUrls: ['https://www.oklink.com/okexchain']
+        blockExplorerUrls: ['https://www.oklink.com/okexchain'],
     },
     [AdditionalChainId.FUSE]: {
         chainId: '0x7a',
@@ -136,11 +136,11 @@ const PARAMS: {
         nativeCurrency: {
             name: 'FUSE Token',
             symbol: 'FUSE',
-            decimals: 18
+            decimals: 18,
         },
         rpcUrls: [process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io'],
-        blockExplorerUrls: ['https://explorer.fuse.io']
-    }
+        blockExplorerUrls: ['https://explorer.fuse.io'],
+    },
 }
 
 const TextWrapper = styled.div`
@@ -181,13 +181,10 @@ export default function NetworkModal(): JSX.Element | null {
                 return [ChainId.MAINNET]
 
             case network === 'staging' && !error:
-                return [ChainId.KOVAN, AdditionalChainId.FUSE, ChainId.ROPSTEN]
-
-            case network === 'staging' && error instanceof UnsupportedChainId:
-                return [ChainId.KOVAN, ChainId.ROPSTEN]
+                return [AdditionalChainId.FUSE]
 
             default:
-                return [ChainId.KOVAN, AdditionalChainId.FUSE, ChainId.ROPSTEN, ChainId.MAINNET]
+                return [AdditionalChainId.FUSE, ChainId.MAINNET]
         }
     }, [error, network])
 
@@ -217,15 +214,7 @@ export default function NetworkModal(): JSX.Element | null {
                             key={key}
                             onClick={() => {
                                 toggleNetworkModal()
-                                if (
-                                    [
-                                        ChainId.MAINNET,
-                                        ChainId.KOVAN,
-                                        ChainId.RINKEBY,
-                                        ChainId.GÖRLI,
-                                        ChainId.ROPSTEN
-                                    ].includes(key as any)
-                                ) {
+                                if ([ChainId.MAINNET, ChainId.RINKEBY, ChainId.GÖRLI].includes(key as any)) {
                                     setChain({ chainId: `0x${key.toString(16)}` })
                                 } else {
                                     setChain({ chainId: `0x7a` })

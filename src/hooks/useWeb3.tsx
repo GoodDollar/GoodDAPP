@@ -12,8 +12,6 @@ type NetworkSettings = {
     currentNetwork: string
     rpcs: {
         MAINNET_RPC: string | undefined
-        ROPSTEN_RPC: string | undefined
-        KOVAN_RPC: string | undefined
         FUSE_RPC: string | undefined
         CELO_RPC: string | undefined
     }
@@ -25,12 +23,6 @@ export function useNetwork(): NetworkSettings {
         MAINNET_RPC:
             process.env.REACT_APP_MAINNET_RPC ||
             (ethers.getDefaultProvider('mainnet') as any).providerConfigs[0].provider.connection.url,
-        KOVAN_RPC:
-            process.env.REACT_APP_KOVAN_RPC ||
-            (ethers.getDefaultProvider('kovan') as any).providerConfigs[0].provider.connection.url,
-        ROPSTEN_RPC:
-            process.env.REACT_APP_ROPSTEN_RPC ||
-            (ethers.getDefaultProvider('ropsten') as any).providerConfigs[0].provider.connection.url,
         FUSE_RPC: process.env.REACT_APP_FUSE_RPC || 'https://rpc.fuse.io',
         CELO_RPC: process.env.REACT_APP_CELO_RPC || 'https://forno.celo.org',
     }
@@ -50,7 +42,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
         () =>
             eipProvider
                 ? new ethers.providers.Web3Provider(eipProvider as ExternalProvider, 'any')
-                : new ethers.providers.JsonRpcBatchProvider(rpcs.FUSE_RPC),
+                : new ethers.providers.JsonRpcProvider(rpcs.FUSE_RPC),
         [eipProvider, rpcs.FUSE_RPC]
     )
 

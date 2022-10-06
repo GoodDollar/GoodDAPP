@@ -103,9 +103,7 @@ const SavingsModal = ({
         }
     }, [g$Balance, savingsBalance, type, percentage])
 
-    const { transfer, withdraw, claim, transferState, withdrawState, claimState } = useSavingsFunctions(
-        SupportedV2Networks.FUSE
-    )
+    const { transfer, withdraw, claim, transferState, withdrawState, claimState } = useSavingsFunctions()
 
     const addSavingsTransaction = async (tx: TransactionReceipt, amount?: string) => {
         // getData({event: 'savings', action: [type]+'Success'})

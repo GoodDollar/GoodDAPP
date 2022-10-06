@@ -2,7 +2,7 @@ import { ChainId, Currency, JSBI, Percent, Token, WETH } from '@sushiswap/sdk'
 
 export const POOL_DENY = ['14', '29', '45', '30']
 
-export const FUSE = (Object.assign({}, Currency, {
+export const FUSE = Object.assign({}, Currency, {
     decimals: 18,
     symbol: 'FUSE',
     name: 'FUSE',
@@ -28,8 +28,8 @@ export const FUSE = (Object.assign({}, Currency, {
         }
 
         return this === null || this === void 0 ? void 0 : this.name
-    }
-}) as unknown) as Currency
+    },
+}) as unknown as Currency
 
 Object.defineProperty(Currency.NATIVE, 122, { value: FUSE })
 Object.defineProperty(Currency, 'FUSE', { value: FUSE })
@@ -39,7 +39,7 @@ Object.defineProperty(ChainId, 122, { value: 'FUSE', writable: false, configurab
 Object.defineProperty(WETH, 122, {
     value: new Token(122, '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', 18, 'WFUSE', 'Wrapped FUSE'),
     writable: false,
-    configurable: false
+    configurable: false,
 })
 
 export enum AdditionalChainId {
@@ -88,18 +88,24 @@ export const SUSHI: ChainTokenMap = {
     ),
     [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', 18, 'SUSHI', 'SushiToken'),
     [ChainId.KOVAN]: new Token(ChainId.KOVAN, '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', 18, 'SUSHI', 'SushiToken'),
-    [ChainId.FANTOM]: new Token(ChainId.FANTOM, '0xae75A438b2E0cB8Bb01Ec1E1e376De11D44477CC', 18, 'SUSHI', 'SushiToken')
+    [ChainId.FANTOM]: new Token(
+        ChainId.FANTOM,
+        '0xae75A438b2E0cB8Bb01Ec1E1e376De11D44477CC',
+        18,
+        'SUSHI',
+        'SushiToken'
+    ),
 }
 
 export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
     // [UNI_ADDRESS]: 'UNI',
-    [TIMELOCK_ADDRESS]: 'Timelock'
+    [TIMELOCK_ADDRESS]: 'Timelock',
 }
 
 // TODO: specify merkle distributor for mainnet
 export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.MAINNET]: '0xcBE6B83e77cdc011Cc18F6f0Df8444E5783ed982',
-    [ChainId.ROPSTEN]: '0x84d1f7202e0e7dac211617017ca72a2cb5e2b955'
+    [ChainId.ROPSTEN]: '0x84d1f7202e0e7dac211617017ca72a2cb5e2b955',
 }
 
 // TODO: update weekly with new constant
@@ -141,8 +147,8 @@ const WRAPPED_NATIVE_ONLY: ChainTokenList = {
     [ChainId.OKEX]: [WETH[ChainId.OKEX]],
     [ChainId.OKEX_TESTNET]: [WETH[ChainId.OKEX_TESTNET]],
     [AdditionalChainId.FUSE]: [
-        new Token(122, '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', 18, 'WFUSE', 'Wrapped FUSE')
-    ]
+        new Token(122, '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', 18, 'WFUSE', 'Wrapped FUSE'),
+    ],
 }
 
 // Default Ethereum chain tokens
@@ -160,14 +166,14 @@ export const BSC: { [key: string]: Token } = {
     USD: new Token(ChainId.BSC, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18, 'BUSD', 'Binance USD'),
     USDC: new Token(ChainId.BSC, '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', 18, 'USDC', 'USD Coin'),
     USDT: new Token(ChainId.BSC, '0x55d398326f99059fF775485246999027B3197955', 18, 'USDT', 'Tether USD'),
-    BTCB: new Token(ChainId.BSC, '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c', 18, 'BTCB', 'Bitcoin')
+    BTCB: new Token(ChainId.BSC, '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c', 18, 'BTCB', 'Bitcoin'),
 }
 
 export const FANTOM: { [key: string]: Token } = {
     USDC: new Token(ChainId.FANTOM, '0x04068DA6C83AFCFA0e13ba15A6696662335D5B75', 6, 'USDC', 'USD Coin'),
     WBTC: new Token(ChainId.FANTOM, '0x321162Cd933E2Be498Cd2267a90534A804051b11', 8, 'WBTC', 'Wrapped Bitcoin'),
     DAI: new Token(ChainId.FANTOM, '0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E', 18, 'DAI', 'Dai Stablecoin'),
-    WETH: new Token(ChainId.FANTOM, '0x74b23882a30290451A17c44f4F05243b6b58C76d', 18, 'WETH', 'Wrapped Ether')
+    WETH: new Token(ChainId.FANTOM, '0x74b23882a30290451A17c44f4F05243b6b58C76d', 18, 'WETH', 'Wrapped Ether'),
 }
 
 export const MATIC: { [key: string]: Token } = {
@@ -180,7 +186,7 @@ export const MATIC: { [key: string]: Token } = {
     SUSHI: new Token(ChainId.MATIC, '0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a', 18, 'SUSHI', 'SushiToken'),
     AAVE: new Token(ChainId.MATIC, '0xD6DF932A45C0f255f85145f286eA0b292B21C90B', 18, 'AAVE', 'Aave'),
     FRAX: new Token(ChainId.MATIC, '0x104592a158490a9228070E0A8e5343B499e125D0', 18, 'FRAX', 'Frax'),
-    FXS: new Token(ChainId.MATIC, '0x3e121107F6F22DA4911079845a470757aF4e1A1b', 18, 'FXS', 'Frax Share')
+    FXS: new Token(ChainId.MATIC, '0x3e121107F6F22DA4911079845a470757aF4e1A1b', 18, 'FXS', 'Frax Share'),
 }
 
 // used to construct intermediary pairs for trading
@@ -189,7 +195,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     [ChainId.MAINNET]: [...WRAPPED_NATIVE_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC, RUNE, NFTX, STETH],
     [ChainId.MATIC]: [...WRAPPED_NATIVE_ONLY[ChainId.MATIC], MATIC.USDC, MATIC.WBTC, MATIC.DAI, MATIC.WETH, MATIC.USDT],
     [ChainId.FANTOM]: [...WRAPPED_NATIVE_ONLY[ChainId.FANTOM], FANTOM.DAI, FANTOM.USDC, FANTOM.WBTC, FANTOM.WETH],
-    [ChainId.BSC]: [...WRAPPED_NATIVE_ONLY[ChainId.BSC], BSC.DAI, BSC.USD, BSC.USDC, BSC.USDT, BSC.BTCB]
+    [ChainId.BSC]: [...WRAPPED_NATIVE_ONLY[ChainId.BSC], BSC.DAI, BSC.USD, BSC.USDC, BSC.USDT, BSC.BTCB],
 }
 
 export const CREAM = new Token(ChainId.MAINNET, '0x2ba592F78dB6436527729929AAf6c908497cB200', 18, 'CREAM', 'Cream')
@@ -292,12 +298,12 @@ export const CUSTOM_BASES: { [chainId in ChainId | AdditionalChainId]?: { [token
         [PLAY.address]: [DOUGH, WETH[ChainId.MAINNET]],
         [XSUSHI_CALL.address]: [XSUSHI, WETH[ChainId.MAINNET]],
         [LIFT.address]: [LFBTC, WETH[ChainId.MAINNET]],
-        [CVXCRV.address]: [CRV, WETH[ChainId.MAINNET]]
+        [CVXCRV.address]: [CRV, WETH[ChainId.MAINNET]],
     },
     [ChainId.MATIC]: {
         [MATIC.TEL.address]: [MATIC.SUSHI, MATIC.AAVE],
-        [MATIC.FXS.address]: [MATIC.FRAX]
-    }
+        [MATIC.FXS.address]: [MATIC.FRAX],
+    },
 }
 
 // used for display in the default list when adding liquidity
@@ -306,7 +312,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
     [ChainId.MAINNET]: [...WRAPPED_NATIVE_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
     [ChainId.MATIC]: [...WRAPPED_NATIVE_ONLY[ChainId.MATIC], MATIC.USDC, MATIC.WBTC, MATIC.DAI, MATIC.WETH, MATIC.USDT],
     [ChainId.FANTOM]: [...WRAPPED_NATIVE_ONLY[ChainId.FANTOM], FANTOM.DAI, FANTOM.USDC, FANTOM.WBTC, FANTOM.WETH],
-    [ChainId.BSC]: [...WRAPPED_NATIVE_ONLY[ChainId.BSC], BSC.DAI, BSC.USD, BSC.USDC, BSC.USDT, BSC.BTCB]
+    [ChainId.BSC]: [...WRAPPED_NATIVE_ONLY[ChainId.BSC], BSC.DAI, BSC.USD, BSC.USDC, BSC.USDT, BSC.BTCB],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -315,7 +321,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
     [ChainId.MAINNET]: [...WRAPPED_NATIVE_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
     [ChainId.MATIC]: [...WRAPPED_NATIVE_ONLY[ChainId.MATIC], MATIC.USDC, MATIC.WBTC, MATIC.DAI, MATIC.WETH, MATIC.USDT],
     [ChainId.FANTOM]: [...WRAPPED_NATIVE_ONLY[ChainId.FANTOM], FANTOM.DAI, FANTOM.USDC, FANTOM.WBTC, FANTOM.WETH],
-    [ChainId.BSC]: [...WRAPPED_NATIVE_ONLY[ChainId.BSC], BSC.DAI, BSC.USD, BSC.USDC, BSC.USDT, BSC.BTCB]
+    [ChainId.BSC]: [...WRAPPED_NATIVE_ONLY[ChainId.BSC], BSC.DAI, BSC.USD, BSC.USDC, BSC.USDT, BSC.BTCB],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId | AdditionalChainId]?: [Token, Token][] } = {
@@ -323,11 +329,11 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId | AdditionalChainId]?:
         [SUSHI[ChainId.MAINNET] as Token, WETH[ChainId.MAINNET]],
         [
             new Token(ChainId.MAINNET, '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643', 8, 'cDAI', 'Compound Dai'),
-            new Token(ChainId.MAINNET, '0x39AA39c021dfbaE8faC545936693aC917d5E7563', 8, 'cUSDC', 'Compound USD Coin')
+            new Token(ChainId.MAINNET, '0x39AA39c021dfbaE8faC545936693aC917d5E7563', 8, 'cUSDC', 'Compound USD Coin'),
         ],
         [USDC, USDT],
-        [DAI, USDT]
-    ]
+        [DAI, USDT],
+    ],
 }
 
 export interface WalletInfo {
@@ -342,42 +348,45 @@ export interface WalletInfo {
 }
 
 /*
-* Override to be used as cast for @ethers library.provider
-* added isWalletLink 
-*/
+ * Override to be used as cast for @ethers library.provider
+ * added isWalletLink
+ */
 export type ExternalProvider = {
-  isMetaMask?: boolean;
-  isWalletLink?: boolean;
-  isStatus?: boolean;
-  host?: string;
-  path?: string;
-  sendAsync?: (request: { method: string, params?: Array<any> }, callback: (error: any, response: any) => void) => void
-  send?: (request: { method: string, params?: Array<any> }, callback: (error: any, response: any) => void) => void
-  request?: (request: { method: string, params?: Array<any> }) => Promise<any>
+    isMetaMask?: boolean
+    isWalletLink?: boolean
+    isStatus?: boolean
+    host?: string
+    path?: string
+    sendAsync?: (
+        request: { method: string; params?: Array<any> },
+        callback: (error: any, response: any) => void
+    ) => void
+    send?: (request: { method: string; params?: Array<any> }, callback: (error: any, response: any) => void) => void
+    request?: (request: { method: string; params?: Array<any> }) => Promise<any>
 }
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     METAMASK: {
-      name: 'MetaMask',
-      iconName: 'metamask.png',
-      description: 'Easy-to-use browser extension.',
-      href: null,
-      color: '#E8831D'
+        name: 'MetaMask',
+        iconName: 'metamask.png',
+        description: 'Easy-to-use browser extension.',
+        href: null,
+        color: '#E8831D',
     },
     WALLET_CONNECT: {
-      name: 'WalletConnect',
-      iconName: 'walletConnectIcon.svg',
-      description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
-      href: null,
-      color: '#4196FC',
-      mobile: true
+        name: 'WalletConnect',
+        iconName: 'walletConnectIcon.svg',
+        description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
+        href: null,
+        color: '#4196FC',
+        mobile: true,
     },
     WALLET_LINK: {
-      name: 'Coinbase',
-      iconName: 'coinbaseWalletIcon.svg',
-      description: 'Use Coinbase Wallet app on mobile device',
-      href: null,
-      color: '#315CF5',
+        name: 'Coinbase',
+        iconName: 'coinbaseWalletIcon.svg',
+        description: 'Use Coinbase Wallet app on mobile device',
+        href: null,
+        color: '#315CF5',
     },
 }
 
@@ -417,13 +426,13 @@ export const BLOCKED_ADDRESSES: string[] = [
     '0x7F367cC41522cE07553e823bf3be79A889DEbe1B',
     '0xd882cFc20F52f2599D84b8e8D58C7FB62cfE344b',
     '0x901bb9583b24D97e995513C6778dc6888AB6870e',
-    '0xA7e5d5A720f06526557c513402f2e6B5fA20b008'
+    '0xA7e5d5A720f06526557c513402f2e6B5fA20b008',
 ]
 
 // BentoBox Swappers
 export const BASE_SWAPPER: { [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.MAINNET]: '0x0',
-    [ChainId.ROPSTEN]: '0xe4E2540D421e56b0B786d40c5F5268891288c6fb'
+    [ChainId.ROPSTEN]: '0xe4E2540D421e56b0B786d40c5F5268891288c6fb',
 }
 
 // Boring Helper
@@ -434,5 +443,7 @@ export const ANALYTICS_URL: { [chainId in ChainId | AdditionalChainId]?: string 
     [ChainId.MATIC]: 'https://analytics-polygon.sushi.com',
     [ChainId.FANTOM]: 'https://analytics-ftm.sushi.com',
     [ChainId.BSC]: 'https://analytics-bsc.sushi.com',
-    [ChainId.XDAI]: 'https://analytics-xdai.sushi.com'
+    [ChainId.XDAI]: 'https://analytics-xdai.sushi.com',
 }
+
+export const disableTestnetMain = [3, 42]

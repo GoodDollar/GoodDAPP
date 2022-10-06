@@ -20,19 +20,13 @@ import AppNotice from 'components/AppNotice'
 import { useWindowSize } from 'hooks/useWindowSize'
 import Withdraw from 'components/Withdraw'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
-import {
-    getNetworkEnv,
-    useEnvWeb3,
-    getMyList,
-    MyStake,
-    DAO_NETWORK,
-    LIQUIDITY_PROTOCOL
-} from '@gooddollar/web3sdk'
+import { getNetworkEnv, useEnvWeb3, getMyList, MyStake, DAO_NETWORK, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk'
 import { SupportedChains } from '@gooddollar/web3sdk-v2'
 import styled from 'styled-components'
 import ClaimRewards from 'components/ClaimRewards'
 import { SavingsAccount } from './SavingsAccount'
 import { CellSC } from './styled'
+import { disableTestnetMain } from 'constants/index'
 
 const MobileTableSC = styled.div``
 
@@ -44,7 +38,7 @@ const MobileCell = ({
     stakeAmount,
     G$rewards,
     multiplier,
-    rewardsGOOD
+    rewardsGOOD,
 }: {
     stake: MyStake
     onUpdate: () => void
@@ -204,7 +198,7 @@ const MobileTable = ({ stakes, cells, onUpdate }: { stakes?: MyStake[]; cells: a
 
 const Portfolio = () => {
     const { i18n } = useLingui()
-    const { account } = useActiveWeb3React()
+    const { account, chainId } = useActiveWeb3React()
 
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
@@ -218,38 +212,41 @@ const Portfolio = () => {
             title: i18n._(t`TYPE`),
             questionText: i18n._(
                 t`Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.`
-            )
+            ),
         },
         {
             title: i18n._(t`TOKEN`),
-            questionText: i18n._(t`This is the token that is currently being staked.`)
+            questionText: i18n._(t`This is the token that is currently being staked.`),
         },
         {
             title: i18n._(t`PROTOCOL`),
-            questionText: i18n._(t`This is the protocol that the token is staked to.`)
+            questionText: i18n._(t`This is the protocol that the token is staked to.`),
         },
         {
             title: i18n._(t`STAKE`),
-            questionText: i18n._(t`Total amount on value staked.`)
+            questionText: i18n._(t`Total amount on value staked.`),
         },
         {
             title: `G$ ${i18n._(t`REWARDS`)}`,
-            questionText: i18n._(t`How much value your stake has accumulated so far.`)
+            questionText: i18n._(t`How much value your stake has accumulated so far.`),
         },
         {
             title: i18n._(t`MULTIPLIER`),
             questionText: i18n._(
                 t`Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!`
-            )
+            ),
         },
         {
             title: `GOOD ${i18n._(t`REWARDS`)}`,
-            questionText: i18n._(t`How many GOOD tokens you are accumulating by this stake position.`)
-        }
+            questionText: i18n._(t`How many GOOD tokens you are accumulating by this stake position.`),
+        },
     ]
 
     const [data, , , update] = usePromise(async () => {
-        const list = account && mainnetWeb3 && fuseWeb3 ? await getMyList(mainnetWeb3, fuseWeb3, account, network) : []
+        const list =
+            account && mainnetWeb3 && fuseWeb3 && !disableTestnetMain.includes(chainId)
+                ? await getMyList(mainnetWeb3, fuseWeb3, account)
+                : []
         return {
             list,
             aggregated: list.reduce(
@@ -262,7 +259,7 @@ const Portfolio = () => {
                               rewardsG$Unclaimed: stake.rewards.reward.unclaimed,
                               rewardsG$Unclaimed$: stake.rewards.reward$.unclaimed,
                               rewardsGDAO: stake.rewards.GDAO.claimed.add(stake.rewards.GDAO.unclaimed),
-                              rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed
+                              rewardsGDAOUnclaimed: stake.rewards.GDAO.unclaimed,
                           }
                         : {
                               myStake: acc.myStake.add(stake.stake.amount$),
@@ -277,7 +274,7 @@ const Portfolio = () => {
                               rewardsGDAO: acc.rewardsGDAO
                                   .add(stake.rewards.GDAO.claimed)
                                   .add(stake.rewards.GDAO.unclaimed),
-                              rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed)
+                              rewardsGDAOUnclaimed: acc.rewardsGDAOUnclaimed.add(stake.rewards.GDAO.unclaimed),
                           }
                 },
                 undefined as
@@ -291,11 +288,11 @@ const Portfolio = () => {
                           rewardsGDAO: CurrencyAmount<Currency>
                           rewardsGDAOUnclaimed: CurrencyAmount<Currency>
                       }
-            )
+            ),
         }
     }, [account, mainnetChainId, fuseChainId])
 
-    const showNotice = data?.list.find(stake => stake.isDeprecated)
+    const showNotice = data?.list.find((stake) => stake.isDeprecated)
 
     useCallbackOnFocus(update)
 
@@ -412,7 +409,7 @@ const Portfolio = () => {
                             text={'Please withdraw your funds from all deprecated contracts and use our new'}
                             link={[
                                 'https://goodswap.xyz/#/stakes',
-                                'https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/'
+                                'https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/',
                             ]}
                             show={true}
                         ></AppNotice>
@@ -426,7 +423,7 @@ const Portfolio = () => {
                             text={'Please withdraw your funds from all deprecated contracts and use our new'}
                             link={[
                                 'https://goodswap.xyz/#/stakes',
-                                'https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/'
+                                'https://www.gooddollar.org/gooddollar-critical-system-upgrade-february-27-2022/',
                             ]}
                             show={true}
                         ></AppNotice>
@@ -444,7 +441,7 @@ const Portfolio = () => {
                             </tr>
                         }
                     >
-                        {data?.list.map(stake => (
+                        {data?.list.map((stake) => (
                             <PortfolioTableRow stake={stake} key={stake.address} onUpdate={update} />
                         ))}
                     </Table>

@@ -122,19 +122,6 @@ export const onboard = init({
                 'https://eth-mainnet.alchemyapi.io/v2/2kSbx330Sc8S3QRwD9nutr9XST_DfeJh',
         },
         {
-            id: '0x2a',
-            token: 'ETH',
-            label: 'Kovan',
-            rpcUrl: process.env.REACT_APP_KOVAN_RPC ?? 'https://kovan.infura.io/v3/12207372b62941dfb1efd4fe26b95ccc',
-        },
-        {
-            id: '0x3',
-            token: 'ETH',
-            label: 'Ropsten',
-            rpcUrl:
-                process.env.REACT_APP_ROPSTEN_RPC ?? 'https://ropsten.infura.io/v3/12207372b62941dfb1efd4fe26b95ccc',
-        },
-        {
             id: '0x7a',
             token: 'FUSE',
             label: 'Fuse Network',

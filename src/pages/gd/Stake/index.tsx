@@ -16,6 +16,7 @@ import usePromise from 'hooks/usePromise'
 import { QuestionHelper } from 'components'
 import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import { Savings } from './Savings'
+import { disableTestnetMain } from 'constants/index'
 
 import {
     LIQUIDITY_PROTOCOL,
@@ -25,7 +26,7 @@ import {
     Stake,
     getNetworkEnv,
     useGdContextProvider,
-    useGovernanceStaking
+    useGovernanceStaking,
 } from '@gooddollar/web3sdk'
 
 import sendGa from 'functions/sendGa'
@@ -40,7 +41,7 @@ const StakeTable = ({
     rewardsSortKey = 'rewards.G$',
     network,
     setActiveStake,
-    setActiveTableName
+    setActiveTableName,
 }: {
     list: any
     error: Error | undefined
@@ -63,28 +64,28 @@ const StakeTable = ({
     const headings = {
         token: {
             name: i18n._(t`Token`),
-            text: i18n._(t`This is the token that is currently available to stake to the Fund.`)
+            text: i18n._(t`This is the token that is currently available to stake to the Fund.`),
         },
         protocol: {
             name: i18n._(t`Protocol`),
-            text: i18n._(t`This is the protocol that the token will be staked to.`)
+            text: i18n._(t`This is the protocol that the token will be staked to.`),
         },
         APY: {
             name: i18n._(t`APY`),
-            text: i18n._(t`Annual Percentage Yield (APY) is the percentage yield being earned.`)
+            text: i18n._(t`Annual Percentage Yield (APY) is the percentage yield being earned.`),
         },
         socialAPY: {
             name: i18n._(t`Social APY`),
-            text: i18n._(t`This is the annual percentage of UBI your stake will create.`)
+            text: i18n._(t`This is the annual percentage of UBI your stake will create.`),
         },
         liquidity: {
             name: i18n._(t`Liquidity`),
-            text: i18n._(t`Liquidity is the total value staked in the GoodDollar Trust staking contract (USD).`)
+            text: i18n._(t`Liquidity is the total value staked in the GoodDollar Trust staking contract (USD).`),
         },
         totalRewards: {
             name: i18n._(t`Total Rewards`),
-            text: i18n._(t`These are the total yearly rewards in G$ and GOOD.`)
-        }
+            text: i18n._(t`These are the total yearly rewards in G$ and GOOD.`),
+        },
     }
 
     // TODO: look into loading variable, it's not updating properly (loading text doesn't appear now)
@@ -205,7 +206,7 @@ const StakeTable = ({
                                         action: 'stakeStart',
                                         token: stake.tokens.A.symbol,
                                         type: stake.protocol,
-                                        network: network
+                                        network: network,
                                     })
                                     setActiveStake(stake)
                                     setActiveTableName()
@@ -359,7 +360,7 @@ const StakeTable = ({
                                                     action: 'stakeStart',
                                                     token: stake.tokens.A.symbol,
                                                     type: stake.protocol,
-                                                    network: network
+                                                    network: network,
                                                 })
                                                 setActiveStake(stake)
                                                 setActiveTableName()
@@ -383,7 +384,7 @@ const StakeTable = ({
                                                     action: 'stakeStart',
                                                     token: stake.tokens.A.symbol,
                                                     type: stake.protocol,
-                                                    network: network
+                                                    network: network,
                                                 })
                                                 setActiveStake(stake)
                                                 setActiveTableName()
@@ -424,7 +425,9 @@ export default function Stakes(): JSX.Element | null {
     const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId)
     const network = getNetworkEnv()
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
-        const stakes = await (web3 && mainnetWeb3 ? getStakes(mainnetWeb3) : Promise.resolve([]))
+        const stakes = await (web3 && mainnetWeb3 && !disableTestnetMain.includes(chainId)
+            ? getStakes(mainnetWeb3)
+            : Promise.resolve([]))
 
         return stakes
     }, [web3, mainnetWeb3])

@@ -41,15 +41,13 @@ export const NETWORK_ICON = {
     [ChainId.HARMONY_TESTNET]: Harmony,
     [ChainId.OKEX]: OKEx,
     [ChainId.OKEX_TESTNET]: OKEx,
-    [AdditionalChainId.FUSE]: Fuse
+    [AdditionalChainId.FUSE]: Fuse,
 }
 
 export const NETWORK_LABEL: { [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.MAINNET]: 'Ethereum',
     [ChainId.RINKEBY]: 'Rinkeby',
-    [ChainId.ROPSTEN]: 'Ropsten',
     [ChainId.GÖRLI]: 'Görli',
-    [ChainId.KOVAN]: 'Kovan',
     [ChainId.FANTOM]: 'Fantom',
     [ChainId.FANTOM_TESTNET]: 'Fantom Testnet',
     [ChainId.MATIC]: 'Polygon (Matic)',
@@ -66,5 +64,5 @@ export const NETWORK_LABEL: { [chainId in ChainId | AdditionalChainId]?: string 
     [ChainId.HARMONY_TESTNET]: 'Harmony Testnet',
     [ChainId.OKEX]: 'OKExChain',
     [ChainId.OKEX_TESTNET]: 'OKExChain',
-    [AdditionalChainId.FUSE]: 'FUSE'
+    [AdditionalChainId.FUSE]: 'FUSE',
 }

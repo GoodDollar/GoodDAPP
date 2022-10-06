@@ -24,7 +24,7 @@ export const SavingsCardTableMobile = ({
     toggleModal: (type?: ModalType) => void
 }): JSX.Element => {
     const { i18n } = useLingui()
-    const { stats, error } = useStakerInfo(10, account, SupportedV2Networks.FUSE)
+    const { stats, error } = useStakerInfo(10, account)
     const getData = sendGa
 
     return (

@@ -1,4 +1,4 @@
-import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
+import DirectWebSDK from '@toruslabs/customauth'
 import { defaults } from 'lodash'
 
 // should be non-arrow function to be invoked with new

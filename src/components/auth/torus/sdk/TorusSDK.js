@@ -1,4 +1,4 @@
-import { bindAll, defaults, first, omit, padStart, repeat, values } from 'lodash'
+import { assign, bindAll, defaults, first, omit, padStart, repeat, values } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
@@ -35,7 +35,7 @@ class TorusSDK {
   }
 
   constructor(config, options, logger) {
-    const { env, torusNetwork, torusUxMode = 'popup' } = config
+    const { env, torusNetwork, torusNetworkUrl, torusUxMode = 'popup' } = config
 
     const torusOptions = defaults({}, options, {
       network: torusNetwork, // details for test net
@@ -43,11 +43,9 @@ class TorusSDK {
       uxMode: torusUxMode,
     })
 
-    // Temporary fix for ropsten deprecation
-    if (torusOptions.network === 'testnet') {
-      torusOptions.network =
-        'https://billowing-responsive-arm.ropsten.discover.quiknode.pro/e1f91ad991da6c4a3558e1d2450238ea1fe17af1/'
-      torusOptions.proxyContractAddress = '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183'
+    // new env var to fix ropsten deprecation on dev & QA
+    if (torusNetworkUrl) {
+      assign(torusOptions, { networkUrl: torusNetworkUrl })
     }
 
     this.torus = new Torus(config, torusOptions)

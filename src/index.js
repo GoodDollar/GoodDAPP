@@ -1,2 +1,2 @@
 // @flow
-import 'index.dapp'
+import './index.dapp'

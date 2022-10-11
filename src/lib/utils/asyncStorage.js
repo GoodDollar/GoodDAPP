@@ -7,7 +7,7 @@ import { tryJson } from './string'
 
 const accessorRe = /(get|set|clear)/i
 const nonAccessorRe = /allkeys/i
-const backupProps = [IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE]
+const backupProps = [IS_FIRST_VISIT, DESTINATION_PATH, AB_TESTING, INVITE_CODE, 'GD_lastRealmSync']
 const log = logger.child({ from: 'AsyncStorage' })
 
 export default new class {

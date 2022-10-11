@@ -73,7 +73,7 @@
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",
-    "@gooddollar/react-native-facetec": "^1.0.24",
+    "@gooddollar/react-native-facetec": "^1.0.25",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
     "@lingui/react": "^3.13.0",

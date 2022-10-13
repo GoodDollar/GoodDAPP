@@ -27,7 +27,7 @@ const waitForWhitelisted = account =>
   )
 
 const FVFlowSuccess = ({ styles, screenProps }) => {
-  const [counter] = useCountdown(checkWhitelistedTimeout)
+  const counter = useCountdown(checkWhitelistedTimeout)
   const { rdu, cbu, account } = useContext(FVFlowContext)
 
   useEffect(() => {

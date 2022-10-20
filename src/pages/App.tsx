@@ -12,6 +12,7 @@ import SideBar from '../components/SideBar'
 import styled from 'styled-components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useFaucet } from "@gooddollar/web3sdk-v2";
 import TransactionUpdater from '../state/transactions/updater'
 
 export const Beta = styled.div`
@@ -56,6 +57,8 @@ function App(): JSX.Element {
 
     const dispatch = useDispatch<AppDispatch>()
     const [preservedSource, setPreservedSource] = useState('')
+
+    useFaucet()
 
     useEffect(() => {
         const parsed = parse(location.search, { parseArrays: false, ignoreQueryPrefix: true })

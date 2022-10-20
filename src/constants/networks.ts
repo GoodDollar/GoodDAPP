@@ -16,6 +16,7 @@ import Rinkeby from '../assets/networks/rinkeby-network.jpg'
 import Ropsten from '../assets/networks/ropsten-network.jpg'
 import xDai from '../assets/networks/xdai-network.jpg'
 import Fuse from '../assets/networks/fuse-network.png'
+import Celo from '../assets/networks/celo-network.png'
 import { AdditionalChainId } from './index'
 
 export const NETWORK_ICON = {
@@ -42,6 +43,7 @@ export const NETWORK_ICON = {
     [ChainId.OKEX]: OKEx,
     [ChainId.OKEX_TESTNET]: OKEx,
     [AdditionalChainId.FUSE]: Fuse,
+    [AdditionalChainId.CELO]: Celo,
 }
 
 export const NETWORK_LABEL: { [chainId in ChainId | AdditionalChainId]?: string } = {
@@ -65,4 +67,5 @@ export const NETWORK_LABEL: { [chainId in ChainId | AdditionalChainId]?: string 
     [ChainId.OKEX]: 'OKExChain',
     [ChainId.OKEX_TESTNET]: 'OKExChain',
     [AdditionalChainId.FUSE]: 'FUSE',
+    [AdditionalChainId.CELO]: 'CELO',
 }

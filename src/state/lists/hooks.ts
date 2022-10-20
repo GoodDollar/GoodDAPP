@@ -23,7 +23,13 @@ export class WrappedTokenInfo extends Token {
     public readonly tokenInfo: TokenInfo
     public readonly tags: TagInfo[]
     constructor(tokenInfo: TokenInfo, tags: TagInfo[]) {
-        super(tokenInfo.chainId, isAddressString(tokenInfo.address), tokenInfo.decimals, tokenInfo.symbol, tokenInfo.name)
+        super(
+            tokenInfo.chainId,
+            isAddressString(tokenInfo.address),
+            tokenInfo.decimals,
+            tokenInfo.symbol,
+            tokenInfo.name
+        )
         this.tokenInfo = tokenInfo
         this.tags = tags
     }
@@ -32,13 +38,11 @@ export class WrappedTokenInfo extends Token {
     }
 }
 
-export type TokenAddressMap = Readonly<
-    {
-        [chainId in ChainId | AdditionalChainId]: Readonly<{
-            [tokenAddress: string]: { token: WrappedTokenInfo; list: TokenList }
-        }>
-    }
->
+export type TokenAddressMap = Readonly<{
+    [chainId in ChainId | AdditionalChainId]: Readonly<{
+        [tokenAddress: string]: { token: WrappedTokenInfo; list: TokenList }
+    }>
+}>
 
 /**
  * An empty result, useful as a default.
@@ -66,7 +70,8 @@ const EMPTY_LIST: TokenAddressMap = {
     [ChainId.HARMONY_TESTNET]: {},
     [ChainId.OKEX]: {},
     [ChainId.OKEX_TESTNET]: {},
-    [AdditionalChainId.FUSE]: {}
+    [AdditionalChainId.FUSE]: {},
+    [AdditionalChainId.CELO]: {},
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
@@ -80,7 +85,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
         (tokenMap, tokenInfo) => {
             const tags: TagInfo[] =
                 tokenInfo.tags
-                    ?.map(tagId => {
+                    ?.map((tagId) => {
                         if (!list.tags?.[tagId]) return undefined
                         return { ...list.tags[tagId], id: tagId }
                     })
@@ -93,9 +98,9 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
                     ...tokenMap[token.chainId],
                     [token.address]: {
                         token,
-                        list: list
-                    }
-                }
+                        list: list,
+                    },
+                },
             }
         },
         { ...EMPTY_LIST }
@@ -112,7 +117,7 @@ export function useAllLists(): {
         readonly error: string | null
     }
 } {
-    return useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+    return useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl)
 }
 
 function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddressMap {
@@ -122,6 +127,7 @@ function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddress
         4: { ...map1[4], ...map2[4] }, // rinkeby
         5: { ...map1[5], ...map2[5] }, // goerli
         122: { ...map1[122], ...map2[122] }, // fuse
+        42220: { ...map1[42220], ...map2[42220] }, //celo
         42: { ...map1[42], ...map2[42] }, // kovan
         250: { ...map1[250], ...map2[250] }, // fantom
         4002: { ...map1[4002], ...map2[4002] }, // fantom testnet
@@ -139,7 +145,7 @@ function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddress
         1666600000: { ...map1[1666600000], ...map2[1666600000] }, // harmony
         1666700000: { ...map1[1666700000], ...map2[1666700000] }, // harmony testnet
         66: { ...map1[66], ...map2[66] }, // okex
-        65: { ...map1[65], ...map2[65] } // okex testnet
+        65: { ...map1[65], ...map2[65] }, // okex testnet
     }
 }
 
@@ -172,15 +178,15 @@ function useCombinedTokenMapFromUrls(urls: string[] | undefined): TokenAddressMa
 
 // filter out unsupported lists
 export function useActiveListUrls(): string[] | undefined {
-    return useSelector<AppState, AppState['lists']['activeListUrls']>(state => state.lists.activeListUrls)?.filter(
-        url => !UNSUPPORTED_LIST_URLS.includes(url)
+    return useSelector<AppState, AppState['lists']['activeListUrls']>((state) => state.lists.activeListUrls)?.filter(
+        (url) => !UNSUPPORTED_LIST_URLS.includes(url)
     )
 }
 
 export function useInactiveListUrls(): string[] {
     const lists = useAllLists()
     const allActiveListUrls = useActiveListUrls()
-    return Object.keys(lists).filter(url => !allActiveListUrls?.includes(url) && !UNSUPPORTED_LIST_URLS.includes(url))
+    return Object.keys(lists).filter((url) => !allActiveListUrls?.includes(url) && !UNSUPPORTED_LIST_URLS.includes(url))
 }
 
 // get all the tokens from active lists, combine with local default tokens

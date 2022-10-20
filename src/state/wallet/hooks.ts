@@ -2,11 +2,10 @@ import { ChainId, Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } fr
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { useAllTokens } from '../../hooks/Tokens'
 import { useMulticallContract } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
 import { useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
-import { FUSE, SUSHI } from '../../constants'
+import { FUSE } from '../../constants'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -31,7 +30,7 @@ export function useETHBalances(
     const results = useSingleContractMultipleData(
         multicallContract,
         'getEthBalance',
-        addresses.map(address => [address])
+        addresses.map((address) => [address])
     )
 
     return useMemo(
@@ -57,11 +56,11 @@ export function useTokenBalancesWithLoadingIndicator(
         [tokens]
     )
 
-    const validatedTokenAddresses = useMemo(() => validatedTokens.map(vt => vt.address), [validatedTokens])
+    const validatedTokenAddresses = useMemo(() => validatedTokens.map((vt) => vt.address), [validatedTokens])
 
     const balances = useMultipleContractSingleData(validatedTokenAddresses, ERC20_INTERFACE, 'balanceOf', [address])
 
-    const anyLoading: boolean = useMemo(() => balances.some(callState => callState.loading), [balances])
+    const anyLoading: boolean = useMemo(() => balances.some((callState) => callState.loading), [balances])
 
     return [
         useMemo(
@@ -78,7 +77,7 @@ export function useTokenBalancesWithLoadingIndicator(
                     : {},
             [address, validatedTokens, balances]
         ),
-        anyLoading
+        anyLoading,
     ]
 }
 
@@ -100,20 +99,21 @@ export function useCurrencyBalances(
     account?: string,
     currencies?: (Currency | undefined)[]
 ): (CurrencyAmount | undefined)[] {
-    const tokens = useMemo(() => currencies?.filter((currency): currency is Token => currency instanceof Token) ?? [], [
-        currencies
-    ])
+    const tokens = useMemo(
+        () => currencies?.filter((currency): currency is Token => currency instanceof Token) ?? [],
+        [currencies]
+    )
 
     const tokenBalances = useTokenBalances(account, tokens)
     const containsETH: boolean = useMemo(
-        () => currencies?.some(currency => currency === ETHER || currency === FUSE) ?? false,
+        () => currencies?.some((currency) => currency === ETHER || currency === FUSE) ?? false,
         [currencies]
     )
     const ethBalance = useETHBalances(containsETH ? [account] : [])
     const { chainId } = useActiveWeb3React()
     return useMemo(
         () =>
-            currencies?.map(currency => {
+            currencies?.map((currency) => {
                 if (!account || !currency) return undefined
                 if (currency instanceof Token) return tokenBalances[currency.address]
                 if (currency === ETHER || currency === FUSE) return ethBalance[account]
@@ -125,26 +125,4 @@ export function useCurrencyBalances(
 
 export function useCurrencyBalance(account?: string, currency?: Currency): CurrencyAmount | undefined {
     return useCurrencyBalances(account, [currency])[0]
-}
-
-// mimics useAllBalances
-export function useAllTokenBalances(): { [tokenAddress: string]: TokenAmount | undefined } {
-    const { account } = useActiveWeb3React()
-    const allTokens = useAllTokens()
-    const allTokensArray = useMemo(() => Object.values(allTokens ?? {}), [allTokens])
-    const balances = useTokenBalances(account ?? undefined, allTokensArray)
-    return balances ?? {}
-}
-
-// get the total owned, unclaimed, and unharvested UNI for account
-export function useAggregateUniBalance(): TokenAmount | undefined {
-    const { account, chainId } = useActiveWeb3React()
-
-    const uni = chainId ? SUSHI[chainId] : undefined
-
-    const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, uni)
-
-    if (!uni) return undefined
-
-    return new TokenAmount(uni, uniBalance?.raw ?? JSBI.BigInt(0))
 }

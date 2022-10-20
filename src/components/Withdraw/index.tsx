@@ -1,24 +1,23 @@
-import React, { memo, useCallback, useEffect, useState, useMemo } from 'react'
-import { WithdrawStyled } from 'components/Withdraw/styled'
-import Modal from 'components/Modal'
-import { ReactComponent as CrossSVG } from 'assets/images/x.svg'
-import Title from 'components/gd/Title'
-import { ButtonAction } from 'components/gd/Button'
-import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
-import PercentInputControls from 'components/Withdraw/PercentInputControls'
-import Button from 'components/Button'
-import { addTransaction } from '../../state/transactions/actions'
-import { useDispatch } from 'react-redux'
-import useActiveWeb3React from '../../hooks/useActiveWeb3React'
-import { getExplorerLink } from '../../utils'
+import React from 'react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { Currency, CurrencyAmount, Fraction } from '@uniswap/sdk-core'
-import Switch from 'components/Switch'
-import { useTokenContract } from 'hooks/useContract'
+import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
+import { ReactComponent as CrossSVG } from 'assets/images/x.svg'
+import Button from 'components/Button'
+import { ButtonAction } from 'components/gd/Button'
+import Title from 'components/gd/Title'
 import Loader from 'components/Loader'
+import Modal from 'components/Modal'
+import Switch from 'components/Switch'
+import PercentInputControls from 'components/Withdraw/PercentInputControls'
+import { WithdrawStyled } from 'components/Withdraw/styled'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import useActiveWeb3React from '../../hooks/useActiveWeb3React'
+import { addTransaction } from '../../state/transactions/actions'
+import { getExplorerLink } from '../../utils'
 
-import { MyStake, withdraw, LIQUIDITY_PROTOCOL, SupportedChainId, useGdContextProvider } from '@gooddollar/web3sdk'
+import { LIQUIDITY_PROTOCOL, MyStake, SupportedChainId, useGdContextProvider, withdraw } from '@gooddollar/web3sdk'
 import sendGa from 'functions/sendGa'
 
 function formatNumber(value: number) {
@@ -60,8 +59,13 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
         if (!web3) return
         try {
             setStatus('pending')
-            getData({event: 'stake', action: 'withdrawApprove', 
-                     amount: withdrawAmount, type: protocol, network: network})
+            getData({
+                event: 'stake',
+                action: 'withdrawApprove',
+                amount: withdrawAmount,
+                type: protocol,
+                network: network,
+            })
             await withdraw(
                 web3,
                 stake,
@@ -70,20 +74,26 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                 (transactionHash: string, from: string) => {
                     setTransactionHash(transactionHash)
                     setStatus('send')
-                    getData({event: 'stake', action: 'withdrawSuccess', amount: withdrawAmount, type: protocol, network: network})
+                    getData({
+                        event: 'stake',
+                        action: 'withdrawSuccess',
+                        amount: withdrawAmount,
+                        type: protocol,
+                        network: network,
+                    })
                     dispatch(
                         addTransaction({
                             chainId: chainId!,
                             hash: transactionHash,
                             from: from,
-                            summary: i18n._(t`Withdrew funds from ${stake.protocol} `)
+                            summary: i18n._(t`Withdrew funds from ${stake.protocol} `),
                         })
                     )
                 },
                 () => {
                     setStatus('success')
                 },
-                e => {
+                (e) => {
                     setStatus('none')
                     setError(e as Error)
                 }
@@ -163,10 +173,7 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
                 ) : (
                     <>
                         <Title className="flex justify-center flex-grow pt-3">
-                          { status === 'send' ?
-                            i18n._(t`Please wait`) :
-                            i18n._(t`Success!`)
-                          }
+                            {status === 'send' ? i18n._(t`Please wait`) : i18n._(t`Success!`)}
                         </Title>
                         <div className="flex items-center justify-center gap-2 pt-7 pb-7">
                             {status === 'send'

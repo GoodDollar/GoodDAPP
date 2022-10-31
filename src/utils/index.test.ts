@@ -1,14 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { AddressZero } from '@ethersproject/constants'
-import { ChainId, JSBI, Percent, Token, TokenAmount } from '@sushiswap/sdk'
-import {
-    basisPointsToPercent,
-    calculateGasMargin,
-    calculateSlippageAmount,
-    getExplorerLink,
-    isAddress,
-    shortenAddress
-} from '.'
+import { ChainId, JSBI, Percent } from '@sushiswap/sdk'
+import { basisPointsToPercent, calculateGasMargin, getExplorerLink, isAddress, shortenAddress } from '.'
 
 describe('utils', () => {
     describe('#getExplorerLink', () => {
@@ -31,18 +23,6 @@ describe('utils', () => {
             expect(getExplorerLink(ChainId.RINKEBY, 'abc', 'address')).toEqual(
                 'https://rinkeby.etherscan.io/address/abc'
             )
-        })
-    })
-
-    describe('#calculateSlippageAmount', () => {
-        it('bounds are correct', () => {
-            const tokenAmount = new TokenAmount(new Token(ChainId.MAINNET, AddressZero, 0), '100')
-            expect(() => calculateSlippageAmount(tokenAmount, -1)).toThrow()
-            expect(calculateSlippageAmount(tokenAmount, 0).map(bound => bound.toString())).toEqual(['100', '100'])
-            expect(calculateSlippageAmount(tokenAmount, 100).map(bound => bound.toString())).toEqual(['99', '101'])
-            expect(calculateSlippageAmount(tokenAmount, 200).map(bound => bound.toString())).toEqual(['98', '102'])
-            expect(calculateSlippageAmount(tokenAmount, 10000).map(bound => bound.toString())).toEqual(['0', '200'])
-            expect(() => calculateSlippageAmount(tokenAmount, 10001)).toThrow()
         })
     })
 

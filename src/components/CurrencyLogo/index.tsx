@@ -1,26 +1,25 @@
 import { ChainId, Currency, ETHER, Token } from '@sushiswap/sdk'
 import React, { useMemo } from 'react'
 
+import styled from 'styled-components'
 import AvalancheLogo from '../../assets/images/avalanche-logo.png'
 import BinanceCoinLogo from '../../assets/images/binance-coin-logo.png'
+import CeloLogo from '../../assets/images/celo-logo.png'
 import EthereumLogo from '../../assets/images/ethereum-logo.png'
 import FantomLogo from '../../assets/images/fantom-logo.png'
+import FuseLogo from '../../assets/images/fuse-logo.png'
 import HarmonyLogo from '../../assets/images/harmony-logo.png'
 import HecoLogo from '../../assets/images/heco-logo.png'
-import Logo from '../Logo'
 import MaticLogo from '../../assets/images/matic-logo.png'
 import MoonbeamLogo from '../../assets/images/moonbeam-logo.png'
 import OKExLogo from '../../assets/images/okex-logo.png'
-import FuseLogo from '../../assets/images/fuse-logo.png'
-import { WrappedTokenInfo } from '../../state/lists/hooks'
-import styled from 'styled-components'
-import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import useHttpLocations from '../../hooks/useHttpLocations'
 import xDaiLogo from '../../assets/images/xdai-logo.png'
 import { AdditionalChainId, FUSE } from '../../constants'
 import { getFuseTokenLogoURL } from '../../constants/fuseTokenMapping'
-import { getKovanTokenLogoURL } from '../../constants/kovanTokenMapping'
-import { getRopstenTokenLogoURL } from '../../constants/ropstenTokenMapping'
+import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
+import useHttpLocations from '../../hooks/useHttpLocations'
+import { WrappedTokenInfo } from '../../state/lists/hooks'
+import Logo from '../Logo'
 
 export const getTokenLogoURL = (address: string, chainId: any) => {
     let imageURL
@@ -30,12 +29,12 @@ export const getTokenLogoURL = (address: string, chainId: any) => {
         imageURL = `https://v1exchange.pancakeswap.finance/images/coins/${address}.png`
     } else if (chainId === AdditionalChainId.FUSE) {
         imageURL = getFuseTokenLogoURL(address)
-    } else if (chainId === ChainId.KOVAN) {
-      console.log('kovan')
-        imageURL = getKovanTokenLogoURL(address)
-    } else if (chainId === ChainId.ROPSTEN) {
-        imageURL = getRopstenTokenLogoURL(address)
-    } else {
+    }
+    //  else if (chainId === AdditionalChainId.CELO) {
+    //TODO: Need to define token list for CELO
+
+    // }
+    else {
         imageURL = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
     }
     return imageURL
@@ -46,7 +45,7 @@ const StyledNativeCurrencyLogo = styled.img<{ size: string }>`
     height: ${({ size }) => size};
 `
 
-const StyledLogo = styled(Logo) <{ size: string }>`
+const StyledLogo = styled(Logo)<{ size: string }>`
     width: ${({ size }) => size};
     height: ${({ size }) => size};
     // border-radius: ${({ size }) => size};
@@ -73,13 +72,14 @@ const logo: { readonly [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.HARMONY_TESTNET]: HarmonyLogo,
     [ChainId.OKEX]: OKExLogo,
     [ChainId.OKEX_TESTNET]: OKExLogo,
-    [AdditionalChainId.FUSE]: FuseLogo
+    [AdditionalChainId.FUSE]: FuseLogo,
+    [AdditionalChainId.CELO]: CeloLogo,
 }
 
 export default function CurrencyLogo({
     currency,
     size = '24px',
-    style
+    style,
 }: {
     currency?: Currency
     size?: string

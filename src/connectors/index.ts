@@ -14,6 +14,7 @@ import coinbaseWalletModule from '@web3-onboard/coinbase'
 export enum AdditionalChainIds {
     FUSE = 122,
     ETH = 1,
+    CELO = 42220,
 }
 const RPC = {
     [ChainId.MAINNET]:
@@ -40,6 +41,7 @@ const RPC = {
     [ChainId.OKEX]: 'https://exchainrpc.okex.org',
     [ChainId.OKEX_TESTNET]: 'https://exchaintestrpc.okex.org',
     [AdditionalChainIds.FUSE]: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io',
+    [AdditionalChainIds.CELO]: process.env.REACT_APP_CELO_RPC ?? 'https://rpc.ankr.com/celo',
 }
 
 export const network = new NetworkConnector({
@@ -126,6 +128,12 @@ export const onboard = init({
             token: 'FUSE',
             label: 'Fuse Network',
             rpcUrl: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io',
+        },
+        {
+            id: '0xa4ec',
+            token: 'CELO',
+            label: 'Celo',
+            rpcUrl: process.env.REACT_APP_CELO_RPC ?? 'https://rpc.ankr.com/celo',
         },
     ],
     appMetadata: {

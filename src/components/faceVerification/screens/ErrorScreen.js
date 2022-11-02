@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useContext } from 'react'
 import { get } from 'lodash'
 
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
@@ -13,10 +13,12 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import useProfile from '../../../lib/userStorage/useProfile'
+import { FVFlowContext } from '../standalone/context/FVFlowContext'
 
 const ErrorScreen = ({ styles, screenProps, navigation }) => {
   const profile = useProfile()
   const { isReachedMaxAttempts } = useVerificationAttempts()
+  const { isFVFlow } = useContext(FVFlowContext)
 
   const exception = get(screenProps, 'screenState.error')
   const kindOfTheIssue = get(exception, 'name')
@@ -51,7 +53,14 @@ const ErrorScreen = ({ styles, screenProps, navigation }) => {
     return null
   }
 
-  return <ErrorViewComponent onRetry={onRetry} displayTitle={title} nav={screenProps} exception={exception} />
+  return (
+    <ErrorViewComponent
+      onRetry={onRetry}
+      displayTitle={title}
+      nav={screenProps}
+      exception={exception}
+      isFVFlow={isFVFlow}
+    />
 }
 
 ErrorScreen.kindOfTheIssue = {

@@ -29,19 +29,6 @@ const CameraNotAllowedError = ({ onRetry, exception }) => {
     let text = null
 
     if (!cameraDoesNotExist) {
-      // temporary disabling this feature
-      // do not remove this block
-      /*buttons.push({
-          text: 'How to do that?',
-          mode: 'text',
-          // explanation dialog auto dismisses popup
-          // so no dismiss callback is passed to the action
-          action: () => {
-            // do some
-            onRetry()
-          },
-      })*/
-
       errorMessage = t`We can't access your camera...`
       title = t`Please enable camera permission`
       text = t`Change it via your device settings`

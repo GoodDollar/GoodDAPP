@@ -6,13 +6,13 @@ import { View } from 'react-native'
 import { Section, Wrapper } from '../../../common'
 
 // utils
-import { FVFlowContext } from '../context/FVFlowContext'
-import { redirectTo } from '../../../../lib/utils/linking'
 import API from '../../../../lib/API'
-import { tryUntil } from '../../../../lib/utils/async'
-import withStyles from '../theme/withStyles'
 import useCountdown from '../../../../lib/hooks/useCountdown'
+import { tryUntil } from '../../../../lib/utils/async'
 import WaitForCompleted from '../../components/WaitForCompleted'
+import { FVFlowContext } from '../context/FVFlowContext'
+import useFVRedirect from '../hooks/useFVRedirect'
+import withStyles from '../theme/withStyles'
 
 const checkWhitelistedAttempts = 6
 const checkWhitelistedDelay = 5000
@@ -28,20 +28,12 @@ const waitForWhitelisted = account =>
 
 const FVFlowSuccess = ({ styles, screenProps }) => {
   const counter = useCountdown(checkWhitelistedTimeout)
-  const { rdu, cbu, account } = useContext(FVFlowContext)
+  const { account } = useContext(FVFlowContext)
+  const fvRedirect = useFVRedirect()
 
   useEffect(() => {
-    const url = rdu || cbu
-    const urlType = rdu ? 'rdu' : 'cbu'
-
-    if (!url) {
-      return
-    }
-
-    waitForWhitelisted(account)
-      .catch(() => false)
-      .then(verified => redirectTo(url, urlType, { verified }))
-  }, [rdu, cbu])
+    waitForWhitelisted(account).catch(() => false).then(fvRedirect)
+  }, [account])
 
   return (
     <Wrapper>

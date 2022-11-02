@@ -47,6 +47,7 @@ const ExplanationDialog = ({
   image: ImageComponent,
   imageHeight = 74,
   buttons,
+  children,
   buttonsContainerStyle = defaultCustomStyle,
   containerStyle = defaultCustomStyle,
   imageContainer = defaultCustomStyle,
@@ -98,6 +99,7 @@ const ExplanationDialog = ({
         {title}
       </Text>
       {text && <Text style={[styles.description, textStyle]}>{text}</Text>}
+      {children}
       {!isEmpty(buttons) && (
         <View style={[styles.buttonsContainer, buttonsContainerStyle]}>
           {buttons.map(buttonProps => (

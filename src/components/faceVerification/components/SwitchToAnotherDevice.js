@@ -8,8 +8,9 @@ import { CustomButton, Section, Wrapper } from '../../common'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
 import SwitchToAnotherDeviceSVG from '../../../assets/FRSwitchToAnotherDevice.svg'
+import GiveUpButton from '../standalone/components/GiveUpButton'
 
-const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav }) => (
+const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav, isFVFlow }) => (
   <Wrapper>
     <View style={styles.topContainer}>
       <Section style={styles.descriptionContainer} justifyContent="space-between">
@@ -32,9 +33,13 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav }) => (
         </Section>
       </Section>
       <View style={styles.action}>
-        <CustomButton onPress={nav.goToRoot} testID="ok_button">
-          OK
-        </CustomButton>
+        {isFVFlow ? (
+          <GiveUpButton />
+        ) : (
+          <CustomButton onPress={nav.goToRoot} testID="ok_button">
+            OK
+          </CustomButton>
+        )}
       </View>
     </View>
   </Wrapper>

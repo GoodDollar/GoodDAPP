@@ -9,6 +9,10 @@ class GoogleWrapper {
     assign(this, { analytics })
   }
 
+  async setDefaultParams(params = {}) {
+    await analytics.setDefaultEventParameters(params)
+  }
+
   logEvent(event: string, data: any = {}) {
     const { analytics } = this
 

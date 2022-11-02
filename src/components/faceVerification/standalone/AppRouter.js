@@ -1,15 +1,15 @@
 import React from 'react'
 import { Portal } from 'react-native-paper'
-import { once } from 'lodash'
 
-import { createStackNavigator } from '../../appNavigation/stackNavigation'
-import { withNavigationOptions } from '../../../lib/utils/navigation'
 import { FaceVerification, FaceVerificationError, FaceVerificationIntro } from '..'
 import logger from '../../../lib/logger/js-logger'
+import { withNavigationOptions } from '../../../lib/utils/navigation'
+import { createStackNavigator } from '../../appNavigation/stackNavigation'
 
-import { Support } from '../../webView/webViewInstances'
-import Blurred from '../../common/view/Blurred'
+import { initAnalytics } from '../../../lib/analytics/analytics'
 import createAppContainer from '../../../lib/utils/createAppContainer'
+import Blurred from '../../common/view/Blurred'
+import { Support } from '../../webView/webViewInstances'
 import FVFlowProvider from './context/FVFlowContext'
 import { FVFlowError, FVFlowSuccess } from '.'
 
@@ -27,32 +27,31 @@ const FVFlowScreens = withNavigationOptions({
 })
 
 // will exec once during first render
-const generateRouter = once(() => {
+const RouterWrapper = React.lazy(async () => {
   const routes = {
     ...FVFlowScreens,
     Support,
   }
 
   const router = createStackNavigator(routes, {})
+  const container = createAppContainer(router)
 
   log.debug('Generated fv router')
-  return createAppContainer(router)
+
+  await initAnalytics({ fvflow: true })
+  return { default: container }
 })
 
-const Router = () => {
-  const RouterWrapper = generateRouter()
-
-  return (
-    <>
-      <FVFlowProvider>
-        <Portal.Host>
-          <Blurred whenDialog>
-            <RouterWrapper />
-          </Blurred>
-        </Portal.Host>
-      </FVFlowProvider>
-    </>
-  )
-}
+const Router = () => (
+  <>
+    <FVFlowProvider>
+      <Portal.Host>
+        <Blurred whenDialog>
+          <RouterWrapper />
+        </Blurred>
+      </Portal.Host>
+    </FVFlowProvider>
+  </>
+)
 
 export default Router

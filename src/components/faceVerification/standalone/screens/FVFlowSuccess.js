@@ -32,7 +32,9 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
   const fvRedirect = useFVRedirect()
 
   useEffect(() => {
-    waitForWhitelisted(account).catch(() => false).then(fvRedirect)
+    waitForWhitelisted(account)
+      .catch(() => false)
+      .then(fvRedirect)
   }, [account])
 
   return (

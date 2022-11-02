@@ -1,7 +1,12 @@
+import { t } from '@lingui/macro'
+
 export const GiveUpReason = new class {
   CameraIssue = 'camera'
+
   OvalIssue = 'oval'
+
   TwinIssue = 'twin'
+
   TryAgainIssue = 'tryAgain'
 
   get reasons() {
@@ -11,13 +16,13 @@ export const GiveUpReason = new class {
   }
 
   get reasonsList() {
-    return this.reasons.map(reason => ({ reason, text: this.getReasonText(reason )}))
+    return this.reasons.map(reason => ({ reason, text: this.getReasonText(reason) }))
   }
 
   getReasonText(reason) {
     const { CameraIssue, OvalIssue, TwinIssue, TryAgainIssue } = this
 
-    switch(reason) {
+    switch (reason) {
       case CameraIssue:
         return t`Camera issues`
       case OvalIssue:
@@ -30,4 +35,4 @@ export const GiveUpReason = new class {
         throw new Error('Unknown / invalid reason specified')
     }
   }
-}
+}()

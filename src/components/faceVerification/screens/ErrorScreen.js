@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useContext } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { get } from 'lodash'
 
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
@@ -61,6 +61,7 @@ const ErrorScreen = ({ styles, screenProps, navigation }) => {
       exception={exception}
       isFVFlow={isFVFlow}
     />
+  )
 }
 
 ErrorScreen.kindOfTheIssue = {

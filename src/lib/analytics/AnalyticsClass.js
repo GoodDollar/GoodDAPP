@@ -3,6 +3,7 @@ import {
   assign,
   debounce,
   forIn,
+  forOwn,
   get,
   isEmpty,
   isError,
@@ -34,7 +35,7 @@ export class AnalyticsClass {
     assign(this, options, { logger, apisFactory, rootApi, loggerApi })
   }
 
-  initAnalytics = async () => {
+  initAnalytics = async (tags = {}) => {
     const { apis, apisFactory, sentryDSN, amplitudeKey, version, network, logger, env, phase, loggerApi } = this
 
     const apisDetected = apisFactory()
@@ -42,6 +43,7 @@ export class AnalyticsClass {
 
     const isSentryEnabled = !!(sentry && sentryDSN)
     const isAmplitudeEnabled = !!(amplitude && amplitudeKey)
+    const isGoogleEnabled = !!googleAnalytics
 
     assign(apis, apisDetected)
     assign(this, { isSentryEnabled, isAmplitudeEnabled })
@@ -55,9 +57,10 @@ export class AnalyticsClass {
       logger.info('License sent to Amplitude', { success })
 
       const identity = new amplitude.Identify()
+      const allTags = { phase: String(phase), ...(tags || {}) }
 
       identity.setOnce('first_open_date', new Date().toString())
-      identity.append('phase', String(phase))
+      forOwn(allTags, (value, key) => identity.append(key, value))
 
       amplitude.setVersionName(version)
       amplitude.identify(identity)
@@ -74,6 +77,7 @@ export class AnalyticsClass {
         appVersion: version,
         networkUsed: network,
         phase,
+        ...(tags || {}),
       }
 
       if (isWeb) {
@@ -86,10 +90,14 @@ export class AnalyticsClass {
       sentry.configureScope(scope => forIn(sentryScope, (value, property) => scope.setTag(property, value)))
     }
 
+    if (isGoogleEnabled && !isEmpty(tags)) {
+      await googleAnalytics.setDefaultParams(tags)
+    }
+
     logger.debug('available analytics:', {
       Sentry: isSentryEnabled,
       Amplitude: isAmplitudeEnabled,
-      Google: !!googleAnalytics,
+      Google: isGoogleEnabled,
     })
 
     const errorLevel = loggerApi.ERROR.name
@@ -98,7 +106,7 @@ export class AnalyticsClass {
     logger.debug('listening for error logs', { errorLevel, logger, loggerApi })
   }
 
-  identifyWith = (email, identifier = null) => {
+  identifyWith = (identifier, email = null) => {
     const { apis, logger, isAmplitudeEnabled, isSentryEnabled } = this
     const { amplitude, sentry } = apis
 
@@ -114,7 +122,9 @@ export class AnalyticsClass {
       )
     }
 
-    this.setUserEmail(email)
+    if (email) {
+      this.setUserEmail(email)
+    }
 
     logger.debug(
       'Analytics services identified with:',

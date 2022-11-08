@@ -10,6 +10,8 @@ import { initAnalytics } from '../../../lib/analytics/analytics'
 import createAppContainer from '../../../lib/utils/createAppContainer'
 import Blurred from '../../common/view/Blurred'
 import { Support } from '../../webView/webViewInstances'
+import Splash from '../../../components/splash/Splash'
+import { VerificationContextProvider } from '../context/VerificationContext'
 import FVFlowProvider from './context/FVFlowContext'
 import { FVFlowError, FVFlowSuccess } from '.'
 
@@ -47,7 +49,11 @@ const Router = () => (
     <FVFlowProvider>
       <Portal.Host>
         <Blurred whenDialog>
-          <RouterWrapper />
+          <VerificationContextProvider>
+            <React.Suspense fallback={<Splash />}>
+              <RouterWrapper />
+            </React.Suspense>
+          </VerificationContextProvider>
         </Blurred>
       </Portal.Host>
     </FVFlowProvider>

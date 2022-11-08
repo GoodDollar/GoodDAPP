@@ -14,12 +14,18 @@ export const createObjectStorageContext = defaultState => {
     const [storageState, setStorageState] = useState(defaultState)
 
     const update = useCallback(
-      value =>
+      value => {
+        if (isFunction(value)) {
+          setStorageState(value)
+          return
+        }
+
         setStorageState(prevValue => {
           const newValue = isFunction(value) ? value(prevValue) : value
 
           return { ...prevValue, ...newValue }
-        }),
+        })
+      },
       [setStorageState],
     )
 

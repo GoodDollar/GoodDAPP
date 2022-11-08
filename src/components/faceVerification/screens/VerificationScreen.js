@@ -155,6 +155,7 @@ const FaceVerification = ({ screenProps }) => {
   const sdkExceptionHandler = useCallback(
     exception => {
       fireEvent(FV_ZOOMFAILED)
+      trackAttempt(exception)
       showErrorScreen(exception)
     },
     [showErrorScreen],

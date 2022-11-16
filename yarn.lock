@@ -3100,7 +3100,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodcontracts@npm:^2.6.2, @gooddollar/goodcontracts@npm:^2.6.4, @gooddollar/goodcontracts@npm:^2.6.6":
+"@gooddollar/goodcontracts@npm:^2.6.6":
   version: 2.6.6
   resolution: "@gooddollar/goodcontracts@npm:2.6.6"
   dependencies:
@@ -3288,26 +3288,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/goodprotocol@npm:1.0.29-beta.4":
-  version: 1.0.29-beta.4
-  resolution: "@gooddollar/goodprotocol@npm:1.0.29-beta.4"
-  dependencies:
-    "@gooddollar/goodcontracts": ^2.6.4
-    "@jsier/retrier": ^1.2.4
-    "@openzeppelin/contracts": ^4.5.0
-    "@openzeppelin/contracts-upgradeable": ^4.3.2
-    "@typechain/hardhat": ^6.1.2
-    async-promise-pool: ^1.0.4
-    ethers-multicall: ^0.2.1
-    openzeppelin-solidity: ^4.3.2
-    patch-package: latest
-    press-any-key: ^0.1.1
-    truffle-plugin-verify: ^0.5.11
-    truffle-source-verify: ^0.0.6
-  checksum: bfe57660d6b041fdea7c48fbafb990ff5fba8bd26aafeea66e897be1e657b9acf88f7d41ce3fa8f7b7fe4c80e6db73178df76a851c8971daef27de3c912e4184
-  languageName: node
-  linkType: hard
-
 "@gooddollar/goodprotocol@npm:1.0.29-beta.5":
   version: 1.0.29-beta.5
   resolution: "@gooddollar/goodprotocol@npm:1.0.29-beta.5"
@@ -3325,26 +3305,6 @@ __metadata:
     truffle-plugin-verify: ^0.5.11
     truffle-source-verify: ^0.0.6
   checksum: 8334b72beb081625b524cb88018c5d88df657d117504baf5be9cb2a53a6acd8ee8ffdf3c23473fc8f727075c9f14d1dc83f01c526341b9c304c883844f3ba669
-  languageName: node
-  linkType: hard
-
-"@gooddollar/goodprotocol@npm:^1.0.29-beta.4":
-  version: 1.0.29
-  resolution: "@gooddollar/goodprotocol@npm:1.0.29"
-  dependencies:
-    "@gooddollar/goodcontracts": ^2.6.2
-    "@jsier/retrier": ^1.2.4
-    "@openzeppelin/contracts": ^4.5.0
-    "@openzeppelin/contracts-upgradeable": ^4.3.2
-    "@typechain/hardhat": ^6.1.2
-    async-promise-pool: ^1.0.4
-    ethers-multicall: ^0.2.1
-    openzeppelin-solidity: ^4.3.2
-    patch-package: latest
-    press-any-key: ^0.1.1
-    truffle-plugin-verify: ^0.5.11
-    truffle-source-verify: ^0.0.6
-  checksum: ab8ff5583bb229173906715c4a6351d83f515169d3f1f13347e66355675c3a5ddbf27f44339c379a473698a282bee0aacf5b4ac5101d862a288089dda63f60b3
   languageName: node
   linkType: hard
 
@@ -6804,7 +6764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@npm:^2.10.0":
+"@web3-onboard/core@npm:2.10.0":
   version: 2.10.0
   resolution: "@web3-onboard/core@npm:2.10.0"
   dependencies:
@@ -6822,6 +6782,27 @@ __metadata:
     svelte: ^3.49.0
     svelte-i18n: ^3.3.13
   checksum: 76c164882b9884e6b079baecab33b3c2e6cf7144d16824fb7d8124f572115103d5a3c6b0e7570d6c1d3edcf61d8ece2192e9b6c117e8c318b81b72cd8bc139f5
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.0#./.yarn/patches/@web3-onboard-core-npm-2.10.0-7120e6a102.patch::locator=%40gooddollar%2Fgoodprotocol-ui%40workspace%3A.":
+  version: 2.10.0
+  resolution: "@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.0#./.yarn/patches/@web3-onboard-core-npm-2.10.0-7120e6a102.patch::version=2.10.0&hash=8502da&locator=%40gooddollar%2Fgoodprotocol-ui%40workspace%3A."
+  dependencies:
+    "@web3-onboard/common": ^2.2.3
+    bignumber.js: ^9.0.0
+    bnc-sdk: ^4.4.1
+    bowser: ^2.11.0
+    ethers: 5.5.3
+    eventemitter3: ^4.0.7
+    joi: ^17.6.1
+    lodash.merge: ^4.6.2
+    lodash.partition: ^4.6.0
+    nanoid: ^4.0.0
+    rxjs: ^7.5.5
+    svelte: ^3.49.0
+    svelte-i18n: ^3.3.13
+  checksum: 94b54bff1f1fd45f9bd6b4fa076cc219f5eb0ef07ba4739bad74c72cca564903009340cd8dbf85c048d237a8af53716afe3da9d1db418954216e813f573343f2
   languageName: node
   linkType: hard
 

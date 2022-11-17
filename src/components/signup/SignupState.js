@@ -553,7 +553,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       ;(async () => {
         log.debug('ready: Starting initialization', { isRegMethodSelfCustody, torusUserFromProps })
 
-        identifyWith(signupData.email, goodWallet.getAccountForType('login'))
+        identifyWith(goodWallet.getAccountForType('login'), signupData.email)
         fireSignupEvent('STARTED', { source })
 
         await API.ready

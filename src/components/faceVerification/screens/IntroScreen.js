@@ -159,7 +159,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
-    log.debug({ enrollmentIdentifier, userName })
+    log.debug({ enrollmentIdentifier, userName, isFVFlow })
 
     if (isValid) {
       const state = { isValid }

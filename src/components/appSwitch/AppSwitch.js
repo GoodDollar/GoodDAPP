@@ -159,7 +159,7 @@ const AppSwitch = (props: LoadingProps) => {
       const identifier = goodWallet.getAccountForType('login')
       const email = userStorage.getProfileFieldValue('email') || null
 
-      identifyWith(email, identifier)
+      identifyWith(identifier, email)
       AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
 
       // this needs to wait after initreg where we initialize the database

@@ -58,6 +58,7 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_NOTMATCHERROR = 'FV_NOTMATCHERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
+export const FV_GIVEUP = 'FV_GIVEUP'
 export const INVITE_SHARE = 'INVITE_SHARE' //user pressed on any of the sharing options
 export const INVITE_JOIN = 'INVITE_JOIN' //user joined after he was invited
 export const INVITE_BOUNTY = 'INVITE_BOUNTY' //user collected his bounties

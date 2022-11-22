@@ -3699,7 +3699,7 @@ __metadata:
     "@gooddollar/gun": ^0.2020.902
     "@gooddollar/gun-asyncstorage": ^1.0.3
     "@gooddollar/gun-pk-auth": ^1.1.0
-    "@gooddollar/react-native-facetec": ^1.0.26
+    "@gooddollar/react-native-facetec": ^1.0.27
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@hot-loader/react-dom": ^17.0.1
     "@indexeddbshim/indexeddbshim": ^6.5.0
@@ -4019,13 +4019,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:^1.0.26":
-  version: 1.0.26
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.26"
+"@gooddollar/react-native-facetec@npm:^1.0.27":
+  version: 1.0.27
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.27"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: 944d0141e012898398ea8eb3c8790199854feccd83dd3444b79f801973962a18b867c356865cb11bfb49aeade338ed29b2be630fac28787d5903efa93ff85496
+  checksum: a310ae35876a305d1aee4328d1c41714aad814f00aa5b342e579299158e88cf5640ee4b902dbd7a7e61373fc04fde99649ed981e9d18e1257b5dfddfd3c97d4a
   languageName: node
   linkType: hard
 

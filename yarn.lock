@@ -3699,7 +3699,7 @@ __metadata:
     "@gooddollar/gun": ^0.2020.902
     "@gooddollar/gun-asyncstorage": ^1.0.3
     "@gooddollar/gun-pk-auth": ^1.1.0
-    "@gooddollar/react-native-facetec": ^1.0.25
+    "@gooddollar/react-native-facetec": ^1.0.26
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@hot-loader/react-dom": ^17.0.1
     "@indexeddbshim/indexeddbshim": ^6.5.0
@@ -4019,13 +4019,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:^1.0.25":
-  version: 1.0.25
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.25"
+"@gooddollar/react-native-facetec@npm:^1.0.26":
+  version: 1.0.26
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.26"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: db8aad2e6240570d64ae59112591dcc0d82234154926bd8df9ffb6149b6d3da5136cb32d8fec20f2899c5d7ba9caa31743ff3cda8535bed57cdb36dad0eba28e
+  checksum: 944d0141e012898398ea8eb3c8790199854feccd83dd3444b79f801973962a18b867c356865cb11bfb49aeade338ed29b2be630fac28787d5903efa93ff85496
   languageName: node
   linkType: hard
 
@@ -21995,7 +21995,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: a0fb69ffad2b91852688d7317cbd562335b0b623f160ddeae842e4963fb44108455ac3c2a6a0db3b7cdc880b973805c671b05833a61bc697a53ac5a37c4e15ca
+  checksum: 1f2be9c44e5db5c04495affe2bbcb97b668b8931a88797e15bbe8544940931fbdb6c5d69c6a43ca83d3f8a3870961633ba34ffccfb254e27edc4839b75b0138f
   languageName: node
   linkType: hard
 
@@ -22013,7 +22013,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 4d39cd6ec7407884396cc9911dc60c5430b80f3e48001a3243b26c7fc8cedd64bc0d18861225cdc4ec5e623c14af3daebe26c03228cc45395b46fdf51a55b6c4
+  checksum: b5e24f7ef780e941f5414600094cf2a28d6557e14ffc7cd9505ca8ee34238295e5161a4db0235a95c596061cbeab5561dceb359b44b59a36d1060e46503cb450
   languageName: node
   linkType: hard
 

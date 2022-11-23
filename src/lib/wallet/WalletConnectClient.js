@@ -115,15 +115,26 @@ export const useWalletConnectSession = () => {
   )
 
   const handleSessionRequest = useCallback(
-    connector => {
+    (connector, payload) => {
       const session = connector.session
-      log.info('approving session:', { session })
+      log.info('approving session:', { session, payload })
+      let requestedChainId = Number(payload?.params?.[0]?.chainId)
+
+      //we support requests only for fuse or celo
+      requestedChainId = [42220, 122].includes(requestedChainId) ? requestedChainId : Number(Config.networkId)
+      const chainDetails = chains.find(_ => Number(_.chainId) === requestedChainId)
+
       showApprove({
         walletAddress: wallet.account,
         session,
         modalType: 'connect',
         onApprove: () => {
-          connector.approveSession({ chainId: Number(Config.networkId), accounts: [wallet.account] })
+          //we support
+          connector.approveSession({
+            chainId: requestedChainId,
+            accounts: [wallet.account],
+          })
+          switchChain(chainDetails)
         },
         onReject: () => connector.rejectSession({ message: 'USER_DECLINE' }),
       })
@@ -257,13 +268,14 @@ export const useWalletConnectSession = () => {
   const switchChain = useCallback(
     async chain => {
       log.debug('switching chain...', { chain })
+
       await activeConnector.updateSession({
         chainId: Number(chain.chainId),
         accounts: [wallet.account],
         rpcUrl: getChainRpc(chain),
       })
-
       setChain(chain)
+      AsyncStorage.setItem('walletconnect_requestedChain', chain.chainId)
     },
     [activeConnector, wallet],
   )
@@ -295,6 +307,8 @@ export const useWalletConnectSession = () => {
       connector?.killSession({ message: 'USER_TERMINATED' }).catch()
       setConnector(undefined)
       AsyncStorage.removeItem('walletconnect')
+      AsyncStorage.removeItem('walletconnect_requestedChain')
+
       await delay(500)
     },
     [setConnector],
@@ -315,7 +329,7 @@ export const useWalletConnectSession = () => {
   )
 
   const connect = useCallback(
-    uriOrSession => {
+    (uriOrSession, chainId) => {
       if (wallet) {
         const session = typeof uriOrSession === 'string' ? undefined : uriOrSession
         const uri = typeof uriOrSession === 'string' ? uriOrSession : undefined
@@ -341,7 +355,7 @@ export const useWalletConnectSession = () => {
         log.debug('got uri created connection:', { uri, session, wallet, connector })
 
         if (connector.pending && !connector.connected) {
-          handleSessionRequest(connector)
+          handleSessionRequest(connector, { params: [{ chainId }] })
         }
 
         setConnector(connector)
@@ -436,7 +450,7 @@ export const useWalletConnectSession = () => {
         throw error
       }
 
-      handleSessionRequest(connector)
+      handleSessionRequest(connector, payload)
     })
 
     // Subscribe to call requests
@@ -548,8 +562,13 @@ export const useWalletConnectSession = () => {
   const reconnect = useCallback(async () => {
     if (!activeConnector) {
       const session = await AsyncStorage.getItem('walletconnect')
+      const chainId = await AsyncStorage.getItem('walletconnect_requestedChain')
+
       if (session) {
-        connect(session)
+        connect(
+          session,
+          chainId,
+        )
       }
     }
   }, [connect, activeConnector, chains])

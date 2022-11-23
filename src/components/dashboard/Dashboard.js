@@ -30,7 +30,7 @@ import TabButton from '../common/buttons/TabButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/js-logger'
-import { Statistics, Support } from '../webView/webViewInstances'
+import { Statistics } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
@@ -946,7 +946,6 @@ export default createStackNavigator({
   // PP: PrivacyPolicy,
   // PrivacyArticle,
   TOU: PrivacyPolicyAndTerms,
-  Support,
   Statistics,
   Recover: Mnemonics,
   OutOfGasError,

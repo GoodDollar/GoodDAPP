@@ -12,8 +12,6 @@ export const TermsOfUse = createIframe('https://www.gooddollar.org/terms-conditi
 // export const PrivacyPolicyAndTerms = createIframe(`https://community.gooddollar.org/${tou}/`, 'Privacy Policy & Terms')
 export const PrivacyPolicy = createIframe('https://www.gooddollar.org/privacy-policy/?gd-frame=1', 'Privacy Policy')
 
-export const Support = createIframe('https://help.gooddollar.org?transitioned=1', ' Help & Feedback', true)
-
 export const Statistics = createIframe(`${dashboard}`, 'Statistics')
 
 // export const FAQ = createIframe(`https://community.gooddollar.org/${faq}`, 'FAQ')

@@ -12,7 +12,7 @@ import AuthTorus from '../../auth/torus/AuthTorus'
 
 import Recover from '../../signin/Mnemonics'
 import NavBar from '../../appNavigation/NavBar'
-import { PrivacyPolicy, Support, TermsOfUse } from '../../webView/webViewInstances'
+import { PrivacyPolicy, TermsOfUse } from '../../webView/webViewInstances'
 
 import useOnPress from '../../../lib/hooks/useOnPress'
 import Config from '../../../config/config'
@@ -175,7 +175,6 @@ const routes = {
   Auth: AuthScreen,
   TermsOfUse,
   PrivacyPolicy,
-  Support,
 }
 
 if (Config.enableSelfCustody) {

@@ -9,7 +9,6 @@ import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { initAnalytics } from '../../../lib/analytics/analytics'
 import createAppContainer from '../../../lib/utils/createAppContainer'
 import Blurred from '../../common/view/Blurred'
-import { Support } from '../../webView/webViewInstances'
 import Splash from '../../../components/splash/Splash'
 import { VerificationContextProvider } from '../context/VerificationContext'
 import FVFlowProvider from './context/FVFlowContext'
@@ -30,12 +29,7 @@ const FVFlowScreens = withNavigationOptions({
 
 // will exec once during first render
 const RouterWrapper = React.lazy(async () => {
-  const routes = {
-    ...FVFlowScreens,
-    Support,
-  }
-
-  const router = createStackNavigator(routes, {})
+  const router = createStackNavigator(FVFlowScreens, {})
   const container = createAppContainer(router)
 
   log.debug('Generated fv router')

@@ -22,7 +22,7 @@ import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 const log = logger.child({ from: 'useSideMenu' })
 
-const { dashboardUrl } = Config
+const { dashboardUrl, supportUrl } = Config
 
 export default (props = {}) => {
   const { navigation } = props
@@ -153,8 +153,8 @@ export default (props = {}) => {
         size: 18,
         name: t`Help & Feedback`,
         action: () => {
-          navigation.navigate('Support')
           slideOut()
+          openLink(supportUrl)
         },
       },
       {

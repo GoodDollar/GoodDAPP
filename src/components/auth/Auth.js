@@ -9,7 +9,7 @@ import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
@@ -175,7 +175,6 @@ const routes = {
   Login: auth,
   TermsOfUse,
   PrivacyPolicy,
-  Support,
   Recover,
 }
 

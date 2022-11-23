@@ -1,15 +1,17 @@
 import { createReducer, nanoid } from '@reduxjs/toolkit'
 import { addPopup, removePopup, setKashiApprovalPending, setOpenModal, setTheme, updateBlockNumber } from './actions'
 import { ApplicationState } from './types'
+import { AsyncStorage } from '@gooddollar/web3sdk-v2'
 
 const initialState: ApplicationState = {
     blockNumber: {},
     popupList: [],
     openModal: null,
     kashiApprovalPending: '',
-    theme: (localStorage.getItem('application.theme') || 'light') as 'light' | 'dark'
+    theme: 'light' as 'light' | 'dark'
 }
 
+// TODO: remove store, replace via React.Context
 export default createReducer(initialState, builder =>
     builder
         .addCase(updateBlockNumber, (state, action) => {
@@ -44,7 +46,7 @@ export default createReducer(initialState, builder =>
             state.kashiApprovalPending = action.payload
         })
         .addCase(setTheme, (state, action) => {
-            localStorage.setItem('application.theme', action.payload)
+            AsyncStorage.safeSet('application.theme', action.payload)
             state.theme = action.payload
         })
 )

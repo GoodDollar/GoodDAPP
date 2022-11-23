@@ -1,51 +1,38 @@
-import React, {Fragment, useEffect, useState} from 'react'
+import React, { memo } from 'react'
 import { ChainId, TokenAmount } from '@sushiswap/sdk'
-import { AdditionalChainId } from '../../constants'
-import { CustomLightSpinner } from 'theme'
-import Circle from 'assets/images/blue-loader.svg'
+import { Fragment, useEffect, useState } from 'react'
 import { LoadingPlaceHolder } from 'theme/components'
-
-export interface Balances {
-  G$: TokenAmount | undefined,
-  GDX: TokenAmount | undefined,
-  GOOD: TokenAmount | undefined
-}
+import { AdditionalChainId } from '../../constants'
+import { G$Balances } from '@gooddollar/web3sdk-v2'
 
 export type WalletBalanceProps = {
-  balances: Balances,
-  chainId: ChainId,
+    balances: G$Balances
+    chainId: ChainId
 }
 
-export default function WalletBalance(props: WalletBalanceProps): JSX.Element {
-  const { balances, chainId } = props
-  const [balance, setBalance] = useState<JSX.Element[]>()
+const chains = Object.values(AdditionalChainId)
 
-  useEffect(() => {
-    const newBalance = Object.entries(balances).map((balance) => {
-      const token = balance[0]
-      const amount = balance[1]
-      if ((chainId as any) === AdditionalChainId.FUSE && token === 'GDX') return <div key={token}></div>
-      const frag = (
-        <Fragment key={token}>
-          <span className="flex">
-            {token} - {
-              !amount ?
-                <LoadingPlaceHolder /> :
-                token === 'GOOD' ?
-                  amount.toSignificant(6, {groupSeperator: ','}) :
-                  amount.toExact({ groupSeperator: ','})
+export default memo(({ balances, chainId }: WalletBalanceProps): JSX.Element | null => (
+    <div className="flex flex-col">
+        {balances && Object.entries(balances).map((balance) => {
+            const [token, data] = balance || []
+            const { amount } = data || {}
+
+            if (token === 'GDX' && chains.includes(chainId as any)) {
+                return <div key={token}></div>
             }
-          </span>
-        </Fragment>
-      )
-      return frag
-    })
-    setBalance(newBalance)
-  }, [chainId, balances])
 
-  return (
-      <div className="flex flex-col">
-      { balance }
-      </div>
-    )
-}
+            return (
+                <Fragment key={token}>
+                    <span className="flex">
+                        {!amount ? (
+                            <LoadingPlaceHolder />
+                        ) : (
+                            amount.format({ suffix: '', prefix: amount.currency.ticker + ' - ' })
+                        )}
+                    </span>
+                </Fragment>
+            )
+        })}
+    </div>
+))

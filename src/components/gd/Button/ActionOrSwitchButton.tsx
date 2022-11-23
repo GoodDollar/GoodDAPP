@@ -39,12 +39,6 @@ export const ActionOrSwitchButton = ({
             case 'production':
                 requireChain = 'MAINNET'
                 break
-            case 'staging':
-                requireChain = 'KOVAN'
-                break
-            case 'fuse':
-                requireChain = 'ROPSTEN'
-                break
         }
     }
 

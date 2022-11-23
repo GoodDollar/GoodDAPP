@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import type { StaticJsonRpcProvider as StaticJsonRpcProviderType } from '@ethersproject/providers'
+import type { StaticJsonRpcProvider as StaticJsonRpcProviderType } from '@ethersproject/providers';
+import { AsyncStorage } from '@gooddollar/web3sdk-v2';
 import { IWalletConnectOptions } from "@walletconnect/types";
 import { isMobile } from "./helpers/isMobile";
 
 import type {
-  Chain,
-  ProviderAccounts,
-  WalletInit,
-  EIP1193Provider
-} from '@web3-onboard/common'
+  Chain, EIP1193Provider, ProviderAccounts,
+  WalletInit
+} from '@web3-onboard/common';
 
 interface ZengoConnectOptions {
   bridge?: string
@@ -20,8 +19,8 @@ interface ZengoConnectOptions {
 }
 
 function zenGoModule(options?: ZengoConnectOptions): WalletInit {
-  const { bridge = 'https://bridge.walletconnect.org', 
-          qrcodeModalOptions , 
+  const { bridge = 'https://bridge.walletconnect.org',
+          qrcodeModalOptions ,
           connectFirstChainId,
         } =
     options || {}
@@ -122,8 +121,7 @@ function zenGoModule(options?: ZengoConnectOptions): WalletInit {
                 next: () => {
                   this.emit('accountsChanged', [])
                   this.disconnected$.next(true)
-                  typeof localStorage !== 'undefined' &&
-                    localStorage.removeItem('walletconnect')
+                  AsyncStorage.safeRemove('walletconnect')
                 },
                 error: console.warn
               })
@@ -155,7 +153,7 @@ function zenGoModule(options?: ZengoConnectOptions): WalletInit {
                           ),
                         qrcodeModalOptions
                       )
-                    } 
+                    }
                     })
                   } else {
                     const { accounts, chainId } = this.connector.session
@@ -199,7 +197,7 @@ function zenGoModule(options?: ZengoConnectOptions): WalletInit {
                 return this.connector.sendTransaction(params[0])
               }
 
-              
+
               if (method === 'eth_signTransaction') {
                 return this.connector.signTransaction(params[0])
               }

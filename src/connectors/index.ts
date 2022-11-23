@@ -98,6 +98,7 @@ const walletConnectBN = walletConnectModule({
     qrcodeModalOptions: {
         mobileLinks: ['rainbow', 'metamask', 'argent', 'trust', 'imtoken', 'pillar'],
     },
+    // connectFirstChainId: true,
 })
 
 const coinbaseWalletSdk = coinbaseWalletModule()
@@ -110,11 +111,15 @@ const zenGoBN = zenGoModule({
     },
 })
 
-// const walletLink = walletLinkModule({ darkMode: true })
-
 export const onboard = init({
     wallets: [injectedBN, walletConnectBN, zenGoBN, coinbaseWalletSdk],
     chains: [
+        {
+            id: '0xa4ec',
+            token: 'CELO',
+            label: 'Celo',
+            rpcUrl: process.env.REACT_APP_CELO_RPC ?? 'https://rpc.ankr.com/celo',
+        },
         {
             id: '0x1',
             token: 'ETH',
@@ -128,12 +133,6 @@ export const onboard = init({
             token: 'FUSE',
             label: 'Fuse Network',
             rpcUrl: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io',
-        },
-        {
-            id: '0xa4ec',
-            token: 'CELO',
-            label: 'Celo',
-            rpcUrl: process.env.REACT_APP_CELO_RPC ?? 'https://rpc.ankr.com/celo',
         },
     ],
     appMetadata: {

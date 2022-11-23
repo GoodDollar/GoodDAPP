@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { CellSC } from 'pages/gd/Portfolio/styled'
 import Card from 'components/gd/Card'
 import Title from 'components/gd/Title'
@@ -7,25 +7,25 @@ import { useLingui } from '@lingui/react'
 import { ModalType } from 'components/Savings/SavingsModal'
 import { QuestionHelper } from 'components'
 import type { HeadingCopy } from '..'
-import { useStakerInfo, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
+import { useStakerInfo } from '@gooddollar/web3sdk-v2'
 import { LoadingPlaceHolder } from 'theme/components'
-import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
-import sendGa from 'functions/sendGa'
+import { ModalButton } from 'components/Savings/SavingsModal/ModalButton'
 
 export const SavingsCardTableMobile = ({
     account,
+    requiredChain,
     hasBalance,
     headings,
     toggleModal,
 }: {
     account: string
+    requiredChain: number
     hasBalance: boolean | undefined
     headings: HeadingCopy
     toggleModal: (type?: ModalType) => void
 }): JSX.Element => {
     const { i18n } = useLingui()
-    const { stats, error } = useStakerInfo(10, account)
-    const getData = sendGa
+    const { stats, error } = useStakerInfo(requiredChain, 10, account)
 
     return (
         <Card className="mb-6 md:mb-4 card">
@@ -80,35 +80,19 @@ export const SavingsCardTableMobile = ({
                     {hasBalance && (
                         <div className="flex items-end justify-center md:flex-col segment withdraw-buttons">
                             <div className="flex flex-col justify-center h-full w-72 withdraw-button md:h-auto">
-                                <ActionOrSwitchButton
-                                    width="130px"
-                                    size="m"
-                                    borderRadius="6px"
-                                    requireChain={'FUSE'}
-                                    noShadow={true}
-                                    onClick={() => {
-                                        getData({ event: 'savings', action: 'startWithdraw' })
-                                        toggleModal('withdraw')
-                                    }}
-                                >
-                                    {' '}
-                                    {i18n._(t`Withdraw G$`)}{' '}
-                                </ActionOrSwitchButton>
+                                <ModalButton
+                                    type={'withdraw'}
+                                    title={i18n._(t`Withdraw G$`)}
+                                    chain={requiredChain}
+                                    toggleModal={toggleModal}
+                                />
                                 <div className={'mb-1 mr-1'}></div>
-                                <ActionOrSwitchButton
-                                    width="130px"
-                                    size="m"
-                                    noShadow={true}
-                                    borderRadius="6px"
-                                    requireChain={'FUSE'}
-                                    onClick={() => {
-                                        getData({ event: 'savings', action: 'startClaim' })
-                                        toggleModal('claim')
-                                    }}
-                                >
-                                    {' '}
-                                    {i18n._(t`Claim Rewards`)}{' '}
-                                </ActionOrSwitchButton>
+                                <ModalButton
+                                    type={'claim'}
+                                    title={i18n._(t`Claim Rewards`)}
+                                    chain={requiredChain}
+                                    toggleModal={toggleModal}
+                                />
                             </div>
                         </div>
                     )}

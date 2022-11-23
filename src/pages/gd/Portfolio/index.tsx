@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState, useMemo } from 'react'
+import React, { memo, useCallback, useState, useMemo, Fragment } from 'react'
 import { Layout } from 'components/gd/sushi'
 import { PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from './styled'
 import Title from 'components/gd/Title'
@@ -27,6 +27,7 @@ import ClaimRewards from 'components/ClaimRewards'
 import { SavingsAccount } from './SavingsAccount'
 import { CellSC } from './styled'
 import { disableTestnetMain } from 'constants/index'
+import Web3SupportedNetworks from 'components/Web3SupportedNetworks'
 
 const MobileTableSC = styled.div``
 
@@ -447,7 +448,9 @@ const Portfolio = () => {
                     </Table>
                 </Card>
             )}
-            {network !== 'production' && <SavingsAccount account={account} />}
+            <Web3SupportedNetworks onItem={({ chain }) => (
+                <SavingsAccount requiredChain={chain} account={account} />
+            )} />
         </>
     )
 

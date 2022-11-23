@@ -32,7 +32,8 @@ import {
 import sendGa from 'functions/sendGa'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
-import { SupportedChains } from '@gooddollar/web3sdk-v2'
+import { SupportedChains, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
+import Web3SupportedNetworks from 'components/Web3SupportedNetworks'
 const StakeTable = ({
     list,
     error,
@@ -499,7 +500,9 @@ export default function Stakes(): JSX.Element | null {
                     )}
                 </Modal>
             </StakesSC>
-            {network !== 'production' ? <Savings /> : <></>}
+            <Web3SupportedNetworks onItem={({ chain }) => (
+                <Savings requiredChain={chain} />
+            )} />
         </Layout>
     )
 }

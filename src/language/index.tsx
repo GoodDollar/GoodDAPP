@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
-import { detect, fromStorage, fromNavigator } from '@lingui/detect-locale'
+import { AsyncStorage } from '@gooddollar/web3sdk-v2';
 
 // This array should equal the array set in .linguirc
 export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
@@ -35,28 +35,25 @@ export const LanguageContext = React.createContext<{
 })
 
 const LanguageProvider: FC = ({ children }) => {
-    const [language, setLanguage] = useState(getInitialLocale())
+    const [language, setLanguage] = useState(getInitialLocale)
     const [init, setInit] = useState(true)
 
-    const _setLanguage = (language: string): void => {
-        if (!init) {
-            activate(language).then(() => {
-                localStorage.setItem('lang', language)
-                setLanguage(language)
-            })
-        } else {
-            localStorage.setItem('lang', language)
+    const _setLanguage = useCallback((language: string): void => {
+        const switchLocale = (): void => {
+            AsyncStorage.safeSet('lang', language)
             setLanguage(language)
         }
-    }
 
-    useEffect(() => {
-        const load = async () => {
-            await activate(language)
-            setInit(false)
+        if (init) {
+            switchLocale()
+            return
         }
 
-        load()
+        activate(language).then(switchLocale)
+    }, [setLanguage, init])
+
+    useEffect(() => {
+        activate(language).then(() => setInit(false))
     }, [])
 
     if (init) return <></>

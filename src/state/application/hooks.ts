@@ -1,5 +1,6 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { AsyncStorage } from '@gooddollar/web3sdk-v2'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { AppDispatch, AppState } from '../index'
 import { addPopup, removePopup, setOpenModal, setTheme as setThemeAction } from './actions'
@@ -105,5 +106,10 @@ export function useApplicationTheme() {
     const dispatch = useDispatch()
     const theme = useSelector((state: AppState) => state.application.theme)
     const setTheme = useCallback((theme: ApplicationState['theme']) => dispatch(setThemeAction(theme)), [])
+
+    useEffect(() => {
+        AsyncStorage.getItem('application.theme').then(setTheme)
+    }, [setTheme])
+
     return [theme, setTheme] as const
 }

@@ -1,15 +1,14 @@
-import React, { useCallback } from 'react'
-import { CellSC } from 'pages/gd/Portfolio/styled'
-import Card from 'components/gd/Card'
-import Title from 'components/gd/Title'
+import { useStakerInfo } from '@gooddollar/web3sdk-v2'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { ModalType } from 'components/Savings/SavingsModal'
 import { QuestionHelper } from 'components'
-import type { HeadingCopy } from '..'
-import { useStakerInfo } from '@gooddollar/web3sdk-v2'
-import { LoadingPlaceHolder } from 'theme/components'
+import Card from 'components/gd/Card'
+import Title from 'components/gd/Title'
+import { ModalType } from 'components/Savings/SavingsModal'
 import { ModalButton } from 'components/Savings/SavingsModal/ModalButton'
+import { CellSC } from 'pages/gd/Portfolio/styled'
+import { LoadingPlaceHolder } from 'theme/components'
+import type { HeadingCopy } from '..'
 
 export const SavingsCardTableMobile = ({
     account,

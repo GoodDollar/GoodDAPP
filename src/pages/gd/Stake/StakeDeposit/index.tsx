@@ -14,14 +14,14 @@ import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
 import { Link } from 'react-router-dom'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import sendGa from 'functions/sendGa'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
 
-import { 
+import {
   Stake,
   approveStake,
-  stake as deposit, 
+  stake as deposit,
   stakeGov as depositGov,
   getTokenPriceInUSDC,
   LIQUIDITY_PROTOCOL, SupportedChainId,
@@ -57,7 +57,7 @@ const initialState = {
 
 const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepositModalProps) => {
     const { i18n } = useLingui()
-    //note: 
+    //note:
     // (bug-minor) chainId is cached here at default 1 when using an action button. Only seems to break loading icons on dev..
     const { chainId, account } = useActiveWeb3React()
     const network = SupportedChainId[chainId]
@@ -204,7 +204,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
     const approving = !state.done && !state.approved
     const depositing = !state.done && state.approved
 
-    const getData = sendGa
+    const sendData = useSendAnalyticsData()
 
     return (
         <StakeDepositSC className="p-4">
@@ -272,7 +272,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                         disabled={!state.value.match(/[^0.]/) || !web3 || !account || state.loading}
                         onClick={() =>
                             withLoading(async () => {
-                                getData({event: 'stake', action: 'stakeApprove', 
+                                sendData({event: 'stake', action: 'stakeApprove',
                                          amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
@@ -319,7 +319,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                             disabled={state.loading}
                             onClick={() =>
                                 withLoading(async () => {
-                                    getData({event: 'stake', action: 'stakeDeposit', 
+                                    sendData({event: 'stake', action: 'stakeDeposit',
                                              amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
                                     const depositMethod =
                                         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
@@ -330,7 +330,7 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                                         tokenToDeposit,
                                         state.token === 'B',
                                         (transactionHash: string, from: string) => {
-                                            getData({event: 'stake', action: 'awesomeStake', token: tokenToDeposit.symbol})
+                                            sendData({event: 'stake', action: 'awesomeStake', token: tokenToDeposit.symbol})
                                             dispatch({ type: 'DONE', payload: transactionHash })
                                             reduxDispatch(
                                                 addTransaction({
@@ -357,14 +357,14 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
                     <div className="mt-4 text-center">
                         {activeTableName === 'GoodDAO Staking' ? (
                             i18n._(
-                                t`You have just staked your G$s towards our GoodDAO, 
-                                this action is gonna reward you with GOOD governance tokens, 
+                                t`You have just staked your G$s towards our GoodDAO,
+                                this action is gonna reward you with GOOD governance tokens,
                                 which are non-transferable so can't be traded.`
                             )
                         ) : (
                             <>
                                 {state.loading
-                                    ? i18n._(t`Your staking transaction which will generate UBI for thousands of people around 
+                                    ? i18n._(t`Your staking transaction which will generate UBI for thousands of people around
                                          the world has just been broadcasted to the network. `)
                                     : i18n._(t`You are creating UBI to thousands of people around the world. `)}{' '}
                                 <a

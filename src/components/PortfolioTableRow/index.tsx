@@ -6,7 +6,7 @@ import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ButtonAction } from 'components/gd/Button'
 import ClaimRewards from 'components/ClaimRewards'
-import sendGa from 'functions/sendGa'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
 import { MyStake, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk'
 import { SupportedChains } from '@gooddollar/web3sdk-v2'
@@ -27,12 +27,12 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
     const claimableStake =
         (chainId === (SupportedChains.FUSE as number) && requireChain === 'FUSE') ||
         (chainId !== (SupportedChains.FUSE as number) && requireChain === 'MAINNET')
-    const getData = sendGa
+    const sendData = useSendAnalyticsData()
     const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet'
     const handleWithdrawOpen = useCallback(() => {
-        getData({ event: 'stake', action: 'withdrawStart', network: network })
+        sendData({ event: 'stake', action: 'withdrawStart', network: network })
         setWithdrawOpen(true)
-    }, [getData, network])
+    }, [sendData, network])
 
     return (
         <>

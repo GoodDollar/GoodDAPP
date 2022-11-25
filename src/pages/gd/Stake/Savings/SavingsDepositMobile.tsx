@@ -1,14 +1,12 @@
-import React from 'react'
 
-import Title from 'components/gd/Title'
 import { QuestionHelper } from 'components'
+import Title from 'components/gd/Title'
 import { LoadingPlaceHolder } from 'theme/components'
 import { CellSC } from '../styled'
 
-import { useLingui } from '@lingui/react'
-import { t } from '@lingui/macro'
 import { useSavingsStats } from '@gooddollar/web3sdk-v2'
-import sendGa from 'functions/sendGa'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { ModalType } from 'components/Savings/SavingsModal'
 import { ModalButton } from 'components/Savings/SavingsModal/ModalButton'
 

@@ -10,7 +10,7 @@ import { Wrapper } from '../styled'
 import styled from 'styled-components'
 import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
 import { LoadingPlaceHolder } from 'theme/components'
-import sendGa from 'functions/sendGa'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { SavingsDepositMobile } from './SavingsDepositMobile'
 import { HeadingCopy } from 'components/Savings/SavingsCard'
@@ -28,6 +28,7 @@ export const Savings = ({ requiredChain }: { requiredChain: number }): JSX.Eleme
     const { i18n } = useLingui()
     const { width } = useWindowSize()
     const isMobile = width ? width <= 768 : undefined
+    const sendData = useSendAnalyticsData()
     const { defaultEnv } = useGetEnvChainId()
     const g$ = G$(requiredChain, defaultEnv)
 
@@ -38,7 +39,7 @@ export const Savings = ({ requiredChain }: { requiredChain: number }): JSX.Eleme
     }, [error])
 
     const toggleModal = useCallback(() => {
-        sendGa({ event: 'savings', action: 'savingsStart' })
+        sendData({ event: 'savings', action: 'savingsStart' })
         setIsOpen((isOpen) => !isOpen)
     }, [setIsOpen])
 
@@ -57,11 +58,7 @@ export const Savings = ({ requiredChain }: { requiredChain: number }): JSX.Eleme
             title: i18n._(t`Fixed Apy`),
             questionText: i18n._(t`The fixed annual interest.`),
             statsKey: 'apy',
-        },
-        // {
-        //   title: i18n._(t`G$'s to withdraw`),
-        //   questionText: i18n._(t`How much G$'s you have earned with your savings account`),
-        // },
+        },       
         {
             title: i18n._(t`Total Staked`),
             questionText: i18n._(t`Total currently saved.`),

@@ -5,9 +5,9 @@ import './bootstrap'
 
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
-
 import { Provider } from 'react-redux'
 import { HashRouter as Router } from 'react-router-dom'
+import { AnalyticsProvider } from "@gooddollar/web3sdk-v2";
 import Blocklist from './components/Blocklist'
 import App from './pages/App'
 import store from './state'
@@ -19,20 +19,10 @@ import ThemeProvider from './theme'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
+import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 
 if (!!window.ethereum) {
-    window.ethereum.autoRefreshOnNetworkChange = false
-}
-
-function Updaters() {
-    return (
-        <>
-            <ListsUpdater />
-            <UserUpdater />
-            <ApplicationUpdater />
-            <MulticallUpdater />
-        </>
-    )
+  window.ethereum.autoRefreshOnNetworkChange = false
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -67,7 +57,7 @@ const GlobalStyle = createGlobalStyle`
     // --onboard-font-size-6: 1.05rem;
     // --onboard-gray-700: #999EA8;
 
-  
+
   }
   onboard-v2::part(sidebar-heading-img) {
     max-width: 100%;
@@ -85,8 +75,12 @@ ReactDOM.render(
         <Web3ContextProvider>
           <Provider store={store}>
               <LanguageProvider>
+                <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
                   <Blocklist>
-                      <Updaters />
+                      <ListsUpdater />
+                      <UserUpdater />
+                      <ApplicationUpdater />
+                      <MulticallUpdater />
                       <ThemeProvider>
                           <GlobalStyle />
                           <Router>
@@ -94,6 +88,7 @@ ReactDOM.render(
                           </Router>
                       </ThemeProvider>
                   </Blocklist>
+                </AnalyticsProvider>
               </LanguageProvider>
           </Provider>
         </Web3ContextProvider>

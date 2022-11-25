@@ -6,7 +6,7 @@ import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import sendGa from 'functions/sendGa'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
 import {
   SupportedChainId,
@@ -27,11 +27,11 @@ const ClaimButton = styled(ButtonDefault).attrs(props => ({
         cursor: auto;
   `
             : ''}
-    
+
     @media ${({ theme }) => theme.media.md} {
         height: 36px;
         font-size: 14px;
-        
+
         svg {
             display: none;
         }
@@ -43,7 +43,7 @@ const getTimer = () => {
   start.setUTCHours(12, 0, 0);
 
   function pad(num: any) {
-		return ("0" + parseInt(num)).substr(-2); 
+		return ("0" + parseInt(num)).substr(-2);
   }
 
   function tick() {
@@ -67,7 +67,7 @@ function Web3Faucet(): JSX.Element | null {
     const { chainId, account } = useActiveWeb3React()
     const network = SupportedChainId[chainId]
     const { web3 } = useGdContextProvider()
-    const getData = sendGa
+    const sendData = useSendAnalyticsData()
 
     const [claimed, setIsClaimed] = useState(false)
     const [tillClaim, setTillClaim] = useState('')
@@ -109,18 +109,18 @@ function Web3Faucet(): JSX.Element | null {
 
     const handleClaim = useCallback(async () => {
         if (account && web3) {
-            getData({event: 'claim', action: 'claimStart', network: network})
+            sendData({event: 'claim', action: 'claimStart', network: network})
             const startClaim = await claim(web3, account).catch(e => {
               refetch()
               return false
             })
 
             if (startClaim) {
-              getData({event: 'claim', action: 'claimSuccess', network: network})
+              sendData({event: 'claim', action: 'claimSuccess', network: network})
               refetch()
             }
         }
-    }, [web3, account, refetch, getData]) 
+    }, [web3, account, refetch, sendData])
 
     const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable === true
     const securityNotice = true

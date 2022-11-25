@@ -29,7 +29,7 @@ import {
     useGovernanceStaking,
 } from '@gooddollar/web3sdk'
 
-import sendGa from 'functions/sendGa'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
 import { SupportedChains, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
@@ -60,7 +60,7 @@ const StakeTable = ({
 
     const isMobile = width ? width <= 768 : undefined
 
-    const getData = sendGa
+    const sendData = useSendAnalyticsData()
 
     const headings = {
         token: {
@@ -202,7 +202,7 @@ const StakeTable = ({
                                 noShadow={true}
                                 requireChain={network.toUpperCase() as keyof typeof SupportedChains}
                                 onClick={() => {
-                                    getData({
+                                    sendData({
                                         event: 'stake',
                                         action: 'stakeStart',
                                         token: stake.tokens.A.symbol,
@@ -356,7 +356,7 @@ const StakeTable = ({
                                             requireChain={network.toUpperCase() as keyof typeof SupportedChains}
                                             page="Stake"
                                             onClick={() => {
-                                                getData({
+                                                sendData({
                                                     event: 'stake',
                                                     action: 'stakeStart',
                                                     token: stake.tokens.A.symbol,
@@ -380,7 +380,7 @@ const StakeTable = ({
                                             noShadow={true}
                                             requireChain={network.toUpperCase() as keyof typeof SupportedChains}
                                             onClick={() => {
-                                                getData({
+                                                sendData({
                                                     event: 'stake',
                                                     action: 'stakeStart',
                                                     token: stake.tokens.A.symbol,

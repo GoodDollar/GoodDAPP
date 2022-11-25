@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { useAnalytics } from "@gooddollar/web3sdk-v2";
 import { t } from '@lingui/macro'
-import styled from 'styled-components'
-import Loader from '../Loader'
 import { useLingui } from '@lingui/react'
+import styled from 'styled-components'
+
+import Loader from '../Loader'
 import { useOnboardConnect } from 'hooks/useActiveOnboard'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
@@ -19,10 +21,11 @@ const Message = styled.h2`
 
 export default function Web3ReactManager({ children }: { children: JSX.Element }) {
     const { i18n } = useLingui()
-    const { active: networkActive, error: networkError } = useActiveWeb3React()
-    const { tried } = useOnboardConnect() 
-    // handle delayed loader state
-    const [showLoader, setShowLoader] = useState(false)
+    const { tried } = useOnboardConnect()
+    const [showLoader, setShowLoader] = useState(false) // handle delayed loader state
+    const { active: networkActive, error: networkError, account } = useActiveWeb3React()
+    const { identify } = useAnalytics()
+
     useEffect(() => {
         const timeout = setTimeout(() => {
             setShowLoader(true)
@@ -32,6 +35,13 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
             clearTimeout(timeout)
         }
     }, [])
+
+    useEffect(() => {
+        // re-identify analytics when connected wallet changes
+        if (networkActive && account) {
+            identify(account)
+        }
+    }, [networkActive, account])
 
     // on page load, do nothing until we've tried to connect a previously connected wallet
     if (!tried) {

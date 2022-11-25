@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { AppBar, Polling, Popups } from '../components'
+import { AppBar, Popups } from '../components'
 import Web3ReactManager from '../components/Web3ReactManager'
 import Routes from '../routes'
 import { useDispatch } from 'react-redux'
@@ -121,7 +121,7 @@ function App(): JSX.Element {
                         <Web3ReactManager>
                             <div
                                 className={`flex flex-col flex-glow w-full items-center justify-start
-                             ${location.pathname === '/dashboard' ? 'md:auto' : 'md:h-screen'} 
+                             ${location.pathname === '/dashboard' ? 'md:auto' : 'md:h-screen'}
                              md:justify-center xl:-mt-8`}
                             >
                                 <Routes />

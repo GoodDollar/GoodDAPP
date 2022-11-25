@@ -20,7 +20,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useSavingsBalance, useSavingsFunctions, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 import { TransactionReceipt } from '@ethersproject/providers'
 import { TransactionStatus } from '@usedapp/core'
-import sendGa from 'functions/sendGa'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
 // TODO: Change to savings specific state
 const initialState = {
@@ -87,7 +87,7 @@ const SavingsModal = ({
     const [balance, setBalance] = useState<string>('0')
     const [txStatus, setTxStatus] = useState<TransactionStatus>({ status: 'None' })
     const reduxDispatch = useDispatch()
-    const getData = sendGa
+    const sendData = useSendAnalyticsData()
 
     const { g$Balance, savingsBalance } = useSavingsBalance(10, requiredChain)
 
@@ -127,7 +127,7 @@ const SavingsModal = ({
 
     const depositOrWithdraw = async (amount: string) => {
         if (account) {
-            getData({ event: 'savings', action: [type] + 'Send', amount: amount })
+            sendData({ event: 'savings', action: [type] + 'Send', amount: amount })
             const parsedAmount = (parseFloat(withdrawAmount.toFixed(0)) * 1e2).toString()
             const tx =
                 type === 'withdraw'
@@ -135,7 +135,7 @@ const SavingsModal = ({
                     : await transfer((parseFloat(amount) * 1e2).toString())
 
             if (tx) {
-                getData({ event: 'savings', action: [type] + 'Success', amount: amount })
+                sendData({ event: 'savings', action: [type] + 'Success', amount: amount })
                 addSavingsTransaction(tx, amount)
                 return
             }
@@ -144,10 +144,10 @@ const SavingsModal = ({
 
     const claimRewards = async () => {
         if (account) {
-            getData({ event: 'savings', action: 'claimSend' })
+            sendData({ event: 'savings', action: 'claimSend' })
             await claim().then((tx) => {
                 if (tx) {
-                    getData({ event: 'savings', action: 'claimSuccess' })
+                    sendData({ event: 'savings', action: 'claimSuccess' })
                     addSavingsTransaction(tx)
                 }
             })
@@ -156,10 +156,10 @@ const SavingsModal = ({
 
     const withdrawAll = async () => {
         if (account) {
-            getData({ event: 'savings', action: 'withdrawAllSend' })
+            sendData({ event: 'savings', action: 'withdrawAllSend' })
             const tx = await withdraw(balance, account)
             if (tx) {
-                getData({ event: 'savings', action: 'withdrawAllSuccess' })
+                sendData({ event: 'savings', action: 'withdrawAllSuccess' })
                 addSavingsTransaction(tx, balance)
             }
         }

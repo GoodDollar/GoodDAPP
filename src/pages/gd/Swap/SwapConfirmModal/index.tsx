@@ -15,12 +15,12 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import { Percent } from '@sushiswap/sdk'
-import sendGa from 'functions/sendGa'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
 import ShareTransaction from 'components/ShareTransaction'
 
 import {
-  buy, 
+  buy,
   SwapInfo as BuyInfo,
   sell,
   SellInfo,
@@ -78,7 +78,7 @@ function SwapConfirmModal({
     const { web3 } = useGdContextProvider()
     const [status, setStatus] = useState<'PREVIEW' | 'CONFIRM' | 'SENT' | 'SUCCESS'>('SENT')
     const [hash, setHash] = useState('')
-    const getData = sendGa
+    const sendData = useSendAnalyticsData()
 
     const handleSwap = async () => {
         if (meta && meta.priceImpact && !confirmPriceImpactWithoutFee((meta.priceImpact as unknown) as Percent)) {
@@ -105,7 +105,7 @@ function SwapConfirmModal({
                     symbol: meta?.outputAmount.currency.symbol
                 }
             }
-            const summary = i18n._(t`Swapped ${inputSig} ${meta?.inputAmount.currency.symbol} 
+            const summary = i18n._(t`Swapped ${inputSig} ${meta?.inputAmount.currency.symbol}
                               to a minimum of ${minimumOutputSig} ${meta?.outputAmount.currency.symbol}`)
 
             globalDispatch(
@@ -117,15 +117,15 @@ function SwapConfirmModal({
                     tradeInfo: tradeInfo
                 })
             )
-            getData({event: "swap", action: "submittedSwap", network: network})
+            sendData({event: "swap", action: "submittedSwap", network: network})
             if (onConfirm) onConfirm()
         }
 
         try {
-            getData({event: "swap", 
-                                   action: "confirmSwap", 
-                                   amount: buying ? minimumOutputSig : inputSig, 
-                                   tokens: [inputSymbol, outputSymbol], 
+            sendData({event: "swap",
+                                   action: "confirmSwap",
+                                   amount: buying ? minimumOutputSig : inputSig,
+                                   tokens: [inputSymbol, outputSymbol],
                                    type: buying ? 'buy' : 'sell', network: network})
             const result = buying ? await buy(web3!, meta!, onSent) : await sell(web3!, meta!, onSent)
 
@@ -231,18 +231,18 @@ function SwapConfirmModal({
                             value={route}
                             tip={i18n._(t`Routing through these tokens resulted in the best price for your trade.`)}
                         />
-                        {GDX && 
-                            <SwapInfo 
+                        {GDX &&
+                            <SwapInfo
                                 tip={i18n._(t`GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit.`)}
-                                title="GDX" 
-                                value={GDX} 
+                                title="GDX"
+                                value={GDX}
                             />
                         }
                         {exitContribution && exitContribution !== undefined && (
-                            <SwapInfo 
+                            <SwapInfo
                                 tip={i18n._(t`A contribution to the reserve paid by members for directly selling G$ tokens.`)}
-                                title="EXIT CONTRIBUTION" 
-                                value={exitContribution} 
+                                title="EXIT CONTRIBUTION"
+                                value={exitContribution}
                             />
                         )}
                     </div>

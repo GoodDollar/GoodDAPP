@@ -1,10 +1,11 @@
-import React, { useEffect, useCallback } from 'react'
 import { useStakerInfo } from '@gooddollar/web3sdk-v2'
-import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { ModalType } from 'components/Savings/SavingsModal'
-import { LoadingPlaceHolder } from 'theme/components'
 import { ModalButton } from 'components/Savings/SavingsModal/ModalButton'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
+import { useEffect } from 'react'
+import { LoadingPlaceHolder } from 'theme/components'
 
 export const SavingsCardRow = ({
     account,
@@ -16,6 +17,7 @@ export const SavingsCardRow = ({
     toggleModal: (type?: ModalType) => void
 }): JSX.Element => {
     const { i18n } = useLingui()
+    const sendData = useSendAnalyticsData()
     const { stats, error } = useStakerInfo(requiredChain, 10, account)
 
     useEffect(() => {
@@ -57,12 +59,6 @@ export const SavingsCardRow = ({
                     )}
                 </div>
             </td>
-            {/* <td>
-        <div className="flex flex-col segment">
-            <div>{stats?.rewardsPaid.g$Minted.toFixed(2, {groupSeparator: ','})} G$</div> // will maybe added later
-            <div>{stats?.rewardsPaid.goodMinted.toFixed(2, {groupSeparator: ','})} GOOD</div>
-        </div>
-      </td> */}
             <td className="flex content-center justify-center">
                 <div className="flex items-end justify-center md:flex-col segment withdraw-buttons">
                     <div className="h-full withdraw-button md:h-auto">

@@ -19,6 +19,8 @@ import ThemeProvider from './theme'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
+import { NativeBaseProvider } from 'native-base'
+import { theme } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 
 if (!!window.ethereum) {
@@ -73,24 +75,26 @@ const GlobalStyle = createGlobalStyle`
 ReactDOM.render(
     <StrictMode>
         <Web3ContextProvider>
-          <Provider store={store}>
-              <LanguageProvider>
-                <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
-                  <Blocklist>
+            <Provider store={store}>
+                <LanguageProvider>
+                  <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
+                    <Blocklist>
                       <ListsUpdater />
                       <UserUpdater />
                       <ApplicationUpdater />
                       <MulticallUpdater />
-                      <ThemeProvider>
-                          <GlobalStyle />
-                          <Router>
-                              <App />
-                          </Router>
-                      </ThemeProvider>
-                  </Blocklist>
-                </AnalyticsProvider>
-              </LanguageProvider>
-          </Provider>
+                          <ThemeProvider>
+                              <NativeBaseProvider theme={theme}>
+                                  <GlobalStyle />
+                                  <Router>
+                                      <App />
+                                  </Router>
+                              </NativeBaseProvider>
+                          </ThemeProvider>
+                      </Blocklist>
+                    </AnalyticsProvider>
+                </LanguageProvider>
+            </Provider>
         </Web3ContextProvider>
     </StrictMode>,
     document.getElementById('root')

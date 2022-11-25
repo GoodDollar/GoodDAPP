@@ -324,6 +324,9 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                     <NavLink to={'/portfolio'} onClick={mobile ? closeSidebar : null}>
                         {i18n._(t`Portfolio`)}
                     </NavLink>
+                    <NavLink to={'/claim'} onClick={mobile ? closeSidebar : null}>
+                        {i18n._(t`Claim`)}
+                    </NavLink>
                     {/* <NavLink to={'/savings'} onClick={mobile ? closeSidebar : null}>{i18n._(t`Savings`)}</NavLink> -- v2 */}
                     <ExternalLink label={i18n._(t`Wallet`)} url="https://wallet.gooddollar.org/" />
                     <ExternalLink label={i18n._(t`Fuse Bridge`)} url="https://app.fuse.fi/#/bridge" />

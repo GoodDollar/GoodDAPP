@@ -8,17 +8,11 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
-import {
-  SupportedChainId,
-  check,
-  claim,
-  isWhitelisted,
-  useGdContextProvider
-} from '@gooddollar/web3sdk'
+import { SupportedChainId, check, claim, isWhitelisted, useGdContextProvider } from '@gooddollar/web3sdk'
 
-const ClaimButton = styled(ButtonDefault).attrs(props => ({
+const ClaimButton = styled(ButtonDefault).attrs((props) => ({
     disabled: false as boolean,
-    likeDisabled: props.disabled
+    likeDisabled: props.disabled,
 }))`
     ${({ likeDisabled }) =>
         likeDisabled
@@ -39,27 +33,30 @@ const ClaimButton = styled(ButtonDefault).attrs(props => ({
 `
 
 const getTimer = () => {
-  const start = new Date() as any;
-  start.setUTCHours(12, 0, 0);
+    const start = new Date() as any
+    start.setUTCHours(12, 0, 0)
 
-  function pad(num: any) {
-		return ("0" + parseInt(num)).substr(-2);
-  }
-
-  function tick() {
-    const now = new Date() as any;
-    if (now > start) {
-      start.setDate(start.getDate() + 1)
+    function pad(num: any) {
+        return ('0' + parseInt(num)).substr(-2)
     }
-    const remain = ((start - now) / 1000)
-    const hh = pad((remain / 60 / 60) % 60)
-    const mm = pad((remain / 60) % 60)
-    const ss = pad(remain % 60);
-    const timeLeft = hh + ":" + mm + ":" + ss;
-    return timeLeft
-  }
 
-  return tick()
+    function tick() {
+        const now = new Date() as any
+
+        if (now > start) {
+            start.setDate(start.getDate() + 1)
+        }
+
+        const remain = (start - now) / 1000
+        const hh = pad((remain / 60 / 60) % 60)
+        const mm = pad((remain / 60) % 60)
+        const ss = pad(remain % 60)
+        const timeLeft = hh + ':' + mm + ':' + ss
+        
+        return timeLeft
+    }
+
+    return tick()
 }
 
 function Web3Faucet(): JSX.Element | null {
@@ -73,35 +70,35 @@ function Web3Faucet(): JSX.Element | null {
     const [tillClaim, setTillClaim] = useState('')
 
     const fetchTimer = useCallback(() => {
-      const timer = getTimer()
-      setTillClaim(timer)
+        const timer = getTimer()
+        setTillClaim(timer)
     }, [])
 
     useEffect(() => {
-      if (!claimed) return
-      else {
-        const interval = setInterval(fetchTimer, 1000)
-        return () => clearInterval(interval)
-      }
+        if (!claimed) return
+        else {
+            const interval = setInterval(fetchTimer, 1000)
+            return () => clearInterval(interval)
+        }
     }, [fetchTimer, claimed])
 
     const [claimable, , , refetch] = usePromise(async () => {
         if (!account || !web3 || (chainId as any) !== SupportedChainId.FUSE) return false
-        const whitelisted = await isWhitelisted(web3, account).catch(e => {
+        const whitelisted = await isWhitelisted(web3, account).catch((e) => {
             console.error(e)
             return false
         })
 
         if (!whitelisted) return new Error('Only verified wallets can claim')
 
-        const amount = await check(web3, account).catch(e => {
+        const amount = await check(web3, account).catch((e) => {
             console.error(e)
             return new Error('Something went wrong.. try again later.')
         })
-        if (amount instanceof Error) return amount;
+        if (amount instanceof Error) return amount
 
         if (amount === '0') {
-          setIsClaimed(true)
+            setIsClaimed(true)
         }
 
         return /[^0.]/.test(amount)
@@ -109,43 +106,45 @@ function Web3Faucet(): JSX.Element | null {
 
     const handleClaim = useCallback(async () => {
         if (account && web3) {
-            sendData({event: 'claim', action: 'claimStart', network: network})
+            sendData({event: 'claim', action: 'claimStart', network })
+            
             const startClaim = await claim(web3, account).catch(e => {
               refetch()
               return false
             })
 
             if (startClaim) {
-              sendData({event: 'claim', action: 'claimSuccess', network: network})
+              sendData({event: 'claim', action: 'claimSuccess', network })
               refetch()
             }
         }
     }, [web3, account, refetch, sendData])
 
     const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable === true
-    const securityNotice = true
 
     return (
         <div className="flex flex-row space-x-2">
             <ClaimButton
                 className="px-5"
                 borderRadius="6px"
-                onClick={() => window.location.replace("https://airdrop.gooddollar.org")}
+                onClick={() => window.location.replace('https://airdrop.gooddollar.org')}
             >
                 <span>{i18n._(t`GOOD Airdrop`)}</span>
-            </ClaimButton >
+            </ClaimButton>
             <MouseoverTooltip
                 placement="bottom"
                 text={
                     (chainId as any) !== SupportedChainId.FUSE
                         ? i18n._(t`Please connect your Web3 wallet to the Fuse Network to Claim UBI.`)
-                        : claimed ? i18n._(t`You've already claimed today. Come back in ${tillClaim}`)
-                        : claimable instanceof Error ? claimable.message
+                        : claimed
+                        ? i18n._(t`You've already claimed today. Come back in ${tillClaim}`)
+                        : claimable instanceof Error
+                        ? claimable.message
                         : i18n._(t`Click this button to Claim your Daily UBI in `) + ' G$'
                 }
                 offset={[0, 12]}
             >
-                 <ClaimButton
+                <ClaimButton
                     className="px-5"
                     borderRadius="6px"
                     disabled={!claimActive}
@@ -169,8 +168,7 @@ function Web3Faucet(): JSX.Element | null {
                     </div>
                 </ClaimButton>
             </MouseoverTooltip>
-
-        </div >
+        </div>
     )
 }
 

@@ -164,7 +164,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     if (isValid) {
       const state = { isValid }
 
-      isFVFlow ? navigateTo('FVFlowSuccess', state) : pop(state)
+      isFVFlow ? navigate('FVFlowSuccess', state) : pop(state)
       return
     }
 
@@ -172,7 +172,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       fireEvent(FV_INTRO)
       checkDisposalState()
     }
-  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigateTo, pop, checkDisposalState])
+  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigate, pop, checkDisposalState])
 
   useEffect(() => {
     if (!isFVFlow || !navigate) {

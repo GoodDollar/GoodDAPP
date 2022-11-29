@@ -199,7 +199,6 @@
         "@types/react-dom": "17.0.2",
         "react-error-overlay": "6.0.9",
         "@gooddollar/goodprotocol": "1.0.29-beta.5",
-        "@web3-onboard/core@^2.10.0": "patch:@web3-onboard/core@npm%3A2.10.0#./.yarn/patches/@web3-onboard-core-npm-2.10.0-7120e6a102.patch",
         "@web3-onboard/core@^2.10.1": "patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch"
     },
     "dependencies": {

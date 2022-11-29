@@ -4,7 +4,7 @@ import { useLingui } from '@lingui/react'
 import { ModalType } from 'components/Savings/SavingsModal'
 import { ModalButton } from 'components/Savings/SavingsModal/ModalButton'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { LoadingPlaceHolder } from 'theme/components'
 
 export const SavingsCardRow = ({

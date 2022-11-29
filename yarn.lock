@@ -3306,26 +3306,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "@gooddollar/good-design@npm:0.0.6"
+"@gooddollar/good-design@npm:^0.0.10":
+  version: 0.0.10
+  resolution: "@gooddollar/good-design@npm:0.0.10"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
     "@gooddollar/goodprotocol": 1.0.29-beta.4
-    "@types/react": ^18.0.17
-    "@types/react-native": ^0.69.5
-    "@usedapp/core": ^1.1.5
+    "@lingui/macro": ^3.14.0
+    "@lingui/react": ^3.14.0
     buffer: ^6.0.3
     css-loader: ^6.7.1
     metro-react-native-babel-preset: ^0.72.0
     prop-types: ^15.8.1
     react: 17.0.2
     react-dom: 17.0.2
-    react-native: 0.67.2
+    react-native: ^0.70.4
+    react-native-mask-input: ^1.2.2
     react-native-safe-area-context: ^3.3.2
     react-native-svg: ^12.1.1
     react-native-svg-web: ^1.0.9
+    react-native-web: 0.17.*
+    react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
     sass-loader: ^13.0.2
@@ -3333,9 +3335,8 @@ __metadata:
     ts-loader: ^9.3.1
     typescript: 4.7.4
   peerDependencies:
-    react-native: 0.67.2
-    react-native-web: ^0.18.1
-  checksum: c76289b8fbe7fe32455b87618fd14255450442a58f7597189d546a8684a2549c902d48652fa8e62a84ef08cdb1d03fe859bb3252cb72cc384c1028b7a6be381d
+    "@usedapp/core": 1.*
+  checksum: e034d7178dd5d9d3ee51537f7955b02733aeae2e3be0d855ba66617d4c5582c34b13116e25dfdff5580f56ae71a3a660882b5ad99cdebf34548393a0287c4f36
   languageName: node
   linkType: hard
 
@@ -4172,7 +4173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lingui/macro@npm:^3.12.1":
+"@lingui/macro@npm:^3.12.1, @lingui/macro@npm:^3.14.0":
   version: 3.15.0
   resolution: "@lingui/macro@npm:3.15.0"
   dependencies:
@@ -4187,7 +4188,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lingui/react@npm:^3.12.1":
+"@lingui/react@npm:^3.12.1, @lingui/react@npm:^3.14.0":
   version: 3.15.0
   resolution: "@lingui/react@npm:3.15.0"
   dependencies:
@@ -6481,7 +6482,7 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.6
+    "@gooddollar/good-design": ^0.0.10
     "@gooddollar/goodprotocol": 1.0.29-beta.5
     "@gooddollar/web3sdk": ^0.1.12
     "@gooddollar/web3sdk-v2": ^0.1.47
@@ -7407,15 +7408,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native@npm:^0.69.5":
-  version: 0.69.15
-  resolution: "@types/react-native@npm:0.69.15"
-  dependencies:
-    "@types/react": "*"
-  checksum: 0bc47a051de4710f3c19f42c3c66dda3552489c65d8db24e3ca1a908790934fb722aaeb0a8a673bf2acba8f7a0ff0cc93b358d60662d4a8bfc8a2ad1017113dd
-  languageName: node
-  linkType: hard
-
 "@types/react-native@npm:^0.70.4":
   version: 0.70.7
   resolution: "@types/react-native@npm:0.70.7"
@@ -7978,7 +7970,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@usedapp/core@npm:1.*, @usedapp/core@npm:^1.0.9, @usedapp/core@npm:^1.1.5":
+"@usedapp/core@npm:1.*, @usedapp/core@npm:^1.0.9":
   version: 1.2.2
   resolution: "@usedapp/core@npm:1.2.2"
   dependencies:
@@ -8316,7 +8308,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@npm:^2.10.1":
+"@web3-onboard/core@npm:2.10.1":
   version: 2.10.1
   resolution: "@web3-onboard/core@npm:2.10.1"
   dependencies:
@@ -8334,6 +8326,27 @@ __metadata:
     svelte: ^3.49.0
     svelte-i18n: ^3.3.13
   checksum: 16b54c224b112930753351c4c8c3e900e1ae3a543bd76b6d38fb46126233753e07f2bfe37d9ea6c34febdba7bd92091edff67a492be7743c2b28b9b2376b73f8
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::locator=%40sushiswap%2Finterface%40workspace%3A.":
+  version: 2.10.1
+  resolution: "@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::version=2.10.1&hash=f8aba4&locator=%40sushiswap%2Finterface%40workspace%3A."
+  dependencies:
+    "@web3-onboard/common": ^2.2.3
+    bignumber.js: ^9.0.0
+    bnc-sdk: ^4.4.1
+    bowser: ^2.11.0
+    ethers: 5.5.3
+    eventemitter3: ^4.0.7
+    joi: ^17.6.1
+    lodash.merge: ^4.6.2
+    lodash.partition: ^4.6.0
+    nanoid: ^4.0.0
+    rxjs: ^7.5.5
+    svelte: ^3.49.0
+    svelte-i18n: ^3.3.13
+  checksum: 2c9969061f4a79622036d50f55caee6f793d953fcce9fb1b67eb4bafaa41354eb3d6fb8464d1b0a40c87f22f540012119f17b3327974a9bc746800c38d360773
   languageName: node
   linkType: hard
 
@@ -25501,6 +25514,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-mask-input@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "react-native-mask-input@npm:1.2.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: c75b5fc1248ba9ac678025ddee50575d5191c648e996bb7fb7ba67b358ef102391ce5e1d2e0fdc1c59bd131befa12e7714b633ed98a01001f2718ce08d070c6e
+  languageName: node
+  linkType: hard
+
 "react-native-restart@npm:^0.0.24":
   version: 0.0.24
   resolution: "react-native-restart@npm:0.0.24"
@@ -25579,7 +25602,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-web@npm:0.17":
+"react-native-web@npm:0.17, react-native-web@npm:0.17.*":
   version: 0.17.7
   resolution: "react-native-web@npm:0.17.7"
   dependencies:
@@ -25639,49 +25662,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native@npm:0.67.2":
-  version: 0.67.2
-  resolution: "react-native@npm:0.67.2"
-  dependencies:
-    "@jest/create-cache-key-function": ^27.0.1
-    "@react-native-community/cli": ^6.0.0
-    "@react-native-community/cli-platform-android": ^6.0.0
-    "@react-native-community/cli-platform-ios": ^6.0.0
-    "@react-native/assets": 1.0.0
-    "@react-native/normalize-color": 2.0.0
-    "@react-native/polyfills": 2.0.0
-    abort-controller: ^3.0.0
-    anser: ^1.4.9
-    base64-js: ^1.1.2
-    event-target-shim: ^5.0.1
-    hermes-engine: ~0.9.0
-    invariant: ^2.2.4
-    jsc-android: ^250230.2.1
-    metro-react-native-babel-transformer: 0.66.2
-    metro-runtime: 0.66.2
-    metro-source-map: 0.66.2
-    nullthrows: ^1.1.1
-    pretty-format: ^26.5.2
-    promise: ^8.0.3
-    prop-types: ^15.7.2
-    react-devtools-core: 4.19.1
-    react-native-codegen: ^0.0.8
-    react-refresh: ^0.4.0
-    regenerator-runtime: ^0.13.2
-    scheduler: ^0.20.2
-    stacktrace-parser: ^0.1.3
-    use-subscription: ^1.0.0
-    whatwg-fetch: ^3.0.0
-    ws: ^6.1.4
-  peerDependencies:
-    react: 17.0.2
-  bin:
-    react-native: cli.js
-  checksum: 6e8bd1a8ab1c8fad2928fd1aa921363fd2d49d4622c6edea38c3f80e67cf43253347661a545b69637f149fbc3a762f0a0e26a3bcf0003ac3c46dd83adb63b2b2
-  languageName: node
-  linkType: hard
-
-"react-native@npm:^0.70.2":
+"react-native@npm:^0.70.2, react-native@npm:^0.70.4":
   version: 0.70.6
   resolution: "react-native@npm:0.70.6"
   dependencies:
@@ -25722,6 +25703,18 @@ __metadata:
   bin:
     react-native: cli.js
   checksum: ae57e1b86f4e6950913f8b59732ab57d2dd1ee30af6c2ca68f88b03b8448cb01c51967b148550a8b8cb6d42ca9b73cead2e854b9ecc2f4b9d5d75fccff798846
+  languageName: node
+  linkType: hard
+
+"react-number-format@npm:^5.1.1":
+  version: 5.1.2
+  resolution: "react-number-format@npm:5.1.2"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
+    react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
+  checksum: 30af5da0866ffbe69c27704eda5b75e4dd5d6e3b2bc5506acff18732e915b10528669101c39da01337fed6003b2951274666f079d54c4f37f65791a8aecdf7f7
   languageName: node
   linkType: hard
 

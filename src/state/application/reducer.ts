@@ -8,11 +8,11 @@ const initialState: ApplicationState = {
     popupList: [],
     openModal: null,
     kashiApprovalPending: '',
-    theme: 'light' as 'light' | 'dark'
+    theme: 'light' as 'light' | 'dark',
 }
 
 // TODO: remove store, replace via React.Context
-export default createReducer(initialState, builder =>
+const application = createReducer(initialState, (builder) =>
     builder
         .addCase(updateBlockNumber, (state, action) => {
             const { chainId, blockNumber } = action.payload
@@ -26,17 +26,17 @@ export default createReducer(initialState, builder =>
             state.openModal = action.payload
         })
         .addCase(addPopup, (state, { payload: { content, key, removeAfterMs = 15000 } }) => {
-            state.popupList = (key ? state.popupList.filter(popup => popup.key !== key) : state.popupList).concat([
+            state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
                 {
                     key: key || nanoid(),
                     show: true,
                     content,
-                    removeAfterMs
-                }
+                    removeAfterMs,
+                },
             ])
         })
         .addCase(removePopup, (state, { payload: { key } }) => {
-            state.popupList.forEach(p => {
+            state.popupList.forEach((p) => {
                 if (p.key === key) {
                     p.show = false
                 }
@@ -50,3 +50,5 @@ export default createReducer(initialState, builder =>
             state.theme = action.payload
         })
 )
+
+export default application

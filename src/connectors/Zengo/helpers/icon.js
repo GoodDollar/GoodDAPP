@@ -1,4 +1,4 @@
-export default `
+const ZengoIcon = `
 <svg width="32" height="32" 
 viewBox="0 0 268 298" fill="black" xmlns="http://www.w3.org/2000/svg">
   <g filter="url(#filter0_d_661_406)"><path d="M4 92.48C4 60.109 4 43.9234 10.2998 
@@ -45,3 +45,5 @@ viewBox="0 0 268 298" fill="black" xmlns="http://www.w3.org/2000/svg">
   <linearGradient id="paint1_linear_661_406" x1="134" y1="42.1484" x2="134" y2="213.89" gradientUnits="userSpaceOnUse"><stop stop-color="white">
   </stop><stop offset="0.999087" stop-color="#E6F7F7"></stop></linearGradient></defs></svg>
 `
+
+export default ZengoIcon

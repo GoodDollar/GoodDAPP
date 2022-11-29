@@ -4,7 +4,7 @@ import {
     checkedTransaction,
     clearAllTransactions,
     finalizeTransaction,
-    SerializableTransactionReceipt
+    SerializableTransactionReceipt,
 } from './actions'
 
 const now = () => new Date().getTime()
@@ -18,16 +18,16 @@ export interface TransactionDetails {
     lastCheckedBlockNumber?: number
     addedTime: number
     confirmedTime?: number
-    from: string,
+    from: string
     tradeInfo?: {
-      input: {
-        decimals: number | undefined,
-        symbol: string | undefined
-      },
-      output: {
-        decimals: number | undefined,
-        symbol: string | undefined
-      }
+        input: {
+            decimals: number | undefined
+            symbol: string | undefined
+        }
+        output: {
+            decimals: number | undefined
+            symbol: string | undefined
+        }
     }
 }
 
@@ -39,16 +39,19 @@ export interface TransactionState {
 
 export const initialState: TransactionState = {}
 
-export default createReducer(initialState, builder =>
+const transactions = createReducer(initialState, (builder) =>
     builder
-        .addCase(addTransaction, (transactions, { payload: { chainId, from, hash, approval, summary, claim, tradeInfo } }) => {
-            if (transactions[chainId]?.[hash]) {
-                throw Error('Attempted to add existing transaction.')
+        .addCase(
+            addTransaction,
+            (transactions, { payload: { chainId, from, hash, approval, summary, claim, tradeInfo } }) => {
+                if (transactions[chainId]?.[hash]) {
+                    throw Error('Attempted to add existing transaction.')
+                }
+                const txs = transactions[chainId] ?? {}
+                txs[hash] = { hash, approval, summary, tradeInfo, claim, from, addedTime: now() }
+                transactions[chainId] = txs
             }
-            const txs = transactions[chainId] ?? {}
-            txs[hash] = { hash, approval, summary, tradeInfo, claim, from, addedTime: now() }
-            transactions[chainId] = txs
-        })
+        )
         .addCase(clearAllTransactions, (transactions, { payload: { chainId } }) => {
             if (!transactions[chainId]) return
             transactions[chainId] = {}
@@ -74,3 +77,5 @@ export default createReducer(initialState, builder =>
             tx.summary = summary
         })
 )
+
+export default transactions

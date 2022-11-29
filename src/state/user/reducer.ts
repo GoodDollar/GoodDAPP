@@ -12,7 +12,7 @@ import {
     updateUserDeadline,
     updateUserExpertMode,
     updateUserSingleHopOnly,
-    updateUserSlippageTolerance
+    updateUserSlippageTolerance,
 } from './actions'
 
 import { createReducer } from '@reduxjs/toolkit'
@@ -68,12 +68,12 @@ export const initialState: UserState = {
     tokens: {},
     pairs: {},
     timestamp: currentTimestamp(),
-    URLWarningVisible: true
+    URLWarningVisible: true,
 }
 
-export default createReducer(initialState, builder =>
+export const user = createReducer(initialState, (builder) =>
     builder
-        .addCase(updateVersion, state => {
+        .addCase(updateVersion, (state) => {
             // slippage isnt being tracked in local storage, reset to default
             // noinspection SuspiciousTypeOfGuard
             if (typeof state.userSlippageTolerance !== 'number') {
@@ -128,9 +128,8 @@ export default createReducer(initialState, builder =>
             ) {
                 const chainId = serializedPair.token0.chainId
                 state.pairs[chainId] = state.pairs[chainId] || {}
-                state.pairs[chainId][
-                    pairKey(serializedPair.token0.address, serializedPair.token1.address)
-                ] = serializedPair
+                state.pairs[chainId][pairKey(serializedPair.token0.address, serializedPair.token1.address)] =
+                    serializedPair
             }
             state.timestamp = currentTimestamp()
         })
@@ -142,7 +141,9 @@ export default createReducer(initialState, builder =>
             }
             state.timestamp = currentTimestamp()
         })
-        .addCase(toggleURLWarning, state => {
+        .addCase(toggleURLWarning, (state) => {
             state.URLWarningVisible = !state.URLWarningVisible
         })
 )
+
+export default user

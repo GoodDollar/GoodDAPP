@@ -11,6 +11,7 @@ declare type IAppProps = typeof import('@gooddollar/web3sdk-v2/dist/sdk/analytic
 
 export const analyticsConfig: IAnalyticsConfig = {
     google: { enabled: true },
+    amplitude: { apiKey: process.env.REACT_APP_AMPLITUDE_API_KEY },
 }
 
 export const appInfo: IAppProps = {

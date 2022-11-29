@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState, useMemo } from 'react'
+import React, { memo, useCallback, useEffect, useState, createElement } from 'react'
 import { ClaimRewardsStyled } from 'components/ClaimRewards/styled'
 import Modal from 'components/Modal'
 import { ReactComponent as CrossSVG } from 'assets/images/cross.svg'
@@ -15,7 +15,7 @@ import { useLingui } from '@lingui/react'
 import Loader from 'components/Loader'
 import { ChekboxItem, Reward } from './components'
 import { BottomSheet } from 'react-spring-bottom-sheet'
-// import { useGdContextProvider } from '@gooddollar/web3sdk/dist/hooks'
+
 import {
   claimG$Reward,
   claimGoodReward,
@@ -46,7 +46,100 @@ interface ClaimProps {
 
 type ClaimState = 'none' | 'pending' | 'send' | 'success'
 
-function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest }: ClaimProps) {
+const Content = ({ 
+    handleClose, 
+    handleClaim, 
+    isGovStake, 
+    selectedReward, 
+    setSelectedReward, 
+    error, 
+    chainId, 
+    transactionHash, 
+    stake, 
+    ...rest 
+}: any) => {
+    const { i18n } = useLingui()
+
+    return (
+        <ClaimRewardsStyled {...rest}>
+        <div className="flex justify-end flex-grow">
+            <CrossSVG className="cursor-pointer" onClick={handleClose} width={16} height={16} />
+        </div>
+        {status === 'none' || status === 'pending' ? (
+            <div className='m-6 mt-0'>
+                <Title className="flex justify-center flex-grow pt-2 pb-2 title">{i18n._(t`Claimable Rewards`)}</Title>
+                {!isGovStake && (
+                    <div className='flex justify-center'>
+                        <ChekboxItem name={"claimAll"} checked={selectedReward === 'claimAll'} 
+                                    onClick={()=> setSelectedReward('claimAll')} 
+                                    label={i18n._(t`Claim All`)}/>
+                        <ChekboxItem name={"claimGOOD"} checked={selectedReward === 'claimGOOD'} 
+                                    onClick={()=> setSelectedReward('claimGOOD')} 
+                                    label={i18n._(t`Claim GOOD`)}/>
+                    </div>
+                )}
+                <div className="relative flex flex-col items-center mt-1">
+                    {error && <p className="mb-5 warning">{error.message}</p>}
+                    <ButtonAction className="claim" disabled={status === 'pending'} onClick={handleClaim}>
+                        {status === 'pending'
+                            ? i18n._(t`PENDING SIGN...`)
+                            : `${i18n._(t`Claim Rewards`)}`}
+                    </ButtonAction>
+                    {!isGovStake && (
+                        <p className="mb-2 text-center claiming-hint">
+                            {i18n._(t`Claiming your rewards will reset your multiplier`)}
+                        </p>
+                    )}
+                    {status === 'pending' && (
+                        <p className="pending-hint">You need to sign the transaction in your wallet</p>
+                    )}
+                </div>
+                <div>
+                    <p className='mb-1 availableRewards'>{i18n._(t`Claiming the following rewards:`)}</p>
+                    {!isGovStake && <Reward name={i18n._(t`G$`)} amount={stake.rewards.reward.unclaimed.toSignificant(6, {groupSeperator: ','})} active={selectedReward === 'claimAll'}/>}
+                    <Reward name={i18n._(t`GOOD`)} amount={stake.rewards.GDAO.unclaimed.toSignificant(6, {groupSeperator: ','})} active={true}/>
+                </div>
+            </div>
+        ) : (
+            <div className='m-6 mt-0'>
+                <Title className="flex justify-center flex-grow pt-3">
+                { status === 'send' ?
+                    i18n._(t`Please wait`) :
+                    i18n._(t`Success!`)
+                }
+                </Title>
+                <div className="flex items-center justify-center gap-2 pt-7 pb-7">
+                    {status === 'send'
+                        ? i18n._(t`Transaction was sent to the blockchain `)
+                        : i18n._(t`You have successfully claimed your rewards `)}
+                    <a
+                        href={
+                            transactionHash &&
+                            chainId &&
+                            getExplorerLink(chainId, transactionHash, 'transaction')
+                        }
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <LinkSVG className="cursor-pointer" />
+                    </a>
+                </div>
+                <div className="flex justify-center">
+                    {status === 'send' ? (
+                        <Loader stroke="#173046" size="32px" />
+                    ) : (
+                        <Button className="back-to-portfolio" onClick={handleClose}>
+                            {i18n._(t`Back to portfolio`)}
+                        </Button>
+                    )}
+                </div>
+            </div>
+        )}
+        </ClaimRewardsStyled>
+    )
+}
+
+const ClaimRewards = memo(({ token, protocol, open, setOpen, onClaim, stake, ...rest }: ClaimProps) => {
     const { i18n } = useLingui() 
     const [status, setStatus] = useState<ClaimState>('none')
     const { web3 }  = useGdContextProvider()
@@ -101,6 +194,19 @@ function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest 
         setOpen(false)
     }, [])
 
+    const content = createElement(Content, {
+        handleClose, 
+        handleClaim, 
+        isGovStake, 
+        selectedReward, 
+        setSelectedReward, 
+        error, 
+        chainId, 
+        transactionHash, 
+        stake, 
+        ...rest
+    })
+
     useEffect(() => {
         if(isGovStake) {
             setSelectedReward('claimGOOD')
@@ -117,91 +223,15 @@ function ClaimRewards({ token, protocol, open, setOpen, onClaim, stake, ...rest 
         }
     }, [open])
 
-    const Content = () => (
-        <ClaimRewardsStyled {...rest}>
-        <div className="flex justify-end flex-grow">
-            <CrossSVG className="cursor-pointer" onClick={handleClose} width={16} height={16} />
-        </div>
-        {status === 'none' || status === 'pending' ? (
-            <div className='m-6 mt-0'>
-                <Title className="flex justify-center flex-grow pt-2 pb-2 title">{i18n._(t`Claimable Rewards`)}</Title>
-                {!isGovStake && (
-                    <div className='flex justify-center'>
-                        <ChekboxItem name={"claimAll"} checked={selectedReward === 'claimAll'} 
-                                     onClick={()=> setSelectedReward('claimAll')} 
-                                     label={i18n._(t`Claim All`)}/>
-                        <ChekboxItem name={"claimGOOD"} checked={selectedReward === 'claimGOOD'} 
-                                     onClick={()=> setSelectedReward('claimGOOD')} 
-                                     label={i18n._(t`Claim GOOD`)}/>
-                    </div>
-                )}
-                <div className="relative flex flex-col items-center mt-1">
-                    {error && <p className="mb-5 warning">{error.message}</p>}
-                    <ButtonAction className="claim" disabled={status === 'pending'} onClick={handleClaim}>
-                        {status === 'pending'
-                            ? i18n._(t`PENDING SIGN...`)
-                            : `${i18n._(t`Claim Rewards`)}`}
-                    </ButtonAction>
-                    {!isGovStake && (
-                        <p className="mb-2 text-center claiming-hint">
-                            {i18n._(t`Claiming your rewards will reset your multiplier`)}
-                        </p>
-                    )}
-                    {status === 'pending' && (
-                        <p className="pending-hint">You need to sign the transaction in your wallet</p>
-                    )}
-                </div>
-                <div>
-                    <p className='mb-1 availableRewards'>{i18n._(t`Claiming the following rewards:`)}</p>
-                    {!isGovStake && <Reward name={i18n._(t`G$`)} amount={stake.rewards.reward.unclaimed.toSignificant(6, {groupSeperator: ','})} active={selectedReward === 'claimAll'}/>}
-                    <Reward name={i18n._(t`GOOD`)} amount={stake.rewards.GDAO.unclaimed.toSignificant(6, {groupSeperator: ','})} active={true}/>
-                </div>
-            </div>
-        ) : (
-            <div className='m-6 mt-0'>
-                <Title className="flex justify-center flex-grow pt-3">
-                  { status === 'send' ?
-                    i18n._(t`Please wait`) :
-                    i18n._(t`Success!`)
-                  }
-                </Title>
-                <div className="flex items-center justify-center gap-2 pt-7 pb-7">
-                    {status === 'send'
-                        ? i18n._(t`Transaction was sent to the blockchain `)
-                        : i18n._(t`You have successfully claimed your rewards `)}
-                    <a
-                        href={
-                            transactionHash &&
-                            chainId &&
-                            getExplorerLink(chainId, transactionHash, 'transaction')
-                        }
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <LinkSVG className="cursor-pointer" />
-                    </a>
-                </div>
-                <div className="flex justify-center">
-                    {status === 'send' ? (
-                        <Loader stroke="#173046" size="32px" />
-                    ) : (
-                        <Button className="back-to-portfolio" onClick={handleClose}>
-                            {i18n._(t`Back to portfolio`)}
-                        </Button>
-                    )}
-                </div>
-            </div>
-        )}
-        </ClaimRewardsStyled>
+    return isMobile ? (
+        <BottomSheetSC open={open} onDismiss={handleClose}>
+            {content}
+        </BottomSheetSC>
+    ) : (
+        <Modal isOpen={open} noPadding onDismiss={handleClose} maxWidth={368}>
+            {content}
+        </Modal>
     )
+});
 
-    return isMobile
-         ?  <BottomSheetSC open={open} onDismiss={handleClose}>
-                <Content />
-            </BottomSheetSC>
-         : <Modal isOpen={open} noPadding onDismiss={handleClose} maxWidth={368}>
-               <Content />
-           </Modal>
-}
-
-export default memo(ClaimRewards)
+export default ClaimRewards;

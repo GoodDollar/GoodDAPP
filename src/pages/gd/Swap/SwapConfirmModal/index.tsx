@@ -52,7 +52,7 @@ export interface SwapConfirmModalProps extends SwapDetailsFields {
 
 const initialState = {}
 
-function SwapConfirmModal({
+const SwapConfirmModal = memo(({
     GDX,
     meta,
     style,
@@ -69,7 +69,7 @@ function SwapConfirmModal({
     liquidityFee,
     minimumReceived,
     exitContribution,
-}: SwapConfirmModalProps) {
+}: SwapConfirmModalProps) => {
     const { i18n } = useLingui()
     const [from, to] = pair ?? []
     const globalDispatch = useDispatch()
@@ -320,6 +320,6 @@ function SwapConfirmModal({
             </SwapConfirmModalSC>
         </Modal>
     )
-}
+});
 
-export default memo(SwapConfirmModal)
+export default SwapConfirmModal;

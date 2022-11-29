@@ -37,7 +37,7 @@ import {
   useGdContextProvider,
 } from '@gooddollar/web3sdk'
 
-function Swap() {
+const Swap = memo(() => {
     const { i18n } = useLingui()
     const [buying, setBuying] = useState(true)
     const [slippageTolerance, setSlippageTolerance] = useState({
@@ -416,6 +416,6 @@ function Swap() {
             />
         </SwapContext.Provider>
     )
-}
+});
 
-export default memo(Swap)
+export default Swap;

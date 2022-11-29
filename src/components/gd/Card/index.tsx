@@ -19,12 +19,12 @@ export const CardContentSC = styled.div`
     padding: 16px 20px 20px;
 `
 
-const Card = ({ children, contentWrapped = true, ...rest }: CardProps) => {
+const Card = memo(({ children, contentWrapped = true, ...rest }: CardProps) => {
     if (contentWrapped) {
         children = <CardContentSC>{children}</CardContentSC>
     }
 
     return <CardSC {...rest}>{children}</CardSC>
-}
+});
 
-export default memo(Card)
+export default Card;

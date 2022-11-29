@@ -4,7 +4,7 @@ import { useLingui } from '@lingui/react'
 import { ClaimButton, Layout, Title } from '@gooddollar/good-design'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
-const Claim = () => {
+const Claim = memo(() => {
     const { i18n } = useLingui()
     const { account } = useActiveWeb3React()
 
@@ -24,6 +24,6 @@ const Claim = () => {
             </div>
         </Layout>
     )
-}
+});
 
-export default memo(Claim)
+export default Claim;

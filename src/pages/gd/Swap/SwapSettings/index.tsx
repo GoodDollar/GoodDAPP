@@ -39,7 +39,7 @@ const percentageMask = createNumberMask({
     includeThousandsSeparator: false
 })
 
-function SwapSettings({ className, style }: SwapSettingsProps) {
+const SwapSettings = memo(({ className, style }: SwapSettingsProps) => {
     const { i18n } = useLingui()
     const open = useModalOpen(ApplicationModal.SETTINGS)
     const handleClick = useToggleSettingsMenu()
@@ -157,6 +157,6 @@ function SwapSettings({ className, style }: SwapSettingsProps) {
             )}
         </>
     )
-}
+});
 
-export default memo(SwapSettings)
+export default SwapSettings;

@@ -32,7 +32,7 @@ export interface SwapRowProps {
     isCalculating?: boolean
 }
 
-function SwapRow({
+const SwapRow = memo(({
     className,
     style,
     title,
@@ -46,7 +46,7 @@ function SwapRow({
     tokenList,
     alternativeSymbol,
     isCalculating
-}: SwapRowProps) {
+}: SwapRowProps) => {
     const [showSelect, setShowSelect] = useState(false)
 
     const handleShowSelect = useCallback(() => setShowSelect(true), [])
@@ -107,6 +107,6 @@ function SwapRow({
             )}
         </SwapRowSC>
     )
-}
+});
 
-export default memo(SwapRow)
+export default SwapRow;

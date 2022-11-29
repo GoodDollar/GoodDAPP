@@ -19,7 +19,7 @@ export interface SwapInputProps extends Omit<JSX.IntrinsicElements['input'], 're
     calculating?: boolean
 }
 
-function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, ...inputProps }: SwapInputProps) {
+const SwapInput = memo(({ className, style, autoMax, balance, decimals = 18, onMax, ...inputProps }: SwapInputProps) => {
     const { i18n } = useLingui()
 
     const mask = useMemo(
@@ -59,6 +59,6 @@ function SwapInput({ className, style, autoMax, balance, decimals = 18, onMax, .
             )}
         </>
     )
-}
+});
 
-export default memo(SwapInput)
+export default SwapInput;

@@ -197,7 +197,7 @@ const MobileTable = ({ stakes, cells, onUpdate }: { stakes?: MyStake[]; cells: a
     return <MobileTableSC>{getCells}</MobileTableSC>
 }
 
-const Portfolio = () => {
+const Portfolio = memo(() => {
     const { i18n } = useLingui()
     const { account, chainId } = useActiveWeb3React()
 
@@ -466,6 +466,6 @@ const Portfolio = () => {
             </PortfolioSC>
         </Layout>
     )
-}
+});
 
-export default memo(Portfolio)
+export default Portfolio;

@@ -120,7 +120,7 @@ const LANGUAGES: { [x: string]: { flag: string; language: string; dialect?: stri
     }
 }
 
-function LanguageSwitch() {
+const LanguageSwitch = memo(() => {
     const node = useRef<HTMLDivElement>(null)
     const open = useModalOpen(ApplicationModal.LANGUAGE)
     const toggle = useToggleModal(ApplicationModal.LANGUAGE)
@@ -155,6 +155,6 @@ function LanguageSwitch() {
             )}
         </StyledMenu>
     )
-}
+});
 
-export default memo(LanguageSwitch)
+export default LanguageSwitch;

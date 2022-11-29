@@ -55,7 +55,7 @@ const initialState = {
     transactionHash: undefined as undefined | string
 }
 
-const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepositModalProps) => {
+const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: StakeDepositModalProps) => {
     const { i18n } = useLingui()
     //note:
     // (bug-minor) chainId is cached here at default 1 when using an action button. Only seems to break loading icons on dev..
@@ -402,6 +402,6 @@ const StakeDeposit = ({ stake, onDeposit, onClose, activeTableName }: StakeDepos
             ) : null}
         </StakeDepositSC>
     )
-}
+});
 
-export default memo(StakeDeposit)
+export default StakeDeposit;

@@ -106,7 +106,7 @@ export const TableSC = styled.table`
     }
 `
 
-const Table = ({ children, type = 'default', className, header, footer, ...rest }: TableProps) => {
+const Table = memo(({ children, type = 'default', className, header, footer, ...rest }: TableProps) => {
     return (
         <TableSC className={cn(type, className)} {...rest}>
             {header && <thead>{header}</thead>}
@@ -114,6 +114,6 @@ const Table = ({ children, type = 'default', className, header, footer, ...rest 
             {footer && <tfoot>{footer}</tfoot>}
         </TableSC>
     )
-}
+});
 
-export default memo(Table)
+export default Table;

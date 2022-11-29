@@ -45,12 +45,12 @@ export const TitleSC = styled.div`
     }
 `
 
-const Title = ({ children, type = 'default', className, ...rest }: TitleProps) => {
+const Title = memo(({ children, type = 'default', className, ...rest }: TitleProps) => {
     return (
         <TitleSC className={cn(type, className)} {...rest}>
             {children}
         </TitleSC>
     )
-}
+});
 
-export default memo(Title)
+export default Title;

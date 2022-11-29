@@ -26,7 +26,7 @@ const searchIcon = (
     </svg>
 )
 
-function SwapTokensModal({
+const SwapTokensModal = memo(({
     className,
     style,
     onClose,
@@ -34,7 +34,7 @@ function SwapTokensModal({
     token: currentToken,
     onTokenChange,
     tokenList = []
-}: SwapTokensModalProps) {
+}: SwapTokensModalProps) => {
     const { i18n } = useLingui()
     const [search, setSearch] = useState('')
     const [_search, _setSearch] = useState('')
@@ -94,6 +94,6 @@ function SwapTokensModal({
             </SwapTokensModalSC>
         </Modal>
     )
-}
+});
 
-export default memo(SwapTokensModal)
+export default SwapTokensModal

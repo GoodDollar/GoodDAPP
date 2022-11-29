@@ -24,7 +24,7 @@ export const restrictValue = (value: string | undefined) => {
 
 const percentMask = createNumberMask({ prefix: '', suffix: '%', integerLimit: 3 })
 
-function PercentInputControls({ value, onPercentChange, disabled, type, ...rest }: PercentInputControlsProps) {
+const PercentInputControls = memo(({ value, onPercentChange, disabled, type, ...rest }: PercentInputControlsProps) => {
     const { i18n } = useLingui()
     const [percentValue, setPercentValue] = useState(value)
     const handleChange = useCallback(
@@ -97,6 +97,6 @@ function PercentInputControls({ value, onPercentChange, disabled, type, ...rest 
             </div>
         </PercentInputControlsStyled>
     )
-}
+});
 
-export default memo(PercentInputControls)
+export default PercentInputControls;

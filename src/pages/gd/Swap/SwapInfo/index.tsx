@@ -10,7 +10,7 @@ export interface SwapInfoProps {
     tip?: string
 }
 
-function SwapInfo({ className, style, tip, title, value }: SwapInfoProps) {
+const SwapInfo = memo(({ className, style, tip, title, value }: SwapInfoProps) => {
     return (
         <SwapInfoSC className={className} style={style}>
             <div className="title flex items-center">
@@ -19,6 +19,6 @@ function SwapInfo({ className, style, tip, title, value }: SwapInfoProps) {
             <div className="value">{value}</div>
         </SwapInfoSC>
     )
-}
+});
 
-export default memo(SwapInfo)
+export default SwapInfo;

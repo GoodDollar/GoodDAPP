@@ -13,7 +13,7 @@ export interface SwapTokensModalTokenRowProps extends Omit<JSX.IntrinsicElements
     active: boolean
 }
 
-function SwapTokensModalTokenRow({ className, style, token, active, ...divProps }: SwapTokensModalTokenRowProps) {
+const SwapTokensModalTokenRow = memo(({ className, style, token, active, ...divProps }: SwapTokensModalTokenRowProps) => {
     const { account } = useActiveWeb3React()
     const balance = useCurrencyBalance(account ?? undefined, token)
 
@@ -27,6 +27,6 @@ function SwapTokensModalTokenRow({ className, style, token, active, ...divProps 
             <div className="balance">{balance ? balance.toSignificant(4) : account ? <Loader /> : null}</div>
         </SwapTokensModalTokenRowSC>
     )
-}
+});
 
-export default memo(SwapTokensModalTokenRow)
+export default SwapTokensModalTokenRow;

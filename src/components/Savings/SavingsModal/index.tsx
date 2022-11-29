@@ -71,7 +71,7 @@ const TransactionCopy = {
 
 export type ModalType = 'deposit' | 'withdraw' | 'claim'
 
-const SavingsModal = ({
+const SavingsModal = memo(({
     type,
     toggle,
     isOpen,
@@ -338,6 +338,6 @@ const SavingsModal = ({
             </StakeDepositSC>
         </Modal>
     )
-}
+});
 
-export default memo(SavingsModal)
+export default SavingsModal;

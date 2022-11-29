@@ -24,7 +24,7 @@ interface WithdrawRewardsProps {
 
 type WithdrawRewardsState = 'none' | 'pending' | 'send' | 'success'
 
-function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsProps) {
+const WithdrawRewards = memo(({ trigger, type, onClaim, ...rest }: WithdrawRewardsProps) => {
     const { i18n } = useLingui()
     const [status, setStatus] = useState<WithdrawRewardsState>('none')
     const [error, setError] = useState<Error>()
@@ -142,6 +142,6 @@ function WithdrawRewards({ trigger, type, onClaim, ...rest }: WithdrawRewardsPro
             </Modal>
         </>
     )
-}
+});
 
-export default memo(WithdrawRewards)
+export default WithdrawRewards;

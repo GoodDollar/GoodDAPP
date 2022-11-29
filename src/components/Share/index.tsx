@@ -62,7 +62,7 @@ export const ShareSC = styled.div<{ textCopied: boolean }>`
     }
 `
 
-export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): React.ReactElement | null => {
+export const Share = memo(({ show = true, title, copyText, ...rest }: ShareProps): React.ReactElement | null => {
     const { i18n } = useLingui()
 
     const [textCopied, textCopiedSet] = useState(false)
@@ -110,6 +110,6 @@ export const Share = ({ show = true, title, copyText, ...rest }: ShareProps): Re
             </Row>
         </ShareSC>
     )
-}
+});
 
-export default memo(Share)
+export default Share;

@@ -35,7 +35,7 @@ interface WithdrawProps {
 
 type WithdrawState = 'none' | 'pending' | 'send' | 'success'
 
-function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }: WithdrawProps) {
+const Withdraw = memo(({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }: WithdrawProps) => {
     const { i18n } = useLingui()
     const [status, setStatus] = useState<WithdrawState>('none')
     const totalStake = useMemo(() => parseFloat(stake.stake.amount.toExact()), [stake])
@@ -205,6 +205,6 @@ function Withdraw({ token, protocol, open, setOpen, onWithdraw, stake, ...rest }
             </WithdrawStyled>
         </Modal>
     )
-}
+});
 
-export default memo(Withdraw)
+export default Withdraw;

@@ -20,7 +20,7 @@ export interface SwapDetailsProps extends SwapDetailsFields {
     buying?: boolean
 }
 
-function SwapDetails({
+const SwapDetails = memo(({
     className,
     style,
     open,
@@ -31,7 +31,7 @@ function SwapDetails({
     GDX,
     exitContribution,
     buying
-}: SwapDetailsProps) {
+}: SwapDetailsProps) => {
     const { i18n } = useLingui()
 
     return (
@@ -78,6 +78,6 @@ function SwapDetails({
             }
         </SwapDetailsSC>
     )
-}
+});
 
-export default memo(SwapDetails)
+export default SwapDetails;

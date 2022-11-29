@@ -16,8 +16,8 @@ const PlaceholderSC = styled.div`
     justify-content: center;
 `
 
-const Placeholder = ({ children, ...props }: Omit<JSX.IntrinsicElements['div'], 'ref'>) => {
+const Placeholder = memo(({ children, ...props }: Omit<JSX.IntrinsicElements['div'], 'ref'>) => {
     return <PlaceholderSC {...props}>{children}</PlaceholderSC>
-}
+})
 
-export default memo(Placeholder)
+export default Placeholder;

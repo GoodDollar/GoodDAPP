@@ -11,7 +11,7 @@ export interface SwapDescriptionsProps {
     exitContribution?: boolean
 }
 
-function SwapDescriptions({ className, style, gdx, exitContribution }: SwapDescriptionsProps) {
+const SwapDescriptions = memo(({ className, style, gdx, exitContribution }: SwapDescriptionsProps) => {
     const { i18n } = useLingui()
 
     return (
@@ -35,6 +35,6 @@ function SwapDescriptions({ className, style, gdx, exitContribution }: SwapDescr
             )}
         </SwapDescriptionsSC>
     )
-}
+});
 
-export default memo(SwapDescriptions)
+export default SwapDescriptions;

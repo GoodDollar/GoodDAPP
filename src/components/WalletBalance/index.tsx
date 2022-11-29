@@ -12,7 +12,7 @@ export type WalletBalanceProps = {
 
 const chains = Object.values(AdditionalChainId)
 
-export default memo(({ balances, chainId }: WalletBalanceProps): JSX.Element | null => (
+const WalletBalance = memo(({ balances, chainId }: WalletBalanceProps): JSX.Element | null => (
     <div className="flex flex-col">
         {balances && Object.entries(balances).map((balance) => {
             const [token, data] = balance || []
@@ -35,4 +35,6 @@ export default memo(({ balances, chainId }: WalletBalanceProps): JSX.Element | n
             )
         })}
     </div>
-))
+));
+
+export default WalletBalance;

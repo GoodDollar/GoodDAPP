@@ -16,7 +16,7 @@ interface PortfolioTableRowProps {
     onUpdate: () => void
 }
 
-function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
+const PortfolioTableRow = memo(({ stake, onUpdate }: PortfolioTableRowProps) => {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
     const [isClaimRewardsOpen, setClaimRewardsOpen] = useState(false)
@@ -158,6 +158,6 @@ function PortfolioTableRow({ stake, onUpdate }: PortfolioTableRowProps) {
             </tr>
         </>
     )
-}
+});
 
-export default memo(PortfolioTableRow)
+export default PortfolioTableRow;

@@ -22,13 +22,13 @@ module.exports = {
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-var-requires': 'off',
-        'import/no-anonymous-default-export': 'error',
-        'import/no-cycle': [
+        'import/no-anonymous-default-export': [
             'error',
             {
                 allowCallExpression: false,
             },
         ],
+        'import/no-cycle': 'error',
         'no-extend-native': 'off',
         'react/prop-types': 'off',
         'react/display-name': 'off',

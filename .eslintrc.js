@@ -6,14 +6,14 @@ module.exports = {
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
         'plugin:@typescript-eslint/recommended',
-        'plugin:prettier/recommended'
+        'plugin:prettier/recommended',
     ],
     parserOptions: {
         ecmaVersion: 2020,
         ecmaFeatures: {
-            jsx: true
+            jsx: true,
         },
-        sourceType: 'module'
+        sourceType: 'module',
     },
     ignorePatterns: ['node_modules/**/*'],
     rules: {
@@ -22,16 +22,22 @@ module.exports = {
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-var-requires': 'off',
-        'import/no-cycle': 'error',
+        'import/no-anonymous-default-export': 'error',
+        'import/no-cycle': [
+            'error',
+            {
+                allowCallExpression: false,
+            },
+        ],
         'no-extend-native': 'off',
         'react/prop-types': 'off',
         'react/display-name': 'off',
         'prettier/prettier': 'off',
-        'prefer-const': 'warn'
+        'prefer-const': 'warn',
     },
     settings: {
         react: {
-            version: 'detect'
-        }
-    }
+            version: 'detect',
+        },
+    },
 }

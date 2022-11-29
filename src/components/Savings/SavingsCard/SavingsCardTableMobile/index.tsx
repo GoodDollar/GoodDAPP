@@ -1,3 +1,4 @@
+import React from 'react'
 import { useStakerInfo } from '@gooddollar/web3sdk-v2'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'

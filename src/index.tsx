@@ -7,7 +7,7 @@ import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter as Router } from 'react-router-dom'
-import { AnalyticsProvider } from "@gooddollar/web3sdk-v2";
+import { AnalyticsProvider } from '@gooddollar/web3sdk-v2/dist/sdk/analytics'
 import Blocklist from './components/Blocklist'
 import App from './pages/App'
 import store from './state'
@@ -24,7 +24,7 @@ import { theme } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 
 if (!!window.ethereum) {
-  window.ethereum.autoRefreshOnNetworkChange = false
+    window.ethereum.autoRefreshOnNetworkChange = false
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -77,21 +77,21 @@ ReactDOM.render(
         <Web3ContextProvider>
             <Provider store={store}>
                 <LanguageProvider>
-                  <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
-                    <Blocklist>
-                      <ListsUpdater />
-                      <UserUpdater />
-                      <ApplicationUpdater />
-                      <MulticallUpdater />
-                          <ThemeProvider>
-                              <NativeBaseProvider theme={theme}>
-                                  <GlobalStyle />
-                                  <Router>
-                                      <App />
-                                  </Router>
-                              </NativeBaseProvider>
-                          </ThemeProvider>
-                      </Blocklist>
+                    <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
+                        <Blocklist>
+                            <ListsUpdater />
+                            <UserUpdater />
+                            <ApplicationUpdater />
+                            <MulticallUpdater />
+                            <ThemeProvider>
+                                <NativeBaseProvider theme={theme}>
+                                    <GlobalStyle />
+                                    <Router>
+                                        <App />
+                                    </Router>
+                                </NativeBaseProvider>
+                            </ThemeProvider>
+                        </Blocklist>
                     </AnalyticsProvider>
                 </LanguageProvider>
             </Provider>

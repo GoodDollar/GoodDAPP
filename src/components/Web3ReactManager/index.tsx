@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useAnalytics } from "@gooddollar/web3sdk-v2";
+import { useAnalytics } from '@gooddollar/web3sdk-v2/dist/sdk/analytics'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import styled from 'styled-components'
@@ -45,11 +45,11 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
 
     // on page load, do nothing until we've tried to connect a previously connected wallet
     if (!tried) {
-      return showLoader ? (
-        <MessageWrapper>
-            <Loader />
-        </MessageWrapper>
-      ) : null
+        return showLoader ? (
+            <MessageWrapper>
+                <Loader />
+            </MessageWrapper>
+        ) : null
     }
 
     // if the account context isn't active, and there's an error on the network context, it's an irrecoverable error

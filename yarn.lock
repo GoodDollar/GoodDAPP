@@ -3910,8 +3910,8 @@ __metadata:
     react-native-web: ^0.17.5
     react-native-web-linear-gradient: ^1.0.5
     react-native-web-lottie: ^1.2.0
-    react-native-webview: ^11.6.5
-    react-native-webview-crypto: 0.0.21
+    react-native-webview: ^11.25.0
+    react-native-webview-crypto: ^0.0.25
     react-navigation: ^4.0.10
     react-navigation-stack: ^1.10.3
     react-phone-number-input: ^2.3.18
@@ -28564,31 +28564,31 @@ patch-package@latest:
   languageName: node
   linkType: hard
 
-"react-native-webview-crypto@npm:0.0.21":
-  version: 0.0.21
-  resolution: "react-native-webview-crypto@npm:0.0.21"
+"react-native-webview-crypto@npm:^0.0.25":
+  version: 0.0.25
+  resolution: "react-native-webview-crypto@npm:0.0.25"
   dependencies:
     encode-utf8: ^1.0.2
     fast-base64-encode: ^1.0.0
-    webview-crypto: ^0.1.10
+    webview-crypto: ^0.1.13
   peerDependencies:
     react: ">=16.4"
     react-native: ">=0.56"
-    react-native-webview: ^8.*
-  checksum: 7f7bbe3a90dc4cd433f5865ea2b22970cbc6859b4eda52558828799e87c73be9e633e471ba609520b7124349af51b9a437f70a662adedc03eb26f602c315206b
+    react-native-webview: ">=8.*"
+  checksum: 66277ecf2ec7a433bea64c99ee2914c34f80d8e0fd323367831145be5bc4aa1a1be5e1ebe04af168f4f498e0352b6323223c3e2fd44a44f893268ada8bbf750b
   languageName: node
   linkType: hard
 
-"react-native-webview@npm:^11.6.5":
-  version: 11.22.2
-  resolution: "react-native-webview@npm:11.22.2"
+"react-native-webview@npm:^11.25.0":
+  version: 11.25.0
+  resolution: "react-native-webview@npm:11.25.0"
   dependencies:
     escape-string-regexp: 2.0.0
     invariant: 2.2.4
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: cd3af1fbedd5fb7807190736cbd83fd98936507ba0e4b390b513a50e5f924c4f055691352a7504f4ae55592bde1f98945b9ae851b86249dda780f58532ee73d3
+  checksum: 50b0d61c1550594657e9dba5fc7b87eb3446b2ad67cb8b7e5226233d26c88845d26cc4c5b5abf0091f3ca98a6ebe49ac697ac6803718e5ffd32e46ad3c014114
   languageName: node
   linkType: hard
 
@@ -35646,13 +35646,13 @@ patch-package@latest:
   languageName: node
   linkType: hard
 
-"webview-crypto@npm:^0.1.10":
-  version: 0.1.11
-  resolution: "webview-crypto@npm:0.1.11"
+"webview-crypto@npm:^0.1.13":
+  version: 0.1.13
+  resolution: "webview-crypto@npm:0.1.13"
   dependencies:
     lodash: 4.17.3
     serialize-error: 2.1.0
-  checksum: f44ee5c50b62376848f36f379716843beeddc489cc29461cda938892b1c0c5186761feab7cd2da8d21b5b7168ed5e304af60c0c975b128e35e278f905a9ee9da
+  checksum: a6a4c2560add55a5060e33b0b04797bc8cd19674cac6cfcd86b68a99b9bacacb9fdcd94461ed8279f3221ab56348227cc9a3644792784b093552959661541b9b
   languageName: node
   linkType: hard
 

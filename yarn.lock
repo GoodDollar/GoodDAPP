@@ -3661,6 +3661,195 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gooddollar/protocol-ui@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@gooddollar/protocol-ui@workspace:."
+  dependencies:
+    "@apollo/client": ^3.2.0
+    "@apollo/react-components": ^3.1.5
+    "@apollo/react-hooks": ^3.1.5
+    "@babel/core": ^7.15.8
+    "@babel/preset-flow": ^7.18.6
+    "@babel/preset-react": ^7.18.6
+    "@babel/preset-typescript": ^7.18.6
+    "@celo-tools/use-contractkit": ^3.1.0
+    "@commitlint/cli": ^12.1.1
+    "@commitlint/config-conventional": ^12.1.1
+    "@ethersproject/experimental": ^5.0.1
+    "@fontsource/dm-sans": ^4.2.2
+    "@fullhuman/postcss-purgecss": ^4.0.3
+    "@gooddollar/good-design": ^0.0.10
+    "@gooddollar/goodprotocol": 1.0.29-beta.5
+    "@gooddollar/web3sdk": ^0.1.12
+    "@gooddollar/web3sdk-v2": ^0.1.47
+    "@headlessui/react": 1.5.0
+    "@hot-loader/react-dom": ^17.0.1
+    "@lingui/cli": ^3.12.1
+    "@lingui/detect-locale": ^3.9.0
+    "@lingui/loader": ^3.9.0
+    "@lingui/macro": ^3.12.1
+    "@lingui/react": ^3.12.1
+    "@popperjs/core": ^2.4.4
+    "@reach/dialog": ^0.10.3
+    "@reach/portal": ^0.10.3
+    "@react-native-async-storage/async-storage": 1.17.10
+    "@react-spring/types": ^9.2.4
+    "@reduxjs/toolkit": ^1.3.5
+    "@sushiswap/default-token-list": 6.41.0
+    "@sushiswap/sdk": 5.0.0-canary.7
+    "@tailwindcss/aspect-ratio": ^0.2.0
+    "@tailwindcss/forms": ^0.2.1
+    "@tailwindcss/line-clamp": ^0.2.0
+    "@tailwindcss/postcss7-compat": ^2.0.4
+    "@tailwindcss/typography": ^0.3.1
+    "@types/bn.js": ^5.1.0
+    "@types/graphql": ^14.5.0
+    "@types/jest": ^25.2.1
+    "@types/lodash": 4.14.182
+    "@types/lodash.flatmap": ^4.5.6
+    "@types/luxon": ^1.24.4
+    "@types/multicodec": ^1.0.0
+    "@types/node": ^13.13.5
+    "@types/numeral": ^2.0.1
+    "@types/qs": ^6.9.2
+    "@types/react": ^17.0
+    "@types/react-dom": ^17.0
+    "@types/react-helmet": ^6.1
+    "@types/react-native": ^0.70.4
+    "@types/react-redux": 7.1.16
+    "@types/react-router-dom": ^5.0
+    "@types/react-syntax-highlighter": ^15.4
+    "@types/react-text-mask": ^5.4.8
+    "@types/react-transition-group": ^4.4
+    "@types/react-virtualized-auto-sizer": ^1.0
+    "@types/react-window": ^1.8
+    "@types/rebass": ^4.0.5
+    "@types/styled-components": ^5.1.0
+    "@types/text-mask-addons": ^3.8.1
+    "@types/wcag-contrast": ^3.0.0
+    "@typescript-eslint/eslint-plugin": ^4.20.0
+    "@typescript-eslint/parser": ^4.20.0
+    "@uniswap/governance": ^1.0.2
+    "@uniswap/liquidity-staker": ^1.0.2
+    "@uniswap/merkle-distributor": 1.0.1
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/sdk-core": ^3.0.0
+    "@uniswap/token-lists": ^1.0.0-beta.19
+    "@uniswap/v2-core": 1.0.0
+    "@uniswap/v2-periphery": ^1.1.0-beta.0
+    "@uniswap/v2-sdk": ^3.0.0
+    "@usedapp/core": ^1.0.9
+    "@vitalets/google-translate-api": ^7.0.0
+    "@walletconnect/ethereum-provider": 1.5.0
+    "@web3-onboard/coinbase": ^2.0.10
+    "@web3-onboard/injected-wallets": ^2.0.15
+    "@web3-onboard/react": ^2.2.5
+    "@web3-onboard/walletconnect": ^2.0.8
+    "@web3-onboard/walletlink": ^2.0.6
+    "@web3-react/core": ^6.1.9
+    "@web3-react/injected-connector": ^6.0.7
+    "@web3-react/walletconnect-connector": 6.2.4
+    "@web3-react/walletlink-connector": 6.2.5
+    ajv: ^6.12.3
+    amplitude-js: ^8.21.2
+    autoprefixer: ^9
+    babel-plugin-import: ^1.13.5
+    babel-plugin-macros: ^3.1.0
+    babel-plugin-react-native-web: ^0.18.10
+    cids: ^1.0.0
+    classnames: ^2.3.1
+    clsx: ^1.1.1
+    copy-to-clipboard: ^3.2.0
+    cross-env: ^7.0.2
+    customize-cra: ^1.0.0
+    date-fns: ^2.20.0
+    decimal.js: ^10.3.1
+    eslint: ^7.23.0
+    eslint-config-prettier: ^8.1.0
+    eslint-config-react-app: ^6.0.0
+    eslint-plugin-flowtype: ^6.1.0
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-jsx-a11y: ^6.4.1
+    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-react: ^7.23.0
+    eslint-plugin-react-hooks: ^4.2.0
+    eth-permit: ^0.1.9
+    ethers: 5.7.0
+    fathom-client: ^3.0.0
+    fuse.js: ^6.4.6
+    graphql: ^15.5.1
+    husky: ^6.0.0
+    jazzicon: ^1.5.0
+    jsbi: ^3.1.5
+    lint-staged: ^10.0.0
+    lodash: 4.17.21
+    lodash.flatmap: ^4.5.0
+    lottie-react: ^2.1.0
+    luxon: ^1.25.0
+    mobile-device-detect: ^0.4.3
+    multicodec: ^2.0.0
+    multihashes: ^3.0.1
+    native-base: 3.4.11
+    node-vibrant: ^3.1.5
+    numeral: ^2.0.6
+    patch-package: ^6.4.7
+    polished: ^3.3.2
+    postcss: ^7
+    postcss-preset-env: ^6.7.0
+    postinstall-postinstall: ^2.1.0
+    prettier: ^2.7.1
+    qs: ^6.9.4
+    react: ^17.0.2
+    react-app-rewire-hot-loader: ^2.0.1
+    react-app-rewire-postcss: ^3.0.2
+    react-app-rewired: ^2.1.8
+    react-device-detect: ^1.6.2
+    react-dom: ^17.0.2
+    react-error-overlay: 6.0.9
+    react-feather: ^2.0.8
+    react-ga: ^2.5.7
+    react-helmet: ^6.1.0
+    react-hot-loader: ^4.13.0
+    react-markdown: ^4.3.1
+    react-native: 0.67
+    react-native-safe-area-context: 3.4.1
+    react-native-web: 0.17.7
+    react-popper: ^2.2.3
+    react-redux: ^7.2.0
+    react-router-dom: ^5.2.0
+    react-scripts: ^4.0.3
+    react-share: ^4.4.0
+    react-spring: ^8.0.27
+    react-spring-bottom-sheet: ^3.4.1
+    react-syntax-highlighter: ^15.4.3
+    react-tabs: ^3.2.1
+    react-text-mask: ^5.4.3
+    react-tradingview-widget: ^1.3.2
+    react-transition-group: ^4.4.1
+    react-use-gesture: ^6.0.14
+    react-use-promise: ^0.5.0
+    react-virtualized-auto-sizer: ^1.0.2
+    react-window: ^1.8.5
+    rebass: ^4.0.7
+    redux-localstorage-simple: ^2.3.1
+    rxjs: ^7.5.6
+    serve: ^11.3.0
+    source-map-explorer: ^2.5.2
+    start-server-and-test: ^1.11.0
+    styled-components: ^5.3.3
+    supports-color: ^9.0.1
+    swr: ^0.5.5
+    tailwindcss: "npm:@tailwindcss/postcss7-compat@^2"
+    tailwindcss-border-gradient-radius: ^2.0.0
+    text-mask-addons: ^3.8.0
+    typescript: ^4.4.3
+    ubeswap-swap-dev: ^1.2.2
+    use-count-up: ^2.2.5
+    wcag-contrast: ^3.0.0
+    web3: 1.8.1
+  languageName: unknown
+  linkType: soft
+
 "@gooddollar/web3sdk-v2@npm:^0.1.47":
   version: 0.1.49
   resolution: "@gooddollar/web3sdk-v2@npm:0.1.49"
@@ -6992,13 +7181,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/core@npm:2.0.0-canary.0":
-  version: 2.0.0-canary.0
-  resolution: "@sushiswap/core@npm:2.0.0-canary.0"
-  checksum: 141e5fbc71915f0373b303373e6dbf1704ca0105b1c2a5495d9a32232c98c38e733cf2cd905cc44cbb88c8583807e8756dca2d1f40279645567f8f90b298d1b5
-  languageName: node
-  linkType: hard
-
 "@sushiswap/default-token-list@npm:6.41.0":
   version: 6.41.0
   resolution: "@sushiswap/default-token-list@npm:6.41.0"
@@ -7012,197 +7194,6 @@ __metadata:
   checksum: a3a2da501fca924b367f7c0f0519091b1a641c277f64ec7cfde2e38d8c1f71272ca15ac954f04b2f6338e0b236171458a9132f22600eeb286973f9b0faf8a3e3
   languageName: node
   linkType: hard
-
-"@sushiswap/interface@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@sushiswap/interface@workspace:."
-  dependencies:
-    "@apollo/client": ^3.2.0
-    "@apollo/react-components": ^3.1.5
-    "@apollo/react-hooks": ^3.1.5
-    "@babel/core": ^7.15.8
-    "@babel/preset-flow": ^7.18.6
-    "@babel/preset-react": ^7.18.6
-    "@babel/preset-typescript": ^7.18.6
-    "@celo-tools/use-contractkit": ^3.1.0
-    "@commitlint/cli": ^12.1.1
-    "@commitlint/config-conventional": ^12.1.1
-    "@ethersproject/experimental": ^5.0.1
-    "@fontsource/dm-sans": ^4.2.2
-    "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.10
-    "@gooddollar/goodprotocol": 1.0.29-beta.5
-    "@gooddollar/web3sdk": ^0.1.12
-    "@gooddollar/web3sdk-v2": ^0.1.47
-    "@headlessui/react": 1.5.0
-    "@hot-loader/react-dom": ^17.0.1
-    "@lingui/cli": ^3.12.1
-    "@lingui/detect-locale": ^3.9.0
-    "@lingui/loader": ^3.9.0
-    "@lingui/macro": ^3.12.1
-    "@lingui/react": ^3.12.1
-    "@popperjs/core": ^2.4.4
-    "@reach/dialog": ^0.10.3
-    "@reach/portal": ^0.10.3
-    "@react-native-async-storage/async-storage": 1.17.10
-    "@react-spring/types": ^9.2.4
-    "@reduxjs/toolkit": ^1.3.5
-    "@sushiswap/core": 2.0.0-canary.0
-    "@sushiswap/default-token-list": 6.41.0
-    "@sushiswap/sdk": 5.0.0-canary.7
-    "@sushiswap/sushi-data": 1.0.26
-    "@tailwindcss/aspect-ratio": ^0.2.0
-    "@tailwindcss/forms": ^0.2.1
-    "@tailwindcss/line-clamp": ^0.2.0
-    "@tailwindcss/postcss7-compat": ^2.0.4
-    "@tailwindcss/typography": ^0.3.1
-    "@types/bn.js": ^5.1.0
-    "@types/graphql": ^14.5.0
-    "@types/jest": ^25.2.1
-    "@types/lodash": 4.14.182
-    "@types/lodash.flatmap": ^4.5.6
-    "@types/luxon": ^1.24.4
-    "@types/multicodec": ^1.0.0
-    "@types/node": ^13.13.5
-    "@types/numeral": ^2.0.1
-    "@types/qs": ^6.9.2
-    "@types/react": ^17.0
-    "@types/react-dom": ^17.0
-    "@types/react-helmet": ^6.1
-    "@types/react-native": ^0.70.4
-    "@types/react-redux": 7.1.16
-    "@types/react-router-dom": ^5.0
-    "@types/react-syntax-highlighter": ^15.4
-    "@types/react-text-mask": ^5.4.8
-    "@types/react-transition-group": ^4.4
-    "@types/react-virtualized-auto-sizer": ^1.0
-    "@types/react-window": ^1.8
-    "@types/rebass": ^4.0.5
-    "@types/styled-components": ^5.1.0
-    "@types/text-mask-addons": ^3.8.1
-    "@types/wcag-contrast": ^3.0.0
-    "@typescript-eslint/eslint-plugin": ^4.20.0
-    "@typescript-eslint/parser": ^4.20.0
-    "@uniswap/governance": ^1.0.2
-    "@uniswap/liquidity-staker": ^1.0.2
-    "@uniswap/merkle-distributor": 1.0.1
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.0.0
-    "@uniswap/token-lists": ^1.0.0-beta.19
-    "@uniswap/v2-core": 1.0.0
-    "@uniswap/v2-periphery": ^1.1.0-beta.0
-    "@uniswap/v2-sdk": ^3.0.0
-    "@usedapp/core": ^1.0.9
-    "@vitalets/google-translate-api": ^7.0.0
-    "@walletconnect/ethereum-provider": 1.5.0
-    "@web3-onboard/coinbase": ^2.0.10
-    "@web3-onboard/injected-wallets": ^2.0.15
-    "@web3-onboard/react": ^2.2.5
-    "@web3-onboard/walletconnect": ^2.0.8
-    "@web3-onboard/walletlink": ^2.0.6
-    "@web3-react/core": ^6.1.9
-    "@web3-react/injected-connector": ^6.0.7
-    "@web3-react/walletconnect-connector": 6.2.4
-    "@web3-react/walletlink-connector": 6.2.5
-    ajv: ^6.12.3
-    amplitude-js: ^8.21.2
-    autoprefixer: ^9
-    babel-plugin-import: ^1.13.5
-    babel-plugin-macros: ^3.1.0
-    babel-plugin-react-native-web: ^0.18.10
-    cids: ^1.0.0
-    classnames: ^2.3.1
-    clsx: ^1.1.1
-    copy-to-clipboard: ^3.2.0
-    cross-env: ^7.0.2
-    customize-cra: ^1.0.0
-    date-fns: ^2.20.0
-    decimal.js: ^10.3.1
-    eslint: ^7.23.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-react-app: ^6.0.0
-    eslint-plugin-flowtype: ^6.1.0
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-jsx-a11y: ^6.4.1
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-react: ^7.23.0
-    eslint-plugin-react-hooks: ^4.2.0
-    eth-permit: ^0.1.9
-    ethers: 5.7.0
-    fathom-client: ^3.0.0
-    fuse.js: ^6.4.6
-    graphql: ^15.5.1
-    husky: ^6.0.0
-    jazzicon: ^1.5.0
-    jsbi: ^3.1.5
-    lint-staged: ^10.0.0
-    lodash: 4.17.21
-    lodash.flatmap: ^4.5.0
-    lottie-react: ^2.1.0
-    luxon: ^1.25.0
-    mobile-device-detect: ^0.4.3
-    multicodec: ^2.0.0
-    multihashes: ^3.0.1
-    native-base: 3.4.11
-    node-vibrant: ^3.1.5
-    numeral: ^2.0.6
-    patch-package: ^6.4.7
-    polished: ^3.3.2
-    postcss: ^7
-    postcss-preset-env: ^6.7.0
-    postinstall-postinstall: ^2.1.0
-    prettier: ^2.7.1
-    qs: ^6.9.4
-    react: ^17.0.2
-    react-app-rewire-hot-loader: ^2.0.1
-    react-app-rewire-postcss: ^3.0.2
-    react-app-rewired: ^2.1.8
-    react-device-detect: ^1.6.2
-    react-dom: ^17.0.2
-    react-error-overlay: 6.0.9
-    react-feather: ^2.0.8
-    react-ga: ^2.5.7
-    react-helmet: ^6.1.0
-    react-hot-loader: ^4.13.0
-    react-markdown: ^4.3.1
-    react-native: 0.67
-    react-native-safe-area-context: 3.4.1
-    react-native-web: 0.17.7
-    react-popper: ^2.2.3
-    react-redux: ^7.2.0
-    react-router-dom: ^5.2.0
-    react-scripts: ^4.0.3
-    react-share: ^4.4.0
-    react-spring: ^8.0.27
-    react-spring-bottom-sheet: ^3.4.1
-    react-syntax-highlighter: ^15.4.3
-    react-tabs: ^3.2.1
-    react-text-mask: ^5.4.3
-    react-tradingview-widget: ^1.3.2
-    react-transition-group: ^4.4.1
-    react-use-gesture: ^6.0.14
-    react-use-promise: ^0.5.0
-    react-virtualized-auto-sizer: ^1.0.2
-    react-window: ^1.8.5
-    rebass: ^4.0.7
-    redux-localstorage-simple: ^2.3.1
-    rxjs: ^7.5.6
-    serve: ^11.3.0
-    source-map-explorer: ^2.5.2
-    start-server-and-test: ^1.11.0
-    styled-components: ^5.3.3
-    supports-color: ^9.0.1
-    swr: ^0.5.5
-    tailwindcss: "npm:@tailwindcss/postcss7-compat@^2"
-    tailwindcss-border-gradient-radius: ^2.0.0
-    text-mask-addons: ^3.8.0
-    typescript: ^4.4.3
-    ubeswap-swap-dev: ^1.2.2
-    use-count-up: ^2.2.5
-    wcag-contrast: ^3.0.0
-    web3: 1.8.1
-  languageName: unknown
-  linkType: soft
 
 "@sushiswap/sdk@npm:5.0.0-canary.7":
   version: 5.0.0-canary.7
@@ -7222,25 +7213,6 @@ __metadata:
     "@ethersproject/providers": ^5.0.0-beta
     "@ethersproject/solidity": ^5.0.0-beta
   checksum: 3b8b0823cb46ad07517c22c454dbdd4fcae65b09a02824861820f35573eeacd41d321a8fa662b8ad0feb0324b7ea921e600ab36ef796fb8e7866cb617fe1d146
-  languageName: node
-  linkType: hard
-
-"@sushiswap/sushi-data@npm:1.0.26":
-  version: 1.0.26
-  resolution: "@sushiswap/sushi-data@npm:1.0.26"
-  dependencies:
-    bluebird: ^3.7.2
-    commander: 6.1.0
-    csv-stringify: 5.3.3
-    date-fns: ^2.17.0
-    graph-results-pager: "git+https://github.com/LufyCZ/graph-results-pager.git"
-    graphql: 14.5.8
-    graphql-request: ^3.4.0
-    isomorphic-ws: ^4.0.1
-    node-fetch: 2.6.0
-    subscriptions-transport-ws: 0.9.16
-    ws: 7.2.0
-  checksum: 0971f009dca9f9f16897953c9921e323a1951ad5fa09fcd21e7b5a152aa7456a9c9d09c30beb63b189193a7c50a2ebbaefb6d618025e84ddff77f9ae9593474b
   languageName: node
   linkType: hard
 
@@ -9033,9 +9005,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::locator=%40sushiswap%2Finterface%40workspace%3A.":
+"@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
   version: 2.10.1
-  resolution: "@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::version=2.10.1&hash=f8aba4&locator=%40sushiswap%2Finterface%40workspace%3A."
+  resolution: "@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::version=2.10.1&hash=f8aba4&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
   dependencies:
     "@web3-onboard/common": ^2.2.3
     bignumber.js: ^9.0.0
@@ -10248,7 +10220,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async-limiter@npm:^1.0.0, async-limiter@npm:~1.0.0":
+"async-limiter@npm:~1.0.0":
   version: 1.0.1
   resolution: "async-limiter@npm:1.0.1"
   checksum: 2b849695b465d93ad44c116220dee29a5aeb63adac16c1088983c339b0de57d76e82533e8e364a93a9f997f28bbfc6a92948cefc120652bd07f3b59f8d75cf2b
@@ -10766,13 +10738,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"backo2@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "backo2@npm:1.0.2"
-  checksum: fda8d0a0f4810068d23715f2f45153146d6ee8f62dd827ce1e0b6cc3c8328e84ad61e11399a83931705cef702fe7cbb457856bf99b9bd10c4ed57b0786252385
-  languageName: node
-  linkType: hard
-
 "backoff@npm:^2.5.0":
   version: 2.5.0
   resolution: "backoff@npm:2.5.0"
@@ -11035,7 +11000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bluebird@npm:3.7.2, bluebird@npm:^3.5.0, bluebird@npm:^3.5.5, bluebird@npm:^3.7.2":
+"bluebird@npm:3.7.2, bluebird@npm:^3.5.0, bluebird@npm:^3.5.5":
   version: 3.7.2
   resolution: "bluebird@npm:3.7.2"
   checksum: 869417503c722e7dc54ca46715f70e15f4d9c602a423a02c825570862d12935be59ed9c7ba34a9b31f186c017c23cac6b54e35446f8353059c101da73eac22ef
@@ -12563,13 +12528,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:6.1.0":
-  version: 6.1.0
-  resolution: "commander@npm:6.1.0"
-  checksum: 658d4d650a409805c6eed772857f84df10e1a800178ebc1dc1cd2228fbd063a5ce478b6cf2e484d50ae51c125bca8526a794b45f1563225e702dd11a5b3dd146
-  languageName: node
-  linkType: hard
-
 "commander@npm:^2.19.0, commander@npm:^2.20.0, commander@npm:^2.20.3":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
@@ -13582,13 +13540,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csv-stringify@npm:5.3.3":
-  version: 5.3.3
-  resolution: "csv-stringify@npm:5.3.3"
-  checksum: 0f27cc87f25840a3911b7e4aab012a43aaf4cacacf2ac655412742c9432d94d9b38d807212ea921a5f1d62f5d53f8890c517a4d7b42bf82859af7b35d169aa8c
-  languageName: node
-  linkType: hard
-
 "currency-symbol-map@npm:~2":
   version: 2.2.0
   resolution: "currency-symbol-map@npm:2.2.0"
@@ -13663,7 +13614,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.16.1, date-fns@npm:^2.17.0, date-fns@npm:^2.20.0":
+"date-fns@npm:^2.16.1, date-fns@npm:^2.20.0":
   version: 2.29.3
   resolution: "date-fns@npm:2.29.3"
   checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
@@ -15876,13 +15827,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventemitter3@npm:^3.1.0":
-  version: 3.1.2
-  resolution: "eventemitter3@npm:3.1.2"
-  checksum: 81e4e82b8418f5cfd986d2b4a2fa5397ac4eb8134e09bcb47005545e22fdf8e9e61d5c053d34651112245aae411bdfe6d0ad5511da0400743fef5fc38bfcfbe3
-  languageName: node
-  linkType: hard
-
 "events@npm:^3.0.0, events@npm:^3.1.0, events@npm:^3.3.0":
   version: 3.3.0
   resolution: "events@npm:3.3.0"
@@ -16142,13 +16086,6 @@ __metadata:
     snapdragon: ^0.8.1
     to-regex: ^3.0.1
   checksum: a41531b8934735b684cef5e8c5a01d0f298d7d384500ceca38793a9ce098125aab04ee73e2d75d5b2901bc5dddd2b64e1b5e3bf19139ea48bac52af4a92f1d00
-  languageName: node
-  linkType: hard
-
-"extract-files@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "extract-files@npm:9.0.0"
-  checksum: c31781d090f8d8f62cc541f1023b39ea863f24bd6fb3d4011922d71cbded70cef8191f2b70b43ec6cb5c5907cdad1dc5e9f29f78228936c10adc239091d8ab64
   languageName: node
   linkType: hard
 
@@ -17425,28 +17362,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graph-results-pager@git+https://github.com/LufyCZ/graph-results-pager.git":
-  version: 1.0.3
-  resolution: "graph-results-pager@https://github.com/LufyCZ/graph-results-pager.git#commit=9b230f05b8d79aeedc9e167ac5a1fea33e04d51f"
-  dependencies:
-    node-fetch: 2.6.1
-  checksum: 06bda64da3d57ac2e09798ccc4b2e4039ecd384db7c3d2c062487cb6e469713759d7f0da8e1b3d15561bc22f544e165ee390a9ccdd718454c4e7a08f4945f81b
-  languageName: node
-  linkType: hard
-
-"graphql-request@npm:^3.4.0":
-  version: 3.7.0
-  resolution: "graphql-request@npm:3.7.0"
-  dependencies:
-    cross-fetch: ^3.0.6
-    extract-files: ^9.0.0
-    form-data: ^3.0.0
-  peerDependencies:
-    graphql: 14 - 16
-  checksum: db3800cc4ee884cd1514d7d5eafafb9ed27694278fdddd7402345754a7d25e7d713246c72aa510b439b6df2633b74f2cf74fb36864a22a857d5fb2de1cf0b4d8
-  languageName: node
-  linkType: hard
-
 "graphql-tag@npm:^2.12.6":
   version: 2.12.6
   resolution: "graphql-tag@npm:2.12.6"
@@ -17462,15 +17377,6 @@ __metadata:
   version: 16.6.0
   resolution: "graphql@npm:16.6.0"
   checksum: bf1d9e3c1938ce3c1a81e909bd3ead1ae4707c577f91cff1ca2eca474bfbc7873d5d7b942e1e9777ff5a8304421dba57a4b76d7a29eb19de8711cb70e3c2415e
-  languageName: node
-  linkType: hard
-
-"graphql@npm:14.5.8":
-  version: 14.5.8
-  resolution: "graphql@npm:14.5.8"
-  dependencies:
-    iterall: ^1.2.2
-  checksum: 1f99058a6fd9006c6ee0fdfb6aa0dd64e2d78bb0440d2de240ebfaf6933d24b8c9daa3e0b751e92e10fb81829727fe4a00da1114dd93068b2006a866ec8fc530
   languageName: node
   linkType: hard
 
@@ -19366,13 +19272,6 @@ __metadata:
     html-escaper: ^2.0.0
     istanbul-lib-report: ^3.0.0
   checksum: 7867228f83ed39477b188ea07e7ccb9b4f5320b6f73d1db93a0981b7414fa4ef72d3f80c4692c442f90fc250d9406e71d8d7ab65bb615cb334e6292b73192b89
-  languageName: node
-  linkType: hard
-
-"iterall@npm:^1.2.1, iterall@npm:^1.2.2":
-  version: 1.3.0
-  resolution: "iterall@npm:1.3.0"
-  checksum: c78b99678f8c99be488cca7f33e4acca9b72c1326e050afbaf023f086e55619ee466af0464af94a0cb3f292e60cb5bac53a8fd86bd4249ecad26e09f17bb158b
   languageName: node
   linkType: hard
 
@@ -23194,20 +23093,6 @@ __metadata:
     encoding:
       optional: true
   checksum: 8d816ffd1ee22cab8301c7756ef04f3437f18dace86a1dae22cf81db8ef29c0bf6655f3215cb0cdb22b420b6fe141e64b26905e7f33f9377a7fa59135ea3e10b
-  languageName: node
-  linkType: hard
-
-"node-fetch@npm:2.6.0":
-  version: 2.6.0
-  resolution: "node-fetch@npm:2.6.0"
-  checksum: 2b741e9315c1c07df4a291d0b304892fa7e8d623fe789fedd53f9bcb8d09102b07591b4b93e552a65dfc457eee9d5d879d0440aefdb64f2d78e7cb78cbad28e9
-  languageName: node
-  linkType: hard
-
-"node-fetch@npm:2.6.1":
-  version: 2.6.1
-  resolution: "node-fetch@npm:2.6.1"
-  checksum: 91075bedd57879117e310fbcc36983ad5d699e522edb1ebcdc4ee5294c982843982652925c3532729fdc86b2d64a8a827797a745f332040d91823c8752ee4d7c
   languageName: node
   linkType: hard
 
@@ -29923,21 +29808,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"subscriptions-transport-ws@npm:0.9.16":
-  version: 0.9.16
-  resolution: "subscriptions-transport-ws@npm:0.9.16"
-  dependencies:
-    backo2: ^1.0.2
-    eventemitter3: ^3.1.0
-    iterall: ^1.2.1
-    symbol-observable: ^1.0.4
-    ws: ^5.2.0
-  peerDependencies:
-    graphql: ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.1 || ^14.0.2
-  checksum: 0545a21ab837128f95b7b1014e42511379597b0d4ee9c00f3de6a5197a09fc051423e414459992f7c25c972955d67c10f9ae934e9eb036c5e1cd1401cbe28f50
-  languageName: node
-  linkType: hard
-
 "sudo-prompt@npm:^9.0.0":
   version: 9.2.1
   resolution: "sudo-prompt@npm:9.2.1"
@@ -30103,13 +29973,6 @@ __metadata:
   peerDependencies:
     react: ^16.11.0 || ^17.0.0
   checksum: 1bbc7fb107565cdfa2d15d5e14cd51cac9e4087ba08d4557aedf69552186ec4eb57aeb9dc6e3021e23b2ad3638b56e392b86f95518a000842797d10e89f2405e
-  languageName: node
-  linkType: hard
-
-"symbol-observable@npm:^1.0.4":
-  version: 1.2.0
-  resolution: "symbol-observable@npm:1.2.0"
-  checksum: 48ffbc22e3d75f9853b3ff2ae94a44d84f386415110aea5effc24d84c502e03a4a6b7a8f75ebaf7b585780bda34eb5d6da3121f826a6f93398429d30032971b6
   languageName: node
   linkType: hard
 
@@ -33548,15 +33411,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:7.2.0":
-  version: 7.2.0
-  resolution: "ws@npm:7.2.0"
-  dependencies:
-    async-limiter: ^1.0.0
-  checksum: 0c6473f4a517455e7a3207dc31951c10f0427c9384e2c936ad0133e5b470e6720f5848e44e56f0b9f3e707a89554bb20bc800f1c10334c492aa07849b55b81f1
-  languageName: node
-  linkType: hard
-
 "ws@npm:7.4.6":
   version: 7.4.6
   resolution: "ws@npm:7.4.6"
@@ -33608,7 +33462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^5.1.1, ws@npm:^5.2.0":
+"ws@npm:^5.1.1":
   version: 5.2.3
   resolution: "ws@npm:5.2.3"
   dependencies:

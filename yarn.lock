@@ -2087,8 +2087,8 @@ __metadata:
   linkType: hard
 
 "@coinbase/wallet-sdk@npm:^3.0.5":
-  version: 3.6.0
-  resolution: "@coinbase/wallet-sdk@npm:3.6.0"
+  version: 3.6.1
+  resolution: "@coinbase/wallet-sdk@npm:3.6.1"
   dependencies:
     "@metamask/safe-event-emitter": 2.0.0
     "@solana/web3.js": 1.52.0
@@ -2107,7 +2107,7 @@ __metadata:
     sha.js: ^2.4.11
     stream-browserify: ^3.0.0
     util: ^0.12.4
-  checksum: 3f2aa4eec2b6eb3ea86b7b1e659ed72a2d9501bdafe100bc8f31d8d2488bb08828e2fca47af869157ca218f12fa108079fddd80d7e48668c566e6063e052ee59
+  checksum: 3e35b9042fda82b254cf538fb9dff67c4819f50e2d2084d7756d66738d98c8886a1d2a4c7d8a5bbc09d5471489433b205a9e2304eb663f8359510efd8f6b6418
   languageName: node
   linkType: hard
 
@@ -3462,13 +3462,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/ecma402-abstract@npm:1.14.0":
-  version: 1.14.0
-  resolution: "@formatjs/ecma402-abstract@npm:1.14.0"
+"@formatjs/ecma402-abstract@npm:1.14.2":
+  version: 1.14.2
+  resolution: "@formatjs/ecma402-abstract@npm:1.14.2"
   dependencies:
     "@formatjs/intl-localematcher": 0.2.31
     tslib: 2.4.0
-  checksum: 2d9f308b5ab40b8141c3fa2e6d2618f062e993e1dbf54322e293ff2fb40f8a16026d104f5de28544b6ed33185559c06bd440aa3badc00754d2e42c2604c9f0f3
+  checksum: 7640c85a9badab56f661ca524e27fabd4f6602ac7b918c6ff7bfc8f2e7aa22de3cd322a57d9e718c43fbbab18acf42a4cc1f6f2fac78f74df3a68772117fb8cd
   languageName: node
   linkType: hard
 
@@ -3501,24 +3501,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/icu-messageformat-parser@npm:2.1.11":
-  version: 2.1.11
-  resolution: "@formatjs/icu-messageformat-parser@npm:2.1.11"
+"@formatjs/icu-messageformat-parser@npm:2.1.13":
+  version: 2.1.13
+  resolution: "@formatjs/icu-messageformat-parser@npm:2.1.13"
   dependencies:
-    "@formatjs/ecma402-abstract": 1.14.0
-    "@formatjs/icu-skeleton-parser": 1.3.15
+    "@formatjs/ecma402-abstract": 1.14.2
+    "@formatjs/icu-skeleton-parser": 1.3.17
     tslib: 2.4.0
-  checksum: 24e5952669180942a4a4b71a729105b1e82eb60225bc23383e989ccf7c101c03e4380c6fbc7bff5c24e129a9650a2eafab5aedc7625b43f05e294fc458ad0c99
+  checksum: 61f278a77e717d17f6d3bbf1eaa75fb388c5d6042ddf4ae312a1187cf17e8b20282b5e66418389e31ec74582f686b3a88452dd06144469076ad87af1a5c04d9a
   languageName: node
   linkType: hard
 
-"@formatjs/icu-skeleton-parser@npm:1.3.15":
-  version: 1.3.15
-  resolution: "@formatjs/icu-skeleton-parser@npm:1.3.15"
+"@formatjs/icu-skeleton-parser@npm:1.3.17":
+  version: 1.3.17
+  resolution: "@formatjs/icu-skeleton-parser@npm:1.3.17"
   dependencies:
-    "@formatjs/ecma402-abstract": 1.14.0
+    "@formatjs/ecma402-abstract": 1.14.2
     tslib: 2.4.0
-  checksum: b689a1ca84415be944376d953fde2d815946857df0a97711221deffe2a280e9e83a8a7e1d61e55aecb525721339024a40f8d22f3c57ad077020bcf57a40f7bb8
+  checksum: 82d4ef42163fc742057dd74e4710a295178c9fb8f88bee0ee045a5011d0b5f4d87197d2533d1de61797b14875e7651c824221a07b7d05101b83d600b428bb94c
   languageName: node
   linkType: hard
 
@@ -3569,8 +3569,8 @@ __metadata:
   linkType: hard
 
 "@gooddollar/bridge-app@npm:^1.2.2":
-  version: 1.2.3
-  resolution: "@gooddollar/bridge-app@npm:1.2.3"
+  version: 1.2.4
+  resolution: "@gooddollar/bridge-app@npm:1.2.4"
   dependencies:
     dotenv: ^16.0.3
     eth-proof: ^2.1.6
@@ -3579,7 +3579,7 @@ __metadata:
     js-logger: ^1.6.1
     lodash: ^4.17.21
     p-all: 3.0.0
-  checksum: 3b24f2cd71ece99ee0901f544ea942e8feccf3c33a195fdf0aa2edfa4d40bd69d7ebab90cda21fc50143d5f7545e011e946d7e6f50ce56d1d607fce3fa727cf9
+  checksum: 813d471b0dcfb17c14341e9315c72efe3ee20d6f6fad3c15cc39f80d699b78af17c76668edacb51765d67616c03a9ade4c5935e76e10df9d0346ccf4f5a1c1ee
   languageName: node
   linkType: hard
 
@@ -3661,200 +3661,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/protocol-interface@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@gooddollar/protocol-interface@workspace:."
-  dependencies:
-    "@apollo/client": ^3.2.0
-    "@apollo/react-components": ^3.1.5
-    "@apollo/react-hooks": ^3.1.5
-    "@babel/core": ^7.15.8
-    "@babel/preset-flow": ^7.18.6
-    "@babel/preset-react": ^7.18.6
-    "@babel/preset-typescript": ^7.18.6
-    "@celo-tools/use-contractkit": ^3.1.0
-    "@commitlint/cli": ^12.1.1
-    "@commitlint/config-conventional": ^12.1.1
-    "@ethersproject/experimental": ^5.0.1
-    "@fontsource/dm-sans": ^4.2.2
-    "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.10
-    "@gooddollar/goodprotocol": 1.0.29-beta.5
-    "@gooddollar/web3sdk": ^0.1.12
-    "@gooddollar/web3sdk-v2": ^0.1.47
-    "@headlessui/react": 1.5.0
-    "@hot-loader/react-dom": ^17.0.1
-    "@lingui/cli": ^3.12.1
-    "@lingui/detect-locale": ^3.9.0
-    "@lingui/loader": ^3.9.0
-    "@lingui/macro": ^3.12.1
-    "@lingui/react": ^3.12.1
-    "@popperjs/core": ^2.4.4
-    "@reach/dialog": ^0.10.3
-    "@reach/portal": ^0.10.3
-    "@react-native-async-storage/async-storage": 1.17.10
-    "@react-spring/types": ^9.2.4
-    "@reduxjs/toolkit": ^1.3.5
-    "@sushiswap/core": 2.0.0-canary.0
-    "@sushiswap/default-token-list": 6.41.0
-    "@sushiswap/sdk": 5.0.0-canary.7
-    "@sushiswap/sushi-data": 1.0.26
-    "@tailwindcss/aspect-ratio": ^0.2.0
-    "@tailwindcss/forms": ^0.2.1
-    "@tailwindcss/line-clamp": ^0.2.0
-    "@tailwindcss/postcss7-compat": ^2.0.4
-    "@tailwindcss/typography": ^0.3.1
-    "@types/bn.js": ^5.1.0
-    "@types/graphql": ^14.5.0
-    "@types/jest": ^25.2.1
-    "@types/lodash": 4.14.182
-    "@types/lodash.flatmap": ^4.5.6
-    "@types/luxon": ^1.24.4
-    "@types/multicodec": ^1.0.0
-    "@types/node": ^13.13.5
-    "@types/numeral": ^2.0.1
-    "@types/qs": ^6.9.2
-    "@types/react": ^17.0
-    "@types/react-dom": ^17.0
-    "@types/react-helmet": ^6.1
-    "@types/react-native": ^0.70.4
-    "@types/react-redux": 7.1.16
-    "@types/react-router-dom": ^5.0
-    "@types/react-syntax-highlighter": ^15.4
-    "@types/react-text-mask": ^5.4.8
-    "@types/react-transition-group": ^4.4
-    "@types/react-virtualized-auto-sizer": ^1.0
-    "@types/react-window": ^1.8
-    "@types/rebass": ^4.0.5
-    "@types/styled-components": ^5.1.0
-    "@types/text-mask-addons": ^3.8.1
-    "@types/wcag-contrast": ^3.0.0
-    "@typescript-eslint/eslint-plugin": ^4.20.0
-    "@typescript-eslint/parser": ^4.20.0
-    "@uniswap/governance": ^1.0.2
-    "@uniswap/liquidity-staker": ^1.0.2
-    "@uniswap/merkle-distributor": 1.0.1
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.0.0
-    "@uniswap/token-lists": ^1.0.0-beta.19
-    "@uniswap/v2-core": 1.0.0
-    "@uniswap/v2-periphery": ^1.1.0-beta.0
-    "@uniswap/v2-sdk": ^3.0.0
-    "@usedapp/core": ^1.0.9
-    "@vitalets/google-translate-api": ^7.0.0
-    "@walletconnect/ethereum-provider": 1.5.0
-    "@web3-onboard/coinbase": ^2.0.10
-    "@web3-onboard/injected-wallets": ^2.0.15
-    "@web3-onboard/react": ^2.2.5
-    "@web3-onboard/walletconnect": ^2.0.8
-    "@web3-onboard/walletlink": ^2.0.6
-    "@web3-react/core": ^6.1.9
-    "@web3-react/injected-connector": ^6.0.7
-    "@web3-react/walletconnect-connector": 6.2.4
-    "@web3-react/walletlink-connector": 6.2.5
-    ajv: ^6.12.3
-    amplitude-js: ^8.21.2
-    autoprefixer: ^9
-    babel-plugin-import: ^1.13.5
-    babel-plugin-macros: ^3.1.0
-    babel-plugin-react-native-web: ^0.18.10
-    cids: ^1.0.0
-    classnames: ^2.3.1
-    clsx: ^1.1.1
-    copy-to-clipboard: ^3.2.0
-    cross-env: ^7.0.2
-    customize-cra: ^1.0.0
-    date-fns: ^2.20.0
-    decimal.js: ^10.3.1
-    eslint: ^7.23.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-react-app: ^6.0.0
-    eslint-plugin-flowtype: ^6.1.0
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-jsx-a11y: ^6.4.1
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-react: ^7.23.0
-    eslint-plugin-react-hooks: ^4.2.0
-    eth-permit: ^0.1.9
-    ethers: 5.7.0
-    fathom-client: ^3.0.0
-    fuse.js: ^6.4.6
-    graphql: ^15.5.1
-    husky: ^6.0.0
-    jazzicon: ^1.5.0
-    jsbi: ^3.1.5
-    lint-staged: ^10.0.0
-    lodash: 4.17.21
-    lodash.flatmap: ^4.5.0
-    lottie-react: ^2.1.0
-    luxon: ^1.25.0
-    mobile-device-detect: ^0.4.3
-    multicodec: ^2.0.0
-    multihashes: ^3.0.1
-    native-base: 3.4.11
-    node-vibrant: ^3.1.5
-    numeral: ^2.0.6
-    patch-package: ^6.4.7
-    polished: ^3.3.2
-    postcss: ^7
-    postcss-preset-env: ^6.7.0
-    postinstall-postinstall: ^2.1.0
-    prettier: ^2.7.1
-    qs: ^6.9.4
-    react: ^17.0.2
-    react-app-rewire-hot-loader: ^2.0.1
-    react-app-rewire-postcss: ^3.0.2
-    react-app-rewired: ^2.1.8
-    react-device-detect: ^1.6.2
-    react-dom: ^17.0.2
-    react-error-overlay: 6.0.9
-    react-feather: ^2.0.8
-    react-ga: ^2.5.7
-    react-helmet: ^6.1.0
-    react-hot-loader: ^4.13.0
-    react-markdown: ^4.3.1
-    react-native: 0.67
-    react-native-safe-area-context: 3.4.1
-    react-native-web: 0.17.7
-    react-popper: ^2.2.3
-    react-redux: ^7.2.0
-    react-router-dom: ^5.2.0
-    react-scripts: ^4.0.3
-    react-share: ^4.4.0
-    react-spring: ^8.0.27
-    react-spring-bottom-sheet: ^3.4.1
-    react-syntax-highlighter: ^15.4.3
-    react-tabs: ^3.2.1
-    react-text-mask: ^5.4.3
-    react-tradingview-widget: ^1.3.2
-    react-transition-group: ^4.4.1
-    react-use-gesture: ^6.0.14
-    react-use-promise: ^0.5.0
-    react-virtualized-auto-sizer: ^1.0.2
-    react-window: ^1.8.5
-    rebass: ^4.0.7
-    redux-localstorage-simple: ^2.3.1
-    rxjs: ^7.5.6
-    serve: ^11.3.0
-    source-map-explorer: ^2.5.2
-    start-server-and-test: ^1.11.0
-    styled-components: ^5.3.3
-    supports-color: ^9.0.1
-    swr: ^0.5.5
-    tailwindcss: "npm:@tailwindcss/postcss7-compat@^2"
-    tailwindcss-border-gradient-radius: ^2.0.0
-    text-mask-addons: ^3.8.0
-    typescript: ^4.4.3
-    ubeswap-swap-dev: ^1.2.2
-    use-count-up: ^2.2.5
-    wcag-contrast: ^3.0.0
-    web3: 1.8.1
-  languageName: unknown
-  linkType: soft
-
 "@gooddollar/web3sdk-v2@npm:^0.1.47":
-  version: 0.1.47
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.47"
+  version: 0.1.49
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.49"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.3
     "@amplitude/analytics-react-native": ^0.6.1
@@ -3876,7 +3685,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 34be441274e6380dfb9d7080cfd426a5b289d192ca26fc94100e1b4a9de909c47f04e03c9fe24bfb4a3bd0eb3bc8046894638c6f087edcaecd896ddbf287bec2
+  checksum: fa76e31ed664b44bdfe098296301c0c9232a22236f7e6d6937efa03aae6b80a0365b57e85a46cfe8447926896f011d73e95a2aa5d3f52e042a19bd57cb0d26ad
   languageName: node
   linkType: hard
 
@@ -6508,8 +6317,8 @@ __metadata:
   linkType: hard
 
 "@reduxjs/toolkit@npm:^1.3.5, @reduxjs/toolkit@npm:^1.5.1":
-  version: 1.9.0
-  resolution: "@reduxjs/toolkit@npm:1.9.0"
+  version: 1.9.1
+  resolution: "@reduxjs/toolkit@npm:1.9.1"
   dependencies:
     immer: ^9.0.16
     redux: ^4.2.0
@@ -6523,7 +6332,7 @@ __metadata:
       optional: true
     react-redux:
       optional: true
-  checksum: 34452bc5d41ae401f6673ae418afface339a3cf5990dfac2f784295cebcecabf83aade228671fc03d4c450b752334822d9504164862039be3945527bc94981bc
+  checksum: e6700a0d45198ab525c96ff0425fa0125fbdc37ce514f0c77c30225837113279ceec9190ac3da35cb20e77553e56342021788bbf17465819068c4db34cb3d87f
   languageName: node
   linkType: hard
 
@@ -6662,7 +6471,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/cli@npm:^1.52.4":
+"@sentry/cli@npm:^1.72.0":
   version: 1.74.6
   resolution: "@sentry/cli@npm:1.74.6"
   dependencies:
@@ -6761,8 +6570,8 @@ __metadata:
   linkType: hard
 
 "@sentry/react-native@npm:^4.8.0":
-  version: 4.10.0
-  resolution: "@sentry/react-native@npm:4.10.0"
+  version: 4.10.1
+  resolution: "@sentry/react-native@npm:4.10.1"
   dependencies:
     "@sentry/browser": 7.21.1
     "@sentry/cli": 1.74.4
@@ -6773,11 +6582,11 @@ __metadata:
     "@sentry/tracing": 7.21.1
     "@sentry/types": 7.21.1
     "@sentry/utils": 7.21.1
-    "@sentry/wizard": 1.2.17
+    "@sentry/wizard": 1.4.0
   peerDependencies:
     react: ">=16.4.1"
     react-native: ">=0.56.0"
-  checksum: 72b831496b4acedd68417577bc70d6c07e835c0901863a1157ae97790608b691f0c54a6660fda755edf3980e4e35ea4594eecffd0ff977b428d73f9df0fe52b6
+  checksum: bfd6d5acf30483b2e45fc04927ffb187b1d4ebffa41a174e6b2b9756b932e8c7188dda847396a271854eae88b95d8f7a1333696711fe63414f9605406056a0a4
   languageName: node
   linkType: hard
 
@@ -6875,11 +6684,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/wizard@npm:1.2.17":
-  version: 1.2.17
-  resolution: "@sentry/wizard@npm:1.2.17"
+"@sentry/wizard@npm:1.4.0":
+  version: 1.4.0
+  resolution: "@sentry/wizard@npm:1.4.0"
   dependencies:
-    "@sentry/cli": ^1.52.4
+    "@sentry/cli": ^1.72.0
     chalk: ^2.4.1
     glob: ^7.1.3
     inquirer: ^6.2.0
@@ -6892,7 +6701,7 @@ __metadata:
     yargs: ^16.2.0
   bin:
     sentry-wizard: dist/bin.js
-  checksum: 22117a7bc0362ccc0f1f92277229e924788630ce6b4ce56f33f9ceea195803c60e2a75f3c7b2d58e3c86bb759ad5c478e8cd9b3e629e4dfd752ce50f5b780a61
+  checksum: fa4e686f88e45eb3dd0fdc9863bd28378d3e117abc658629302275e0f464fbbb208f787cd15c635450508dec9e2d2bb5c2704f250f9eb249286e96de9376c356
   languageName: node
   linkType: hard
 
@@ -7203,6 +7012,197 @@ __metadata:
   checksum: a3a2da501fca924b367f7c0f0519091b1a641c277f64ec7cfde2e38d8c1f71272ca15ac954f04b2f6338e0b236171458a9132f22600eeb286973f9b0faf8a3e3
   languageName: node
   linkType: hard
+
+"@sushiswap/interface@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@sushiswap/interface@workspace:."
+  dependencies:
+    "@apollo/client": ^3.2.0
+    "@apollo/react-components": ^3.1.5
+    "@apollo/react-hooks": ^3.1.5
+    "@babel/core": ^7.15.8
+    "@babel/preset-flow": ^7.18.6
+    "@babel/preset-react": ^7.18.6
+    "@babel/preset-typescript": ^7.18.6
+    "@celo-tools/use-contractkit": ^3.1.0
+    "@commitlint/cli": ^12.1.1
+    "@commitlint/config-conventional": ^12.1.1
+    "@ethersproject/experimental": ^5.0.1
+    "@fontsource/dm-sans": ^4.2.2
+    "@fullhuman/postcss-purgecss": ^4.0.3
+    "@gooddollar/good-design": ^0.0.10
+    "@gooddollar/goodprotocol": 1.0.29-beta.5
+    "@gooddollar/web3sdk": ^0.1.12
+    "@gooddollar/web3sdk-v2": ^0.1.47
+    "@headlessui/react": 1.5.0
+    "@hot-loader/react-dom": ^17.0.1
+    "@lingui/cli": ^3.12.1
+    "@lingui/detect-locale": ^3.9.0
+    "@lingui/loader": ^3.9.0
+    "@lingui/macro": ^3.12.1
+    "@lingui/react": ^3.12.1
+    "@popperjs/core": ^2.4.4
+    "@reach/dialog": ^0.10.3
+    "@reach/portal": ^0.10.3
+    "@react-native-async-storage/async-storage": 1.17.10
+    "@react-spring/types": ^9.2.4
+    "@reduxjs/toolkit": ^1.3.5
+    "@sushiswap/core": 2.0.0-canary.0
+    "@sushiswap/default-token-list": 6.41.0
+    "@sushiswap/sdk": 5.0.0-canary.7
+    "@sushiswap/sushi-data": 1.0.26
+    "@tailwindcss/aspect-ratio": ^0.2.0
+    "@tailwindcss/forms": ^0.2.1
+    "@tailwindcss/line-clamp": ^0.2.0
+    "@tailwindcss/postcss7-compat": ^2.0.4
+    "@tailwindcss/typography": ^0.3.1
+    "@types/bn.js": ^5.1.0
+    "@types/graphql": ^14.5.0
+    "@types/jest": ^25.2.1
+    "@types/lodash": 4.14.182
+    "@types/lodash.flatmap": ^4.5.6
+    "@types/luxon": ^1.24.4
+    "@types/multicodec": ^1.0.0
+    "@types/node": ^13.13.5
+    "@types/numeral": ^2.0.1
+    "@types/qs": ^6.9.2
+    "@types/react": ^17.0
+    "@types/react-dom": ^17.0
+    "@types/react-helmet": ^6.1
+    "@types/react-native": ^0.70.4
+    "@types/react-redux": 7.1.16
+    "@types/react-router-dom": ^5.0
+    "@types/react-syntax-highlighter": ^15.4
+    "@types/react-text-mask": ^5.4.8
+    "@types/react-transition-group": ^4.4
+    "@types/react-virtualized-auto-sizer": ^1.0
+    "@types/react-window": ^1.8
+    "@types/rebass": ^4.0.5
+    "@types/styled-components": ^5.1.0
+    "@types/text-mask-addons": ^3.8.1
+    "@types/wcag-contrast": ^3.0.0
+    "@typescript-eslint/eslint-plugin": ^4.20.0
+    "@typescript-eslint/parser": ^4.20.0
+    "@uniswap/governance": ^1.0.2
+    "@uniswap/liquidity-staker": ^1.0.2
+    "@uniswap/merkle-distributor": 1.0.1
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/sdk-core": ^3.0.0
+    "@uniswap/token-lists": ^1.0.0-beta.19
+    "@uniswap/v2-core": 1.0.0
+    "@uniswap/v2-periphery": ^1.1.0-beta.0
+    "@uniswap/v2-sdk": ^3.0.0
+    "@usedapp/core": ^1.0.9
+    "@vitalets/google-translate-api": ^7.0.0
+    "@walletconnect/ethereum-provider": 1.5.0
+    "@web3-onboard/coinbase": ^2.0.10
+    "@web3-onboard/injected-wallets": ^2.0.15
+    "@web3-onboard/react": ^2.2.5
+    "@web3-onboard/walletconnect": ^2.0.8
+    "@web3-onboard/walletlink": ^2.0.6
+    "@web3-react/core": ^6.1.9
+    "@web3-react/injected-connector": ^6.0.7
+    "@web3-react/walletconnect-connector": 6.2.4
+    "@web3-react/walletlink-connector": 6.2.5
+    ajv: ^6.12.3
+    amplitude-js: ^8.21.2
+    autoprefixer: ^9
+    babel-plugin-import: ^1.13.5
+    babel-plugin-macros: ^3.1.0
+    babel-plugin-react-native-web: ^0.18.10
+    cids: ^1.0.0
+    classnames: ^2.3.1
+    clsx: ^1.1.1
+    copy-to-clipboard: ^3.2.0
+    cross-env: ^7.0.2
+    customize-cra: ^1.0.0
+    date-fns: ^2.20.0
+    decimal.js: ^10.3.1
+    eslint: ^7.23.0
+    eslint-config-prettier: ^8.1.0
+    eslint-config-react-app: ^6.0.0
+    eslint-plugin-flowtype: ^6.1.0
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-jsx-a11y: ^6.4.1
+    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-react: ^7.23.0
+    eslint-plugin-react-hooks: ^4.2.0
+    eth-permit: ^0.1.9
+    ethers: 5.7.0
+    fathom-client: ^3.0.0
+    fuse.js: ^6.4.6
+    graphql: ^15.5.1
+    husky: ^6.0.0
+    jazzicon: ^1.5.0
+    jsbi: ^3.1.5
+    lint-staged: ^10.0.0
+    lodash: 4.17.21
+    lodash.flatmap: ^4.5.0
+    lottie-react: ^2.1.0
+    luxon: ^1.25.0
+    mobile-device-detect: ^0.4.3
+    multicodec: ^2.0.0
+    multihashes: ^3.0.1
+    native-base: 3.4.11
+    node-vibrant: ^3.1.5
+    numeral: ^2.0.6
+    patch-package: ^6.4.7
+    polished: ^3.3.2
+    postcss: ^7
+    postcss-preset-env: ^6.7.0
+    postinstall-postinstall: ^2.1.0
+    prettier: ^2.7.1
+    qs: ^6.9.4
+    react: ^17.0.2
+    react-app-rewire-hot-loader: ^2.0.1
+    react-app-rewire-postcss: ^3.0.2
+    react-app-rewired: ^2.1.8
+    react-device-detect: ^1.6.2
+    react-dom: ^17.0.2
+    react-error-overlay: 6.0.9
+    react-feather: ^2.0.8
+    react-ga: ^2.5.7
+    react-helmet: ^6.1.0
+    react-hot-loader: ^4.13.0
+    react-markdown: ^4.3.1
+    react-native: 0.67
+    react-native-safe-area-context: 3.4.1
+    react-native-web: 0.17.7
+    react-popper: ^2.2.3
+    react-redux: ^7.2.0
+    react-router-dom: ^5.2.0
+    react-scripts: ^4.0.3
+    react-share: ^4.4.0
+    react-spring: ^8.0.27
+    react-spring-bottom-sheet: ^3.4.1
+    react-syntax-highlighter: ^15.4.3
+    react-tabs: ^3.2.1
+    react-text-mask: ^5.4.3
+    react-tradingview-widget: ^1.3.2
+    react-transition-group: ^4.4.1
+    react-use-gesture: ^6.0.14
+    react-use-promise: ^0.5.0
+    react-virtualized-auto-sizer: ^1.0.2
+    react-window: ^1.8.5
+    rebass: ^4.0.7
+    redux-localstorage-simple: ^2.3.1
+    rxjs: ^7.5.6
+    serve: ^11.3.0
+    source-map-explorer: ^2.5.2
+    start-server-and-test: ^1.11.0
+    styled-components: ^5.3.3
+    supports-color: ^9.0.1
+    swr: ^0.5.5
+    tailwindcss: "npm:@tailwindcss/postcss7-compat@^2"
+    tailwindcss-border-gradient-radius: ^2.0.0
+    text-mask-addons: ^3.8.0
+    typescript: ^4.4.3
+    ubeswap-swap-dev: ^1.2.2
+    use-count-up: ^2.2.5
+    wcag-contrast: ^3.0.0
+    web3: 1.8.1
+  languageName: unknown
+  linkType: soft
 
 "@sushiswap/sdk@npm:5.0.0-canary.7":
   version: 5.0.0-canary.7
@@ -7843,9 +7843,9 @@ __metadata:
   linkType: hard
 
 "@types/lodash@npm:*, @types/lodash@npm:^4.14.170, @types/lodash@npm:^4.14.53":
-  version: 4.14.190
-  resolution: "@types/lodash@npm:4.14.190"
-  checksum: 353a55a1222a57224ead8bd3379fabb2e3e3f6685f599c48b1b66f099d8e9e015e6c6352c6e2275954004c3bb510377804c63117233c6f187700b6ab78adfa02
+  version: 4.14.191
+  resolution: "@types/lodash@npm:4.14.191"
+  checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
   languageName: node
   linkType: hard
 
@@ -7894,9 +7894,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 18.11.9
-  resolution: "@types/node@npm:18.11.9"
-  checksum: cc0aae109e9b7adefc32eecb838d6fad931663bb06484b5e9cbbbf74865c721b03d16fd8d74ad90e31dbe093d956a7c2c306ba5429ba0c00f3f7505103d7a496
+  version: 18.11.10
+  resolution: "@types/node@npm:18.11.10"
+  checksum: 0f60cb090b2ee91fcd3dc4311bc1ed7889b92f14644c0069f100776f86474c12eebbcc6c75bc0d7d96b975a103b4d5d6b3c22b4e88bea6e7f4e2b1bb0daf5ea8
   languageName: node
   linkType: hard
 
@@ -9033,9 +9033,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::locator=%40gooddollar%2Fprotocol-interface%40workspace%3A.":
+"@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::locator=%40sushiswap%2Finterface%40workspace%3A.":
   version: 2.10.1
-  resolution: "@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::version=2.10.1&hash=f8aba4&locator=%40gooddollar%2Fprotocol-interface%40workspace%3A."
+  resolution: "@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch::version=2.10.1&hash=f8aba4&locator=%40sushiswap%2Finterface%40workspace%3A."
   dependencies:
     "@web3-onboard/common": ^2.2.3
     bignumber.js: ^9.0.0
@@ -11085,14 +11085,14 @@ __metadata:
   linkType: hard
 
 "bnc-sdk@npm:^4.4.1":
-  version: 4.6.2
-  resolution: "bnc-sdk@npm:4.6.2"
+  version: 4.6.3
+  resolution: "bnc-sdk@npm:4.6.3"
   dependencies:
     crypto-es: ^1.2.2
     nanoid: ^3.3.1
     rxjs: ^6.6.3
     sturdy-websocket: ^0.1.12
-  checksum: 35e67cd5796ac21c756b148b3e50ed731968a9fad59e077f0aab09824f36926da554454ebc0b10e1bfcbd2de17dc0c4ae5ecda0c005caf64900a881e07923371
+  checksum: c40722fa06a39a796a4209c62d74ba769ab37e356be20af5e116c40e2eaf82be0512e1642a13034d78a2028c310a044e6a83221c7acb68847fc219b01d7f657e
   languageName: node
   linkType: hard
 
@@ -11814,9 +11814,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30000981, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001125, caniuse-lite@npm:^1.0.30001400":
-  version: 1.0.30001434
-  resolution: "caniuse-lite@npm:1.0.30001434"
-  checksum: 7c9d2641e8e8f3ddf9af14c4ce47266a9d8fd1fc0243626049ff1b2eca4bf02938ff440813cc3feae3fa8d851ec8d1b9718044340c8d09bb4372d92d4f6b519c
+  version: 1.0.30001435
+  resolution: "caniuse-lite@npm:1.0.30001435"
+  checksum: ec88b9c37f66095e26ddb8b43110e9564ebccb6de77e495b8e8b9d64fdbfe37f7762be8fd2578c3ecc181a183a159578c9bd8e9b90eb15b44b78e8a6d0e92530
   languageName: node
   linkType: hard
 
@@ -13769,9 +13769,9 @@ __metadata:
   linkType: hard
 
 "decode-uri-component@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "decode-uri-component@npm:0.2.0"
-  checksum: f3749344ab9305ffcfe4bfe300e2dbb61fc6359e2b736812100a3b1b6db0a5668cba31a05e4b45d4d63dbf1a18dfa354cd3ca5bb3ededddabb8cd293f4404f94
+  version: 0.2.2
+  resolution: "decode-uri-component@npm:0.2.2"
+  checksum: 95476a7d28f267292ce745eac3524a9079058bbb35767b76e3ee87d42e34cd0275d2eb19d9d08c3e167f97556e8a2872747f5e65cbebcac8b0c98d83e285f139
   languageName: node
   linkType: hard
 
@@ -14509,13 +14509,6 @@ __metadata:
   version: 9.2.2
   resolution: "emoji-regex@npm:9.2.2"
   checksum: 8487182da74aabd810ac6d6f1994111dfc0e331b01271ae01ec1eb0ad7b5ecc2bbbbd2f053c05cb55a1ac30449527d819bbfbf0e3de1023db308cbcb47f86601
-  languageName: node
-  linkType: hard
-
-"emojis-list@npm:^2.0.0":
-  version: 2.1.0
-  resolution: "emojis-list@npm:2.1.0"
-  checksum: fb61fa6356dfcc9fbe6db8e334c29da365a34d3d82a915cb59621883d3023d804fd5edad5acd42b8eec016936e81d3b38e2faf921b32e073758374253afe1272
   languageName: node
   linkType: hard
 
@@ -16604,9 +16597,9 @@ __metadata:
   linkType: hard
 
 "flow-parser@npm:0.*":
-  version: 0.193.0
-  resolution: "flow-parser@npm:0.193.0"
-  checksum: 70266e8972dcd6de36a6d7ca0f8efbc3a5a2b405e5b4bde44bd9e66408dd6d0372e77b51d131badddd2f91eff4e98ed91e3f97c21f22f5b0c2369ba91cbe2c97
+  version: 0.194.0
+  resolution: "flow-parser@npm:0.194.0"
+  checksum: 8ccd1eca37b6b423d8e24db9b0079c364661d99d69dc4ae1a330437a0f2daeb928ec9fca059413d36274f536f8716343893b6764d40ebb29372e2f2cd17a703b
   languageName: node
   linkType: hard
 
@@ -18505,14 +18498,14 @@ __metadata:
   linkType: hard
 
 "intl-messageformat@npm:^10.1.0":
-  version: 10.2.2
-  resolution: "intl-messageformat@npm:10.2.2"
+  version: 10.2.4
+  resolution: "intl-messageformat@npm:10.2.4"
   dependencies:
-    "@formatjs/ecma402-abstract": 1.14.0
+    "@formatjs/ecma402-abstract": 1.14.2
     "@formatjs/fast-memoize": 1.2.6
-    "@formatjs/icu-messageformat-parser": 2.1.11
+    "@formatjs/icu-messageformat-parser": 2.1.13
     tslib: 2.4.0
-  checksum: 443954e8fde79eb497230a51a3c21fecec09c4ebcdfab11be28cadb631e35c6667e103a0fd9c3bca105de185341d25306296a6b85427a874ce4deefe5f6c61df
+  checksum: 3931ac1e5b7eb686a10cd44bf8b477f31d79fd2bc7201298f77d8932571124c67b16a5be48b95df1025bdddc26b36741c066a02a44c43454e9bc28202abbe2a2
   languageName: node
   linkType: hard
 
@@ -20565,7 +20558,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"language-subtag-registry@npm:~0.3.2":
+"language-subtag-registry@npm:^0.3.20":
   version: 0.3.22
   resolution: "language-subtag-registry@npm:0.3.22"
   checksum: 8ab70a7e0e055fe977ac16ea4c261faec7205ac43db5e806f72e5b59606939a3b972c4bd1e10e323b35d6ffa97c3e1c4c99f6553069dad2dfdd22020fa3eb56a
@@ -20573,11 +20566,11 @@ __metadata:
   linkType: hard
 
 "language-tags@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "language-tags@npm:1.0.5"
+  version: 1.0.6
+  resolution: "language-tags@npm:1.0.6"
   dependencies:
-    language-subtag-registry: ~0.3.2
-  checksum: c81b5d8b9f5f9cfd06ee71ada6ddfe1cf83044dd5eeefcd1e420ad491944da8957688db4a0a9bc562df4afdc2783425cbbdfd152c01d93179cf86888903123cf
+    language-subtag-registry: ^0.3.20
+  checksum: dc2927f7ce8f108ffd1d02ae0284b78ff6b4e03e631642794fa79d554d77b653f3f64cd1fb83acc9f3746ef7c18d43241b97feb712c05cc26e25aacd68f7a006
   languageName: node
   linkType: hard
 
@@ -20870,17 +20863,6 @@ __metadata:
   version: 2.4.0
   resolution: "loader-runner@npm:2.4.0"
   checksum: e27eebbca5347a03f6b1d1bce5b2736a4984fb742f872c0a4d68e62de10f7637613e79a464d3bcd77c246d9c70fcac112bb4a3123010eb527e8b203a614647db
-  languageName: node
-  linkType: hard
-
-"loader-utils@npm:1.2.3":
-  version: 1.2.3
-  resolution: "loader-utils@npm:1.2.3"
-  dependencies:
-    big.js: ^5.2.2
-    emojis-list: ^2.0.0
-    json5: ^1.0.1
-  checksum: 385407fc2683b6d664276fd41df962296de4a15030bb24389de77b175570c3b56bd896869376ba14cf8b33a9e257e17a91d395739ba7e23b5b68a8749a41df7e
   languageName: node
   linkType: hard
 
@@ -22553,11 +22535,11 @@ __metadata:
   linkType: hard
 
 "minimatch@npm:^5.0.1":
-  version: 5.1.0
-  resolution: "minimatch@npm:5.1.0"
+  version: 5.1.1
+  resolution: "minimatch@npm:5.1.1"
   dependencies:
     brace-expansion: ^2.0.1
-  checksum: 15ce53d31a06361e8b7a629501b5c75491bc2b59712d53e802b1987121d91b433d73fcc5be92974fde66b2b51d8fb28d75a9ae900d249feb792bb1ba2a4f0a90
+  checksum: 215edd0978320a3354188f84a537d45841f2449af4df4379f79b9b777e71aa4f5722cc9d1717eabd2a70d38ef76ab7b708d24d83ea6a6c909dfd8833de98b437
   languageName: node
   linkType: hard
 
@@ -26753,15 +26735,15 @@ __metadata:
   linkType: hard
 
 "react-native-svg@npm:^12.1.1":
-  version: 12.4.4
-  resolution: "react-native-svg@npm:12.4.4"
+  version: 12.5.0
+  resolution: "react-native-svg@npm:12.5.0"
   dependencies:
     css-select: ^5.1.0
     css-tree: ^1.1.3
   peerDependencies:
     react: "*"
     react-native: ">=0.50.0"
-  checksum: a98d9180dc3434e9993b5028e351c2aa5004fa3b1f5131e5f263fd43a95a43d330f0d435bc7ea498784bdbfcf6ece0e777cdd2bb568cd1337c30623a5aa02fd7
+  checksum: 94790f0baa0fa982606fa6743b969c7120260a27bef1391d602ebe428b62cfc3338da5477fa2587a1193297faaf3b51056f5f26260c2c067c87dffe0b3194625
   languageName: node
   linkType: hard
 
@@ -27900,20 +27882,20 @@ __metadata:
   linkType: hard
 
 "resolve-url-loader@npm:^3.1.2":
-  version: 3.1.4
-  resolution: "resolve-url-loader@npm:3.1.4"
+  version: 3.1.5
+  resolution: "resolve-url-loader@npm:3.1.5"
   dependencies:
     adjust-sourcemap-loader: 3.0.0
     camelcase: 5.3.1
     compose-function: 3.0.3
     convert-source-map: 1.7.0
     es6-iterator: 2.0.3
-    loader-utils: 1.2.3
+    loader-utils: ^1.2.3
     postcss: 7.0.36
     rework: 1.0.1
     rework-visit: 1.0.0
     source-map: 0.6.1
-  checksum: aa54911a8ba835b5af5a03d7e3201fe1fa8ae5f3703ce1224b29257f510f4196c4184237e105958eccc97bf78faebf996a745e7c4ddeb724045ac4c78024b514
+  checksum: eb52911eff20723f07409cc12138d254fa0dd4a4f3b1ba11ee1b29912afb03f1272aaddb523658be1e3a946e0d1bf6f603d0e107753ab83d48ad2116cf04b7f6
   languageName: node
   linkType: hard
 
@@ -30799,8 +30781,8 @@ __metadata:
   linkType: hard
 
 "ts-loader@npm:^9.3.1":
-  version: 9.4.1
-  resolution: "ts-loader@npm:9.4.1"
+  version: 9.4.2
+  resolution: "ts-loader@npm:9.4.2"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^5.0.0
@@ -30809,7 +30791,7 @@ __metadata:
   peerDependencies:
     typescript: "*"
     webpack: ^5.0.0
-  checksum: b8947f6d396621cc3f6ba8d4c14fa09eba03c4b7eeabbc429481e923a973c244fb80feb44e900f03fc1010755a6bf14fc561c574fb79e324f39b5b6ef1dcca6c
+  checksum: 6f306ee4c615c2a159fb177561e3fb86ca2cbd6c641e710d408a64b4978e1ff3f2c9733df07bff27d3f82efbfa7c287523d4306049510c7485ac2669a9c37eb0
   languageName: node
   linkType: hard
 
@@ -31165,8 +31147,8 @@ __metadata:
   linkType: hard
 
 "ubeswap-swap-dev@npm:^1.2.2":
-  version: 1.2.3
-  resolution: "ubeswap-swap-dev@npm:1.2.3"
+  version: 1.3.1
+  resolution: "ubeswap-swap-dev@npm:1.3.1"
   dependencies:
     "@apollo/client": ^3.6.5
     "@celo-tools/use-contractkit": ^3.1.0
@@ -31238,7 +31220,7 @@ __metadata:
     react-dom: ^17.0.2
     react-scripts: ^4.0.3
     styled-components: ^5.3.0
-  checksum: 73fa844825148a6d16e8a4bdd3fbfa0642ff9cc3e22b8f363b6d93aee8052373c785b364f9c4341e9672f2a2b3fac7e208bb0167778f29844218d06fed6987ed
+  checksum: 019b9beaab8dc1fd641203c3e7c317aaba45431473185392bf4674c6d1bc9c677b707aee2f7b109556ec436a5b9accf61d1661ff0adfc245ac3378a6cfed7611
   languageName: node
   linkType: hard
 

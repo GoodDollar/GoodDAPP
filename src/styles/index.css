@@ -59,3 +59,33 @@ input:focus {
   background: #FA52A0;
   cursor: pointer;
 }
+
+/* overwriting base definition for checkbox 
+as it interferes/overwrites with native-base Switch component
+reference: 
+https://github.com/tailwindlabs/tailwindcss/discussions/7496
+https://tailwindcss.com/docs/adding-custom-styles#adding-base-styles
+*/
+@layer base {
+  [type='checkbox'] {
+    appearance: unset;
+    padding: unset;
+    -webkit-print-color-adjust: unset;
+    color-adjust: unset;
+    display: unset;
+    vertical-align: unset;
+    background-origin: unset;
+    -webkit-user-select: none;
+    user-select: none;
+    flex-shrink: unset;
+    height: unset;
+    width: unset;
+    color: unset;
+    background-color: unset;
+    border-color: unset;
+    border-width: unset;
+  }
+  [type='checkbox']:checked {
+    background-image: none
+}
+}

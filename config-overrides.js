@@ -11,7 +11,6 @@ module.exports = override(
     fixBabelImports('module-resolver', {
         alias: {
             '^react-native$': 'react-native-web',
-            '@react-native-async-storage/async-storage': 'react-native-web/dist/exports/AsyncStorage/index.js',
         },
     })
 )

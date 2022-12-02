@@ -57,6 +57,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
                 web3Provider={webprovider}
                 env={contractsEnv}
                 config={{
+                    pollingInterval: 15000,
                     networks: [Goerli, Mainnet, Fuse, Celo],
                     readOnlyChainId: undefined,
                     readOnlyUrls: {

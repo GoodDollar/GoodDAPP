@@ -7,6 +7,9 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onError, onVerify, children, .
 
   useImperativeHandle(ref, () => ({
     launch: () => captchaRef.current.open(),
+    type: () => {
+      return 'recaptcha-native'
+    },
   }))
 
   return (

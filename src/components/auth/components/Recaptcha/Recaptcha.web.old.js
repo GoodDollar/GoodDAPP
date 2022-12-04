@@ -1,12 +1,11 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
-import HCaptcha from '@hcaptcha/react-hcaptcha'
+import Reaptcha from 'reaptcha'
+
 import usePromise from '../../../../lib/hooks/usePromise'
-import Config from '../../../../config/config'
 
-const { hcaptchaSiteKey } = Config
-
-const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) => {
+const Recaptcha = forwardRef(({ siteKey, onVerify, onError, children, ...props }, ref) => {
   const captchaRef = useRef()
+  const setCaptchaRef = useCallback(ref => (captchaRef.current = ref), [])
   const onExpired = useCallback(() => captchaRef.current.reset(), [])
   const [whenLoaded, setLoaded] = usePromise()
 
@@ -17,12 +16,8 @@ const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) =>
         await whenLoaded
         captchaRef.current.execute()
       },
-      reset: async () => {
-        await whenLoaded
-        captchaRef.current.resetCaptcha()
-      },
       type: () => {
-        return 'hcaptcha'
+        return 'recaptcha'
       },
     }),
     [whenLoaded],
@@ -30,15 +25,15 @@ const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) =>
 
   return (
     <>
-      <HCaptcha
-        sitekey={hcaptchaSiteKey}
+      <Reaptcha
+        {...props}
+        ref={setCaptchaRef}
+        sitekey={siteKey}
+        size="invisible"
         onLoad={setLoaded}
         onVerify={onVerify}
         onError={onError}
         onExpire={onExpired}
-        ref={captchaRef}
-        {...props}
-        size="invisible"
       />
       {children}
     </>

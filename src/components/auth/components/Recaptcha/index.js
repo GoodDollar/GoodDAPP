@@ -14,14 +14,14 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
   const [isPassed, setIsPassed] = useState(false)
 
   const onVerify = useCallback(
-    async payload => {
+    async (payload, ekey) => {
       let hasPassed = false
-      log.debug('Recaptcha payload', payload)
-
       try {
-        const result = await API.verifyCaptcha(payload)
-
-        log.debug('Recaptcha verify result', result)
+        const captchaType = captchaRef.current.type?.() || 'recaptcha'
+        log.debug('Recaptcha payload', { payload, ekey, captchaType })
+        const result = await API.verifyCaptcha(payload, captchaType)
+        captchaRef.current.reset()
+        log.debug('Recaptcha verify result', { result })
         hasPassed = get(result, 'data.success', false)
       } catch (exception) {
         log.error('recaptcha verification failed', exception.message, exception, payload)

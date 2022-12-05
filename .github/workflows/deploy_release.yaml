@@ -1,4 +1,4 @@
-name: Deploy Release
+name: Deploy Release New
 
 on:
     push:
@@ -17,7 +17,7 @@ jobs:
             changelog: ${{ steps.github_tag_action.outputs.changelog }}
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
               with:
                   fetch-depth: '0'
             - name: Bump version and push tag
@@ -35,7 +35,7 @@ jobs:
         if: ${{ needs.bump_version.outputs.new_tag != null }}
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Set env BRANCH
               run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
@@ -61,6 +61,7 @@ jobs:
                   fi
 
                   echo "REACT_APP_GOOGLE_ANALYTICS_ID=${{secrets.GOOGLE_ANALYTICS_ID}}" >> .env
+                  echo "REACT_APP_AMPLITUDE_KEY=${{secrets.AMPLITUDE_KEY}}" >> .env
             # - name: Set network env(s)
             #   run: |
             #       if [[ $BRANCH == 'production' ]]; then
@@ -71,13 +72,15 @@ jobs:
             #           echo "CLOUDFLARE_RECORD_NAME=_dnslink.fi-qa" >> "$GITHUB_ENV"
             #           echo "SUBDOMAIN=fi-qa" >> "$GITHUB_ENV"
             #       fi
-            - name: Load node v14
-              uses: actions/setup-node@v1
+            - name: Load node v16
+              uses: actions/setup-node@v3
               with:
-                  node-version: '14'
+                  node-version: '16.x'
 
             - name: Install dependencies
-              uses: bahmutov/npm-install@v1
+              uses: borales/actions-yarn@v4
+              with:
+                  cmd: install #yarn install
 
             - name: Build app
               run: yarn build

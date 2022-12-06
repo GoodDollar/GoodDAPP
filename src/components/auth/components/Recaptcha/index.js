@@ -9,12 +9,12 @@ import Captcha from './Recaptcha'
 const log = logger.child({ from: 'init' })
 
 const { recaptchaSiteKey, publicUrl, fpSiteKey } = Config
-const fpPromise = FingerprintJS.load({ apiKey: fpSiteKey })
+const fpPromise = fpSiteKey && FingerprintJS.load({ apiKey: fpSiteKey })
 const getFingerprintId = () => {
   // Initialize an agent at application startup.
 
   // Get the visitor identifier when you need it.
-  return fpPromise.then(fp => fp.get())
+  return fpPromise && fpPromise.then(fp => fp.get())
 }
 const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, children }, ref) => {
   const captchaRef = useRef()

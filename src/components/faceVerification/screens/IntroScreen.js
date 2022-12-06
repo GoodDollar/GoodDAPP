@@ -164,7 +164,12 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     if (isValid) {
       const state = { isValid }
 
-      isFVFlow ? navigate('FVFlowSuccess', state) : pop(state)
+      if (isFVFlow) {
+        navigate('FVFlowSuccess', state)
+        return
+      }
+      
+      pop(state)
       return
     }
 

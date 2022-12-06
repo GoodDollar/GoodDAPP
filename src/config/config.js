@@ -189,6 +189,7 @@ const Config = {
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
   recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
   hcaptchaSiteKey: env.REACT_APP_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001', //test key
+  fpSiteKey: env.REACT_APP_FINGERPRINT_SITE_KEY,
   textileKey: env.REACT_APP_TEXTILE_KEY,
   enableRefund: env.REACT_APP_ENABLE_REFUND === 'true',
   refundInfoLink: env.REACT_APP_REFUND_INFO_LINK || 'https://www.gooddollar.org/restoring-a-fair-gooddollar-ubi-pool/?utm_source=wallet',

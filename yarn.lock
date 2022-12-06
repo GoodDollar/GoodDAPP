@@ -6,15 +6,15 @@ __metadata:
   cacheKey: 8
 
 "@amplitude/analytics-browser@npm:^1.6.3":
-  version: 1.6.4
-  resolution: "@amplitude/analytics-browser@npm:1.6.4"
+  version: 1.6.6
+  resolution: "@amplitude/analytics-browser@npm:1.6.6"
   dependencies:
     "@amplitude/analytics-client-common": ^0.5.0
     "@amplitude/analytics-core": ^0.11.0
     "@amplitude/analytics-types": ^0.14.0
     "@amplitude/ua-parser-js": ^0.7.31
     tslib: ^2.3.1
-  checksum: 18c4f2b2a2f0dacf1ce8d6175e5a42d7a1edca4b82f11fbbe79588daa2d947cde20f21fcf133b97847c86644460a961c6bf55737163fa975709d3ee756461542
+  checksum: a43eb0dab51b77ef2529f4be6eee90e90a43d3e7d1d54da4edf33cea476889328f22aa238590420a8568a913174b1cab55b3d6a1a76d3c4e6aebe25a0e8c02b8
   languageName: node
   linkType: hard
 
@@ -3681,7 +3681,7 @@ __metadata:
     "@gooddollar/good-design": ^0.0.10
     "@gooddollar/goodprotocol": 1.0.29-beta.5
     "@gooddollar/web3sdk": ^0.1.12
-    "@gooddollar/web3sdk-v2": ^0.1.47
+    "@gooddollar/web3sdk-v2": ^0.1.51
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": ^3.12.1
@@ -3850,9 +3850,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.47":
-  version: 0.1.49
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.49"
+"@gooddollar/web3sdk-v2@npm:^0.1.51":
+  version: 0.1.51
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.51"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.3
     "@amplitude/analytics-react-native": ^0.6.1
@@ -3874,7 +3874,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: fa76e31ed664b44bdfe098296301c0c9232a22236f7e6d6937efa03aae6b80a0365b57e85a46cfe8447926896f011d73e95a2aa5d3f52e042a19bd57cb0d26ad
+  checksum: ad872f587d4ae924f9d59d62004b88518aaf0d238c71d77a51961460c24f751af88612c3943081de812b5ef1c92c67711f502f0db78db3f4fc85e868dba4731a
   languageName: node
   linkType: hard
 
@@ -6759,8 +6759,8 @@ __metadata:
   linkType: hard
 
 "@sentry/react-native@npm:^4.8.0":
-  version: 4.10.1
-  resolution: "@sentry/react-native@npm:4.10.1"
+  version: 4.11.0
+  resolution: "@sentry/react-native@npm:4.11.0"
   dependencies:
     "@sentry/browser": 7.21.1
     "@sentry/cli": 1.74.4
@@ -6775,7 +6775,7 @@ __metadata:
   peerDependencies:
     react: ">=16.4.1"
     react-native: ">=0.56.0"
-  checksum: bfd6d5acf30483b2e45fc04927ffb187b1d4ebffa41a174e6b2b9756b932e8c7188dda847396a271854eae88b95d8f7a1333696711fe63414f9605406056a0a4
+  checksum: f7035ec6f860e8705638a46630035a2e1ced8f6d92a45e78fe98fa58893bba4d8143ba4ec22507bd89511659419169ae293669fc3b9bb9eaa242c16ac18b7393
   languageName: node
   linkType: hard
 

@@ -3660,6 +3660,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fingerprintjs/fingerprintjs-pro@npm:^3.8.1":
+  version: 3.8.1
+  resolution: "@fingerprintjs/fingerprintjs-pro@npm:3.8.1"
+  dependencies:
+    tslib: ^2.0.1
+  checksum: 9b15084ed8aacb6c68419bd4f2fe8a5721d0e739e8cfa113e7d759438669f03c2c75271f5b065d99a214c38fb1e2987e87040e1081604d30aa4d7589d4816b7f
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.0.1, @gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -3694,6 +3703,7 @@ __metadata:
     "@ceramicnetwork/http-client": ^2.0.4
     "@ceramicnetwork/stream-tile": ^2.1.3
     "@expo/react-native-action-sheet": ^3.9.0
+    "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^1.0.28
     "@gooddollar/gun": ^0.2020.902
@@ -3701,6 +3711,7 @@ __metadata:
     "@gooddollar/gun-pk-auth": ^1.1.0
     "@gooddollar/react-native-facetec": ^1.0.27
     "@gooddollar/react-native-side-menu": ^2.0.2
+    "@hcaptcha/react-hcaptcha": ^1.4.4
     "@hot-loader/react-dom": ^17.0.1
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -4093,6 +4104,18 @@ __metadata:
   dependencies:
     "@hapi/hoek": ^9.0.0
   checksum: 604dfd5dde76d5c334bd03f9001fce69c7ce529883acf92da96f4fe7e51221bf5e5110e964caca287a6a616ba027c071748ab636ff178ad750547fba611d6014
+  languageName: node
+  linkType: hard
+
+"@hcaptcha/react-hcaptcha@npm:^1.4.4":
+  version: 1.4.4
+  resolution: "@hcaptcha/react-hcaptcha@npm:1.4.4"
+  dependencies:
+    "@babel/runtime": ^7.17.9
+  peerDependencies:
+    react: ">= 16.3.0"
+    react-dom: ">= 16.3.0"
+  checksum: 16b046702957f4ca5041c37f2a5012e07415469667fee0396b4764baa7ce0fe5a8577cf652b977732f026d745c999f7e1522bca3b3ca6effea5cfff189ddff2f
   languageName: node
   linkType: hard
 
@@ -21995,7 +22018,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 1f2be9c44e5db5c04495affe2bbcb97b668b8931a88797e15bbe8544940931fbdb6c5d69c6a43ca83d3f8a3870961633ba34ffccfb254e27edc4839b75b0138f
+  checksum: 434bfe9bc3ec10f34598e12e37aa0761193c75614d030ca08f34259789801e2d3984f1a8f6d5cef21e02e9d84cc962ea83d56c3c65cb8036fc39995b5cd04cf7
   languageName: node
   linkType: hard
 
@@ -22013,7 +22036,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: b5e24f7ef780e941f5414600094cf2a28d6557e14ffc7cd9505ca8ee34238295e5161a4db0235a95c596061cbeab5561dceb359b44b59a36d1060e46503cb450
+  checksum: 00bcdb6e66c36abdeea2c2cb5a34094b659c66a270372a05cfa30b5f8c941d48dd910ff82947c16150f56a507ed24705a9fbfdcb332344b927ad01b655ca9fd9
   languageName: node
   linkType: hard
 

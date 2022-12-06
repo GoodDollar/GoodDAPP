@@ -159,9 +159,8 @@ export class APIService {
     return this.client.post('/user/verifyCRM', { user: profile })
   }
 
-  async verifyCaptcha(token: string, captchaType: string): AxiosPromise<any> {
+  async verifyCaptcha(payload: any): AxiosPromise<any> {
     const { client, sharedClient } = this
-    const payload = { token, captchaType }
 
     const requestCloudflare = async () => {
       const trace = await sharedClient.get('https://www.cloudflare.com/cdn-cgi/trace')

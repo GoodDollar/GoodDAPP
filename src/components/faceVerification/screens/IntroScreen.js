@@ -168,7 +168,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
         navigate('FVFlowSuccess', state)
         return
       }
-      
+
       pop(state)
       return
     }

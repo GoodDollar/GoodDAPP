@@ -1,24 +1,19 @@
 import { get, noop } from 'lodash'
 import React, { useCallback, useImperativeHandle, useRef, useState } from 'react'
-import FingerprintJS from '@fingerprintjs/fingerprintjs-pro'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API'
+import { useFingerprint } from '../../../../lib/fingerprint/useFingerprint'
 import Captcha from './Recaptcha'
 
-const log = logger.child({ from: 'init' })
+const log = logger.child({ from: 'recaptcha' })
 
-const { recaptchaSiteKey, publicUrl, fpSiteKey } = Config
-const fpPromise = fpSiteKey && FingerprintJS.load({ apiKey: fpSiteKey })
-const getFingerprintId = () => {
-  // Initialize an agent at application startup.
+const { recaptchaSiteKey, publicUrl } = Config
 
-  // Get the visitor identifier when you need it.
-  return fpPromise && fpPromise.then(fp => fp.get())
-}
 const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, children }, ref) => {
   const captchaRef = useRef()
   const [isPassed, setIsPassed] = useState(false)
+  const { getFingerprintId } = useFingerprint()
 
   const onVerify = useCallback(
     async (payload, ekey) => {
@@ -42,7 +37,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
         }
       }
     },
-    [setIsPassed, onSuccess, onFailure],
+    [setIsPassed, onSuccess, onFailure, getFingerprintId],
   )
 
   useImperativeHandle(

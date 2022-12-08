@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
 import ReCAPTCHA from 'react-native-recaptcha-that-works'
-
+import { noop } from 'lodash'
 const Recaptcha = forwardRef(({ siteKey, baseUrl, onError, onVerify, children, ...props }, ref) => {
   const captchaRef = useRef()
   const onExpired = useCallback(() => captchaRef.current.close(), [])
@@ -10,6 +10,7 @@ const Recaptcha = forwardRef(({ siteKey, baseUrl, onError, onVerify, children, .
     type: () => {
       return 'recaptcha-native'
     },
+    reset: noop,
   }))
 
   return (

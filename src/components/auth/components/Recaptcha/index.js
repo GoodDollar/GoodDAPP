@@ -17,25 +17,34 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
 
   const onVerify = useCallback(
     async (payload, ekey) => {
+      let result
+      let fingerprint
       let hasPassed = false
+      const captchaType = captchaRef.current.type?.() || 'recaptcha'
+
       try {
-        const captchaType = captchaRef.current.type?.() || 'recaptcha'
-        const fingerprint = await getFingerprintId()
+        fingerprint = await getFingerprintId()
         log.debug('Recaptcha payload', { payload, ekey, captchaType, fingerprint })
-        const result = await API.verifyCaptcha({ payload, captchaType, fingerprint })
-        captchaRef.current.reset()
+
+        result = await API.verifyCaptcha({ payload, captchaType, fingerprint })
         log.debug('Recaptcha verify result', { result })
+        captchaRef.current.reset()
+
         hasPassed = get(result, 'data.success', false)
       } catch (exception) {
-        log.error('recaptcha verification failed', exception.message, exception, payload)
-      } finally {
-        if (hasPassed) {
-          setIsPassed(true)
-          onSuccess()
-        } else {
-          onFailure()
-        }
+        const { message } = exception
+        const errorCtx = { payload, ekey, captchaType, fingerprint, result }
+
+        log.error('recaptcha verification failed', message, exception, errorCtx)
       }
+
+      if (!hasPassed) {
+        onFailure()
+        return
+      }
+
+      setIsPassed(true)
+      onSuccess()
     },
     [setIsPassed, onSuccess, onFailure, getFingerprintId],
   )

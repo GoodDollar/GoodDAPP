@@ -202,7 +202,7 @@
     },
     "dependencies": {
         "@celo-tools/use-contractkit": "^3.1.0",
-        "@gooddollar/good-design": "^0.0.10",
+        "@gooddollar/good-design": "^0.0.15",
         "@gooddollar/goodprotocol": "1.0.29-beta.5",
         "@gooddollar/web3sdk": "^0.1.12",
         "@gooddollar/web3sdk-v2": "^0.1.52",

@@ -154,7 +154,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkForCameraSupport()
   }, [checkForCameraSupport])
 
-  useFaceTecSDK({ initializeOnMount: isValid !== true }) // early initialize
+  useFaceTecSDK({ initializeOnMount: !isValid }) // early initialize
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
@@ -190,7 +190,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   }, [isFVFlow, enrollmentIdentifier, fvFlowError, navigate])
 
   useEffect(() => {
-    if (isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier && isValid !== true) {
+    if (!isValid && isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier) {
       handleVerifyClick()
     }
   }, [isFVFlow, isFVFlowReady, disposing, enrollmentIdentifier, isValid])

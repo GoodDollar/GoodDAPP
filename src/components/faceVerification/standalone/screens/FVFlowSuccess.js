@@ -13,10 +13,13 @@ import WaitForCompleted from '../../components/WaitForCompleted'
 import { FVFlowContext } from '../context/FVFlowContext'
 import useFVRedirect from '../hooks/useFVRedirect'
 import withStyles from '../theme/withStyles'
+import logger from '../../../../lib/logger/js-logger'
 
 const checkWhitelistedAttempts = 6
 const checkWhitelistedDelay = 5000
 const checkWhitelistedTimeout = Math.floor(((checkWhitelistedAttempts + 1) * checkWhitelistedDelay) / 1000)
+
+const log = logger.child({ from: 'FaceVerification' })
 
 const waitForWhitelisted = account =>
   tryUntil(
@@ -32,6 +35,8 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
   const fvRedirect = useFVRedirect()
 
   useEffect(() => {
+    log.info('Waiting for whitelisted', { account })
+
     waitForWhitelisted(account)
       .catch(() => false)
       .then(fvRedirect)

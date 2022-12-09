@@ -18,21 +18,22 @@ const log = logger.child({ from: 'useFaceTecSDK' })
  * ZoomSDK initialization hook
  *
  * @param {object} config Configuration
+ * @property {boolean} config.initializeOnMount - should SDK be initialized on mount
  * @property {() => void} config.onInitialized - SDK initialized callback
  * @property {() => void} config.onError - SDK error callback
  *
  * @return {void}
  */
-export default (eventHandlers = {}) => {
+export default (config = {}) => {
   // parse options
-  const { onInitialized = noop, onError = noop } = eventHandlers
+  const { initializeOnMount = true, onInitialized = noop, onError = noop } = config
 
   // state vars
   const [initialized, setInitialized] = useState(false)
   const [lastError, setLastError] = useState(null)
 
   // Configuration callbacks refs
-  const refs = usePropsRefs([onInitialized, onError, setInitialized, setLastError])
+  const refs = usePropsRefs([initializeOnMount, onInitialized, onError, setInitialized, setLastError])
 
   // adding error handler
   const handleCriticalError = useCriticalErrorHandler(log)
@@ -41,7 +42,11 @@ export default (eventHandlers = {}) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    const [onInitialized, onError, setInitialized, setLastError] = refs
+    const [getInitializeOnMount, onInitialized, onError, setInitialized, setLastError] = refs
+
+    if (getInitializeOnMount() === false) {
+      return
+    }
 
     // Helper for handle exceptions
     const handleException = exception => {

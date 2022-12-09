@@ -145,7 +145,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     const isDeviceEmulated = await isEmulator
 
     // if cypress is running - just redirect to FR as we're skipping
-    // zoom componet (which requires camera access) in this case
+    // zoom component (which requires camera access) in this case
     if (isDeviceEmulated) {
       openFaceVerification()
       return
@@ -154,7 +154,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkForCameraSupport()
   }, [checkForCameraSupport])
 
-  useFaceTecSDK() // early initialize
+  useFaceTecSDK({ initializeOnMount: isValid !== true }) // early initialize
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
@@ -165,7 +165,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       const state = { isValid }
 
       if (isFVFlow) {
-        navigate('FVFlowSuccess', state)
+        navigateTo('FVFlowSuccess', state)
         return
       }
 
@@ -177,7 +177,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       fireEvent(FV_INTRO)
       checkDisposalState()
     }
-  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigate, pop, checkDisposalState])
+  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigateTo, pop, checkDisposalState])
 
   useEffect(() => {
     if (!isFVFlow || !navigate) {
@@ -190,10 +190,10 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   }, [isFVFlow, enrollmentIdentifier, fvFlowError, navigate])
 
   useEffect(() => {
-    if (isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier) {
+    if (isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier && isValid !== true) {
       handleVerifyClick()
     }
-  }, [isFVFlow, isFVFlowReady, disposing, enrollmentIdentifier])
+  }, [isFVFlow, isFVFlowReady, disposing, enrollmentIdentifier, isValid])
 
   if (isFVFlow) {
     return (

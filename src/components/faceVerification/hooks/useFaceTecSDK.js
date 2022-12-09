@@ -42,11 +42,16 @@ export default (config = {}) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    const [getInitializeOnMount, onInitialized, onError, setInitialized, setLastError] = refs
+    const [getInitializeOnMount, getOnInitialized, getOnError, getSetInitialized, getSetLastError] = refs
 
     if (getInitializeOnMount() === false) {
       return
     }
+
+    const onInitialized = getOnInitialized()
+    const onError = getOnError()
+    const setInitialized = getSetInitialized()
+    const setLastError = getSetLastError()
 
     // Helper for handle exceptions
     const handleException = exception => {

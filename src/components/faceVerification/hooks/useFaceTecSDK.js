@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { assign, noop } from 'lodash'
 
 import usePropsRefs from '../../../lib/hooks/usePropsRefs'
@@ -18,7 +18,7 @@ const log = logger.child({ from: 'useFaceTecSDK' })
  * ZoomSDK initialization hook
  *
  * @param {object} config Configuration
- * @property {boolean} config.initializeOnMount - should SDK be initialized on mount
+ * @property {boolean} config.initOnMounted - should SDK be initialized on mount
  * @property {() => void} config.onInitialized - SDK initialized callback
  * @property {() => void} config.onError - SDK error callback
  *
@@ -26,32 +26,22 @@ const log = logger.child({ from: 'useFaceTecSDK' })
  */
 export default (config = {}) => {
   // parse options
-  const { initializeOnMount = true, onInitialized = noop, onError = noop } = config
+  const { initOnMounted = true, onInitialized = noop, onError = noop } = config
 
   // state vars
   const [initialized, setInitialized] = useState(false)
   const [lastError, setLastError] = useState(null)
 
   // Configuration callbacks refs
-  const refs = usePropsRefs([initializeOnMount, onInitialized, onError, setInitialized, setLastError])
+  const refs = usePropsRefs([initOnMounted, onInitialized, onError, setInitialized, setLastError])
 
   // adding error handler
   const handleCriticalError = useCriticalErrorHandler(log)
 
-  // performing initialization attempt on component mounted
-  // this callback should be ran once, so we're using refs
-  // to access actual initialization / error callbacks
-  useEffect(() => {
-    const [getInitializeOnMount, getOnInitialized, getOnError, getSetInitialized, getSetLastError] = refs
-
-    if (getInitializeOnMount() === false) {
-      return
-    }
-
-    const onInitialized = getOnInitialized()
-    const onError = getOnError()
-    const setInitialized = getSetInitialized()
-    const setLastError = getSetLastError()
+  // initialize flow fn
+  const initializeSdk = useCallback(async () => {
+    const [, onInitialized, onError, setInitialized, setLastError] = refs
+    const { faceTecCriticalError } = FaceTecGlobalState
 
     // Helper for handle exceptions
     const handleException = exception => {
@@ -66,38 +56,6 @@ export default (config = {}) => {
       hideRedBoxIfNonCritical(exception, () => log.error('Zoom initialization failed', message, exception))
     }
 
-    const initializeSdk = async () => {
-      try {
-        // Initializing ZoOm
-        log.debug('Initializing ZoomSDK')
-
-        const isDeviceEmulated = await isEmulator
-
-        // if cypress is running - do nothing and immediately call success callback
-        if (!isDeviceEmulated) {
-          await FaceTecGlobalState.initialize()
-        }
-
-        // Executing onInitialized callback
-        onInitialized()
-        setInitialized(true)
-        log.debug('ZoomSDK is ready')
-      } catch (exception) {
-        // the following code is needed to categorize exceptions
-        // then we could display specific error messages
-        // corresponding to the kind of issue (camera, orientation etc)
-        let { name } = exception
-
-        name = kindOfSDKIssue(exception) || name
-        assign(exception, { type: ExceptionType.SDK, name })
-
-        // handling initialization exceptions
-        handleException(exception)
-      }
-    }
-
-    const { faceTecCriticalError } = FaceTecGlobalState
-
     // skipping initialization attempt is some
     // unrecoverable error happened last try
     // TODO: probably store this flag it in the SDK and show preload dialog ?
@@ -106,9 +64,48 @@ export default (config = {}) => {
       return
     }
 
+    try {
+      // Initializing ZoOm
+      log.debug('Initializing ZoomSDK')
+
+      const isDeviceEmulated = await isEmulator
+
+      // if cypress is running - do nothing and immediately call success callback
+      if (!isDeviceEmulated) {
+        await FaceTecGlobalState.initialize()
+      }
+
+      // Executing onInitialized callback
+      onInitialized()
+      setInitialized(true)
+      log.debug('ZoomSDK is ready')
+    } catch (exception) {
+      // the following code is needed to categorize exceptions
+      // then we could display specific error messages
+      // corresponding to the kind of issue (camera, orientation etc)
+      let { name } = exception
+
+      name = kindOfSDKIssue(exception) || name
+      assign(exception, { type: ExceptionType.SDK, name })
+
+      // handling initialization exceptions
+      handleException(exception)
+    }
+  }, [])
+
+  // performing initialization attempt on component mounted
+  // this callback should be ran once, so we're using refs
+  // to access actual initialization / error callbacks
+  useEffect(() => {
+    const [shouldInitialize] = refs
+
+    if (!shouldInitialize()) {
+      return
+    }
+
     // starting initialization
     initializeSdk()
   }, [])
 
-  return [initialized, lastError]
+  return [initialized, lastError, initializeSdk]
 }

@@ -6,10 +6,10 @@ let fpPromise
 
 export const useFingerprint = () => {
   const [fp, setFP] = useState()
-  const { fpSiteKey } = Config
+  const { fpSiteKey, fpEndpoint } = Config
   useEffect(() => {
     if (!fpPromise) {
-      fpPromise = fpSiteKey && FingerprintJS.load({ apiKey: fpSiteKey })
+      fpPromise = fpSiteKey && FingerprintJS.load({ apiKey: fpSiteKey, endpoint: fpEndpoint })
     }
     setFP(fpPromise)
   }, [])

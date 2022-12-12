@@ -3,7 +3,7 @@
   "version": "1.46.1-0",
   "engines": {
     "node": "16.x",
-    "npm": "6.x"
+    "npm": "8.x"
   },
   "scripts": {
     "web": "npm run lingui:compile && react-app-rewired start",

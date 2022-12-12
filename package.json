@@ -2,8 +2,8 @@
   "name": "@gooddollar/gooddapp",
   "version": "1.46.5",
   "engines": {
-    "node": ">=12",
-    "npm": "6.x"
+    "node": "16.x",
+    "npm": "8.x"
   },
   "scripts": {
     "web": "npm run lingui:compile && react-app-rewired start",

@@ -1,8 +1,8 @@
 import React, { useCallback, useRef } from 'react'
 import { TouchableOpacity } from 'react-native'
-
 import { t } from '@lingui/macro'
 import { noop } from 'lodash'
+
 import Text from '../../common/view/Text'
 
 import useOnPress from '../../../lib/hooks/useOnPress'

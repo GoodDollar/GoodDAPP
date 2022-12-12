@@ -17,9 +17,8 @@ const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) =>
         await whenLoaded
         captchaRef.current.execute()
       },
-      reset: async () => {
-        await whenLoaded
-        captchaRef.current.resetCaptcha()
+      reset: () => {
+        captchaRef.current && captchaRef.current.resetCaptcha()
       },
       type: () => {
         return 'hcaptcha'

@@ -16,6 +16,7 @@ const Recaptcha = forwardRef(({ siteKey, onVerify, onError, children, ...props }
         await whenLoaded
         captchaRef.current.execute()
       },
+      reset: () => captchaRef.current && captchaRef.current.reset(),
       type: () => {
         return 'recaptcha'
       },

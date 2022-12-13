@@ -23,7 +23,7 @@ const log = logger.child({ from: 'FaceVerification' })
 
 const waitForWhitelisted = account =>
   tryUntil(
-    () => API.isWhitelisted(account),
+    async () => (await API.isWhitelisted(account)).data,
     ({ isWhitelisted }) => isWhitelisted,
     checkWhitelistedAttempts - 1,
     checkWhitelistedDelay,

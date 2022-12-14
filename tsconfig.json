@@ -26,6 +26,6 @@
         "baseUrl": "./src",
         "typeRoots": ["./node_modules/@types", "./types", "./node_modules/@react-spring/types", "./src"]
     },
-    "exclude": ["node_modules", "cypress", "onboard_patch_reference", ".yalc"],
-    "include": ["./src", "./src/**/*.d.ts", "./types"]
+    "exclude": ["node_modules", "cypress", "onboard_patch_reference", ".yalc", ".linguirc", "src/**/**.test.ts"],
+    "include": ["src/**/*", "./src/**/*.d.ts", "./types"]
 }

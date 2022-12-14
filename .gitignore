@@ -42,6 +42,7 @@ cypress/fixtures/example.json
 .vercel
 
 .eslintcache
+tsconfig.lint-staged.json
 
 analysis/index.html
 deploy.sh

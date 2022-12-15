@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Web3Provider } from '@ethersproject/providers'
 import { AsyncStorage, useAppRestart } from '@gooddollar/web3sdk-v2'
 import { ChainId } from '@sushiswap/sdk'
@@ -109,7 +110,7 @@ export function useActiveOnboard<T = any>(): ActiveOnboardInterface<T> {
  */
 export function StoreOnboardState(wallets: WalletState[], activeChainId: string | undefined): void {
     if (isEmpty(wallets)) {
-        AsyncStorage.removeItem('currentConnectWallet')
+        void AsyncStorage.removeItem('currentConnectWallet')
         return
     }
 
@@ -149,7 +150,7 @@ export function useOnboardConnect(): OnboardConnectProps {
 
     const updateStorage = (newChainId: string, currentWallet: WalletState[]) => {
         const { chainId } = IsSupportedChain(newChainId)
-        setChain({ chainId: chainId })
+        void setChain({ chainId: chainId })
         StoreOnboardState(currentWallet, chainId)
         setActivated(true)
     }
@@ -178,7 +179,7 @@ export function useOnboardConnect(): OnboardConnectProps {
         }
 
         if (previouslyConnected.length && !tried) {
-            connectOnboard()
+            void connectOnboard()
             setTried(true)
         } else if (activated || !previouslyConnected[0]) {
             setTried(true)
@@ -223,7 +224,7 @@ export function useOnboardConnect(): OnboardConnectProps {
                 return
             }
 
-            Promise.all(promises).then(() => restartApp()) // temporarily necessary, as there is a irrecoverable error/bug when not reloading
+            void Promise.all(promises).then(() => restartApp()) // temporarily necessary, as there is a irrecoverable error/bug when not reloading
         }
     }, [connectedWallets, tried, loading])
 

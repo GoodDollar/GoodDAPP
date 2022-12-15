@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# todo @l03tj3, enable after pr merge > 263-goodswap-should...
-# yarn lingui
-# yarn lint-staged
+yarn lingui
+yarn lint-staged

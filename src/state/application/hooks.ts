@@ -95,7 +95,7 @@ export function useRemovePopup(): (key: string) => void {
 // get the list of active popups
 export function useActivePopups(): AppState['application']['popupList'] {
     const list = useSelector((state: AppState) => state.application.popupList)
-    return useMemo(() => list.filter(item => item.show), [list])
+    return useMemo(() => list.filter((item) => item.show), [list])
 }
 
 export function useKashiApprovalPending(): string {
@@ -108,7 +108,7 @@ export function useApplicationTheme() {
     const setTheme = useCallback((theme: ApplicationState['theme']) => dispatch(setThemeAction(theme)), [])
 
     useEffect(() => {
-        AsyncStorage.getItem('application.theme').then(setTheme)
+        void AsyncStorage.getItem('application.theme').then(setTheme)
     }, [setTheme])
 
     return [theme, setTheme] as const

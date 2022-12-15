@@ -19,7 +19,7 @@ export const SavingsAccount = ({
     useEffect(() => {
         if (account && provider) {
             const sdk = new SavingsSDK(provider, defaultEnv)
-            sdk.hasBalance(account).then((res) => {
+            void sdk.hasBalance(account).then((res) => {
                 setHasBalance(res)
             })
         }

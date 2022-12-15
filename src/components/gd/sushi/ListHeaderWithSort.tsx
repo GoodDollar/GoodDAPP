@@ -27,7 +27,7 @@ function ListHeaderWithSort({
     sort,
     sortKey,
     direction = 'ascending',
-    children
+    children,
 }: {
     className?: any
     sort: any

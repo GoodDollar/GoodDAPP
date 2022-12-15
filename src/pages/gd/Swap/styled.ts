@@ -44,15 +44,15 @@ export const SwapWrapperSC = styled.div`
     border-radius: 20px;
     position: relative;
     z-index: 2;
-    border: 1px solid ${({ theme }) => (theme.color.border1)};
+    border: 1px solid ${({ theme }) => theme.color.border1};
     width: 100%;
     @media (min-width: 980px) {
-      width: 700px;
+        width: 700px;
     }
 `
 
 export const SwapContentWrapperSC = styled(Card).attrs(() => ({
-    contentWrapped: false
+    contentWrapped: false,
 }))`
     margin-top: 14px;
     padding: 25px 21px 23px;

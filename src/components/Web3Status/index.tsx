@@ -26,7 +26,7 @@ const Web3StatusInnerSC = styled.div`
 
 function Web3StatusInner() {
     const { i18n } = useLingui()
-    const { account, error } = useActiveWeb3React()
+    const { account } = useActiveWeb3React()
 
     const { ENSName } = useENSName(account ?? undefined)
 

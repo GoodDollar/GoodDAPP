@@ -20,4 +20,4 @@ const Placeholder = memo(({ children, ...props }: Omit<JSX.IntrinsicElements['di
     return <PlaceholderSC {...props}>{children}</PlaceholderSC>
 })
 
-export default Placeholder;
+export default Placeholder

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { ArrowUpCircle } from 'react-feather'
 import styled, { useTheme } from 'styled-components'
 import Circle from '../../assets/images/blue-loader.svg'
@@ -43,7 +43,7 @@ export function LoadingView({ children, onDismiss }: { children: any; onDismiss:
 export function SubmittedView({
     children,
     onDismiss,
-    hash
+    hash,
 }: {
     children: any
     onDismiss: () => void

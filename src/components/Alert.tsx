@@ -18,7 +18,7 @@ const TYPE = {
                     fill="#575757"
                 />
             </svg>
-        )
+        ),
     },
     warning: {
         color: '',
@@ -36,7 +36,7 @@ const TYPE = {
                     clipRule="evenodd"
                 />
             </svg>
-        )
+        ),
     },
     error: {
         color: '',
@@ -54,8 +54,8 @@ const TYPE = {
                     clipRule="evenodd"
                 />
             </svg>
-        )
-    }
+        ),
+    },
 }
 
 export interface AlertProps {
@@ -70,7 +70,7 @@ export default function Alert({
     message,
     type = 'warning',
     className = '',
-    showIcon = false
+    showIcon = false,
 }: AlertProps & React.HTMLAttributes<HTMLDivElement>): JSX.Element | null {
     if (!message) {
         return null

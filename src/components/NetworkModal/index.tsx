@@ -4,7 +4,7 @@ import { ApplicationModal } from '../../state/application/types'
 import { ChainId } from '@sushiswap/sdk'
 import Modal from '../Modal'
 import ModalHeader from '../ModalHeader'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import Option from '../WalletModal/Option'
 import styled from 'styled-components'
 import { AdditionalChainId, ChainIdHex } from '../../constants'
@@ -60,6 +60,17 @@ export default function NetworkModal(): JSX.Element | null {
         }
     }, [error, network])
 
+    const switchChain = useCallback(
+        (key: ChainId | AdditionalChainId) => {
+            if ([ChainId.MAINNET, ChainId.RINKEBY, ChainId.GÖRLI].includes(key as any)) {
+                void setChain({ chainId: `0x${key.toString(16)}` })
+            } else {
+                void setChain({ chainId: ChainIdHex[key] })
+            }
+        },
+        [setChain]
+    )
+
     return (
         <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
             <ModalHeader className="mb-1" onClose={toggleNetworkModal} title="Select network" />
@@ -86,11 +97,7 @@ export default function NetworkModal(): JSX.Element | null {
                             key={key}
                             onClick={() => {
                                 toggleNetworkModal()
-                                if ([ChainId.MAINNET, ChainId.RINKEBY, ChainId.GÖRLI].includes(key as any)) {
-                                    setChain({ chainId: `0x${key.toString(16)}` })
-                                } else {
-                                    setChain({ chainId: ChainIdHex[key] })
-                                }
+                                switchChain(key)
                             }}
                         />
                     )

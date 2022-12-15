@@ -4,13 +4,10 @@ import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { useAddPopup, useBlockNumber } from '../application/hooks'
 import { AppDispatch, AppState } from '../index'
 import { checkedTransaction, finalizeTransaction } from './actions'
-import { utils, FixedNumber } from 'ethers'
-import { useLingui } from '@lingui/react'
-import { t } from '@lingui/macro'
 
 export function shouldCheck(
     lastBlockNumber: number,
-    tx: { addedTime: number; receipt?: {}; lastCheckedBlockNumber?: number }
+    tx: { addedTime: number; receipt?: object; lastCheckedBlockNumber?: number }
 ): boolean {
     if (tx.receipt) return false
     if (!tx.lastCheckedBlockNumber) return true
@@ -30,13 +27,12 @@ export function shouldCheck(
 }
 
 export default function Updater(): null {
-    const { i18n } = useLingui()
     const { chainId, library } = useActiveWeb3React()
 
     const lastBlockNumber = useBlockNumber()
 
     const dispatch = useDispatch<AppDispatch>()
-    const state = useSelector<AppState, AppState['transactions']>(state => state.transactions)
+    const state = useSelector<AppState, AppState['transactions']>((state) => state.transactions)
 
     const transactions = chainId ? state[chainId] ?? {} : {}
 
@@ -46,46 +42,46 @@ export default function Updater(): null {
     useEffect(() => {
         if (!chainId || !library || !lastBlockNumber) return
         Object.keys(transactions)
-            .filter(hash => shouldCheck(lastBlockNumber, transactions[hash]))
-            .forEach(hash => {
+            .filter((hash) => shouldCheck(lastBlockNumber, transactions[hash]))
+            .forEach((hash) => {
                 library
                     .getTransactionReceipt(hash)
-                    .then(receipt => {
-                      const confirmedSummary = transactions[hash]?.summary
+                    .then((receipt) => {
+                        const confirmedSummary = transactions[hash]?.summary
                         if (receipt) {
-                          dispatch(
-                              finalizeTransaction({
-                                  chainId,
-                                  hash,
-                                  receipt: {
-                                      blockHash: receipt.blockHash,
-                                      blockNumber: receipt.blockNumber,
-                                      contractAddress: receipt.contractAddress,
-                                      from: receipt.from,
-                                      status: receipt.status,
-                                      to: receipt.to,
-                                      transactionHash: receipt.transactionHash,
-                                      transactionIndex: receipt.transactionIndex
-                                  },
-                                  summary: confirmedSummary 
-                              })
-                          )
+                            dispatch(
+                                finalizeTransaction({
+                                    chainId,
+                                    hash,
+                                    receipt: {
+                                        blockHash: receipt.blockHash,
+                                        blockNumber: receipt.blockNumber,
+                                        contractAddress: receipt.contractAddress,
+                                        from: receipt.from,
+                                        status: receipt.status,
+                                        to: receipt.to,
+                                        transactionHash: receipt.transactionHash,
+                                        transactionIndex: receipt.transactionIndex,
+                                    },
+                                    summary: confirmedSummary,
+                                })
+                            )
 
-                          addPopup(
-                              {
-                                  txn: {
-                                      hash,
-                                      success: receipt.status === 1,
-                                      summary: confirmedSummary
-                                  }
-                              },
-                              hash
-                          )
+                            addPopup(
+                                {
+                                    txn: {
+                                        hash,
+                                        success: receipt.status === 1,
+                                        summary: confirmedSummary,
+                                    },
+                                },
+                                hash
+                            )
                         } else {
                             dispatch(checkedTransaction({ chainId, hash, blockNumber: lastBlockNumber }))
                         }
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error(`failed to check transaction hash: ${hash}`, error)
                     })
             })

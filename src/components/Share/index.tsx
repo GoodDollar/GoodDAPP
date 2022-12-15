@@ -1,8 +1,5 @@
 import React, { useState, memo } from 'react'
 
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
-
 import { LinkedinIcon, FacebookIcon, TwitterIcon, CopyIcon } from '../Icon'
 import Row from 'components/Row'
 import Title from 'components/gd/Title'
@@ -55,21 +52,17 @@ export const ShareSC = styled.div<{ textCopied: boolean }>`
     }
     .copyButton {
         width: auto;
-        border-color: ${({ theme, textCopied }) => textCopied ? theme.color.text2 : theme.color.text1};
-        fill: ${({ theme, textCopied }) => textCopied 
-            ? theme.color.text2 
-            : theme.darkMode ? theme.white : '#081C3E'};
+        border-color: ${({ theme, textCopied }) => (textCopied ? theme.color.text2 : theme.color.text1)};
+        fill: ${({ theme, textCopied }) => (textCopied ? theme.color.text2 : theme.darkMode ? theme.white : '#081C3E')};
     }
 `
 
 export const Share = memo(({ show = true, title, copyText, ...rest }: ShareProps): React.ReactElement | null => {
-    const { i18n } = useLingui()
-
     const [textCopied, textCopiedSet] = useState(false)
 
     const copy = () => {
         if (textCopied) return
-        navigator.clipboard.writeText(copyText || '')
+        void navigator.clipboard.writeText(copyText || '')
 
         textCopiedSet(true)
         setTimeout(() => textCopiedSet(false), 500)
@@ -80,10 +73,10 @@ export const Share = memo(({ show = true, title, copyText, ...rest }: ShareProps
     const { twitter, facebook, linkedin } = rest
 
     return (
-        <ShareSC className="p-3.5" textCopied={textCopied} >
+        <ShareSC className="p-3.5" textCopied={textCopied}>
             {title && (
                 <Row align="center" justify="center">
-                    <Title className="title mb-2 font-bold">{title}</Title>
+                    <Title className="mb-2 font-bold title">{title}</Title>
                 </Row>
             )}
             <Row align="center" justify="center" gap="24px">
@@ -104,12 +97,12 @@ export const Share = memo(({ show = true, title, copyText, ...rest }: ShareProps
                 )}
                 {copyText && (
                     <ButtonOutlined onClick={copy} className="pl-3 pr-3 copyButton" disabled={textCopied}>
-                        <CopyIcon height="24px"/>
+                        <CopyIcon height="24px" />
                     </ButtonOutlined>
                 )}
             </Row>
         </ShareSC>
     )
-});
+})
 
-export default Share;
+export default Share

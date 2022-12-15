@@ -1,18 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
-import { AsyncStorage } from '@gooddollar/web3sdk-v2';
+import { AsyncStorage } from '@gooddollar/web3sdk-v2'
 
 // This array should equal the array set in .linguirc
 export const locales = ['de', 'en', 'es-AR', 'es', 'it', 'he', 'ro', 'ru', 'vi', 'zh-CN', 'zh-TW', 'ko', 'ja']
 export const defaultLocale = 'en'
 
 // Don't load plurals
-locales.map(locale => i18n.loadLocaleData(locale, { plurals: () => null }))
+locales.map((locale) => i18n.loadLocaleData(locale, { plurals: () => null }))
 
-const isLocaleValid = (locale: string) => locales.includes(locale)
 const getInitialLocale = () => {
     // const detectedLocale = detect(fromStorage('lang'), fromNavigator(), () => defaultLocale)
     // return detectedLocale && isLocaleValid(detectedLocale) ? detectedLocale : defaultLocale
@@ -30,30 +28,34 @@ export const LanguageContext = React.createContext<{
     setLanguage: (_: string) => void
     language: string
 }>({
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
     setLanguage: (_: string) => null,
-    language: ''
+    language: '',
 })
 
 const LanguageProvider: FC = ({ children }) => {
     const [language, setLanguage] = useState(getInitialLocale)
     const [init, setInit] = useState(true)
 
-    const _setLanguage = useCallback((language: string): void => {
-        const switchLocale = (): void => {
-            AsyncStorage.safeSet('lang', language)
-            setLanguage(language)
-        }
+    const _setLanguage = useCallback(
+        (language: string): void => {
+            const switchLocale = (): void => {
+                AsyncStorage.safeSet('lang', language)
+                setLanguage(language)
+            }
 
-        if (init) {
-            switchLocale()
-            return
-        }
+            if (init) {
+                switchLocale()
+                return
+            }
 
-        activate(language).then(switchLocale)
-    }, [setLanguage, init])
+            void activate(language).then(switchLocale)
+        },
+        [setLanguage, init]
+    )
 
     useEffect(() => {
-        activate(language).then(() => setInit(false))
+        void activate(language).then(() => setInit(false))
     }, [])
 
     if (init) return <></>

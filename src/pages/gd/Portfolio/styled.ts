@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { TitleSC } from 'components/gd/Title'
 import { ButtonDefault } from 'components/gd/Button'
-import Table, { TableSC } from 'components/gd/Table'
+import { TableSC } from 'components/gd/Table'
 
 export const CellSC = styled.div`
     display: grid;

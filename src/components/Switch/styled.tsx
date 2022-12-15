@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const StyledSwitch = styled.div<{checked: boolean}>`
+export const StyledSwitch = styled.div<{ checked: boolean }>`
     position: relative;
     width: 36px;
     height: 22px;
@@ -11,7 +11,7 @@ export const StyledSwitch = styled.div<{checked: boolean}>`
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: ${({ theme, checked }) => checked ? theme.color.text2 : theme.color.bg2};
+        background-color: ${({ theme, checked }) => (checked ? theme.color.text2 : theme.color.bg2)};
         border-radius: 12px;
     }
     .toggle {

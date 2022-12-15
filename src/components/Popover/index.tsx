@@ -9,8 +9,8 @@ import useInterval from '../../hooks/useInterval'
 const PopoverContainer = styled.div<{ show: boolean }>`
     z-index: 9999;
 
-    visibility: ${props => (props.show ? 'visible' : 'hidden')};
-    opacity: ${props => (props.show ? 1 : 0)};
+    visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
+    opacity: ${(props) => (props.show ? 1 : 0)};
     transition: visibility 150ms linear, opacity 150ms linear;
 
     box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.9, theme.shadow1)};
@@ -92,8 +92,8 @@ export default function Popover({ content, show, children, placement = 'auto', o
         strategy: 'fixed',
         modifiers: [
             { name: 'offset', options: { offset } },
-            { name: 'arrow', options: { element: arrowElement } }
-        ]
+            { name: 'arrow', options: { element: arrowElement } },
+        ],
     })
     const updateCallback = useCallback(() => {
         update && update()

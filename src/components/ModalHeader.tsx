@@ -1,11 +1,10 @@
 import React from 'react'
-import Typography from './Typography'
 import Title from './gd/Title'
 
 function ModalHeader({
     title = undefined,
     onClose,
-    className = ''
+    className = '',
 }: {
     title?: string
     className?: string
@@ -15,7 +14,7 @@ function ModalHeader({
         <div className={`relative mb-2 ${className}`}>
             {title && <Title className="text-center">{title}</Title>}
             <div
-                className="absolute top-0 right-0 w-5 h-5 rounded-full   flex items-center justify-center cursor-pointer"
+                className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
                 onClick={onClose}
             >
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

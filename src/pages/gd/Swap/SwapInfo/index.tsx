@@ -19,6 +19,6 @@ const SwapInfo = memo(({ className, style, tip, title, value }: SwapInfoProps) =
             <div className="value">{value}</div>
         </SwapInfoSC>
     )
-});
+})
 
-export default SwapInfo;
+export default SwapInfo

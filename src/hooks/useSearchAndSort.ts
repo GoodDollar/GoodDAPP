@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import React, { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
 import { Fraction } from '@uniswap/sdk-core'
 
@@ -9,7 +9,7 @@ function getNested(theObject: any, path: string, separator = '.') {
             .replace('[', separator)
             .replace(']', '')
             .split(separator)
-            .reduce(function(obj, property) {
+            .reduce(function (obj, property) {
                 return obj[property]
             }, theObject)
     } catch (err) {

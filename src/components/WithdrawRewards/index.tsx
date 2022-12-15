@@ -8,7 +8,6 @@ import Modal from 'components/Modal'
 import Button from 'components/Button'
 import { useDispatch } from 'react-redux'
 import { addTransaction } from '../../state/transactions/actions'
-import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { getExplorerLink } from '../../utils'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -18,7 +17,7 @@ import { useGdContextProvider, claimG$Rewards, claimGoodRewards } from '@gooddol
 
 interface WithdrawRewardsProps {
     trigger: ReactElement<{ onClick: Function }>
-    type: 'GOOD' | 'G$',
+    type: 'GOOD' | 'G$'
     onClaim: () => void
 }
 
@@ -34,34 +33,39 @@ const WithdrawRewards = memo(({ trigger, type, onClaim, ...rest }: WithdrawRewar
     const [transactionList, setTransactionHash] = useState<any[]>([])
 
     const handleClaim = useCallback(async () => {
-        if (!web3) return 
+        if (!web3) return
         try {
             setStatus('pending')
-            const claimMethod = type === 'GOOD' ? claimGoodRewards : claimG$Rewards; 
-            const transactions = await claimMethod(web3, (txHash: string, from: string, chainId: number) => {
-              setTransactionHash(transactionHash => [...transactionHash, [{hash: txHash, chainId: chainId}]])
-              setStatus('send') 
-              dispatch(
-                addTransaction({ 
-                  chainId: chainId!,
-                  hash: txHash,
-                  from: from,
-                  summary: type === 'GOOD' ?
-                    i18n._(t`Claimed GOOD Rewards`) :
-                    i18n._(t`Claimed G$ Rewards`) 
-                })
-              )
-            }, () => {
-              setStatus('success')
-            }, (e) => { // for TX errors
-              setStatus('none')
-              setError(e as Error) 
-            })
+            const claimMethod = type === 'GOOD' ? claimGoodRewards : claimG$Rewards
+            await claimMethod(
+                web3,
+                (txHash: string, from: string, chainId: number) => {
+                    setTransactionHash((transactionHash) => [...transactionHash, [{ hash: txHash, chainId: chainId }]])
+                    setStatus('send')
+                    dispatch(
+                        addTransaction({
+                            chainId: chainId!,
+                            hash: txHash,
+                            from: from,
+                            summary: type === 'GOOD' ? i18n._(t`Claimed GOOD Rewards`) : i18n._(t`Claimed G$ Rewards`),
+                        })
+                    )
+                },
+                () => {
+                    setStatus('success')
+                },
+                (e) => {
+                    // for TX errors
+                    setStatus('none')
+                    setError(e as Error)
+                }
+            )
 
             onClaim()
-        } catch (e) {  // keep for now? for errors I have not seen yet -lewis
-          setStatus('none') 
-          setError(e as Error)
+        } catch (e) {
+            // keep for now? for errors I have not seen yet -lewis
+            setStatus('none')
+            setError(e as Error)
         }
     }, [setStatus, onClaim, type])
 
@@ -93,9 +97,11 @@ const WithdrawRewards = memo(({ trigger, type, onClaim, ...rest }: WithdrawRewar
                                 {i18n._(t`Claimable Rewards`)}
                             </Title>
                             {<p className="mb-5 warning">{error ? error.message : ''}</p>}
-                            {type === 'G$' && <p className="mb-5 text-center warning">
-                                {i18n._(t`Claiming your rewards will reset your multiplier.`)}
-                            </p>}
+                            {type === 'G$' && (
+                                <p className="mb-5 text-center warning">
+                                    {i18n._(t`Claiming your rewards will reset your multiplier.`)}
+                                </p>
+                            )}
                             <div className="relative flex flex-col items-center gap-1">
                                 <ButtonAction
                                     className="claim-reward"
@@ -114,27 +120,36 @@ const WithdrawRewards = memo(({ trigger, type, onClaim, ...rest }: WithdrawRewar
                     ) : (
                         <>
                             <Title className="flex justify-center flex-grow pt-3">
-                              {status === 'send' ? i18n._(t`Success!`) : i18n._(t`Congratulations!`)}
+                                {status === 'send' ? i18n._(t`Success!`) : i18n._(t`Congratulations!`)}
                             </Title>
                             <div className="flex items-center justify-center gap-2 pt-7 pb-7">
-                                { status === 'send' ?
-                                  i18n._(t`Transaction was sent to the blockchain `) :
-                                  i18n._(t`You have successfully claimed your rewards `) } 
-                         
-                                  {transactionList && (transactionList.map((tx, i) => (
-                                      <a target='_blank' 
-                                        rel='noreferrer' 
-                                        key={i} href={tx[i].chainId && getExplorerLink(tx[i].chainId, tx[i].hash, 'transaction')}> 
-                                        <LinkSVG className="cursor-pointer" />  
-                                      </a> 
-                                  )))}
+                                {status === 'send'
+                                    ? i18n._(t`Transaction was sent to the blockchain `)
+                                    : i18n._(t`You have successfully claimed your rewards `)}
+
+                                {transactionList &&
+                                    transactionList.map((tx, i) => (
+                                        <a
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            key={i}
+                                            href={
+                                                tx[i].chainId &&
+                                                getExplorerLink(tx[i].chainId, tx[i].hash, 'transaction')
+                                            }
+                                        >
+                                            <LinkSVG className="cursor-pointer" />
+                                        </a>
+                                    ))}
                             </div>
                             <div className="flex justify-center">
-                                { status === 'send' ?
-                                  <Loader stroke="#173046" size="32px" /> : 
-                                  <Button className="back-to-portfolio" onClick={handleClose}>
-                                    {i18n._(t`Back to portfolio`)}
-                                  </Button> }
+                                {status === 'send' ? (
+                                    <Loader stroke="#173046" size="32px" />
+                                ) : (
+                                    <Button className="back-to-portfolio" onClick={handleClose}>
+                                        {i18n._(t`Back to portfolio`)}
+                                    </Button>
+                                )}
                             </div>
                         </>
                     )}
@@ -142,6 +157,6 @@ const WithdrawRewards = memo(({ trigger, type, onClaim, ...rest }: WithdrawRewar
             </Modal>
         </>
     )
-});
+})
 
-export default WithdrawRewards;
+export default WithdrawRewards

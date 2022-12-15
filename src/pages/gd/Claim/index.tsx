@@ -24,6 +24,6 @@ const Claim = memo(() => {
             </div>
         </Layout>
     )
-});
+})
 
-export default Claim;
+export default Claim

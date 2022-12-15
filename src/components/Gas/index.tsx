@@ -5,8 +5,8 @@ import { useLingui } from '@lingui/react'
 
 function Gas() {
     const { i18n } = useLingui()
-    const { data, error }: any = useSWR('https://ethgasstation.info/api/ethgasAPI.json?', url =>
-        fetch(url).then(r => r.json())
+    const { data, error }: any = useSWR('https://ethgasstation.info/api/ethgasAPI.json?', (url) =>
+        fetch(url).then((r) => r.json())
     )
 
     if (error) return <div>{i18n._(t`failed to load`)}</div>

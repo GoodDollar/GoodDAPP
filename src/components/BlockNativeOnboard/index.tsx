@@ -5,28 +5,28 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
 const OnboardButton = styled.button`
-  ${({ theme }) => theme.flexRowNoWrap}
-  background-color: ${({ theme }) => theme.color.text2};
-  border: none;
-  border-radius: 6px;
+    ${({ theme }) => theme.flexRowNoWrap}
+    background-color: ${({ theme }) => theme.color.text2};
+    border: none;
+    border-radius: 6px;
 
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
-  color: ${({ theme }) => theme.color.main};
-  padding-left: 17px;
-  padding-right: 17px;
-  padding-top: 10px;
-  height: 42px;
-  transition: background 0.25s;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: ${({ theme }) => theme.color.main};
+    padding-left: 17px;
+    padding-right: 17px;
+    padding-top: 10px;
+    height: 42px;
+    transition: background 0.25s;
 
-  &:hover,
-  &:focus {
-      border: none;
-      background-color: ${({ theme }) => theme.color.text2hover};
-      transition: background 0.25s;
-  }
+    &:hover,
+    &:focus {
+        border: none;
+        background-color: ${({ theme }) => theme.color.text2hover};
+        transition: background 0.25s;
+    }
 `
 
 /**
@@ -35,14 +35,13 @@ const OnboardButton = styled.button`
  * @returns Connect Button or Empty
  */
 
-export function OnboardConnectButton():JSX.Element {
-  const [{wallet, connecting}, connect, disconnect] = useConnectWallet()
-  const { i18n } = useLingui()
-  if (wallet) {
-    return (<></>)
-  }
+export function OnboardConnectButton(): JSX.Element {
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
+    const { i18n } = useLingui()
+    if (wallet) {
+        return <></>
+    }
 
-  return (
-    <OnboardButton onClick={() => connect()}>{i18n._(t`Connect to a wallet`)}</OnboardButton>
-  )
+    return <OnboardButton onClick={() => connect()}>{i18n._(t`Connect to a wallet`)}</OnboardButton>
 }

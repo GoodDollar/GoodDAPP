@@ -37,7 +37,7 @@ export function useTokens() {
                 try {
                     const list = await getTokenList(chainId as any)
                     setTokens(
-                        list.map(currency =>
+                        list.map((currency) =>
                             currency.isNative
                                 ? (chainId as any) === AdditionalChainId.FUSE
                                     ? FUSE

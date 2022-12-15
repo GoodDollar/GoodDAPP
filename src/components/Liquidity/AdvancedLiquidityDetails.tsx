@@ -54,7 +54,7 @@ function TradeSummary() {
 }
 
 export interface AdvancedLiquidityDetailsProps {
-    show?: Boolean
+    show?: boolean
 }
 
 export function AdvancedLiquidityDetails() {

@@ -1,9 +1,5 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router-dom'
-import { AppDispatch } from '../../state'
-import { setOpenModal } from '../../state/application/actions'
-import { ApplicationModal } from '../../state/application/types'
 
 // Redirects Legacy Hash Routes to Browser Routes
 export function RedirectHashRoutes({ location }: RouteComponentProps) {
@@ -18,4 +14,3 @@ export function RedirectHashRoutes({ location }: RouteComponentProps) {
 export function RedirectPathToSwapOnly({ location }: RouteComponentProps) {
     return <Redirect to={{ ...location, pathname: '/swap' }} />
 }
-

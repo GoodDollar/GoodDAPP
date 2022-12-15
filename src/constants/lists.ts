@@ -14,7 +14,6 @@ const WRAPPED_LIST = 'wrapped.tokensoft.eth'
 const SET_LIST = 'https://raw.githubusercontent.com/SetProtocol/uniswap-tokenlist/main/set.tokenlist.json'
 // const OPYN_LIST = 'https://raw.githubusercontent.com/opynfinance/opyn-tokenlist/master/opyn-v1.tokenlist.json'
 const ROLL_LIST = 'https://app.tryroll.com/tokens.json'
-const COINGECKO_LIST = 'https://tokens.coingecko.com/uniswap/all.json'
 const CMC_ALL_LIST = 'defi.cmc.eth'
 const CMC_STABLECOIN = 'stablecoin.cmc.eth'
 const KLEROS_LIST = 't2crtokens.eth'
@@ -42,7 +41,7 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
     GEMINI_LIST,
     QUICK_SWAP,
     FUSE_LIST,
-    ...UNSUPPORTED_LIST_URLS // need to load unsupported tokens as well
+    ...UNSUPPORTED_LIST_URLS, // need to load unsupported tokens as well
 ]
 
 // default lists to be 'active' aka searched across

@@ -23,7 +23,7 @@ import { NativeBaseProvider } from 'native-base'
 import { theme } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 
-if (!!window.ethereum) {
+if (window.ethereum) {
     window.ethereum.autoRefreshOnNetworkChange = false
 }
 

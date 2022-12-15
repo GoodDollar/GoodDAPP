@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { AlertCircle, CheckCircle } from 'react-feather'
 import styled, { useTheme } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
@@ -17,7 +17,7 @@ const RowNoFlex = styled(AutoRow)`
 export default function TransactionPopup({
     hash,
     success,
-    summary
+    summary,
 }: {
     hash: string
     success?: boolean

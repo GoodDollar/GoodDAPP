@@ -1,10 +1,9 @@
-import { darken, lighten } from 'polished'
+import { darken } from 'polished'
 import React from 'react'
 import { ChevronDown } from 'react-feather'
 import { Button as RebassButton, ButtonProps } from 'rebass/styled-components'
 import styled, { keyframes } from 'styled-components'
 import { RowBetween } from '../Row'
-import { ButtonAction } from '../gd/Button'
 
 const Base = styled(RebassButton)<{
     padding?: string
@@ -302,17 +301,6 @@ export const ButtonWhite = styled(Base)`
     }
 `
 
-const ButtonConfirmedStyle = styled(Base)`
-    background-color: ${({ theme }) => lighten(0.5, theme.green1)};
-    color: ${({ theme }) => theme.green1};
-    border: 1px solid ${({ theme }) => theme.green1};
-
-    &:disabled {
-        opacity: 50%;
-        cursor: auto;
-    }
-`
-
 const ButtonErrorStyle = styled(Base)`
     background-color: ${({ theme }) => theme.red1};
     border: 1px solid ${({ theme }) => theme.red1};
@@ -336,18 +324,6 @@ const ButtonErrorStyle = styled(Base)`
         border: 1px solid ${({ theme }) => theme.red1};
     }
 `
-
-export function ButtonConfirmed({
-    confirmed,
-    altDisabledStyle,
-    ...rest
-}: { confirmed?: boolean; altDisabledStyle?: boolean } & ButtonProps) {
-    if (confirmed) {
-        return <ButtonAction {...rest} disabled />
-    } else {
-        return <ButtonAction {...rest} />
-    }
-}
 
 export function ButtonError({ error, ...rest }: { error?: boolean } & ButtonProps) {
     if (error) {

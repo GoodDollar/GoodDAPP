@@ -9,7 +9,7 @@ export interface SerializableTransactionReceipt {
     blockHash: string
     transactionHash: string
     blockNumber: number
-    status?: number,
+    status?: number
 }
 
 export const addTransaction = createAction<{
@@ -18,23 +18,23 @@ export const addTransaction = createAction<{
     from: string
     approval?: { tokenAddress: string; spender: string }
     claim?: { recipient: string }
-    summary?: string,
+    summary?: string
     tradeInfo?: {
-      input: {
-        decimals: number | undefined,
-        symbol: string | undefined
-      },
-      output: {
-        decimals: number | undefined,
-        symbol: string | undefined
-      }
+        input: {
+            decimals: number | undefined
+            symbol: string | undefined
+        }
+        output: {
+            decimals: number | undefined
+            symbol: string | undefined
+        }
     }
 }>('transactions/addTransaction')
 export const clearAllTransactions = createAction<{ chainId: ChainId }>('transactions/clearAllTransactions')
 export const finalizeTransaction = createAction<{
     chainId: ChainId
     hash: string
-    receipt: SerializableTransactionReceipt,
+    receipt: SerializableTransactionReceipt
     summary?: string
 }>('transactions/finalizeTransaction')
 export const checkedTransaction = createAction<{

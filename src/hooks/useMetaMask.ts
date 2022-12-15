@@ -1,8 +1,6 @@
-import React from 'react'
-
 export type MetaMaskInfo = {
-  isMetaMask: boolean,
-  isMultiple: boolean
+    isMetaMask: boolean
+    isMultiple: boolean
 }
 
 /**
@@ -10,16 +8,13 @@ export type MetaMaskInfo = {
  * @returns {isMetaMask, isMultiple}
  */
 
-export default function useMetaMask():MetaMaskInfo {
-  const { ethereum } = window
-  const isMultiple = ethereum && ethereum.providers?.length > 1
+export default function useMetaMask(): MetaMaskInfo {
+    const { ethereum } = window
+    const isMultiple = ethereum && ethereum.providers?.length > 1
 
-  const isMetaMask = ethereum && (isMultiple ? ethereum.selectedProvider?.isMetaMask : ethereum.isMetaMask)
-  return {
-    isMetaMask: isMetaMask ?? false,
-    isMultiple: isMultiple ?? false
-  }
+    const isMetaMask = ethereum && (isMultiple ? ethereum.selectedProvider?.isMetaMask : ethereum.isMetaMask)
+    return {
+        isMetaMask: isMetaMask ?? false,
+        isMultiple: isMultiple ?? false,
+    }
 }
-
-
-

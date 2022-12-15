@@ -1,4 +1,5 @@
 import React, { CSSProperties, memo } from 'react'
+import styled from 'styled-components'
 import { SwapSettingsSC, SwapSettingsPopup, SwapSettingsButton } from './styled'
 import { useModalOpen, useToggleSettingsMenu } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/types'
@@ -9,7 +10,19 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { useSwap } from '../hooks'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { SlippageError, SlippageEmojiContainer} from 'components/TransactionSettings/'
+
+export enum SlippageError {
+    InvalidInput = 'InvalidInput',
+    RiskyLow = 'RiskyLow',
+    RiskyHigh = 'RiskyHigh',
+}
+
+export const SlippageEmojiContainer = styled.span`
+    color: #f3841e;
+    ${({ theme }) => theme.mediaWidth.upToSmall`
+  display: none;  
+`}
+`
 
 const settingsIcon = (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +40,7 @@ export interface SwapSettingsProps {
 const minutesMask = createNumberMask({
     prefix: '',
     allowDecimal: false,
-    includeThousandsSeparator: false
+    includeThousandsSeparator: false,
 })
 
 const percentageMask = createNumberMask({
@@ -36,7 +49,7 @@ const percentageMask = createNumberMask({
     allowDecimal: true,
     decimalLimit: 2,
     integerLimit: 3,
-    includeThousandsSeparator: false
+    includeThousandsSeparator: false,
 })
 
 const SwapSettings = memo(({ className, style }: SwapSettingsProps) => {
@@ -46,11 +59,11 @@ const SwapSettings = memo(({ className, style }: SwapSettingsProps) => {
     const { slippageTolerance, setSlippageTolerance } = useSwap()
     let slippageError: SlippageError | undefined
     if (parseFloat(slippageTolerance.value) < 0.05) {
-      slippageError = SlippageError.RiskyLow
+        slippageError = SlippageError.RiskyLow
     } else if (parseFloat(slippageTolerance.value) > 1) {
-      slippageError = SlippageError.RiskyHigh
+        slippageError = SlippageError.RiskyHigh
     } else {
-      slippageError = undefined
+        slippageError = undefined
     }
 
     return (
@@ -77,7 +90,7 @@ const SwapSettings = memo(({ className, style }: SwapSettingsProps) => {
                             onClick={() =>
                                 setSlippageTolerance({
                                     custom: false,
-                                    value: '0.1'
+                                    value: '0.1',
                                 })
                             }
                         >
@@ -88,7 +101,7 @@ const SwapSettings = memo(({ className, style }: SwapSettingsProps) => {
                             onClick={() =>
                                 setSlippageTolerance({
                                     custom: false,
-                                    value: '0.5'
+                                    value: '0.5',
                                 })
                             }
                         >
@@ -99,7 +112,7 @@ const SwapSettings = memo(({ className, style }: SwapSettingsProps) => {
                             onClick={() =>
                                 setSlippageTolerance({
                                     custom: false,
-                                    value: '1.0'
+                                    value: '1.0',
                                 })
                             }
                         >
@@ -114,27 +127,27 @@ const SwapSettings = memo(({ className, style }: SwapSettingsProps) => {
                                 size={3}
                                 guide={false}
                                 mask={percentageMask}
-                                value={slippageTolerance.custom ? slippageTolerance.value : ''
-                                }
-                                onChange={event =>
+                                value={slippageTolerance.custom ? slippageTolerance.value : ''}
+                                onChange={(event) =>
                                     setSlippageTolerance({
                                         custom: true,
-                                        value: event.currentTarget.value
+                                        value: event.currentTarget.value,
                                     })
                                 }
                             />
                         </div>
                     </div>
                     {!!slippageError && (
-                      <div style={{ fontSize: '14px', paddingTop: '7px',color: '#F3841E'}}>
-                              <SlippageEmojiContainer>
-                                <span role="img" aria-label="warning" style={{
-                                }}>⚠️</span>
-                              </SlippageEmojiContainer>
-                          {slippageError === SlippageError.RiskyLow
-                                  ? i18n._(t`Your transaction may fail`)
-                                  : i18n._(t`Your transaction may be frontrun`)}
-                      </div>
+                        <div style={{ fontSize: '14px', paddingTop: '7px', color: '#F3841E' }}>
+                            <SlippageEmojiContainer>
+                                <span role="img" aria-label="warning" style={{}}>
+                                    ⚠️
+                                </span>
+                            </SlippageEmojiContainer>
+                            {slippageError === SlippageError.RiskyLow
+                                ? i18n._(t`Your transaction may fail`)
+                                : i18n._(t`Your transaction may be frontrun`)}
+                        </div>
                     )}
                     <Title className="flex items-center" type="field" style={{ marginTop: 29 }}>
                         {i18n._(t`Transaction deadline`)}{' '}
@@ -157,6 +170,6 @@ const SwapSettings = memo(({ className, style }: SwapSettingsProps) => {
             )}
         </>
     )
-});
+})
 
-export default SwapSettings;
+export default SwapSettings

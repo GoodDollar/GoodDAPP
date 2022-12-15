@@ -5,6 +5,6 @@ declare global {
         toBigNumber(decimals: number): BigNumber
     }
     interface Window {
-      dataLayer: any
+        dataLayer: any
     }
 }

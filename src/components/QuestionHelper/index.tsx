@@ -7,7 +7,7 @@ const QuestionWrapper = styled.div<{ noPadding?: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: ${props => (props.noPadding ? '0' : '0.2rem')};
+    padding: ${(props) => (props.noPadding ? '0' : '0.2rem')};
     border: none;
     background: none;
     outline: none;
@@ -20,31 +20,6 @@ const QuestionWrapper = styled.div<{ noPadding?: boolean }>`
     :focus {
         opacity: 0.7;
     }
-`
-
-const LightQuestionWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.2rem;
-    border: none;
-    background: none;
-    outline: none;
-    cursor: default;
-    border-radius: 36px;
-    width: 24px;
-    height: 24px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: ${({ theme }) => theme.white};
-
-    :hover,
-    :focus {
-        opacity: 0.7;
-    }
-`
-
-const QuestionMark = styled.span`
-    font-size: 1rem;
 `
 
 const QuestionHelper: FC<Omit<TooltipProps, 'show' | 'children'>> = ({ children, text, ...rest }) => {

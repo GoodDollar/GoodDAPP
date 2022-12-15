@@ -1,31 +1,31 @@
 import React, { memo, useEffect, useMemo, useReducer } from 'react'
-import { StakeDepositSC } from './styled'
-import Title from 'components/gd/Title'
-import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
-import SwapInput from 'pages/gd/Swap/SwapInput'
-import { ButtonAction, ButtonDefault, ButtonText } from 'components/gd/Button'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useTokenBalance } from 'state/wallet/hooks'
-import { Token } from '@sushiswap/sdk'
-import { addTransaction } from 'state/transactions/actions'
-import { useDispatch } from 'react-redux'
-import { getExplorerLink } from 'utils'
-import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
-import { Link } from 'react-router-dom'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
+import { Token } from '@sushiswap/sdk'
+import { ReactComponent as LinkSVG } from 'assets/images/link-blue.svg'
+import { ButtonAction, ButtonDefault } from 'components/gd/Button'
+import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
+import Title from 'components/gd/Title'
 import Loader from 'components/Loader'
 import Switch from 'components/Switch'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
+import SwapInput from 'pages/gd/Swap/SwapInput'
+import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { addTransaction } from 'state/transactions/actions'
+import { useTokenBalance } from 'state/wallet/hooks'
+import { getExplorerLink } from 'utils'
+import { StakeDepositSC } from './styled'
 
 import {
-  Stake,
-  approveStake,
-  stake as deposit,
-  stakeGov as depositGov,
-  getTokenPriceInUSDC,
-  LIQUIDITY_PROTOCOL, SupportedChainId,
-  useGdContextProvider
+    approveStake,
+    getTokenPriceInUSDC,
+    LIQUIDITY_PROTOCOL,
+    stake as deposit,
+    Stake,
+    stakeGov as depositGov,
+    useGdContextProvider,
 } from '@gooddollar/web3sdk'
 
 import Share from 'components/Share'
@@ -52,15 +52,15 @@ const initialState = {
     loading: false,
     error: undefined as undefined | string,
     done: false,
-    transactionHash: undefined as undefined | string
+    transactionHash: undefined as undefined | string,
 }
 
+//eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: StakeDepositModalProps) => {
     const { i18n } = useLingui()
     //note:
     // (bug-minor) chainId is cached here at default 1 when using an action button. Only seems to break loading icons on dev..
     const { chainId, account } = useActiveWeb3React()
-    const network = SupportedChainId[chainId]
     const { web3 } = useGdContextProvider()
     const [state, dispatch] = useReducer(
         (
@@ -78,34 +78,34 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
                 case 'TOGGLE_TOKEN':
                     return {
                         ...state,
-                        token: action.payload ? ('B' as const) : ('A' as const)
+                        token: action.payload ? ('B' as const) : ('A' as const),
                     }
                 case 'CHANGE_VALUE':
                     return {
                         ...state,
-                        value: action.payload
+                        value: action.payload,
                     }
                 case 'CHANGE_SIGNED':
                     return {
                         ...state,
-                        signed: true
+                        signed: true,
                     }
                 case 'CHANGE_APPROVED':
                     return {
                         ...state,
                         approved: typeof action.payload === 'string',
-                        dollarEquivalent: action.payload
+                        dollarEquivalent: action.payload,
                     }
                 case 'TOGGLE_LOADING':
                     return {
                         ...state,
                         error: state.loading ? state.error : undefined,
-                        loading: !state.loading
+                        loading: !state.loading,
                     }
                 case 'SET_ERROR':
                     return {
                         ...state,
-                        error: action.payload.message
+                        error: action.payload.message,
                     }
                 case 'DONE':
                     return {
@@ -113,7 +113,7 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
                         done: true,
                         // In case CHANGE_SIGNED is not triggered
                         signed: true,
-                        transactionHash: action.payload
+                        transactionHash: action.payload,
                     }
             }
         },
@@ -140,18 +140,18 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
     useEffect(() => {
         if (state.approved)
             dispatch({
-                type: 'CHANGE_APPROVED'
+                type: 'CHANGE_APPROVED',
             })
     }, [state.value])
 
-    const withLoading = async (cb: Function) => {
+    const withLoading = async (cb: () => Promise<void>) => {
         try {
             dispatch({ type: 'TOGGLE_LOADING' })
             await cb()
         } catch (e) {
             dispatch({
                 type: 'SET_ERROR',
-                payload: e as Error
+                payload: e as Error,
             })
         } finally {
             dispatch({ type: 'TOGGLE_LOADING' })
@@ -164,35 +164,34 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
                 return {
                     copyText: 'I just staked GoodDollars at https://goodswap.xyz to make the world better',
                     linkedin: {
-                        url: 'https://gooddollar.org'
+                        url: 'https://gooddollar.org',
                     },
                     twitter: {
                         url: 'https://gooddollar.org',
                         title: 'I just staked GoodDollars at https://goodswap.xyz to make the world better ',
-                        hashtags: ['InvestForGood']
+                        hashtags: ['InvestForGood'],
                     },
                     facebook: {
                         url: 'https://gooddollar.org',
-                        hashtag: '#InvestForGood'
-                    }
+                        hashtag: '#InvestForGood',
+                    },
                 }
             case 'GoodStakes':
                 return {
                     copyText:
                         'I just staked [DAI|USDC] at https://goodswap.xyz to generate UBI for thousands of user and make the world better',
                     linkedin: {
-                        url: 'https://gooddollar.org'
+                        url: 'https://gooddollar.org',
                     },
                     twitter: {
                         url: 'https://gooddollar.org',
-                        title:
-                            ' just staked [DAI|USDC] at https://goodswap.xyz to generate UBI for thousands of user and make the world better',
-                        hashtags: ['InvestForGood']
+                        title: ' just staked [DAI|USDC] at https://goodswap.xyz to generate UBI for thousands of user and make the world better',
+                        hashtags: ['InvestForGood'],
                     },
                     facebook: {
                         url: 'https://gooddollar.org',
-                        hashtag: '#InvestForGood'
-                    }
+                        hashtag: '#InvestForGood',
+                    },
                 }
             default:
                 throw Error(`Unknown activeTableName - ${activeTableName}`)
@@ -237,10 +236,10 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
                                 <span>{stake.tokens.A.symbol}</span>
                                 <Switch
                                     checked={state.token === 'B'}
-                                    onChange={value => {
+                                    onChange={(value) => {
                                         dispatch({
                                             type: 'TOGGLE_TOKEN',
-                                            payload: value
+                                            payload: value,
                                         })
                                     }}
                                     disabled={state.loading}
@@ -257,32 +256,44 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
                         onMax={() => {
                             dispatch({
                                 type: 'CHANGE_VALUE',
-                                payload: tokenToDepositBalance?.toExact() ?? '0'
+                                payload: tokenToDepositBalance?.toExact() ?? '0',
                             })
                         }}
-                        onChange={e =>
+                        onChange={(e) =>
                             dispatch({
                                 type: 'CHANGE_VALUE',
-                                payload: e.currentTarget.value
+                                payload: e.currentTarget.value,
                             })
                         }
                     />
                     <ButtonAction
                         className="mt-4"
-                        disabled={!state.value.match(/[^0.]/) || !web3 || !account || state.loading}
+                        disabled={!/[^0.]/.exec(state.value) || !web3 || !account || state.loading}
                         onClick={() =>
                             withLoading(async () => {
-                                sendData({event: 'stake', action: 'stakeApprove',
-                                         amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
+                                sendData({
+                                    event: 'stake',
+                                    action: 'stakeApprove',
+                                    amount: state.value,
+                                    type: stake.protocol,
+                                    token: tokenToDeposit.symbol,
+                                })
                                 const [tokenPriceInUSDC] = await Promise.all([
                                     await getTokenPriceInUSDC(web3!, stake.protocol, tokenToDeposit),
-                                    await approveStake(web3!, stake.protocol, stake.address, state.value, tokenToDeposit, () => {
-                                        dispatch({ type: 'CHANGE_SIGNED' })
-                                    })
+                                    await approveStake(
+                                        web3!,
+                                        stake.protocol,
+                                        stake.address,
+                                        state.value,
+                                        tokenToDeposit,
+                                        () => {
+                                            dispatch({ type: 'CHANGE_SIGNED' })
+                                        }
+                                    ),
                                 ])
                                 dispatch({
                                     type: 'CHANGE_APPROVED',
-                                    payload: tokenPriceInUSDC?.toSignificant(6) ?? ''
+                                    payload: tokenPriceInUSDC?.toSignificant(6) ?? '',
                                 })
                             })
                         }
@@ -319,8 +330,13 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
                             disabled={state.loading}
                             onClick={() =>
                                 withLoading(async () => {
-                                    sendData({event: 'stake', action: 'stakeDeposit',
-                                             amount: state.value, type: stake.protocol, token: tokenToDeposit.symbol})
+                                    sendData({
+                                        event: 'stake',
+                                        action: 'stakeDeposit',
+                                        amount: state.value,
+                                        type: stake.protocol,
+                                        token: tokenToDeposit.symbol,
+                                    })
                                     const depositMethod =
                                         stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? depositGov : deposit
                                     await depositMethod(
@@ -330,7 +346,11 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
                                         tokenToDeposit,
                                         state.token === 'B',
                                         (transactionHash: string, from: string) => {
-                                            sendData({event: 'stake', action: 'awesomeStake', token: tokenToDeposit.symbol})
+                                            sendData({
+                                                event: 'stake',
+                                                action: 'awesomeStake',
+                                                token: tokenToDeposit.symbol,
+                                            })
                                             dispatch({ type: 'DONE', payload: transactionHash })
                                             reduxDispatch(
                                                 addTransaction({
@@ -339,7 +359,7 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
                                                     from: from,
                                                     summary: i18n._(
                                                         t`Staked ${tokenToDeposit.symbol} at ${stake.protocol} `
-                                                    )
+                                                    ),
                                                 })
                                             )
                                         }
@@ -402,6 +422,6 @@ const StakeDeposit = memo(({ stake, onDeposit, onClose, activeTableName }: Stake
             ) : null}
         </StakeDepositSC>
     )
-});
+})
 
-export default StakeDeposit;
+export default StakeDeposit

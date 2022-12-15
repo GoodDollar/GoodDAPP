@@ -25,7 +25,7 @@ export default function ListUpdatePopup({
     listUrl,
     oldList,
     newList,
-    auto
+    auto,
 }: {
     popKey: string
     listUrl: string
@@ -45,7 +45,11 @@ export default function ListUpdatePopup({
         removeThisPopup()
     }, [auto, dispatch, listUrl, removeThisPopup])
 
-    const { added: tokensAdded, changed: tokensChanged, removed: tokensRemoved } = useMemo(() => {
+    const {
+        added: tokensAdded,
+        changed: tokensChanged,
+        removed: tokensRemoved,
+    } = useMemo(() => {
         return diffTokenLists(oldList.tokens, newList.tokens)
     }, [newList.tokens, oldList.tokens])
     const numTokensChanged = useMemo(
@@ -70,7 +74,8 @@ export default function ListUpdatePopup({
                         <div>
                             <Text>
                                 {i18n._(t`An update is available for the token list`)} &quot;{oldList.name}&quot; (
-                                {listVersionLabel(oldList.version)} {i18n._(t`to`)} {listVersionLabel(newList.version)}).
+                                {listVersionLabel(oldList.version)} {i18n._(t`to`)} {listVersionLabel(newList.version)}
+                                ).
                             </Text>
                             <ChangesList>
                                 {tokensAdded.length > 0 ? (
@@ -95,12 +100,18 @@ export default function ListUpdatePopup({
                                         {i18n._(t`removed`)}
                                     </li>
                                 ) : null}
-                                {numTokensChanged > 0 ? <li>{numTokensChanged} {i18n._(t`tokens updated`)}</li> : null}
+                                {numTokensChanged > 0 ? (
+                                    <li>
+                                        {numTokensChanged} {i18n._(t`tokens updated`)}
+                                    </li>
+                                ) : null}
                             </ChangesList>
                         </div>
                         <AutoRow>
                             <div style={{ flexGrow: 1, marginRight: 12 }}>
-                                <ButtonSecondary onClick={handleAcceptUpdate}>{i18n._(t`Accept update`)}</ButtonSecondary>
+                                <ButtonSecondary onClick={handleAcceptUpdate}>
+                                    {i18n._(t`Accept update`)}
+                                </ButtonSecondary>
                             </div>
                             <div style={{ flexGrow: 1 }}>
                                 <ButtonSecondary onClick={removeThisPopup}>{i18n._(t`Dismiss`)}</ButtonSecondary>

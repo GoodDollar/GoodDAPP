@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, CSSProperties, memo, useCallback, useState, ChangeEvent } from 'react'
+import React, { CSSProperties, memo, useCallback, useState, ChangeEvent } from 'react'
 import { SwapRowSC, SwapRowIconSC, SwapRowCurrencySC } from './styled'
 import SwapInput from '../SwapInput'
 import SwapTokensModal from '../SwapTokensModal'
@@ -28,85 +28,84 @@ export interface SwapRowProps {
     token?: Currency
     tokenList?: Currency[]
     onTokenChange?: (token: Currency) => any
-    alternativeSymbol?: string,
+    alternativeSymbol?: string
     isCalculating?: boolean
 }
 
-const SwapRow = memo(({
-    className,
-    style,
-    title,
-    select,
-    balance,
-    autoMax,
-    value,
-    onValueChange,
-    token,
-    onTokenChange,
-    tokenList,
-    alternativeSymbol,
-    isCalculating
-}: SwapRowProps) => {
-    const [showSelect, setShowSelect] = useState(false)
-
-    const handleShowSelect = useCallback(() => setShowSelect(true), [])
-    const handleCloseSelect = useCallback(() => setShowSelect(false), [])
-    const handleInputChange = useCallback(
-        (event: ChangeEvent<HTMLInputElement>) => onValueChange && onValueChange(event.currentTarget.value),
-        [onValueChange]
-    )
-    const handleSetMax = useCallback(() => onValueChange && balance != null && onValueChange(balance.toExact()), [
+const SwapRow = memo(
+    ({
+        className,
+        style,
+        title,
+        select,
         balance,
-        onValueChange
-    ])
+        autoMax,
+        value,
+        onValueChange,
+        token,
+        onTokenChange,
+        tokenList,
+        alternativeSymbol,
+        isCalculating,
+    }: SwapRowProps) => {
+        const [showSelect, setShowSelect] = useState(false)
 
-    return (
-        <SwapRowSC className={className} style={style}>
-            <div className="flex space-x-4 select">
-                <SwapRowIconSC onClick={select ? handleShowSelect : undefined} as={select ? 'button' : undefined}>
-                  {
-                    token?.name === "GoodDollar" ?
-                      <CurrencyLogo currency={token} size={'54px'} style={{backgroundColor: 'white'}} />
-                      :
-                      <CurrencyLogo currency={token} size={'54px'} />
-                  }
-                </SwapRowIconSC>
-                <div className="flex flex-col">
-                    <div className="title">{title}</div>
-                    <SwapRowCurrencySC
-                        className="flex items-center space-x-1.5"
-                        onClick={select ? handleShowSelect : undefined}
-                        as={select ? 'button' : undefined}
-                    >
-                        <span>{token?.getSymbol() || alternativeSymbol}</span>
-                        {select && arrow}
-                    </SwapRowCurrencySC>
+        const handleShowSelect = useCallback(() => setShowSelect(true), [])
+        const handleCloseSelect = useCallback(() => setShowSelect(false), [])
+        const handleInputChange = useCallback(
+            (event: ChangeEvent<HTMLInputElement>) => onValueChange && onValueChange(event.currentTarget.value),
+            [onValueChange]
+        )
+        const handleSetMax = useCallback(
+            () => onValueChange && balance != null && onValueChange(balance.toExact()),
+            [balance, onValueChange]
+        )
+
+        return (
+            <SwapRowSC className={className} style={style}>
+                <div className="flex space-x-4 select">
+                    <SwapRowIconSC onClick={select ? handleShowSelect : undefined} as={select ? 'button' : undefined}>
+                        {token?.name === 'GoodDollar' ? (
+                            <CurrencyLogo currency={token} size={'54px'} style={{ backgroundColor: 'white' }} />
+                        ) : (
+                            <CurrencyLogo currency={token} size={'54px'} />
+                        )}
+                    </SwapRowIconSC>
+                    <div className="flex flex-col">
+                        <div className="title">{title}</div>
+                        <SwapRowCurrencySC
+                            className="flex items-center space-x-1.5"
+                            onClick={select ? handleShowSelect : undefined}
+                            as={select ? 'button' : undefined}
+                        >
+                            <span>{token?.getSymbol() || alternativeSymbol}</span>
+                            {select && arrow}
+                        </SwapRowCurrencySC>
+                    </div>
                 </div>
-            </div>
-            <div className="input">
-                <SwapInput
-                    autoMax={autoMax}
-                    balance={balance?.toSignificant(6, { groupSeparator: ',' }) ?? 0}
-                    value={value}
-                    decimals={token?.decimals}
-                    onMax={handleSetMax}
-                    onChange={handleInputChange}
-                    {
-                      ...(isCalculating && {calculating: isCalculating})
-                    }
-                />
-            </div>
-            {select && (
-                <SwapTokensModal
-                    open={showSelect}
-                    token={token}
-                    tokenList={tokenList}
-                    onClose={handleCloseSelect}
-                    onTokenChange={onTokenChange}
-                />
-            )}
-        </SwapRowSC>
-    )
-});
+                <div className="input">
+                    <SwapInput
+                        autoMax={autoMax}
+                        balance={balance?.toSignificant(6, { groupSeparator: ',' }) ?? 0}
+                        value={value}
+                        decimals={token?.decimals}
+                        onMax={handleSetMax}
+                        onChange={handleInputChange}
+                        {...(isCalculating && { calculating: isCalculating })}
+                    />
+                </div>
+                {select && (
+                    <SwapTokensModal
+                        open={showSelect}
+                        token={token}
+                        tokenList={tokenList}
+                        onClose={handleCloseSelect}
+                        onTokenChange={onTokenChange}
+                    />
+                )}
+            </SwapRowSC>
+        )
+    }
+)
 
-export default SwapRow;
+export default SwapRow

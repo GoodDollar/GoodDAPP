@@ -1,27 +1,22 @@
-import React, { useCallback, useContext } from 'react'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
+import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import styled, { useTheme } from 'styled-components'
-import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
+import styled from 'styled-components'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { SUPPORTED_WALLETS } from '../../constants'
+import { WalletLabels } from '../../hooks/useActiveOnboard'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { AppDispatch } from '../../state'
 import { clearAllTransactions } from '../../state/transactions/actions'
 import { ExternalLink } from '../../theme'
 import { getExplorerLink, shortenAddress } from '../../utils'
-import Identicon from '../Identicon'
+import { ButtonOutlined } from '../gd/Button'
+import Title from '../gd/Title'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
-import Title from '../gd/Title'
-import { ButtonOutlined } from '../gd/Button'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
-import { WalletLabels } from '../../hooks/useActiveOnboard'
 
-import { 
-  useConnectWallet
-} from '@web3-onboard/react'
+import { useConnectWallet } from '@web3-onboard/react'
 
 const UpperSection = styled.div`
     position: relative;
@@ -69,7 +64,7 @@ const AccountGroupingRow = styled.div`
     }
 
     @media screen and (max-width: 384px) {
-      flex-direction: column;
+        flex-direction: column;
     }
 `
 
@@ -113,7 +108,7 @@ const LowerSection = styled.div`
     }
 
     @media screen and (max-width: 384px) {
-      padding-top: 0.5rem;
+        padding-top: 0.5rem;
     }
 `
 
@@ -141,12 +136,12 @@ const AccountControl = styled.div`
         white-space: nowrap;
     }
 
-    @media screen and (max-width: 384px){
-      justify-content: center;
+    @media screen and (max-width: 384px) {
+        justify-content: center;
     }
 `
 
-const AddressLink = styled(ExternalLink) <{ hasENS: boolean; isENS: boolean }>`
+const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
     margin-left: 1rem;
     display: flex;
 
@@ -157,9 +152,9 @@ const AddressLink = styled(ExternalLink) <{ hasENS: boolean; isENS: boolean }>`
     text-decoration-line: underline;
     color: ${({ theme }) => theme.color.text2};
     span {
-      @media screen and (max-width: 384px) {
-        width: 120px;
-      }
+        @media screen and (max-width: 384px) {
+            width: 120px;
+        }
     }
 `
 
@@ -179,29 +174,14 @@ const CloseColor = styled(Close)`
     }
 `
 
-const IconWrapper = styled.div<{ size?: number }>`
-    ${({ theme }) => theme.flexColumnNoWrap};
-    align-items: center;
-    justify-content: center;
-    margin-right: 8px;
-    & > img,
-    span {
-        height: ${({ size }) => (size ? size + 'px' : '32px')};
-        width: ${({ size }) => (size ? size + 'px' : '32px')};
-    }
-    ${({ theme }) => theme.mediaWidth.upToMedium`
-    align-items: flex-end;
-  `};
-`
-
 const TransactionListWrapper = styled.div`
     ${({ theme }) => theme.flexColumnNoWrap};
 `
 
 const WalletAction = styled(ButtonOutlined)`
-  &:hover {
-    opacity: 0.6;
-  }
+    &:hover {
+        opacity: 0.6;
+    }
 `
 
 function renderTransactions(transactions: string[]) {
@@ -227,28 +207,28 @@ export default function AccountDetails({
     pendingTransactions,
     confirmedTransactions,
     ENSName,
-    openOptions
 }: AccountDetailsProps): any {
     const { i18n } = useLingui()
-    const { chainId, account, label } = useActiveWeb3React()
+    const { chainId, account } = useActiveWeb3React()
     const dispatch = useDispatch<AppDispatch>()
-    const [{ wallet, connecting}, connect, disconnect] = useConnectWallet()
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
 
     function formatConnectorName() {
         return `${i18n._(t`Connected with`)} ${wallet?.label}`
     }
 
     const changeWallet = useCallback(async () => {
-      toggleWalletModal()
-      await connect()
+        toggleWalletModal()
+        await connect()
     }, [toggleWalletModal, connect])
 
     const disconnectWallet = useCallback(async () => {
-      if (wallet){
-        toggleWalletModal()
-        await disconnect({label: wallet.label}) 
-        await connect()
-      }
+        if (wallet) {
+            toggleWalletModal()
+            await disconnect({ label: wallet.label })
+            await connect()
+        }
     }, [toggleWalletModal, connect, disconnect, wallet])
 
     const clearAllTransactionsCallback = useCallback(() => {
@@ -268,30 +248,24 @@ export default function AccountDetails({
                             <AccountGroupingRow>
                                 {formatConnectorName()}
                                 <div className="mt-3.5 mb-3.5">
-                                  {
-                                    wallet?.label && WalletLabels.includes(wallet.label) && (
-                                      <WalletAction
-                                        width={'85px'}
+                                    {wallet?.label && WalletLabels.includes(wallet.label) && (
+                                        <WalletAction
+                                            width={'85px'}
+                                            size="sm"
+                                            style={{ marginRight: '5px' }}
+                                            onClick={disconnectWallet}
+                                        >
+                                            {i18n._(t`Disconnect`)}
+                                        </WalletAction>
+                                    )}
+                                    <WalletAction
+                                        width={'75px'}
                                         size="sm"
-                                        style={{marginRight: "5px"}}
-                                        onClick={disconnectWallet}
-                                      >
-                                      {i18n._(t`Disconnect`)}
+                                        style={{ marginRight: '-5px' }}
+                                        onClick={wallet?.label === 'MetaMask' ? disconnectWallet : changeWallet}
+                                    >
+                                        {i18n._(t`Change`)}
                                     </WalletAction>
-                                    ) 
-                                  }
-                                  <WalletAction
-                                      width={'75px'}
-                                      size="sm"
-                                      style={{marginRight: "-5px"}}
-                                      onClick={
-                                        wallet?.label === "MetaMask" ?
-                                        disconnectWallet :
-                                        changeWallet
-                                      }
-                                  >
-                                      {i18n._(t`Change`)}
-                                  </WalletAction>
                                 </div>
                             </AccountGroupingRow>
                             <AccountGroupingRow id="web3-account-identifier-row">
@@ -318,7 +292,9 @@ export default function AccountDetails({
                                             <div>
                                                 {account && (
                                                     <Copy toCopy={account}>
-                                                        <span style={{ marginLeft: '4px' }}>{i18n._(t`Copy address`)}</span>
+                                                        <span style={{ marginLeft: '4px' }}>
+                                                            {i18n._(t`Copy address`)}
+                                                        </span>
                                                     </Copy>
                                                 )}
                                                 {chainId && account && (
@@ -327,7 +303,9 @@ export default function AccountDetails({
                                                         isENS={true}
                                                         href={chainId && getExplorerLink(chainId, ENSName, 'address')}
                                                     >
-                                                        <span style={{ marginLeft: '4px' }}>{i18n._(t`View on explorer`)}</span>
+                                                        <span style={{ marginLeft: '4px' }}>
+                                                            {i18n._(t`View on explorer`)}
+                                                        </span>
                                                     </AddressLink>
                                                 )}
                                             </div>
@@ -339,7 +317,9 @@ export default function AccountDetails({
                                             <div>
                                                 {account && (
                                                     <Copy toCopy={account}>
-                                                        <span style={{ marginLeft: '4px' }}>{i18n._(t`Copy address`)}</span>
+                                                        <span style={{ marginLeft: '4px' }}>
+                                                            {i18n._(t`Copy address`)}
+                                                        </span>
                                                     </Copy>
                                                 )}
                                                 {chainId && account && (
@@ -348,7 +328,9 @@ export default function AccountDetails({
                                                         isENS={false}
                                                         href={getExplorerLink(chainId, account, 'address')}
                                                     >
-                                                        <span style={{ marginLeft: '4px' }}>{i18n._(t`View on explorer`)}</span>
+                                                        <span style={{ marginLeft: '4px' }}>
+                                                            {i18n._(t`View on explorer`)}
+                                                        </span>
                                                     </AddressLink>
                                                 )}
                                             </div>

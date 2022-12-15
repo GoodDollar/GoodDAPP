@@ -1,40 +1,38 @@
-import React, { memo, useCallback, useState, useMemo, Fragment } from 'react'
-import { Layout } from 'components/gd/sushi'
-import { PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from './styled'
-import Title from 'components/gd/Title'
-import Card from 'components/gd/Card'
-import { ButtonAction, ButtonDefault } from 'components/gd/Button'
-import Table from 'components/gd/Table'
-import WithdrawRewards from 'components/WithdrawRewards'
-import PortfolioTableRow from 'components/PortfolioTableRow'
-import usePromise from 'hooks/usePromise'
-import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import Placeholder from 'components/gd/Placeholder'
-import { QuestionHelper } from 'components'
+import React, { memo, useCallback, useState } from 'react'
+import { DAO_NETWORK, getMyList, LIQUIDITY_PROTOCOL, MyStake, useEnvWeb3 } from '@gooddollar/web3sdk'
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
-import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
+import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
+import { QuestionHelper } from 'components'
 import AppNotice from 'components/AppNotice'
-import { useWindowSize } from 'hooks/useWindowSize'
-import Withdraw from 'components/Withdraw'
-import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
-import { getNetworkEnv, useEnvWeb3, getMyList, MyStake, DAO_NETWORK, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk'
-import { SupportedChains } from '@gooddollar/web3sdk-v2'
-import styled from 'styled-components'
 import ClaimRewards from 'components/ClaimRewards'
-import { SavingsAccount } from './SavingsAccount'
-import { CellSC } from './styled'
-import { disableTestnetMain } from 'constants/index'
+import { ButtonAction, ButtonDefault } from 'components/gd/Button'
+import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
+import Card from 'components/gd/Card'
+import Placeholder from 'components/gd/Placeholder'
+import { Layout } from 'components/gd/sushi'
+import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
+import Table from 'components/gd/Table'
+import Title from 'components/gd/Title'
+import PortfolioTableRow from 'components/PortfolioTableRow'
 import Web3SupportedNetworks from 'components/Web3SupportedNetworks'
+import Withdraw from 'components/Withdraw'
+import WithdrawRewards from 'components/WithdrawRewards'
+import { disableTestnetMain } from 'constants/index'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
+import usePromise from 'hooks/usePromise'
+import { useWindowSize } from 'hooks/useWindowSize'
+import styled from 'styled-components'
+import { SavingsAccount } from './SavingsAccount'
+import { CellSC, PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from './styled'
 
 const MobileTableSC = styled.div``
 
 const MobileCell = ({
     onUpdate,
     stake,
-    token,
     protocol,
     stakeAmount,
     G$rewards,
@@ -72,7 +70,6 @@ const MobileCell = ({
                 <ClaimRewards
                     open={isClaimRewardsOpen}
                     setOpen={setClaimRewardsOpen}
-                    token={`${stake.tokens.A.symbol}`}
                     protocol={stake.protocol}
                     onClaim={onUpdate}
                     stake={stake}
@@ -81,7 +78,7 @@ const MobileCell = ({
                     <AsyncTokenIcon
                         address={stake.tokens.A.address}
                         chainId={stake.tokens.A.chainId as number}
-                        className="block w-5 w-6 h-5 h-6 mr-2 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
+                        className="block w-5 h-5 mr-2 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
                         network={stake.protocol}
                     />
                     {stake.tokens.A.symbol}
@@ -178,12 +175,11 @@ const MobileCell = ({
 }
 
 const MobileTable = ({ stakes, cells, onUpdate }: { stakes?: MyStake[]; cells: any; onUpdate: () => void }) => {
-    const [type, token, protocol, stakeAmount, G$rewards, multiplier, rewardsGOOD] = cells
+    const [protocol, stakeAmount, G$rewards, multiplier, rewardsGOOD] = cells
 
-    const getCells = stakes?.map((stake, index) => (
+    const getCells = stakes?.map((stake) => (
         <MobileCell
             onUpdate={onUpdate}
-            token={token}
             protocol={protocol}
             stakeAmount={stakeAmount}
             G$rewards={G$rewards}
@@ -203,7 +199,6 @@ const Portfolio = memo(() => {
 
     const [mainnetWeb3, mainnetChainId] = useEnvWeb3(DAO_NETWORK.MAINNET)
     const [fuseWeb3, fuseChainId] = useEnvWeb3(DAO_NETWORK.FUSE)
-    const network = getNetworkEnv()
     const { width } = useWindowSize()
 
     const isMobile = width ? width <= 768 : undefined
@@ -448,9 +443,7 @@ const Portfolio = memo(() => {
                     </Table>
                 </Card>
             )}
-            <Web3SupportedNetworks onItem={({ chain }) => (
-                <SavingsAccount requiredChain={chain} account={account} />
-            )} />
+            <Web3SupportedNetworks onItem={({ chain }) => <SavingsAccount requiredChain={chain} account={account} />} />
         </>
     )
 
@@ -466,6 +459,6 @@ const Portfolio = memo(() => {
             </PortfolioSC>
         </Layout>
     )
-});
+})
 
-export default Portfolio;
+export default Portfolio

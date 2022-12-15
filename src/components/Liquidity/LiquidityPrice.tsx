@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react'
 export default function LiquidityPrice({
     input,
     output,
-    price
+    price,
 }: {
     input?: Currency
     output?: Currency

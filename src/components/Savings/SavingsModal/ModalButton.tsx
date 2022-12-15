@@ -11,7 +11,7 @@ export interface ModalButtonProps {
     toggleModal: (type?: ModalType) => void
 }
 export const ModalButton = ({ chain, type, title, toggleModal, ...props }: ModalButtonProps) => {
-    const sendData = useSendAnalyticsData();    
+    const sendData = useSendAnalyticsData()
     const onClick = useCallback(() => {
         sendData({ event: 'savings', action: 'start' + type })
         toggleModal(type)

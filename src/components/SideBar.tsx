@@ -2,7 +2,7 @@ import { useG$Balance, useG$Tokens, AsyncStorage, SupportedV2Networks } from '@g
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import WalletBalance from 'components/WalletBalance'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import DiscordLogo from '../assets/images/discord-logo-new.png'
 import TelegramLogo from '../assets/images/telegram.png'
@@ -232,7 +232,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                 },
             })
 
-        Promise.all(
+        void Promise.all(
             allTokens.map(async (token) => {
                 // todo: fix multiple requests bug after succesfully adding all assets.
                 //IE. wallet_watchAsset auto triggered when switching chain
@@ -248,14 +248,10 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                           params: token,
                       }))
             })
-        )
-            .then(async (results) => {
-                setImported(true)
-                await AsyncStorage.setItem(`${chainId}_metamask_import_status`, true)
-            })
-            .catch((errors) => {
-                // console.log(errors)
-            })
+        ).then(async () => {
+            setImported(true)
+            await AsyncStorage.setItem(`${chainId}_metamask_import_status`, true)
+        })
     }
 
     const [loading] = usePromise(async () => {

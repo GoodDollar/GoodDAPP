@@ -25,6 +25,6 @@ const Card = memo(({ children, contentWrapped = true, ...rest }: CardProps) => {
     }
 
     return <CardSC {...rest}>{children}</CardSC>
-});
+})
 
-export default Card;
+export default Card

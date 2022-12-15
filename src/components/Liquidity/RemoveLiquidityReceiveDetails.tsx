@@ -1,21 +1,21 @@
 import React from 'react'
+import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { Currency, currencyEquals, ETHER, WETH } from '@sushiswap/sdk'
 import { AutoColumn } from '../../components/Column'
 import CurrencyLogo from '../../components/CurrencyLogo'
-import { AutoRow, RowBetween } from '../../components/Row'
+import { RowBetween } from '../../components/Row'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { StyledInternalLink, TYPE } from '../../theme'
+import { StyledInternalLink } from '../../theme'
 import { currencyId } from '../../utils/currencyId'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 interface RemoveLiquidityReceiveDetailsProps {
     currencyA?: Currency
     amountA: string
     currencyB?: Currency
     amountB: string
-    hasWETH: Boolean
-    hasETH: Boolean
+    hasWETH: boolean
+    hasETH: boolean
     id: string
 }
 
@@ -26,14 +26,14 @@ export default function RemoveLiquidityReceiveDetails({
     amountB,
     hasWETH,
     hasETH,
-    id
+    id,
 }: RemoveLiquidityReceiveDetailsProps) {
     const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
     if (!chainId || !currencyA || !currencyB) throw new Error('missing dependencies')
     return (
-        <div id={id} className="rounded p-5">
-            <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row justify-between">
+        <div id={id} className="p-5 rounded">
+            <div className="flex flex-col justify-between space-y-3 sm:space-y-0 sm:flex-row">
                 <div className="w-full sm:w-2/5 white" style={{ margin: 'auto 0px' }}>
                     <AutoColumn>
                         <div>{i18n._(t`You Will Receive:`)}</div>
@@ -66,14 +66,14 @@ export default function RemoveLiquidityReceiveDetails({
                 </div>
                 {/* <RowBetween className="space-x-6"> */}
                 <div className="flex flex-col space-y-3 md:flex-row md:space-x-6 md:space-y-0">
-                    <div className="flex flex-row items-center rounded w-full p-3">
+                    <div className="flex flex-row items-center w-full p-3 rounded">
                         <CurrencyLogo currency={currencyA} size="46px" style={{ marginRight: '12px' }} />
                         <AutoColumn>
                             <div className="white">{amountA}</div>
                             <div className="">{currencyA?.getSymbol(chainId)}</div>
                         </AutoColumn>
                     </div>
-                    <div className="flex flex-row items-center rounded w-full p-3">
+                    <div className="flex flex-row items-center w-full p-3 rounded">
                         <CurrencyLogo currency={currencyB} size="46px" style={{ marginRight: '12px' }} />
                         <AutoColumn>
                             <div className="white">{amountB}</div>

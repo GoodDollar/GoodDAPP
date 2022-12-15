@@ -47,7 +47,6 @@ const PortfolioTableRow = memo(({ stake, onUpdate }: PortfolioTableRowProps) => 
             <ClaimRewards
                 open={isClaimRewardsOpen}
                 setOpen={setClaimRewardsOpen}
-                token={`${stake.tokens.A.symbol}`}
                 protocol={stake.protocol}
                 onClaim={onUpdate}
                 stake={stake}
@@ -158,6 +157,6 @@ const PortfolioTableRow = memo(({ stake, onUpdate }: PortfolioTableRowProps) => 
             </tr>
         </>
     )
-});
+})
 
-export default PortfolioTableRow;
+export default PortfolioTableRow

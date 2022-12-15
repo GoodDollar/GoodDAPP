@@ -1,6 +1,5 @@
-import React, { CSSProperties, memo, ReactNode } from 'react'
+import React, { CSSProperties, memo } from 'react'
 import { SwapDescriptionsSC } from './styled'
-import { QuestionHelper } from 'components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
@@ -35,6 +34,6 @@ const SwapDescriptions = memo(({ className, style, gdx, exitContribution }: Swap
             )}
         </SwapDescriptionsSC>
     )
-});
+})
 
-export default SwapDescriptions;
+export default SwapDescriptions

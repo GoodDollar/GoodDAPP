@@ -59,16 +59,16 @@ const map: Record<string, string | undefined> = {
         'https://tokens.1inch.io/0x35a18000230da775cac24873d00ff85bccded550.png',
     '0x6C35677206ae7FF1bf753877649cF57cC30D1c42':
         'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gdx-logo.png',
-    '0x12392F67bdf24faE0AF363c24aC620a2f67DAd86': 'https://cdn.furucombo.app/assets/img/token/cTUSD.svg'
+    '0x12392F67bdf24faE0AF363c24aC620a2f67DAd86': 'https://cdn.furucombo.app/assets/img/token/cTUSD.svg',
 }
 
 Object.values(contractsAddresses).forEach(
-    _ =>
+    (_) =>
         (map[_['GoodDollar'] as string] =
             'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png')
 )
 Object.values(contractsAddresses).forEach(
-    _ =>
+    (_) =>
         (map[_['GReputation'] as string] =
             'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png')
 )

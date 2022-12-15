@@ -51,6 +51,6 @@ const Title = memo(({ children, type = 'default', className, ...rest }: TitlePro
             {children}
         </TitleSC>
     )
-});
+})
 
-export default Title;
+export default Title

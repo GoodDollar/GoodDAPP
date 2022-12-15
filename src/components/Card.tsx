@@ -8,7 +8,6 @@ export default function Card({
     description = '',
     children,
     className,
-    padding = undefined
 }: any) {
     return (
         <div
@@ -18,15 +17,15 @@ export default function Card({
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'contain',
-                backgroundPosition: 'center bottom'
+                backgroundPosition: 'center bottom',
             }}
         >
             <div>
                 {header && <>{header}</>}
 
                 <div className="px-2 py-4 sm:p-8">
-                    {title && <div className="  mb-4">{title}</div>}
-                    {description && <div className=" ">{description}</div>}
+                    {title && <div className="mb-4 ">{title}</div>}
+                    {description && <div className="">{description}</div>}
                     {children}
                 </div>
 

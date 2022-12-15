@@ -52,7 +52,7 @@ export default function Popups() {
     return (
         <>
             <FixedPopupColumn gap="20px" extraPadding={urlWarningActive}>
-                {activePopups.map(item => (
+                {activePopups.map((item) => (
                     <PopupItem
                         key={item.key}
                         content={item.content}
@@ -66,7 +66,7 @@ export default function Popups() {
                     {activePopups // reverse so new items up front
                         .slice(0)
                         .reverse()
-                        .map(item => (
+                        .map((item) => (
                             <PopupItem
                                 key={item.key}
                                 content={item.content}

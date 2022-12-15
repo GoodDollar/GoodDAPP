@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import React, { ComponentType, HTMLAttributes, memo, ReactElement } from 'react'
+import React, { ComponentType, HTMLAttributes, memo } from 'react'
 import cn from 'classnames'
 
 export interface TableProps extends HTMLAttributes<HTMLTableElement> {
@@ -114,6 +114,6 @@ const Table = memo(({ children, type = 'default', className, header, footer, ...
             {footer && <tfoot>{footer}</tfoot>}
         </TableSC>
     )
-});
+})
 
-export default Table;
+export default Table

@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
+import { BigNumberish } from '@ethersproject/bignumber'
 import { Fraction } from '../entities/Fraction'
 
 declare module '@ethersproject/bignumber' {

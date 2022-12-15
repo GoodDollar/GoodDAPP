@@ -9,7 +9,7 @@ export function wrappedCurrencyAmount(
     chainId: ChainId | undefined
 ): TokenAmount | undefined {
     const token = currencyAmount && chainId ? wrappedCurrency(currencyAmount.currency, chainId) : undefined
-    return token && currencyAmount ? new TokenAmount(token, currencyAmount.raw!) : undefined
+    return token && currencyAmount ? new TokenAmount(token, currencyAmount.raw) : undefined
 }
 
 export function unwrappedToken(token: Token): Currency {

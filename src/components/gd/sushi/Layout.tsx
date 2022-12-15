@@ -37,11 +37,9 @@ const ContentWrapper = styled.div`
 `
 
 export default function Layout({
-    left = undefined,
     children = undefined,
-    right = undefined,
     classes = undefined,
-    wrapperClasses = undefined
+    wrapperClasses = undefined,
 }: LayoutProps): JSX.Element {
     return (
         <LayoutSC className={classes}>

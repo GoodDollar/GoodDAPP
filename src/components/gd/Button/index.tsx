@@ -10,9 +10,9 @@ export const ButtonAction = styled.button<{
     display: flex;
     align-items: center;
     justify-content: center;
-    height: ${({ size }) => (size === 'sm' ? '32px' : (size === 'm' ? '40px' : '71px'))};
+    height: ${({ size }) => (size === 'sm' ? '32px' : size === 'm' ? '40px' : '71px')};
     min-width: ${({ width = '100%' }) => width};
-    padding:5px 0px 5px 0px;
+    padding: 5px 0px 5px 0px;
     border-radius: ${({ borderRadius = '20px' }) => borderRadius};
     color: ${({ theme }) => theme.color.main};
     background: ${({ theme }) => theme.color.text2};
@@ -29,12 +29,12 @@ export const ButtonAction = styled.button<{
     transition: background 0.25s;
 
     :hover {
-      background-color: ${({ theme }) => theme.color.text2hover};
-      transition: background 0.25s;
+        background-color: ${({ theme }) => theme.color.text2hover};
+        transition: background 0.25s;
     }
 
     :disabled {
-      background-color: ${({ theme }) => theme.color.text2};
+        background-color: ${({ theme }) => theme.color.text2};
         transition: none;
         opacity: 0.5;
         cursor: auto;
@@ -52,7 +52,7 @@ export const ButtonDefault = styled.button<{
     justify-content: center;
     height: ${({ size }) => (size === 'sm' ? '32px' : '42px')};
     width: ${({ width = '100%' }) => width};
-    padding:5px 10px 5px 10px;
+    padding: 5px 10px 5px 10px;
     border-radius: ${({ borderRadius = '12px' }) => borderRadius};
     color: ${({ theme }) => theme.color.main};
 
@@ -77,8 +77,8 @@ export const ButtonDefault = styled.button<{
     }
 
     :hover {
-      background: ${({ theme }) => theme.color.text2hover};  
-      transition: background 0.25s;
+        background: ${({ theme }) => theme.color.text2hover};
+        transition: background 0.25s;
     }
     @media ${({ theme }) => theme.media.md} {
         font-size: 12px;
@@ -101,7 +101,7 @@ export const ButtonOutlined = styled.button<{
     justify-content: center;
     height: ${({ size }) => (size === 'sm' ? '32px' : '42px')};
     width: ${({ width = '100%' }) => width};
-    padding:5px 10px 5px 10px;
+    padding: 5px 10px 5px 10px;
     border-radius: ${({ borderRadius = '6px' }) => borderRadius};
     color: ${({ theme }) => theme.color.text2};
     background: transparent;

@@ -205,6 +205,6 @@ const Withdraw = memo(({ token, protocol, open, setOpen, onWithdraw, stake, ...r
             </WithdrawStyled>
         </Modal>
     )
-});
+})
 
-export default Withdraw;
+export default Withdraw

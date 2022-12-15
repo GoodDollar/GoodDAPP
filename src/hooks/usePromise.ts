@@ -3,7 +3,7 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 const initialState = {
     loading: true,
     error: undefined,
-    value: undefined
+    value: undefined,
 }
 
 export default function usePromise<T>(getPromise: () => Promise<T>, deps: any[] = []) {
@@ -21,19 +21,19 @@ export default function usePromise<T>(getPromise: () => Promise<T>, deps: any[] 
                 case 'LOADING':
                     return {
                         ...state,
-                        loading: true
+                        loading: true,
                     }
                 case 'VALUE':
                     return {
                         loading: false,
                         error: undefined,
-                        value: action.payload
+                        value: action.payload,
                     }
                 case 'ERROR':
                     return {
                         ...state,
                         loading: false,
-                        error: action.payload
+                        error: action.payload,
                     }
             }
         },
@@ -45,8 +45,8 @@ export default function usePromise<T>(getPromise: () => Promise<T>, deps: any[] 
         if (renderedRef.current) dispatch({ type: 'LOADING' })
         else renderedRef.current = true
         getPromise().then(
-            result => dispatch({ type: 'VALUE', payload: result }),
-            e => {
+            (result) => dispatch({ type: 'VALUE', payload: result }),
+            (e) => {
                 console.error('usePromise:', { e })
                 dispatch({ type: 'ERROR', payload: e })
             }

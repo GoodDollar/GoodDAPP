@@ -29,7 +29,7 @@ const AnimatedDialogContent = animated(DialogContent)
 const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, maxWidth, isOpen, ...rest }) => (
     <AnimatedDialogContent {...rest} />
 )).attrs({
-    'aria-label': 'dialog'
+    'aria-label': 'dialog',
 })`
     position: relative;
     overflow-y: ${({ mobile }) => (mobile ? 'scroll' : 'hidden')};
@@ -52,7 +52,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, maxWidth, is
 
         align-self: ${({ mobile }) => (mobile ? 'flex-end' : 'center')};
 
-        max-width: ${({maxWidth}) => maxWidth ? `${maxWidth}px` : '475px'};
+        max-width: ${({ maxWidth }) => (maxWidth ? `${maxWidth}px` : '475px')};
         ${({ maxHeight }) =>
             maxHeight &&
             css`
@@ -71,13 +71,15 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, maxWidth, is
     `}
         ${({ theme, mobile }) => theme.mediaWidth.upToSmall`
       width:  85vw;
-      ${mobile &&
+      ${
+          mobile &&
           css`
               width: 95vw;
               border-radius: 10px;
               border-bottom-left-radius: 0;
               border-bottom-right-radius: 0;
-          `}
+          `
+      }
     `}
     }
 `
@@ -85,7 +87,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, maxWidth, is
 interface ModalProps {
     isOpen: boolean
     onDismiss: () => void
-    maxWidth?: number;
+    maxWidth?: number
     minHeight?: number | false
     maxHeight?: number
     initialFocusRef?: React.RefObject<any>
@@ -103,27 +105,26 @@ export default function Modal({
     maxWidth,
     initialFocusRef,
     children,
-    padding = 5,
     noPadding = false,
-    showClose
+    showClose,
 }: ModalProps) {
     const fadeTransition = useTransition(isOpen, null, {
         config: { duration: 200 },
         from: { opacity: 0 },
         enter: { opacity: 1 },
-        leave: { opacity: 0 }
+        leave: { opacity: 0 },
     })
 
     const [{ y }, set] = useSpring(() => ({ y: 0, config: { mass: 1, tension: 210, friction: 20 } }))
     const bind = useGesture({
-        onDrag: state => {
+        onDrag: (state) => {
             set({
-                y: state.down ? state.movement[1] : 0
+                y: state.down ? state.movement[1] : 0,
             })
             if (state.movement[1] > 300 || (state.velocity > 3 && state.direction[1] > 0)) {
                 onDismiss()
             }
-        }
+        },
     })
 
     return (
@@ -142,8 +143,10 @@ export default function Modal({
                                     ? {
                                           ...bind(),
                                           style: {
-                                              transform: y.interpolate(y => `translateY(${(y as number) > 0 ? y : 0}px)`)
-                                          }
+                                              transform: y.interpolate(
+                                                  (y) => `translateY(${(y as number) > 0 ? y : 0}px)`
+                                              ),
+                                          },
                                       }
                                     : {})}
                                 aria-label="dialog content"
@@ -152,7 +155,7 @@ export default function Modal({
                                 maxWidth={maxWidth}
                                 mobile={isMobile}
                             >
-                                <div className="from-blue to-pink w-full rounded p-px">
+                                <div className="w-full p-px rounded from-blue to-pink">
                                     <div
                                         className={`flex flex-col h-full w-full rounded overflow-y-auto ${
                                             noPadding ? 'p-0' : 'p-6 sm:p-3'

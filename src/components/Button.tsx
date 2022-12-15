@@ -5,26 +5,26 @@ import { useHistory } from 'react-router-dom'
 const SIZE = {
     default: 'px-4 py-3',
     small: 'px-2 py-1',
-    large: 'px-4 py-3'
+    large: 'px-4 py-3',
 }
 
 const FILLED = {
     default: 'ransparent',
     blue: 'w-full rounded   pacity-100',
     pink: 'w-full rounded   pacity-100',
-    gradient: 'w-full  from-blue to-pink'
+    gradient: 'w-full  from-blue to-pink',
 }
 
 const OUTLINED = {
     default: 'ransparent',
     blue: 'outline-blue rounded xs blue pacity-40',
     pink: 'outline-pink rounded xs pink pacity-40',
-    gradient: 'from-blue to-pink'
+    gradient: 'from-blue to-pink',
 }
 
 const VARIANT = {
     outlined: OUTLINED,
-    filled: FILLED
+    filled: FILLED,
 }
 
 export type ButtonColor = 'blue' | 'pink' | 'gradient' | 'default'

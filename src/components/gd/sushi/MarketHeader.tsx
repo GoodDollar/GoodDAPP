@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useWindowSize } from 'hooks/useWindowSize'
-
 const Title = styled.div`
     font-style: normal;
     font-weight: bold;
@@ -53,25 +51,21 @@ function MarketHeader({ title, titleClass, lists, noSearch = false }: any) {
         })
     }
 
-    const { width } = useWindowSize()
-
-    const isMobile = width ? width <= 768 : undefined
-
     return (
-        <div className="flex flex-col md:flex-row md:items-center justify-between w-full md:mb-6">
+        <div className="flex flex-col justify-between w-full md:flex-row md:items-center md:mb-6">
             <div className="flex items-center w-1/2">
                 <Title className={`md:pl-4 ${titleClass}`}>{title}</Title>
             </div>
             {!noSearch && (
-                <div className="flex md:justify-end w-full py-4 md:py-0">
+                <div className="flex w-full py-4 md:justify-end md:py-0">
                     <Search className="relative w-full max-w-md" hidden={noSearch}>
                         <input
                             className={`py-2 pl-4 pr-10 rounded w-full focus:outline-none focus:ring focus:ring-blue`}
-                            onChange={e => onSearch(e.target.value)}
+                            onChange={(e) => onSearch(e.target.value)}
                             value={lists[0].term}
                             placeholder="Search by symbol"
                         />
-                        <div className="icon pointer-events-none">
+                        <div className="pointer-events-none icon">
                             <svg
                                 width="24"
                                 height="24"

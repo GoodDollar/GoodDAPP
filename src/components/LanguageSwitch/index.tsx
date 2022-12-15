@@ -5,15 +5,14 @@ import ChFlag from '../../assets/images/ch-flag.png'
 import DeFlag from '../../assets/images/de-flag.png'
 import EnFlag from '../../assets/images/en-flag.png'
 import EsFlag from '../../assets/images/es-flag.png'
-import ItFlag from '../../assets/images/it-flag.png'
 import HeFlag from '../../assets/images/he-flag.png'
+import ItFlag from '../../assets/images/it-flag.png'
 import RoFlag from '../../assets/images/ro-flag.png'
 import RuFlag from '../../assets/images/ru-flag.png'
 import ViFlag from '../../assets/images/vi-flag.png'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import { ApplicationModal } from '../../state/application/types'
-import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { useLanguageData } from '../../language/hooks'
+import { useModalOpen, useToggleModal } from '../../state/application/hooks'
+import { ApplicationModal } from '../../state/application/types'
 
 const ExtendedStyledMenuButton = styled(StyledMenuButton)`
     border: 2px solid rgb(23, 21, 34);
@@ -73,51 +72,51 @@ const MenuButtonFlag = styled.img`
 const LANGUAGES: { [x: string]: { flag: string; language: string; dialect?: string } } = {
     en: {
         flag: EnFlag,
-        language: 'English'
+        language: 'English',
     },
     de: {
         flag: DeFlag,
-        language: 'German'
+        language: 'German',
     },
     it: {
         flag: ItFlag,
-        language: 'Italian'
+        language: 'Italian',
     },
     he: {
         flag: HeFlag,
-        language: 'Hebrew'
+        language: 'Hebrew',
     },
     ru: {
         flag: RuFlag,
-        language: 'Russian'
+        language: 'Russian',
     },
     ro: {
         flag: RoFlag,
-        language: 'Romanian'
+        language: 'Romanian',
     },
     vi: {
         flag: ViFlag,
-        language: 'Vietnamese'
+        language: 'Vietnamese',
     },
     'zh-CN': {
         flag: ChFlag,
         language: 'Chinese',
-        dialect: '简'
+        dialect: '简',
     },
     'zh-TW': {
         flag: ChFlag,
         language: 'Chinese',
-        dialect: '繁'
+        dialect: '繁',
     },
     es: {
         flag: EsFlag,
-        language: 'Spanish'
+        language: 'Spanish',
     },
     'es-AR': {
         flag: EsFlag,
         language: 'Spanish',
-        dialect: 'AR'
-    }
+        dialect: 'AR',
+    },
 }
 
 const LanguageSwitch = memo(() => {
@@ -129,8 +128,8 @@ const LanguageSwitch = memo(() => {
     const { language, setLanguage } = useLanguageData()
 
     const onClick = (key: string) => {
-      setLanguage(key)
-      toggle()
+        setLanguage(key)
+        toggle()
     }
 
     return (
@@ -155,6 +154,6 @@ const LanguageSwitch = memo(() => {
             )}
         </StyledMenu>
     )
-});
+})
 
-export default LanguageSwitch;
+export default LanguageSwitch

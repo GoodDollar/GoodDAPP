@@ -11,7 +11,7 @@ const CheckboxSC = styled.div`
 
     & label {
         background-color: #fff;
-        border: 1px solid #CDD1E7;
+        border: 1px solid #cdd1e7;
         border-radius: 50%;
         cursor: pointer;
         height: 16px;
@@ -26,7 +26,7 @@ const CheckboxSC = styled.div`
         border-radius: 1px;
         border-top: none;
         border-right: none;
-        content: "";
+        content: '';
         height: 6px;
         left: 3px;
         opacity: 0;
@@ -36,18 +36,18 @@ const CheckboxSC = styled.div`
         width: 8px;
     }
 
-    & input[type="checkbox"] {
+    & input[type='checkbox'] {
         visibility: hidden;
     }
 
-    & input[type="checkbox"]:checked + label {
-        background-color: #0075FF;
-        border-color: #0075FF;
+    & input[type='checkbox']:checked + label {
+        background-color: #0075ff;
+        border-color: #0075ff;
     }
 
-    & input[type="checkbox"]:checked + label:after {
+    & input[type='checkbox']:checked + label:after {
         opacity: 1;
-}
+    }
 `
 
 function Checkbox({
@@ -60,7 +60,7 @@ function Checkbox({
         <CheckboxSC>
             <input
                 type="checkbox"
-                onChange={event => set(event.target.checked)}
+                onChange={(event) => set(event.target.checked)}
                 className={className}
                 {...rest}
                 id={name}

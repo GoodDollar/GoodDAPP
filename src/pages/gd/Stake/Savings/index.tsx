@@ -58,7 +58,7 @@ export const Savings = ({ requiredChain }: { requiredChain: number }): JSX.Eleme
             title: i18n._(t`Fixed Apy`),
             questionText: i18n._(t`The fixed annual interest.`),
             statsKey: 'apy',
-        },       
+        },
         {
             title: i18n._(t`Total Staked`),
             questionText: i18n._(t`Total currently saved.`),

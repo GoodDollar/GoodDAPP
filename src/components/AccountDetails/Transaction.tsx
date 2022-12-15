@@ -74,7 +74,7 @@ export default function Transaction({ hash }: { hash: string }): any {
         <TransactionWrapper>
             <TransactionState href={getExplorerLink(chainId, hash, 'transaction')} pending={pending} success={success}>
                 <RowFixed className="transition">
-                  <TransactionStatusText>{summary} ↗</TransactionStatusText>
+                    <TransactionStatusText>{summary} ↗</TransactionStatusText>
                 </RowFixed>
                 <IconWrapper pending={pending} success={success}>
                     {pending ? <Loader /> : success ? <CheckCircle size="16" /> : <Triangle size="16" />}

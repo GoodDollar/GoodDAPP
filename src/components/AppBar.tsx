@@ -134,6 +134,7 @@ const SidebarOverlay = styled.div`
 `
 
 function AppBar(): JSX.Element {
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
     const { account, chainId } = useActiveWeb3React()

@@ -16,7 +16,7 @@ export const ClaimRewardsStyled = styled.div`
     .claim {
         height: 48px;
         max-width: 288px;
-        background: #0075FF;
+        background: #0075ff;
         text-transform: uppercase;
         font-style: normal;
         font-weight: 700;
@@ -31,7 +31,7 @@ export const ClaimRewardsStyled = styled.div`
         font-size: 12px;
         line-height: 16px;
         text-align: center;
-        color: #8499BB;
+        color: #8499bb;
         margin-top: 8px;
         margin-bottom: 0px;
     }
@@ -66,7 +66,7 @@ export const ClaimRewardsStyled = styled.div`
         font-weight: 700;
         font-size: 12px;
         line-height: 16px;
-        color: #8499BB;
+        color: #8499bb;
         margin-top: 16px;
     }
 `

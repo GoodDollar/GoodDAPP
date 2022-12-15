@@ -3,7 +3,6 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { ModalType } from 'components/Savings/SavingsModal'
 import { ModalButton } from 'components/Savings/SavingsModal/ModalButton'
-import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import React, { useEffect } from 'react'
 import { LoadingPlaceHolder } from 'theme/components'
 
@@ -17,7 +16,6 @@ export const SavingsCardRow = ({
     toggleModal: (type?: ModalType) => void
 }): JSX.Element => {
     const { i18n } = useLingui()
-    const sendData = useSendAnalyticsData()
     const { stats, error } = useStakerInfo(requiredChain, 10, account)
 
     useEffect(() => {

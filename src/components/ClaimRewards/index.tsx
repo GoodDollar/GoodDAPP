@@ -37,7 +37,6 @@ const BottomSheetSC = styled(BottomSheet)`
 `
 
 interface ClaimProps {
-    token: string
     protocol: string
     open: boolean
     setOpen: (value: boolean) => void
@@ -152,7 +151,7 @@ const Content = ({
     )
 }
 
-const ClaimRewards = memo(({ token, protocol, open, setOpen, onClaim, stake, ...rest }: ClaimProps) => {
+const ClaimRewards = memo(({ protocol, open, setOpen, onClaim, stake, ...rest }: ClaimProps) => {
     const { i18n } = useLingui()
     const [status, setStatus] = useState<ClaimState>('none')
     const { web3 } = useGdContextProvider()
@@ -176,7 +175,7 @@ const ClaimRewards = memo(({ token, protocol, open, setOpen, onClaim, stake, ...
         try {
             setStatus('pending')
             const claimMethod = selectedReward === 'claimGOOD' ? claimGoodReward : claimG$Reward
-            const transactions = await claimMethod(
+            await claimMethod(
                 web3,
                 stake.address,
                 (txHash: string, from: string, chainId: number) => {

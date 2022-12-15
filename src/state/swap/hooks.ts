@@ -1,7 +1,7 @@
-import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from '@sushiswap/sdk'
-import { ParsedQs } from 'qs'
 import { useEffect, useState } from 'react'
+import { parseUnits } from '@ethersproject/units'
+import { Currency, CurrencyAmount, JSBI, Token, TokenAmount } from '@sushiswap/sdk'
+import { ParsedQs } from 'qs'
 import { useDispatch } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
@@ -114,7 +114,6 @@ export function useDefaultsFromURLSearch():
             inputCurrencyId: parsed[Field.INPUT].currencyId,
             outputCurrencyId: parsed[Field.OUTPUT].currencyId,
         })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, chainId])
 
     return result

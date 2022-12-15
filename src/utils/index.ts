@@ -1,15 +1,15 @@
-import { ChainId, Currency, CurrencyAmount, ETHER, JSBI, Percent, ROUTER_ADDRESS, Token } from '@sushiswap/sdk'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React from 'react'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
+import { ChainId, JSBI, Percent } from '@sushiswap/sdk'
 
-import { AddressZero } from '@ethersproject/constants'
+import { getAddress } from '@ethersproject/address'
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
+import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import Fraction from 'entities/Fraction'
-import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
-import Numeral from 'numeral'
-import { TokenAddressMap } from '../state/lists/hooks'
 import { ethers } from 'ethers'
-import { getAddress } from '@ethersproject/address'
+import Numeral from 'numeral'
 import { AdditionalChainId } from '../constants'
 
 export const formatFromBalance = (value: BigNumber | undefined, decimals = 18): string => {

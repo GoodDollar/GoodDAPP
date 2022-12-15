@@ -18,7 +18,7 @@ export default function LiquidityHeader({ input = undefined, output = undefined 
                 {i18n._(t`Add`)}
             </NavLink>
             <NavLink
-                onClick={event => {
+                onClick={(event) => {
                     if (!output) event.preventDefault()
                 }}
                 className="flex items-center justify-center px-4 py-3 md:px-10 rounded-md center    "

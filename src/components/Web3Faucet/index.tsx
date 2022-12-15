@@ -52,7 +52,7 @@ const getTimer = () => {
         const mm = pad((remain / 60) % 60)
         const ss = pad(remain % 60)
         const timeLeft = hh + ':' + mm + ':' + ss
-        
+
         return timeLeft
     }
 
@@ -106,16 +106,15 @@ function Web3Faucet(): JSX.Element | null {
 
     const handleClaim = useCallback(async () => {
         if (account && web3) {
-            sendData({event: 'claim', action: 'claimStart', network })
-            
-            const startClaim = await claim(web3, account).catch(e => {
-              refetch()
-              return false
+            sendData({ event: 'claim', action: 'claimStart', network })
+            const startClaim = await claim(web3, account).catch(() => {
+                refetch()
+                return false
             })
 
             if (startClaim) {
-              sendData({event: 'claim', action: 'claimSuccess', network })
-              refetch()
+                sendData({ event: 'claim', action: 'claimSuccess', network })
+                refetch()
             }
         }
     }, [web3, account, refetch, sendData])

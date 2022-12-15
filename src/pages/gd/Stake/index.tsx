@@ -24,7 +24,6 @@ import {
     useEnvWeb3,
     getList as getStakes,
     Stake,
-    getNetworkEnv,
     useGdContextProvider,
     useGovernanceStaking,
 } from '@gooddollar/web3sdk'
@@ -32,7 +31,7 @@ import {
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
-import { SupportedChains, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 import Web3SupportedNetworks from 'components/Web3SupportedNetworks'
 const StakeTable = ({
     list,
@@ -54,7 +53,6 @@ const StakeTable = ({
     setActiveTableName: () => any
 }) => {
     const { i18n } = useLingui()
-    const securityNotice = false
 
     const { width } = useWindowSize()
 
@@ -424,7 +422,6 @@ export default function Stakes(): JSX.Element | null {
     const { chainId } = useActiveWeb3React()
     const governanceStaking = useGovernanceStaking(web3, chainId)
     const [mainnetWeb3] = useEnvWeb3(DAO_NETWORK.MAINNET, web3, chainId)
-    const network = getNetworkEnv()
     const [stakes = [], loading, error, refetch] = usePromise(async () => {
         const stakes = await (web3 && mainnetWeb3 && !disableTestnetMain.includes(chainId)
             ? getStakes(mainnetWeb3)
@@ -500,9 +497,7 @@ export default function Stakes(): JSX.Element | null {
                     )}
                 </Modal>
             </StakesSC>
-            <Web3SupportedNetworks onItem={({ chain }) => (
-                <Savings requiredChain={chain} />
-            )} />
+            <Web3SupportedNetworks onItem={({ chain }) => <Savings requiredChain={chain} />} />
         </Layout>
     )
 }

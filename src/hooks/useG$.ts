@@ -11,7 +11,7 @@ export default function useG$() {
     useEffect(() => {
         setToken(undefined)
         if (!chainId) return
-        ;(async () => {
+        void (async () => {
             const [tokens] = await getTokens(chainId as any)
             const G$ = tokens.get('G$') as UToken | undefined
             if (G$) {

@@ -28,7 +28,7 @@ export enum ApplicationModal {
     VOTE,
     LANGUAGE,
     NETWORK,
-    FAUCET
+    FAUCET,
 }
 
 export type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>

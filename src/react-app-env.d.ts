@@ -3,7 +3,7 @@
 declare module 'react-tradingview-widget'
 
 declare module 'jazzicon' {
-    export default function(diameter: number, seed: number): HTMLElement
+    export default function (diameter: number, seed: number): HTMLElement
 }
 
 declare module 'fortmatic'
@@ -14,29 +14,29 @@ interface RequestArguments {
 }
 
 interface Window {
-    walletLinkExtension?: any, 
-    BinanceChain?: any,
-    eth?: Object,
+    walletLinkExtension?: any
+    BinanceChain?: any
+    eth?: object
     ethereum?: {
-        isMetaMask?: boolean, 
-        on?: (...args: any[]) => void,
-        off?: (...args: any[]) => void,
-        removeListener?: (...args: any[]) => void,
-        removeAllListeners?: (...args: any[]) => void,
-        autoRefreshOnNetworkChange?: boolean,
-        request?: (args: RequestArguments) => Promise<unknown>,
-        providers?: array,
-        selectedProvider: { 
-          isMetaMask?: boolean, 
-          on?: (...args: any[]) => void,
-          off?: (...args: any[]) => void,
-          removeListener?: (...args: any[]) => void,
-          removeAllListeners?: (...args: any[]) => void,
-          autoRefreshOnNetworkChange?: boolean,
-          request?: (args: RequestArguments) => Promise<unknown>,
+        isMetaMask?: boolean
+        on?: (...args: any[]) => void
+        off?: (...args: any[]) => void
+        removeListener?: (...args: any[]) => void
+        removeAllListeners?: (...args: any[]) => void
+        autoRefreshOnNetworkChange?: boolean
+        request?: (args: RequestArguments) => Promise<unknown>
+        providers?: array
+        selectedProvider: {
+            isMetaMask?: boolean
+            on?: (...args: any[]) => void
+            off?: (...args: any[]) => void
+            removeListener?: (...args: any[]) => void
+            removeAllListeners?: (...args: any[]) => void
+            autoRefreshOnNetworkChange?: boolean
+            request?: (args: RequestArguments) => Promise<unknown>
         } | null
-    },
-    web3?: {}
+    }
+    web3?: object
 }
 
 declare module 'content-hash' {

@@ -51,6 +51,7 @@ const MainBody = styled.div<{ $page?: string }>`
 function App(): JSX.Element {
     const bodyRef = useRef<any>(null)
 
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     const { location, replace } = useHistory()
 
     const { search, pathname } = useLocation()
@@ -58,7 +59,7 @@ function App(): JSX.Element {
     const dispatch = useDispatch<AppDispatch>()
     const [preservedSource, setPreservedSource] = useState('')
 
-    useFaucet()
+    void useFaucet()
 
     useEffect(() => {
         const parsed = parse(location.search, { parseArrays: false, ignoreQueryPrefix: true })

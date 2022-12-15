@@ -34,27 +34,6 @@ const OptionCardClickable = styled(OptionCard as any)<{ clickable?: boolean }>`
     opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
 `
 
-const GreenCircle = styled.div`
-    ${({ theme }) => theme.flexRowNoWrap}
-    justify-content: center;
-    align-items: center;
-
-    &:first-child {
-        height: 8px;
-        width: 8px;
-        margin-right: 8px;
-        background-color: ${({ theme }) => theme.green1};
-        border-radius: 50%;
-    }
-`
-
-const CircleWrapper = styled.div`
-    color: ${({ theme }) => theme.green1};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
-
 const HeaderText = styled.div`
     ${({ theme }) => theme.flexRowNoWrap};
     font-style: normal;
@@ -94,7 +73,7 @@ export default function Option({
     subheader = null,
     icon,
     active = false,
-    id
+    id,
 }: {
     link?: string | null
     clickable?: boolean
@@ -120,7 +99,7 @@ export default function Option({
                     <img src={icon} alt={'Icon'} />
                 </IconWrapper>
                 <OptionCardLeft>
-                    <HeaderText className="flex flex-grow justify-between">{header}</HeaderText>
+                    <HeaderText className="flex justify-between flex-grow">{header}</HeaderText>
                     {subheader && <SubHeader>{subheader}</SubHeader>}
                 </OptionCardLeft>
             </div>

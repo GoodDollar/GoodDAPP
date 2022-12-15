@@ -1,6 +1,6 @@
 import { darken } from 'polished'
-import React, { CSSProperties, HTMLProps, useCallback } from 'react'
-import { ArrowLeft, ExternalLink as LinkIconFeather, Trash, X } from 'react-feather'
+import React, { HTMLProps, useCallback } from 'react'
+import { ArrowLeft, ExternalLink as LinkIconFeather, Trash } from 'react-feather'
 
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
@@ -24,7 +24,7 @@ export const ButtonText = styled.button`
 `
 
 export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
-    backgroundColor: warning ? theme.red1 : theme.primary1
+    backgroundColor: warning ? theme.red1 : theme.primary1,
 }))`
     padding: 1rem 2rem 1rem 2rem;
     border-radius: 3rem;
@@ -227,6 +227,7 @@ export function ExternalLink({
         (event: React.MouseEvent<HTMLAnchorElement>) => {
             // don't prevent default, don't redirect if it's a new tab
             if (target === '_blank' || event.ctrlKey || event.metaKey) {
+                /* empty */
             } else {
                 event.preventDefault()
                 // send a ReactGA event and then trigger a location change
@@ -247,6 +248,7 @@ export function ExternalLinkIcon({
         (event: React.MouseEvent<HTMLAnchorElement>) => {
             // don't prevent default, don't redirect if it's a new tab
             if (target === '_blank' || event.ctrlKey || event.metaKey) {
+                /* empty */
             } else {
                 event.preventDefault()
                 // send a ReactGA event and then trigger a location change
@@ -321,48 +323,48 @@ const loading = keyframes`
 `
 
 export const LoadWrapper = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background-color: #EEF0F9;  
-  z-index: 1;
-  overflow: hidden;
-  border-radius: 5px;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: #eef0f9;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 5px;
 `
 
 export const LoadActivity = styled.div`
-  position: absolute;
-  left: -45%;
-  height: 100%;
-  width: 45%;
-  background-image: ${({ theme }) => theme.gradient.loadingGradient};
-  background-image: ${({ theme }) => theme.gradient.loadingGradient};
-  background-image: ${({ theme }) => theme.gradient.loadingGradient};
-  animation: ${loading} 1s infinite;
-  z-index: 45;
+    position: absolute;
+    left: -45%;
+    height: 100%;
+    width: 45%;
+    background-image: ${({ theme }) => theme.gradient.loadingGradient};
+    background-image: ${({ theme }) => theme.gradient.loadingGradient};
+    background-image: ${({ theme }) => theme.gradient.loadingGradient};
+    animation: ${loading} 1s infinite;
+    z-index: 45;
 `
 
 export const LoadBar = styled.div`
-  margin-left: 10px;
-  height: 12px;
-  width: 60%;
-  margin-top: 5px;
+    margin-left: 10px;
+    height: 12px;
+    width: 60%;
+    margin-top: 5px;
 `
 
-export function LoadingPlaceHolder():JSX.Element {
-  return (
-    <LoadBar>
-      <LoadWrapper>
-        <LoadActivity />
-      </LoadWrapper>
-    </LoadBar>
-  )
+export function LoadingPlaceHolder(): JSX.Element {
+    return (
+        <LoadBar>
+            <LoadWrapper>
+                <LoadActivity />
+            </LoadWrapper>
+        </LoadBar>
+    )
 }
 
 const SkCircle = styled.div`
-  width: 25px;
-  height: 25px;
-  position: relative;
+    width: 25px;
+    height: 25px;
+    position: relative;
 `
 
 const CircleBounce = keyframes`
@@ -373,47 +375,49 @@ const CircleBounce = keyframes`
     -webkit-transform: scale(1);
             transform: scale(1);
   }
-` 
-
-const SkCircleChild = styled.div<{ childNumber?: number, delay?: number}>`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-
-  &:before {
-    content: '';
-    display: block;
-    margin: 0 auto;
-    width: 15%;
-    height: 15%;
-    background-color: #8f9bb3;
-    border-radius: 100%;
-    -webkit-animation: ${CircleBounce} 1.2s infinite ease-in-out both;
-            animation: ${CircleBounce} 1.2s infinite ease-in-out both;
-            animation-delay: -${({ delay }) => delay}s;
-  }
-
-  transform: rotate(${({childNumber}) => (childNumber ? childNumber * 30 : '')}deg);
 `
 
-export function Calculating():JSX.Element {
-  return (
-    <>    
-    <SkCircle>
-      <SkCircleChild></SkCircleChild>
-      {
-        Array.apply(1, Array(12)).map(function (x, i) {
-          return <SkCircleChild key={"child-"+i} childNumber={i} delay={1.2 - parseFloat("0."+i)}></SkCircleChild>
-        })
-      }
-    </SkCircle>
-      <span className="ml-1.5" style={{fontSize: "15px", color: "#8f9bb3"}}>Calculating...</span> 
-    </>
-  )
+const SkCircleChild = styled.div<{ childNumber?: number; delay?: number }>`
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    &:before {
+        content: '';
+        display: block;
+        margin: 0 auto;
+        width: 15%;
+        height: 15%;
+        background-color: #8f9bb3;
+        border-radius: 100%;
+        -webkit-animation: ${CircleBounce} 1.2s infinite ease-in-out both;
+        animation: ${CircleBounce} 1.2s infinite ease-in-out both;
+        animation-delay: -${({ delay }) => delay}s;
+    }
+
+    transform: rotate(${({ childNumber }) => (childNumber ? childNumber * 30 : '')}deg);
+`
+
+export function Calculating(): JSX.Element {
+    return (
+        <>
+            <SkCircle>
+                <SkCircleChild></SkCircleChild>
+                {Array.apply(1, Array(12)).map(function (x, i) {
+                    return (
+                        <SkCircleChild
+                            key={'child-' + i}
+                            childNumber={i}
+                            delay={1.2 - parseFloat('0.' + i)}
+                        ></SkCircleChild>
+                    )
+                })}
+            </SkCircle>
+            <span className="ml-1.5" style={{ fontSize: '15px', color: '#8f9bb3' }}>
+                Calculating...
+            </span>
+        </>
+    )
 }
-
-
-
-

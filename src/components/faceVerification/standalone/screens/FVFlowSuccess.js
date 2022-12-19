@@ -1,6 +1,7 @@
 // libraries
 import React, { useContext, useEffect } from 'react'
 import { View } from 'react-native'
+import { get } from 'lodash'
 
 // components
 import { Section, Wrapper } from '../../../common'
@@ -23,11 +24,13 @@ const log = logger.child({ from: 'FaceVerification' })
 
 const waitForWhitelisted = account =>
   tryUntil(
-    async () => (await API.isWhitelisted(account)).data,
-    ({ isWhitelisted }) => isWhitelisted,
+    () => API.isWhitelisted(account),
+    response => get(response, 'data.isWhitelisted'),
     checkWhitelistedAttempts - 1,
     checkWhitelistedDelay,
   )
+    .then(() => true)
+    .catch(() => false)
 
 const FVFlowSuccess = ({ styles, screenProps }) => {
   const counter = useCountdown(checkWhitelistedTimeout)
@@ -37,9 +40,7 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
   useEffect(() => {
     log.info('Waiting for whitelisted', { account })
 
-    waitForWhitelisted(account)
-      .catch(() => false)
-      .then(fvRedirect)
+    waitForWhitelisted(account).then(fvRedirect)
   }, [account])
 
   return (

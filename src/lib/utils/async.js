@@ -88,7 +88,7 @@ export const fallback = async asyncFns =>
 export const tryUntil = async (asyncFn, condition = identity, retries = 5, interval = 0) => {
   const completionHandler = async result => {
     if (condition(result)) {
-      return condition(result)
+      return result
     }
 
     throw new Error('tryUntil: not passed, retrying')

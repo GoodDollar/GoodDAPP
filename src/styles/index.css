@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&family=Roboto+Slab:wght@300;400;500;600;700;800;900&display=swap');
-@import './fonts.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -61,9 +60,9 @@ input:focus {
   cursor: pointer;
 }
 
-/* overwriting base definition for checkbox
+/* overwriting base definition for checkbox 
 as it interferes/overwrites with native-base Switch component
-reference:
+reference: 
 https://github.com/tailwindlabs/tailwindcss/discussions/7496
 https://tailwindcss.com/docs/adding-custom-styles#adding-base-styles
 */

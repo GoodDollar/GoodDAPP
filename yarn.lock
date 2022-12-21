@@ -107,7 +107,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:^3.2.0, @apollo/client@npm:^3.6.5":
+"@apollo/client@npm:^3.2.0":
   version: 3.7.2
   resolution: "@apollo/client@npm:3.7.2"
   dependencies:
@@ -140,6 +140,42 @@ __metadata:
     subscriptions-transport-ws:
       optional: true
   checksum: 95a8e7e21fb7c4efdae50455491d6ff2bcdba2de27ba24c604f8e4ef08b95dddeda973fe98f7bb794ffd6f990797d6cd662d2cb23d8a246c39937d04f7100493
+  languageName: node
+  linkType: hard
+
+"@apollo/client@npm:^3.6.5":
+  version: 3.7.3
+  resolution: "@apollo/client@npm:3.7.3"
+  dependencies:
+    "@graphql-typed-document-node/core": ^3.1.1
+    "@wry/context": ^0.7.0
+    "@wry/equality": ^0.5.0
+    "@wry/trie": ^0.3.0
+    graphql-tag: ^2.12.6
+    hoist-non-react-statics: ^3.3.2
+    optimism: ^0.16.1
+    prop-types: ^15.7.2
+    response-iterator: ^0.2.6
+    symbol-observable: ^4.0.0
+    ts-invariant: ^0.10.3
+    tslib: ^2.3.0
+    zen-observable-ts: ^1.2.5
+  peerDependencies:
+    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    graphql-ws: ^5.5.5
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    subscriptions-transport-ws: ^0.9.0 || ^0.11.0
+  peerDependenciesMeta:
+    graphql-ws:
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+    subscriptions-transport-ws:
+      optional: true
+  checksum: 2422c4693630039c6cb1a94b1c8dc1e346e2fc65a76742fe2a79407e6afc781034a1a8460d4c4d9733b7d93860dcece3b4b54f195381c642402ca217b62b1380
   languageName: node
   linkType: hard
 
@@ -3569,9 +3605,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.15":
-  version: 0.0.15
-  resolution: "@gooddollar/good-design@npm:0.0.15"
+"@gooddollar/good-design@npm:^0.0.19":
+  version: 0.0.19
+  resolution: "@gooddollar/good-design@npm:0.0.19"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -3584,6 +3620,7 @@ __metadata:
     prop-types: ^15.8.1
     react: 17.0.2
     react-dom: 17.0.2
+    react-helmet: ^6.1.0
     react-native: ^0.70.4
     react-native-mask-input: ^1.2.2
     react-native-safe-area-context: ^3.3.2
@@ -3599,7 +3636,7 @@ __metadata:
     typescript: 4.7.4
   peerDependencies:
     "@usedapp/core": 1.*
-  checksum: 4c0676a41e33b28f890f7cc903ca016f8d893512bdf3e10e6dadcc503b8f540ae36f6e13bf87ff1ecd3deff5387a09a5ed62bf02e5e7f1fa90d05954fb09b5a5
+  checksum: c5512acc9d10779da77d8afd86c3fbf0caaa4a54bd77d255eafda6a12c70c2d4fe8630f8b4e380a2a68de5d02b69bae63ce2539afdc8902c84c23ac99a365026
   languageName: node
   linkType: hard
 
@@ -3649,10 +3686,10 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.15
+    "@gooddollar/good-design": ^0.0.19
     "@gooddollar/goodprotocol": 1.0.29-beta.5
     "@gooddollar/web3sdk": ^0.1.12
-    "@gooddollar/web3sdk-v2": ^0.1.52
+    "@gooddollar/web3sdk-v2": ^0.1.54
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": ^3.12.1
@@ -3815,14 +3852,14 @@ __metadata:
     tailwindcss-border-gradient-radius: ^2.0.0
     text-mask-addons: ^3.8.0
     typescript: ^4.4.3
-    ubeswap-swap-dev: ^1.2.2
+    ubeswap-swap-dev: ^1.4.1
     use-count-up: ^2.2.5
     wcag-contrast: ^3.0.0
     web3: 1.8.1
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.52":
+"@gooddollar/web3sdk-v2@npm:^0.1.54":
   version: 0.1.54
   resolution: "@gooddollar/web3sdk-v2@npm:0.1.54"
   dependencies:
@@ -5923,11 +5960,11 @@ __metadata:
   linkType: hard
 
 "@react-native-firebase/analytics@npm:^16.4.6":
-  version: 16.4.6
-  resolution: "@react-native-firebase/analytics@npm:16.4.6"
+  version: 16.5.0
+  resolution: "@react-native-firebase/analytics@npm:16.5.0"
   peerDependencies:
-    "@react-native-firebase/app": 16.4.6
-  checksum: a93168ee967a3891dad9ad61334d6a492d90ef6390d8922f2851ef007df8bb5ae46ce4bfbd60b2758f2a5476e6a169ed8ca77f612bac8c200a3aef58c8117f3e
+    "@react-native-firebase/app": 16.5.0
+  checksum: 19a0e5bb2fdaa28cb5524311b5bf72662e36761b184918791e12995c700436672a52866f608057ae8563ce69f3ad62a769be4e22169d1cb389ed23bbb67c0170
   languageName: node
   linkType: hard
 
@@ -31240,9 +31277,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ubeswap-swap-dev@npm:^1.2.2":
-  version: 1.3.2
-  resolution: "ubeswap-swap-dev@npm:1.3.2"
+"ubeswap-swap-dev@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "ubeswap-swap-dev@npm:1.4.1"
   dependencies:
     "@apollo/client": ^3.6.5
     "@celo-tools/use-contractkit": ^3.1.0
@@ -31314,7 +31351,7 @@ __metadata:
     react-dom: ^17.0.2
     react-scripts: ^4.0.3
     styled-components: ^5.3.0
-  checksum: 0e61e9448735a810bb0e5bcf6e672ac5429d72c49fd4d0d024279d9966257cff2009fbea92e61bf7f9eebd6856f20c9a470c70b29a26b1ac2473576f7570e1e1
+  checksum: e973692a1732951431505f4dc3ae09a0dd904b309ddc0f1520ccd08190c6174f3e6dc89d529df819433d90bec1c74fb33a2386eb5113d854a688566cd86dcd82
   languageName: node
   linkType: hard
 

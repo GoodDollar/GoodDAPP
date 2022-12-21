@@ -23,6 +23,7 @@ import QuestionHelper from 'components/QuestionHelper'
 import VoltageLogo from 'assets/images/voltage-logo.png'
 import GoodReserveLogo from 'assets/images/goodreserve-logo.png'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
+import { UbeSwap } from './SwapCelo'
 
 import {
     approve,
@@ -67,6 +68,7 @@ const Swap = memo(() => {
         []
     )
     const handleSetPairValue = useCallback((value: string) => handleSetPair({ value }), [])
+    const handleBuyingValue = useCallback((value) => setBuying(!value), [])
 
     const tokenList = useTokens()
     const G$ = useG$()
@@ -253,7 +255,54 @@ const Swap = memo(() => {
                 Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio.`
           )
 
-    return (
+    const onModalClosed = useCallback(() => setShowConfirm(false), [setShowConfirm])
+
+    const onFromChange = useCallback(
+        (value: any) => {
+            handleSetPairValue(value)
+            setLastEdited({ field: 'external' })
+        },
+        [handleSetPairValue, setLastEdited]
+    )
+
+    const onToChange = useCallback(
+        (value: any) => {
+            setSwapValue(value)
+            setLastEdited({ field: 'internal' })
+        },
+        [setSwapValue, setLastEdited]
+    )
+
+    const onTokenChange = useCallback(
+        (token: any) => {
+            handleSetPair({ token, value: '' })
+            setSwapValue('')
+            setMeta(undefined)
+        },
+        [handleSetPair, setSwapValue, setMeta]
+    )
+
+    const onSwitch = useCallback(() => handleBuyingValue((value: boolean) => !value), [handleBuyingValue])
+
+    const onSwap = useCallback(() => {
+        sendData({
+            event: 'swap',
+            action: 'startSwap',
+            type: buying ? 'buy' : 'sell',
+            network: network,
+        })
+        setShowConfirm(true)
+    }, [sendData, setShowConfirm])
+
+    const onSwapConfirmed = useCallback(async () => {
+        handleSetPairValue('')
+        setSwapValue('')
+        setMeta(undefined)
+    }, [handleSetPairValue, setSwapValue, setMeta])
+
+    return (chainId as any) === SupportedChainId.CELO ? (
+        <UbeSwap />
+    ) : (
         <SwapContext.Provider
             value={{
                 slippageTolerance,
@@ -301,23 +350,12 @@ const Swap = memo(() => {
                             style={{ marginBottom: buying ? 13 : 0, marginTop: buying ? 0 : 13, order: buying ? 1 : 3 }}
                             token={swapPair.token}
                             value={swapPair.value}
-                            onValueChange={(value) => {
-                                handleSetPairValue(value)
-                                setLastEdited({ field: 'external' })
-                            }}
-                            onTokenChange={(token) => {
-                                handleSetPair({ token, value: '' })
-                                setSwapValue('')
-                                setMeta(undefined)
-                            }}
+                            onValueChange={onFromChange}
+                            onTokenChange={onTokenChange}
                             tokenList={tokenList ?? []}
                             isCalculating={calcInternal}
                         />
-                        <div className="switch">
-                            {cloneElement(SwitchSVG, {
-                                onClick: () => setBuying((value) => !value),
-                            })}
-                        </div>
+                        <div className="switch">{cloneElement(SwitchSVG, { onClick: onSwitch })}</div>
                         <SwapRow
                             title={buying ? i18n._(t`Swap to`) : i18n._(t`Swap from`)}
                             autoMax={!buying}
@@ -326,10 +364,7 @@ const Swap = memo(() => {
                             token={G$}
                             alternativeSymbol="G$"
                             value={swapValue}
-                            onValueChange={(value) => {
-                                setSwapValue(value)
-                                setLastEdited({ field: 'internal' })
-                            }}
+                            onValueChange={onToChange}
                             isCalculating={calcExternal}
                             style={{ marginTop: buying ? 13 : 0, marginBottom: buying ? 0 : 13, order: buying ? 3 : 1 }}
                         />
@@ -383,15 +418,7 @@ const Swap = memo(() => {
                                         balanceNotEnough ||
                                         (buying && [ETHER, FUSE].includes(swapPair.token) ? false : !approved)
                                     }
-                                    onClick={() => {
-                                        sendData({
-                                            event: 'swap',
-                                            action: 'startSwap',
-                                            type: buying ? 'buy' : 'sell',
-                                            network: network,
-                                        })
-                                        setShowConfirm(true)
-                                    }}
+                                    onClick={onSwap}
                                 >
                                     {i18n._(t`Swap`)}
                                 </ButtonAction>
@@ -404,16 +431,12 @@ const Swap = memo(() => {
             <SwapConfirmModal
                 {...swapFields}
                 open={showConfirm}
-                onClose={() => setShowConfirm(false)}
-                setOpen={(value: boolean) => setShowConfirm(value)}
+                onClose={onModalClosed}
+                setOpen={setShowConfirm}
                 pair={pair}
                 meta={meta}
                 buying={buying}
-                onConfirm={async () => {
-                    handleSetPairValue('')
-                    setSwapValue('')
-                    setMeta(undefined)
-                }}
+                onConfirm={onSwapConfirmed}
             />
         </SwapContext.Provider>
     )

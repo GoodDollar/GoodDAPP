@@ -104,7 +104,7 @@
         "copy-to-clipboard": "^3.2.0",
         "cross-env": "^7.0.2",
         "customize-cra": "^1.0.0",
-        "date-fns": "^2.20.0",
+        "date-fns": "^2.29.3",
         "decimal.js": "^10.3.1",
         "eslint": "7.32.0",
         "eslint-config-prettier": "^8.5.0",
@@ -200,10 +200,10 @@
         "@web3-onboard/core@^2.10.1": "patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch"
     },
     "dependencies": {
-        "@gooddollar/good-design": "^0.0.19",
+        "@gooddollar/good-design": "^0.0.20",
         "@gooddollar/goodprotocol": "1.0.29-beta.5",
         "@gooddollar/web3sdk": "^0.1.12",
-        "@gooddollar/web3sdk-v2": "^0.1.54",
+        "@gooddollar/web3sdk-v2": "^0.1.55",
         "@headlessui/react": "1.5.0",
         "@types/react-text-mask": "^5.4.8",
         "@types/text-mask-addons": "^3.8.1",

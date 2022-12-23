@@ -19,8 +19,7 @@ import ThemeProvider from './theme'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
-import { NativeBaseProvider } from 'native-base'
-import { theme } from '@gooddollar/good-design'
+import { theme, NativeBaseProvider } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 
 if (window.ethereum) {

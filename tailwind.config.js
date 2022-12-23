@@ -68,6 +68,7 @@ module.exports = {
             sm: '480px',
             md: '768px',
             lg: '976px',
+            lg2: '1024px',
             xl: '1440px',
         },
         fontSize: {
@@ -211,6 +212,9 @@ module.exports = {
             },
             screens: {
                 sh: { raw: '(min-height: 665px)' },
+            },
+            width: {
+                274: '274px',
             },
         },
     },

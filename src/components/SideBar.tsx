@@ -187,7 +187,7 @@ const ExternalLink: React.FC<{ label: string; url: string }> = ({ label, url }) 
     </a>
 )
 
-export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; closeSidebar?: any }) {
+export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; closeSidebar?: any }): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
     const { ethereum } = window
@@ -308,6 +308,9 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                     </div>
                 )}
                 <nav className="mt-5">
+                    <NavLink to={'/claim'} onClick={mobile ? closeSidebar : null}>
+                        {i18n._(t`Claim`)}
+                    </NavLink>
                     <NavLink to={'/dashboard'} onClick={mobile ? closeSidebar : null}>
                         {i18n._(t`Dashboard`)}
                     </NavLink>
@@ -320,9 +323,6 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                     <NavLink to={'/portfolio'} onClick={mobile ? closeSidebar : null}>
                         {i18n._(t`Portfolio`)}
                     </NavLink>
-                    <NavLink to={'/claim'} onClick={mobile ? closeSidebar : null}>
-                        {i18n._(t`Claim`)}
-                    </NavLink>
                     <NavLink to={'/microbridge'} onClick={mobile ? closeSidebar : null}>
                         {i18n._(t`Micro Bridge`)}
                     </NavLink>
@@ -330,6 +330,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                     <ExternalLink label={i18n._(t`Wallet`)} url="https://wallet.gooddollar.org/" />
                     <ExternalLink label={i18n._(t`Fuse Bridge`)} url="https://app.fuse.fi/#/bridge" />
                     <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" />
+                    <ExternalLink label={i18n._(t`Good Airdrop`)} url="https://airdrop.gooddollar.org" />
                 </nav>
 
                 <div className="flex items-center justify-between social">

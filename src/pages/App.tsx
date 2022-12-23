@@ -123,7 +123,7 @@ function App(): JSX.Element {
                             <div
                                 className={`flex flex-col flex-glow w-full items-center justify-start
                              ${location.pathname === '/dashboard' ? 'md:auto' : 'md:h-screen'}
-                             md:justify-center xl:-mt-8`}
+                             md:justify-center`}
                             >
                                 <Routes />
                                 <TransactionUpdater />

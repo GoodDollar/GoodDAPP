@@ -1,14 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { ButtonDefault } from '../gd/Button'
-import usePromise from '../../hooks/usePromise'
-import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
-import { SupportedChainId, check, claim, isWhitelisted, useGdContextProvider } from '@gooddollar/web3sdk'
+import { useClaiming } from 'hooks/useClaiming'
 
 const ClaimButton = styled(ButtonDefault).attrs((props) => ({
     disabled: false as boolean,
@@ -32,94 +29,9 @@ const ClaimButton = styled(ButtonDefault).attrs((props) => ({
     }
 `
 
-const getTimer = () => {
-    const start = new Date() as any
-    start.setUTCHours(12, 0, 0)
-
-    function pad(num: any) {
-        return ('0' + parseInt(num)).substr(-2)
-    }
-
-    function tick() {
-        const now = new Date() as any
-
-        if (now > start) {
-            start.setDate(start.getDate() + 1)
-        }
-
-        const remain = (start - now) / 1000
-        const hh = pad((remain / 60 / 60) % 60)
-        const mm = pad((remain / 60) % 60)
-        const ss = pad(remain % 60)
-        const timeLeft = hh + ':' + mm + ':' + ss
-
-        return timeLeft
-    }
-
-    return tick()
-}
-
 function Web3Faucet(): JSX.Element | null {
     const { i18n } = useLingui()
-    const { chainId, account } = useActiveWeb3React()
-    const network = SupportedChainId[chainId]
-    const { web3 } = useGdContextProvider()
-    const sendData = useSendAnalyticsData()
-
-    const [claimed, setIsClaimed] = useState(false)
-    const [tillClaim, setTillClaim] = useState('')
-
-    const fetchTimer = useCallback(() => {
-        const timer = getTimer()
-        setTillClaim(timer)
-    }, [])
-
-    useEffect(() => {
-        if (!claimed) return
-        else {
-            const interval = setInterval(fetchTimer, 1000)
-            return () => clearInterval(interval)
-        }
-    }, [fetchTimer, claimed])
-
-    const [claimable, , , refetch] = usePromise(async () => {
-        if (!account || !web3 || (chainId as any) !== SupportedChainId.FUSE) return false
-        const whitelisted = await isWhitelisted(web3, account).catch((e) => {
-            console.error(e)
-            return false
-        })
-
-        if (!whitelisted) return new Error('Only verified wallets can claim')
-
-        const amount = await check(web3, account).catch((e) => {
-            console.error(e)
-            return new Error('Something went wrong.. try again later.')
-        })
-        if (amount instanceof Error) return amount
-
-        if (amount === '0') {
-            setIsClaimed(true)
-        }
-
-        return /[^0.]/.test(amount)
-    }, [chainId, web3, account])
-
-    const handleClaim = useCallback(async () => {
-        if (account && web3) {
-            sendData({ event: 'claim', action: 'claimStart', network })
-            const startClaim = await claim(web3, account).catch(() => {
-                refetch()
-                return false
-            })
-
-            if (startClaim) {
-                sendData({ event: 'claim', action: 'claimSuccess', network })
-                refetch()
-            }
-        }
-    }, [web3, account, refetch, sendData])
-
-    const claimActive = (chainId as any) === SupportedChainId.FUSE && claimable === true
+    const { claimed, isFuse, claimActive, claimable, tillClaim, handleClaim } = useClaiming()
 
     return (
         <div className="flex flex-row space-x-2">
@@ -133,7 +45,7 @@ function Web3Faucet(): JSX.Element | null {
             <MouseoverTooltip
                 placement="bottom"
                 text={
-                    (chainId as any) !== SupportedChainId.FUSE
+                    isFuse === false
                         ? i18n._(t`Please connect your Web3 wallet to the Fuse Network to Claim UBI.`)
                         : claimed
                         ? i18n._(t`You've already claimed today. Come back in ${tillClaim}`)

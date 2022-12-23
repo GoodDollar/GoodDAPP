@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { FC, useCallback } from 'react'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { ModalType } from '.'
 import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
@@ -10,7 +10,7 @@ export interface ModalButtonProps {
     title: string
     toggleModal: (type?: ModalType) => void
 }
-export const ModalButton = ({ chain, type, title, toggleModal, ...props }: ModalButtonProps) => {
+export const ModalButton: FC<ModalButtonProps> = ({ chain, type, title, toggleModal, ...props }) => {
     const sendData = useSendAnalyticsData()
     const onClick = useCallback(() => {
         sendData({ event: 'savings', action: 'start' + type })

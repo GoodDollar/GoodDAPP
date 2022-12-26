@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios'
-import { find, get, identity, isError, isString } from 'lodash'
+import { find, identity } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import Config, { fuseNetwork } from '../../config/config'
@@ -10,7 +10,6 @@ import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 import { throttleAdapter } from '../utils/axios'
-import { fallback } from '../utils/async'
 import { log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
 import type { Credentials, UserRecord } from './utils'
@@ -159,57 +158,11 @@ export class APIService {
     return this.client.post('/user/verifyCRM', { user: profile })
   }
 
+  // eslint-disable-next-line require-await
   async verifyCaptcha(payload: any): AxiosPromise<any> {
-    const { client, sharedClient } = this
+    const { sharedClient } = this
 
-    const requestCloudflare = async () => {
-      const trace = await sharedClient.get('https://www.cloudflare.com/cdn-cgi/trace')
-      const [, address] = /ip=(.+?)\n/.exec(trace || '') || []
-
-      log.info('CF response', { trace })
-
-      return address
-    }
-
-    const requestIpify = async () => {
-      const ipv6Response = await sharedClient.get('https://api64.ipify.org/?format=json')
-
-      log.info('Ipify response', { ipv6Response })
-      return get(ipv6Response, 'ip', '')
-    }
-
-    // eslint-disable-next-line require-await
-    const withValidation = requestIP => async () =>
-      requestIP().then(address => {
-        if (!address) {
-          throw new Error('Empty IP has been returned.')
-        }
-
-        if (!address.includes(':')) {
-          throw new Error("Client's ISP doesn't supports IPv6.")
-        }
-
-        return address
-      })
-
-    try {
-      const ip = await fallback([requestCloudflare, requestIpify].map(withValidation))
-
-      log.info('ip for captcha:', { ip })
-      payload.ipv6 = ip
-    } catch (errorOrStatus) {
-      let exception = errorOrStatus
-
-      if (!isError(errorOrStatus)) {
-        exception = new Error(
-          isString(errorOrStatus) ? errorOrStatus : 'Unexpected exception while getting IPv6 address',
-        )
-      }
-
-      log.warn('Failed to determine client IPv6:', exception.message, exception)
-    }
-
-    return client.post('/verify/recaptcha', payload)
+    return sharedClient.post(Config.verifyCaptchaUrl + '/verify/recaptcha', payload)
   }
 
   /**

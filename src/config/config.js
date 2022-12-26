@@ -222,6 +222,7 @@ const Config = {
   enableHDWallet: env.REACT_APP_ENABLE_HD_WALLET === 'true',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
+  verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts)
 }
 

@@ -187,9 +187,8 @@ const Config = {
   torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
-  defaultCaptcha: env.REACT_APP_DEFAULT_CAPTCHA || 'hcaptcha', // 'recaptcha' | 'hcaptcha'
   recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
-  hcaptchaSiteKey: env.REACT_APP_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001', // test key
+  hcaptchaSiteKey: env.REACT_APP_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001', //test key
   fpSiteKey: env.REACT_APP_FINGERPRINT_SITE_KEY,
   fpEndpoint: env.REACT_APP_FINGERPRINT_ENDPOINT || 'https://api.fpjs.io',
   textileKey: env.REACT_APP_TEXTILE_KEY,

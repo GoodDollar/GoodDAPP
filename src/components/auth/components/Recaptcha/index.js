@@ -28,7 +28,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
 
         result = await API.verifyCaptcha({ payload, captchaType, fingerprint })
         log.debug('Recaptcha verify result', { result })
-        hasPassed = get(result, 'data.success', false)
+        hasPassed = get(result, 'success', false)
       } catch (exception) {
         const { message } = exception
         const errorCtx = { payload, ekey, captchaType, fingerprint, result }

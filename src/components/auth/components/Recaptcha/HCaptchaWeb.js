@@ -7,7 +7,7 @@ const { hcaptchaSiteKey } = Config
 
 const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) => {
   const captchaRef = useRef()
-  const onExpired = useCallback(() => captchaRef.current.reset(), [])
+  const onExpired = useCallback(() => captchaRef.current.resetCaptcha(), [])
   const [whenLoaded, setLoaded] = usePromise()
 
   useImperativeHandle(

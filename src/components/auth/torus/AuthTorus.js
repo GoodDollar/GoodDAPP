@@ -130,7 +130,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
     const { provider, fromRedirect = false } = options || {}
     const { name, message = '', payload = {} } = exception || {}
     const { UserCancel, BrowserNotAllowed } = TorusStatusCode
-    let suggestion
+    let suggestion = ''
 
     log.error('torus signin failed:', message, exception, {
       ...payload,
@@ -146,7 +146,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
           android: 'Chrome',
         })
 
-        suggestion = t`Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
+        suggestion = `Your default browser isn't supported. Please, set ${suggestedBrowser} as default and try again.`
         break
       }
       case UserCancel:

@@ -2,6 +2,7 @@ import { assign, bindAll, defaults, first, omit, padStart, repeat, values } from
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
+import { isWeb } from '../../../../lib/utils/platform'
 import Torus from './torus'
 
 import {
@@ -44,7 +45,8 @@ class TorusSDK {
     })
 
     // new env var to fix ropsten deprecation on dev & QA
-    if (torusNetworkUrl) {
+    // native apps don't need this param
+    if (torusNetworkUrl && isWeb) {
       assign(torusOptions, { networkUrl: torusNetworkUrl })
     }
 

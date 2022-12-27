@@ -18,7 +18,7 @@ PODS:
     - React-Core
     - SSZipArchive (~> 2.2.2)
   - CryptoSwift (1.5.1)
-  - CustomAuth (4.1.0):
+  - CustomAuth (4.0.1):
     - JWTDecode (~> 2.6)
     - Torus-utils (~> 3.0.0)
   - DoubleConversion (1.1.6)
@@ -130,7 +130,7 @@ PODS:
     - FlipperKit/Core
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
-  - GenericJSON (2.0.1)
+  - GenericJSON (2.0.2)
   - glog (0.3.5)
   - GoogleAppMeasurement (8.8.0):
     - GoogleAppMeasurement/AdIdSupport (= 8.8.0)
@@ -156,24 +156,24 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/AppDelegateSwizzler (7.8.0):
+  - GoogleUtilities/AppDelegateSwizzler (7.10.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.8.0):
+  - GoogleUtilities/Environment (7.10.0):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.8.0):
+  - GoogleUtilities/Logger (7.10.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.8.0):
+  - GoogleUtilities/MethodSwizzler (7.10.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.8.0):
+  - GoogleUtilities/Network (7.10.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.8.0)"
-  - GoogleUtilities/Reachability (7.8.0):
+  - "GoogleUtilities/NSData+zlib (7.10.0)"
+  - GoogleUtilities/Reachability (7.10.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.8.0):
+  - GoogleUtilities/UserDefaults (7.10.0):
     - GoogleUtilities/Logger
   - JWT (3.0.0-beta.14):
     - Base64 (~> 1.1.2)
@@ -417,7 +417,7 @@ PODS:
     - React-Core
   - react-native-contacts (5.2.8):
     - React-Core
-  - react-native-facetec (1.0.24):
+  - react-native-facetec (1.0.28):
     - React
   - react-native-get-random-values (1.8.0):
     - React-Core
@@ -436,7 +436,7 @@ PODS:
     - React-Core
   - react-native-version-check (3.4.3):
     - React
-  - react-native-webview (11.22.2):
+  - react-native-webview (11.25.0):
     - React-Core
   - React-perflogger (0.65.2)
   - React-RCTActionSheet (0.65.2):
@@ -508,8 +508,8 @@ PODS:
     - React-Core
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
-  - RNCustomAuthSdk (3.1.0):
-    - CustomAuth (~> 4.1.0)
+  - RNCustomAuthSdk (3.0.1):
+    - CustomAuth (~> 4.0.1)
     - React
   - RNDeviceInfo (7.4.0):
     - React-Core
@@ -889,7 +889,7 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
-  CustomAuth: 45d5fd9962530fa0d4c8e7e4c867c1bb81ae48ea
+  CustomAuth: d392381016783e281df11f175efbba2096feab19
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   FBLazyVector: da2f5e2c1244ccd895cd1c9e30284a6140d757cb
   FBReactNativeSpec: fe46c577739a1b11991fd671109bf1d7380cafd0
@@ -908,11 +908,11 @@ SPEC CHECKSUMS:
   Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
   FlipperKit: aec2d931adeee48a07bab1ea8bcc8a6bb87dfce4
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
-  GenericJSON: a6e74e2c457f8693caab08e0eafde7d97e6666de
+  GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
   glog: 5337263514dd6f09803962437687240c5dc39aa4
   GoogleAppMeasurement: 5ba1164e3c844ba84272555e916d0a6d3d977e91
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
-  GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
+  GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   JWTDecode: 33e5e26e5ddbd21b2065820894c08fef0cad9509
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
@@ -943,7 +943,7 @@ SPEC CHECKSUMS:
   react-native-camera: b8cc03e2feec0c04403d0998e37cf519d8fd4c6f
   react-native-config: 7cd105e71d903104e8919261480858940a6b9c0e
   react-native-contacts: 7b5e16196278636030c3fbbb9505543984b01697
-  react-native-facetec: 518ddbd9a551a8b2b281bb70afa6b267d1850e54
+  react-native-facetec: adfc0fdc89de411eaae4f88921a6ec692966e090
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 3d3769f0d65de15c83a9bf1346f8be71de5a24bf
@@ -952,7 +952,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
   react-native-udp: 8864b1211857e9d8224ae5cbaf8580970fb99de1
   react-native-version-check: e85c2e21d0955b7cdfd91c0ddacc3edf14b7abd7
-  react-native-webview: 159034a856a6e95995f5bf2eed40d70b103d6572
+  react-native-webview: a71da846ed2e9085440e1d6659c04e285528834b
   React-perflogger: 939564c838f8b6ec099b4f858559f0f406c99745
   React-RCTActionSheet: b5135d36ee35ebd883c4fe043db7bd8cbba7516e
   React-RCTAnimation: 93aeefce33bb73f8d82132d7a362819676e1d1e4
@@ -968,7 +968,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 466b9df1a14bccda91da86e0b7d9a345d78e1673
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
-  RNCustomAuthSdk: fbbc9f8aa33e1a6b4527e38277df362d214b15ee
+  RNCustomAuthSdk: ca3bdec521524b339ce09c75729bdde50304e1f1
   RNDeviceInfo: 9538a884f862fe4aa0d7cead9f34e292d41ba8f6
   RNFBAnalytics: f76bfa164ac235b00505deb9fc1776634056898c
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e

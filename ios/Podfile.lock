@@ -18,9 +18,9 @@ PODS:
     - React-Core
     - SSZipArchive (~> 2.2.2)
   - CryptoSwift (1.5.1)
-  - CustomAuth (4.0.1):
+  - CustomAuth (5.0.0):
     - JWTDecode (~> 2.6)
-    - Torus-utils (~> 3.0.0)
+    - Torus-utils (~> 4.0.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.65.2)
   - FBReactNativeSpec (0.65.2):
@@ -197,9 +197,6 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (3.3.1):
     - RNPermissions
-  - PromiseKit/CorePromise (6.18.1)
-  - PromiseKit/Foundation (6.18.1):
-    - PromiseKit/CorePromise
   - PromisesObjC (2.1.1)
   - RCT-Folly (2021.04.26.00):
     - boost-for-react-native
@@ -508,8 +505,8 @@ PODS:
     - React-Core
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
-  - RNCustomAuthSdk (3.0.1):
-    - CustomAuth (~> 4.0.1)
+  - RNCustomAuthSdk (4.0.1):
+    - CustomAuth (~> 5.0.0)
     - React
   - RNDeviceInfo (7.4.0):
     - React-Core
@@ -562,16 +559,12 @@ PODS:
   - TOCropViewController (2.6.1)
   - toolbar-android (0.2.1):
     - React
-  - Torus-fetchNodeDetails (3.0.0):
-    - PromiseKit/Foundation (~> 6.0)
+  - Torus-fetchNodeDetails (4.0.1):
     - web3.swift (~> 0.9.3)
-  - Torus-utils (3.0.0):
+  - Torus-utils (4.0.0):
     - CryptoSwift (~> 1.5.1)
-    - PromiseKit/Foundation (~> 6.0)
     - secp256k1.swift (~> 0.1.4)
-    - Torus-fetchNodeDetails (~> 3.0.0)
-    - TweetNacl
-  - TweetNacl (1.0.2)
+    - Torus-fetchNodeDetails (~> 4.0.0)
   - web3.swift (0.9.3):
     - BigInt (~> 5.0.0)
     - GenericJSON (~> 2.0)
@@ -715,7 +708,6 @@ SPEC REPOS:
     - libevent
     - nanopb
     - OpenSSL-Universal
-    - PromiseKit
     - PromisesObjC
     - secp256k1.swift
     - Sentry
@@ -723,7 +715,6 @@ SPEC REPOS:
     - TOCropViewController
     - Torus-fetchNodeDetails
     - Torus-utils
-    - TweetNacl
     - web3.swift
     - YogaKit
 
@@ -889,7 +880,7 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
-  CustomAuth: d392381016783e281df11f175efbba2096feab19
+  CustomAuth: 2cbaef9c54da21080eef7ea1fa3d2ecb96517f18
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   FBLazyVector: da2f5e2c1244ccd895cd1c9e30284a6140d757cb
   FBReactNativeSpec: fe46c577739a1b11991fd671109bf1d7380cafd0
@@ -924,7 +915,6 @@ SPEC CHECKSUMS:
   Permission-Contacts: 795936e988352bbf628334378eec5c3728db7140
   Permission-LocationWhenInUse: 006c85c8de0c05b5d8be8e8029e4f6b813270293
   Permission-PhotoLibrary: ddb5a158725b29cb12e9e477e8a5f5151c66cc3c
-  PromiseKit: 49d70c53d5d20e346beaea4b276b5dd2ab446bb4
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
   RCTRequired: 1b65ab453de585b0f939824780bd26cdf6fb07f8
@@ -968,7 +958,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 466b9df1a14bccda91da86e0b7d9a345d78e1673
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
-  RNCustomAuthSdk: ca3bdec521524b339ce09c75729bdde50304e1f1
+  RNCustomAuthSdk: e1db0c850b41deaf38fdc8fe5433b3287db29c55
   RNDeviceInfo: 9538a884f862fe4aa0d7cead9f34e292d41ba8f6
   RNFBAnalytics: f76bfa164ac235b00505deb9fc1776634056898c
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
@@ -990,9 +980,8 @@ SPEC CHECKSUMS:
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   toolbar-android: 2a73856e98b750d7e71ce4644d3f41cc98211719
-  Torus-fetchNodeDetails: 186d6bc852bfd943f8d25154f25b5cc5fd6a03b1
-  Torus-utils: e3bbb4f884fce6290b43a86ee88544fbd5addb91
-  TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
+  Torus-fetchNodeDetails: a92d02f1bfe91bd61c90f92d64df023babaa5bfa
+  Torus-utils: 2517d21b0bc84759fc2cd9617761ce9083e8ee2c
   web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
   Yoga: e6db7a0be0e80eeb70c04663605e4f6a050ab013
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

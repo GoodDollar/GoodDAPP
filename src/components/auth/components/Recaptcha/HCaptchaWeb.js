@@ -1,11 +1,8 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import usePromise from '../../../../lib/hooks/usePromise'
-import Config from '../../../../config/config'
 
-const { hcaptchaSiteKey } = Config
-
-const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) => {
+const Recaptcha = forwardRef(({ siteKey, onVerify, onError, children, ...props }, ref) => {
   const captchaRef = useRef()
   const onExpired = useCallback(() => captchaRef.current.resetCaptcha(), [])
   const [whenLoaded, setLoaded] = usePromise()
@@ -30,7 +27,7 @@ const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) =>
   return (
     <>
       <HCaptcha
-        sitekey={hcaptchaSiteKey}
+        sitekey={siteKey}
         onLoad={setLoaded}
         onVerify={onVerify}
         onError={onError}

@@ -4,11 +4,16 @@ import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API'
 import { useFingerprint } from '../../../../lib/fingerprint/useFingerprint'
-import Captcha from './Recaptcha'
+import { isWeb } from '../../../../lib/utils/platform'
+import DefaultCaptcha from './Recaptcha'
+import ReCaptchaWeb from './RecaptchaWeb' // added .web suffix to exclude form native build
 
 const log = logger.child({ from: 'recaptcha' })
 
-const { recaptchaSiteKey, publicUrl } = Config
+const { recaptchaSiteKey, hcaptchaSiteKey, captchaEngine, publicUrl } = Config
+const isHCaptcha = captchaEngine === 'hcaptcha'
+const siteKey = isWeb && isHCaptcha ? hcaptchaSiteKey : recaptchaSiteKey
+const Captcha = !isWeb || isHCaptcha ? DefaultCaptcha : ReCaptchaWeb
 
 const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, children }, ref) => {
   const captchaRef = useRef()
@@ -63,7 +68,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
   )
 
   return (
-    <Captcha ref={captchaRef} siteKey={recaptchaSiteKey} baseUrl={publicUrl} onError={onFailure} onVerify={onVerify}>
+    <Captcha ref={captchaRef} siteKey={siteKey} baseUrl={publicUrl} onError={onFailure} onVerify={onVerify}>
       {children}
     </Captcha>
   )

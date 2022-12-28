@@ -81,7 +81,12 @@ export const SavingsCard = ({
             {
                 //TODO: fix when no account connected
                 type && hasBalance && (
-                    <SavingsModal type={type} toggle={toggleModal} isOpen={isModalOpen} requiredChain={requiredChain} />
+                    <SavingsModal
+                        type={type}
+                        onDismiss={toggleModal}
+                        isOpen={isModalOpen}
+                        requiredChain={requiredChain}
+                    />
                 )
             }
             {isMobile ? (

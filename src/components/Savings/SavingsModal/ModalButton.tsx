@@ -1,10 +1,10 @@
 import React, { FC, useCallback } from 'react'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { ModalType } from '.'
-import { ActionOrSwitchButton } from 'components/gd/Button/ActionOrSwitchButton'
+import { ActionOrSwitchButton, ActionOrSwitchButtonProps } from 'components/gd/Button/ActionOrSwitchButton'
 import { SupportedV2Network, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 
-export interface ModalButtonProps {
+export interface ModalButtonProps extends Omit<ActionOrSwitchButtonProps, 'requireChain'> {
     chain: number
     type: ModalType
     title: string

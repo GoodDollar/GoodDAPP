@@ -197,10 +197,10 @@
         "react-error-overlay": "6.0.9",
         "@gooddollar/goodprotocol": "1.0.29-beta.5",
         "@react-native-async-storage/async-storage": "1.17.10",
-        "@web3-onboard/core@^2.10.1": "patch:@web3-onboard/core@npm%3A2.10.1#./.yarn/patches/@web3-onboard-core-npm-2.10.1-4839a0878b.patch"
+        "@web3-onboard/core@^2.12.1": "patch:@web3-onboard/core@npm%3A2.12.1#./.yarn/patches/@web3-onboard-core-npm-2.12.1-94d32823fe.patch"
     },
     "dependencies": {
-        "@gooddollar/good-design": "^0.0.23",
+        "@gooddollar/good-design": "^0.0.24",
         "@gooddollar/goodprotocol": "1.0.29-beta.5",
         "@gooddollar/web3sdk": "^0.1.12",
         "@gooddollar/web3sdk-v2": "^0.1.55",

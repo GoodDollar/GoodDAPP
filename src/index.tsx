@@ -69,6 +69,14 @@ const GlobalStyle = createGlobalStyle`
       width: 90%;
     }
   }
+  onboard-v2::part(mobile-icon-container) {
+    width: fit-content;
+  }
+
+  onboard-v2::part(mobile-icon-img) {
+    width: 150px;
+    height: fit-content;
+  }
 `
 
 ReactDOM.render(

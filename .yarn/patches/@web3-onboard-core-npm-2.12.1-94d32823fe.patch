@@ -1,0 +1,20 @@
+diff --git a/dist/index-b688f3fd.js b/dist/index-b688f3fd.js
+index d8c2c990ec6e92a07ae6d90e9448f2bbc59674c7..4fd91256d44cd6c19abaab20998ab4af4b8ed14c 100644
+--- a/dist/index-b688f3fd.js
++++ b/dist/index-b688f3fd.js
+@@ -6320,6 +6320,7 @@ function create_if_block_5$1(ctx) {
+ 			div2 = element("div");
+ 			t3 = text(t3_value);
+ 			attr(div0, "class", "icon-container svelte-7qgvqp");
++      attr(div0, "part" ,"mobile-icon-container")
+ 			attr(div1, "class", "header-heading svelte-7qgvqp");
+ 			attr(div2, "class", "mobile-subheader svelte-7qgvqp");
+ 			attr(div3, "class", "flex flex-column justify-center w-full svelte-7qgvqp");
+@@ -6430,6 +6431,7 @@ function create_else_block_1(ctx) {
+ 			img = element("img");
+ 			if (!src_url_equal(img.src, img_src_value = /*icon*/ ctx[14])) attr(img, "src", img_src_value);
+ 			attr(img, "alt", "logo");
++      attr(img, "part", "mobile-icon-img")
+ 		},
+ 		m(target, anchor) {
+ 			insert(target, img, anchor);

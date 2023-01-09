@@ -3880,7 +3880,7 @@ __metadata:
     tailwindcss-border-gradient-radius: ^2.0.0
     text-mask-addons: ^3.8.0
     typescript: ^4.4.3
-    ubeswap-swap-dev: ^1.4.1
+    ubeswap-swap-dev: ^1.4.2
     use-count-up: ^2.2.5
     wcag-contrast: ^3.0.0
     web3: 1.8.1
@@ -20663,7 +20663,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keccak@npm:^3.0.0, keccak@npm:^3.0.1, keccak@npm:^3.0.2":
+"keccak@npm:^3.0.0, keccak@npm:^3.0.1":
   version: 3.0.2
   resolution: "keccak@npm:3.0.2"
   dependencies:
@@ -20672,6 +20672,18 @@ __metadata:
     node-gyp-build: ^4.2.0
     readable-stream: ^3.6.0
   checksum: 39a7d6128b8ee4cb7dcd186fc7e20c6087cc39f573a0f81b147c323f688f1f7c2b34f62c4ae189fe9b81c6730b2d1228d8a399cdc1f3d8a4c8f030cdc4f20272
+  languageName: node
+  linkType: hard
+
+"keccak@npm:^3.0.2":
+  version: 3.0.3
+  resolution: "keccak@npm:3.0.3"
+  dependencies:
+    node-addon-api: ^2.0.0
+    node-gyp: latest
+    node-gyp-build: ^4.2.0
+    readable-stream: ^3.6.0
+  checksum: f08f04f5cc87013a3fc9e87262f761daff38945c86dd09c01a7f7930a15ae3e14f93b310ef821dcc83675a7b814eb1c983222399a2f263ad980251201d1b9a99
   languageName: node
   linkType: hard
 
@@ -31401,9 +31413,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ubeswap-swap-dev@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "ubeswap-swap-dev@npm:1.4.1"
+"ubeswap-swap-dev@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "ubeswap-swap-dev@npm:1.4.2"
   dependencies:
     "@apollo/client": ^3.6.5
     "@celo-tools/use-contractkit": ^3.1.0
@@ -31475,7 +31487,7 @@ __metadata:
     react-dom: ^17.0.2
     react-scripts: ^4.0.3
     styled-components: ^5.3.0
-  checksum: e973692a1732951431505f4dc3ae09a0dd904b309ddc0f1520ccd08190c6174f3e6dc89d529df819433d90bec1c74fb33a2386eb5113d854a688566cd86dcd82
+  checksum: 2619eb30405083d438d5029a698c46d30c2c6f1ea4100f51e1c94016a0f55dc0f1940c8175ac538c9b133052abdbf31c64cc9f8c38ed0a9575975db10d79a34d
   languageName: node
   linkType: hard
 

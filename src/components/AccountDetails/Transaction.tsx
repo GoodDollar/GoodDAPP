@@ -8,13 +8,29 @@ import { getExplorerLink } from '../../utils'
 import Loader from '../Loader'
 import { RowFixed } from '../Row'
 
-const TransactionWrapper = styled.div``
+const TransactionWrapper = styled.div`
+    a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 10px;
+        padding: 0.25rem 0rem;
+        font-weight: 500;
+        font-size: 0.825rem;
+    }
+`
 
 const TransactionStatusText = styled.div`
     white-space: nowrap;
     margin-right: 0.5rem;
     display: flex;
     align-items: center;
+    font-weight: 500;
+    font-size: 0.825rem;
+    color: ${({ theme }) => theme.color.text1};
+    &:hover {
+        text-decoration: underline;
+    }
     &:first-child {
         margin-right: 0;
         overflow: hidden;
@@ -25,16 +41,10 @@ const TransactionStatusText = styled.div`
     }
 `
 
-const TransactionState = styled(ExternalLink)<{ pending: boolean; success?: boolean }>`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+const TransactionState = styled(ExternalLink)`
     text-decoration: none !important;
     border-radius: ${({ theme }) => theme.borderRadius};
     padding: 0.25rem 0rem;
-    font-weight: 500;
-    font-size: 0.825rem;
-    color: ${({ theme }) => theme.color.text1};
 
     .transition {
         position: relative;
@@ -68,11 +78,10 @@ export default function Transaction({ hash }: { hash: string }): any {
     const summary = tx?.summary
 
     if (!chainId) return null
-    // const splitIn = Math.floor(hash.length / 2)
 
     return (
         <TransactionWrapper>
-            <TransactionState href={getExplorerLink(chainId, hash, 'transaction')} pending={pending} success={success}>
+            <TransactionState url={getExplorerLink(chainId, hash, 'transaction')} dataAttr="external_explorer">
                 <RowFixed className="transition">
                     <TransactionStatusText>{summary} ↗</TransactionStatusText>
                 </RowFixed>

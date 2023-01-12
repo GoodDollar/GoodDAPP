@@ -91,6 +91,7 @@ export enum AdditionalChainId {
 export enum ChainIdHex {
     '0x7a' = 122,
     '0xa4ec' = 42220,
+    '0x1' = 1,
 }
 
 // TODO: specify merkle distributor for mainnet

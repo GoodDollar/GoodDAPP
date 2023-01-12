@@ -14,6 +14,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { useFaucet } from '@gooddollar/web3sdk-v2'
 import TransactionUpdater from '../state/transactions/updater'
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
 export const Beta = styled.div`
     font-style: normal;
@@ -58,25 +59,28 @@ function App(): JSX.Element {
 
     const dispatch = useDispatch<AppDispatch>()
     const [preservedSource, setPreservedSource] = useState('')
+    const sendData = useSendAnalyticsData()
 
     void useFaucet()
 
     useEffect(() => {
-        const parsed = parse(location.search, { parseArrays: false, ignoreQueryPrefix: true })
+        sendData({ event: 'goto_page', action: `goto_${pathname}` })
+    }, [pathname])
+
+    useEffect(() => {
+        const parsed = parse(search, { parseArrays: false, ignoreQueryPrefix: true })
 
         if (!isEqual(parsed['utm_source'], preservedSource)) {
             setPreservedSource(parsed['utm_source'] as string)
         }
 
-        if (preservedSource && !location.search.includes('utm_source')) {
+        if (preservedSource && !search.includes('utm_source')) {
             replace({
                 ...location,
-                search: location.search
-                    ? location.search + '&utm_source=' + preservedSource
-                    : location.search + '?utm_source=' + preservedSource,
+                search: search ? search + '&utm_source=' + preservedSource : search + '?utm_source=' + preservedSource,
             })
         }
-    }, [preservedSource, location, replace])
+    }, [preservedSource, location, replace, search])
 
     useEffect(() => {
         if (bodyRef.current) {
@@ -118,7 +122,6 @@ function App(): JSX.Element {
                         $page={location.pathname}
                     >
                         <Popups />
-                        {/*<Polling />*/}
                         <Web3ReactManager>
                             <div
                                 className={`flex flex-col flex-glow w-full items-center justify-start

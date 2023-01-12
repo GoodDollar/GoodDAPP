@@ -13,6 +13,7 @@ import { useApplicationTheme } from '../state/application/hooks'
 import LanguageSwitch from './LanguageSwitch'
 import { NavLink } from './Link'
 import usePromise from '../hooks/usePromise'
+import { ExternalLink } from 'theme'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
     width: ${({ $mobile }) => ($mobile ? '90%' : '268px')};
@@ -173,20 +174,6 @@ const SocialsLink: React.FC<{ network: string; logo: string; url: string }> = ({
     </a>
 )
 
-const ExternalLink: React.FC<{ label: string; url: string }> = ({ label, url }) => (
-    <a className="p-2 line md:p-1 xl:p-3 whitespace-nowrap" href={url} target="_blank" rel="noreferrer">
-        <span>{label}</span>
-        <svg className="ml-2" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12.4444 11.6667V7C12.4444 6.57067 12.792 6.22222 13.2221 6.22222C13.6523 6.22222 13.9999 6.57067 13.9999 7V11.6667C13.9999 12.9531 12.953 14 11.6666 14H2.33332C1.04688 14 0 12.9531 0 11.6667V2.33333C0 1.04689 1.04688 0 2.33332 0H6.99996C7.43007 0 7.77773 0.348444 7.77773 0.777778C7.77773 1.20711 7.43007 1.55556 6.99996 1.55556H2.33332C1.90399 1.55556 1.55555 1.90478 1.55555 2.33333V11.6667C1.55555 12.0952 1.90399 12.4444 2.33332 12.4444H11.6666C12.0959 12.4444 12.4444 12.0952 12.4444 11.6667ZM11.3385 1.56178L10.1073 1.55556C9.67716 1.55322 9.33105 1.20322 9.33338 0.773889C9.33571 0.345333 9.68338 0 10.1112 0H10.115L13.2238 0.0155556C13.6516 0.0178889 13.9977 0.364778 13.9977 0.792556L14 3.88811C14 4.31822 13.6524 4.66667 13.223 4.66667H13.2222C12.7929 4.66667 12.4445 4.319 12.4445 3.88967L12.4437 2.65611L7.54995 7.54989C7.39828 7.70156 7.19917 7.77778 7.00006 7.77778C6.80095 7.77778 6.60184 7.70156 6.45017 7.54989C6.14606 7.24578 6.14606 6.75422 6.45017 6.45011L11.3385 1.56178Z"
-                fill="#00B0FF"
-            />
-        </svg>
-    </a>
-)
-
 export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; closeSidebar?: any }): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
@@ -260,6 +247,12 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
         return imported
     }, [chainId])
 
+    const onTabClick = () => {
+        if (mobile) {
+            closeSidebar()
+        }
+    }
+
     return (
         <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
             <div className="sidebar-inner-container">
@@ -308,29 +301,44 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                     </div>
                 )}
                 <nav className="mt-5">
-                    <NavLink to={'/claim'} onClick={mobile ? closeSidebar : null}>
+                    <NavLink to={'/claim'} onClick={onTabClick}>
                         {i18n._(t`Claim`)}
                     </NavLink>
-                    <NavLink to={'/dashboard'} onClick={mobile ? closeSidebar : null}>
+                    <NavLink to={'/dashboard'} onClick={onTabClick}>
                         {i18n._(t`Dashboard`)}
                     </NavLink>
-                    <NavLink to={'/swap'} onClick={mobile ? closeSidebar : null}>
+                    <NavLink to={'/swap'} onClick={onTabClick}>
                         {i18n._(t`Swap`)}
                     </NavLink>
-                    <NavLink to={'/stakes'} onClick={mobile ? closeSidebar : null}>
+                    <NavLink to={'/stakes'} onClick={onTabClick}>
                         {i18n._(t`Stake`)}
                     </NavLink>
-                    <NavLink to={'/portfolio'} onClick={mobile ? closeSidebar : null}>
+                    <NavLink to={'/portfolio'} onClick={onTabClick}>
                         {i18n._(t`Portfolio`)}
                     </NavLink>
-                    <NavLink to={'/microbridge'} onClick={mobile ? closeSidebar : null}>
+                    <NavLink to={'/microbridge'} onClick={onTabClick}>
                         {i18n._(t`Micro Bridge`)}
                     </NavLink>
                     {/* <NavLink to={'/savings'} onClick={mobile ? closeSidebar : null}>{i18n._(t`Savings`)}</NavLink> -- v2 */}
-                    <ExternalLink label={i18n._(t`Wallet`)} url="https://wallet.gooddollar.org/" />
-                    <ExternalLink label={i18n._(t`Fuse Bridge`)} url="https://app.fuse.fi/#/bridge" />
-                    <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" />
-                    <ExternalLink label={i18n._(t`Good Airdrop`)} url="https://airdrop.gooddollar.org" />
+                    <ExternalLink
+                        label={i18n._(t`Wallet`)}
+                        url="https://wallet.gooddollar.org/"
+                        dataAttr="wallet"
+                        withIcon
+                    />
+                    <ExternalLink
+                        label={i18n._(t`Fuse Bridge`)}
+                        url="https://app.fuse.fi/#/bridge"
+                        dataAttr="bridge"
+                        withIcon
+                    />
+                    <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" dataAttr="docs" withIcon />
+                    <ExternalLink
+                        label={i18n._(t`Good Airdrop`)}
+                        url="https://airdrop.gooddollar.org"
+                        dataAttr="airdrop"
+                        withIcon
+                    />
                 </nav>
 
                 <div className="flex items-center justify-between social">

@@ -89,11 +89,11 @@ function TransactionSubmittedContent({
                         {i18n._(t`Transaction Submitted`)}
                     </Text>
                     {chainId && hash && (
-                        <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
-                            <Text fontWeight={500} fontSize={14} color={theme.primary1}>
-                                {i18n._(t`View on explorer`)}
-                            </Text>
-                        </ExternalLink>
+                        <ExternalLink
+                            label={i18n._(t`View on explorer`)}
+                            url={getExplorerLink(chainId, hash, 'transaction')}
+                            dataAttr="external_explorer"
+                        />
                     )}
                     <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>
                         <Text fontWeight={500} fontSize={20}>

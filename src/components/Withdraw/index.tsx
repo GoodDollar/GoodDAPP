@@ -55,16 +55,17 @@ const Withdraw = memo(({ token, protocol, open, setOpen, onWithdraw, stake, ...r
     }, [percentage])
     const dispatch = useDispatch()
     const [transactionHash, setTransactionHash] = useState<string>()
+
     const handleWithdraw = useCallback(async () => {
         if (!web3) return
         try {
             setStatus('pending')
             sendData({
                 event: 'stake',
-                action: 'withdrawApprove',
+                action: 'stake_withdraw_confirm',
                 amount: withdrawAmount,
                 type: protocol,
-                network: network,
+                network,
             })
             await withdraw(
                 web3,
@@ -76,10 +77,10 @@ const Withdraw = memo(({ token, protocol, open, setOpen, onWithdraw, stake, ...r
                     setStatus('send')
                     sendData({
                         event: 'stake',
-                        action: 'withdrawSuccess',
+                        action: 'stake_withdraw_success',
                         amount: withdrawAmount,
                         type: protocol,
-                        network: network,
+                        network,
                     })
                     dispatch(
                         addTransaction({
@@ -103,7 +104,17 @@ const Withdraw = memo(({ token, protocol, open, setOpen, onWithdraw, stake, ...r
             console.error(e)
             setStatus('none')
         }
-    }, [setStatus, onWithdraw, percentage])
+    }, [
+        setStatus,
+        onWithdraw,
+        setError,
+        percentage,
+        withdrawAmount,
+        isGovStake,
+        withdrawInInterestToken,
+        chainId,
+        i18n,
+    ])
 
     const handleClose = useCallback(() => {
         setStatus('none')

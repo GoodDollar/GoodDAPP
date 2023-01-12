@@ -10,6 +10,8 @@ import styled from 'styled-components'
 import { ButtonSecondary } from '../ButtonLegacy'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
+import { ChainId } from '@sushiswap/sdk'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
     ${({ theme }) => theme.flexRowNoWrap}
@@ -56,15 +58,21 @@ const Text = styled.p`
 function Web3Network(): JSX.Element | null {
     const { chainId, error, active } = useActiveWeb3React()
     const { i18n } = useLingui()
+    const sendData = useSendAnalyticsData()
 
     const toggleNetworkModal = useNetworkModalToggle()
+
+    const onNetworkChange = () => {
+        toggleNetworkModal()
+        sendData({ event: 'network_switch', action: 'network_switch_start', network: ChainId[chainId] })
+    }
 
     if (!chainId || !active) return null
 
     return (
         <>
             {error ? (
-                <Web3StatusError onClick={toggleNetworkModal}>
+                <Web3StatusError onClick={onNetworkChange}>
                     <NetworkIcon />
                     <Text>{i18n._(t`Unsupported network`)}</Text>
                 </Web3StatusError>

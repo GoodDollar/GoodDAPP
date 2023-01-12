@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ExternalLink } from '../../theme'
 
 const InfoCard = styled.button<{ active?: boolean }>`
     padding: 1rem;
@@ -65,7 +64,6 @@ const IconWrapper = styled.div<{ size?: number | null }>`
 `
 
 export default function Option({
-    link = null,
     clickable = true,
     size,
     onClick = null,
@@ -75,7 +73,6 @@ export default function Option({
     active = false,
     id,
 }: {
-    link?: string | null
     clickable?: boolean
     size?: number | null
     onClick?: null | (() => void)
@@ -113,9 +110,6 @@ export default function Option({
             )}
         </OptionCardClickable>
     )
-    if (link) {
-        return <ExternalLink href={link}>{content}</ExternalLink>
-    }
 
     return content
 }

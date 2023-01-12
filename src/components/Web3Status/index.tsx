@@ -11,6 +11,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { OnboardConnectButton } from '../BlockNativeOnboard'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
+import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 
 // we want the latest one to come first, so return negative if a is after b
 function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
@@ -27,6 +28,7 @@ const Web3StatusInnerSC = styled.div`
 function Web3StatusInner() {
     const { i18n } = useLingui()
     const { account } = useActiveWeb3React()
+    const sendData = useSendAnalyticsData()
 
     const { ENSName } = useENSName(account ?? undefined)
 
@@ -42,6 +44,10 @@ function Web3StatusInner() {
     const hasPendingTransactions = !!pending.length
 
     const toggleWalletModal = useWalletModalToggle()
+
+    const onAccountClick = () => {
+        sendData({ event: 'goto_page', action: 'goto_address' })
+    }
 
     if (account) {
         return (
@@ -59,7 +65,9 @@ function Web3StatusInner() {
                             <Loader stroke="#173046" />
                         </div>
                     ) : (
-                        <div className="mr-2">{ENSName || shortenAddress(account)}</div>
+                        <div className="mr-2" onClick={onAccountClick}>
+                            {ENSName || shortenAddress(account)}
+                        </div>
                     )}
                 </Web3StatusInnerSC>
             </div>

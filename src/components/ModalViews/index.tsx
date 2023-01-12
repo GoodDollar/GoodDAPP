@@ -65,9 +65,11 @@ export function SubmittedView({
             <AutoColumn gap="100px" justify={'center'}>
                 {children}
                 {chainId && hash && (
-                    <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')} style={{ marginLeft: '4px' }}>
-                        <TYPE.subHeader>{i18n._(t`View transaction on explorer`)}</TYPE.subHeader>
-                    </ExternalLink>
+                    <ExternalLink
+                        label={i18n._(t`View transaction on explorer`)}
+                        url={getExplorerLink(chainId, hash, 'transaction')}
+                        dataAttr="external_explorer"
+                    />
                 )}
             </AutoColumn>
         </ConfirmOrLoadingWrapper>

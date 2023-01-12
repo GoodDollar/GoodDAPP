@@ -53,7 +53,7 @@ export const useClaiming = (): UseClaimReturn => {
             return false
         }
 
-        sendData({ event: 'claim', action: 'claimStart', network })
+        sendData({ event: 'claim', action: 'claim_start', network })
 
         const startClaim = await claim(web3, account).catch(() => {
             refetch()
@@ -64,7 +64,7 @@ export const useClaiming = (): UseClaimReturn => {
             return false
         }
 
-        sendData({ event: 'claim', action: 'claimSuccess', network })
+        sendData({ event: 'claim', action: 'claim_success', network })
         refetch()
         return true
     }, [account, web3, sendData, network, refetch])

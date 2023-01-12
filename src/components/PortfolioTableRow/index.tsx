@@ -8,7 +8,7 @@ import { ButtonAction } from 'components/gd/Button'
 import ClaimRewards from 'components/ClaimRewards'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
-import { MyStake, LIQUIDITY_PROTOCOL } from '@gooddollar/web3sdk'
+import { MyStake, LIQUIDITY_PROTOCOL, SupportedChainId } from '@gooddollar/web3sdk'
 import { SupportedChains } from '@gooddollar/web3sdk-v2'
 
 interface PortfolioTableRowProps {
@@ -28,9 +28,10 @@ const PortfolioTableRow = memo(({ stake, onUpdate }: PortfolioTableRowProps) => 
         (chainId === (SupportedChains.FUSE as number) && requireChain === 'FUSE') ||
         (chainId !== (SupportedChains.FUSE as number) && requireChain === 'MAINNET')
     const sendData = useSendAnalyticsData()
-    const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'fuse' : 'mainnet'
+
+    const network = stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? SupportedChainId[chainId] : 'mainnet'
     const handleWithdrawOpen = useCallback(() => {
-        sendData({ event: 'stake', action: 'withdrawStart', network: network })
+        sendData({ event: 'stake', action: 'savings_withdraw_rewards_claim_start', network })
         setWithdrawOpen(true)
     }, [sendData, network])
 

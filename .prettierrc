@@ -1,14 +1,14 @@
 {
-    "semi": false,
-    "singleQuote": true,
-    "printWidth": 120,
-    "tabWidth": 4,
-    "overrides": [
-        {
-            "files": ["catalog.json"],
-            "options": {
-                "tabWidth": 2
-            }
-        }
-    ]
+  "semi": false,
+  "singleQuote": true,
+  "printWidth": 120,
+  "tabWidth": 4,
+  "overrides": [
+    {
+      "files": ["catalog.json"],
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
 }

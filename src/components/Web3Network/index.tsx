@@ -56,7 +56,7 @@ const Text = styled.p`
 `
 
 function Web3Network(): JSX.Element | null {
-    const { chainId, error, active } = useActiveWeb3React()
+    const { chainId, error } = useActiveWeb3React()
     const { i18n } = useLingui()
     const sendData = useSendAnalyticsData()
 
@@ -67,7 +67,7 @@ function Web3Network(): JSX.Element | null {
         sendData({ event: 'network_switch', action: 'network_switch_start', network: ChainId[chainId] })
     }
 
-    if (!chainId || !active) return null
+    if (!chainId) return null
 
     return (
         <>

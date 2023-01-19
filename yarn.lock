@@ -3606,13 +3606,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.24":
-  version: 0.0.24
-  resolution: "@gooddollar/good-design@npm:0.0.24"
+"@gooddollar/good-design@npm:^0.0.25":
+  version: 0.0.25
+  resolution: "@gooddollar/good-design@npm:0.0.25"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
-    "@gooddollar/goodprotocol": 1.0.29-beta.5
+    "@gooddollar/goodprotocol": 1.0.30-beta.3
     "@lingui/macro": ^3.14.0
     "@lingui/react": ^3.14.0
     "@types/moment-duration-format": ^2.2.3
@@ -3641,7 +3641,7 @@ __metadata:
     typescript: 4.7.4
   peerDependencies:
     "@usedapp/core": 1.*
-  checksum: ada06e12c5a74c7f9440543e0c3a2cb64c4f19c7be2da4ae16f92b46205965db737b1208ddd4a90c2a761bc8ff590d8320545f3660250474de77885965d10244
+  checksum: 5dc69bf50e4f2905a226ec3ea37c7c10097a3a38fa4f3762943f7b01c326f665dc7eb786b8188a5d0986f688329a88103b84a66bc0de93769b0c3d619ab24f3c
   languageName: node
   linkType: hard
 
@@ -3691,7 +3691,7 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.24
+    "@gooddollar/good-design": ^0.0.25
     "@gooddollar/goodprotocol": 1.0.29-beta.5
     "@gooddollar/web3sdk": ^0.1.12
     "@gooddollar/web3sdk-v2": ^0.1.59
@@ -3701,7 +3701,7 @@ __metadata:
     "@lingui/detect-locale": ^3.9.0
     "@lingui/loader": ^3.9.0
     "@lingui/macro": ^3.12.1
-    "@lingui/react": ^3.12.1
+    "@lingui/react": 3.15.0
     "@popperjs/core": ^2.4.4
     "@reach/dialog": ^0.10.3
     "@reach/portal": ^0.10.3
@@ -4710,7 +4710,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lingui/core@npm:^3.15.0":
+"@lingui/core@npm:3.15.0":
   version: 3.15.0
   resolution: "@lingui/core@npm:3.15.0"
   dependencies:
@@ -4757,7 +4757,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lingui/react@npm:^3.12.1, @lingui/react@npm:^3.14.0":
+"@lingui/react@npm:3.15.0":
   version: 3.15.0
   resolution: "@lingui/react@npm:3.15.0"
   dependencies:

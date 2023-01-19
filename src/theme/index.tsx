@@ -41,6 +41,8 @@ export function colors(darkMode: boolean) {
         text3: darkMode ? '#6C7284' : '#888D9B',
         text4: darkMode ? '#565A69' : '#C3C5CB',
         text5: darkMode ? '#2C2F36' : '#EDEEF2',
+        text6: '#636363', // add darkmode
+        text7: '#A3A3A3',
 
         // backgrounds / greys
         bg1: darkMode ? '#202231' : '#FFFFFF',
@@ -93,6 +95,7 @@ export function theme(darkMode: boolean) {
         ...colors(darkMode),
         color: {
             main: darkMode ? '#151A30' : '#ffffff',
+            secondaryBg: darkMode ? '#151A30' : '#F6F8FA',
             mainBg: darkMode ? '#222B45' : '#EDF5FC',
             border1: darkMode ? 'rgba(208, 217, 228, 0.483146)' : 'rgba(208, 217, 228, 0.483146)',
             border2: darkMode ? '#151A30' : '#E5E5E5',
@@ -121,6 +124,7 @@ export function theme(darkMode: boolean) {
         },
         shadow: {
             header: '0px 0px 16px rgba(206, 211, 218, 0.33815)',
+            headerNew: '0px 1px 1.41px rgba(0, 0, 0, 0.2)',
             wallet: darkMode ? 'none' : '0px 15px 40px rgba(117, 117, 170, 0.102792)',
             settings: darkMode ? 'none' : '0px 1px 0px #DAE1ED;',
             swapFooter: darkMode ? 'none' : '-1px 2px 0px #DAE1ED',
@@ -133,6 +137,7 @@ export function theme(darkMode: boolean) {
         },
         media: {
             md: 'screen and (max-width: 975px)',
+            lg: 'screen and (min-width: 976px)',
         },
         grids: {
             sm: 8,

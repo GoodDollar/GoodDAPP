@@ -24,9 +24,10 @@ module.exports = {
     '**/*.{js,jsx,ts,tsx}': async (files) => {
         const ignored = await Promise.all(files.map(async (file) => eslint.isPathIgnored(file)))
         const filtered = files.filter((_, index) => !ignored[index]).map((path) => `"${path}"`)
+        console.log('filtered -->', {filtered}) // todo: fix prettier not run or not fixing errors, fails deployment
 
         await writeFileAsync(tsConfigPath, tsConfig(filtered))
 
-        return [`eslint --no-ignore --max-warnings=0 --fix ${filtered.join(' ')}`, `tsc --p ${tsConfigPath}`]
+        return [`eslint --no-ignore --max-warnings=0 ${filtered.join(' ')} --fix`, `tsc --p ${tsConfigPath}`]
     },
 }

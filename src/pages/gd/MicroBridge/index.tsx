@@ -10,32 +10,66 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 const mockedCards: Array<IClaimCard> = [
     {
-        title: 'Attention!',
+        id: 'attention',
+        title: {
+            text: 'Attention!',
+            color: 'primary',
+        },
         content: [
             {
                 list: [
-                    { key: '⚠️ Microbridge fee is', value: '0.1%' },
-                    { key: '⚠️ Minimum fee is', value: '1 G$' },
-                    { key: '⚠️ Maximum fee is', value: '10 G$' },
+                    {
+                        id: 'bridge-fee',
+                        key: '⚠️ Microbridge fee is',
+                        value: '0.1%',
+                    },
+                    {
+                        id: 'min-fee',
+                        key: '⚠️ Minimum fee is',
+                        value: '1 G$',
+                    },
+                    {
+                        id: 'max-fee',
+                        key: '⚠️ Maximum fee is',
+                        value: '10 G$',
+                    },
                 ],
             },
         ],
+        bgColor: 'goodWhite.100',
     },
     {
-        title: 'Watch this video to learn more about bridging',
+        id: 'watch-vid',
+        title: {
+            text: 'Watch this video to learn more about bridging',
+            color: 'white',
+        },
         content: [
-            { description: 'First time here? Watch this video to learn the basics about bridging:' },
+            {
+                description: {
+                    text: 'First time here? Watch this video to learn the basics about bridging:',
+                    color: 'white',
+                },
+            },
             {
                 imageUrl:
                     'https://1.bp.blogspot.com/-t6rZyF0sJvc/YCe0-Xx2euI/AAAAAAAADt8/ZVlJPzwtayoLezt1fKE833GRX-n8_MHWwCLcBGAsYHQ/s400-rw/Screenshot_20210213-113418.png',
             },
         ],
+        bgColor: 'primary',
     },
     {
-        title: 'Need to bridge larger amounts?',
+        id: 'need-to-bridge',
+        title: {
+            text: 'Need to bridge larger amounts?',
+            color: 'primary',
+        },
         content: [
             {
-                description: `Bridge between all chains that support G$ at multichain.org`,
+                description: {
+                    text: `Bridge between all chains that support G$ at multichain.org`,
+                    color: 'primary',
+                },
             },
             {
                 link: {
@@ -44,6 +78,7 @@ const mockedCards: Array<IClaimCard> = [
                 },
             },
         ],
+        bgColor: 'goodWhite.100',
     },
 ]
 

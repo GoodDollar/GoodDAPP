@@ -16,8 +16,8 @@ import usePromise from '../hooks/usePromise'
 import { ExternalLink } from 'theme'
 
 const SideBarSC = styled.aside<{ $mobile?: boolean }>`
-    width: ${({ $mobile }) => ($mobile ? '90%' : '268px')};
-    background: ${({ theme }) => theme.color.main};
+    width: ${({ $mobile }) => ($mobile ? '90%' : '258px')};
+    background: ${({ theme }) => theme.color.secondaryBg};
     flex-shrink: 0;
     border-right: 1px solid rgba(208, 217, 228, 0.482);
     height: ${({ $mobile }) => ($mobile ? '100%' : 'auto')};
@@ -43,14 +43,10 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
         .balance {
             padding: 10px 7px 5px 22px;
         }
-
-        nav a {
-            margin: 5px 15px 0;
-        }
     }
     @media screen and (min-height: 901px) {
         .balance {
-            padding: 17px 7px 5px 22px;
+            padding: 0px 7px 5px 22px;
         }
 
         nav a {
@@ -64,7 +60,7 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
         color: ${({ theme }) => theme.color.text1};
         padding-left: 18px;
         font-weight: 500;
-        font-size: 18px;
+        font-size: 16px;
 
         &.active,
         &:hover {
@@ -141,15 +137,9 @@ const SideBarSC = styled.aside<{ $mobile?: boolean }>`
                   .balance {
                       padding-left: 13px;
                       margin-bottom: 15px;
-                      .title {
-                          padding-bottom: 17px;
-                      }
                   }
 
                   nav {
-                      a {
-                          margin: 10px 15px 0;
-                      }
                       border-top: 1px solid ${({ theme }) => theme.color.border3};
                       border-bottom: 1px solid ${({ theme }) => theme.color.border3};
                       padding-bottom: 20px;

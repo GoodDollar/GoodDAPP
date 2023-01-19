@@ -195,7 +195,7 @@
         "@types/react": "17.0.2",
         "@types/react-dom": "17.0.2",
         "react-error-overlay": "6.0.9",
-        "@gooddollar/goodprotocol": "1.0.29-beta.5",
+        "@gooddollar/goodprotocol": "1.0.30-beta.3",
         "@react-native-async-storage/async-storage": "1.17.10",
         "@lingui/react": "3.15.0",
         "@lingui/core": "3.15.0",
@@ -203,7 +203,7 @@
     },
     "dependencies": {
         "@gooddollar/good-design": "^0.0.25",
-        "@gooddollar/goodprotocol": "1.0.29-beta.5",
+        "@gooddollar/goodprotocol": "1.0.30-beta.3",
         "@gooddollar/web3sdk": "^0.1.12",
         "@gooddollar/web3sdk-v2": "^0.1.59",
         "@headlessui/react": "1.5.0",

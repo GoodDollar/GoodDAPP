@@ -295,105 +295,110 @@ const StakeTable = ({
                     list.items.map((stake: Stake) => {
                         return (
                             <Fragment key={stake.address}>
-                                <tr>
-                                    <td>
-                                        <div style={{ width: 48 }}>
-                                            <AsyncTokenIcon
-                                                address={stake.tokens.A.address}
-                                                chainId={stake.tokens.A.chainId as number}
-                                                className="block w-5 h-5 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
-                                                network={network}
-                                            />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="inline-flex flex-col md:flex-row">
-                                            <div className="whitespace-nowrap">{stake.tokens.A.symbol}</div>
-                                            {stake.tokens.B !== stake.tokens.A && <div>/{stake.tokens.B.symbol}</div>}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="left">
-                                            <strong>{stake.protocol}</strong>
-                                        </div>
-                                    </td>
-                                    {hasAPY && (
-                                        <td>
-                                            <div className="left">{stake.APY?.toFixed(2)}%</div>
+                                {isMobile ? (
+                                    <tr className="mobile">
+                                        <td colSpan={8}>
+                                            <ActionOrSwitchButton
+                                                size="sm"
+                                                borderRadius="6px"
+                                                noShadow={true}
+                                                requireChain={network.toUpperCase() as keyof typeof SupportedChains}
+                                                onClick={() => {
+                                                    sendData({
+                                                        event: 'stake',
+                                                        action: 'stake_start',
+                                                        token: stake.tokens.A.symbol,
+                                                        type: stake.protocol,
+                                                        network: network,
+                                                    })
+                                                    setActiveStake(stake)
+                                                    setActiveTableName()
+                                                }}
+                                            >
+                                                {' '}
+                                                {i18n._(t`Stake`)}
+                                            </ActionOrSwitchButton>
                                         </td>
-                                    )}
-                                    <td>
-                                        <div className="left">{stake.socialAPY.toFixed(2)}%</div>
-                                    </td>
-                                    <td>
-                                        <div className="center right">
-                                            {stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'G$' : '$'}
-                                            {stake.liquidity.toSignificant(6, { groupSeparator: ',' })}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="right">
-                                            {stake.rewards.G$.greaterThan(0) && (
-                                                <div className="whitespace-nowrap">
-                                                    {stake.rewards.G$.toFixed(2, { groupSeparator: ',' })}{' '}
-                                                    {stake.rewards.G$.currency.symbol}
-                                                </div>
-                                            )}
-                                            <div className="whitespace-nowrap">
-                                                {stake.rewards.GDAO.toFixed(2, { groupSeparator: ',' })}{' '}
-                                                {stake.rewards.GDAO.currency.symbol}
+                                    </tr>
+                                ) : (
+                                    <tr>
+                                        <td>
+                                            <div style={{ width: 48 }}>
+                                                <AsyncTokenIcon
+                                                    address={stake.tokens.A.address}
+                                                    chainId={stake.tokens.A.chainId as number}
+                                                    className="block w-5 h-5 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12"
+                                                    network={network}
+                                                />
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <ActionOrSwitchButton
-                                            size="sm"
-                                            width="78px"
-                                            borderRadius="6px"
-                                            noShadow={true}
-                                            requireChain={network.toUpperCase() as keyof typeof SupportedChains}
-                                            page="Stake"
-                                            onClick={() => {
-                                                sendData({
-                                                    event: 'stake',
-                                                    action: 'stake_start',
-                                                    token: stake.tokens.A.symbol,
-                                                    type: stake.protocol,
-                                                    network,
-                                                })
-                                                setActiveStake(stake)
-                                                setActiveTableName()
-                                            }}
-                                        >
-                                            {' '}
-                                            {i18n._(t`Stake`)}
-                                        </ActionOrSwitchButton>
-                                    </td>
-                                </tr>
-                                <tr className="mobile">
-                                    <td colSpan={8}>
-                                        <ActionOrSwitchButton
-                                            size="sm"
-                                            borderRadius="6px"
-                                            noShadow={true}
-                                            requireChain={network.toUpperCase() as keyof typeof SupportedChains}
-                                            onClick={() => {
-                                                sendData({
-                                                    event: 'stake',
-                                                    action: 'stakeStart',
-                                                    token: stake.tokens.A.symbol,
-                                                    type: stake.protocol,
-                                                    network,
-                                                })
-                                                setActiveStake(stake)
-                                                setActiveTableName()
-                                            }}
-                                        >
-                                            {' '}
-                                            {i18n._(t`Stake`)}
-                                        </ActionOrSwitchButton>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td>
+                                            <div className="inline-flex flex-col md:flex-row">
+                                                <div className="whitespace-nowrap">{stake.tokens.A.symbol}</div>
+                                                {stake.tokens.B !== stake.tokens.A && (
+                                                    <div>/{stake.tokens.B.symbol}</div>
+                                                )}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="left">
+                                                <strong>{stake.protocol}</strong>
+                                            </div>
+                                        </td>
+                                        {hasAPY && (
+                                            <td>
+                                                <div className="left">{stake.APY?.toFixed(2)}%</div>
+                                            </td>
+                                        )}
+                                        <td>
+                                            <div className="left">{stake.socialAPY.toFixed(2)}%</div>
+                                        </td>
+                                        <td>
+                                            <div className="center right">
+                                                {stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO ? 'G$' : '$'}
+                                                {stake.liquidity.toSignificant(6, { groupSeparator: ',' })}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="right">
+                                                {stake.rewards.G$.greaterThan(0) && (
+                                                    <div className="whitespace-nowrap">
+                                                        {stake.rewards.G$.toFixed(2, { groupSeparator: ',' })}{' '}
+                                                        {stake.rewards.G$.currency.symbol}
+                                                    </div>
+                                                )}
+                                                <div className="whitespace-nowrap">
+                                                    {stake.rewards.GDAO.toFixed(2, { groupSeparator: ',' })}{' '}
+                                                    {stake.rewards.GDAO.currency.symbol}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <ActionOrSwitchButton
+                                                size="sm"
+                                                width="78px"
+                                                borderRadius="6px"
+                                                noShadow={true}
+                                                requireChain={network.toUpperCase() as keyof typeof SupportedChains}
+                                                page="Stake"
+                                                onClick={() => {
+                                                    sendData({
+                                                        event: 'stake',
+                                                        action: 'stake_start',
+                                                        token: stake.tokens.A.symbol,
+                                                        type: stake.protocol,
+                                                        network: network,
+                                                    })
+                                                    setActiveStake(stake)
+                                                    setActiveTableName()
+                                                }}
+                                            >
+                                                {' '}
+                                                {i18n._(t`Stake`)}
+                                            </ActionOrSwitchButton>
+                                        </td>
+                                    </tr>
+                                )}
                             </Fragment>
                         )
                     })}

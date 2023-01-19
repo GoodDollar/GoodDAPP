@@ -1,10 +1,10 @@
-import React, { useCallback, useState, useEffect, FC } from 'react'
+import React, { useCallback, useState, useEffect, FC, useMemo } from 'react'
 import Table from 'components/gd/Table'
 import Title from 'components/gd/Title'
 import { QuestionHelper } from 'components'
 import { useLingui } from '@lingui/react'
 import { t } from '@lingui/macro'
-import { useSavingsStats, G$, useGetEnvChainId, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
+import { useSavingsStats, SupportedV2Networks, useG$Tokens } from '@gooddollar/web3sdk-v2'
 import SavingsModal from 'components/Savings/SavingsModal'
 import { Wrapper } from '../styled'
 import styled from 'styled-components'
@@ -12,12 +12,12 @@ import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { SavingsDepositMobile } from './SavingsDepositMobile'
-import { SavingsMobileStat } from './SavingsMobileStat'
+import { SavingsMobileStat } from '../../../../components/Savings/SavingsStat/SavingsMobileStat'
 import { HeadingCopy } from 'components/Savings/SavingsCard'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
-import { ModalButton } from 'components/Savings/SavingsModal/ModalButton'
+import { ModalButton } from 'components/Savings/SavingsModal/SavingsModalButtons'
 import { ChainId } from '@sushiswap/sdk'
-import Web3SupportedNetworks from 'components/Web3SupportedNetworks'
+import Web3SupportedNetworks, { IWeb3SupportedNetworksProps } from 'components/Web3SupportedNetworks'
 
 const SavingsDeposit = styled.div`
     margin-top: 10px;
@@ -31,8 +31,7 @@ interface SavingRowProps {
 
 const SavingRow: FC<SavingRowProps> = ({ chainId, headings, showModal }) => {
     const { stats, error } = useSavingsStats(chainId, 10)
-    const { defaultEnv } = useGetEnvChainId()
-    const g$ = G$(chainId, defaultEnv)
+    const [G$] = useG$Tokens()
     const { i18n } = useLingui()
 
     const onModalButtonPress = useCallback(() => showModal(chainId), [chainId, showModal])
@@ -48,8 +47,8 @@ const SavingRow: FC<SavingRowProps> = ({ chainId, headings, showModal }) => {
             <tr>
                 <td>
                     <AsyncTokenIcon
-                        address={g$.address}
-                        chainId={g$.chainId}
+                        address={G$.address}
+                        chainId={G$.chainId}
                         className={'block w-5 h-5 mr-2 rounded-lg md:w-10 md:h-10 lg:w-12 lg:h-12'}
                     />
                 </td>
@@ -74,20 +73,11 @@ const SavingRow: FC<SavingRowProps> = ({ chainId, headings, showModal }) => {
                     />
                 </td>
             </tr>
-            <tr className="mobile">
-                <td colSpan={8}>
-                    <ModalButton
-                        type={'deposit'}
-                        title={i18n._(t`Deposit G$`)}
-                        chain={chainId}
-                        toggleModal={onModalButtonPress}
-                        width={undefined}
-                    />
-                </td>
-            </tr>
         </>
     )
 }
+
+//todo: Savings can be merged into 1 component together with SavingsCard
 
 export const Savings: FC = () => {
     const [modalData, setModalData] = useState<ChainId>()
@@ -110,38 +100,50 @@ export const Savings: FC = () => {
         setModalData(undefined)
     }, [sendData, setModalData])
 
-    const headings: HeadingCopy = [
-        {
-            title: i18n._(t`Token`),
-            questionText: i18n._(t`This is the token that you can deposit into the savings contract.`),
-            statsKey: 'token',
-        },
-        {
-            title: i18n._(t`Protocol`),
-            questionText: i18n._(t`Your current savings balance.`),
-            statsKey: 'protocol',
-        },
-        {
-            title: i18n._(t`Network`),
-            questionText: i18n._(t`Your current network.`),
-            statsKey: 'network',
-        },
-        {
-            title: i18n._(t`Fixed Apy`),
-            questionText: i18n._(t`The fixed annual interest.`),
-            statsKey: 'apy',
-        },
-        {
-            title: i18n._(t`Total Staked`),
-            questionText: i18n._(t`Total currently saved.`),
-            statsKey: 'totalStaked',
-        },
-        {
-            title: i18n._(t`Total Rewards Paid`),
-            questionText: i18n._(t`Total rewards claimed.`),
-            statsKey: 'totalRewardsPaid',
-        },
-    ]
+    const headings: HeadingCopy = useMemo(
+        () => [
+            {
+                title: i18n._(t`Token`),
+                questionText: i18n._(t`This is the token that you can deposit into the savings contract.`),
+                statsKey: 'token',
+            },
+            {
+                title: i18n._(t`Protocol`),
+                questionText: i18n._(t`Your current savings balance.`),
+                statsKey: 'protocol',
+            },
+            {
+                title: i18n._(t`Network`),
+                questionText: i18n._(t`Your current network.`),
+                statsKey: 'network',
+            },
+            {
+                title: i18n._(t`Fixed Apy`),
+                questionText: i18n._(t`The fixed annual interest.`),
+                statsKey: 'apy',
+            },
+            {
+                title: i18n._(t`Total Staked`),
+                questionText: i18n._(t`Total currently saved.`),
+                statsKey: 'totalStaked',
+            },
+            {
+                title: i18n._(t`Total Rewards Paid`),
+                questionText: i18n._(t`Total rewards claimed.`),
+                statsKey: 'totalRewardsPaid',
+            },
+        ],
+        [i18n]
+    )
+
+    const [MobileRow, Row] = useMemo<IWeb3SupportedNetworksProps['onItem'][]>(
+        () => [
+            ({ chain }) => <SavingsDepositMobile requiredChain={chain} headings={headings} showModal={showModal} />,
+            ({ chain }) => <SavingRow chainId={chain} headings={headings} showModal={showModal} />,
+        ],
+        [headings, showModal]
+    )
+
     return (
         <SavingsDeposit>
             <div className="mt-12"></div>
@@ -152,11 +154,7 @@ export const Savings: FC = () => {
             <div className="mt-4"></div>
 
             {isMobile ? (
-                <Web3SupportedNetworks
-                    onItem={({ chain }) => (
-                        <SavingsDepositMobile requiredChain={chain} headings={headings} showModal={showModal} />
-                    )}
-                />
+                <Web3SupportedNetworks onItem={MobileRow} />
             ) : (
                 <Wrapper>
                     <Table
@@ -173,11 +171,7 @@ export const Savings: FC = () => {
                             </tr>
                         }
                     >
-                        <Web3SupportedNetworks
-                            onItem={({ chain }) => (
-                                <SavingRow chainId={chain} headings={headings} showModal={showModal} />
-                            )}
-                        />
+                        <Web3SupportedNetworks onItem={Row} />
                     </Table>
                 </Wrapper>
             )}

@@ -16,7 +16,6 @@ import AsyncTokenIcon from 'components/gd/sushi/AsyncTokenIcon'
 import Table from 'components/gd/Table'
 import Title from 'components/gd/Title'
 import PortfolioTableRow from 'components/PortfolioTableRow'
-import Web3SupportedNetworks from 'components/Web3SupportedNetworks'
 import Withdraw from 'components/Withdraw'
 import WithdrawRewards from 'components/WithdrawRewards'
 import { disableTestnetMain } from 'constants/index'
@@ -25,8 +24,8 @@ import useCallbackOnFocus from 'hooks/useCallbackOnFocus'
 import usePromise from 'hooks/usePromise'
 import { useWindowSize } from 'hooks/useWindowSize'
 import styled from 'styled-components'
-import { SavingsAccount } from './SavingsAccount'
 import { CellSC, PortfolioAnalyticSC, PortfolioSC, PortfolioTitleSC, PortfolioValueSC } from './styled'
+import { SavingsCard } from 'components/Savings/SavingsCard'
 
 const MobileTableSC = styled.div``
 
@@ -438,12 +437,19 @@ const Portfolio = memo(() => {
                         }
                     >
                         {data?.list.map((stake) => (
-                            <PortfolioTableRow stake={stake} key={stake.address} onUpdate={update} />
+                            <PortfolioTableRow
+                                stake={stake}
+                                key={stake.address}
+                                onUpdate={update}
+                                isMobile={isMobile}
+                            />
                         ))}
                     </Table>
                 </Card>
             )}
-            <Web3SupportedNetworks onItem={({ chain }) => <SavingsAccount requiredChain={chain} account={account} />} />
+
+            <PortfolioTitleSC className="mt-4 mb-3 md:pl-2">{i18n._(`Savings`)}</PortfolioTitleSC>
+            {account && <SavingsCard account={account} />}
         </>
     )
 

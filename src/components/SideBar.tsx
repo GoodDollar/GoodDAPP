@@ -181,40 +181,37 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
     const { chainId, account } = useActiveWeb3React()
     const metaMaskInfo = useMetaMask()
     const balances = useG$Balance(10)
-    const { g$, good, gdx } = useG$Tokens()
+    const [G$, GOOD, GDX] = useG$Tokens()
     const [imported, setImported] = useState<boolean>(false)
 
     const importToMetamask = async () => {
         const allTokens = []
-        if (g$)
-            allTokens.push({
-                type: 'ERC20',
-                options: {
-                    address: g$.address,
-                    symbol: g$.ticker,
-                    decimals: g$.decimals,
-                    image: 'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png',
-                },
-            })
+        allTokens.push({
+            type: 'ERC20',
+            options: {
+                address: G$.address,
+                symbol: G$.ticker,
+                decimals: G$.decimals,
+                image: 'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png',
+            },
+        })
+        allTokens.push({
+            type: 'ERC20',
+            options: {
+                address: GOOD.address,
+                symbol: GOOD.ticker,
+                decimals: GOOD.decimals,
+                image: 'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
+            },
+        })
 
-        if (good)
+        if (!SupportedV2Networks[chainId] && balances.GDX)
             allTokens.push({
                 type: 'ERC20',
                 options: {
-                    address: good.address,
-                    symbol: good.ticker,
-                    decimals: good.decimals,
-                    image: 'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/good-logo.png',
-                },
-            })
-
-        if (!SupportedV2Networks[chainId] && gdx)
-            allTokens.push({
-                type: 'ERC20',
-                options: {
-                    address: gdx.address,
-                    symbol: gdx.ticker,
-                    decimals: gdx.decimals,
+                    address: GDX.address,
+                    symbol: GDX.ticker,
+                    decimals: GDX.decimals,
                     image: 'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gdx-logo.png',
                 },
             })

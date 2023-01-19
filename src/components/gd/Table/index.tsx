@@ -41,10 +41,6 @@ export const TableSC = styled.table`
                 }
             }
 
-            tr:nth-child(even) {
-                display: none;
-            }
-
             td {
                 padding: 15px 8px;
                 background: ${({ theme }) => theme.color.main};

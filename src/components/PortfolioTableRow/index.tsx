@@ -14,9 +14,10 @@ import { SupportedChains } from '@gooddollar/web3sdk-v2'
 interface PortfolioTableRowProps {
     stake: MyStake
     onUpdate: () => void
+    isMobile: boolean | undefined
 }
 
-const PortfolioTableRow = memo(({ stake, onUpdate }: PortfolioTableRowProps) => {
+const PortfolioTableRow = memo(({ stake, onUpdate, isMobile }: PortfolioTableRowProps) => {
     const { i18n } = useLingui()
     const [isWithdrawOpen, setWithdrawOpen] = useState(false)
     const [isClaimRewardsOpen, setClaimRewardsOpen] = useState(false)
@@ -52,77 +53,18 @@ const PortfolioTableRow = memo(({ stake, onUpdate }: PortfolioTableRowProps) => 
                 onClaim={onUpdate}
                 stake={stake}
             />
-            <tr>
-                <td>
-                    {stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO
-                        ? !stake.isDeprecated
-                            ? 'Governance'
-                            : 'Governance (Deprecated)'
-                        : !stake.isDeprecated
-                        ? 'UBI'
-                        : 'UBI (Deprecated)'}
-                </td>
-                <td>
-                    {stake.tokens.A.symbol}
-                    {stake.tokens.A.address !== stake.tokens.B.address ?? `/ ${stake.tokens.B.symbol}`}
-                </td>
-                <td>{stake.protocol}</td>
-                <td>
-                    <span className="whitespace-nowrap">
-                        {stake.stake.amount.toSignificant(6, { groupSeparator: ',' })}{' '}
-                        {stake.stake.amount.currency.symbol}
-                    </span>{' '}
-                    <br />~{stake.stake.amount$.toFixed(2, { groupSeparator: ',' })}$
-                </td>
-                {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (
-                    <td className="whitespace-nowrap">
-                        {stake.rewards.reward &&
-                            stake.rewards.reward.claimed
-                                .add(stake.rewards.reward.unclaimed)
-                                .toSignificant(6, { groupSeparator: ',' })}{' '}
-                        {stake.rewards.reward && stake.rewards.reward.claimed.currency.symbol} <br />~
-                        {stake.rewards.reward$ &&
-                            stake.rewards.reward$.claimed
-                                .add(stake.rewards.reward$.unclaimed)
-                                .toFixed(2, { groupSeparator: ',' })}
-                        $
-                    </td>
-                ) : (
-                    <td className="text-center"> - </td>
-                )}
-                {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (
-                    <td className="whitespace-nowrap">
-                        {stake.multiplier ? (
-                            <>{i18n._(t`This month`)} 2.0X</>
-                        ) : (
-                            <>
-                                {i18n._(t`This month`)} 1.0X
-                                <br />
-                                {i18n._(t`Next month:`)} 2.0X
-                            </>
-                        )}
-                    </td>
-                ) : (
-                    <td className="text-center"> - </td>
-                )}
-                <td>
-                    {stake.rewards.GDAO.claimed
-                        .add(stake.rewards.GDAO.unclaimed)
-                        .toSignificant(6, { groupSeparator: ',' })}{' '}
-                    {stake.rewards.GDAO.claimed.currency.symbol}
-                </td>
-                <td className="flex content-center justify-center">
-                    <div className="flex flex-col justify-end" style={{ width: '140px' }}>
+            {isMobile ? (
+                <tr className="mobile">
+                    <td colSpan={8}>
                         <ActionOrSwitchButton
                             size="sm"
                             width="100%"
                             borderRadius="6px"
-                            noShadow={true}
                             requireChain={requireChain}
                             onClick={handleWithdrawOpen}
                             ButtonEl={ButtonAction}
                         >
-                            {i18n._(t`Withdraw Liquidity`)}
+                            {i18n._(t`Withdraw`)}
                         </ActionOrSwitchButton>
                         {claimableStake && (
                             <ButtonAction
@@ -134,28 +76,95 @@ const PortfolioTableRow = memo(({ stake, onUpdate }: PortfolioTableRowProps) => 
                                 {i18n._(t`Claim rewards`)}
                             </ButtonAction>
                         )}
-                    </div>
-                </td>
-            </tr>
-            <tr className="mobile">
-                <td colSpan={8}>
-                    <ActionOrSwitchButton
-                        size="sm"
-                        width="100%"
-                        borderRadius="6px"
-                        requireChain={requireChain}
-                        onClick={handleWithdrawOpen}
-                        ButtonEl={ButtonAction}
-                    >
-                        {i18n._(t`Withdraw`)}
-                    </ActionOrSwitchButton>
-                    {claimableStake && (
-                        <ButtonAction className="mt-2" size="sm" borderRadius="6px" onClick={handleClaimRewardsOpen}>
-                            {i18n._(t`Claim rewards`)}
-                        </ButtonAction>
+                    </td>
+                </tr>
+            ) : (
+                <tr>
+                    <td>
+                        {stake.protocol === LIQUIDITY_PROTOCOL.GOODDAO
+                            ? !stake.isDeprecated
+                                ? 'Governance'
+                                : 'Governance (Deprecated)'
+                            : !stake.isDeprecated
+                            ? 'UBI'
+                            : 'UBI (Deprecated)'}
+                    </td>
+                    <td>
+                        {stake.tokens.A.symbol}
+                        {stake.tokens.A.address !== stake.tokens.B.address ?? `/ ${stake.tokens.B.symbol}`}
+                    </td>
+                    <td>{stake.protocol}</td>
+                    <td>
+                        <span className="whitespace-nowrap">
+                            {stake.stake.amount.toSignificant(6, { groupSeparator: ',' })}{' '}
+                            {stake.stake.amount.currency.symbol}
+                        </span>{' '}
+                        <br />~{stake.stake.amount$.toFixed(2, { groupSeparator: ',' })}$
+                    </td>
+                    {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (
+                        <td className="whitespace-nowrap">
+                            {stake.rewards.reward &&
+                                stake.rewards.reward.claimed
+                                    .add(stake.rewards.reward.unclaimed)
+                                    .toSignificant(6, { groupSeparator: ',' })}{' '}
+                            {stake.rewards.reward && stake.rewards.reward.claimed.currency.symbol} <br />~
+                            {stake.rewards.reward$ &&
+                                stake.rewards.reward$.claimed
+                                    .add(stake.rewards.reward$.unclaimed)
+                                    .toFixed(2, { groupSeparator: ',' })}
+                            $
+                        </td>
+                    ) : (
+                        <td className="text-center"> - </td>
                     )}
-                </td>
-            </tr>
+                    {stake.protocol !== LIQUIDITY_PROTOCOL.GOODDAO ? (
+                        <td className="whitespace-nowrap">
+                            {stake.multiplier ? (
+                                <>{i18n._(t`This month`)} 2.0X</>
+                            ) : (
+                                <>
+                                    {i18n._(t`This month`)} 1.0X
+                                    <br />
+                                    {i18n._(t`Next month:`)} 2.0X
+                                </>
+                            )}
+                        </td>
+                    ) : (
+                        <td className="text-center"> - </td>
+                    )}
+                    <td>
+                        {stake.rewards.GDAO.claimed
+                            .add(stake.rewards.GDAO.unclaimed)
+                            .toSignificant(6, { groupSeparator: ',' })}{' '}
+                        {stake.rewards.GDAO.claimed.currency.symbol}
+                    </td>
+                    <td className="flex content-center justify-center">
+                        <div className="flex flex-col justify-end" style={{ width: '140px' }}>
+                            <ActionOrSwitchButton
+                                size="sm"
+                                width="100%"
+                                borderRadius="6px"
+                                noShadow={true}
+                                requireChain={requireChain}
+                                onClick={handleWithdrawOpen}
+                                ButtonEl={ButtonAction}
+                            >
+                                {i18n._(t`Withdraw Liquidity`)}
+                            </ActionOrSwitchButton>
+                            {claimableStake && (
+                                <ButtonAction
+                                    className="mt-2"
+                                    size="sm"
+                                    borderRadius="6px"
+                                    onClick={handleClaimRewardsOpen}
+                                >
+                                    {i18n._(t`Claim rewards`)}
+                                </ButtonAction>
+                            )}
+                        </div>
+                    </td>
+                </tr>
+            )}
         </>
     )
 })

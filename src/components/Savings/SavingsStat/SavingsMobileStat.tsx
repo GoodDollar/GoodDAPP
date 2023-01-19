@@ -1,7 +1,7 @@
 import React, { FC, memo, useMemo } from 'react'
 import { LoadingPlaceHolder } from 'theme/components'
 
-import { SavingsStats } from '@gooddollar/web3sdk-v2'
+import { SavingsStats, StakerInfo } from '@gooddollar/web3sdk-v2'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
@@ -9,7 +9,7 @@ import { ChainId } from '@sushiswap/sdk'
 import { NETWORK_LABEL } from 'constants/networks'
 
 interface SavingsMobileStatProps {
-    stats?: SavingsStats
+    stats?: SavingsStats | StakerInfo
     statsError?: any[]
     statsKey: string
     requiredChain: ChainId
@@ -32,7 +32,13 @@ export const SavingsMobileStat: FC<SavingsMobileStatProps> = memo(({ stats, stat
         return null
     }
 
-    const { apy, totalStaked, totalRewardsPaid } = stats
+    let statsValue: any
+
+    for (const [key, value] of Object.entries(stats)) {
+        if (key === statsKey) {
+            statsValue = value
+        }
+    }
 
     switch (statsKey) {
         case 'token':
@@ -42,11 +48,25 @@ export const SavingsMobileStat: FC<SavingsMobileStatProps> = memo(({ stats, stat
         case 'network':
             return <>{NETWORK_LABEL[requiredChain]}</>
         case 'apy':
-            return <div>{apy ? `${apy.toFixed(0)} %` : placeholder}</div>
+            return <div>{`${statsValue?.toFixed(0)} %` ?? placeholder}</div>
         case 'totalStaked':
-            return <>{totalStaked?.format(fmtOpts) ?? placeholder}</>
+        case 'principle':
+            return <>{statsValue?.format(fmtOpts) ?? placeholder}</>
         case 'totalRewardsPaid':
-            return <>{totalRewardsPaid?.format() ?? placeholder}</>
+            return <>{statsValue?.format() ?? placeholder}</>
+        case 'claimable':
+            return (
+                <>
+                    {statsValue ? (
+                        <>
+                            <div>{statsValue.g$Reward.format()}</div>
+                            <div>{statsValue.goodReward.format()}</div>
+                        </>
+                    ) : (
+                        placeholder
+                    )}
+                </>
+            )
         default:
             return null
     }

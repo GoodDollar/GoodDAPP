@@ -17,15 +17,9 @@ import Loader from 'components/Loader'
 import { ButtonAction } from 'components/gd/Button'
 
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import {
-    G$,
-    useGetEnvChainId,
-    useSavingsBalance,
-    useSavingsFunctions,
-    SupportedV2Networks,
-} from '@gooddollar/web3sdk-v2'
+import { useSavingsBalance, useSavingsFunctions, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 import { TransactionReceipt } from '@ethersproject/providers'
-import { CurrencyValue, TransactionStatus } from '@usedapp/core'
+import { TransactionStatus } from '@usedapp/core'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
 // TODO: Change to savings specific state
@@ -76,6 +70,10 @@ const TransactionCopy = {
 }
 
 export type ModalType = 'deposit' | 'withdraw' | 'claim'
+export interface ModalStatus {
+    type: ModalType | undefined
+    isOpen: boolean
+}
 
 const SavingsModal = memo(
     ({
@@ -103,33 +101,21 @@ const SavingsModal = memo(
         const { balance, withdrawAmount } = useMemo(() => {
             const balance =
                 type === 'withdraw'
-                    ? parseFloat((parseInt(savingsBalance.value) / 1e2).toString()).toFixed(2)
-                    : parseFloat((parseInt(g$Balance.value) / 1e2).toString()).toFixed(2)
-            const withdrawAmount = parseFloat(balance) * (Number(percentage) / 100)
+                    ? savingsBalance?.format({ useFixedPrecision: true })
+                    : g$Balance?.format({ useFixedPrecision: true })
+
+            const withdrawBalance = savingsBalance?.format({
+                thousandSeparator: '',
+                useFixedPrecision: false,
+                suffix: undefined,
+            })
+
+            const withdrawAmount = withdrawBalance ? parseFloat(withdrawBalance) * (Number(percentage) / 100) : 0
 
             return { balance, withdrawAmount }
         }, [g$Balance, savingsBalance, type, percentage])
 
-        useEffect(() => {
-            if (type === 'deposit') {
-                console.log({ balance })
-            }
-        }, [balance, type])
-
         const { transfer, withdraw, claim, transferState, withdrawState, claimState } = useSavingsFunctions()
-
-        const { defaultEnv } = useGetEnvChainId()
-        const formattedBalance = useMemo(
-            () =>
-                CurrencyValue.fromString(
-                    G$(chainId, defaultEnv),
-                    String(type === 'withdraw' ? savingsBalance.value : g$Balance.value)
-                ).format({
-                    fixedPrecisionDigits: 2,
-                    useFixedPrecision: true,
-                }),
-            [balance, type]
-        )
 
         const addSavingsTransaction = async (tx: TransactionReceipt, amount?: string) => {
             // getData({event: 'savings', action: [type]+'Success'})
@@ -147,7 +133,6 @@ const SavingsModal = memo(
         const depositOrWithdraw = async (amount: string) => {
             if (account) {
                 sendData({ event: 'savings', action: 'savings_' + type + '_confirm', amount: amount, network })
-
                 const parsedAmount = (parseFloat(withdrawAmount.toFixed(0)) * 1e2).toString()
                 const tx =
                     type === 'withdraw'
@@ -155,8 +140,9 @@ const SavingsModal = memo(
                         : await transfer((parseFloat(amount) * 1e2).toString())
 
                 if (tx) {
-                    await addSavingsTransaction(tx, amount)
                     sendData({ event: 'savings', action: 'savings_' + type + '_success', amount: amount, network })
+                    await addSavingsTransaction(tx, amount)
+                    return
                 }
             }
         }
@@ -164,25 +150,22 @@ const SavingsModal = memo(
         const claimRewards = async () => {
             if (account) {
                 sendData({ event: 'savings', action: 'savings_claim_rewards_confirm', network })
-
-                const tx = await claim()
-
-                if (tx) {
-                    await addSavingsTransaction(tx)
-                    sendData({ event: 'savings', action: 'savings_claim_rewards_success', network })
-                }
+                await claim().then((tx) => {
+                    if (tx) {
+                        sendData({ event: 'savings', action: 'savings_claim_rewards_success', network })
+                        void addSavingsTransaction(tx)
+                    }
+                })
             }
         }
 
         const withdrawAll = async () => {
-            if (account) {
+            if (account && balance) {
                 sendData({ event: 'savings', action: 'savings_withdraw_all_send', network })
-
                 const tx = await withdraw(balance, account)
-
                 if (tx) {
-                    await addSavingsTransaction(tx, balance)
                     sendData({ event: 'savings', action: 'savings_withdraw_all_success', network })
+                    void addSavingsTransaction(tx, balance)
                 }
             }
         }
@@ -286,15 +269,7 @@ const SavingsModal = memo(
                     onDismiss()
                 }}
             >
-                <StakeDepositSC
-                    style={
-                        {
-                            // display: 'flex',
-                            // justifyContent: 'center',
-                            // flexDirection: 'column'
-                        }
-                    }
-                >
+                <StakeDepositSC>
                     <Title className="flex items-center justify-center mb-2 space-x-2" style={{ fontSize: '24px' }}>
                         {state.loading && !state.done
                             ? i18n._(t`${TransactionCopy[type].title.loading}`)
@@ -321,7 +296,7 @@ const SavingsModal = memo(
                                         <>
                                             <span>How much would you like to {type}</span>
                                             <SwapInput
-                                                balance={formattedBalance}
+                                                balance={balance}
                                                 autoMax
                                                 disabled={state.loading}
                                                 value={state.value}
@@ -354,7 +329,7 @@ const SavingsModal = memo(
                                     }}
                                     onClick={onConfirmTx}
                                 >
-                                    {type} {type === 'withdraw' ? withdrawAmount.toFixed(2) + ' G$ ' : ''}
+                                    {type} {type === 'withdraw' ? withdrawAmount + ' G$ ' : ''}
                                 </ButtonAction>
                             </div>
                         </div>

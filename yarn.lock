@@ -3931,7 +3931,7 @@ __metadata:
     react-share: ^4.3.1
     react-test-renderer: ^17.0.2
     readable-stream: ^1.0.33
-    realm-web: ^1.7.1
+    realm-web: ^2.0.0
     reaptcha: ^1.7.3
     recaptcha-v3-react: ^3.0.3
     resolve: 1.8.1
@@ -5196,10 +5196,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@realm.io/common@npm:^0.1.4":
+"@realm/common@npm:^0.1.4":
   version: 0.1.4
-  resolution: "@realm.io/common@npm:0.1.4"
-  checksum: 155a87098a32eeefb194be39b659ceee84c18212fb574bd23203a4b744f0b0ab0f98c90d60065dce0813afe1212bc62df3b5e516fb147b8af61923d3281115d7
+  resolution: "@realm/common@npm:0.1.4"
+  checksum: b051dc928e3d9f3677723939379232e2ceba4f76b231bc26e449e5ed728ac82f9e99e391c52fe09823b0539d22fe5552465bbcbff2df95e8c18e5993aabaf983
   languageName: node
   linkType: hard
 
@@ -10549,11 +10549,11 @@ __metadata:
   linkType: hard
 
 "bson@npm:^4.5.4":
-  version: 4.7.0
-  resolution: "bson@npm:4.7.0"
+  version: 4.7.2
+  resolution: "bson@npm:4.7.2"
   dependencies:
     buffer: ^5.6.0
-  checksum: 83e7b64afdad5a505073a7e6206e7b345f59e7888fbcb1948fba72b6101a1baf58b7499314f8e24b650567665f7973eda048aabbb1ddcfbadfba7d6c6b0f5e83
+  checksum: f357d12c5679c8eb029a62e410ad40fb862b7b91f0fc12a3399fb3668e14aecaa63205ffeeee48735a01d393171743607dcd527eb8c058b6f2bd294079ee4125
   languageName: node
   linkType: hard
 
@@ -20508,9 +20508,9 @@ __metadata:
   linkType: hard
 
 "js-base64@npm:^3.7.2":
-  version: 3.7.2
-  resolution: "js-base64@npm:3.7.2"
-  checksum: 573f28e9a27c3df60096d4d3f551bcb4fcb6d49161cf83396e9bad9b76f94736a70bb70b8808fe834dff2a388f76604ba09d6e153bbf181646e407720139fa5b
+  version: 3.7.4
+  resolution: "js-base64@npm:3.7.4"
+  checksum: b8f6b10033b57bbb87fa34629f44bc665cb8b7bcba49610a29b296592616e633e9c186afaa02de5a54d60c08aaa36c8c8ad585db095a96fb331fe022f54792a2
   languageName: node
   linkType: hard
 
@@ -29152,11 +29152,11 @@ patch-package@latest:
   languageName: node
   linkType: hard
 
-"realm-web@npm:^1.7.1":
-  version: 1.7.1
-  resolution: "realm-web@npm:1.7.1"
+"realm-web@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "realm-web@npm:2.0.0"
   dependencies:
-    "@realm.io/common": ^0.1.4
+    "@realm/common": ^0.1.4
     abort-controller: ^3.0.0
     bson: ^4.5.4
     detect-browser: ^5.2.1
@@ -29167,7 +29167,7 @@ patch-package@latest:
       optional: true
     node-fetch:
       optional: true
-  checksum: c51dfcacba07256d51a2968db8ff519641b893f52ca61652d1cd1f60b15f43821a12eb7570c623bf51ae6be93d5b4839dd2d1e15f611bfa6bcaa5b1629e93d9c
+  checksum: a4266502ad6fc63d068e8a05dac32522aa86b0f3f55474e769a286d2ec018cd557f5db9642d35c039f87ac2eea1aad54d32ecd27b6a59078f78aed58f445fbb3
   languageName: node
   linkType: hard
 

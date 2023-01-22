@@ -288,9 +288,11 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                     </div>
                 )}
                 <nav className="mt-5">
-                    <NavLink to={'/claim'} onClick={onTabClick}>
-                        {i18n._(t`Claim`)}
-                    </NavLink>
+                    {process.env.REACT_APP_CELO_PHASE_2 && (
+                        <NavLink to={'/claim'} onClick={onTabClick}>
+                            {i18n._(t`Claim`)}
+                        </NavLink>
+                    )}
                     <NavLink to={'/dashboard'} onClick={onTabClick}>
                         {i18n._(t`Dashboard`)}
                     </NavLink>
@@ -303,10 +305,11 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                     <NavLink to={'/portfolio'} onClick={onTabClick}>
                         {i18n._(t`Portfolio`)}
                     </NavLink>
-                    <NavLink to={'/microbridge'} onClick={onTabClick}>
-                        {i18n._(t`Micro Bridge`)}
-                    </NavLink>
-                    {/* <NavLink to={'/savings'} onClick={mobile ? closeSidebar : null}>{i18n._(t`Savings`)}</NavLink> -- v2 */}
+                    {process.env.REACT_APP_CELO_PHASE_3 && (
+                        <NavLink to={'/microbridge'} onClick={onTabClick}>
+                            {i18n._(t`Micro Bridge`)}
+                        </NavLink>
+                    )}
                     <ExternalLink
                         label={i18n._(t`Wallet`)}
                         url="https://wallet.gooddollar.org/"
@@ -319,6 +322,14 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                         dataAttr="bridge"
                         withIcon
                     />
+                    {process.env.REACT_APP_CELO_PHASE_1 && (
+                        <ExternalLink
+                            label={i18n._(t`Multichain Bridge`)}
+                            url="https://app.multichain.org"
+                            dataAttr="multichain"
+                            withIcon
+                        />
+                    )}
                     <ExternalLink label={i18n._(t`Docs`)} url="https://docs.gooddollar.org" dataAttr="docs" withIcon />
                     <ExternalLink
                         label={i18n._(t`Good Airdrop`)}

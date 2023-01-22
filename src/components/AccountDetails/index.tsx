@@ -15,8 +15,10 @@ import Title from '../gd/Title'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
+import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 
 import { useConnectWallet } from '@web3-onboard/react'
+import { getNetworkEnv } from '@gooddollar/web3sdk'
 
 const UpperSection = styled.div`
     position: relative;
@@ -207,8 +209,10 @@ export default function AccountDetails({
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     const dispatch = useDispatch<AppDispatch>()
+    const network = getNetworkEnv()
     //eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
+    const sendData = useSendAnalyticsData()
 
     function formatConnectorName() {
         return `${i18n._(t`Connected with`)} ${wallet?.label}`
@@ -222,6 +226,7 @@ export default function AccountDetails({
     const disconnectWallet = useCallback(async () => {
         if (wallet) {
             toggleWalletModal()
+            sendData({ event: 'account', action: 'address_disconnect_success', network: network })
             await disconnect({ label: wallet.label })
             await connect()
         }

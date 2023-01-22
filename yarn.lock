@@ -3766,7 +3766,7 @@ __metadata:
     "@fullhuman/postcss-purgecss": ^4.0.3
     "@gooddollar/good-design": ^0.0.25
     "@gooddollar/goodprotocol": 1.0.30-beta.3
-    "@gooddollar/web3sdk": ^0.1.12
+    "@gooddollar/web3sdk": ^0.1.14
     "@gooddollar/web3sdk-v2": ^0.1.59
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
@@ -3970,9 +3970,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk@npm:^0.1.12":
-  version: 0.1.13
-  resolution: "@gooddollar/web3sdk@npm:0.1.13"
+"@gooddollar/web3sdk@npm:^0.1.14":
+  version: 0.1.14
+  resolution: "@gooddollar/web3sdk@npm:0.1.14"
   dependencies:
     "@apollo/client": ^3.2.0
     "@gooddollar/goodprotocol": 1.0.29-beta.4
@@ -3994,7 +3994,7 @@ __metadata:
     web3-eth: ^1.7.5
     web3-eth-contract: ^1.7.5
     web3-utils: ^1.7.5
-  checksum: 3246fe835b50b0afcd2cda382717669abbb7b066df9712ae0b3da30c467d973d24d9110861a5139b4c80084e0c941ff0dac53586a327ac7ac15801801cf0d53e
+  checksum: 66f783da5d0bcb07c77daf984106eee6d48c26ac9b295598026798ee08e95b745da36a2c53beee38272b296f328253fdd8c8053838db8098355217a27368bfef
   languageName: node
   linkType: hard
 
@@ -14083,10 +14083,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.0.0, core-js@npm:^3.1.3, core-js@npm:^3.6.5":
+"core-js@npm:^3.0.0, core-js@npm:^3.6.5":
   version: 3.27.1
   resolution: "core-js@npm:3.27.1"
   checksum: d50b5f88aea4302512ad9446c18e90f4d35dea1e6d8d3f87337690677061565ff11a670f1e0c87de57aa6074375fbb25ed5784076c040d3c4de8b4bce7d2ebeb
+  languageName: node
+  linkType: hard
+
+"core-js@npm:^3.1.3":
+  version: 3.27.2
+  resolution: "core-js@npm:3.27.2"
+  checksum: 718debd426f55a6b97cf9b757c936be258afd6d4f7052f89d0f96c982d7013e9000b0b006df42831a0cf32adad298e34d6a19052dce9ae1c7ab87162c0c665e0
   languageName: node
   linkType: hard
 
@@ -29982,13 +29989,13 @@ __metadata:
   linkType: hard
 
 "rollup-plugin-multi-input@npm:^1.3.1":
-  version: 1.3.2
-  resolution: "rollup-plugin-multi-input@npm:1.3.2"
+  version: 1.3.3
+  resolution: "rollup-plugin-multi-input@npm:1.3.3"
   dependencies:
     core-js: ^3.1.3
     fast-glob: ^3.0.0
     lodash: ^4.17.11
-  checksum: 1caa36a93cdb82ddf798d39dc9d55eef9961d87277e2bb000dcbdb2e9339c29ad444de9c1ec0fc8a32ff948f32bfe9d3e6e41abd7ea25dda194baa70840ccc56
+  checksum: 48ced2f8e8b694c658216d0bbe462ad1c6a63537d074d38ed00618e62a2e4715b3c9f8c789d71bd1a5743f42e873502df55a5dc8e43c3e8a147e60d880990dc0
   languageName: node
   linkType: hard
 

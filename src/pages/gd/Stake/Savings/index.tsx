@@ -82,7 +82,6 @@ const SavingRow: FC<SavingRowProps> = ({ chainId, headings, showModal }) => {
 export const Savings: FC = () => {
     const [modalData, setModalData] = useState<ChainId>()
     const { account, chainId } = useActiveWeb3React()
-    const network = SupportedV2Networks[chainId]
     const { i18n } = useLingui()
     const { width } = useWindowSize()
     const isMobile = width ? width <= 768 : undefined
@@ -90,7 +89,6 @@ export const Savings: FC = () => {
 
     const showModal = useCallback(
         (chain: ChainId) => {
-            sendData({ event: 'savings', action: 'savings_start', network })
             setModalData(chain)
         },
         [sendData, setModalData]

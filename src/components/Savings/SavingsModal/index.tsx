@@ -164,7 +164,12 @@ const SavingsModal = memo(
                 sendData({ event: 'savings', action: 'savings_withdraw_all_send', network })
                 const tx = await withdraw(balance, account)
                 if (tx) {
-                    sendData({ event: 'savings', action: 'savings_withdraw_all_success', network })
+                    sendData({
+                        event: 'savings',
+                        action: 'savings_withdraw_all_success',
+                        amount: balance,
+                        network,
+                    })
                     void addSavingsTransaction(tx, balance)
                 }
             }

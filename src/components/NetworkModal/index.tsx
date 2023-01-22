@@ -13,7 +13,7 @@ import { useLingui } from '@lingui/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useSetChain } from '@web3-onboard/react'
 
-import { getNetworkEnv, UnsupportedChainId } from '@gooddollar/web3sdk'
+import { getNetworkEnv } from '@gooddollar/web3sdk'
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 
 const TextWrapper = styled.div`
@@ -64,20 +64,17 @@ export default function NetworkModal(): JSX.Element | null {
 
     const networkLabel: string | null = error ? null : (NETWORK_LABEL as any)[chainId]
     const network = getNetworkEnv()
+    const prodNetworks = process.env.REACT_APP_CELO_PHASE_1
+        ? [AdditionalChainId.CELO, ChainId.MAINNET, AdditionalChainId.FUSE]
+        : [ChainId.MAINNET, AdditionalChainId.FUSE]
 
     const allowedNetworks = useMemo(() => {
         switch (true) {
-            case network === 'production' && !error:
-                return [ChainId.MAINNET, AdditionalChainId.FUSE]
-
-            case network === 'production' && error instanceof UnsupportedChainId:
-                return [ChainId.MAINNET]
-
-            case network === 'staging' && !error:
-                return [AdditionalChainId.FUSE, AdditionalChainId.CELO]
-
+            case network === 'staging':
+            case network === 'fuse':
+                return [AdditionalChainId.CELO, AdditionalChainId.FUSE]
             default:
-                return [AdditionalChainId.FUSE, ChainId.MAINNET, AdditionalChainId.CELO]
+                return prodNetworks
         }
     }, [error, network])
 

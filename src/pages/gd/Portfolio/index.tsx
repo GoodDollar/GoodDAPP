@@ -447,9 +447,12 @@ const Portfolio = memo(() => {
                     </Table>
                 </Card>
             )}
-
-            <PortfolioTitleSC className="mt-4 mb-3 md:pl-2">{i18n._(`Savings`)}</PortfolioTitleSC>
-            {account && <SavingsCard account={account} />}
+            {process.env.REACT_APP_CELO_PHASE_3 && account && (
+                <>
+                    <PortfolioTitleSC className="mt-4 mb-3 md:pl-2">{i18n._(`Savings`)}</PortfolioTitleSC>
+                    <SavingsCard account={account} />
+                </>
+            )}
         </>
     )
 

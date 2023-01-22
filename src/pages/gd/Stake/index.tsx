@@ -502,7 +502,7 @@ export default function Stakes(): JSX.Element | null {
                     )}
                 </Modal>
             </StakesSC>
-            <Savings />
+            {process.env.REACT_APP_CELO_PHASE_3 && <Savings />}
         </Layout>
     )
 }

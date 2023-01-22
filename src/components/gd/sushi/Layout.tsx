@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 interface LayoutProps {
     left?: JSX.Element
-    children?: React.ReactChild | React.ReactChild[]
+    children?: React.ReactNode | React.ReactNode[]
     right?: JSX.Element
     netWorth?: string
     classes?: string

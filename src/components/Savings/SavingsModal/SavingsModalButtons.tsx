@@ -28,7 +28,7 @@ export const ModalButton: FC<ModalButtonProps> = ({ chain, type, title, toggleMo
     const sendData = useSendAnalyticsData()
     const network = SupportedV2Networks[chain]
     const onClick = useCallback(() => {
-        sendData({ event: 'savings', action: 'savings_' + type + '_confirm', network })
+        sendData({ event: 'savings', action: 'savings_' + type + '_start', network })
         toggleModal(type)
     }, [toggleModal, type, sendData])
 

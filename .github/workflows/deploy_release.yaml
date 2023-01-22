@@ -49,12 +49,12 @@ jobs:
                   fi
                   if [[ $BRANCH == 'master' ]]; then
 
-                      echo "NETWORK=fuse" >> $GITHUB_ENV
+                      echo "REACT_APP_NETWORK=fuse" >> $GITHUB_ENV
 
                       echo "CLOUDFLARE_RECORD_NAME=_dnslink.fi-dev" >> "$GITHUB_ENV"
                       echo "SUBDOMAIN=fi-dev" >> "$GITHUB_ENV"
                   else
-                      echo "NETWORK=staging" >> $GITHUB_ENV
+                      echo "REACT_APP_NETWORK=staging" >> $GITHUB_ENV
                       echo "CLOUDFLARE_RECORD_NAME=_dnslink.fi-qa" >> "$GITHUB_ENV"
 
                       echo "SUBDOMAIN=fi-qa" >> "$GITHUB_ENV"

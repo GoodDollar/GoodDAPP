@@ -74,39 +74,41 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-export const WcHeader = withStyles(getStylesFromProps)(({ styles, session: { peerMeta, chainId } = {} }) => {
-  const dappName = peerMeta?.name
-  const dappURL = peerMeta?.url
-  const dappIcon = first(peerMeta?.icons)
-  const chain = chainId || peerMeta?.chainId || Config.networkId
+export const WcHeader = withStyles(getStylesFromProps)(
+  ({ styles, requestedChainId, session: { peerMeta, chainId } = {} }) => {
+    const dappName = peerMeta?.name
+    const dappURL = peerMeta?.url
+    const dappIcon = first(peerMeta?.icons)
+    const chain = requestedChainId || chainId || peerMeta?.chainId || Config.networkId
 
-  return (
-    <>
-      <View style={styles.header}>
-        <Image
-          source={{ uri: dappIcon }}
-          style={{
-            width: 50,
-            height: 'auto',
-            backgroundColor: 'transparent',
-            borderRadius: 18,
-          }}
-        />
-        <Text style={styles.vendorName}>{dappName}</Text>
-      </View>
-      <View style={styles.detailsView}>
-        <View>
-          <Text style={styles.detailHeading}>{t`Website`}</Text>
-          <Text style={styles.detail}>{dappURL}</Text>
+    return (
+      <>
+        <View style={styles.header}>
+          <Image
+            source={{ uri: dappIcon }}
+            style={{
+              width: 50,
+              height: 'auto',
+              backgroundColor: 'transparent',
+              borderRadius: 18,
+            }}
+          />
+          <Text style={styles.vendorName}>{dappName}</Text>
         </View>
-        <View>
-          <Text style={styles.detailHeading}>{t`Chain`}</Text>
-          <Text style={styles.detail}>{chain}</Text>
+        <View style={styles.detailsView}>
+          <View>
+            <Text style={styles.detailHeading}>{t`Website`}</Text>
+            <Text style={styles.detail}>{dappURL}</Text>
+          </View>
+          <View>
+            <Text style={styles.detailHeading}>{t`Chain`}</Text>
+            <Text style={styles.detail}>{chain}</Text>
+          </View>
         </View>
-      </View>
-    </>
-  )
-})
+      </>
+    )
+  },
+)
 
 export const Launch = ({ explorer, address, txHash }) => {
   const onLaunch = useCallback(() => {
@@ -177,7 +179,17 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
   )
 }
 
-const Approve = ({ styles, session, payload, message, modalType, walletAddress, onScan, explorer }) => {
+const Approve = ({
+  styles,
+  session,
+  requestedChainId,
+  payload,
+  message,
+  modalType,
+  walletAddress,
+  onScan,
+  explorer,
+}) => {
   const requestText = useMemo(() => {
     switch (modalType) {
       default:
@@ -233,7 +245,7 @@ const Approve = ({ styles, session, payload, message, modalType, walletAddress, 
 
   return (
     <View style={styles.container}>
-      <WcHeader session={session} />
+      <WcHeader session={session} requestedChainId={requestedChainId} />
       <Text style={styles.boldText}>{requestText}</Text>
       <View style={styles.infoView}>
         <Text style={styles.labelText}>{labelText}</Text>
@@ -260,103 +272,107 @@ export const useSessionApproveModal = () => {
   const { borderRadius } = sizes
   const { primary } = colors
 
-  const show = useCallback(({ session, payload, message, walletAddress, onReject, onApprove, modalType, explorer }) => {
-    log.debug('showing dialog', { session, payload, message, walletAddress, onReject, onApprove, modalType })
+  const show = useCallback(
+    ({ session, payload, requestedChainId, message, walletAddress, onReject, onApprove, modalType, explorer }) => {
+      log.debug('showing dialog', { session, payload, message, walletAddress, onReject, onApprove, modalType })
 
-    if (modalType === 'error') {
-      return showErrorDialog(t`Unsupported request ${payload.method}`)
-    }
-
-    const afterScan = async data => {
-      if (!data) {
-        return
+      if (modalType === 'error') {
+        return showErrorDialog(t`Unsupported request ${payload.method}`)
       }
 
-      // in case of qr code scan request onApprove is sync
-      const ok = await onApprove(data)
+      const afterScan = async data => {
+        if (!data) {
+          return
+        }
 
-      if (!ok) {
-        showErrorDialog(t`Invalid QR Value: ${data}`)
+        // in case of qr code scan request onApprove is sync
+        const ok = await onApprove(data)
+
+        if (!ok) {
+          showErrorDialog(t`Invalid QR Value: ${data}`)
+        }
+
+        hideDialog()
       }
 
-      hideDialog()
-    }
+      const approve = async dismiss => {
+        // do something
+        try {
+          dismiss()
+          await onApprove()
+        } catch (e) {
+          log.error('failed approving', e.message, e, { dialogShown: true, payload, modalType })
+          showErrorDialog(t`Could not approve request.`, e.message)
+        }
+      }
 
-    const approve = async dismiss => {
-      // do something
+      const reject = async dismiss => {
+        // do something
+        try {
+          dismiss()
+          await onReject()
+        } catch (e) {
+          log.error('failed rejecting', e.message, e, { dialogShown: true, payload, modalType })
+          showErrorDialog(t`Could not reject request.`)
+        }
+      }
+
       try {
-        dismiss()
-        await onApprove()
-      } catch (e) {
-        log.error('failed approving', e.message, e, { dialogShown: true, payload, modalType })
-        showErrorDialog(t`Could not approve request.`, e.message)
-      }
-    }
-
-    const reject = async dismiss => {
-      // do something
-      try {
-        dismiss()
-        await onReject()
-      } catch (e) {
-        log.error('failed rejecting', e.message, e, { dialogShown: true, payload, modalType })
-        showErrorDialog(t`Could not reject request.`)
-      }
-    }
-
-    try {
-      showDialog({
-        showCloseButtons: false,
-        isMinHeight: false,
-        showButtons: true,
-        content: (
-          <ApproveModal
-            payload={payload}
-            message={message}
-            session={session}
-            walletAddress={walletAddress}
-            modalType={modalType}
-            explorer={explorer}
-            onScan={afterScan}
-          />
-        ),
-        buttonsContainerStyle: {
-          width: '95%',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginTop: sizes.defaultDouble,
-        },
-        buttons: [
-          {
-            text: 'Reject',
-            onPress: reject,
-            color: 'red',
-            style: {
-              width: '48%',
-              color: 'blue',
-              marginRight: 10,
-              borderRadius,
-            },
+        showDialog({
+          showCloseButtons: false,
+          isMinHeight: false,
+          showButtons: true,
+          content: (
+            <ApproveModal
+              requestedChainId={requestedChainId}
+              payload={payload}
+              message={message}
+              session={session}
+              walletAddress={walletAddress}
+              modalType={modalType}
+              explorer={explorer}
+              onScan={afterScan}
+            />
+          ),
+          buttonsContainerStyle: {
+            width: '95%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: sizes.defaultDouble,
           },
-          {
-            text: 'Approve',
-            onPress: approve,
-            color: 'white',
-            style: {
-              borderRadius,
-              width: '48%',
-              backgroundColor: primary,
-              display: modalType !== 'scan' ? 'flex' : 'none',
+          buttons: [
+            {
+              text: 'Reject',
+              onPress: reject,
+              color: 'red',
+              style: {
+                width: '48%',
+                color: 'blue',
+                marginRight: 10,
+                borderRadius,
+              },
             },
-          },
-        ],
-      })
-    } catch (e) {
-      log.error('failed showing dialog', e.message, e, { dialogShown: true, payload, modalType })
+            {
+              text: 'Approve',
+              onPress: approve,
+              color: 'white',
+              style: {
+                borderRadius,
+                width: '48%',
+                backgroundColor: primary,
+                display: modalType !== 'scan' ? 'flex' : 'none',
+              },
+            },
+          ],
+        })
+      } catch (e) {
+        log.error('failed showing dialog', e.message, e, { dialogShown: true, payload, modalType })
 
-      showErrorDialog(t`Unable to process request: ${e.message}`)
-    }
-  }, [])
+        showErrorDialog(t`Unable to process request: ${e.message}`)
+      }
+    },
+    [],
+  )
 
   return { show, isDialogShown }
 }

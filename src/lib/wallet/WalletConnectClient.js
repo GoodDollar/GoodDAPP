@@ -46,7 +46,7 @@ export const getWalletConnectTopic = link => {
 }
 
 let chainsCache = []
-
+const highlights = [122, 42220, 1, 100, 56, 137, 42161, 43114, 10, 250, 25, 2222, 8217, 1284, 1666600000]
 export const useChainsList = () => {
   const [chains, setChains] = useState(chainsCache)
   chainsCache = chains
@@ -57,7 +57,13 @@ export const useChainsList = () => {
     }
 
     api.getChains().then(data => {
-      setChains(sortBy(data, 'name'))
+      const testnets = data.filter(_ => _.name.toLowerCase().includes('test'))
+      const mainnets = data.filter(
+        _ => _.name.toLowerCase().includes('test') === false && highlights.includes(_.chainId) === false,
+      )
+      const main = sortBy(data.filter(_ => highlights.includes(_.chainId)), _ => highlights.indexOf(_.chainId))
+      const final = main.concat(sortBy(mainnets, 'name'), sortBy(testnets, 'name'))
+      setChains(final)
     })
   }, [setChains])
 
@@ -90,7 +96,7 @@ export const useWalletConnectSession = () => {
   const [chainPendingTxs, setChainPendingTxs] = useState([])
 
   const wallet = useWallet()
-  const { show: showApprove } = useSessionApproveModal()
+  const { show: showApprove, isDialogShown } = useSessionApproveModal()
   const chains = useChainsList()
 
   const decodeTx = useCallback(
@@ -117,15 +123,21 @@ export const useWalletConnectSession = () => {
   const handleSessionRequest = useCallback(
     (connector, payload) => {
       const session = connector.session
-      log.info('approving session:', { session, payload })
-      let requestedChainId = Number(payload?.params?.[0]?.chainId)
+      let requestedChainId = Number(payload?.params?.[0]?.chainId) || Number(Config.networkId)
+      const appUrl = payload?.params?.[0]?.peerMeta?.url
+      if (appUrl.includes('voltage.finance')) {
+        // bug in voltage chainid request
+        requestedChainId = 122
+      }
 
-      //we support requests only for fuse or celo
-      requestedChainId = [42220, 122].includes(requestedChainId) ? requestedChainId : Number(Config.networkId)
+      // requestedChainId = [42220, 122].includes(requestedChainId) ? requestedChainId :
       const chainDetails = chains.find(_ => Number(_.chainId) === requestedChainId)
+      log.info('approving session:', { session, payload, requestedChainId, chainDetails })
 
       showApprove({
         walletAddress: wallet.account,
+        payload,
+        requestedChainId,
         session,
         modalType: 'connect',
         onApprove: () => {
@@ -139,7 +151,7 @@ export const useWalletConnectSession = () => {
         onReject: () => connector.rejectSession({ message: 'USER_DECLINE' }),
       })
     },
-    [showApprove, wallet],
+    [showApprove, wallet, chains],
   )
 
   const handleSignRequest = useCallback(
@@ -353,11 +365,10 @@ export const useWalletConnectSession = () => {
           },
         })
         log.debug('got uri created connection:', { uri, session, wallet, connector })
-
-        if (connector.pending && !connector.connected) {
+        if (session && connector.pending && !connector.connected) {
+          log.debug('calling handlesession from connect...')
           handleSessionRequest(connector, { params: [{ chainId }] })
         }
-
         setConnector(connector)
 
         return connector
@@ -428,6 +439,7 @@ export const useWalletConnectSession = () => {
   }, [sendTx, chain, activeConnector, chainPendingTxs])
 
   useEffect(() => {
+    log.debug('subscribing to active connector', { activeConnector })
     if (!activeConnector) {
       return
     }
@@ -445,7 +457,7 @@ export const useWalletConnectSession = () => {
 
     // Subscribe to session requests
     connector.on('session_request', (error, payload) => {
-      log.debug('session:', { payload, error })
+      log.debug('session_request:', { payload, error })
       if (error) {
         throw error
       }
@@ -456,7 +468,7 @@ export const useWalletConnectSession = () => {
     // Subscribe to call requests
     connector.on('call_request', (error, payload) => {
       const { method, params } = payload
-      log.debug('call:', { payload, error, method, params })
+      log.debug('call_request:', { payload, error, method, params })
 
       if (error) {
         throw error
@@ -651,6 +663,7 @@ export const useWalletConnectSession = () => {
   }, [pendingTxs, chain, wallet, setChainPendingTxs])
 
   return {
+    isWCDialogShown: isDialogShown,
     wcConnect: connect,
     wcConnected: activeConnector?.connected,
     wcSession: activeConnector?.session,

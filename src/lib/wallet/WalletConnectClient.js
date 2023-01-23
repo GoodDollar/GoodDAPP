@@ -203,7 +203,7 @@ export const useWalletConnectSession = () => {
 
       // We must pass a number through the bridge
       if (!message.gas) {
-        message.gas = estimatedGas || '300000'
+        message.gas = estimatedGas || String(Config.defaultTxGas)
       }
 
       const eip1599Gas = () => Number(message.maxFeeParGas) + Number(message.maxPriorityFeePerGas)

@@ -1496,7 +1496,7 @@ export class GoodWallet {
     }
 
     if (!gas) {
-      gas = 300000
+      gas = Config.defaultTxGas
     }
 
     gasPrice = gasPrice || this.gasPrice

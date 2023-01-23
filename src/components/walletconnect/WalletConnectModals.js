@@ -74,41 +74,39 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-export const WcHeader = withStyles(getStylesFromProps)(
-  ({ styles, requestedChainId, session: { peerMeta, chainId } = {} }) => {
-    const dappName = peerMeta?.name
-    const dappURL = peerMeta?.url
-    const dappIcon = first(peerMeta?.icons)
-    const chain = requestedChainId || chainId || peerMeta?.chainId || Config.networkId
+export const WcHeader = withStyles(getStylesFromProps)(({ styles, requestedChainId, metadata = {} }) => {
+  const dappName = metadata?.name
+  const dappURL = metadata?.url
+  const dappIcon = first(metadata?.icons)
+  const chain = requestedChainId || metadata?.chainId || Config.networkId
 
-    return (
-      <>
-        <View style={styles.header}>
-          <Image
-            source={{ uri: dappIcon }}
-            style={{
-              width: 50,
-              height: 'auto',
-              backgroundColor: 'transparent',
-              borderRadius: 18,
-            }}
-          />
-          <Text style={styles.vendorName}>{dappName}</Text>
+  return (
+    <>
+      <View style={styles.header}>
+        <Image
+          source={{ uri: dappIcon }}
+          style={{
+            width: 50,
+            height: 'auto',
+            backgroundColor: 'transparent',
+            borderRadius: 18,
+          }}
+        />
+        <Text style={styles.vendorName}>{dappName}</Text>
+      </View>
+      <View style={styles.detailsView}>
+        <View>
+          <Text style={styles.detailHeading}>{t`Website`}</Text>
+          <Text style={styles.detail}>{dappURL}</Text>
         </View>
-        <View style={styles.detailsView}>
-          <View>
-            <Text style={styles.detailHeading}>{t`Website`}</Text>
-            <Text style={styles.detail}>{dappURL}</Text>
-          </View>
-          <View>
-            <Text style={styles.detailHeading}>{t`Chain`}</Text>
-            <Text style={styles.detail}>{chain}</Text>
-          </View>
+        <View>
+          <Text style={styles.detailHeading}>{t`Chain`}</Text>
+          <Text style={styles.detail}>{chain}</Text>
         </View>
-      </>
-    )
-  },
-)
+      </View>
+    </>
+  )
+})
 
 export const Launch = ({ explorer, address, txHash }) => {
   const onLaunch = useCallback(() => {
@@ -181,7 +179,7 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
 
 const Approve = ({
   styles,
-  session,
+  metadata,
   requestedChainId,
   payload,
   message,
@@ -245,7 +243,7 @@ const Approve = ({
 
   return (
     <View style={styles.container}>
-      <WcHeader session={session} requestedChainId={requestedChainId} />
+      <WcHeader metadata={metadata} requestedChainId={requestedChainId} />
       <Text style={styles.boldText}>{requestText}</Text>
       <View style={styles.infoView}>
         <Text style={styles.labelText}>{labelText}</Text>
@@ -273,8 +271,8 @@ export const useSessionApproveModal = () => {
   const { primary } = colors
 
   const show = useCallback(
-    ({ session, payload, requestedChainId, message, walletAddress, onReject, onApprove, modalType, explorer }) => {
-      log.debug('showing dialog', { session, payload, message, walletAddress, onReject, onApprove, modalType })
+    ({ metadata, payload, requestedChainId, message, walletAddress, onReject, onApprove, modalType, explorer }) => {
+      log.debug('showing dialog', { metadata, payload, message, walletAddress, onReject, onApprove, modalType })
 
       if (modalType === 'error') {
         return showErrorDialog(t`Unsupported request ${payload.method}`)
@@ -327,7 +325,7 @@ export const useSessionApproveModal = () => {
               requestedChainId={requestedChainId}
               payload={payload}
               message={message}
-              session={session}
+              metadata={metadata}
               walletAddress={walletAddress}
               modalType={modalType}
               explorer={explorer}

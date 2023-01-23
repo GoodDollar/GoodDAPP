@@ -1,3 +1,4 @@
+import '@walletconnect/react-native-compat'
 import SQLite from 'react-native-sqlite-2'
 import { XMLHttpRequest as XHR2 } from 'xhr2-cookies'
 import { setupURLPolyfill } from 'react-native-url-polyfill'
@@ -30,7 +31,18 @@ const setupXHRPolyfill = () => {
     setRequestHeader.call(this, name, value)
   }
 }
+const setupWalletConnect = () => {
+  // Required for TextEncoding Issue
+  const TextEncodingPolyfill = require('text-encoding')
+  const BigInt = require('big-integer')
 
+  Object.assign(global, {
+    TextEncoder: TextEncodingPolyfill.TextEncoder,
+    TextDecoder: TextEncodingPolyfill.TextDecoder,
+    BigInt: BigInt,
+  })
+}
 setupXHRPolyfill()
 setupURLPolyfill()
 setupIndexedDBPolyfill()
+setupWalletConnect()

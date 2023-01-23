@@ -42,6 +42,7 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   const {
     wcConnect: setWalletConnectUri,
     wcConnected,
+    wcVersion,
     wcSession,
     wcDisconnect,
     wcSwitchChain,
@@ -141,6 +142,7 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
         <Divider size={30} />
         {wcConnected ? (
           <ConnectedState
+            wcVersion={wcVersion}
             cancelTx={cancelTx}
             chainPendingTxs={chainPendingTxs}
             session={wcSession}
@@ -148,7 +150,8 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
             switchChain={wcSwitchChain}
             explorer={first(wcChain?.explorers)?.url}
           />
-        ) : isWCDialogShown === false ? (
+        ) : null}
+        {isWCDialogShown === false && (!wcConnected || wcVersion === 2) ? (
           <View style={{ flexDirection: isMobile ? 'column' : 'column-reverse' }}>
             <ScanCode {...{ hasCameraAccess, styles, handleChange, handleError, qrDelay }} />
             <Divider size={30} />

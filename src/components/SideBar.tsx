@@ -288,11 +288,11 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                     </div>
                 )}
                 <nav className="mt-5">
-                    {/* {process.env.REACT_APP_CELO_PHASE_2 && ( */}
-                    <NavLink to={'/claim'} onClick={onTabClick}>
-                        {i18n._(t`Claim`)}
-                    </NavLink>
-                    {/* )} */}
+                    {process.env.REACT_APP_CELO_PHASE_2 && (
+                        <NavLink to={'/claim'} onClick={onTabClick}>
+                            {i18n._(t`Claim`)}
+                        </NavLink>
+                    )}
                     <NavLink to={'/dashboard'} onClick={onTabClick}>
                         {i18n._(t`Dashboard`)}
                     </NavLink>

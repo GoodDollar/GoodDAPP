@@ -68,7 +68,7 @@ jobs:
                   cp $dotenv_name .env
                   cat .env.shared >> .env
                   echo "adding secrets to $dotenv_name file: $secret_name"
-                  echo "${{ secrets[secret_name] }}" >> .env
+                  echo "${{ secrets[$secret_name] }}" >> .env
                   echo "${{ secrets.SHARED_ENV }}" >> .env
                   echo "copying settings to GITHUB_ENV"
                   cat .env >> $GITHUB_ENV

@@ -34,45 +34,44 @@ jobs:
         needs: bump_version
         if: ${{ needs.bump_version.outputs.new_tag != null }}
         steps:
+            - name: Pre-checks - Env is Dev
+              run: |
+                  echo "ENV=development" >> $GITHUB_ENV
+                  echo "DOTENV_NAME=.env.development" >> $GITHUB_ENV
+                  echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+
+            - name: Pre-checks - Env is QA
+              if: ${{ endsWith(github.ref, '/staging') }}
+              run: |
+                  echo "ENV=staging" >> $GITHUB_ENV
+                  echo "DOTENV_NAME=.env.staging" >> $GITHUB_ENV
+                  echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
+
+            - name: Pre-checks - Env is PRODUCTION
+              if: ${{ endsWith(github.ref, '/production') }}
+              run: |
+                  echo "ENV=production" >> $GITHUB_ENV
+                  echo "DOTENV_NAME=.env.production" >> $GITHUB_ENV
+                  echo "SECRET_NAME=PRODUCTION_ENV" >> $GITHUB_ENV
+
             - name: Checkout
               uses: actions/checkout@v3
 
-            - name: Set env BRANCH
-              run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
-
-            - name: Set network and domain env(s)
+            - name: Prepare .env and add secrets
               run: |
-                  if [[ $BRANCH == 'production' ]]; then
-                      echo "NETWORK=production" >> $GITHUB_ENV
-                      echo "CLOUDFLARE_RECORD_NAME=_dnslink.fi" >> "$GITHUB_ENV"
-                      echo "SUBDOMAIN=fi" >> "$GITHUB_ENV"
-                  fi
-                  if [[ $BRANCH == 'master' ]]; then
-
-                      echo "REACT_APP_NETWORK=fuse" >> $GITHUB_ENV
-
-                      echo "CLOUDFLARE_RECORD_NAME=_dnslink.fi-dev" >> "$GITHUB_ENV"
-                      echo "SUBDOMAIN=fi-dev" >> "$GITHUB_ENV"
-                  else
-                      echo "REACT_APP_NETWORK=staging" >> $GITHUB_ENV
-                      echo "CLOUDFLARE_RECORD_NAME=_dnslink.fi-qa" >> "$GITHUB_ENV"
-
-                      echo "SUBDOMAIN=fi-qa" >> "$GITHUB_ENV"
-                  fi
-
-                  echo "REACT_APP_GOOGLE_ANALYTICS_ID=${{secrets.GOOGLE_ANALYTICS_ID}}" >> .env
-                  echo "REACT_APP_AMPLITUDE_KEY=${{secrets.REACT_APP_AMPLITUDE_KEY}}" >> .env
-                  echo "REACT_APP_INDICATIVE_KEY=${{secrets.REACT_APP_INDICATIVE_KEY}}" >> .env
-            # - name: Set network env(s)
-            #   run: |
-            #       if [[ $BRANCH == 'production' ]]; then
-            #           echo "NETWORK=production" >> $GITHUB_ENV
-            #           echo "CLOUDFLARE_RECORD_NAME=_dnslink.fi" >> "$GITHUB_ENV"
-            #           echo "SUBDOMAIN=fi" >> "$GITHUB_ENV"
-            #       else
-            #           echo "CLOUDFLARE_RECORD_NAME=_dnslink.fi-qa" >> "$GITHUB_ENV"
-            #           echo "SUBDOMAIN=fi-qa" >> "$GITHUB_ENV"
-            #       fi
+                  env_name="${{ env.ENV }}"
+                  dotenv_name="${{ env.DOTENV_NAME }}"
+                  secret_name="${{ env.SECRET_NAME }}"
+                  echo $env_name
+                  cat $DOTENV_NAME
+                  echo "settings environment from $dotenv_name"
+                  cp $dotenv_name .env
+                  cat .env.shared >> .env
+                  echo "adding secrets to $dotenv_name file: $secret_name"
+                  echo "${{ secrets[secret_name] }}" >> .env
+                  echo "${{ secrets.SHARED_ENV }}" >> .env
+                  echo "copying settings to GITHUB_ENV"
+                  cat .env >> $GITHUB_ENV
             - name: Load node v16
               uses: actions/setup-node@v3
               with:
@@ -103,10 +102,13 @@ jobs:
             - name: Update DNS with new IPFS hash
               env:
                   CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
-                  RECORD_DOMAIN: 'gooddollar.org'
+                  RECORD_DOMAIN: '${{env.RECORD_DOMAIN}}'
                   RECORD_NAME: ${{ env.CLOUDFLARE_RECORD_NAME }}
                   CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-                  REACT_APP_GOOGLE_ANALYTICS_ID: ${{secrets.GOOGLE_ANALYTICS_ID}}
+                  REACT_APP_GOOGLE_ANALYTICS_ID: ${{env.GOOGLE_ANALYTICS_ID}}
+                  REACT_APP_CELO_PHASE_1: ${{ env.REACT_APP_CELO_PHASE_1 }}
+                  REACT_APP_CELO_PHASE_2: ${{ env.REACT_APP_CELO_PHASE_2 }}
+                  REACT_APP_CELO_PHASE_3: ${{ env.REACT_APP_CELO_PHASE_3 }}
               id: dnslink
               uses: textileio/cloudflare-update-dnslink@master
               with:

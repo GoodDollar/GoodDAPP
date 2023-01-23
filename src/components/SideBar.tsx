@@ -240,6 +240,14 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
         }
     }
 
+    const test = {
+        phase1: process.env.REACT_APP_CELO_PHASE_1,
+        phase2: process.env.REACT_APP_CELO_PHASE_2,
+        phase3: process.env.REACT_APP_CELO_PHASE_3,
+    }
+
+    console.log({ test })
+
     return (
         <SideBarSC className="flex flex-col justify-between" $mobile={mobile}>
             <div className="sidebar-inner-container">

@@ -630,6 +630,8 @@ export const useWalletConnectSession = () => {
               name: 'GoodDollar',
             },
           })
+          initializeV1(connector)
+
           log.debug('got uri created connection:', { uri, session, wallet, connector })
           if (session && connector.pending && !connector.connected) {
             log.debug('calling handlesession from connect...')
@@ -738,14 +740,8 @@ export const useWalletConnectSession = () => {
   }, [isInitialized, reconnect, setV2Session, handleCallRequest, handleSessionRequest])
 
   //v1 connector initialize
-  useEffect(() => {
-    log.debug('subscribing to active connector', { activeConnector })
-    //make sure this is v1 connector
-    if (!activeConnector || activeConnector !== cachedConnector) {
-      return
-    }
-
-    const connector = activeConnector
+  const initializeV1 = connector => {
+    log.debug('subscribing to v1 connector', { connector })
 
     const unsubscribe = () => {
       connector.off('disconnect')
@@ -791,20 +787,7 @@ export const useWalletConnectSession = () => {
 
     // DO NOT STOP SUBSCRIPTIONS ON UNMOUNT, so user sees incoming requests even when in other screens
     // return unsubscrube
-  }, [
-    wallet,
-    activeConnector,
-    chain,
-    chains,
-    handleSessionDisconnect,
-    handleSessionRequest,
-    handleSignRequest,
-    handleTxRequest,
-    handleSwitchChainRequest,
-    handleUnsupportedRequest,
-    handleScanRequest,
-    setConnector,
-  ])
+  }
 
   const disconnect = useCallback(() => {
     if (activeConnector) {

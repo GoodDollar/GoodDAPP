@@ -206,7 +206,7 @@ export class GoodWallet {
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
         this.wallet.eth.defaultAccount = this.account
-        this.gasPrice = wallet.utils.toWei(String(defaultGasPrice), 'gwei')
+        this.gasPrice = Number(wallet.utils.toWei(String(defaultGasPrice), 'gwei'))
 
         assign(this, { network, networkId })
         log.info(`networkId: ${this.networkId}`)
@@ -214,7 +214,7 @@ export class GoodWallet {
         if (estimateGasPrice) {
           wallet.eth
             .getGasPrice()
-            .then(price => (this.gasPrice = price))
+            .then(price => (this.gasPrice = Number(price)))
             .catch(noop)
         }
 
@@ -1175,7 +1175,7 @@ export class GoodWallet {
   async collectInviteBounties() {
     const tx = this.invitesContract.methods.collectBounties()
     const nativeBalance = await this.balanceOfNative()
-    const gas = Math.min(800000, nativeBalance / 1e9 - 150000) //convert to gwei and leave 150K gwei for user
+    const gas = Math.min(800000, nativeBalance / this.gasPrice - 150000) //convert to gwei and leave 150K gwei for user
     const res = await this.sendTransaction(tx, {}, { gas })
     return res
   }
@@ -1363,8 +1363,8 @@ export class GoodWallet {
    * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
-    const TOP_GWEI = 100000 * Number(this.gasPrice) //the gas fee for topWallet faucet call
-    const minWei = wei ? wei : 200000 * Number(this.gasPrice)
+    const TOP_GWEI = 100000 * this.gasPrice //the gas fee for topWallet faucet call
+    const minWei = wei ? wei : 200000 * this.gasPrice
 
     const release = await gasMutex.lock()
 
@@ -1496,7 +1496,7 @@ export class GoodWallet {
     }
 
     if (!gas) {
-      gas = Config.defaultTxGas
+      gas = Math.min(Config.defaultTxGas, await this.balanceOfNative().then(_ => _ / this.gasPrice))
     }
 
     gasPrice = gasPrice || this.gasPrice

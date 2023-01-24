@@ -102,11 +102,12 @@ jobs:
             # DNS
             - name: Update DNS with new IPFS hash
               env:
+                  BRANCH: 'master'
                   CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
-                  RECORD_DOMAIN: ${{env.RECORD_DOMAIN}}
-                  RECORD_NAME: ${{ env.CLOUDFLARE_RECORD_NAME }}
+                  RECORD_DOMAIN: 'gooddollar.org'
+                  RECORD_NAME: '_dnslink.fi-dev'
                   CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-                  REACT_APP_GOOGLE_ANALYTICS_ID: ${{env.GOOGLE_ANALYTICS_ID}}
+                  REACT_APP_GOOGLE_ANALYTICS_ID: ${{ env.REACT_APP_GOOGLE_ANALYTICS_ID }}
                   REACT_APP_CELO_PHASE_1: ${{ env.REACT_APP_CELO_PHASE_1 }}
                   REACT_APP_CELO_PHASE_2: ${{ env.REACT_APP_CELO_PHASE_2 }}
                   REACT_APP_CELO_PHASE_3: ${{ env.REACT_APP_CELO_PHASE_3 }}

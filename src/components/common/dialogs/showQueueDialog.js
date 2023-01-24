@@ -62,7 +62,7 @@ export const showQueueDialog = (
   return {
     type: 'queue',
     isMinHeight: true,
-    image: (
+    image: !imageSource ? null : (
       <View style={imageStyle}>
         <Image {...imageProps} />
       </View>

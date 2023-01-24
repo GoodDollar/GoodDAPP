@@ -72,6 +72,7 @@ jobs:
                   echo "${{ secrets.SHARED_ENV }}" >> .env
                   echo "copying settings to GITHUB_ENV"
                   cat .env >> $GITHUB_ENV
+
             - name: Load node v16
               uses: actions/setup-node@v3
               with:
@@ -102,7 +103,7 @@ jobs:
             - name: Update DNS with new IPFS hash
               env:
                   CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
-                  RECORD_DOMAIN: '${{env.RECORD_DOMAIN}}'
+                  RECORD_DOMAIN: ${{env.RECORD_DOMAIN}}
                   RECORD_NAME: ${{ env.CLOUDFLARE_RECORD_NAME }}
                   CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
                   REACT_APP_GOOGLE_ANALYTICS_ID: ${{env.GOOGLE_ANALYTICS_ID}}

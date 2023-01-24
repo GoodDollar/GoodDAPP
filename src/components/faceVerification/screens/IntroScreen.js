@@ -33,7 +33,7 @@ import { FVFlowContext } from '../standalone/context/FVFlowContext'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 
 // assets
-import wait24hourIllustration from '../../../assets/Claim/wait24Hour.svg'
+import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../lib/userStorage/useProfile'
 
@@ -114,10 +114,11 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
           return
         }
 
-        const dialogData = showQueueDialog(WalletDeletedPopupText, {
+        const dialogData = showQueueDialog(WalletDeletedPopupText, true, {
           onDismiss: goToRoot,
-          imageSource: wait24hourIllustration,
+          imageSource: Wait24HourSVG,
         })
+
         showDialog(dialogData)
       },
     },
@@ -159,7 +160,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
-    log.debug({ enrollmentIdentifier, userName, isFVFlow })
+    log.debug({ enrollmentIdentifier, userName, isFVFlow, isValid, isFVFlowReady })
 
     if (isValid) {
       const state = { isValid }
@@ -172,7 +173,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       fireEvent(FV_INTRO)
       checkDisposalState()
     }
-  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigate, pop, checkDisposalState])
+  }, [enrollmentIdentifier, isValid, isFVFlow, isFVFlowReady, navigate, pop, checkDisposalState])
 
   useEffect(() => {
     if (!isFVFlow || !navigate) {

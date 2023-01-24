@@ -1492,7 +1492,11 @@ export class GoodWallet {
     let gas = setgas
 
     if (!gas) {
-      gas = await tx.estimateGas().catch(e => log.debug('estimate gas failed'))
+      //estimate gas and add 40k for non deterministic writes (required for example when GOOD minting happens)
+      gas = await tx
+        .estimateGas()
+        .then(cost => (Number(cost) + 40000).toFixed(0))
+        .catch(e => log.debug('estimate gas failed'))
     }
 
     if (!gas) {

@@ -35,7 +35,7 @@ export function NavLink<S = H.LocationState>({
 }: React.PropsWithoutRef<ReactRouterNavLinkProps<S>> &
     React.RefAttributes<HTMLAnchorElement> & { onPress: typeof noop }): JSX.Element {
     const textColor = useColorModeValue('goodGrey.700', 'goodGrey.300')
-    
+
     return (
         <ReactRouterNavLink href={href} className={className} activeClassName="active" {...rest}>
             <Pressable onPress={onPress} _hover={{ bg: 'primary:alpha.10' }} py={1} px={2} borderRadius="12px">

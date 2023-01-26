@@ -15,7 +15,6 @@ import { useModalOpen, useToggleModal } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/types'
 
 const ExtendedStyledMenuButton = styled(StyledMenuButton)`
-    border: 2px solid rgb(23, 21, 34);
     border-radius: 10px;
     font-size: 1.25rem;
     height: 40px;
@@ -61,8 +60,8 @@ const MenuItemFlag = styled.img`
 `
 
 const MenuButtonFlag = styled.img`
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     vertical-align: middle;
 `
 

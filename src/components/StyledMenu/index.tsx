@@ -7,7 +7,6 @@ export const StyledMenuButton = styled.button`
     margin: 0;
     padding: 5px;
     background: ${({ theme }) => theme.color.bg1};
-    box-shadow: ${({ theme }) => theme.shadow.settings};
     border-radius: 12px;
     :hover,
     :focus {

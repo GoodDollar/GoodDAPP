@@ -126,7 +126,7 @@ export function theme(darkMode: boolean) {
             header: '0px 0px 16px rgba(206, 211, 218, 0.33815)',
             headerNew: '0px 1px 1.41px rgba(0, 0, 0, 0.2)',
             wallet: darkMode ? 'none' : '0px 15px 40px rgba(117, 117, 170, 0.102792)',
-            settings: darkMode ? 'none' : '0px 1px 0px #DAE1ED;',
+            // settings: darkMode ? 'none' : '0px 1px 0px #DAE1ED;',
             swapFooter: darkMode ? 'none' : '-1px 2px 0px #DAE1ED',
             button: '3px 3px 10px -1px rgba(11, 27, 102, 0.304824)',
             swapCard: darkMode ? 'none' : '12px 8px 44px -12px rgba(27, 58, 146, 0.16)',

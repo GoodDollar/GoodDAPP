@@ -3,8 +3,9 @@ import React from 'react'
 import { ExternalLink as LinkIconFeather, Trash } from 'react-feather'
 
 import { Link } from 'react-router-dom'
-import styled, { keyframes, useTheme } from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import useSendAnalyticsData from '../hooks/useSendAnalyticsData'
+import { Pressable, useColorModeValue } from 'native-base'
 
 export const ButtonText = styled.button`
     outline: none;
@@ -201,7 +202,7 @@ export const ExternalLink: React.FC<{
     children?: React.ReactNode
 }> = ({ url, dataAttr, label, withDefaultStyles, withIcon, children }) => {
     const sendData = useSendAnalyticsData()
-    const theme = useTheme()
+    const textColor = useColorModeValue('goodGrey.700', 'goodGrey.300')
 
     const onExternalClick = (e: any) => {
         const key = e.target.getAttribute('data-key')
@@ -210,19 +211,21 @@ export const ExternalLink: React.FC<{
     }
 
     return (
-        <a
-            className={`${withDefaultStyles && 'hover:underline'} p-2 line md:p-1 xl:p-3 whitespace-nowrap`}
-            href={url}
-            target="_blank"
-            rel="noreferrer"
-            onClick={onExternalClick}
-            data-key={dataAttr}
-            color={theme && withDefaultStyles && theme.color.text2}
-        >
-            {label && <span data-key={dataAttr}>{label}</span>}
-            {withIcon && <ExternalIcon dataAttr={dataAttr} />}
-            {children}
-        </a>
+        <Pressable _hover={{ bg: 'primary:alpha.10' }} py={2} px={2} borderRadius="12px" color={textColor}>
+            <a
+                className={`${withDefaultStyles && 'hover:underline'} pr-2 line 
+                 xl:pr-3 whitespace-nowrap flex flex-row items-center`}
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                onClick={onExternalClick}
+                data-key={dataAttr}
+            >
+                {label && <span data-key={dataAttr}>{label}</span>}
+                {withIcon && <ExternalIcon dataAttr={dataAttr} />}
+                {children}
+            </a>
+        </Pressable>
     )
 }
 

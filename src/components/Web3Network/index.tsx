@@ -5,13 +5,13 @@ import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import { useNetworkModalToggle } from '../../state/application/hooks'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
 import NetworkModal from '../NetworkModal'
-import { ButtonOutlined } from '../gd/Button'
 import styled from 'styled-components'
 import { ButtonSecondary } from '../ButtonLegacy'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 import { ChainId } from '@sushiswap/sdk'
+import { Pressable, Text } from 'native-base'
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
     ${({ theme }) => theme.flexRowNoWrap}
@@ -44,17 +44,6 @@ const NetworkIcon = styled(Activity)`
     height: 16px;
 `
 
-const Text = styled.p`
-    flex: 1 1 auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin: 0 0.5rem 0 0.25rem;
-    font-size: 1rem;
-    width: fit-content;
-    font-weight: 500;
-`
-
 function Web3Network(): JSX.Element | null {
     const { chainId, error } = useActiveWeb3React()
     const { i18n } = useLingui()
@@ -74,25 +63,37 @@ function Web3Network(): JSX.Element | null {
             {error ? (
                 <Web3StatusError onClick={onNetworkChange}>
                     <NetworkIcon />
-                    <Text>{i18n._(t`Unsupported network`)}</Text>
+                    <Text fontFamily="subheading" fontSize="sm" color="white">
+                        {i18n._(t`Unsupported network`)}
+                    </Text>
                 </Web3StatusError>
             ) : (
-                <div
-                    className="flex items-center rounded p-0.5 whitespace-nowrap   cursor-pointer select-none pointer-events-auto"
-                    onClick={() => toggleNetworkModal()}
+                <Pressable
+                    onPress={toggleNetworkModal}
+                    w={20}
+                    h={10}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    px={3}
+                    py={2}
+                    ml={2}
+                    borderWidth="1"
+                    borderRadius="12px"
+                    borderColor="borderBlue"
                 >
-                    <ButtonOutlined style={{ padding: '0' }}>
-                        <div className="grid items-center grid-flow-col px-3 py-2 rounded-lg pointer-events-auto auto-cols-max">
-                            <img
-                                src={NETWORK_ICON[chainId]}
-                                alt="Switch Network"
-                                className="mr-2 rounded-md"
-                                style={{ width: 22, height: 22 }}
-                            />
-                            <div className="">{NETWORK_LABEL[chainId]}</div>
-                        </div>
-                    </ButtonOutlined>
-                </div>
+                    <div className="grid items-center grid-flow-col px-3 py-2 rounded-lg pointer-events-auto auto-cols-max">
+                        <img
+                            src={NETWORK_ICON[chainId]}
+                            alt="Switch Network"
+                            className="mr-2 rounded-md"
+                            style={{ width: 22, height: 22 }}
+                        />
+                        <Text fontFamily="subheading" color="primary" fontSize="sm">
+                            {NETWORK_LABEL[chainId]}
+                        </Text>
+                    </div>
+                </Pressable>
             )}
             <NetworkModal />
         </>

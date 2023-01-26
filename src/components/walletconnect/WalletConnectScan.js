@@ -28,7 +28,7 @@ const log = logger.child({ from: 'WalletConnectScan' })
 
 const TITLE = `WalletConnect`
 
-const QR_DEFAULT_DELAY = 300
+const QR_DEFAULT_DELAY = 2000
 
 type WalletConnectProps = {
   styles: {},
@@ -42,12 +42,14 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   const {
     wcConnect: setWalletConnectUri,
     wcConnected,
+    wcVersion,
     wcSession,
     wcDisconnect,
     wcSwitchChain,
     wcChain,
     chainPendingTxs,
     cancelTx,
+    isWCDialogShown,
   } = useWalletConnectSession()
 
   const [uri, setUri] = useState('')
@@ -55,19 +57,11 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
 
   const { navigateTo } = screenProps
 
-  useEffect(() => {
-    if (wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
-      handleChange(wcIncomingLink)
-    }
-  }, [wcIncomingLink])
-
   const handleChange = useCallback(
     data => {
       log.debug('handleChange:', { data })
 
       if (data) {
-        setQrDelay(false)
-
         try {
           const validUri = readWalletConnectUri(data)
 
@@ -95,6 +89,12 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
     },
     [setQrDelay, setWalletConnectUri, showErrorDialog],
   )
+
+  useEffect(() => {
+    if (wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
+      handleChange(wcIncomingLink)
+    }
+  }, [wcIncomingLink, handleChange, readWalletConnectUri])
 
   const pasteUri = useClipboardPaste(data => {
     setUri(data)
@@ -142,6 +142,7 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
         <Divider size={30} />
         {wcConnected ? (
           <ConnectedState
+            wcVersion={wcVersion}
             cancelTx={cancelTx}
             chainPendingTxs={chainPendingTxs}
             session={wcSession}
@@ -149,13 +150,14 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
             switchChain={wcSwitchChain}
             explorer={first(wcChain?.explorers)?.url}
           />
-        ) : (
+        ) : null}
+        {isWCDialogShown === false && (!wcConnected || wcVersion === 2) ? (
           <View style={{ flexDirection: isMobile ? 'column' : 'column-reverse' }}>
             <ScanCode {...{ hasCameraAccess, styles, handleChange, handleError, qrDelay }} />
             <Divider size={30} />
             <PasteCode {...{ handleChange, handlePastePress, uri, setUri, styles }} />
           </View>
-        )}
+        ) : null}
       </ScrollView>
     </Wrapper>
   )

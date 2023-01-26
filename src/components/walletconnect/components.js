@@ -14,7 +14,7 @@ import { Launch, WcHeader } from './WalletConnectModals'
 export const Divider = ({ size = 50 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
 export const SwitchChain = ({ switchChain, chainId }) => {
-  const [chain, setChain] = useState(chainId)
+  const [chain, setChain] = useState(String(chainId)) //keys are strings
   const chains = useChainsList()
 
   return (
@@ -79,11 +79,19 @@ const PendingTxs = ({ explorer, cancelTx, txs }) => {
     </Section>
   )
 }
-export const ConnectedState = ({ session, disconnect, switchChain, chainPendingTxs, cancelTx, explorer }) => {
+export const ConnectedState = ({
+  session,
+  disconnect,
+  switchChain,
+  chainPendingTxs,
+  cancelTx,
+  explorer,
+  wcVersion,
+}) => {
   return (
     <Section>
-      <WcHeader session={session} />
-      <SwitchChain switchChain={switchChain} chainId={session.chainId} />
+      <WcHeader metadata={session} />
+      <SwitchChain switchChain={switchChain} chainId={session?.chainId} />
       <CustomButton onPress={disconnect} color={'red'}>
         {t`Disconnect`}
       </CustomButton>

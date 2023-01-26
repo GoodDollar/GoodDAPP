@@ -1,9 +1,13 @@
+import { forIn } from 'lodash'
 import '@walletconnect/react-native-compat'
+import BigInt from 'big-integer'
+import { TextDecoder, TextEncoder } from 'text-encoding'
 import SQLite from 'react-native-sqlite-2'
 import { XMLHttpRequest as XHR2 } from 'xhr2-cookies'
 import { setupURLPolyfill } from 'react-native-url-polyfill'
 import setGlobalVars from '@indexeddbshim/indexeddbshim/dist/indexeddbshim-noninvasive'
 
+import { shimGlboal } from './utils/shim'
 import './shim.common'
 
 const setupIndexedDBPolyfill = () => setGlobalVars(window, { checkOrigin: false, win: SQLite })
@@ -31,17 +35,15 @@ const setupXHRPolyfill = () => {
     setRequestHeader.call(this, name, value)
   }
 }
+
 const setupWalletConnect = () => {
   // Required for TextEncoding Issue
-  const TextEncodingPolyfill = require('text-encoding')
-  const BigInt = require('big-integer')
+  const wcPolyfills = { TextEncoder, TextDecoder, BigInt }
 
-  Object.assign(global, {
-    TextEncoder: TextEncodingPolyfill.TextEncoder,
-    TextDecoder: TextEncodingPolyfill.TextDecoder,
-    BigInt: BigInt,
-  })
+  // force shim
+  forIn(wcPolyfills, (implementation, globalApi) => shimGlboal(globalApi, implementation, true))
 }
+
 setupXHRPolyfill()
 setupURLPolyfill()
 setupIndexedDBPolyfill()

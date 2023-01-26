@@ -22652,7 +22652,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 434bfe9bc3ec10f34598e12e37aa0761193c75614d030ca08f34259789801e2d3984f1a8f6d5cef21e02e9d84cc962ea83d56c3c65cb8036fc39995b5cd04cf7
+  checksum: b44b560d1975362d83b95bf808083caae301208e3c67458b568c8b046a9d1f735f4a334c32b1c9ca549e51bf71c090223406cd1ad0a5bdbf1017319a720d0dc2
   languageName: node
   linkType: hard
 
@@ -22670,7 +22670,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 00bcdb6e66c36abdeea2c2cb5a34094b659c66a270372a05cfa30b5f8c941d48dd910ff82947c16150f56a507ed24705a9fbfdcb332344b927ad01b655ca9fd9
+  checksum: aefcea41c997e2715bd3aa771010367278a89724252626429cf63305203589541616c8a0bfa0ab9b606805633091cd1aa5fa60971bc4c995f9f55b8bf698eb14
   languageName: node
   linkType: hard
 

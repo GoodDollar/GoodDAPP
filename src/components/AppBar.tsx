@@ -241,19 +241,19 @@ function AppBar(): JSX.Element {
                                         <Web3Network />
                                     </div>
                                 )}
-                                <Pressable
-                                    onPress={toggleWalletModal}
-                                    h={10}
-                                    display="flex"
-                                    alignItems="center"
-                                    px={3}
-                                    py={2}
-                                    ml={2}
-                                    borderWidth="1"
-                                    borderRadius="12px"
-                                    borderColor="borderBlue"
-                                >
-                                    {account && chainId && nativeBalance ? (
+                                {account && chainId && nativeBalance ? (
+                                    <Pressable
+                                        onPress={toggleWalletModal}
+                                        h={10}
+                                        display="flex"
+                                        alignItems="center"
+                                        px={3}
+                                        py={2}
+                                        ml={2}
+                                        borderWidth="1"
+                                        borderRadius="12px"
+                                        borderColor="borderBlue"
+                                    >
                                         <HStack space={8} flexDirection="row">
                                             <Text
                                                 fontSize="sm"
@@ -266,12 +266,12 @@ function AppBar(): JSX.Element {
                                             </Text>
                                             <Web3Status />
                                         </HStack>
-                                    ) : (
-                                        <div className="w-full">
-                                            <Web3Status />
-                                        </div>
-                                    )}
-                                </Pressable>
+                                    </Pressable>
+                                ) : (
+                                    <div className="w-full">
+                                        <Web3Status />
+                                    </div>
+                                )}
                                 <NetworkModal />
                             </div>
                         </div>

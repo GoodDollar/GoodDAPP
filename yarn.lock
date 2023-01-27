@@ -3687,9 +3687,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.26":
-  version: 0.0.26
-  resolution: "@gooddollar/good-design@npm:0.0.26"
+"@gooddollar/good-design@npm:^0.0.27":
+  version: 0.0.27
+  resolution: "@gooddollar/good-design@npm:0.0.27"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -3722,7 +3722,7 @@ __metadata:
     typescript: 4.7.4
   peerDependencies:
     "@usedapp/core": 1.*
-  checksum: 186a355525913fec672b7e59305a7de7967a2d276d21421d0feed7a693976cdc4f42f73b63e03873eebadd23e13df4f4be21bf390f13e84c3d55efa0bc7bfe56
+  checksum: 0ffb2798e83cf5f19f055bc5da7cdb3d920eccfd31a3341d048a8ae9763ade9be4b80d960f5fda6e5ba5e21ee9c43f2b49b7e5703f62f1a700ed5d281d7745d3
   languageName: node
   linkType: hard
 
@@ -3773,9 +3773,9 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.26
+    "@gooddollar/good-design": ^0.0.27
     "@gooddollar/goodprotocol": 1.0.30-beta.3
-    "@gooddollar/web3sdk": ^0.1.14
+    "@gooddollar/web3sdk": ^0.1.15
     "@gooddollar/web3sdk-v2": ^0.1.59
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
@@ -3979,12 +3979,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk@npm:^0.1.14":
-  version: 0.1.14
-  resolution: "@gooddollar/web3sdk@npm:0.1.14"
+"@gooddollar/web3sdk@npm:^0.1.15":
+  version: 0.1.15
+  resolution: "@gooddollar/web3sdk@npm:0.1.15"
   dependencies:
     "@apollo/client": ^3.2.0
-    "@gooddollar/goodprotocol": 1.0.29-beta.4
+    "@gooddollar/goodprotocol": 1.0.30-beta.3
     "@sushiswap/default-token-list": ^27.1.0
     "@sushiswap/sdk": 5.0.0-canary.7
     "@uniswap/sdk": ^3.0.3
@@ -4003,7 +4003,7 @@ __metadata:
     web3-eth: ^1.7.5
     web3-eth-contract: ^1.7.5
     web3-utils: ^1.7.5
-  checksum: 66f783da5d0bcb07c77daf984106eee6d48c26ac9b295598026798ee08e95b745da36a2c53beee38272b296f328253fdd8c8053838db8098355217a27368bfef
+  checksum: 8b34d735792804195a6e3b54882f92f5042448f9a238001c269237de056bfc09ee1e1079692bc22c93a0f300fd19c0e04ca668e7a4b2dc5564e05dc8f755ae12
   languageName: node
   linkType: hard
 
@@ -4778,9 +4778,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lingui/conf@npm:3.16.0":
-  version: 3.16.0
-  resolution: "@lingui/conf@npm:3.16.0"
+"@lingui/conf@npm:3.16.1":
+  version: 3.16.1
+  resolution: "@lingui/conf@npm:3.16.1"
   dependencies:
     "@babel/runtime": ^7.11.2
     chalk: ^4.1.0
@@ -4788,7 +4788,7 @@ __metadata:
     cosmiconfig-typescript-loader: ^2.0.1
     jest-validate: ^26.5.2
     lodash.get: ^4.4.2
-  checksum: 9d886746114a9a14f1cf3bf2b09c55d6b81270aaafb2cfbf1342f8a3eda2bdce50b8d067a7c2b0b6aa3a5227d975ade5362bda69f8661ebc875ead82a5152efb
+  checksum: c68eff62c0fd145fe8e01a483aecd73f7a0c3c8f22e0491cb79e0dc1a2e6b5c71753a2916315ac1cd94bb51b005e1bc0ad569e28ddd6e53dff16cc4c7c771915
   languageName: node
   linkType: hard
 
@@ -4854,17 +4854,17 @@ __metadata:
   linkType: hard
 
 "@lingui/macro@npm:^3.14.0":
-  version: 3.16.0
-  resolution: "@lingui/macro@npm:3.16.0"
+  version: 3.16.1
+  resolution: "@lingui/macro@npm:3.16.1"
   dependencies:
     "@babel/runtime": ^7.11.2
-    "@lingui/conf": 3.16.0
+    "@lingui/conf": 3.16.1
     ramda: ^0.27.1
   peerDependencies:
     "@lingui/core": ^3.13.0
     "@lingui/react": ^3.13.0
     babel-plugin-macros: 2 || 3
-  checksum: 18def54a2b755119f4cfe2f9f50e5d266acbb8a549204b8c84b0ba391be6825a8d5d70e82ed75d03239a651ba27f3453490b3ac37613771960025f004ad2c825
+  checksum: 1bc170e1a5dedc40232ada4685bf9789b0827178a49f3b1f1569d8bd2d5e0a1dd62711a2021dfd6b489600a21110a68a30fe33e7fc215a6699a417a6ff027a3a
   languageName: node
   linkType: hard
 

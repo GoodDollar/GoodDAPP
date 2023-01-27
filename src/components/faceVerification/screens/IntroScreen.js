@@ -178,7 +178,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       fireEvent(FV_INTRO)
       checkDisposalState()
     }
-  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigateTo, pop, checkDisposalState])
+  }, [enrollmentIdentifier, isFVFlow, isValid, isFVFlowReady, navigateTo, pop, checkDisposalState])
 
   useEffect(() => {
     if (!isFVFlow || !navigate) {

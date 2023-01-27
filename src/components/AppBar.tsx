@@ -1,4 +1,3 @@
-import { Currency } from '@sushiswap/sdk'
 import { Fraction } from '@uniswap/sdk-core'
 import React, { useState, useCallback } from 'react'
 import Logo from '../assets/images/logo.png'
@@ -15,12 +14,12 @@ import { t } from '@lingui/macro'
 import SideBar from './SideBar'
 import usePromise from '../hooks/usePromise'
 import { g$Price } from '@gooddollar/web3sdk'
-import { useNativeBalance } from '@gooddollar/web3sdk-v2'
 import NetworkModal from './NetworkModal'
 import AppNotice from './AppNotice'
 import { isMobile } from 'react-device-detect'
-import { Text, useBreakpointValue, ITextProps, Pressable, HStack } from 'native-base'
+import { Text, useBreakpointValue, ITextProps, Pressable } from 'native-base'
 import { useWalletModalToggle } from '../state/application/hooks'
+import { OnboardConnectButton } from './BlockNativeOnboard'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.secondaryBg};
@@ -176,7 +175,6 @@ function AppBar(): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
     const { account, chainId, active } = useActiveWeb3React()
-    const nativeBalance = useNativeBalance()
     const [G$Price] = usePromise(async () => {
         try {
             const data = await g$Price()
@@ -241,7 +239,7 @@ function AppBar(): JSX.Element {
                                         <Web3Network />
                                     </div>
                                 )}
-                                {account && chainId && nativeBalance ? (
+                                {account ? (
                                     <Pressable
                                         onPress={toggleWalletModal}
                                         h={10}
@@ -254,23 +252,10 @@ function AppBar(): JSX.Element {
                                         borderRadius="12px"
                                         borderColor="borderBlue"
                                     >
-                                        <HStack space={8} flexDirection="row">
-                                            <Text
-                                                fontSize="sm"
-                                                fontFamily="subheading"
-                                                fontWeight="normal"
-                                                color="primary"
-                                            >
-                                                {parseFloat(nativeBalance).toFixed(4)}{' '}
-                                                {Currency.getNativeCurrencySymbol(chainId)}
-                                            </Text>
-                                            <Web3Status />
-                                        </HStack>
+                                        <Web3Status />
                                     </Pressable>
                                 ) : (
-                                    <div className="w-full">
-                                        <Web3Status />
-                                    </div>
+                                    <OnboardConnectButton />
                                 )}
                                 <NetworkModal />
                             </div>

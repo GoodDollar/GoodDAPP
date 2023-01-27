@@ -7,9 +7,11 @@ import Loader from '../Loader'
 import WalletModal from '../WalletModal'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { OnboardConnectButton } from '../BlockNativeOnboard'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
+import { Text, HStack } from 'native-base'
+import { useNativeBalance } from '@gooddollar/web3sdk-v2'
+import { Currency } from '@sushiswap/sdk'
 
 // we want the latest one to come first, so return negative if a is after b
 function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
@@ -18,12 +20,13 @@ function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
 
 function Web3StatusInner() {
     const { i18n } = useLingui()
-    const { account } = useActiveWeb3React()
     const sendData = useSendAnalyticsData()
+    const { account, chainId } = useActiveWeb3React()
 
     const { ENSName } = useENSName(account ?? undefined)
 
     const allTransactions = useAllTransactions()
+    const nativeBalance = useNativeBalance()
 
     const sortedRecentTransactions = useMemo(() => {
         const txs = Object.values(allTransactions)
@@ -38,26 +41,31 @@ function Web3StatusInner() {
         sendData({ event: 'goto_page', action: 'goto_address' })
     }
 
-    if (account) {
-        return (
-            <div className="flex flex-row">
-                {hasPendingTransactions ? (
-                    <div className="flex items-center justify-between">
-                        <div className="pr-2">
-                            {pending?.length} {i18n._(t`Pending`)}
-                        </div>{' '}
-                        <Loader stroke="#173046" />
-                    </div>
-                ) : (
-                    <div className="mr-2" onClick={onAccountClick}>
-                        {ENSName || shortenAddress(account)}
-                    </div>
-                )}
-            </div>
-        )
-    } else {
-        return <OnboardConnectButton />
-    }
+    return (
+        <HStack space={8} flexDirection="row">
+            {account && (
+                <div className="flex flex-row gap-4">
+                    {nativeBalance && (
+                        <Text fontSize="sm" fontFamily="subheading" fontWeight="normal" color="primary">
+                            {parseFloat(nativeBalance).toFixed(4)} {Currency.getNativeCurrencySymbol(chainId)}
+                        </Text>
+                    )}
+                    {hasPendingTransactions ? (
+                        <div className="flex items-center justify-between">
+                            <div className="pr-2">
+                                {pending?.length} {i18n._(t`Pending`)}
+                            </div>{' '}
+                            <Loader stroke="#173046" />
+                        </div>
+                    ) : (
+                        <div className="mr-2" onClick={onAccountClick}>
+                            {ENSName || shortenAddress(account)}
+                        </div>
+                    )}
+                </div>
+            )}
+        </HStack>
+    )
 }
 
 export default function Web3Status(): JSX.Element {

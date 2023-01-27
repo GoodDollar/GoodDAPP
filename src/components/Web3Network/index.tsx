@@ -35,6 +35,8 @@ const Web3StatusError = styled(Web3StatusGeneric)`
     :focus {
         background-color: ${({ theme }) => darken(0.1, theme.red1)};
     }
+    margin-right: 10px;
+    width: 200px;
 `
 
 const NetworkIcon = styled(Activity)`
@@ -70,19 +72,19 @@ function Web3Network(): JSX.Element | null {
             ) : (
                 <Pressable
                     onPress={toggleNetworkModal}
-                    w={20}
+                    w="auto"
                     h={10}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
-                    px={3}
+                    px={1}
                     py={2}
                     ml={2}
                     borderWidth="1"
                     borderRadius="12px"
                     borderColor="borderBlue"
                 >
-                    <div className="grid items-center grid-flow-col px-3 py-2 rounded-lg pointer-events-auto auto-cols-max">
+                    <div className="grid items-center grid-flow-col px-1 py-2 rounded-lg pointer-events-auto auto-cols-max">
                         <img
                             src={NETWORK_ICON[chainId]}
                             alt="Switch Network"

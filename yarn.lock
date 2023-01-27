@@ -3775,7 +3775,7 @@ __metadata:
     "@fullhuman/postcss-purgecss": ^4.0.3
     "@gooddollar/good-design": ^0.0.27
     "@gooddollar/goodprotocol": 1.0.30-beta.3
-    "@gooddollar/web3sdk": ^0.1.15
+    "@gooddollar/web3sdk": ^0.1.17
     "@gooddollar/web3sdk-v2": ^0.1.59
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
@@ -3979,9 +3979,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk@npm:^0.1.15":
-  version: 0.1.15
-  resolution: "@gooddollar/web3sdk@npm:0.1.15"
+"@gooddollar/web3sdk@npm:^0.1.17":
+  version: 0.1.17
+  resolution: "@gooddollar/web3sdk@npm:0.1.17"
   dependencies:
     "@apollo/client": ^3.2.0
     "@gooddollar/goodprotocol": 1.0.30-beta.3
@@ -4003,7 +4003,7 @@ __metadata:
     web3-eth: ^1.7.5
     web3-eth-contract: ^1.7.5
     web3-utils: ^1.7.5
-  checksum: 8b34d735792804195a6e3b54882f92f5042448f9a238001c269237de056bfc09ee1e1079692bc22c93a0f300fd19c0e04ca668e7a4b2dc5564e05dc8f755ae12
+  checksum: d1f61a8e46b86e49084a01f7937b851b1360ba76a284112500b9ada2ab97333fa4264e4d09eb46a855a02cbd248e2432f939f07d0eef6ae9f5037260ede6f907
   languageName: node
   linkType: hard
 
@@ -9801,7 +9801,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@npm:^2.13.0":
+"@web3-onboard/core@npm:2.13.0":
   version: 2.13.0
   resolution: "@web3-onboard/core@npm:2.13.0"
   dependencies:
@@ -9820,6 +9820,28 @@ __metadata:
     svelte: ^3.49.0
     svelte-i18n: ^3.3.13
   checksum: a2712d7fab615548d053e97f6de57f30974bf509f04b3b7d0bc6e9addb8a47ad35d778c0469b068c987745528c641a55d76bd5977c46bdceec56dba92abc2553
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.13.0#./.yarn/patches/@web3-onboard-core-npm-2.13.0-74decc51bc.patch::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
+  version: 2.13.0
+  resolution: "@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.13.0#./.yarn/patches/@web3-onboard-core-npm-2.13.0-74decc51bc.patch::version=2.13.0&hash=faebcf&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
+  dependencies:
+    "@unstoppabledomains/resolution": ^8.0
+    "@web3-onboard/common": ^2.2.3
+    bignumber.js: ^9.0.0
+    bnc-sdk: ^4.6.2
+    bowser: ^2.11.0
+    ethers: 5.5.3
+    eventemitter3: ^4.0.7
+    joi: ^17.6.1
+    lodash.merge: ^4.6.2
+    lodash.partition: ^4.6.0
+    nanoid: ^4.0.0
+    rxjs: ^7.5.5
+    svelte: ^3.49.0
+    svelte-i18n: ^3.3.13
+  checksum: 8a24d248249f4cb1926c8976801aeb8a04694c111f106de5e3228e9a97656b9016128031cf4902f24315747c455a2e87e5c9e4f162c00355555870b50afa6407
   languageName: node
   linkType: hard
 

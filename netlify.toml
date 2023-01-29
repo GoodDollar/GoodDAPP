@@ -120,6 +120,7 @@ REACT_APP_REALM_APP_ID = "wallet_qa-iumgc"
 REACT_APP_PUBLIC_URL = "https://goodqa.netlify.app"
 REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pg10xd3qcu4lfbgk6u2r1uwdyggfchpk77hxormr4wvqkitqvkce"
 REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg26i4h73gc5kdjis5rtfxg62wd93su31ldxfeacl6rx5cs1nix5"
+REACT_APP_GOODSWAP_URL = "http://fi-qa.gooddollar.org/#/swap"
 
 [context.next.environment]
 NODE_ENV = "production"
@@ -150,3 +151,4 @@ REACT_APP_REALM_APP_ID = "wallet_prod-obclo"
 REACT_APP_PUBLIC_URL = "https://wallet.gooddollar.org"
 REACT_APP_CERAMIC_INDEX = "k2t6wyfsu4pfz8x5bj4ltai66abvwkfcp0c83e253k6zl9da00e3os7gog97av"
 REACT_APP_CERAMIC_LIVE_INDEX = "k2t6wyfsu4pg0ufwq9k9ltdk91cc5bb9h5wyxec4nay10i7jjl7811mz6pbfx8"
+REACT_APP_GOODSWAP_URL = "https://goodswap.xyz/#/swap"

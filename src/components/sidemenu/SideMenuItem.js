@@ -19,21 +19,26 @@ export type SideMenuItemProps = {
   action: Function,
 }
 
-const SideMenuItem = ({ icon, name, color, action, styles, theme, size, centered }: SideMenuItemProps) => {
+const defaultIconSize = 23
+
+const SideMenuItem = ({ icon, name, color, action, styles, theme, size, centered, external }: SideMenuItemProps) => {
+  const { colors } = theme
   const handlePress = useOnPress(() => action(), [action])
+  const iconColor = colors[color === undefined ? 'primary' : color]
 
   return (
     <TouchableOpacity style={styles.clickableRow} onPress={handlePress}>
-      <View style={[styles.menuIcon, centered && styles.centeredIcon]}>
-        <Icon
-          name={icon}
-          size={size ? size : icon === 'gooddollar' ? 16 : 23}
-          color={color === undefined ? theme.colors.primary : theme.colors[color]}
-        />
+      <View style={[styles.menuIcon, styles.menuIconMain, centered && styles.centeredIcon]}>
+        <Icon name={icon} size={size ? size : icon === 'gooddollar' ? 16 : defaultIconSize} color={iconColor} />
       </View>
-      <Text color={color} fontWeight="medium" textAlign="left" fontSize={14}>
+      <Text style={styles.menuText} color={color} fontWeight="medium" textAlign="left" fontSize={14}>
         {name}
       </Text>
+      {external && (
+        <View style={styles.menuIcon}>
+          <Icon name="link" size={size || defaultIconSize} color={iconColor} />
+        </View>
+      )}
     </TouchableOpacity>
   )
 }
@@ -48,23 +53,26 @@ const sideMenuItemStyles = ({ theme }) => ({
     justifyContent: 'flex-start',
     padding: theme.sizes.defaultDouble,
     paddingLeft: 0,
+    paddingRight: 0,
     ...Platform.select({
       web: { cursor: 'pointer' },
     }),
   },
   menuIcon: {
     marginLeft: theme.sizes.default,
-    marginRight: 25,
     width: 25,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
+  menuIconMain: {
+    marginRight: 25,
+  },
   centeredIcon: {
     alignItems: 'center',
   },
   menuText: {
-    paddingRight: theme.sizes.defaultDouble,
+    width: '100%',
   },
 })
 

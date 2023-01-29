@@ -60,13 +60,13 @@ const sideMenuItemStyles = ({ theme }) => ({
   },
   menuIcon: {
     marginLeft: theme.sizes.default,
-    width: 25,
+    width: defaultIconSize + 2,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
   menuIconMain: {
-    marginRight: 25,
+    marginRight: defaultIconSize + 2,
   },
   centeredIcon: {
     alignItems: 'center',

@@ -9321,11 +9321,11 @@ __metadata:
   linkType: hard
 
 "@types/react-native@npm:^0.70.4":
-  version: 0.70.9
-  resolution: "@types/react-native@npm:0.70.9"
+  version: 0.70.10
+  resolution: "@types/react-native@npm:0.70.10"
   dependencies:
     "@types/react": "*"
-  checksum: 52b362f518c8a912174ae7cda1b20532bee11c2767794efcc0300650b750f72bcd8852435105559155f202504a742fe6e50f4e3cc4c1a9836dea9db132410ce3
+  checksum: fbf0cac9413d37023a2acafdca4b03cb8a8826c58ec7c82a8a23019929ef3d9d87a36a6de7edd899a1346b95ab71629cf67fd679dd5407d2c807b2430ea69862
   languageName: node
   linkType: hard
 
@@ -10462,7 +10462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@npm:^2.14.1":
+"@web3-onboard/core@npm:2.14.1":
   version: 2.14.1
   resolution: "@web3-onboard/core@npm:2.14.1"
   dependencies:
@@ -10481,6 +10481,28 @@ __metadata:
     svelte: ^3.49.0
     svelte-i18n: ^3.3.13
   checksum: 63c86cce0acede74a48317ce3ebc6a4abb1fde835e75af6d6df242bffc95dfa636b8b4e3a785183bca2e64200ddf8dabf191134f63cbd243c54ff61d30bd62c7
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.14.1#./.yarn/patches/@web3-onboard-core-npm-2.14.1-ef89b069ac.patch::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
+  version: 2.14.1
+  resolution: "@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.14.1#./.yarn/patches/@web3-onboard-core-npm-2.14.1-ef89b069ac.patch::version=2.14.1&hash=8c3f8c&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
+  dependencies:
+    "@unstoppabledomains/resolution": ^8.0
+    "@web3-onboard/common": ^2.2.3
+    bignumber.js: ^9.0.0
+    bnc-sdk: ^4.6.5
+    bowser: ^2.11.0
+    ethers: 5.5.3
+    eventemitter3: ^4.0.7
+    joi: ^17.6.1
+    lodash.merge: ^4.6.2
+    lodash.partition: ^4.6.0
+    nanoid: ^4.0.0
+    rxjs: ^7.5.5
+    svelte: ^3.49.0
+    svelte-i18n: ^3.3.13
+  checksum: 431c4ec1f629aafc84f66da567769f8786af9b8979125a965c90fd16df31fcb06b4307e499b6cae434f4657825ad6b80c83342cf85e6bb8a81125d39ae4d4471
   languageName: node
   linkType: hard
 
@@ -26474,9 +26496,9 @@ __metadata:
   linkType: hard
 
 "node-releases@npm:^2.0.8":
-  version: 2.0.8
-  resolution: "node-releases@npm:2.0.8"
-  checksum: b1ab02c0d5d8e081bf9537232777a7a787dc8fef07f70feabe70a344599b220fe16462f746ac30f3eed5a58549445ad69368964d12a1f8b3b764f6caab7ba34a
+  version: 2.0.9
+  resolution: "node-releases@npm:2.0.9"
+  checksum: 3ae6b1b300dc72c1a628861093d339a01aa017d3ad9017b0478384be29d6f9c93b9e26c91fce79728cecaadc04d0f16834b7ae1a018730e3e54962ec8c6aa86f
   languageName: node
   linkType: hard
 

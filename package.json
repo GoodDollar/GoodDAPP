@@ -201,7 +201,8 @@
         "@lingui/core": "3.15.0",
         "@lingui/cli": "3.15.0",
         "@lingui/macro": "3.15.0",
-        "@web3-onboard/core@^2.13.0": "patch:@web3-onboard/core@npm%3A2.13.0#./.yarn/patches/@web3-onboard-core-npm-2.13.0-74decc51bc.patch"
+        "@web3-onboard/core@^2.13.0": "patch:@web3-onboard/core@npm%3A2.13.0#./.yarn/patches/@web3-onboard-core-npm-2.13.0-74decc51bc.patch",
+        "@web3-onboard/core@^2.14.1": "patch:@web3-onboard/core@npm%3A2.14.1#./.yarn/patches/@web3-onboard-core-npm-2.14.1-ef89b069ac.patch"
     },
     "dependencies": {
         "@gooddollar/good-design": "^0.0.27",

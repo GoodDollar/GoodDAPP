@@ -5,6 +5,7 @@ import React, { FC } from 'react'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
 import { ButtonAction } from './index'
 import { useLingui } from '@lingui/react'
+import { t } from '@lingui/macro'
 import { useNetworkModalToggle } from 'state/application/hooks'
 import { SupportedChains } from '@gooddollar/web3sdk-v2'
 import { useGdContextProvider } from '@gooddollar/web3sdk'
@@ -49,7 +50,7 @@ export const ActionOrSwitchButton: FC<ActionOrSwitchButtonProps> = ({
 
     return (
         <ButtonEl {...props} width={props.page === 'Stake' ? '130px' : props.width} onClick={toggleNetworkModal}>
-            {i18n._(`Switch to ${requireChain}`)}
+            {i18n._(t`Switch to ${requireChain}`)}
         </ButtonEl>
     )
 }

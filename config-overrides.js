@@ -1,4 +1,11 @@
-const { fixBabelImports, addBabelPlugins, addPostcssPlugins, override, addBabelPresets } = require('customize-cra')
+const {
+    fixBabelImports,
+    addBabelPlugins,
+    addPostcssPlugins,
+    override,
+    addBabelPresets,
+    addWebpackAlias,
+} = require('customize-cra')
 const path = require('path')
 
 module.exports = override(
@@ -12,5 +19,11 @@ module.exports = override(
         alias: {
             '^react-native$': 'react-native-web',
         },
+    }),
+    //this is so it works with yarn link with goodweb3mono
+    addWebpackAlias({
+        react: path.resolve(__dirname, './node_modules/react'),
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+        'native-base': path.resolve(__dirname, './node_modules/native-base'),
     })
 )

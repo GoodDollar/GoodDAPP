@@ -202,14 +202,14 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
         >
             <Box display="flex" justifyContent="center" flexDirection="column" px="6" py="4" bg={bgContainer}>
                 {account && (
-                    <Box px={4} pt={2} bg={bgWalletBalance} borderRadius={4}>
+                    <Box px={4} pt={2} bg={bgWalletBalance} borderRadius="12px">
                         <div className="flex items-center gap-2">
                             <WalletBalanceIcon />
                             <Text fontFamily="subheading" fontSize="sm" fontWeight="normal" color={textColor}>
                                 {i18n._(t`Wallet balance`)}
                             </Text>
                         </div>
-                        <Box display="flex" flexDir="col" pl={8}>
+                        <Box display="flex" flexDir="col" pl={8} pb={2}>
                             {account && <WalletBalance balances={balances} chainId={chainId} />}
                             {!loading && !imported && (
                                 <Text fontFamily="subheading" fontSize="xs" onPress={importToMetamask} color="primary">

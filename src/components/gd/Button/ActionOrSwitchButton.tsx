@@ -49,7 +49,7 @@ export const ActionOrSwitchButton: FC<ActionOrSwitchButtonProps> = ({
 
     return (
         <ButtonEl {...props} width={props.page === 'Stake' ? '130px' : props.width} onClick={toggleNetworkModal}>
-            {i18n._(`Switch to {chain}`, { chain: requireChain })}
+            {i18n._(`Switch to ${requireChain}`)}
         </ButtonEl>
     )
 }

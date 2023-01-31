@@ -96,7 +96,7 @@ export function useActiveOnboard<T = any>(): ActiveOnboardInterface<T> {
         if (connectedWallets.length > 0) {
             return onboardContext(connectedWallets)
         } else {
-            return { active: false, chainId: 42220 }
+            return { active: false, chainId: 1 }
         }
     }, [connectedWallets])
 

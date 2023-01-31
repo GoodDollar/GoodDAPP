@@ -36,10 +36,10 @@
         "@fontsource/dm-sans": "^4.2.2",
         "@fullhuman/postcss-purgecss": "^4.0.3",
         "@hot-loader/react-dom": "^17.0.1",
-        "@lingui/cli": "^3.12.1",
+        "@lingui/cli": "3.15.0",
         "@lingui/detect-locale": "^3.9.0",
         "@lingui/loader": "^3.9.0",
-        "@lingui/macro": "^3.12.1",
+        "@lingui/macro": "3.15.0",
         "@lingui/react": "3.15.0",
         "@popperjs/core": "^2.4.4",
         "@reach/dialog": "^0.10.3",
@@ -199,12 +199,13 @@
         "@react-native-async-storage/async-storage": "1.17.10",
         "@lingui/react": "3.15.0",
         "@lingui/core": "3.15.0",
-        "@web3-onboard/core@^2.12.1": "patch:@web3-onboard/core@npm%3A2.12.1#./.yarn/patches/@web3-onboard-core-npm-2.12.1-94d32823fe.patch",
+        "@lingui/cli": "3.15.0",
+        "@lingui/macro": "3.15.0",
         "@web3-onboard/core@^2.13.0": "patch:@web3-onboard/core@npm%3A2.13.0#./.yarn/patches/@web3-onboard-core-npm-2.13.0-74decc51bc.patch"
     },
     "dependencies": {
         "@gooddollar/good-design": "^0.0.27",
-        "@gooddollar/goodprotocol": "1.0.30-beta.3",
+        "@gooddollar/goodprotocol": "2.0.1",
         "@gooddollar/web3sdk": "^0.1.17",
         "@gooddollar/web3sdk-v2": "^0.1.59",
         "@headlessui/react": "1.5.0",
@@ -230,7 +231,7 @@
         "rxjs": "^7.5.6",
         "text-mask-addons": "^3.8.0",
         "ubeswap-swap-dev": "^1.4.2",
-        "web3": "1.8.1"
+        "web3": "1.8.2"
     },
     "packageManager": "yarn@3.2.1"
 }

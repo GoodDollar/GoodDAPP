@@ -421,6 +421,7 @@
   "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "Swapping G $ împotriva Goodreservelor nu are taxe terțe dacă faceți schimb de la / la CDAI, deoarece este jetonul nostru de rezervă. Schimbarea G $ S de la / către alte active implică o taxă de 0,3%, ajungând la furnizorii de lichidități AMM terță parte.",
   "Swapping {inputSig} {0} \nto a minimum of {minimumOutputSig} {1}": "Swapping {inputSig} {0} \n la un minim de {minimumOutputSig} {1}",
   "Switch to {network}": "Schimba cu {network}",
+  "Switch to {requireChain}": "",
   "Switch your network to {0} to work with Portfolio": "Schimbați rețeaua dvs. la {0} pentru a lucra cu portofoliu",
   "Switch your network to {0} to work with Stakes": "Schimbați rețeaua dvs. la {0} pentru a lucra cu mizele",
   "TOKEN": "JETON",

@@ -421,6 +421,7 @@
   "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "El intercambio de G $ contra GoodReserve no tiene tarifas de terceros si cambia de / a CDAI, ya que es nuestro token de reserva. El intercambio de G $ s de / a otros activos implica un 0.3% de la tarifa que va a los proveedores de liquidez AMM de terceros.",
   "Swapping {inputSig} {0} \nto a minimum of {minimumOutputSig} {1}": "Intercambio {inputSig} {0} \n a un mínimo de {minimumOutputSig} {1}",
   "Switch to {network}": "Cambiar a {network}",
+  "Switch to {requireChain}": "",
   "Switch your network to {0} to work with Portfolio": "Cambiar su red a {0} para trabajar con la cartera",
   "Switch your network to {0} to work with Stakes": "Cambiar su red a {0} para trabajar con estacas",
   "TOKEN": "SIMBÓLICA",

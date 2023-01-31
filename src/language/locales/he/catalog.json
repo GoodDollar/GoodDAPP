@@ -420,6 +420,7 @@
   "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "החלפת G $ נגד Goodreserve אין דמי צד שלישי אם אתה להחליף מ / אל CDAI כפי שהוא האסימון שלנו מילואים. החלפת G $ S מ / אל נכסים אחרים מרמז על 0.3% של אגרה הולך 3 של ספקי נזילות AMM.",
   "Swapping {inputSig} {0} \nto a minimum of {minimumOutputSig} {1}": "להחליף {inputSig} {0} \n למינימום של {minimumOutputSig} {1}",
   "Switch to {network}": "לעבור ל {network}",
+  "Switch to {requireChain}": "",
   "Switch your network to {0} to work with Portfolio": "החלף את הרשת שלך ל- {0} לעבודה עם תיק",
   "Switch your network to {0} to work with Stakes": "החלף את הרשת שלך ל- {0} לעבודה עם ההימור",
   "TOKEN": "אֲסִימוֹן",

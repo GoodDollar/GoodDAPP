@@ -421,6 +421,7 @@
   "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "如果您从/ To CDAI转换为我们的储备令牌，则交换G $兑换GoodReserve没有第三方费用。 从/往其他资产交换至其他资产意味着第三方AMM流动资金提供商的0.3％的费用。",
   "Swapping {inputSig} {0} \nto a minimum of {minimumOutputSig} {1}": "交换{inputSig} {0} \n 至少{minimumOutputSig} {1}",
   "Switch to {network}": "切换到 {network}",
+  "Switch to {requireChain}": "",
   "Switch your network to {0} to work with Portfolio": "将您的网络切换到{0}以与投资组合一起使用",
   "Switch your network to {0} to work with Stakes": "将您的网络切换到{0}与赌注一起使用",
   "TOKEN": "令牌",

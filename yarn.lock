@@ -7871,7 +7871,7 @@ __metadata:
 "@superfluid-finance/metadata@git+https://github.com/superfluid-finance/metadata.git":
   version: 1.1.2
   resolution: "@superfluid-finance/metadata@https://github.com/superfluid-finance/metadata.git#commit=b93889c01ecc8ecc2d71af24b286d8ebfc5198ec"
-  checksum: 34eefbcded2e7fc32901bb05f06b743942ae48d408cd973aef8f574e32c8e86073c877d2f92c3d9d50df873aab12a78a730113b82eee878455a3b805c8feb546
+  checksum: c29891004ec3dc6e5a5afe8b30defb1c552c9dcef8f4072fea4fbf402a96c3a1ee94ebefd3913a6cc7bc018cf6a6c80b5bbf1ea9be309ce9fbd1bddf0e0012f0
   languageName: node
   linkType: hard
 

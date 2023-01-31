@@ -3883,9 +3883,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@npm:1.0.30-beta.3":
-  version: 1.0.30-beta.3
-  resolution: "@gooddollar/goodprotocol@npm:1.0.30-beta.3"
+"@gooddollar/goodprotocol@npm:2.0.1":
+  version: 2.0.1
+  resolution: "@gooddollar/goodprotocol@npm:2.0.1"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
@@ -3900,7 +3900,7 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: 8f1f31c2d30d36e1c747dba53d6d0c8edb71d76795bdf694f15713cc8e6a2c9bd8598070c284f2ddb1e34e1749f8ff1772f88021763cd6abc859ef818da2c691
+  checksum: d27825498a70c98b1cdb9afa8f29a527348352b1ba9a2bb8f47ccd34ed0c78e218ae51973e4d84f25d156987f1ce486fe898056f1aa57162f92e341078466af2
   languageName: node
   linkType: hard
 

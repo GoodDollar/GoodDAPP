@@ -13,5 +13,6 @@ export type FaceVerificationPayload = {
   lowQualityAuditTrail: string[],
   sessionId: string | null,
   status: FaceTecSessionStatus,
+  chainId?: string | undefined,
   [key: string]: string | FaceTecSessionStatus | null | {},
 }

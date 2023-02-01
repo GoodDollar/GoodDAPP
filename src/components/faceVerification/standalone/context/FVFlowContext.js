@@ -15,12 +15,13 @@ export const FVFlowContext = createContext({
   faceIdentifier: null,
   fvFlowError: null,
   isFVFlowReady: false,
+  chain: null,
   rdu: null,
   cbu: null,
 })
 
 const FVFlowProvider = props => {
-  const { sig, nonce, fvsig, rdu, cbu, firstName, account } = useRef(DeepLinking.params).current
+  const { sig, nonce, fvsig, rdu, cbu, firstName, account, chain } = useRef(DeepLinking.params).current
   const { jwt, error } = useFVFlow(sig, nonce, fvsig, account)
   const faceIdentifier = (fvsig || '').slice(0, 42)
 
@@ -41,6 +42,7 @@ const FVFlowProvider = props => {
         isFVFlow: true, // when we render this provider we are always in fvflow
         fvFlowError: error,
         isFVFlowReady: !!jwt,
+        chainId: chain,
         rdu,
         cbu,
       }}

@@ -36,7 +36,7 @@ const SideMenuItem = ({ icon, name, color, action, styles, theme, size, centered
       </Text>
       {external && (
         <View style={styles.menuIcon}>
-          <Icon name="link" size={size || defaultIconSize} color={iconColor} />
+          <Icon name="external-link" size={size || defaultIconSize} color={iconColor} />
         </View>
       )}
     </TouchableOpacity>

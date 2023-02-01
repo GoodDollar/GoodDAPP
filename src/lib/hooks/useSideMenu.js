@@ -70,7 +70,7 @@ export default (props = {}) => {
         },
       },
       {
-        icon: 'gooddollar',
+        icon: 'gd-circle',
         name: t`Go to GoodSwap`,
         external: true,
         action: () => {

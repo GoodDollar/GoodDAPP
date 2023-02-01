@@ -7,11 +7,11 @@ import ModalHeader from '../ModalHeader'
 import React, { useCallback, useMemo } from 'react'
 import Option from '../WalletModal/Option'
 import styled from 'styled-components'
-import { AdditionalChainId, ChainIdHex } from '../../constants'
+import { AdditionalChainId } from '../../constants'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useSetChain } from '@web3-onboard/react'
+import { useEthers } from '@usedapp/core'
 
 import { getNetworkEnv } from '@gooddollar/web3sdk'
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
@@ -57,8 +57,7 @@ export default function NetworkModal(): JSX.Element | null {
     const { i18n } = useLingui()
     const { chainId, error } = useActiveWeb3React()
     const sendData = useSendAnalyticsData()
-
-    const [, setChain] = useSetChain()
+    const { switchNetwork } = useEthers()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
 
@@ -80,21 +79,14 @@ export default function NetworkModal(): JSX.Element | null {
 
     const switchChain = useCallback(
         async (chain: ChainId | AdditionalChainId) => {
-            const chainId = [ChainId.MAINNET, ChainId.RINKEBY, ChainId.GÖRLI].includes(chain as any)
-                ? `0x${chain.toString(16)}`
-                : ChainIdHex[chain]
-
-            const success = await setChain({ chainId })
-
-            if (success) {
-                sendData({
-                    event: 'network_switch',
-                    action: 'network_switch_success',
-                    network: ChainId[chain],
-                })
-            }
+            await switchNetwork(chain)
+            sendData({
+                event: 'network_switch',
+                action: 'network_switch_success',
+                network: ChainId[chain],
+            })
         },
-        [setChain]
+        [switchNetwork]
     )
 
     return (

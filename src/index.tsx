@@ -21,6 +21,8 @@ import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
 import { theme, NativeBaseProvider } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
+import { OnboardProvider } from '@gooddollar/web3sdk-v2'
+import { connectOptions } from 'connectors'
 
 if (window.ethereum) {
     window.ethereum.autoRefreshOnNetworkChange = false
@@ -81,28 +83,30 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.render(
     <StrictMode>
-        <Web3ContextProvider>
-            <Provider store={store}>
-                <LanguageProvider>
-                    <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
-                        <Blocklist>
-                            <ListsUpdater />
-                            <UserUpdater />
-                            <ApplicationUpdater />
-                            <MulticallUpdater />
-                            <ThemeProvider>
-                                <NativeBaseProvider theme={theme}>
-                                    <GlobalStyle />
-                                    <Router>
-                                        <App />
-                                    </Router>
-                                </NativeBaseProvider>
-                            </ThemeProvider>
-                        </Blocklist>
-                    </AnalyticsProvider>
-                </LanguageProvider>
-            </Provider>
-        </Web3ContextProvider>
+        <OnboardProvider options={connectOptions}>
+            <Web3ContextProvider>
+                <Provider store={store}>
+                    <LanguageProvider>
+                        <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
+                            <Blocklist>
+                                <ListsUpdater />
+                                <UserUpdater />
+                                <ApplicationUpdater />
+                                <MulticallUpdater />
+                                <ThemeProvider>
+                                    <NativeBaseProvider theme={theme}>
+                                        <GlobalStyle />
+                                        <Router>
+                                            <App />
+                                        </Router>
+                                    </NativeBaseProvider>
+                                </ThemeProvider>
+                            </Blocklist>
+                        </AnalyticsProvider>
+                    </LanguageProvider>
+                </Provider>
+            </Web3ContextProvider>
+        </OnboardProvider>
     </StrictMode>,
     document.getElementById('root')
 )

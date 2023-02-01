@@ -1,9 +1,7 @@
 import React, { useMemo, useCallback } from 'react'
 import { View, Box, Text } from 'native-base'
 import { ArrowButton, BalanceGD } from '@gooddollar/good-design'
-import { useSetChain } from '@web3-onboard/react'
 import { SupportedChains } from '@gooddollar/web3sdk-v2'
-import { ChainIdHex } from '../../../constants'
 import { useClaim } from '@gooddollar/web3sdk-v2'
 import usePromise from 'hooks/usePromise'
 import { g$Price } from '@gooddollar/web3sdk'
@@ -11,6 +9,7 @@ import { format } from 'date-fns'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useClaiming } from 'hooks/useClaiming'
 import { noop } from 'lodash'
+import { useEthers } from '@usedapp/core'
 
 const NextClaim = ({ time }: { time: string }) => (
     <Text fontFamily="subheading" fontWeight="normal" fontSize="xs" color="main">
@@ -41,20 +40,14 @@ export const ClaimBalance = () => {
                 .catch(() => undefined),
         [chainId]
     )
-
     const formattedTime = useMemo(() => format(claimTime, 'hh aaa'), [claimTime])
-    const [{ connectedChain }, setChain] = useSetChain()
+    const { switchNetwork } = useEthers()
 
-    const network = useMemo(
-        () => (connectedChain && connectedChain.id === '0x7a' ? SupportedChains[42220] : SupportedChains[122]),
-        [connectedChain]
-    )
+    const network = useMemo(() => SupportedChains[chainId], [chainId])
 
     const switchChain = useCallback(() => {
-        const chainId = ChainIdHex[SupportedChains[network as keyof typeof SupportedChains]]
-
-        setChain({ chainId }).catch(noop)
-    }, [setChain])
+        switchNetwork(chainId).catch(noop)
+    }, [switchNetwork])
 
     return (
         <View textAlign="center" display="flex" justifyContent="center" flexDirection="column" w="full" mb="4">

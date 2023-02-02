@@ -178,7 +178,7 @@ export const executeWithdraw = async (
 }
 
 // eslint-disable-next-line
-export const retryCall = async asyncFn => retry(asyncFn, 1, 200)
+export const retryCall = async asyncFn => retry(asyncFn, 2, 1000)
 
 export const safeCall = async (method, defaultValue = {}) => {
   const result = await retryCall(() => method().call()).catch(noop)

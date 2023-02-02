@@ -74,7 +74,13 @@ export class AnalyticsClass {
     const platform = isWeb ? (isWebApp ? 'webapp' : 'web') : 'native'
 
     const allTags = { phase: String(phase), ...(tags || {}), os_version: osVersion, platform, version }
+
     const onceTags = { first_open_date: new Date().toString(), source }
+
+    // make sure all users will have the new signedup prop
+    if (tags?.isLoggedIn) {
+      onceTags.signedup = true
+    }
     if (isMixpanelEnabled) {
       logger.info('preinitializing Mixpanel with license key')
 
@@ -267,16 +273,26 @@ export class AnalyticsClass {
     logger.debug('Fired GoogleAnalytics event', { event, data })
   }
 
-  setUserProps(props) {
+  setUserPropsOnce(props) {
+    this.setUserProps(props, true)
+  }
+
+  setUserProps(props, once = false) {
     const { isAmplitudeEnabled, isSentryEnabled, isMixpanelEnabled, apis } = this
     const { amplitude, sentry, mixpanel } = apis
 
     if (isMixpanelEnabled) {
-      mixpanel.setUserProps(props)
+      once ? mixpanel.setUserPropsOnce(props) : mixpanel.setUserProps(props)
     }
 
     if (isAmplitudeEnabled) {
-      amplitude.setUserProperties(props)
+      if (once) {
+        const identity = new amplitude.Identify()
+        forOwn(props, (value, key) => identity.append(key, value))
+        amplitude.identify(identity)
+      } else {
+        amplitude.setUserProperties(props)
+      }
     }
 
     if (isSentryEnabled) {

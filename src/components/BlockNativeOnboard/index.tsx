@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { useConnectWallet } from '@web3-onboard/react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -14,25 +14,46 @@ import { SupportedChains } from '@gooddollar/web3sdk-v2'
  * @returns Connect Button or Empty
  */
 
-export function OnboardConnectButton(): JSX.Element {
-    //eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const OnboardConnectButton: FC = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
     const sendData = useSendAnalyticsData()
     const { i18n } = useLingui()
     const buttonText = i18n._(t`Connect to a wallet`)
+    // flag to detect for wallet connected only after we pressed a button
+    const connectionStartedRef = useRef(false)
+
     const variant = useBreakpointValue({
         base: 'mobile',
         lg: 'outlined',
     })
 
     const onWalletConnect = async () => {
+        connectionStartedRef.current = true
         sendData({ event: 'wallet_connect', action: 'wallet_connect_start' })
-        await connect().catch(noop)
+
+        try {
+            await connect()
+        } catch {
+            connectionStartedRef.current = false
+        }
+
         return false
     }
 
+    useEffect(() => {
+        if (!connectionStartedRef.current) {
+            return
+        }
+
+        if (!connecting && wallet) {
+            connectionStartedRef.current = false
+            sendData({ event: 'wallet_connect', action: 'wallet_connect_success' })
+        }
+    }, [sendData, connecting, wallet])
+
     if (wallet) {
-        return <></>
+        return null
     }
 
     return (
@@ -42,6 +63,8 @@ export function OnboardConnectButton(): JSX.Element {
             requiredChain={SupportedChains.CELO}
             handleConnect={onWalletConnect}
             variant={variant}
+            isDisabled={connecting}
+            isLoading={connecting}
         />
     )
 }

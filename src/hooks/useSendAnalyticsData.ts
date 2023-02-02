@@ -10,10 +10,14 @@ declare type IAnalyticsConfig = typeof import('@gooddollar/web3sdk-v2/dist/sdk/a
 declare type IAppProps = typeof import('@gooddollar/web3sdk-v2/dist/sdk/analytics')
 
 const indicativeKey = process.env.REACT_APP_INDICATIVE_KEY
+const posthogKey = process.env.REACT_APP_POSTHOG_KEY
+const mixpanelKey = process.env.REACT_APP_MIXPANEL_KEY
 
 export const analyticsConfig: IAnalyticsConfig = {
     google: { enabled: true },
     indicative: { apiKey: indicativeKey, enabled: !!indicativeKey },
+    posthog: { apiKey: posthogKey, enabled: !!posthogKey },
+    mixpanel: { apiKey: mixpanelKey, enabled: !!mixpanelKey },
 }
 
 export const appInfo: IAppProps = {

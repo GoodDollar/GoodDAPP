@@ -267,30 +267,34 @@ export class AnalyticsClass {
     logger.debug('Fired GoogleAnalytics event', { event, data })
   }
 
-  /** @private */
-  setUserEmail(email) {
+  setUserProps(props) {
     const { isAmplitudeEnabled, isSentryEnabled, isMixpanelEnabled, apis } = this
     const { amplitude, sentry, mixpanel } = apis
 
-    if (!email) {
-      return
-    }
-
     if (isMixpanelEnabled) {
-      mixpanel.setUserProps({ email })
+      mixpanel.setUserProps(props)
     }
 
     if (isAmplitudeEnabled) {
-      amplitude.setUserProperties({ email })
+      amplitude.setUserProperties(props)
     }
 
     if (isSentryEnabled) {
       sentry.configureScope(scope => {
         const { _user } = scope
 
-        scope.setUser({ ...(_user || {}), email })
+        scope.setUser({ ...(_user || {}), ...props })
       })
     }
+  }
+
+  /** @private */
+  setUserEmail(email) {
+    if (!email) {
+      return
+    }
+
+    this.setUserProps({ email })
   }
 
   // @private

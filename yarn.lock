@@ -3842,6 +3842,8 @@ __metadata:
     metro-config: <=0.66.0
     metro-react-native-babel-preset: <=0.66.0
     metro-react-native-babel-transformer: <=0.66.0
+    mixpanel-browser: ^2.45.0
+    mixpanel-react-native: ^2.1.0
     mnid: ^0.1.3
     mobile-device-detect: ^0.2.3
     moment: ^2.29.4
@@ -22652,7 +22654,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 51e7e54d2b18c9901d38f4a61436f9105fae88e77753b6c56c56e0f0f0a2bb6cf80d3eef5d5e113cb72d65073a89a1c476e4ec6ed078f8e999ccf43460a7dc6a
+  checksum: 434bfe9bc3ec10f34598e12e37aa0761193c75614d030ca08f34259789801e2d3984f1a8f6d5cef21e02e9d84cc962ea83d56c3c65cb8036fc39995b5cd04cf7
   languageName: node
   linkType: hard
 
@@ -22670,7 +22672,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 422e02abe8dcb7ec5d3d4d68cd99dc7587074e68f6be110c65abee2964d0b90bc78e12c6d888f9bb9d8f3922ac20c17170fd9a969eecbafdd383ce38324370b3
+  checksum: 00bcdb6e66c36abdeea2c2cb5a34094b659c66a270372a05cfa30b5f8c941d48dd910ff82947c16150f56a507ed24705a9fbfdcb332344b927ad01b655ca9fd9
   languageName: node
   linkType: hard
 
@@ -24179,6 +24181,20 @@ __metadata:
     for-in: ^0.1.3
     is-extendable: ^0.1.1
   checksum: 7d0eb7c2f06435fcc01d132824b4c973a0df689a117d8199d79911b506363b6f4f86a84458a63f3acfa7388f3052612cfe27105400b4932678452925a9739a4c
+  languageName: node
+  linkType: hard
+
+"mixpanel-browser@npm:^2.45.0":
+  version: 2.45.0
+  resolution: "mixpanel-browser@npm:2.45.0"
+  checksum: 43722dd5019ece65302e933f3d5812ea015aff8525b3ba5347da9cd8694871ed85179047bf2bc7f47cd58c050158ea4ce84cc2810e128988c151fe4457f52f55
+  languageName: node
+  linkType: hard
+
+"mixpanel-react-native@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "mixpanel-react-native@npm:2.1.0"
+  checksum: 807ff0d065f1f2ba69dc3e67f641294cbd125c7549dbddbabd8c809322327e626b76998f320a510785adfd835fae7b35e7bbfa99471252dd79bb4c7122fbb854
   languageName: node
   linkType: hard
 

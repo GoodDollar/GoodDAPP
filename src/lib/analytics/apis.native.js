@@ -3,6 +3,23 @@ import * as sentry from '@sentry/react-native'
 import { Amplitude, Identify } from '@amplitude/react-native'
 import analytics from '@react-native-firebase/analytics'
 import { assign, isFunction, noop } from 'lodash'
+import { Mixpanel } from 'mixpanel-react-native'
+
+// eslint-disable-next-line require-await
+Mixpanel.prototype.setUserProps = async function(props) {
+  return this.getPeople().set(props)
+}
+// eslint-disable-next-line require-await
+Mixpanel.prototype.setUserPropsOnce = async function(props) {
+  return this.getPeople().setOnce(props)
+}
+
+const MixpanelAPI = {
+  async init(apiKey) {
+    // eslint-disable-next-line no-return-await
+    return await Mixpanel.init(apiKey, false)
+  },
+}
 
 class GoogleWrapper {
   constructor(analytics) {
@@ -67,6 +84,6 @@ class AmplitudeWrapper {
 export default () => {
   const amplitude = new AmplitudeWrapper(Amplitude.getInstance(), Identify)
   const googleAnalytics = new GoogleWrapper(analytics())
-
-  return { sentry, amplitude, googleAnalytics }
+  const mixpanel = MixpanelAPI
+  return { sentry, amplitude, googleAnalytics, mixpanel }
 }

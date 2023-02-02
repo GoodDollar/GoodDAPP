@@ -21,6 +21,8 @@ import {
 
 import { cloneErrorObject, ExceptionCategory } from '../exceptions/utils'
 import { isWeb, osVersion } from '../utils/platform'
+import DeepLinking from '../utils/deepLinking'
+import isWebApp from '../utils/isWebApp'
 import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -30,23 +32,67 @@ export class AnalyticsClass {
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.get('analytics')
-    const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env', 'phase')
+    const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'mixpanelKey', 'version', 'env', 'phase')
 
     assign(this, options, { logger, apisFactory, rootApi, loggerApi })
   }
 
   initAnalytics = async (tags = {}) => {
-    const { apis, apisFactory, sentryDSN, amplitudeKey, version, network, logger, env, phase, loggerApi } = this
+    const {
+      apis,
+      apisFactory,
+      sentryDSN,
+      amplitudeKey,
+      mixpanelKey,
+      version,
+      network,
+      logger,
+      env,
+      phase,
+      loggerApi,
+    } = this
 
     const apisDetected = apisFactory()
-    const { amplitude, sentry, googleAnalytics } = apisDetected
+    const { amplitude, sentry, googleAnalytics, mixpanel } = apisDetected
 
     const isSentryEnabled = !!(sentry && sentryDSN)
     const isAmplitudeEnabled = !!(amplitude && amplitudeKey)
     const isGoogleEnabled = !!googleAnalytics
+    const isMixpanelEnabled = !!(mixpanel && mixpanelKey)
 
     assign(apis, apisDetected)
-    assign(this, { isSentryEnabled, isAmplitudeEnabled })
+    assign(this, { isSentryEnabled, isAmplitudeEnabled, isMixpanelEnabled })
+
+    const params = DeepLinking.params
+
+    let source = isWeb
+      ? document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null
+        ? document.referrer
+        : 'web3'
+      : undefined
+    source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
+    const platform = isWeb ? (isWebApp ? 'webapp' : 'web') : 'native'
+
+    const allTags = { phase: String(phase), ...(tags || {}), os_version: osVersion, platform, version }
+    const onceTags = { first_open_date: new Date().toString(), source }
+    if (isMixpanelEnabled) {
+      logger.info('preinitializing Mixpanel with license key')
+
+      try {
+        await mixpanel.init(mixpanelKey)
+
+        this.isMixpanelEnabled = true
+        logger.info('License sent to Mixpanel', { success: true })
+
+        mixpanel.identify()
+        mixpanel.setUserPropsOnce(onceTags)
+        mixpanel.setUserProps(allTags)
+      } catch (e) {
+        logger.warn('License sent to Mixpanel', { success: false })
+
+        this.isMixpanelEnabled = false
+      }
+    }
 
     if (isAmplitudeEnabled) {
       logger.info('preinitializing Amplitude with license key')
@@ -57,14 +103,11 @@ export class AnalyticsClass {
       logger.info('License sent to Amplitude', { success })
 
       const identity = new amplitude.Identify()
-      const allTags = { phase: String(phase), ...(tags || {}) }
-
-      identity.setOnce('first_open_date', new Date().toString())
+      forOwn(onceTags, (value, key) => identity.setOnce(key, value))
       forOwn(allTags, (value, key) => identity.append(key, value))
 
       amplitude.setVersionName(version)
       amplitude.identify(identity)
-      amplitude.setUserProperties({ os_version: osVersion })
     }
 
     if (isSentryEnabled) {
@@ -107,8 +150,12 @@ export class AnalyticsClass {
   }
 
   identifyWith = (identifier, email = null) => {
-    const { apis, logger, isAmplitudeEnabled, isSentryEnabled } = this
-    const { amplitude, sentry } = apis
+    const { apis, logger, isAmplitudeEnabled, isMixpanelEnabled, isSentryEnabled } = this
+    const { amplitude, sentry, mixpanel } = apis
+
+    if (isMixpanelEnabled && identifier) {
+      mixpanel.identify(identifier)
+    }
 
     if (isAmplitudeEnabled && identifier) {
       amplitude.setUserId(identifier)
@@ -130,8 +177,9 @@ export class AnalyticsClass {
       'Analytics services identified with:',
       { email, identifier },
       {
-        Sentry: isSentryEnabled,
-        Amplitude: isAmplitudeEnabled,
+        isSentryEnabled,
+        isAmplitudeEnabled,
+        isMixpanelEnabled,
       },
     )
   }
@@ -139,7 +187,7 @@ export class AnalyticsClass {
   // eslint-disable-next-line require-await
   identifyOnUserSignup = async email => {
     const { logger } = this
-    const { isSentryEnabled, isAmplitudeEnabled } = this
+    const { isSentryEnabled, isAmplitudeEnabled, isMixpanelEnabled } = this
 
     this.setUserEmail(email)
 
@@ -147,15 +195,20 @@ export class AnalyticsClass {
       'Analytics services identified during new user signup:',
       { email },
       {
-        Sentry: isSentryEnabled,
-        Amplitude: isAmplitudeEnabled,
+        isSentryEnabled,
+        isAmplitudeEnabled,
+        isMixpanelEnabled,
       },
     )
   }
 
   fireEvent = (event: string, data: any = {}) => {
-    const { isAmplitudeEnabled, apis, logger } = this
-    const { amplitude, googleAnalytics } = apis
+    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger } = this
+    const { amplitude, googleAnalytics, mixpanel } = apis
+
+    if (isMixpanelEnabled) {
+      mixpanel.track(event, data)
+    }
 
     if (isAmplitudeEnabled) {
       if (!amplitude.logEvent(event, data)) {
@@ -216,11 +269,15 @@ export class AnalyticsClass {
 
   /** @private */
   setUserEmail(email) {
-    const { isAmplitudeEnabled, isSentryEnabled, apis } = this
-    const { amplitude, sentry } = apis
+    const { isAmplitudeEnabled, isSentryEnabled, isMixpanelEnabled, apis } = this
+    const { amplitude, sentry, mixpanel } = apis
 
     if (!email) {
       return
+    }
+
+    if (isMixpanelEnabled) {
+      mixpanel.setUserProps({ email })
     }
 
     if (isAmplitudeEnabled) {

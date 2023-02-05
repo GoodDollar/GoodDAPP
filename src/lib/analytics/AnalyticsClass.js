@@ -85,14 +85,14 @@ export class AnalyticsClass {
       logger.info('preinitializing Mixpanel with license key')
 
       try {
-        await mixpanel.init(mixpanelKey)
+        this.apis.mixpanel = await mixpanel.init(mixpanelKey) //need to overwrite mixpanel with the initialized object
 
         this.isMixpanelEnabled = true
         logger.info('License sent to Mixpanel', { success: true })
 
-        mixpanel.identify()
-        mixpanel.setUserPropsOnce(onceTags)
-        mixpanel.setUserProps(allTags)
+        this.apis.mixpanel.identify()
+        this.apis.mixpanel.setUserPropsOnce(onceTags)
+        this.apis.mixpanel.setUserProps(allTags)
       } catch (e) {
         logger.warn('License sent to Mixpanel', { success: false })
 

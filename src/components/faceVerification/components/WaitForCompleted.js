@@ -17,19 +17,23 @@ const getStylesFromProps = () => ({
   },
 })
 
-const WaitForCompleted = ({ styles, counter = false }) => (
-  <>
-    <Spinner style={styles.spinner} loading />
-    <Text style={styles.text}>
-      {t`Please wait until your verification is completed`}
-      {counter !== false && (
-        <>
-          {`\n\n`}
-          {counter}
-        </>
-      )}
-    </Text>
-  </>
-)
+const WaitForCompleted = ({ styles, message, counter = false }) => {
+  const msg = message || t`Please wait until your verification is completed`
+
+  return (
+    <>
+      <Spinner style={styles.spinner} loading />
+      <Text style={styles.text}>
+        {msg}
+        {counter !== false && (
+          <>
+            {`\n\n`}
+            {counter}
+          </>
+        )}
+      </Text>
+    </>
+  )
+}
 
 export default withStyles(getStylesFromProps)(WaitForCompleted)

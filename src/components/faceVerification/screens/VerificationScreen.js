@@ -1,16 +1,17 @@
-import React, { useCallback, useContext, useMemo } from 'react'
-
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { identity } from 'lodash'
-import Instructions from '../components/Instructions'
 
-import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
+import Instructions from '../components/Instructions'
+import Whitelisting, { whitelistDelay, whitelistRetries } from '../components/Whitelisting'
+
 import logger from '../../../lib/logger/js-logger'
+import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 
+import useEnrollmentIdentifier from '../hooks/useEnrollmentIdentifier'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
-import useEnrollemtnIdentifier from '../hooks/useEnrollmentIdentifier'
 
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 
@@ -32,7 +33,8 @@ const FaceVerification = ({ screenProps }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
   const { isFVFlow } = useContext(FVFlowContext)
-  const enrollmentIdentifier = useEnrollemtnIdentifier()
+  const enrollmentIdentifier = useEnrollmentIdentifier()
+  const [whitelisting, setWhitelisting] = useState(false)
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -97,15 +99,20 @@ const FaceVerification = ({ screenProps }) => {
       log.debug('FaceVerification completed', { status })
 
       // polling contracts for the whitelisted flag up to 30sec or until got true
-      // fix: if still false, do not throw excetion, just return falsy status
+      // fix: if still false, do not throw exception, just return falsy status
       // on FVFlow we dont verify whitelisting, that is on the developer using the fvflow to test back in their app
       let isCitizen = isFVFlow
 
       if (!isFVFlow) {
+        // show screen with countdown as in the custom FV flow
+        setWhitelisting(true)
+
         try {
-          isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, 5, 3000)
+          isCitizen = await tryUntil(() => goodWallet.isCitizen(), identity, whitelistRetries, whitelistDelay)
         } catch {
           isCitizen = false
+        } finally {
+          setWhitelisting(false)
         }
       }
 
@@ -174,7 +181,7 @@ const FaceVerification = ({ screenProps }) => {
     onError: sdkExceptionHandler,
   })
 
-  return <Instructions onDismiss={verifyFace} ready={initialized} />
+  return whitelisting ? <Whitelisting /> : <Instructions onDismiss={verifyFace} ready={initialized} />
 }
 
 export default FaceVerification

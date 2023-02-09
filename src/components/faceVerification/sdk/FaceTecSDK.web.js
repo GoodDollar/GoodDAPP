@@ -71,14 +71,14 @@ export const FaceTecSDK = new class {
   }
 
   // eslint-disable-next-line require-await
-  async faceVerification(enrollmentIdentifier, sessionOptions = null) {
+  async faceVerification(enrollmentIdentifier, chainId = null, sessionOptions = null) {
     const { logger } = this
     const { eventCallbacks, options } = parseVerificationOptions(sessionOptions)
 
     const subscriber = new ProcessingSubscriber(eventCallbacks, logger)
     const processor = new EnrollmentProcessor(subscriber, options)
 
-    processor.enroll(enrollmentIdentifier)
+    processor.enroll(enrollmentIdentifier, chainId)
     return subscriber.asPromise()
   }
 

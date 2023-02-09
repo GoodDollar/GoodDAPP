@@ -30,6 +30,7 @@ const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
 export default (options = null) => {
   const {
     enrollmentIdentifier,
+    chainId = null,
     onUIReady = noop,
     onCaptureDone = noop,
     onRetry = noop,
@@ -66,6 +67,7 @@ export default (options = null) => {
         const sessionId = await api.issueSessionToken()
 
         await api.performFaceVerification(enrollmentIdentifier, {
+          chainId,
           sessionId,
           faceScan: emptyBase64,
           auditTrailImage: emptyBase64,
@@ -95,11 +97,11 @@ export default (options = null) => {
     // setting session is running flag in the ref
     sessionInProgressRef.current = true
 
-    log.debug('Starting Zoom verification', { enrollmentIdentifier, verificationOptions })
+    log.debug('Starting Zoom verification', { enrollmentIdentifier, chainId, verificationOptions })
 
     // initializing zoom session
     try {
-      const verificationStatus = await FaceTecSDK.faceVerification(enrollmentIdentifier, verificationOptions)
+      const verificationStatus = await FaceTecSDK.faceVerification(enrollmentIdentifier, chainId, verificationOptions)
 
       log.debug('Zoom verification successful', { verificationStatus })
       onComplete(verificationStatus)
@@ -137,7 +139,7 @@ export default (options = null) => {
       // setting session is not running flag in the ref
       sessionInProgressRef.current = false
     }
-  }, [enrollmentIdentifier, refs])
+  }, [enrollmentIdentifier, chainId, refs])
 
   // exposing public hook API
   return startVerification

@@ -61,6 +61,7 @@ export const SavingsCellsMobile = ({
         mainContainer: 'flex flex-row flex-wrap items-center justify-start max-w-xs gap-x-16 gap-y-4',
         buttonContainer: 'flex items-end justify-center md:flex-col segment withdraw-buttons',
         buttonWrapper: 'flex flex-col justify-center h-full w-72 withdraw-button md:h-auto',
+        mobileButtons: type === 'stake' ? 'savingdeposit' : 'withdraw',
     }
 
     const Cell = ({ children }: { children: React.ReactNode }) =>
@@ -88,7 +89,7 @@ export const SavingsCellsMobile = ({
                         </div>
                     )
             )}
-            <SavingsButtons types={buttonTypes} chain={chain} toggleModal={toggleModal} styles="withdraw" />
+            <SavingsButtons types={buttonTypes} chain={chain} toggleModal={toggleModal} styles={styles.mobileButtons} />
         </Cell>
     )
 }

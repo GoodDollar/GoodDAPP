@@ -10,8 +10,7 @@ export const CellSC = styled.div`
         't t'
         'a b'
         'c d'
-        'e e'
-        'f f';
+        'e e';
 
     .part {
         display: flex;
@@ -61,7 +60,7 @@ export const CellSC = styled.div`
         display: flex;
         flex-wrap: nowrap;
         gap: 8px;
-        grid-area: f;
+        grid-area: e;
     }
 `
 

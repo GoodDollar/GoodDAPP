@@ -88,7 +88,7 @@ export const SavingsCellsMobile = ({
                         </div>
                     )
             )}
-            <SavingsButtons types={buttonTypes} chain={chain} toggleModal={toggleModal} styles="savingdeposit" />
+            <SavingsButtons types={buttonTypes} chain={chain} toggleModal={toggleModal} styles="withdraw" />
         </Cell>
     )
 }

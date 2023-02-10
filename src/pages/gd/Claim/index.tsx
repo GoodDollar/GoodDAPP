@@ -10,7 +10,7 @@ import { ClaimBalance } from './ClaimBalance'
 const Claim = memo(() => {
     const { i18n } = useLingui()
     const { claimed, handleClaim } = useClaiming()
-    const { chainId, account } = useActiveWeb3React()
+    const { chainId } = useActiveWeb3React()
 
     const mainView = useBreakpointValue({
         base: {

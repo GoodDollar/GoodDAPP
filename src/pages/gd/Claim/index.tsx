@@ -4,11 +4,14 @@ import { useLingui } from '@lingui/react'
 import { ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
 import { Text, useBreakpointValue, Box, View } from 'native-base'
 import { useClaiming } from 'hooks/useClaiming'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ClaimBalance } from './ClaimBalance'
 
 const Claim = memo(() => {
     const { i18n } = useLingui()
     const { claimed, handleClaim } = useClaiming()
+    const { chainId } = useActiveWeb3React()
+
     const mainView = useBreakpointValue({
         base: {
             gap: '32px',
@@ -26,12 +29,14 @@ const Claim = memo(() => {
             justifyContent: 'justify-evenly',
         },
     })
+
     const balanceContainer = useBreakpointValue({
         base: {
             display: 'flex',
             alignItems: 'center',
         },
     })
+
     const mockedCards: Array<IClaimCard> = [
         {
             id: 'how-to-claim',
@@ -125,7 +130,7 @@ const Claim = memo(() => {
                                 </Text>
                             </>
                         )}
-                        <ClaimButton firstName="Test" method="redirect" claim={handleClaim} claimed={claimed} />
+                        <ClaimButton firstName="Test" method="redirect" claim={handleClaim} claimed={claimed} chainId={chainId} />
                     </Box>
                 </div>
                 <div className="w-full lg:flex lg:flex-col lg2:w-2/5 xl:w-80">

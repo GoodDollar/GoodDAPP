@@ -62,7 +62,10 @@ const NestedRouter = memo(({ isLoggedIn }) => {
     source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
     platform = isWebApp ? 'webapp' : 'web'
 
-    fireEvent(APP_OPEN, { source, platform, isLoggedIn, params })
+    // only track potentialy new users
+    if (!isLoggedIn) {
+      fireEvent(APP_OPEN, { source, platform, isLoggedIn, params })
+    }
     log.debug('NestedRouter Rendered', { isLoggedIn, params, source, platform })
 
     if (isLoggedIn) {
@@ -92,7 +95,7 @@ const RouterWrapper = () => {
   })
 
   useEffect(() => {
-    initAnalytics().then(() => log.debug('RouterSelector Rendered'))
+    initAnalytics({ isLoggedIn: isLoggedInRouter }).then(() => log.debug('RouterSelector Rendered'))
   }, [])
 
   useEffect(() => {

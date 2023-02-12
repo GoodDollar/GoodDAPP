@@ -18,6 +18,8 @@ export const {
   fireEvent,
   fireEventFromNavigation,
   fireGoogleAnalyticsEvent,
+  setUserProps,
+  setUserPropsOnce,
 } = analytics
 
 export default analytics

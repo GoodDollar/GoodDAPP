@@ -29,7 +29,7 @@ import BackButtonHandler from '../appNavigation/BackButtonHandler'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/userStorage/UserModel'
 import Config from '../../config/config'
-import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
+import { fireEvent, identifyOnUserSignup, identifyWith, setUserPropsOnce } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
 import AuthStateWrapper from '../auth/components/AuthStateWrapper'
 import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
@@ -335,6 +335,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           await userProperties.persist()
         })
 
+        //mark in analytics that user signedup
+        setUserPropsOnce({ signedup: true })
         fireSignupEvent('SUCCESS', { torusProvider, inviteCode })
 
         log.debug('New user created')

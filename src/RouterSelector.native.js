@@ -16,8 +16,12 @@ import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 const log = logger.child({ from: 'RouterSelector' })
 
 const initAnalyticsAndFireAppOpen = async (isLoggedIn = false) => {
-  await initAnalytics()
-  fireEvent(APP_OPEN, { platform: 'native', isLoggedIn })
+  await initAnalytics({ isLoggedIn })
+
+  // only track potentialy new users
+  if (!isLoggedIn) {
+    fireEvent(APP_OPEN, { platform: 'native', isLoggedIn })
+  }
 }
 
 log.debug({ Config })

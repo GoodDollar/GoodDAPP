@@ -53,7 +53,7 @@ export class AnalyticsClass {
     } = this
 
     const apisDetected = apisFactory()
-    const { amplitude, sentry, googleAnalytics, mixpanel } = apisDetected
+    let { amplitude, sentry, googleAnalytics, mixpanel } = apisDetected
 
     const isSentryEnabled = !!(sentry && sentryDSN)
     const isAmplitudeEnabled = !!(amplitude && amplitudeKey)

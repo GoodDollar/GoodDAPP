@@ -207,7 +207,7 @@
         "@gooddollar/good-design": "^0.0.29",
         "@gooddollar/goodprotocol": "2.0.1",
         "@gooddollar/web3sdk": "^0.1.17",
-        "@gooddollar/web3sdk-v2": "0.1.62",
+        "@gooddollar/web3sdk-v2": "^0.1.64",
         "@headlessui/react": "1.5.0",
         "@types/react-text-mask": "^5.4.8",
         "@types/text-mask-addons": "^3.8.1",

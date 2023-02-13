@@ -130,7 +130,13 @@ const Claim = memo(() => {
                                 </Text>
                             </>
                         )}
-                        <ClaimButton firstName="Test" method="redirect" claim={handleClaim} claimed={claimed} chainId={chainId} />
+                        <ClaimButton
+                            firstName="Test"
+                            method="redirect"
+                            claim={handleClaim}
+                            claimed={claimed}
+                            chainId={chainId}
+                        />
                     </Box>
                 </div>
                 <div className="w-full lg:flex lg:flex-col lg2:w-2/5 xl:w-80">

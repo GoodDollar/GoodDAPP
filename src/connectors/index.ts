@@ -1,4 +1,4 @@
-import LogoSmall from '../assets/images/logosmall.png'
+import LogoSmall from '../assets/images/logo_primary_small.png'
 
 export enum AdditionalChainIds {
     FUSE = 122,

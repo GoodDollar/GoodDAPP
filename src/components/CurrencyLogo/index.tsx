@@ -8,11 +8,7 @@ import CeloLogo from '../../assets/images/celo-logo.png'
 import EthereumLogo from '../../assets/images/ethereum-logo.png'
 import FantomLogo from '../../assets/images/fantom-logo.png'
 import FuseLogo from '../../assets/images/fuse-logo.png'
-import HarmonyLogo from '../../assets/images/harmony-logo.png'
-import HecoLogo from '../../assets/images/heco-logo.png'
 import MaticLogo from '../../assets/images/matic-logo.png'
-import MoonbeamLogo from '../../assets/images/moonbeam-logo.png'
-import OKExLogo from '../../assets/images/okex-logo.png'
 import xDaiLogo from '../../assets/images/xdai-logo.png'
 import { AdditionalChainId, FUSE } from '../../constants'
 import { getFuseTokenLogoURL } from '../../constants/fuseTokenMapping'
@@ -63,15 +59,8 @@ const logo: { readonly [chainId in ChainId | AdditionalChainId]?: string } = {
     [ChainId.XDAI]: xDaiLogo,
     [ChainId.BSC]: BinanceCoinLogo,
     [ChainId.BSC_TESTNET]: BinanceCoinLogo,
-    [ChainId.MOONBASE]: MoonbeamLogo,
     [ChainId.AVALANCHE]: AvalancheLogo,
     [ChainId.FUJI]: AvalancheLogo,
-    [ChainId.HECO]: HecoLogo,
-    [ChainId.HECO_TESTNET]: HecoLogo,
-    [ChainId.HARMONY]: HarmonyLogo,
-    [ChainId.HARMONY_TESTNET]: HarmonyLogo,
-    [ChainId.OKEX]: OKExLogo,
-    [ChainId.OKEX_TESTNET]: OKExLogo,
     [AdditionalChainId.FUSE]: FuseLogo,
     [AdditionalChainId.CELO]: CeloLogo,
 }

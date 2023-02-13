@@ -1,7 +1,7 @@
 import { Fraction } from '@uniswap/sdk-core'
 import React, { useState, useCallback } from 'react'
-import Logo from '../assets/images/logo.png'
-import LogoDark from '../assets/images/logo-dark.png'
+import { ReactComponent as LogoPrimary } from '../assets/svg/logo_primary_2023.svg'
+import { ReactComponent as LogoWhite } from '../assets/svg/logo_white_2023.svg'
 import { useActiveWeb3React } from '../hooks/useActiveWeb3React'
 import Web3Network from './Web3Network'
 import Web3Status from './Web3Status'
@@ -210,11 +210,11 @@ function AppBar(): JSX.Element {
                     <TopBar $mobile={isMobile} className="flex justify-between">
                         <div className="flex flex-col items-center">
                             <LogoWrapper $mobile={isMobile} className="flex-shrink-0">
-                                <img
-                                    src={theme === 'dark' ? LogoDark : Logo}
-                                    alt="GoodDollar"
-                                    className="w-auto site-logo lg:block"
-                                />
+                                {theme === 'dark' ? (
+                                    <LogoWhite className="w-auto site-logo lg:block" />
+                                ) : (
+                                    <LogoPrimary className="w-auto site-logo lg:block" />
+                                )}
                             </LogoWrapper>
                             <G$Balance price={G$Price} display={showBalance} color={fontColor} pl="0" p="2" />
                         </div>

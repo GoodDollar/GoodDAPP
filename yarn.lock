@@ -10351,14 +10351,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@npm:2.14.1":
-  version: 2.14.1
-  resolution: "@web3-onboard/core@npm:2.14.1"
+"@web3-onboard/core@npm:^2.14.1":
+  version: 2.15.0
+  resolution: "@web3-onboard/core@npm:2.15.0"
   dependencies:
     "@unstoppabledomains/resolution": ^8.0
     "@web3-onboard/common": ^2.2.3
     bignumber.js: ^9.0.0
-    bnc-sdk: ^4.6.5
+    bnc-sdk: ^4.6.6
     bowser: ^2.11.0
     ethers: 5.5.3
     eventemitter3: ^4.0.7
@@ -10369,29 +10369,7 @@ __metadata:
     rxjs: ^7.5.5
     svelte: ^3.49.0
     svelte-i18n: ^3.3.13
-  checksum: 63c86cce0acede74a48317ce3ebc6a4abb1fde835e75af6d6df242bffc95dfa636b8b4e3a785183bca2e64200ddf8dabf191134f63cbd243c54ff61d30bd62c7
-  languageName: node
-  linkType: hard
-
-"@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.14.1#./.yarn/patches/@web3-onboard-core-npm-2.14.1-ef89b069ac.patch::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
-  version: 2.14.1
-  resolution: "@web3-onboard/core@patch:@web3-onboard/core@npm%3A2.14.1#./.yarn/patches/@web3-onboard-core-npm-2.14.1-ef89b069ac.patch::version=2.14.1&hash=8c3f8c&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
-  dependencies:
-    "@unstoppabledomains/resolution": ^8.0
-    "@web3-onboard/common": ^2.2.3
-    bignumber.js: ^9.0.0
-    bnc-sdk: ^4.6.5
-    bowser: ^2.11.0
-    ethers: 5.5.3
-    eventemitter3: ^4.0.7
-    joi: ^17.6.1
-    lodash.merge: ^4.6.2
-    lodash.partition: ^4.6.0
-    nanoid: ^4.0.0
-    rxjs: ^7.5.5
-    svelte: ^3.49.0
-    svelte-i18n: ^3.3.13
-  checksum: 431c4ec1f629aafc84f66da567769f8786af9b8979125a965c90fd16df31fcb06b4307e499b6cae434f4657825ad6b80c83342cf85e6bb8a81125d39ae4d4471
+  checksum: 69d9cb9e433c0fc6896bacbb5dbee53e73f547fbf23dfb64d749fa418f2de07cadb52522194bb572cefff5ad3c6a8a1f2e9a9d7ef92b5546f0480c65404f13a7
   languageName: node
   linkType: hard
 
@@ -12904,15 +12882,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bnc-sdk@npm:^4.6.5":
-  version: 4.6.5
-  resolution: "bnc-sdk@npm:4.6.5"
+"bnc-sdk@npm:^4.6.6":
+  version: 4.6.6
+  resolution: "bnc-sdk@npm:4.6.6"
   dependencies:
     crypto-es: ^1.2.2
     nanoid: ^3.3.1
     rxjs: ^6.6.3
     sturdy-websocket: ^0.1.12
-  checksum: 1a524b89bc8baf38214f968fcf3a326b96be0125c14b7ef141491fe196bdeffab1a33eae0faf302f03954958829b0bf2e672b67f25d35329f1321d0b80aa83eb
+  checksum: 5aa90af66b7c30dda5f811e72e68f89fc65edfdb65589ba39fb015eceddf3989480e9df48e4c64bf1380715375330fc0fae81bd667f533f0b524f4eb5ba74196
   languageName: node
   linkType: hard
 

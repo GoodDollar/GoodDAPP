@@ -20,7 +20,8 @@
         "lint:fix": "eslint src --fix",
         "postinstall": "husky install",
         "prepack": "pinst --disable",
-        "postpack": "pinst --enable"
+        "postpack": "pinst --enable",
+        "upgrade:latestgooddollar": "yarn add @gooddollar/goodprotocol @gooddollar/good-design @gooddollar/web3sdk @gooddollar/web3sdk-v2"
     },
     "devDependencies": {
         "@apollo/client": "^3.2.0",
@@ -204,9 +205,9 @@
         "@web3-onboard/core@^2.14.1": "patch:@web3-onboard/core@npm%3A2.14.1#./.yarn/patches/@web3-onboard-core-npm-2.14.1-ef89b069ac.patch"
     },
     "dependencies": {
-        "@gooddollar/good-design": "^0.0.29",
-        "@gooddollar/goodprotocol": "2.0.1",
-        "@gooddollar/web3sdk": "^0.1.17",
+        "@gooddollar/good-design": "^0.0.30",
+        "@gooddollar/goodprotocol": "^2.0.2",
+        "@gooddollar/web3sdk": "^0.1.18",
         "@gooddollar/web3sdk-v2": "^0.1.64",
         "@headlessui/react": "1.5.0",
         "@types/react-text-mask": "^5.4.8",

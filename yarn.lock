@@ -3780,9 +3780,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.29":
-  version: 0.0.29
-  resolution: "@gooddollar/good-design@npm:0.0.29"
+"@gooddollar/good-design@npm:^0.0.30":
+  version: 0.0.30
+  resolution: "@gooddollar/good-design@npm:0.0.30"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -3815,7 +3815,7 @@ __metadata:
     typescript: 4.7.4
   peerDependencies:
     "@usedapp/core": 1.*
-  checksum: 6f940b6b4161cf8a4bf281cdecb60ca280e25310601090ae5e35bc2afa4023cc520a6585949d5776b205ccab20caa2de6e9409b3140657a09294a6586a58bb36
+  checksum: e6e724c8a7b02ce87279214f5a7ef2f53009dbc73a3f95c645df9dcdc1d48e79d24deb8308967b5d26445efeae95b27be01844c2ee783d6940b949ee60f50549
   languageName: node
   linkType: hard
 
@@ -3866,9 +3866,9 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.29
-    "@gooddollar/goodprotocol": 2.0.1
-    "@gooddollar/web3sdk": ^0.1.17
+    "@gooddollar/good-design": ^0.0.30
+    "@gooddollar/goodprotocol": ^2.0.2
+    "@gooddollar/web3sdk": ^0.1.18
     "@gooddollar/web3sdk-v2": ^0.1.64
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
@@ -4075,7 +4075,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk@npm:^0.1.17":
+"@gooddollar/web3sdk@npm:^0.1.18":
   version: 0.1.18
   resolution: "@gooddollar/web3sdk@npm:0.1.18"
   dependencies:

@@ -103,13 +103,9 @@ jobs:
             - name: Update DNS with new IPFS hash
               env:
                   CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
-                  RECORD_DOMAIN: 'gooddollar.org'
+                  RECORD_DOMAIN: ${{ env.CLOUDFLARE_DOMAIN }}
                   RECORD_NAME: ${{ env.CLOUDFLARE_RECORD_NAME }}
                   CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-                  REACT_APP_GOOGLE_ANALYTICS_ID: ${{ env.REACT_APP_GOOGLE_ANALYTICS_ID }}
-                  REACT_APP_CELO_PHASE_1: ${{ env.REACT_APP_CELO_PHASE_1 }}
-                  REACT_APP_CELO_PHASE_2: ${{ env.REACT_APP_CELO_PHASE_2 }}
-                  REACT_APP_CELO_PHASE_3: ${{ env.REACT_APP_CELO_PHASE_3 }}
               id: dnslink
               uses: textileio/cloudflare-update-dnslink@master
               with:
@@ -121,7 +117,7 @@ jobs:
               id: create_release
               uses: ncipollo/release-action@v1.8.4
               env:
-                  DEPLOY_ADDR: '${{ env.SUBDOMAIN }}.gooddollar.org'
+                  DEPLOY_ADDR: '${{ env.SUBDOMAIN }}.${{ env.CLOUDFLARE_DOMAIN }}'
               with:
                   tag: ${{ needs.bump_version.outputs.new_tag }}
                   name: ${{ needs.bump_version.outputs.new_tag }}

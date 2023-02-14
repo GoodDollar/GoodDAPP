@@ -3869,7 +3869,7 @@ __metadata:
     "@gooddollar/good-design": ^0.0.30
     "@gooddollar/goodprotocol": ^2.0.2
     "@gooddollar/web3sdk": ^0.1.18
-    "@gooddollar/web3sdk-v2": ^0.1.64
+    "@gooddollar/web3sdk-v2": ^0.1.65
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": 3.15.0
@@ -4039,9 +4039,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.64":
-  version: 0.1.64
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.64"
+"@gooddollar/web3sdk-v2@npm:^0.1.65":
+  version: 0.1.65
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.65"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4071,7 +4071,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 49227fe8d66b7fa98c58fbf092337a65610d674e5bb96c24ccda6c8f3d132a3e0b593523c972e244d62303c669e1c20aeef42072a2a22e7526a1932c4c7747d4
+  checksum: e51cff3a4efd764e342253b0ad600dade337db74714d1868f3580512d35a363c30bf3d4c82f209f2ab57ffe5453d578cc2db86d541048b7c13bc844c28840341
   languageName: node
   linkType: hard
 
@@ -32259,9 +32259,9 @@ __metadata:
   linkType: hard
 
 "solidity-rlp@npm:^2.0.5":
-  version: 2.0.6
-  resolution: "solidity-rlp@npm:2.0.6"
-  checksum: b4b0a7986dec3e49502dcac0e34af9b1c231c9fa0af4768ae869b2ebdfa369d4f59036aac469ab3ec43b1681c4313e5fe58349cee152ce9984b87fe78d0b5a2c
+  version: 2.0.7
+  resolution: "solidity-rlp@npm:2.0.7"
+  checksum: 05df8300ed3f1a99eab45177f7dfe95310e0eb1bce7808379285b4a8c5b9f1bb17f3a7ce778a9416889f3b7ecaeb2d365450507f89ca7f4c99e02ac90166e60f
   languageName: node
   linkType: hard
 

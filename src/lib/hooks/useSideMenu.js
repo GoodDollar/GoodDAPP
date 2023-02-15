@@ -71,7 +71,7 @@ export default (props = {}) => {
       },
       {
         icon: 'gd-circle',
-        name: t`Go to GoodSwap`,
+        name: t`Go to GoodDapp`,
         external: true,
         action: () => {
           fireEvent(GOTO_GOODSWAP)

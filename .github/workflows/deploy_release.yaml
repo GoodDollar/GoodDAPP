@@ -64,14 +64,14 @@ jobs:
                   secret_name="${{ env.SECRET_NAME }}"
                   echo $env_name
                   cat $DOTENV_NAME
-                  echo "settings environment from $dotenv_name"
-                  cp $dotenv_name .env
-                  cat .env.shared >> .env
+                  echo "settings environment from $dotenv_name"                  
+                  cp .env.shared .env
+                  cat $dotenv_name >> .env
+                  echo "copying settings to GITHUB_ENV"
+                  cat .env >> $GITHUB_ENV
                   echo "adding secrets to $dotenv_name file: $secret_name"
                   echo "${{ secrets[env.SECRET_NAME] }}" >> .env
                   echo "${{ secrets.SHARED_ENV }}" >> .env
-                  echo "copying settings to GITHUB_ENV"
-                  cat .env >> $GITHUB_ENV
 
             - name: Load node v16
               uses: actions/setup-node@v3

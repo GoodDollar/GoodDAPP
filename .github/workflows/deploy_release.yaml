@@ -25,6 +25,7 @@ jobs:
               uses: mathieudutour/github-tag-action@v6.1
               with:
                   default_bump: minor
+                  fetch_all_tags: true
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   release_branches: production, staging
 

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useApplicationTheme } from 'state/application/hooks'
 import Swap from 'ubeswap-swap-dev'
 import { useConnectWallet } from '@web3-onboard/react'
+import { G$ContractAddresses, useGetEnvChainId } from '@gooddollar/web3sdk-v2'
 
 interface AccountInfo {
     account: string
@@ -15,6 +16,8 @@ interface AccountInfo {
 export const UbeSwap = (): JSX.Element => {
     const [theme] = useApplicationTheme()
     const { account, library } = useActiveWeb3React()
+    const { connectedEnv } = useGetEnvChainId(42220)
+    const gdToken = G$ContractAddresses('GoodDollar', connectedEnv)
     const [accountInfo, setAccountInfo] = useState<AccountInfo | undefined>(undefined)
     const [, connect] = useConnectWallet()
 
@@ -45,7 +48,7 @@ export const UbeSwap = (): JSX.Element => {
                     userDarkMode: theme === 'dark',
                 }}
                 defaultSwapToken={{
-                    address: '0x33265D74abd5ae87cA02A4Fb0C30B7405C8b0682',
+                    address: gdToken as unknown as string,
                     name: 'GoodDollar',
                     symbol: 'G$',
                     chainId: 42220,

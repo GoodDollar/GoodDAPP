@@ -1,5 +1,5 @@
 // @flow
-import * as jsonwebtoken from 'jsonwebtoken'
+import { decode } from 'jsonwebtoken'
 import { assign } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import API, { type Credentials, throwException } from '../API'
@@ -137,7 +137,7 @@ class LoginService {
       return EMPTY_TOKEN
     }
 
-    const decoded = jsonwebtoken.decode(jwt, { json: true })
+    const decoded = decode(jwt, { json: true })
     const token = { jwt, decoded }
     const { exp, aud } = decoded || {}
 

@@ -34,14 +34,7 @@ function Web3Faucet(): JSX.Element | null {
     const { claimed, isFuse, claimActive, claimable, tillClaim, handleClaim } = useClaiming()
 
     return (
-        <div className="flex flex-row space-x-2">
-            <ClaimButton
-                className="px-5"
-                borderRadius="6px"
-                onClick={() => window.location.replace('https://airdrop.gooddollar.org')}
-            >
-                <span>{i18n._(t`GOOD Airdrop`)}</span>
-            </ClaimButton>
+        <div className="flex flex-row px-2 space-x-2 cursor-pointer">
             <MouseoverTooltip
                 placement="bottom"
                 text={
@@ -56,8 +49,8 @@ function Web3Faucet(): JSX.Element | null {
                 offset={[0, 12]}
             >
                 <ClaimButton
-                    className="px-5"
-                    borderRadius="6px"
+                    className="px-5 cursor-pointer"
+                    borderRadius="12px"
                     disabled={!claimActive}
                     onClick={claimActive ? handleClaim : undefined}
                 >

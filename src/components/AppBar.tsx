@@ -20,6 +20,7 @@ import { isMobile } from 'react-device-detect'
 import { Text, useBreakpointValue, ITextProps, Pressable } from 'native-base'
 import { useWalletModalToggle } from '../state/application/hooks'
 import { OnboardConnectButton } from './BlockNativeOnboard'
+import Web3Faucet from './Web3Faucet'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.secondaryBg};
@@ -217,6 +218,9 @@ function AppBar(): JSX.Element {
 
                         <div className="flex flex-row space-x-2">
                             <div className="flex flex-row items-center space-x-2">
+                                {/* Remove on CELO_PHASE_2 */}
+                                {chainId && isMobile && <Web3Faucet />}
+
                                 <button
                                     onClick={toggleSideBar}
                                     className="inline-flex items-center justify-center rounded-md mobile-menu-button focus:outline-none"
@@ -230,6 +234,9 @@ function AppBar(): JSX.Element {
                                 </button>
                             </div>
                             <div className="fixed bottom-0 left-0 flex flex-row items-center justify-center w-full lg:w-auto lg:relative lg:p-0 actions-wrapper lg:h-12 ">
+                                {/* Remove on CELO_PHASE_2 */}
+                                {chainId && !isMobile && <Web3Faucet />}
+
                                 {active && (
                                     <div className="hidden xs:inline-block">
                                         <Web3Network />

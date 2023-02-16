@@ -58,10 +58,6 @@ export const LogoWrapper = styled.div<{ $mobile: boolean }>`
         theme.darkMode &&
         $mobile &&
         `
-      background-color: white;
-      position: absolute;
-      height: 36px;
-      width: 36px;
       border-radius: 30px;
       display: flex;
       justify-content: center;
@@ -138,7 +134,7 @@ const TopBar = styled.div<{ $mobile: boolean }>`
         $mobile &&
         `
     box-shadow: ${theme.shadow.headerNew};
-    background: white;
+    background-color: transparent;
     height: 48px;
     align-items: center;
     padding-left: 16px;

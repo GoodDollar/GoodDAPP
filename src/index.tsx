@@ -24,6 +24,7 @@ import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 import { OnboardProvider } from '@gooddollar/web3sdk-v2'
 import { connectOptions } from 'connectors'
 import { HttpsProvider } from 'utils/HttpsProvider'
+import { registerServiceWorker } from './serviceWorker'
 
 if (window.ethereum) {
     window.ethereum.autoRefreshOnNetworkChange = false
@@ -83,6 +84,7 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const enableHttpsRedirect = String(process.env.REACT_APP_ENABLE_HTTPS_REDIRECT) === '1'
+const enableServiceWorker = String(process.env.REACT_APP_ENABLE_SERVICE_WORKER) === '1'
 
 ReactDOM.render(
     <StrictMode>
@@ -115,3 +117,7 @@ ReactDOM.render(
     </StrictMode>,
     document.getElementById('root')
 )
+
+if (enableServiceWorker) {
+    registerServiceWorker()
+}

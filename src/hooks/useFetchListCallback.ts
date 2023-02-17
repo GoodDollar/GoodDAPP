@@ -7,6 +7,7 @@ import { fetchTokenList } from '../state/lists/actions'
 import getTokenList from '../utils/getTokenList'
 import resolveENSContentHash from '../utils/resolveENSContentHash'
 import { useActiveWeb3React } from './useActiveWeb3React'
+import { SupportedChains } from '@gooddollar/web3sdk-v2'
 
 export function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean) => Promise<TokenList> {
     const { chainId, library } = useActiveWeb3React()
@@ -14,7 +15,7 @@ export function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean
 
     const ensResolver = useCallback(
         (ensName: string) => {
-            if (library) {
+            if (library && chainId === (SupportedChains.MAINNET as number)) {
                 return resolveENSContentHash(ensName, library)
             } else {
                 throw new Error('Could not construct mainnet ENS resolver')

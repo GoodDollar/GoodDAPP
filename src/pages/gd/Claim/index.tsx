@@ -1,16 +1,49 @@
-import React, { memo } from 'react'
+import React, { memo, useState, useEffect, useCallback } from 'react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
 import { Text, useBreakpointValue, Box, View } from 'native-base'
-import { useClaiming } from 'hooks/useClaiming'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ClaimBalance } from './ClaimBalance'
+import { useClaim } from '@gooddollar/web3sdk-v2'
+import { useConnectWallet } from '@web3-onboard/react'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 const Claim = memo(() => {
     const { i18n } = useLingui()
-    const { claimed, handleClaim } = useClaiming()
+    const {
+        claimAmount,
+        claimCall: { state, send },
+    } = useClaim()
+    const [claimed, setClaimed] = useState(false)
+    const [, connect] = useConnectWallet()
     const { chainId } = useActiveWeb3React()
+
+    useEffect(() => {
+        //todo: add event analytics on transaction status
+        if (claimAmount?.isZero() || state.status === 'Success') {
+            setClaimed(true)
+        } else {
+            setClaimed(false)
+        }
+    }, [claimAmount, state, send])
+
+    const handleClaim = useCallback(async () => {
+        const claim = await send()
+
+        if (!claim) {
+            return false
+        }
+
+        // todo: add event analytics on transaction receipt
+        setClaimed(true)
+        return true
+    }, [send])
+
+    const handleConnect = useCallback(async () => {
+        const state = await connect()
+
+        return !!state.length
+    }, [connect])
 
     const mainView = useBreakpointValue({
         base: {
@@ -135,6 +168,7 @@ const Claim = memo(() => {
                             method="redirect"
                             claim={handleClaim}
                             claimed={claimed}
+                            handleConnect={handleConnect}
                             chainId={chainId}
                         />
                     </Box>

@@ -18,7 +18,7 @@ const NextClaim = ({ time }: { time: string }) => (
 )
 
 const ClaimTimer = () => {
-    const { tillClaim } = useClaiming()
+    const { tillClaim } = useClaiming() // todo: update to timer from sdk-v2
 
     return (
         <Box height="50" justifyContent="center" flexDirection="column" my="4">
@@ -40,14 +40,16 @@ export const ClaimBalance = () => {
                 .catch(() => undefined),
         [chainId]
     )
-    const formattedTime = useMemo(() => format(claimTime, 'hh aaa'), [claimTime])
+
+    const formattedTime = useMemo(() => claimTime && format(claimTime, 'hh aaa'), [claimTime])
     const { switchNetwork } = useEthers()
 
-    const network = useMemo(() => SupportedChains[chainId], [chainId])
+    //note: we select the alternative chain where a user is able to claim their UBI
+    const altChain = chainId === (SupportedChains.FUSE as number) ? SupportedChains[42220] : SupportedChains[122]
 
     const switchChain = useCallback(() => {
-        switchNetwork(chainId).catch(noop)
-    }, [switchNetwork])
+        switchNetwork(SupportedChains[altChain as keyof typeof SupportedChains]).catch(noop)
+    }, [switchNetwork, altChain])
 
     return (
         <View textAlign="center" display="flex" justifyContent="center" flexDirection="column" w="full" mb="4">
@@ -66,7 +68,7 @@ export const ClaimBalance = () => {
                     borderColor="borderBlue"
                     px="6px"
                     width="200"
-                    text={`Claim on ${network}`}
+                    text={`Claim on ${altChain}`}
                     onPress={switchChain}
                     innerText={{
                         fontSize: 'sm',

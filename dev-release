@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+
+const { exec } = require('child_process')
+const { writeFile } = require('fs')
+const { promisify } = require('util')
+const pkg = require('./package.json')
+
+const [,, hash] = process.argv
+const execAsync = promisify(exec)
+const writeFileAsync = promisify(writeFile)
+
+const run = (cmd, opts = {}) => execAsync(cmd, opts).then(({ stdout }) => stdout)
+const updateVersion = (version, suffix) => version.replace(/^(.?\d+\.\d+\.\d+)(.*?)$/i, `$1${suffix}`)
+
+const writePkg = async () => {
+  const contents = JSON.stringify(pkg, null, 2)
+  
+  await writeFileAsync('./package.json', contents)
+}
+
+const findPkg = async name => {
+  const versions = await run(`npm show ${name} versions --json`).then(JSON.parse)
+  
+  return versions.find(item => item.endsWith(hash))
+}
+
+;(async () => {
+  if (!hash) {
+    console.log('Usage: ./dev-release <commit hash|beta version name>')
+    console.log('')
+    console.log('> ./dev-release 13c3bb4')
+    console.log('> ./dev-release beta.13c3bb4')
+    console.log('')
+    console.log('NOTE: Do not specify FULL version (e.g. 0.1.64-beta.13c3bb4).')
+    console.log('Just the part starting from the dash, or the commit hash.')
+    return
+  }
+
+  console.log("1. Find remote versions by hash id")
+
+  const sdkv2ver = await findPkg('@gooddollar/web3sdk-v2')
+  const designver = await findPkg('@gooddollar/good-design')
+
+  if (!sdkv2ver || !designver) {
+    console.log(`Error: unable to find any package versions related to the dev release '${hash}'`)
+    return
+  }
+
+
+  console.log("2. Update package.json")
+  
+  pkg.dependencies['@gooddollar/web3sdk-v2'] = sdkv2ver
+  pkg.dependencies['@gooddollar/good-design'] = designver
+  await writePkg()
+  await run('yarn install')
+
+  console.log("3. Commit changes & release to Vercel")
+
+  const msg = `Dev version ${hash} released`
+  
+  await run('git add .')
+  await run(`git commit -m '${msg}' -n`)
+  await run('git push')
+  
+  console.log(msg)
+})()

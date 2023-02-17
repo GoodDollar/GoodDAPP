@@ -33,7 +33,11 @@ const WalletBalance = memo(({ balances, chainId }: WalletBalanceProps): JSX.Elem
                                     <LoadingPlaceHolder />
                                 ) : (
                                     <Text fontFamily="subheading" color={textColor} fontSize="sm">
-                                        {amount?.format({ suffix: '', prefix: amount.currency?.ticker + ' - ' })}
+                                        {amount?.format({
+                                            useFixedPrecision: true,
+                                            suffix: '',
+                                            prefix: amount.currency?.ticker + ' - ',
+                                        })}
                                     </Text>
                                 )}
                             </span>

@@ -4,6 +4,7 @@ module.exports = {
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        "plugin:prettier/recommended",
         'prettier',
     ],
     plugins: ['@typescript-eslint', 'prettier', 'eslint-plugin-import'],
@@ -18,6 +19,7 @@ module.exports = {
     },
     ignorePatterns: ['/build/**/*', '/types/*/*d.ts', '/src/**/*.test.ts*', '/**/*.*js'],
     rules: {
+        "prettier/prettier": "warn",
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/ban-types': 'off',

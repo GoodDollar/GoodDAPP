@@ -115,8 +115,8 @@ __metadata:
   linkType: hard
 
 "@apollo/client@npm:^3.2.0, @apollo/client@npm:^3.6.5":
-  version: 3.7.6
-  resolution: "@apollo/client@npm:3.7.6"
+  version: 3.7.5
+  resolution: "@apollo/client@npm:3.7.5"
   dependencies:
     "@graphql-typed-document-node/core": ^3.1.1
     "@wry/context": ^0.7.0
@@ -146,7 +146,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: 88b78b90090aa45cdc0d175784ac4fe2a5ed7d20bc8fe38357f286d25062ffdf9e259881ac3848e38cf3d0dc9a3f5752ab058a6db0c9eca7c8d7bcb25ef36a52
+  checksum: c36f4469eb6a9ebc0f750a97cb201bcca725e1e98098c3d135d923e6d711ef8fa99365745b66f40744f59b78b3ffc0883ab2448ddadce89a5053033b40db8706
   languageName: node
   linkType: hard
 
@@ -3869,7 +3869,7 @@ __metadata:
     "@gooddollar/good-design": ^0.0.30
     "@gooddollar/goodprotocol": ^2.0.2
     "@gooddollar/web3sdk": ^0.1.18
-    "@gooddollar/web3sdk-v2": ^0.1.65
+    "@gooddollar/web3sdk-v2": ^0.1.66
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": 3.15.0
@@ -4039,9 +4039,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.65":
-  version: 0.1.65
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.65"
+"@gooddollar/web3sdk-v2@npm:^0.1.66":
+  version: 0.1.66
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.66"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4071,7 +4071,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: e51cff3a4efd764e342253b0ad600dade337db74714d1868f3580512d35a363c30bf3d4c82f209f2ab57ffe5453d578cc2db86d541048b7c13bc844c28840341
+  checksum: d0978830cb22f5aab60ec49f714a4668ca7f09af09c63d9ef46ac00d8c0e770c0f38b4a369216b9071e655368e4cf7c7093526e635bb1b9ac58063fbba214cd2
   languageName: node
   linkType: hard
 
@@ -5078,7 +5078,7 @@ __metadata:
   peerDependencies:
     "@lingui/core": ^3.13.0
     "@lingui/react": ^3.13.0
-    babel-plugin-macros: 2 || 3
+    babel-plugin-macros: 2 || 3
   checksum: 2db278f5a2449ea4040dfdd70ba3b771e5dcad319750cfe2f9ce0375b0e7ef8924ae6123ac6ef422d724551b48515f372450bd8f0fafbc8cf90c68b7ff8b35fb
   languageName: node
   linkType: hard
@@ -28412,8 +28412,8 @@ __metadata:
   linkType: hard
 
 "posthog-react-native@npm:^2.4.0":
-  version: 2.5.1
-  resolution: "posthog-react-native@npm:2.5.1"
+  version: 2.5.2
+  resolution: "posthog-react-native@npm:2.5.2"
   peerDependencies:
     "@react-native-async-storage/async-storage": ">=1.0.0"
     "@react-navigation/native": ">= 5.0.10"
@@ -28440,7 +28440,7 @@ __metadata:
       optional: true
     react-native-navigation:
       optional: true
-  checksum: f84d3300792b37ad056f8fa89fbec7355a5134c93fe65cd53cf363101d5ffa671087973f4b58e8aa65a8ad4b0e9161f5acacbc6261889acb9e8195e0038bf3e3
+  checksum: 45f1c6972da9442803875b5cc95d06d53722183461ac3136eae6b6b286741c1ccc420af7f6b2c4e53886358ea3345d808ccde780b3053916380eb3ef8f40f5a1
   languageName: node
   linkType: hard
 

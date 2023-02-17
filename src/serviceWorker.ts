@@ -14,7 +14,7 @@ export function registerServiceWorker(): void {
         return
     }
 
-    window.addEventListener('load', async () => {
+    window.addEventListener('load', () => {
         const swUrl = getServiceWorkerUrl()
 
         navigator.serviceWorker.register(swUrl).catch((error) => {

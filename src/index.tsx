@@ -23,6 +23,7 @@ import { theme, NativeBaseProvider } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 import { OnboardProvider } from '@gooddollar/web3sdk-v2'
 import { connectOptions } from 'connectors'
+import { HttpsProvider } from 'utils/HttpsProvider'
 
 if (window.ethereum) {
     window.ethereum.autoRefreshOnNetworkChange = false
@@ -81,32 +82,36 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+const enableHttpsRedirect = String(process.env.REACT_APP_ENABLE_HTTPS_REDIRECT) === '1'
+
 ReactDOM.render(
     <StrictMode>
-        <OnboardProvider options={connectOptions}>
-            <Web3ContextProvider>
-                <Provider store={store}>
-                    <LanguageProvider>
-                        <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
-                            <Blocklist>
-                                <ListsUpdater />
-                                <UserUpdater />
-                                <ApplicationUpdater />
-                                <MulticallUpdater />
-                                <ThemeProvider>
-                                    <NativeBaseProvider theme={theme}>
-                                        <GlobalStyle />
-                                        <Router>
-                                            <App />
-                                        </Router>
-                                    </NativeBaseProvider>
-                                </ThemeProvider>
-                            </Blocklist>
-                        </AnalyticsProvider>
-                    </LanguageProvider>
-                </Provider>
-            </Web3ContextProvider>
-        </OnboardProvider>
+        <HttpsProvider enabled={enableHttpsRedirect}>
+            <OnboardProvider options={connectOptions}>
+                <Web3ContextProvider>
+                    <Provider store={store}>
+                        <LanguageProvider>
+                            <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
+                                <Blocklist>
+                                    <ListsUpdater />
+                                    <UserUpdater />
+                                    <ApplicationUpdater />
+                                    <MulticallUpdater />
+                                    <ThemeProvider>
+                                        <NativeBaseProvider theme={theme}>
+                                            <GlobalStyle />
+                                            <Router>
+                                                <App />
+                                            </Router>
+                                        </NativeBaseProvider>
+                                    </ThemeProvider>
+                                </Blocklist>
+                            </AnalyticsProvider>
+                        </LanguageProvider>
+                    </Provider>
+                </Web3ContextProvider>
+            </OnboardProvider>
+        </HttpsProvider>
     </StrictMode>,
     document.getElementById('root')
 )

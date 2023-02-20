@@ -29,7 +29,7 @@ export const WalletLabels: Readonly<string[]> = [
     'WalletConnect',
     'ZenGo',
     'Coinbase Wallet',
-    'Google (Powered by Web3Auth)',
+    'Google (Web3Auth)',
     'GoodDollar Wallet',
 ]
 export const WalletLinkKeys: Readonly<string[]> = [

@@ -3876,7 +3876,7 @@ __metadata:
     "@gooddollar/good-design": ^0.0.31
     "@gooddollar/goodprotocol": ^2.0.2
     "@gooddollar/web3sdk": ^0.1.18
-    "@gooddollar/web3sdk-v2": ^0.1.68
+    "@gooddollar/web3sdk-v2": ^0.1.69
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": 3.15.0
@@ -4046,9 +4046,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.68":
-  version: 0.1.68
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.68"
+"@gooddollar/web3sdk-v2@npm:^0.1.69":
+  version: 0.1.69
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.69"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4059,7 +4059,7 @@ __metadata:
     "@sentry/browser": 7.16.0
     "@sentry/react-native": ^4.8.0
     "@solana/web3.js": ^1.72.0
-    "@usedapp/core": 1.*
+    "@usedapp/core": 1.2.2
     "@web3-onboard/torus": ^2.2.1
     "@web3auth/base": ^4.0.0
     "@web3auth/core": ^4.0.0
@@ -4078,7 +4078,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 0e7106b98412c2c2fad6c86dd580f1b9e086c99dfb46ed01b0e5ed167daccbe6c8a64364160461db532baf81ce234e97ecfd8694f06bcc73d93f734915f69af0
+  checksum: 6bd7069974805c90700dc3b5b63e8522a75e7b9c70abea35c9ade4e504e00fccd669b3905ba8718c6e9d5bf63f4085f4efcb3bc4eeb038376c80cbb681e33d4c
   languageName: node
   linkType: hard
 
@@ -5114,13 +5114,6 @@ __metadata:
   version: 1.2.0
   resolution: "@metamask/detect-provider@npm:1.2.0"
   checksum: 2c152534a8dd15bc1430bb5159cdf58993549a644cff344a1ff43f4ede8f041aad72b909e822747f6545de3ed293a740ecffc86a859daf7a925c4096efd61eb3
-  languageName: node
-  linkType: hard
-
-"@metamask/detect-provider@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@metamask/detect-provider@npm:2.0.0"
-  checksum: 45d3128069310e6cdb9a572b31da88b3fddb0aa78f94deba71657efd7e40d0680912a4ee0291a7a0e9ab66681aba271e74de87c5464d979f115726c740db641b
   languageName: node
   linkType: hard
 
@@ -10057,26 +10050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@usedapp/core@npm:1.*":
-  version: 1.2.4
-  resolution: "@usedapp/core@npm:1.2.4"
-  dependencies:
-    "@metamask/detect-provider": ^2.0.0
-    "@uniswap/token-lists": ^1.0.0-beta.27
-    fetch-mock: ^9.11.0
-    lodash.merge: ^4.6.2
-    lodash.pickby: ^4.6.0
-    nanoid: 3.3.4
-  peerDependencies:
-    ethers: ^5
-    react: "*"
-  bin:
-    usedapp-generate-hooks: bin/usedapp-generate-hooks.js
-  checksum: c07c957f52ee3afc97d8d59ad82808f49df95f3bdd22a260629ad7a54aad94fb070df23247ebb6a6ee682c6b4d636143c7edd064c4b616530419c485c852cc26
-  languageName: node
-  linkType: hard
-
-"@usedapp/core@npm:^1.0.9":
+"@usedapp/core@npm:1.2.2, @usedapp/core@npm:^1.0.9":
   version: 1.2.2
   resolution: "@usedapp/core@npm:1.2.2"
   dependencies:

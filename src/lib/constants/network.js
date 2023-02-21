@@ -3,11 +3,9 @@ import { findKey, isEqual, partial, startCase } from 'lodash'
 
 export const NETWORK_ID = {
   MAINNET: 1,
-  ROPSTEN: 3,
   RINKEBY: 4,
   RSK: 30,
   RSK_TESTNET: 31,
-  KOVAN: 42,
   SOKOL: 77,
   POA: 99,
   XDAI: 100,

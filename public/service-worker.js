@@ -15,11 +15,11 @@
  */
 
 // insert your prefered IPFS gateway here
-const GATEWAY_URL = 'https://cloudflare-ipfs.com'
-
+const GATEWAY_URL = 'https://w3s.link'
 // this needs to be separated. as cloudflare-ipfs.com we use a gateway doesnt support DNS queries
 const DNSLINK_GW_URL = 'https://ipfs.io'
 
+const REDIRECT_ALSO_IPFS = [GATEWAY_URL, 'https://cloudflare-ipfs.com', 'https://ipfs.io', 'https://nftstorage.link']
 // only change this if you are hacking things and decide to change what you want cached.
 const DNSLINK_CACHE = 'dnslink-v1'
 
@@ -67,13 +67,14 @@ const onfetch = (event) => {
     }
 
     const url = new URL(event.request.url)
-
-    switch (url.origin) {
-        // Only handle pages for the current origin
-        // Requests to other origins are left to the browser default
-        case location.origin: {
-            event.respondWith(redirectToPermenantUrl(url))
-        }
+    // Only handle pages for the current origin
+    // Requests to other origins are left to the browser default
+    // Requests to ipfs gateway without /ipfs are also rewritten
+    if (
+        url.origin === location.origin ||
+        (url.pathname.includes('/ipfs/') === false && REDIRECT_DOMAINS.includes(url.origin))
+    ) {
+        event.respondWith(redirectToPermenantUrl(url))
     }
 }
 

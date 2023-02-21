@@ -1,8 +1,7 @@
-import { assign, bindAll, defaults, first, omit, padStart, repeat, values } from 'lodash'
+import { bindAll, defaults, first, omit, padStart, repeat, values } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
-import { isWeb } from '../../../../lib/utils/platform'
 import Torus from './torus'
 
 import {
@@ -36,19 +35,13 @@ class TorusSDK {
   }
 
   constructor(config, options, logger) {
-    const { env, torusNetwork, torusNetworkUrl, torusUxMode = 'popup' } = config
+    const { env, torusNetwork, torusUxMode = 'popup' } = config
 
     const torusOptions = defaults({}, options, {
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
       uxMode: torusUxMode,
     })
-
-    // new env var to fix ropsten deprecation on dev & QA
-    // native apps don't need this param
-    if (torusNetworkUrl && isWeb) {
-      assign(torusOptions, { networkUrl: torusNetworkUrl })
-    }
 
     this.torus = new Torus(config, torusOptions)
     this.popupMode = torusOptions.uxMode === 'popup'

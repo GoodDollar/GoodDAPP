@@ -95,8 +95,6 @@ const notifyOpts = {
 }
 
 const torusNetwork = env.REACT_APP_TORUS_NETWORK || 'testnet'
-const torusNetworkUrl = env.REACT_APP_TORUS_NETWORK_URL
-const isCustomTorusNetwork = torusNetwork === 'testnet' && torusNetworkUrl !== 'false'
 
 const Config = {
   env: appEnv,
@@ -131,7 +129,6 @@ const Config = {
   marketUrl: env.REACT_APP_MARKET_URL || 'https://goodmarkets.xyz/',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork,
-  torusNetworkUrl: !isCustomTorusNetwork ? undefined : torusNetworkUrl || 'https://billowing-responsive-arm.ropsten.discover.quiknode.pro/e1f91ad991da6c4a3558e1d2450238ea1fe17af1/',
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   testClaimNotification: appEnv === 'production' ? false : env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true',
   disableClaim: env.REACT_APP_DISABLE_CLAIM === 'true',

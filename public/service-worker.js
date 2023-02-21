@@ -72,7 +72,7 @@ const onfetch = (event) => {
     // Requests to ipfs gateway without /ipfs are also rewritten
     if (
         url.origin === location.origin ||
-        (url.pathname.includes('/ipfs/') === false && REDIRECT_DOMAINS.includes(url.origin))
+        (url.pathname.includes('/ipfs/') === false && REDIRECT_ALSO_IPFS.includes(url.origin))
     ) {
         event.respondWith(redirectToPermenantUrl(url))
     }

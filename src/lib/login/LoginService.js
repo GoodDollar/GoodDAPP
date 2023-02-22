@@ -1,5 +1,5 @@
 // @flow
-import { decode } from 'jsonwebtoken'
+import decode from 'jwt-decode'
 import { assign } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import API, { type Credentials, throwException } from '../API'

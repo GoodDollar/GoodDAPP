@@ -28,7 +28,13 @@ jobs:
   codepush:
     name: Hot Code Push
     runs-on: ubuntu-latest
-    if: github.event_name != 'workflow_dispatch'
+    # hot push is for hotfix commits to PROD only
+    # manual PROD releases and release commits are going through the full flow
+    if: |
+      endsWith(github.ref, '/next') && (
+        github.event_name != 'workflow_dispatch' ||
+        !contains(github.event.head_commit.message, 'release prod')
+      )
     steps:
       - name: Pre-checks - Env is Dev
         run: |
@@ -89,12 +95,14 @@ jobs:
     name: Build
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    # Build runs if triggered by merging pull request to master or by push with 'release <target_branch>' flag and without skipping CI :
+    # Build runs on manual release or on any commit to dev/qa or on release commit to PROD
     if: |
-      github.event_name == 'workflow_dispatch' ||
-      (endsWith(github.ref, '/master') && github.event.pull_request.merged) ||
-      (endsWith(github.ref, '/staging') && contains(github.event.head_commit.message, 'release qa')) ||
-      (endsWith(github.ref, '/next') && contains(github.event.head_commit.message, 'release prod'))
+      github.event_name == 'workflow_dispatch' || 
+      endsWith(github.ref, '/master') || 
+      endsWith(github.ref, '/staging') || (
+        endsWith(github.ref, '/next') && 
+        contains(github.event.head_commit.message, 'release prod')
+      )
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Git branch name

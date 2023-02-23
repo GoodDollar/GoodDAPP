@@ -108,7 +108,7 @@ jobs:
                   RECORD_NAME: ${{ env.CLOUDFLARE_RECORD_NAME }}
                   CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
               id: dnslink
-              uses: textileio/cloudflare-update-dnslink@master
+              uses: textileio/cloudflare-update-dnslink@v2
               with:
                   cid: ${{ steps.web3.outputs.cid }}
 

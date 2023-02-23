@@ -31,10 +31,9 @@ jobs:
     # hot push is for hotfix commits to PROD only
     # manual PROD releases and release commits are going through the full flow
     if: |
-      endsWith(github.ref, '/next') && (
-        github.event_name != 'workflow_dispatch' ||
-        !contains(github.event.head_commit.message, 'release prod')
-      )
+      github.event_name != 'workflow_dispatch' && 
+      endsWith(github.ref, '/next') &&
+      !contains(github.event.head_commit.message, 'release prod')
     steps:
       - name: Pre-checks - Env is Dev
         run: |

@@ -38,21 +38,18 @@ jobs:
             - name: Pre-checks - Env is Dev
               run: |
                   echo "ENV=development" >> $GITHUB_ENV
-                  echo "DOTENV_NAME=.env.development" >> $GITHUB_ENV
                   echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
 
             - name: Pre-checks - Env is QA
               if: ${{ endsWith(github.ref, '/staging') }}
               run: |
                   echo "ENV=staging" >> $GITHUB_ENV
-                  echo "DOTENV_NAME=.env.staging" >> $GITHUB_ENV
                   echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
 
             - name: Pre-checks - Env is PRODUCTION
               if: ${{ endsWith(github.ref, '/production') }}
               run: |
                   echo "ENV=production" >> $GITHUB_ENV
-                  echo "DOTENV_NAME=.env.production" >> $GITHUB_ENV
                   echo "SECRET_NAME=PRODUCTION_ENV" >> $GITHUB_ENV
 
             - name: Checkout
@@ -61,18 +58,17 @@ jobs:
             - name: Prepare .env and add secrets
               run: |
                   env_name="${{ env.ENV }}"
-                  dotenv_name="${{ env.DOTENV_NAME }}"
+                  dotenv_name="env/$env_name"
                   secret_name="${{ env.SECRET_NAME }}"
                   echo $env_name
-                  cat $DOTENV_NAME
-                  echo "settings environment from $dotenv_name"                  
-                  cp .env.shared .env
+                  cat env/shared
+                  cat $dotenv_name
+                  echo "setting environment from $dotenv_name"                  
+                  cp env/shared .env
                   cat $dotenv_name >> .env
-                  echo "adding secrets to $dotenv_name file: $secret_name"
-                  echo "${{ secrets[env.SECRET_NAME] }}" >> .env
+                  echo "setting environment from secrets file: $secret_name"
                   echo "${{ secrets.SHARED_ENV }}" >> .env
-                  echo "removing other .env files to avoid clashing"
-                  rm -f .env.*
+                  echo "${{ secrets[env.SECRET_NAME] }}" >> .env
                   echo "copying settings to GITHUB_ENV"
                   cat .env >> $GITHUB_ENV
 

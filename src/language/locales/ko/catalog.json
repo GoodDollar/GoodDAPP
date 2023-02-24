@@ -484,6 +484,7 @@
   "Turn On Expert Mode": "전문가 모드 켜기",
   "Type": "",
   "UBI is your fair share of G$ tokens, which you can claim daily on CELO.": "",
+  "UBI is your fair share of G$ tokens, which you can claim daily on {network}.": "",
   "Uh Oh!": "",
   "Unknown Source": "",
   "Unknown error": "알수없는 오류",

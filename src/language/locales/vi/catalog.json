@@ -486,6 +486,7 @@
   "Turn On Expert Mode": "Bật Chế độ chuyên gia",
   "Type": "Kiểu",
   "UBI is your fair share of G$ tokens, which you can claim daily on CELO.": "",
+  "UBI is your fair share of G$ tokens, which you can claim daily on {network}.": "",
   "Uh Oh!": "Uh oh!",
   "Unknown Source": "Nguồn không rõ",
   "Unknown error": "Lỗi không xác định",

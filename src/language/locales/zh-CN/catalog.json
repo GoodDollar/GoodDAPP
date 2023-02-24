@@ -486,6 +486,7 @@
   "Turn On Expert Mode": "开启专家模式",
   "Type": "类型",
   "UBI is your fair share of G$ tokens, which you can claim daily on CELO.": "",
+  "UBI is your fair share of G$ tokens, which you can claim daily on {network}.": "",
   "Uh Oh!": "哦！",
   "Unknown Source": "未知的来源",
   "Unknown error": "未知错误",

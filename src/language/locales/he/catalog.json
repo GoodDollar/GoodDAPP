@@ -485,6 +485,7 @@
   "Turn On Expert Mode": "הפעל מצב מומחה",
   "Type": "סוּג",
   "UBI is your fair share of G$ tokens, which you can claim daily on CELO.": "",
+  "UBI is your fair share of G$ tokens, which you can claim daily on {network}.": "",
   "Uh Oh!": "או - או!",
   "Unknown Source": "מקור לא ידוע",
   "Unknown error": "שגיאה לא ידועה",

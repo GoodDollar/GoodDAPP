@@ -118,9 +118,13 @@ ReactDOM.render(
     document.getElementById('root')
 )
 
+console.log('service worker options', {
+    REACT_APP_ENABLE_SERVICE_WORKER: process.env.REACT_APP_ENABLE_SERVICE_WORKER,
+    enableServiceWorker,
+})
+
 if (enableServiceWorker) {
-    console.log('registering service worker...', {
-        REACT_APP_ENABLE_SERVICE_WORKER: process.env.REACT_APP_ENABLE_SERVICE_WORKER,
-    })
+    console.log('registering service worker...')
+
     registerServiceWorker()
 }

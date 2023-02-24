@@ -4,7 +4,7 @@ import { useLingui } from '@lingui/react'
 import { ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
 import { Text, useBreakpointValue, Box, View } from 'native-base'
 import { ClaimBalance } from './ClaimBalance'
-import { useClaim } from '@gooddollar/web3sdk-v2'
+import { SupportedChains, useClaim } from '@gooddollar/web3sdk-v2'
 import { useConnectWallet } from '@web3-onboard/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
@@ -17,6 +17,7 @@ const Claim = memo(() => {
     const [claimed, setClaimed] = useState(false)
     const [, connect] = useConnectWallet()
     const { chainId } = useActiveWeb3React()
+    const network = SupportedChains[chainId]
 
     useEffect(() => {
         //todo: add event analytics on transaction status
@@ -159,7 +160,9 @@ const Claim = memo(() => {
                                 </Title>
 
                                 <Text fontFamily="subheading" fontWeight="normal" color="goodGrey.500" fontSize="sm">
-                                    {i18n._(t`UBI is your fair share of G$ tokens, which you can claim daily on CELO.`)}
+                                    {i18n._(
+                                        t`UBI is your fair share of G$ tokens, which you can claim daily on ${network}.`
+                                    )}
                                 </Text>
                             </>
                         )}
@@ -169,7 +172,6 @@ const Claim = memo(() => {
                             claim={handleClaim}
                             claimed={claimed}
                             handleConnect={handleConnect}
-                            chainId={chainId}
                         />
                     </Box>
                 </div>

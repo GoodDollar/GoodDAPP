@@ -9,7 +9,7 @@ import { Web3Wallet } from '@walletconnect/web3wallet'
 import { parseUri, getSdkError } from '@walletconnect/utils'
 
 import Web3 from 'web3'
-import { first, last, maxBy, sortBy, sample } from 'lodash'
+import { first, last, maxBy, defaults, sortBy, sample } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
@@ -286,7 +286,7 @@ export const useWalletConnectSession = () => {
               chainId: requestedChainId,
               accounts: [wallet.account],
             })
-            switchChain(chainDetails)
+            switchChain(chainDetails, connector)
           }
         },
         onReject: () => {
@@ -440,20 +440,21 @@ export const useWalletConnectSession = () => {
   )
 
   const switchChain = useCallback(
-    async chain => {
-      log.debug('switching chain...', { chain, activeConnector })
-      if (!activeConnector) {
+    async (chainDetails, connector) => {
+      log.debug('switching chain...', { chainDetails, connector, cachedConnector })
+      if (!connector) {
         return
       }
       // for wc v1 only
-      if (activeConnector === cachedConnector) {
-        await activeConnector.updateSession({
-          chainId: Number(chain.chainId),
+      if (connector === cachedConnector) {
+        await connector.updateSession({
+          chainId: Number(chainDetails.chainId),
           accounts: [wallet.account],
-          rpcUrl: getChainRpc(chain),
+          rpcUrl: getChainRpc(chainDetails),
         })
-        AsyncStorage.setItem('walletconnect_requestedChain', chain.chainId)
+        AsyncStorage.setItem('walletconnect_requestedChain', chainDetails.chainId)
       } else {
+        //for v2 each request contains the chain and we handle rpc there
         await cachedV2Connector.emitSessionEvent({
           topic: v2session.topic,
           event: { name: 'chainChanged', data: `eip155:${chain.chainId}` },
@@ -463,7 +464,7 @@ export const useWalletConnectSession = () => {
       }
       setChain(chain)
     },
-    [activeConnector, wallet, v2session],
+    [wallet, v2session],
   )
 
   const handleSwitchChainRequest = useCallback(
@@ -474,15 +475,25 @@ export const useWalletConnectSession = () => {
       const metadata = v2meta || connector?.session?.peerMeta
 
       const chain = params[0]
-      const chainDetails = chains.find(_ => Number(_.chainId) === Number(chain.chainId))
+
+      let chainDetails = defaults(
+        {
+          chainId: Number(chain.chainId),
+          explorers: chain.blockExplorerUrls,
+          rpc: chain.rpcUrls,
+        },
+        chains.find(_ => Number(_.chainId) === Number(chain.chainId)),
+      )
+
+      log.info('handleSwitchChainRequest', { chain, chainDetails })
+
       showApprove({
         walletAddress: wallet.account,
         metadata,
         modalType: 'switchchain',
-        message: `${chain.name || chainDetails.name || chain.chainId}: ${getChainRpc(chain)}`,
+        message: `${chain.name || chainDetails.name || chain.chainId}: ${getChainRpc(chainDetails)}`,
         onApprove: () => {
-          chain.explorers = chain.blockExplorerUrls
-          switchChain(chain)
+          switchChain(chainDetails, connector)
         },
         onReject: () => rejectRequest(connector, payload.id, payload.topic),
       })

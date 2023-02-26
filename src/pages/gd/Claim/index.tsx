@@ -59,6 +59,7 @@ const Claim = memo(() => {
         },
         lg: {
             gap: '56px',
+            marginLeft: '120px',
             flexDirection: 'row',
             justifyContent: 'justify-evenly',
         },

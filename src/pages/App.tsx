@@ -125,8 +125,9 @@ function App(): JSX.Element {
                         <Popups />
                         <Web3ReactManager>
                             <div
-                                className={`flex flex-col flex-glow w-full items-center justify-start
+                                className={`flex flex-col flex-glow w-full justify-start
                              ${location.pathname === '/dashboard' ? 'md:auto' : 'md:h-screen'}
+                             ${location.pathname === '/claim' ? 'items-start' : 'items-center'}
                              md:justify-center`}
                             >
                                 <Routes />

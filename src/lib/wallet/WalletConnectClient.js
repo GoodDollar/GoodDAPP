@@ -440,18 +440,21 @@ export const useWalletConnectSession = () => {
   )
 
   const switchChain = useCallback(
-    async (chainDetails, connector) => {
+    async (chainDetails, connector = activeConnector) => {
       log.debug('switching chain...', { chainDetails, connector, cachedConnector })
       if (!connector) {
         return
       }
+      const isV2 = connector === cachedV2Connector
+
       // for wc v1 only
-      if (connector === cachedConnector) {
+      if (isV2 === false) {
         await connector.updateSession({
           chainId: Number(chainDetails.chainId),
           accounts: [wallet.account],
           rpcUrl: getChainRpc(chainDetails),
         })
+        log.debug('switching chain notification v1 done')
         AsyncStorage.setItem('walletconnect_requestedChain', chainDetails.chainId)
       } else {
         //for v2 each request contains the chain and we handle rpc there
@@ -460,11 +463,12 @@ export const useWalletConnectSession = () => {
           event: { name: 'chainChanged', data: `eip155:${chain.chainId}` },
           chainId: `eip155:${v2session.chainId}`,
         })
+        log.debug('switching chain notification v2 done')
         AsyncStorage.setItem('walletconnect_requestedChain_v2', chain.chainId)
       }
       setChain(chain)
     },
-    [wallet, v2session],
+    [wallet, v2session, activeConnector],
   )
 
   const handleSwitchChainRequest = useCallback(

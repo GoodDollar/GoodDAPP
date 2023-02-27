@@ -74,7 +74,12 @@ const onfetch = (event) => {
         url.origin === location.origin ||
         (url.pathname.includes('/ipfs/') === false && REDIRECT_ALSO_IPFS.includes(url.origin))
     ) {
-        event.respondWith(redirectToPermenantUrl(url))
+        try {
+            event.respondWith(redirectToPermenantUrl(url))
+        } catch (e) {
+            console.log('dnslink failed', e)
+            return
+        }
     }
 }
 

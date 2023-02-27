@@ -103,10 +103,9 @@ jobs:
               env:
                   CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
                   RECORD_DOMAIN: ${{ env.CLOUDFLARE_DOMAIN }}
-                  RECORD_NAME: ${{ env.CLOUDFLARE_RECORD_NAME }}
                   CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
               id: dnslink
-              uses: textileio/cloudflare-update-dnslink@v2
+              uses: GoodDollar/cloudflare-update-web3-hostname@v1.0.0
               with:
                   cid: ${{ steps.web3.outputs.cid }}
 

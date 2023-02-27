@@ -105,7 +105,7 @@ jobs:
                   RECORD_DOMAIN: ${{ env.CLOUDFLARE_DOMAIN }}
                   CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
               id: dnslink
-              uses: GoodDollar/cloudflare-update-web3-hostname@v1.0.0
+              uses: GoodDollar/cloudflare-update-web3-hostname@v1.1
               with:
                   cid: ${{ steps.web3.outputs.cid }}
 

@@ -3948,7 +3948,7 @@ __metadata:
     lodash: ^4.17.21
     lodash-webpack-plugin: ^0.11.5
     lottie-ios: ^3.4.0
-    lottie-react-native: "lottie-react-native/lottie-react-native#bb7b81bb51e5cd0bd06e3cd12606fc48bb3e84f8"
+    lottie-react-native: ^5
     lottie-react-web: ^2.2.2
     metro: <=0.66.0
     metro-babel-register: <=0.66.0
@@ -10937,35 +10937,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bignumber.js@git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2":
-  version: 2.0.7
-  resolution: "bignumber.js@https://github.com/debris/bignumber.js.git#commit=94d7146671b9719e00a09c29b01a691bc85048c2"
-  checksum: 308f54bb513036ee63670aca85fa0bf73db603a1acc990ccb2ccc1d09464dcf07f470e027cf4a5718df6ba47fa62ac6c7306ae69e2077fe875017215cf3ce17f
-  languageName: node
-  linkType: hard
-
-"bignumber.js@git+https://github.com/debris/bignumber.js.git#master":
-  version: 2.0.7
-  resolution: "bignumber.js@https://github.com/debris/bignumber.js.git#commit=c7a38de919ed75e6fb6ba38051986e294b328df9"
-  checksum: d38c17d7502c3ede200f702e8a456fa07da76944957c2a9d5e492d9c65ac9230f71af12204a7a0d2dde696fd1ca1947dc67207fc661e7679c3ec72f4a69ef007
-  languageName: node
-  linkType: hard
-
-"bignumber.js@npm:^7.2.1":
-  version: 7.2.1
-  resolution: "bignumber.js@npm:7.2.1"
-  checksum: c4eab705fb3293170f248f13f38a06d24591710864632f78b1637d361feaf07ce782cc6ea23c6984c8ddb030ad1883b813a251448527d55650b403e6f2cc7e67
-  languageName: node
-  linkType: hard
-
-"bignumber.js@npm:^9.0.0":
-  version: 9.0.2
-  resolution: "bignumber.js@npm:9.0.2"
-  checksum: 8637b71d0a99104b20413c47578953970006fec6b4df796b9dcfd9835ea9c402ea0e727eba9a5ca9f9a393c1d88b6168c5bbe0887598b708d4f8b4870ad62e1f
-  languageName: node
-  linkType: hard
-
-"bignumber.js@npm:^9.0.1":
+"bignumber.js@npm:9.1.1":
   version: 9.1.1
   resolution: "bignumber.js@npm:9.1.1"
   checksum: ad243b7e2f9120b112d670bb3d674128f0bd2ca1745b0a6c9df0433bd2c0252c43e6315d944c2ac07b4c639e7496b425e46842773cf89c6a2dcd4f31e5c4b11e
@@ -23483,9 +23455,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lottie-react-native@https://github.com/lottie-react-native/lottie-react-native.git":
-  version: 5.1.3
-  resolution: "lottie-react-native@https://github.com/lottie-react-native/lottie-react-native.git#commit=bb7b81bb51e5cd0bd06e3cd12606fc48bb3e84f8"
+"lottie-react-native@npm:^5":
+  version: 5.1.5
+  resolution: "lottie-react-native@npm:5.1.5"
   dependencies:
     invariant: ^2.2.2
     react-native-safe-modules: ^1.0.3
@@ -23497,25 +23469,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-windows:
       optional: true
-  checksum: 976554398185a08fbbe6a61ab73dc40695f7e469799414c7dd4778a544eba661bd142a69816741e0107916f2007929b81a96d9e8c6649cb2055d0102b3646ef1
-  languageName: node
-  linkType: hard
-
-"lottie-react-native@patch:lottie-react-native@https://github.com/lottie-react-native/lottie-react-native.git#.yarn/patches/lottie-react-native-https-7dba111a4f.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
-  version: 5.1.3
-  resolution: "lottie-react-native@patch:lottie-react-native@https%3A//github.com/lottie-react-native/lottie-react-native.git%23commit=bb7b81bb51e5cd0bd06e3cd12606fc48bb3e84f8#.yarn/patches/lottie-react-native-https-7dba111a4f.patch::version=5.1.3&hash=b42e2b&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
-  dependencies:
-    invariant: ^2.2.2
-    react-native-safe-modules: ^1.0.3
-  peerDependencies:
-    lottie-ios: ^3.4.0
-    react: "*"
-    react-native: ">=0.46"
-    react-native-windows: ">=0.63.x"
-  peerDependenciesMeta:
-    react-native-windows:
-      optional: true
-  checksum: a296387949e342cb93d2778fa1bef73cebc4173e3a9a63f6a3c6303478adbca5d5e2234cbb30fffe328217de43218ed058dd368fdd6ae6e5ced1859cb449a958
+  checksum: e8f437fcba54d3983e4fae9faa45fc130a68cffd2943624abaeb19ff2ae7ddf462315d7d323471d3db645c59f84dbf1a1620566a6b6365eb4e5313524c0d34c5
   languageName: node
   linkType: hard
 

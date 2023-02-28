@@ -133,7 +133,7 @@
     "loadjs": "^3.6.1",
     "lodash": "^4.17.21",
     "lottie-ios": "^3.4.0",
-    "lottie-react-native": "lottie-react-native/lottie-react-native#bb7b81bb51e5cd0bd06e3cd12606fc48bb3e84f8",
+    "lottie-react-native": "^5",
     "lottie-react-web": "^2.2.2",
     "mixpanel-browser": "^2.45.0",
     "mixpanel-react-native": "^2.1.0",
@@ -356,7 +356,8 @@
     "react-native-gesture-handler": "patch:react-native-gesture-handler@npm:1.10.3#.yarn/patches/react-native-gesture-handler-npm-1.10.3-be0b33cc52.patch",
     "react-native-tcp": "patch:react-native-tcp@npm:4.0.0#.yarn/patches/react-native-tcp-npm-4.0.0-b88d3de807.patch",
     "react-native": "patch:react-native@npm:0.65.2#.yarn/patches/react-native-npm-0.65.2-326cd156c0.patch",
-    "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch"
+    "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch",
+    "bignumber.js": "9.1.1"
   },
   "browserslist": [
     ">0.2%",

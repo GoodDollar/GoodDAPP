@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useEffect, useState } from 'react'
 import { View, Box, Text } from 'native-base'
 
 import { ArrowButton } from '@gooddollar/good-design'
-import { SupportedChains, useHasClaimed } from '@gooddollar/web3sdk-v2'
+import { SupportedChains, useHasClaimed, useSwitchNetwork } from '@gooddollar/web3sdk-v2'
 
 import { useClaim } from '@gooddollar/web3sdk-v2'
 // import usePromise from 'hooks/usePromise'
@@ -11,7 +11,6 @@ import { format } from 'date-fns'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useClaiming } from 'hooks/useClaiming'
 import { noop } from 'lodash'
-import { useEthers } from '@usedapp/core'
 
 const NextClaim = ({ time }: { time: string }) => (
     <Text fontFamily="subheading" fontWeight="normal" fontSize="xs" color="main">
@@ -47,7 +46,7 @@ export const ClaimBalance = () => {
     const [claimAlt, setClaimAlt] = useState(true)
 
     const formattedTime = useMemo(() => claimTime && format(claimTime, 'hh aaa'), [claimTime])
-    const { switchNetwork } = useEthers()
+    const { switchNetwork } = useSwitchNetwork()
 
     //we select the alternative chain where a user is able to claim their UBI
     const altChain = chainId === (SupportedChains.FUSE as number) ? SupportedChains[42220] : SupportedChains[122]

@@ -11,10 +11,10 @@ import { AdditionalChainId } from '../../constants'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useEthers } from '@usedapp/core'
 
 import { getNetworkEnv } from '@gooddollar/web3sdk'
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
+import { useSwitchNetwork } from '@gooddollar/web3sdk-v2'
 
 const TextWrapper = styled.div`
     font-style: normal;
@@ -57,7 +57,7 @@ export default function NetworkModal(): JSX.Element | null {
     const { i18n } = useLingui()
     const { chainId, error } = useActiveWeb3React()
     const sendData = useSendAnalyticsData()
-    const { switchNetwork } = useEthers()
+    const { switchNetwork } = useSwitchNetwork()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
     const toggleNetworkModal = useNetworkModalToggle()
 

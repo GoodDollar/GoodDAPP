@@ -173,6 +173,7 @@ const Claim = memo(() => {
                             claim={handleClaim}
                             claimed={claimed}
                             handleConnect={handleConnect}
+                            chainId={chainId}
                         />
                     </Box>
                 </div>

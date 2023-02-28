@@ -6,7 +6,7 @@ import { noop } from 'lodash'
 import Text from '../../common/view/Text'
 
 import useOnPress from '../../../lib/hooks/useOnPress'
-
+import { useDialog } from '../../../lib/dialog/useDialog'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
@@ -143,16 +143,23 @@ LoginButton.Facebook = withStyles(getStylesFromProps)(
 LoginButton.Passwordless = withStyles(getStylesFromProps)(
   ({ styles, disabled, onPress = noop, handleLoginMethod, ...props }) => {
     const reCaptchaRef = useRef()
-
+    const { showErrorDialog } = useDialog()
     const onRecaptchaSuccess = useCallback(() => {
       log.debug('Recaptcha successfull')
       onPress()
       handleLoginMethod('auth0-pwdless-sms')
     }, [onPress, handleLoginMethod])
 
-    const onRecaptchaFailed = useCallback(() => {
-      log.debug('Recaptcha failed')
-    }, [])
+    const onRecaptchaFailed = useCallback(
+      relaunch => {
+        log.debug('Recaptcha failed')
+        showErrorDialog('', '', {
+          title: t`CAPTCHA test failed`,
+          message: t`Please try again.`,
+        })
+      },
+      [showErrorDialog],
+    )
 
     const _mobile = useCallback(() => {
       const { current: captcha } = reCaptchaRef

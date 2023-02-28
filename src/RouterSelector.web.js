@@ -73,11 +73,10 @@ const NestedRouter = memo(({ isLoggedIn }) => {
     }
   }, [isLoggedIn])
 
-  return isLoggedIn ? (
-    <AppRouter />
-  ) : (
+  const Router = isLoggedIn ? AppRouter : SignupRouter
+  return (
     <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedIn}>
-      <SignupRouter />
+      <Router />
     </InternetConnection>
   )
 })

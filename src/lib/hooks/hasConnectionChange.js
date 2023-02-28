@@ -111,7 +111,7 @@ export const useConnectionWeb3 = () => {
   return isConnection
 }
 
-export const useAPIConnection = () => {
+export const useAPIConnection = (enable = true) => {
   const [isConnection, setIsConnection] = useState(true)
 
   /**
@@ -148,8 +148,10 @@ export const useAPIConnection = () => {
   }
 
   useEffect(() => {
-    apiReady()
-  }, [])
+    if (enable) {
+      apiReady()
+    }
+  }, [enable])
 
   return isConnection
 }

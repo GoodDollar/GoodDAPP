@@ -161,7 +161,7 @@ const SummaryGeneric = ({
           )}
         </Section.Stack>
         {!!vendorInfo && (
-          <Section.Stack>
+          <Section.Stack style={styles.vendorInfoWrapper}>
             <Section.Separator width={20} color="transparent" style={{ zIndex: -10 }} />
             <BorderedBox
               overrideStyles={{ boxContent: { marginTop: 16, marginBottom: 16 } }}
@@ -209,7 +209,7 @@ const SummaryGeneric = ({
             <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
           </Section.Row>
         )}
-        <Section.Row>
+        <Section.Row style={styles.buttonsWrapper}>
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
               Cancel
@@ -231,7 +231,7 @@ const getStylesFromProps = ({ theme }) => ({
   section: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     marginBottom: theme.paddings.bottomPadding,
   },
   sendIconWrapper: {
@@ -281,6 +281,16 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.colors.white,
     paddingHorizontal: getDesignRelativeHeight(10),
     lineHeight: normalize(14),
+  },
+  vendorInfoWrapper: {
+    display: 'flex',
+    justifyContent: 'start',
+    alignItems: 'justify',
+  },
+  buttonsWrapper: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'flex-end',
   },
   toTextWrapper: {
     marginBottom: 24,

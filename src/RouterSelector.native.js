@@ -3,6 +3,8 @@ import { first } from 'lodash'
 
 import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
+import InternetConnection from './components/common/connectionDialog/internetConnection'
+
 import { delay } from './lib/utils/async'
 import { retryImport } from './lib/utils/system'
 import { handleLinks } from './lib/utils/linking'
@@ -14,6 +16,8 @@ import './lib/utils/debugUserAgent'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 
 const log = logger.child({ from: 'RouterSelector' })
+
+const DisconnectedSplash = () => <Splash animation={false} />
 
 const initAnalyticsAndFireAppOpen = async (isLoggedIn = false) => {
   await initAnalytics({ isLoggedIn })
@@ -58,7 +62,9 @@ const RouterSelector = () => {
 
   return (
     <React.Suspense fallback={<Splash animation />}>
-      <Router />
+      <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedInRouter}>
+        <Router />
+      </InternetConnection>
     </React.Suspense>
   )
 }

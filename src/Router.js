@@ -5,14 +5,12 @@ import { Portal } from 'react-native-paper'
 
 import AddWebApp from './components/common/view/AddWebApp'
 import Blurred from './components/common/view/Blurred'
-import InternetConnection from './components/common/connectionDialog/internetConnection'
 
 import About from './components/about/AboutState'
 import BackupWallet from './components/backupWallet/BackupWalletState'
 import ExportWallet from './components/backupWallet/ExportWalletData'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
-import Splash from './components/splash/Splash'
 
 import createApp from './lib/utils/createAppContainer'
 import { navigationConfig } from './components/appNavigation/navigationConfig'
@@ -20,8 +18,6 @@ import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 import { isInstalledApp } from './lib/utils/platform'
 import { VerificationContextProvider } from './components/faceVerification/context/VerificationContext'
-
-const DisconnectedSplash = () => <Splash animation={false} />
 
 const AppNavigator = createNavigator(
   AppSwitch,
@@ -48,7 +44,7 @@ const Router = () => {
   const navigationStateHandler = useNavigationStateHandler()
 
   return (
-    <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
+    <React.Fragment>
       {!isInstalledApp && <AddWebApp />}
       <Portal.Host>
         <Blurred whenDialog>
@@ -57,7 +53,7 @@ const Router = () => {
           </VerificationContextProvider>
         </Blurred>
       </Portal.Host>
-    </InternetConnection>
+    </React.Fragment>
   )
 }
 export default Router

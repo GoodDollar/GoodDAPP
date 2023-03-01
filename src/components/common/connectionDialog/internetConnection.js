@@ -13,7 +13,7 @@ const log = logger.child({ from: 'InternetConnection' })
 const InternetConnection = props => {
   const { hideDialog, showDialog } = useDialog()
   const isConnection = useConnection()
-  const isAPIConnection = useAPIConnection()
+  const isAPIConnection = useAPIConnection(!props.isLoggedIn) // only ping server and block usage for new users if server is down.
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
 

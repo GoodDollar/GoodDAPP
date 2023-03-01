@@ -347,7 +347,6 @@
   },
   "resolutions": {
     "hoist-non-react-statics": "^3.3.0",
-    "lottie-react-native": "patch:lottie-react-native@https://github.com/lottie-react-native/lottie-react-native.git#.yarn/patches/lottie-react-native-https-7dba111a4f.patch",
     "webpack-dev-server": "patch:webpack-dev-server@npm:3.11.1#.yarn/patches/webpack-dev-server-npm-3.11.1-9edb45f7e5.patch",
     "@react-native-community/toolbar-android": "patch:@react-native-community/toolbar-android@npm:0.2.1#.yarn/patches/@react-native-community-toolbar-android-npm-0.2.1-3adb606246.patch",
     "jest-environment-jsdom": "patch:jest-environment-jsdom@npm:26.6.2#.yarn/patches/jest-environment-jsdom-npm-26.6.2-defa486869.patch",
@@ -357,7 +356,8 @@
     "react-native-tcp": "patch:react-native-tcp@npm:4.0.0#.yarn/patches/react-native-tcp-npm-4.0.0-b88d3de807.patch",
     "react-native": "patch:react-native@npm:0.65.2#.yarn/patches/react-native-npm-0.65.2-326cd156c0.patch",
     "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch",
-    "bignumber.js": "9.1.1"
+    "bignumber.js": "9.1.1",
+    "lottie-react-native": "patch:lottie-react-native@npm:5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch"
   },
   "browserslist": [
     ">0.2%",

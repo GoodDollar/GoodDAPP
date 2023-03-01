@@ -23455,7 +23455,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lottie-react-native@npm:^5":
+"lottie-react-native@npm:5.1.5":
   version: 5.1.5
   resolution: "lottie-react-native@npm:5.1.5"
   dependencies:
@@ -23470,6 +23470,24 @@ __metadata:
     react-native-windows:
       optional: true
   checksum: e8f437fcba54d3983e4fae9faa45fc130a68cffd2943624abaeb19ff2ae7ddf462315d7d323471d3db645c59f84dbf1a1620566a6b6365eb4e5313524c0d34c5
+  languageName: node
+  linkType: hard
+
+"lottie-react-native@patch:lottie-react-native@npm:5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
+  version: 5.1.5
+  resolution: "lottie-react-native@patch:lottie-react-native@npm%3A5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch::version=5.1.5&hash=8fc76c&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  dependencies:
+    invariant: ^2.2.2
+    react-native-safe-modules: ^1.0.3
+  peerDependencies:
+    lottie-ios: ^3.4.0
+    react: "*"
+    react-native: ">=0.46"
+    react-native-windows: ">=0.63.x"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 41d5dd665208dba554a98d14b2df0b1c5e47fdda5703a79bafff62536c7cb86080c84f4a69036897964e3b96847ae0cd6a14483389df86ec0b26c30d405210c7
   languageName: node
   linkType: hard
 

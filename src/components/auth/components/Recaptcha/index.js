@@ -3,6 +3,8 @@ import React, { useCallback, useImperativeHandle, useRef, useState } from 'react
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API'
+import { useDialog } from '../../../../lib/dialog/useDialog'
+import LoadingIcon from '../../../common/modal/LoadingIcon'
 import { useFingerprint } from '../../../../lib/fingerprint/useFingerprint'
 import Captcha from './Recaptcha'
 
@@ -12,6 +14,7 @@ const { recaptchaSiteKey, publicUrl } = Config
 
 const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, children }, ref) => {
   const captchaRef = useRef()
+  const { showDialog, hideDialog } = useDialog()
   const [isPassed, setIsPassed] = useState(false)
   const { getFingerprintId } = useFingerprint()
 
@@ -23,6 +26,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
       const captchaType = captchaRef.current.type?.() || 'recaptcha'
 
       try {
+        showDialog({ title: 'Verifying CAPTCHA', image: <LoadingIcon />, showCloseButtons: false, showButtons: false })
         fingerprint = await getFingerprintId()
         log.debug('Recaptcha payload', { payload, ekey, captchaType, fingerprint })
 
@@ -35,7 +39,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
 
         log.error('recaptcha verification failed', message, exception, errorCtx)
       }
-
+      hideDialog()
       if (!hasPassed) {
         onFailure()
         return

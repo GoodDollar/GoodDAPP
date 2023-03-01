@@ -78,7 +78,7 @@ const ExternalIcon = (props: any) => (
             fillRule="evenodd"
             clipRule="evenodd"
             d="M12.4444 11.6667V7C12.4444 6.57067 12.792 6.22222 13.2221 6.22222C13.6523 6.22222 13.9999 6.57067 13.9999 7V11.6667C13.9999 12.9531 12.953 14 11.6666 14H2.33332C1.04688 14 0 12.9531 0 11.6667V2.33333C0 1.04689 1.04688 0 2.33332 0H6.99996C7.43007 0 7.77773 0.348444 7.77773 0.777778C7.77773 1.20711 7.43007 1.55556 6.99996 1.55556H2.33332C1.90399 1.55556 1.55555 1.90478 1.55555 2.33333V11.6667C1.55555 12.0952 1.90399 12.4444 2.33332 12.4444H11.6666C12.0959 12.4444 12.4444 12.0952 12.4444 11.6667ZM11.3385 1.56178L10.1073 1.55556C9.67716 1.55322 9.33105 1.20322 9.33338 0.773889C9.33571 0.345333 9.68338 0 10.1112 0H10.115L13.2238 0.0155556C13.6516 0.0178889 13.9977 0.364778 13.9977 0.792556L14 3.88811C14 4.31822 13.6524 4.66667 13.223 4.66667H13.2222C12.7929 4.66667 12.4445 4.319 12.4445 3.88967L12.4437 2.65611L7.54995 7.54989C7.39828 7.70156 7.19917 7.77778 7.00006 7.77778C6.80095 7.77778 6.60184 7.70156 6.45017 7.54989C6.14606 7.24578 6.14606 6.75422 6.45017 6.45011L11.3385 1.56178Z"
-            fill="#00B0FF"
+            fill={props.fillColor}
         />
     </svg>
 )
@@ -211,20 +211,30 @@ export const ExternalLink: React.FC<{
     }
 
     return (
-        <Pressable _hover={{ bg: 'primary:alpha.10' }} py={2} px={2} borderRadius="12px" color={textColor}>
-            <a
-                className={`${withDefaultStyles && 'hover:underline'} pr-2 line 
-                 xl:pr-3 whitespace-nowrap flex flex-row items-center`}
-                href={url}
-                target="_blank"
-                rel="noreferrer"
-                onClick={onExternalClick}
-                data-key={dataAttr}
-            >
-                {label && <span data-key={dataAttr}>{label}</span>}
-                {withIcon && <ExternalIcon dataAttr={dataAttr} />}
-                {children}
-            </a>
+        <Pressable
+            _hover={{ bg: 'primary:alpha.10' }}
+            _pressed={{ bg: 'primary', color: 'white' }}
+            bg="transparent"
+            py={2}
+            px={2}
+            borderRadius="12px"
+            color={textColor}
+        >
+            {({ isPressed }) => (
+                <a
+                    className={`${withDefaultStyles && 'hover:underline'} pr-2 line 
+                     xl:pr-3 whitespace-nowrap flex flex-row items-center`}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={onExternalClick}
+                    data-key={dataAttr}
+                >
+                    {label && <span data-key={dataAttr}>{label}</span>}
+                    {withIcon && <ExternalIcon dataAttr={dataAttr} fillColor={isPressed ? 'white' : '#00B0FF'} />}
+                    {children}
+                </a>
+            )}
         </Pressable>
     )
 }

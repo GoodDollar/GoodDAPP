@@ -206,8 +206,7 @@
     "electron-to-chromium": "1.4.311"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.9",
-    "@gooddollar/good-design": "^0.0.41",
+    "@gooddollar/good-design": "^0.0.42",
     "@gooddollar/goodprotocol": "^2.0.2",
     "@gooddollar/web3sdk": "^0.1.18",
     "@gooddollar/web3sdk-v2": "^0.1.78",

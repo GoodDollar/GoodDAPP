@@ -38,10 +38,19 @@ export function NavLink<S = H.LocationState>({
 
     return (
         <ReactRouterNavLink href={href} className={className} activeClassName="active" {...rest}>
-            <Pressable onPress={onPress} _hover={{ bg: 'primary:alpha.10' }} py={1} px={2} borderRadius="12px">
-                <Text fontFamily="subheading" fontSize="sm" color={textColor}>
-                    {children}
-                </Text>
+            <Pressable
+                onPress={onPress}
+                _hover={{ bg: 'primary:alpha.10' }}
+                _pressed={{ bg: 'primary' }}
+                py={1}
+                px={2}
+                borderRadius="12px"
+            >
+                {({ isPressed }) => (
+                    <Text fontFamily="subheading" fontSize="sm" color={isPressed ? 'white' : textColor}>
+                        {children}
+                    </Text>
+                )}
             </Pressable>
         </ReactRouterNavLink>
     )

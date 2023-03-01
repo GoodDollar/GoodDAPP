@@ -1969,16 +1969,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.19.0, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
-  version: 7.20.13
-  resolution: "@babel/runtime@npm:7.20.13"
-  dependencies:
-    regenerator-runtime: ^0.13.11
-  checksum: 09b7a97a05c80540db6c9e4ddf8c5d2ebb06cae5caf3a87e33c33f27f8c4d49d9c67a2d72f1570e796045288fad569f98a26ceba0c4f5fad2af84b6ad855c4fb
-  languageName: node
-  linkType: hard
-
-"@babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.6.3":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.19.0, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.21.0
   resolution: "@babel/runtime@npm:7.21.0"
   dependencies:
@@ -3932,9 +3923,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.41":
-  version: 0.0.41
-  resolution: "@gooddollar/good-design@npm:0.0.41"
+"@gooddollar/good-design@npm:^0.0.42":
+  version: 0.0.42
+  resolution: "@gooddollar/good-design@npm:0.0.42"
   dependencies:
     "@gooddollar/goodprotocol": ^2.0.1
     "@lingui/macro": ^3.14.0
@@ -3958,7 +3949,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: f86b44ec360fe142ed7c4a2b8db768e99e58c8edadd9bda10f3d2f666a3c1e1858a4ca0829780c9b6b5b6a893b7044150b319d57ac3598e37928307a49dff0a6
+  checksum: 1606a9f6e8019c5eeb426b01e2be54da04b73c93f24e041ed1712f3e08628560eb41f0469df2ddcb80fd1f2eccd206e399980fa317ff605f354fafcb4a5cb384
   languageName: node
   linkType: hard
 
@@ -4004,13 +3995,12 @@ __metadata:
     "@babel/preset-flow": ^7.18.6
     "@babel/preset-react": ^7.18.6
     "@babel/preset-typescript": ^7.18.6
-    "@babel/runtime": ^7.18.9
     "@commitlint/cli": ^12.1.1
     "@commitlint/config-conventional": ^12.1.1
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.41
+    "@gooddollar/good-design": ^0.0.42
     "@gooddollar/goodprotocol": ^2.0.2
     "@gooddollar/web3sdk": ^0.1.18
     "@gooddollar/web3sdk-v2": ^0.1.78
@@ -11052,7 +11042,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/injected-wallets@npm:^2.0.15, @web3-onboard/injected-wallets@npm:^2.4.0":
+"@web3-onboard/injected-wallets@npm:^2.0.15":
   version: 2.8.0
   resolution: "@web3-onboard/injected-wallets@npm:2.8.0"
   dependencies:
@@ -11060,6 +11050,17 @@ __metadata:
     joi: ^17.6.1
     lodash.uniqby: ^4.7.0
   checksum: 24234d7ea786b403a69c06e1c4858f2de4c2c864cdce42fc429a03984876eca588a1d3b9cd75030ac5983dd98a0fe1f4d1e6f55146698c5d2b8e224623917d78
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/injected-wallets@npm:^2.4.0":
+  version: 2.8.1
+  resolution: "@web3-onboard/injected-wallets@npm:2.8.1"
+  dependencies:
+    "@web3-onboard/common": ^2.2.3
+    joi: ^17.6.1
+    lodash.uniqby: ^4.7.0
+  checksum: 7bc2bc37ae278ad1fa868463891f7eb02186cab4acfdfebc9adf98759ef893ccb791de974f00f6a5dd2c8a9872fa184c3c27b7f960ed0f3bd71338e8b1fb6312
   languageName: node
   linkType: hard
 

@@ -80,7 +80,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1h0z5md r-marginBottom-p1pxzi r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
     >
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
@@ -159,18 +159,10 @@ a few seconds to complete
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+        className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox"
-          style={
-            Object {
-              "WebkitBoxPack": "start",
-              "WebkitJustifyContent": "flex-start",
-              "justifyContent": "flex-start",
-              "msFlexPack": "start",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1h0z5md"
         >
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"

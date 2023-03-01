@@ -201,7 +201,7 @@ export const useWalletConnectSession = () => {
         response: { id, jsonrpc: '2.0', result },
       })
     } else {
-      connector.approveRequest({ id: payload.id, result })
+      connector.approveRequest({ id, result })
     }
   }, [])
 

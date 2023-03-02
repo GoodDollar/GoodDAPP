@@ -1,6 +1,8 @@
 // @flow
 
 import GoodDollarABI from '@gooddollar/goodprotocol/artifacts/abis/IGoodDollar.min.json'
+
+// import SuperGoodDollarABI from '@gooddollar/goodprotocol/artifacts/abis/SuperGoodDollar.min.json'
 import IdentityABI from '@gooddollar/goodprotocol/artifacts/abis/IIdentity.min.json'
 import cERC20ABI from '@gooddollar/goodprotocol/artifacts/abis/cERC20.min.json'
 import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/abis/SimpleStakingV2.min.json'
@@ -9,8 +11,8 @@ import GOODToken from '@gooddollar/goodprotocol/artifacts/abis/GReputation.min.j
 import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
-import InvitesABI from '@gooddollar/goodcontracts/upgradables/build/contracts/InvitesV1.min.json'
-import FaucetABI from '@gooddollar/goodcontracts/upgradables/build/contracts/FuseFaucet.min.json'
+import InvitesABI from '@gooddollar/goodprotocol/artifacts/abis/InvitesV2.min.json'
+import FaucetABI from '@gooddollar/goodprotocol/artifacts/abis/Faucet.min.json'
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
@@ -133,6 +135,7 @@ const MultiCalls = {
   3: '0xFa8d865A962ca8456dF331D78806152d3aC5B84F',
   1: '0x5Eb3fa2DFECdDe21C950813C665E9364fa609bD2',
   122: '0x2219bf813a0f8f28d801859c215a5a94cca90ed1',
+  42220: '0xcA11bde05977b3631167028862bE2a173976CA11',
 }
 
 const gasMutex = new Mutex()

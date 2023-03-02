@@ -116,11 +116,14 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
             // (because otherwise he wont have valid mongodb jwt)
             await userProperties.ready
 
-            const lastBlock = userProperties.get('lastBlock') || 6400000
+            const lastBlock =
+              userProperties.get('lastBlock_' + wallet.networkId) || Config.ethereum[wallet.networkId].startBlock
 
             log.debug('starting watchBalanceAndTXs', { lastBlock })
 
-            wallet.watchEvents(parseInt(lastBlock), toBlock => userProperties.set('lastBlock', parseInt(toBlock)))
+            wallet.watchEvents(parseInt(lastBlock), toBlock =>
+              userProperties.set('lastBlock_' + wallet.networkId, parseInt(toBlock)),
+            )
             wallet.balanceChanged(() => update(wallet))
           }
         }

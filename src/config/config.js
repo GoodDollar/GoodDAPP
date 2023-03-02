@@ -67,12 +67,20 @@ const ethereum = {
   '122': {
     ...fuseNetwork,
     network_id: 122,
+    startBlock: 6400000,    
   },
   '4447': {
     ...fuseNetwork,
     network_id: 4447,
     httpWeb3provider: 'http://localhost:8545/',
     websocketWeb3Provider: 'ws://localhost:8545/ws',
+  },
+  '42220': {
+    httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://forno.celo.org/',
+    explorer: 'https://celoscan.xyz',
+    explorerName: 'celoscan',
+    network_id: 42220,
+    startBlock: 18000000,    
   },
 }
 

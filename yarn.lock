@@ -3946,13 +3946,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.44":
-  version: 0.0.44
-  resolution: "@gooddollar/good-design@npm:0.0.44"
+"@gooddollar/good-design@npm:^0.0.47":
+  version: 0.0.47
+  resolution: "@gooddollar/good-design@npm:0.0.47"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
-    "@gooddollar/goodprotocol": ^2.0.1
+    "@gooddollar/goodprotocol": ^2.0.3
     "@lingui/macro": ^3.14.0
     "@lingui/react": ^3.14.0
     "@uniswap/sdk-core": ^3.1.0
@@ -3974,7 +3974,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: ab22c3ca2d195e590fbc7fb9dbd902fd72ea967320dade1ad4f4240bd0fefb0b4baf5e8ed76d4b3d1caccdf23fe6be8b8afc7792e11a80f1d44a8d197f3d48f5
+  checksum: d30152e68526596fdce6bd5a6f092dbf81f8a06e4c0f42580646f45bf9cdffb215c629c38b780fa2868e9ffb3fbe66caf2345f432c224fb8854d20dd56e38687
   languageName: node
   linkType: hard
 
@@ -3988,9 +3988,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@npm:2.0.1":
-  version: 2.0.1
-  resolution: "@gooddollar/goodprotocol@npm:2.0.1"
+"@gooddollar/goodprotocol@npm:2.0.3":
+  version: 2.0.3
+  resolution: "@gooddollar/goodprotocol@npm:2.0.3"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
@@ -4005,7 +4005,7 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: d27825498a70c98b1cdb9afa8f29a527348352b1ba9a2bb8f47ccd34ed0c78e218ae51973e4d84f25d156987f1ce486fe898056f1aa57162f92e341078466af2
+  checksum: 46ed393bcd0ec902e2403b31540bec6121f475d7f2d07029b2a1a15a82e21fbdb9012646bb32c14d6fc25d1aae32ff5670f4b8c365ed5f456f4fb8096e0ae272
   languageName: node
   linkType: hard
 
@@ -4026,10 +4026,10 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.44
-    "@gooddollar/goodprotocol": ^2.0.2
+    "@gooddollar/good-design": ^0.0.47
+    "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.18
-    "@gooddollar/web3sdk-v2": ^0.1.78
+    "@gooddollar/web3sdk-v2": ^0.1.80
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": 3.15.0
@@ -4199,15 +4199,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.78":
-  version: 0.1.78
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.78"
+"@gooddollar/web3sdk-v2@npm:^0.1.80":
+  version: 0.1.80
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.80"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
     "@gooddollar/bridge-app": ^1.2.9
     "@gooddollar/bridge-contracts": ^1.0.13
-    "@gooddollar/goodprotocol": ^2.0.1
+    "@gooddollar/goodprotocol": ^2.0.3
     "@react-native-firebase/analytics": ^16.4.6
     "@sentry/browser": 7.16.0
     "@sentry/react-native": ^4.8.0
@@ -4236,7 +4236,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: cd332317f47c318f603584c2d48f96bad45c298202d53dbe0c3014e47742ce317bd900115a202f40bb9601d74fcb4cab46dcc1c3d0e90b0fb35ac11b0fc29ffd
+  checksum: 196ce975cb40d17112d87be1c20475919f6654172fcaac33de340cc70382e16b5b16102457ac89d7776e90e839b2c087b45fcdd8682cc85595ade1f97393e61f
   languageName: node
   linkType: hard
 
@@ -17461,10 +17461,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:1.4.311":
-  version: 1.4.311
-  resolution: "electron-to-chromium@npm:1.4.311"
-  checksum: 663fde5d90293d19c05b0dc65996e1ba6f3ee89d6365de3503de6a96c21439e18ea579fdd7d718e260708aa871ef333de934a4024d54fd109959ac0bca9d1400
+"electron-to-chromium@npm:^1.3.564, electron-to-chromium@npm:^1.4.284":
+  version: 1.4.315
+  resolution: "electron-to-chromium@npm:1.4.315"
+  checksum: 9b1e9a43afe086aaed9af2a60076a409c0d6a0d9a9f4d0a293131763329c48c86198bda4020155c7ce53d2569840d49d51e8ce2405b6cd90000a77c1bd650ea5
   languageName: node
   linkType: hard
 

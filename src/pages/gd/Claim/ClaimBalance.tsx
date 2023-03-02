@@ -76,12 +76,13 @@ export const ClaimBalance = () => {
                         borderWidth="1"
                         borderColor="borderBlue"
                         px="6px"
-                        width="200"
+                        w="220px"
                         text={`Claim on ${altChain}`}
                         onPress={switchChain}
                         innerText={{
                             fontSize: 'sm',
                         }}
+                        textInteraction={{ hover: { color: 'white' } }}
                     />
                 )}
             </Box>

@@ -4,7 +4,7 @@ import { useLingui } from '@lingui/react'
 import { ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
 import { Text, useBreakpointValue, Box, View } from 'native-base'
 import { ClaimBalance } from './ClaimBalance'
-import { SupportedChains, useClaim } from '@gooddollar/web3sdk-v2'
+import { useClaim } from '@gooddollar/web3sdk-v2'
 import { useConnectWallet } from '@web3-onboard/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import FirstTimer from 'assets/images/claim/firstimer.png'
@@ -19,7 +19,6 @@ const Claim = memo(() => {
     const [claimed, setClaimed] = useState(false)
     const [, connect] = useConnectWallet()
     const { chainId } = useActiveWeb3React()
-    const network = SupportedChains[chainId]
 
     useEffect(() => {
         //todo: add event analytics on transaction status
@@ -56,13 +55,14 @@ const Claim = memo(() => {
             alignItems: 'center',
             justifyContent: 'center',
             flexGrow: 1,
-            width: 'full',
+            width: '100%',
             mb: 2,
         },
         lg: {
-            gap: '56px',
+            gap: claimed ? '58px' : '32px',
             flexDirection: 'row',
             justifyContent: 'justify-evenly',
+            marginLeft: claimed ? '120px' : 'auto',
         },
     })
 
@@ -191,7 +191,7 @@ your G$. 🙂`,
     return (
         <>
             <View style={mainView}>
-                <div className="flex flex-col text-center lg:w-5/12">
+                <div className="flex flex-col items-center text-center lg:w-5/12">
                     <Box style={balanceContainer}>
                         {claimed ? (
                             <ClaimBalance />
@@ -201,9 +201,15 @@ your G$. 🙂`,
                                     {i18n._(t`Claim G$`)}
                                 </Title>
 
-                                <Text fontFamily="subheading" fontWeight="normal" color="goodGrey.500" fontSize="sm">
+                                <Text
+                                    w="340px"
+                                    fontFamily="subheading"
+                                    fontWeight="normal"
+                                    color="goodGrey.500"
+                                    fontSize="sm"
+                                >
                                     {i18n._(
-                                        t`UBI is your fair share of G$ tokens, which you can claim daily on ${network}.`
+                                        t`GoodDollar creates free money as a public good, G$ tokens, which you can collect daily.`
                                     )}
                                 </Text>
                             </>
@@ -218,7 +224,10 @@ your G$. 🙂`,
                         />
                     </Box>
                 </div>
-                <div className="w-full lg:flex lg:flex-col lg2:w-2/5" style={{ flexGrow: '1' }}>
+                <div
+                    className={`w-full lg:flex lg:flex-col ${claimed ? 'lg:w-full' : 'lg:w-6/12'}`}
+                    style={{ flexGrow: '1' }}
+                >
                     <ClaimCarousel cards={mockedCards} claimed />
                 </div>
             </View>

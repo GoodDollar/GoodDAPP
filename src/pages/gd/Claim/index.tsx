@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useCallback } from 'react'
+import React, { memo, useState, useEffect, useCallback, useMemo } from 'react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
@@ -16,18 +16,19 @@ const Claim = memo(() => {
         claimAmount,
         claimCall: { state, send },
     } = useClaim()
-    const [claimed, setClaimed] = useState(false)
     const [, connect] = useConnectWallet()
     const { chainId } = useActiveWeb3React()
+    const [claimState, setClaimState] = useState<Record<number, boolean>>({})
+    const claimed = chainId in claimState && claimState[chainId]
 
-    useEffect(() => {
-        //todo: add event analytics on transaction status
-        if (claimAmount?.isZero() || state.status === 'Success') {
-            setClaimed(true)
-        } else {
-            setClaimed(false)
-        }
-    }, [claimAmount, state, send])
+    const setClaimed = useCallback(
+        (claimed: boolean) =>
+            setClaimState((state) => ({
+                ...state,
+                [chainId]: claimed,
+            })),
+        [chainId, setClaimState]
+    )
 
     const handleClaim = useCallback(async () => {
         const claim = await send()
@@ -39,7 +40,7 @@ const Claim = memo(() => {
         // todo: add event analytics on transaction receipt
         setClaimed(true)
         return true
-    }, [send])
+    }, [send, setClaimed])
 
     const handleConnect = useCallback(async () => {
         const state = await connect()
@@ -73,120 +74,130 @@ const Claim = memo(() => {
         },
     })
 
-    const mockedCards: Array<IClaimCard> = [
-        {
-            id: 'how-does-work',
-            title: {
-                text: 'How does it work?',
-                color: 'primary',
+    const mockedCards: Array<IClaimCard> = useMemo(
+        () => [
+            {
+                id: 'how-does-work',
+                title: {
+                    text: 'How does it work?',
+                    color: 'primary',
+                },
+                content: [
+                    {
+                        subTitle: {
+                            text: 'Free money, no catch, all thanks to technology.',
+                            color: 'goodGrey.500',
+                        },
+                    },
+                    {
+                        description: {
+                            text: 'Learn more about how the GoodDollar protocol works here.',
+                            color: 'goodGrey.500',
+                        },
+                    },
+                    {
+                        imgSrc: HowWorks,
+                    },
+                ],
+                externalLink: 'https://www.notion.so/gooddollar/GoodDollar-Protocol-2cc5c26cf09d40469e4570ad1d983914',
+                bgColor: 'goodWhite.100',
+                hide: claimed,
             },
-            content: [
-                {
-                    subTitle: {
-                        text: 'Free money, no catch, all thanks to technology.',
-                        color: 'goodGrey.500',
+            {
+                id: 'how-to-collect',
+                title: {
+                    text: 'How to collect G$',
+                    color: 'primary',
+                },
+                content: [
+                    {
+                        subTitle: {
+                            text: 'First time here?',
+                            color: 'goodGrey.500',
+                        },
                     },
-                },
-                {
-                    description: {
-                        text: 'Learn more about how the GoodDollar protocol works here.',
-                        color: 'goodGrey.500',
+                    {
+                        description: {
+                            text: 'Anyone in the world can collect G$. Create a wallet to get started.',
+                            color: 'goodGrey.500',
+                        },
                     },
-                },
-                {
-                    imgSrc: HowWorks,
-                },
-            ],
-            externalLink: 'https://www.notion.so/gooddollar/GoodDollar-Protocol-2cc5c26cf09d40469e4570ad1d983914',
-            bgColor: 'goodWhite.100',
-            hide: claimed,
-        },
-        {
-            id: 'how-to-collect',
-            title: {
-                text: 'How to collect G$',
-                color: 'primary',
+                    {
+                        imgSrc: FirstTimer,
+                    },
+                ],
+                externalLink: 'https://www.notion.so/Get-G-873391f31aee4a18ab5ad7fb7467acb3',
+                bgColor: 'goodWhite.100',
+                hide: claimed,
             },
-            content: [
-                {
-                    subTitle: {
-                        text: 'First time here?',
-                        color: 'goodGrey.500',
-                    },
-                },
-                {
-                    description: {
-                        text: 'Anyone in the world can collect G$. Create a wallet to get started.',
-                        color: 'goodGrey.500',
-                    },
-                },
-                {
-                    imgSrc: FirstTimer,
-                },
-            ],
-            externalLink: 'https://www.notion.so/Get-G-873391f31aee4a18ab5ad7fb7467acb3',
-            bgColor: 'goodWhite.100',
-            hide: claimed,
-        },
-        {
-            id: 'already-claimed',
-            title: {
-                text: `Use 
+            {
+                id: 'already-claimed',
+                title: {
+                    text: `Use 
 your G$. 🙂`,
-                color: 'white',
-            },
-            content: [
-                {
-                    description: {
-                        text: `After claiming your G$, use it to support your community, buy products and services, support causes you care about, vote in the GoodDAO, and more. Learn how here`,
-                        color: 'white',
+                    color: 'white',
+                },
+                content: [
+                    {
+                        description: {
+                            text: `After claiming your G$, use it to support your community, buy products and services, support causes you care about, vote in the GoodDAO, and more. Learn how here`,
+                            color: 'white',
+                        },
                     },
-                },
-            ],
-            externalLink: 'https://www.notion.so/gooddollar/Use-G-8639553aa7214590a70afec91a7d9e73',
-            bgColor: 'primary',
-        },
-        {
-            id: 'gd-by-numbers',
-            title: {
-                text: 'GoodDollar by numbers',
-                color: 'primary',
+                ],
+                externalLink: 'https://www.notion.so/gooddollar/Use-G-8639553aa7214590a70afec91a7d9e73',
+                bgColor: 'primary',
             },
-            content: [
-                {
-                    list: [
-                        {
-                            id: 'number-countries',
-                            key: '🌏 Number of Countries',
-                            value: '#',
-                        },
-                        {
-                            id: 'tokens-claimed',
-                            key: '✋🏽 Number of G$ Tokens Claimed',
-                            value: '#',
-                        },
-                        {
-                            id: 'total-distributed',
-                            key: '🪂 Total UBI Distributed',
-                            value: '$327.5k',
-                        },
-                        {
-                            id: 'unique-claimers',
-                            key: '💰 Unique UBI Claimers',
-                            value: '$475k',
-                        },
-                        {
-                            id: 'market-capitalization',
-                            key: '🚢  Market Capitalization',
-                            value: '$876k',
-                        },
-                    ],
+            {
+                id: 'gd-by-numbers',
+                title: {
+                    text: 'GoodDollar by numbers',
+                    color: 'primary',
                 },
-            ],
-            externalLink: 'https://dashboard.gooddollar.org',
-            bgColor: 'goodWhite.100',
-        },
-    ]
+                content: [
+                    {
+                        list: [
+                            {
+                                id: 'number-countries',
+                                key: '🌏 Number of Countries',
+                                value: '#',
+                            },
+                            {
+                                id: 'tokens-claimed',
+                                key: '✋🏽 Number of G$ Tokens Claimed',
+                                value: '#',
+                            },
+                            {
+                                id: 'total-distributed',
+                                key: '🪂 Total UBI Distributed',
+                                value: '$327.5k',
+                            },
+                            {
+                                id: 'unique-claimers',
+                                key: '💰 Unique UBI Claimers',
+                                value: '$475k',
+                            },
+                            {
+                                id: 'market-capitalization',
+                                key: '🚢  Market Capitalization',
+                                value: '$876k',
+                            },
+                        ],
+                    },
+                ],
+                externalLink: 'https://dashboard.gooddollar.org',
+                bgColor: 'goodWhite.100',
+            },
+        ],
+        [claimed]
+    )
+
+    useEffect(() => {
+        const claimedAtChain = claimAmount?.isZero() || state.status === 'Success'
+
+        // todo: add event analytics on transaction status
+        setClaimed(claimedAtChain)
+    }, [claimAmount, state, send, setClaimed])
 
     return (
         <>

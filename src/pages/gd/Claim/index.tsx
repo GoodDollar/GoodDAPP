@@ -198,7 +198,7 @@ your G$. 🙂`,
                         ) : (
                             <>
                                 <Title fontFamily="heading" fontSize="2xl" fontWeight="extrabold" pb="2">
-                                    {i18n._(t`Claim G$`)}
+                                    {i18n._(t`Collect G$`)}
                                 </Title>
 
                                 <Text

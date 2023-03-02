@@ -9,7 +9,7 @@ import { Platform } from 'react-native'
 import Config from '../../../config/config'
 import { NotificationsAPI } from '../api/NotificationsApi'
 import { CHANNEL_ID, NotificationsCategories } from '../constants'
-import { useLocalProperty } from '../../wallet/GoodWalletProvider'
+import { useLocalProperty } from '../../userStorage/useProfile'
 import { getCategory, useNotificationsStateSwitch } from './useNotifications.common'
 
 const { notificationTime, notificationSchedule } = Config

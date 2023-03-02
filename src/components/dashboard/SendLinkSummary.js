@@ -90,6 +90,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             createdDate: new Date().toISOString(),
             type: FeedItemType.EVENT_TYPE_SEND,
             status: 'pending',
+            chainId: goodWallet.networkId,
             data: {
               counterPartyDisplayName,
               senderEmail: vendorFields.email,
@@ -194,6 +195,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               createdDate: new Date().toISOString(),
               date: new Date().toISOString(),
               type: FeedItemType.EVENT_TYPE_SENDDIRECT,
+              chainId: goodWallet.networkId,
               data: {
                 to: address,
                 reason,

@@ -52,23 +52,49 @@ export const usePublicProfileOf = (walletAddress, fields = defaultPublicFields) 
   return profile
 }
 
-export const useUserProperty = property => {
+const getUserProperty = (userStorage, property, local = false) => {
+  if (!userStorage) {
+    return null
+  }
+
+  const { userProperties } = userStorage
+  return local ? userProperties.getLocal(property) : userProperties.get(property)
+}
+
+const useUserProperty = (property, local = false) => {
   const userStorage = useUserStorage()
 
-  const [propertyValue, setPropertyValue] = useState(() => userStorage.userProperties.get(property))
+  const [propertyValue, setPropertyValue] = useState(() => getUserProperty(userStorage, property, local))
+
+  const updatePropertyValue = useCallback(
+    newValue => {
+      const { userProperties } = userStorage
+
+      setPropertyValue(newValue)
+
+      if (local) {
+        userProperties.setLocal(property, newValue)
+        return
+      }
+
+      userProperties.safeSet(property, newValue)
+    },
+    [setPropertyValue, userStorage, property, local],
+  )
 
   useEffect(() => {
     const { userProperties } = userStorage
 
-    setPropertyValue(userProperties.get(property))
-    userProperties.on(property, setPropertyValue)
-
+    setPropertyValue(getUserProperty(userStorage, property, local))
+    !local && userProperties.on(property, setPropertyValue)
     return () => {
-      userProperties.off(property, setPropertyValue)
+      !local && userProperties.off(property, setPropertyValue)
     }
-  }, [setPropertyValue, property])
+  }, [property, userStorage, setPropertyValue, local])
 
-  return propertyValue
+  return [propertyValue, updatePropertyValue]
 }
+
+export const useLocalProperty = property => useUserProperty(property, true)
 
 export default useProfile

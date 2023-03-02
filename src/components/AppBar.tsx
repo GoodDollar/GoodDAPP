@@ -20,7 +20,6 @@ import { isMobile } from 'react-device-detect'
 import { Text, useBreakpointValue, ITextProps, Pressable } from 'native-base'
 import { useWalletModalToggle } from '../state/application/hooks'
 import { OnboardConnectButton } from './BlockNativeOnboard'
-import Web3Faucet from './Web3Faucet'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.secondaryBg};
@@ -50,7 +49,7 @@ const AppBarWrapper = styled.header`
 
         .site-logo {
             width: 131px;
-            height: 18.4px;
+            height: 25px;
         }
     }
 `
@@ -131,13 +130,12 @@ const SidebarOverlay = styled.div`
 `
 // will be moved to native base soon
 const TopBar = styled.div<{ $mobile: boolean }>`
-    ${({ theme, $mobile }) =>
+    ${({ $mobile }) =>
         $mobile &&
         `
-    box-shadow: ${theme.shadow.headerNew};
     background-color: transparent;
-    height: 48px;
-    align-items: center;
+    height: 40px;
+    align-items: flex-end;
     padding-left: 16px;
     padding-right: 16px;
   }`}
@@ -205,7 +203,7 @@ function AppBar(): JSX.Element {
             <>
                 <div className="lg:px-8 lg:pt-4 lg:pb-2">
                     <TopBar $mobile={isMobile} className="flex justify-between">
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col">
                             <LogoWrapper $mobile={isMobile} className="flex-shrink-0">
                                 {theme === 'dark' ? (
                                     <LogoWhite className="w-auto site-logo lg:block" />
@@ -216,11 +214,8 @@ function AppBar(): JSX.Element {
                             <G$Balance price={G$Price} display={showBalance} color={fontColor} pl="0" p="2" />
                         </div>
 
-                        <div className="flex flex-row space-x-2">
+                        <div className="flex flex-row items-end h-10 space-x-2">
                             <div className="flex flex-row items-center space-x-2">
-                                {/* Remove on CELO_PHASE_2 */}
-                                {chainId && isMobile && <Web3Faucet />}
-
                                 <button
                                     onClick={toggleSideBar}
                                     className="inline-flex items-center justify-center rounded-md mobile-menu-button focus:outline-none"
@@ -234,9 +229,6 @@ function AppBar(): JSX.Element {
                                 </button>
                             </div>
                             <div className="fixed bottom-0 left-0 flex flex-row items-center justify-center w-full lg:w-auto lg:relative lg:p-0 actions-wrapper lg:h-12 ">
-                                {/* Remove on CELO_PHASE_2 */}
-                                {chainId && !isMobile && <Web3Faucet />}
-
                                 {active && (
                                     <div className="hidden xs:inline-block">
                                         <Web3Network />
@@ -264,7 +256,7 @@ function AppBar(): JSX.Element {
                             </div>
                         </div>
                     </TopBar>
-                    <div className="px-4 py-2 lg:hidden">
+                    <div className="px-4 pb-2 lg:hidden">
                         <G$Balance price={G$Price} color={fontColor} padding="0" />
                     </div>
                 </div>

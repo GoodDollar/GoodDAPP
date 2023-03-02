@@ -1420,7 +1420,7 @@ export class GoodWallet {
         address: this.account,
       })
 
-      const toppingRes = await API.verifyTopWallet()
+      const toppingRes = await API.verifyTopWallet(this.networkId)
       const { data } = toppingRes
 
       if (!data || data.ok !== 1) {

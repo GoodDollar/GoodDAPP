@@ -183,10 +183,10 @@ export class APIService {
   /**
    * `/verify/topwallet` post api call. Tops users wallet
    */
-  verifyTopWallet(): Promise<$AxiosXHR<any>> {
+  verifyTopWallet(chainId: number): Promise<$AxiosXHR<any>> {
     const throttle = { interval: 60000, trailing: false }
 
-    return this.client.post('/verify/topwallet', {}, { throttle })
+    return this.client.post('/verify/topwallet', { chainId }, { throttle })
   }
 
   /**

@@ -27,7 +27,7 @@ const Claim = memo(() => {
         } else {
             setClaimed(false)
         }
-    }, [claimAmount, state, send])
+    }, [claimAmount, state, send, chainId])
 
     const handleClaim = useCallback(async () => {
         const claim = await send()

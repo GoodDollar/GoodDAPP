@@ -8,7 +8,7 @@ import { g$Price } from '@gooddollar/web3sdk'
 import { format } from 'date-fns'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useClaiming } from 'hooks/useClaiming'
-import { noop } from 'lodash'
+import { useNetworkModalToggle } from 'state/application/hooks'
 
 const NextClaim = ({ time }: { time: string }) => (
     <Text fontFamily="subheading" fontWeight="normal" fontSize="xs" color="main">
@@ -43,6 +43,7 @@ export const ClaimBalance = () => {
     const claimedCelo = useHasClaimed('CELO')
     const claimedFuse = useHasClaimed('FUSE')
     const [claimAlt, setClaimAlt] = useState(true)
+    const toggleNetworkModal = useNetworkModalToggle()
 
     const formattedTime = useMemo(() => claimTime && format(claimTime, 'hh aaa'), [claimTime])
     const { switchNetwork } = useSwitchNetwork()
@@ -56,7 +57,13 @@ export const ClaimBalance = () => {
     }, [chainId, claimedFuse, claimedCelo])
 
     const switchChain = useCallback(() => {
-        switchNetwork(SupportedChains[altChain as keyof typeof SupportedChains]).catch(noop)
+        // 4902: Network is not added, and should be done manually
+        // explanation to user is shown through network modal
+        switchNetwork(SupportedChains[altChain as keyof typeof SupportedChains]).catch((e: any) => {
+            if (e.code === 4902) {
+                toggleNetworkModal()
+            }
+        })
     }, [switchNetwork, claimAlt])
 
     return (

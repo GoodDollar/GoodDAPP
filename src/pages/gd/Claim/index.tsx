@@ -20,6 +20,10 @@ const Claim = memo(() => {
     const [, connect] = useConnectWallet()
     const { chainId } = useActiveWeb3React()
 
+    // there are three possible scenarios
+    // 1. claim amount is 0, meaning user has claimed that day
+    // 2. status === success, meaning user has just claimed. Could happen that claimAmount has not been updated right after tx confirmation
+    // 3. If neither is true, there is a claim ready for user or its a new user and FV will be triggered instead
     useEffect(() => {
         //todo: add event analytics on transaction status
         if (claimAmount?.isZero() || state.status === 'Success') {

@@ -8,6 +8,7 @@ import { g$Price } from '@gooddollar/web3sdk'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useClaiming } from 'hooks/useClaiming'
 import { useNetworkModalToggle } from 'state/application/hooks'
+import { BigNumber } from '@ethersproject/bignumber'
 
 const NextClaim = ({ time }: { time: string }) => (
     <Text fontFamily="subheading" fontWeight="normal" fontSize="xs" color="main">
@@ -38,7 +39,9 @@ export const ClaimBalance = () => {
 
     // if claimed on alt chain, don't show claim on other chain button
     useEffect(() => {
-        chainId === (SupportedChains.FUSE as number) ? setClaimedAlt(claimedCelo) : setClaimedAlt(claimedFuse)
+        chainId === (SupportedChains.FUSE as number)
+            ? setClaimedAlt((claimedCelo as unknown as BigNumber)?.isZero())
+            : setClaimedAlt((claimedFuse as unknown as BigNumber)?.isZero())
     }, [chainId, claimedFuse, claimedCelo])
 
     const switchChain = useCallback(() => {

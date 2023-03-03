@@ -1,7 +1,7 @@
 // @flow
 
 import GoodDollarABI from '@gooddollar/goodprotocol/artifacts/abis/IGoodDollar.min.json'
-import IdentityABI from '@gooddollar/goodprotocol/artifacts/abis/IIdentity.min.json'
+import IdentityABI from '@gooddollar/goodprotocol/artifacts/abis/IdentityV2.min.json'
 import cERC20ABI from '@gooddollar/goodprotocol/artifacts/abis/cERC20.min.json'
 import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/abis/SimpleStakingV2.min.json'
 import UBIABI from '@gooddollar/goodprotocol/artifacts/abis/UBIScheme.min.json'
@@ -901,23 +901,6 @@ export class GoodWallet {
     }
   }
 
-  lastVerified(): Promise<Date> {
-    try {
-      return retryCall(() =>
-        this.identityContract.methods
-          .dateAdded(this.account)
-          .call()
-          .then(parseInt)
-          .then(_ => new Date(_ * 1000)),
-      )
-    } catch (exception) {
-      const { message } = exception
-
-      log.error('lastVerified failed', message, exception)
-      return 0
-    }
-  }
-
   /**
    * Determines if current user is verified in the blockchain
    * @returns {Promise<boolean>}
@@ -1420,7 +1403,7 @@ export class GoodWallet {
         address: this.account,
       })
 
-      const toppingRes = await API.verifyTopWallet()
+      const toppingRes = await API.verifyTopWallet(this.networkId)
       const { data } = toppingRes
 
       if (!data || data.ok !== 1) {

@@ -1,0 +1,28 @@
+diff --git a/src/ios/LottieReactNative/ContainerView.swift b/src/ios/LottieReactNative/ContainerView.swift
+index cd8ed10df2307c405b83001da19f4613c8f1b727..1ac7876553247131d853b04810bb78fd2a115ba1 100644
+--- a/src/ios/LottieReactNative/ContainerView.swift
++++ b/src/ios/LottieReactNative/ContainerView.swift
+@@ -17,7 +17,7 @@ class ContainerView: RCTView {
+         super.traitCollectionDidChange(previousTraitCollection)
+         if #available(iOS 13.0, tvOS 13.0, *) {
+             if (self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+-                applyProperties()
++                applyProperties(false)
+                 print("dark mode changed")
+             }
+         }
+@@ -195,10 +195,12 @@ class ContainerView: RCTView {
+         applyProperties()
+     }
+ 
+-    func applyProperties() {
++    func applyProperties(_ shouldUpdateProgress: Bool = true) {
+         guard let animationView = animationView else { return }
+         let isPlaying = animationView.isAnimationPlaying
+-        animationView.currentProgress = progress
++        if (shouldUpdateProgress) {
++            animationView.currentProgress = progress
++        }
+         animationView.animationSpeed = speed
+         animationView.loopMode = loop
+         if (colorFilters.count > 0) {

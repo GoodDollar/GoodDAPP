@@ -213,7 +213,7 @@ const Config = {
   ceramicSyncTimeout: env.REACT_APP_CERAMIC_SYNC_TIMEOUT || 5000,
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
-  networkId: ethereum[networkId].network_id,
+  networkId,
   networkExplorerUrl: ethereum[networkId].explorer,
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
   enableWebNotifications: env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true',

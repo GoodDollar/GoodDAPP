@@ -34,7 +34,7 @@ export const UbeSwap = (): JSX.Element => {
 
     return (
         <div
-            className="flex flex-col items-center justify-center w-5/6 h-5/6 rounded-3xl"
+            className="flex flex-col items-center justify-center w-full h-5/6 rounded-3xl"
             style={{
                 padding: '50px 5px',
             }}

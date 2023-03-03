@@ -66,7 +66,6 @@ const Claim = memo(() => {
             gap: claimed ? '58px' : '32px',
             flexDirection: 'row',
             justifyContent: 'justify-evenly',
-            marginLeft: claimed ? '120px' : 'auto',
         },
     })
 
@@ -74,6 +73,7 @@ const Claim = memo(() => {
         base: {
             display: 'flex',
             alignItems: 'center',
+            width: '369px',
         },
     })
 

@@ -202,7 +202,7 @@ function AppBar(): JSX.Element {
             <AppNotice text={i18n._(t``)} link={['']} show={false}></AppNotice>
             <>
                 <div className="lg:px-8 lg:pt-4 lg:pb-2">
-                    <TopBar $mobile={isMobile} className="flex justify-between">
+                    <TopBar $mobile={isMobile} className="flex items-center justify-between">
                         <div className="flex flex-col">
                             <LogoWrapper $mobile={isMobile} className="flex-shrink-0">
                                 {theme === 'dark' ? (

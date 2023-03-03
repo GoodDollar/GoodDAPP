@@ -5,7 +5,7 @@ import { Redirect, RouteComponentProps } from 'react-router-dom'
 export function RedirectHashRoutes({ location }: RouteComponentProps) {
     //console.log('location:', location.hash)
     if (!location.hash) {
-        return <Redirect to={{ ...location, pathname: '/swap' }} />
+        return <Redirect to={{ ...location, pathname: '/claim' }} />
     }
     return <Redirect to={location.hash.replace('#', '')} />
 }

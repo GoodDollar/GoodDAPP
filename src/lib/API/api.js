@@ -387,7 +387,23 @@ export class APIService {
     return chains
   }
 
-  async getContractAbi(address, explorer = null): AxiosPromise<any> {
+  async getContractAbi(address, chainId, explorer = null): AxiosPromise<any> {
+    switch (chainId) {
+      case 122:
+        explorer = fuseNetwork.explorerAPI
+        break
+      case 42220:
+        explorer = Config.ethereum['42220'].explorerAPI
+        break
+      case 1:
+        explorer = Config.ethereum['1'].explorerAPI
+        break
+      default:
+        break
+    }
+    if (!explorer) {
+      return undefined
+    }
     const params = {
       module: 'contract',
       action: 'getabi',
@@ -396,22 +412,38 @@ export class APIService {
 
     const { result } = await this.sharedClient.get('/api', {
       params,
-      baseURL: explorer || Config.networkExplorerUrl,
+      baseURL: explorer,
     })
-
     return result
   }
 
-  async getContractName(address, explorer = null): AxiosPromise<any> {
+  async getContractName(address, chainId, explorer = null): AxiosPromise<any> {
     const params = {
       module: 'contract',
       action: 'getsourcecode',
       address,
     }
 
+    switch (chainId) {
+      case 122:
+        explorer = fuseNetwork.explorerAPI
+        break
+      case 42220:
+        explorer = Config.ethereum['42220'].explorerAPI
+        break
+      case 1:
+        explorer = Config.ethereum['1'].explorerAPI
+        break
+      default:
+        break
+    }
+    if (!explorer) {
+      return undefined
+    }
+
     const { result } = await this.sharedClient.get('/api', {
       params,
-      baseURL: explorer || Config.networkExplorerUrl,
+      baseURL: explorer,
     })
 
     return result?.ContractName

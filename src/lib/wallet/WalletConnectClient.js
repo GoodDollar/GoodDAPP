@@ -161,11 +161,13 @@ export const useWalletConnectSession = () => {
   const chains = useChainsList()
 
   const decodeTx = useCallback(
-    async (tx, explorer, web3) => {
-      log.info('decodetx:', { tx, chain, explorer })
+    async (tx, explorer, web3, chainId) => {
+      log.info('decodetx:', { tx, chain, explorer, chainId })
       if (tx.data !== '0x' && explorer) {
         log.info('fetching contract data', { chain, explorer, contract: tx.to })
-        const result = await api.getContractAbi(tx.to, explorer)
+        const result = await api.getContractAbi(tx.to, chainId, explorer).catch(e => {
+          log.error('failed fetching contract abi:', e.message, e, { chainId, explorer, contract: tx.to })
+        })
         log.info('got contract data', { result })
         if (!result) {
           return {}
@@ -360,7 +362,7 @@ export const useWalletConnectSession = () => {
       log.info('handleTxRequest', { message, method, params, metadata, connector, chainDetails })
 
       const [decodedTx, balance] = await Promise.all([
-        decodeTx(message, explorer, web3),
+        decodeTx(message, explorer, web3, chainDetails.chainId),
         web3.eth.getBalance(wallet.account),
       ])
 

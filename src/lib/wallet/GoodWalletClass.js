@@ -5,7 +5,8 @@ import IdentityABI from '@gooddollar/goodprotocol/artifacts/abis/IdentityV2.min.
 import cERC20ABI from '@gooddollar/goodprotocol/artifacts/abis/cERC20.min.json'
 import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/abis/SimpleStakingV2.min.json'
 import UBIABI from '@gooddollar/goodprotocol/artifacts/abis/UBIScheme.min.json'
-import GOODToken from '@gooddollar/goodprotocol/artifacts/abis/GReputation.min.json'
+// eslint-disable-next-line import/order
+import GOODToken from './GReputationOld.json' //not upgraded yet on fuse
 import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'

@@ -43,7 +43,9 @@ export const routeAndPathForCode = async (
   const lcUBIAddress = goodWallet.UBIContract._address.toLowerCase()
   const profile = (await userStorage.getPublicProfile(address)) || {}
   const counterPartyDisplayName =
-    lcAddress === lcUBIAddress ? 'GoodDollar UBI' : profile?.fullName || (await goodWallet.getContractName(address))
+    lcAddress === lcUBIAddress
+      ? 'GoodDollar UBI'
+      : profile?.fullName || (await goodWallet.getContractName(address).catch())
 
   switch (screen) {
     case 'sendByQR':

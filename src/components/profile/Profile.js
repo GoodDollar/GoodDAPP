@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { t } from '@lingui/macro'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -36,6 +36,7 @@ const ProfileAvatar = withStyles(() => ({
 const ProfileWrapper = ({ screenProps, styles }) => {
   const profile = usePublicProfile()
   const userStorage = useUserStorage()
+  const [faceRecordId, setRecordId] = useState()
 
   const { fullName } = profile
 
@@ -43,8 +44,11 @@ const ProfileWrapper = ({ screenProps, styles }) => {
 
   const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
 
-  // bordered box required data
-  const faceRecordId = useMemo(() => userStorage?.getFaceIdentifier() || '', [userStorage])
+  useEffect(() => {
+    if (userStorage) {
+      userStorage.getFaceIdentifier().then(_ => setRecordId(_))
+    }
+  }, [userStorage])
 
   return (
     <Wrapper>

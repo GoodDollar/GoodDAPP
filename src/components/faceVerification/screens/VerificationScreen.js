@@ -10,7 +10,7 @@ import { FVFlowContext } from '../standalone/context/FVFlowContext'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
-import useEnrollentIdentifier from '../hooks/useEnrollmentIdentifier'
+import useEnrollmentIdentifier from '../hooks/useEnrollmentIdentifier'
 
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 
@@ -32,7 +32,7 @@ const FaceVerification = ({ screenProps }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
   const { isFVFlow } = useContext(FVFlowContext)
-  const [enrollmentIdentifier, chainId] = useEnrollentIdentifier()
+  const [enrollmentIdentifier, chainId, fvSigner] = useEnrollmentIdentifier()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -144,6 +144,7 @@ const FaceVerification = ({ screenProps }) => {
   const startVerification = useFaceTecVerification({
     chainId,
     enrollmentIdentifier,
+    fvSigner,
     onUIReady: uiReadyHandler,
     onCaptureDone: captureDoneHandler,
     onRetry: retryHandler,

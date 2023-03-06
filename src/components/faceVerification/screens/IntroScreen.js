@@ -100,7 +100,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const isValid = get(screenState, 'isValid', false)
   const { navigate } = navigation
 
-  const [enrollmentIdentifier] = useEnrollmentIdentifier()
+  const [enrollmentIdentifier, , fvSigner] = useEnrollmentIdentifier()
   const userName = useMemo(() => (isFVFlow ? firstName : getFirstWord(fullName)), [isFVFlow, firstName, fullName])
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
@@ -109,6 +109,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     {
       requestOnMounted: false,
       enrollmentIdentifier,
+      fvSigner,
       onComplete: isDisposing => {
         if (!isDisposing) {
           return

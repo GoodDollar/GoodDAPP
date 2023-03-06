@@ -40,6 +40,10 @@ const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
+const FV_IDENTIFIER_MSG2 = `Sign this message to request verifying your account <account> and to create your own secret unique identifier for your anonymized record.
+You can use this identifier in the future to delete this anonymized record.
+WARNING: do not sign this message unless you trust the website/application requesting this signature.`
+
 /**
  * possible privacy level for profile fields
  */
@@ -1133,8 +1137,9 @@ export class UserStorage {
     return this.profileStorage.getPublicProfile(key, string)
   }
 
-  getFaceIdentifier(): string {
-    return this.wallet.getAccountForType('faceVerification').replace('0x', '')
+  // eslint-disable-next-line require-await
+  async getFaceIdentifier(): string {
+    return this.wallet.sign(FV_IDENTIFIER_MSG2.replace('<account>', this.wallet.account), 'gd')
   }
 
   /**
@@ -1156,10 +1161,10 @@ export class UserStorage {
     const { wallet, userProperties, _trackStatus } = this
 
     try {
-      const faceIdentifier = this.getFaceIdentifier()
-      const signature = await wallet.sign(faceIdentifier, 'faceVerification')
+      const faceIdentifier = await this.getFaceIdentifier()
 
-      await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, signature)
+      // pass also older v1 identifier (ie faceVerification tagged public address)
+      await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, wallet.getAccountForType('faceVerification'))
       deleteAccountResult = await API.deleteAccount()
 
       if (get(deleteAccountResult, 'data.ok', false)) {

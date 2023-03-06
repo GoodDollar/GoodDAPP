@@ -123,13 +123,13 @@ class FaceVerificationApi {
     this.lastCancelToken = null
   }
 
-  async disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
+  async disposeFaceSnapshot(enrollmentIdentifier: string, fvSigner: string): Promise<void> {
     const { rootApi, logger } = this
 
     logger.info('Disposing face snapshot', { enrollmentIdentifier })
 
     try {
-      await this.wrapApiCall(rootApi.disposeFaceSnapshot(enrollmentIdentifier, signature))
+      await this.wrapApiCall(rootApi.disposeFaceSnapshot(enrollmentIdentifier, fvSigner))
 
       logger.info('Face snapshot enqued to disposal queue successfully')
     } catch (exception) {
@@ -140,15 +140,17 @@ class FaceVerificationApi {
     }
   }
 
-  async isFaceSnapshotDisposing(enrollmentIdentifier: string): Promise<boolean> {
+  async isFaceSnapshotDisposing(enrollmentIdentifier: string, fvSigner: string): Promise<boolean> {
     const { rootApi, logger } = this
 
-    logger.info('Checking face snapshot disposal state', { enrollmentIdentifier })
+    logger.info('Checking face snapshot disposal state', { enrollmentIdentifier, fvSigner })
 
     try {
-      const { isDisposing } = await this.wrapApiCall(rootApi.checkFaceSnapshotDisposalState(enrollmentIdentifier))
+      const { isDisposing } = await this.wrapApiCall(
+        rootApi.checkFaceSnapshotDisposalState(enrollmentIdentifier, fvSigner),
+      )
 
-      logger.info('Got face snapshot disposal state', { enrollmentIdentifier, isDisposing })
+      logger.info('Got face snapshot disposal state', { enrollmentIdentifier, fvSigner, isDisposing })
       return isDisposing
     } catch (exception) {
       const { message } = exception

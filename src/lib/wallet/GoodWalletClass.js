@@ -816,7 +816,7 @@ export class GoodWallet {
       const balance = await retryCall(() => this.tokenContract.methods.balanceOf(this.account).call())
       const balanceValue = toBN(balance)
 
-      return balanceValue.toNumber()
+      return balanceValue
     } catch (exception) {
       const { message } = exception
 
@@ -974,7 +974,7 @@ export class GoodWallet {
         amountWithFee = new BN(amount).add(fee)
       }
       const balance = await this.balanceOf()
-      return parseInt(amountWithFee) <= balance
+      return amountWithFee.lte(balance)
     } catch (exception) {
       const { message } = exception
       log.error('canSend failed', message, exception)

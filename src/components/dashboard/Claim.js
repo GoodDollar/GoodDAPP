@@ -275,7 +275,7 @@ const Claim = props => {
           })
 
           const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
-          setDailyUbi(entitlement)
+          setDailyUbi(Number(entitlement))
           setClaimCycleTime(moment(nextClaim).format('HH:mm:ss'))
 
           if (nextClaim) {

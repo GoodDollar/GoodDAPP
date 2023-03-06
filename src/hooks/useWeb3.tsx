@@ -74,12 +74,6 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
                         42220: 'https://forno.celo.org',
                     },
                 }}
-                // config={{ multicallVersion: 1, networks: [Fuse, Mainnet, Ropsten, Kovan], readOnlyUrls: {
-                //   122: 'https://rpc.fuse.io',
-                //   42: 'https://kovan.infura.io/v3/12207372b62941dfb1efd4fe26b95ccc',
-                //   3: 'https://ropsten.infura.io/v3/12207372b62941dfb1efd4fe26b95ccc',
-                //   1: 'https://eth-mainnet.alchemyapi.io/v2/2kSbx330Sc8S3QRwD9nutr9XST_DfeJh'
-                // } }}
             >
                 {children}
             </Web3Provider>

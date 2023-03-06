@@ -18,8 +18,7 @@ export const connectOptions = {
             token: 'ETH',
             label: 'Ethereum Mainnet',
             rpcUrl:
-                process.env.REACT_APP_MAINNET_RPC ??
-                'https://eth-mainnet.alchemyapi.io/v2/2kSbx330Sc8S3QRwD9nutr9XST_DfeJh',
+                process.env.REACT_APP_MAINNET_RPC ?? 'https://mainnet.infura.io/v3/586298cc4e26485d9a6f9c4a5f555a22',
         },
         {
             id: '0x7a',

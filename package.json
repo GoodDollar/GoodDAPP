@@ -208,7 +208,7 @@
         "@babel/runtime": "^7.18.9",
         "@gooddollar/good-design": "^0.0.48",
         "@gooddollar/goodprotocol": "^2.0.3",
-        "@gooddollar/web3sdk": "^0.1.18",
+        "@gooddollar/web3sdk": "^0.1.20",
         "@gooddollar/web3sdk-v2": "^0.1.81",
         "@headlessui/react": "1.5.0",
         "@types/react-text-mask": "^5.4.8",

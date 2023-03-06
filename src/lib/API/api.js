@@ -161,8 +161,9 @@ export class APIService {
   // eslint-disable-next-line require-await
   async verifyCaptcha(payload: any): AxiosPromise<any> {
     const { sharedClient } = this
+    const { env, verifyCaptchaUrl } = Config
 
-    return sharedClient.post(Config.verifyCaptchaUrl + '/verify/recaptcha', { ...payload, env: Config.env })
+    return sharedClient.post(`${verifyCaptchaUrl}/verify/recaptcha`, { ...payload, env })
   }
 
   /**

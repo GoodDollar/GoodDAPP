@@ -62,7 +62,7 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
         // retry if a) no timed out b) still not whitelisted c) there's time for delay + at least one sec more
         if (!isWhitelisted && counterRef.current > checkWhitelistedDelay) {
           log.info('Still not whitelisted, awaiting for the next attempt', { account, checkWhitelistedDelay })
-          await delay(checkWhitelistedDelay)
+          await delay(checkWhitelistedDelay * 1000)
           return waitForWhitelisted()
         }
 

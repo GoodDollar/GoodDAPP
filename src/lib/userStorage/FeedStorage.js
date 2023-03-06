@@ -434,6 +434,7 @@ export class FeedStorage {
 
       // merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
+        chainId: this.wallet.networkId,
         ...feedEvent,
         ...initialEvent,
         type,
@@ -619,6 +620,7 @@ export class FeedStorage {
         return false
       }
 
+      event.chainId = event.chainId || this.wallet.networkId
       event.status = event.status || 'pending'
       event.createdDate = event.createdDate || new Date().toISOString()
       event.date = event.date || event.createdDate

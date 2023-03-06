@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
-import { weiToMask } from '../../../lib/wallet/utils'
+import { decimalsToFixed } from '../../../lib/wallet/utils'
+import { useFormatG$ } from '../../../lib/wallet/GoodWalletProvider'
 import Section from '../layout/Section'
 import { theme } from '../../theme/styles'
 import BigNumber from './BigNumber'
@@ -19,12 +20,15 @@ const GOOD_SIGN_SIZE = 18
  * @param {Number} params.number
  * @returns {React.Node}
  */
-const BigGoodDollar = ({ number, formatter, testID, ...props }: Props) => {
-  const numberFormatter = formatter || weiToMask
-  number = number === undefined ? '-.--' : numberFormatter(number)
+
+const BigGoodDollar = ({ number, formatter, testID, chainId, ...props }: Props) => {
+  const { toDecimals } = useFormatG$()
+  const defaultFormat = number => decimalsToFixed(toDecimals(number, chainId))
+  const numberFormatter = formatter || defaultFormat
+  const formatted = number === undefined ? '-.--' : numberFormatter(number)
 
   return (
-    <BigNumber number={number} {...props} testID={testID}>
+    <BigNumber number={formatted} {...props} testID={testID}>
       {!props.unit && <GDUnits {...props} />}
     </BigNumber>
   )

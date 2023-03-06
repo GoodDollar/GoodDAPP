@@ -27,15 +27,18 @@ const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'eto
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://{cid}.ipfs.nftstorage.link,https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
 
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
-const network = env.REACT_APP_NETWORK || 'fuse'
+const network = 'development-celo' || env.REACT_APP_NETWORK || 'fuse'
 const { networkId } = contractsAddress[network]
 
 export const fuseNetwork = {
   httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
+  explorerAPI: 'https://explorer.fuse.io',
   explorerName: 'fusescan',
   network_id: 122,
+  gasPrice:10, //in gwei
+  g$Decimals:2
 }
 
 const ethereum = {
@@ -44,7 +47,9 @@ const ethereum = {
     httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
+    explorerAPI: 'https://api.etherscan.io',
     explorerName: 'etherscan',
+    gasPrice: 1,
   },
   '42': {
     network_id: 42,
@@ -77,10 +82,13 @@ const ethereum = {
   },
   '42220': {
     httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://forno.celo.org/',
-    explorer: 'https://celoscan.xyz',
+    explorer: 'https://celoscan.io',
+    explorerAPI: 'https://api.celoscan.io',
     explorerName: 'celoscan',
     network_id: 42220,
     startBlock: 18000000,    
+    gasPrice: 5,
+    g$Decimals: 18
   },
 }
 

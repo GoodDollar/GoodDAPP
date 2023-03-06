@@ -23,6 +23,7 @@ import config from '../../../config/config'
 
 import { generateSendShareObject, generateShareLink, isSharingAvailable } from '../../../lib/share'
 import useProfile from '../../../lib/userStorage/useProfile'
+import { decimalsToFixed } from '../../../lib/wallet/utils'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -112,7 +113,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         }),
       )
 
-      let result = generateSendShareObject(url, amount, displayName, currentUserName)
+      let result = generateSendShareObject(
+        url,
+        decimalsToFixed(goodWallet.toDecimals(amount)),
+        displayName,
+        currentUserName,
+      )
 
       return result
     } catch (exception) {

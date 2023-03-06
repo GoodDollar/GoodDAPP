@@ -6,7 +6,6 @@ import isEmail from '../validators/isEmail'
 
 import { isMobileNative, isMobileWeb } from '../utils/platform'
 import isMobilePhone from '../validators/isMobilePhone'
-import { weiToGd } from '../wallet/utils'
 
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
@@ -229,8 +228,8 @@ export function generateSendShareObject(
   return generateShareObject(
     'Sending G$ via GoodDollar App',
     to
-      ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`
-      : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`,
+      ? `${to}, You've received ${amount} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`
+      : `You've received ${amount} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`,
     url,
   )
 }
@@ -259,7 +258,7 @@ export function generateReceiveShareObject(
   const text = [
     to ? `${to}, ` : '',
     `You've got a request from ${from}`,
-    amount > 0 ? ` for ${weiToGd(amount)} G$` : '',
+    amount > 0 ? ` for ${amount} G$` : '',
     `. To approve transfer open: ${canShare ? url : ''}`,
   ].join('')
 

@@ -91,7 +91,7 @@ export const getEventDirection = (feedEvent, reverse = false) => {
     FeedItemType.EVENT_TYPE_BONUS,
   ]
 
-  log.debug('getCounterParty:', feedEvent?.data?.receiptEvent, feedEvent?.id, feedEvent?.txType)
+  log.debug('getEventDirection:', feedEvent?.data?.receiptEvent, feedEvent?.id, feedEvent?.txType)
 
   if (receiveCases.includes(type)) {
     return reverse ? 'to' : 'from'

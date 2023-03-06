@@ -27,7 +27,6 @@ export const formatWithFixedValueDigits = (number, nonZeroDigits = 3) => {
   const exponent10 = Math.floor(Math.log10(number))
   const alignToPlaces = number < 1000 ? exponent10 : exponent10 % 3
   const decPlaces = Math.max(nonZeroDigits - alignToPlaces - 1, 0)
-
   return formatWithAbbreviations(number, decPlaces)
 }
 

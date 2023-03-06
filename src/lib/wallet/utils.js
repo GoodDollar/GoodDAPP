@@ -41,6 +41,11 @@ export const extractEthAddress = uri => get(uri.match(ethAddressRegex), '0', nul
 export const moneyRegexp = new RegExp(`^(?!0\\d)(0|([1-9])\\d*)([.,]?(\\d{0,${DECIMALS}}))$`)
 export const numberWithCommas = (gd: string): string => gd.replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
+export const decimalsToFixed = (numberWithDecimals: string, displayDecimals = 2) => {
+  const isFloat = Number(numberWithDecimals) % 1 > 0
+  return Number(numberWithDecimals).toFixed(isFloat ? displayDecimals : 0)
+}
+
 /**
  * convert wei to gooddollars (2 decimals) use toFixed to overcome javascript precision issues ie 8.95*100=894.9999...
  * @param {number} wei
@@ -130,6 +135,7 @@ export const executeWithdraw = async (
               createdDate: new Date().toISOString(),
               date: new Date().toISOString(),
               type: 'withdraw',
+              chainId: goodWallet.networkId,
               data: {
                 from: sender,
                 amount,

@@ -12,10 +12,10 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
-import { weiToGd, weiToMask } from '../../lib/wallet/utils'
+import { decimalsToFixed, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
-import { useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { useFormatG$, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
@@ -99,7 +99,7 @@ export type DashboardProps = {
 
 const feedMutex = new Mutex()
 
-const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance), 2)
+const abbreviateBalance = _balance => formatWithAbbreviations(decimalsToFixed(_balance), 2)
 
 const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   const onTabPress = useOnPress(() => {
@@ -147,6 +147,7 @@ const Dashboard = props => {
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
   const { balance, dailyUBI: entitlement } = useWalletData()
+  const { toDecimals } = useFormatG$()
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
@@ -634,14 +635,14 @@ const Dashboard = props => {
 
   const calculateFontSize = useMemo(
     () => ({
-      fontSize: normalizeByLength(weiToGd(balance), 42, 10),
+      fontSize: normalizeByLength(decimalsToFixed(toDecimals(balance)), 42, 10),
     }),
-    [balance],
+    [balance, toDecimals],
   )
 
   const calculateUSDWorthOfBalance = useMemo(
-    () => (showPrice ? formatWithFixedValueDigits(price * weiToGd(balance)) : null),
-    [showPrice, price, balance],
+    () => (showPrice ? formatWithFixedValueDigits(price * Number(decimalsToFixed(toDecimals(balance)))) : null),
+    [showPrice, price, balance, toDecimals],
   )
 
   return (
@@ -670,8 +671,8 @@ const Dashboard = props => {
                 <BigGoodDollar
                   testID="amount_value"
                   number={balance}
-                  bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
                   formatter={balanceFormatter}
+                  bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
                   bigNumberUnitStyles={styles.bigNumberUnitStyles}
                   bigNumberProps={{
                     numberOfLines: 1,
@@ -706,7 +707,7 @@ const Dashboard = props => {
           </PushButton>
           <ClaimButton
             screenProps={screenProps}
-            amount={weiToMask(entitlement, { showUnits: true })}
+            amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
             animated
             animatedScale={claimScale}
           />

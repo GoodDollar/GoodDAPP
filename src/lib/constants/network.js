@@ -14,6 +14,7 @@ export const NETWORK_ID = {
   FUSE: 121,
   FUSENET: 122,
   DEVELOP: 4447,
+  CELO: 42220,
 }
 
 /**

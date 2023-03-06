@@ -12,6 +12,7 @@ import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { retry } from '../../lib/utils/async'
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import API from '../../lib/API'
 
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
@@ -251,7 +252,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const sendViaLink = useCallback(() => {
     try {
       const paymentLink = getLink()
-      const desktopShareLink = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, fullName)
+      const desktopShareLink = generateSendShareObject(
+        paymentLink,
+        decimalsToFixed(goodWallet.toDecimals(amount)),
+        counterPartyDisplayName,
+        fullName,
+      )
 
       // Go to transaction confirmation screen
       navigateTo('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })

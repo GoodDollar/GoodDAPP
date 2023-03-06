@@ -12,10 +12,16 @@ import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
 
 /** CELO TODO:
- * 1. lastblock
- * 2. multicall
- * 3. chainid as input to init
- * 4. create multiple wallets, stop pollevents on switch
+ * 1. lastblock - done
+ * 2. multicall - done
+ * 3. chainid as input to init - done
+ * 4. create multiple wallets, stop pollevents on switch - done
+ * 5. BigGoodDollar - done
+ * 6. weiToGd, gdTowei, weiToMask, maskToWei - done
+ * 7. claim button not enabled when 18 decimals < 0.00 but is non 0 - done
+ * 8. how do we store in feed? without decimals needs to format per chain, with decimals, need to upgrade users feeds - done saving chain id
+ * 9. claim feed item add chainId
+ * 10. switch button and logic
  **/
 const log = logger.child({ from: 'GoodWalletProvider' })
 const { enableHDWallet } = Config
@@ -64,20 +70,21 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       // entitelment is separate because it depends on msg.sender
       const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
 
-      setBalance(parseInt(balance))
-      setDailyUBI(parseInt(ubi))
+      setBalance(balance)
+      setDailyUBI(ubi)
       setIsCitizen(isCitizen)
     },
     [setBalance, setDailyUBI, setIsCitizen],
   )
 
   const initWalletAndStorage = useCallback(
-    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER') => {
+    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER', network = Config.network) => {
       try {
         const wallet = new GoodWallet({
           mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
           web3: type !== 'SEED' ? seedOrWeb3 : undefined,
           web3Transport: Config.web3TransportProvider,
+          network,
         })
 
         await wallet.ready
@@ -169,7 +176,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         return walletLogin
       } catch (e) {
         log.error('failed auth:', e.message, e)
-        throw e
+
+        // throw e
       }
     },
     [setLoggedInJWT],
@@ -231,4 +239,14 @@ export const useWalletData = () => {
   const { dailyUBI, balance, isCitizen } = useContext(GoodWalletContext)
 
   return { dailyUBI, balance, isCitizen }
+}
+
+export const useFormatG$ = () => {
+  const wallet = useWallet()
+
+  //using args so functions do not lose "this" context
+  return {
+    toDecimals: (...args) => wallet.toDecimals(...args),
+    fromDecimals: (...args) => wallet.fromDecimals(...args),
+  }
 }

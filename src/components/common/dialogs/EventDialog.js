@@ -29,6 +29,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
   const {
     date,
     data: { amount, sender, name },
+    chainId = '122',
   } = event
 
   const dateOptions = {
@@ -55,7 +56,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
                 {t`Sent G$`}
               </Section.Text>
               <Section.Text color="gray" fontWeight="bold">
-                + <BigGoodDollar number={amount} />
+                + <BigGoodDollar number={amount} chainId={chainId} />
               </Section.Text>
             </Section.Row>
           </Section>

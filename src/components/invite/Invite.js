@@ -19,9 +19,10 @@ import { InfoIcon } from '../common/modal/InfoIcon'
 import createABTesting from '../../lib/hooks/useABTesting'
 import { withStyles } from '../../lib/styles'
 
-import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useFormatG$, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
 import mustache from '../../lib/utils/mustache'
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import {
   useCollectBounty,
   useInviteBonus,
@@ -82,11 +83,12 @@ const InvitedUser = ({ address, status }) => {
 
 const ShareBox = ({ level, styles }) => {
   const [{ shareMessage, shareTitle }] = useShareMessages()
+  const { toDecimals } = useFormatG$()
   const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'basic' }], [shareMessage])
 
   const inviteCode = useInviteCode()
   const abTestOption = useOption(abTestOptions)
-  const bounty = useMemo(() => (level?.bounty ? parseInt(level.bounty) / 100 : ''), [level])
+  const bounty = useMemo(() => (level?.bounty ? decimalsToFixed(toDecimals(level.bounty)) : ''), [level])
 
   const shareUrl = useMemo(
     () =>
@@ -461,12 +463,13 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo, st
 
 const Invite = ({ screenProps, styles }) => {
   const { wasOpened } = useInviteScreenOpened()
+  const { toDecimals } = useFormatG$()
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
   const userStorage = useUserStorage()
 
   const totalEarned = parseInt(get(inviteState, 'totalEarned', 0))
-  const bounty = parseInt(get(level, 'bounty', 0)) / 100
+  const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)

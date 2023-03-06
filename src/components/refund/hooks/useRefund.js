@@ -126,7 +126,7 @@ const useRefund = () => {
     })
   }, [wallet, userStorage, claimAddress, tokenAddress])
 
-  return [shouldRefund, refundAmount, claimAddress]
+  return [shouldRefund, wallet.toDecimals(refundAmount), claimAddress]
 }
 
 export default useRefund

@@ -15,6 +15,7 @@ import FaucetABI from '@gooddollar/goodprotocol/artifacts/abis/Faucet.min.json'
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
+import { formatUnits, parseUnits } from 'ethers/utils'
 import abiDecoder from 'abi-decoder'
 import {
   assign,
@@ -134,7 +135,7 @@ const MultiCalls = {
   3: '0xFa8d865A962ca8456dF331D78806152d3aC5B84F',
   1: '0x5Eb3fa2DFECdDe21C950813C665E9364fa609bD2',
   122: '0x2219bf813a0f8f28d801859c215a5a94cca90ed1',
-  42220: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  42220: '0xEa12bB3917cf6aE2FDE97cE4756177703426d41F',
 }
 
 const gasMutex = new Mutex()
@@ -191,18 +192,27 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    const mainnetNetworkId = get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
-    const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
+    const mainnetNetwork = (() => {
+      const network = first(this.config.network.split('-'))
+      return network === 'development' ? 'fuse' : network
+    })()
 
+    const mainnetNetworkId = get(ContractsAddress, mainnetNetwork + '-mainnet.networkId', 122)
+    const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
 
     const ready = WalletFactory.create(this.config)
 
     this.ready = ready
       .then(wallet => {
-        const { defaultGasPrice, estimateGasPrice, network, networkId } = Config
+        const { estimateGasPrice } = Config
+        const network = this.config.network
+        const networkId = get(ContractsAddress, network + '.networkId', 122)
+        assign(this, { network, networkId })
 
-        log.info('GoodWallet initial wallet created.')
+        log.info('GoodWallet initial wallet created.', { mainnetNetwork, network, networkId, mainnetNetworkId })
+
+        const defaultGasPrice = Config.ethereum[networkId].gasPrice
 
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
@@ -210,7 +220,6 @@ export class GoodWallet {
         this.wallet.eth.defaultAccount = this.account
         this.gasPrice = Number(wallet.utils.toWei(String(defaultGasPrice), 'gwei'))
 
-        assign(this, { network, networkId })
         log.info(`networkId: ${this.networkId}`)
 
         if (estimateGasPrice) {
@@ -280,7 +289,7 @@ export class GoodWallet {
         // faucet Contract
         this.faucetContract = new this.wallet.eth.Contract(
           FaucetABI.abi,
-          get(ContractsAddress, `${this.network}.FuseFaucet`),
+          get(ContractsAddress, `${this.network}.FuseFaucet`) || get(ContractsAddress, `${this.network}.Faucet`),
           { from: this.account },
         )
         abiDecoder.addABI(FaucetABI.abi)
@@ -297,7 +306,7 @@ export class GoodWallet {
         {
           const { network, networkId } = this
           const contractAddresses = ContractsAddress[network]
-          const mainnetAddresses = ContractsAddress[network + '-mainnet']
+          const mainnetAddresses = ContractsAddress[mainnetNetwork + '-mainnet']
 
           log.debug('GoodWallet initialized with addresses', {
             networkId,
@@ -677,18 +686,20 @@ export class GoodWallet {
 
     // entitelment is separate because it depends on msg.sender
     const [[[res]], entitlement] = await Promise.all([this.multicallFuse.all([calls]), this.checkEntitlement()])
-    res.entitlement = entitlement
+    res.entitlement = this.toDecimals(entitlement)
     res.claimers = res.dailyStats[0]
-    res.claimAmount = res.dailyStats[1]
+    res.claimAmount = this.toDecimals(res.dailyStats[1])
+    res.distribution = this.toDecimals(res.distribution)
     delete res.dailyStats
 
-    const result = mapValues(res, parseInt)
+    // const result = mapValues(res, parseInt)
+    const result = res
 
-    const startRef = moment(result.periodStart * 1000).utc()
+    const startRef = moment(Number(result.periodStart) * 1000).utc()
     if (startRef.isBefore(moment().utc())) {
-      startRef.add(result.currentDay + 1, 'days')
+      startRef.add(Number(result.currentDay) + 1, 'days')
     }
-    result.nextClaim = result.entitlement > 0 ? 0 : startRef.valueOf()
+    result.nextClaim = Number(result.entitlement) > 0 ? 0 : startRef.valueOf()
 
     return result
   }
@@ -1270,13 +1281,21 @@ export class GoodWallet {
     }
   }
 
+  toDecimals(wei, chainId) {
+    return formatUnits(String(wei || '0'), Config.ethereum[chainId || this.networkId].g$Decimals)
+  }
+
+  fromDecimals(amount) {
+    return parseUnits(amount, this.decimals).toString()
+  }
+
   async getUserInviteBounty() {
     const { invitesContract, account } = this
     const { methods } = invitesContract
 
     const user = await safeCall(() => methods.users(account), { level: 0 })
     const level = await safeCall(() => methods.levels(user.level))
-    const bounty = parseInt(get(level, 'bounty', 10000)) / 100
+    const bounty = Number(this.toDecimals(get(level, 'bounty', 10000)))
 
     return { bounty, user, level }
   }
@@ -1490,7 +1509,7 @@ export class GoodWallet {
 
     gasPrice = gasPrice || this.gasPrice
 
-    if (Config.network === 'develop' && setgas === undefined) {
+    if (this.network === 'develop' && setgas === undefined) {
       gas *= 2
     }
 
@@ -1552,7 +1571,7 @@ export class GoodWallet {
     const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
     const contractName = first(filter(values(ContractsAddress).map(findByKey)))
 
-    return contractName || API.getContractName(address)
+    return contractName || API.getContractName(address, this.networkId)
   }
 }
 

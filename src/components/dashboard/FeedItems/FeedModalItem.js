@@ -37,7 +37,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const topImageExists = !!getImageByType(itemType)
   const avatar = get(item, 'data.endpoint.avatar')
   const sellerWebsite = get(item, 'data.sellerWebsite', '')
-
+  const chainId = item.chainId || '122'
   return (
     <ModalWrapper
       leftBorderColor={mainColor}
@@ -65,6 +65,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                 )}
                 <BigGoodDollar
                   number={get(item, 'data.amount', 0)}
+                  chainId={chainId}
                   color={mainColor}
                   bigNumberProps={{ fontSize: 24, lineHeight: 30 }}
                   bigNumberStyles={styles.bigNumberStyles}

@@ -61,7 +61,7 @@ const getUserProperty = (userStorage, property, local = false) => {
   return local ? userProperties.getLocal(property) : userProperties.get(property)
 }
 
-const useUserProperty = (property, local = false) => {
+export const useUserProperty = (property, local = false) => {
   const userStorage = useUserStorage()
 
   const [propertyValue, setPropertyValue] = useState(() => getUserProperty(userStorage, property, local))

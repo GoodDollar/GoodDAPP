@@ -131,6 +131,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
+  const chainId = feed.chainId || '122'
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -166,6 +167,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                 )}
                 <BigGoodDollar
                   number={get(feed, 'data.amount', 0)}
+                  chainId={chainId}
                   color={mainColor}
                   bigNumberProps={{ fontSize: 20, lineHeight: 22 }}
                   bigNumberStyles={styles.bigNumberStyles}

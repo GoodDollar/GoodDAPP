@@ -6,6 +6,7 @@ import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent, RECEIVE_DONE } from '../../lib/analytics/analytics'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -13,7 +14,6 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import { generateCode, generateReceiveShareObject, isSharingAvailable } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
-
 export type ReceiveProps = {
   screenProps: any,
   navigation: any,
@@ -33,7 +33,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const share = useMemo(() => {
     const { account, networkId } = goodWallet
     const code = generateCode(account, networkId, amount, reason)
-    const shareObject = generateReceiveShareObject(code, amount, '', fullName)
+    const shareObject = generateReceiveShareObject(code, decimalsToFixed(goodWallet.toDecimals(amount)), '', fullName)
 
     return shareObject
   }, [fullName, goodWallet])

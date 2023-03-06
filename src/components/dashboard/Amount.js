@@ -8,7 +8,7 @@ import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
-import { gdToWei, weiToGd } from '../../lib/wallet/utils'
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -43,10 +43,10 @@ const Amount = (props: AmountProps) => {
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
   const { amount, ...restState } = { amount: 0, ...screenState } || {}
-  const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
+  const goodWallet = useWallet()
+  const [GDAmount, setGDAmount] = useState(amount > 0 ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0')
   const [loading, setLoading] = useState(amount <= 0)
   const [error, setError] = useState()
-  const goodWallet = useWallet()
 
   const isReceive = params && params.action === ACTION_RECEIVE
 
@@ -79,7 +79,7 @@ const Amount = (props: AmountProps) => {
   const handleContinue = async () => {
     setLoading(true)
 
-    const weiAmount = gdToWei(GDAmount)
+    const weiAmount = goodWallet.fromDecimals(GDAmount)
     setScreenState({ amount: weiAmount })
     const can = await canContinue(weiAmount)
 
@@ -126,7 +126,7 @@ const Amount = (props: AmountProps) => {
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }
                 canContinue={handleContinue}
-                values={{ ...params, ...restState, amount: gdToWei(GDAmount) }}
+                values={{ ...params, ...restState, amount: goodWallet.fromDecimals(GDAmount) }}
                 disabled={loading}
                 {...props}
               />

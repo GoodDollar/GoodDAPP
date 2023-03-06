@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { filter, groupBy, keys, noop, values } from 'lodash'
 import { t } from '@lingui/macro'
-import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useFormatG$, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { INVITE_CODE } from '../../lib/constants/localStorage'
-
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import Config from '../../config/config'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -247,13 +247,14 @@ export const useInvited = () => {
   const [data, setData] = useState()
   const [invites, setInvites] = useState([])
   const goodWallet = useWallet()
+  const { toDecimals } = useFormatG$()
 
   const { level, totalEarned } = data || {}
 
   const updateData = useCallback(async () => {
     try {
       const { user, level } = await goodWallet.getUserInviteBounty()
-      const totalEarned = parseInt(user.totalEarned) / 100
+      const totalEarned = decimalsToFixed(toDecimals(user.totalEarned))
       const invitesData = { level, totalEarned }
 
       setData(invitesData)

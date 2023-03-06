@@ -277,11 +277,11 @@ export class APIService {
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
-  disposeFaceSnapshot(enrollmentIdentifier: string, signature: string, fvSigner: string): Promise<void> {
+  disposeFaceSnapshot(enrollmentIdentifier: string, fvSigner: string): Promise<void> {
     const { client } = this
     const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
-    return client.delete(endpoint, { params: { signature, fvSigner } })
+    return client.delete(endpoint, { params: { fvSigner } })
   }
 
   /**

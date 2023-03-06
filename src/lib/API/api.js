@@ -162,7 +162,7 @@ export class APIService {
   async verifyCaptcha(payload: any): AxiosPromise<any> {
     const { sharedClient } = this
 
-    return sharedClient.post(Config.verifyCaptchaUrl + '/verify/recaptcha', payload)
+    return sharedClient.post(Config.verifyCaptchaUrl + '/verify/recaptcha', { ...payload, env: Config.env })
   }
 
   /**

@@ -1,0 +1,1347 @@
+{
+    "abi": [
+        {
+            "type": "event",
+            "name": "AdminChanged",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "previousAdmin",
+                    "internalType": "address",
+                    "indexed": false
+                },
+                {
+                    "type": "address",
+                    "name": "newAdmin",
+                    "internalType": "address",
+                    "indexed": false
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "BeaconUpgraded",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "beacon",
+                    "internalType": "address",
+                    "indexed": true
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "Burn",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_from",
+                    "internalType": "address",
+                    "indexed": true
+                },
+                {
+                    "type": "uint256",
+                    "name": "_amount",
+                    "internalType": "uint256",
+                    "indexed": false
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "DelegateVotesChanged",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "delegate",
+                    "internalType": "address",
+                    "indexed": true
+                },
+                {
+                    "type": "address",
+                    "name": "delegator",
+                    "internalType": "address",
+                    "indexed": true
+                },
+                {
+                    "type": "uint256",
+                    "name": "previousBalance",
+                    "internalType": "uint256",
+                    "indexed": false
+                },
+                {
+                    "type": "uint256",
+                    "name": "newBalance",
+                    "internalType": "uint256",
+                    "indexed": false
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "Mint",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_to",
+                    "internalType": "address",
+                    "indexed": true
+                },
+                {
+                    "type": "uint256",
+                    "name": "_amount",
+                    "internalType": "uint256",
+                    "indexed": false
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "RoleAdminChanged",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "role",
+                    "internalType": "bytes32",
+                    "indexed": true
+                },
+                {
+                    "type": "bytes32",
+                    "name": "previousAdminRole",
+                    "internalType": "bytes32",
+                    "indexed": true
+                },
+                {
+                    "type": "bytes32",
+                    "name": "newAdminRole",
+                    "internalType": "bytes32",
+                    "indexed": true
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "RoleGranted",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "role",
+                    "internalType": "bytes32",
+                    "indexed": true
+                },
+                {
+                    "type": "address",
+                    "name": "account",
+                    "internalType": "address",
+                    "indexed": true
+                },
+                {
+                    "type": "address",
+                    "name": "sender",
+                    "internalType": "address",
+                    "indexed": true
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "RoleRevoked",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "role",
+                    "internalType": "bytes32",
+                    "indexed": true
+                },
+                {
+                    "type": "address",
+                    "name": "account",
+                    "internalType": "address",
+                    "indexed": true
+                },
+                {
+                    "type": "address",
+                    "name": "sender",
+                    "internalType": "address",
+                    "indexed": true
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "StateHash",
+            "inputs": [
+                {
+                    "type": "string",
+                    "name": "blockchain",
+                    "internalType": "string",
+                    "indexed": false
+                },
+                {
+                    "type": "bytes32",
+                    "name": "merkleRoot",
+                    "internalType": "bytes32",
+                    "indexed": false
+                },
+                {
+                    "type": "uint256",
+                    "name": "totalSupply",
+                    "internalType": "uint256",
+                    "indexed": false
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "StateHashProof",
+            "inputs": [
+                {
+                    "type": "string",
+                    "name": "blockchain",
+                    "internalType": "string",
+                    "indexed": false
+                },
+                {
+                    "type": "address",
+                    "name": "user",
+                    "internalType": "address",
+                    "indexed": true
+                },
+                {
+                    "type": "uint256",
+                    "name": "repBalance",
+                    "internalType": "uint256",
+                    "indexed": false
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "Upgraded",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "implementation",
+                    "internalType": "address",
+                    "indexed": true
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bytes32",
+                    "name": "",
+                    "internalType": "bytes32"
+                }
+            ],
+            "name": "DEFAULT_ADMIN_ROLE",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bytes32",
+                    "name": "",
+                    "internalType": "bytes32"
+                }
+            ],
+            "name": "DELEGATION_TYPEHASH",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bytes32",
+                    "name": "",
+                    "internalType": "bytes32"
+                }
+            ],
+            "name": "DOMAIN_TYPEHASH",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bytes32",
+                    "name": "",
+                    "internalType": "bytes32"
+                }
+            ],
+            "name": "MINTER_ROLE",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bytes32",
+                    "name": "",
+                    "internalType": "bytes32"
+                }
+            ],
+            "name": "ROOT_STATE",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bytes32",
+                    "name": "",
+                    "internalType": "bytes32"
+                }
+            ],
+            "name": "activeBlockchains",
+            "inputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "activeVotes",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                }
+            ],
+            "name": "avatar",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "balance",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "balanceOf",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "balanceOfLocal",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_owner",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "balanceOfLocalAt",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_owner",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_blockNumber",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "balances",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bytes32",
+                    "name": "stateHash",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "uint256",
+                    "name": "hashType",
+                    "internalType": "uint256"
+                },
+                {
+                    "type": "uint256",
+                    "name": "totalSupply",
+                    "internalType": "uint256"
+                },
+                {
+                    "type": "uint256",
+                    "name": "blockNumber",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "blockchainStates",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [
+                {
+                    "type": "bool",
+                    "name": "",
+                    "internalType": "bool"
+                }
+            ],
+            "name": "burn",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_amount",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "pure",
+            "outputs": [
+                {
+                    "type": "bool",
+                    "name": "",
+                    "internalType": "bool"
+                }
+            ],
+            "name": "checkProofOrdered",
+            "inputs": [
+                {
+                    "type": "bytes32[]",
+                    "name": "_proof",
+                    "internalType": "bytes32[]"
+                },
+                {
+                    "type": "bytes32",
+                    "name": "_root",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "bytes32",
+                    "name": "_hash",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_index",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "contract Controller"
+                }
+            ],
+            "name": "dao",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint8",
+                    "name": "",
+                    "internalType": "uint8"
+                }
+            ],
+            "name": "decimals",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "delegateBySig",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_delegate",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_nonce",
+                    "internalType": "uint256"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_expiry",
+                    "internalType": "uint256"
+                },
+                {
+                    "type": "uint8",
+                    "name": "_v",
+                    "internalType": "uint8"
+                },
+                {
+                    "type": "bytes32",
+                    "name": "_r",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "bytes32",
+                    "name": "_s",
+                    "internalType": "bytes32"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                }
+            ],
+            "name": "delegateOf",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "delegateTo",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_delegate",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                }
+            ],
+            "name": "delegates",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "getCurrentVotes",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "getPriorVotes",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_block",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bytes32",
+                    "name": "",
+                    "internalType": "bytes32"
+                }
+            ],
+            "name": "getRoleAdmin",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "role",
+                    "internalType": "bytes32"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "getVotes",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "getVotesAt",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_blockNumber",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "getVotesAt",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                },
+                {
+                    "type": "bool",
+                    "name": "_global",
+                    "internalType": "bool"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_blockNumber",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "getVotesAtBlockchain",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "_id",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_blockNumber",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "grantRole",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "role",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "address",
+                    "name": "account",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bool",
+                    "name": "",
+                    "internalType": "bool"
+                }
+            ],
+            "name": "hasRole",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "role",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "address",
+                    "name": "account",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "initialize",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_ns",
+                    "internalType": "contract INameService"
+                },
+                {
+                    "type": "string",
+                    "name": "_stateId",
+                    "internalType": "string"
+                },
+                {
+                    "type": "bytes32",
+                    "name": "_stateHash",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_totalSupply",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "initialize",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_ns",
+                    "internalType": "contract INameService"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [
+                {
+                    "type": "bool",
+                    "name": "",
+                    "internalType": "bool"
+                }
+            ],
+            "name": "mint",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_amount",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "string",
+                    "name": "",
+                    "internalType": "string"
+                }
+            ],
+            "name": "name",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "contract INameService"
+                }
+            ],
+            "name": "nameService",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "contract IGoodDollar"
+                }
+            ],
+            "name": "nativeToken",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "nonces",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [
+                {
+                    "type": "bool",
+                    "name": "",
+                    "internalType": "bool"
+                }
+            ],
+            "name": "proveBalanceOfAtBlockchain",
+            "inputs": [
+                {
+                    "type": "string",
+                    "name": "_id",
+                    "internalType": "string"
+                },
+                {
+                    "type": "address",
+                    "name": "_user",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_balance",
+                    "internalType": "uint256"
+                },
+                {
+                    "type": "bytes32[]",
+                    "name": "_proof",
+                    "internalType": "bytes32[]"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_nodeIndex",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "renounceRole",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "role",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "address",
+                    "name": "account",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                }
+            ],
+            "name": "reputationRecipients",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "revokeRole",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "role",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "address",
+                    "name": "account",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "setBlockchainStateHash",
+            "inputs": [
+                {
+                    "type": "string",
+                    "name": "_id",
+                    "internalType": "string"
+                },
+                {
+                    "type": "bytes32",
+                    "name": "_hash",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_totalSupply",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "setReputationRecipient",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "_target",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "stateHashBalances",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "address",
+                    "name": "",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "bool",
+                    "name": "",
+                    "internalType": "bool"
+                }
+            ],
+            "name": "supportsInterface",
+            "inputs": [
+                {
+                    "type": "bytes4",
+                    "name": "interfaceId",
+                    "internalType": "bytes4"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "string",
+                    "name": "",
+                    "internalType": "string"
+                }
+            ],
+            "name": "symbol",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "totalSupply",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "totalSupplyAt",
+            "inputs": [
+                {
+                    "type": "uint256",
+                    "name": "_blockNumber",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "totalSupplyAtBlockchain",
+            "inputs": [
+                {
+                    "type": "bytes32",
+                    "name": "_id",
+                    "internalType": "bytes32"
+                },
+                {
+                    "type": "uint256",
+                    "name": "_blockNumber",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "totalSupplyHistory",
+            "inputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "totalSupplyLocal",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "totalSupplyLocal",
+            "inputs": [
+                {
+                    "type": "uint256",
+                    "name": "_blockNumber",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "view",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "totalSupplyLocalAt",
+            "inputs": [
+                {
+                    "type": "uint256",
+                    "name": "_blockNumber",
+                    "internalType": "uint256"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "undelegate",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "updateAvatar",
+            "inputs": []
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "upgradeTo",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "newImplementation",
+                    "internalType": "address"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "payable",
+            "outputs": [],
+            "name": "upgradeToAndCall",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "newImplementation",
+                    "internalType": "address"
+                },
+                {
+                    "type": "bytes",
+                    "name": "data",
+                    "internalType": "bytes"
+                }
+            ]
+        }
+    ]
+}

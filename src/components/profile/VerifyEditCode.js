@@ -85,10 +85,10 @@ const VerifyEditCode = props => {
   }, [fieldToSave, content, navigateTo, pop, userStorage])
 
   useEffect(() => {
-    if (field === 'phone') {
+    if (field === 'phone' && !isValidRecaptcha) {
       launchCaptcha()
     }
-  }, [reCaptchaRef.current])
+  }, [reCaptchaRef.current, isValidRecaptcha])
 
   return (
     <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>

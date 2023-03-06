@@ -6,17 +6,17 @@ __metadata:
   cacheKey: 8
 
 "@amplitude/analytics-browser@npm:^1.6.4":
-  version: 1.9.0
-  resolution: "@amplitude/analytics-browser@npm:1.9.0"
+  version: 1.9.1
+  resolution: "@amplitude/analytics-browser@npm:1.9.1"
   dependencies:
-    "@amplitude/analytics-client-common": ^0.6.0
+    "@amplitude/analytics-client-common": ^0.6.1
     "@amplitude/analytics-core": ^0.12.0
     "@amplitude/analytics-types": ^0.17.0
-    "@amplitude/plugin-page-view-tracking-browser": ^0.6.0
-    "@amplitude/plugin-web-attribution-browser": ^0.6.0
+    "@amplitude/plugin-page-view-tracking-browser": ^0.6.1
+    "@amplitude/plugin-web-attribution-browser": ^0.6.1
     "@amplitude/ua-parser-js": ^0.7.31
     tslib: ^2.4.1
-  checksum: 82287fb5fafe08a1dcf6b189f24ce4506a22577df12fc20296353a8f48991d8953b75ffa2892d96ea9192eee42a538494d3f6d9619656337f8ceeef95a16fc5a
+  checksum: d298cab6103dc8b2ee264879fb4556ea88855bd425d82255405971e51832417ff759116023ef5dbd8a8d93feb23b6d9ab4cd8ca26e903d115aa3f9a62dce7b74
   languageName: node
   linkType: hard
 
@@ -32,15 +32,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-client-common@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "@amplitude/analytics-client-common@npm:0.6.0"
+"@amplitude/analytics-client-common@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "@amplitude/analytics-client-common@npm:0.6.1"
   dependencies:
     "@amplitude/analytics-connector": ^1.4.5
     "@amplitude/analytics-core": ^0.12.0
     "@amplitude/analytics-types": ^0.17.0
     tslib: ^2.4.1
-  checksum: 40708930323fbfb7195b72af9de7f5a6a9289d6947d5be3906c36031a77c80d8b8ddff996d481a1f2fa30fff20303ae58fea846b387a3e124cd000b094d1a0db
+  checksum: 366fa47eaea1a9e4620c9fdfa4ae0d25b5bdce8ebc02b7720befc95b460c5f8030b7097c97c682d34837f91b83e4de23a4767b06c7a47d5ace776e7e6e8cc28b
   languageName: node
   linkType: hard
 
@@ -111,25 +111,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/plugin-page-view-tracking-browser@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "@amplitude/plugin-page-view-tracking-browser@npm:0.6.0"
+"@amplitude/plugin-page-view-tracking-browser@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "@amplitude/plugin-page-view-tracking-browser@npm:0.6.1"
   dependencies:
-    "@amplitude/analytics-client-common": ^0.6.0
+    "@amplitude/analytics-client-common": ^0.6.1
     "@amplitude/analytics-types": ^0.17.0
     tslib: ^2.4.1
-  checksum: b14828eebfaf647385358246060bf546d702e676100a509ab45f16cde05285bc28e4a2cde854cfc214881285b878cd601c78bc654a894ce272f0a566249d88df
+  checksum: 3a76db85105d114815d8e2b2acc3ad441403cd6408bbdb6ba1f70b10009ffee7ddc41f559d3523cd09082b2bcf7b25090b03a2c65fe39d970cafa79e1929157d
   languageName: node
   linkType: hard
 
-"@amplitude/plugin-web-attribution-browser@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "@amplitude/plugin-web-attribution-browser@npm:0.6.0"
+"@amplitude/plugin-web-attribution-browser@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "@amplitude/plugin-web-attribution-browser@npm:0.6.1"
   dependencies:
-    "@amplitude/analytics-client-common": ^0.6.0
+    "@amplitude/analytics-client-common": ^0.6.1
     "@amplitude/analytics-types": ^0.17.0
     tslib: ^2.4.1
-  checksum: 608d90f6a0747a9a5b472aa38de1be28973171079c9f344b14dbdae9996d55dca156b5c1a9f2272d36b4064eca36246d4d9894ff1699044584ac9334835e46c7
+  checksum: e910528a6ac223d71944138633b64566a61abddd64dbe415f9ef31575bc7b251f426a3228e9c128964fc208fc3e215f6c0e048bdc23c4dde9f4ae2aaa3aff5c5
   languageName: node
   linkType: hard
 
@@ -3946,9 +3946,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.48":
-  version: 0.0.48
-  resolution: "@gooddollar/good-design@npm:0.0.48"
+"@gooddollar/good-design@npm:^0.0.49":
+  version: 0.0.49
+  resolution: "@gooddollar/good-design@npm:0.0.49"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -3974,7 +3974,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: 0311a51241d70139af6401fc478dcfb6b007e8af1f0dc9cd97c11f89b671121a6ff11836aa44a5e1d8b2a4a26a9435c4423bc8a720906a30b34c19f0d8ae4587
+  checksum: a114ea30ee9e9f5907821d658d5c237f56465667fca0323970f3ccee0f0ba7c38d9e66beed87da87c340a2459e1fbbaffbcf59a2a8fe3f3968424c25987f7881
   languageName: node
   linkType: hard
 
@@ -4026,10 +4026,10 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.48
+    "@gooddollar/good-design": ^0.0.49
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.20
-    "@gooddollar/web3sdk-v2": ^0.1.81
+    "@gooddollar/web3sdk-v2": ^0.1.83
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@lingui/cli": 3.15.0
@@ -4199,9 +4199,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.81":
-  version: 0.1.81
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.81"
+"@gooddollar/web3sdk-v2@npm:^0.1.83":
+  version: 0.1.83
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.83"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4236,7 +4236,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 903a30f52896058e6f799a49be8aa75ad295037166ae38d311d2892f1143b6680c490a9554e3ca451853e95937a76b86cb9ef25562107943623b6640beee4605
+  checksum: 081c1aca3a76630dc5b404215505517f4c85df6dccbea96a64cfa2e0b317a3ebef7abda363210cb8cf1785d4bbcbd91224ef5ca783dbf6d5859292905e48ddf3
   languageName: node
   linkType: hard
 
@@ -8683,8 +8683,8 @@ __metadata:
   linkType: hard
 
 "@toruslabs/torus-embed@npm:^1.38.8":
-  version: 1.40.0
-  resolution: "@toruslabs/torus-embed@npm:1.40.0"
+  version: 1.40.1
+  resolution: "@toruslabs/torus-embed@npm:1.40.1"
   dependencies:
     "@metamask/obs-store": ^7.0.0
     "@toruslabs/http-helpers": ^3.2.0
@@ -8701,7 +8701,7 @@ __metadata:
     pump: ^3.0.0
   peerDependencies:
     "@babel/runtime": 7.x
-  checksum: 48e62494c5d12c64f35b55145bdf0b4c33b7fa4b86b48323d4c313d792f2d951cd65f46d185ae03231d183e0cb4d8ebe01afeac69ead8e544d7d31176c91c990
+  checksum: 8eb559211dbaa37d576509a82e35cd38ad0338129f3d1852e45455203d7a6f4ab2623b0ea069992f9a23d94226e89ec0852bc47f77d6d4c3f120669959d35e2f
   languageName: node
   linkType: hard
 
@@ -26067,9 +26067,9 @@ __metadata:
   linkType: hard
 
 "mixpanel-react-native@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "mixpanel-react-native@npm:2.1.0"
-  checksum: 807ff0d065f1f2ba69dc3e67f641294cbd125c7549dbddbabd8c809322327e626b76998f320a510785adfd835fae7b35e7bbfa99471252dd79bb4c7122fbb854
+  version: 2.2.0
+  resolution: "mixpanel-react-native@npm:2.2.0"
+  checksum: bc4d3bf7dd51d089d550472cd20042eb0f95c70af55ac727b8b31646fa121fd2d4fa03df34770c0e301e778570fbe161db4a4a029b6825f6268405455a4bfe98
   languageName: node
   linkType: hard
 
@@ -30845,14 +30845,14 @@ __metadata:
   linkType: hard
 
 "react-number-format@npm:^5.1.1":
-  version: 5.1.3
-  resolution: "react-number-format@npm:5.1.3"
+  version: 5.1.4
+  resolution: "react-number-format@npm:5.1.4"
   dependencies:
     prop-types: ^15.7.2
   peerDependencies:
-    react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
-    react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
-  checksum: 354481a3ce15520d3e786f790a84a0363a94c56034519c6e2248d8f277095b696f31204a46745d3c64869559b7a81ba39ab9ad46c6582f762255f81d5c5d2e95
+    react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 770a1e86cd05d9df28aa5e6a12c5731351dd4a301464edd0ac5dcbc68d2f07eae37781ff14f6153566cbb7cccb28f13f0826d1844600d25ae6e12da060814282
   languageName: node
   linkType: hard
 

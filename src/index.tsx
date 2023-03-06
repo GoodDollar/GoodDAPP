@@ -22,7 +22,7 @@ import { Web3ContextProvider } from './hooks/useWeb3'
 import { theme, NativeBaseProvider } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 import { OnboardProvider } from '@gooddollar/web3sdk-v2'
-import { connectOptions } from 'connectors'
+import { connectOptions, torus } from 'connectors'
 import { HttpsProvider } from 'utils/HttpsProvider'
 import { registerServiceWorker } from './serviceWorker'
 
@@ -90,7 +90,7 @@ const enableServiceWorker =
 ReactDOM.render(
     <StrictMode>
         <HttpsProvider enabled={enableHttpsRedirect}>
-            <OnboardProvider options={connectOptions}>
+            <OnboardProvider options={connectOptions} wallets={{ custom: [torus] }}>
                 <Web3ContextProvider>
                     <Provider store={store}>
                         <LanguageProvider>

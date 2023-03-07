@@ -30,6 +30,10 @@ export const FeedItemSchema = {
       type: 'string',
       format: 'date-time',
     },
+    chainId: {
+      description: 'item chain',
+      type: 'number',
+    },
   },
   required: ['_id', 'id', 'type', 'date', 'createdDate', 'status'],
 }

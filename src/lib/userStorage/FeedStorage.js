@@ -69,6 +69,7 @@ export type TransactionDetails = {
 
 export type FeedEvent = {
   id: string,
+  chainId: Number,
   type: string,
   date: string,
   createdDate?: string,

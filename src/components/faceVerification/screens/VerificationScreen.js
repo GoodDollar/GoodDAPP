@@ -7,7 +7,7 @@ import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../lib/logger/js-logger'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 
-import useFaceTecSDK from '../hooks/useFaceTecSDK'
+import useEarlyInitializedSDK from '../hooks/useEarlyInitializedSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 import useEnrollentIdentifier from '../hooks/useEnrollmentIdentifier'
@@ -171,7 +171,7 @@ const FaceVerification = ({ screenProps }) => {
     startVerification()
   }, [startVerification, enrollmentIdentifier])
 
-  const [initialized] = useFaceTecSDK({
+  const [initialized] = useEarlyInitializedSDK({
     onError: sdkExceptionHandler,
   })
 

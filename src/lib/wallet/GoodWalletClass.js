@@ -191,7 +191,10 @@ export class GoodWallet {
     this.init()
   }
 
-  init(): Promise<any> {
+  init(walletConfig): Promise<any> {
+    if (walletConfig) {
+      this.config = walletConfig
+    }
     const mainnetNetwork = (() => {
       const network = first(this.config.network.split('-'))
       return network === 'development' ? 'fuse' : network
@@ -200,14 +203,14 @@ export class GoodWallet {
     const mainnetNetworkId = get(ContractsAddress, mainnetNetwork + '-mainnet.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
-
-    const ready = WalletFactory.create(this.config)
+    const network = this.config.network
+    const networkId = get(ContractsAddress, network + '.networkId', 122)
+    const ready = WalletFactory.create({ ...this.config, network_id: networkId })
 
     this.ready = ready
       .then(wallet => {
         const { estimateGasPrice } = Config
-        const network = this.config.network
-        const networkId = get(ContractsAddress, network + '.networkId', 122)
+
         assign(this, { network, networkId })
 
         log.info('GoodWallet initial wallet created.', { mainnetNetwork, network, networkId, mainnetNetworkId })

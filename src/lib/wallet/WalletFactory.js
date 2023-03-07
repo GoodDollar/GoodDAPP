@@ -18,7 +18,7 @@ export default class WalletFactory {
     }
 
     let provider: SoftwareWalletProvider = new SoftwareWalletProvider({
-      ...Config.ethereum[Config.networkId],
+      ...Config.ethereum[walletConf.network_id || Config.networkId],
       ...walletConf,
     })
     return provider.ready

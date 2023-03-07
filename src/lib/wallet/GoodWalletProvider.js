@@ -8,6 +8,7 @@ import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
+import { getNetworkName } from '../constants/network'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
 
@@ -204,6 +205,40 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
 
+  const switchNetwork = useCallback(
+    async (network: 'fuse' | 'celo') => {
+      let contractsNetwork
+      switch (Config.env) {
+        default:
+        case 'development':
+          contractsNetwork = network === 'fuse' ? 'fuse' : `${Config.env}-${network}`
+          break
+        case 'staging':
+          contractsNetwork = network === 'fuse' ? 'staging' : `${Config.env}-${network}`
+          break
+        case 'production':
+          contractsNetwork = network === 'fuse' ? 'production' : `${Config.env}-${network}`
+          break
+      }
+
+      await goodWallet.setIsPollEvents(false) //stop watching prev chain events
+      await goodWallet.init({ network: contractsNetwork }) //reinit wallet
+      await update(goodWallet) //call to update globals
+      const lastBlock =
+        userStorage.userProperties.get('lastBlock_' + goodWallet.networkId) ||
+        Config.ethereum[goodWallet.networkId].startBlock
+
+      log.debug('switchNetwork: starting watchBalanceAndTXs', { lastBlock })
+
+      goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
+        userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
+      )
+
+      //trigger refresh
+      setWalletAndStorage(_ => ({ ..._, goodWallet }))
+    },
+    [goodWallet, userStorage],
+  )
   let contextValue = {
     userStorage,
     goodWallet,
@@ -213,6 +248,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     balance,
     dailyUBI,
     isCitizen,
+    switchNetwork,
   }
 
   if (enableHDWallet) {
@@ -239,6 +275,12 @@ export const useWalletData = () => {
   const { dailyUBI, balance, isCitizen } = useContext(GoodWalletContext)
 
   return { dailyUBI, balance, isCitizen }
+}
+
+export const useSwitchNetwork = () => {
+  const { switchNetwork, goodWallet } = useContext(GoodWalletContext)
+
+  return { switchNetwork, currentNetwork: getNetworkName(goodWallet.networkId) }
 }
 
 export const useFormatG$ = () => {

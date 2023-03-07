@@ -90,6 +90,7 @@ REACT_APP_IPFS_LAZY_UPLOAD = "false"
 REACT_APP_REALM_APP_ID = "wallet_dev-dhiht"
 REACT_APP_PUBLIC_URL = "https://gooddev.netlify.app"
 REACT_APP_CERAMIC_NODE_URL = "https://ceramic.gooddollar.org"
+REACT_APP_ZOOM_PRODUCTION_MODE = "true"
 
 [context.fv-standalone.environment]
 REACT_APP_BUILD_TARGET = 'FV'
@@ -146,7 +147,6 @@ REACT_APP_TORUS_NETWORK_URL = "false"
 REACT_APP_TORUS_GOOGLE = "gooddollar-google"
 REACT_APP_TORUS_FACEBOOK = "gooddollar-facebook"
 REACT_APP_TORUS_GOOGLEAUTH0 = "gooddollar-google-auth0"
-REACT_APP_ZOOM_PRODUCTION_MODE = "true"
 REACT_APP_ENABLE_SELF_CUSTODY = "false"
 REACT_APP_AB_TEST_PERCENTAGE = "0.5"
 REACT_APP_REALM_APP_ID = "wallet_prod-obclo"

@@ -25,6 +25,18 @@ const log = logger.child({ from: 'WalletConnectClient' })
 // 9. advanced edit tx values/contract call values
 // 10. events
 // 11. show warning if unable to decode contract call
+
+const metadata = {
+  description: 'GoodDollar Wallet App',
+  url: Config.publicUrl,
+  icons: [
+    `${Config.publicUrl}/favicon-96x96.png`,
+    `${Config.publicUrl}/favicon-32x32.png`,
+    `${Config.publicUrl}/favicon.ico}`,
+  ],
+  name: 'GoodDollar',
+}
+
 /**
  * Parses the read WalletConnet URI from QR Code.
  * If not valid, returns null.
@@ -118,16 +130,7 @@ const useV2Connector = () => {
       cachedV2Connector = await Web3Wallet.init({
         logger: 'debug',
         core, // <- pass the shared `core` instance
-        metadata: {
-          description: 'GoodDollar Wallet App',
-          url: 'https://wallet.gooddollar.org.org',
-          icons: [
-            'https://wallet.gooddollar.org/favicon-96x96.png',
-            'https://wallet.gooddollar.org/favicon-32x32.png',
-            'https://wallet.gooddollar.org/favicon.ico',
-          ],
-          name: 'GoodDollar',
-        },
+        metadata,
       })
       log.debug('initialized wc v2', cachedV2Connector.respondSessionRequest)
       setInitialized(true)
@@ -214,7 +217,7 @@ export const useWalletConnectSession = () => {
     } = payload
     const sessionv2 = cachedV2Connector.getActiveSessions()[topic]
     let requestedChainIdV2 = Number(
-      (chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${Config.networkId}`).split(':')[1],
+      (chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
     )
     if (sessionv2) {
       return {
@@ -238,9 +241,9 @@ export const useWalletConnectSession = () => {
       const metadata = payload?.params?.[0]?.peerMeta || payload?.params?.proposer?.metadata
       let requestedChainIdV1 = Number(payload?.params?.[0]?.chainId)
       let requestedChainIdV2 = Number(
-        (payload?.params?.requiredNamespaces?.eip155?.chains?.[0] || `:${Config.networkId}`).split(':')[1],
+        (payload?.params?.requiredNamespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
       )
-      let requestedChainId = requestedChainIdV1 || requestedChainIdV2 || Number(Config.networkId)
+      let requestedChainId = requestedChainIdV1 || requestedChainIdV2 || Number(wallet.networkId)
       const appUrl = metadata.url
       if (appUrl.includes('voltage.finance')) {
         // bug in voltage chainid request
@@ -636,16 +639,7 @@ export const useWalletConnectSession = () => {
             session,
 
             // Required
-            clientMeta: {
-              description: 'GoodDollar Wallet App',
-              url: 'https://wallet.gooddollar.org.org',
-              icons: [
-                'https://wallet.gooddollar.org/favicon-96x96.png',
-                'https://wallet.gooddollar.org/favicon-32x32.png',
-                'https://wallet.gooddollar.org/favicon.ico',
-              ],
-              name: 'GoodDollar',
-            },
+            clientMeta: metadata,
           })
           initializeV1(connector)
 
@@ -815,7 +809,7 @@ export const useWalletConnectSession = () => {
   const setV2Session = useCallback(
     sessionv2 => {
       let requestedChainIdV2 = Number(
-        (sessionv2?.namespaces?.eip155?.chains?.[0] || `:${Config.networkId}`).split(':')[1],
+        (sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
       )
       if (sessionv2) {
         log.debug('setting v2 session and active connector', { sessionv2 })
@@ -829,7 +823,7 @@ export const useWalletConnectSession = () => {
         AsyncStorage.setItem('walletconnect_requestedChain_v2', requestedChainIdV2)
       }
     },
-    [setSession, setConnector],
+    [setSession, setConnector, wallet],
   )
   const reconnect = useCallback(async () => {
     log.debug('reconnect:', { activeConnector, isInitialized, cachedV2Connector })

@@ -39,9 +39,6 @@ const Claim = memo(() => {
         if (!claim) {
             return false
         }
-
-        // todo: add event analytics on transaction receipt
-        setClaimed(true)
         return true
     }, [send])
 
@@ -223,6 +220,7 @@ your G$. 🙂`,
                             method="redirect"
                             claim={handleClaim}
                             claimed={claimed}
+                            claiming={state?.status === 'Mining'}
                             handleConnect={handleConnect}
                             chainId={chainId}
                         />

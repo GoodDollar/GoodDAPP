@@ -206,7 +206,7 @@ export default (props = {}) => {
     ]
 
     return items
-  }, [isSelfCustody, slideOut, navigation, installPrompt])
+  }, [isSelfCustody, slideOut, navigation, installPrompt, switchNetwork, currentNetwork])
 
   return {
     slideIn,

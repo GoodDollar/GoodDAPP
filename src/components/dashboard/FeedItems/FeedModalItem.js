@@ -38,6 +38,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const avatar = get(item, 'data.endpoint.avatar')
   const sellerWebsite = get(item, 'data.sellerWebsite', '')
   const chainId = item.chainId || '122'
+
   return (
     <ModalWrapper
       leftBorderColor={mainColor}

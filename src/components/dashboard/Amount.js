@@ -42,7 +42,7 @@ const Amount = (props: AmountProps) => {
   const { push } = screenProps
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
-  const { amount, ...restState } = { amount: 0, ...screenState } || {}
+  const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
   const [GDAmount, setGDAmount] = useState(amount > 0 ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0')
   const [loading, setLoading] = useState(amount <= 0)

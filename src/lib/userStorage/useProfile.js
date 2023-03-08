@@ -58,6 +58,7 @@ const getUserProperty = (userStorage, property, local = false) => {
   }
 
   const { userProperties } = userStorage
+
   return local ? userProperties.getLocal(property) : userProperties.get(property)
 }
 
@@ -86,9 +87,15 @@ export const useUserProperty = (property, local = false) => {
     const { userProperties } = userStorage
 
     setPropertyValue(getUserProperty(userStorage, property, local))
-    !local && userProperties.on(property, setPropertyValue)
+    if (!local) {
+      userProperties.on(property, setPropertyValue)
+    }  
     return () => {
-      !local && userProperties.off(property, setPropertyValue)
+      if (local) {
+        return
+      }
+      
+      userProperties.off(property, setPropertyValue)
     }
   }, [property, userStorage, setPropertyValue, local])
 

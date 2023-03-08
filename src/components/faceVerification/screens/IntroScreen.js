@@ -30,7 +30,7 @@ import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../lib/analytics/analytics'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
-import useFaceTecSDK from '../hooks/useFaceTecSDK'
+import useEarlyInitializedSDK from '../hooks/useEarlyInitializedSDK'
 
 // assets
 import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
@@ -155,7 +155,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkForCameraSupport()
   }, [checkForCameraSupport])
 
-  useFaceTecSDK({ initializeOnMount: !isValid }) // early initialize
+  useEarlyInitializedSDK({ initializeOnMount: !isValid }) // early initialize
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 

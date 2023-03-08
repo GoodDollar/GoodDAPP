@@ -145,7 +145,7 @@ exports[`Amount matches snapshot 1`] = `
                     readOnly={false}
                     spellCheck={true}
                     type="text"
-                    value=""
+                    value="0"
                   />
                 </div>
               </div>

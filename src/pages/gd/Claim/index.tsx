@@ -230,7 +230,7 @@ your G$. 🙂`,
                     className={`w-full lg:flex lg:flex-col ${claimed ? 'lg:w-full' : 'lg:w-6/12'}`}
                     style={{ flexGrow: '1' }}
                 >
-                    <ClaimCarousel cards={mockedCards} claimed />
+                    <ClaimCarousel cards={mockedCards} claimed={claimed} />
                 </div>
             </View>
         </>

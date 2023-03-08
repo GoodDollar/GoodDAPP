@@ -155,7 +155,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkForCameraSupport()
   }, [checkForCameraSupport])
 
-  useFaceTecSDK({ initializeOnMount: !isValid }) // early initialize
+  useFaceTecSDK({ initOnMounted: !isValid }) // early initialize
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 

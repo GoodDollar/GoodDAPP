@@ -1,15 +1,16 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { assign, noop } from 'lodash'
-
-import usePropsRefs from '../../../lib/hooks/usePropsRefs'
 
 import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 import { hideRedBoxIfNonCritical } from '../utils/redBox'
 
+import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
+import { FVFlowContext } from '../standalone/context/FVFlowContext'
+
+import usePropsRefs from '../../../lib/hooks/usePropsRefs'
+
 import logger from '../../../lib/logger/js-logger'
 import { isEmulator } from '../../../lib/utils/platform'
-
-import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
 import useCriticalErrorHandler from './useCriticalErrorHandler'
 
 const log = logger.child({ from: 'useFaceTecSDK' })
@@ -32,15 +33,21 @@ export default (config = {}) => {
   const [initialized, setInitialized] = useState(false)
   const [lastError, setLastError] = useState(null)
 
+  // FVFlow ctx
+  const { isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
+
   // Configuration callbacks refs
-  const refs = usePropsRefs([initOnMounted, onInitialized, onError, setInitialized, setLastError])
+  const refs = usePropsRefs([onInitialized, onError, setInitialized, setLastError])
 
   // adding error handler
   const handleCriticalError = useCriticalErrorHandler(log)
 
+  // initialization flag. will be set to true if initOnMounted was true and no fvflow or fvflow is ready
+  const shouldInitialize = initOnMounted && (!isFVFlow || isFVFlowReady)
+
   // initialize flow fn
   const initializeSdk = useCallback(async () => {
-    const [, onInitialized, onError, setInitialized, setLastError] = refs
+    const [onInitialized, onError, setInitialized, setLastError] = refs
     const { faceTecCriticalError } = FaceTecGlobalState
 
     // Helper for handle exceptions
@@ -93,19 +100,17 @@ export default (config = {}) => {
     }
   }, [])
 
-  // performing initialization attempt on component mounted
-  // this callback should be ran once, so we're using refs
-  // to access actual initialization / error callbacks
+  // once shouldInitialize become true - initialize sdk
+  // if initOnMounted was false this never happed so initializeSdk
+  // function exported from hook should be used in such case
   useEffect(() => {
-    const [shouldInitialize] = refs
-
-    if (!shouldInitialize()) {
+    if (!shouldInitialize) {
       return
     }
 
     // starting initialization
     initializeSdk()
-  }, [])
+  }, [shouldInitialize])
 
   return [initialized, lastError, initializeSdk]
 }

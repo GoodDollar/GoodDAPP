@@ -242,6 +242,10 @@ export const useWalletConnectSession = () => {
       )
       let requestedChainId = requestedChainIdV1 || requestedChainIdV2 || Number(Config.networkId)
       const appUrl = metadata.url
+      if (appUrl.includes('gooddapp') || appUrl.includes('gooddollar.org')) {
+        // force Celo when connecting to gooddapp
+        requestedChainId = 42220
+      }
       if (appUrl.includes('voltage.finance')) {
         // bug in voltage chainid request
         requestedChainId = 122

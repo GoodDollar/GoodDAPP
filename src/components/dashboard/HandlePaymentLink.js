@@ -1,13 +1,14 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
-import { noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { Wrapper } from '../common'
 import logger from '../../lib/logger/js-logger'
-import { parsePaymentLinkParams, readCode } from '../../lib/share'
+import { parsePaymentLinkParams } from '../../lib/share'
 import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
+import { InfoIcon } from '../common/modal/InfoIcon'
+
 import {
   executeWithdraw,
   WITHDRAW_STATUS_COMPLETE,
@@ -18,8 +19,9 @@ import { fireEvent, WITHDRAW } from '../../lib/analytics/analytics'
 import { withStyles } from '../../lib/styles'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { delay } from '../../lib/utils/async'
-import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
-
+import { useSwitchNetwork, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useHandlePaymentRequest } from '../../lib/hooks/useHandlePaymentRequest'
+import { getNetworkName } from '../../lib/constants/network'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const log = logger.child({ from: 'HandlePaymentLink' })
@@ -36,54 +38,45 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
   const { hideDialog, showDialog, showErrorDialog } = useDialog()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
+  const handleRequest = useHandlePaymentRequest()
+  const { switchNetwork } = useSwitchNetwork()
 
-  const isTheSameUser = code => {
-    return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
-  }
+  const gotoSend = useCallback(
+    async code => {
+      log.info('code ok going to payment screen', { code })
+      const { route, params } = await routeAndPathForCode('send', code, goodWallet, userStorage)
+      hideDialog()
+      screenProps.push(route, params)
+    },
+    [screenProps, goodWallet, userStorage, hideDialog],
+  )
+
+  const onCodeError = useCallback(
+    (e, data) => {
+      hideDialog()
+
+      log.warn('Payment link is incorrect', e.message, e, {
+        data,
+        category: ExceptionCategory.Human,
+        dialogShown: true,
+      })
+
+      showErrorDialog(t`Payment link is incorrect. Please double check your link.`, undefined, {
+        onDismiss: screenProps.goToRoot,
+      })
+    },
+    [hideDialog, showDialog],
+  )
 
   const checkCode = useCallback(
     async anyParams => {
       try {
         if (anyParams && anyParams.code) {
-          const code = readCode(decodeURIComponent(anyParams.code))
+          const data = decodeURIComponent(anyParams.code)
 
-          log.debug('decoded payment request', { code })
+          log.debug('decoded payment request', { data })
 
-          if (isTheSameUser(code)) {
-            showErrorDialog(t`You cannot use your own payment link`, undefined, {
-              onDismiss: screenProps.goToRoot,
-            })
-
-            return
-          }
-
-          showDialog({
-            onDismiss: noop,
-            title: t`Processing Payment Link...`,
-            image: <LoadingIcon />,
-            message: t`please wait while processing...`,
-            showCloseButtons: false,
-            showButtons: false,
-          })
-
-          try {
-            const { route, params } = await routeAndPathForCode('send', code, goodWallet, userStorage)
-
-            hideDialog()
-            screenProps.push(route, params)
-          } catch (e) {
-            hideDialog()
-
-            log.warn('Payment link is incorrect', e.message, e, {
-              code,
-              category: ExceptionCategory.Human,
-              dialogShown: true,
-            })
-
-            showErrorDialog(t`Payment link is incorrect. Please double check your link.`, undefined, {
-              onDismiss: screenProps.goToRoot,
-            })
-          }
+          await handleRequest(data, gotoSend, onCodeError, screenProps.goToRoot)
         }
       } catch (e) {
         log.error('checkCode unexpected error:', e.message, e)
@@ -116,8 +109,32 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
   const handleWithdraw = useCallback(
     async params => {
       const paymentParams = parsePaymentLinkParams(params)
+      const switchAndWithdraw = async network => {
+        await switchNetwork(network)
+        handleWithdraw(params)
+      }
 
       try {
+        if (paymentParams.networkId && paymentParams.networkId !== goodWallet.networkId) {
+          return showDialog({
+            onDismiss: screenProps.goToRoot,
+            image: <InfoIcon />,
+            title: t`Payment was created on network ${getNetworkName(
+              paymentParams.networkId,
+            )} you are on ${getNetworkName(goodWallet.networkId)}`,
+            buttons: [
+              {
+                text: t`Cancel`,
+                onPress: screenProps.goToRoot,
+                mode: 'text',
+              },
+              {
+                text: t`Switch to ${getNetworkName(paymentParams.networkId)}`,
+                onPress: () => switchAndWithdraw(getNetworkName(paymentParams.networkId).toLowerCase()),
+              },
+            ],
+          })
+        }
         showDialog({
           onDismiss: screenProps.goToRoot,
           title: t`Processing Payment Link...`,
@@ -191,9 +208,14 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               dialogShown: true,
             })
 
-            showErrorDialog(t`Could not find payment details.\nCheck your link or try again later.`, undefined, {
-              onDismiss: screenProps.goToRoot,
-            })
+            showErrorDialog(
+              t`Could not find payment details.
+            Check your link or try again later.`,
+              undefined,
+              {
+                onDismiss: screenProps.goToRoot,
+              },
+            )
             break
           default:
             break
@@ -212,7 +234,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         navigation.setParams({ paymentCode: undefined })
       }
     },
-    [showDialog, hideDialog, showErrorDialog, navigation, goodWallet, userStorage],
+    [showDialog, hideDialog, showErrorDialog, navigation, goodWallet, userStorage, switchNetwork],
   )
 
   useEffect(() => {

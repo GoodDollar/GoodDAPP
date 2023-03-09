@@ -110,6 +110,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           p: withdrawCode,
           r: message,
           i: inviteCode,
+          n: item.chainId,
         }),
       )
 

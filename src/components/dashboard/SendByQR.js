@@ -3,11 +3,8 @@
 // libraries
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { isAddress } from 'web3-utils'
-import { noop } from 'lodash'
 
 // components
-import { t } from '@lingui/macro'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
@@ -19,18 +16,13 @@ import { useDialog } from '../../lib/dialog/useDialog'
 // utils
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode, wrapFunction } from '../../lib/exceptions/utils'
-import { readCode } from '../../lib/share'
-import { createUrlObject } from '../../lib/utils/uri'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
-import { InfoIcon } from '../common/modal/InfoIcon'
-import ExplanationDialog from '../common/dialogs/ExplanationDialog'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
-import { extractEthAddress } from '../../lib/wallet/utils'
+import { useHandlePaymentRequest } from '../../lib/hooks/useHandlePaymentRequest'
 import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
-
 const QR_DEFAULT_DELAY = 300
 
 const log = logger.child({ from: 'SendByQR' })
@@ -39,28 +31,10 @@ type Props = {
   screenProps: any,
 }
 
-const RecipientWarnDialog = ({ onConfirm }) => (
-  <ExplanationDialog
-    title={t`Make sure your recipient is also using the Fuse network`}
-    image={InfoIcon}
-    imageHeight={124}
-    buttons={[
-      {
-        text: t`Cancel`,
-        onPress: noop,
-        mode: 'text',
-      },
-      {
-        text: t`Confirm`,
-        action: onConfirm,
-      },
-    ]}
-  />
-)
-
 const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
-  const { showDialog, showErrorDialog } = useDialog()
+  const { showErrorDialog } = useDialog()
+  const handleRequest = useHandlePaymentRequest()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
 
@@ -90,44 +64,17 @@ const SendByQR = ({ screenProps }: Props) => {
     },
     [push, goodWallet],
   )
+
+  const onScanError = (error, data) => {
+    log.error('scan send code failed', error.message, error, { data })
+    setQRDelay(false)
+
+    throw error
+  }
   const handleScan = useCallback(
     async data => {
       if (data) {
-        let code
-        try {
-          const decoded = decodeURI(data)
-          const address = extractEthAddress(decoded)
-
-          // check if data is already a wallet address
-          if (isAddress(address)) {
-            const isKnownAddress = await goodWallet.isKnownFuseAddress(address)
-
-            // this address was already used on fuse, so it is ok
-            if (isKnownAddress) {
-              code = { address, networkId: goodWallet.networkId }
-            } else {
-              return showDialog({
-                showButtons: false,
-                onDismiss: noop,
-                content: (
-                  <RecipientWarnDialog
-                    onConfirm={() => gotoSend({ address: address, networkId: goodWallet.networkId })}
-                  />
-                ),
-              })
-            }
-          } else {
-            const { params: paramsUrl } = createUrlObject(decoded)
-            code = readCode(paramsUrl.code)
-          }
-
-          gotoSend(code)
-        } catch (e) {
-          log.error('scan send code failed', e.message, e, { data })
-          setQRDelay(false)
-
-          throw e
-        }
+        await handleRequest(data, gotoSend, onScanError)
       }
     },
     [push, setQRDelay, gotoSend, goodWallet],

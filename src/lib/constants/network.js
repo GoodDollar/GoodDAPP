@@ -2,6 +2,8 @@
 import { findKey, isEqual, partial, startCase } from 'lodash'
 
 export const NETWORK_ID = {
+  ETHEREUM: 1,
+  ETH: 1,
   MAINNET: 1,
   ROPSTEN: 3,
   RINKEBY: 4,

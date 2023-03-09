@@ -1027,6 +1027,7 @@ export class GoodWallet {
       p: code,
       r: reason,
       cat: category,
+      n: this.networkId,
     }
     inviteCode && (params.i = inviteCode)
 
@@ -1079,12 +1080,11 @@ export class GoodWallet {
       const { paymentAmount, hasPayment, paymentSender: sender } = await retryCall(() =>
         this.oneTimePaymentsContract.methods.payments(hashedCode).call(),
       )
-
-      const amount = toBN(paymentAmount).toNumber()
+      const amount = toBN(paymentAmount)
       let status = WITHDRAW_STATUS_UNKNOWN
 
       // Check payment availability
-      if (hasPayment && amount > 0) {
+      if (hasPayment && amount.gt(0)) {
         status = WITHDRAW_STATUS_PENDING
       }
 
@@ -1288,8 +1288,8 @@ export class GoodWallet {
     return formatUnits(String(wei || '0'), Config.ethereum[chainId || this.networkId].g$Decimals)
   }
 
-  fromDecimals(amount) {
-    return parseUnits(amount, this.decimals).toString()
+  fromDecimals(amount, chainId) {
+    return parseUnits(amount, Config.ethereum[chainId || this.networkId].g$Decimals).toString()
   }
 
   async getUserInviteBounty() {
@@ -1562,7 +1562,7 @@ export class GoodWallet {
     return res
   }
 
-  async isKnownFuseAddress(address) {
+  async isKnownAddress(address) {
     const nonce = await this.wallet.eth.getTransactionCount(address)
     return nonce > 0
   }

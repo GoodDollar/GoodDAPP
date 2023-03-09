@@ -1,17 +1,17 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { assign, get, map, noop, zipObject } from 'lodash'
-
+import { assign, map, noop, zipObject } from 'lodash'
+import { decode, isMNID } from 'mnid'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
-
+import { NETWORK_ID } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
 
 const DECIMALS = 2
 const log = pino.child({ from: 'withdraw' })
-const ethAddressRegex = /0x[a-fA-F0-9]{40}/
+const ethAddressRegex = /(\w+)?:?(0x[a-fA-F0-9]{40})/
 
 const maskSettings = {
   precision: DECIMALS,
@@ -36,7 +36,18 @@ export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
 export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-export const extractEthAddress = uri => get(uri.match(ethAddressRegex), '0', null)
+export const extractEthAddress = uri => {
+  const regExResult = uri.match(ethAddressRegex)
+  if (!regExResult && isMNID(uri)) {
+    let { network, address } = decode(uri)
+    return { networId: parseInt(network), address }
+  }
+  if (!regExResult) {
+    return {}
+  }
+  let [, networkName, address] = regExResult
+  return { networkId: NETWORK_ID[networkName.toUpperCase()], address }
+}
 
 export const moneyRegexp = new RegExp(`^(?!0\\d)(0|([1-9])\\d*)([.,]?(\\d{0,${DECIMALS}}))$`)
 export const numberWithCommas = (gd: string): string => gd.replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')

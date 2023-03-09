@@ -1,4 +1,5 @@
 // @flow
+// eslint-disable-next-line no-unused-vars
 import { isNil } from 'lodash'
 import { getNetworkName } from '../../../lib/constants/network'
 import { ACTION_SEND_TO_ADDRESS } from './sendReceiveFlow'
@@ -62,33 +63,41 @@ export const routeAndPathForCode = async (
         type: screen === 'sendByQR' ? 'QR' : 'receive',
       }
       const nextRoutes = ['SendLinkSummary']
-      if (!amount) {
-        if (!reason) {
-          nextRoutes.unshift('Reason')
-        }
-        return {
-          route: 'Amount',
-          params: {
-            nextRoutes,
-            ...params,
-          },
-        }
-      }
-
-      if (isNil(reason) && isNil(category)) {
-        return {
-          route: 'Reason',
-          params: {
-            nextRoutes,
-            ...params,
-          },
-        }
-      }
-
       return {
-        route: 'SendLinkSummary',
-        params,
+        route: 'Amount',
+        params: {
+          nextRoutes,
+          ...params,
+        },
       }
+
+      // if (!amount) {
+      //   if (!reason) {
+      //     nextRoutes.unshift('Reason')
+      //   }
+      //   return {
+      //     route: 'Amount',
+      //     params: {
+      //       nextRoutes,
+      //       ...params,
+      //     },
+      //   }
+      // }
+
+      // if (isNil(reason) && isNil(category)) {
+      //   return {
+      //     route: 'Reason',
+      //     params: {
+      //       nextRoutes,
+      //       ...params,
+      //     },
+      //   }
+      // }
+
+      // return {
+      //   route: 'SendLinkSummary',
+      //   params,
+      // }
     }
 
     default:

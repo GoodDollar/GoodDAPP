@@ -369,12 +369,13 @@ export const parsePaymentLinkParams = params => {
   if (paymentCode) {
     try {
       paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
-      const { p, r, reason: oldr, paymentCode: oldp, i, cat } = JSON.parse(paymentParams)
+      const { p, r, reason: oldr, paymentCode: oldp, i, cat, n: networkId } = JSON.parse(paymentParams)
       paymentParams = {
         paymentCode: p || oldp,
         reason: r || oldr,
         category: cat,
         inviteCode: i,
+        networkId,
       }
     } catch (e) {
       log.info('uses old format', { paymentCode, reason })

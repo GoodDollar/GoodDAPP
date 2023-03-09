@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Image, Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
-import { t, Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import Avatar from '../common/view/Avatar'
 import { WavesBox } from '../common/view/WavesBox'
@@ -117,18 +117,16 @@ const ShareBox = ({ level, styles }) => {
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Share Your Invite Link`}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
-        <Trans>
-          <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
-            You’ll get{' '}
-            <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
-              {` ${bounty}G$ `}
-            </Section.Text>
-            and they will get{' '}
-            <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
-              {` ${bounty / 2}G$`}
-            </Section.Text>
+        <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
+          You’ll get{' '}
+          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
+            {t` ${bounty}G$ `}
           </Section.Text>
-        </Trans>
+          {t`and they will get `}
+          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
+            {t` ${bounty / 2}G$`}
+          </Section.Text>
+        </Section.Text>
       </Section.Stack>
       <Section.Row style={{ alignItems: 'flex-start' }}>
         <Text
@@ -501,18 +499,16 @@ const Invite = ({ screenProps, styles }) => {
         >
           {`Get ${bounty}G$`}
         </Section.Text>
-        <Trans>
-          <Section.Text
-            letterSpacing={0.1}
-            fontWeight={'bold'}
-            fontFamily={theme.fonts.slab}
-            fontSize={20}
-            color={theme.colors.primary}
-            lineHeight={34}
-          >
-            For Each Friend You Invite!
-          </Section.Text>
-        </Trans>
+        <Section.Text
+          letterSpacing={0.1}
+          fontWeight={'bold'}
+          fontFamily={theme.fonts.slab}
+          fontSize={20}
+          color={theme.colors.primary}
+          lineHeight={34}
+        >
+          {t`For Each Friend You Invite!`}
+        </Section.Text>
       </Section.Stack>
       <Divider size={theme.sizes.defaultDouble} />
       <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>

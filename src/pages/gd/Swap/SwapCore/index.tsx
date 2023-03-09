@@ -290,7 +290,7 @@ const SwapCore = memo(() => {
             network,
         })
         setShowConfirm(true)
-    }, [sendData, setShowConfirm])
+    }, [sendData, setShowConfirm, buying])
 
     const onSwapConfirmed = useCallback(async () => {
         handleSetPairValue('')

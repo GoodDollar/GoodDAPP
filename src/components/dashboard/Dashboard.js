@@ -99,8 +99,6 @@ export type DashboardProps = {
 
 const feedMutex = new Mutex()
 
-const abbreviateBalance = _balance => formatWithAbbreviations(decimalsToFixed(_balance), 2)
-
 const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   const onTabPress = useOnPress(() => {
     log.debug('feed category selected', { tab })
@@ -196,9 +194,16 @@ const Dashboard = props => {
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
 
-  const balanceFormatter = useMemo(
-    () => (headerLarge || Math.floor(Math.log10(balance)) + 1 <= 12 ? null : abbreviateBalance),
-    [balance, headerLarge],
+  const balanceFormatter = useCallback(
+    amount => {
+      const inDecimals = decimalsToFixed(toDecimals(amount))
+
+      if (headerLarge || Math.floor(Math.log10(Number(inDecimals))) + 1 <= 12) {
+        return decimalsToFixed(inDecimals)
+      }
+      return formatWithAbbreviations(inDecimals, 2)
+    },
+    [headerLarge, toDecimals],
   )
 
   const listFooterComponent = <Separator color="transparent" width={50} />

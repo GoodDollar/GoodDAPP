@@ -11,8 +11,7 @@ export const NETWORK_ID = {
   SOKOL: 77,
   POA: 99,
   XDAI: 100,
-  FUSE: 121,
-  FUSENET: 122,
+  FUSE: 122,
   DEVELOP: 4447,
   CELO: 42220,
 }

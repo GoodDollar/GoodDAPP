@@ -8,7 +8,7 @@ import { Icon, Text } from '../../components/common'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
-import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
+import { useSwitchNetwork, useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import { useInvited } from '../invite/useInvites'
 import { theme } from '../theme/styles'
 
@@ -56,6 +56,10 @@ const styles = {
     alignItems: 'flex-end',
   },
   appBar: { overflow: 'hidden', display: 'flex', justifyContent: 'space-between' },
+  networkName: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }
 
 const iconStyle = isMobileNative ? styles.iconView : styles.iconWidth
@@ -110,10 +114,19 @@ const rewardStyles = {
   },
 }
 
+const NetworkName = () => {
+  const { currentNetwork } = useSwitchNetwork()
+  return (
+    <View style={styles.networkName}>
+      <Text color={'white'} fontWeight="bold">
+        {currentNetwork}
+      </Text>
+    </View>
+  )
+}
 const TabsView = React.memo(
   ({ navigation }) => {
     const { slideToggle } = useSideMenu()
-
     const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
 
     const _slideToggle = useOnPress(slideToggle)
@@ -121,6 +134,7 @@ const TabsView = React.memo(
     return (
       <Appbar.Header dark style={styles.appBar}>
         <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />
+        <NetworkName />
         <TouchableOpacity onPress={_slideToggle} style={defaultRightButtonStyles}>
           <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
         </TouchableOpacity>

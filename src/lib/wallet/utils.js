@@ -38,14 +38,19 @@ export const WITHDRAW_STATUS_COMPLETE = 'complete'
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 export const extractEthAddress = uri => {
   const regExResult = uri.match(ethAddressRegex)
+  
   if (!regExResult && isMNID(uri)) {
-    let { network, address } = decode(uri)
+    const { network, address } = decode(uri)
+    
     return { networId: parseInt(network), address }
   }
+  
   if (!regExResult) {
     return {}
   }
-  let [, networkName, address] = regExResult
+  
+  const [, networkName, address] = regExResult
+  
   return { networkId: NETWORK_ID[networkName.toUpperCase()], address }
 }
 

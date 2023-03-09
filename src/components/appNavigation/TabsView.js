@@ -116,6 +116,7 @@ const rewardStyles = {
 
 const NetworkName = () => {
   const { currentNetwork } = useSwitchNetwork()
+
   return (
     <View style={styles.networkName}>
       <Text color={'white'} fontWeight="bold">

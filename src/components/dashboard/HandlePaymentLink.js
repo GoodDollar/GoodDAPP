@@ -44,7 +44,9 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
   const gotoSend = useCallback(
     async code => {
       log.info('code ok going to payment screen', { code })
+
       const { route, params } = await routeAndPathForCode('send', code, goodWallet, userStorage)
+      
       hideDialog()
       screenProps.push(route, params)
     },
@@ -135,6 +137,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
             ],
           })
         }
+        
         showDialog({
           onDismiss: screenProps.goToRoot,
           title: t`Processing Payment Link...`,

@@ -201,6 +201,7 @@ const Dashboard = props => {
       if (headerLarge || Math.floor(Math.log10(Number(inDecimals))) + 1 <= 12) {
         return decimalsToFixed(inDecimals)
       }
+      
       return formatWithAbbreviations(inDecimals, 2)
     },
     [headerLarge, toDecimals],

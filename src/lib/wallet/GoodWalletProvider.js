@@ -207,35 +207,41 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const switchNetwork = useCallback(
     async (network: 'fuse' | 'celo') => {
+      const env = Config.network.split('-')[0]
+
       let contractsNetwork
-      switch (Config.env) {
+      switch (env) {
         default:
+        case 'fuse':
         case 'development':
-          contractsNetwork = network === 'fuse' ? 'fuse' : `${Config.env}-${network}`
+          contractsNetwork = network === 'fuse' ? 'fuse' : `development-${network}`
           break
         case 'staging':
-          contractsNetwork = network === 'fuse' ? 'staging' : `${Config.env}-${network}`
+          contractsNetwork = network === 'fuse' ? 'staging' : `${env}-${network}`
           break
         case 'production':
-          contractsNetwork = network === 'fuse' ? 'production' : `${Config.env}-${network}`
+          contractsNetwork = network === 'fuse' ? 'production' : `${env}-${network}`
           break
       }
+      try {
+        await goodWallet.setIsPollEvents(false) //stop watching prev chain events
+        await goodWallet.init({ network: contractsNetwork }) //reinit wallet
+        await update(goodWallet) //call to update globals
+        const lastBlock =
+          userStorage.userProperties.get('lastBlock_' + goodWallet.networkId) ||
+          Config.ethereum[goodWallet.networkId].startBlock
 
-      await goodWallet.setIsPollEvents(false) //stop watching prev chain events
-      await goodWallet.init({ network: contractsNetwork }) //reinit wallet
-      await update(goodWallet) //call to update globals
-      const lastBlock =
-        userStorage.userProperties.get('lastBlock_' + goodWallet.networkId) ||
-        Config.ethereum[goodWallet.networkId].startBlock
+        log.debug('switchNetwork: starting watchBalanceAndTXs', { lastBlock, env, contractsNetwork })
 
-      log.debug('switchNetwork: starting watchBalanceAndTXs', { lastBlock })
+        goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
+          userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
+        )
 
-      goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-        userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
-      )
-
-      //trigger refresh
-      setWalletAndStorage(_ => ({ ..._, goodWallet }))
+        //trigger refresh
+        setWalletAndStorage(_ => ({ ..._, goodWallet }))
+      } catch (e) {
+        log.error('switchNetwork failed:', e.message, e, { contractsNetwork, env, network })
+      }
     },
     [goodWallet, userStorage],
   )

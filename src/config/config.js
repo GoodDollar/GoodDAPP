@@ -1,4 +1,4 @@
-import { get, noop } from 'lodash'
+import { defaultsDeep, get, noop } from 'lodash'
 import moment from 'moment'
 
 import contractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
@@ -30,8 +30,9 @@ const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'fuse'
 const { networkId } = contractsAddress[network]
 
+
 export const fuseNetwork = {
-  httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
+  httpWeb3provider: 'https://rpc.fuse.io/',
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
   explorerAPI: 'https://explorer.fuse.io',
@@ -41,7 +42,16 @@ export const fuseNetwork = {
   g$Decimals:2
 }
 
-const ethereum = {
+let altProviders = {}
+try {
+  // web3 rpc needs to be an object with key networkId and value of same type as above fuseNetwork record
+  altProviders = JSON.parse(env.REACT_APP_WEB3_RPC)
+} catch(e) {
+  altProviders = {}
+}
+
+
+const ethereum = defaultsDeep(altProviders, {
   '1': {
     network_id: 1,
     httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
@@ -81,7 +91,7 @@ const ethereum = {
     websocketWeb3Provider: 'ws://localhost:8545/ws',
   },
   '42220': {
-    httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://forno.celo.org/',
+    httpWeb3provider: 'https://forno.celo.org/',
     explorer: 'https://celoscan.io',
     explorerAPI: 'https://api.celoscan.io',
     explorerName: 'celoscan',
@@ -90,7 +100,7 @@ const ethereum = {
     gasPrice: 5,
     g$Decimals: 18
   },
-}
+})
 
 
 
@@ -171,7 +181,6 @@ const Config = {
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
   mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
-  httpWeb3provider: env.REACT_APP_WEB3_RPC,
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',

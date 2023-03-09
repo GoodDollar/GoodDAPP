@@ -89,12 +89,12 @@ export const useUserProperty = (property, local = false) => {
     setPropertyValue(getUserProperty(userStorage, property, local))
     if (!local) {
       userProperties.on(property, setPropertyValue)
-    }  
+    }
     return () => {
       if (local) {
         return
       }
-      
+
       userProperties.off(property, setPropertyValue)
     }
   }, [property, userStorage, setPropertyValue, local])

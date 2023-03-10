@@ -3,8 +3,6 @@
 import { assign, get, invokeMap, isEqual, keys, memoize, pick } from 'lodash'
 
 import moment from 'moment'
-import Gun from '@gooddollar/gun'
-import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 
 import { t } from '@lingui/macro'
 import isEmail from '../../lib/validators/isEmail'
@@ -20,9 +18,6 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import { isValidDataUrl } from '../utils/base64'
 
-import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
-import AsyncStorage from '../utils/asyncStorage'
-import defaultGun from '../gundb/gundb'
 import { ThreadDB } from '../textile/ThreadDB'
 import uuid from '../utils/uuid'
 import type { DB } from '../realmdb/RealmDB'
@@ -205,12 +200,6 @@ export class UserStorage {
   wallet: GoodWallet
 
   /**
-   * a gun node referring to gun
-   * @instance {Gun}
-   */
-  gun: Gun
-
-  /**
    * a gun node referring tto gun.user().get('properties')
    * @instance {UserProperties}
    */
@@ -272,61 +261,11 @@ export class UserStorage {
   registeredReady: Promise<boolean> = null
 
   constructor(wallet: GoodWallet, database: DB, userProperties) {
-    this.gun = defaultGun
     this.wallet = wallet
     this.database = database
     this.userProperties = userProperties
     this._formatEvent.cache = new WeakMap()
     this.init()
-  }
-
-  /**
-   * a gun node referring to gun.user()
-   * @instance {Gun}
-   */
-  get gunuser() {
-    return this.gun.user()
-  }
-
-  /**
-   * Initialize wallet, gundb user, feed and subscribe to events
-   */
-  async initGun() {
-    logger.debug('Initializing GunDB UserStorage')
-
-    if (this.gunuser.is) {
-      logger.debug('init:', 'logging out first')
-      this.gunuser.leave()
-    }
-
-    let loggedInPromise
-
-    let existingCreds = await AsyncStorage.getItem(GD_GUN_CREDENTIALS)
-    if (existingCreds == null) {
-      const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
-      loggedInPromise = gunPKAuth(this.gun, seed)
-    } else {
-      logger.debug('gun login using saved credentials', { existingCreds })
-
-      this.gunuser.restore(existingCreds)
-      loggedInPromise = Promise.resolve(this.gunuser)
-    }
-
-    let user = await loggedInPromise.catch(e => {
-      logger.warn(e)
-      throw e
-    })
-    logger.debug('init finished gun login', user)
-
-    if (user === undefined) {
-      throw new Error('gun login failed')
-    }
-    this.user = this.gunuser.is
-
-    logger.debug('GunDB logged in', {
-      pubkey: this.gunuser.is,
-      pair: this.gunuser.pair(),
-    })
   }
 
   /**

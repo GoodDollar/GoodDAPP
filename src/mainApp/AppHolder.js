@@ -3,7 +3,6 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import '../lib/shim'
-import '../lib/gundb/gundb'
 import AsyncStorage from '../lib/utils/asyncStorage'
 
 import Config from '../config/config'
@@ -19,10 +18,13 @@ const AppHolder = () => {
      * decide if we need to clear storage
      */
     const upgradeVersion = async () => {
-      const valid = ['phase1', null] //in case multiple versions are valid
+      const valid = ['phase1', null] // in case multiple versions are valid
       const current = 'phase' + Config.phase
+
       valid.push(current)
+
       const version = await AsyncStorage.getItem('GD_version')
+
       if (valid.includes(version)) {
         return
       }
@@ -36,6 +38,7 @@ const AppHolder = () => {
       if (Platform.OS === 'web') {
         await upgradeVersion()
       }
+
       setReady(true)
     }
 

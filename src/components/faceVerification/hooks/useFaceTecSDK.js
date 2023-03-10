@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { assign, noop } from 'lodash'
 
 import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
@@ -44,6 +44,9 @@ export default (config = {}) => {
 
   // initialization flag. will be set to true if initOnMounted was true and no fvflow or fvflow is ready
   const shouldInitialize = initOnMounted && (!isFVFlow || isFVFlowReady)
+
+  // ref to prevent multiple init effect runs. this is for effect only, so it differs from initialized state var
+  const initEffectBeenRanRef = useRef(false)
 
   // initialize flow fn
   const initializeSdk = useCallback(async () => {
@@ -104,11 +107,12 @@ export default (config = {}) => {
   // if initOnMounted was false this never happed so initializeSdk
   // function exported from hook should be used in such case
   useEffect(() => {
-    if (!shouldInitialize) {
+    if (!shouldInitialize || initEffectBeenRanRef.current) {
       return
     }
 
     // starting initialization
+    initEffectBeenRanRef.current = true
     initializeSdk()
   }, [shouldInitialize])
 

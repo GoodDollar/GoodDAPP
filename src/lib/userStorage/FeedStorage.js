@@ -781,13 +781,11 @@ export class FeedStorage {
 
     await this.ready
 
-    const items = await this.storage.getFeedPage(numResult, this.cursor, category)
+    const items = await this.storage.getFeedPage(numResult, this.cursor, category, this.wallet.networkId)
 
     this.cursor += items.length
 
-    log.debug('getFeedPage', {
-      items,
-    })
+    log.debug('getFeedPage result:', { length: items.length, items })
 
     const events = await Promise.all(
       items.map(async item => {

@@ -58,9 +58,8 @@ export const useHandlePaymentRequest = () => {
           if (!isAddress(address)) {
             const { params: paramsUrl } = createUrlObject(decoded)
             code = readCode(paramsUrl.code || linkOrEncoded) //could be that linkOrEncoded is already the code
-            
           }
-          
+
           const isKnownAddress = await goodWallet.isKnownAddress(code.address)
           const isDiffNetwork = goodWallet.networkId !== code.networkId
           const isOwnWallet = String(code.address).toLowerCase() === goodWallet.account.toLowerCase()

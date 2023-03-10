@@ -16,31 +16,10 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "0px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
-              "marginBottom": "0px",
-              "marginTop": "0px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -199,7 +178,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -220,10 +199,8 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
-                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",
@@ -308,31 +285,10 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "0px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
-              "marginBottom": "0px",
-              "marginTop": "0px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -601,7 +557,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -622,10 +578,8 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
-                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",
@@ -710,31 +664,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "0px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
-              "marginBottom": "0px",
-              "marginTop": "0px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -1024,7 +957,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -1045,10 +978,8 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
-                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",
@@ -1133,31 +1064,10 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "0px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
-              "marginBottom": "0px",
-              "marginTop": "0px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -1447,7 +1357,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -1468,10 +1378,8 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
-                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",
@@ -1556,31 +1464,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "height": "0px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
-              "marginBottom": "0px",
-              "marginTop": "0px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -1870,7 +1757,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -1891,10 +1778,8 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
-                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",

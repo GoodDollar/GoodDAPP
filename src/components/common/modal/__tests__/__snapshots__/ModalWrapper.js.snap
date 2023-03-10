@@ -16,32 +16,10 @@ exports[`ModalWrapper matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "0px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
-              "marginBottom": "0px",
-              "marginTop": "0px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -87,32 +65,10 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-width-13qz1uu"
-        style={
-          Object {
-            "WebkitAlignSelf": "flex-start",
-            "alignSelf": "flex-start",
-            "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "0px",
-            "msFlexItemAlign": "start",
-          }
-        }
+        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
-          style={
-            Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
-              "marginBottom": "0px",
-              "marginTop": "0px",
-              "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-            }
-          }
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"

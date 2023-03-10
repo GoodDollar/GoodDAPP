@@ -20,7 +20,7 @@ describe('getNetowrkName', () => {
     const networkName = getNetworkName(networkId)
 
     // Then
-    expect(networkName).toMatch('FUSENET')
+    expect(networkName).toMatch('FUSE')
   })
 
   it(`should return 'RSK TESTNET' for networkId 31`, () => {

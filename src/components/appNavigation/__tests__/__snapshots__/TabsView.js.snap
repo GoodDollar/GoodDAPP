@@ -78,6 +78,28 @@ exports[`TabsView matches snapshot 1`] = `
         </div>
       </div>
       <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxPack": "center",
+            "WebkitJustifyContent": "center",
+            "alignItems": "center",
+            "justifyContent": "center",
+            "msFlexAlign": "center",
+            "msFlexPack": "center",
+          }
+        }
+      >
+        <div
+          className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          FUSE
+        </div>
+      </div>
+      <div
         className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
         onClick={[Function]}
         onContextMenu={[Function]}
@@ -96,12 +118,11 @@ exports[`TabsView matches snapshot 1`] = `
         tabIndex="0"
       >
         <div
-          className="css-text-901oao"
+          className="css-text-901oao r-color-jwli3a"
           data-testid="burger_button"
           dir="auto"
           style={
             Object {
-              "color": "rgba(255,255,255,1.00)",
               "fontFamily": "gooddollar",
               "fontSize": "20px",
               "fontStyle": "normal",

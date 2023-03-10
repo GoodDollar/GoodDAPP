@@ -12,7 +12,7 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
-import { getNetworkEnv } from '@gooddollar/web3sdk'
+import { getNetworkEnv, UnsupportedChainId } from '@gooddollar/web3sdk'
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 import { useSwitchNetwork } from '@gooddollar/web3sdk-v2'
 import { Text, Link } from 'native-base'
@@ -35,16 +35,18 @@ const TextWrapper = styled.div`
     }
 `
 
-const ChainOption = ({ chainId, chain, toggleNetworkModal, switchChain, labels, icons }: any) => {
+const ChainOption = ({ chainId, chain, toggleNetworkModal, switchChain, labels, icons, error }: any) => {
     const onOptionClick = useCallback(() => {
         toggleNetworkModal()
         switchChain(chain)
     }, [switchChain, toggleNetworkModal, chain])
 
+    const isUnsupported = error instanceof UnsupportedChainId
+
     return (
         <Option
-            clickable={chainId !== chain}
-            active={chainId === chain}
+            clickable={isUnsupported || chainId !== chain}
+            active={chainId === chain && !isUnsupported}
             header={labels[chain]}
             subheader={null}
             icon={icons[chain]}
@@ -145,6 +147,7 @@ export default function NetworkModal(): JSX.Element | null {
                                 icons={NETWORK_ICON}
                                 toggleNetworkModal={toggleNetworkModal}
                                 switchChain={switchChain}
+                                error={error}
                             />
                         ))}
                     </div>

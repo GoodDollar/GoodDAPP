@@ -168,7 +168,8 @@ export const useWalletConnectSession = () => {
       log.info('decodetx:', { tx, chain, explorer, chainId })
       if (tx.data !== '0x' && explorer) {
         log.info('fetching contract data', { chain, explorer, contract: tx.to })
-        const result = await api.getContractAbi(tx.to, chainId, explorer).catch(e => {
+        const proxyOrAddress = await wallet.getContractProxy(tx.to, web3).catch()
+        const result = await api.getContractAbi(proxyOrAddress || tx.to, chainId, explorer).catch(e => {
           log.error('failed fetching contract abi:', e.message, e, { chainId, explorer, contract: tx.to })
         })
         log.info('got contract data', { result })

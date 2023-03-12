@@ -278,9 +278,9 @@ export const useUserStorage = (): UserStorage => {
   return userStorage
 }
 export const useWalletData = () => {
-  const { dailyUBI, balance, isCitizen } = useContext(GoodWalletContext)
+  const { dailyUBI, balance, isCitizen, goodWallet } = useContext(GoodWalletContext)
 
-  return { dailyUBI, balance, isCitizen }
+  return { dailyUBI, balance, isCitizen, networkExplorerUrl: Config.ethereum[goodWallet.networkId].explorer }
 }
 
 export const useSwitchNetwork = () => {

@@ -495,7 +495,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults, offset, category: FeedCategory = FeedCategories.Alls): Promise<any> {
+  async getFeedPage(numResults, offset, category: FeedCategory = FeedCategories.Alls, filterToChainId): Promise<any> {
     try {
       const hiddenStates = ['deleted', 'cancelled', 'canceled']
       const categoryMatcher = makeCategoryMatcher(category)
@@ -505,8 +505,11 @@ class RealmDB implements DB, ProfileDB {
         .reverse()
         .offset(offset)
         .filter(item => {
-          const { status, otplStatus } = item
-
+          const { status, otplStatus, chainId } = item
+          const isLegacyItem = !chainId && filterToChainId === 122 //we asume items without chainId are from fuse
+          if (filterToChainId !== chainId && !isLegacyItem) {
+            return false
+          }
           if ([status, otplStatus].some(state => hiddenStates.includes(state))) {
             return false
           }

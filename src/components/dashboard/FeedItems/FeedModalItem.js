@@ -18,6 +18,7 @@ import getEventSettingsByType from './EventSettingsByType'
 import EventIcon from './EventIcon'
 import FeedbackModalItem from './FeedbackModalItem'
 import SendModalItemWithError from './SendModalItemWithError'
+import { NetworkIcon } from './ListEventItem'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -56,7 +57,14 @@ const FeedModalItem = (props: FeedEventProps) => {
           <TopImage type={itemType} />
           <ModalPaymentStatus item={item} />
           <View style={styles.dateAndAmount}>
-            <Text fontSize={10}>{getFormattedDateTime(item.date)}</Text>
+            {item.id.startsWith('0x') && (
+              <View style={styles.networkIcon}>
+                <NetworkIcon chainId={item.chainId} txHash={item.data.receiptHash || item.id} />
+              </View>
+            )}
+            <Text fontSize={10} style={{ alignSelf: 'center' }}>
+              {getFormattedDateTime(item.date)}
+            </Text>
             {!eventSettings.withoutAmount && (
               <React.Fragment>
                 {eventSettings && eventSettings.actionSymbol && (
@@ -143,6 +151,7 @@ const FeedModalItem = (props: FeedEventProps) => {
               </Text>
             </View>
           )}
+
           <ModalActionsByFeedType item={item} navigation={navigation} handleModalClose={buttonPress} />
         </React.Fragment>
       )}
@@ -218,6 +227,13 @@ const getStylesFromProps = ({ theme }) => {
     actionSymbol: {
       marginLeft: 'auto',
       lineHeight: 30,
+    },
+    networkIcon: {
+      justifyContent: 'center',
+      alignContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'center',
+      marginRight: theme.sizes.default,
     },
   }
 }

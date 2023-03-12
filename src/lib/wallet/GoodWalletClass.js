@@ -1576,6 +1576,27 @@ export class GoodWallet {
 
     return contractName || API.getContractName(address, this.networkId)
   }
+
+  async getContractProxy(address, web3 = this.wallet) {
+    const implStorage = '0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc'
+    const result = await web3.eth.getStorageAt(address, implStorage)
+
+    if (Number(result) === 0) {
+      return undefined
+    }
+
+    //verify first 12 bytes are 0
+    if (result.search(/^0x0{24}/) < 0) {
+      return undefined
+    }
+
+    const addr = '0x' + result.slice(26)
+    try {
+      return this.wallet.utils.toChecksumAddress(addr)
+    } catch (e) {
+      return undefined
+    }
+  }
 }
 
 export const WalletType = GoodWallet.WalletType

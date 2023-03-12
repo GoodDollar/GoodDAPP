@@ -15,7 +15,7 @@ import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/ut
 import { decimalsToFixed, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
-import { useFormatG$, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { useFormatG$, useSwitchNetwork, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
@@ -157,7 +157,7 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
-
+  const { currentNetwork } = useSwitchNetwork()
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
 
@@ -201,7 +201,7 @@ const Dashboard = props => {
       if (headerLarge || Math.floor(Math.log10(Number(inDecimals))) + 1 <= 12) {
         return decimalsToFixed(inDecimals)
       }
-      
+
       return formatWithAbbreviations(inDecimals, 2)
     },
     [headerLarge, toDecimals],
@@ -554,6 +554,13 @@ const Dashboard = props => {
       }
     }
   }, [appState])
+
+  // reset feed everytime we switch network, as feed is filtered by networkId
+  useEffect(() => {
+    if (currentNetwork) {
+      getFeedPage(true)
+    }
+  }, [currentNetwork])
 
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {

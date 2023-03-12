@@ -1,7 +1,7 @@
 // @flow
-import React from 'react'
-import { Linking, Platform, Pressable, View } from 'react-native'
-import { get } from 'lodash'
+import React, { useCallback } from 'react'
+import { Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
+import { get, noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
@@ -15,13 +15,16 @@ import { Icon, Image, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
+import CeloIcon from '../../../assets/logos/celo.svg'
+import FuseIcon from '../../../assets/logos/fuse.svg'
+import Config from '../../../config/config'
+import { openLink } from '../../../lib/utils/linking'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
-
 const log = logger.child({ from: 'ListEventItem' })
 
 const InviteItem = ({ item, theme }) => (
@@ -118,6 +121,30 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
   )
 }
 
+export const NetworkIcon = ({ chainId = 122, txHash }) => {
+  const networkExplorerUrl = Config.ethereum[chainId]?.explorer
+  const goToTxDetails = useCallback(() => {
+    const isTx = txHash.startsWith('0x') && networkExplorerUrl
+    isTx ? openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank') : noop()
+  }, [chainId, txHash])
+
+  let Icon
+  switch (chainId) {
+    case 42220:
+      Icon = CeloIcon
+      break
+    default:
+    case 122:
+      Icon = FuseIcon
+      break
+  }
+  return (
+    <TouchableOpacity onPress={goToTxDetails}>
+      <Icon height={20} />
+    </TouchableOpacity>
+  )
+}
+
 /**
  * Render list withdraw item for feed list
  * @param {FeedEventProps} feedEvent - feed event
@@ -152,7 +179,12 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
     <View style={styles.rowContent}>
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
       <View style={styles.innerRow}>
-        <View style={styles.emptySpace} />
+        <View style={styles.emptySpace}>
+          <View style={{ height: 20 }}>
+            <NetworkIcon chainId={feed.chainId} txHash={feed.data.receiptHash || feed.id} />
+          </View>
+          <Avatar size={normalize(34)} imageSize={normalize(36)} style={styles.avatarBottom} source={avatar} />
+        </View>
         <View grow style={styles.mainContents}>
           <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
             <Text fontSize={10} color="gray80Percent" lineHeight={17}>
@@ -177,7 +209,6 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
             )}
           </View>
           <View style={styles.transferInfo} alignItems="flex-start">
-            <Avatar size={normalize(34)} imageSize={normalize(36)} style={styles.avatarBottom} source={avatar} />
             <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
               {isErrorCard ? (
                 <>
@@ -332,9 +363,6 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   avatarBottom: {
-    position: 'absolute',
-    left: -normalize(41),
-    marginTop: theme.sizes.default,
     alignSelf: 'flex-start',
   },
   mainContents: {
@@ -380,6 +408,10 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'flex-start',
   },
   emptySpace: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flexGrow: 0,
+    height: '100%',
     width: normalize(34),
   },
   feedPicture: {

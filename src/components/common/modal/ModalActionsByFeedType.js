@@ -19,7 +19,7 @@ import { withStyles } from '../../../lib/styles'
 import Section from '../../common/layout/Section'
 
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
-import config from '../../../config/config'
+import Config from '../../../config/config'
 
 import { generateSendShareObject, generateShareLink, isSharingAvailable } from '../../../lib/share'
 import useProfile from '../../../lib/userStorage/useProfile'
@@ -172,8 +172,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     if (!isTx) {
       return
     }
+    const networkExplorerUrl = Config.ethereum[item.chainId || 122]?.explorer
 
-    openLink(`${config.networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
+    openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
   }, [txHash, isTx])
 
   useEffect(() => {
@@ -190,7 +191,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <ModalButton fontWeight="medium" onPress={_handleModalClose}>
-              {config.isPhaseZero ? t`OK` : t`LET\`S DO IT`}
+              {Config.isPhaseZero ? t`OK` : t`LET\`S DO IT`}
             </ModalButton>
           </View>
         </View>

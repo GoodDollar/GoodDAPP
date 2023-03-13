@@ -505,8 +505,12 @@ class RealmDB implements DB, ProfileDB {
         .reverse()
         .offset(offset)
         .filter(item => {
-          const { status, otplStatus } = item
+          const { status, otplStatus, chainId = 122 } = item
 
+          //don't show celo txs in production wallet, remove when merging with celo-wallet branch
+          if (chainId !== 122) {
+            return false
+          }
           if ([status, otplStatus].some(state => hiddenStates.includes(state))) {
             return false
           }

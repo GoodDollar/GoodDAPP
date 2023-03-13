@@ -8,6 +8,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import EmailConfirmation from '../signup/EmailConfirmation'
 import SmsForm from '../signup/SmsForm'
 import Recaptcha from '../auth/components/Recaptcha'
+import Config from '../../config/config'
 
 const log = logger.child({ from: 'Verify Edit Code' })
 
@@ -48,7 +49,7 @@ const VerifyEditCode = props => {
   const onRecaptchaSuccess = useCallback(() => {
     log.debug('Recaptcha successfull')
     setValidRecaptcha(true)
-  }, [])
+  }, [setValidRecaptcha])
 
   const launchCaptcha = useCallback(() => {
     const { current: captcha } = reCaptchaRef
@@ -70,6 +71,7 @@ const VerifyEditCode = props => {
 
   const onRecaptchaFailed = useCallback(() => {
     log.debug('Recaptcha failed')
+
     showErrorDialog('', '', {
       title: t`CAPTCHA test failed`,
       message: t`Please try again.`,
@@ -85,10 +87,21 @@ const VerifyEditCode = props => {
   }, [fieldToSave, content, navigateTo, pop, userStorage])
 
   useEffect(() => {
-    if (field === 'phone' && !isValidRecaptcha) {
-      launchCaptcha()
+    if (field !== 'phone' || isValidRecaptcha) {
+      return
     }
-  }, [reCaptchaRef.current, isValidRecaptcha])
+
+    if (!Config.profileEditCaptcha) {
+      // if profile edit captcha is disabled - just set it valid immediately at mount
+      onRecaptchaSuccess()
+      return
+    }
+
+    launchCaptcha()
+  }, [field, isValidRecaptcha, launchCaptcha, onRecaptchaSuccess])
+
+  // Refs are guaranteed to be up-to-date before componentDidMount
+  // so no need to use ref nor its current value as the effect dep
 
   return (
     <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>

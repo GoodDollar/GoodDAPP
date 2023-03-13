@@ -327,6 +327,12 @@ More G$'s Coming Soon
                             className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
                           >
+                            -
+                          </div>
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
                             0
                           </div>
                           <div
@@ -476,6 +482,12 @@ More G$'s Coming Soon
                         <div
                           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                         >
+                          <div
+                            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
+                            dir="auto"
+                          >
+                            -
+                          </div>
                           <div
                             className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y r-width-1h2t8mc"
                             dir="auto"
@@ -768,67 +780,6 @@ staked
           >
             Last Interest
 Collected
-          </div>
-          <div
-            className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"
-          >
-            <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitFlex": 0,
-                  "flex": 0,
-                  "marginRight": "4px",
-                  "marginTop": "2px",
-                  "msFlex": "0 1 0%",
-                  "paddingLeft": "8px",
-                }
-              }
-            >
-              0.0
-            </div>
-            <div
-              className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitFlex": 0,
-                  "flex": 0,
-                  "msFlex": "0 1 0%",
-                  "paddingBottom": "0px",
-                }
-              }
-            >
-              $
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginTop-1mnahxq"
-      >
-        <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
-        >
-          <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-            dir="auto"
-            style={
-              Object {
-                "backgroundColor": "rgba(229,229,229,1.00)",
-                "borderBottomLeftRadius": "5px",
-                "borderBottomRightRadius": "5px",
-                "borderTopLeftRadius": "5px",
-                "borderTopRightRadius": "5px",
-                "letterSpacing": "0.07px",
-                "paddingBottom": "4px",
-                "paddingLeft": "8px",
-                "paddingTop": "8px",
-              }
-            }
-          >
-            Pending Interest
           </div>
           <div
             className="css-view-1dbjc4n r-alignItems-1d09ksm r-flexDirection-18u37iz r-justifyContent-1h0z5md"

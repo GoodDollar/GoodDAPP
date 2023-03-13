@@ -16,10 +16,27 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "0px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "maxWidth": "475px",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -89,7 +106,28 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03
@@ -178,7 +216,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -199,8 +237,10 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
+                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",
@@ -285,10 +325,27 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "0px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "maxWidth": "475px",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -358,7 +415,28 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03
@@ -557,7 +635,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -578,8 +656,10 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
+                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",
@@ -664,10 +744,27 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "0px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "maxWidth": "475px",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -721,7 +818,28 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03
@@ -957,7 +1075,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -978,8 +1096,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
+                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",
@@ -1064,10 +1184,27 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "0px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "maxWidth": "475px",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -1121,7 +1258,28 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03
@@ -1357,7 +1515,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -1378,8 +1536,10 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
+                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",
@@ -1464,10 +1624,27 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
+        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "height": "0px",
+            "msFlexItemAlign": "start",
+          }
+        }
       >
         <div
-          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          style={
+            Object {
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "maxWidth": "475px",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
@@ -1521,7 +1698,28 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03
@@ -1757,7 +1955,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
+                    className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci"
                     style={
                       Object {
                         "backgroundColor": "rgba(0,175,255,1.00)",
@@ -1778,8 +1976,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                        "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
+                        "marginTop": "0px",
                         "minHeight": "44px",
                         "minWidth": "96px",
                         "paddingBottom": "0px",

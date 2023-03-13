@@ -26,13 +26,6 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitTransform": "translateY(250px)",
-              "opacity": 0,
-              "transform": "translateY(250px)",
-            }
-          }
         >
           <div
             className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
@@ -184,13 +177,6 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitTransform": "translateY(250px)",
-              "opacity": 0,
-              "transform": "translateY(250px)",
-            }
-          }
         >
           <div
             className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
@@ -342,13 +328,6 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitTransform": "translateY(250px)",
-              "opacity": 0,
-              "transform": "translateY(250px)",
-            }
-          }
         >
           <div
             className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
@@ -572,22 +551,33 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci r-maxHeight-pm9dpa r-padding-edyy15 r-width-13qz1uu"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-obd0qt r-flexDirection-eqz5dr r-flexGrow-18kxxzh r-width-1h2t8mc"
+                className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-18kxxzh r-height-1pi2tsx r-justifyContent-1wtj0ep r-width-1h2t8mc"
               >
                 <div
-                  className="css-text-901oao"
-                  dir="auto"
+                  className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "color": "rgba(0,175,255,1.00)",
-                      "fontFamily": "gooddollar",
-                      "fontSize": "30px",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
+                      "height": "20px",
                     }
                   }
                 >
-                  
+                  <div
+                    className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    style={
+                      Object {
+                        "WebkitTransitionDuration": "0s",
+                        "transitionDuration": "0s",
+                      }
+                    }
+                    tabIndex="0"
+                  >
+                    <fuse.svg
+                      height={20}
+                    />
+                  </div>
                 </div>
                 <div
                   aria-disabled={true}
@@ -665,23 +655,6 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n r-position-u8s1d"
-                    style={
-                      Object {
-                        "borderBottomColor": "rgba(0,0,0,1.00)",
-                        "borderBottomWidth": "1",
-                        "borderLeftColor": "rgba(0,0,0,1.00)",
-                        "borderLeftWidth": "1",
-                        "borderRightColor": "rgba(0,0,0,1.00)",
-                        "borderRightWidth": "1",
-                        "borderTopColor": "rgba(0,0,0,1.00)",
-                        "borderTopWidth": "1",
-                        "height": "15",
-                        "width": "10",
-                      }
-                    }
-                  />
                   <div
                     className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
@@ -786,21 +759,33 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci r-maxHeight-pm9dpa r-padding-edyy15 r-width-13qz1uu"
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-obd0qt r-flexDirection-eqz5dr r-flexGrow-18kxxzh r-width-1h2t8mc"
+                className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-18kxxzh r-height-1pi2tsx r-justifyContent-1wtj0ep r-width-1h2t8mc"
               >
                 <div
-                  className="css-text-901oao r-fontWeight-1it3c9n"
-                  dir="auto"
+                  className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "color": "rgba(0,175,255,1.00)",
-                      "fontFamily": "gooddollar",
-                      "fontSize": "30px",
-                      "fontStyle": "normal",
+                      "height": "20px",
                     }
                   }
                 >
-                  
+                  <div
+                    className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                    onClick={[Function]}
+                    onContextMenu={[Function]}
+                    onKeyDown={[Function]}
+                    style={
+                      Object {
+                        "WebkitTransitionDuration": "0s",
+                        "transitionDuration": "0s",
+                      }
+                    }
+                    tabIndex="0"
+                  >
+                    <fuse.svg
+                      height={20}
+                    />
+                  </div>
                 </div>
                 <div
                   aria-disabled={true}
@@ -876,23 +861,6 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n r-position-u8s1d"
-                    style={
-                      Object {
-                        "borderBottomColor": "rgba(0,0,0,1.00)",
-                        "borderBottomWidth": "1",
-                        "borderLeftColor": "rgba(0,0,0,1.00)",
-                        "borderLeftWidth": "1",
-                        "borderRightColor": "rgba(0,0,0,1.00)",
-                        "borderRightWidth": "1",
-                        "borderTopColor": "rgba(0,0,0,1.00)",
-                        "borderTopWidth": "1",
-                        "height": "15",
-                        "width": "10",
-                      }
-                    }
-                  />
                   <div
                     className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"

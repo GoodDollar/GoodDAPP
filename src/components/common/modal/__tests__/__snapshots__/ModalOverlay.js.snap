@@ -5,10 +5,41 @@ exports[`ModalOverlay matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignSelf": "flex-start",
+        "alignSelf": "flex-start",
+        "backgroundColor": "rgba(0,0,0,0.00)",
+        "height": "0px",
+        "msFlexItemAlign": "start",
+        "width": "100%",
+      }
+    }
   >
     <div
-      className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignSelf": "center",
+          "WebkitBoxFlex": 1,
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 0,
+          "alignSelf": "center",
+          "flexGrow": 1,
+          "flexShrink": 0,
+          "marginBottom": "0px",
+          "marginTop": "0px",
+          "maxWidth": "475px",
+          "msFlexItemAlign": "center",
+          "msFlexNegative": 0,
+          "msFlexPositive": 1,
+          "msGridRowAlign": "center",
+          "paddingLeft": "20px",
+          "paddingRight": "20px",
+          "width": "100%",
+        }
+      }
     >
       Testing
     </div>
@@ -21,10 +52,41 @@ exports[`ModalOverlay matches snapshot with properties 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-alignSelf-k200y r-backgroundColor-1niwhzg r-height-1w2pmg r-width-13qz1uu"
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignSelf": "flex-start",
+        "alignSelf": "flex-start",
+        "backgroundColor": "rgba(0,0,0,0.00)",
+        "height": "0px",
+        "msFlexItemAlign": "start",
+        "width": "100%",
+      }
+    }
   >
     <div
-      className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-p1pxzi r-marginTop-1mnahxq r-maxWidth-1xnn5q4 r-paddingLeft-b5h31w r-paddingRight-1ah4tor r-width-13qz1uu"
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignSelf": "center",
+          "WebkitBoxFlex": 1,
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 0,
+          "alignSelf": "center",
+          "flexGrow": 1,
+          "flexShrink": 0,
+          "marginBottom": "0px",
+          "marginTop": "0px",
+          "maxWidth": "475px",
+          "msFlexItemAlign": "center",
+          "msFlexNegative": 0,
+          "msFlexPositive": 1,
+          "msGridRowAlign": "center",
+          "paddingLeft": "20px",
+          "paddingRight": "20px",
+          "width": "100%",
+        }
+      }
     >
       Testing
     </div>

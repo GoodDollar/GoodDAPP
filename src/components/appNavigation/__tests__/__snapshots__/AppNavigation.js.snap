@@ -684,13 +684,6 @@ exports[`AppNavigation matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "WebkitTransform": "translateY(250px)",
-                    "opacity": 0,
-                    "transform": "translateY(250px)",
-                  }
-                }
               >
                 <div
                   className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
@@ -836,13 +829,6 @@ exports[`AppNavigation matches snapshot 1`] = `
               </div>
               <div
                 className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "WebkitTransform": "translateY(250px)",
-                    "opacity": 0,
-                    "transform": "translateY(250px)",
-                  }
-                }
               >
                 <div
                   className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"
@@ -988,13 +974,6 @@ exports[`AppNavigation matches snapshot 1`] = `
               </div>
               <div
                 className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "WebkitTransform": "translateY(250px)",
-                    "opacity": 0,
-                    "transform": "translateY(250px)",
-                  }
-                }
               >
                 <div
                   className="css-view-1dbjc4n r-borderRadius-1xfd6ze r-boxShadow-1d1oby0 r-flexDirection-18u37iz r-marginHorizontal-1ybube5 r-marginTop-knv0ih"

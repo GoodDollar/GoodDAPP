@@ -14,7 +14,7 @@ import LanguageSwitch from './LanguageSwitch'
 import { NavLink } from './Link'
 import usePromise from '../hooks/usePromise'
 import { ExternalLink } from 'theme'
-import { Text, Box, View, useBreakpointValue, HStack, useColorModeValue } from 'native-base'
+import { Text, Box, View, useBreakpointValue, HStack, useColorModeValue, ScrollView } from 'native-base'
 
 const SocialsLink: React.FC<{ network: string; logo: string; url: string }> = ({ network, logo, url }) => (
     <a href={url} target="_blank" className="flex items-center space-x-2" rel="noreferrer">
@@ -39,9 +39,13 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
         base: {
             width: '90%',
             flexShrink: 0,
-            height: '100%',
+            // height: '100%',
             transition: 'all 1s ease',
-            display: 'block',
+            display: 'grid',
+            paddingBottom: 0,
+            height: '590px',
+            gap: '1px',
+            // paddingLeft: '18px',
         },
         lg: {
             width: '258px',
@@ -219,7 +223,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                         </Box>
                     </Box>
                 )}
-                <nav className="flex flex-col">
+                <ScrollView scrollEnabled={true} display="flex" flexDir="column">
                     {internalLinks
                         .filter((internal) => internal.show)
                         .map(({ route, text }) => (
@@ -233,7 +237,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                         .map(({ label, url, dataAttr, withIcon }) => (
                             <ExternalLink key={label} label={label} url={url} dataAttr={dataAttr} withIcon={withIcon} />
                         ))}
-                </nav>
+                </ScrollView>
 
                 <div className="flex flex-col justify-center h-20 gap-3 mt-2.5">
                     <div className="flex flex-row h-6 gap-10">

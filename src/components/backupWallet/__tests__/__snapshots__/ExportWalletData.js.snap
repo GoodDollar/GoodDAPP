@@ -584,7 +584,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                http://localhost:8545/
+                https://rpc.fuse.io
               </div>
             </div>
             <div
@@ -746,7 +746,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                4447
+                122
               </div>
             </div>
             <div

@@ -127,6 +127,7 @@ function App(): JSX.Element {
                             <div
                                 className={`flex flex-col flex-glow w-full justify-start items-center
                              ${location.pathname === '/dashboard' ? 'md:auto' : 'md:h-screen'}
+                             ${location.pathname === '/claim' && 'transform sm:scale-75 xl:scale-100'}
                              md:justify-center`}
                             >
                                 <Routes />

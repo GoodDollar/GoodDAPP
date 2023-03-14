@@ -10,13 +10,15 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import FirstTimer from 'assets/images/claim/firstimer.png'
 import HowWorks from 'assets/images/claim/howitworks.png'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
+import { QueryParams } from '@usedapp/core'
 
 const Claim = memo(() => {
     const { i18n } = useLingui()
+    const [refreshRate, setRefreshRate] = useState<QueryParams['refresh']>('never')
     const {
         claimAmount,
         claimCall: { state, send, resetState },
-    } = useClaim()
+    } = useClaim(refreshRate)
     const [claimed, setClaimed] = useState(false)
     const [, connect] = useConnectWallet()
     const { chainId } = useActiveWeb3React()
@@ -29,18 +31,25 @@ const Claim = memo(() => {
     // 3. If neither is true, there is a claim ready for user or its a new user and FV will be triggered instead
     useEffect(() => {
         if (claimAmount?.isZero()) {
+            setRefreshRate('never')
             setClaimed(true)
         }
         // after just having claimed and switching chains,
         // the state of transaction might still be cached causing the ui to update incorrectly
         // why we force a reset of the tx state after it completes
         else if (state.status === 'Success') {
+            setRefreshRate('everyBlock')
             resetState()
             setClaimed(true)
         } else {
             setClaimed(false)
         }
     }, [claimAmount, state, send, chainId])
+
+    // upon switching chain we want temporarily to poll everyBlock up untill we have the latest data
+    useEffect(() => {
+        setRefreshRate(claimAmount ? 'never' : 'everyBlock')
+    }, [chainId])
 
     const handleEvents = useCallback(
         (event: string) => {
@@ -228,7 +237,7 @@ your G$. 🙂`,
                 <div className="flex flex-col items-center text-center lg:w-5/12">
                     <Box style={balanceContainer}>
                         {claimed ? (
-                            <ClaimBalance />
+                            <ClaimBalance refresh={refreshRate} />
                         ) : (
                             <>
                                 <Title fontFamily="heading" fontSize="2xl" fontWeight="extrabold" pb="2">

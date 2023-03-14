@@ -9,6 +9,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useClaiming } from 'hooks/useClaiming'
 import { useNetworkModalToggle } from 'state/application/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
+import { QueryParams } from '@usedapp/core'
 
 const NextClaim = ({ time }: { time: string }) => (
     <Text fontFamily="subheading" fontWeight="normal" fontSize="xs" color="main">
@@ -16,7 +17,7 @@ const NextClaim = ({ time }: { time: string }) => (
     </Text>
 )
 
-export const ClaimBalance = () => {
+export const ClaimBalance = ({ refresh }: { refresh: QueryParams['refresh'] }) => {
     const { chainId } = useActiveWeb3React()
     const [G$Price] = usePromise(
         () =>
@@ -76,7 +77,7 @@ export const ClaimBalance = () => {
                 <NextClaim time={tillClaim || ''} />
             </Box>
             <Box>
-                <BalanceGD gdPrice={G$Price} />
+                <BalanceGD gdPrice={G$Price} refresh={refresh} />
             </Box>
             <Box alignItems="center">
                 {!claimedAlt && (

@@ -15,7 +15,7 @@ const Claim = memo(() => {
     const { i18n } = useLingui()
     const {
         claimAmount,
-        claimCall: { state, send },
+        claimCall: { state, send, resetState },
     } = useClaim()
     const [claimed, setClaimed] = useState(false)
     const [, connect] = useConnectWallet()
@@ -28,7 +28,14 @@ const Claim = memo(() => {
     // 2. status === success, meaning user has just claimed. Could happen that claimAmount has not been updated right after tx confirmation
     // 3. If neither is true, there is a claim ready for user or its a new user and FV will be triggered instead
     useEffect(() => {
-        if (claimAmount?.isZero() || state.status === 'Success') {
+        if (claimAmount?.isZero()) {
+            setClaimed(true)
+        }
+        // after just having claimed and switching chains,
+        // the state of transaction might still be cached causing the ui to update incorrectly
+        // why we force a reset of the tx state after it completes
+        else if (state.status === 'Success') {
+            resetState()
             setClaimed(true)
         } else {
             setClaimed(false)

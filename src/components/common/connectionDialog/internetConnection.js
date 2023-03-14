@@ -45,7 +45,6 @@ const InternetConnection = props => {
         isConnection,
 
         // isConnectionWeb3,
-        // isConnectionGun,
         firstLoadError,
       })
 

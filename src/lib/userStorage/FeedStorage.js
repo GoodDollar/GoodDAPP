@@ -130,10 +130,9 @@ export class FeedStorage {
   userStorage: UserStorage
 
   constructor(userStorage: UserStorage) {
-    const { gun, wallet, db, database } = userStorage
+    const { wallet, db, database } = userStorage
 
     this.db = db
-    this.gun = gun
     this.wallet = wallet
     this.storage = database
     this.userStorage = userStorage
@@ -162,10 +161,6 @@ export class FeedStorage {
 
     this.feedInitialized = true
     this.setReady()
-  }
-
-  get gunuser() {
-    return this.gun.user()
   }
 
   /***

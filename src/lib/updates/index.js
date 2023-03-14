@@ -5,8 +5,6 @@ import { fireEvent, UPDATE_FAILED, UPDATE_SUCCESS } from '../analytics/analytics
 import logger from '../logger/js-logger'
 
 import uploadAvatars from './avatar'
-import upgradeRealmDB from './upgradeRealmdb'
-import upgradeProfileRealmDB from './upgradeProfileRealmdb'
 import upgradeProfile from './restoreProfile'
 import claimGOOD from './claimGOOD'
 import verifyCRM from './verifycrm'
@@ -15,16 +13,7 @@ import resetRefund from './resetRefund'
 
 const log = logger.child({ from: 'updates' })
 
-const updates = [
-  upgradeRealmDB,
-  upgradeProfileRealmDB,
-  upgradeProfile,
-  uploadAvatars,
-  claimGOOD,
-  verifyCRM,
-  fixRegMethod,
-  resetRefund,
-]
+const updates = [upgradeProfile, uploadAvatars, claimGOOD, verifyCRM, fixRegMethod, resetRefund]
 
 const update = async (goodWallet, userStorage) => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {

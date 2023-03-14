@@ -14,7 +14,7 @@ import { AdditionalChainId, FUSE } from '../../constants'
 import { getFuseTokenLogoURL } from '../../constants/fuseTokenMapping'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import useHttpLocations from '../../hooks/useHttpLocations'
-import { WrappedTokenInfo } from '../../state/lists/hooks'
+import { WrappedTokenInfo } from 'types/WrappedTokenInfo'
 import Logo from '../Logo'
 
 export const getTokenLogoURL = (address: string, chainId: any) => {

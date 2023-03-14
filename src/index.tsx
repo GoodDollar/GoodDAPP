@@ -12,7 +12,6 @@ import Blocklist from './components/Blocklist'
 import App from './pages/App'
 import store from './state'
 import ApplicationUpdater from './state/application/updater'
-import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import UserUpdater from './state/user/updater'
 import ThemeProvider from './theme'
@@ -82,7 +81,6 @@ ReactDOM.render(
                         <LanguageProvider>
                             <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
                                 <Blocklist>
-                                    <ListsUpdater />
                                     <UserUpdater />
                                     <ApplicationUpdater />
                                     <MulticallUpdater />

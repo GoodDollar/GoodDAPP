@@ -55,7 +55,7 @@ const SwapCore = memo(() => {
             token: network === 'FUSE' ? FUSE : ETHER,
             value: '',
         })
-    }, [chainId]) // on first render chainId is undefined
+    }, [/*used */ chainId, network]) // on first render chainId is undefined
 
     const handleSetPair = useCallback(
         (value: Partial<SwapVariant>) =>
@@ -65,7 +65,7 @@ const SwapCore = memo(() => {
             })),
         []
     )
-    const handleSetPairValue = useCallback((value: string) => handleSetPair({ value }), [])
+    const handleSetPairValue = useCallback((value: string) => handleSetPair({ value }), [handleSetPair])
     const handleBuyingValue = useCallback((value) => setBuying(!value), [])
 
     const tokenList = useTokens()
@@ -126,7 +126,7 @@ const SwapCore = memo(() => {
 
             buying && field === 'external' ? setCalcExternal(false) : setCalcInternal(false)
         }, 400))
-    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
+    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value, swapPair, swapValue, handleSetPairValue])
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)
@@ -145,13 +145,14 @@ const SwapCore = memo(() => {
         }
     }
 
+    // eslint-disable-next-line react-hooks-addons/no-unused-deps
     useEffect(() => setApproved(false), [swapValue, swapPair, buying])
 
     const balanceNotEnough = useMemo(
         () =>
             BigInt(meta?.inputAmount.multiply(meta?.inputAmount.decimalScale).toFixed(0) ?? '0') >
             BigInt(buying ? pairBalance?.raw.toString() ?? '0' : swapBalance?.raw.toString() ?? '0'),
-        [meta?.inputAmount, pairBalance]
+        [meta?.inputAmount, pairBalance, buying, swapBalance?.raw]
     )
 
     const route = useMemo(() => {
@@ -173,7 +174,7 @@ const SwapCore = memo(() => {
         } else {
             return route.startsWith('cDAI') ? `${G$?.symbol} > ${route}` : `${G$?.symbol} > cDAI > ${route}`
         }
-    }, [meta?.route, buying, chainId])
+    }, [meta?.route, buying, chainId, G$?.symbol])
 
     const isFuse = SupportedChainId[Number(chainId)] === 'FUSE'
 
@@ -290,14 +291,14 @@ const SwapCore = memo(() => {
             network,
         })
         setShowConfirm(true)
-    }, [sendData, setShowConfirm, buying])
+    }, [sendData, setShowConfirm, buying, network])
 
     const onSwapConfirmed = useCallback(async () => {
         handleSetPairValue('')
         setSwapValue('')
         setMeta(undefined)
         sendData({ event: 'swap', action: 'swap_success', type: buying ? 'buy' : 'sell', network })
-    }, [handleSetPairValue, setSwapValue, setMeta])
+    }, [handleSetPairValue, setSwapValue, setMeta, buying, network, sendData])
 
     return (
         <SwapContext.Provider

@@ -67,6 +67,7 @@ export default function NetworkModal(): JSX.Element | null {
 
     const networkLabel: string | null = error ? null : (NETWORK_LABEL as any)[chainId]
     const network = getNetworkEnv()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const prodNetworks = process.env.REACT_APP_CELO_PHASE_1
         ? [AdditionalChainId.CELO, ChainId.MAINNET, AdditionalChainId.FUSE]
         : [ChainId.MAINNET, AdditionalChainId.FUSE]
@@ -79,7 +80,7 @@ export default function NetworkModal(): JSX.Element | null {
             default:
                 return prodNetworks
         }
-    }, [error, network])
+    }, [network, prodNetworks])
 
     const closeNetworkModal = useCallback(() => {
         setToAddNetwork(undefined)
@@ -102,7 +103,7 @@ export default function NetworkModal(): JSX.Element | null {
                 network: ChainId[chain],
             })
         },
-        [switchNetwork]
+        [switchNetwork, sendData, toggleNetworkModal]
     )
 
     return (

@@ -158,7 +158,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                 show: true,
             },
         ],
-        [i18n, process.env]
+        [i18n]
     )
 
     const internalLinks = useMemo(
@@ -184,6 +184,11 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                 show: true,
             },
             {
+                route: '/bridge',
+                text: 'Bridge',
+                show: true,
+            },
+            {
                 route: '/microbridge',
                 text: 'Micro Bridge',
                 show: process.env.REACT_APP_CELO_PHASE_3,
@@ -194,7 +199,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                 show: true,
             },
         ],
-        [i18n, process.env]
+        []
     )
 
     return (

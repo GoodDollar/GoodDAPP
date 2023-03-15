@@ -212,6 +212,7 @@
     "@gooddollar/web3sdk": "^0.1.20",
     "@gooddollar/web3sdk-v2": "^0.1.85",
     "@headlessui/react": "1.5.0",
+    "@kimafinance/kima-transaction-widget": "^1.1.20-beta.1",
     "@types/react-text-mask": "^5.4.8",
     "@types/text-mask-addons": "^3.8.1",
     "@uniswap/sdk-core": "^3.0.0",

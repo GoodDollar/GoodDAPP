@@ -66,7 +66,7 @@ function App(): JSX.Element {
 
     useEffect(() => {
         sendData({ event: 'goto_page', action: `goto_${pathname}` })
-    }, [pathname])
+    }, [pathname, sendData])
 
     useEffect(() => {
         const parsed = parse(search, { parseArrays: false, ignoreQueryPrefix: true })
@@ -87,7 +87,7 @@ function App(): JSX.Element {
         if (bodyRef.current) {
             bodyRef.current.scrollTo(0, 0)
         }
-    }, [pathname])
+    }, [/* used */ pathname])
 
     useEffect(() => {
         if (!search) return

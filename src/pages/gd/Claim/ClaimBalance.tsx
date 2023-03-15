@@ -53,7 +53,7 @@ export const ClaimBalance = ({ refresh }: { refresh: QueryParams['refresh'] }) =
                 toggleNetworkModal()
             }
         })
-    }, [switchNetwork, claimedAlt])
+    }, [switchNetwork, altChain, toggleNetworkModal])
 
     return (
         <View

@@ -5,10 +5,16 @@ const {
     override,
     addBabelPresets,
     addWebpackAlias,
+    addWebpackModuleRule,
 } = require('customize-cra')
 const path = require('path')
 
 module.exports = override(
+    addWebpackModuleRule({
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+    }),
     addPostcssPlugins([require('tailwindcss'), require('postcss-preset-env')({ stage: 1 })]),
     ...addExternalBabelPlugins(
         'babel-plugin-react-native-web',

@@ -7,7 +7,7 @@ module.exports = {
         "plugin:prettier/recommended",
         'prettier',
     ],
-    plugins: ['@typescript-eslint', 'prettier', 'eslint-plugin-import'],
+    plugins: ['@typescript-eslint', 'prettier', 'eslint-plugin-import', 'react-hooks', 'react-hooks-addons'],
     parserOptions: {
         ecmaVersion: 2020,
         ecmaFeatures: {
@@ -47,6 +47,8 @@ module.exports = {
         'no-extend-native': 'off',
         'react/prop-types': 'off',
         'react/display-name': 'off',
+        'react-hooks/exhaustive-deps': 'warn',
+        'react-hooks-addons/no-unused-deps': ['warn', { "effectComment": "used"}],
         'prettier/prettier': 'error',
         'prefer-const': 'warn',
         'no-constant-condition': 'off',

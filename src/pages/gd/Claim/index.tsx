@@ -14,7 +14,7 @@ import { QueryParams } from '@usedapp/core'
 
 const Claim = memo(() => {
     const { i18n } = useLingui()
-    const [refreshRate, setRefreshRate] = useState<QueryParams['refresh']>('never')
+    const [refreshRate, setRefreshRate] = useState<QueryParams['refresh']>(12)
     const {
         claimAmount,
         claimCall: { state, send, resetState },
@@ -31,7 +31,7 @@ const Claim = memo(() => {
     // 3. If neither is true, there is a claim ready for user or its a new user and FV will be triggered instead
     useEffect(() => {
         if (claimAmount?.isZero()) {
-            setRefreshRate('never')
+            setRefreshRate(12)
             setClaimed(true)
         }
         // after just having claimed and switching chains,
@@ -44,12 +44,12 @@ const Claim = memo(() => {
         } else {
             setClaimed(false)
         }
-    }, [claimAmount, state, send, chainId])
+    }, [claimAmount, state, resetState])
 
     // upon switching chain we want temporarily to poll everyBlock up untill we have the latest data
     useEffect(() => {
-        setRefreshRate(claimAmount ? 'never' : 'everyBlock')
-    }, [chainId])
+        setRefreshRate('everyBlock')
+    }, [/* used */ chainId])
 
     const handleEvents = useCallback(
         (event: string) => {
@@ -71,7 +71,7 @@ const Claim = memo(() => {
                     break
             }
         },
-        [sendData]
+        [sendData, network]
     )
 
     const handleClaim = useCallback(async () => {
@@ -82,7 +82,7 @@ const Claim = memo(() => {
             return false
         }
         return true
-    }, [send])
+    }, [send, network, sendData])
 
     const handleConnect = useCallback(async () => {
         const state = await connect()

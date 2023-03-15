@@ -14,6 +14,7 @@ import { FVFlowContext } from '../context/FVFlowContext'
 import useFVRedirect from '../hooks/useFVRedirect'
 import withStyles from '../theme/withStyles'
 import logger from '../../../../lib/logger/js-logger'
+import useFVLoginInfoCheck from '../hooks/useFVLoginInfoCheck'
 
 const checkWhitelistedAttempts = 6
 const checkWhitelistedDelay = 5
@@ -44,6 +45,10 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
   const fvRedirect = useFVRedirect()
   const counterRef = useRef(counter)
 
+  // does redirect to error page with if no account/faceid/other params specified
+  // othwerise page will count till 0 then stuck
+  useFVLoginInfoCheck()
+
   // sync timer with the ref in parralel
   useEffect(() => (counterRef.current = counter), [counter])
 
@@ -71,6 +76,11 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
         log.error('Whitelisted check failed:', e.message, e, { account })
         return false
       }
+    }
+
+    // if no params were sent (e.g. user refreshed page) - do not send requests
+    if (!account) {
+      return
     }
 
     log.info('Waiting for whitelisted', { account })

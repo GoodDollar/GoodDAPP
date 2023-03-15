@@ -11,10 +11,24 @@ import { createUrlObject } from '../../lib/utils/uri'
 import { getNetworkName } from '../../lib/constants/network'
 import { InfoIcon } from '../../components/common/modal/InfoIcon'
 import ExplanationDialog from '../../components/common/dialogs/ExplanationDialog'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useSwitchNetwork, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { extractEthAddress } from '../../lib/wallet/utils'
 
-export const RecipientWarnDialog = ({ onConfirm, isDiffNetwork, currentNetwork, requestedNetwork }) => {
+export const RecipientWarnDialog = ({
+  onConfirm = noop,
+  onDismiss = noop,
+  isDiffNetwork,
+  currentNetwork,
+  requestedNetwork,
+}) => {
+  const { switchNetwork } = useSwitchNetwork()
+  const isKnownNetwork = ['fuse', 'celo'].includes(requestedNetwork.toLowerCase())
+  const _onConfirm = async () => {
+    if (isDiffNetwork && isKnownNetwork) {
+      await switchNetwork(requestedNetwork)
+    }
+    onConfirm()
+  }
   return (
     <ExplanationDialog
       title={
@@ -27,12 +41,12 @@ export const RecipientWarnDialog = ({ onConfirm, isDiffNetwork, currentNetwork, 
       buttons={[
         {
           text: t`Cancel`,
-          onPress: noop,
+          action: onDismiss,
           mode: 'text',
         },
         {
-          text: t`Confirm`,
-          action: onConfirm,
+          text: isDiffNetwork && isKnownNetwork ? t`Switch To ${requestedNetwork}` : t`Confirm`,
+          action: _onConfirm,
         },
       ]}
     />
@@ -74,12 +88,12 @@ export const useHandlePaymentRequest = () => {
           if (!isKnownAddress || isDiffNetwork) {
             return showDialog({
               showButtons: false,
-              onDismiss,
               content: (
                 <RecipientWarnDialog
                   isDiffNetwork={isDiffNetwork}
                   currentNetwork={getNetworkName(goodWallet.networkId)}
                   requestedNetwork={getNetworkName(code.networkId)}
+                  onDismiss={onDismiss}
                   onConfirm={() => onSuccess({ ...code, networkId: goodWallet.networkId })} // force current network on confirm
                 />
               ),

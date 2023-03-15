@@ -207,6 +207,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const switchNetwork = useCallback(
     async (network: 'fuse' | 'celo') => {
+      network = network.toLowerCase()
       const env = Config.network.split('-')[0]
 
       let contractsNetwork

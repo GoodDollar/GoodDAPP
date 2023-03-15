@@ -157,7 +157,6 @@ export function readCode(code: string) {
 
     const { network, address } = decode(mnid)
 
-    amount = amount && parseInt(amount)
     reason = reason === 'undefined' ? undefined : reason
     category = category === 'undefined' ? undefined : category
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName

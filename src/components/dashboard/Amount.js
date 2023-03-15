@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
-import { BN } from 'web3-utils'
+import { BN, toBN } from 'web3-utils'
 import { t } from '@lingui/macro'
 import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
@@ -44,8 +44,8 @@ const Amount = (props: AmountProps) => {
   const { params } = props.navigation.state
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
-  const [GDAmount, setGDAmount] = useState(amount > 0 ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0')
-  const [loading, setLoading] = useState(amount <= 0)
+  const [GDAmount, setGDAmount] = useState(toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0')
+  const [loading, setLoading] = useState(toBN(amount).lte(0))
   const [error, setError] = useState()
 
   const isReceive = params && params.action === ACTION_RECEIVE

@@ -378,7 +378,7 @@ export const parsePaymentLinkParams = params => {
         networkId,
       }
     } catch (e) {
-      log.info('uses old format', { paymentCode, reason })
+      log.info('uses old format', { paymentCode, reason, error: e.message })
       paymentParams = {
         paymentCode: decodeURIComponent(paymentCode),
         reason: reason ? decodeURIComponent(reason) : null,

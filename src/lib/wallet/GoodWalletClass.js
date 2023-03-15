@@ -1095,7 +1095,7 @@ export class GoodWallet {
       return {
         hashedCode,
         status,
-        amount,
+        amount: paymentAmount,
         sender,
       }
     } catch (exception) {

@@ -19,7 +19,7 @@ import { InfoIcon } from '../common/modal/InfoIcon'
 import createABTesting from '../../lib/hooks/useABTesting'
 import { withStyles } from '../../lib/styles'
 
-import { useFormatG$, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useFormatG$, useSwitchNetworkModal, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
 import mustache from '../../lib/utils/mustache'
 import { decimalsToFixed } from '../../lib/wallet/utils'
@@ -462,6 +462,8 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo, st
 const Invite = ({ screenProps, styles }) => {
   const { wasOpened } = useInviteScreenOpened()
   const { toDecimals } = useFormatG$()
+  useSwitchNetworkModal('celo', screenProps.goToRoot)
+
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
   const userStorage = useUserStorage()

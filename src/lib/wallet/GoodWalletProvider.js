@@ -1,5 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { noop } from 'lodash'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -9,6 +10,7 @@ import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
 import { getNetworkName } from '../constants/network'
+import { useDialog } from '../dialog/useDialog'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
 
@@ -45,7 +47,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const [web3Provider, setWeb3] = useState()
   const [isLoggedInJWT, setLoggedInJWT] = useState()
-  const [balance, setBalance] = useState({ balance: '0', fuseBalance: '0', celoBalance: '0' })
+  const [balance, setBalance] = useState({ totalBalance: '0', balance: '0', fuseBalance: '0', celoBalance: '0' })
   const [dailyUBI, setDailyUBI] = useState('0')
   const [isCitizen, setIsCitizen] = useState()
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
@@ -54,9 +56,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const update = useCallback(
     async goodWallet => {
-      const { UBIContract, identityContract, account } = goodWallet
+      const { tokenContract, UBIContract, identityContract, account } = goodWallet
 
       const calls = [
+        {
+          balance: tokenContract.methods.balanceOf(account),
+        },
         {
           ubi: UBIContract.methods.checkEntitlement(account),
         },
@@ -66,7 +71,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       ]
 
       // entitelment is separate because it depends on msg.sender
-      const [[{ ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
+      const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
 
       if (fusewallet && celowallet) {
         let [fuseBalance = '0', celoBalance = '0'] = await Promise.all([
@@ -75,8 +80,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         ])
         fuseBalance = Number(fusewallet.toDecimals(fuseBalance))
         celoBalance = Number(celowallet.toDecimals(celoBalance))
-        const balance = (fuseBalance + celoBalance).toFixed(2)
-        setBalance({ balance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
+        const totalBalance = (fuseBalance + celoBalance).toFixed(2)
+        setBalance({ balance, totalBalance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
       }
       setDailyUBI(ubi)
       setIsCitizen(isCitizen)
@@ -310,11 +315,14 @@ export const useUserStorage = (): UserStorage => {
   return userStorage
 }
 export const useWalletData = () => {
-  const { dailyUBI, balance, celoBalance, fuseBalance, isCitizen, goodWallet } = useContext(GoodWalletContext)
+  const { dailyUBI, balance, totalBalance, celoBalance, fuseBalance, isCitizen, goodWallet } = useContext(
+    GoodWalletContext,
+  )
 
   return {
     dailyUBI,
     balance,
+    totalBalance,
     celoBalance,
     fuseBalance,
     isCitizen,
@@ -326,6 +334,33 @@ export const useSwitchNetwork = () => {
   const { switchNetwork, goodWallet } = useContext(GoodWalletContext)
 
   return { switchNetwork, currentNetwork: getNetworkName(goodWallet.networkId) }
+}
+
+export const useSwitchNetworkModal = (toNetwork?: 'fuse' | 'celo', onDismiss = noop) => {
+  const { showDialog, hideDialog } = useDialog()
+  const { currentNetwork, switchNetwork } = useSwitchNetwork()
+
+  useEffect(() => {
+    const switchTo = toNetwork ? toNetwork : currentNetwork === 'fuse' ? 'celo' : 'fuse'
+    if (switchTo !== currentNetwork) {
+      showDialog({
+        title: 'To continue please switch chains',
+        visible: true,
+        type: 'info',
+        isMinHeight: true,
+        onDismiss,
+        buttons: [
+          {
+            text: `Switch to ${switchTo.toUpperCase()}`,
+            onPress: async () => {
+              await switchNetwork(switchTo)
+              hideDialog()
+            },
+          },
+        ],
+      })
+    }
+  }, [toNetwork, currentNetwork])
 }
 
 export const useFormatG$ = () => {

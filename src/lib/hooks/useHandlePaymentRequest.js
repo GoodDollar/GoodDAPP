@@ -88,6 +88,7 @@ export const useHandlePaymentRequest = () => {
           if (!isKnownAddress || isDiffNetwork) {
             return showDialog({
               showButtons: false,
+              onDismiss,
               content: (
                 <RecipientWarnDialog
                   isDiffNetwork={isDiffNetwork}

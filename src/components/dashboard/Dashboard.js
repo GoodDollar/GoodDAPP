@@ -144,7 +144,7 @@ const Dashboard = props => {
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
-  const { balance, dailyUBI } = useWalletData()
+  const { balance, fuseBalance, celoBalance, dailyUBI } = useWalletData()
   const entitlement = Number(dailyUBI)
   const { toDecimals } = useFormatG$()
   const { avatar, fullName } = useProfile()
@@ -196,7 +196,7 @@ const Dashboard = props => {
 
   const balanceFormatter = useCallback(
     amount => {
-      const inDecimals = decimalsToFixed(toDecimals(amount))
+      const inDecimals = amount
 
       if (headerLarge || Math.floor(Math.log10(Number(inDecimals))) + 1 <= 12) {
         return decimalsToFixed(inDecimals)
@@ -649,13 +649,13 @@ const Dashboard = props => {
 
   const calculateFontSize = useMemo(
     () => ({
-      fontSize: normalizeByLength(decimalsToFixed(toDecimals(balance)), 42, 10),
+      fontSize: normalizeByLength(balance, 42, 10),
     }),
     [balance, toDecimals],
   )
 
   const calculateUSDWorthOfBalance = useMemo(
-    () => (showPrice ? formatWithFixedValueDigits(price * Number(decimalsToFixed(toDecimals(balance)))) : null),
+    () => (showPrice ? formatWithFixedValueDigits(price * Number(balance)) : null),
     [showPrice, price, balance, toDecimals],
   )
 
@@ -695,9 +695,15 @@ const Dashboard = props => {
                 />
               </View>
               {headerLarge && showPrice && (
-                <Section.Text style={styles.gdPrice}>
-                  ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
-                </Section.Text>
+                <View>
+                  <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Section.Text style={[styles.gdPrice, { marginRight: 16 }]}>{fuseBalance} Fuse G$</Section.Text>
+                    <Section.Text style={styles.gdPrice}>{celoBalance} Celo G$</Section.Text>
+                  </View>
+                  <Section.Text style={styles.gdPrice}>
+                    ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
+                  </Section.Text>
+                </View>
               )}
             </Animated.View>
           </Section.Stack>

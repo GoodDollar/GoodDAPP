@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -41,12 +41,12 @@ export const GoodWalletContext = React.createContext({
  */
 export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
-  const [{ goodWallet, userStorage }, setWalletAndStorage] = useState({})
+  const [{ goodWallet, userStorage, fusewallet, celowallet }, setWalletAndStorage] = useState({})
 
   const [web3Provider, setWeb3] = useState()
   const [isLoggedInJWT, setLoggedInJWT] = useState()
-  const [balance, setBalance] = useState()
-  const [dailyUBI, setDailyUBI] = useState()
+  const [balance, setBalance] = useState({ balance: '0', fuseBalance: '0', celoBalance: '0' })
+  const [dailyUBI, setDailyUBI] = useState('0')
   const [isCitizen, setIsCitizen] = useState()
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
 
@@ -54,12 +54,9 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const update = useCallback(
     async goodWallet => {
-      const { tokenContract, UBIContract, identityContract, account } = goodWallet
+      const { UBIContract, identityContract, account } = goodWallet
 
       const calls = [
-        {
-          balance: tokenContract.methods.balanceOf(account),
-        },
         {
           ubi: UBIContract.methods.checkEntitlement(account),
         },
@@ -69,23 +66,46 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       ]
 
       // entitelment is separate because it depends on msg.sender
-      const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
+      const [[{ ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
 
-      setBalance(balance)
+      if (fusewallet && celowallet) {
+        let [fuseBalance = '0', celoBalance = '0'] = await Promise.all([
+          fusewallet?.balanceOf(),
+          celowallet?.balanceOf(),
+        ])
+        fuseBalance = Number(fusewallet.toDecimals(fuseBalance))
+        celoBalance = Number(celowallet.toDecimals(celoBalance))
+        const balance = (fuseBalance + celoBalance).toFixed(2)
+        setBalance({ balance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
+      }
       setDailyUBI(ubi)
       setIsCitizen(isCitizen)
     },
-    [setBalance, setDailyUBI, setIsCitizen],
+    [setBalance, setDailyUBI, setIsCitizen, fusewallet, celowallet],
   )
 
   const initWalletAndStorage = useCallback(
-    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER', network = Config.network) => {
+    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER') => {
       try {
+        const fusewallet = new GoodWallet({
+          mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
+          web3: type !== 'SEED' ? seedOrWeb3 : undefined,
+          web3Transport: Config.web3TransportProvider,
+          network: getContractsNetwork('fuse'),
+        })
+
+        const celowallet = new GoodWallet({
+          mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
+          web3: type !== 'SEED' ? seedOrWeb3 : undefined,
+          web3Transport: Config.web3TransportProvider,
+          network: getContractsNetwork('celo'),
+        })
+
         const wallet = new GoodWallet({
           mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
           web3: type !== 'SEED' ? seedOrWeb3 : undefined,
           web3Transport: Config.web3TransportProvider,
-          network,
+          network: Config.network,
         })
 
         await wallet.ready
@@ -111,7 +131,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         await storage.ready
 
         if (loginAndWatch) {
-          await Promise.all([doLogin(wallet, storage, false), update(wallet)])
+          await doLogin(wallet, storage, false)
         }
 
         if (isLoggedInRouter) {
@@ -140,8 +160,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         global.userStorage = storage
         global.wallet = wallet
-        setWalletAndStorage({ goodWallet: wallet, userStorage: storage })
-
+        setWalletAndStorage({ goodWallet: wallet, userStorage: storage, celowallet, fusewallet })
         log.info('initWalletAndStorage done')
         return [wallet, storage]
       } catch (e) {
@@ -205,34 +224,39 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
 
+  const getContractsNetwork = (network: 'fuse' | 'celo') => {
+    network = network.toLowerCase()
+    const env = Config.network.split('-')[0]
+
+    let contractsNetwork
+    switch (env) {
+      default:
+      case 'fuse':
+      case 'development':
+        contractsNetwork = network === 'fuse' ? 'fuse' : `development-${network}`
+        break
+      case 'staging':
+        contractsNetwork = network === 'fuse' ? 'staging' : `${env}-${network}`
+        break
+      case 'production':
+        contractsNetwork = network === 'fuse' ? 'production' : `${env}-${network}`
+        break
+    }
+    return contractsNetwork
+  }
+
   const switchNetwork = useCallback(
     async (network: 'fuse' | 'celo') => {
-      network = network.toLowerCase()
-      const env = Config.network.split('-')[0]
+      let contractsNetwork = getContractsNetwork(network)
 
-      let contractsNetwork
-      switch (env) {
-        default:
-        case 'fuse':
-        case 'development':
-          contractsNetwork = network === 'fuse' ? 'fuse' : `development-${network}`
-          break
-        case 'staging':
-          contractsNetwork = network === 'fuse' ? 'staging' : `${env}-${network}`
-          break
-        case 'production':
-          contractsNetwork = network === 'fuse' ? 'production' : `${env}-${network}`
-          break
-      }
       try {
         await goodWallet.setIsPollEvents(false) //stop watching prev chain events
         await goodWallet.init({ network: contractsNetwork }) //reinit wallet
-        await update(goodWallet) //call to update globals
         const lastBlock =
           userStorage.userProperties.get('lastBlock_' + goodWallet.networkId) ||
           Config.ethereum[goodWallet.networkId].startBlock
 
-        log.debug('switchNetwork: starting watchBalanceAndTXs', { lastBlock, env, contractsNetwork })
+        log.debug('switchNetwork: starting watchBalanceAndTXs', { lastBlock, network, contractsNetwork })
 
         goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
           userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
@@ -241,18 +265,25 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         //trigger refresh
         setWalletAndStorage(_ => ({ ..._, goodWallet }))
       } catch (e) {
-        log.error('switchNetwork failed:', e.message, e, { contractsNetwork, env, network })
+        log.error('switchNetwork failed:', e.message, e, { contractsNetwork, network })
       }
     },
     [goodWallet, userStorage],
   )
+
+  useEffect(() => {
+    if (goodWallet) {
+      update(goodWallet) // update global data whenever wallets/network changes
+    }
+  }, [celowallet, fusewallet, goodWallet])
+
   let contextValue = {
     userStorage,
     goodWallet,
     initWalletAndStorage,
     login,
     isLoggedInJWT,
-    balance,
+    ...balance,
     dailyUBI,
     isCitizen,
     switchNetwork,
@@ -279,9 +310,16 @@ export const useUserStorage = (): UserStorage => {
   return userStorage
 }
 export const useWalletData = () => {
-  const { dailyUBI, balance, isCitizen, goodWallet } = useContext(GoodWalletContext)
+  const { dailyUBI, balance, celoBalance, fuseBalance, isCitizen, goodWallet } = useContext(GoodWalletContext)
 
-  return { dailyUBI, balance, isCitizen, networkExplorerUrl: Config.ethereum[goodWallet.networkId].explorer }
+  return {
+    dailyUBI,
+    balance,
+    celoBalance,
+    fuseBalance,
+    isCitizen,
+    networkExplorerUrl: Config.ethereum[goodWallet.networkId].explorer,
+  }
 }
 
 export const useSwitchNetwork = () => {

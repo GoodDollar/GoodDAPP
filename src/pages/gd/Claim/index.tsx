@@ -44,7 +44,8 @@ const Claim = memo(() => {
         } else {
             setClaimed(false)
         }
-    }, [claimAmount, state, resetState])
+        // eslint-disable-next-line react-hooks-addons/no-unused-deps
+    }, [claimAmount, state, send, chainId, resetState])
 
     // upon switching chain we want temporarily to poll everyBlock up untill we have the latest data
     useEffect(() => {

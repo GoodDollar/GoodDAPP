@@ -1585,16 +1585,17 @@ export class GoodWallet {
       return undefined
     }
 
-    //verify first 12 bytes are 0
+    // verify first 12 bytes are 0
     if (result.search(/^0x0{24}/) < 0) {
-      return undefined
+      return
     }
 
     const addr = '0x' + result.slice(26)
+
     try {
       return this.wallet.utils.toChecksumAddress(addr)
     } catch (e) {
-      return undefined
+      return
     }
   }
 }

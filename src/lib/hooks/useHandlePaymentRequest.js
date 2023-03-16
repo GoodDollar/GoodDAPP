@@ -23,12 +23,15 @@ export const RecipientWarnDialog = ({
 }) => {
   const { switchNetwork } = useSwitchNetwork()
   const isKnownNetwork = ['fuse', 'celo'].includes(requestedNetwork.toLowerCase())
+
   const _onConfirm = async () => {
     if (isDiffNetwork && isKnownNetwork) {
       await switchNetwork(requestedNetwork)
     }
+    
     onConfirm()
   }
+  
   return (
     <ExplanationDialog
       title={

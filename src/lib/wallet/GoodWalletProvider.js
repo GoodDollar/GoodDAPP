@@ -83,6 +83,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         const totalBalance = (fuseBalance + celoBalance).toFixed(2)
         setBalance({ balance, totalBalance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
       }
+
       setDailyUBI(ubi)
       setIsCitizen(isCitizen)
     },

@@ -507,6 +507,7 @@ class RealmDB implements DB, ProfileDB {
         .filter(item => {
           const { status, otplStatus, chainId = 122, id } = item //assume old items without chainid are from fuse
           const isNonChainItem = id.startsWith('0x') === false
+
           if (!isNonChainItem && filterToChainId !== chainId) {
             return false
           }

@@ -505,9 +505,9 @@ class RealmDB implements DB, ProfileDB {
         .reverse()
         .offset(offset)
         .filter(item => {
-          const { status, otplStatus, chainId } = item
-          const isLegacyItem = !chainId && filterToChainId === 122 //we asume items without chainId are from fuse
-          if (filterToChainId !== chainId && !isLegacyItem) {
+          const { status, otplStatus, chainId = 122, id } = item //assume old items without chainid are from fuse
+          const isNonChainItem = id.startsWith('0x') === false
+          if (!isNonChainItem && filterToChainId !== chainId) {
             return false
           }
           if ([status, otplStatus].some(state => hiddenStates.includes(state))) {

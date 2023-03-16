@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Platform, TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
-import { Icon, Text } from '../../components/common'
+import { Icon, IconButton, Text } from '../../components/common'
 
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
@@ -59,6 +59,10 @@ const styles = {
   networkName: {
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  switchNetworkIcon: {
+    marginLeft: theme.sizes.default,
   },
 }
 
@@ -115,13 +119,18 @@ const rewardStyles = {
 }
 
 const NetworkName = () => {
-  const { currentNetwork } = useSwitchNetwork()
+  const { currentNetwork, switchNetwork } = useSwitchNetwork()
+
+  const toggle = () => {
+    switchNetwork(currentNetwork === 'FUSE' ? 'CELO' : 'FUSE')
+  }
 
   return (
     <View style={styles.networkName}>
       <Text color={'white'} fontWeight="bold">
         {currentNetwork}
       </Text>
+      <IconButton name="convert" onPress={toggle} color="transparent" circle={false} style={styles.switchNetworkIcon} />
     </View>
   )
 }

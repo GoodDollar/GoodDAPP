@@ -6,7 +6,7 @@ import { restart } from '../utils/system'
 
 // hooks
 import { useDialog } from '../../lib/dialog/useDialog'
-import { useSwitchNetwork, useUserStorage } from '../wallet/GoodWalletProvider'
+import { useUserStorage } from '../wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 
 // utils
@@ -29,7 +29,6 @@ export default (props = {}) => {
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const userStorage = useUserStorage()
   const { isMenuOn, setMenu, installPrompt, setAddWebApp } = useContext(GlobalTogglesContext)
-  const { switchNetwork, currentNetwork } = useSwitchNetwork()
   const slideToggle = useCallback(() => setMenu(!isMenuOn), [isMenuOn, setMenu])
   const slideIn = useCallback(() => !isMenuOn && setMenu(true), [isMenuOn, setMenu])
   const slideOut = useCallback(() => isMenuOn && setMenu(false), [isMenuOn, setMenu])
@@ -65,16 +64,6 @@ export default (props = {}) => {
             routeName: 'WalletConnect',
             type: 'Navigation/NAVIGATE',
           })
-
-          slideOut()
-        },
-      },
-      {
-        icon: 'walletconnect',
-        size: 14,
-        name: t`Switch to ${currentNetwork.toLowerCase() === 'celo' ? 'Fuse' : 'Celo'}`,
-        action: async () => {
-          await switchNetwork(currentNetwork.toLowerCase() === 'celo' ? 'fuse' : 'celo')
 
           slideOut()
         },
@@ -206,7 +195,7 @@ export default (props = {}) => {
     ]
 
     return items
-  }, [isSelfCustody, slideOut, navigation, installPrompt, switchNetwork, currentNetwork])
+  }, [isSelfCustody, slideOut, navigation, installPrompt])
 
   return {
     slideIn,

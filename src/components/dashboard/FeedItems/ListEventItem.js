@@ -123,9 +123,9 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
 
 export const NetworkIcon = ({ chainId = 122, txHash }) => {
   const networkExplorerUrl = Config.ethereum[chainId]?.explorer
+  const isTx = txHash.startsWith('0x')
   const goToTxDetails = useCallback(() => {
-    const isTx = txHash.startsWith('0x') && networkExplorerUrl
-    isTx ? openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank') : noop()
+    networkExplorerUrl ? openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank') : noop()
   }, [chainId, txHash])
 
   let Icon
@@ -138,11 +138,11 @@ export const NetworkIcon = ({ chainId = 122, txHash }) => {
       Icon = FuseIcon
       break
   }
-  return (
+  return isTx ? (
     <TouchableOpacity onPress={goToTxDetails}>
       <Icon height={20} />
     </TouchableOpacity>
-  )
+  ) : null
 }
 
 /**

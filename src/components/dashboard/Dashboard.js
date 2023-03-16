@@ -144,7 +144,7 @@ const Dashboard = props => {
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
-  const { balance, fuseBalance, celoBalance, dailyUBI } = useWalletData()
+  const { totalBalance: balance, fuseBalance, celoBalance, dailyUBI } = useWalletData()
   const entitlement = Number(dailyUBI)
   const { toDecimals } = useFormatG$()
   const { avatar, fullName } = useProfile()

@@ -197,10 +197,10 @@ export class GoodWallet {
     }
     this.mainnetNetwork = (() => {
       const network = first(this.config.network.split('-'))
-      return network === 'development' ? 'fuse' : network
+      return network === 'development' ? 'fuse-mainnet' : `${network}-mainnet`
     })()
 
-    const mainnetNetworkId = get(ContractsAddress, this.mainnetNetwork + '-mainnet.networkId', 122)
+    const mainnetNetworkId = get(ContractsAddress, this.mainnetNetwork + '.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const network = this.config.network
@@ -314,7 +314,7 @@ export class GoodWallet {
         {
           const { network, networkId } = this
           const contractAddresses = ContractsAddress[network]
-          const mainnetAddresses = ContractsAddress[this.mainnetNetwork + '-mainnet']
+          const mainnetAddresses = ContractsAddress[this.mainnetNetwork]
 
           log.debug('GoodWallet initialized with addresses', {
             networkId,

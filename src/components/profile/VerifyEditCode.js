@@ -8,7 +8,6 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import EmailConfirmation from '../signup/EmailConfirmation'
 import SmsForm from '../signup/SmsForm'
 import Recaptcha from '../auth/components/Recaptcha'
-import Config from '../../config/config'
 
 const log = logger.child({ from: 'Verify Edit Code' })
 
@@ -88,12 +87,6 @@ const VerifyEditCode = props => {
 
   useEffect(() => {
     if (field !== 'phone' || isValidRecaptcha) {
-      return
-    }
-
-    if (!Config.profileEditCaptcha) {
-      // if profile edit captcha is disabled - just set it valid immediately at mount
-      onRecaptchaSuccess()
       return
     }
 

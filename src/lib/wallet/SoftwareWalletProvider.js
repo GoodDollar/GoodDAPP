@@ -166,10 +166,14 @@ class SoftwareWalletProvider {
     const p = new HttpProvider(provider, options)
     const send = p.send.bind(p)
     p.send = function(payload, callback) {
+      const currentHost = this.host
       const newcb = (error, result) => {
         // console.log('newcb', { payload, error, provider, _this })
         if (error?.message?.search('CONNECTION ERROR|CONNECTION TIMEOUT|Invalid JSON RPC') >= 0) {
-          this.host = 'https://rpc.fuse.io'
+          if (currentHost === this.host) {
+            // only modify host if it wasnt already modified since begining of call
+            this.host = 'https://rpc.fuse.io'
+          }
           return send(payload, callback)
         }
         return callback(error, result)

@@ -13,6 +13,16 @@ import MultipleAddressWallet from './MultipleAddressWallet'
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 const { WebsocketProvider, HttpProvider } = Web3.providers
 
+// const send = HttpProvider.prototype.send
+// HttpProvider.prototype.send = function(payload, callback) {
+//   const _this = this
+//   const newcb = (error, result) => {
+//     console.log('newcb', { payload, error, _this })
+//     return callback(error, result)
+//   }
+//   return send(payload, newcb)
+// }
+
 /**
  * save mnemonics (secret phrase) to user device
  * @param {string} mnemonics
@@ -153,7 +163,20 @@ class SoftwareWalletProvider {
         break
     }
 
-    return new HttpProvider(provider, options)
+    const p = new HttpProvider(provider, options)
+    const send = p.send.bind(p)
+    p.send = function(payload, callback) {
+      const newcb = (error, result) => {
+        // console.log('newcb', { payload, error, provider, _this })
+        if (error?.message?.search('CONNECTION ERROR|CONNECTION TIMEOUT|Invalid JSON RPC') >= 0) {
+          this.host = 'https://rpc.fuse.io'
+          return send(payload, callback)
+        }
+        return callback(error, result)
+      }
+      return send(payload, newcb)
+    }
+    return p
   }
 }
 

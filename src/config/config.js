@@ -1,4 +1,4 @@
-import { get, noop } from 'lodash'
+import { defaultsDeep, get, noop } from 'lodash'
 import moment from 'moment'
 
 import contractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
@@ -29,21 +29,29 @@ const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'fuse'
 const { networkId } = contractsAddress[network]
 
+
 export const fuseNetwork = {
   httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
+  explorerAPI: 'https://explorer.fuse.io',
   explorerName: 'fusescan',
   network_id: 122,
+  gasPrice:10, //in gwei
+  g$Decimals:2
 }
 
-const ethereum = {
+let altProviders = {}
+
+const ethereum = defaultsDeep(altProviders, {
   '1': {
     network_id: 1,
     httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
+    explorerAPI: 'https://api.etherscan.io',
     explorerName: 'etherscan',
+    gasPrice: 1,
   },
   '42': {
     network_id: 42,
@@ -66,6 +74,7 @@ const ethereum = {
   '122': {
     ...fuseNetwork,
     network_id: 122,
+    startBlock: 6400000,    
   },
   '4447': {
     ...fuseNetwork,
@@ -73,7 +82,17 @@ const ethereum = {
     httpWeb3provider: 'http://localhost:8545/',
     websocketWeb3Provider: 'ws://localhost:8545/ws',
   },
-}
+  '42220': {
+    httpWeb3provider: 'https://forno.celo.org/',
+    explorer: 'https://celoscan.io',
+    explorerAPI: 'https://api.celoscan.io',
+    explorerName: 'celoscan',
+    network_id: 42220,
+    startBlock: 18000000,    
+    gasPrice: 5,
+    g$Decimals: 18
+  },
+})
 
 
 
@@ -186,7 +205,6 @@ const Config = {
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
   recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
   hcaptchaSiteKey: env.REACT_APP_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001', //test key
-  profileEditCaptcha: env.REACT_APP_PROFILE_EDIT_CAPTCHA !== 'false',
   fpSiteKey: env.REACT_APP_FINGERPRINT_SITE_KEY,
   fpEndpoint: env.REACT_APP_FINGERPRINT_ENDPOINT || 'https://api.fpjs.io',
   textileKey: env.REACT_APP_TEXTILE_KEY,

@@ -105,7 +105,10 @@ class FaceVerificationApi {
     } catch (exception) {
       const { message } = exception
 
-      hideRedBoxIfNonCritical(exception, () => logger.error('Face verification failed', message, exception))
+      const isError = message.toLowerCase().search('timeout|network') >= 0
+      hideRedBoxIfNonCritical(exception, () =>
+        logger[isError ? 'error' : 'warn']('Face verification failed', message, exception),
+      )
       throw exception
     } finally {
       this.lastCancelToken = null

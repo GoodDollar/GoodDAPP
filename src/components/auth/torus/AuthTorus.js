@@ -108,7 +108,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       fireEvent(TORUS_SUCCESS, { provider })
       log.debug('torus login success', { torusUser, provider })
     } catch (e) {
-      const cancelled = e.message.toLowerCase().includes('user closed')
+      const cancelled = e.message.toLowerCase().search('closed|cancel') >= 0
 
       fireEvent(TORUS_FAILED, { provider, error: e.message })
 

@@ -28,10 +28,10 @@ export const RecipientWarnDialog = ({
     if (isDiffNetwork && isKnownNetwork) {
       await switchNetwork(requestedNetwork)
     }
-    
+
     onConfirm()
   }
-  
+
   return (
     <ExplanationDialog
       title={

@@ -158,7 +158,7 @@ const Dashboard = props => {
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
   const { currentNetwork } = useSwitchNetwork()
-  
+
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
 

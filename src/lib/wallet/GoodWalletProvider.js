@@ -343,7 +343,7 @@ export const useSwitchNetworkModal = (toNetwork?: 'fuse' | 'celo', onDismiss = n
 
   useEffect(() => {
     const switchTo = toNetwork ? toNetwork : currentNetwork === 'fuse' ? 'celo' : 'fuse'
-    
+
     if (switchTo !== currentNetwork) {
       showDialog({
         title: 'To continue please switch chains',

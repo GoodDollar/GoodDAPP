@@ -1,18 +1,29 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { isFunction } from 'lodash'
 
 const useOnPress = (callback, deps = [], preventDoubleClick = true) => {
-  const [lastClick, setLastClick] = useState(0)
+  const lastClickRef = useRef(0)
+  const isCallbackDoneRef = useRef(true)
 
   const wrappedCallback = useCallback(
-    event => {
-      if (preventDoubleClick && lastClick && Date.now() - lastClick < 500) {
+    async event => {
+      if (
+        preventDoubleClick &&
+        isCallbackDoneRef.current &&
+        lastClickRef.current &&
+        Date.now() - lastClickRef.current < 500
+      ) {
         return
       }
-      setLastClick(Date.now())
+      isCallbackDoneRef.current = false
+      lastClickRef.current = Date.now()
       preventPressed(event)
-      return callback(event)
+      try {
+        return await callback(event)
+      } finally {
+        isCallbackDoneRef.current = true
+      }
     },
     [callback, ...deps],
   )

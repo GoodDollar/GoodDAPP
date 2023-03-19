@@ -6,11 +6,10 @@ import ClaimButton from '../ClaimButton'
 const ButtonBlock = ({ styles, entitlement, isCitizen, nextClaim, handleClaim, handleNonCitizen, ...props }) => {
   const onPress = useCallback(() => {
     if (!isCitizen) {
-      handleNonCitizen()
-      return
+      return handleNonCitizen()
     }
     if (entitlement) {
-      handleClaim()
+      return handleClaim()
     }
   }, [entitlement, isCitizen, handleNonCitizen, handleClaim])
 

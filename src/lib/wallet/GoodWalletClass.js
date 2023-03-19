@@ -195,12 +195,12 @@ export class GoodWallet {
     if (walletConfig) {
       this.config = walletConfig
     }
-    const mainnetNetwork = (() => {
+    this.mainnetNetwork = (() => {
       const network = first(this.config.network.split('-'))
       return network === 'development' ? 'fuse' : network
     })()
 
-    const mainnetNetworkId = get(ContractsAddress, mainnetNetwork + '-mainnet.networkId', 122)
+    const mainnetNetworkId = get(ContractsAddress, this.mainnetNetwork + '-mainnet.networkId', 122)
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const network = this.config.network
@@ -213,7 +213,12 @@ export class GoodWallet {
 
         assign(this, { network, networkId })
 
-        log.info('GoodWallet initial wallet created.', { mainnetNetwork, network, networkId, mainnetNetworkId })
+        log.info('GoodWallet initial wallet created.', {
+          mainnetNetwork: this.mainnetNetwork,
+          network,
+          networkId,
+          mainnetNetworkId,
+        })
 
         const defaultGasPrice = Config.ethereum[networkId].gasPrice
 
@@ -309,7 +314,7 @@ export class GoodWallet {
         {
           const { network, networkId } = this
           const contractAddresses = ContractsAddress[network]
-          const mainnetAddresses = ContractsAddress[mainnetNetwork + '-mainnet']
+          const mainnetAddresses = ContractsAddress[this.mainnetNetwork + '-mainnet']
 
           log.debug('GoodWallet initialized with addresses', {
             networkId,
@@ -727,7 +732,7 @@ export class GoodWallet {
   // throttle querying blockchain/thegraph to once an hour
   getClaimScreenStatsMainnet = throttle(
     async () => {
-      const stakingContracts = get(ContractsAddress, `${this.network}-mainnet.StakingContractsV3`, [])
+      const stakingContracts = get(ContractsAddress, `${this.mainnetNetwork}.StakingContractsV3`, [])
       let gainCalls = stakingContracts.map(([addr, rewards]) => {
         const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
 

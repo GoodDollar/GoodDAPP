@@ -44,8 +44,8 @@ const Amount = (props: AmountProps) => {
   const { params } = props.navigation.state
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
-  const [GDAmount, setGDAmount] = useState(toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0')
-  const [loading, setLoading] = useState(toBN(amount).lte(0))
+  const [GDAmount, setGDAmount] = useState(() => toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0')
+  const [loading, setLoading] = useState(() => toBN(amount).lte(0))
   const [error, setError] = useState()
 
   const isReceive = params && params.action === ACTION_RECEIVE

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { BN, toBN } from 'web3-utils'
 import { t } from '@lingui/macro'
@@ -44,9 +44,13 @@ const Amount = (props: AmountProps) => {
   const { params } = props.navigation.state
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
-  const [GDAmount, setGDAmount] = useState(() => toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0')
+  const [GDAmount, setGDAmount] = useState(() =>
+    toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0',
+  )
   const [loading, setLoading] = useState(() => toBN(amount).lte(0))
   const [error, setError] = useState()
+
+  const GDAmountInWei = useMemo(() => goodWallet.fromDecimals(GDAmount), [GDAmount])
 
   const isReceive = params && params.action === ACTION_RECEIVE
 
@@ -79,9 +83,8 @@ const Amount = (props: AmountProps) => {
   const handleContinue = async () => {
     setLoading(true)
 
-    const weiAmount = goodWallet.fromDecimals(GDAmount)
-    setScreenState({ amount: weiAmount })
-    const can = await canContinue(weiAmount)
+    setScreenState({ amount: GDAmountInWei })
+    const can = await canContinue(GDAmountInWei)
 
     setLoading(false)
 
@@ -126,7 +129,7 @@ const Amount = (props: AmountProps) => {
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }
                 canContinue={handleContinue}
-                values={{ ...params, ...restState, amount: goodWallet.fromDecimals(GDAmount) }}
+                values={{ ...params, ...restState, amount: GDAmountInWei }}
                 disabled={loading}
                 {...props}
               />

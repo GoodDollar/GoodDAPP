@@ -213,6 +213,9 @@ const cbStyles = {
   },
 }
 
+// Format transformer function for claimed G$ amount
+const extraInfoAmountFormatter = number => formatWithSIPrefix(decimalsToFixed(number))
+
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
@@ -248,9 +251,6 @@ const Claim = props => {
 
   // format number of people who did claim today
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
-
-  // Format transformer function for claimed G$ amount
-  const extraInfoAmountFormatter = useCallback(number => formatWithSIPrefix(decimalsToFixed(number)), [])
 
   const [nextClaim, isReachedZero, updateTimer] = useTimer()
 

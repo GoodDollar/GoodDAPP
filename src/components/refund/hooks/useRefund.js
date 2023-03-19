@@ -95,7 +95,7 @@ const useRefund = () => {
           log.debug('Debt is found', { maxAmount, refundedAmounts, totalRefunded, debt })
 
           setShouldRefund(true)
-          setRefundAmount(debt)
+          setRefundAmount(wallet.toDecimals(debt))
           return
         }
       }
@@ -126,7 +126,7 @@ const useRefund = () => {
     })
   }, [wallet, userStorage, claimAddress, tokenAddress])
 
-  return [shouldRefund, wallet.toDecimals(refundAmount), claimAddress]
+  return [shouldRefund, refundAmount, claimAddress]
 }
 
 export default useRefund

@@ -46,7 +46,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
 
   useEffect(() => {
     if (userStorage) {
-      userStorage.getFaceIdentifier().then(_ => setRecordId(_))
+      userStorage.getFaceIdentifier().then(_ => setRecordId(_.slice(0, 42)))
     }
   }, [userStorage])
 

@@ -25,11 +25,12 @@ const claimGOOD = async (lastUpdate, prevVersion, log, goodWallet, userStorage) 
 
       if (hasClaimed === false) {
         await goodWallet.sendTransaction(
-          goodWallet.GOODContract.methods.proveBalanceOfAtBlockchain(
+          goodWallet.GOODContract.methods.proveBalanceOfAtBlockchainLegacy(
             'rootState',
             proof.addr,
             proof.reputationInWei,
             proof.hexProof,
+            proof.isRightNode,
             proof.proofIndex,
           ),
         )

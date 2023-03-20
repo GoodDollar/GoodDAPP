@@ -88,7 +88,7 @@ jobs:
         chunk: ${{ fromJson(needs.setup.outputs['test-chunk-ids']) }}
     if: "github.event_name != 'workflow_dispatch' && !contains(github.event.head_commit.message,'skip ci') && !contains(github.event.head_commit.message,'skip build')"
     env:
-      REACT_ENV: 'development'
+      REACT_APP_ENV: 'test'
       TEST_REACT_NATIVE: false
       BUNDLESIZE_GITHUB_TOKEN: 63f6d1717c6652d63234cf9629977b08f4bac3fd
       MNEMONIC: 'test test test test test test test test test test test junk'

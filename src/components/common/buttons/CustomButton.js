@@ -3,7 +3,6 @@ import React from 'react'
 import { View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import { noop } from 'lodash'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../lib/styles'
 import { theme as DefaultTheme } from '../../theme/styles'
 import Icon from '../view/Icon'
@@ -169,7 +168,6 @@ const CustomButton = (props: ButtonProps) => {
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
   const color = props.color ? theme.colors[props.color] || props.color : theme.colors.default
-  const onButtonPressed = useOnPress(onPress)
 
   return (
     <BaseButton
@@ -180,7 +178,7 @@ const CustomButton = (props: ButtonProps) => {
       theme={{ ...theme, roundness }}
       uppercase={uppercase}
       disabled={disabled || loading}
-      onPress={onButtonPressed}
+      onPress={onPress} //base button enforces useOnPress
       {...buttonProps}
       color={color}
       style={[styles.buttonStyle, style]}

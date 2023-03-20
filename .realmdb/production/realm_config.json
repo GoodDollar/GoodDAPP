@@ -5,5 +5,9 @@
   "location": "IE",
   "deployment_model": "GLOBAL",
   "environment": "production",
-  "allowed_request_origins": ["https://wallet.gooddollar.org"]
+  "allowed_request_origins": [
+    "https://wallet.gooddollar.org",
+    "https://celo.gooddollar.org",
+    "http://localhost"
+  ]
 }

@@ -273,11 +273,11 @@ export class AnalyticsClass {
     logger.debug('Fired GoogleAnalytics event', { event, data })
   }
 
-  setUserPropsOnce(props) {
+  setUserPropsOnce = props => {
     this.setUserProps(props, true)
   }
 
-  setUserProps(props, once = false) {
+  setUserProps = (props, once = false) => {
     const { isAmplitudeEnabled, isSentryEnabled, isMixpanelEnabled, apis } = this
     const { amplitude, sentry, mixpanel } = apis
 

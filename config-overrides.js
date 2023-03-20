@@ -1,4 +1,6 @@
-const assign = require('lodash/assign')
+const { assign } = require('lodash')
+const dotenv = require('dotenv')
+const { existsSync } = require('fs')
 
 module.exports = {
   webpack: (conf, env) => {
@@ -6,12 +8,30 @@ module.exports = {
     const webpackConfig = require(`./config/webpack.config.${configType}`)
     const config = assign(conf, webpackConfig)
 
-    if (configType == 'dev') config.resolve.alias['react-dom'] = '@hot-loader/react-dom'
+    if (configType === 'dev') {
+      config.resolve.alias['react-dom'] = '@hot-loader/react-dom'
+    }
 
     return config
   },
 
   jest: config => {
+    // some shells like zsh + oh-my-zsh plugins set
+    // are preloading .env file to the shell env
+    // so dotenv won't update those vars (already existing)
+    // latest dotenv versions have override option
+    // for now we will just clean up process.env from react_app vars
+    // then re-setup dotenv with .env.test
+    // TODO: update dotenv
+    if (existsSync('./.env')) {
+      Object
+        .keys(process.env)
+        .filter(key => key.startsWith('REACT_APP'))
+        .forEach(key => delete process.env[key])
+  
+      dotenv.config({ path: './.env.test' })
+    }
+
     config.transformIgnorePatterns = [
       '<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk',
       '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter|@gooddollar/react-native-facetec|@ceramicnetwork)',

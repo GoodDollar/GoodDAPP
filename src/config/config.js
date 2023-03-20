@@ -1,4 +1,4 @@
-import { get, noop } from 'lodash'
+import { defaultsDeep, get, noop } from 'lodash'
 import moment from 'moment'
 
 import contractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
@@ -15,7 +15,6 @@ const { search: qs = '' } = isWeb ? window.location : {}
 const webStorage = isWeb ? window.localStorage : { getItem: noop }
 
 const forceLogLevel = get(qs.match(/level=(.*?)($|&)/), 1, webStorage.getItem('GD_LogLevel'))
-const forcePeer = qs.match(/gun=(.*?)($|&)/)
 
 const phase = env.REACT_APP_RELEASE_PHASE || 1
 
@@ -30,21 +29,29 @@ const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'fuse'
 const { networkId } = contractsAddress[network]
 
+
 export const fuseNetwork = {
   httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
+  explorerAPI: 'https://explorer.fuse.io',
   explorerName: 'fusescan',
   network_id: 122,
+  gasPrice:10, //in gwei
+  g$Decimals:2
 }
 
-const ethereum = {
+let altProviders = {}
+
+const ethereum = defaultsDeep(altProviders, {
   '1': {
     network_id: 1,
     httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
+    explorerAPI: 'https://api.etherscan.io',
     explorerName: 'etherscan',
+    gasPrice: 1,
   },
   '42': {
     network_id: 42,
@@ -67,6 +74,7 @@ const ethereum = {
   '122': {
     ...fuseNetwork,
     network_id: 122,
+    startBlock: 6400000,    
   },
   '4447': {
     ...fuseNetwork,
@@ -74,7 +82,17 @@ const ethereum = {
     httpWeb3provider: 'http://localhost:8545/',
     websocketWeb3Provider: 'ws://localhost:8545/ws',
   },
-}
+  '42220': {
+    httpWeb3provider: 'https://forno.celo.org/',
+    explorer: 'https://celoscan.io',
+    explorerAPI: 'https://api.celoscan.io',
+    explorerName: 'celoscan',
+    network_id: 42220,
+    startBlock: 18000000,    
+    gasPrice: 5,
+    g$Decimals: 18
+  },
+})
 
 
 
@@ -113,7 +131,6 @@ const Config = {
   newVersionUrl: env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: forceLogLevel || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
-  gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   ipfsGateways: ipfsGateways.split(',').map(gatewayTmpl => mustache(gatewayTmpl)),
   ipfsUploadGateway: env.REACT_APP_IPFS_UPLOADGATEWAY || 'https://ipfsgateway.goodworker.workers.dev',
   ipfsLazyUpload: env.REACT_APP_IPFS_LAZY_UPLOAD === 'true',
@@ -197,8 +214,6 @@ const Config = {
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
   realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
   nodeEnv: env.NODE_ENV,
-  forcePeer: forcePeer && forcePeer[1],
-  peersProb: (env.REACT_APP_GUN_PEERS_PROB || '1,0.5').split(',').map(Number),
   isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
   storeAppIconAndroid: env.STORE_APP_ICON_ANDROID || "/store-app-icon-android.jpg",
   storeAppUrlAndroid: env.STORE_APP_URL_ANDROID || "https://play.google.com/store/apps/details?id=org.gooddollar",

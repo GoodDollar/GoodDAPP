@@ -1,5 +1,5 @@
 // @flow
-import { first, isPlainObject, once, sortBy } from 'lodash'
+import { first, isPlainObject, once } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
@@ -296,30 +296,6 @@ class RealmDB implements DB, ProfileDB {
   }
 
   /**
-   * helper for testing migration from gundb
-   * TODO: remove
-   */
-  async _syncFromLocalStorage() {
-    await this.db.Feed.clear()
-
-    let items = await AsyncStorage.getItem('GD_feed').then(_ => Object.values(_ || {}))
-
-    items.forEach(i => {
-      i._id = i.id
-      i.date = new Date(i.date).toISOString()
-      i.createdDate = new Date(i.createdDate).toISOString()
-    })
-
-    items = sortBy(items, 'date')
-
-    if (items.length) {
-      await Promise.all(items.map(i => this.write(i)))
-    }
-
-    log.debug('initialized threaddb with feed from asyncstorage. count:', items.length, items)
-  }
-
-  /**
    * listen to database changes
    * @param {*} callback
    */
@@ -505,8 +481,12 @@ class RealmDB implements DB, ProfileDB {
         .reverse()
         .offset(offset)
         .filter(item => {
-          const { status, otplStatus } = item
+          const { status, otplStatus, chainId = 122 } = item
 
+          //don't show celo txs in production wallet, remove when merging with celo-wallet branch
+          if (chainId !== 122) {
+            return false
+          }
           if ([status, otplStatus].some(state => hiddenStates.includes(state))) {
             return false
           }

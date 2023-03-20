@@ -214,7 +214,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
         return
       }
 
-      onPress(event)
+      return onPress(event)
     },
     [entitlement, onPress],
   )

@@ -91,10 +91,11 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   )
 
   useEffect(() => {
-    if (wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
+    if (wcIncomingLink && uri !== wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
+      setUri(wcIncomingLink)
       handleChange(wcIncomingLink)
     }
-  }, [wcIncomingLink, handleChange, readWalletConnectUri])
+  }, [wcIncomingLink, uri, setUri, readWalletConnectUri])
 
   const pasteUri = useClipboardPaste(data => {
     setUri(data)

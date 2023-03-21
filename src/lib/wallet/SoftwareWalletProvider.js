@@ -9,9 +9,9 @@ import logger from '../logger/js-logger'
 import { isMobileNative } from '../utils/platform'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
+import { MultipleHttpProvider, WebsocketProvider } from './transport'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
-const { WebsocketProvider, HttpProvider } = Web3.providers
 
 // const send = HttpProvider.prototype.send
 // HttpProvider.prototype.send = function(payload, callback) {
@@ -140,47 +140,36 @@ class SoftwareWalletProvider {
   /** @private */
   _createHttpProvider() {
     const { infuraKey, publicUrl } = Config
-    const { httpWeb3provider } = this.conf
-    const backend = ['infura', 'pokt'].find(server => httpWeb3provider.includes(server))
+    const { httpWeb3provider, httpProviderAttempts, httpProviderStrategy } = this.conf
+    const config = { attempts: httpProviderAttempts, strategy: httpProviderStrategy }
 
-    let provider = httpWeb3provider
-    let options = {}
+    // parsing multiple rpc urls
+    const endpoints = httpWeb3provider.split(',').map(endpoint => {
+      let options = {} // opts for each url separately
+      let provider = endpoint
+      const backend = ['infura', 'pokt'].find(server => endpoint.includes(server))
 
-    switch (backend) {
-      case 'infura':
-        provider += infuraKey
-        break
-      case 'pokt':
-        if (isMobileNative) {
-          const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
+      switch (backend) {
+        case 'infura':
+          provider += infuraKey
+          break
+        case 'pokt':
+          if (isMobileNative) {
+            const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
 
-          options = {
-            headers: [{ name: 'User-Agent', value: userAgentString }, { name: 'Origin', value: publicUrl }],
+            options = {
+              headers: [{ name: 'User-Agent', value: userAgentString }, { name: 'Origin', value: publicUrl }],
+            }
           }
-        }
-        break
-      default:
-        break
-    }
-
-    const p = new HttpProvider(provider, options)
-    const send = p.send.bind(p)
-    p.send = function(payload, callback) {
-      const currentHost = this.host
-      const newcb = (error, result) => {
-        // console.log('newcb', { payload, error, provider, _this })
-        if (error?.message?.search('CONNECTION ERROR|CONNECTION TIMEOUT|Invalid JSON RPC') >= 0) {
-          if (currentHost === this.host) {
-            // only modify host if it wasnt already modified since begining of call
-            this.host = 'https://rpc.fuse.io'
-          }
-          return send(payload, callback)
-        }
-        return callback(error, result)
+          break
+        default:
+          break
       }
-      return send(payload, newcb)
-    }
-    return p
+
+      return { provider, options }
+    })
+
+    return new MultipleHttpProvider(endpoints, config)
   }
 }
 

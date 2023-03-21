@@ -4,14 +4,14 @@ import { useUserStorage, useWallet } from '../../../lib/wallet/GoodWalletProvide
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 
 const useEnrollmentIdentifier = () => {
-  const [identifier, setIdentifier] = useState()
+  const [{ v1Identifier, v2Identifier }, setIdentifiers] = useState({})
   const userStorage = useUserStorage()
   const wallet = useWallet()
   const { faceIdentifier, chainId, isFVFlow } = useContext(FVFlowContext)
 
   useEffect(() => {
     if (!isFVFlow) {
-      userStorage.getFaceIdentifier().then(_ => setIdentifier(_))
+      userStorage.getFaceIdentifiers().then(_ => setIdentifiers(_))
     }
   }, [isFVFlow])
 
@@ -20,14 +20,15 @@ const useEnrollmentIdentifier = () => {
       return { faceIdentifier, chainId }
     }
 
-    if (userStorage && wallet && identifier) {
+    if (userStorage && wallet && v2Identifier) {
       return {
-        faceIdentifier: identifier,
+        faceIdentifier: v2Identifier,
         chainId: wallet.networkId,
-        v1FaceIdentifier: wallet.getAccountForType('faceVerification'),
+        v1FaceIdentifier: v1Identifier,
       }
     }
-  }, [faceIdentifier, userStorage, wallet, identifier])
+    return {}
+  }, [v1Identifier, v2Identifier, userStorage, wallet])
 }
 
 export default useEnrollmentIdentifier

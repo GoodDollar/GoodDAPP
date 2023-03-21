@@ -1076,9 +1076,10 @@ export class UserStorage {
     return this.profileStorage.getPublicProfile(key, string)
   }
 
-  // eslint-disable-next-line require-await
-  async getFaceIdentifier(): string {
-    return this.wallet.sign(FV_IDENTIFIER_MSG2.replace('<account>', this.wallet.account), 'gd')
+  async getFaceIdentifiers(): string {
+    const v2Identifier = await this.wallet.sign(FV_IDENTIFIER_MSG2.replace('<account>', this.wallet.account), 'gd')
+    const v1Identifier = this.wallet.getAccountForType('faceVerification')
+    return { v1Identifier, v2Identifier }
   }
 
   /**

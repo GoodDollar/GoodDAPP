@@ -380,9 +380,10 @@ const Claim = props => {
     } catch (exception) {
       const { message } = exception
 
-      log.error('SendClaimTx error : ', message, exception)
+      const isAlreadySent = message.search('same nonce|same hash|AlreadyKnown') >= 0
+      log[isAlreadySent ? 'warn' : 'error']('SendClaimTx error : ', message, exception)
 
-      if (!txHash || !message.includes('Transaction with the same hash was already imported')) {
+      if (!txHash || !isAlreadySent) {
         throw exception
       }
 
@@ -447,7 +448,7 @@ const Claim = props => {
       await _retry(async () => {
         const receipt = await sendClaimTx()
 
-        if (!receipt.status) {
+        if (!receipt?.status) {
           const exception = new Error('Failed to execute claim transaction')
 
           assign(exception, { name: 'CLAIM_TX_FAILED', entitlement: curEntitlement, receipt })

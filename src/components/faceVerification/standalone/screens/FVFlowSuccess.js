@@ -18,6 +18,7 @@ import { delay, withTimeout } from '../../../../lib/utils/async'
 
 import withStyles from '../theme/withStyles'
 import logger from '../../../../lib/logger/js-logger'
+import useFVLoginInfoCheck from '../hooks/useFVLoginInfoCheck'
 
 const checkWhitelistedAttempts = 6
 const checkWhitelistedDelay = 10 // setting timer for 1 min by increasing delay to keep the same amount of calls
@@ -49,6 +50,10 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
   const { showErrorDialog } = useDialog()
   const counterRef = useRef(counter)
   const lastErrorRef = useRef()
+
+  // does redirect to error page with if no account/faceid/other params specified
+  // othwerise page will count till 0 then stuck
+  useFVLoginInfoCheck()
 
   // sync timer with the ref in parralel
   useEffect(() => (counterRef.current = counter), [counter])
@@ -95,6 +100,11 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
       }
 
       showErrorDialog(errorMessage, error, { onDismiss })
+    }
+
+    // if no params were sent (e.g. user refreshed page) - do not send requests
+    if (!account) {
+      return
     }
 
     log.info('Waiting for whitelisted', { account })

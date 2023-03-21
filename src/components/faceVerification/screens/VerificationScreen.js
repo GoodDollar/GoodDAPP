@@ -32,7 +32,7 @@ const FaceVerification = ({ screenProps }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
   const { isFVFlow } = useContext(FVFlowContext)
-  const [enrollmentIdentifier, chainId, fvSigner] = useEnrollmentIdentifier()
+  const { faceIdentifier: enrollmentIdentifier, chainId, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)

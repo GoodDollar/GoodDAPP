@@ -17,11 +17,15 @@ const useEnrollmentIdentifier = () => {
 
   return useMemo(() => {
     if (isFVFlow) {
-      return [faceIdentifier, chainId]
+      return { faceIdentifier, chainId }
     }
 
     if (userStorage && wallet && identifier) {
-      return [identifier, wallet.networkId, wallet.getAccountForType('faceVerification')]
+      return {
+        faceIdentifier: identifier,
+        chainId: wallet.networkId,
+        v1FaceIdentifier: wallet.getAccountForType('faceVerification'),
+      }
     }
   }, [faceIdentifier, userStorage, wallet, identifier])
 }

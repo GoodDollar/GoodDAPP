@@ -13,16 +13,6 @@ import { MultipleHttpProvider, WebsocketProvider } from './transport'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 
-// const send = HttpProvider.prototype.send
-// HttpProvider.prototype.send = function(payload, callback) {
-//   const _this = this
-//   const newcb = (error, result) => {
-//     console.log('newcb', { payload, error, _this })
-//     return callback(error, result)
-//   }
-//   return send(payload, newcb)
-// }
-
 /**
  * save mnemonics (secret phrase) to user device
  * @param {string} mnemonics

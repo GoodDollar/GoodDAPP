@@ -1101,10 +1101,10 @@ export class UserStorage {
     const { wallet, userProperties, _trackStatus } = this
 
     try {
-      const faceIdentifier = await this.getFaceIdentifier()
+      const { v1Identifier, v2Identifier } = await this.getFaceIdentifiers()
 
       // pass also older v1 identifier (ie faceVerification tagged public address)
-      await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, wallet.getAccountForType('faceVerification'))
+      await FaceVerificationAPI.disposeFaceSnapshot(v2Identifier, v1Identifier)
       deleteAccountResult = await API.deleteAccount()
 
       if (get(deleteAccountResult, 'data.ok', false)) {

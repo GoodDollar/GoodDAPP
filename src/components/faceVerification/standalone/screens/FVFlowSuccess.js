@@ -101,7 +101,7 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
 
       showErrorDialog(errorMessage, error, { onDismiss })
     }
-    
+
     // if no params were sent (e.g. user refreshed page) - do not send requests
     if (!account) {
       return

@@ -11,7 +11,7 @@ const useEnrollmentIdentifier = () => {
 
   useEffect(() => {
     if (!isFVFlow) {
-      userStorage.getFaceIdentifiers().then(_ => setIdentifiers(_))
+      userStorage.getFaceIdentifiers().then(setIdentifiers)
     }
   }, [isFVFlow])
 

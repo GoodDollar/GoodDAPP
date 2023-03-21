@@ -1079,6 +1079,7 @@ export class UserStorage {
   async getFaceIdentifiers(): string {
     const v2Identifier = await this.wallet.sign(FV_IDENTIFIER_MSG2({ account: this.wallet.account }), 'gd')
     const v1Identifier = this.wallet.getAccountForType('faceVerification')
+
     return { v1Identifier, v2Identifier }
   }
 

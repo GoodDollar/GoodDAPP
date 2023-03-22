@@ -381,12 +381,13 @@ const Claim = props => {
       const { message } = exception
 
       const isAlreadySent = message.search('same nonce|same hash|AlreadyKnown') >= 0
-      log[isAlreadySent ? 'warn' : 'error']('SendClaimTx error : ', message, exception)
 
       if (!txHash || !isAlreadySent) {
         throw exception
       }
 
+      //we log only warning here, since exception is logged in caller of sendClaimTx.
+      log.warn('SendClaimTx error:', message, exception)
       receipt = await getTxReceiptByHash()
     }
 

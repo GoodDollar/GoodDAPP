@@ -4022,7 +4022,6 @@ __metadata:
     react-native-qrcode-scanner: ^1.5.3
     react-native-qrcode-svg: ^6.0.1
     react-native-randombytes: ^3.5.3
-    react-native-reanimated: ^1.7.0
     react-native-recaptcha-that-works: ^1.1.0
     react-native-recaptcha-v3: 0.0.16
     react-native-restart: 0.0.13
@@ -13219,7 +13218,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^2.4.0, core-js@npm:^2.4.1":
+"core-js@npm:^2.4.0":
   version: 2.6.12
   resolution: "core-js@npm:2.6.12"
   checksum: 44fa9934a85f8c78d61e0c8b7b22436330471ffe59ec5076fe7f324d6e8cf7f824b14b1c81ca73608b13bdb0fef035bd820989bf059767ad6fa13123bb8bd016
@@ -16872,22 +16871,6 @@ __metadata:
     setimmediate: ^1.0.5
     ua-parser-js: ^0.7.30
   checksum: 668731b946a765908c9cbe51d5160f973abb78004b3d122587c3e930e3e1ddcc0ce2b17f2a8637dc9d733e149aa580f8d3035a35cc2d3bc78b78f1b19aab90e2
-  languageName: node
-  linkType: hard
-
-"fbjs@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "fbjs@npm:1.0.0"
-  dependencies:
-    core-js: ^2.4.1
-    fbjs-css-vars: ^1.0.0
-    isomorphic-fetch: ^2.1.1
-    loose-envify: ^1.0.0
-    object-assign: ^4.1.0
-    promise: ^7.1.1
-    setimmediate: ^1.0.5
-    ua-parser-js: ^0.7.18
-  checksum: e3a18508c303934aa1d3d891c13e127d071d8c5c557fa886d982fd71ebf6ac713cb7fa8cbd805b0c50fe1be80eea276125c8cc00d7d48460572738e0d71123ac
   languageName: node
   linkType: hard
 
@@ -29297,18 +29280,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:^1.7.0":
-  version: 1.13.4
-  resolution: "react-native-reanimated@npm:1.13.4"
-  dependencies:
-    fbjs: ^1.0.0
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: b2c3e599729f80a6339889daf872f64206ca7960c10b5f4a3ac12a047690b27ec4e19abf73c9069411b6987fdad8fea15c79acbb61332342b9e959f69f84c217
-  languageName: node
-  linkType: hard
-
 "react-native-recaptcha-that-works@npm:^1.1.0":
   version: 1.2.0
   resolution: "react-native-recaptcha-that-works@npm:1.2.0"
@@ -34621,7 +34592,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ua-parser-js@npm:^0.7.18, ua-parser-js@npm:^0.7.30":
+"ua-parser-js@npm:^0.7.30":
   version: 0.7.31
   resolution: "ua-parser-js@npm:0.7.31"
   checksum: e2f8324a83d1715601576af85b2b6c03890699aaa7272950fc77ea925c70c5e4f75060ae147dc92124e49f7f0e3d6dd2b0a91e7f40d267e92df8894be967ba8b

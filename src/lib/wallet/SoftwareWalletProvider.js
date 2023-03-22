@@ -130,8 +130,8 @@ class SoftwareWalletProvider {
   /** @private */
   _createHttpProvider() {
     const { infuraKey, publicUrl } = Config
-    const { httpWeb3provider, httpProviderAttempts, httpProviderStrategy } = this.conf
-    const config = { attempts: httpProviderAttempts, strategy: httpProviderStrategy }
+    const { httpWeb3provider, httpProviderStrategy } = this.conf
+    const config = { strategy: httpProviderStrategy }
 
     // parsing multiple rpc urls
     const endpoints = httpWeb3provider.split(',').map(endpoint => {

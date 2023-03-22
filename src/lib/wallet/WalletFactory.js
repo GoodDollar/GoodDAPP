@@ -24,7 +24,7 @@ const networkToId = network => {
 
 export default class WalletFactory {
   static create(walletConf: WalletConfig): Promise<Web3> {
-    const { httpWeb3provider, httpProviderStrategy, httpProviderAttempts } = Config
+    const { httpWeb3provider, httpProviderStrategy } = Config
 
     if (httpWeb3provider) {
       walletConf.websocketWeb3Provider = walletConf.httpWeb3provider =
@@ -34,7 +34,6 @@ export default class WalletFactory {
     let provider: SoftwareWalletProvider = new SoftwareWalletProvider({
       ...Config.ethereum[networkToId(Config.network)],
       httpProviderStrategy,
-      httpProviderAttempts,
       ...walletConf,
     })
 

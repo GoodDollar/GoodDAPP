@@ -50,6 +50,7 @@ export const withTimeout = async (asyncFn, timeoutMs = 60000, errorMessage = 'Ti
   Promise.race([asyncFn(), timeout(timeoutMs, errorMessage)])
 
 const defaultRetryMiddleware = (rejection, options, defaultOptions) => defaultOptions
+const defaultOnFallback = error => true
 
 export const retry = async (asyncFn, retries = 5, interval = 0, middleware = defaultRetryMiddleware) => {
   const defaultOpts = { retries, interval }
@@ -74,7 +75,7 @@ export const retry = async (asyncFn, retries = 5, interval = 0, middleware = def
     .toPromise()
 }
 
-export const fallback = async asyncFns =>
+export const fallback = async (asyncFns, onFallback = defaultOnFallback) =>
   asyncFns.reduce(async (current, next) => {
     let promise = current
 
@@ -82,7 +83,13 @@ export const fallback = async asyncFns =>
       promise = current()
     }
 
-    return promise.catch(next)
+    return promise.catch(error => {
+      if (!onFallback(error)) {
+        throw error
+      }
+
+      return next()
+    })
   })
 
 export const tryUntil = async (asyncFn, condition = identity, retries = 5, interval = 0) => {

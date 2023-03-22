@@ -174,7 +174,6 @@ const Config = {
   mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
   httpWeb3provider: env.REACT_APP_WEB3_RPC,
   httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'next',
-  httpProviderAttempts: Number(env.REACT_APP_WEB3_RPC_ATTEMPTS || 5),
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',

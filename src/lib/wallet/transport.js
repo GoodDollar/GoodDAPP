@@ -45,7 +45,10 @@ export class MultipleHttpProvider extends HttpProvider {
       .catch(callback)
   }
 
-  /** @private */
+  /**
+   * Promisifies HttpProvider.send to be compatible with fallback() util
+   * @private
+   * */
   // eslint-disable-next-line require-await
   async _sendRequest(payload) {
     let resolve, reject

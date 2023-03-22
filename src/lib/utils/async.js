@@ -83,7 +83,8 @@ export const fallback = async (asyncFns, onFallback = defaultOnFallback) =>
       promise = current()
     }
 
-    return promise.catch(error => {
+    // eslint-disable-next-line require-await
+    return promise.catch(async error => {
       if (!onFallback(error)) {
         throw error
       }

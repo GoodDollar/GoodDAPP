@@ -43,7 +43,7 @@ const checkWhitelisted = async (account, timeout = checkWhitelistedTimeout) => {
   return withTimeout(apiCall, timeout * 1000, `Account ${account} whitelisted check timed out`)
 }
 
-const FVFlowSuccess = ({ styles, screenProps }) => {
+const FVFlowSuccess = ({ styles, screenProps, navigation }) => {
   const counter = useCountdown(checkWhitelistedTimeout)
   const { account } = useContext(FVFlowContext)
   const fvRedirect = useFVRedirect()
@@ -53,7 +53,7 @@ const FVFlowSuccess = ({ styles, screenProps }) => {
 
   // does redirect to error page with if no account/faceid/other params specified
   // othwerise page will count till 0 then stuck
-  useFVLoginInfoCheck()
+  useFVLoginInfoCheck(navigation)
 
   // sync timer with the ref in parralel
   useEffect(() => (counterRef.current = counter), [counter])

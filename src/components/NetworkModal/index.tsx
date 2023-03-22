@@ -16,6 +16,7 @@ import { getNetworkEnv, UnsupportedChainId } from '@gooddollar/web3sdk'
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 import { useSwitchNetwork } from '@gooddollar/web3sdk-v2'
 import { Text, Link } from 'native-base'
+import { SwitchChainModal } from '@gooddollar/good-design'
 
 const TextWrapper = styled.div`
     font-style: normal;
@@ -95,6 +96,7 @@ export default function NetworkModal(): JSX.Element | null {
                 if (e.code === 4902) {
                     setToAddNetwork(chain)
                     toggleNetworkModal()
+                    return
                 }
             }
             sendData({
@@ -103,57 +105,110 @@ export default function NetworkModal(): JSX.Element | null {
                 network: ChainId[chain],
             })
         },
-        [switchNetwork, sendData, toggleNetworkModal]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [switchNetwork, sendData]
     )
 
     return (
-        <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
-            {toAddNetwork ? (
-                <>
-                    <ModalHeader className="mb-1" onClose={closeNetworkModal} title="Add network" />
-                    <Text display="flex" flexDir="column">
-                        {i18n._(
-                            t`We see you don't have ${
-                                (NETWORK_LABEL as any)[toAddNetwork]
-                            } added to your wallet. Kindly add the network, and try again.`
-                        )}
-                        <Link
-                            color="main"
-                            href="https://www.notion.so/gooddollar/How-to-Manually-Add-Networks-to-Your-Web3-Wallet-02cf2088a64240c3a7286616fb3e3113"
-                        >
-                            Learn more here.
-                        </Link>
-                    </Text>
-                </>
-            ) : (
-                <>
-                    <ModalHeader className="mb-1" onClose={toggleNetworkModal} title="Select network" />
-                    <TextWrapper>
-                        {i18n._(t`You are currently browsing`)} <span className="site">GOOD DOLLAR</span>
-                        <br />{' '}
-                        {networkLabel && (
-                            <>
-                                {i18n._(t`on the`)} <span className="network">{networkLabel}</span> {i18n._(t`network`)}
-                            </>
-                        )}
-                    </TextWrapper>
+        <SwitchChainModal>
+            <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
+                {toAddNetwork ? (
+                    <>
+                        <ModalHeader className="mb-1" onClose={closeNetworkModal} title="Add network" />
+                        <Text display="flex" flexDir="column">
+                            {i18n._(
+                                t`We see you don't have ${
+                                    (NETWORK_LABEL as any)[toAddNetwork]
+                                } added to your wallet. Kindly add the network, and try again.`
+                            )}
+                            <Link
+                                color="main"
+                                href="https://www.notion.so/gooddollar/How-to-Manually-Add-Networks-to-Your-Web3-Wallet-02cf2088a64240c3a7286616fb3e3113"
+                            >
+                                Learn more here.
+                            </Link>
+                        </Text>
+                    </>
+                ) : (
+                    <>
+                        <ModalHeader className="mb-1" onClose={toggleNetworkModal} title="Select network" />
+                        <TextWrapper>
+                            {i18n._(t`You are currently browsing`)} <span className="site">GOOD DOLLAR</span>
+                            <br />{' '}
+                            {networkLabel && (
+                                <>
+                                    {i18n._(t`on the`)} <span className="network">{networkLabel}</span>{' '}
+                                    {i18n._(t`network`)}
+                                </>
+                            )}
+                        </TextWrapper>
 
-                    <div className="flex flex-col mt-3 space-y-5 overflow-y-auto">
-                        {allowedNetworks.map((chain: ChainId | AdditionalChainId) => (
-                            <ChainOption
-                                key={chain}
-                                chainId={chainId}
-                                chain={chain}
-                                labels={NETWORK_LABEL}
-                                icons={NETWORK_ICON}
-                                toggleNetworkModal={toggleNetworkModal}
-                                switchChain={switchChain}
-                                error={error}
-                            />
-                        ))}
-                    </div>
-                </>
-            )}
-        </Modal>
+                        <div className="flex flex-col mt-3 space-y-5 overflow-y-auto">
+                            {allowedNetworks.map((chain: ChainId | AdditionalChainId) => (
+                                <ChainOption
+                                    key={chain}
+                                    chainId={chainId}
+                                    chain={chain}
+                                    labels={NETWORK_LABEL}
+                                    icons={NETWORK_ICON}
+                                    toggleNetworkModal={toggleNetworkModal}
+                                    switchChain={switchChain}
+                                    error={error}
+                                />
+                            ))}
+                        </div>
+                    </>
+                )}
+            </Modal>
+            <Modal isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
+                {toAddNetwork ? (
+                    <>
+                        <ModalHeader className="mb-1" onClose={closeNetworkModal} title="Add network" />
+                        <Text display="flex" flexDir="column">
+                            {i18n._(
+                                t`We see you don't have ${
+                                    (NETWORK_LABEL as any)[toAddNetwork]
+                                } added to your wallet. Kindly add the network, and try again.`
+                            )}
+                            <Link
+                                color="main"
+                                href="https://www.notion.so/gooddollar/How-to-Manually-Add-Networks-to-Your-Web3-Wallet-02cf2088a64240c3a7286616fb3e3113"
+                            >
+                                Learn more here.
+                            </Link>
+                        </Text>
+                    </>
+                ) : (
+                    <>
+                        <ModalHeader className="mb-1" onClose={toggleNetworkModal} title="Select network" />
+                        <TextWrapper>
+                            {i18n._(t`You are currently browsing`)} <span className="site">GOOD DOLLAR</span>
+                            <br />{' '}
+                            {networkLabel && (
+                                <>
+                                    {i18n._(t`on the`)} <span className="network">{networkLabel}</span>{' '}
+                                    {i18n._(t`network`)}
+                                </>
+                            )}
+                        </TextWrapper>
+
+                        <div className="flex flex-col mt-3 space-y-5 overflow-y-auto">
+                            {allowedNetworks.map((chain: ChainId | AdditionalChainId) => (
+                                <ChainOption
+                                    key={chain}
+                                    chainId={chainId}
+                                    chain={chain}
+                                    labels={NETWORK_LABEL}
+                                    icons={NETWORK_ICON}
+                                    toggleNetworkModal={toggleNetworkModal}
+                                    switchChain={switchChain}
+                                    error={error}
+                                />
+                            ))}
+                        </div>
+                    </>
+                )}
+            </Modal>
+        </SwitchChainModal>
     )
 }

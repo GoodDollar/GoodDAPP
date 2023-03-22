@@ -7,7 +7,6 @@ export type WalletConfig = {
   network_id: number,
   httpWeb3provider: string,
   httpProviderStrategy: string,
-  httpProviderAttempts: number,
   websocketWeb3Provider: string,
   web3Transport: string,
 }

@@ -7,9 +7,10 @@ import { WalletState } from '@web3-onboard/core'
 import type { Account } from '@web3-onboard/core/dist/types'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { isEmpty, noop } from 'lodash'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useRef } from 'react'
 import web3Utils from 'web3-utils'
 import usePromise from './usePromise'
+import useSendAnalyticsData from './useSendAnalyticsData'
 
 import { SupportedChainId, UnsupportedChainId } from '@gooddollar/web3sdk'
 
@@ -32,6 +33,9 @@ export const WalletLabels: Readonly<string[]> = [
     'Google (Web3Auth)',
     'GoodDollar Wallet',
 ]
+
+export const WalletConnectLabels: Readonly<string[]> = ['GoodDollar Wallet', 'WalletConnect']
+
 export const WalletLinkKeys: Readonly<string[]> = [
     '-walletlink:https://www.walletlink.org:Addresses',
     '-walletlink:https://www.walletlink.org:session:secret',
@@ -148,6 +152,8 @@ export function useOnboardConnect(): OnboardConnectProps {
     const [{ connectedChain }, setChain] = useSetChain()
     const connectedWallets = useWallets()
     const restartApp = useAppRestart()
+    const hasSendAnalyticsRef = useRef(false)
+    const sendData = useSendAnalyticsData()
 
     const [previouslyConnected, loading]: readonly [any, boolean, any, any] = usePromise(
         async () => AsyncStorage.getItem('currentConnectWallet').then((value: any): any => value ?? {}),
@@ -190,7 +196,8 @@ export function useOnboardConnect(): OnboardConnectProps {
         } else if (activated || !previouslyConnected[0]) {
             setTried(true)
         }
-    }, [activated, tried, connect, previouslyConnected, loading])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [/* used */ connect, activated, tried, previouslyConnected, loading])
 
     useEffect(() => {
         const isConnected = connectedWallets.length > 0
@@ -201,6 +208,23 @@ export function useOnboardConnect(): OnboardConnectProps {
         }
 
         if (isConnected && connectedChain) {
+            if (!hasSendAnalyticsRef.current) {
+                // for a wallet-connect v1 bug we need to verify the existence of peerId to
+                // determine if there is a working connection established
+                if (WalletConnectLabels.includes(connectedWallets[0].label)) {
+                    const peerId = (connectedWallets[0].provider as any).connector.peerId
+
+                    if (!peerId) {
+                        sendData({ event: 'wallet_connect', action: 'wallet_connect_failed' })
+                        hasSendAnalyticsRef.current = true
+                        return
+                    }
+                }
+
+                sendData({ event: 'wallet_connect', action: 'wallet_connect_success' })
+                hasSendAnalyticsRef.current = true
+            }
+
             updateStorage(connectedChain.id, connectedWallets)
         }
 
@@ -232,6 +256,7 @@ export function useOnboardConnect(): OnboardConnectProps {
 
             void Promise.all(promises).then(() => restartApp()) // temporarily necessary, as there is a irrecoverable error/bug when not reloading
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [connectedWallets, tried, loading])
 
     return { tried, activated }

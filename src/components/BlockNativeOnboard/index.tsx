@@ -48,9 +48,8 @@ export const OnboardConnectButton: FC = () => {
 
         if (!connecting && wallet) {
             connectionStartedRef.current = false
-            sendData({ event: 'wallet_connect', action: 'wallet_connect_success' })
         }
-    }, [sendData, connecting, wallet])
+    }, [connecting, wallet])
 
     if (wallet) {
         return null

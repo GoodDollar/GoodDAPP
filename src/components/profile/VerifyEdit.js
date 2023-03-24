@@ -25,39 +25,39 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const firstName = fullName && fullName.split(' ')[0]
   const field = get(navigation, 'state.params.field')
   const content = get(navigation, 'state.params.content')
-  let fieldToSend
-  let fieldToShow
-  let sendToText
-  let sendCodeRequestFn
+  let fieldToShow = field
+  let sendToText = field
+  let profileField = field
 
-  switch (field) {
-    case 'phone':
-      fieldToSend = 'mobile'
-      fieldToShow = 'phone number'
-      sendToText = 'number'
-      sendCodeRequestFn = 'sendOTP'
-      break
-
-    case 'email':
-    default:
-      fieldToSend = 'email'
-      fieldToShow = 'email'
-      sendToText = 'email'
-      sendCodeRequestFn = 'sendVerificationEmail'
-      break
+  if (field === 'phone') {
+    profileField = 'mobile'
+    fieldToShow = 'phone number'
+    sendToText = 'number'
   }
 
   const goBack = useCallback(() => screenProps.pop(), [screenProps])
 
   const handleSubmit = useCallback(async () => {
     try {
+      let response
       setLoading(true)
 
-      const { data } = await API[sendCodeRequestFn]({ [fieldToSend]: content })
+      switch (field) {
+        case 'phone':
+          response = await API.sendOTP({ mobile: content }, true)
+          break
+        case 'email':
+          response = await API.sendVerificationEmail({ email: content })
+          break
+        default:
+          throw new Error(`Invalid field name to confirm. Should be 'email' or 'phone'.`)
+      }
 
-      if (data.alreadyVerified) {
-        logger.debug('send code', { data, fieldToSend, content })
-        await userStorage.setProfileField(fieldToSend, content)
+      const { alreadyVerified = false } = response.data || {}
+
+      if (alreadyVerified) {
+        logger.debug('send code', { alreadyVerified, profileField, content })
+        await userStorage.setProfileField(profileField, content)
         screenProps.pop()
       } else {
         screenProps.push('VerifyEditCode', { field, content })

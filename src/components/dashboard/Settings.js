@@ -23,14 +23,15 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
-import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
+import { fireEvent, NOTIFICATION_DISABLED, NOTIFICATION_ENABLED, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
+import { NotificationsCategories } from '../../lib/notifications/constants'
 
 // assets
 import OptionsRow from '../profile/OptionsRow'
 import Config from '../../config/config'
 import { isWeb } from '../../lib/utils/platform'
-import { useNotificationsOptions } from '../../lib/notifications/hooks/useNotifications'
+import { useClaimNotificationOptions } from '../../lib/notifications/hooks/useNotifications'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -73,10 +74,22 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
   const onPermissionRequest = useCallback(() => ('Claim' === wentFrom ? { promptPopup: false } : {}), [wentFrom])
 
-  const [allowed, switchOption] = useNotificationsOptions({
+  const { enabled: claimNotificationEnabled, toggleEnabled: toggleClaimNotification } = useClaimNotificationOptions({
     navigate,
     onPermissionRequest,
   })
+
+  const toggleWithEvent = useCallback(
+    enable => {
+      if (enable) {
+        fireEvent(NOTIFICATION_ENABLED, { type: NotificationsCategories.CLAIM_NOTIFICATION })
+      } else {
+        fireEvent(NOTIFICATION_DISABLED, { type: NotificationsCategories.CLAIM_NOTIFICATION })
+      }
+      toggleClaimNotification(enable)
+    },
+    [toggleClaimNotification],
+  )
 
   const [initialPrivacy, setInitialPrivacy] = useState(() => {
     const profile = userStorage.getProfile()
@@ -144,9 +157,9 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
       return
     }
 
-    switchOption(true)
+    toggleWithEvent(true)
     onWentFromClaimProcessedRef.current = true
-  }, [switchOption, wentFrom])
+  }, [toggleWithEvent, wentFrom])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>
@@ -163,8 +176,8 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                 <Text>{t`Claim Reminders`}</Text>
 
                 <Switch
-                  value={allowed}
-                  onValueChange={switchOption}
+                  value={claimNotificationEnabled}
+                  onValueChange={toggleWithEvent}
                   circleSize={16}
                   barHeight={20}
                   circleBorderWidth={0}

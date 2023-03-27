@@ -57,6 +57,8 @@ const AppNavigation = ({ navigation }: AppNavigationProps) => {
 
       log.info('Notification opened', { payload, category })
 
+      fireEvent(NOTIFICATION_TAPPED, pickBy({ payload, category }))
+
       try {
         switch (category) {
           case NotificationsCategories.CLAIM_NOTIFICATION:
@@ -65,13 +67,11 @@ const AppNavigation = ({ navigation }: AppNavigationProps) => {
           default:
             throw new Error('Unknown / unsupported notification received')
         }
-
-        fireEvent(NOTIFICATION_TAPPED, pickBy({ payload }))
       } catch (e) {
         const { message: error } = e
 
         log.error('Failed to process notification', error, e, { payload })
-        fireEvent(NOTIFICATION_ERROR, pickBy({ payload, error }))
+        fireEvent(NOTIFICATION_ERROR, pickBy({ payload, error, category }))
       }
     },
     [getNavigation],

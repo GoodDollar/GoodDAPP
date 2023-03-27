@@ -45,6 +45,7 @@ import useTimer from '../../lib/hooks/useTimer'
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
 import useClaimNotificationsDialog from '../permissions/hooks/useClaimNotificationsDialog'
+import { useClaimNotificationOptions } from '../../lib/notifications/hooks/useNotifications'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -254,7 +255,7 @@ const Claim = props => {
   const [nextClaim, isReachedZero, updateTimer] = useTimer()
 
   const askForClaimNotifications = useClaimNotificationsDialog()
-
+  const { enabled: claimNotificationEnabled, updateClaimNotification } = useClaimNotificationOptions()
   const gatherStats = useCallback(
     async (all = false) => {
       try {
@@ -521,18 +522,25 @@ const Claim = props => {
   const handleClaim = useCallback(async () => {
     const claimed = await onClaim()
 
+    if (claimNotificationEnabled) {
+      return updateClaimNotification(true, new Date())
+    }
+
     if (!userProperties || (isWeb && !Config.enableWebNotifications) || !claimed) {
       return
     }
 
-    if (userProperties.getLocal('askedPermissionsAfterClaim') === true) {
+    let lastAsk = Number(userProperties.getLocal('askedPermissionsAfterClaim'))
+
+    // ask again after 30 days
+    if (lastAsk > Date.now() - 1000 * 60 * 60 * 24 * 30) {
       return
     }
 
-    const onDismiss = () => userProperties.setLocal('askedPermissionsAfterClaim', true)
+    const onDismiss = () => userProperties.setLocal('askedPermissionsAfterClaim', Date.now())
 
     askForClaimNotifications(() => navigate('Settings', { from: 'Claim' }), onDismiss)
-  }, [onClaim, navigate, userProperties])
+  }, [onClaim, navigate, userProperties, claimNotificationEnabled])
 
   // constantly update stats but only for some data
   const [startPolling, stopPolling] = useInterval(gatherStats, 10000, false)

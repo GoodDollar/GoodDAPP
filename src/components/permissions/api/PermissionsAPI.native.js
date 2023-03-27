@@ -9,6 +9,9 @@ import PushNotification from 'react-native-push-notification'
 
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
 import { isAndroidNative } from '../../../lib/utils/platform'
+import logger from '../../../lib/logger/js-logger'
+
+const log = logger.child({ from: 'PermissionsAPI' })
 
 export default new class {
   // permissions enum to platform permissions map
@@ -43,6 +46,7 @@ export default new class {
     // to check notifications permissions we should use separate method
     if (Permissions.Notifications === permission) {
       result = await new Promise(resolve => PushNotification.checkPermissions(status => resolve(_toResult(status))))
+      log.debug('notifications permissions check:', { result })
     } else if (platformPermissions) {
       // if platform permissions was set - calling api
       result = await api.check(platformPermission)
@@ -70,6 +74,7 @@ export default new class {
     // so in case of request notifications we just re-call check
     if (Permissions.Notifications === permission) {
       const requestResult = await PushNotification.requestPermissions(notificationOptions)
+      log.debug('notifications permissions request', { requestResult })
 
       return _toResult(requestResult) === RESULTS.GRANTED
     }

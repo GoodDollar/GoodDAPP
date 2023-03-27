@@ -27,7 +27,7 @@ export const useNotificationsSupport = () => {
 
 export const useNotificationsStateSwitch = (storeProp, updateState, options = {}) => {
   const { onPermissionRequest = noop, ...requestOpts } = options
-  const enabled = useMemo(() => !!storeProp, [storeProp])
+
   const _onAllowed = useCallback(() => {
     updateState(true)
   }, [updateState])
@@ -37,7 +37,7 @@ export const useNotificationsStateSwitch = (storeProp, updateState, options = {}
     requestOnMounted: false,
     ...requestOpts,
   })
-
+  const enabled = useMemo(() => !!storeProp && allowed, [storeProp, allowed])
   const toggleEnabled = useCallback(
     newState => {
       if (newState === enabled) {
@@ -54,5 +54,5 @@ export const useNotificationsStateSwitch = (storeProp, updateState, options = {}
     [allowed, enabled, requestPermission, updateState, onPermissionRequest],
   )
 
-  return [enabled, toggleEnabled]
+  return { enabled, toggleEnabled }
 }

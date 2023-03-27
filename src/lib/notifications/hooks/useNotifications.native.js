@@ -10,9 +10,12 @@ import Config from '../../../config/config'
 import { NotificationsAPI } from '../api/NotificationsApi'
 import { CHANNEL_ID, NotificationsCategories } from '../constants'
 import { useLocalProperty } from '../../wallet/GoodWalletProvider'
+import logger from '../../logger/js-logger'
 import { getCategory, useNotificationsStateSwitch } from './useNotifications.common'
 
-const { notificationTime, notificationSchedule } = Config
+const log = logger.child({ from: 'useNotifications (native)' })
+
+const { notificationTime: defaultNotificationTime, notificationSchedule } = Config
 let bridge = null
 
 const NOTIFICATION = {
@@ -30,16 +33,18 @@ const initializeNotificationsAndroid = () => {
     popInitialNotification: false,
     onNotification,
   })
+  log.debug('initialized notifications')
 }
 
 export { useNotificationsSupport } from './useNotifications.common'
 
-export const useNotificationsOptions = options => {
+export const useClaimNotificationOptions = options => {
   const [scheduleId, setScheduleId] = useLocalProperty('notificationsScheduleId')
-  const updateState = useCallback(
-    value => {
+  const updateClaimNotification = useCallback(
+    (value, notificationTime = defaultNotificationTime) => {
       let newScheduleId = null
 
+      log.debug('setting claim notification:', { scheduleId, value })
       if (scheduleId) {
         PushNotification.cancelLocalNotification(scheduleId)
       }
@@ -59,13 +64,20 @@ export const useNotificationsOptions = options => {
           },
         })
       }
+      log.debug('new claim notification create:', {
+        scheduleId,
+        value,
+        newScheduleId,
+        notificationTime,
+        notificationSchedule,
+      })
 
       setScheduleId(newScheduleId)
     },
     [scheduleId, setScheduleId],
   )
 
-  const switchState = useNotificationsStateSwitch(scheduleId, updateState, options)
+  const switchState = useNotificationsStateSwitch(scheduleId, updateClaimNotification, options)
 
   useEffect(() => {
     PushNotification.createChannel({
@@ -74,11 +86,11 @@ export const useNotificationsOptions = options => {
     })
   }, [])
 
-  return switchState
+  return { ...switchState, updateClaimNotification }
 }
 
 export const useNotifications = (onOpened = noop, onReceived = noop) => {
-  const [enabled] = useNotificationsOptions()
+  const { enabled } = useClaimNotificationOptions()
   const mountedRef = useRef(false)
 
   const receivedHandler = useCallback(

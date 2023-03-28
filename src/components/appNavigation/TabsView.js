@@ -3,7 +3,7 @@ import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
-import { Text } from '../../components/common'
+import { Icon, Text } from '../../components/common'
 
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
@@ -13,7 +13,6 @@ import { theme } from '../theme/styles'
 import GreenCircle from '../../assets/ellipse46.svg'
 import SwitchButton from '../../assets/switch.svg'
 import GoodWallet from '../../assets/goodwallet.svg'
-import Burger from '../../assets/burger.svg'
 
 // const showSupportFirst = !isEToro && !showInvite && !showRewards
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
@@ -119,7 +118,7 @@ const TabsView = React.memo(
           <GoodWallet />
         </View>
         <TouchableOpacity onPress={_slideToggle} style={defaultRightButtonStyles}>
-          <Burger size={20} color="white" style={styles.marginRight10} />
+          <Icon name="hamburger_alt" size={20} color="white" style={styles.marginRight10} />
         </TouchableOpacity>
       </Appbar.Header>
     )

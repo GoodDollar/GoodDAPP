@@ -145,6 +145,7 @@
     "path-browserify": "0.0.0",
     "pnp-webpack-plugin": "^1.6.4",
     "process": "^0.11.10",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "promisify-file-reader": "^4.1.0",
     "punycode": "^1.4.1",
     "qrcode.react": "^0.9.3",
@@ -336,7 +337,7 @@
     "url-loader": "^4.1.1",
     "web-encoding": "^1.1.5",
     "webpack-manifest-plugin": "^2.2.0",
-    "workbox-webpack-plugin": "^4.3.1"
+    "workbox-webpack-plugin": "^6.5.4"
   },
   "dependenciesMeta": {
     "lottie-react-native": {}

@@ -212,7 +212,7 @@
         "@gooddollar/good-design": "^0.0.63",
         "@gooddollar/goodprotocol": "^2.0.3",
         "@gooddollar/web3sdk": "^0.1.20",
-        "@gooddollar/web3sdk-v2": "^0.1.86",
+        "@gooddollar/web3sdk-v2": "^0.1.87",
         "@headlessui/react": "1.5.0",
         "@kimafinance/kima-transaction-widget": "^1.1.20-beta.1",
         "@types/react-text-mask": "^5.4.8",

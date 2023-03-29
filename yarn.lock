@@ -4047,7 +4047,7 @@ __metadata:
     "@gooddollar/good-design": ^0.0.63
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.20
-    "@gooddollar/web3sdk-v2": ^0.1.86
+    "@gooddollar/web3sdk-v2": ^0.1.87
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@kimafinance/kima-transaction-widget": ^1.1.20-beta.1
@@ -4219,9 +4219,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.86":
-  version: 0.1.86
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.86"
+"@gooddollar/web3sdk-v2@npm:^0.1.87":
+  version: 0.1.87
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.87"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4256,7 +4256,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: ba51a96bb517a1562c31f86835193221d14bc30fb734c6df612466b3218b6df4f2b7068781d278a668aa0cf65f38f8212695802f977c9f61c4b0f9166f8ca2f6
+  checksum: 968c381fc504230180104aa49a6dee987e7352b393888b2185c5b9cb36c0efca4faeb4981886e8dc1ba429a02f150fa535b4547f644d69d36a8e4bd8256220af
   languageName: node
   linkType: hard
 
@@ -4422,6 +4422,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hapi/address@npm:^5.1.0":
+  version: 5.1.1
+  resolution: "@hapi/address@npm:5.1.1"
+  dependencies:
+    "@hapi/hoek": ^11.0.2
+  checksum: 678790d86d120e36ff5ea7db061763447cd2589e99fd82bcb5d86c8e6ec290f1c0370d3e2050bf483413757e798f5a9495af0af13ba7e0d8a747c5bcd5682b33
+  languageName: node
+  linkType: hard
+
 "@hapi/bourne@npm:1.x.x":
   version: 1.3.2
   resolution: "@hapi/bourne@npm:1.3.2"
@@ -4429,10 +4438,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hapi/formula@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@hapi/formula@npm:3.0.2"
+  checksum: a774d8133e4cfc7059a1196f1233ba4ed204ac9a6835db476eb94b301555038ba2511664b5e941df3b6e973759e8c0ddf76124e1c04716a48b7ffeedb070d288
+  languageName: node
+  linkType: hard
+
 "@hapi/hoek@npm:8.x.x, @hapi/hoek@npm:^8.3.0":
   version: 8.5.1
   resolution: "@hapi/hoek@npm:8.5.1"
   checksum: 8f8ce36be4f5e5d7a712072d4a028a4a95beec7a7da3a7a6e9a0c07d697f04c19b37d93751db352c314ea831f7e2120569a035dc6a351ed8c0444f1d3b275621
+  languageName: node
+  linkType: hard
+
+"@hapi/hoek@npm:^11.0.2":
+  version: 11.0.2
+  resolution: "@hapi/hoek@npm:11.0.2"
+  checksum: 02e5d5d030f2c81180b43c380e6445558d1cb463c8db957c2d50e11dff83687a0ff4539a88530338e2bab1924bb8cdc7896eeb48ebf32199f89e178591d8b0b1
   languageName: node
   linkType: hard
 
@@ -4455,6 +4478,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hapi/pinpoint@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@hapi/pinpoint@npm:2.0.1"
+  checksum: 8a1bb399f7cf48948669fdc80dff83892ed56eb62eee2cca128fc8b0683733b16e274b395eddfae6154a698aa57c66a3905ceaa3119c59de29751d4601831057
+  languageName: node
+  linkType: hard
+
+"@hapi/tlds@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@hapi/tlds@npm:1.0.1"
+  checksum: 202d09a348c4e138631c424864f03b85bed2e29913036d930c0d67df6dc7f782284ad151d2d6c310bec20340d809e214aa6b274f12eccd9c353886bf9f0a66fd
+  languageName: node
+  linkType: hard
+
 "@hapi/topo@npm:3.x.x":
   version: 3.1.6
   resolution: "@hapi/topo@npm:3.1.6"
@@ -4470,6 +4507,15 @@ __metadata:
   dependencies:
     "@hapi/hoek": ^9.0.0
   checksum: 604dfd5dde76d5c334bd03f9001fce69c7ce529883acf92da96f4fe7e51221bf5e5110e964caca287a6a616ba027c071748ab636ff178ad750547fba611d6014
+  languageName: node
+  linkType: hard
+
+"@hapi/topo@npm:^6.0.1":
+  version: 6.0.2
+  resolution: "@hapi/topo@npm:6.0.2"
+  dependencies:
+    "@hapi/hoek": ^11.0.2
+  checksum: c11da8a995ac66d94dcc8ffe37cc094ace15ab8aec30ba2b556e8318394454cc93967a5bcc6519b846586fea4d347f95d924cb6ce5d51236c199c5e677b9575c
   languageName: node
   linkType: hard
 
@@ -12203,13 +12249,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/coinbase@npm:^2.0.10, @web3-onboard/coinbase@npm:^2.2.0":
+"@web3-onboard/coinbase@npm:^2.0.10":
   version: 2.2.0
   resolution: "@web3-onboard/coinbase@npm:2.2.0"
   dependencies:
     "@coinbase/wallet-sdk": ^3.6.0
     "@web3-onboard/common": ^2.2.3
   checksum: 1969ba0f54398328515edccb20609d499167d4df060688f0f1dce440ba8eba523e8ab0b3398651f4e01412683c868c1d0895a1c762721d89e0846a65b3da3439
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/coinbase@npm:^2.2.0":
+  version: 2.2.1
+  resolution: "@web3-onboard/coinbase@npm:2.2.1"
+  dependencies:
+    "@coinbase/wallet-sdk": ^3.6.0
+    "@web3-onboard/common": ^2.3.0
+  checksum: 2b7fb1c6689efb39b43fb451196253572a27658899d3ee26130e426bb6a427ce8dbfceb0f2d86cadd02f78ebebd9cbd1192d6ccf41f2dfc995488a35bcbda10e
   languageName: node
   linkType: hard
 
@@ -12221,6 +12277,17 @@ __metadata:
     ethers: 5.5.4
     joi: ^17.6.1
   checksum: bce5080e5947308a1e89dea307fc255fc34b9b0446c08dcbb97afdce539ee0373ef28fbb0681a69ecbd6e9fecd0466a3a0bbab16f6229d8d71f89fc042762fee
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/common@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@web3-onboard/common@npm:2.3.0"
+  dependencies:
+    bignumber.js: ^9.1.0
+    ethers: 5.5.4
+    joi: 17.8.1
+  checksum: eb4b79c8f78de7ab33af0cbd6d345050aa5d0725623fe75b4fc74ce080f07a0e7fc2b3c9ae7cb6b531cf8915093fd2c6a7b37feaee9179c37066207708227743
   languageName: node
   linkType: hard
 
@@ -12268,7 +12335,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/injected-wallets@npm:^2.0.15, @web3-onboard/injected-wallets@npm:^2.4.0":
+"@web3-onboard/injected-wallets@npm:^2.0.15":
   version: 2.8.2
   resolution: "@web3-onboard/injected-wallets@npm:2.8.2"
   dependencies:
@@ -12276,6 +12343,17 @@ __metadata:
     joi: ^17.6.1
     lodash.uniqby: ^4.7.0
   checksum: b5e082e15b18e8c8e408b27ca5601574b2ed9387af3d919dcf8e060c55aab089b36b41d0bc2e827ffc8eca0398939876a071ddfe65cefa028a82c8b84c59ec78
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/injected-wallets@npm:^2.4.0":
+  version: 2.8.3
+  resolution: "@web3-onboard/injected-wallets@npm:2.8.3"
+  dependencies:
+    "@web3-onboard/common": ^2.3.0
+    joi: 17.8.1
+    lodash.uniqby: ^4.7.0
+  checksum: 2f8f8239a1b8c51763765af8e89a0a9653e90869bac973d55d6d9c6e3ee32c05a0e022e12c115eef332b17288015463f07011cb830d1f35ec49794dd897bb519
   languageName: node
   linkType: hard
 
@@ -12293,16 +12371,16 @@ __metadata:
   linkType: hard
 
 "@web3-onboard/torus@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "@web3-onboard/torus@npm:2.2.1"
+  version: 2.2.2
+  resolution: "@web3-onboard/torus@npm:2.2.2"
   dependencies:
     "@toruslabs/torus-embed": 1.38.2
-    "@web3-onboard/common": ^2.2.3
-  checksum: bd4ec2e27406f66234092ce85621440d0c76dffcd3583077313e0556c5185ec3b5933b0745b0fdb03d4b3336b479e09d779053856ebf7f2f9302ef1f52c4d23a
+    "@web3-onboard/common": ^2.3.0
+  checksum: dc41fcf28c4426e1f93200650fd58a212678dfb2d4b406c503fef3fba27917a23534fcb1b4e30f4c9b5aafd734312a2a3cbb00a46b2abb01a214de14853204fe
   languageName: node
   linkType: hard
 
-"@web3-onboard/walletconnect@npm:^2.0.8, @web3-onboard/walletconnect@npm:^2.2.2":
+"@web3-onboard/walletconnect@npm:^2.0.8":
   version: 2.3.2
   resolution: "@web3-onboard/walletconnect@npm:2.3.2"
   dependencies:
@@ -12313,6 +12391,20 @@ __metadata:
     "@web3-onboard/common": ^2.2.3
     rxjs: ^7.5.2
   checksum: fc2f0768c462bf5817934bf498deb2103edf2e2c1ad0739188674c44f87a967e480753a874859179b81cd16d92fd4bd5b388babad9a3eebc32d955cfb656ff38
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/walletconnect@npm:^2.2.2":
+  version: 2.3.3
+  resolution: "@web3-onboard/walletconnect@npm:2.3.3"
+  dependencies:
+    "@ethersproject/providers": ^5.5.0
+    "@walletconnect/client": ^1.8.0
+    "@walletconnect/ethereum-provider": 2.4.10
+    "@walletconnect/qrcode-modal": ^1.8.0
+    "@web3-onboard/common": ^2.3.0
+    rxjs: ^7.5.2
+  checksum: 18cbaf3c28f60e8430d476c4483db3348fe2efa8874722e6d7aecd48e85382f9747051954951806a3c537189996a38fdfaedb0ca7a378864d5d557fab1d90833
   languageName: node
   linkType: hard
 
@@ -24831,6 +24923,20 @@ __metadata:
   bin:
     jest: bin/jest.js
   checksum: e0d3efff0dc2a31c453a3f7d87586e5d6c0f008c9b827bb9204edde09288f922ddfb3a8917480bf68f4ac0298be28637daef98ebaaac65ea23d3cb754a6620c4
+  languageName: node
+  linkType: hard
+
+"joi@npm:17.8.1":
+  version: 17.8.1
+  resolution: "joi@npm:17.8.1"
+  dependencies:
+    "@hapi/address": ^5.1.0
+    "@hapi/formula": ^3.0.2
+    "@hapi/hoek": ^11.0.2
+    "@hapi/pinpoint": ^2.0.1
+    "@hapi/tlds": ^1.0.1
+    "@hapi/topo": ^6.0.1
+  checksum: 918cca486cad072921b3bc35e2eb9e620fb9cd243c2627686cac463db2ea1237dfa64a8861cd1ce7531d4b6c660c23c58b496ea5a6b9a095d4148095ed7ff05a
   languageName: node
   linkType: hard
 

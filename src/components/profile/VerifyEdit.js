@@ -23,7 +23,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const { showErrorDialog } = useDialog()
   const { fullName } = useProfile()
   const firstName = fullName && fullName.split(' ')[0]
-  const field = get(navigation, 'state.params.field')
+  const field = get(navigation, 'state.params.field', 'email')
   const content = get(navigation, 'state.params.content')
   let fieldToShow = field
   let sendToText = field

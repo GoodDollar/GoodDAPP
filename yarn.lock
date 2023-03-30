@@ -4600,7 +4600,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/units@npm:5.7.0":
+"@ethersproject/units@npm:5.7.0, @ethersproject/units@npm:^5.7.0":
   version: 5.7.0
   resolution: "@ethersproject/units@npm:5.7.0"
   dependencies:
@@ -4845,6 +4845,7 @@ __metadata:
     "@babel/runtime": ^7.12.5
     "@ceramicnetwork/http-client": ^2.0.4
     "@ceramicnetwork/stream-tile": ^2.1.3
+    "@ethersproject/units": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2

@@ -14,7 +14,8 @@ import FaucetABI from '@gooddollar/goodprotocol/artifacts/abis/Faucet.min.json'
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
-import { formatUnits, parseUnits } from 'ethers/utils'
+import { formatUnits, parseUnits } from '@ethersproject/units'
+
 import abiDecoder from 'abi-decoder'
 import {
   assign,

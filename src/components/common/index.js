@@ -1,8 +1,8 @@
 // @flow
 // NOTICE: dont put any components that load wallet/userstorage here
 // (e.g. Avatar, UserAvatar) so we can lazy load them
+import ActionButton from '../appNavigation/actionBar/components/ActionButton'
 import Address from './view/Address'
-import ActionButton from './buttons/ActionButton'
 import AmountInput from './view/AmountInput'
 import BigGoodDollar from './view/BigGoodDollar'
 import BigNumber from './view/BigNumber'

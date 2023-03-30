@@ -1,32 +1,22 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import RewardButton from '../../../common/buttons/RewardButton'
-import useActionLinks from '../hooks/useActionLinks'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../../lib/styles'
 import { isIOSNative } from '../../../../lib/utils/platform'
-import { ActionButton } from '../../../common/'
+import ActionButton from './ActionButton'
 
 const GoodActionBar = ({ styles, navigation }) => {
-  const { goToExternal, trackClicked } = useActionLinks()
   const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
-
-  const onButtonClicked = useCallback(
-    src => {
-      goToExternal(src)
-      return
-    },
-    [trackClicked],
-  )
 
   return (
     <>
       <View style={styles.actionBar}>
-        <ActionButton src="learn" onPress={onButtonClicked} />
-        <ActionButton src="usegd" onPress={onButtonClicked} />
-        <ActionButton src="donate" onPress={onButtonClicked} />
+        <ActionButton action="learn" />
+        <ActionButton action="usegd" />
+        <ActionButton action="donate" />
         <RewardButton onPress={goToRewards} style={styles.actionItem} />
-        <ActionButton src="vote" onPress={onButtonClicked} />
+        <ActionButton action="vote" />
       </View>
     </>
   )

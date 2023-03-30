@@ -4047,7 +4047,7 @@ __metadata:
     "@gooddollar/good-design": ^0.0.64
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.20
-    "@gooddollar/web3sdk-v2": "file:.yalc/@gooddollar/web3sdk-v2"
+    "@gooddollar/web3sdk-v2": ^0.1.87
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@kimafinance/kima-transaction-widget": ^1.1.20-beta.1
@@ -4219,9 +4219,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@file:.yalc/@gooddollar/web3sdk-v2::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
+"@gooddollar/web3sdk-v2@npm:^0.1.87":
   version: 0.1.87
-  resolution: "@gooddollar/web3sdk-v2@file:.yalc/@gooddollar/web3sdk-v2#.yalc/@gooddollar/web3sdk-v2::hash=d76b29&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.87"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4256,7 +4256,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: d436c44abc2fdab3397200f4e4f0718f33500bc73c21cd4df4f694c0b707bf480e3bd645fa8cf6d9bd24787bbb5470749625bdb451e8d7c10e77a6bc45bf1252
+  checksum: 968c381fc504230180104aa49a6dee987e7352b393888b2185c5b9cb36c0efca4faeb4981886e8dc1ba429a02f150fa535b4547f644d69d36a8e4bd8256220af
   languageName: node
   linkType: hard
 

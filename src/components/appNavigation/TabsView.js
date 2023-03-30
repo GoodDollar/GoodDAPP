@@ -3,7 +3,7 @@ import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
-import { Icon, Text } from '../../components/common'
+import { Icon, IconButton, Text } from '../../components/common'
 
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
@@ -11,7 +11,6 @@ import { isMobileNative } from '../../lib/utils/platform'
 import { useSwitchNetwork } from '../../lib/wallet/GoodWalletProvider'
 import { theme } from '../theme/styles'
 import GreenCircle from '../../assets/ellipse46.svg'
-import SwitchButton from '../../assets/switch.svg'
 import GoodWallet from '../../assets/goodwallet.svg'
 
 // const showSupportFirst = !isEToro && !showInvite && !showRewards
@@ -89,13 +88,7 @@ const NetworkName = () => {
 
   return (
     <View style={styles.networkName}>
-      <SwitchButton
-        name="convert"
-        onPress={toggle}
-        color="transparent"
-        circle={false}
-        style={styles.switchNetworkIcon}
-      />
+      <IconButton name="switch" onPress={toggle} color="transparent" circle={false} style={styles.switchNetworkIcon} />
       <View style={styles.activeIcon}>
         <GreenCircle />
       </View>

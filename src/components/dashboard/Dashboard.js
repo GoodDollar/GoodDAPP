@@ -744,7 +744,7 @@ const Dashboard = props => {
           navigation={navigation}
         />
       )}
-      {<GoodActionBar />}
+      {<GoodActionBar navigation={navigation} />}
     </Wrapper>
   )
 }

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 
 import { fireEvent } from '../../../../lib/analytics/analytics'
 import { useUserStorage } from '../../../../lib/wallet/GoodWalletProvider'
@@ -10,43 +10,46 @@ const externals = {
   learn: {
     url: learnUrl,
     event: 'GOTO_LEARN',
+    wasClickedProp: 'learn Clicked',
   },
-  useGd: {
+  usegd: {
     url: useGdUrl,
     event: 'GOTO_USEGD',
+    wasClickedProp: 'useGd Clicked',
   },
   donate: {
     url: donateUrl,
     event: 'GOTO_DONATE',
+    wasClickedProp: 'donate Clicked',
   },
   vote: {
     url: voteUrl,
     event: 'GOTO_VOTE',
+    wasClickedProp: 'vote Clicked',
   },
 }
-const wasClickedProp = '<actionItem>Clicked' //todo: await confirmation if dialog is to be used or not
 
 export default () => {
   const userStorage = useUserStorage()
   const { userProperties } = userStorage
   const goToExternal = useCallback(src => openLink(externals[src].url), [])
-  const [wasClicked, setWasClicked] = useState(userProperties.get(wasClickedProp))
 
   const trackClicked = useCallback(
     src => {
-      fireEvent(externals[src].event, {
-        firstTime: !wasClicked,
-      })
+      const wasClicked = userProperties.get(externals[src].wasClickedProp)
 
       if (wasClicked) {
         return
       }
 
-      userProperties.safeSet(wasClickedProp, true)
-      setWasClicked(true)
+      fireEvent(externals[src].event, {
+        firstTime: true,
+      })
+
+      userProperties.safeSet(externals[src].wasClickedProp, true)
     },
-    [wasClicked, setWasClicked],
+    [userProperties],
   )
 
-  return { wasClicked, trackClicked, goToExternal }
+  return { trackClicked, goToExternal }
 }

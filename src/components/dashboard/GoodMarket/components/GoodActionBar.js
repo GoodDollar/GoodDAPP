@@ -1,65 +1,32 @@
-import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
-import Icon from '../../../common/view/Icon'
+import React, { useCallback } from 'react'
+import { View } from 'react-native'
+import RewardButton from '../../../common/buttons/RewardButton'
 import useActionLinks from '../hooks/useActionLinks'
 import useOnPress from '../../../../lib/hooks/useOnPress'
-
-// import { useDialog } from '../../../../lib/dialog/useDialog'
-// import { fireEvent, GOTO_MARKET_POPUP } from '../../../../lib/analytics/analytics'
 import { withStyles } from '../../../../lib/styles'
 import { isIOSNative } from '../../../../lib/utils/platform'
+import { ActionButton } from '../../../common/'
 
-// import GoodMarketDialog from './GoodMarketDialog'
+const GoodActionBar = ({ styles, navigation }) => {
+  const { goToExternal, trackClicked } = useActionLinks()
+  const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
 
-const GoodActionBar = ({ styles }) => {
-  // const { showDialog } = useDialog()
-
-  // const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
-  const { wasClicked, trackClicked, goToExternal } = useActionLinks()
-
-  // const onPopupButtonClicked = useCallback(() => {
-  //   fireEvent(GOTO_MARKET_POPUP)
-  //   goToExternal()
-  // }, [goToExternal])
-
-  const onButtonClicked = useOnPress(
-    e => {
-      const src = e.target.dataset.testid
-
-      // if (wasClicked) {
+  const onButtonClicked = useCallback(
+    src => {
       goToExternal(src)
       return
-
-      // }
-      //todo: Awaiting confirmation from designer, either remove or keep and refactor to align with the action item clicked
-      // showDialog({
-      //   isMinHeight: false,
-      //   showButtons: false,
-      //   onDismiss: noop,
-      //   content: <GoodMarketDialog onGotoMarket={onPopupButtonClicked} />,
-      // })
     },
-    [wasClicked, trackClicked],
+    [trackClicked],
   )
 
   return (
     <>
       <View style={styles.actionBar}>
-        <TouchableOpacity onPress={onButtonClicked} style={styles.actionItem}>
-          <Icon name="learn" testID="learn" size={48} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onButtonClicked} style={styles.actionItem}>
-          <Icon name="usegd" testID="useGd" size={48} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onButtonClicked} style={styles.actionItem}>
-          <Icon name="donate" testID="donate" size={48} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onButtonClicked} style={styles.actionItem}>
-          <Icon name="rewards-alt" size={48} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onButtonClicked} style={styles.actionItem}>
-          <Icon name="vote" testID="vote" size={48} color="white" />
-        </TouchableOpacity>
+        <ActionButton src="learn" onPress={onButtonClicked} />
+        <ActionButton src="usegd" onPress={onButtonClicked} />
+        <ActionButton src="donate" onPress={onButtonClicked} />
+        <RewardButton onPress={goToRewards} style={styles.actionItem} />
+        <ActionButton src="vote" onPress={onButtonClicked} />
       </View>
     </>
   )

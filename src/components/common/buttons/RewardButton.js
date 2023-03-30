@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Platform, Text, TouchableOpacity, View } from 'react-native'
 import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
 import { withStyles } from '../../../lib/styles'
@@ -24,16 +24,16 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-const RewardButton = React.memo(({ onPress, style, props }) => {
+const RewardButton = memo(({ onPress, style, styles }) => {
   const [, , , inviteState] = useInvited()
   const [updatesCount, setUpdatesCount] = useState(0)
   const userStorage = useUserStorage()
 
   useEffect(() => {
     const lastState = userStorage.userProperties.get('lastInviteState') || { pending: 0, approved: 0, total: 0 }
-
     const newPending = Math.max(inviteState.pending - lastState.pending, 0)
     const newApproved = Math.max(inviteState.approved - lastState.approved, 0)
+
     setUpdatesCount(newPending + newApproved)
   }, [inviteState])
 
@@ -42,7 +42,7 @@ const RewardButton = React.memo(({ onPress, style, props }) => {
       <TouchableOpacity testID="rewards_tab" onPress={onPress} style={style}>
         <Icon name="rewards-alt" size={48} color="white" />
         {updatesCount > 0 && (
-          <View style={props.notifications}>
+          <View style={styles.notifications}>
             <Text color={theme.colors.white} fontSize={10} fontWeight={'bold'}>
               {updatesCount}
             </Text>

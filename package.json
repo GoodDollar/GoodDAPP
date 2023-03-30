@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.50.0",
+  "version": "1.51.0",
   "engines": {
     "node": "16.x",
     "npm": "8.x"
@@ -67,6 +67,7 @@
     "@amplitude/react-native": "^2.5.0",
     "@ceramicnetwork/http-client": "^2.0.4",
     "@ceramicnetwork/stream-tile": "^2.1.3",
+    "@ethersproject/units": "^5.7.0",
     "@expo/react-native-action-sheet": "^3.9.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
     "@gooddollar/goodcontracts": "^2.6.2",
@@ -194,7 +195,6 @@
     "react-native-qrcode-scanner": "^1.5.3",
     "react-native-qrcode-svg": "^6.0.1",
     "react-native-randombytes": "^3.5.3",
-    "react-native-reanimated": "^1.7.0",
     "react-native-recaptcha-that-works": "^1.1.0",
     "react-native-recaptcha-v3": "0.0.16",
     "react-native-restart": "0.0.13",
@@ -323,6 +323,7 @@
     "pnp-webpack-plugin": "^1.6.4",
     "postcss-loader": "^4.0.4",
     "prettier": "~1.16.4",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "promise.any": "^2.0.2",
     "react-app-polyfill": "^2.0.0",
     "react-app-rewire-aliases": "^0.2.0",
@@ -337,7 +338,7 @@
     "url-loader": "^4.1.1",
     "web-encoding": "^1.1.5",
     "webpack-manifest-plugin": "^2.2.0",
-    "workbox-webpack-plugin": "^4.3.1"
+    "workbox-webpack-plugin": "^6.5.4"
   },
   "dependenciesMeta": {
     "lottie-react-native": {}

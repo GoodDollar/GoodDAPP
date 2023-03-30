@@ -25,10 +25,11 @@ import {
 } from '../../../lib/analytics/analytics'
 
 import { tryUntil } from '../../../lib/utils/async'
+import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
 
 const log = logger.child({ from: 'FaceVerification' })
 
-const FaceVerification = ({ screenProps }) => {
+const FaceVerification = ({ screenProps, navigation }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
   const { isFVFlow } = useContext(FVFlowContext)
@@ -171,9 +172,15 @@ const FaceVerification = ({ screenProps }) => {
     startVerification()
   }, [startVerification, enrollmentIdentifier])
 
+  // if fv flow and no account jwt won't be obtained,
+  // isFVFLowReady will be false so SDK won't be initialized
   const [initialized] = useFaceTecSDK({
     onError: sdkExceptionHandler,
   })
+
+  // does redirect to error page with if no account/faceid/other params specified
+  // othwerise page will stuck on 'loading' "GOT IT" button
+  useFVLoginInfoCheck(navigation)
 
   return <Instructions onDismiss={verifyFace} ready={initialized} />
 }

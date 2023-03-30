@@ -35,17 +35,15 @@ const Claim = memo(() => {
             if (claimAmount?.isZero()) {
                 setRefreshRate(12)
                 setClaimed(true)
-            }
-            // after just having claimed and switching chains,
-            // the state of transaction might still be cached causing the ui to update incorrectly
-            // why we force a reset of the tx state after it completes
-            else if (state.status === 'Success') {
-                setRefreshRate('everyBlock')
-                resetState()
+                return
+            } else if (state.status === 'Success') {
                 setClaimed(true)
             } else {
                 setClaimed(false)
             }
+
+            setRefreshRate('everyBlock')
+            resetState()
         }
         if (claimAmount) hasClaimed().catch(noop)
         // eslint-disable-next-line react-hooks-addons/no-unused-deps
@@ -81,8 +79,8 @@ const Claim = memo(() => {
     )
 
     const handleClaim = useCallback(async () => {
+        setRefreshRate('everyBlock')
         const claim = await send()
-
         sendData({ event: 'claim', action: 'claim_success', network })
         if (!claim) {
             return false

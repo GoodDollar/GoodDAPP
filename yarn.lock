@@ -3964,9 +3964,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.63":
-  version: 0.0.63
-  resolution: "@gooddollar/good-design@npm:0.0.63"
+"@gooddollar/good-design@npm:^0.0.64":
+  version: 0.0.64
+  resolution: "@gooddollar/good-design@npm:0.0.64"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -3992,7 +3992,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: 25a5ca190f35eee65f031fb3283414743866569ff92e4740708139c29700c0be67691b5ec78eb8a58715ce6ce39724f7a82b0c456100d7581c0d580ff5a89a29
+  checksum: ca424446d1f55b6ceeb5a3a55153fb28bcd1c9cbd0eeb6fd59c60dc0e16556a13dc209d171b79b0651c8929f399827b1988c64351f88c4eafd324700f13399ae
   languageName: node
   linkType: hard
 
@@ -4044,10 +4044,10 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.63
+    "@gooddollar/good-design": ^0.0.64
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.20
-    "@gooddollar/web3sdk-v2": ^0.1.87
+    "@gooddollar/web3sdk-v2": "file:.yalc/@gooddollar/web3sdk-v2"
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@kimafinance/kima-transaction-widget": ^1.1.20-beta.1
@@ -4219,9 +4219,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.87":
+"@gooddollar/web3sdk-v2@file:.yalc/@gooddollar/web3sdk-v2::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
   version: 0.1.87
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.87"
+  resolution: "@gooddollar/web3sdk-v2@file:.yalc/@gooddollar/web3sdk-v2#.yalc/@gooddollar/web3sdk-v2::hash=d76b29&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4256,7 +4256,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 968c381fc504230180104aa49a6dee987e7352b393888b2185c5b9cb36c0efca4faeb4981886e8dc1ba429a02f150fa535b4547f644d69d36a8e4bd8256220af
+  checksum: d436c44abc2fdab3397200f4e4f0718f33500bc73c21cd4df4f694c0b707bf480e3bd645fa8cf6d9bd24787bbb5470749625bdb451e8d7c10e77a6bc45bf1252
   languageName: node
   linkType: hard
 

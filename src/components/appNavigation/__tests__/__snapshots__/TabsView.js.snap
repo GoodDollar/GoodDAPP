@@ -15,23 +15,19 @@ exports[`TabsView matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-alignItems-1awozwy"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
-          "alignItems": "center",
           "backgroundColor": "rgba(0,175,255,1.00)",
           "display": "flex",
           "flexDirection": "row",
           "height": "56px",
           "justifyContent": "space-between",
-          "msFlexAlign": "center",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
           "overflowX": "hidden",
@@ -42,62 +38,84 @@ exports[`TabsView matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-        data-testid="rewards_tab"
-        onClick={[Function]}
-        onContextMenu={[Function]}
-        onKeyDown={[Function]}
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
         style={
           Object {
-            "WebkitAlignItems": "flex-start",
-            "WebkitBoxAlign": "start",
-            "WebkitTransitionDuration": "0s",
-            "alignItems": "flex-start",
-            "marginLeft": "10px",
-            "msFlexAlign": "start",
-            "transitionDuration": "0s",
-            "width": "37px",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitFlexDirection": "row",
+            "flexDirection": "row",
+            "msFlexDirection": "row",
           }
         }
-        tabIndex="0"
       >
         <div
-          className="css-text-901oao"
-          dir="auto"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onKeyDown={[Function]}
           style={
             Object {
-              "color": "rgba(255,255,255,1.00)",
-              "fontFamily": "gooddollar",
-              "fontSize": "36px",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
+              "WebkitTransitionDuration": "0s",
+              "marginLeft": "8px",
+              "transitionDuration": "0s",
+            }
+          }
+          tabIndex="0"
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+            style={
+              Object {
+                "backgroundColor": "rgba(0,0,0,0.00)",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "16px",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                }
+              }
+            >
+              
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "marginLeft": "4px",
+              "marginRight": "4px",
             }
           }
         >
-          
+          <ellipse46.svg />
+        </div>
+        <div
+          className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-b88u0q r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          DEVELOP
         </div>
       </div>
       <div
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
-            "justifyContent": "center",
-            "msFlexAlign": "center",
-            "msFlexPack": "center",
+            "marginLeft": "-50px",
+            "width": "100px",
           }
         }
       >
-        <div
-          className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-          dir="auto"
-        >
-          FUSE
-        </div>
+        <goodwallet.svg />
       </div>
       <div
         className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
@@ -119,7 +137,6 @@ exports[`TabsView matches snapshot 1`] = `
       >
         <div
           className="css-text-901oao r-color-jwli3a"
-          data-testid="burger_button"
           dir="auto"
           style={
             Object {
@@ -131,7 +148,7 @@ exports[`TabsView matches snapshot 1`] = `
             }
           }
         >
-          
+          
         </div>
       </div>
     </div>

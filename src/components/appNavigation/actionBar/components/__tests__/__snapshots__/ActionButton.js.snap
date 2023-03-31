@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionButton matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-cursor-18t94o4 css-view-1dbjc4n"
+    role="button"
+    tabIndex="0"
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "marginLeft": "10px",
+          "marginRight": "10px",
+          "opacity": 1,
+        }
+      }
+      tabIndex="0"
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "fontFamily": "gooddollar",
+            "fontSize": "48px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        
+      </div>
+    </div>
+  </div>
+</div>
+`;

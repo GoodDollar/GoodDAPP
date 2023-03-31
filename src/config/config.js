@@ -29,11 +29,11 @@ export const fuseNetwork = {
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
   explorerAPI: 'https://explorer.fuse.io',
+  defaultPublicRpc: 'https://rpc.fuse.io/',
   explorerName: 'fusescan',
   network_id: 122,
-  gasPrice:10, //in gwei
-  g$Decimals:2,
-  defaultPublicRpc: 'https://rpc.fuse.io/',
+  gasPrice: 10, // in gwei
+  g$Decimals: 2,
 }
 
 const ethereum = {
@@ -46,6 +46,22 @@ const ethereum = {
     explorerName: 'etherscan',
     gasPrice: 1,
   },
+  '3': {
+    network_id: 3,
+    httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://ropsten.etherscan.io',
+    explorerAPI: 'https://ropsten.etherscan.io',
+    explorerName: 'etherscan',
+  },
+  '5': {
+    network_id: 5,
+    httpWeb3provider: `https://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://goerli.etherscan.io',
+    explorerAPI: 'https://goerli.etherscan.io',
+    explorerName: 'etherscan',
+  },
 
   // kovan/ropsten should/could be removed, 
   // but dev contracts in goodprotocol could still request the networks
@@ -54,13 +70,6 @@ const ethereum = {
     httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://kovan.etherscan.io',
-    explorerName: 'etherscan',
-  },
-  '3': {
-    network_id: 3,
-    httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://ropsten.etherscan.io',
     explorerName: 'etherscan',
   },
   '121': {

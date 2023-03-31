@@ -32,17 +32,22 @@ const Claim = memo(() => {
     // 3. If neither is true, there is a claim ready for user or its a new user and FV will be triggered instead
     useEffect(() => {
         const hasClaimed = async () => {
+            if (state.status === 'Mining') {
+                // don't do anything until transaction is mined
+                return
+            }
+
             if (claimAmount?.isZero()) {
-                setRefreshRate(12)
                 setClaimed(true)
+                setRefreshRate(12)
+                resetState()
                 return
             } else if (state.status === 'Success') {
                 setClaimed(true)
-                resetState()
-            } else {
-                setClaimed(false)
+                return
             }
 
+            setClaimed(false)
             setRefreshRate('everyBlock')
         }
         if (claimAmount) hasClaimed().catch(noop)
@@ -79,7 +84,6 @@ const Claim = memo(() => {
     )
 
     const handleClaim = useCallback(async () => {
-        console.log('handleClaim')
         setRefreshRate('everyBlock')
         const claim = await send()
         sendData({ event: 'claim', action: 'claim_success', network })
@@ -268,7 +272,7 @@ your G$. 🙂`,
                             method="redirect"
                             claim={handleClaim}
                             claimed={claimed}
-                            claiming={state?.status === 'Mining'}
+                            claiming={state?.status === 'Mining' || state?.status === 'Success'} // we check for both to prevent a pre-mature closing of finalization modal
                             handleConnect={handleConnect}
                             chainId={chainId}
                             onEvent={handleEvents}

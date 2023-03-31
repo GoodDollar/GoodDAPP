@@ -29,7 +29,6 @@ const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'fuse'
 const { networkId } = contractsAddress[network]
 
-
 export const fuseNetwork = {
   httpWeb3provider: 'https://rpc.fuse.io/',
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
@@ -37,18 +36,18 @@ export const fuseNetwork = {
   explorerAPI: 'https://explorer.fuse.io',
   explorerName: 'fusescan',
   network_id: 122,
-  gasPrice:10, //in gwei
-  g$Decimals:2
+  gasPrice: 10, //in gwei
+  g$Decimals: 2
 }
 
 let altProviders = {}
+
 try {
   // web3 rpc needs to be an object with key networkId and value of same type as above fuseNetwork record
   altProviders = JSON.parse(env.REACT_APP_WEB3_RPC)
 } catch(e) {
   altProviders = {}
 }
-
 
 const ethereum = defaultsDeep(altProviders, {
   '1': {
@@ -60,18 +59,27 @@ const ethereum = defaultsDeep(altProviders, {
     explorerName: 'etherscan',
     gasPrice: 1,
   },
-  '42': {
-    network_id: 42,
-    httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
-    websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://kovan.etherscan.io',
-    explorerName: 'etherscan',
-  },
   '3': {
     network_id: 3,
     httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://ropsten.etherscan.io',
+    explorerAPI: 'https://ropsten.etherscan.io',
+    explorerName: 'etherscan',
+  },
+  '5': {
+    network_id: 5,
+    httpWeb3provider: `https://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://goerli.etherscan.io',
+    explorerAPI: 'https://goerli.etherscan.io',
+    explorerName: 'etherscan',
+  },
+  '42': {
+    network_id: 42,
+    httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://kovan.etherscan.io',
     explorerName: 'etherscan',
   },
   '121': {
@@ -100,8 +108,6 @@ const ethereum = defaultsDeep(altProviders, {
     g$Decimals: 18
   },
 })
-
-
 
 const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute

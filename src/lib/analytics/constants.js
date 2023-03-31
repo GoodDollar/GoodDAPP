@@ -36,7 +36,6 @@ export const ADDTOHOME = 'ADDTOHOME'
 export const ADDTOHOME_LATER = 'ADDTOHOME_LATER' // desktop/chrome did user accept or reject the install prompt
 export const ADDTOHOME_OK = 'ADDTOHOME_OK'
 export const ADDTOHOME_REJECTED = 'ADDTOHOME_REJECTED'
-export const GOTO_MARKET = 'GOTO_MARKET'
 export const GOTO_GOODSWAP = 'GOTO_GOODSWAP'
 export const GOTO_LEARN = 'GOTO_LEARN'
 export const GOTO_USEGD = 'GOTO_USEGD'

@@ -1,10 +1,10 @@
 import React, { memo, useEffect, useState } from 'react'
 import { Platform, Text, TouchableOpacity, View } from 'react-native'
-import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
-import { withStyles } from '../../../lib/styles'
-import { useInvited } from '../../invite/useInvites'
-import Icon from '../../common/view/Icon'
-import { theme } from '../../theme/styles'
+import { useUserStorage } from '../../../../lib/wallet/GoodWalletProvider'
+import { withStyles } from '../../../../lib/styles'
+import { useInvited } from '../../../invite/useInvites'
+import Icon from '../../../common/view/Icon'
+import { theme } from '../../../theme/styles'
 
 const getStylesFromProps = ({ theme }) => ({
   notifications: {

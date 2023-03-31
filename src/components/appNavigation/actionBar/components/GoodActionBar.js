@@ -1,9 +1,9 @@
 import React from 'react'
 import { View } from 'react-native'
-import RewardButton from '../../../common/buttons/RewardButton'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../../lib/styles'
 import { isIOSNative } from '../../../../lib/utils/platform'
+import RewardButton from './RewardButton'
 import ActionButton from './ActionButton'
 
 const GoodActionBar = ({ styles, navigation }) => {

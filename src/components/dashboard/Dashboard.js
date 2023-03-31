@@ -22,6 +22,7 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
+import { useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
@@ -264,6 +265,8 @@ const Dashboard = props => {
     [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab],
   )
 
+  const [feedLoaded, setFeedLoaded] = useState(false)
+
   // subscribeToFeed probably should be an effect that updates the feed items
   // as they come in, currently on each new item it simply reset the feed
   // currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
@@ -313,6 +316,40 @@ const Dashboard = props => {
     ],
   }).current
 
+  useEffect(() => {
+    if (feedLoaded && appState === 'active') {
+      animateItems()
+    }
+  }, [appState, feedLoaded])
+
+  const animateClaim = useCallback(() => {
+    if (!entitlement) {
+      return
+    }
+
+    return new Promise(resolve =>
+      Animated.sequence([
+        Animated.timing(claimAnimValue, {
+          toValue: 1.4,
+          duration: 750,
+          easing: Easing.ease,
+          delay: 1000,
+          useNativeDriver: useNativeDriverForAnimation,
+        }),
+        Animated.timing(claimAnimValue, {
+          toValue: 1,
+          duration: 750,
+          easing: Easing.ease,
+          useNativeDriver: useNativeDriverForAnimation,
+        }),
+      ]).start(resolve),
+    )
+  }, [entitlement])
+
+  const animateItems = useCallback(async () => {
+    await animateClaim()
+  }, [animateClaim])
+
   const showDelayed = useCallback(() => {
     const id = setTimeout(() => {
       // wait until not loading and not showing other modal (see use effect)
@@ -348,6 +385,8 @@ const Dashboard = props => {
     await handleFeedEvent()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+
+    setFeedLoaded(true)
 
     // setTimeout(animateItems, marketAnimationDuration)
 

@@ -17,6 +17,7 @@ describe('ActionButton', () => {
   })
 
   const ActionButton = withThemeProvider(importedActionButton)
+
   it('matches snapshot', async () => {
     const mockedGoToExternal = jest.fn().mockImplementation(() => Promise.resolve())
 

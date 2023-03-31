@@ -230,29 +230,24 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
 
-  const getContractsNetwork = (network: 'fuse' | 'celo') => {
-    network = network.toLowerCase()
+  const getContractsNetwork = (network: 'mainnet' | 'goerli' | 'fuse' | 'celo') => {
+    const net = network.toLowerCase()
     const env = Config.network.split('-')[0]
 
-    let contractsNetwork
     switch (env) {
-      default:
+      case 'production':
+        return net === 'fuse' ? 'production' : `${env}-${net}`
+      case 'staging':
+        return net === 'fuse' ? 'staging' : `${env}-${net}`
       case 'fuse':
       case 'development':
-        contractsNetwork = network === 'fuse' ? 'fuse' : `development-${network}`
-        break
-      case 'staging':
-        contractsNetwork = network === 'fuse' ? 'staging' : `${env}-${network}`
-        break
-      case 'production':
-        contractsNetwork = network === 'fuse' ? 'production' : `${env}-${network}`
-        break
+      default:
+        return net === 'fuse' ? 'fuse' : `development-${net}`
     }
-    return contractsNetwork
   }
 
   const switchNetwork = useCallback(
-    async (network: 'fuse' | 'celo') => {
+    async (network: 'mainnet' | 'goerli' | 'fuse' | 'celo') => {
       let contractsNetwork = getContractsNetwork(network)
 
       try {
@@ -337,7 +332,7 @@ export const useSwitchNetwork = () => {
   return { switchNetwork, currentNetwork: getNetworkName(goodWallet.networkId) }
 }
 
-export const useSwitchNetworkModal = (toNetwork?: 'fuse' | 'celo', onDismiss = noop) => {
+export const useSwitchNetworkModal = (toNetwork?: 'mainnet' | 'goerli' | 'fuse' | 'celo', onDismiss = noop) => {
   const { showDialog, hideDialog } = useDialog()
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
 

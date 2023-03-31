@@ -71,7 +71,7 @@
     "@expo/react-native-action-sheet": "^3.9.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
     "@gooddollar/goodcontracts": "^2.6.2",
-    "@gooddollar/goodprotocol": "latest",
+    "@gooddollar/goodprotocol": "2.0.5-beta.4",
     "@gooddollar/react-native-facetec": "^1.0.32",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@hcaptcha/react-hcaptcha": "^1.4.4",

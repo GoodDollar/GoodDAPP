@@ -1,13 +1,14 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { assign, map, noop, zipObject } from 'lodash'
+import { assign, isString, map, noop, zipObject } from 'lodash'
 import { decode, isMNID } from 'mnid'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { NETWORK_ID } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
+import Config from '../../config/config'
 
 const DECIMALS = 2
 const log = pino.child({ from: 'withdraw' })
@@ -36,6 +37,12 @@ export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
 export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+
+export const supportsG$ = (networkOrId: number | 'mainnet' | 'goerli' | 'fuse' | 'celo') =>
+  isString(networkOrId)
+    ? ['fuse', 'celo'].includes(networkOrId.toLowerCase())
+    : 'g$Decimals' in Config.ethereum(String(networkOrId))
+
 export const extractEthAddress = uri => {
   const regExResult = uri.match(ethAddressRegex)
 

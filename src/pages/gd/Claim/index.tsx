@@ -38,16 +38,16 @@ const Claim = memo(() => {
                 return
             } else if (state.status === 'Success') {
                 setClaimed(true)
+                resetState()
             } else {
                 setClaimed(false)
             }
 
             setRefreshRate('everyBlock')
-            resetState()
         }
         if (claimAmount) hasClaimed().catch(noop)
-        // eslint-disable-next-line react-hooks-addons/no-unused-deps
-    }, [claimAmount, state, chainId, resetState, setRefreshRate])
+        // eslint-disable-next-line react-hooks-addons/no-unused-deps, react-hooks/exhaustive-deps
+    }, [claimAmount, chainId, refreshRate])
 
     // upon switching chain we want temporarily to poll everyBlock up untill we have the latest data
     useEffect(() => {
@@ -79,6 +79,7 @@ const Claim = memo(() => {
     )
 
     const handleClaim = useCallback(async () => {
+        console.log('handleClaim')
         setRefreshRate('everyBlock')
         const claim = await send()
         sendData({ event: 'claim', action: 'claim_success', network })

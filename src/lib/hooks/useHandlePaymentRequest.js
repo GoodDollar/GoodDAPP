@@ -22,7 +22,7 @@ export const RecipientWarnDialog = ({
   requestedNetwork,
 }) => {
   const { switchNetwork } = useSwitchNetwork()
-  const isKnownNetwork = ['fuse', 'celo'].includes(requestedNetwork.toLowerCase())
+  const isKnownNetwork = ['FUSE', 'CELO'].includes(requestedNetwork)
 
   const _onConfirm = async () => {
     if (isDiffNetwork && isKnownNetwork) {

@@ -8,7 +8,7 @@ import { Icon, IconButton, Text } from '../../components/common'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
-import { useSwitchNetwork, useUserStorage } from '../../lib/wallet/GoodWalletProvider'
+import { usePropSuffix, useSwitchNetwork, useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import { useInvited } from '../invite/useInvites'
 import { theme } from '../theme/styles'
 
@@ -75,14 +75,19 @@ const RewardButton = React.memo(({ onPress, style }) => {
   const [, , , inviteState] = useInvited()
   const [updatesCount, setUpdatesCount] = useState(0)
   const userStorage = useUserStorage()
+  const propSuffix = usePropSuffix()
 
   useEffect(() => {
-    const lastState = userStorage.userProperties.get('lastInviteState') || { pending: 0, approved: 0, total: 0 }
+    const lastState = userStorage.userProperties.get(`lastInviteState${propSuffix}`) || {
+      pending: 0,
+      approved: 0,
+      total: 0,
+    }
 
     const newPending = Math.max(inviteState.pending - lastState.pending, 0)
     const newApproved = Math.max(inviteState.approved - lastState.approved, 0)
     setUpdatesCount(newPending + newApproved)
-  }, [inviteState])
+  }, [inviteState, propSuffix])
 
   return (
     <>

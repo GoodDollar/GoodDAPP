@@ -545,7 +545,7 @@ module.exports = {
       skipWaiting: false,
       exclude: [/\.map$/, /asset-manifest\.json$/],
       navigateFallback: publicUrl + '/index.html',
-      navigateFallbackBlacklist: [
+      navigateFallbackDenylist: [
         // Exclude URLs starting with /_, as they're likely an API call
         new RegExp('^/_'),
         // Exclude URLs containing a dot, as they're likely a resource in

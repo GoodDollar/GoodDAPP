@@ -4,12 +4,18 @@ exports[`PhoneForm matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
+  <div />
   <div
     className="css-view-1dbjc4n r-flex-13awgt0 r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
+      className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
       data-name="viewWrapper"
+      style={
+        Object {
+          "backgroundColor": "rgba(0,0,0,0.00)",
+        }
+      }
     >
       <div
         className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flexGrow-16y2uox r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
@@ -48,7 +54,15 @@ exports[`PhoneForm matches snapshot 1`] = `
               }
             >
               <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+                style={
+                  Object {
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                  }
+                }
               >
                 <div
                   className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -60,7 +74,15 @@ so we could verify you
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginBottom-5oul0u r-marginTop-1t01tom"
+                className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-marginBottom-5oul0u r-marginTop-1t01tom"
+                style={
+                  Object {
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "justifyContent": "center",
+                    "msFlexPack": "center",
+                  }
+                }
               >
                 <div
                   className="react-phone-number-input signup_phone_input"
@@ -1646,7 +1668,15 @@ so we could verify you
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginBottom-5oul0u r-marginTop-1t01tom"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-5oul0u r-marginTop-1t01tom"
+              style={
+                Object {
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "justifyContent": "center",
+                  "msFlexPack": "center",
+                }
+              }
             >
               <div
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1669,9 +1699,11 @@ so we could verify you
           }
         >
           <div
-            className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
+            className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-padding-t60dpp"
             style={
               Object {
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(23,53,102,0.40)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -1689,12 +1721,14 @@ so we could verify you
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
+                "justifyContent": "center",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
                 "marginTop": "0px",
                 "minHeight": "44px",
                 "minWidth": "64px",
+                "msFlexPack": "center",
                 "paddingLeft": "0px",
                 "paddingRight": "0px",
               }
@@ -1738,6 +1772,178 @@ so we could verify you
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "height": "23px",
+                            "opacity": 1,
+                            "width": "23px",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+                          style={
+                            Object {
+                              "bottom": "0px",
+                              "left": "0px",
+                              "position": "absolute",
+                              "right": "0px",
+                              "top": "0px",
+                            }
+                          }
+                        >
+                          <div
+                            className="css-view-1dbjc4n"
+                            style={
+                              Object {
+                                "WebkitTransform": "rotate(45deg)",
+                                "height": "23px",
+                                "transform": "rotate(45deg)",
+                                "width": "23px",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-overflow-1udh08x"
+                              style={
+                                Object {
+                                  "height": "11.5px",
+                                  "width": "23px",
+                                }
+                              }
+                            >
+                              <div
+                                className="css-view-1dbjc4n"
+                                style={
+                                  Object {
+                                    "WebkitTransform": "translateY(0px) rotate(-165deg)",
+                                    "height": "23px",
+                                    "transform": "translateY(0px) rotate(-165deg)",
+                                    "width": "23px",
+                                  }
+                                }
+                              >
+                                <div
+                                  className="css-view-1dbjc4n r-overflow-1udh08x"
+                                  style={
+                                    Object {
+                                      "height": "11.5px",
+                                      "width": "23px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    className="css-view-1dbjc4n"
+                                    style={
+                                      Object {
+                                        "borderBottomColor": "rgba(255,255,255,1.00)",
+                                        "borderBottomLeftRadius": "11.5px",
+                                        "borderBottomRightRadius": "11.5px",
+                                        "borderBottomWidth": "2.3px",
+                                        "borderLeftColor": "rgba(255,255,255,1.00)",
+                                        "borderLeftWidth": "2.3px",
+                                        "borderRightColor": "rgba(255,255,255,1.00)",
+                                        "borderRightWidth": "2.3px",
+                                        "borderTopColor": "rgba(255,255,255,1.00)",
+                                        "borderTopLeftRadius": "11.5px",
+                                        "borderTopRightRadius": "11.5px",
+                                        "borderTopWidth": "2.3px",
+                                        "height": "23px",
+                                        "width": "23px",
+                                      }
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+                          style={
+                            Object {
+                              "bottom": "0px",
+                              "left": "0px",
+                              "position": "absolute",
+                              "right": "0px",
+                              "top": "0px",
+                            }
+                          }
+                        >
+                          <div
+                            className="css-view-1dbjc4n"
+                            style={
+                              Object {
+                                "WebkitTransform": "rotate(45deg)",
+                                "height": "23px",
+                                "transform": "rotate(45deg)",
+                                "width": "23px",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-overflow-1udh08x"
+                              style={
+                                Object {
+                                  "height": "11.5px",
+                                  "top": "11.5px",
+                                  "width": "23px",
+                                }
+                              }
+                            >
+                              <div
+                                className="css-view-1dbjc4n"
+                                style={
+                                  Object {
+                                    "WebkitTransform": "translateY(-11.5px) rotate(345deg)",
+                                    "height": "23px",
+                                    "transform": "translateY(-11.5px) rotate(345deg)",
+                                    "width": "23px",
+                                  }
+                                }
+                              >
+                                <div
+                                  className="css-view-1dbjc4n r-overflow-1udh08x"
+                                  style={
+                                    Object {
+                                      "height": "11.5px",
+                                      "width": "23px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    className="css-view-1dbjc4n"
+                                    style={
+                                      Object {
+                                        "borderBottomColor": "rgba(255,255,255,1.00)",
+                                        "borderBottomLeftRadius": "11.5px",
+                                        "borderBottomRightRadius": "11.5px",
+                                        "borderBottomWidth": "2.3px",
+                                        "borderLeftColor": "rgba(255,255,255,1.00)",
+                                        "borderLeftWidth": "2.3px",
+                                        "borderRightColor": "rgba(255,255,255,1.00)",
+                                        "borderRightWidth": "2.3px",
+                                        "borderTopColor": "rgba(255,255,255,1.00)",
+                                        "borderTopLeftRadius": "11.5px",
+                                        "borderTopRightRadius": "11.5px",
+                                        "borderTopWidth": "2.3px",
+                                        "height": "23px",
+                                        "width": "23px",
+                                      }
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div
                       className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"

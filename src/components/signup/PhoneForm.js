@@ -1,7 +1,8 @@
 // @flow
 
-import React from 'react'
-import { debounce } from 'lodash'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
+import { t } from '@lingui/macro'
 import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import { enhanceArgentinaCountryCode } from '../../lib/utils/phoneNumber'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -14,13 +15,14 @@ import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import { useDialog } from '../../lib/dialog/useDialog'
+import Recaptcha from '../auth/components/Recaptcha'
 import FormNumberInput from './PhoneNumberInput/PhoneNumberInput'
 import CustomWrapper from './signUpWrapper'
 
 const log = logger.child({ from: 'PhoneForm' })
 
-type Props = {
-  doneCallback: ({ phone: string }) => null,
+type PhoneFormProps = {
   screenProps: any,
   navigation: any,
 }
@@ -32,97 +34,129 @@ export type MobileRecord = {
   isValid: boolean,
 }
 
-type State = MobileRecord
+const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) => {
+  const { data, doneCallback } = screenProps || {}
+  const { isMobileKeyboardShown, setMobileKeyboardShown } = useContext(GlobalTogglesContext)
+  const { showErrorDialog } = useDialog()
 
-class PhoneForm extends React.Component<Props, State> {
-  static contextType = GlobalTogglesContext
+  // no captcha if pwdless as already passed at the flow's beginning
+  const [isValidRecaptcha, setValidRecaptcha] = useState(() => !(data.torusProvider || '').includes('auth0'))
+  const reCaptchaRef = useRef()
 
-  constructor(props) {
-    const { data } = props.screenProps
+  const [state, setStateValue] = useState<MobileRecord>({
+    countryCode: data.countryCode,
+    mobile: data.mobile || '',
+    errorMessage: '',
+    isValid: false,
+  })
 
-    super(props)
-
-    this.state = {
-      countryCode: data.countryCode,
-      mobile: data.mobile || '',
-      errorMessage: '',
-      isValid: false,
-    }
-  }
-
-  onFocus = () => this.handleScreenKeyboard(true)
-
-  onBlur = () => this.handleScreenKeyboard(false)
-
-  componentDidMount() {
-    this.setState({
-      isValid: this.checkErrors(),
-    })
-  }
-
-  componentDidUpdate() {
-    if (this.props.screenProps.data.countryCode !== this.state.countryCode) {
-      this.setState({
-        countryCode: this.props.screenProps.data.countryCode,
-      })
-    }
-  }
-
-  handleScreenKeyboard(isShown) {
-    const { setMobileKeyboardShown } = this.context
-
+  const handleScreenKeyboard = isShown => {
     if (isMobile) {
       setMobileKeyboardShown(isShown)
     }
   }
 
-  handleChange = (mobile: string) => {
-    this.checkErrorsSlow()
+  const setState = () => mergeWith => setStateValue(oldValue => ({ ...oldValue, ...mergeWith }))
+  const onFocus = () => handleScreenKeyboard(true)
+  const onBlur = () => handleScreenKeyboard(false)
+  const validateField = () => userModelValidations.mobile(state.mobile)
 
-    this.setState({
+  const checkErrors = () => {
+    const modelErrorMessage = validateField()
+    const errorMessage = modelErrorMessage
+    const isValid = state.mobile && errorMessage === ''
+
+    log.debug({ modelErrorMessage, errorMessage, Config })
+    setState({ errorMessage, isValid })
+
+    return isValid
+  }
+
+  const checkErrorsSlow = useDebouncedCallback(checkErrors, 500)
+
+  const handleChange = (mobile: string) => {
+    checkErrorsSlow()
+
+    setState({
       mobile: enhanceArgentinaCountryCode(mobile),
     })
   }
 
-  handleSubmit = () => {
-    const isValid = this.checkErrors()
+  const handleSubmit = () => {
+    const isValid = checkErrors()
+
     if (isValid) {
-      this.props.screenProps.doneCallback({ mobile: this.state.mobile })
+      doneCallback({ mobile: state.mobile })
     }
   }
 
-  handleEnter = (event: { nativeEvent: { key: string } }) => {
-    if (event.keyCode === 13 && this.state.isValid) {
-      this.handleSubmit()
+  const handleEnter = (event: { nativeEvent: { key: string } }) => {
+    if (event.keyCode === 13 && state.isValid) {
+      handleSubmit()
     }
   }
 
-  validateField = () => {
-    return userModelValidations.mobile(this.state.mobile)
-  }
+  const onRecaptchaSuccess = useCallback(() => {
+    log.debug('Recaptcha successfull')
+    setValidRecaptcha(true)
+  }, [setValidRecaptcha])
 
-  checkErrors = () => {
-    const modelErrorMessage = this.validateField()
-    const errorMessage = modelErrorMessage
-    log.debug({ modelErrorMessage, errorMessage, Config })
-    const isValid = this.state.mobile && errorMessage === ''
-    this.setState({ errorMessage, isValid })
-    return isValid
-  }
+  const launchCaptcha = useCallback(() => {
+    const { current: captcha } = reCaptchaRef
 
-  checkErrorsSlow = debounce(this.checkErrors, 500)
+    log.debug('recaptcha launch', { captcha })
 
-  render() {
-    const errorMessage = this.state.errorMessage || this.props.screenProps.error
-    this.props.screenProps.error = undefined
+    if (!captcha) {
+      return
+    }
 
-    const { key } = this.props.navigation.state
-    const { styles, theme } = this.props
-    const { fullName, loading } = this.props.screenProps.data
-    const isShowKeyboard = this.context.isMobileKeyboardShown
+    // If recaptcha has already been passed successfully, trigger torus right away
+    if (captcha.hasPassedCheck()) {
+      onRecaptchaSuccess()
+      return
+    }
+    log.debug('recaptcha launch, launching...', { captcha })
 
-    return (
-      <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
+    captcha.launchCheck()
+  }, [onRecaptchaSuccess])
+
+  const onRecaptchaFailed = useCallback(() => {
+    log.debug('Recaptcha failed')
+
+    showErrorDialog('', '', {
+      title: t`CAPTCHA test failed`,
+      message: t`Please try again.`,
+      onDismiss: () => launchCaptcha(),
+    })
+  }, [launchCaptcha, showErrorDialog])
+
+  useEffect(() => {
+    setState({ isValid: checkErrors() })
+
+    if (screenProps.error) {
+      screenProps.error = undefined
+    }
+  }, [])
+
+  useEffect(() => {
+    setState({ countryCode: data.countryCode })
+  }, [data.countryCode])
+
+  useEffect(() => {
+    if (isValidRecaptcha) {
+      return
+    }
+
+    launchCaptcha()
+  }, [isValidRecaptcha, launchCaptcha])
+
+  const errorMessage = state.errorMessage || screenProps.error
+  const { fullName, loading } = data
+  const { key } = navigation.state
+
+  return (
+    <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>
+      <CustomWrapper valid={state.isValid} handleSubmit={handleSubmit} loading={loading || !isValidRecaptcha}>
         <Section grow justifyContent="flex-start" style={styles.transparentBackground}>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
@@ -133,14 +167,14 @@ class PhoneForm extends React.Component<Props, State> {
             <Section.Stack justifyContent="center" style={styles.column}>
               <FormNumberInput
                 id={key + '_input'}
-                value={this.state.mobile}
-                onChange={this.handleChange}
+                value={state.mobile}
+                onChange={handleChange}
                 error={errorMessage}
-                onKeyDown={this.handleEnter}
-                country={this.state.countryCode}
-                onTouchStart={this.onFocus}
-                onBlur={this.onBlur}
-                onSubmitEditing={this.handleSubmit}
+                onKeyDown={handleEnter}
+                country={state.countryCode}
+                onTouchStart={onFocus}
+                onBlur={onBlur}
+                onSubmitEditing={handleSubmit}
                 enablesReturnKeyAutomatically
                 autoFocus
                 textStyle={isMobileNative && errorMessage ? styles.inputError : undefined}
@@ -154,18 +188,18 @@ class PhoneForm extends React.Component<Props, State> {
               marginTop: 'auto',
 
               /*only for small screen (iPhone5 , etc.)*/
-              marginBottom: isShowKeyboard && getScreenHeight() <= 480 ? -15 : theme.sizes.default,
+              marginBottom: isMobileKeyboardShown && getScreenHeight() <= 480 ? -15 : theme.sizes.default,
             }}
           >
             {/*change fontSize only for small screen (iPhone5 , etc.)*/}
-            <Section.Text fontSize={isShowKeyboard && getScreenHeight() <= 480 ? 13 : 14} color="gray80Percent">
+            <Section.Text fontSize={isMobileKeyboardShown && getScreenHeight() <= 480 ? 13 : 14} color="gray80Percent">
               A verification code will be sent to this number
             </Section.Text>
           </Section.Row>
         </Section>
       </CustomWrapper>
-    )
-  }
+    </Recaptcha>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => ({

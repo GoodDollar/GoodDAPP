@@ -91,7 +91,7 @@ const VerifyEditCode = props => {
     }
 
     launchCaptcha()
-  }, [field, isValidRecaptcha, launchCaptcha, onRecaptchaSuccess])
+  }, [field, isValidRecaptcha, launchCaptcha])
 
   // Refs are guaranteed to be up-to-date before componentDidMount
   // so no need to use ref nor its current value as the effect dep

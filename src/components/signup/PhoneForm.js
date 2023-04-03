@@ -40,7 +40,7 @@ const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) =
   const { showErrorDialog } = useDialog()
 
   // no captcha if pwdless as already passed at the flow's beginning
-  const [isValidRecaptcha, setValidRecaptcha] = useState(() => !(data.torusProvider || '').includes('auth0'))
+  const [isValidRecaptcha, setValidRecaptcha] = useState(() => (data.torusProvider || '').includes('auth0'))
   const reCaptchaRef = useRef()
 
   const [state, setStateValue] = useState<MobileRecord>({

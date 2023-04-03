@@ -73,7 +73,8 @@ const Claim = memo(() => {
                     sendData({ event: 'claim', action: 'claim_start', network })
                     break
                 case 'finish':
-                    sendData({ event: 'claim', action: 'claim_success', network })
+                    // finish event does not handle rejected case
+                    // sendData({ event: 'claim', action: 'claim_success', network })
                     break
                 default:
                     sendData({ event: 'claim', action: event, network })
@@ -86,10 +87,10 @@ const Claim = memo(() => {
     const handleClaim = useCallback(async () => {
         setRefreshRate('everyBlock')
         const claim = await send()
-        sendData({ event: 'claim', action: 'claim_success', network })
         if (!claim) {
             return false
         }
+        sendData({ event: 'claim', action: 'claim_success', network })
         return true
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [send, network, sendData])

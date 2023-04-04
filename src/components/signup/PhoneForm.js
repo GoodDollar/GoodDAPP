@@ -9,7 +9,6 @@ import { userModelValidations } from '../../lib/userStorage/UserModel'
 import { getScreenHeight } from '../../lib/utils/orientation'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
-import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
@@ -52,7 +51,7 @@ const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) =
     }
   }
 
-  const setState = () => mergeWith => setStateValue(oldValue => ({ ...oldValue, ...mergeWith }))
+  const setState = mergeWith => setStateValue(oldValue => ({ ...oldValue, ...mergeWith }))
   const onFocus = () => handleScreenKeyboard(true)
   const onBlur = () => handleScreenKeyboard(false)
   const validateField = () => userModelValidations.mobile(state.mobile)
@@ -62,7 +61,7 @@ const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) =
     const errorMessage = modelErrorMessage
     const isValid = state.mobile && errorMessage === ''
 
-    log.debug({ modelErrorMessage, errorMessage, Config })
+    log.debug({ modelErrorMessage, errorMessage })
     setState({ errorMessage, isValid })
 
     return isValid
@@ -93,7 +92,7 @@ const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) =
   }
 
   useEffect(() => {
-    setState({ isValid: checkErrors() })
+    checkErrors()
 
     if (screenProps.error) {
       screenProps.error = undefined

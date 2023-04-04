@@ -4,7 +4,7 @@ import { t } from '@lingui/macro'
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import logger from '../../../../lib/logger/js-logger'
 import Config from '../../../../config/config'
-import Recaptcha from './Recaptcha'
+import Recaptcha from '.'
 
 const log = logger.child({ from: 'useRecaptcha' })
 
@@ -15,7 +15,7 @@ const useRecaptcha = options => {
   const reCaptchaRef = useRef()
   const { showErrorDialog } = useDialog()
   const isEnabled = Config.env !== 'development' && enabled
-  const [isValidRecaptcha, setValidRecaptcha] = useState(!isEnabled)
+  const [isValidRecaptcha, setValidRecaptcha] = useState(false)
 
   const onRecaptchaSuccess = useCallback(() => {
     log.debug('Recaptcha successfull')
@@ -28,13 +28,13 @@ const useRecaptcha = options => {
 
     log.debug('recaptcha launch', { captcha })
 
-    if (!captcha) {
+    // If recaptcha has already been passed successfully, trigger torus right away
+    if (!isEnabled || (captcha && captcha.hasPassedCheck())) {
+      onRecaptchaSuccess()
       return
     }
 
-    // If recaptcha has already been passed successfully, trigger torus right away
-    if (captcha.hasPassedCheck()) {
-      onRecaptchaSuccess()
+    if (!captcha) {
       return
     }
 
@@ -56,7 +56,7 @@ const useRecaptcha = options => {
         }
       },
     })
-  }, [launchCaptcha, showErrorDialog, onFailed, relaunchOnFailed])
+  }, [launchCaptcha, showErrorDialog, onFailed, relaunchOnFailed, isEnabled])
 
   const Captcha = useMemo(
     () =>
@@ -77,12 +77,6 @@ const useRecaptcha = options => {
 
     launchCaptcha()
   }, [autoLaunch, isValidRecaptcha, launchCaptcha])
-
-  useEffect(() => {
-    if (!isEnabled) {
-      onRecaptchaSuccess()
-    }
-  }, [isEnabled, onRecaptchaSuccess])
 
   return { Captcha, isValidRecaptcha, launchCaptcha }
 }

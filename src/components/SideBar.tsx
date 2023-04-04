@@ -141,7 +141,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                 url: 'https://app.fuse.fi/#/bridge',
                 dataAttr: 'bridge',
                 withIcon: true,
-                show: true,
+                show: process.env.REACT_APP_CELO_PHASE_3,
             },
             {
                 label: i18n._(t`Docs`),

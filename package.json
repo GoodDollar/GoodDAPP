@@ -73,7 +73,7 @@
     "@gooddollar/goodprotocol": "^2.0.3",
     "@gooddollar/react-native-facetec": "^1.0.32",
     "@gooddollar/react-native-side-menu": "^2.0.2",
-    "@hcaptcha/react-hcaptcha": "^1.4.4",
+    "@hcaptcha/react-hcaptcha": "^1.6.0",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
     "@lingui/react": "^3.13.0",
     "@metamask/eth-sig-util": "^4.0.1",

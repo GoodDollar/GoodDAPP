@@ -1,8 +1,7 @@
 // @flow
 
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { t } from '@lingui/macro'
 import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import { enhanceArgentinaCountryCode } from '../../lib/utils/phoneNumber'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -15,8 +14,7 @@ import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
-import { useDialog } from '../../lib/dialog/useDialog'
-import Recaptcha from '../auth/components/Recaptcha'
+import useRecaptcha from '../auth/components/Recaptcha/useRecaptcha'
 import FormNumberInput from './PhoneNumberInput/PhoneNumberInput'
 import CustomWrapper from './signUpWrapper'
 
@@ -37,11 +35,9 @@ export type MobileRecord = {
 const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) => {
   const { data, doneCallback } = screenProps || {}
   const { isMobileKeyboardShown, setMobileKeyboardShown } = useContext(GlobalTogglesContext)
-  const { showErrorDialog } = useDialog()
 
   // no captcha if pwdless as already passed at the flow's beginning
-  const [isValidRecaptcha, setValidRecaptcha] = useState(() => (data.torusProvider || '').includes('auth0'))
-  const reCaptchaRef = useRef()
+  const { Captcha, isValidRecaptcha } = useRecaptcha({ enabled: !(data.torusProvider || '').includes('auth0') })
 
   const [state, setStateValue] = useState<MobileRecord>({
     countryCode: data.countryCode,
@@ -96,40 +92,6 @@ const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) =
     }
   }
 
-  const onRecaptchaSuccess = useCallback(() => {
-    log.debug('Recaptcha successfull')
-    setValidRecaptcha(true)
-  }, [setValidRecaptcha])
-
-  const launchCaptcha = useCallback(() => {
-    const { current: captcha } = reCaptchaRef
-
-    log.debug('recaptcha launch', { captcha })
-
-    if (!captcha) {
-      return
-    }
-
-    // If recaptcha has already been passed successfully, trigger torus right away
-    if (captcha.hasPassedCheck()) {
-      onRecaptchaSuccess()
-      return
-    }
-    log.debug('recaptcha launch, launching...', { captcha })
-
-    captcha.launchCheck()
-  }, [onRecaptchaSuccess])
-
-  const onRecaptchaFailed = useCallback(() => {
-    log.debug('Recaptcha failed')
-
-    showErrorDialog('', '', {
-      title: t`CAPTCHA test failed`,
-      message: t`Please try again.`,
-      onDismiss: () => launchCaptcha(),
-    })
-  }, [launchCaptcha, showErrorDialog])
-
   useEffect(() => {
     setState({ isValid: checkErrors() })
 
@@ -142,20 +104,12 @@ const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) =
     setState({ countryCode: data.countryCode })
   }, [data.countryCode])
 
-  useEffect(() => {
-    if (isValidRecaptcha) {
-      return
-    }
-
-    launchCaptcha()
-  }, [isValidRecaptcha, launchCaptcha])
-
   const errorMessage = state.errorMessage || screenProps.error
   const { fullName, loading } = data
   const { key } = navigation.state
 
   return (
-    <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>
+    <Captcha>
       <CustomWrapper valid={state.isValid} handleSubmit={handleSubmit} loading={loading || !isValidRecaptcha}>
         <Section grow justifyContent="flex-start" style={styles.transparentBackground}>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
@@ -198,7 +152,7 @@ const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) =
           </Section.Row>
         </Section>
       </CustomWrapper>
-    </Recaptcha>
+    </Captcha>
   )
 }
 

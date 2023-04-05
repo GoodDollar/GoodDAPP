@@ -20,6 +20,7 @@ export const theme = {
     gray: '#555',
     gray50Percent: '#CBCBCB',
     gray80Percent: '#A3A3A3',
+    gray100Percent: '#737373',
     grayBox: '#E5E5E5',
     placeholder: '#CBCBCB',
     disabled: '#E3E3E2',

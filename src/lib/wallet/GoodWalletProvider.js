@@ -73,16 +73,16 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       // entitelment is separate because it depends on msg.sender
       const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
 
+      let totalBalance = balance
+      let fuseBalance = 0,
+        celoBalance = 0
       if (fusewallet && celowallet) {
-        let [fuseBalance = '0', celoBalance = '0'] = await Promise.all([
-          fusewallet?.balanceOf(),
-          celowallet?.balanceOf(),
-        ])
+        ;[fuseBalance = '0', celoBalance = '0'] = await Promise.all([fusewallet?.balanceOf(), celowallet?.balanceOf()])
         fuseBalance = Number(fusewallet.toDecimals(fuseBalance))
         celoBalance = Number(celowallet.toDecimals(celoBalance))
-        const totalBalance = (fuseBalance + celoBalance).toFixed(2)
-        setBalance({ balance, totalBalance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
+        totalBalance = (fuseBalance + celoBalance).toFixed(2)
       }
+      setBalance({ balance, totalBalance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
 
       setDailyUBI(ubi)
       setIsCitizen(isCitizen)
@@ -262,6 +262,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
           userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
         )
+
+        await update(goodWallet)
 
         //trigger refresh
         setWalletAndStorage(_ => ({ ..._, goodWallet }))

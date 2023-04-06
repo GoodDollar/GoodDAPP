@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.50.0",
+  "version": "1.51.1-2",
   "engines": {
     "node": "16.x",
     "npm": "8.x"
@@ -73,7 +73,7 @@
     "@gooddollar/goodprotocol": "^2.0.3",
     "@gooddollar/react-native-facetec": "^1.0.32",
     "@gooddollar/react-native-side-menu": "^2.0.2",
-    "@hcaptcha/react-hcaptcha": "^1.4.4",
+    "@hcaptcha/react-hcaptcha": "^1.6.0",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
     "@lingui/react": "^3.13.0",
     "@metamask/eth-sig-util": "^4.0.1",
@@ -145,6 +145,7 @@
     "path-browserify": "0.0.0",
     "pnp-webpack-plugin": "^1.6.4",
     "process": "^0.11.10",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "promisify-file-reader": "^4.1.0",
     "punycode": "^1.4.1",
     "qrcode.react": "^0.9.3",
@@ -194,7 +195,6 @@
     "react-native-qrcode-scanner": "^1.5.3",
     "react-native-qrcode-svg": "^6.0.1",
     "react-native-randombytes": "^3.5.3",
-    "react-native-reanimated": "^1.7.0",
     "react-native-recaptcha-that-works": "^1.1.0",
     "react-native-recaptcha-v3": "0.0.16",
     "react-native-restart": "0.0.13",
@@ -337,7 +337,7 @@
     "url-loader": "^4.1.1",
     "web-encoding": "^1.1.5",
     "webpack-manifest-plugin": "^2.2.0",
-    "workbox-webpack-plugin": "^4.3.1"
+    "workbox-webpack-plugin": "^6.5.4"
   },
   "dependenciesMeta": {
     "lottie-react-native": {}

@@ -36,6 +36,7 @@ import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../lib/userStorage/useProfile'
+import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -95,10 +96,9 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { fullName } = useProfile()
   const { showDialog } = useDialog()
 
-  const { firstName, isFVFlow, fvFlowError, isFVFlowReady } = useContext(FVFlowContext)
+  const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
-  const { navigate } = navigation
 
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
   const userName = useMemo(() => (isFVFlow ? firstName : getFirstWord(fullName)), [isFVFlow, firstName, fullName])
@@ -181,15 +181,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     }
   }, [enrollmentIdentifier, isFVFlow, isValid, isFVFlowReady, navigateTo, pop, checkDisposalState])
 
-  useEffect(() => {
-    if (!isFVFlow || !navigate) {
-      return
-    }
-
-    if (fvFlowError || !enrollmentIdentifier) {
-      navigate('FVFlowError')
-    }
-  }, [isFVFlow, enrollmentIdentifier, fvFlowError, navigate])
+  useFVLoginInfoCheck(navigation)
 
   useEffect(() => {
     if (!isValid && isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier) {

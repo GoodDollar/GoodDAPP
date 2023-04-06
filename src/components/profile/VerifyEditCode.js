@@ -1,20 +1,16 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback } from 'react'
 import { get } from 'lodash'
-import { t } from '@lingui/macro'
 import logger from '../../lib/logger/js-logger'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
-import { useDialog } from '../../lib/dialog/useDialog'
 import EmailConfirmation from '../signup/EmailConfirmation'
 import SmsForm from '../signup/SmsForm'
-import Recaptcha from '../auth/components/Recaptcha'
+import useRecaptcha from '../auth/components/Recaptcha/useRecaptcha'
 
 const log = logger.child({ from: 'Verify Edit Code' })
 
 const VerifyEditCode = props => {
   const userStorage = useUserStorage()
-  const { showErrorDialog } = useDialog()
-  const [isValidRecaptcha, setValidRecaptcha] = useState(false)
   const { navigation, screenProps } = props
   const { pop, navigateTo } = screenProps
   const field = get(navigation, 'state.params.field')
@@ -43,40 +39,7 @@ const VerifyEditCode = props => {
     content,
   })
 
-  const reCaptchaRef = useRef()
-
-  const onRecaptchaSuccess = useCallback(() => {
-    log.debug('Recaptcha successfull')
-    setValidRecaptcha(true)
-  }, [setValidRecaptcha])
-
-  const launchCaptcha = useCallback(() => {
-    const { current: captcha } = reCaptchaRef
-
-    log.debug('recaptcha launch', { captcha })
-    if (!captcha) {
-      return
-    }
-
-    // If recaptcha has already been passed successfully, trigger torus right away
-    if (captcha.hasPassedCheck()) {
-      onRecaptchaSuccess()
-      return
-    }
-    log.debug('recaptcha launch, launching...', { captcha })
-
-    captcha.launchCheck()
-  }, [onRecaptchaSuccess])
-
-  const onRecaptchaFailed = useCallback(() => {
-    log.debug('Recaptcha failed')
-
-    showErrorDialog('', '', {
-      title: t`CAPTCHA test failed`,
-      message: t`Please try again.`,
-      onDismiss: () => launchCaptcha(),
-    })
-  }, [launchCaptcha, showErrorDialog])
+  const { isValidRecaptcha, Captcha } = useRecaptcha({ enabled: field !== 'phone' })
 
   const handleSubmit = useCallback(async () => {
     const privacy = await userStorage.getFieldPrivacy(fieldToSave)
@@ -85,19 +48,8 @@ const VerifyEditCode = props => {
     navigateTo('Profile')
   }, [fieldToSave, content, navigateTo, pop, userStorage])
 
-  useEffect(() => {
-    if (field !== 'phone' || isValidRecaptcha) {
-      return
-    }
-
-    launchCaptcha()
-  }, [field, isValidRecaptcha, launchCaptcha, onRecaptchaSuccess])
-
-  // Refs are guaranteed to be up-to-date before componentDidMount
-  // so no need to use ref nor its current value as the effect dep
-
   return (
-    <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>
+    <Captcha>
       {isValidRecaptcha && (
         <RenderComponent
           screenProps={{
@@ -109,7 +61,7 @@ const VerifyEditCode = props => {
           }}
         />
       )}
-    </Recaptcha>
+    </Captcha>
   )
 }
 

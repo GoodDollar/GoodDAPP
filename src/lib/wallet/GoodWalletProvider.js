@@ -352,15 +352,13 @@ const NetworkSwitch = withStyles(({ theme }) => ({
     borderBottomColor: theme.colors.lightGray,
     borderBottomWidth: 1,
     padding: theme.paddings.mainContainerPadding,
-    paddingLeft: theme.sizes.defaultQuadruple,
   },
   growTwo: {
     flexGrow: 2,
   },
   optionsRowTitle: {
-    width: '15%',
-    minWidth: 60,
     alignItems: 'center',
+    paddingRight: theme.sizes.default,
   },
 }))(({ value, onChange, styles }) => {
   const [network, setNetwork] = useState(value)
@@ -398,7 +396,7 @@ export const useSwitchNetworkModal = (toNetwork?: 'mainnet' | 'goerli' | 'fuse' 
 
   const showModal = useCallback(
     (toNetwork = null) => {
-      let switchTo = toNetwork || currentNetwork
+      let switchTo = toNetwork || currentNetwork?.toLowerCase()
 
       showDialog({
         title: toNetwork ? 'To continue please switch chains' : 'Select chain',

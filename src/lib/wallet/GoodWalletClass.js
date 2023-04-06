@@ -204,7 +204,9 @@ export class GoodWallet {
     const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
     this.web3Mainnet = new Web3(mainnethttpWeb3provider)
     const network = this.config.network
-    const networkId = get(ContractsAddress, network + '.networkId', 122)
+
+    // TODO: remove this when development-goerli in deployment.json will have correct networkiId
+    const networkId = get(ContractsAddress, network + '.networkId', network.includes('goerli') ? 5 : 122)
     const ready = WalletFactory.create({ ...this.config, network_id: networkId })
 
     this.ready = ready

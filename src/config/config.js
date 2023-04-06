@@ -74,6 +74,7 @@ const ethereum = defaultsDeep(altProviders, {
     explorer: 'https://goerli.etherscan.io',
     explorerAPI: 'https://goerli.etherscan.io',
     explorerName: 'etherscan',
+    gasPrice: 10, //in gwei
   },
   '42': {
     network_id: 42,

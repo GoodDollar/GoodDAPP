@@ -12,7 +12,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
-import { decimalsToFixed, toMask } from '../../lib/wallet/utils'
+import { decimalsToFixed, supportsG$, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
 import { useFormatG$, useSwitchNetwork, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
@@ -695,7 +695,7 @@ const Dashboard = props => {
                   style={styles.bigGoodDollar}
                 />
               </View>
-              {headerLarge && showPrice && (
+              {headerLarge && showPrice && supportsG$(currentNetwork) && (
                 <View>
                   <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Section.Text style={[styles.gdPrice, { marginRight: 16 }]}>{fuseBalance} Fuse G$</Section.Text>
@@ -726,12 +726,16 @@ const Dashboard = props => {
           >
             Send
           </PushButton>
-          <ClaimButton
-            screenProps={screenProps}
-            amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
-            animated
-            animatedScale={claimScale}
-          />
+          {supportsG$(currentNetwork) ? (
+            <ClaimButton
+              screenProps={screenProps}
+              amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
+              animated
+              animatedScale={claimScale}
+            />
+          ) : (
+            <View style={styles.buttonSpacer} />
+          )}
           <PushButton
             icon="receive"
             iconSize={20}
@@ -913,6 +917,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigGoodDollar: {
     width: '100%',
+  },
+  buttonSpacer: {
+    width: theme.sizes.defaultQuadruple,
   },
 })
 

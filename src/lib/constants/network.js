@@ -7,6 +7,7 @@ export const NETWORK_ID = {
   MAINNET: 1,
   ROPSTEN: 3,
   RINKEBY: 4,
+  GOERLI: 5,
   RSK: 30,
   RSK_TESTNET: 31,
   KOVAN: 42,

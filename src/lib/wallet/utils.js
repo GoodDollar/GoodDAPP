@@ -41,7 +41,7 @@ export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 export const supportsG$ = (networkOrId: number | 'mainnet' | 'goerli' | 'fuse' | 'celo') =>
   isString(networkOrId)
     ? ['fuse', 'celo'].includes(networkOrId.toLowerCase())
-    : 'g$Decimals' in Config.ethereum(String(networkOrId))
+    : 'g$Decimals' in Config.ethereum[String(networkOrId)]
 
 export const extractEthAddress = uri => {
   const regExResult = uri.match(ethAddressRegex)

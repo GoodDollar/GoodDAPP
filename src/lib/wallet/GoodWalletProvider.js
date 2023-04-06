@@ -18,6 +18,7 @@ import Text from '../../components/common/view/Text'
 import { withStyles } from '../styles'
 import { theme } from '../../components/theme/styles'
 import { GoodWallet } from './GoodWalletClass'
+import { supportsG$ } from './utils'
 import HDWalletProvider from './HDWalletProvider'
 
 /** CELO TODO:
@@ -62,7 +63,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const update = useCallback(
     async goodWallet => {
-      const { tokenContract, UBIContract, identityContract, account } = goodWallet
+      const { tokenContract, UBIContract, identityContract, account, networkId } = goodWallet
+
+      if (!supportsG$(networkId)) {
+        log.debug('Network does not supports G$, skipping update', { networkId })
+        return
+      }
 
       const calls = [
         {
@@ -265,14 +271,19 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         log.debug('switchNetwork: starting watchBalanceAndTXs', { lastBlock, network, contractsNetwork })
 
-        goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-          userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
-        )
+        goodWallet
+          .watchEvents(parseInt(lastBlock), toBlock =>
+            userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
+          )
+          .catch(e => {
+            log.error('watchEvents failed:', e.message, e, { contractsNetwork, network })
+          })
 
         await update(goodWallet)
 
         //trigger refresh
         setWalletAndStorage(_ => ({ ..._, goodWallet }))
+        log.debug('switchNetwork: setWalletAndStorage done', { contractsNetwork, network })
       } catch (e) {
         log.error('switchNetwork failed:', e.message, e, { contractsNetwork, network })
       }

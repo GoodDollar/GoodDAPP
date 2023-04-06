@@ -47,6 +47,7 @@ import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
+import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -67,7 +68,6 @@ import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 
-import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 import Settings from './Settings'
 
@@ -151,7 +151,6 @@ const Dashboard = props => {
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
-  const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur, setAddWebApp, isLoadingIndicator, setFeedLoadAnimShown } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
@@ -349,8 +348,7 @@ const Dashboard = props => {
 
   const animateItems = useCallback(async () => {
     await animateClaim()
-    setAnimateMarket(true)
-  }, [animateClaim, setAnimateMarket])
+  }, [animateClaim])
 
   const showDelayed = useCallback(() => {
     const id = setTimeout(() => {
@@ -785,7 +783,7 @@ const Dashboard = props => {
           navigation={navigation}
         />
       )}
-      {animateMarket && <GoodMarketButton />}
+      {<GoodActionBar navigation={navigation} />}
     </Wrapper>
   )
 }

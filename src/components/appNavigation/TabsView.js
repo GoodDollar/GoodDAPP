@@ -8,7 +8,7 @@ import { Icon, IconButton, Text } from '../../components/common'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
-import { useSwitchNetwork, useUserStorage } from '../../lib/wallet/GoodWalletProvider'
+import { useSwitchNetwork, useSwitchNetworkModal, useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import { useInvited } from '../invite/useInvites'
 import { theme } from '../theme/styles'
 
@@ -119,11 +119,8 @@ const rewardStyles = {
 }
 
 const NetworkName = () => {
-  const { currentNetwork, switchNetwork } = useSwitchNetwork()
-
-  const toggle = () => {
-    switchNetwork(currentNetwork === 'FUSE' ? 'CELO' : 'FUSE')
-  }
+  const { currentNetwork } = useSwitchNetwork()
+  const toggle = useSwitchNetworkModal()
 
   return (
     <View style={styles.networkName}>

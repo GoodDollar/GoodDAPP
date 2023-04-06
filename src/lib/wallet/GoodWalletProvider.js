@@ -1,5 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { RadioButton } from 'react-native-paper'
+import { View } from 'react-native'
 import { noop } from 'lodash'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
@@ -11,6 +13,10 @@ import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
 import { getNetworkName } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
+import Section from '../../components/common/layout/Section'
+import Text from '../../components/common/view/Text'
+import { withStyles } from '../styles'
+import { theme } from '../../components/theme/styles'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
 
@@ -334,23 +340,76 @@ export const useSwitchNetwork = () => {
   return { switchNetwork, currentNetwork: getNetworkName(goodWallet.networkId) }
 }
 
+const NetworkSwitch = withStyles(({ theme }) => ({
+  optionsRowWrapper: {
+    padding: 0,
+  },
+  optionsRowContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderStyle: 'solid',
+    borderBottomColor: theme.colors.lightGray,
+    borderBottomWidth: 1,
+    padding: theme.paddings.mainContainerPadding,
+    paddingLeft: theme.sizes.defaultQuadruple,
+  },
+  growTwo: {
+    flexGrow: 2,
+  },
+  optionsRowTitle: {
+    width: '15%',
+    minWidth: 60,
+    alignItems: 'center',
+  },
+}))(({ value, onChange, styles }) => {
+  const [network, setNetwork] = useState(value)
+  const networks = ['fuse', 'celo', Config.env === 'production' ? 'mainnet' : 'goerli']
+
+  const handleNetworkSelect = useCallback(
+    selectedValue => {
+      setNetwork(selectedValue)
+      onChange(selectedValue)
+    },
+    [setNetwork, onChange],
+  )
+
+  return (
+    <Section.Stack justifyContent="flex-start" style={styles.optionsRowWrapper}>
+      <RadioButton.Group onValueChange={handleNetworkSelect} value={network}>
+        {networks.map(network => (
+          <View style={styles.optionsRowContainer} key={network}>
+            <View style={styles.optionsRowTitle}>
+              <RadioButton value={network} uncheckedColor={theme.colors.gray} color={theme.colors.primary} />
+            </View>
+            <Text style={styles.growTwo} textAlign="left" color="gray" fontWeight="medium">
+              {network.toUpperCase()}
+            </Text>
+          </View>
+        ))}
+      </RadioButton.Group>
+    </Section.Stack>
+  )
+})
+
 export const useSwitchNetworkModal = (toNetwork?: 'mainnet' | 'goerli' | 'fuse' | 'celo', onDismiss = noop) => {
   const { showDialog, hideDialog } = useDialog()
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
 
-  useEffect(() => {
-    const switchTo = toNetwork ? toNetwork : currentNetwork === 'fuse' ? 'celo' : 'fuse'
+  const showModal = useCallback(
+    (toNetwork = null) => {
+      let switchTo = toNetwork || currentNetwork
 
-    if (switchTo !== currentNetwork) {
       showDialog({
-        title: 'To continue please switch chains',
+        title: toNetwork ? 'To continue please switch chains' : 'Select chain',
         visible: true,
         type: 'info',
         isMinHeight: true,
         onDismiss,
+        content: toNetwork ? null : <NetworkSwitch value={switchTo} onChange={value => (switchTo = value)} />,
         buttons: [
           {
-            text: `Switch to ${switchTo.toUpperCase()}`,
+            text: toNetwork ? `Switch to ${toNetwork.toUpperCase()}` : 'Switch chain',
             onPress: async () => {
               await switchNetwork(switchTo)
               hideDialog()
@@ -358,8 +417,19 @@ export const useSwitchNetworkModal = (toNetwork?: 'mainnet' | 'goerli' | 'fuse' 
           },
         ],
       })
+    },
+    [showDialog, onDismiss, hideDialog, currentNetwork],
+  )
+
+  const selectNetwork = useCallback(() => showModal(), [showModal])
+
+  useEffect(() => {
+    if (toNetwork && toNetwork !== currentNetwork) {
+      showModal(toNetwork)
     }
   }, [toNetwork, currentNetwork])
+
+  return toNetwork ? null : selectNetwork
 }
 
 export const useFormatG$ = () => {

@@ -9,10 +9,12 @@ import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
-import { getNetworkName } from '../constants/network'
+import { getNetworkName, NETWORK_ID } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
 import { GoodWallet } from './GoodWalletClass'
 import HDWalletProvider from './HDWalletProvider'
+
+type NETWORK = $Keys<typeof NETWORK_ID>
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -252,7 +254,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   }
 
   const switchNetwork = useCallback(
-    async (network: 'fuse' | 'celo') => {
+    async (network: NETWORK) => {
+      network = network.toUpperCase()
       let contractsNetwork = getContractsNetwork(network)
 
       try {
@@ -339,12 +342,13 @@ export const useSwitchNetwork = () => {
   return { switchNetwork, currentNetwork: getNetworkName(goodWallet.networkId) }
 }
 
-export const useSwitchNetworkModal = (toNetwork?: 'fuse' | 'celo', onDismiss = noop) => {
+export const useSwitchNetworkModal = (toNetwork?: NETWORK, onDismiss = noop) => {
+  toNetwork = toNetwork.toUpperCase()
   const { showDialog, hideDialog } = useDialog()
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
 
   useEffect(() => {
-    const switchTo = toNetwork ? toNetwork : currentNetwork === 'fuse' ? 'celo' : 'fuse'
+    const switchTo = toNetwork ?? currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
 
     if (switchTo !== currentNetwork) {
       showDialog({
@@ -375,4 +379,10 @@ export const useFormatG$ = () => {
     toDecimals: (...args) => wallet.toDecimals(...args),
     fromDecimals: (...args) => wallet.fromDecimals(...args),
   }
+}
+
+export const usePropSuffix = () => {
+  const { goodWallet } = useContext(GoodWalletContext)
+  const propSuffix = goodWallet.networkId === 122 ? '' : `_${goodWallet.networkId}`
+  return propSuffix
 }

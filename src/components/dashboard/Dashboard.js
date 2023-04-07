@@ -695,7 +695,7 @@ const Dashboard = props => {
               </View>
               {headerLarge && showPrice && (
                 <View>
-                  <View style={{ flex: 1, flexDirection: 'row' }}>
+                  <View style={{ display: 'flex', flexDirection: 'row' }}>
                     <Section.Text style={[styles.gdPrice, { marginRight: 16 }]}>{fuseBalance} Fuse G$</Section.Text>
                     <Section.Text style={styles.gdPrice}>{celoBalance} Celo G$</Section.Text>
                   </View>

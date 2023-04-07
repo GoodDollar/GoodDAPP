@@ -189,7 +189,9 @@ const Dashboard = props => {
     width: '100%',
     marginRight: 0,
     marginLeft: 0,
-    paddingTop: 8,
+    paddingTop: Platform.select({
+      web: 8,
+    }),
     paddingBottom: 8,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -247,14 +249,28 @@ const Dashboard = props => {
         }),
       },
     ],
+    marginTop: Platform.select({
+      android: headerLarge ? -10 : 0,
+    }),
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderTopLeftRadius: headerLarge ? 0 : 10,
     borderTopRightRadius: headerLarge ? 0 : 10,
+    backgroundColor: '#eee',
+    flexDirection: Platform.select({
+      web: 'column',
+      android: 'column',
+    }),
+    width: Platform.select({
+      web: '100%',
+      android: '100%',
+    }),
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 
   const balanceTopAnimStyles = {
-    flex: 1,
+    display: 'flex',
     width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -267,7 +283,10 @@ const Dashboard = props => {
     marginBottom: 8,
     borderRadius: 12,
     boxShadow: '0px 5px 10px rgba(23, 53, 102, 0.05)',
-    height: topInfoHeight,
+    height: Platform.select({
+      web: topInfoHeight,
+      android: 'auto',
+    }),
   }
 
   const calculateHeaderLayoutSizes = useCallback(() => {
@@ -781,7 +800,7 @@ const Dashboard = props => {
         <Animated.View style={headerAnimateStyles}>
           <Section.Stack alignItems="center" style={styles.balanceContainer}>
             <Animated.View style={[{ flexDirection: headerLarge ? 'column' : 'row' }, balanceTopAnimStyles]}>
-              <Section style={{ alignItems: 'center' }}>
+              <Section style={{ alignItems: 'center', paddingBottom: 4 }}>
                 <Animated.View style={profileAnimStyles}>
                   <Animated.View style={avatarAnimStyles}>
                     <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
@@ -802,15 +821,15 @@ const Dashboard = props => {
                 </Animated.View>
               </Section>
               <Animated.View style={balanceAnimStyles}>
-                <Section.Text
+                <Text
                   color="gray100Percent"
                   fontFamily={theme.fonts.default}
                   fontSize={12}
                   style={{ marginTop: 8, marginBottom: 8 }}
                 >
                   {` MY TOTAL BALANCE `}
-                </Section.Text>
-                <View onLayout={onBalanceLayout} style={{ width: 50 }}>
+                </Text>
+                <View onLayout={onBalanceLayout} style={styles.balanceUsdRow}>
                   <BigGoodDollar
                     testID="amount_value"
                     number={balance}
@@ -823,29 +842,39 @@ const Dashboard = props => {
                     style={styles.bigGoodDollar}
                   />
                 </View>
-                <Section.Text style={styles.gdPrice}>
+                <Text style={styles.gdPrice}>
                   ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
-                </Section.Text>
+                </Text>
               </Animated.View>
             </Animated.View>
 
-            <Animated.View style={[multiBalanceAnimStyles, { width: '100%', background: '#eee' }]}>
-              <View style={styles.multiBalance}>
-                <Section.Text style={styles.multiBalanceItem}>
+            <Animated.View style={multiBalanceAnimStyles}>
+              <View style={[styles.multiBalance, { marginTop: headerLarge ? 0 : 10, flexDirection: 'row' }]}>
+                <Section style={styles.multiBalanceItem}>
                   <Text style={{ fontSize: 16 }}>{celoBalance}</Text>
                   <Text style={{ fontSize: 12 }}>Celo G$</Text>
-                </Section.Text>
-                <Section.Text style={[styles.gdPrice, { width: '10%', fontSize: 20 }]}>
-                  {' '}
+                </Section>
+                <Section.Text
+                  style={[styles.gdPrice, { width: headerLarge ? '10%' : '20%', fontSize: 20, marginTop: 20 }]}
+                >
                   {headerLarge ? `+` : <BridgeButton />}{' '}
                 </Section.Text>
-                <Section.Text style={styles.multiBalanceItem}>
+
+                <Section style={styles.multiBalanceItem}>
                   <Text style={{ fontSize: 16 }}>{fuseBalance}</Text>
                   <Text style={{ fontSize: 12 }}>Fuse G$</Text>
-                </Section.Text>
+                </Section>
               </View>
 
-              <View style={{ marginBottom: 8, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <View
+                style={{
+                  marginBottom: 8,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
                 {headerLarge && <BridgeButton />}
               </View>
             </Animated.View>
@@ -937,7 +966,7 @@ const Dashboard = props => {
 
 const getStylesFromProps = ({ theme }) => ({
   balanceContainer: {
-    height: 'max-content',
+    height: Platform.select({ web: 'max-content', android: 'auto' }),
     paddingBottom: Platform.select({
       web: theme.sizes.defaultHalf,
       default: theme.sizes.default,
@@ -1006,7 +1035,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 14,
+    fontSize: 12,
     color: theme.colors.secondary,
     fontWeight: 'bold',
   },
@@ -1040,17 +1069,6 @@ const getStylesFromProps = ({ theme }) => ({
   rightButtonText: {
     marginLeft: theme.sizes.defaultDouble,
   },
-  bigNumberWrapper: {
-    alignItems: 'center',
-    backgroundColor: '#eee',
-    marginLeft: 0,
-    marginRight: 0,
-    width: '100%',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    paddingTop: 8,
-    paddingBottom: 8,
-  },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
     alignSelf: 'stretch',
@@ -1059,7 +1077,9 @@ const getStylesFromProps = ({ theme }) => ({
     fontWeight: '700',
     fontSize: 42,
     lineHeight: 42,
-    height: 42,
+    height: Platform.select({
+      android: 36,
+    }),
     textAlign: 'center',
     alignSelf: 'stretch',
   },
@@ -1073,9 +1093,16 @@ const getStylesFromProps = ({ theme }) => ({
   },
   multiBalance: {
     display: 'flex',
-    flexDirection: 'row',
-    marginTop: 10,
-    justifyContent: 'flex-start',
+    flexDirection: Platform.select({
+      web: 'row',
+      android: 'column',
+    }),
+    width: Platform.select({
+      web: '100%',
+      android: 179,
+    }),
+    height: 50,
+    justifyContent: 'center',
   },
   multiBalanceItem: {
     display: 'flex',
@@ -1085,7 +1112,13 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: 14,
     color: theme.colors.secondary,
     fontWeight: 'bold',
-    width: '100%',
+    width: '40%',
+    backgroundColor: '#eee',
+    padding: 0,
+    margin: 0,
+  },
+  balanceUsdRow: {
+    width: 50,
   },
 })
 

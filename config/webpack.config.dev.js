@@ -18,6 +18,7 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const CopyPlugin = require("copy-webpack-plugin")
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -390,6 +391,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new ProgressBarPlugin(),
     // copy FaceTec SDK resources
     new CopyPlugin(['images', 'resources'].map(from => {
       const context = 'node_modules/@gooddollar/react-native-facetec/web/sdk'
@@ -401,7 +403,7 @@ module.exports = {
         clientsClaim: true,
         skipWaiting: false,
         swDest: 'sw-dev.js',
-        exclude: [/\.map$/, /asset-manifest\.json$/],
+        exclude: [/\.js$/,/\.map$/, /asset-manifest\.json$/],
         navigateFallback: publicUrl + '/index.html',
         navigateFallbackDenylist: [
           // Exclude URLs starting with /_, as they're likely an API call
@@ -409,7 +411,7 @@ module.exports = {
           // Exclude URLs containing a dot, as they're likely a resource in
           // public/ and not a SPA route
           new RegExp('/[^/]+\\.[^/]+$'),
-        ],
+        ]
       }),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({

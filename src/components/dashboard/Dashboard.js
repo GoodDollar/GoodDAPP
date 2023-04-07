@@ -1072,7 +1072,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: 0,
   },
   multiBalance: {
-    flex: 'flex',
+    display: 'flex',
     flexDirection: 'row',
     marginTop: 10,
     justifyContent: 'flex-start',

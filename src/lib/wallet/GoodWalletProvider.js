@@ -1,6 +1,11 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { noop } from 'lodash'
+import PrivateKeyProvider from 'truffle-privatekey-provider'
+import { Web3Provider } from '@ethersproject/providers'
+import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
+import { Goerli, Mainnet } from '@usedapp/core'
+
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -12,7 +17,6 @@ import { GlobalTogglesContext } from '../contexts/togglesContext'
 import { getNetworkName, NETWORK_ID } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
 import { GoodWallet } from './GoodWalletClass'
-import HDWalletProvider from './HDWalletProvider'
 
 type NETWORK = $Keys<typeof NETWORK_ID>
 
@@ -29,7 +33,6 @@ type NETWORK = $Keys<typeof NETWORK_ID>
  * 10. switch button and logic
  **/
 const log = logger.child({ from: 'GoodWalletProvider' })
-const { enableHDWallet } = Config
 
 export const GoodWalletContext = React.createContext({
   userStorage: undefined,
@@ -45,9 +48,7 @@ export const GoodWalletContext = React.createContext({
  */
 export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
-  const [{ goodWallet, userStorage, fusewallet, celowallet }, setWalletAndStorage] = useState({})
-
-  const [web3Provider, setWeb3] = useState()
+  const [{ goodWallet, userStorage, fusewallet, celowallet, web3Provider }, setWalletAndStorage] = useState({})
   const [isLoggedInJWT, setLoggedInJWT] = useState()
   const [balance, setBalance] = useState({ totalBalance: '0', balance: '0', fuseBalance: '0', celoBalance: '0' })
   const [dailyUBI, setDailyUBI] = useState('0')
@@ -118,17 +119,13 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         await wallet.ready
 
-        // HDWalletProvider causes extra polling and maybe some xhr errors
-        // when new wallet set the web3provider for future use with usedapp
-        // so enableHDWallet (aka REACT_APP_ENABLE_HD_WALLET is false by default)
-        if (enableHDWallet) {
-          let web3 = seedOrWeb3
+        let web3Provider = seedOrWeb3
 
-          if (type === 'SEED') {
-            web3 = new HDWalletProvider(wallet.accounts, wallet.wallet._provider.host)
-          }
-
-          setWeb3(web3)
+        // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design
+        if (type === 'SEED') {
+          web3Provider = new Web3Provider(
+            new PrivateKeyProvider(wallet.wallet.eth.accounts.wallet[0].privateKey, wallet.wallet._provider.host),
+          )
         }
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
@@ -151,16 +148,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
             // only if user signed up then we can await for his properties
             // (because otherwise he wont have valid mongodb jwt)
             await userProperties.ready
-
-            const lastBlock =
-              userProperties.get('lastBlock_' + wallet.networkId) || Config.ethereum[wallet.networkId].startBlock
-
-            log.debug('starting watchBalanceAndTXs', { lastBlock })
-
-            wallet.watchEvents(parseInt(lastBlock), toBlock =>
-              userProperties.set('lastBlock_' + wallet.networkId, parseInt(toBlock)),
-            )
-            wallet.balanceChanged(() => update(wallet))
           }
         }
 
@@ -168,8 +155,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         global.userStorage = storage
         global.wallet = wallet
-        setWalletAndStorage({ goodWallet: wallet, userStorage: storage, celowallet, fusewallet })
-        log.info('initWalletAndStorage done')
+        setWalletAndStorage({ goodWallet: wallet, userStorage: storage, celowallet, fusewallet, web3Provider })
+        log.info('initWalletAndStorage done', { web3Provider })
         return [wallet, storage]
       } catch (e) {
         log.error('failed initializing wallet and userstorage:', e.message, e)
@@ -177,7 +164,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       }
     },
-    [setWeb3, setWalletAndStorage, isLoggedInRouter],
+    [setWalletAndStorage, isLoggedInRouter],
   )
 
   const doLogin = useCallback(
@@ -259,22 +246,16 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       let contractsNetwork = getContractsNetwork(network)
 
       try {
+        log.debug('switchNetwork:', { network, contractsNetwork })
+
         await goodWallet.setIsPollEvents(false) //stop watching prev chain events
         await goodWallet.init({ network: contractsNetwork }) //reinit wallet
-        const lastBlock =
-          userStorage.userProperties.get('lastBlock_' + goodWallet.networkId) ||
-          Config.ethereum[goodWallet.networkId].startBlock
-
-        log.debug('switchNetwork: starting watchBalanceAndTXs', { lastBlock, network, contractsNetwork })
-
-        goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-          userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
+        let web3Provider = new Web3Provider(
+          new PrivateKeyProvider(goodWallet.wallet.eth.accounts.wallet[0].privateKey, goodWallet.wallet._provider.host),
         )
 
-        await update(goodWallet)
-
         //trigger refresh
-        setWalletAndStorage(_ => ({ ..._, goodWallet }))
+        setWalletAndStorage(_ => ({ ..._, goodWallet, web3Provider }))
       } catch (e) {
         log.error('switchNetwork failed:', e.message, e, { contractsNetwork, network })
       }
@@ -284,6 +265,18 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   useEffect(() => {
     if (goodWallet) {
+      const lastBlock =
+        userStorage.userProperties.get('lastBlock_' + goodWallet.networkId) ||
+        Config.ethereum[goodWallet.networkId].startBlock
+
+      log.debug('wallet changed: starting watchBalanceAndTXs', { lastBlock })
+
+      goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
+        userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
+      )
+
+      goodWallet.balanceChanged(() => update(goodWallet))
+
       update(goodWallet) // update global data whenever wallets/network changes
     }
   }, [celowallet, fusewallet, goodWallet])
@@ -300,14 +293,26 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     switchNetwork,
   }
 
-  if (enableHDWallet) {
-    contextValue = {
-      ...contextValue,
-      web3Provider,
-    }
-  }
-
-  return <GoodWalletContext.Provider value={contextValue}>{children}</GoodWalletContext.Provider>
+  return (
+    <GoodWalletContext.Provider value={contextValue}>
+      <GoodWeb3Provider
+        web3Provider={web3Provider}
+        env={getContractsNetwork(getNetworkName(goodWallet.networkId))}
+        config={{
+          pollingInterval: 15000,
+          networks: [Goerli, Mainnet, Fuse, Celo],
+          readOnlyChainId: undefined,
+          readOnlyUrls: {
+            1: 'https://rpc.ankr.com/eth',
+            122: 'https://rpc.fuse.io',
+            42220: 'https://forno.celo.org',
+          },
+        }}
+      >
+        {children}
+      </GoodWeb3Provider>
+    </GoodWalletContext.Provider>
+  )
 }
 
 export const useWallet = () => {

@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.51.0",
+  "version": "1.51.1-2",
   "engines": {
     "node": "16.x",
     "npm": "8.x"
@@ -74,7 +74,7 @@
     "@gooddollar/goodprotocol": "latest",
     "@gooddollar/react-native-facetec": "^1.0.32",
     "@gooddollar/react-native-side-menu": "^2.0.2",
-    "@hcaptcha/react-hcaptcha": "^1.4.4",
+    "@hcaptcha/react-hcaptcha": "^1.6.0",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
     "@lingui/react": "^3.13.0",
     "@metamask/eth-sig-util": "^4.0.1",

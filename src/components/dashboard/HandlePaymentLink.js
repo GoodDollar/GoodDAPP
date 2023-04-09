@@ -132,7 +132,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               },
               {
                 text: t`Switch to ${getNetworkName(paymentParams.networkId)}`,
-                onPress: () => switchAndWithdraw(getNetworkName(paymentParams.networkId).toLowerCase()),
+                onPress: () => switchAndWithdraw(getNetworkName(paymentParams.networkId)),
               },
             ],
           })

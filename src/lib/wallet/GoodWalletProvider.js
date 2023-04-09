@@ -293,11 +293,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     switchNetwork,
   }
 
+  const env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
   return (
     <GoodWalletContext.Provider value={contextValue}>
       <GoodWeb3Provider
         web3Provider={web3Provider}
-        env={getContractsNetwork(getNetworkName(goodWallet.networkId))}
+        env={env}
         config={{
           pollingInterval: 15000,
           networks: [Goerli, Mainnet, Fuse, Celo],

@@ -30,6 +30,8 @@ export const TxType = {
   TX_MINT: 'TX_MINT',
   TX_ERROR: 'TX_ERROR',
   TX_UKNOWN: 'TX_UNKNOWN',
+  TX_BRIDGE_IN: 'TX_BRIDGE_IN',
+  TX_BRIDGE_OUT: 'TX_BRIDGE_OUT',
 }
 
 export const FeedItemType = {
@@ -51,6 +53,8 @@ export const TxTypeToEventType = {
   TX_CLAIM: FeedItemType.EVENT_TYPE_CLAIM,
   TX_REWARD: FeedItemType.EVENT_TYPE_BONUS,
   TX_MINT: FeedItemType.EVENT_TYPE_RECEIVE,
+  TX_BRIDGE_OUT: FeedItemType.EVENT_TYPE_SENDDIRECT,
+  TX_BRIDGE_IN: FeedItemType.EVENT_TYPE_RECEIVE,
 }
 
 export const TxStatus = {
@@ -182,6 +186,8 @@ export class FeedStorage {
             e.name === 'PaymentDeposit' ||
             (_to(e) === this.wallet.oneTimePaymentsContract._address.toLowerCase() && _from(e) === this.walletAddress),
         )
+
+      case TxType.TX_BRIDGE_OUT:
       case TxType.TX_SEND_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
           e =>
@@ -189,6 +195,7 @@ export class FeedStorage {
             e.name === 'Transfer' &&
             _from(e) === this.walletAddress,
         )
+      case TxType.TX_BRIDGE_IN:
       case TxType.TX_MINT:
       case TxType.TX_RECEIVE_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
@@ -284,6 +291,18 @@ export class FeedStorage {
       }
       if (gdTransferEvents.find(e => this.wallet.getRewardsAddresses().includes(e.data.from.toLowerCase()))) {
         return TxType.TX_REWARD
+      }
+      if (
+        gdTransferEvents.find(e => this.wallet.getBridgeAddresses().includes(e.data.from.toLowerCase())) || //transfer to bridge router
+        gdTransferEvents.find(e => this.wallet.getBridgeAddresses().includes(e.data.to.toLowerCase())) || // transfer from bridge router
+        this.wallet.getBridgeAddresses().includes(receipt.to.toLowerCase()) // tx executed on a bridge router in case router can mint from address 0x0...
+      ) {
+        if (gdTransferEvents.find(e => e.data.to.toLowerCase() === this.walletAddress)) {
+          return TxType.TX_BRIDGE_IN
+        }
+        if (gdTransferEvents.find(e => e.data.from.toLowerCase() === this.walletAddress)) {
+          return TxType.TX_BRIDGE_OUT
+        }
       }
       if (gdTransferEvents.find(e => e.data.from.toLowerCase() === NULL_ADDRESS)) {
         return TxType.TX_MINT
@@ -456,9 +475,14 @@ export class FeedStorage {
           updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
           updatedFeedEvent.data.counterPartyFullName = 'GoodDollar'
           break
+        case TxType.TX_BRIDGE_OUT:
+        case TxType.TX_BRIDGE_IN:
+          set(feedEvent, 'data.reason', 'Bridged G$s')
+          set(feedEvent, 'data.counterPartyfullName', 'Bridge')
+          break
         case TxType.TX_MINT:
-          set(feedEvent, 'data.reason', 'Your Transferred G$s')
-          set(feedEvent, 'data.counterPartyfullName', 'Fuse Bridge')
+          set(feedEvent, 'data.reason', 'Minted G$s')
+          set(feedEvent, 'data.counterPartyfullName', 'Rewards')
           break
         default:
           break

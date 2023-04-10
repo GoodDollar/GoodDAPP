@@ -8,7 +8,7 @@ import logger from '../logger/js-logger'
 const { providers } = Web3
 const { HttpProvider } = providers
 const log = logger.child({ from: 'MultipleHttpProvider' })
-const connectionErrorRe = /(connection (error|timeout)|invalid json rpc)'/i
+const connectionErrorRe = /connection (error|timeout)|invalid json rpc/i
 
 export class MultipleHttpProvider extends HttpProvider {
   constructor(endpoints, config) {

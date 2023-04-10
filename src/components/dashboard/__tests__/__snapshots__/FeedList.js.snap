@@ -481,7 +481,7 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-view-1dbjc4n r-bottom-1p0dtai r-height-1lh3azm r-position-u8s1d r-right-zchlnj r-width-1q42mak r-zIndex-1sg8ghl"
+    className="css-view-1dbjc4n r-bottom-x89ehc r-height-1lh3azm r-position-u8s1d r-right-zchlnj r-width-1q42mak r-zIndex-1sg8ghl"
   >
     <div
       className="css-view-1dbjc4n"
@@ -948,7 +948,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-view-1dbjc4n r-bottom-1p0dtai r-height-1lh3azm r-position-u8s1d r-right-zchlnj r-width-1q42mak r-zIndex-1sg8ghl"
+    className="css-view-1dbjc4n r-bottom-x89ehc r-height-1lh3azm r-position-u8s1d r-right-zchlnj r-width-1q42mak r-zIndex-1sg8ghl"
   >
     <div
       className="css-view-1dbjc4n"

@@ -51,9 +51,9 @@ const IconButton = ({ styles, theme, text, onPress, disabled, style, ...iconProp
 const getStylesFromProps = ({ theme }) => {
   return {
     container: {
-      flexDirection: 'column',
+      flexDirection: 'row',
       alignItems: 'center',
-      flex: 1,
+      display: 'flex',
     },
   }
 }

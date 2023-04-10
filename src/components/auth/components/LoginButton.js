@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback } from 'react'
 import { TouchableOpacity } from 'react-native'
 
 import { t } from '@lingui/macro'
@@ -6,7 +6,6 @@ import { noop } from 'lodash'
 import Text from '../../common/view/Text'
 
 import useOnPress from '../../../lib/hooks/useOnPress'
-import { useDialog } from '../../../lib/dialog/useDialog'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
@@ -20,10 +19,7 @@ import { theme as mainTheme } from '../../theme/styles'
 
 import googleBtnIcon from '../../../assets/Auth/btn-google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn-facebook.svg'
-import logger from '../../../lib/logger/js-logger'
-import Recaptcha from './Recaptcha'
-
-const log = logger.child({ from: 'LoginButton' })
+import useRecaptcha from './Recaptcha/useRecaptcha'
 
 const LoginButtonComponent = ({
   style,
@@ -142,43 +138,19 @@ LoginButton.Facebook = withStyles(getStylesFromProps)(
 
 LoginButton.Passwordless = withStyles(getStylesFromProps)(
   ({ styles, disabled, onPress = noop, handleLoginMethod, ...props }) => {
-    const reCaptchaRef = useRef()
-    const { showErrorDialog } = useDialog()
     const onRecaptchaSuccess = useCallback(() => {
-      log.debug('Recaptcha successfull')
       onPress()
       handleLoginMethod('auth0-pwdless-sms')
     }, [onPress, handleLoginMethod])
 
-    const onRecaptchaFailed = useCallback(
-      relaunch => {
-        log.debug('Recaptcha failed')
-        showErrorDialog('', '', {
-          title: t`CAPTCHA test failed`,
-          message: t`Please try again.`,
-        })
-      },
-      [showErrorDialog],
-    )
-
-    const _mobile = useCallback(() => {
-      const { current: captcha } = reCaptchaRef
-
-      if (!captcha) {
-        return
-      }
-
-      // If recaptcha has already been passed successfully, trigger torus right away
-      if (captcha.hasPassedCheck()) {
-        onRecaptchaSuccess()
-        return
-      }
-
-      captcha.launchCheck()
-    }, [onRecaptchaSuccess])
+    const { Captcha, launchCaptcha } = useRecaptcha({
+      autoLaunch: false,
+      relaunchOnFailed: false,
+      onSuccess: onRecaptchaSuccess,
+    })
 
     return (
-      <Recaptcha ref={reCaptchaRef} onSuccess={onRecaptchaSuccess} onFailure={onRecaptchaFailed}>
+      <Captcha>
         <LoginButton
           style={[
             styles.buttonLayout,
@@ -189,14 +161,14 @@ LoginButton.Passwordless = withStyles(getStylesFromProps)(
               borderColor: '#E9ECFF',
             },
           ]}
-          onPress={_mobile}
+          onPress={launchCaptcha}
           disabled={!handleLoginMethod || disabled}
           textColor="#8499BB"
           testID="login_with_auth0"
         >
           {t`${buttonPrefix} Passwordless`}
         </LoginButton>
-      </Recaptcha>
+      </Captcha>
     )
   },
 )

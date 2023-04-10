@@ -4,6 +4,7 @@ exports[`PhoneForm matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
+  <div />
   <div
     className="css-view-1dbjc4n r-flex-13awgt0 r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
   >
@@ -1738,6 +1739,178 @@ so we could verify you
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
                   >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "height": "23px",
+                            "opacity": 1,
+                            "width": "23px",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+                          style={
+                            Object {
+                              "bottom": "0px",
+                              "left": "0px",
+                              "position": "absolute",
+                              "right": "0px",
+                              "top": "0px",
+                            }
+                          }
+                        >
+                          <div
+                            className="css-view-1dbjc4n"
+                            style={
+                              Object {
+                                "WebkitTransform": "rotate(45deg)",
+                                "height": "23px",
+                                "transform": "rotate(45deg)",
+                                "width": "23px",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-overflow-1udh08x"
+                              style={
+                                Object {
+                                  "height": "11.5px",
+                                  "width": "23px",
+                                }
+                              }
+                            >
+                              <div
+                                className="css-view-1dbjc4n"
+                                style={
+                                  Object {
+                                    "WebkitTransform": "translateY(0px) rotate(-165deg)",
+                                    "height": "23px",
+                                    "transform": "translateY(0px) rotate(-165deg)",
+                                    "width": "23px",
+                                  }
+                                }
+                              >
+                                <div
+                                  className="css-view-1dbjc4n r-overflow-1udh08x"
+                                  style={
+                                    Object {
+                                      "height": "11.5px",
+                                      "width": "23px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    className="css-view-1dbjc4n"
+                                    style={
+                                      Object {
+                                        "borderBottomColor": "rgba(255,255,255,1.00)",
+                                        "borderBottomLeftRadius": "11.5px",
+                                        "borderBottomRightRadius": "11.5px",
+                                        "borderBottomWidth": "2.3px",
+                                        "borderLeftColor": "rgba(255,255,255,1.00)",
+                                        "borderLeftWidth": "2.3px",
+                                        "borderRightColor": "rgba(255,255,255,1.00)",
+                                        "borderRightWidth": "2.3px",
+                                        "borderTopColor": "rgba(255,255,255,1.00)",
+                                        "borderTopLeftRadius": "11.5px",
+                                        "borderTopRightRadius": "11.5px",
+                                        "borderTopWidth": "2.3px",
+                                        "height": "23px",
+                                        "width": "23px",
+                                      }
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+                          style={
+                            Object {
+                              "bottom": "0px",
+                              "left": "0px",
+                              "position": "absolute",
+                              "right": "0px",
+                              "top": "0px",
+                            }
+                          }
+                        >
+                          <div
+                            className="css-view-1dbjc4n"
+                            style={
+                              Object {
+                                "WebkitTransform": "rotate(45deg)",
+                                "height": "23px",
+                                "transform": "rotate(45deg)",
+                                "width": "23px",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-overflow-1udh08x"
+                              style={
+                                Object {
+                                  "height": "11.5px",
+                                  "top": "11.5px",
+                                  "width": "23px",
+                                }
+                              }
+                            >
+                              <div
+                                className="css-view-1dbjc4n"
+                                style={
+                                  Object {
+                                    "WebkitTransform": "translateY(-11.5px) rotate(345deg)",
+                                    "height": "23px",
+                                    "transform": "translateY(-11.5px) rotate(345deg)",
+                                    "width": "23px",
+                                  }
+                                }
+                              >
+                                <div
+                                  className="css-view-1dbjc4n r-overflow-1udh08x"
+                                  style={
+                                    Object {
+                                      "height": "11.5px",
+                                      "width": "23px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    className="css-view-1dbjc4n"
+                                    style={
+                                      Object {
+                                        "borderBottomColor": "rgba(255,255,255,1.00)",
+                                        "borderBottomLeftRadius": "11.5px",
+                                        "borderBottomRightRadius": "11.5px",
+                                        "borderBottomWidth": "2.3px",
+                                        "borderLeftColor": "rgba(255,255,255,1.00)",
+                                        "borderLeftWidth": "2.3px",
+                                        "borderRightColor": "rgba(255,255,255,1.00)",
+                                        "borderRightWidth": "2.3px",
+                                        "borderTopColor": "rgba(255,255,255,1.00)",
+                                        "borderTopLeftRadius": "11.5px",
+                                        "borderTopRightRadius": "11.5px",
+                                        "borderTopWidth": "2.3px",
+                                        "height": "23px",
+                                        "width": "23px",
+                                      }
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div
                       className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                       dir="auto"

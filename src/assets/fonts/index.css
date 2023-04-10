@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'gooddollar';
-  src: url('./gooddollar.eot?20574574');
-  src: url('./gooddollar.eot?20574574#iefix') format('embedded-opentype'),
-       url('./gooddollar.woff2?20574574') format('woff2'),
-       url('./gooddollar.woff?20574574') format('woff'),
-       url('./gooddollar.ttf?20574574') format('truetype'),
-       url('./gooddollar.svg?20574574#gooddollar') format('svg');
+  src: url('./gooddollar.eot?94049162');
+  src: url('./gooddollar.eot?94049162#iefix') format('embedded-opentype'),
+       url('./gooddollar.woff2?94049162') format('woff2'),
+       url('./gooddollar.woff?94049162') format('woff'),
+       url('./gooddollar.ttf?94049162') format('truetype'),
+       url('./gooddollar.svg?94049162#fontello') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'gooddollar';
-    src: url('./gooddollar.svg?20574574#gooddollar') format('svg');
+    src: url('./gooddollar.svg?94049162#fontello') format('svg');
   }
 }
 */
@@ -72,7 +72,6 @@
 .icon-edit:before { content: '\e80f'; } /* '' */
 .icon-envelope:before { content: '\e810'; } /* '' */
 .icon-gear:before { content: '\e811'; } /* '' */
-.icon-claim-filled-old:before { content: '\e812'; } /* '' */
 .icon-claim-circle:before { content: '\e813'; } /* '' */
 .icon-donate-filled:before { content: '\e814'; } /* '' */
 .icon-clock-filled:before { content: '\e815'; } /* '' */
@@ -98,7 +97,6 @@
 .icon-notifications:before { content: '\e829'; } /* '' */
 .icon-phone:before { content: '\e82a'; } /* '' */
 .icon-privacy:before { content: '\e82b'; } /* '' */
-.icon-rewards-1:before { content: '\e82c'; } /* '' */
 .icon-qrcode:before { content: '\e82d'; } /* '' */
 .icon-search:before { content: '\e82e'; } /* '' */
 .icon-settings:before { content: '\e82f'; } /* '' */
@@ -118,19 +116,27 @@
 .icon-support2:before { content: '\e83e'; } /* '' */
 .icon-invite2:before { content: '\e83f'; } /* '' */
 .icon-statistics:before { content: '\e841'; } /* '' */
-.icon-send-to-address:before { content: '\e842'; } /* '' */
-.icon-receive-to-address:before { content: '\e843'; } /* '' */
-.icon-copy:before { content: '\e844'; } /* '' */
-.icon-logout:before { content: '\e845'; } /* '' */
-.icon-twitter-1:before { content: '\e846'; } /* '' */
-.icon-link:before { content: '\e847'; } /* '' */
-.icon-whatsapp-1:before { content: '\e848'; } /* '' */
-.icon-telegram:before { content: '\e849'; } /* '' */
-.icon-facebook-1:before { content: '\e84a'; } /* '' */
-.icon-check:before { content: '\e84b'; } /* '' */
-.icon-rewards:before { content: '\e84d'; } /* '' */
+.icon-vote:before { content: '\e848'; } /* '' */
+.icon-donate:before { content: '\e849'; } /* '' */
+.icon-rewards-alt:before { content: '\e84a'; } /* '' */
+.icon-usegd:before { content: '\e84b'; } /* '' */
+.icon-learn:before { content: '\e84c'; } /* '' */
+.icon-switch:before { content: '\e84d'; } /* '' */
+.icon-logout:before { content: '\e84e'; } /* '' */
+.icon-hamburger_alt:before { content: '\e84f'; } /* '' */
 .icon-gd-circle:before { content: '\e850'; } /* '' */
+.icon-rewards:before { content: '\e851'; } /* '' */
 .icon-time:before { content: '\e852'; } /* '' */
+.icon-check:before { content: '\e853'; } /* '' */
+.icon-facebook-1:before { content: '\e854'; } /* '' */
+.icon-telegram:before { content: '\e855'; } /* '' */
+.icon-whatsapp-1:before { content: '\e856'; } /* '' */
+.icon-link:before { content: '\e857'; } /* '' */
+.icon-twitter-1:before { content: '\e858'; } /* '' */
+.icon-logout-1:before { content: '\e859'; } /* '' */
+.icon-copy:before { content: '\e85a'; } /* '' */
+.icon-receive-to-address:before { content: '\e85b'; } /* '' */
+.icon-send-to-address:before { content: '\e85c'; } /* '' */
 .icon-privacy-policy:before { content: '\e883'; } /* '' */
 .icon-walletconnect:before { content: '\e899'; } /* '' */
 .icon-terms-of-use:before { content: '\e89f'; } /* '' */

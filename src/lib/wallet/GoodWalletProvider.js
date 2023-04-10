@@ -11,7 +11,7 @@ import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
-import { getNetworkName } from '../constants/network'
+import { getNetworkName, NETWORK_ID } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
 import Section from '../../components/common/layout/Section'
 import Text from '../../components/common/view/Text'
@@ -20,6 +20,8 @@ import { theme } from '../../components/theme/styles'
 import { GoodWallet } from './GoodWalletClass'
 import { supportsG$ } from './utils'
 import HDWalletProvider from './HDWalletProvider'
+
+type NETWORK = $Keys<typeof NETWORK_ID>
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -259,7 +261,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   }
 
   const switchNetwork = useCallback(
-    async (network: 'mainnet' | 'goerli' | 'fuse' | 'celo') => {
+    async (switchToNetwork: NETWORK) => {
+      const network = switchToNetwork.toUpperCase()
       let contractsNetwork = getContractsNetwork(network)
 
       try {
@@ -401,13 +404,14 @@ const NetworkSwitch = withStyles(({ theme }) => ({
   )
 })
 
-export const useSwitchNetworkModal = (toNetwork?: 'mainnet' | 'goerli' | 'fuse' | 'celo', onDismiss = noop) => {
+export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noop) => {
   const { showDialog, hideDialog } = useDialog()
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
+  const toNetwork = switchToNetwork?.toUpperCase()
 
   const showModal = useCallback(
     (toNetwork = null) => {
-      let switchTo = toNetwork || currentNetwork?.toLowerCase()
+      let switchTo = toNetwork || currentNetwork
 
       showDialog({
         title: toNetwork ? 'To continue please switch chains' : 'Select chain',
@@ -449,4 +453,10 @@ export const useFormatG$ = () => {
     toDecimals: (...args) => wallet.toDecimals(...args),
     fromDecimals: (...args) => wallet.fromDecimals(...args),
   }
+}
+
+export const usePropSuffix = () => {
+  const { goodWallet } = useContext(GoodWalletContext)
+  const propSuffix = goodWallet.networkId === 122 ? '' : `_${goodWallet.networkId}`
+  return propSuffix
 }

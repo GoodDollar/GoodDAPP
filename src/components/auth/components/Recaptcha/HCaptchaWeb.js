@@ -1,11 +1,11 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import usePromise from '../../../../lib/hooks/usePromise'
 import Config from '../../../../config/config'
 
 const { hcaptchaSiteKey } = Config
 
-const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) => {
+const Recaptcha = forwardRef(({ onVerify, onError, children }, ref) => {
   const captchaRef = useRef()
   const onExpired = useCallback(() => captchaRef.current.resetCaptcha(), [])
   const [whenLoaded, setLoaded] = usePromise()
@@ -18,7 +18,11 @@ const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) =>
         captchaRef.current.execute()
       },
       reset: () => {
-        captchaRef.current && captchaRef.current.resetCaptcha()
+        const { current: captcha } = captchaRef
+
+        if (captcha) {
+          captcha.resetCaptcha()
+        }
       },
       type: () => {
         return 'hcaptcha'
@@ -26,6 +30,16 @@ const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) =>
     }),
     [whenLoaded],
   )
+
+  // this is needed because hcaptcha does not triggers onLoad is external script already loaded
+  // it just renders and immediately sets isReady true
+  useEffect(() => {
+    const { current: captcha } = captchaRef
+
+    if (captcha && captcha.isReady()) {
+      setLoaded()
+    }
+  }, [setLoaded])
 
   return (
     <>
@@ -36,7 +50,6 @@ const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) =>
         onError={onError}
         onExpire={onExpired}
         ref={captchaRef}
-        {...props}
         size="invisible"
       />
       {children}

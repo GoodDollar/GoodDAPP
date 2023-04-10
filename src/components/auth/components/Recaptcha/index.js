@@ -27,19 +27,22 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
 
       try {
         showDialog({ title: 'Verifying CAPTCHA', image: <LoadingIcon />, showCloseButtons: false, showButtons: false })
+
         fingerprint = await getFingerprintId()
         log.debug('Recaptcha payload', { payload, ekey, captchaType, fingerprint })
 
         result = await API.verifyCaptcha({ payload, captchaType, fingerprint })
-        log.debug('Recaptcha verify result', { result })
         hasPassed = get(result, 'success', false)
+        log.debug('Recaptcha verify result', { result, hasPassed })
       } catch (exception) {
         const { message } = exception
         const errorCtx = { payload, ekey, captchaType, fingerprint, result }
 
         log.error('recaptcha verification failed', message, exception, errorCtx)
       }
+
       hideDialog()
+
       if (!hasPassed) {
         onFailure()
         return

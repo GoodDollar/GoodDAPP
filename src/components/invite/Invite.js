@@ -1,3 +1,4 @@
+// @flow
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Image, Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
@@ -19,7 +20,13 @@ import { InfoIcon } from '../common/modal/InfoIcon'
 import createABTesting from '../../lib/hooks/useABTesting'
 import { withStyles } from '../../lib/styles'
 
-import { useFormatG$, useSwitchNetworkModal, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import {
+  useFormatG$,
+  usePropSuffix,
+  useSwitchNetworkModal,
+  useUserStorage,
+  useWallet,
+} from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
 import mustache from '../../lib/utils/mustache'
 import { decimalsToFixed } from '../../lib/wallet/utils'
@@ -121,9 +128,10 @@ const ShareBox = ({ level, styles }) => {
           You’ll get{' '}
           <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
             {t` ${bounty}G$ `}
-          </Section.Text>
+          </Section.Text>{' '}
           {t`and they will get `}
           <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
+            {` `}
             {t` ${bounty / 2}G$`}
           </Section.Text>
         </Section.Text>
@@ -158,12 +166,12 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   const ownInviteCode = useInviteCode()
   const registerForInvites = useRegisterForInvites()
   const { hideDialog, showDialog } = useDialog()
-  const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
-
-  const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
+  const propSuffix = usePropSuffix()
+  const inviteCodeUsed = useUserProperty(`inviterInviteCodeUsed${propSuffix}`)
+  const [code, setCode] = useState(userStorage.userProperties.get(`inviterInviteCode${propSuffix}`) || '')
 
   // if code wasnt a url it will not have any query params and will then use code as default
   const extractedCode = useMemo(() => get(createUrlObject(code), 'params.inviteCode', code), [code])
@@ -462,11 +470,12 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo, st
 const Invite = ({ screenProps, styles }) => {
   const { wasOpened } = useInviteScreenOpened()
   const { toDecimals } = useFormatG$()
-  useSwitchNetworkModal('celo', screenProps.goToRoot)
+  useSwitchNetworkModal('CELO', screenProps.goToRoot)
 
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
   const userStorage = useUserStorage()
+  const propSuffix = usePropSuffix()
 
   const totalEarned = parseInt(get(inviteState, 'totalEarned', 0))
   const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
@@ -479,9 +488,9 @@ const Invite = ({ screenProps, styles }) => {
   useEffect(() => {
     // reset state for rewards icon in navbar
     if (inviteState.pending || inviteState.approved) {
-      userStorage.userProperties.safeSet('lastInviteState', inviteState)
+      userStorage.userProperties.safeSet(`lastInviteState${propSuffix}`, inviteState)
     }
-  }, [inviteState])
+  }, [inviteState, propSuffix])
 
   if (isNil(bounty) || isNaN(bounty)) {
     return null

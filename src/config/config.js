@@ -31,7 +31,7 @@ const { networkId } = contractsAddress[network]
 
 
 export const fuseNetwork = {
-  httpWeb3provider: env.REACT_APP_WEB3_RPC || 'https://rpc.fuse.io/',
+  httpWeb3provider: (env.REACT_APP_WEB3_RPC ?? '')+',https://rpc.fuse.io/,https://fuse-mainnet.chainstacklabs.com'.split(",").filter(_ => _).join(","),
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
   explorerAPI: 'https://explorer.fuse.io',
@@ -46,7 +46,7 @@ let altProviders = {}
 const ethereum = defaultsDeep(altProviders, {
   '1': {
     network_id: 1,
-    httpWeb3provider: `https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    httpWeb3provider: `https://rpc.ankr.com/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
     explorerAPI: 'https://api.etherscan.io',
@@ -83,7 +83,7 @@ const ethereum = defaultsDeep(altProviders, {
     websocketWeb3Provider: 'ws://localhost:8545/ws',
   },
   '42220': {
-    httpWeb3provider: 'https://forno.celo.org/',
+    httpWeb3provider:  (env.REACT_APP_WEB3_RPC_CELO ?? '')+',https://forno.celo.org/,https://rpc.ankr.com/celo,https://1rpc.io/celo'.split(",").filter(_ => _).join(","),
     explorer: 'https://celoscan.io',
     explorerAPI: 'https://api.celoscan.io',
     explorerName: 'celoscan',

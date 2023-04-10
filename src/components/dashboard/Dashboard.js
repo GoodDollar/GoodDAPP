@@ -140,7 +140,7 @@ const Dashboard = props => {
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const [topInfoHeight] = useState(new Animated.Value(390))
+  const [topInfoHeight] = useState(new Animated.Value(350))
   const [balanceTopAnimValue] = useState(new Animated.Value(0))
   const { isDialogShown, showDialog, showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
@@ -286,6 +286,13 @@ const Dashboard = props => {
     height: Platform.select({
       web: topInfoHeight,
       android: 'auto',
+    }),
+  }
+
+  const gdPriceAnimStyles = {
+    marginTop: Platform.select({
+      web: 0,
+      android: headerLarge ? 15 : 20,
     }),
   }
 
@@ -564,7 +571,7 @@ const Dashboard = props => {
           useNativeDriver: false,
         }),
         Animated.timing(topInfoHeight, {
-          toValue: 390,
+          toValue: 350,
           duration: 200,
           easing: easingOut,
           useNativeDriver: false,
@@ -627,7 +634,7 @@ const Dashboard = props => {
           useNativeDriver: false,
         }),
         Animated.timing(topInfoHeight, {
-          toValue: 210,
+          toValue: 190,
           duration: timing,
           delay: 100,
           easing: easingOut,
@@ -854,9 +861,7 @@ const Dashboard = props => {
                   <Text style={{ fontSize: 16 }}>{celoBalance}</Text>
                   <Text style={{ fontSize: 12 }}>Celo G$</Text>
                 </Section>
-                <Section.Text
-                  style={[styles.gdPrice, { width: headerLarge ? '10%' : '20%', fontSize: 20, marginTop: 20 }]}
-                >
+                <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
                   {headerLarge ? `+` : <BridgeButton />}{' '}
                 </Section.Text>
 

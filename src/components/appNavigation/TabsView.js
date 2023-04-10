@@ -1,5 +1,5 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
@@ -12,6 +12,7 @@ import { useSwitchNetwork, useSwitchNetworkModal } from '../../lib/wallet/GoodWa
 import { theme } from '../theme/styles'
 import GreenCircle from '../../assets/ellipse46.svg'
 import GoodWallet from '../../assets/goodwallet.svg'
+import Config from '../../config/config'
 
 const styles = {
   marginLeft10: {
@@ -58,12 +59,22 @@ const iconStyle = isMobileNative ? styles.iconView : styles.iconWidth
 const defaultRightButtonStyles = [iconStyle, styles.iconViewRight]
 
 const NetworkName = () => {
-  const { currentNetwork } = useSwitchNetwork()
-  const toggle = useSwitchNetworkModal()
+  const { currentNetwork, switchNetwork } = useSwitchNetwork()
+  const showModal = useSwitchNetworkModal()
+
+  const toggle = useCallback(() => {
+    switchNetwork(currentNetwork === 'FUSE' ? 'CELO' : 'FUSE')
+  }, [currentNetwork, switchNetwork])
 
   return (
     <View style={styles.networkName}>
-      <IconButton name="switch" onPress={toggle} color="transparent" circle={false} style={styles.switchNetworkIcon} />
+      <IconButton
+        name="switch"
+        onPress={Config.deltaWallet ? showModal : toggle}
+        color="transparent"
+        circle={false}
+        style={styles.switchNetworkIcon}
+      />
       <View style={styles.activeIcon}>
         <GreenCircle />
       </View>

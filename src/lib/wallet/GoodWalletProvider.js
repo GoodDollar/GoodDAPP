@@ -405,24 +405,27 @@ const NetworkSwitch = withStyles(({ theme }) => ({
 })
 
 export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noop) => {
+  const { deltaWallet } = Config
   const { showDialog, hideDialog } = useDialog()
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const toNetwork = switchToNetwork?.toUpperCase()
+  const defaultSwitchTo = deltaWallet ? currentNetwork : currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
 
   const showModal = useCallback(
     (toNetwork = null) => {
-      let switchTo = toNetwork || currentNetwork
+      let switchTo = toNetwork ?? defaultSwitchTo
+      const showSwitch = deltaWallet && !toNetwork
 
       showDialog({
-        title: toNetwork ? 'To continue please switch chains' : 'Select chain',
+        title: showSwitch ? 'Select chain' : 'To continue please switch chains',
         visible: true,
         type: 'info',
         isMinHeight: true,
         onDismiss,
-        content: toNetwork ? null : <NetworkSwitch value={switchTo} onChange={value => (switchTo = value)} />,
+        content: showSwitch ? <NetworkSwitch value={switchTo} onChange={value => (switchTo = value)} /> : null,
         buttons: [
           {
-            text: toNetwork ? `Switch to ${toNetwork.toUpperCase()}` : 'Switch chain',
+            text: showSwitch ? 'Switch chain' : `Switch to ${switchTo.toUpperCase()}`,
             onPress: async () => {
               await switchNetwork(switchTo)
               hideDialog()
@@ -431,7 +434,7 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
         ],
       })
     },
-    [showDialog, onDismiss, hideDialog, currentNetwork],
+    [showDialog, onDismiss, hideDialog, switchNetwork, defaultSwitchTo],
   )
 
   const selectNetwork = useCallback(() => showModal(), [showModal])

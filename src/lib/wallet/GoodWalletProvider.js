@@ -11,17 +11,15 @@ import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
-import { getNetworkName, NETWORK_ID } from '../constants/network'
+import { getNetworkName, type NETWORK } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
 import Section from '../../components/common/layout/Section'
 import Text from '../../components/common/view/Text'
 import { withStyles } from '../styles'
 import { theme } from '../../components/theme/styles'
 import { GoodWallet } from './GoodWalletClass'
-import { supportsG$ } from './utils'
+import { supportsG$UBI } from './utils'
 import HDWalletProvider from './HDWalletProvider'
-
-type NETWORK = $Keys<typeof NETWORK_ID>
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -67,7 +65,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     async goodWallet => {
       const { tokenContract, UBIContract, identityContract, account, networkId } = goodWallet
 
-      if (!supportsG$(networkId)) {
+      // TODO: a) get balance b) default values if no UBI
+      if (!supportsG$UBI(networkId)) {
         log.debug('Network does not supports G$, skipping update', { networkId })
         return
       }
@@ -244,7 +243,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
 
-  const getContractsNetwork = (network: 'mainnet' | 'goerli' | 'fuse' | 'celo') => {
+  const getContractsNetwork = (network: NETWORK) => {
     const net = network.toLowerCase()
     const env = Config.network.split('-')[0]
 

@@ -27,3 +27,5 @@ export const NETWORK_ID = {
 export const getNetworkName = (networkId: number): string => {
   return startCase(findKey(NETWORK_ID, partial(isEqual, networkId))) || 'UNDEFINED'
 }
+
+export type NETWORK = $Keys<typeof NETWORK_ID>

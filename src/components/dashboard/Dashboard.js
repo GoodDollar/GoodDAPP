@@ -12,7 +12,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
-import { decimalsToFixed, supportsG$, toMask } from '../../lib/wallet/utils'
+import { decimalsToFixed, supportsG$UBI, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
 import { useFormatG$, useSwitchNetwork, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
@@ -693,7 +693,8 @@ const Dashboard = props => {
                   style={styles.bigGoodDollar}
                 />
               </View>
-              {headerLarge && showPrice && supportsG$(currentNetwork) && (
+              {/* TODO: discuss do we need to show fuse/celo balances if no UBI at current network */}
+              {supportsG$UBI(currentNetwork) && headerLarge && showPrice && (
                 <View>
                   <View style={{ display: 'flex', flexDirection: 'row' }}>
                     <Section.Text style={[styles.gdPrice, { marginRight: 16 }]}>{fuseBalance} Fuse G$</Section.Text>
@@ -724,7 +725,7 @@ const Dashboard = props => {
           >
             Send
           </PushButton>
-          {supportsG$(currentNetwork) ? (
+          {supportsG$UBI(currentNetwork) ? (
             <ClaimButton
               screenProps={screenProps}
               amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}

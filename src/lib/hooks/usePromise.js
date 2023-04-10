@@ -1,16 +1,11 @@
 import { useState } from 'react'
+import { makePromiseWrapper } from '../utils/async'
 
 const usePromise = () => {
   const [promiseState] = useState(() => {
-    let _resolve
-    let _reject
+    const { promise, resolve, reject } = makePromiseWrapper()
 
-    const promise = new Promise((resolve, reject) => {
-      _resolve = resolve
-      _reject = reject
-    })
-
-    return [promise, _resolve, _reject]
+    return [promise, resolve, reject]
   })
 
   return promiseState

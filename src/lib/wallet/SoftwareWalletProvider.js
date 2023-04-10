@@ -9,9 +9,9 @@ import logger from '../logger/js-logger'
 import { isMobileNative } from '../utils/platform'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
+import { MultipleHttpProvider, WebsocketProvider } from './transport'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
-const { WebsocketProvider, HttpProvider } = Web3.providers
 
 /**
  * save mnemonics (secret phrase) to user device
@@ -130,30 +130,36 @@ class SoftwareWalletProvider {
   /** @private */
   _createHttpProvider() {
     const { infuraKey, publicUrl } = Config
-    const { httpWeb3provider } = this.conf
-    const backend = ['infura', 'pokt'].find(server => httpWeb3provider.includes(server))
+    const { httpWeb3provider, httpProviderStrategy } = this.conf
+    const config = { strategy: httpProviderStrategy }
 
-    let provider = httpWeb3provider
-    let options = {}
+    // parsing multiple rpc urls
+    const endpoints = httpWeb3provider.split(',').map(endpoint => {
+      let options = {} // opts for each url separately
+      let provider = endpoint
+      const backend = ['infura', 'pokt'].find(server => endpoint.includes(server))
 
-    switch (backend) {
-      case 'infura':
-        provider += infuraKey
-        break
-      case 'pokt':
-        if (isMobileNative) {
-          const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
+      switch (backend) {
+        case 'infura':
+          provider += infuraKey
+          break
+        case 'pokt':
+          if (isMobileNative) {
+            const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
 
-          options = {
-            headers: [{ name: 'User-Agent', value: userAgentString }, { name: 'Origin', value: publicUrl }],
+            options = {
+              headers: [{ name: 'User-Agent', value: userAgentString }, { name: 'Origin', value: publicUrl }],
+            }
           }
-        }
-        break
-      default:
-        break
-    }
+          break
+        default:
+          break
+      }
 
-    return new HttpProvider(provider, options)
+      return { provider, options }
+    })
+
+    return new MultipleHttpProvider(endpoints, config)
   }
 }
 

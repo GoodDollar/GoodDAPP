@@ -40,6 +40,7 @@ export const theme = {
     text: '#222',
     white: '#ffffff',
     darkIndigo: '#173566',
+    lightGdBlue: '#00AEFF',
   },
   fonts: {
     ...DefaultTheme.fonts,

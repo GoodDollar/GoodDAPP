@@ -33,7 +33,7 @@ import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
-import { theme as _theme } from '../theme/styles'
+import { theme as _theme, theme } from '../theme/styles'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
@@ -124,7 +124,14 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
 }
 
 const BridgeButton = () => (
-  <IconButton name="bridge" size={30} color="transparent" disabled={false} circle={false} customColor={'#00AEFF'} />
+  <IconButton
+    name="bridge"
+    size={30}
+    bgColor="none"
+    disabled={false}
+    circle={false}
+    iconColor={theme.colors.lightGdBlue}
+  />
 )
 
 const Dashboard = props => {
@@ -252,37 +259,16 @@ const Dashboard = props => {
     marginTop: Platform.select({
       android: headerLarge ? -10 : 0,
     }),
-    borderBottomRightRadius: 10,
-    borderBottomLeftRadius: 10,
     borderTopLeftRadius: headerLarge ? 0 : 10,
     borderTopRightRadius: headerLarge ? 0 : 10,
-    backgroundColor: '#eee',
-    flexDirection: Platform.select({
-      web: 'column',
-      android: 'column',
-    }),
-    width: Platform.select({
-      web: '100%',
-      android: '100%',
-    }),
-    justifyContent: 'center',
-    alignItems: 'center',
   }
 
   const balanceTopAnimStyles = {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: headerLarge ? 'column' : 'row',
     left: headerAvatarLeftAnimValue,
   }
 
   const topInfoAnimStyles = {
-    zIndex: 10,
-    marginTop: 16,
-    marginBottom: 8,
-    borderRadius: 12,
-    boxShadow: '0px 5px 10px rgba(23, 53, 102, 0.05)',
     height: Platform.select({
       web: topInfoHeight,
       android: 'auto',
@@ -806,8 +792,8 @@ const Dashboard = props => {
       <Animated.View style={[styles.topInfo, topInfoAnimStyles]}>
         <Animated.View style={headerAnimateStyles}>
           <Section.Stack alignItems="center" style={styles.balanceContainer}>
-            <Animated.View style={[{ flexDirection: headerLarge ? 'column' : 'row' }, balanceTopAnimStyles]}>
-              <Section style={{ alignItems: 'center', paddingBottom: 4 }}>
+            <Animated.View style={[styles.balanceTop, balanceTopAnimStyles]}>
+              <Section style={styles.profileContainer}>
                 <Animated.View style={profileAnimStyles}>
                   <Animated.View style={avatarAnimStyles}>
                     <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
@@ -855,19 +841,19 @@ const Dashboard = props => {
               </Animated.View>
             </Animated.View>
 
-            <Animated.View style={multiBalanceAnimStyles}>
-              <View style={[styles.multiBalance, { marginTop: headerLarge ? 0 : 10, flexDirection: 'row' }]}>
+            <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
+              <View style={[styles.multiBalance, { marginTop: headerLarge ? 0 : 10 }]}>
                 <Section style={styles.multiBalanceItem}>
-                  <Text style={{ fontSize: 16 }}>{celoBalance}</Text>
-                  <Text style={{ fontSize: 12 }}>Celo G$</Text>
+                  <Text fontSize={16}>{celoBalance}</Text>
+                  <Text fontSize={12}>Celo G$</Text>
                 </Section>
-                <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
+                <Section.Text fontSize={20} style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%' }]}>
                   {headerLarge ? `+` : <BridgeButton />}{' '}
                 </Section.Text>
 
                 <Section style={styles.multiBalanceItem}>
-                  <Text style={{ fontSize: 16 }}>{fuseBalance}</Text>
-                  <Text style={{ fontSize: 12 }}>Fuse G$</Text>
+                  <Text fontSize={16}>{fuseBalance}</Text>
+                  <Text fontSize={12}>Fuse G$</Text>
                 </Section>
               </View>
 
@@ -1005,6 +991,11 @@ const getStylesFromProps = ({ theme }) => ({
     paddingRight: theme.sizes.default,
     paddingTop: theme.sizes.default,
     backgroundColor: '#fff',
+    zIndex: 10,
+    marginTop: 16,
+    marginBottom: 8,
+    borderRadius: 12,
+    boxShadow: '0px 5px 10px rgba(23, 53, 102, 0.05)',
   },
   userInfoHorizontal: {
     alignItems: 'center',
@@ -1096,6 +1087,21 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
     paddingBottom: 0,
   },
+  multiBalanceContainer: {
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    backgroundColor: '#eee',
+    flexDirection: Platform.select({
+      web: 'column',
+      android: 'column',
+    }),
+    width: Platform.select({
+      web: '100%',
+      android: '100%',
+    }),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   multiBalance: {
     display: 'flex',
     flexDirection: Platform.select({
@@ -1124,6 +1130,16 @@ const getStylesFromProps = ({ theme }) => ({
   },
   balanceUsdRow: {
     width: 50,
+  },
+  balanceTop: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  profileContainer: {
+    alignItems: 'center',
+    paddingBottom: 4,
   },
 })
 

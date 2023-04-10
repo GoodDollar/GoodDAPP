@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
-const CustomIcon = ({ styles, theme, name, color, size, circle = 16, reverse, reverseColor, customColor }) => {
+const CustomIcon = ({ styles, theme, name, bgColor, iconColor, size, circle = 16 }) => {
   const [_circle, borderRadius] = useMemo(() => {
     const _circle = circle !== false
 
@@ -16,7 +16,7 @@ const CustomIcon = ({ styles, theme, name, color, size, circle = 16, reverse, re
       style={[
         styles.imageIcon,
         {
-          backgroundColor: reverse ? color : reverseColor,
+          backgroundColor: bgColor,
         },
         _circle && {
           width: circle,
@@ -25,7 +25,7 @@ const CustomIcon = ({ styles, theme, name, color, size, circle = 16, reverse, re
         },
       ]}
     >
-      <Icon name={name} size={size} color={customColor ?? theme.colors.surface} />
+      <Icon name={name} size={size} color={iconColor ?? theme.colors.surface} />
     </View>
   )
 }

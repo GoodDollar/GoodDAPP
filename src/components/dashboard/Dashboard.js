@@ -124,14 +124,7 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
 }
 
 const BridgeButton = () => (
-  <IconButton
-    name="bridge"
-    size={30}
-    bgColor="none"
-    disabled={false}
-    circle={false}
-    iconColor={theme.colors.lightGdBlue}
-  />
+  <IconButton name="bridge" size={30} bgColor="none" disabled={false} circle={false} color={theme.colors.lightGdBlue} />
 )
 
 const Dashboard = props => {

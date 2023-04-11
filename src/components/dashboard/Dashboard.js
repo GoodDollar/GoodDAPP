@@ -780,6 +780,8 @@ const Dashboard = props => {
     [showPrice, price, balance, toDecimals],
   )
 
+  const testBalance = '111111.11'
+
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Animated.View style={[styles.topInfo, topInfoAnimStyles]}>
@@ -818,7 +820,7 @@ const Dashboard = props => {
                 <View onLayout={onBalanceLayout} style={styles.balanceUsdRow}>
                   <BigGoodDollar
                     testID="amount_value"
-                    number={balance}
+                    number={testBalance}
                     formatter={balanceFormatter}
                     bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
                     bigNumberUnitStyles={styles.bigNumberUnitStyles}
@@ -988,7 +990,21 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 16,
     marginBottom: 8,
     borderRadius: 12,
-    boxShadow: '0px 5px 10px rgba(23, 53, 102, 0.05)',
+    ...Platform.select({
+      web: {
+        boxShadow: '0px 5px 10px rgba(23, 53, 102, 0.05)',
+      },
+      default: {
+        shadowColor: '#173566',
+        shadowOffset: {
+          width: 0,
+          height: theme.modals.jaggedEdgeSize,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 5,
+        elevation: 10,
+      },
+    }),
   },
   userInfoHorizontal: {
     alignItems: 'center',
@@ -1074,6 +1090,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigGoodDollar: {
     width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   txButtons: {
     backgroundColor: 'rgb(238, 238, 238)',
@@ -1097,10 +1116,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   multiBalance: {
     display: 'flex',
-    flexDirection: Platform.select({
-      web: 'row',
-      android: 'column',
-    }),
+    flexDirection: 'row',
     width: Platform.select({
       web: '100%',
       android: 179,
@@ -1122,7 +1138,7 @@ const getStylesFromProps = ({ theme }) => ({
     margin: 0,
   },
   balanceUsdRow: {
-    width: 50,
+    width: '100%',
   },
   balanceTop: {
     display: 'flex',

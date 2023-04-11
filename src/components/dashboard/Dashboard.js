@@ -780,8 +780,6 @@ const Dashboard = props => {
     [showPrice, price, balance, toDecimals],
   )
 
-  const testBalance = '111111.11'
-
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Animated.View style={[styles.topInfo, topInfoAnimStyles]}>
@@ -820,7 +818,7 @@ const Dashboard = props => {
                 <View onLayout={onBalanceLayout} style={styles.balanceUsdRow}>
                   <BigGoodDollar
                     testID="amount_value"
-                    number={testBalance}
+                    number={balance}
                     formatter={balanceFormatter}
                     bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
                     bigNumberUnitStyles={styles.bigNumberUnitStyles}

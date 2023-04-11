@@ -38,8 +38,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           name="arrow-back"
           onPress={goBack}
           color="white"
-          reverse={false}
-          reverseColor="transparent"
+          bgColor="transparent"
           size={22}
           circle={false}
           style={styles.backButton}
@@ -50,8 +49,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
       {showBackToWallet && (
         <IconButton
           name="wallet"
-          reverse={false}
-          reverseColor="transparent"
+          bgColor="transparent"
           onPress={goBack}
           color="white"
           size={36}

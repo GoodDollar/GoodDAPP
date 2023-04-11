@@ -88,7 +88,14 @@ const NetworkName = () => {
 
   return (
     <View style={styles.networkName}>
-      <IconButton name="switch" onPress={toggle} color="transparent" circle={false} style={styles.switchNetworkIcon} />
+      <IconButton
+        name="switch"
+        onPress={toggle}
+        bgColor="transparent"
+        color="white"
+        circle={false}
+        style={styles.switchNetworkIcon}
+      />
       <View style={styles.activeIcon}>
         <GreenCircle />
       </View>

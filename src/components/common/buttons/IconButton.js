@@ -33,8 +33,7 @@ const IconButton = ({ styles, theme, text, onPress, disabled, style, ...iconProp
     >
       <CustomIcon
         color={theme.colors.darkBlue}
-        reverse
-        reverseColor={disabled ? 'rgba(0, 0, 0, 0.32)' : '#282c34'}
+        bgColor={disabled ? 'rgba(0, 0, 0, 0.32)' : '#282c34'}
         size={16}
         circle={32}
         {...iconProps}

@@ -15,20 +15,14 @@ exports[`TabsView matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz"
       style={
         Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
           "backgroundColor": "rgba(0,175,255,1.00)",
-          "display": "flex",
-          "flexDirection": "row",
           "height": "56px",
           "justifyContent": "space-between",
-          "msFlexDirection": "row",
           "msFlexPack": "justify",
           "overflowX": "hidden",
           "overflowY": "hidden",
@@ -38,19 +32,10 @@ exports[`TabsView matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
-        style={
-          Object {
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitFlexDirection": "row",
-            "flexDirection": "row",
-            "msFlexDirection": "row",
-          }
-        }
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flexDirection-18u37iz r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           onClick={[Function]}
           onContextMenu={[Function]}
           onKeyDown={[Function]}

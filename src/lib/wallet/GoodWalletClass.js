@@ -7,6 +7,7 @@ import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/abis/SimpleStak
 import UBIABI from '@gooddollar/goodprotocol/artifacts/abis/UBIScheme.min.json'
 import GOODToken from '@gooddollar/goodprotocol/artifacts/abis/GReputation.min.json'
 import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
+import BridgeAddress from '@gooddollar/bridge-contracts/release/deployment.json'
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
 import InvitesABI from '@gooddollar/goodprotocol/artifacts/abis/InvitesV2.min.json'
@@ -347,6 +348,13 @@ export class GoodWallet {
       get(ContractsAddress, `production-bug.UBIScheme`),
     ]
     return addrs.filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
+  }
+
+  getBridgesAddresses() {
+    const micorBridge = flatten(Object.values(BridgeAddress).map(_ => Object.values(_)))
+    const multichainRouter = get(ContractsAddress, `${this.network}.MultichainRouter`)
+    const kimaRouter = '' //TODO: update
+    return [...micorBridge, multichainRouter, kimaRouter].filter(_ => _)
   }
 
   setIsPollEvents(active) {

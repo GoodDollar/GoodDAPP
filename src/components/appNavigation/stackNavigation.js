@@ -265,6 +265,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     const {
       title,
+      isBridge,
       navigationBar: NavigationBar,
       navigationBarHidden,
       backButtonHidden,
@@ -309,7 +310,16 @@ class AppView extends Component<AppViewProps, AppViewState> {
         <Blurred ref={this.blurRef} whenSideMenu>
           {!navigationBarHidden &&
             (NavigationBar ? (
-              <NavigationBar />
+              <>
+                <NavigationBar />
+                {isBridge && (
+                  <NavBar
+                    backToWallet={backToWallet}
+                    goBack={backButtonHidden ? undefined : this.pop}
+                    title={pageTitle}
+                  />
+                )}
+              </>
             ) : (
               <NavBar backToWallet={backToWallet} goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
             ))}

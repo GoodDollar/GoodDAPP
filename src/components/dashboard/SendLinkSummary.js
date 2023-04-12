@@ -267,6 +267,10 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [amount, counterPartyDisplayName, fullName, navigateTo, getLink])
 
+  // const sendViaBridge = useCallback(() => {
+
+  // }, [/* to be defined */])
+
   const handlePayment = useCallback(async () => {
     let paymentLink = link
     let walletAddress

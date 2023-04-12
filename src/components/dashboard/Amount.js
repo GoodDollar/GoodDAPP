@@ -12,6 +12,7 @@ import { decimalsToFixed } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getNetworkName } from '../../lib/constants/network'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -42,8 +43,10 @@ const Amount = (props: AmountProps) => {
   const { push } = screenProps
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
+  const { isBridge = false } = params
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
+  const currentNetwork = getNetworkName(goodWallet.networkId)
   const [GDAmount, setGDAmount] = useState(() =>
     toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0',
   )
@@ -100,9 +103,9 @@ const Amount = (props: AmountProps) => {
   const showScanQR = !isReceive && !params?.counterPartyDisplayName //not in receive flow and also QR wasnt displayed on Who screen
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
-      <Wrapper>
-        <TopBar push={screenProps.push}>
-          {showScanQR && <ScanQRButton onPress={handlePressQR} />}
+      <Wrapper withGradient={true}>
+        <TopBar push={screenProps.push} isBridge={isBridge} network={currentNetwork}>
+          {showScanQR && !isBridge && <ScanQRButton onPress={handlePressQR} />}
           {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
         </TopBar>
         <Section grow style={styles.buttonsContainer}>
@@ -122,9 +125,12 @@ const Amount = (props: AmountProps) => {
               </BackButton>
             </Section.Row>
             <Section.Stack grow={3} style={styles.nextButtonContainer}>
+              {/* TODO: skip reason and continue directly to SendLinkSummary */}
               <NextButton
                 nextRoutes={
-                  isReceive
+                  isBridge
+                    ? ['SendLinkSummary', 'Home']
+                    : isReceive
                     ? ['Reason', 'ReceiveSummary', 'TransactionConfirmation']
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }

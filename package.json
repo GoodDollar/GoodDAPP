@@ -71,7 +71,7 @@
     "@expo/react-native-action-sheet": "^3.9.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
     "@gooddollar/goodcontracts": "^2.6.2",
-    "@gooddollar/goodprotocol": "2.0.5-beta.4",
+    "@gooddollar/goodprotocol": "2.0.5-beta.5",
     "@gooddollar/react-native-facetec": "^1.0.32",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/web3sdk-v2": "^0.1.88",
@@ -359,7 +359,8 @@
     "react-native": "patch:react-native@npm:0.65.2#.yarn/patches/react-native-npm-0.65.2-326cd156c0.patch",
     "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch",
     "bignumber.js": "9.1.1",
-    "lottie-react-native": "patch:lottie-react-native@npm:5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch"
+    "lottie-react-native": "patch:lottie-react-native@npm:5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch",
+    "@gooddollar/goodprotocol@2.0.5-beta.5": "patch:@gooddollar/goodprotocol@npm:2.0.5-beta.5#.yarn/patches/@gooddollar-goodprotocol-npm-2.0.5-beta.5-0cc3b7129a.patch"
   },
   "browserslist": [
     ">0.2%",

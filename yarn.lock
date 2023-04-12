@@ -4592,7 +4592,7 @@ __metadata:
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
-    "@gooddollar/goodprotocol": 2.0.5-beta.4
+    "@gooddollar/goodprotocol": 2.0.5-beta.5
     "@gooddollar/react-native-facetec": ^1.0.32
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.1.88
@@ -4855,9 +4855,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/goodprotocol@npm:2.0.5-beta.4":
-  version: 2.0.5-beta.4
-  resolution: "@gooddollar/goodprotocol@npm:2.0.5-beta.4"
+"@gooddollar/goodprotocol@npm:2.0.5-beta.5":
+  version: 2.0.5-beta.5
+  resolution: "@gooddollar/goodprotocol@npm:2.0.5-beta.5"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
@@ -4872,7 +4872,7 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: c5d4ff29bf334716e63e6527771315825e9e1128c3379fd7c24ff735080e3fa34e9ee53704d61d004e3f6a0c41917cc1957e36626b8fb8a7b656222aaf7f6ba6
+  checksum: af234581bcd06cc5caa5b23e85b70989672329e2ecb84d7fa9066b7c516fceabe4f5f48fc973732cefbba3d9a93c45b2c4c038b913b2bad167d06a40a69855eb
   languageName: node
   linkType: hard
 
@@ -4913,6 +4913,27 @@ __metadata:
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
   checksum: 5c2b37e117eccf50043b824082a8462c17b9efbf26cb3a324c60ba4f1c2c0f56fcfd3587dc694e93b0a11a723698da1c2630996d4993541a20f8e9782d63b946
+  languageName: node
+  linkType: hard
+
+"@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm:2.0.5-beta.5#.yarn/patches/@gooddollar-goodprotocol-npm-2.0.5-beta.5-0cc3b7129a.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
+  version: 2.0.5-beta.5
+  resolution: "@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.5-beta.5#.yarn/patches/@gooddollar-goodprotocol-npm-2.0.5-beta.5-0cc3b7129a.patch::version=2.0.5-beta.5&hash=6d032a&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  dependencies:
+    "@gooddollar/goodcontracts": ^2.6.6
+    "@jsier/retrier": ^1.2.4
+    "@openzeppelin/contracts": ^4.8.0
+    "@openzeppelin/contracts-upgradeable": ^4.8.0
+    "@superfluid-finance/ethereum-contracts": ^1.4.3
+    "@superfluid-finance/sdk-core": ^0.5.8
+    "@typechain/hardhat": ^6.1.5
+    async-promise-pool: ^1.0.4
+    openzeppelin-solidity: ^4.3.2
+    patch-package: latest
+    press-any-key: ^0.1.1
+    truffle-plugin-verify: ^0.6.1
+    truffle-source-verify: ^0.0.6
+  checksum: 439cb7c0561ae7e3154bd602d458f8c544ecb6544bba5aaa7adfb5ce3deab68e73248abfae32ded97ab8b09f0fdd5865b5b1dac2a11c4c16616eedefdc986d95
   languageName: node
   linkType: hard
 

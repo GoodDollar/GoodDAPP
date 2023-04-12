@@ -32,8 +32,8 @@ const getStylesFromProps = ({ theme }) => ({
     paddingRight: 20,
     paddingTop: theme.sizes.default,
     paddingBottom: isIOSNative ? theme.sizes.defaultDouble : theme.sizes.default,
-    borderTopRightRadius: 22,
-    borderTopLeftRadius: 22,
+    borderTopRightRadius: 12,
+    borderTopLeftRadius: 12,
   },
   actionItem: {
     marginLeft: 10,

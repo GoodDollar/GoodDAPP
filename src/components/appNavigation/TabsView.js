@@ -71,7 +71,8 @@ const NetworkName = () => {
       <IconButton
         name="switch"
         onPress={Config.deltaWallet ? showModal : toggle}
-        color="transparent"
+        bgColor="transparent"
+        color="white"
         circle={false}
         style={styles.switchNetworkIcon}
       />
@@ -88,8 +89,7 @@ const NetworkName = () => {
 const TabsView = React.memo(
   ({ navigation }) => {
     const { slideToggle } = useSideMenu()
-
-    const _slideToggle = useOnPress(slideToggle)
+    const toggle = useOnPress(slideToggle)
 
     return (
       <Appbar.Header dark style={styles.appBar}>
@@ -97,7 +97,7 @@ const TabsView = React.memo(
         <View style={styles.goodWalletLogo}>
           <GoodWallet />
         </View>
-        <TouchableOpacity onPress={_slideToggle} style={defaultRightButtonStyles}>
+        <TouchableOpacity onPress={toggle} style={defaultRightButtonStyles}>
           <Icon name="hamburger_alt" size={20} color="white" style={styles.marginRight10} />
         </TouchableOpacity>
       </Appbar.Header>

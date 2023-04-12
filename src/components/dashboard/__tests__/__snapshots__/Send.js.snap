@@ -221,7 +221,7 @@ exports[`Send matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flexDirection-18u37iz r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           onClick={[Function]}
           onContextMenu={[Function]}
           onKeyDown={[Function]}
@@ -237,7 +237,7 @@ exports[`Send matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "backgroundColor": "rgba(12,38,61,1.00)",
+                "backgroundColor": "rgba(40,44,52,1.00)",
                 "borderBottomLeftRadius": "16px",
                 "borderBottomRightRadius": "16px",
                 "borderTopLeftRadius": "16px",
@@ -252,7 +252,7 @@ exports[`Send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(255,255,255,1.00)",
+                  "color": "rgba(12,38,61,1.00)",
                   "fontFamily": "gooddollar",
                   "fontSize": "16px",
                   "fontStyle": "normal",
@@ -270,7 +270,7 @@ exports[`Send matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-flexDirection-eqz5dr r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flexDirection-18u37iz r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           onClick={[Function]}
           onContextMenu={[Function]}
           onKeyDown={[Function]}
@@ -286,7 +286,7 @@ exports[`Send matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "backgroundColor": "rgba(12,38,61,1.00)",
+                "backgroundColor": "rgba(40,44,52,1.00)",
                 "borderBottomLeftRadius": "16px",
                 "borderBottomRightRadius": "16px",
                 "borderTopLeftRadius": "16px",
@@ -301,7 +301,7 @@ exports[`Send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(255,255,255,1.00)",
+                  "color": "rgba(12,38,61,1.00)",
                   "fontFamily": "gooddollar",
                   "fontSize": "16px",
                   "fontStyle": "normal",

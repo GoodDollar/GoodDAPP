@@ -135,7 +135,7 @@ const Amount = (props: AmountProps) => {
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }
                 canContinue={handleContinue}
-                values={{ ...params, ...restState, amount: GDAmountInWei }}
+                values={{ ...params, ...restState, amount: GDAmountInWei, isBridge: isBridge, network: currentNetwork }}
                 disabled={loading}
                 {...props}
               />

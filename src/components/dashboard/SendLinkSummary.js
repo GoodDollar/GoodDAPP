@@ -18,7 +18,7 @@ import API from '../../lib/API'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
+import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
 const log = logger.child({ from: 'SendLinkSummary' })
@@ -33,10 +33,11 @@ export type AmountProps = {
  * @param {AmountProps} props
  * @param {any} props.screenProps
  */
-const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
+const SendLinkSummary = ({ screenProps, styles, ...props }: AmountProps) => {
   const userStorage = useUserStorage()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
+  const { isBridge } = screenState
   const { showDialog, hideDialog, showErrorDialog } = useDialog()
 
   const [shared, setShared] = useState(false)
@@ -267,9 +268,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [amount, counterPartyDisplayName, fullName, navigateTo, getLink])
 
-  // const sendViaBridge = useCallback(() => {
-
-  // }, [/* to be defined */])
+  const sendViaBridge = useCallback(
+    (amount: string) => {
+      // web3sdk-v2 bridge implementation here
+      // nextRoute: Home
+      return Promise.resolve('')
+    },
+    [amount],
+  )
 
   const handlePayment = useCallback(async () => {
     let paymentLink = link
@@ -315,13 +321,15 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       // for access them immediately from the nested handlers
       vendorFieldsRef.current = vendorFields || {}
 
-      if (action === ACTION_SEND_TO_ADDRESS) {
+      if (isBridge) {
+        await sendViaBridge(amount)
+      } else if (action === ACTION_SEND_TO_ADDRESS) {
         await sendViaAddress(address)
       } else {
         handlePayment()
       }
     },
-    [action, handlePayment, sendViaAddress, address],
+    [action, handlePayment, sendViaAddress, address, amount],
   )
 
   return (
@@ -333,16 +341,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       amount={amount}
       reason={reason}
       iconName="send"
-      title={t`YOU ARE SENDING`}
+      title={isBridge ? t`You are bridging` : t`You are sending`}
       action="send"
       vendorInfo={vendorInfo}
     />
   )
 }
 
-SendLinkSummary.navigationOptions = {
-  title: SEND_TITLE,
-}
+SendLinkSummary.navigationOptions = navigationOptions
 
 SendLinkSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps

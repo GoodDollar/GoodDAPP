@@ -4,7 +4,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { t } from '@lingui/macro'
-import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
+import { useBridge } from '@gooddollar/web3sdk-v2'
+import { BRIDGE_INITIATED, fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/js-logger'
@@ -37,8 +38,9 @@ const SendLinkSummary = ({ screenProps, styles, ...props }: AmountProps) => {
   const userStorage = useUserStorage()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
-  const { isBridge } = screenState
+  const { isBridge, network } = screenState
   const { showDialog, hideDialog, showErrorDialog } = useDialog()
+  const { sendBridgeRequest, bridgeRequestStatus } = useBridge()
 
   const [shared, setShared] = useState(false)
   const [link, setLink] = useState('')
@@ -269,13 +271,40 @@ const SendLinkSummary = ({ screenProps, styles, ...props }: AmountProps) => {
   }, [amount, counterPartyDisplayName, fullName, navigateTo, getLink])
 
   const sendViaBridge = useCallback(
-    (amount: string) => {
-      // web3sdk-v2 bridge implementation here
-      // nextRoute: Home
-      return Promise.resolve('')
+    async (amount: string) => {
+      await sendBridgeRequest(amount, network.toLowerCase())
     },
     [amount],
   )
+
+  useEffect(() => {
+    const handleBridgeTransaction = () => {
+      const { transaction: tx } = bridgeRequestStatus
+      const transactionEvent: TransactionEvent = {
+        id: tx.hash,
+        createdDate: new Date().toISOString(),
+        date: new Date().toISOString(),
+        type: FeedItemType.EVENT_TYPE_SENDDIRECT,
+        chainId: goodWallet.networkId,
+        data: {
+          to: goodWallet.account,
+          reason: 'Bridging',
+          amount,
+        },
+      }
+
+      log.debug('sendViaAddress: enqueueTX', { transactionEvent })
+
+      userStorage.enqueueTX(transactionEvent)
+
+      fireEvent(BRIDGE_INITIATED, { type: 'Bridge' })
+      goToRoot()
+    }
+
+    if (bridgeRequestStatus.status === 'Mining') {
+      handleBridgeTransaction()
+    }
+  }, [bridgeRequestStatus])
 
   const handlePayment = useCallback(async () => {
     let paymentLink = link

@@ -7,12 +7,11 @@ import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useSwitchNetwork, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { getNetworkName } from '../../lib/constants/network'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -46,7 +45,14 @@ const Amount = (props: AmountProps) => {
   const { isBridge = false } = params
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
-  const currentNetwork = getNetworkName(goodWallet.networkId)
+  const { currentNetwork } = useSwitchNetwork()
+  const bridgeState = isBridge
+    ? {
+        isBridge,
+        network: currentNetwork,
+      }
+    : {}
+
   const [GDAmount, setGDAmount] = useState(() =>
     toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0',
   )
@@ -135,7 +141,7 @@ const Amount = (props: AmountProps) => {
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }
                 canContinue={handleContinue}
-                values={{ ...params, ...restState, amount: GDAmountInWei, isBridge: isBridge, network: currentNetwork }}
+                values={{ ...params, ...restState, amount: GDAmountInWei, ...bridgeState }}
                 disabled={loading}
                 {...props}
               />

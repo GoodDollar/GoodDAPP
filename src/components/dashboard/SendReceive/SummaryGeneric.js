@@ -272,6 +272,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   redIcon: {
     backgroundColor: theme.colors.red,
+    marginBottom: 75,
   },
   greenIcon: {
     backgroundColor: theme.colors.green,

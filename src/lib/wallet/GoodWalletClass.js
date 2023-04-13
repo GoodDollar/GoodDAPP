@@ -350,7 +350,7 @@ export class GoodWallet {
     return addrs.filter(_ => _ && _ !== NULL_ADDRESS).map(_ => _.toLowerCase())
   }
 
-  getBridgesAddresses() {
+  getBridgeAddresses() {
     const micorBridge = flatten(Object.values(BridgeAddress).map(_ => Object.values(_)))
     const multichainRouter = get(ContractsAddress, `${this.network}.MultichainRouter`)
     const kimaRouter = '' //TODO: update

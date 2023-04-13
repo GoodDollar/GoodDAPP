@@ -28,8 +28,7 @@ const TopBar = ({
   isBridge,
   network,
 }) => {
-  const { fuseBalance, celoBalance } = useWalletData()
-  const balance = network === 'FUSE' ? fuseBalance : celoBalance
+  const { balance } = useWalletData()
 
   const { smallAvatar: avatar } = useProfile()
 
@@ -97,6 +96,8 @@ const styles = StyleSheet.create({
     }),
     textAlign: 'center',
     alignSelf: 'stretch',
+    alignItems: 'center',
+    display: 'flex',
   },
   networkName: {
     fontSize: 16,

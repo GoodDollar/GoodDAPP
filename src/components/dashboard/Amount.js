@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { BN, toBN } from 'web3-utils'
 import { t } from '@lingui/macro'
+import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -46,6 +47,9 @@ const Amount = (props: AmountProps) => {
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
   const { currentNetwork } = useSwitchNetwork()
+  const { bridgeLimits } = useGetBridgeData(goodWallet.networkId, goodWallet.account)
+  const { minAmount } = bridgeLimits || { minAmount: 0 }
+
   const bridgeState = isBridge
     ? {
         isBridge,
@@ -74,8 +78,19 @@ const Amount = (props: AmountProps) => {
 
     try {
       const fee = await goodWallet.calculateTxFee(weiAmount)
-      const amountWithFee = new BN(weiAmount).add(fee)
+      const amount = new BN(weiAmount)
+      const amountWithFee = amount.add(fee)
       const canSend = await goodWallet.canSend(amountWithFee, { feeIncluded: true })
+
+      if (isBridge) {
+        const min = parseFloat(goodWallet.toDecimals(minAmount))
+        const canBridge = parseInt(GDAmount) >= min
+
+        if (!canBridge) {
+          setError(t`Sorry, minimum amount to bridge is 1000 G$'s`)
+          return canBridge
+        }
+      }
 
       if (!canSend) {
         setError(t`Sorry, you don't have enough G$s`)

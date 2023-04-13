@@ -244,73 +244,47 @@ export class GoodWallet {
 
         log.info('GoodWallet setting up contracts:')
 
+        const makeContract = (abi, name, defaultAddress = null) => {
+          const address = get(ContractsAddress, `${this.network}.${name}`, defaultAddress)
+
+          // do not create contract if no address in contracts for the network selected
+          if (address) {
+            return new this.wallet.eth.Contract(abi.abi, address, { from: this.account })
+          }
+        }
+
+        const addContract = (abi, name, defaultAddress = null) => {
+          const contract = makeContract(abi, name, defaultAddress)
+
+          if (contract) {
+            abiDecoder.addABI(abi.abi)
+            return contract
+          }
+        }
+
         // Identity Contract
-        this.identityContract = new this.wallet.eth.Contract(
-          IdentityABI.abi,
-          get(ContractsAddress, `${this.network}.Identity` /*IdentityABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
+        this.identityContract = makeContract(IdentityABI, 'Identity')
 
         // Token Contract
-        this.tokenContract = new this.wallet.eth.Contract(
-          GoodDollarABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
-        abiDecoder.addABI(GoodDollarABI.abi)
+        this.tokenContract = addContract(GoodDollarABI, 'GoodDollar')
 
         // ERC20 Contract
-        this.erc20Contract = new this.wallet.eth.Contract(
-          cERC20ABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
-        abiDecoder.addABI(cERC20ABI.abi)
+        this.erc20Contract = addContract(cERC20ABI, 'GoodDollar')
 
         // UBI Contract
-        this.UBIContract = new this.wallet.eth.Contract(
-          UBIABI.abi,
-          get(ContractsAddress, `${this.network}.UBIScheme` /*UBIABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
-        abiDecoder.addABI(UBIABI.abi)
+        this.UBIContract = addContract(UBIABI, 'UBIScheme')
 
         // OneTimePaymentLinks Contract
-        this.oneTimePaymentsContract = new this.wallet.eth.Contract(
-          OneTimePaymentsABI.abi,
-          get(
-            ContractsAddress,
-            `${this.network}.OneTimePayments` /*OneTimePaymentsABI.networks[this.networkId].address*/,
-          ),
-          {
-            from: this.account,
-          },
-        )
-        abiDecoder.addABI(OneTimePaymentsABI.abi)
+        this.oneTimePaymentsContract = addContract(OneTimePaymentsABI, 'OneTimePayments')
 
         // UBI Contract
-        this.invitesContract = new this.wallet.eth.Contract(
-          InvitesABI.abi,
-          get(ContractsAddress, `${this.network}.Invites`, '0x5a35C3BC159C4e4afAfadbdcDd8dCd2dd8EC8CBE'),
-          { from: this.account },
-        )
-        abiDecoder.addABI(InvitesABI.abi)
+        this.invitesContract = addContract(InvitesABI, 'Invites', '0x5a35C3BC159C4e4afAfadbdcDd8dCd2dd8EC8CBE')
 
         // faucet Contract
-        this.faucetContract = new this.wallet.eth.Contract(
-          FaucetABI.abi,
-          get(ContractsAddress, `${this.network}.FuseFaucet`) || get(ContractsAddress, `${this.network}.Faucet`),
-          { from: this.account },
-        )
-        abiDecoder.addABI(FaucetABI.abi)
+        this.faucetContract = addContract(FaucetABI, 'FuseFaucet', get(ContractsAddress, `${this.network}.Faucet`))
 
         // GOOD Contract
-        this.GOODContract = new this.wallet.eth.Contract(
-          GOODToken.abi,
-          get(ContractsAddress, `${this.network}.GReputation` /*UBIABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
-        abiDecoder.addABI(GOODToken.abi)
+        this.GOODContract = addContract(GOODToken, 'GReputation')
 
         // debug print contracts addresses
         {

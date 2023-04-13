@@ -263,9 +263,9 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         log.debug('switchNetwork: starting watchBalanceAndTXs', { lastBlock, network, contractsNetwork })
 
-        goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-          userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
-        )
+        // goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
+        //   userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
+        // )
 
         const web3Provider = new Web3Provider(
           new PrivateKeyProvider(goodWallet.wallet.eth.accounts.wallet[0].privateKey, goodWallet.wallet._provider.host),

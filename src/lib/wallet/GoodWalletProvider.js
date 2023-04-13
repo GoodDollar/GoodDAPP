@@ -141,7 +141,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
 
-        const storage = new UserStorage(wallet, db, new UserProperties(db))
+        const storage = new UserStorage(wallet, db, new UserProperties(db), { fuse: fusewallet, celo: celowallet })
         const loginAndWatch = shouldLoginAndWatch()
 
         await storage.ready
@@ -388,7 +388,7 @@ const NetworkSwitch = withStyles(({ theme }) => ({
   },
 }))(({ value, onChange, styles }) => {
   const [network, setNetwork] = useState(value)
-  const networks = ['fuse', 'celo', Config.env === 'production' ? 'mainnet' : 'goerli']
+  const networks = ['FUSE', 'CELO', Config.env === 'production' ? 'MAINNET' : 'GOERLI']
 
   const handleNetworkSelect = useCallback(
     selectedValue => {
@@ -407,7 +407,7 @@ const NetworkSwitch = withStyles(({ theme }) => ({
               <RadioButton value={network} uncheckedColor={theme.colors.gray} color={theme.colors.primary} />
             </View>
             <Text style={styles.growTwo} textAlign="left" color="gray" fontWeight="medium">
-              {network.toUpperCase()}
+              {network}
             </Text>
           </View>
         ))}

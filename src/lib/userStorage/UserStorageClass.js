@@ -1,6 +1,6 @@
 //@flow
 
-import { assign, get, invokeMap, isEqual, keys, memoize, pick } from 'lodash'
+import { assign, filter, get, invokeMap, isEqual, keys, memoize, pick, some } from 'lodash'
 
 import moment from 'moment'
 
@@ -21,6 +21,7 @@ import { isValidDataUrl } from '../utils/base64'
 import { ThreadDB } from '../textile/ThreadDB'
 import uuid from '../utils/uuid'
 import type { DB } from '../realmdb/RealmDB'
+import { GoodWallet } from '../wallet/WalletClassSelector'
 import { type StandardFeed } from './StandardFeed'
 import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
@@ -260,8 +261,9 @@ export class UserStorage {
 
   registeredReady: Promise<boolean> = null
 
-  constructor(wallet: GoodWallet, database: DB, userProperties) {
+  constructor(wallet: GoodWallet, database: DB, userProperties, wallets: { fuse: GoodWallet, celo: GoodWallet }) {
     this.wallet = wallet
+    this.wallets = wallets
     this.database = database
     this.userProperties = userProperties
     this._formatEvent.cache = new WeakMap()
@@ -934,8 +936,13 @@ export class UserStorage {
 
     data.value = get(receiptEvent, 'value') || get(receiptEvent, 'amount') || amount
 
-    const ubiAddressLc = this.wallet.UBIContract._address
-    const fromGDUbi = (data.address || '').toLowerCase() === ubiAddressLc && 'GoodDollar UBI'
+    const {
+      wallet,
+      wallets: { fuse, celo },
+    } = this
+    const ubiAddresses = filter([wallet, fuse, celo].map(w => get(w, 'UBIContract._address')))
+    const addressLc = (data.address || '').toLowerCase()
+    const fromGDUbi = some(ubiAddresses, addr => addr === addressLc) && 'GoodDollar UBI'
 
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||

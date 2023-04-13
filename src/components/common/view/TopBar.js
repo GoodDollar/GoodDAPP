@@ -88,18 +88,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     height: 62,
   },
-  bigNumberStyles: {
-    fontWeight: '700',
-    fontSize: 35,
-    lineHeight: 24,
-    height: Platform.select({
-      android: 36,
-    }),
-    textAlign: 'center',
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    display: 'flex',
-  },
   networkName: {
     fontSize: 16,
     lineHeight: 20,

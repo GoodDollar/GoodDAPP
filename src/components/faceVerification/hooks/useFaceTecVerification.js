@@ -31,6 +31,7 @@ export default (options = null) => {
   const {
     enrollmentIdentifier,
     chainId = null,
+    fvSigner = null,
     onUIReady = noop,
     onCaptureDone = noop,
     onRetry = noop,
@@ -67,6 +68,7 @@ export default (options = null) => {
         const sessionId = await api.issueSessionToken()
 
         await api.performFaceVerification(enrollmentIdentifier, {
+          fvSigner,
           chainId,
           sessionId,
           faceScan: emptyBase64,

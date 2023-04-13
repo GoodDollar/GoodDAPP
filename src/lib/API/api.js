@@ -278,11 +278,11 @@ export class APIService {
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
-  disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
+  disposeFaceSnapshot(enrollmentIdentifier: string, fvSigner: string): Promise<void> {
     const { client } = this
     const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
-    return client.delete(endpoint, { params: { signature } })
+    return client.delete(endpoint, { params: { fvSigner } })
   }
 
   /**
@@ -290,11 +290,11 @@ export class APIService {
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
-  checkFaceSnapshotDisposalState(enrollmentIdentifier: string): Promise<$AxiosXHR<any>> {
+  checkFaceSnapshotDisposalState(enrollmentIdentifier: string, fvSigner: string): Promise<$AxiosXHR<any>> {
     const { client } = this
     const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
-    return client.get(endpoint)
+    return client.get(endpoint, { params: { fvSigner } })
   }
 
   /**

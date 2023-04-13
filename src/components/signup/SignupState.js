@@ -327,7 +327,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           log.debug('setting registered flag')
 
           // set registered flag
-          await Promise.all([userProperties.set('registered', true), AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)])
+          await Promise.all([
+            userProperties.updateAll({ registered: true, fv2: true }),
+            AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
+          ])
 
           log.debug('persist user props', pick(userProperties, 'data', 'lastStored'))
 

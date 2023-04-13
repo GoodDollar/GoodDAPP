@@ -21,12 +21,11 @@ export const FVFlowContext = createContext({
 })
 
 const FVFlowProvider = props => {
-  const { sig, nonce, fvsig, rdu, cbu, firstName, account, chain } = useRef(DeepLinking.params).current
-  const { jwt, error } = useFVFlow(sig, nonce, fvsig, account)
-  const faceIdentifier = (fvsig || '').slice(0, 42)
+  const { sig, nonce, fvsig: faceIdentifier, rdu, cbu, firstName, account, chain } = useRef(DeepLinking.params).current
+  const { jwt, error } = useFVFlow(sig, nonce, faceIdentifier, account)
 
   useEffect(() => {
-    log.info('login params:', { sig, nonce, fvsig, rdu, cbu, firstName })
+    log.info('login params:', { sig, nonce, faceIdentifier, rdu, cbu, firstName })
   }, [])
 
   useEffect(() => {

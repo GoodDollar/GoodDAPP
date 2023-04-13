@@ -2,7 +2,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { View } from 'react-native'
-import { noop } from 'lodash'
+import { first, last, noop } from 'lodash'
 import PrivateKeyProvider from 'truffle-privatekey-provider'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
@@ -66,38 +66,40 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     async goodWallet => {
       const { tokenContract, UBIContract, identityContract, account, networkId } = goodWallet
 
-      // TODO: a) get balance b) default values if no UBI
-      if (!supportsG$UBI(networkId)) {
-        log.debug('Network does not supports G$, skipping update', { networkId })
-        return
-      }
-
       const calls = [
         {
           balance: tokenContract.methods.balanceOf(account),
         },
-        {
-          ubi: UBIContract.methods.checkEntitlement(account),
-        },
-        {
-          isCitizen: identityContract.methods.isWhitelisted(account),
-        },
       ]
 
-      // entitelment is separate because it depends on msg.sender
-      const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
+      if (supportsG$UBI(networkId)) {
+        calls.push(
+          {
+            ubi: UBIContract.methods.checkEntitlement(account),
+          },
+          {
+            isCitizen: identityContract.methods.isWhitelisted(account),
+          },
+        )
+      }
 
+      // entitelment is separate because it depends on msg.sender
+      const [[{ balance }, ...results]] = await goodWallet.multicallFuse.all([calls])
+      const { ubi = 0 } = first(results) || {}
+      const { isCitizen = false } = last(results) || {}
       let totalBalance = balance
-      let fuseBalance = 0,
-        celoBalance = 0
+      let fuseBalance = 0
+      let celoBalance = 0
+
       if (fusewallet && celowallet) {
         ;[fuseBalance = '0', celoBalance = '0'] = await Promise.all([fusewallet?.balanceOf(), celowallet?.balanceOf()])
+
         fuseBalance = Number(fusewallet.toDecimals(fuseBalance))
         celoBalance = Number(celowallet.toDecimals(celoBalance))
         totalBalance = (fuseBalance + celoBalance).toFixed(2)
       }
-      setBalance({ balance, totalBalance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
 
+      setBalance({ balance, totalBalance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
       setDailyUBI(ubi)
       setIsCitizen(isCitizen)
     },
@@ -263,9 +265,9 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         log.debug('switchNetwork: starting watchBalanceAndTXs', { lastBlock, network, contractsNetwork })
 
-        // goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-        //   userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
-        // )
+        goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
+          userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
+        )
 
         const web3Provider = new Web3Provider(
           new PrivateKeyProvider(goodWallet.wallet.eth.accounts.wallet[0].privateKey, goodWallet.wallet._provider.host),

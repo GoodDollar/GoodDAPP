@@ -479,105 +479,118 @@ export class GoodWallet {
   }
 
   async pollSendEvents(toBlock, from = null) {
-    const fromBlock = from || this.lastEventsBlock
-    const contract = this.erc20Contract
+    const { lastEventsBlock, erc20Contract, wallet, account } = this
+    const fromBlock = from || lastEventsBlock
+    const contract = erc20Contract
+    let events = []
 
-    const fromEventsFilter = pickBy(
-      {
-        fromBlock,
-        toBlock,
-        filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
-      },
-      identity,
-    )
+    if (contract) {
+      const fromEventsFilter = pickBy(
+        {
+          fromBlock,
+          toBlock,
+          filter: { from: wallet.utils.toChecksumAddress(account) },
+        },
+        identity,
+      )
 
-    const events = await retryCall(() => contract.getPastEvents('Transfer', fromEventsFilter)).catch((e = {}) => {
-      // just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? 'warn' : 'error'
-      log[logFunc]('pollSendEvents failed:', e.message, e, {
-        category: ExceptionCategory.Blockhain,
-        fromEventsFilter,
-      })
-      return []
-    })
+      try {
+        events = await retryCall(() => contract.getPastEvents('Transfer', fromEventsFilter))
+      } catch (e) {
+        // just warn about block not  found which is recoverable
+        const logFunc = e.code === -32000 ? 'warn' : 'error'
 
-    log.info('pollSendEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
+        log[logFunc]('pollSendEvents failed:', e.message, e, {
+          category: ExceptionCategory.Blockhain,
+          fromEventsFilter,
+        })
+      }
+    }
 
+    log.info('pollSendEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock })
     return events
   }
 
   async pollReceiveEvents(toBlock, from = null) {
-    const fromBlock = from || this.lastEventsBlock
-    const contract = this.erc20Contract
+    const { lastEventsBlock, erc20Contract, wallet, account } = this
+    const fromBlock = from || lastEventsBlock
+    const contract = erc20Contract
+    let events = []
 
-    const toEventsFilter = pickBy(
-      {
-        fromBlock,
-        toBlock,
-        filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
-      },
-      identity,
-    )
+    if (contract) {
+      const toEventsFilter = pickBy(
+        {
+          fromBlock,
+          toBlock,
+          filter: { to: wallet.utils.toChecksumAddress(account) },
+        },
+        identity,
+      )
 
-    const events = await retryCall(() => contract.getPastEvents('Transfer', toEventsFilter)).catch((e = {}) => {
-      // just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? 'warn' : 'error'
-      log[logFunc]('pollReceiveEvents failed:', e.message, e, {
-        category: ExceptionCategory.Blockhain,
-        toEventsFilter,
-      })
-      return []
-    })
+      try {
+        events = await retryCall(() => contract.getPastEvents('Transfer', toEventsFilter))
+      } catch (e) {
+        // just warn about block not  found which is recoverable
+        const logFunc = e.code === -32000 ? 'warn' : 'error'
 
-    log.info('pollReceiveEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
+        log[logFunc]('pollReceiveEvents failed:', e.message, e, {
+          category: ExceptionCategory.Blockhain,
+          toEventsFilter,
+        })
+      }
+    }
 
+    log.info('pollReceiveEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock })
     return events
   }
 
   async pollOTPLEvents(toBlock, from = null) {
-    const fromBlock = from || this.lastEventsBlock
-    const contract = this.oneTimePaymentsContract
+    const { account, wallet, lastEventsBlock, oneTimePaymentsContract } = this
+    const fromBlock = from || lastEventsBlock
+    const contract = oneTimePaymentsContract
+    let eventsCancel = []
+    let eventsWithdraw = []
 
-    let fromEventsFilter = pickBy(
-      {
-        fromBlock,
-        toBlock,
-        filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
-      },
-      identity,
-    )
+    if (contract) {
+      const fromEventsFilter = pickBy(
+        {
+          fromBlock,
+          toBlock,
+          filter: { from: wallet.utils.toChecksumAddress(account) },
+        },
+        identity,
+      )
 
-    log.debug('pollOTPLEvents call', { fromEventsFilter })
+      log.debug('pollOTPLEvents call', { fromEventsFilter })
 
-    const eventsCancel = await retryCall(() =>
-      contract.getPastEvents('PaymentCancel', Object.assign({}, fromEventsFilter)),
-    ).catch((e = {}) => {
-      // just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? 'warn' : 'error'
-      log[logFunc]('pollOTPLEvents failed:', e.message, e, {
-        category: ExceptionCategory.Blockhain,
-        fromEventsFilter,
-      })
-      return []
-    })
-
-    // const eventsWithdraw = []
-    const eventsWithdraw = await retryCall(() => contract.getPastEvents('PaymentWithdraw', fromEventsFilter)).catch(
-      (e = {}) => {
+      try {
+        eventsCancel = await retryCall(() => contract.getPastEvents('PaymentCancel', fromEventsFilter))
+      } catch (e) {
         // just warn about block not  found which is recoverable
         const logFunc = e.code === -32000 ? 'warn' : 'error'
+
         log[logFunc]('pollOTPLEvents failed:', e.message, e, {
           category: ExceptionCategory.Blockhain,
           fromEventsFilter,
         })
-        return []
-      },
-    )
+      }
+
+      try {
+        eventsWithdraw = await retryCall(() => contract.getPastEvents('PaymentWithdraw', fromEventsFilter))
+      } catch (e) {
+        // just warn about block not  found which is recoverable
+        const logFunc = e.code === -32000 ? 'warn' : 'error'
+
+        log[logFunc]('pollOTPLEvents failed:', e.message, e, {
+          category: ExceptionCategory.Blockhain,
+          fromEventsFilter,
+        })
+      }
+    }
 
     const events = eventsWithdraw.concat(eventsCancel)
 
-    log.info('pollOTPLEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
-
+    log.info('pollOTPLEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock })
     return events
   }
 
@@ -587,11 +600,13 @@ export class GoodWallet {
    */
   async getReceiptWithLogs(transactionHash: string) {
     const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
+
     if (!transactionReceipt) {
       return null
     }
 
     const logs = abiDecoder.decodeLogs(transactionReceipt.logs).filter(_ => _)
+
     return { ...transactionReceipt, logs }
   }
 
@@ -1226,7 +1241,7 @@ export class GoodWallet {
       return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
     } catch (e) {
       log.error('hasJoinedInvites failed:', e.message, e)
-      return false
+      return [false, null, null]
     }
   }
 

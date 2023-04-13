@@ -46,7 +46,10 @@ const ProfileWrapper = ({ screenProps, styles }) => {
 
   useEffect(() => {
     if (userStorage) {
-      userStorage.getFaceIdentifiers().then(_ => setRecordId(_.v2Identifier.slice(0, 42)))
+      const isFV2 = userStorage.userProperties.get('fv2')
+      userStorage.getFaceIdentifiers().then(_ => {
+        setRecordId(isFV2 ? _.v2Identifier.slice(0, 42) : _.v1Identifier)
+      })
     }
   }, [userStorage])
 

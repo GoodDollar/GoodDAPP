@@ -5,6 +5,7 @@ import useProfile from '../../../lib/userStorage/useProfile'
 import { useWalletData } from '../../../lib/wallet/GoodWalletProvider'
 import { theme } from '../../theme/styles'
 import Avatar from './Avatar'
+import BigGoodDollar from './BigGoodDollar'
 
 // import BigGoodDollar from './BigGoodDollar'
 
@@ -60,7 +61,7 @@ const TopBar = ({
           if children=undefined and hideBalance=false, BigGoodDollar will be rendered
           if children=undefined and hideBalance=true, nothing will be rendered
           */}
-        {!hideBalance && <Section.Text style={styles.bigNumberStyles}> {balance} G$ </Section.Text>}
+        {!hideBalance && <BigGoodDollar number={balance} />}
         {children}
         {hideProfile !== true && !isBridge && (!children || hideBalance) && (
           <Avatar

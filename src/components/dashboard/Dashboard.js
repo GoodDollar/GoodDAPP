@@ -47,6 +47,7 @@ import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
 import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
 import { IconButton, Text } from '../../components/common'
+import GreenCircle from '../../assets/ellipse46.svg'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -134,6 +135,75 @@ const BridgeButton = ({ onPress }: { onPress: any }) => (
     color={theme.colors.lightGdBlue}
   />
 )
+
+const balanceStyles = {
+  multiBalanceItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 14,
+    color: theme.colors.secondary,
+    fontWeight: 'bold',
+    width: '50%',
+    backgroundColor: '#eee',
+    padding: 0,
+    margin: 0,
+  },
+  switchButton: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  networkName: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 60,
+  },
+}
+
+const BalanceAndSwitch = ({
+  color,
+  textStyles,
+  networkName,
+  balance,
+}: {
+  styles: any,
+  color: string,
+  textStyles: any,
+  networkName: string,
+  balance: any,
+}) => {
+  const { currentNetwork, switchNetwork } = useSwitchNetwork()
+  const altNetwork = currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
+
+  const toggle = () => {
+    switchNetwork(altNetwork)
+  }
+
+  return (
+    <Section style={[balanceStyles.multiBalanceItem, { opacity: currentNetwork === networkName ? '100%' : '50%' }]}>
+      <TouchableOpacity onPress={currentNetwork !== networkName && toggle} style={balanceStyles.switchButton}>
+        <Text fontSize={16}>{balance}</Text>
+        <View style={balanceStyles.networkName}>
+          <View
+            style={[
+              balanceStyles.activeIcon,
+              { display: !networkName || networkName === currentNetwork ? 'flex' : 'none' },
+            ]}
+          >
+            <GreenCircle />
+          </View>
+          <Text fontSize={12} color={theme.colors.darkGray} fontWeight="normal">
+            {networkName} G$
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </Section>
+  )
+}
 
 const Dashboard = props => {
   const feedRef = useRef([])
@@ -848,18 +918,11 @@ const Dashboard = props => {
 
             <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
               <View style={[styles.multiBalance, { marginTop: headerLarge ? 0 : 10 }]}>
-                <Section style={styles.multiBalanceItem}>
-                  <Text fontSize={16}>{celoBalance}</Text>
-                  <Text fontSize={12}>Celo G$</Text>
-                </Section>
+                <BalanceAndSwitch balance={celoBalance} networkName="CELO" />
                 <Section.Text fontSize={20} style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%' }]}>
                   {headerLarge ? `+` : <BridgeButton onPress={goToBridge} />}{' '}
                 </Section.Text>
-
-                <Section style={styles.multiBalanceItem}>
-                  <Text fontSize={16}>{fuseBalance}</Text>
-                  <Text fontSize={12}>Fuse G$</Text>
-                </Section>
+                <BalanceAndSwitch balance={fuseBalance} networkName="FUSE" />
               </View>
 
               <View
@@ -1124,29 +1187,6 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  multiBalance: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: Platform.select({
-      web: '100%',
-      android: 179,
-    }),
-    height: 50,
-    justifyContent: 'center',
-  },
-  multiBalanceItem: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 14,
-    color: theme.colors.secondary,
-    fontWeight: 'bold',
-    width: '40%',
-    backgroundColor: '#eee',
-    padding: 0,
-    margin: 0,
-  },
   balanceUsdRow: {
     width: '100%',
   },
@@ -1159,6 +1199,16 @@ const getStylesFromProps = ({ theme }) => ({
   profileContainer: {
     alignItems: 'center',
     paddingBottom: 4,
+  },
+  multiBalance: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: Platform.select({
+      web: '100%',
+      android: 179,
+    }),
+    height: 50,
+    justifyContent: 'center',
   },
 })
 

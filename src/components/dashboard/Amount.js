@@ -146,7 +146,6 @@ const Amount = (props: AmountProps) => {
               </BackButton>
             </Section.Row>
             <Section.Stack grow={3} style={styles.nextButtonContainer}>
-              {/* TODO: skip reason and continue directly to SendLinkSummary */}
               <NextButton
                 nextRoutes={
                   isBridge

@@ -34,7 +34,7 @@ export type AmountProps = {
  * @param {AmountProps} props
  * @param {any} props.screenProps
  */
-const SendLinkSummary = ({ screenProps, styles, ...props }: AmountProps) => {
+const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const userStorage = useUserStorage()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)

@@ -7,8 +7,6 @@ import { theme } from '../../theme/styles'
 import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
 
-// import BigGoodDollar from './BigGoodDollar'
-
 /**
  * TopBar - used To display contextual information in a small container
  * @param {object} props - an object with props

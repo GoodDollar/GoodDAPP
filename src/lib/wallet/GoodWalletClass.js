@@ -61,6 +61,7 @@ import {
 
 import pricesQuery from './queries/reservePrices.gql'
 import interestQuery from './queries/interestReceived.gql'
+import { MultipleHttpProvider } from './transport'
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 100000
@@ -190,9 +191,11 @@ export class GoodWallet {
 
   init(): Promise<any> {
     const mainnetNetworkId = get(ContractsAddress, Config.network + '-mainnet.networkId', 122)
-    const mainnethttpWeb3provider = Config.ethereum[mainnetNetworkId].httpWeb3provider
+    const { httpWeb3provider: endpoints } = Config.ethereum[mainnetNetworkId]
 
-    this.web3Mainnet = new Web3(mainnethttpWeb3provider)
+    this.web3Mainnet = new Web3(
+      new MultipleHttpProvider(endpoints.split(',').map(provider => ({ provider, options: {} })), {}),
+    )
 
     const ready = WalletFactory.create(this.config)
 

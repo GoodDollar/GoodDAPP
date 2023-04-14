@@ -5,7 +5,7 @@ import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { t } from '@lingui/macro'
 import { useBridge } from '@gooddollar/web3sdk-v2'
-import { BRIDGE_INITIATED, fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
+import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/js-logger'
@@ -278,7 +278,7 @@ const SendLinkSummary = ({ screenProps, styles, ...props }: AmountProps) => {
   )
 
   useEffect(() => {
-    const handleBridgeTransaction = () => {
+    if (bridgeRequestStatus.status === 'Mining') {
       const { transaction: tx } = bridgeRequestStatus
       const transactionEvent: TransactionEvent = {
         id: tx.hash,
@@ -297,12 +297,8 @@ const SendLinkSummary = ({ screenProps, styles, ...props }: AmountProps) => {
 
       userStorage.enqueueTX(transactionEvent)
 
-      fireEvent(BRIDGE_INITIATED, { type: 'Bridge' })
+      fireEvent(SEND_DONE, { type: 'Bridge' })
       goToRoot()
-    }
-
-    if (bridgeRequestStatus.status === 'Mining') {
-      handleBridgeTransaction()
     }
   }, [bridgeRequestStatus])
 

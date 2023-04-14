@@ -149,6 +149,7 @@ const balanceStyles = {
     backgroundColor: '#eee',
     padding: 0,
     margin: 0,
+    fontFamily: 'Roboto Slab',
   },
   switchButton: {
     display: 'flex',
@@ -160,7 +161,7 @@ const balanceStyles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: 60,
+    width: 55,
   },
 }
 
@@ -178,25 +179,28 @@ const BalanceAndSwitch = ({
 }) => {
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const altNetwork = currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
+  const networkNameUp = networkName.toUpperCase()
 
   const toggle = () => {
     switchNetwork(altNetwork)
   }
 
   return (
-    <Section style={[balanceStyles.multiBalanceItem, { opacity: currentNetwork === networkName ? '100%' : '50%' }]}>
-      <TouchableOpacity onPress={currentNetwork !== networkName && toggle} style={balanceStyles.switchButton}>
-        <Text fontSize={16}>{balance}</Text>
+    <Section style={[balanceStyles.multiBalanceItem, { opacity: currentNetwork === networkNameUp ? '100%' : '50%' }]}>
+      <TouchableOpacity onPress={currentNetwork !== networkNameUp && toggle} style={balanceStyles.switchButton}>
+        <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
+          {balance}
+        </Text>
         <View style={balanceStyles.networkName}>
           <View
             style={[
               balanceStyles.activeIcon,
-              { display: !networkName || networkName === currentNetwork ? 'flex' : 'none' },
+              { display: !networkName || networkNameUp === currentNetwork ? 'flex' : 'none' },
             ]}
           >
             <GreenCircle />
           </View>
-          <Text fontSize={12} color={theme.colors.darkGray} fontWeight="normal">
+          <Text fontSize={12} color={theme.colors.darkGray} fontWeight="normal" fontFamily={theme.fonts.slab}>
             {networkName} G$
           </Text>
         </View>
@@ -918,11 +922,11 @@ const Dashboard = props => {
 
             <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
               <View style={[styles.multiBalance, { marginTop: headerLarge ? 0 : 10 }]}>
-                <BalanceAndSwitch balance={celoBalance} networkName="CELO" />
-                <Section.Text fontSize={20} style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%' }]}>
+                <BalanceAndSwitch balance={celoBalance} networkName="Celo" />
+                <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
                   {headerLarge ? `+` : <BridgeButton onPress={goToBridge} />}{' '}
                 </Section.Text>
-                <BalanceAndSwitch balance={fuseBalance} networkName="FUSE" />
+                <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
               </View>
 
               <View

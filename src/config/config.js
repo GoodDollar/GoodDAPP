@@ -28,10 +28,11 @@ const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://{cid}.ipfs.nftstora
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'fuse'
 const { networkId } = contractsAddress[network]
-
+const fuseRpc = env.REACT_APP_WEB3_RPC
+const celoRpc = env.REACT_APP_WEB3_RPC_CELO
 
 export const fuseNetwork = {
-  httpWeb3provider: (env.REACT_APP_WEB3_RPC ?? '')+',https://rpc.fuse.io/,https://fuse-mainnet.chainstacklabs.com'.split(",").filter(_ => _).join(","),
+  httpWeb3provider: `${fuseRpc ? `${fuseRpc},` : ''}https://rpc.fuse.io/,https://fuse-mainnet.chainstacklabs.com`,
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
   explorerAPI: 'https://explorer.fuse.io',
@@ -83,7 +84,7 @@ const ethereum = defaultsDeep(altProviders, {
     websocketWeb3Provider: 'ws://localhost:8545/ws',
   },
   '42220': {
-    httpWeb3provider:  (env.REACT_APP_WEB3_RPC_CELO ?? '')+',https://forno.celo.org/,https://rpc.ankr.com/celo,https://1rpc.io/celo'.split(",").filter(_ => _).join(","),
+    httpWeb3provider:  `${celoRpc ? `${celoRpc},` : ''}https://forno.celo.org/,https://rpc.ankr.com/celo,https://1rpc.io/celo`,
     explorer: 'https://celoscan.io',
     explorerAPI: 'https://api.celoscan.io',
     explorerName: 'celoscan',

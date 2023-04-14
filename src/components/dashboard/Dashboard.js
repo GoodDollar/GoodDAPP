@@ -123,8 +123,16 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   )
 }
 
-const BridgeButton = () => (
-  <IconButton name="bridge" size={30} bgColor="none" disabled={false} circle={false} color={theme.colors.lightGdBlue} />
+const BridgeButton = ({ onPress }: { onPress: any }) => (
+  <IconButton
+    name="bridge"
+    onPress={onPress}
+    size={30}
+    bgColor="none"
+    disabled={false}
+    circle={false}
+    color={theme.colors.lightGdBlue}
+  />
 )
 
 const Dashboard = props => {
@@ -734,6 +742,10 @@ const Dashboard = props => {
 
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
+  const goToBridge = useCallback(() => {
+    screenProps.push('Amount', { isBridge: true })
+  }, [screenProps])
+
   const dispatchScrollEvent = useDebouncedCallback(() => fireEvent(SCROLL_FEED), 250)
 
   const scrollData = useMemo(() => {
@@ -841,7 +853,7 @@ const Dashboard = props => {
                   <Text fontSize={12}>Celo G$</Text>
                 </Section>
                 <Section.Text fontSize={20} style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%' }]}>
-                  {headerLarge ? `+` : <BridgeButton />}{' '}
+                  {headerLarge ? `+` : <BridgeButton onPress={goToBridge} />}{' '}
                 </Section.Text>
 
                 <Section style={styles.multiBalanceItem}>
@@ -859,7 +871,7 @@ const Dashboard = props => {
                   alignItems: 'center',
                 }}
               >
-                {headerLarge && <BridgeButton />}
+                {headerLarge && <BridgeButton onPress={goToBridge} />}
               </View>
             </Animated.View>
           </Section.Stack>

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { BackButton } from '../../appNavigation/stackNavigation'
+import { BackButton, useScreenState } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
 import BorderedBox from '../../common/view/BorderedBox'
 import TopBar from '../../common/view/TopBar'
@@ -29,6 +29,12 @@ const SummaryGeneric = ({
   vendorInfo = undefined,
 }) => {
   const { push } = screenProps
+
+  const [screenState] = useScreenState(screenProps)
+
+  const { isBridge, network } = screenState
+
+  const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'
 
   const [, setSurvey] = useState(undefined)
   const [loading, setLoading] = useState(false)
@@ -101,7 +107,7 @@ const SummaryGeneric = ({
 
   return (
     <Wrapper>
-      <TopBar push={push} />
+      <TopBar push={push} isBridge={isBridge} network={network} />
       <Section grow style={styles.section}>
         <Section.Stack>
           <Section.Row justifyContent="center">
@@ -129,6 +135,16 @@ const SummaryGeneric = ({
               bigNumberUnitProps={{ fontSize: 14 }}
             />
           </Section.Row>
+          {isBridge && (
+            <Section.Row justifyContent="center">
+              <View styles={styles.bridgeDesc}>
+                <Section.Text>from your wallet on</Section.Text>
+                <Section.Text>
+                  {network} to your wallet on {altNetwork}
+                </Section.Text>
+              </View>
+            </Section.Row>
+          )}
         </Section.Stack>
         <Section.Stack>
           {(address || recipient) && (
@@ -217,7 +233,7 @@ const SummaryGeneric = ({
           </Section.Row>
           <Section.Stack grow={3} style={styles.nextButtonContainer}>
             <CustomButton disabled={formHasErrors()} onPress={_onPress} loading={loading}>
-              {address ? 'Confirm' : 'Confirm & Share Link'}
+              {address || isBridge ? 'Confirm' : 'Confirm & Share Link'}
             </CustomButton>
           </Section.Stack>
         </Section.Row>
@@ -228,6 +244,13 @@ const SummaryGeneric = ({
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  bridgeDesc: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    color: theme.colors.darkGray,
+  },
   section: {
     display: 'flex',
     flexDirection: 'column',
@@ -243,13 +266,13 @@ const getStylesFromProps = ({ theme }) => ({
       default: getDesignRelativeHeight(75) / 2,
     }),
     marginTop: getDesignRelativeHeight(15),
-    marginBottom: getDesignRelativeHeight(24),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
   redIcon: {
     backgroundColor: theme.colors.red,
+    marginBottom: 75,
   },
   greenIcon: {
     backgroundColor: theme.colors.green,

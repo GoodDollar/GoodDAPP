@@ -62,7 +62,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const db = getDB()
 
-  const update = useCallback(
+  const updateWalletData = useCallback(
     async goodWallet => {
       const { tokenContract, UBIContract, identityContract, account, networkId } = goodWallet
 
@@ -99,11 +99,36 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         totalBalance = (fuseBalance + celoBalance).toFixed(2)
       }
 
-      setBalance({ balance, totalBalance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
-      setDailyUBI(ubi)
+      const walletData = {
+        balance,
+        totalBalance,
+        fuseBalance: fuseBalance.toFixed(2),
+        celoBalance: celoBalance.toFixed(2),
+      }
+
+      log.debug('updateWalletData', { walletData })
+      setBalance(walletData)
       setIsCitizen(isCitizen)
+      setDailyUBI(ubi)
     },
     [setBalance, setDailyUBI, setIsCitizen, fusewallet, celowallet],
+  )
+
+  const updateWalletListeners = useCallback(
+    goodWallet => {
+      const lastBlock =
+        userStorage.userProperties.get('lastBlock_' + goodWallet.networkId) ||
+        Config.ethereum[goodWallet.networkId].startBlock
+
+      log.debug('updateWalletListeners', { lastBlock })
+
+      goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
+        userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
+      )
+
+      goodWallet.balanceChanged(() => updateWalletData(goodWallet))
+    },
+    [userStorage],
   )
 
   const initWalletAndStorage = useCallback(
@@ -179,6 +204,14 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     },
     [setWalletAndStorage, isLoggedInRouter],
   )
+
+  // react to initial set of wallet in initWalletAndStorage
+  useEffect(() => {
+    if (goodWallet && userStorage) {
+      updateWalletData(goodWallet)
+      updateWalletListeners(goodWallet)
+    }
+  }, [goodWallet, userStorage])
 
   const doLogin = useCallback(
     async (wallet, storage, withRefresh = false) => {
@@ -273,33 +306,20 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
           new PrivateKeyProvider(goodWallet.wallet.eth.accounts.wallet[0].privateKey, goodWallet.wallet._provider.host),
         )
 
-        // trigger refresh
+        // update ctx
         setWalletAndStorage(_ => ({ ..._, goodWallet, web3Provider }))
         log.debug('switchNetwork: setWalletAndStorage done', { contractsNetwork, network })
+
+        // trigger refresh
+        updateWalletData(goodWallet)
+        updateWalletListeners(goodWallet)
+        log.debug('switchNetwork: triggered refresh. all done')
       } catch (e) {
         log.error('switchNetwork failed:', e.message, e, { contractsNetwork, network })
       }
     },
     [goodWallet, userStorage],
   )
-
-  useEffect(() => {
-    if (goodWallet) {
-      const lastBlock =
-        userStorage.userProperties.get('lastBlock_' + goodWallet.networkId) ||
-        Config.ethereum[goodWallet.networkId].startBlock
-
-      log.debug('wallet changed: starting watchBalanceAndTXs', { lastBlock })
-
-      goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
-        userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
-      )
-
-      goodWallet.balanceChanged(() => update(goodWallet))
-
-      update(goodWallet) // update global data whenever wallets/network changes
-    }
-  }, [celowallet, fusewallet, goodWallet])
 
   let contextValue = {
     userStorage,

@@ -3,6 +3,7 @@ import { Platform, StyleSheet } from 'react-native'
 import Section from '../layout/Section'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { useWalletData } from '../../../lib/wallet/GoodWalletProvider'
+import { theme } from '../../theme/styles'
 import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
 
@@ -23,8 +24,11 @@ const TopBar = ({
   profileAsLink = false,
   contentStyle,
   avatarSize,
+  isBridge,
+  network,
 }) => {
   const { balance } = useWalletData()
+
   const { smallAvatar: avatar } = useProfile()
 
   const redirectToProfile = useCallback(() => {
@@ -48,16 +52,16 @@ const TopBar = ({
           web: 'center',
           default: 'flex-end',
         })}
-        style={({ flexDirection: 'row-reverse' }, contentStyle)}
+        style={[contentStyle, { flexDirection: isBridge ? 'row-reverse' : 'row' }]}
       >
         {/*
-         if children exist, it will be rendered
-         if children=undefined and hideBalance=false, BigGoodDollar will be rendered
-         if children=undefined and hideBalance=true, nothing will be rendered
-         */}
+          if children exist, it will be rendered
+          if children=undefined and hideBalance=false, BigGoodDollar will be rendered
+          if children=undefined and hideBalance=true, nothing will be rendered
+          */}
         {!hideBalance && <BigGoodDollar number={balance} />}
         {children}
-        {hideProfile !== true && (!children || hideBalance) && (
+        {hideProfile !== true && !isBridge && (!children || hideBalance) && (
           <Avatar
             source={
               avatar //if not already displaying two items show also avatar
@@ -66,6 +70,7 @@ const TopBar = ({
             size={avatarSize}
           />
         )}
+        {isBridge && <Section.Text style={styles.networkName}> {network} G$ </Section.Text>}
       </Section.Row>
     </Section>
   )
@@ -80,6 +85,11 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     paddingTop: 8,
     height: 62,
+  },
+  networkName: {
+    fontSize: 16,
+    lineHeight: 20,
+    color: theme.colors.lighterGray,
   },
 })
 

@@ -3,11 +3,12 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { BN, toBN } from 'web3-utils'
 import { t } from '@lingui/macro'
+import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useSwitchNetwork, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
@@ -42,8 +43,20 @@ const Amount = (props: AmountProps) => {
   const { push } = screenProps
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
+  const { isBridge = false } = params
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
+  const { currentNetwork } = useSwitchNetwork()
+  const { bridgeLimits } = useGetBridgeData(goodWallet.networkId, goodWallet.account)
+  const { minAmount } = bridgeLimits || { minAmount: 0 }
+
+  const bridgeState = isBridge
+    ? {
+        isBridge,
+        network: currentNetwork,
+      }
+    : {}
+
   const [GDAmount, setGDAmount] = useState(() =>
     toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0',
   )
@@ -65,8 +78,19 @@ const Amount = (props: AmountProps) => {
 
     try {
       const fee = await goodWallet.calculateTxFee(weiAmount)
-      const amountWithFee = new BN(weiAmount).add(fee)
+      const amount = new BN(weiAmount)
+      const amountWithFee = amount.add(fee)
       const canSend = await goodWallet.canSend(amountWithFee, { feeIncluded: true })
+
+      if (isBridge) {
+        const min = parseFloat(goodWallet.toDecimals(minAmount))
+        const canBridge = parseInt(GDAmount) >= min
+
+        if (!canBridge) {
+          setError(t`Sorry, minimum amount to bridge is 1000 G$'s`)
+          return canBridge
+        }
+      }
 
       if (!canSend) {
         setError(t`Sorry, you don't have enough G$s`)
@@ -100,9 +124,9 @@ const Amount = (props: AmountProps) => {
   const showScanQR = !isReceive && !params?.counterPartyDisplayName //not in receive flow and also QR wasnt displayed on Who screen
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
-      <Wrapper>
-        <TopBar push={screenProps.push}>
-          {showScanQR && <ScanQRButton onPress={handlePressQR} />}
+      <Wrapper withGradient={true}>
+        <TopBar push={screenProps.push} isBridge={isBridge} network={currentNetwork}>
+          {showScanQR && !isBridge && <ScanQRButton onPress={handlePressQR} />}
           {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
         </TopBar>
         <Section grow style={styles.buttonsContainer}>
@@ -124,12 +148,14 @@ const Amount = (props: AmountProps) => {
             <Section.Stack grow={3} style={styles.nextButtonContainer}>
               <NextButton
                 nextRoutes={
-                  isReceive
+                  isBridge
+                    ? ['SendLinkSummary', 'Home']
+                    : isReceive
                     ? ['Reason', 'ReceiveSummary', 'TransactionConfirmation']
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }
                 canContinue={handleContinue}
-                values={{ ...params, ...restState, amount: GDAmountInWei }}
+                values={{ ...params, ...restState, amount: GDAmountInWei, ...bridgeState }}
                 disabled={loading}
                 {...props}
               />

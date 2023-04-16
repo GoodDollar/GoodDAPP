@@ -287,8 +287,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         type: FeedItemType.EVENT_TYPE_SENDDIRECT,
         chainId: goodWallet.networkId,
         data: {
-          to: goodWallet.account,
-          reason: 'Bridging',
+          reason: t`Bridged G$`,
+          counterPartyFullName: t`Bridge`,
           amount,
         },
       }

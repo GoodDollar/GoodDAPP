@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { t } from '@lingui/macro'
 import { BackButton, useScreenState } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
 import BorderedBox from '../../common/view/BorderedBox'
@@ -222,7 +223,11 @@ const SummaryGeneric = ({
         )}
         {isSend && (
           <Section.Row justifyContent="center" style={styles.warnText}>
-            <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
+            <Section.Text color="gray80Percent">
+              {t`* the transaction may take`}
+              {'\n'}
+              {isBridge ? t`a few minutes to complete` : t`a few seconds to complete`}
+            </Section.Text>
           </Section.Row>
         )}
         <Section.Row style={styles.buttonsWrapper}>

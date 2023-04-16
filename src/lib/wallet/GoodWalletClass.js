@@ -354,7 +354,7 @@ export class GoodWallet {
     const micorBridge = flatten(Object.values(BridgeAddress).map(_ => Object.values(_)))
     const multichainRouter = get(ContractsAddress, `${this.network}.MultichainRouter`)
     const kimaRouter = '' //TODO: update
-    return [...micorBridge, multichainRouter, kimaRouter].filter(_ => _)
+    return [...micorBridge, multichainRouter, kimaRouter].filter(_ => _).map(_ => _.toLowerCase())
   }
 
   setIsPollEvents(active) {

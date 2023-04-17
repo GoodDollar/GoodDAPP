@@ -182,6 +182,7 @@ const BalanceAndSwitch = ({
   const networkNameUp = networkName.toUpperCase()
   const isCurrent = currentNetwork === networkNameUp
   const toggle = () => switchNetwork(altNetwork)
+
   return (
     <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? '100%' : '50%' }]}>
       <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>

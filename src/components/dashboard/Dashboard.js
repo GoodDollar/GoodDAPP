@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, get, noop, uniqBy } from 'lodash'
+import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
@@ -205,17 +205,15 @@ const BalanceAndSwitch = ({
 const Dashboard = props => {
   const feedRef = useRef([])
   const resizeSubscriptionRef = useRef()
-  const balanceBlockWidthRef = useRef(70)
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
-  const [headerAvatarAnimValue] = useState(new Animated.Value(68))
-  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(0))
+  const [headerAvatarAnimValue] = useState(new Animated.Value(42))
   const [headerBalanceBottomAnimValue] = useState(new Animated.Value(0))
   const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(0)
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const [topInfoHeight] = useState(new Animated.Value(350))
+  const [topInfoHeight] = useState(new Animated.Value(260))
   const [balanceTopAnimValue] = useState(new Animated.Value(0))
   const { isDialogShown, showDialog, showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
@@ -239,73 +237,16 @@ const Dashboard = props => {
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
 
-  const profileMinimizedXYAnimValue = new Animated.Value(0)
-  const multiBalanceMinimzedYAnimValue = new Animated.Value(0)
-  const balanceXRange = headerLarge ? [0, -150] : [-150, 0]
-  const altOutputRange = headerLarge ? [0, -150] : [150, 0]
-
-  const balanceMinimizedStyles = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    width: 160,
-    marginRight: 24,
-    marginLeft: Platform.select({
-      android: 'auto',
-      default: 120,
-    }),
-    padding: 0,
-    textAlign: 'right',
-    backgroundColor: 'transparent',
-  }
-  const balanceFullStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    marginRight: 0,
-    marginLeft: 0,
-    paddingTop: Platform.select({
-      web: 8,
-    }),
-    paddingBottom: 8,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    backgroundColor: theme.colors.secondaryGray,
-  }
-
-  const balanceAnimStyles = {
-    ...(!headerLarge && balanceMinimizedStyles),
-    ...(headerLarge && balanceFullStyles),
-    transform: [
-      {
-        translateX: profileMinimizedXYAnimValue.interpolate({
-          inputRange: [0, 1],
-          outputRange: balanceXRange,
-        }),
-      },
-      {
-        translateY: profileMinimizedXYAnimValue.interpolate({
-          inputRange: [0, 1],
-          outputRange: altOutputRange,
-        }),
-      },
-    ],
-  }
+  const sendReceiveMinimzedYAnimValue = new Animated.Value(0)
+  const sendReceiveOutputRange = headerLarge ? [0, 500] : [100, 0]
 
   const profileAnimStyles = {
-    transform: [
-      {
-        translateX: profileMinimizedXYAnimValue.interpolate({
-          inputRange: [0, 1],
-          outputRange: altOutputRange,
-        }),
-      },
-    ],
-    alignItems: headerLarge ? 'center' : 'flex-start',
+    alignItems: 'flex-start',
+    padding: 100,
   }
 
-  const headerAnimateStyles = {
-    position: 'relative',
+  const fullNameAnimateStyles = {
+    opacity: headerFullNameOpacityAnimValue,
   }
 
   const avatarAnimStyles = {
@@ -313,27 +254,25 @@ const Dashboard = props => {
     width: headerAvatarAnimValue,
   }
 
-  const multiBalanceOutputRange = headerLarge ? [0, 500] : [100, 0]
-
   const multiBalanceAnimStyles = {
+    marginTop: Platform.select({
+      android: 0,
+    }),
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  }
+
+  const sendReceiveAnimStyles = {
+    width: '100%',
+    marginTop: headerLarge ? 10 : 0,
     transform: [
       {
-        translateY: profileMinimizedXYAnimValue.interpolate({
+        translateY: sendReceiveMinimzedYAnimValue.interpolate({
           inputRange: [0, 1],
-          outputRange: multiBalanceOutputRange,
+          outputRange: sendReceiveOutputRange,
         }),
       },
     ],
-    marginTop: Platform.select({
-      android: headerLarge ? -10 : 0,
-    }),
-    borderTopLeftRadius: headerLarge ? 0 : 10,
-    borderTopRightRadius: headerLarge ? 0 : 10,
-  }
-
-  const balanceTopAnimStyles = {
-    flexDirection: headerLarge ? 'column' : 'row',
-    left: headerAvatarLeftAnimValue,
   }
 
   const topInfoAnimStyles = {
@@ -346,7 +285,7 @@ const Dashboard = props => {
   const gdPriceAnimStyles = {
     marginTop: Platform.select({
       web: 0,
-      android: headerLarge ? 15 : 20,
+      android: 20,
     }),
   }
 
@@ -362,11 +301,6 @@ const Dashboard = props => {
   const balanceFormatter = useCallback(
     amount => {
       const inDecimals = amount
-
-      if (headerLarge || Math.floor(Math.log10(Number(inDecimals))) + 1 <= 12) {
-        return decimalsToFixed(inDecimals)
-      }
-
       return formatWithAbbreviations(inDecimals, 2)
     },
     [headerLarge, toDecimals],
@@ -571,26 +505,14 @@ const Dashboard = props => {
       // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
-          toValue: 68,
+          toValue: 42,
           duration: timing,
           easing: easingOut,
           useNativeDriver: false,
         }),
-        Animated.timing(headerAvatarLeftAnimValue, {
+        Animated.timing(sendReceiveMinimzedYAnimValue, {
           toValue: 0,
-          duration: timing,
-          easing: easingOut,
-          useNativeDriver: false,
-        }),
-        Animated.timing(profileMinimizedXYAnimValue, {
-          toValue: 0,
-          duration: 250,
-          easing: easingOut,
-          useNativeDriver: false,
-        }),
-        Animated.timing(multiBalanceMinimzedYAnimValue, {
-          toValue: 0,
-          duration: 250,
+          duration: 350,
           easing: easingOut,
           useNativeDrive: false,
         }),
@@ -625,7 +547,7 @@ const Dashboard = props => {
           useNativeDriver: false,
         }),
         Animated.timing(topInfoHeight, {
-          toValue: 350,
+          toValue: 260,
           duration: 200,
           easing: easingOut,
           useNativeDriver: false,
@@ -640,21 +562,9 @@ const Dashboard = props => {
           easing: easingIn,
           useNativeDriver: false,
         }),
-        Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: 0,
-          duration: timing,
-          easing: easingOut,
-          useNativeDriver: false,
-        }),
-        Animated.timing(profileMinimizedXYAnimValue, {
+        Animated.timing(sendReceiveMinimzedYAnimValue, {
           toValue: 1,
-          duration: 250,
-          easing: easingIn,
-          useNativeDriver: false,
-        }),
-        Animated.timing(multiBalanceMinimzedYAnimValue, {
-          toValue: 1,
-          duration: 250,
+          duration: 350,
           easing: easingOut,
           useNativeDrive: false,
         }),
@@ -688,7 +598,7 @@ const Dashboard = props => {
           useNativeDriver: false,
         }),
         Animated.timing(topInfoHeight, {
-          toValue: 190,
+          toValue: 140,
           duration: timing,
           delay: 100,
           easing: easingOut,
@@ -842,10 +752,10 @@ const Dashboard = props => {
     [dispatchScrollEvent, handleScrollEnd],
   )
 
-  const onBalanceLayout = useCallback(
-    ({ nativeEvent }) => (balanceBlockWidthRef.current = get(nativeEvent, 'layout.width', 0)),
-    [],
-  )
+  // const onBalanceLayout = useCallback(
+  //   ({ nativeEvent }) => (balanceBlockWidthRef.current = get(nativeEvent, 'layout.width', 0)),
+  //   [],
+  // )
 
   const calculateFontSize = useMemo(
     () => ({
@@ -862,12 +772,12 @@ const Dashboard = props => {
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Animated.View style={[styles.topInfo, topInfoAnimStyles]}>
-        <Animated.View style={headerAnimateStyles}>
+        <Animated.View style={styles.topHeader}>
           <Section.Stack alignItems="center" style={styles.balanceContainer}>
-            <Animated.View style={[styles.balanceTop, balanceTopAnimStyles]}>
+            <Animated.View style={styles.balanceTop}>
               <Section style={styles.profileContainer}>
                 <Animated.View style={profileAnimStyles}>
-                  <Animated.View style={avatarAnimStyles}>
+                  <Animated.View testID="avatar-anim-styles" style={avatarAnimStyles}>
                     <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
                       <Avatar
                         source={avatar}
@@ -878,23 +788,27 @@ const Dashboard = props => {
                       />
                     </TouchableOpacity>
                   </Animated.View>
-                  <Animated.View style={[styles.headerFullName]}>
-                    <Section.Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={16}>
-                      {fullName || ' '}
-                    </Section.Text>
-                  </Animated.View>
+                  {headerLarge && (
+                    <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
+                      <Section.Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={16}>
+                        {fullName || ' '}
+                      </Section.Text>
+                    </Animated.View>
+                  )}
                 </Animated.View>
               </Section>
-              <Animated.View style={balanceAnimStyles}>
-                <Text
-                  color="gray100Percent"
-                  fontFamily={theme.fonts.default}
-                  fontSize={12}
-                  style={{ marginTop: 8, marginBottom: 8 }}
-                >
-                  {` MY TOTAL BALANCE `}
-                </Text>
-                <View onLayout={onBalanceLayout} style={styles.balanceUsdRow}>
+              <Animated.View style={styles.totalBalance}>
+                {headerLarge && (
+                  <Text
+                    color="gray100Percent"
+                    fontFamily={theme.fonts.default}
+                    fontSize={12}
+                    style={{ marginTop: 8, marginBottom: 8 }}
+                  >
+                    {` MY TOTAL BALANCE `}
+                  </Text>
+                )}
+                <View style={styles.balanceUsdRow}>
                   <BigGoodDollar
                     testID="amount_value"
                     number={balance}
@@ -907,76 +821,68 @@ const Dashboard = props => {
                     style={styles.bigGoodDollar}
                   />
                 </View>
-                <Text style={styles.gdPrice}>
-                  ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
-                </Text>
+                {headerLarge && (
+                  <Text style={styles.gdPrice}>
+                    ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
+                  </Text>
+                )}
               </Animated.View>
             </Animated.View>
-
-            <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
-              <View style={[styles.multiBalance, { marginTop: headerLarge ? 0 : 10 }]}>
-                <BalanceAndSwitch balance={celoBalance} networkName="Celo" />
-                <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
-                  {headerLarge ? `+` : <BridgeButton onPress={goToBridge} />}{' '}
-                </Section.Text>
-                <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
-              </View>
-
-              <View
-                style={{
-                  marginBottom: 8,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                {headerLarge && <BridgeButton onPress={goToBridge} />}
-              </View>
+            {headerLarge && (
+              <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
+                <View style={styles.multiBalance}>
+                  <BalanceAndSwitch balance={celoBalance} networkName="Fuse" />
+                  <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
+                    <BridgeButton onPress={goToBridge} />
+                  </Section.Text>
+                  <BalanceAndSwitch balance={fuseBalance} networkName="Celo" />
+                </View>
+              </Animated.View>
+            )}
+            <Animated.View style={sendReceiveAnimStyles}>
+              <Section style={[styles.txButtons]}>
+                <Section.Row style={styles.buttonsRow}>
+                  <PushButton
+                    icon="send"
+                    iconAlignment="left"
+                    routeName="Amount"
+                    iconSize={20}
+                    screenProps={screenProps}
+                    style={[styles.leftButton, styles.sendReceiveButton]}
+                    contentStyle={styles.leftButtonContent}
+                    textStyle={styles.leftButtonText}
+                    params={{
+                      action: 'Send',
+                    }}
+                    compact
+                  >
+                    Send
+                  </PushButton>
+                  <ClaimButton
+                    screenProps={screenProps}
+                    amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
+                    animated
+                    animatedScale={claimScale}
+                  />
+                  <PushButton
+                    icon="receive"
+                    iconSize={20}
+                    iconAlignment="right"
+                    routeName={'Receive'}
+                    screenProps={screenProps}
+                    style={[styles.rightButton, styles.sendReceiveButton]}
+                    contentStyle={styles.rightButtonContent}
+                    textStyle={styles.rightButtonText}
+                    compact
+                  >
+                    Receive
+                  </PushButton>
+                </Section.Row>
+              </Section>
             </Animated.View>
           </Section.Stack>
         </Animated.View>
       </Animated.View>
-
-      <Section style={styles.txButtons}>
-        <Section.Row style={styles.buttonsRow}>
-          <PushButton
-            icon="send"
-            iconAlignment="left"
-            routeName="Amount"
-            iconSize={20}
-            screenProps={screenProps}
-            style={styles.leftButton}
-            contentStyle={styles.leftButtonContent}
-            textStyle={styles.leftButtonText}
-            params={{
-              action: 'Send',
-            }}
-            compact
-          >
-            Send
-          </PushButton>
-          <ClaimButton
-            screenProps={screenProps}
-            amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
-            animated
-            animatedScale={claimScale}
-          />
-          <PushButton
-            icon="receive"
-            iconSize={20}
-            iconAlignment="right"
-            routeName={'Receive'}
-            screenProps={screenProps}
-            style={styles.rightButton}
-            contentStyle={styles.rightButtonContent}
-            textStyle={styles.rightButtonText}
-            compact
-          >
-            Receive
-          </PushButton>
-        </Section.Row>
-      </Section>
 
       <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
         <Section.Row>
@@ -1047,6 +953,9 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: 'transparent',
     marginBottom: 12,
   },
+  topHeader: {
+    position: 'relative',
+  },
   topInfo: {
     position: 'relative',
     marginLeft: theme.sizes.default,
@@ -1074,6 +983,10 @@ const getStylesFromProps = ({ theme }) => ({
         shadowRadius: 5,
         elevation: 10,
       },
+    }),
+    height: Platform.select({
+      web: 260,
+      android: 'auto',
     }),
   },
   userInfoHorizontal: {
@@ -1115,24 +1028,36 @@ const getStylesFromProps = ({ theme }) => ({
     fontWeight: 'bold',
   },
   leftButton: {
+    marginRight: -12,
+  },
+  totalBalance: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    width: 160,
+    marginRight: 24,
+    marginLeft: Platform.select({
+      android: 'auto',
+      default: 120,
+    }),
+    padding: 0,
+    textAlign: 'right',
+    backgroundColor: 'transparent',
+  },
+  sendReceiveButton: {
     flex: 1,
     height: 44,
-    marginRight: -12,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
+    backgroundColor: theme.colors.green,
   },
   leftButtonContent: {
     alignItems: 'stretch',
     justifyContent: 'center',
   },
   rightButton: {
-    flex: 1,
-    height: 44,
     marginLeft: -12,
-    elevation: 0,
-    display: 'flex',
-    justifyContent: 'center',
   },
   rightButtonContent: {
     alignItems: 'stretch',
@@ -1165,7 +1090,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
   },
   txButtons: {
-    backgroundColor: theme.colors.secondaryGray,
+    width: '100%',
     paddingTop: 0,
     paddingBottom: 0,
   },
@@ -1192,10 +1117,12 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   profileContainer: {
+    paddingTop: 0,
+    paddingBottom: 0,
     alignItems: 'center',
-    paddingBottom: 4,
   },
   multiBalance: {
     display: 'flex',
@@ -1204,7 +1131,7 @@ const getStylesFromProps = ({ theme }) => ({
       web: '100%',
       android: 179,
     }),
-    height: 50,
+    height: 54,
     justifyContent: 'center',
   },
 })

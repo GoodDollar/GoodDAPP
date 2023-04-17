@@ -2,6 +2,7 @@
 import { debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
 import moment from 'moment'
+import { t } from '@lingui/macro'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
@@ -16,7 +17,7 @@ import { asLogRecord } from './utlis'
 
 const log = logger.child({ from: 'FeedStorage' })
 
-const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
+const COMPLETED_BONUS_REASON_TEXT = t`Your recent earned rewards`
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export const TxType = {
@@ -53,7 +54,7 @@ export const TxTypeToEventType = {
   TX_CLAIM: FeedItemType.EVENT_TYPE_CLAIM,
   TX_REWARD: FeedItemType.EVENT_TYPE_BONUS,
   TX_MINT: FeedItemType.EVENT_TYPE_RECEIVE,
-  TX_BRIDGE_OUT: FeedItemType.EVENT_TYPE_SENDDIRECT,
+  TX_BRIDGE_OUT: FeedItemType.EVENT_TYPE_SEND,
   TX_BRIDGE_IN: FeedItemType.EVENT_TYPE_RECEIVE,
 }
 
@@ -472,17 +473,17 @@ export class FeedStorage {
 
       switch (txType) {
         case TxType.TX_REWARD:
-          updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
-          updatedFeedEvent.data.counterPartyFullName = 'GoodDollar'
+          set(updatedFeedEvent, 'data.reason', COMPLETED_BONUS_REASON_TEXT)
+          set(updatedFeedEvent, 'data.counterPartyFullName', 'GoodDollar')
           break
         case TxType.TX_BRIDGE_OUT:
         case TxType.TX_BRIDGE_IN:
-          set(feedEvent, 'data.reason', 'Bridged G$s')
-          set(feedEvent, 'data.counterPartyfullName', 'Bridge')
+          set(updatedFeedEvent, 'data.reason', t`Bridged G$`)
+          set(updatedFeedEvent, 'data.counterPartyFullName', t`Bridge`)
           break
         case TxType.TX_MINT:
-          set(feedEvent, 'data.reason', 'Minted G$s')
-          set(feedEvent, 'data.counterPartyfullName', 'Rewards')
+          set(updatedFeedEvent, 'data.reason', t`Minted G$`)
+          set(updatedFeedEvent, 'data.counterPartyFullName', t`Rewards`)
           break
         default:
           break
@@ -556,7 +557,7 @@ export class FeedStorage {
 
     return {
       counterPartyAddress: address,
-      counterPartyFullName: fullName,
+      counterPartyFullName: fullName || feedEvent.data.counterPartyFullName,
       counterPartySmallAvatar: smallAvatar,
     }
   }

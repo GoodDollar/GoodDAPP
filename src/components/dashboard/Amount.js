@@ -58,12 +58,12 @@ const Amount = (props: AmountProps) => {
     : {}
 
   const [GDAmount, setGDAmount] = useState(() =>
-    toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '0',
+    toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '',
   )
   const [loading, setLoading] = useState(() => toBN(amount).lte(0))
   const [error, setError] = useState()
 
-  const GDAmountInWei = useMemo(() => goodWallet.fromDecimals(GDAmount), [GDAmount])
+  const GDAmountInWei = useMemo(() => GDAmount && goodWallet.fromDecimals(GDAmount), [GDAmount])
 
   const isReceive = params && params.action === ACTION_RECEIVE
 
@@ -87,7 +87,7 @@ const Amount = (props: AmountProps) => {
         const canBridge = parseInt(GDAmount) >= min
 
         if (!canBridge) {
-          setError(t`Sorry, minimum amount to bridge is 1000 G$'s`)
+          setError(t`Sorry, minimum amount to bridge is ${min} G$'s`)
           return canBridge
         }
       }
@@ -133,7 +133,7 @@ const Amount = (props: AmountProps) => {
           <Section.Stack grow justifyContent="flex-start">
             <AmountInput
               maxLength={20}
-              amount={GDAmount}
+              amount={GDAmount === '0' ? '' : GDAmount}
               handleAmountChange={handleAmountChange}
               error={error}
               title={t`How much?`}

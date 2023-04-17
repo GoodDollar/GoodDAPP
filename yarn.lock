@@ -9564,7 +9564,7 @@ __metadata:
 
 "@usedapp/core@patch:@usedapp/core@npm:1.2.7#.yarn/patches/@usedapp-core-npm-1.2.7-46bc7f3166.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 1.2.7
-  resolution: "@usedapp/core@patch:@usedapp/core@npm%3A1.2.7#.yarn/patches/@usedapp-core-npm-1.2.7-46bc7f3166.patch::version=1.2.7&hash=a17392&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "@usedapp/core@patch:@usedapp/core@npm%3A1.2.7#.yarn/patches/@usedapp-core-npm-1.2.7-46bc7f3166.patch::version=1.2.7&hash=ae0c52&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     "@metamask/detect-provider": ^2.0.0
     "@uniswap/token-lists": ^1.0.0-beta.27
@@ -9577,7 +9577,7 @@ __metadata:
     react: "*"
   bin:
     usedapp-generate-hooks: bin/usedapp-generate-hooks.js
-  checksum: 187c0790e4c91a91c9c72614ae22e43f9ac3e849a77e10047fb3972d5ede7ef0b61895690d61ce83749408b2162ccb9f4eea8fcae88d0b93a4df81b237b2e8a3
+  checksum: 169ac720c606392a50764e819a99987dc9d1dec48d418ced53ae3a90dc48c186d61d08a666d9edd599168510a8a146738c9d73622b78b5321e24daa213020be4
   languageName: node
   linkType: hard
 

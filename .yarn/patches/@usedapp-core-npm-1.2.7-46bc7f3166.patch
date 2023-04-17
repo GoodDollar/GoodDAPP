@@ -12,44 +12,36 @@ index 30c768cb1989860f98dba87ba8bac09c4f85d93c..00e1d6bf1ab3e6228b0e70cb55c05c27
      (0, react_1.useEffect)(() => {
          setValue(getItem(key, localStorageOverride));
 diff --git a/dist/cjs/src/providers/window/provider.js b/dist/cjs/src/providers/window/provider.js
-index ba227909835da1e862ca5c2d241d6e34bf054d83..3c6386b2f2f6c9c57bd80554816123acb7ed607d 100644
+index ba227909835da1e862ca5c2d241d6e34bf054d83..16d618e6dd92aa9c80a62d7b693db3ca70912f16 100644
 --- a/dist/cjs/src/providers/window/provider.js
 +++ b/dist/cjs/src/providers/window/provider.js
-@@ -9,20 +9,20 @@ const context_1 = require("./context");
+@@ -4,13 +4,16 @@ exports.WindowProvider = void 0;
+ const jsx_runtime_1 = require("react/jsx-runtime");
+ const react_1 = require("react");
+ const context_1 = require("./context");
++const react_native_1 = require("react-native")
++const isWeb = react_native_1.Platform.OS === 'web'
+ /**
+  * @internal Intended for internal use - use it on your own risk
   */
  function WindowProvider({ children }) {
      const [isActiveWindow, setActiveWindow] = (0, react_1.useState)(true);
 -    (0, react_1.useEffect)(() => {
 -        const visibilityChangeListener = () => {
--            switch (document.visibilityState) {
--                case 'hidden':
--                    setActiveWindow(false);
--                    break;
--                case 'visible':
--                    setActiveWindow(true);
--                    break;
--            }
--        };
--        document.addEventListener('visibilitychange', visibilityChangeListener);
--        return () => document.removeEventListener('visibilitychange', visibilityChangeListener);
--    }, []);
-+    // (0, react_1.useEffect)(() => {
-+    //     const visibilityChangeListener = () => {
-+    //         switch (document.visibilityState) {
-+    //             case 'hidden':
-+    //                 setActiveWindow(false);
-+    //                 break;
-+    //             case 'visible':
-+    //                 setActiveWindow(true);
-+    //                 break;
-+    //         }
-+    //     };
-+    //     document.addEventListener('visibilitychange', visibilityChangeListener);
-+    //     return () => document.removeEventListener('visibilitychange', visibilityChangeListener);
-+    // }, []);
++  (0, react_1.useEffect)(() => {
++    if (isWeb) {
++                const visibilityChangeListener = () => {
+             switch (document.visibilityState) {
+                 case 'hidden':
+                     setActiveWindow(false);
+@@ -22,6 +25,7 @@ function WindowProvider({ children }) {
+         };
+         document.addEventListener('visibilitychange', visibilityChangeListener);
+         return () => document.removeEventListener('visibilitychange', visibilityChangeListener);
++      }
+     }, []);
      return (0, jsx_runtime_1.jsx)(context_1.WindowContext.Provider, { value: isActiveWindow, children: children });
  }
- exports.WindowProvider = WindowProvider;
 diff --git a/dist/esm/src/hooks/useLocalStorage.js b/dist/esm/src/hooks/useLocalStorage.js
 index ac05160b361da576633ea72d7e461ff5ba9b1cdb..f3b4b986ce30c7a19a5fd7465e8be900804f128b 100644
 --- a/dist/esm/src/hooks/useLocalStorage.js
@@ -64,45 +56,37 @@ index ac05160b361da576633ea72d7e461ff5ba9b1cdb..f3b4b986ce30c7a19a5fd7465e8be900
      useEffect(() => {
          setValue(getItem(key, localStorageOverride));
 diff --git a/dist/esm/src/providers/window/provider.js b/dist/esm/src/providers/window/provider.js
-index 06ba061f7ae51bb4b822380fe20bdce9a3679003..6737fa90d07ecd51d1ad453987c31013f9a66ca3 100644
+index 06ba061f7ae51bb4b822380fe20bdce9a3679003..d4718e6b200f33a95c94f68b69e6d02e3ff38a7d 100644
 --- a/dist/esm/src/providers/window/provider.js
 +++ b/dist/esm/src/providers/window/provider.js
-@@ -6,20 +6,20 @@ import { WindowContext } from './context';
+@@ -1,13 +1,16 @@
+ import { jsx as _jsx } from "react/jsx-runtime";
+ import { useState, useEffect } from 'react';
+ import { WindowContext } from './context';
++import { Platform } from 'react-native'
++const isWeb = Platform.OS === 'web'
+ /**
+  * @internal Intended for internal use - use it on your own risk
   */
  export function WindowProvider({ children }) {
      const [isActiveWindow, setActiveWindow] = useState(true);
 -    useEffect(() => {
 -        const visibilityChangeListener = () => {
--            switch (document.visibilityState) {
--                case 'hidden':
--                    setActiveWindow(false);
--                    break;
--                case 'visible':
--                    setActiveWindow(true);
--                    break;
--            }
--        };
--        document.addEventListener('visibilitychange', visibilityChangeListener);
--        return () => document.removeEventListener('visibilitychange', visibilityChangeListener);
--    }, []);
-+    // useEffect(() => {
-+    //     const visibilityChangeListener = () => {
-+    //         switch (document.visibilityState) {
-+    //             case 'hidden':
-+    //                 setActiveWindow(false);
-+    //                 break;
-+    //             case 'visible':
-+    //                 setActiveWindow(true);
-+    //                 break;
-+    //         }
-+    //     };
-+    //     document.addEventListener('visibilitychange', visibilityChangeListener);
-+    //     return () => document.removeEventListener('visibilitychange', visibilityChangeListener);
-+    // }, []);
++  useEffect(() => {
++    if (isWeb) { 
++                const visibilityChangeListener = () => {
+             switch (document.visibilityState) {
+                 case 'hidden':
+                     setActiveWindow(false);
+@@ -19,6 +22,8 @@ export function WindowProvider({ children }) {
+         };
+         document.addEventListener('visibilitychange', visibilityChangeListener);
+         return () => document.removeEventListener('visibilitychange', visibilityChangeListener);
++      }
++
+     }, []);
      return _jsx(WindowContext.Provider, { value: isActiveWindow, children: children });
  }
- //# sourceMappingURL=provider.js.map
-\ No newline at end of file
 diff --git a/src/hooks/useLocalStorage.ts b/src/hooks/useLocalStorage.ts
 index 2bdc2274240c77516c78df4263045bf06dbde90d..b33f8b9c338669ada06cb7d36afc44f0d8350f5e 100644
 --- a/src/hooks/useLocalStorage.ts
@@ -117,14 +101,21 @@ index 2bdc2274240c77516c78df4263045bf06dbde90d..b33f8b9c338669ada06cb7d36afc44f0
  
    const [value, setValue] = useState(() => getItem(key, localStorageOverride))
 diff --git a/src/providers/window/provider.tsx b/src/providers/window/provider.tsx
-index 3095b1f9e51224fffb4b40107a0015fad1a3dc48..9d4e94a516b104499c903eefb77ff35f5ad9f462 100644
+index 3095b1f9e51224fffb4b40107a0015fad1a3dc48..490b36bddc443496c6ea477b562ff989dd178705 100644
 --- a/src/providers/window/provider.tsx
 +++ b/src/providers/window/provider.tsx
-@@ -11,20 +11,20 @@ interface Props {
- export function WindowProvider({ children }: Props) {
+@@ -1,5 +1,7 @@
+ import { ReactNode, useState, useEffect } from 'react'
+ import { WindowContext } from './context'
++import { Platform } from 'react-native'
++const isWeb = Platform.OS === 'web'
+ 
+ interface Props {
+   children: ReactNode
+@@ -12,18 +14,20 @@ export function WindowProvider({ children }: Props) {
    const [isActiveWindow, setActiveWindow] = useState(true)
  
--  useEffect(() => {
+   useEffect(() => {
 -    const visibilityChangeListener = () => {
 -      switch (document.visibilityState) {
 -        case 'hidden':
@@ -133,25 +124,22 @@ index 3095b1f9e51224fffb4b40107a0015fad1a3dc48..9d4e94a516b104499c903eefb77ff35f
 -        case 'visible':
 -          setActiveWindow(true)
 -          break
--      }
--    }
++    if (isWeb) {
++      const visibilityChangeListener = () => {
++        switch (document.visibilityState) {
++          case 'hidden':
++            setActiveWindow(false)
++            break
++          case 'visible':
++            setActiveWindow(true)
++            break
++        }
+       }
++      document.addEventListener('visibilitychange', visibilityChangeListener)
++      return () => document.removeEventListener('visibilitychange', visibilityChangeListener)
+     }
 -    document.addEventListener('visibilitychange', visibilityChangeListener)
 -    return () => document.removeEventListener('visibilitychange', visibilityChangeListener)
--  }, [])
-+  // useEffect(() => {
-+  //   const visibilityChangeListener = () => {
-+  //     switch (document.visibilityState) {
-+  //       case 'hidden':
-+  //         setActiveWindow(false)
-+  //         break
-+  //       case 'visible':
-+  //         setActiveWindow(true)
-+  //         break
-+  //     }
-+  //   }
-+  //   document.addEventListener('visibilitychange', visibilityChangeListener)
-+  //   return () => document.removeEventListener('visibilitychange', visibilityChangeListener)
-+  // }, [])
+   }, [])
  
    return <WindowContext.Provider value={isActiveWindow} children={children} />
- }

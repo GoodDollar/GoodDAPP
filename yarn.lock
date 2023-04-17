@@ -4592,7 +4592,7 @@ __metadata:
     "@toruslabs/customauth": ^11.4.3
     "@toruslabs/customauth-react-native-sdk": ^4.0.1
     "@tradle/react-native-http": ^2.0.1
-    "@usedapp/core": ^1.2.7
+    "@usedapp/core": 1.2.7
     "@walletconnect/client": 1.8.0
     "@walletconnect/react-native-compat": ^2.2.1
     "@walletconnect/utils": ^2.2.1
@@ -9543,7 +9543,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@usedapp/core@npm:^1.2.7":
+"@usedapp/core@npm:1.2.7":
   version: 1.2.7
   resolution: "@usedapp/core@npm:1.2.7"
   dependencies:
@@ -9559,6 +9559,25 @@ __metadata:
   bin:
     usedapp-generate-hooks: bin/usedapp-generate-hooks.js
   checksum: 0d6eacd808319ffb16df390a8c9953b45054f4881c6606f15e769f0a1c6b8f41d59dd0af5e004e025704dba2f04f7f7df4acba27e0ca5f5d45353ad5fffc57b3
+  languageName: node
+  linkType: hard
+
+"@usedapp/core@patch:@usedapp/core@npm:1.2.7#.yarn/patches/@usedapp-core-npm-1.2.7-46bc7f3166.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
+  version: 1.2.7
+  resolution: "@usedapp/core@patch:@usedapp/core@npm%3A1.2.7#.yarn/patches/@usedapp-core-npm-1.2.7-46bc7f3166.patch::version=1.2.7&hash=a17392&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  dependencies:
+    "@metamask/detect-provider": ^2.0.0
+    "@uniswap/token-lists": ^1.0.0-beta.27
+    fetch-mock: ^9.11.0
+    lodash.merge: ^4.6.2
+    lodash.pickby: ^4.6.0
+    nanoid: 3.3.4
+  peerDependencies:
+    ethers: ^5
+    react: "*"
+  bin:
+    usedapp-generate-hooks: bin/usedapp-generate-hooks.js
+  checksum: 187c0790e4c91a91c9c72614ae22e43f9ac3e849a77e10047fb3972d5ede7ef0b61895690d61ce83749408b2162ccb9f4eea8fcae88d0b93a4df81b237b2e8a3
   languageName: node
   linkType: hard
 
@@ -16379,9 +16398,9 @@ __metadata:
   linkType: hard
 
 "core-js@npm:^3.0.0":
-  version: 3.30.0
-  resolution: "core-js@npm:3.30.0"
-  checksum: 276d4444a1261739ea4c350ef3f6aeab4c7ae7f36ac197f02d197a4566b42867c3a9b12c2fcda8a736aeca888d2c4131c8cb58ad17ed02294a10c9c97606df71
+  version: 3.30.1
+  resolution: "core-js@npm:3.30.1"
+  checksum: 6d4a00b488694d4c715c424e15dfef31433ac7aa395c39c518a0cfacec918ada1c716fed74682033197e0164e23bbf38bfd598ee9a239c4aaa590ab1ba862ac8
   languageName: node
   linkType: hard
 

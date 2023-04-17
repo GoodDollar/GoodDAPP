@@ -4559,7 +4559,7 @@ __metadata:
     "@gooddollar/goodprotocol": latest
     "@gooddollar/react-native-facetec": ^1.0.32
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": ^0.1.88
+    "@gooddollar/web3sdk-v2": ^0.1.90
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@hot-loader/react-dom": ^17.0.1
     "@indexeddbshim/indexeddbshim": ^6.5.0
@@ -4592,7 +4592,7 @@ __metadata:
     "@toruslabs/customauth": ^11.4.3
     "@toruslabs/customauth-react-native-sdk": ^4.0.1
     "@tradle/react-native-http": ^2.0.1
-    "@usedapp/core": ^1.2.7
+    "@usedapp/core": 1.2.6
     "@walletconnect/client": 1.8.0
     "@walletconnect/react-native-compat": ^2.2.1
     "@walletconnect/utils": ^2.2.1
@@ -4878,9 +4878,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:^0.1.88":
-  version: 0.1.88
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.88"
+"@gooddollar/web3sdk-v2@npm:^0.1.90":
+  version: 0.1.90
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.90"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4894,7 +4894,9 @@ __metadata:
     "@walletconnect/client": ^1.8.0
     "@walletconnect/qrcode-modal": ^1.8.0
     "@web3-onboard/coinbase": ^2.2.0
+    "@web3-onboard/core": ^2.12.1
     "@web3-onboard/injected-wallets": ^2.4.0
+    "@web3-onboard/react": ^2.5.3
     "@web3-onboard/torus": ^2.2.1
     "@web3-onboard/walletconnect": ^2.2.2
     "@web3auth/base": ^4.0.0
@@ -4915,7 +4917,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 524eca904ef93a9a567c407cd2796696abd8a0f6696e99407103b6a874d15ac31f0f5ad666331130618b1dbbcc17c07bd04f9e3b4d84a1b6bcfcac2f17fbb4bc
+  checksum: f3f8314d5282a14a5dfc114af65a30485a39a459e8c29c7d9b6ff711130586262a359c56ffd6e8d8702b7e5fe087f0ee1c249db1544b159ed3cd895bda5cb22a
   languageName: node
   linkType: hard
 
@@ -9543,9 +9545,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@usedapp/core@npm:^1.2.7":
-  version: 1.2.7
-  resolution: "@usedapp/core@npm:1.2.7"
+"@usedapp/core@npm:1.2.6":
+  version: 1.2.6
+  resolution: "@usedapp/core@npm:1.2.6"
   dependencies:
     "@metamask/detect-provider": ^2.0.0
     "@uniswap/token-lists": ^1.0.0-beta.27
@@ -9558,7 +9560,26 @@ __metadata:
     react: "*"
   bin:
     usedapp-generate-hooks: bin/usedapp-generate-hooks.js
-  checksum: 0d6eacd808319ffb16df390a8c9953b45054f4881c6606f15e769f0a1c6b8f41d59dd0af5e004e025704dba2f04f7f7df4acba27e0ca5f5d45353ad5fffc57b3
+  checksum: 2dbaba0129b8e74dd543ffcec5a7faa56ae0bd8ea7393a56693aae922d055e0424edf9e4c531e198144680d21e9cf85d29c120a682b0a0c413ea0ec1d162e8df
+  languageName: node
+  linkType: hard
+
+"@usedapp/core@patch:@usedapp/core@npm:1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
+  version: 1.2.6
+  resolution: "@usedapp/core@patch:@usedapp/core@npm%3A1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch::version=1.2.6&hash=a044c1&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  dependencies:
+    "@metamask/detect-provider": ^2.0.0
+    "@uniswap/token-lists": ^1.0.0-beta.27
+    fetch-mock: ^9.11.0
+    lodash.merge: ^4.6.2
+    lodash.pickby: ^4.6.0
+    nanoid: 3.3.4
+  peerDependencies:
+    ethers: ^5
+    react: "*"
+  bin:
+    usedapp-generate-hooks: bin/usedapp-generate-hooks.js
+  checksum: 1bcf4273b10c69b2449e63e19e169cdb5109f685b1ccad314c7eccd4434a2c029567586e2dc1c96d52f31d76f105cdec37d7b2cd13cd5d7fa63c143644fa1844
   languageName: node
   linkType: hard
 
@@ -10254,7 +10275,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@npm:^2.16.2":
+"@web3-onboard/core@npm:^2.12.1, @web3-onboard/core@npm:^2.16.2":
   version: 2.16.2
   resolution: "@web3-onboard/core@npm:2.16.2"
   dependencies:
@@ -10287,7 +10308,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/react@npm:^2.7.2":
+"@web3-onboard/react@npm:^2.5.3, @web3-onboard/react@npm:^2.7.2":
   version: 2.7.2
   resolution: "@web3-onboard/react@npm:2.7.2"
   dependencies:
@@ -16379,9 +16400,9 @@ __metadata:
   linkType: hard
 
 "core-js@npm:^3.0.0":
-  version: 3.30.0
-  resolution: "core-js@npm:3.30.0"
-  checksum: 276d4444a1261739ea4c350ef3f6aeab4c7ae7f36ac197f02d197a4566b42867c3a9b12c2fcda8a736aeca888d2c4131c8cb58ad17ed02294a10c9c97606df71
+  version: 3.30.1
+  resolution: "core-js@npm:3.30.1"
+  checksum: 6d4a00b488694d4c715c424e15dfef31433ac7aa395c39c518a0cfacec918ada1c716fed74682033197e0164e23bbf38bfd598ee9a239c4aaa590ab1ba862ac8
   languageName: node
   linkType: hard
 

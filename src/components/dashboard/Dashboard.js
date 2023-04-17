@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, get, uniqBy } from 'lodash'
+import { concat, get, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
@@ -180,24 +180,16 @@ const BalanceAndSwitch = ({
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const altNetwork = currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
   const networkNameUp = networkName.toUpperCase()
-
-  const toggle = () => {
-    switchNetwork(altNetwork)
-  }
-
+  const isCurrent = currentNetwork === networkNameUp
+  const toggle = () => switchNetwork(altNetwork)
   return (
-    <Section style={[balanceStyles.multiBalanceItem, { opacity: currentNetwork === networkNameUp ? '100%' : '50%' }]}>
-      <TouchableOpacity onPress={currentNetwork !== networkNameUp && toggle} style={balanceStyles.switchButton}>
+    <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? '100%' : '50%' }]}>
+      <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>
         <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
           {balance}
         </Text>
         <View style={balanceStyles.networkName}>
-          <View
-            style={[
-              balanceStyles.activeIcon,
-              { display: !networkName || networkNameUp === currentNetwork ? 'flex' : 'none' },
-            ]}
-          >
+          <View style={[balanceStyles.activeIcon, { display: !networkName || isCurrent ? 'flex' : 'none' }]}>
             <GreenCircle />
           </View>
           <Text fontSize={12} color={theme.colors.darkGray} fontWeight="normal" fontFamily={theme.fonts.slab}>

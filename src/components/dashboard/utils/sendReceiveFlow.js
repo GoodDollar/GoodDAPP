@@ -3,6 +3,7 @@ import { t } from '@lingui/macro'
 export const navigationOptions = ({ navigation, screenProps }) => {
   const action = navigation.getParam(PARAM_ACTION)
   const isBridge = navigation.getParam('isBridge')
+
   return {
     title: action === ACTION_RECEIVE ? RECEIVE_TITLE : isBridge ? BRIDGE_TITLE : SEND_TITLE,
     isBridge,

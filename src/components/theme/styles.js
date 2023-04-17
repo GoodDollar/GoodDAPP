@@ -41,6 +41,7 @@ export const theme = {
     white: '#ffffff',
     darkIndigo: '#173566',
     lightGdBlue: '#00AEFF',
+    secondaryGray: '#F6F8FA',
   },
   fonts: {
     ...DefaultTheme.fonts,

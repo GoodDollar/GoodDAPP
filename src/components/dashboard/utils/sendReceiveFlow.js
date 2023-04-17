@@ -1,17 +1,12 @@
-import React from 'react'
 import { t } from '@lingui/macro'
-import TabsView from '../../appNavigation/TabsView'
 
 export const navigationOptions = ({ navigation, screenProps }) => {
   const action = navigation.getParam(PARAM_ACTION)
   const isBridge = navigation.getParam('isBridge')
-  const navigationBar = isBridge
-    ? () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />
-    : undefined
+
   return {
     title: action === ACTION_RECEIVE ? RECEIVE_TITLE : isBridge ? BRIDGE_TITLE : SEND_TITLE,
     isBridge,
-    navigationBar,
   }
 }
 

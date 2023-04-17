@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, get, uniqBy } from 'lodash'
+import { concat, get, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
@@ -47,6 +47,7 @@ import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
 import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
 import { IconButton, Text } from '../../components/common'
+import GreenCircle from '../../assets/ellipse46.svg'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -135,6 +136,72 @@ const BridgeButton = ({ onPress }: { onPress: any }) => (
   />
 )
 
+const balanceStyles = {
+  multiBalanceItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 14,
+    color: theme.colors.secondary,
+    fontWeight: 'bold',
+    width: '46%',
+    backgroundColor: theme.colors.secondaryGray,
+    padding: 0,
+    margin: 0,
+    fontFamily: 'Roboto Slab',
+  },
+  switchButton: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  networkName: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 55,
+  },
+}
+
+const BalanceAndSwitch = ({
+  color,
+  textStyles,
+  networkName,
+  balance,
+}: {
+  styles: any,
+  color: string,
+  textStyles: any,
+  networkName: string,
+  balance: any,
+}) => {
+  const { currentNetwork, switchNetwork } = useSwitchNetwork()
+  const altNetwork = currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
+  const networkNameUp = networkName.toUpperCase()
+  const isCurrent = currentNetwork === networkNameUp
+  const toggle = () => switchNetwork(altNetwork)
+
+  return (
+    <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? '100%' : '50%' }]}>
+      <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>
+        <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
+          {balance}
+        </Text>
+        <View style={balanceStyles.networkName}>
+          <View style={[balanceStyles.activeIcon, { display: !networkName || isCurrent ? 'flex' : 'none' }]}>
+            <GreenCircle />
+          </View>
+          <Text fontSize={12} color={theme.colors.darkGray} fontWeight="normal" fontFamily={theme.fonts.slab}>
+            {networkName} G$
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </Section>
+  )
+}
+
 const Dashboard = props => {
   const feedRef = useRef([])
   const resizeSubscriptionRef = useRef()
@@ -203,7 +270,7 @@ const Dashboard = props => {
     paddingBottom: 8,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#eee',
+    backgroundColor: theme.colors.secondaryGray,
   }
 
   const balanceAnimStyles = {
@@ -848,18 +915,11 @@ const Dashboard = props => {
 
             <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
               <View style={[styles.multiBalance, { marginTop: headerLarge ? 0 : 10 }]}>
-                <Section style={styles.multiBalanceItem}>
-                  <Text fontSize={16}>{celoBalance}</Text>
-                  <Text fontSize={12}>Celo G$</Text>
-                </Section>
-                <Section.Text fontSize={20} style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%' }]}>
+                <BalanceAndSwitch balance={celoBalance} networkName="Celo" />
+                <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
                   {headerLarge ? `+` : <BridgeButton onPress={goToBridge} />}{' '}
                 </Section.Text>
-
-                <Section style={styles.multiBalanceItem}>
-                  <Text fontSize={16}>{fuseBalance}</Text>
-                  <Text fontSize={12}>Fuse G$</Text>
-                </Section>
+                <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
               </View>
 
               <View
@@ -976,7 +1036,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 8,
   },
   dashboardWrapper: {
-    backgroundColor: theme.colors.lightGray,
+    backgroundColor: theme.colors.secondaryGray,
     flexGrow: 1,
     padding: 0,
     ...Platform.select({
@@ -1105,14 +1165,14 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
   },
   txButtons: {
-    backgroundColor: 'rgb(238, 238, 238)',
+    backgroundColor: theme.colors.secondaryGray,
     paddingTop: 0,
     paddingBottom: 0,
   },
   multiBalanceContainer: {
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
-    backgroundColor: '#eee',
+    backgroundColor: theme.colors.secondaryGray,
     flexDirection: Platform.select({
       web: 'column',
       android: 'column',
@@ -1123,29 +1183,6 @@ const getStylesFromProps = ({ theme }) => ({
     }),
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  multiBalance: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: Platform.select({
-      web: '100%',
-      android: 179,
-    }),
-    height: 50,
-    justifyContent: 'center',
-  },
-  multiBalanceItem: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 14,
-    color: theme.colors.secondary,
-    fontWeight: 'bold',
-    width: '40%',
-    backgroundColor: '#eee',
-    padding: 0,
-    margin: 0,
   },
   balanceUsdRow: {
     width: '100%',
@@ -1159,6 +1196,16 @@ const getStylesFromProps = ({ theme }) => ({
   profileContainer: {
     alignItems: 'center',
     paddingBottom: 4,
+  },
+  multiBalance: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: Platform.select({
+      web: '100%',
+      android: 179,
+    }),
+    height: 50,
+    justifyContent: 'center',
   },
 })
 

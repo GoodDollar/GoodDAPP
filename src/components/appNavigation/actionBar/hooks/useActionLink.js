@@ -1,12 +1,19 @@
 import { useCallback, useState } from 'react'
 
 import { mapValues } from 'lodash'
-import { fireEvent, GOTO_DONATE, GOTO_LEARN, GOTO_USEGD, GOTO_VOTE } from '../../../../lib/analytics/analytics'
+import {
+  fireEvent,
+  GOTO_DONATE,
+  GOTO_GOODSWAP,
+  GOTO_LEARN,
+  GOTO_USEGD,
+  GOTO_VOTE,
+} from '../../../../lib/analytics/analytics'
 import { useUserStorage } from '../../../../lib/wallet/GoodWalletProvider'
 import Config from '../../../../config/config'
 import { openLink } from '../../../../lib/utils/linking'
 
-const { learnUrl, useGdUrl, donateUrl, voteUrl } = Config
+const { learnUrl, useGdUrl, donateUrl, voteUrl, goodSwapUrl } = Config
 
 const addExtraProps = (value, key) => ({
   ...value,
@@ -31,6 +38,10 @@ const externals = mapValues(
     vote: {
       url: voteUrl,
       event: GOTO_VOTE,
+    },
+    gooddapp: {
+      url: goodSwapUrl,
+      event: GOTO_GOODSWAP,
     },
   },
   addExtraProps,

@@ -12,10 +12,10 @@ const GoodActionBar = ({ styles, navigation }) => {
   return (
     <>
       <View style={styles.actionBar}>
-        <ActionButton action="learn" />
-        <ActionButton action="usegd" />
-        <ActionButton action="donate" />
         <RewardButton onPress={goToRewards} style={styles.actionItem} />
+        <ActionButton action="donate" />
+        <ActionButton action="gooddapp" />
+        <ActionButton action="learn" />
         <ActionButton action="vote" />
       </View>
     </>

@@ -18,27 +18,6 @@ import GoodWallet from '../../assets/goodwallet.svg'
 // const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyless
 
 const styles = {
-  /*marketIconBackground: {
-    backgroundColor: theme.colors.green,
-    borderWidth: 3,
-    borderStyle: 'solid',
-    borderColor: 'white',
-    borderRadius: Platform.select({
-      default: 150 / 2,
-      web: '50%',
-    }),
-    paddingVertical: Platform.select({
-      web: 20,
-      default: 7,
-    }),
-    paddingHorizontal: 7,
-    width: 80,
-    height: 80,
-    justifyContent: 'center',
-  },*/
-  marginLeft10: {
-    marginLeft: 10,
-  },
   marginRight10: {
     marginRight: 10,
   },
@@ -49,9 +28,6 @@ const styles = {
     justifyContent: 'center',
     width: 50,
     height: 50,
-  },
-  iconViewLeft: {
-    alignItems: 'flex-start',
   },
   iconViewRight: {
     alignItems: 'flex-end',
@@ -73,6 +49,11 @@ const styles = {
     width: 100,
     marginLeft: -50,
   },
+  switchButton: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
 }
 
 const iconStyle = isMobileNative ? styles.iconView : styles.iconWidth
@@ -88,20 +69,15 @@ const NetworkName = () => {
 
   return (
     <View style={styles.networkName}>
-      <IconButton
-        name="switch"
-        onPress={toggle}
-        bgColor="transparent"
-        color="white"
-        circle={false}
-        style={styles.switchNetworkIcon}
-      />
-      <View style={styles.activeIcon}>
-        <GreenCircle />
-      </View>
-      <Text color={'white'} fontWeight="bold" fontSize={10}>
-        {currentNetwork}
-      </Text>
+      <TouchableOpacity onPress={toggle} style={styles.switchButton}>
+        <IconButton name="switch" bgColor="transparent" color="white" circle={false} style={styles.switchNetworkIcon} />
+        <View style={styles.activeIcon}>
+          <GreenCircle />
+        </View>
+        <Text color={'white'} fontWeight="bold" fontSize={10}>
+          {currentNetwork}
+        </Text>
+      </TouchableOpacity>
     </View>
   )
 }

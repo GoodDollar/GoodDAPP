@@ -146,7 +146,7 @@ const balanceStyles = {
     color: theme.colors.secondary,
     fontWeight: 'bold',
     width: '46%',
-    backgroundColor: '#eee',
+    backgroundColor: theme.colors.secondaryGray,
     padding: 0,
     margin: 0,
     fontFamily: 'Roboto Slab',
@@ -269,7 +269,7 @@ const Dashboard = props => {
     paddingBottom: 8,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#eee',
+    backgroundColor: theme.colors.secondaryGray,
   }
 
   const balanceAnimStyles = {
@@ -1035,7 +1035,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 8,
   },
   dashboardWrapper: {
-    backgroundColor: theme.colors.lightGray,
+    backgroundColor: theme.colors.secondaryGray,
     flexGrow: 1,
     padding: 0,
     ...Platform.select({
@@ -1164,14 +1164,14 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
   },
   txButtons: {
-    backgroundColor: 'rgb(238, 238, 238)',
+    backgroundColor: theme.colors.secondaryGray,
     paddingTop: 0,
     paddingBottom: 0,
   },
   multiBalanceContainer: {
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
-    backgroundColor: '#eee',
+    backgroundColor: theme.colors.secondaryGray,
     flexDirection: Platform.select({
       web: 'column',
       android: 'column',

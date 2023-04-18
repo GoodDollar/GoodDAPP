@@ -830,11 +830,11 @@ const Dashboard = props => {
             {headerLarge && (
               <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
                 <View style={styles.multiBalance}>
-                  <BalanceAndSwitch balance={celoBalance} networkName="Fuse" />
+                  <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
                   <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
                     <BridgeButton onPress={goToBridge} />
                   </Section.Text>
-                  <BalanceAndSwitch balance={fuseBalance} networkName="Celo" />
+                  <BalanceAndSwitch balance={celoBalance} networkName="Celo" />
                 </View>
               </Animated.View>
             )}

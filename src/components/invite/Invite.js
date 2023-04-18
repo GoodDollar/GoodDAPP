@@ -554,6 +554,10 @@ const getStylesFromProps = ({ theme }) => ({
     flexBasis: 1,
     paddingBottom: 50,
     height: '100%',
+    minHeight: Platform.select({
+      web: 788,
+      android: 1150,
+    }),
   },
   linkBoxStyle: {
     backgroundColor: theme.colors.white,

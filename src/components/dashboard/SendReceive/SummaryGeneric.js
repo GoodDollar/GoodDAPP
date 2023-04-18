@@ -312,8 +312,8 @@ const getStylesFromProps = ({ theme }) => ({
   },
   vendorInfoWrapper: {
     display: 'flex',
-    justifyContent: 'start',
-    alignItems: 'justify',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
   },
   buttonsWrapper: {
     flex: 1,

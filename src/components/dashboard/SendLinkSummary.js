@@ -272,7 +272,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const sendViaBridge = useCallback(
     async (amount: string) => {
-      await sendBridgeRequest(amount, network.toLowerCase())
+      logger.debug('sendViaBridge', { amount, network })
+      try {
+        await sendBridgeRequest(amount, network.toLowerCase())
+      } catch (e) {
+        logger.error('sendViaBridge failed:', e.message, e, { amount, network })
+      }
     },
     [amount],
   )

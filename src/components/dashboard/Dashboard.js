@@ -184,7 +184,7 @@ const BalanceAndSwitch = ({
   const toggle = () => switchNetwork(altNetwork)
 
   return (
-    <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? '100%' : '50%' }]}>
+    <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? 1 : 0.5 }]}>
       <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>
         <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
           {balance}
@@ -242,7 +242,6 @@ const Dashboard = props => {
 
   const profileAnimStyles = {
     alignItems: 'flex-start',
-    padding: 100,
   }
 
   const fullNameAnimateStyles = {
@@ -1036,10 +1035,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'flex-end',
     width: 160,
     marginRight: 24,
-    marginLeft: Platform.select({
-      android: 'auto',
-      default: 120,
-    }),
+    justifyContent: 'flex-end',
     padding: 0,
     textAlign: 'right',
     backgroundColor: 'transparent',
@@ -1080,14 +1076,13 @@ const getStylesFromProps = ({ theme }) => ({
     height: Platform.select({
       android: 36,
     }),
-    textAlign: 'center',
-    alignSelf: 'stretch',
+    textAlign: 'right',
   },
   bigGoodDollar: {
     width: '100%',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
   txButtons: {
     width: '100%',

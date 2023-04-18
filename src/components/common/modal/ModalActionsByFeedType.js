@@ -301,16 +301,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </ModalButton>
         </View>
       )
-    case 'claim':
-      return (
-        <View style={styles.buttonsView}>
-          <ModalButton fontWeight="medium" onPress={_handleModalClose}>
-            {t`Ok`}
-          </ModalButton>
-        </View>
-      )
     case 'empty':
       return null
+    case 'claim':
     default: {
       // receive / withdraw / notification / sendcancelled / sendcompleted
       return (

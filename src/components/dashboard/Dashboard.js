@@ -511,7 +511,7 @@ const Dashboard = props => {
         }),
         Animated.timing(sendReceiveMinimzedYAnimValue, {
           toValue: 0,
-          duration: 350,
+          duration: 250,
           easing: easingOut,
           useNativeDrive: false,
         }),
@@ -563,7 +563,7 @@ const Dashboard = props => {
         }),
         Animated.timing(sendReceiveMinimzedYAnimValue, {
           toValue: 1,
-          duration: 350,
+          duration: 250,
           easing: easingOut,
           useNativeDrive: false,
         }),

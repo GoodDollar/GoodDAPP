@@ -14,8 +14,8 @@ const GoodActionBar = ({ styles, navigation }) => {
       <View style={styles.actionBar}>
         <RewardButton onPress={goToRewards} style={styles.actionItem} />
         <ActionButton action="donate" />
-        <ActionButton action="gooddapp" />
         <ActionButton action="learn" />
+        <ActionButton action="gooddapp" />
         <ActionButton action="vote" />
       </View>
     </>

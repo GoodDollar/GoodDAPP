@@ -11,7 +11,7 @@ import { getShadowStyles } from '../../lib/utils/getStyles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 import { withStyles } from '../../lib/styles'
-import HeaderLogoImage from '../../assets/header-logo.svg'
+import HeaderLogoImage from '../../assets/goodwallet.svg'
 
 /**
  * NavigationBar shows title and back button

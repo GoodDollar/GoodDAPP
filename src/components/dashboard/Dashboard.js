@@ -213,7 +213,7 @@ const Dashboard = props => {
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const [topInfoHeight] = useState(new Animated.Value(260))
+  const [topInfoHeight] = useState(new Animated.Value(240))
   const [balanceTopAnimValue] = useState(new Animated.Value(0))
   const { isDialogShown, showDialog, showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
@@ -263,7 +263,7 @@ const Dashboard = props => {
 
   const sendReceiveAnimStyles = {
     width: '100%',
-    marginTop: headerLarge ? 10 : 0,
+    marginTop: headerLarge ? 5 : 0,
     transform: [
       {
         translateY: sendReceiveMinimzedYAnimValue.interpolate({
@@ -546,7 +546,7 @@ const Dashboard = props => {
           useNativeDriver: false,
         }),
         Animated.timing(topInfoHeight, {
-          toValue: 260,
+          toValue: 240,
           duration: 200,
           easing: easingOut,
           useNativeDriver: false,
@@ -597,7 +597,7 @@ const Dashboard = props => {
           useNativeDriver: false,
         }),
         Animated.timing(topInfoHeight, {
-          toValue: 140,
+          toValue: 130,
           duration: timing,
           delay: 100,
           easing: easingOut,
@@ -802,7 +802,7 @@ const Dashboard = props => {
                     color="gray100Percent"
                     fontFamily={theme.fonts.default}
                     fontSize={12}
-                    style={{ marginTop: 8, marginBottom: 8 }}
+                    style={styles.totalBalanceText}
                   >
                     {` MY TOTAL BALANCE `}
                   </Text>
@@ -883,7 +883,15 @@ const Dashboard = props => {
         </Animated.View>
       </Animated.View>
 
-      <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
+      <Section
+        style={{
+          marginHorizontal: 8,
+          backgroundColor: undefined,
+          paddingHorizontal: 0,
+          paddingBottom: 6,
+          paddingTop: 6,
+        }}
+      >
         <Section.Row>
           {FeedCategories.all.map(tab => (
             <FeedTab
@@ -1039,6 +1047,13 @@ const getStylesFromProps = ({ theme }) => ({
     padding: 0,
     textAlign: 'right',
     backgroundColor: 'transparent',
+  },
+  totalBalanceText: {
+    marginTop: 8,
+    marginBottom: Platform.select({
+      web: 0,
+      android: 8,
+    }),
   },
   sendReceiveButton: {
     flex: 1,

@@ -70,7 +70,14 @@ const NetworkName = () => {
   return (
     <View style={styles.networkName}>
       <TouchableOpacity onPress={toggle} style={styles.switchButton}>
-        <IconButton name="switch" bgColor="transparent" color="white" circle={false} style={styles.switchNetworkIcon} />
+        <IconButton
+          onPress={toggle}
+          name="switch"
+          bgColor="transparent"
+          color="white"
+          circle={false}
+          style={styles.switchNetworkIcon}
+        />
         <View style={styles.activeIcon}>
           <GreenCircle />
         </View>

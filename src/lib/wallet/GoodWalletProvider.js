@@ -146,7 +146,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         // let web3Provider = seedOrWeb3
 
-        // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design
+        // // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design
         // if (type === 'SEED') {
         //   web3Provider = new Web3Provider(
         //     new PrivateKeyProvider(wallet.wallet.eth.accounts.wallet[0].privateKey, wallet.wallet._provider.host),

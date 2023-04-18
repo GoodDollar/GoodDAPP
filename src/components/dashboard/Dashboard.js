@@ -7,7 +7,7 @@ import Mutex from 'await-mutex'
 
 import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
+import { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
@@ -1033,8 +1033,8 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-end',
-    width: 160,
-    marginRight: 24,
+    width: 170,
+    marginRight: 5,
     justifyContent: 'flex-end',
     padding: 0,
     textAlign: 'right',
@@ -1066,7 +1066,6 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberUnitStyles: {
-    marginRight: normalize(-20),
     alignSelf: 'stretch',
   },
   bigNumberStyles: {

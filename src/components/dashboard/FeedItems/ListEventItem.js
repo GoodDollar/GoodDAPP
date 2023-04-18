@@ -411,7 +411,9 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 0,
-    height: '100%',
+    height: Platform.select({
+      web: '100%',
+    }),
     width: normalize(34),
   },
   feedPicture: {

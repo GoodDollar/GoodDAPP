@@ -1,12 +1,14 @@
 // @flow
 
-import writeText from 'clipboard-copy'
+// clipboard-copy relies on document.execCommand which is deprecated and likely does not work on newer devices
+import writeTextOld from 'clipboard-copy'
 import { bindKey } from 'lodash'
 
 import logger from '../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'Clipboard' })
 const readText = bindKey(navigator.clipboard, 'readText')
+const writeText = navigator && navigator.clipboard ? bindKey(navigator.clipboard, 'writeText') : writeTextOld
 
 export default new class {
   constructor(api) {

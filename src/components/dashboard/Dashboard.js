@@ -789,7 +789,7 @@ const Dashboard = props => {
                   </Animated.View>
                   {headerLarge && (
                     <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
-                      <Section.Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={16}>
+                      <Section.Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={12}>
                         {fullName || ' '}
                       </Section.Text>
                     </Animated.View>

@@ -12,6 +12,9 @@ const setupXHRPolyfill = () => {
   const { prototype: __proto__ } = XHR2
   const { setRequestHeader } = __proto__
 
+  // for web3-provider-engine
+  global.XMLHttpRequest = XHR2
+
   __proto__.setRequestHeader = function(name, value) {
     const { _restrictedHeaders } = this
 

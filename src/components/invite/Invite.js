@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Image, Platform, TextInput, View } from 'react-native'
+import { Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
@@ -19,6 +19,7 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 import createABTesting from '../../lib/hooks/useABTesting'
 import { withStyles } from '../../lib/styles'
+import CeloLogo from '../../assets/celo-logo.svg'
 
 import {
   useFormatG$,
@@ -39,7 +40,6 @@ import {
   useRegisterForInvites,
 } from './useInvites'
 import FriendsSVG from './friends.svg'
-import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
 import useShareMessages from './useShareMessages'
 
@@ -435,12 +435,7 @@ const InvitesHowTO = () => {
         >
           {t`Rewards pool is sponsored by`}
         </Section.Text>
-        <Image
-          source={EtoroPNG}
-          resizeMode={'contain'}
-          resizeMethod={'scale'}
-          style={{ marginLeft: 2.5, width: 45, height: 18, marginBottom: 1 }}
-        />
+        <SVGWrapper svg={CeloLogo} style={{ marginLeft: 10 }} />
       </Section.Row>
     </Section.Stack>
   )

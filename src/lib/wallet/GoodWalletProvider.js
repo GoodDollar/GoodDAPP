@@ -2,8 +2,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { noop } from 'lodash'
 
-// import PrivateKeyProvider from 'truffle-privatekey-provider'
-// import { Web3Provider } from '@ethersproject/providers'
+import PrivateKeyProvider from 'truffle-privatekey-provider'
+import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
 import { Goerli, Mainnet } from '@usedapp/core'
 
@@ -144,14 +144,14 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         await wallet.ready
 
-        // let web3Provider = seedOrWeb3
+        let web3Provider = seedOrWeb3
 
-        // // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design
-        // if (type === 'SEED') {
-        //   web3Provider = new Web3Provider(
-        //     new PrivateKeyProvider(wallet.wallet.eth.accounts.wallet[0].privateKey, wallet.wallet._provider.host),
-        //   )
-        // }
+        // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design
+        if (type === 'SEED') {
+          web3Provider = new Web3Provider(
+            new PrivateKeyProvider(wallet.wallet.eth.accounts.wallet[0].privateKey, wallet.wallet._provider.host),
+          )
+        }
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
 
@@ -180,7 +180,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         global.userStorage = storage
         global.wallet = wallet
-        setWalletAndStorage({ goodWallet: wallet, userStorage: storage, celowallet, fusewallet })
+        setWalletAndStorage({ goodWallet: wallet, userStorage: storage, celowallet, fusewallet, web3Provider })
         log.info('initWalletAndStorage done', { web3Provider })
         return [wallet, storage]
       } catch (e) {
@@ -283,11 +283,11 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         await goodWallet.setIsPollEvents(false) //stop watching prev chain events
         await goodWallet.init({ network: contractsNetwork }) //reinit wallet
-        // let web3Provider = new Web3Provider(
-        //   new PrivateKeyProvider(goodWallet.wallet.eth.accounts.wallet[0].privateKey, goodWallet.wallet._provider.host),
-        // )
+        let web3Provider = new Web3Provider(
+          new PrivateKeyProvider(goodWallet.wallet.eth.accounts.wallet[0].privateKey, goodWallet.wallet._provider.host),
+        )
 
-        setWalletAndStorage(_ => ({ ..._, goodWallet }))
+        setWalletAndStorage(_ => ({ ..._, goodWallet, web3Provider }))
         updateWalletData(goodWallet)
         updateWalletListeners(goodWallet)
       } catch (e) {

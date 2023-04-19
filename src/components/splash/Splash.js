@@ -9,6 +9,7 @@ import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
+import GoodWallet from '../../assets/goodwallet.svg'
 
 // utils
 import Config from '../../config/config'
@@ -96,7 +97,10 @@ const Splash = ({ animation, isLoggedIn }) => {
               animation={shouldAnimate && animation}
               style={isMobileNative ? styles.mobileAnimation : styles.animation}
             />
-            <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
+            <Section style={styles.goodWalletLogo}>
+              <GoodWallet style={{ transform: 'scale(1.3)' }} />
+            </Section>
+            <Section.Text fontSize={16} color="white" fontWeight="medium">
               {isPhaseZero && 'Demo '}V{version}
             </Section.Text>
           </Section.Stack>
@@ -160,6 +164,13 @@ const styles = StyleSheet.create({
       }),
     ),
     height: getDesignRelativeHeight(550),
+  },
+  goodWalletLogo: {
+    backgroundColor: 'transparent',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
   },
 })
 

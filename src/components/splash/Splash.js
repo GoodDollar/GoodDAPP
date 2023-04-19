@@ -9,7 +9,7 @@ import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
-import GoodWallet from '../../assets/goodwallet.svg'
+import GoodWalletSvg from '../../assets/goodWalletSplash.svg'
 
 // utils
 import Config from '../../config/config'
@@ -97,12 +97,12 @@ const Splash = ({ animation, isLoggedIn }) => {
               animation={shouldAnimate && animation}
               style={isMobileNative ? styles.mobileAnimation : styles.animation}
             />
-            <Section style={styles.goodWalletLogo}>
-              <GoodWallet style={{ transform: 'scale(1.3)' }} />
+            <Section style={styles.gwLogoContainer}>
+              <GoodWalletSvg />
+              <Section.Text fontSize={16} color="white" fontWeight="medium">
+                {isPhaseZero && 'Demo '}V{version}
+              </Section.Text>
             </Section>
-            <Section.Text fontSize={16} color="white" fontWeight="medium">
-              {isPhaseZero && 'Demo '}V{version}
-            </Section.Text>
           </Section.Stack>
           {/* <TouchableOpacity style={styles.poweredByLogo} onPress={onPoweredByPress}>
             <PoweredByLogo />
@@ -165,12 +165,15 @@ const styles = StyleSheet.create({
     ),
     height: getDesignRelativeHeight(550),
   },
-  goodWalletLogo: {
+  gwLogoContainer: {
     backgroundColor: 'transparent',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: Platform.select({
+      web: 20,
+      android: 0,
+    }),
   },
 })
 

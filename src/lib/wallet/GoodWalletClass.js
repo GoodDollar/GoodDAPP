@@ -1263,6 +1263,11 @@ export class GoodWallet {
         ? inviteCode
         : this.wallet.utils.fromUtf8(bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength))
 
+      // prevent bug of self invite
+      if (myCode === inviter) {
+        inviter = undefined
+      }
+
       // check under which account invitecode is registered, maybe we have a collission
       const registered = !hasJoined && (await retryCall(() => this.invitesContract.methods.codeToUser(myCode).call()))
 

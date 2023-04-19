@@ -91,7 +91,7 @@ const InvitedUser = ({ address, status }) => {
 const ShareBox = ({ level, styles }) => {
   const [{ shareMessage, shareTitle }] = useShareMessages()
   const { toDecimals } = useFormatG$()
-  const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'basic' }], [shareMessage])
+  const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'celo' }], [shareMessage])
 
   const inviteCode = useInviteCode()
   const abTestOption = useOption(abTestOptions)

@@ -81,6 +81,12 @@ export const useInviteCode = () => {
       userStorage.userProperties.get(`inviterInviteCode${propSuffix}`) || (await AsyncStorage.getItem(INVITE_CODE))
     const code = await registerForInvites(inviterInviteCode)
 
+    // fix accidental selfinvite
+    if (code === inviterInviteCode) {
+      userStorage.userProperties.set(`inviterInviteCode${propSuffix}`, undefined)
+      AsyncStorage.setItem(INVITE_CODE, undefined)
+    }
+
     return code
   }, [registerForInvites, propSuffix])
 

@@ -5,11 +5,12 @@ import moment from 'moment'
 
 // components
 import { t } from '@lingui/macro'
+import CustomSvg, { G } from 'react-native-svg'
 import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
-import GoodWallet from '../../assets/goodwallet.svg'
+import GoodWalletSvg from '../../assets/goodwallet.svg'
 
 // utils
 import Config from '../../config/config'
@@ -22,6 +23,19 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 // assets
 // import wavePattern from '../../assets/splashWaves.svg'
 // import PoweredByLogo from '../../assets/Splash/poweredByLogo.svg'
+const GoodWalletNativeSvg = () => (
+  <CustomSvg width="196" height="48" viewBox="0 0 196 20">
+    <G scale="1.6">
+      <GoodWalletSvg />
+    </G>
+  </CustomSvg>
+)
+
+const GoodWalletLogo = isMobileNative ? (
+  <GoodWalletNativeSvg style={{ marginTop: 0, paddingBottom: 0 }} />
+) : (
+  <GoodWalletSvg style={{ transform: 'scale(1.6)', marginBottom: 20 }} />
+)
 
 const { isPhaseZero, version } = Config
 
@@ -97,12 +111,12 @@ const Splash = ({ animation, isLoggedIn }) => {
               animation={shouldAnimate && animation}
               style={isMobileNative ? styles.mobileAnimation : styles.animation}
             />
-            <Section style={styles.goodWalletLogo}>
-              <GoodWallet style={{ transform: 'scale(1.3)' }} />
+            <Section style={styles.gwLogoContainer}>
+              {GoodWalletLogo}
+              <Section.Text fontSize={16} color="white" fontWeight="medium">
+                {isPhaseZero && 'Demo '}V{version}
+              </Section.Text>
             </Section>
-            <Section.Text fontSize={16} color="white" fontWeight="medium">
-              {isPhaseZero && 'Demo '}V{version}
-            </Section.Text>
           </Section.Stack>
           {/* <TouchableOpacity style={styles.poweredByLogo} onPress={onPoweredByPress}>
             <PoweredByLogo />
@@ -165,12 +179,15 @@ const styles = StyleSheet.create({
     ),
     height: getDesignRelativeHeight(550),
   },
-  goodWalletLogo: {
+  gwLogoContainer: {
     backgroundColor: 'transparent',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: Platform.select({
+      web: 20,
+      android: 0,
+    }),
   },
 })
 

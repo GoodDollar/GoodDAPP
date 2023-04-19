@@ -41,8 +41,8 @@ const SummaryGeneric = ({
   const goodWallet = useWallet()
   const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
 
-  const formattedFee = ((amount / 100) * 0.01).toString()
-  const bridgeReceiveAmount = Math.floor(Number(amount * (1 - bridgeFees.fee / 10000))).toString()
+  const formattedFeeInGd = ((amount * bridgeFees.fee) / 10000 / 1e2).toString()
+  const bridgeReceiveAmount = Math.floor(amount * (1 - bridgeFees.fee / 10000)).toString()
 
   const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'
 
@@ -153,7 +153,7 @@ const SummaryGeneric = ({
                   {mustache(t` on {altNetwork}`, { altNetwork })}
                 </Section.Text>
                 <Section.Text>
-                  {mustache(t`You'll pay {formattedFee} G$ in fees to use the bridge`, { formattedFee })}
+                  {mustache(t`You'll pay ${formattedFeeInGd} G$ in fees to use the bridge`, { formattedFeeInGd })}
                 </Section.Text>
               </View>
             </Section.Row>

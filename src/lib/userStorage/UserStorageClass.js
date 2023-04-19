@@ -17,7 +17,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import { isValidDataUrl } from '../utils/base64'
-
+import mustache from '../utils/mustache'
 import { ThreadDB } from '../textile/ThreadDB'
 import uuid from '../utils/uuid'
 import type { DB } from '../realmdb/RealmDB'
@@ -34,6 +34,10 @@ import { FeedCategories } from './FeedCategory'
 const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+
+const FV_IDENTIFIER_MSG2 = mustache(`Sign this message to request verifying your account {account} and to create your own secret unique identifier for your anonymized record.
+You can use this identifier in the future to delete this anonymized record.
+WARNING: do not sign this message unless you trust the website/application requesting this signature.`)
 
 /**
  * possible privacy level for profile fields
@@ -1073,8 +1077,11 @@ export class UserStorage {
     return this.profileStorage.getPublicProfile(key, string)
   }
 
-  getFaceIdentifier(): string {
-    return this.wallet.getAccountForType('faceVerification').replace('0x', '')
+  async getFaceIdentifiers(): string {
+    const v2Identifier = await this.wallet.sign(FV_IDENTIFIER_MSG2({ account: this.wallet.account }), 'gd')
+    const v1Identifier = this.wallet.getAccountForType('faceVerification').slice(2)
+
+    return { v1Identifier, v2Identifier }
   }
 
   /**
@@ -1096,10 +1103,10 @@ export class UserStorage {
     const { wallet, userProperties, _trackStatus } = this
 
     try {
-      const faceIdentifier = this.getFaceIdentifier()
-      const signature = await wallet.sign(faceIdentifier, 'faceVerification')
+      const { v1Identifier, v2Identifier } = await this.getFaceIdentifiers()
 
-      await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, signature)
+      // pass also older v1 identifier (ie faceVerification tagged public address)
+      await FaceVerificationAPI.disposeFaceSnapshot(v2Identifier, v1Identifier)
       deleteAccountResult = await API.deleteAccount()
 
       if (get(deleteAccountResult, 'data.ok', false)) {

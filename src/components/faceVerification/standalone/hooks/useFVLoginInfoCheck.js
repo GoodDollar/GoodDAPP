@@ -4,7 +4,7 @@ import { FVFlowContext } from '../context/FVFlowContext'
 
 const useFVLoginInfoCheck = navigation => {
   const { isFVFlow, fvFlowError } = useContext(FVFlowContext)
-  const [enrollmentIdentifier] = useEnrollmentIdentifier()
+  const { faceIdentifier } = useEnrollmentIdentifier()
   const { navigate } = navigation
 
   useEffect(() => {
@@ -12,10 +12,10 @@ const useFVLoginInfoCheck = navigation => {
       return
     }
 
-    if (fvFlowError || !enrollmentIdentifier) {
+    if (fvFlowError || !faceIdentifier) {
       navigate('FVFlowError')
     }
-  }, [isFVFlow, enrollmentIdentifier, fvFlowError, navigate])
+  }, [isFVFlow, faceIdentifier, fvFlowError, navigate])
 }
 
 export default useFVLoginInfoCheck

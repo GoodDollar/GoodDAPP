@@ -2,7 +2,7 @@
 import { lazy } from 'react'
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { chunk, first, identity, isFunction, last } from 'lodash'
+import { chunk, first, identity, isFunction, last, noop } from 'lodash'
 
 const exportDefault = component => module => ({ default: module[component] })
 
@@ -50,6 +50,7 @@ export const withTimeout = async (asyncFn, timeoutMs = 60000, errorMessage = 'Ti
   Promise.race([asyncFn(), timeout(timeoutMs, errorMessage)])
 
 const defaultRetryMiddleware = (rejection, options, defaultOptions) => defaultOptions
+const defaultOnFallback = error => true
 
 export const retry = async (asyncFn, retries = 5, interval = 0, middleware = defaultRetryMiddleware) => {
   const defaultOpts = { retries, interval }
@@ -74,16 +75,33 @@ export const retry = async (asyncFn, retries = 5, interval = 0, middleware = def
     .toPromise()
 }
 
-export const fallback = async asyncFns =>
-  asyncFns.reduce(async (current, next) => {
+export const fallback = async (asyncFns, onFallback = defaultOnFallback) => {
+  if (asyncFns.length < 2) {
+    // if no function passed - return undefined
+    // if one function passed - immediately return its value
+    // because reducer will return fn itself without invocation
+    // passiing Promise.resolve as initial accumulator won't help
+    // as we're reducing fns only in .catch
+    return (first(asyncFns) || noop)()
+  }
+
+  return asyncFns.reduce(async (current, next) => {
     let promise = current
 
     if (isFunction(current)) {
       promise = current()
     }
 
-    return promise.catch(next)
+    // eslint-disable-next-line require-await
+    return promise.catch(async error => {
+      if (!onFallback(error)) {
+        throw error
+      }
+
+      return next()
+    })
   })
+}
 
 export const tryUntil = async (asyncFn, condition = identity, retries = 5, interval = 0) => {
   const completionHandler = async result => {
@@ -95,4 +113,24 @@ export const tryUntil = async (asyncFn, condition = identity, retries = 5, inter
   }
 
   return retry(() => asyncFn().then(completionHandler), retries, interval)
+}
+
+export const makePromiseWrapper = () => {
+  let resolve
+  let reject
+
+  const promise = new Promise((_resolve, _reject) => {
+    resolve = _resolve
+    reject = _reject
+  })
+
+  const callback = (error, result) => {
+    if (error) {
+      reject(error)
+    } else {
+      resolve(result)
+    }
+  }
+
+  return { promise, resolve, reject, callback }
 }

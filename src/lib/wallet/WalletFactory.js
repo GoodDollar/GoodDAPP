@@ -6,16 +6,22 @@ import SoftwareWalletProvider from './SoftwareWalletProvider'
 export type WalletConfig = {
   network_id: number,
   httpWeb3provider: string,
+  httpProviderStrategy: string,
   websocketWeb3Provider: string,
   web3Transport: string,
 }
 
 export default class WalletFactory {
   static create(walletConf: WalletConfig): Promise<Web3> {
-    let provider: SoftwareWalletProvider = new SoftwareWalletProvider({
-      ...Config.ethereum[walletConf.network_id || Config.networkId],
-      ...walletConf,
+    const { httpProviderStrategy, networkId, ethereum } = Config
+    const { network_id: netId, ...conf } = walletConf
+
+    const provider: SoftwareWalletProvider = new SoftwareWalletProvider({
+      ...ethereum[netId || networkId],
+      httpProviderStrategy,
+      ...conf,
     })
+
     return provider.ready
   }
 }

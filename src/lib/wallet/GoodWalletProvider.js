@@ -313,9 +313,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   if (['fuse', 'staging', 'producton'].includes(env) === false) {
     env = 'fuse'
   }
+
+  // disable goodweb3provider for tests
+  const Provider = Config.env === 'test' ? React.Fragment : GoodWeb3Provider
   return (
     <GoodWalletContext.Provider value={contextValue}>
-      <GoodWeb3Provider
+      <Provider
         web3Provider={web3Provider}
         env={env}
         config={{
@@ -330,7 +333,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         }}
       >
         {children}
-      </GoodWeb3Provider>
+      </Provider>
     </GoodWalletContext.Provider>
   )
 }

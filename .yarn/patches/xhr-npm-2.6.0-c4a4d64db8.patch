@@ -1,0 +1,13 @@
+diff --git a/index.js b/index.js
+index 1bc328f2cf883e9741dc805b531f4d924c619f2a..1406a51a7ad69261ad01b77224491217aa7f2953 100644
+--- a/index.js
++++ b/index.js
+@@ -7,7 +7,7 @@ var xtend = require("xtend")
+ module.exports = createXHR
+ // Allow use of default import syntax in TypeScript
+ module.exports.default = createXHR;
+-createXHR.XMLHttpRequest = window.XMLHttpRequest || noop
++createXHR.XMLHttpRequest = window.XMLHttpRequest || require('xhr2-cookies').XMLHttpRequest || noop
+ createXHR.XDomainRequest = "withCredentials" in (new createXHR.XMLHttpRequest()) ? createXHR.XMLHttpRequest : window.XDomainRequest
+ 
+ forEachArray(["get", "put", "post", "patch", "head", "delete"], function(method) {

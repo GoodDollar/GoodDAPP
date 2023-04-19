@@ -5,12 +5,11 @@ import moment from 'moment'
 
 // components
 import { t } from '@lingui/macro'
-import CustomSvg, { G } from 'react-native-svg'
 import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
-import GoodWalletSvg from '../../assets/goodwallet.svg'
+import GoodWalletSvg from '../../assets/goodWalletSplash.svg'
 
 // utils
 import Config from '../../config/config'
@@ -23,21 +22,6 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 // assets
 // import wavePattern from '../../assets/splashWaves.svg'
 // import PoweredByLogo from '../../assets/Splash/poweredByLogo.svg'
-
-// because of fixed viewport, and no support for transform: scale() on native, a custom svg is used to increase size
-const GoodWalletNativeSvg = () => (
-  <CustomSvg width="196" height="48" viewBox="0 0 196 20">
-    <G scale="1.6">
-      <GoodWalletSvg />
-    </G>
-  </CustomSvg>
-)
-
-const GoodWalletLogo = isMobileNative ? (
-  <GoodWalletNativeSvg style={{ marginTop: 0, paddingBottom: 0 }} />
-) : (
-  <GoodWalletSvg style={{ transform: 'scale(1.6)', marginBottom: 20 }} />
-)
 
 const { isPhaseZero, version } = Config
 
@@ -114,7 +98,7 @@ const Splash = ({ animation, isLoggedIn }) => {
               style={isMobileNative ? styles.mobileAnimation : styles.animation}
             />
             <Section style={styles.gwLogoContainer}>
-              {GoodWalletLogo}
+              <GoodWalletSvg />
               <Section.Text fontSize={16} color="white" fontWeight="medium">
                 {isPhaseZero && 'Demo '}V{version}
               </Section.Text>

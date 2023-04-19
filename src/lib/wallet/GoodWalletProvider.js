@@ -309,7 +309,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     switchNetwork,
   }
 
-  const env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
+  let env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
+  if (['fuse', 'staging', 'producton'].includes(env) === false) {
+    env = 'fuse'
+  }
   return (
     <GoodWalletContext.Provider value={contextValue}>
       <GoodWeb3Provider

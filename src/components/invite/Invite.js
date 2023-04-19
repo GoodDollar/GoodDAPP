@@ -127,12 +127,12 @@ const ShareBox = ({ level, styles }) => {
         <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
           You’ll get{' '}
           <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
-            {t` ${bounty}G$ `}
+            {` ${bounty}G$ `}
           </Section.Text>{' '}
           {t`and they will get `}
           <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
             {` `}
-            {t` ${bounty / 2}G$`}
+            {` ${bounty / 2}G$`}
           </Section.Text>
         </Section.Text>
       </Section.Stack>

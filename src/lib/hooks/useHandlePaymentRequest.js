@@ -13,6 +13,7 @@ import { InfoIcon } from '../../components/common/modal/InfoIcon'
 import ExplanationDialog from '../../components/common/dialogs/ExplanationDialog'
 import { useSwitchNetwork, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { extractEthAddress } from '../../lib/wallet/utils'
+import mustache from '../utils/mustache'
 
 export const RecipientWarnDialog = ({
   onConfirm = noop,
@@ -34,11 +35,12 @@ export const RecipientWarnDialog = ({
 
   return (
     <ExplanationDialog
-      title={
+      title={mustache(
         isDiffNetwork
-          ? t`Warning payment requested on network ${requestedNetwork}. You are on ${currentNetwork}`
-          : t`Make sure your recipient is also using the ${currentNetwork} network`
-      }
+          ? t`Warning payment requested on network {requestedNetwork}. You are on {currentNetwork}`
+          : t`Make sure your recipient is also using the {currentNetwork} network`,
+        { requestedNetwork, currentNetwork },
+      )}
       image={InfoIcon}
       imageHeight={124}
       buttons={[
@@ -48,7 +50,7 @@ export const RecipientWarnDialog = ({
           mode: 'text',
         },
         {
-          text: isDiffNetwork && isKnownNetwork ? t`Switch To ${requestedNetwork}` : t`Confirm`,
+          text: isDiffNetwork && isKnownNetwork ? t`Switch To` + ' ' + requestedNetwork : t`Confirm`,
           action: _onConfirm,
         },
       ]}

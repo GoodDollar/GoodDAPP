@@ -22,6 +22,7 @@ import { delay } from '../../lib/utils/async'
 import { useSwitchNetwork, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { useHandlePaymentRequest } from '../../lib/hooks/useHandlePaymentRequest'
 import { getNetworkName } from '../../lib/constants/network'
+import mustache from '../../lib/utils/mustache'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const log = logger.child({ from: 'HandlePaymentLink' })
@@ -121,9 +122,10 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           return showDialog({
             onDismiss: screenProps.goToRoot,
             image: <InfoIcon />,
-            title: t`Payment was created on network ${getNetworkName(
-              paymentParams.networkId,
-            )} you are on ${getNetworkName(goodWallet.networkId)}`,
+            title: mustache(t`Payment was created on network {target} you are on {current}`, {
+              target: getNetworkName(paymentParams.networkId),
+              current: getNetworkName(goodWallet.networkId),
+            }),
             buttons: [
               {
                 text: t`Cancel`,
@@ -131,7 +133,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
                 mode: 'text',
               },
               {
-                text: t`Switch to ${getNetworkName(paymentParams.networkId)}`,
+                text: mustache(t`Switch to {network}`, { network: getNetworkName(paymentParams.networkId) }),
                 onPress: () => switchAndWithdraw(getNetworkName(paymentParams.networkId)),
               },
             ],

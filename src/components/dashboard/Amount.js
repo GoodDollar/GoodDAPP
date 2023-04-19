@@ -13,6 +13,7 @@ import { decimalsToFixed } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import mustache from '../../lib/utils/mustache'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -87,7 +88,7 @@ const Amount = (props: AmountProps) => {
         const canBridge = parseInt(GDAmount) >= min
 
         if (!canBridge) {
-          setError(t`Sorry, minimum amount to bridge is ${min} G$'s`)
+          setError(mustache(t`Sorry, minimum amount to bridge is {min} G$'s`, { min }))
           return canBridge
         }
       }

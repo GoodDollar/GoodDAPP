@@ -10,20 +10,28 @@ export class JsonRpcProviderWithSigner extends JsonRpcProvider {
 
   // eslint-disable-next-line require-await
   async request(request): Promise<any> {
-    return this.send(request.method, request.params)
+    const res = await this.send(request.method, request.params)
+    return res
   }
 
   async send(method: string, params: []): Promise<any> {
     if (method === 'eth_sendTransaction') {
       const transaction = params[0]
-      const signedTransaction = await this.signer.signTransaction(transaction)
+      const signedTransaction = await this.request({ method: 'eth_signTransaction', params: [transaction] })
       return super.send('eth_sendRawTransaction', [signedTransaction])
     }
     if (method === 'eth_signTransaction') {
       const transaction = params[0]
+      if (transaction.gas) {
+        transaction.gasLimit = transaction.gas
+        delete transaction.gas
+      }
+      if (!transaction.nonce) {
+        transaction.nonce = await this.signer.getTransactionCount().then(_ => `0x${_.toString(16)}`)
+      }
       const signedTransaction = await this.signer.signTransaction(transaction)
       return signedTransaction
-    } else if (method === 'eth_sign') {
+    } else if (method === 'eth_sign' || method === 'personal_sign') {
       const message = params[1]
       return this.signer.signMessage(message)
     } else if (method.startsWith('eth_signTypedData')) {

@@ -450,7 +450,9 @@ export class FeedStorage {
 
       // merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
-        chainId: this.wallet.networkId,
+        // we are adding chainId to receipt in GoodWalletClass (chainId is not part of the eth rpc response receipt)
+        // this is to prevent possible race condition between receiving events and switching chains which can result in incorrect wallet.networkId
+        chainId: receipt.chainId || this.wallet.networkId,
         ...feedEvent,
         ...initialEvent,
         type,

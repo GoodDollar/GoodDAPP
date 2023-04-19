@@ -611,13 +611,14 @@ export class GoodWallet {
    * @param transactionHash The TX hash to return the data for
    */
   async getReceiptWithLogs(transactionHash: string) {
+    const chainId = this.networkId
     const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
     if (!transactionReceipt) {
       return null
     }
 
     const logs = abiDecoder.decodeLogs(transactionReceipt.logs).filter(_ => _)
-    return { ...transactionReceipt, logs }
+    return { ...transactionReceipt, logs, chainId } //add network id in case of wallet provider network switch
   }
 
   sendReceiptWithLogsToSubscribers(receipt: any, subscriptions: Array<string>) {

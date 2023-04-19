@@ -17,6 +17,7 @@ import normalize from '../../../lib/utils/normalizeText'
 import SurveySend from '../SurveySend'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { theme } from '../../theme/styles'
+import mustache from '../../../lib/utils/mustache'
 
 const SummaryGeneric = ({
   screenProps,
@@ -40,8 +41,8 @@ const SummaryGeneric = ({
   const goodWallet = useWallet()
   const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
 
-  const formattedFee = (bridgeFees.fee / 10).toString()
-  const bridgeReceiveAmount = Math.floor(Number(amount - formattedFee * 100)).toString()
+  const formattedFee = ((amount / 100) * 0.01).toString()
+  const bridgeReceiveAmount = Math.floor(Number(amount * (1 - bridgeFees.fee / 10000))).toString()
 
   const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'
 
@@ -147,8 +148,13 @@ const SummaryGeneric = ({
           {isBridge && (
             <Section.Row justifyContent="center">
               <View styles={styles.bridgeDesc}>
-                <Section.Text style={{ marginBottom: 10 }}> on {altNetwork} </Section.Text>
-                <Section.Text>{`You'll pay ${formattedFee} G$ in fees to use the bridge`}</Section.Text>
+                <Section.Text style={{ marginBottom: 10 }}>
+                  {' '}
+                  {mustache(t` on {altNetwork}`, { altNetwork })}
+                </Section.Text>
+                <Section.Text>
+                  {mustache(t`You'll pay {formattedFee} G$ in fees to use the bridge`, { formattedFee })}
+                </Section.Text>
               </View>
             </Section.Row>
           )}

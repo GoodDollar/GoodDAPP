@@ -9,7 +9,7 @@ import BorderedBox from '../../common/view/BorderedBox'
 import TopBar from '../../common/view/TopBar'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
-import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
+import { useFormatG$, useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobile } from '../../../lib/utils/platform'
 import isEmail from '../../../lib/validators/isEmail'
@@ -40,8 +40,9 @@ const SummaryGeneric = ({
 
   const goodWallet = useWallet()
   const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
+  const { toDecimals } = useFormatG$()
 
-  const formattedFeeInGd = ((amount * bridgeFees.fee) / 10000 / 1e2).toString()
+  const formattedFeeInGd = toDecimals((amount * bridgeFees.fee) / 10000)
   const bridgeReceiveAmount = Math.floor(amount * (1 - bridgeFees.fee / 10000)).toString()
 
   const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'

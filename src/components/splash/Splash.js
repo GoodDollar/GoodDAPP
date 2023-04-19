@@ -23,6 +23,8 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 // assets
 // import wavePattern from '../../assets/splashWaves.svg'
 // import PoweredByLogo from '../../assets/Splash/poweredByLogo.svg'
+
+// because of fixed viewport, and no support for transform: scale() on native, a custom svg is used to increase size
 const GoodWalletNativeSvg = () => (
   <CustomSvg width="196" height="48" viewBox="0 0 196 20">
     <G scale="1.6">

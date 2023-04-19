@@ -102,17 +102,16 @@ jobs:
     steps:
       - run: echo "wallet chunk id $WALLET_CHUNK chunk ${{ matrix.chunk }}"
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
       - uses: actions/setup-python@v4
         with:
           python-version: '3.7.x'
 
-      - name: Install npm dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --immutable
+      - name: Install dependencies
+        run: yarn --immutable
 
       - uses: actions/cache@v2
         id: contractsCache
@@ -128,7 +127,7 @@ jobs:
 
       - name: run local node so providers dont crash in tests
         if: matrix.chunk != env.WALLET_CHUNK
-        run: npx ganache
+        run: yarn run ganache
 
       - name: run tests and code coverage
         run: |

@@ -41,7 +41,8 @@
     "add-locale": "lingui add-locale",
     "lingui:extract": "lingui extract --clean",
     "lingui:compile": "lingui compile && node scripts/i18n.js",
-    "lingui": "npm run lingui:extract --clean && npm run lingui:compile"
+    "lingui": "npm run lingui:extract --clean && npm run lingui:compile",
+    "ganache": "npx ganache -D"
   },
   "repository": {
     "type": "git",

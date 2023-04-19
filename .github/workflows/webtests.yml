@@ -126,6 +126,10 @@ jobs:
         if: matrix.chunk == env.WALLET_CHUNK
         run: ./scripts/blockchainTestSetup.sh
 
+      - name: run local node so providers dont crash in tests
+        if: matrix.chunk != env.WALLET_CHUNK
+        run: npx ganache
+
       - name: run tests and code coverage
         run: |
           cat node_modules/@gooddollar/goodcontracts/releases/deployment.json

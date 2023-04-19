@@ -40,6 +40,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const { isBridge, network } = screenState
   const { showDialog, hideDialog, showErrorDialog } = useDialog()
+
   const { sendBridgeRequest, bridgeRequestStatus } = useBridge()
 
   const [shared, setShared] = useState(false)
@@ -366,7 +367,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       amount={amount}
       reason={reason}
       iconName="send"
-      title={isBridge ? t`You are bridging` : t`You are sending`}
+      title={isBridge ? t`You will receive` : t`You are sending`}
       action="send"
       vendorInfo={vendorInfo}
     />

@@ -2,12 +2,14 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { t } from '@lingui/macro'
+import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 import { BackButton, useScreenState } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
 import BorderedBox from '../../common/view/BorderedBox'
 import TopBar from '../../common/view/TopBar'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
+import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobile } from '../../../lib/utils/platform'
 import isEmail from '../../../lib/validators/isEmail'
@@ -15,6 +17,7 @@ import normalize from '../../../lib/utils/normalizeText'
 import SurveySend from '../SurveySend'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { theme } from '../../theme/styles'
+import mustache from '../../../lib/utils/mustache'
 
 const SummaryGeneric = ({
   screenProps,
@@ -34,6 +37,12 @@ const SummaryGeneric = ({
   const [screenState] = useScreenState(screenProps)
 
   const { isBridge, network } = screenState
+
+  const goodWallet = useWallet()
+  const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
+
+  const formattedFeeInGd = ((amount * bridgeFees.fee) / 10000 / 1e2).toString()
+  const bridgeReceiveAmount = Math.floor(amount * (1 - bridgeFees.fee / 10000)).toString()
 
   const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'
 
@@ -125,7 +134,7 @@ const SummaryGeneric = ({
           <Section.Title fontWeight="medium">{title}</Section.Title>
           <Section.Row justifyContent="center" fontWeight="medium" style={styles.amountWrapper}>
             <BigGoodDollar
-              number={amount}
+              number={isBridge ? bridgeReceiveAmount : amount}
               color={isSend ? 'red' : 'green'}
               bigNumberProps={{
                 fontSize: 36,
@@ -139,9 +148,12 @@ const SummaryGeneric = ({
           {isBridge && (
             <Section.Row justifyContent="center">
               <View styles={styles.bridgeDesc}>
-                <Section.Text>from your wallet on</Section.Text>
+                <Section.Text style={{ marginBottom: 10 }}>
+                  {' '}
+                  {mustache(t` on {altNetwork}`, { altNetwork })}
+                </Section.Text>
                 <Section.Text>
-                  {network} to your wallet on {altNetwork}
+                  {mustache(t`You'll pay ${formattedFeeInGd} G$ in fees to use the bridge`, { formattedFeeInGd })}
                 </Section.Text>
               </View>
             </Section.Row>

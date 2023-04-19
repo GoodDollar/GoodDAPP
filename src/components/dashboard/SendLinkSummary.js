@@ -38,16 +38,10 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const userStorage = useUserStorage()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
-  const {
-    isBridge,
-
-    // network
-  } = screenState
+  const { isBridge, network } = screenState
   const { showDialog, hideDialog, showErrorDialog } = useDialog()
-  const {
-    // sendBridgeRequest,
-    bridgeRequestStatus,
-  } = useBridge()
+
+  const { sendBridgeRequest, bridgeRequestStatus } = useBridge()
 
   const [shared, setShared] = useState(false)
   const [link, setLink] = useState('')
@@ -279,7 +273,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const sendViaBridge = useCallback(
     async (amount: string) => {
-      // await sendBridgeRequest(amount, network.toLowerCase())
+      await sendBridgeRequest(amount, network.toLowerCase())
     },
     [amount],
   )

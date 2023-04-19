@@ -147,7 +147,7 @@ const SummaryGeneric = ({
           {isBridge && (
             <Section.Row justifyContent="center">
               <View styles={styles.bridgeDesc}>
-                <Section.Text> on {altNetwork} </Section.Text>
+                <Section.Text style={{ marginBottom: 10 }}> on {altNetwork} </Section.Text>
                 <Section.Text>{`You'll pay ${formattedFee} G$ in fees to use the bridge`}</Section.Text>
               </View>
             </Section.Row>

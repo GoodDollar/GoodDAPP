@@ -19,7 +19,7 @@ type NETWORK = $Keys<typeof NETWORK_ID>
 
 const createWeb3Provider = async wallet => {
   const { Web3Provider } = await import('@ethersproject/providers')
-  const PrivateKeyProvider = await import('truffle-privatekey-provider')
+  const { default: PrivateKeyProvider } = await import('truffle-privatekey-provider')
 
   return new Web3Provider(
     new PrivateKeyProvider(wallet.wallet.eth.accounts.wallet[0].privateKey, wallet.wallet._provider.host),

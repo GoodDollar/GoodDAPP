@@ -1,9 +1,8 @@
 // @flow
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { BN, toBN } from 'web3-utils'
 import { t } from '@lingui/macro'
-import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -14,6 +13,7 @@ import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import mustache from '../../lib/utils/mustache'
+import { Web3SDKContext } from '../../lib/wallet/Web3SDKProvider'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -48,6 +48,7 @@ const Amount = (props: AmountProps) => {
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
   const { currentNetwork } = useSwitchNetwork()
+  const { useGetBridgeData } = useContext(Web3SDKContext)
   const { bridgeLimits } = useGetBridgeData(goodWallet.networkId, goodWallet.account)
   const { minAmount } = bridgeLimits || { minAmount: 0 }
 

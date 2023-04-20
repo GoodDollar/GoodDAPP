@@ -4,8 +4,6 @@ import { noop } from 'lodash'
 
 import PrivateKeyProvider from 'truffle-privatekey-provider'
 import { Web3Provider } from '@ethersproject/providers'
-import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
-import { Goerli, Mainnet } from '@usedapp/core'
 
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
@@ -18,6 +16,7 @@ import { GlobalTogglesContext } from '../contexts/togglesContext'
 import { getNetworkName, NETWORK_ID } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
 import { GoodWallet } from './GoodWalletClass'
+import { Web3SDKProvider } from './Web3SDKProvider'
 
 type NETWORK = $Keys<typeof NETWORK_ID>
 
@@ -309,33 +308,9 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     switchNetwork,
   }
 
-  let env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
-  if (['fuse', 'staging', 'production'].includes(env) === false) {
-    env = 'fuse'
-  }
-
-  // disable goodweb3provider for tests
-  const Provider = Config.env === 'test' ? React.Fragment : GoodWeb3Provider
-  const props =
-    Config.env === 'test'
-      ? {}
-      : {
-          web3Provider,
-          env,
-          config: {
-            pollingInterval: 15000,
-            networks: [Goerli, Mainnet, Fuse, Celo],
-            readOnlyChainId: undefined,
-            readOnlyUrls: {
-              1: 'https://rpc.ankr.com/eth',
-              122: 'https://rpc.fuse.io',
-              42220: 'https://forno.celo.org',
-            },
-          },
-        }
   return (
     <GoodWalletContext.Provider value={contextValue}>
-      <Provider {...props}>{children}</Provider>
+      <Web3SDKProvider web3Provider={web3Provider}>{children}</Web3SDKProvider>
     </GoodWalletContext.Provider>
   )
 }

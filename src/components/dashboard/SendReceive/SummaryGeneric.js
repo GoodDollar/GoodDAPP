@@ -1,9 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { t } from '@lingui/macro'
-
-import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 
 import { BackButton, useScreenState } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
@@ -21,6 +19,7 @@ import SurveySend from '../SurveySend'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { theme } from '../../theme/styles'
 import mustache from '../../../lib/utils/mustache'
+import { Web3SDKContext } from '../../../lib/wallet/Web3SDKProvider'
 
 const SummaryGeneric = ({
   screenProps,
@@ -42,7 +41,7 @@ const SummaryGeneric = ({
   const { isBridge, network } = screenState
 
   const goodWallet = useWallet()
-
+  const { useGetBridgeData } = useContext(Web3SDKContext)
   const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
   const { minFee, fee } = bridgeFees
 

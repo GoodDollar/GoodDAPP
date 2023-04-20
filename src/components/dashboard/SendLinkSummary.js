@@ -1,10 +1,9 @@
 // @flow
 
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { t } from '@lingui/macro'
-import { useBridge } from '@gooddollar/web3sdk-v2'
 import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
@@ -19,6 +18,7 @@ import API from '../../lib/API'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
 import { useScreenState } from '../appNavigation/stackNavigation'
+import { Web3SDKContext } from '../../lib/wallet/Web3SDKProvider'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -40,7 +40,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const { isBridge, network } = screenState
   const { showDialog, hideDialog, showErrorDialog } = useDialog()
-
+  const { useBridge } = useContext(Web3SDKContext)
   const { sendBridgeRequest, bridgeRequestStatus } = useBridge()
 
   const [shared, setShared] = useState(false)

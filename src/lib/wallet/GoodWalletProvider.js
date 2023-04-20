@@ -2,8 +2,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { noop } from 'lodash'
 
-import PrivateKeyProvider from 'truffle-privatekey-provider'
-
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -18,6 +16,15 @@ import { GoodWallet } from './GoodWalletClass'
 import { Web3SDKProvider } from './Web3SDKProvider'
 
 type NETWORK = $Keys<typeof NETWORK_ID>
+
+const createWeb3Provider = async wallet => {
+  const { Web3Provider } = await import('@ethersproject/providers')
+  const PrivateKeyProvider = await import('truffle-privatekey-provider')
+
+  return new Web3Provider(
+    new PrivateKeyProvider(wallet.wallet.eth.accounts.wallet[0].privateKey, wallet.wallet._provider.host),
+  )
+}
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -146,11 +153,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design
         if (type === 'SEED') {
-          const { Web3Provider } = await import('@ethersproject/providers')
-
-          web3Provider = new Web3Provider(
-            new PrivateKeyProvider(wallet.wallet.eth.accounts.wallet[0].privateKey, wallet.wallet._provider.host),
-          )
+          web3Provider = await createWeb3Provider(wallet)
         }
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
@@ -284,11 +287,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         await goodWallet.setIsPollEvents(false) //stop watching prev chain events
         await goodWallet.init({ network: contractsNetwork }) //reinit wallet
 
-        const { Web3Provider } = await import('@ethersproject/providers')
-
-        let web3Provider = new Web3Provider(
-          new PrivateKeyProvider(goodWallet.wallet.eth.accounts.wallet[0].privateKey, goodWallet.wallet._provider.host),
-        )
+        let web3Provider = await createWeb3Provider(goodWallet)
 
         setWalletAndStorage(_ => ({ ..._, goodWallet, web3Provider }))
         updateWalletData(goodWallet)

@@ -310,7 +310,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   }
 
   let env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
-  if (['fuse', 'staging', 'producton'].includes(env) === false) {
+  if (['fuse', 'staging', 'production'].includes(env) === false) {
     env = 'fuse'
   }
 

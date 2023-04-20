@@ -346,7 +346,7 @@ export class APIService {
     return this.sharedClient.post(url, responseObject)
   }
 
-  async getTokenTXs(token, address, fromBlock = null) {
+  async getTokenTXs(token, address, fromBlock = null, chainId = 122) {
     const params = {
       address,
       sort: 'asc',
@@ -359,9 +359,11 @@ export class APIService {
       params.startblock = fromBlock
     }
 
+    const networkExplorerUrl = Config.ethereum[chainId]?.explorerAPI
+
     const { result } = await this.sharedClient.get('/api', {
       params,
-      baseURL: Config.networkExplorerUrl,
+      baseURL: networkExplorerUrl,
     })
 
     return result

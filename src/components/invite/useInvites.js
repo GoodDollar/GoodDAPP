@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { filter, groupBy, keys, noop, values } from 'lodash'
 import { t } from '@lingui/macro'
-import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useFormatG$, usePropSuffix, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { INVITE_CODE } from '../../lib/constants/localStorage'
-
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import Config from '../../config/config'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { useUserProperty } from '../../lib/userStorage/useProfile'
+import mustache from '../../lib/utils/mustache'
 
 const log = logger.child({ from: 'useInvites' })
 
@@ -22,12 +23,15 @@ const wasOpenedProp = 'hasOpenedInviteScreen'
 export const useRegisterForInvites = () => {
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
+  const propSuffix = usePropSuffix()
 
   const registerForInvites = useCallback(
     async inviterInviteCode => {
       const { userProperties } = userStorage
-      let code = userProperties.get('inviteCode')
-      let usedInviterCode = userProperties.get('inviterInviteCodeUsed')
+      const codeProp = `inviteCode${propSuffix}`
+      const inviterUsedProp = `inviterInviteCodeUsed${propSuffix}`
+      let code = userProperties.get(codeProp)
+      let usedInviterCode = userProperties.get(inviterUsedProp)
 
       // if already have code and already set inviter or dont have one just return
       if (code && (usedInviterCode || !inviterInviteCode)) {
@@ -40,15 +44,15 @@ export const useRegisterForInvites = () => {
         const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
 
         log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
-        userProperties.safeSet('inviteCode', inviteCode)
+        userProperties.safeSet(codeProp, inviteCode)
 
         // in case we were invited fire event
         if (inviterInviteCode && !usedInviterCode) {
           fireEvent(INVITE_JOIN, { inviterInviteCode })
 
           userProperties.safeSet({
-            inviterInviteCodeUsed: true,
-            inviterInviteCode: inviterInviteCode,
+            [inviterUsedProp]: true,
+            [`inviterInviteCode${propSuffix}`]: inviterInviteCode,
           })
         }
 
@@ -57,7 +61,7 @@ export const useRegisterForInvites = () => {
         log.error(t`registerForInvites failed`, e.message, e, { inviterInviteCode })
       }
     },
-    [userStorage, goodWallet],
+    [userStorage, goodWallet, propSuffix],
   )
 
   return registerForInvites
@@ -70,17 +74,25 @@ export const useInviteCode = () => {
   const inviteCodePromiseRef = useRef()
   const [inviteCode, setInviteCode] = useState()
 
+  const propSuffix = usePropSuffix()
+
   const getInviteCode = useCallback(async () => {
     const inviterInviteCode =
-      userStorage.userProperties.get('inviterInviteCode') || (await AsyncStorage.getItem(INVITE_CODE))
+      userStorage.userProperties.get(`inviterInviteCode${propSuffix}`) || (await AsyncStorage.getItem(INVITE_CODE))
     const code = await registerForInvites(inviterInviteCode)
 
+    // fix accidental selfinvite
+    if (code === inviterInviteCode) {
+      userStorage.userProperties.set(`inviterInviteCode${propSuffix}`, undefined)
+      AsyncStorage.setItem(INVITE_CODE, undefined)
+    }
+
     return code
-  }, [registerForInvites])
+  }, [registerForInvites, propSuffix])
 
   useEffect(() => {
-    setInviteCode(userStorage.userProperties.get('inviteCode'))
-  }, [userStorage, setInviteCode])
+    setInviteCode(userStorage.userProperties.get(`inviteCode${propSuffix}`))
+  }, [userStorage, setInviteCode, propSuffix])
 
   useEffect(() => {
     log.debug('useInviteCode didmount:', { inviteCode })
@@ -103,9 +115,10 @@ export const useInviteCode = () => {
 
 export const useInviteBonus = () => {
   const { showDialog } = useDialog()
-  const collected = useUserProperty(collectedProp)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
+  const propSuffix = usePropSuffix()
+  const collected = useUserProperty(collectedProp + propSuffix)
 
   const getCanCollect = useCallback(async () => {
     try {
@@ -145,7 +158,7 @@ export const useInviteBonus = () => {
       })
 
       await goodWallet.collectInviteBounty()
-      userStorage.userProperties.safeSet(collectedProp, true)
+      userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
 
       log.debug(`useInviteBonus: invite bonty collected`)
 
@@ -160,7 +173,7 @@ export const useInviteBonus = () => {
       })
       return true
     },
-    [showDialog, collected, goodWallet, userStorage],
+    [showDialog, collected, goodWallet, userStorage, propSuffix],
   )
 
   return [collected, getCanCollect, collectInviteBounty]
@@ -172,12 +185,15 @@ export const useCollectBounty = () => {
   const [collected, setCollected] = useState(undefined)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
-
+  const propSuffix = usePropSuffix()
   const collect = async () => {
+    const labels = {
+      title: t`Collecting Bonus`,
+      message: mustache(t`Collecting invite bonus for {canCollect} invited friends`, { canCollect }),
+    }
     try {
       showDialog({
-        title: t`Collecting Bonus`,
-        message: t`Collecting invite bonus for ${canCollect} invited friends`,
+        ...labels,
         loading: true,
       })
 
@@ -185,12 +201,11 @@ export const useCollectBounty = () => {
       await goodWallet.collectInviteBounties()
 
       fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
-      userStorage.userProperties.safeSet(collectedProp, true)
+      userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
 
       showDialog({
-        title: 'Collecting Bonus',
-        message: t`Collecting invite bonus for ${canCollect} invited friends`,
+        ...labels,
         loading: false,
       })
     } catch (e) {
@@ -248,12 +263,14 @@ export const useInvited = () => {
   const [invites, setInvites] = useState([])
   const goodWallet = useWallet()
 
+  const { toDecimals } = useFormatG$()
+
   const { level, totalEarned } = data || {}
 
   const updateData = useCallback(async () => {
     try {
       const { user, level } = await goodWallet.getUserInviteBounty()
-      const totalEarned = parseInt(user.totalEarned) / 100
+      const totalEarned = decimalsToFixed(toDecimals(user.totalEarned))
       const invitesData = { level, totalEarned }
 
       setData(invitesData)
@@ -287,7 +304,7 @@ export const useInvited = () => {
 
   useEffect(() => {
     updateInvited()
-  }, [updateInvited])
+  }, [updateInvited, goodWallet.networkId])
 
   const { pending = [], approved = [] } = useMemo(() => groupBy(invites, 'status'), [invites])
 

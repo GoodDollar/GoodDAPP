@@ -37,6 +37,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title, maxLeng
         {title && <SectionTitle fontWeight="medium">{title}</SectionTitle>}
         <TouchableWithoutFeedback onPress={handlePress} accessible={false} style={styles.section}>
           <InputGoodDollar
+            selection={caretPosition}
             style={error ? styles.errorInput : styles.section}
             editable={!isMobile}
             autoFocus={!isMobile}

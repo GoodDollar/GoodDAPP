@@ -20,7 +20,13 @@ describe('readCode', () => {
     const decoded = readCode(code)
 
     // Then
-    expect(decoded).toEqual({ amount: 1000, networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' })
+    expect(decoded).toEqual(
+      expect.objectContaining({
+        amount: '1000',
+        networkId: 121,
+        address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1',
+      }),
+    )
   })
 
   it(`(base64) should generate an string with an MNID valid code`, () => {
@@ -33,7 +39,9 @@ describe('readCode', () => {
     const decoded = readCode(code)
 
     // Then
-    expect(decoded).toEqual({ networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' })
+    expect(decoded).toEqual(
+      expect.objectContaining({ networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }),
+    )
   })
 
   it(`(base64) should return an string with the structure MNID|amount`, () => {
@@ -46,7 +54,13 @@ describe('readCode', () => {
     const decoded = readCode(code)
 
     // Then
-    expect(decoded).toEqual({ amount: 1000, networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' })
+    expect(decoded).toEqual(
+      expect.objectContaining({
+        amount: '1000',
+        networkId: 121,
+        address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1',
+      }),
+    )
   })
 
   it(`should return null if MNID is invalid`, () => {

@@ -19,10 +19,11 @@ import { withStyles } from '../../../lib/styles'
 import Section from '../../common/layout/Section'
 
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
-import config from '../../../config/config'
+import Config from '../../../config/config'
 
 import { generateSendShareObject, generateShareLink, isSharingAvailable } from '../../../lib/share'
 import useProfile from '../../../lib/userStorage/useProfile'
+import { decimalsToFixed } from '../../../lib/wallet/utils'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -109,10 +110,16 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           p: withdrawCode,
           r: message,
           i: inviteCode,
+          n: item.chainId,
         }),
       )
 
-      let result = generateSendShareObject(url, amount, displayName, currentUserName)
+      let result = generateSendShareObject(
+        url,
+        decimalsToFixed(goodWallet.toDecimals(amount)),
+        displayName,
+        currentUserName,
+      )
 
       return result
     } catch (exception) {
@@ -165,8 +172,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     if (!isTx) {
       return
     }
+    const networkExplorerUrl = Config.ethereum[item.chainId || 122]?.explorer
 
-    openLink(`${config.networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
+    openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
   }, [txHash, isTx])
 
   useEffect(() => {
@@ -183,7 +191,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <ModalButton fontWeight="medium" onPress={_handleModalClose}>
-              {config.isPhaseZero ? t`OK` : t`LET\`S DO IT`}
+              {Config.isPhaseZero ? t`OK` : t`LET\`S DO IT`}
             </ModalButton>
           </View>
         </View>
@@ -293,16 +301,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </ModalButton>
         </View>
       )
-    case 'claim':
-      return (
-        <View style={styles.buttonsView}>
-          <ModalButton fontWeight="medium" onPress={_handleModalClose}>
-            {t`Ok`}
-          </ModalButton>
-        </View>
-      )
     case 'empty':
       return null
+    case 'claim':
     default: {
       // receive / withdraw / notification / sendcancelled / sendcompleted
       return (

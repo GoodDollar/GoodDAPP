@@ -26,7 +26,7 @@ exports[`Receive matches snapshot 1`] = `
             className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
-            -.--
+            0
           </div>
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
@@ -110,11 +110,13 @@ exports[`Receive matches snapshot 1`] = `
                     "googleBlue": "#3367D6",
                     "googleRed": "#D03737",
                     "gray": "#555",
+                    "gray100Percent": "#737373",
                     "gray50Percent": "#CBCBCB",
                     "gray80Percent": "#A3A3A3",
                     "grayBox": "#E5E5E5",
                     "green": "#00C3AE",
                     "lightBlue": "#8499BB",
+                    "lightGdBlue": "#00AEFF",
                     "lightGray": "#EEE",
                     "lightGreen": "#00BBA5",
                     "lighterGray": "#A3A3A3",
@@ -128,6 +130,7 @@ exports[`Receive matches snapshot 1`] = `
                     "purple": "#9F6A9D",
                     "red": "#FA6C77",
                     "secondary": "#A3A3A3",
+                    "secondaryGray": "#F6F8FA",
                     "surface": "#ffffff",
                     "text": "#222",
                     "white": "#ffffff",

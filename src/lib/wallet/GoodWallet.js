@@ -5,6 +5,7 @@ import { GoodWallet } from './WalletClassSelector'
 
 const wallet = new GoodWallet({
   web3Transport: Config.web3TransportProvider,
+  network: Config.network,
 })
 global.wallet = wallet
 export default wallet

@@ -27,7 +27,7 @@ export default () => {
 
     if (Config.isPhaseZero && claimsCountRef.current === claimDaysThreshold) {
       fireEvent(CLAIM_TASK_COMPLETED)
-      await userStorage.enqueueTX(longUseOfClaims)
+      await userStorage.enqueueTX({ ...longUseOfClaims, chainId: userStorage.wallet.networkId })
     }
 
     await userProperties.set(claimDaysProperty, claimsCountRef.current)

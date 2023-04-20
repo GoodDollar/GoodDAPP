@@ -4,11 +4,12 @@ import { Platform, StyleSheet } from 'react-native'
 import moment from 'moment'
 
 // components
-import { t, Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
+import GoodWalletSvg from '../../assets/goodWalletSplash.svg'
 
 // utils
 import Config from '../../config/config'
@@ -84,23 +85,24 @@ const Splash = ({ animation, isLoggedIn }) => {
                 >
                   {t`GoodDollar Demo`}
                 </Section.Text>
-                <Trans>
-                  <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
-                    {'All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n'}
-                    <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
-                      all demo G$ coins will be deleted.
-                    </Section.Text>
+                <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
+                  {t`All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n`}
+                  <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
+                    {t`all demo G$ coins will be deleted.`}
                   </Section.Text>
-                </Trans>
+                </Section.Text>
               </Section.Stack>
             )}
             <AnimationsLogo
               animation={shouldAnimate && animation}
               style={isMobileNative ? styles.mobileAnimation : styles.animation}
             />
-            <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
-              {isPhaseZero && 'Demo '}V{version}
-            </Section.Text>
+            <Section style={styles.gwLogoContainer}>
+              <GoodWalletSvg />
+              <Section.Text fontSize={16} color="white" fontWeight="medium">
+                {isPhaseZero && 'Demo '}V{version}
+              </Section.Text>
+            </Section>
           </Section.Stack>
           {/* <TouchableOpacity style={styles.poweredByLogo} onPress={onPoweredByPress}>
             <PoweredByLogo />
@@ -162,6 +164,16 @@ const styles = StyleSheet.create({
       }),
     ),
     height: getDesignRelativeHeight(550),
+  },
+  gwLogoContainer: {
+    backgroundColor: 'transparent',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: Platform.select({
+      web: 20,
+      android: 0,
+    }),
   },
 })
 

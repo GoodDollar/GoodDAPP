@@ -13,7 +13,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   claimButton: {
     alignItems: 'center',
-    backgroundColor: theme.colors.green,
+    backgroundColor: theme.colors.primary,
     borderColor: theme.colors.surface,
     borderRadius: Platform.select({
       default: 72 / 2,

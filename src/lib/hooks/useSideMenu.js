@@ -15,11 +15,10 @@ import { openLink } from '../utils/linking'
 import Config from '../../config/config'
 
 // constants
-import { CLICK_DELETE_WALLET, fireEvent, GOTO_GOODSWAP, LOGOUT } from '../../lib/analytics/analytics'
+import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
-
 const log = logger.child({ from: 'useSideMenu' })
 
 const { dashboardUrl, supportUrl } = Config
@@ -67,16 +66,6 @@ export default (props = {}) => {
           })
 
           slideOut()
-        },
-      },
-      {
-        icon: 'gd-circle',
-        name: t`Go to GoodDapp`,
-        external: true,
-        action: () => {
-          fireEvent(GOTO_GOODSWAP)
-          slideOut()
-          openLink(Config.goodSwapUrl)
         },
       },
       {

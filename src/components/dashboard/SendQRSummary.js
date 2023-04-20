@@ -89,6 +89,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             createdDate: new Date().toISOString(),
             date: new Date().toISOString(),
             type: 'send',
+            chainId: goodWallet.networkId,
             data: {
               to,
               reason,

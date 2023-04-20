@@ -4,6 +4,7 @@ import { useScreenState } from '../appNavigation/stackNavigation'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -25,7 +26,12 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
     const { account, networkId } = goodWallet
     const code = generateCode(account, networkId, amount, reason, category, counterPartyDisplayName)
 
-    return generateReceiveShareObject(code, amount, counterPartyDisplayName, fullName)
+    return generateReceiveShareObject(
+      code,
+      decimalsToFixed(goodWallet.toDecimals(amount)),
+      counterPartyDisplayName,
+      fullName,
+    )
   }, [amount, reason, counterPartyDisplayName, goodWallet])
 
   const handleConfirm = useCallback(() => {

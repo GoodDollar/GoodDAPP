@@ -1,24 +1,22 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, get, uniqBy } from 'lodash'
+import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
 import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import normalize, { normalizeByLength } from '../../lib/utils/normalizeText'
+import { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
-import { weiToGd, weiToMask } from '../../lib/wallet/utils'
+import { decimalsToFixed, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
-import { useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
-
+import { useFormatG$, useSwitchNetwork, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
@@ -35,7 +33,7 @@ import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
-import { theme as _theme } from '../theme/styles'
+import { theme as _theme, theme } from '../theme/styles'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
@@ -47,6 +45,9 @@ import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
+import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
+import { IconButton, Text } from '../../components/common'
+import GreenCircle from '../../assets/ellipse46.svg'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -67,7 +68,6 @@ import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 
-import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 import Settings from './Settings'
 
@@ -89,7 +89,6 @@ const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNav
 let didRender = false
 const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
-const initialAvatarLeftPosition = -initialHeaderContentWidth / 2 + 34
 
 export type DashboardProps = {
   navigation: any,
@@ -98,8 +97,6 @@ export type DashboardProps = {
 }
 
 const feedMutex = new Mutex()
-
-const abbreviateBalance = _balance => formatWithAbbreviations(weiToGd(_balance), 2)
 
 const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   const onTabPress = useOnPress(() => {
@@ -127,43 +124,124 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   )
 }
 
+const BridgeButton = ({ onPress }: { onPress: any }) => (
+  <IconButton
+    name="bridge"
+    onPress={onPress}
+    size={30}
+    bgColor="none"
+    disabled={false}
+    circle={false}
+    color={theme.colors.lightGdBlue}
+  />
+)
+
+const balanceStyles = {
+  multiBalanceItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 14,
+    color: theme.colors.secondary,
+    fontWeight: 'bold',
+    width: '46%',
+    backgroundColor: theme.colors.secondaryGray,
+    padding: 0,
+    margin: 0,
+    fontFamily: 'Roboto Slab',
+  },
+  switchButton: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  networkName: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 55,
+  },
+}
+
+const BalanceAndSwitch = ({
+  color,
+  textStyles,
+  networkName,
+  balance,
+}: {
+  styles: any,
+  color: string,
+  textStyles: any,
+  networkName: string,
+  balance: any,
+}) => {
+  const { currentNetwork, switchNetwork } = useSwitchNetwork()
+  const altNetwork = currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
+  const networkNameUp = networkName.toUpperCase()
+  const isCurrent = currentNetwork === networkNameUp
+  const toggle = () => switchNetwork(altNetwork)
+
+  return (
+    <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? 1 : 0.5 }]}>
+      <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>
+        <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
+          {balance}
+        </Text>
+        <View style={balanceStyles.networkName}>
+          <View style={[balanceStyles.activeIcon, { display: !networkName || isCurrent ? 'flex' : 'none' }]}>
+            <GreenCircle />
+          </View>
+          <Text fontSize={12} color={theme.colors.darkGray} fontWeight="normal" fontFamily={theme.fonts.slab}>
+            {networkName} G$
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </Section>
+  )
+}
+
 const Dashboard = props => {
   const feedRef = useRef([])
   const resizeSubscriptionRef = useRef()
-  const balanceBlockWidthRef = useRef(70)
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
-  const [headerHeightAnimValue] = useState(new Animated.Value(176))
-  const [headerAvatarAnimValue] = useState(new Animated.Value(68))
-  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(0))
+  const [headerAvatarAnimValue] = useState(new Animated.Value(42))
   const [headerBalanceBottomAnimValue] = useState(new Animated.Value(0))
   const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(0)
   const [headerBalanceRightMarginAnimValue] = useState(new Animated.Value(0))
   const [headerBalanceLeftMarginAnimValue] = useState(new Animated.Value(0))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
+  const [topInfoHeight] = useState(new Animated.Value(240))
+  const [balanceTopAnimValue] = useState(new Animated.Value(0))
   const { isDialogShown, showDialog, showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
-  const { balance, dailyUBI: entitlement } = useWalletData()
+  const { totalBalance: balance, fuseBalance, celoBalance, dailyUBI } = useWalletData()
+  const entitlement = Number(dailyUBI)
+  const { toDecimals } = useFormatG$()
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
-  const [animateMarket, setAnimateMarket] = useState(false)
   const { setDialogBlur, setAddWebApp, isLoadingIndicator, setFeedLoadAnimShown } = useContext(GlobalTogglesContext)
   const userStorage = useUserStorage()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
+  const { currentNetwork } = useSwitchNetwork()
 
   useRefundDialog(screenProps)
   useInviteCode() // preload user invite code
 
-  const headerAnimateStyles = {
-    position: 'relative',
-    height: headerHeightAnimValue,
+  const sendReceiveMinimzedYAnimValue = new Animated.Value(0)
+  const sendReceiveOutputRange = headerLarge ? [0, 500] : [100, 0]
+
+  const profileAnimStyles = {
+    alignItems: 'flex-start',
   }
 
   const fullNameAnimateStyles = {
@@ -173,15 +251,40 @@ const Dashboard = props => {
   const avatarAnimStyles = {
     height: headerAvatarAnimValue,
     width: headerAvatarAnimValue,
-    left: headerAvatarLeftAnimValue,
   }
 
-  const balanceAnimStyles = {
-    bottom: headerBalanceBottomAnimValue,
-    marginRight: headerBalanceRightMarginAnimValue,
-    marginLeft: Platform.select({
-      android: headerLarge ? 0 : 'auto',
-      default: headerBalanceLeftMarginAnimValue,
+  const multiBalanceAnimStyles = {
+    marginTop: Platform.select({
+      android: 0,
+    }),
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  }
+
+  const sendReceiveAnimStyles = {
+    width: '100%',
+    marginTop: headerLarge ? 5 : 0,
+    transform: [
+      {
+        translateY: sendReceiveMinimzedYAnimValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: sendReceiveOutputRange,
+        }),
+      },
+    ],
+  }
+
+  const topInfoAnimStyles = {
+    height: Platform.select({
+      web: topInfoHeight,
+      android: 'auto',
+    }),
+  }
+
+  const gdPriceAnimStyles = {
+    marginTop: Platform.select({
+      web: 0,
+      android: 20,
     }),
   }
 
@@ -194,9 +297,12 @@ const Dashboard = props => {
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
 
-  const balanceFormatter = useMemo(
-    () => (headerLarge || Math.floor(Math.log10(balance)) + 1 <= 12 ? null : abbreviateBalance),
-    [balance, headerLarge],
+  const balanceFormatter = useCallback(
+    amount => {
+      const inDecimals = amount
+      return formatWithAbbreviations(inDecimals, 2)
+    },
+    [headerLarge, toDecimals],
   )
 
   const listFooterComponent = <Separator color="transparent" width={50} />
@@ -340,8 +446,7 @@ const Dashboard = props => {
 
   const animateItems = useCallback(async () => {
     await animateClaim()
-    setAnimateMarket(true)
-  }, [animateClaim, setAnimateMarket])
+  }, [animateClaim])
 
   const showDelayed = useCallback(() => {
     const id = setTimeout(() => {
@@ -395,28 +500,24 @@ const Dashboard = props => {
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
 
-    // calculate left margin for aligning the balance to the right
-    // - 24 is to give more space to the number, otherwise (in native) it gets cut on the right side
-    const balanceCalculatedLeftMargin = headerContentWidth - balanceBlockWidthRef.current - 24
-
     if (headerLarge) {
       // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
-          toValue: 68,
+          toValue: 42,
           duration: timing,
           easing: easingOut,
           useNativeDriver: false,
         }),
-        Animated.timing(headerHeightAnimValue, {
-          toValue: 176,
-          duration: timing,
-          easing: easingOut,
-          useNativeDriver: false,
-        }),
-        Animated.timing(headerAvatarLeftAnimValue, {
+        Animated.timing(sendReceiveMinimzedYAnimValue, {
           toValue: 0,
-          duration: timing,
+          duration: 250,
+          easing: easingOut,
+          useNativeDrive: false,
+        }),
+        Animated.timing(balanceTopAnimValue, {
+          toValue: 0,
+          duration: 300,
           easing: easingOut,
           useNativeDriver: false,
         }),
@@ -444,6 +545,12 @@ const Dashboard = props => {
           easing: easingOut,
           useNativeDriver: false,
         }),
+        Animated.timing(topInfoHeight, {
+          toValue: 240,
+          duration: 200,
+          easing: easingOut,
+          useNativeDriver: false,
+        }),
       ]).start()
     } else {
       // useNativeDriver is always false because native doesnt support animating height
@@ -454,16 +561,15 @@ const Dashboard = props => {
           easing: easingIn,
           useNativeDriver: false,
         }),
-        Animated.timing(headerHeightAnimValue, {
-          toValue: Platform.select({ web: 40, default: 50 }),
-          duration: timing,
-          easing: easingIn,
-          useNativeDriver: false,
+        Animated.timing(sendReceiveMinimzedYAnimValue, {
+          toValue: 1,
+          duration: 250,
+          easing: easingOut,
+          useNativeDrive: false,
         }),
-        Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: initialAvatarLeftPosition,
-          duration: timing,
-          easing: easingIn,
+        Animated.timing(balanceTopAnimValue, {
+          toValue: 1,
+          duration: 300,
           useNativeDriver: false,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
@@ -485,9 +591,16 @@ const Dashboard = props => {
           useNativeDriver: false,
         }),
         Animated.timing(headerBalanceLeftMarginAnimValue, {
-          toValue: balanceCalculatedLeftMargin,
+          toValue: 120,
           duration: timing,
           easing: easingIn,
+          useNativeDriver: false,
+        }),
+        Animated.timing(topInfoHeight, {
+          toValue: 130,
+          duration: timing,
+          delay: 100,
+          easing: easingOut,
           useNativeDriver: false,
         }),
       ]).start()
@@ -547,6 +660,13 @@ const Dashboard = props => {
     }
   }, [appState])
 
+  // reset feed everytime we switch network, as feed is filtered by networkId
+  useEffect(() => {
+    if (currentNetwork) {
+      getFeedPage(true)
+    }
+  }, [currentNetwork])
+
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
       const {
@@ -598,6 +718,10 @@ const Dashboard = props => {
 
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
+  const goToBridge = useCallback(() => {
+    screenProps.push('Amount', { isBridge: true })
+  }, [screenProps])
+
   const dispatchScrollEvent = useDebouncedCallback(() => fireEvent(SCROLL_FEED), 250)
 
   const scrollData = useMemo(() => {
@@ -627,106 +751,147 @@ const Dashboard = props => {
     [dispatchScrollEvent, handleScrollEnd],
   )
 
-  const onBalanceLayout = useCallback(
-    ({ nativeEvent }) => (balanceBlockWidthRef.current = get(nativeEvent, 'layout.width', 0)),
-    [],
-  )
+  // const onBalanceLayout = useCallback(
+  //   ({ nativeEvent }) => (balanceBlockWidthRef.current = get(nativeEvent, 'layout.width', 0)),
+  //   [],
+  // )
 
   const calculateFontSize = useMemo(
     () => ({
-      fontSize: normalizeByLength(weiToGd(balance), 42, 10),
+      fontSize: normalizeByLength(balance, 42, 10),
     }),
-    [balance],
+    [balance, toDecimals],
   )
 
   const calculateUSDWorthOfBalance = useMemo(
-    () => (showPrice ? formatWithFixedValueDigits(price * weiToGd(balance)) : null),
-    [showPrice, price, balance],
+    () => (showPrice ? formatWithFixedValueDigits(price * Number(balance)) : null),
+    [showPrice, price, balance, toDecimals],
   )
 
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
-      <Section style={[styles.topInfo]}>
-        <Animated.View style={headerAnimateStyles}>
-          <Section.Stack alignItems="center" style={styles.headerWrapper}>
-            <Animated.View style={avatarAnimStyles}>
-              <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
-                <Avatar
-                  source={avatar}
-                  style={styles.avatar}
-                  imageStyle={styles.avatar}
-                  unknownStyle={styles.avatar}
-                  plain
-                />
-              </TouchableOpacity>
+      <Animated.View style={[styles.topInfo, topInfoAnimStyles]}>
+        <Animated.View style={styles.topHeader}>
+          <Section.Stack alignItems="center" style={styles.balanceContainer}>
+            <Animated.View style={styles.balanceTop}>
+              <Section style={styles.profileContainer}>
+                <Animated.View style={profileAnimStyles}>
+                  <Animated.View testID="avatar-anim-styles" style={avatarAnimStyles}>
+                    <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
+                      <Avatar
+                        source={avatar}
+                        style={styles.avatar}
+                        imageStyle={styles.avatar}
+                        unknownStyle={styles.avatar}
+                        plain
+                      />
+                    </TouchableOpacity>
+                  </Animated.View>
+                  {headerLarge && (
+                    <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
+                      <Section.Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={12}>
+                        {fullName || ' '}
+                      </Section.Text>
+                    </Animated.View>
+                  )}
+                </Animated.View>
+              </Section>
+              <Animated.View style={styles.totalBalance}>
+                {headerLarge && (
+                  <Text
+                    color="gray100Percent"
+                    fontFamily={theme.fonts.default}
+                    fontSize={12}
+                    style={styles.totalBalanceText}
+                  >
+                    {` MY TOTAL BALANCE `}
+                  </Text>
+                )}
+                <View style={styles.balanceUsdRow}>
+                  <BigGoodDollar
+                    testID="amount_value"
+                    number={balance}
+                    formatter={balanceFormatter}
+                    bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
+                    bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                    bigNumberProps={{
+                      numberOfLines: 1,
+                    }}
+                    style={styles.bigGoodDollar}
+                  />
+                </View>
+                {headerLarge && (
+                  <Text style={styles.gdPrice}>
+                    ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
+                  </Text>
+                )}
+              </Animated.View>
             </Animated.View>
-            <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
-              <Section.Text color="gray80Percent" fontFamily={theme.fonts.slab} fontSize={18}>
-                {fullName || ' '}
-              </Section.Text>
-            </Animated.View>
-            <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
-              <View onLayout={onBalanceLayout}>
-                <BigGoodDollar
-                  testID="amount_value"
-                  number={balance}
-                  bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
-                  formatter={balanceFormatter}
-                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                  bigNumberProps={{
-                    numberOfLines: 1,
-                  }}
-                  style={styles.bigGoodDollar}
-                />
-              </View>
-              {headerLarge && showPrice && (
-                <Section.Text style={styles.gdPrice}>
-                  ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
-                </Section.Text>
-              )}
+            {headerLarge && (
+              <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
+                <View style={styles.multiBalance}>
+                  <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
+                  <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
+                    <BridgeButton onPress={goToBridge} />
+                  </Section.Text>
+                  <BalanceAndSwitch balance={celoBalance} networkName="Celo" />
+                </View>
+              </Animated.View>
+            )}
+            <Animated.View style={sendReceiveAnimStyles}>
+              <Section style={[styles.txButtons]}>
+                <Section.Row style={styles.buttonsRow}>
+                  <PushButton
+                    icon="send"
+                    iconAlignment="left"
+                    routeName="Amount"
+                    iconSize={20}
+                    screenProps={screenProps}
+                    style={[styles.leftButton, styles.sendReceiveButton]}
+                    contentStyle={styles.leftButtonContent}
+                    textStyle={styles.leftButtonText}
+                    params={{
+                      action: 'Send',
+                    }}
+                    compact
+                  >
+                    Send
+                  </PushButton>
+                  <ClaimButton
+                    screenProps={screenProps}
+                    amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
+                    animated
+                    animatedScale={claimScale}
+                  />
+                  <PushButton
+                    icon="receive"
+                    iconSize={20}
+                    iconAlignment="right"
+                    routeName={'Receive'}
+                    screenProps={screenProps}
+                    style={[styles.rightButton, styles.sendReceiveButton]}
+                    contentStyle={styles.rightButtonContent}
+                    textStyle={styles.rightButtonText}
+                    compact
+                  >
+                    Receive
+                  </PushButton>
+                </Section.Row>
+              </Section>
             </Animated.View>
           </Section.Stack>
         </Animated.View>
-        <Section.Row style={styles.buttonsRow}>
-          <PushButton
-            icon="send"
-            iconAlignment="left"
-            routeName="Amount"
-            iconSize={20}
-            screenProps={screenProps}
-            style={styles.leftButton}
-            contentStyle={styles.leftButtonContent}
-            textStyle={styles.leftButtonText}
-            params={{
-              action: 'Send',
-            }}
-            compact
-          >
-            Send
-          </PushButton>
-          <ClaimButton
-            screenProps={screenProps}
-            amount={weiToMask(entitlement, { showUnits: true })}
-            animated
-            animatedScale={claimScale}
-          />
-          <PushButton
-            icon="receive"
-            iconSize={20}
-            iconAlignment="right"
-            routeName={'Receive'}
-            screenProps={screenProps}
-            style={styles.rightButton}
-            contentStyle={styles.rightButtonContent}
-            textStyle={styles.rightButtonText}
-            compact
-          >
-            Receive
-          </PushButton>
-        </Section.Row>
-      </Section>
+      </Animated.View>
 
-      <Section style={{ marginHorizontal: 8, backgroundColor: undefined, paddingHorizontal: 0, paddingBottom: 6 }}>
+      <Section
+        style={{
+          marginHorizontal: 8,
+          backgroundColor: undefined,
+          paddingHorizontal: 0,
+          paddingBottom: 6,
+          paddingTop: 6,
+        }}
+      >
         <Section.Row>
           {FeedCategories.all.map(tab => (
             <FeedTab
@@ -763,14 +928,14 @@ const Dashboard = props => {
           navigation={navigation}
         />
       )}
-      {animateMarket && <GoodMarketButton />}
+      {<GoodActionBar navigation={navigation} />}
     </Wrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  headerWrapper: {
-    height: '100%',
+  balanceContainer: {
+    height: Platform.select({ web: 'max-content', android: 'auto' }),
     paddingBottom: Platform.select({
       web: theme.sizes.defaultHalf,
       default: theme.sizes.default,
@@ -780,31 +945,56 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: -1,
+    marginTop: 8,
+    marginBottom: 8,
   },
   dashboardWrapper: {
-    backgroundColor: theme.colors.lightGray,
+    backgroundColor: theme.colors.secondaryGray,
     flexGrow: 1,
     padding: 0,
     ...Platform.select({
       web: { overflowY: 'hidden' },
     }),
   },
+  userInfo: {
+    backgroundColor: 'transparent',
+    marginBottom: 12,
+  },
+  topHeader: {
+    position: 'relative',
+  },
   topInfo: {
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
+    position: 'relative',
     marginLeft: theme.sizes.default,
     marginRight: theme.sizes.default,
     paddingBottom: 6,
     paddingLeft: theme.sizes.default,
     paddingRight: theme.sizes.default,
-    paddingTop: theme.sizes.defaultDouble,
-    marginBottom: -3,
+    paddingTop: theme.sizes.default,
+    backgroundColor: '#fff',
     zIndex: 10,
-    position: 'relative',
-  },
-  userInfo: {
-    backgroundColor: 'transparent',
-    marginBottom: 12,
+    marginTop: 16,
+    marginBottom: 8,
+    borderRadius: 12,
+    ...Platform.select({
+      web: {
+        boxShadow: '0px 5px 10px rgba(23, 53, 102, 0.05)',
+      },
+      default: {
+        shadowColor: '#173566',
+        shadowOffset: {
+          width: 0,
+          height: theme.modals.jaggedEdgeSize,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 5,
+        elevation: 10,
+      },
+    }),
+    height: Platform.select({
+      web: 260,
+      android: 'auto',
+    }),
   },
   userInfoHorizontal: {
     alignItems: 'center',
@@ -840,29 +1030,45 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 14,
+    fontSize: 12,
     color: theme.colors.secondary,
     fontWeight: 'bold',
   },
   leftButton: {
+    marginRight: -12,
+  },
+  totalBalance: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    width: 170,
+    marginRight: 5,
+    justifyContent: 'flex-end',
+    padding: 0,
+    textAlign: 'right',
+    backgroundColor: 'transparent',
+  },
+  totalBalanceText: {
+    marginTop: 8,
+    marginBottom: Platform.select({
+      web: 0,
+      android: 8,
+    }),
+  },
+  sendReceiveButton: {
     flex: 1,
     height: 44,
-    marginRight: -12,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
+    backgroundColor: theme.colors.green,
   },
   leftButtonContent: {
     alignItems: 'stretch',
     justifyContent: 'center',
   },
   rightButton: {
-    flex: 1,
-    height: 44,
     marginLeft: -12,
-    elevation: 0,
-    display: 'flex',
-    justifyContent: 'center',
   },
   rightButtonContent: {
     alignItems: 'stretch',
@@ -874,23 +1080,68 @@ const getStylesFromProps = ({ theme }) => ({
   rightButtonText: {
     marginLeft: theme.sizes.defaultDouble,
   },
-  bigNumberWrapper: {
-    alignItems: 'center',
-  },
   bigNumberUnitStyles: {
-    marginRight: normalize(-20),
     alignSelf: 'stretch',
   },
   bigNumberStyles: {
     fontWeight: '700',
     fontSize: 42,
     lineHeight: 42,
-    height: 42,
-    textAlign: 'center',
-    alignSelf: 'stretch',
+    height: Platform.select({
+      android: 36,
+    }),
+    textAlign: 'right',
   },
   bigGoodDollar: {
     width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+  },
+  txButtons: {
+    width: '100%',
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  multiBalanceContainer: {
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    backgroundColor: theme.colors.secondaryGray,
+    flexDirection: Platform.select({
+      web: 'column',
+      android: 'column',
+    }),
+    width: Platform.select({
+      web: '100%',
+      android: '100%',
+    }),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  balanceUsdRow: {
+    width: '100%',
+  },
+  balanceTop: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  profileContainer: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    alignItems: 'center',
+  },
+  multiBalance: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: Platform.select({
+      web: '100%',
+      android: 179,
+    }),
+    height: 54,
+    justifyContent: 'center',
   },
 })
 

@@ -34,7 +34,7 @@ module.exports = {
 
     config.transformIgnorePatterns = [
       '<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk',
-      '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter|@gooddollar/react-native-facetec|@ceramicnetwork)',
+      '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter|@gooddollar/react-native-facetec|@ceramicnetwork|@web3-onboard)',
     ]
 
     config.setupFiles = [

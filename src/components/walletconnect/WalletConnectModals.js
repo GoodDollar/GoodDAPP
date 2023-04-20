@@ -17,6 +17,7 @@ import { openLink } from '../../lib/utils/linking'
 // hooks
 import { useDialog } from '../../lib/dialog/useDialog'
 import Config from '../../config/config'
+import mustache from '../../lib/utils/mustache'
 
 const log = logger.child({ from: 'WalletConnectModals' })
 
@@ -135,9 +136,10 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
       )}
       {!isSign && !gasStatus.hasEnoughGas && (
         <Text color="red" fontWeight="bold">
-          {t`Not enough balance to execute transaction. Balance: ${gasStatus.balance} Required: ${
-            gasStatus.gasRequired
-          }`}
+          {mustache(
+            t`Not enough balance to execute transaction. Balance: {balance} Required: {gasRequired}`,
+            gasStatus,
+          )}
         </Text>
       )}
       {name && (
@@ -275,7 +277,7 @@ export const useSessionApproveModal = () => {
       log.debug('showing dialog', { metadata, payload, message, walletAddress, onReject, onApprove, modalType })
 
       if (modalType === 'error') {
-        return showErrorDialog(t`Unsupported request ${payload.method}`)
+        return showErrorDialog(t`Unsupported request` + ' ' + payload.method)
       }
 
       const afterScan = async data => {
@@ -287,7 +289,7 @@ export const useSessionApproveModal = () => {
         const ok = await onApprove(data)
 
         if (!ok) {
-          showErrorDialog(t`Invalid QR Value: ${data}`)
+          showErrorDialog(t`Invalid QR Value:` + ' ' + data)
         }
 
         hideDialog()
@@ -366,7 +368,7 @@ export const useSessionApproveModal = () => {
       } catch (e) {
         log.error('failed showing dialog', e.message, e, { dialogShown: true, payload, modalType })
 
-        showErrorDialog(t`Unable to process request: ${e.message}`)
+        showErrorDialog(t`Unable to process request:` + ' ' + e.message)
       }
     },
     [],

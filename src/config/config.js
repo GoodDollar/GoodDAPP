@@ -26,7 +26,7 @@ const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'eto
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://{cid}.ipfs.nftstorage.link,https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
 
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
-const network = env.REACT_APP_NETWORK || 'fuse'
+const network = env.REACT_APP_NETWORK || 'development-celo'
 const { networkId } = contractsAddress[network]
 const fuseRpc = env.REACT_APP_WEB3_RPC
 const celoRpc = env.REACT_APP_WEB3_RPC_CELO
@@ -39,10 +39,17 @@ export const fuseNetwork = {
   explorerName: 'fusescan',
   network_id: 122,
   gasPrice:10, //in gwei
-  g$Decimals:2
+  g$Decimals:2,
 }
 
 let altProviders = {}
+try {
+  // web3 rpc needs to be an object with key networkId and value of same type as above fuseNetwork record
+  altProviders = JSON.parse(env.REACT_APP_WEB3_RPC)
+} catch(e) {
+  altProviders = {}
+}
+
 
 const ethereum = defaultsDeep(altProviders, {
   '1': {
@@ -91,7 +98,7 @@ const ethereum = defaultsDeep(altProviders, {
     network_id: 42220,
     startBlock: 18000000,    
     gasPrice: 5,
-    g$Decimals: 18
+    g$Decimals: 18,
   },
 })
 
@@ -142,6 +149,10 @@ const Config = {
   goodSwapUrl: env.REACT_APP_GOODSWAP_URL || 'http://dev.gooddapp.org/#/swap',
   goodDollarPriceInfoUrl: env.REACT_APP_PRICE_INFO_URL || 'https://datastudio.google.com/u/0/reporting/f1ce8f56-058c-4e31-bfd4-1a741482642a/page/p_97jwocmrmc',
   marketUrl: env.REACT_APP_MARKET_URL || 'https://goodmarkets.xyz/',
+  learnUrl: env.REACT_APP_LEARN_URL || 'https://gooddollar.notion.site/GoodDollar-550f7d74c59c4123a7851fea52891811',
+  useGdUrl: env.REACT_APP_USE_GD_URL || 'https://gooddollar.notion.site/Use-G-8639553aa7214590a70afec91a7d9e73',
+  donateUrl: env.REACT_APP_DONATE_URL || 'https://gooddollar.notion.site/Donate-to-a-G-Cause-e7d31fb67bb8494abb3a7989ebe6f181',
+  voteUrl: env.REACT_APP_VOTE_URL || 'https://gooddollar.notion.site/About-GoodDAO-a8568c97caec44968e6b6e96303d73ad',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork,
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
@@ -228,10 +239,8 @@ const Config = {
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
   networkId,
-  networkExplorerUrl: ethereum[networkId].explorer,
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
   enableWebNotifications: env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true',
-  enableHDWallet: env.REACT_APP_ENABLE_HD_WALLET === 'true',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
   defaultTxGas: parseInt(env.REACT_APP_DEFAULT_TX_GAS || 1000000),

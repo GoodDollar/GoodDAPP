@@ -39,7 +39,8 @@ export const fuseNetwork = {
   explorerName: 'fusescan',
   network_id: 122,
   gasPrice:10, //in gwei
-  g$Decimals:2
+  g$Decimals:2,
+  gasLimit: 60000
 }
 
 let altProviders = {}
@@ -98,7 +99,8 @@ const ethereum = defaultsDeep(altProviders, {
     network_id: 42220,
     startBlock: 18000000,    
     gasPrice: 5,
-    g$Decimals: 18
+    g$Decimals: 18,
+    gasLimit: 60000
   },
 })
 

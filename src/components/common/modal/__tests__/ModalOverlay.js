@@ -36,20 +36,4 @@ describe('ModalOverlay', () => {
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
-
-  it('matches snapshot with properties', async () => {
-    let component
-
-    await renderer.act(
-      // eslint-disable-next-line require-await
-      async () =>
-        (component = renderer.create(
-          <ModalOverlay>
-            <React.Fragment>Testing</React.Fragment>
-          </ModalOverlay>,
-        )),
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
 })

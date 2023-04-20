@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { t } from '@lingui/macro'
+import { useBridge } from '@gooddollar/web3sdk-v2'
 import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
@@ -12,12 +13,13 @@ import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { retry } from '../../lib/utils/async'
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import API from '../../lib/API'
 
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
+import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
 const log = logger.child({ from: 'SendLinkSummary' })
@@ -36,7 +38,10 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const userStorage = useUserStorage()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
+  const { isBridge, network } = screenState
   const { showDialog, hideDialog, showErrorDialog } = useDialog()
+
+  const { sendBridgeRequest, bridgeRequestStatus } = useBridge()
 
   const [shared, setShared] = useState(false)
   const [link, setLink] = useState('')
@@ -90,6 +95,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             createdDate: new Date().toISOString(),
             type: FeedItemType.EVENT_TYPE_SEND,
             status: 'pending',
+            chainId: goodWallet.networkId,
             data: {
               counterPartyDisplayName,
               senderEmail: vendorFields.email,
@@ -194,6 +200,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               createdDate: new Date().toISOString(),
               date: new Date().toISOString(),
               type: FeedItemType.EVENT_TYPE_SENDDIRECT,
+              chainId: goodWallet.networkId,
               data: {
                 to: address,
                 reason,
@@ -249,7 +256,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const sendViaLink = useCallback(() => {
     try {
       const paymentLink = getLink()
-      const desktopShareLink = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, fullName)
+      const desktopShareLink = generateSendShareObject(
+        paymentLink,
+        decimalsToFixed(goodWallet.toDecimals(amount)),
+        counterPartyDisplayName,
+        fullName,
+      )
 
       // Go to transaction confirmation screen
       navigateTo('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
@@ -258,6 +270,38 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       showErrorDialog(t`Could not complete transaction. Please try again.`)
     }
   }, [amount, counterPartyDisplayName, fullName, navigateTo, getLink])
+
+  const sendViaBridge = useCallback(
+    async (amount: string) => {
+      await sendBridgeRequest(amount, network.toLowerCase())
+    },
+    [amount],
+  )
+
+  useEffect(() => {
+    if (bridgeRequestStatus.status === 'Mining') {
+      const { transaction: tx } = bridgeRequestStatus
+      const transactionEvent: TransactionEvent = {
+        id: tx.hash,
+        createdDate: new Date().toISOString(),
+        date: new Date().toISOString(),
+        type: FeedItemType.EVENT_TYPE_SENDDIRECT,
+        chainId: goodWallet.networkId,
+        data: {
+          reason: t`Bridged G$`,
+          counterPartyFullName: t`Bridge`,
+          amount,
+        },
+      }
+
+      log.debug('sendViaAddress: enqueueTX', { transactionEvent })
+
+      userStorage.enqueueTX(transactionEvent)
+
+      fireEvent(SEND_DONE, { type: 'Bridge' })
+      goToRoot()
+    }
+  }, [bridgeRequestStatus])
 
   const handlePayment = useCallback(async () => {
     let paymentLink = link
@@ -303,13 +347,15 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       // for access them immediately from the nested handlers
       vendorFieldsRef.current = vendorFields || {}
 
-      if (action === ACTION_SEND_TO_ADDRESS) {
+      if (isBridge) {
+        await sendViaBridge(amount)
+      } else if (action === ACTION_SEND_TO_ADDRESS) {
         await sendViaAddress(address)
       } else {
         handlePayment()
       }
     },
-    [action, handlePayment, sendViaAddress, address],
+    [action, handlePayment, sendViaAddress, address, amount],
   )
 
   return (
@@ -321,16 +367,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       amount={amount}
       reason={reason}
       iconName="send"
-      title={t`YOU ARE SENDING`}
+      title={isBridge ? t`You will receive` : t`You are sending`}
       action="send"
       vendorInfo={vendorInfo}
     />
   )
 }
 
-SendLinkSummary.navigationOptions = {
-  title: SEND_TITLE,
-}
+SendLinkSummary.navigationOptions = navigationOptions
 
 SendLinkSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps

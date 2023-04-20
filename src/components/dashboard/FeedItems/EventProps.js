@@ -2,6 +2,7 @@
 export type FeedEventProps = {
   item: {
     id: string,
+    chainId: Number,
     date: string,
     data: {
       amount: number,

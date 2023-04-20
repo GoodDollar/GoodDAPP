@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import normalize from '../../../lib/utils/normalizeText'
 
 import { moneyRegexp } from '../../../lib/wallet/utils'
@@ -35,8 +35,8 @@ type SelectionEvent = {
  * @returns {React.Node}
  */
 const InputGoodDollar = (props: Props) => {
-  const { onChangeAmount, amount, onSelectionChange, style, styles, ...rest } = props
-  const [selection, setSelection] = useState({ start: 0, end: 0 })
+  const { onChangeAmount, amount, onSelectionChange, style, styles, selection: selDefault, ...rest } = props
+  const [selection, setSelection] = useState(selDefault)
 
   const handleValueChange = (text: string) => {
     if (text === '' || moneyRegexp.test(text)) {
@@ -48,6 +48,10 @@ const InputGoodDollar = (props: Props) => {
     setSelection(selection)
     onSelectionChange(selection)
   }
+  useEffect(() => {
+    setSelection(selDefault)
+  }, [selDefault])
+
   return (
     <InputText
       {...rest}

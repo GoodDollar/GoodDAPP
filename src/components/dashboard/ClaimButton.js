@@ -10,7 +10,6 @@ import Text from '../common/view/Text'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 
 import { withStyles } from '../../lib/styles'
-import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../lib/utils/sizes'
 import { theme } from '../theme/styles'
 
@@ -68,7 +67,6 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
         </Text>
         <BigGoodDollar
           number={entitlement}
-          formatter={weiToGd}
           fontFamily="Roboto"
           bigNumberProps={{
             fontFamily: 'Roboto',

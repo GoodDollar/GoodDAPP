@@ -1,7 +1,8 @@
+// @flow
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Image, Platform, TextInput, View } from 'react-native'
+import { Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
-import { t, Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import Avatar from '../common/view/Avatar'
 import { WavesBox } from '../common/view/WavesBox'
@@ -18,10 +19,18 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 import createABTesting from '../../lib/hooks/useABTesting'
 import { withStyles } from '../../lib/styles'
+import CeloLogo from '../../assets/celo-logo.svg'
 
-import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import {
+  useFormatG$,
+  usePropSuffix,
+  useSwitchNetworkModal,
+  useUserStorage,
+  useWallet,
+} from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
 import mustache from '../../lib/utils/mustache'
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import {
   useCollectBounty,
   useInviteBonus,
@@ -31,7 +40,6 @@ import {
   useRegisterForInvites,
 } from './useInvites'
 import FriendsSVG from './friends.svg'
-import EtoroPNG from './etoro.png'
 import ShareIcons from './ShareIcons'
 import useShareMessages from './useShareMessages'
 
@@ -82,11 +90,12 @@ const InvitedUser = ({ address, status }) => {
 
 const ShareBox = ({ level, styles }) => {
   const [{ shareMessage, shareTitle }] = useShareMessages()
-  const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'basic' }], [shareMessage])
+  const { toDecimals } = useFormatG$()
+  const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'celo' }], [shareMessage])
 
   const inviteCode = useInviteCode()
   const abTestOption = useOption(abTestOptions)
-  const bounty = useMemo(() => (level?.bounty ? parseInt(level.bounty) / 100 : ''), [level])
+  const bounty = useMemo(() => (level?.bounty ? decimalsToFixed(toDecimals(level.bounty)) : ''), [level])
 
   const shareUrl = useMemo(
     () =>
@@ -115,18 +124,17 @@ const ShareBox = ({ level, styles }) => {
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Share Your Invite Link`}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
-        <Trans>
-          <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
-            You’ll get{' '}
-            <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
-              {` ${bounty}G$ `}
-            </Section.Text>
-            and they will get{' '}
-            <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
-              {` ${bounty / 2}G$`}
-            </Section.Text>
+        <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
+          You’ll get{' '}
+          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
+            {` ${bounty}G$ `}
+          </Section.Text>{' '}
+          {t`and they will get `}
+          <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
+            {` `}
+            {` ${bounty / 2}G$`}
           </Section.Text>
-        </Trans>
+        </Section.Text>
       </Section.Stack>
       <Section.Row style={{ alignItems: 'flex-start' }}>
         <Text
@@ -158,12 +166,12 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   const ownInviteCode = useInviteCode()
   const registerForInvites = useRegisterForInvites()
   const { hideDialog, showDialog } = useDialog()
-  const inviteCodeUsed = useUserProperty('inviterInviteCodeUsed')
   const [collected, getCanCollect, collectInviteBounty] = useInviteBonus()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
-
-  const [code, setCode] = useState(userStorage.userProperties.get('inviterInviteCode') || '')
+  const propSuffix = usePropSuffix()
+  const inviteCodeUsed = useUserProperty(`inviterInviteCodeUsed${propSuffix}`)
+  const [code, setCode] = useState(userStorage.userProperties.get(`inviterInviteCode${propSuffix}`) || '')
 
   // if code wasnt a url it will not have any query params and will then use code as default
   const extractedCode = useMemo(() => get(createUrlObject(code), 'params.inviteCode', code), [code])
@@ -427,12 +435,7 @@ const InvitesHowTO = () => {
         >
           {t`Rewards pool is sponsored by`}
         </Section.Text>
-        <Image
-          source={EtoroPNG}
-          resizeMode={'contain'}
-          resizeMethod={'scale'}
-          style={{ marginLeft: 2.5, width: 45, height: 18, marginBottom: 1 }}
-        />
+        <SVGWrapper svg={CeloLogo} style={{ marginLeft: 10 }} />
       </Section.Row>
     </Section.Stack>
   )
@@ -461,12 +464,16 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo, st
 
 const Invite = ({ screenProps, styles }) => {
   const { wasOpened } = useInviteScreenOpened()
+  const { toDecimals } = useFormatG$()
+  useSwitchNetworkModal('CELO', screenProps.goToRoot)
+
   const [showHowTo, setShowHowTo] = useState(!wasOpened)
   const [invitees, refresh, level, inviteState] = useInvited()
   const userStorage = useUserStorage()
+  const propSuffix = usePropSuffix()
 
   const totalEarned = parseInt(get(inviteState, 'totalEarned', 0))
-  const bounty = parseInt(get(level, 'bounty', 0)) / 100
+  const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
 
   const toggleHowTo = () => {
     !showHowTo && fireEvent(INVITE_HOWTO)
@@ -476,9 +483,9 @@ const Invite = ({ screenProps, styles }) => {
   useEffect(() => {
     // reset state for rewards icon in navbar
     if (inviteState.pending || inviteState.approved) {
-      userStorage.userProperties.safeSet('lastInviteState', inviteState)
+      userStorage.userProperties.safeSet(`lastInviteState${propSuffix}`, inviteState)
     }
-  }, [inviteState])
+  }, [inviteState, propSuffix])
 
   if (isNil(bounty) || isNaN(bounty)) {
     return null
@@ -498,18 +505,16 @@ const Invite = ({ screenProps, styles }) => {
         >
           {`Get ${bounty}G$`}
         </Section.Text>
-        <Trans>
-          <Section.Text
-            letterSpacing={0.1}
-            fontWeight={'bold'}
-            fontFamily={theme.fonts.slab}
-            fontSize={20}
-            color={theme.colors.primary}
-            lineHeight={34}
-          >
-            For Each Friend You Invite!
-          </Section.Text>
-        </Trans>
+        <Section.Text
+          letterSpacing={0.1}
+          fontWeight={'bold'}
+          fontFamily={theme.fonts.slab}
+          fontSize={20}
+          color={theme.colors.primary}
+          lineHeight={34}
+        >
+          {t`For Each Friend You Invite!`}
+        </Section.Text>
       </Section.Stack>
       <Divider size={theme.sizes.defaultDouble} />
       <Section.Text letterSpacing={-0.07} lineHeight={20} fontSize={15} color={theme.colors.darkBlue}>
@@ -549,6 +554,10 @@ const getStylesFromProps = ({ theme }) => ({
     flexBasis: 1,
     paddingBottom: 50,
     height: '100%',
+    minHeight: Platform.select({
+      web: 788,
+      android: 1150,
+    }),
   },
   linkBoxStyle: {
     backgroundColor: theme.colors.white,

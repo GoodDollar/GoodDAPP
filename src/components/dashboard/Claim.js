@@ -16,7 +16,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import API from '../../lib/API'
 
 import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
-import { weiToGd } from '../../lib/wallet/utils'
+import { decimalsToFixed } from '../../lib/wallet/utils'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
@@ -133,7 +133,7 @@ const gbStyles = {
   },
   value: { justifyContent: 'flex-start', alignItems: Platform.select({ default: 'flex-end', web: 'baseline' }) },
 }
-const claimAmountFormatter = value => formatWithThousandsSeparator(weiToGd(value))
+const claimAmountFormatter = value => formatWithThousandsSeparator(decimalsToFixed(value))
 
 const ClaimAmountBox = ({ dailyUbi }) => {
   const [textPosition, setPosition] = useState({ left: 194 / 2 - 45, top: 76 - 14 })
@@ -213,16 +213,20 @@ const cbStyles = {
   },
 }
 
+// Format transformer function for claimed G$ amount
+const extraInfoAmountFormatter = number => formatWithSIPrefix(decimalsToFixed(number))
+
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
   const goodWallet = useWallet()
   const { dailyUBI: entitlement, isCitizen } = useWalletData()
+  const decimalsEntitlement = goodWallet.toDecimals(entitlement || '0')
   const { appState } = useAppState()
   const userStorage = useUserStorage()
   const { userProperties } = userStorage || {}
 
-  const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(entitlement)) || 0)
+  const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(decimalsEntitlement)) || 0)
   const { isValid } = screenState
 
   const { showDialog, showErrorDialog } = useDialog()
@@ -248,9 +252,6 @@ const Claim = props => {
   // format number of people who did claim today
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
 
-  // Format transformer function for claimed G$ amount
-  const extraInfoAmountFormatter = useCallback(number => formatWithSIPrefix(weiToGd(number)), [])
-
   const [nextClaim, isReachedZero, updateTimer] = useTimer()
 
   const askForClaimNotifications = useClaimNotificationsDialog()
@@ -274,7 +275,7 @@ const Claim = props => {
           })
 
           const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
-          setDailyUbi(entitlement)
+          setDailyUbi(Number(entitlement))
           setClaimCycleTime(moment(nextClaim).format('HH:mm:ss'))
 
           if (nextClaim) {
@@ -469,14 +470,14 @@ const Claim = props => {
         )
 
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
-          claimValue: weiToGd(curEntitlement),
+          claimValue: curEntitlement,
           eventLabel: goodWallet.UBIContract._address,
         })
 
         // legacy support for claim-geo event for UA. remove once we move to new dashboard and GA4
         if (isMobileNative === false) {
           fireGoogleAnalyticsEvent('claim-geo', {
-            claimValue: weiToGd(curEntitlement),
+            claimValue: curEntitlement,
             eventLabel: goodWallet.UBIContract._address,
           })
         }
@@ -649,8 +650,8 @@ const Claim = props => {
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}
                 number={totalClaimed}
-                spaceBetween={false}
                 formatter={extraInfoAmountFormatter}
+                spaceBetween={false}
                 fontFamily="Roboto"
                 bigNumberProps={{
                   fontFamily: 'Roboto',
@@ -672,8 +673,8 @@ const Claim = props => {
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}
                 number={availableDistribution}
-                spaceBetween={false}
                 formatter={extraInfoAmountFormatter}
+                spaceBetween={false}
                 fontFamily="Roboto"
                 bigNumberProps={{
                   fontFamily: 'Roboto',

@@ -6,7 +6,6 @@ import isEmail from '../validators/isEmail'
 
 import { isMobileNative, isMobileWeb } from '../utils/platform'
 import isMobilePhone from '../validators/isMobilePhone'
-import { weiToGd } from '../wallet/utils'
 
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
@@ -158,7 +157,6 @@ export function readCode(code: string) {
 
     const { network, address } = decode(mnid)
 
-    amount = amount && parseInt(amount)
     reason = reason === 'undefined' ? undefined : reason
     category = category === 'undefined' ? undefined : category
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
@@ -229,8 +227,8 @@ export function generateSendShareObject(
   return generateShareObject(
     'Sending G$ via GoodDollar App',
     to
-      ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`
-      : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`,
+      ? `${to}, You've received ${amount} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`
+      : `You've received ${amount} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`,
     url,
   )
 }
@@ -259,7 +257,7 @@ export function generateReceiveShareObject(
   const text = [
     to ? `${to}, ` : '',
     `You've got a request from ${from}`,
-    amount > 0 ? ` for ${weiToGd(amount)} G$` : '',
+    amount > 0 ? ` for ${amount} G$` : '',
     `. To approve transfer open: ${canShare ? url : ''}`,
   ].join('')
 
@@ -370,15 +368,16 @@ export const parsePaymentLinkParams = params => {
   if (paymentCode) {
     try {
       paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
-      const { p, r, reason: oldr, paymentCode: oldp, i, cat } = JSON.parse(paymentParams)
+      const { p, r, reason: oldr, paymentCode: oldp, i, cat, n: networkId } = JSON.parse(paymentParams)
       paymentParams = {
         paymentCode: p || oldp,
         reason: r || oldr,
         category: cat,
         inviteCode: i,
+        networkId,
       }
     } catch (e) {
-      log.info('uses old format', { paymentCode, reason })
+      log.info('uses old format', { paymentCode, reason, error: e.message })
       paymentParams = {
         paymentCode: decodeURIComponent(paymentCode),
         reason: reason ? decodeURIComponent(reason) : null,

@@ -156,7 +156,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         break
     }
 
-    showErrorDialog(t`We were unable to load the wallet. ${suggestion}`)
+    showErrorDialog(t`We were unable to load the wallet.` + ' ' + suggestion)
   }
 
   const selfCustodyLogin = useCallback(() => {

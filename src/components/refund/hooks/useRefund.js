@@ -95,7 +95,7 @@ const useRefund = () => {
           log.debug('Debt is found', { maxAmount, refundedAmounts, totalRefunded, debt })
 
           setShouldRefund(true)
-          setRefundAmount(debt)
+          setRefundAmount(wallet.toDecimals(debt))
           return
         }
       }

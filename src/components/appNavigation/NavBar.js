@@ -11,7 +11,7 @@ import { getShadowStyles } from '../../lib/utils/getStyles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 import { withStyles } from '../../lib/styles'
-import HeaderLogoImage from '../../assets/header-logo.svg'
+import HeaderLogoImage from '../../assets/goodwallet.svg'
 
 /**
  * NavigationBar shows title and back button
@@ -38,8 +38,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
           name="arrow-back"
           onPress={goBack}
           color="white"
-          reverse={false}
-          reverseColor="transparent"
+          bgColor="transparent"
           size={22}
           circle={false}
           style={styles.backButton}
@@ -50,8 +49,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false }) =
       {showBackToWallet && (
         <IconButton
           name="wallet"
-          reverse={false}
-          reverseColor="transparent"
+          bgColor="transparent"
           onPress={goBack}
           color="white"
           size={36}

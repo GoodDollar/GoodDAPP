@@ -1,0 +1,50 @@
+diff --git a/dist/cjs/src/hooks/useLocalStorage.js b/dist/cjs/src/hooks/useLocalStorage.js
+index 30c768cb1989860f98dba87ba8bac09c4f85d93c..dcaff38fc35bda269d504a4cafe6afe99f0bbe0f 100644
+--- a/dist/cjs/src/hooks/useLocalStorage.js
++++ b/dist/cjs/src/hooks/useLocalStorage.js
+@@ -38,7 +38,7 @@ function setItem(key, value, storage) {
+  * @internal Intended for internal use - use it on your own risk
+  */
+ function useLocalStorage(key) {
+-    const { localStorageOverride = typeof window !== 'undefined' ? window.localStorage : new LocalStorage_1.default(), } = (0, useConfig_1.useConfig)();
++    const { localStorageOverride = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined' && typeof window.localStorage.setItem === 'function' ? window.localStorage : new LocalStorage_1.default(), } = (0, useConfig_1.useConfig)();
+     const [value, setValue] = (0, react_1.useState)(() => getItem(key, localStorageOverride));
+     (0, react_1.useEffect)(() => {
+         setValue(getItem(key, localStorageOverride));
+diff --git a/dist/cjs/src/providers/window/provider.js b/dist/cjs/src/providers/window/provider.js
+index ba227909835da1e862ca5c2d241d6e34bf054d83..c54a63945617cb59403d49c8f2c81f5f2471259d 100644
+--- a/dist/cjs/src/providers/window/provider.js
++++ b/dist/cjs/src/providers/window/provider.js
+@@ -20,6 +20,7 @@ function WindowProvider({ children }) {
+                     break;
+             }
+         };
++        if (typeof document === 'undefined' || typeof document.addEventListener !== 'function') return;
+         document.addEventListener('visibilitychange', visibilityChangeListener);
+         return () => document.removeEventListener('visibilitychange', visibilityChangeListener);
+     }, []);
+diff --git a/dist/esm/src/hooks/useLocalStorage.js b/dist/esm/src/hooks/useLocalStorage.js
+index ac05160b361da576633ea72d7e461ff5ba9b1cdb..f6d1988ba9e638e10121f314aae791ef30d6ee26 100644
+--- a/dist/esm/src/hooks/useLocalStorage.js
++++ b/dist/esm/src/hooks/useLocalStorage.js
+@@ -32,7 +32,7 @@ function setItem(key, value, storage) {
+  * @internal Intended for internal use - use it on your own risk
+  */
+ export function useLocalStorage(key) {
+-    const { localStorageOverride = typeof window !== 'undefined' ? window.localStorage : new LocalStorage(), } = useConfig();
++    const { localStorageOverride = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined' && typeof window.localStorage.setItem === 'function' ? window.localStorage : new LocalStorage(), } = useConfig();
+     const [value, setValue] = useState(() => getItem(key, localStorageOverride));
+     useEffect(() => {
+         setValue(getItem(key, localStorageOverride));
+diff --git a/dist/esm/src/providers/window/provider.js b/dist/esm/src/providers/window/provider.js
+index 06ba061f7ae51bb4b822380fe20bdce9a3679003..1767f21029486a27e657ce7f46752ece45f8859d 100644
+--- a/dist/esm/src/providers/window/provider.js
++++ b/dist/esm/src/providers/window/provider.js
+@@ -17,6 +17,7 @@ export function WindowProvider({ children }) {
+                     break;
+             }
+         };
++        if (typeof document === 'undefined' || typeof document.addEventListener !== 'function') return;
+         document.addEventListener('visibilitychange', visibilityChangeListener);
+         return () => document.removeEventListener('visibilitychange', visibilityChangeListener);
+     }, []);

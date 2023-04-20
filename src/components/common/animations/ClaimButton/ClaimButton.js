@@ -23,7 +23,7 @@ class ClaimButton extends AnimationBase {
 
     // set amount of G$ text to animation
 
-    set(animationData, 'layers[5].t.d.k[0].s.t', t`CLAIM YOUR SHARE${entitlement ? ` - ${entitlement}` : ''} `)
+    set(animationData, 'layers[5].t.d.k[0].s.t', t`CLAIM YOUR SHARE` + (entitlement ? ` - ${entitlement} ` : ' '))
 
     const gap = this.getGap(length)
 

@@ -24,7 +24,7 @@ const getStylesFromProps = () => ({
     width: 74,
     height: 74,
     position: 'absolute',
-    bottom: 0,
+    bottom: 65,
     right: 0,
     zIndex: 1000,
   },

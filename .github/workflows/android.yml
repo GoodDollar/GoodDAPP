@@ -61,16 +61,15 @@ jobs:
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_FLAGS=''" >> $GITHUB_ENV
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
       - uses: actions/setup-python@v4
         with:
           python-version: '3.7.x'
-      - name: Cache & install npm dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --immutable
+      - name: Cache & install dependencies
+        run: yarn --immutable
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
@@ -138,19 +137,18 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.TARGET_BRANCH }}
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
       - uses: actions/setup-python@v4
         with:
           python-version: '3.7.x'
       - name: fix max_user_watches
         run: |
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-      - name: Cache & install npm dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --immutable
+      - name: Cache & install  dependencies
+        run: yarn --immutable
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}

@@ -26,6 +26,7 @@ import Wrapper from '../common/layout/Wrapper'
 import normalize from '../../lib/utils/normalizeText'
 import { theme } from '../theme/styles'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import mustache from '../../lib/utils/mustache'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -128,7 +129,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               {t`Welcome back!`}
             </Text>
           ),
-          message: t`Hi ${firstName},` + '\n' + t`your wallet was recovered successfully`,
+          message: mustache(t`Hi {firstName},\nyour wallet was recovered successfully`, { firstName }),
           onDismiss: () => restart(incomingRedirectUrl),
         })
 

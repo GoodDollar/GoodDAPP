@@ -471,7 +471,7 @@ class RealmDB implements DB, ProfileDB {
    * @returns
    */
   // eslint-disable-next-line require-await
-  async getFeedPage(numResults, offset, category: FeedCategory = FeedCategories.Alls): Promise<any> {
+  async getFeedPage(numResults, offset, category: FeedCategory = FeedCategories.Alls, filterToChainId): Promise<any> {
     try {
       const hiddenStates = ['deleted', 'cancelled', 'canceled']
       const categoryMatcher = makeCategoryMatcher(category)
@@ -481,10 +481,10 @@ class RealmDB implements DB, ProfileDB {
         .reverse()
         .offset(offset)
         .filter(item => {
-          const { status, otplStatus, chainId = 122 } = item
+          const { status, otplStatus, chainId = 122, id } = item //assume old items without chainid are from fuse
+          const isNonChainItem = id.startsWith('0x') === false
 
-          //don't show celo txs in production wallet, remove when merging with celo-wallet branch
-          if (chainId !== 122) {
+          if (!isNonChainItem && filterToChainId !== chainId) {
             return false
           }
           if ([status, otplStatus].some(state => hiddenStates.includes(state))) {

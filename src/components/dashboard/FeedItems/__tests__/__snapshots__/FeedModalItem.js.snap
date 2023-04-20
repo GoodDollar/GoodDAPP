@@ -27,16 +27,12 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "0px",
               "marginTop": "0px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -110,7 +106,28 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03
@@ -319,16 +336,12 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "0px",
               "marginTop": "0px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -402,7 +415,28 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03
@@ -721,16 +755,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "0px",
               "marginTop": "0px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -788,7 +818,28 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03
@@ -1144,16 +1195,12 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "0px",
               "marginTop": "0px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -1211,7 +1258,28 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03
@@ -1567,16 +1635,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
+          className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
             Object {
-              "WebkitAlignSelf": "center",
-              "alignSelf": "center",
               "marginBottom": "0px",
               "marginTop": "0px",
               "maxWidth": "475px",
-              "msFlexItemAlign": "center",
-              "msGridRowAlign": "center",
               "paddingLeft": "20px",
               "paddingRight": "20px",
             }
@@ -1634,7 +1698,28 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <fuse.svg
+                        height={20}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-text-901oao r-alignSelf-1kihuf0 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
                     01.04.19 15:03

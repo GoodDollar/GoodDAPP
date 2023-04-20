@@ -1,17 +1,17 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { assign, get, map, noop, zipObject } from 'lodash'
-
+import { assign, map, noop, zipObject } from 'lodash'
+import { decode, isMNID } from 'mnid'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
-
+import { NETWORK_ID } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
 
 const DECIMALS = 2
 const log = pino.child({ from: 'withdraw' })
-const ethAddressRegex = /0x[a-fA-F0-9]{40}/
+const ethAddressRegex = /(\w+)?:?(0x[a-fA-F0-9]{40})/
 
 const maskSettings = {
   precision: DECIMALS,
@@ -36,10 +36,31 @@ export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
 export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-export const extractEthAddress = uri => get(uri.match(ethAddressRegex), '0', null)
+export const extractEthAddress = uri => {
+  const regExResult = uri.match(ethAddressRegex)
+
+  if (!regExResult && isMNID(uri)) {
+    const { network, address } = decode(uri)
+
+    return { networId: parseInt(network), address }
+  }
+
+  if (!regExResult) {
+    return {}
+  }
+
+  const [, networkName, address] = regExResult
+
+  return { networkId: NETWORK_ID[networkName.toUpperCase()], address }
+}
 
 export const moneyRegexp = new RegExp(`^(?!0\\d)(0|([1-9])\\d*)([.,]?(\\d{0,${DECIMALS}}))$`)
 export const numberWithCommas = (gd: string): string => gd.replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+export const decimalsToFixed = (numberWithDecimals: string, displayDecimals = 2) => {
+  const isFloat = Number(numberWithDecimals) % 1 > 0
+  return Number(numberWithDecimals).toFixed(isFloat ? displayDecimals : 0)
+}
 
 /**
  * convert wei to gooddollars (2 decimals) use toFixed to overcome javascript precision issues ie 8.95*100=894.9999...
@@ -130,6 +151,7 @@ export const executeWithdraw = async (
               createdDate: new Date().toISOString(),
               date: new Date().toISOString(),
               type: 'withdraw',
+              chainId: goodWallet.networkId,
               data: {
                 from: sender,
                 amount,

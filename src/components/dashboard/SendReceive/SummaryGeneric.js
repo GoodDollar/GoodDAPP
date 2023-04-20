@@ -1,12 +1,18 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { BackButton } from '../../appNavigation/stackNavigation'
+import { t } from '@lingui/macro'
+
+import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
+
+import { BackButton, useScreenState } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
 import BorderedBox from '../../common/view/BorderedBox'
 import TopBar from '../../common/view/TopBar'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
+
+import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobile } from '../../../lib/utils/platform'
 import isEmail from '../../../lib/validators/isEmail'
@@ -14,6 +20,7 @@ import normalize from '../../../lib/utils/normalizeText'
 import SurveySend from '../SurveySend'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { theme } from '../../theme/styles'
+import mustache from '../../../lib/utils/mustache'
 
 const SummaryGeneric = ({
   screenProps,
@@ -29,6 +36,31 @@ const SummaryGeneric = ({
   vendorInfo = undefined,
 }) => {
   const { push } = screenProps
+
+  const [screenState] = useScreenState(screenProps)
+
+  const { isBridge, network } = screenState
+
+  const goodWallet = useWallet()
+
+  const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
+  const { minFee, fee } = bridgeFees
+
+  const minBridgeFee = Number(goodWallet.toDecimals(minFee))
+  const amountInFloat = Number(goodWallet.toDecimals(amount))
+
+  // calculate the fee in G$
+  const feeinPercentage = (fee.toNumber() * 100) / 10000 //assuming bridgeFees.fee is BigNumber
+
+  let feeToPay = (amountInFloat * feeinPercentage) / 100
+  feeToPay = feeToPay < minBridgeFee ? minBridgeFee : feeToPay
+
+  // calculate amount to receive
+  const amountToReceiveInFloat = (amountInFloat - feeToPay).toString()
+
+  const amountToReceive = goodWallet.fromDecimals(amountToReceiveInFloat)
+
+  const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'
 
   const [, setSurvey] = useState(undefined)
   const [loading, setLoading] = useState(false)
@@ -101,7 +133,7 @@ const SummaryGeneric = ({
 
   return (
     <Wrapper>
-      <TopBar push={push} />
+      <TopBar push={push} isBridge={isBridge} network={network} />
       <Section grow style={styles.section}>
         <Section.Stack>
           <Section.Row justifyContent="center">
@@ -118,7 +150,8 @@ const SummaryGeneric = ({
           <Section.Title fontWeight="medium">{title}</Section.Title>
           <Section.Row justifyContent="center" fontWeight="medium" style={styles.amountWrapper}>
             <BigGoodDollar
-              number={amount}
+              chainId={goodWallet.networkId}
+              number={isBridge ? amountToReceive : amount}
               color={isSend ? 'red' : 'green'}
               bigNumberProps={{
                 fontSize: 36,
@@ -129,6 +162,19 @@ const SummaryGeneric = ({
               bigNumberUnitProps={{ fontSize: 14 }}
             />
           </Section.Row>
+          {isBridge && (
+            <Section.Row justifyContent="center">
+              <View styles={styles.bridgeDesc}>
+                <Section.Text style={{ marginBottom: 10 }}>
+                  {' '}
+                  {mustache(t` on {altNetwork}`, { altNetwork })}
+                </Section.Text>
+                <Section.Text>
+                  {mustache(t`You'll pay ${feeToPay} G$ in fees to use the bridge`, { feeToPay })}
+                </Section.Text>
+              </View>
+            </Section.Row>
+          )}
         </Section.Stack>
         <Section.Stack>
           {(address || recipient) && (
@@ -206,7 +252,11 @@ const SummaryGeneric = ({
         )}
         {isSend && (
           <Section.Row justifyContent="center" style={styles.warnText}>
-            <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
+            <Section.Text color="gray80Percent">
+              {t`* the transaction may take`}
+              {'\n'}
+              {isBridge ? t`a few minutes to complete` : t`a few seconds to complete`}
+            </Section.Text>
           </Section.Row>
         )}
         <Section.Row style={styles.buttonsWrapper}>
@@ -217,7 +267,7 @@ const SummaryGeneric = ({
           </Section.Row>
           <Section.Stack grow={3} style={styles.nextButtonContainer}>
             <CustomButton disabled={formHasErrors()} onPress={_onPress} loading={loading}>
-              {address ? 'Confirm' : 'Confirm & Share Link'}
+              {address || isBridge ? 'Confirm' : 'Confirm & Share Link'}
             </CustomButton>
           </Section.Stack>
         </Section.Row>
@@ -228,6 +278,13 @@ const SummaryGeneric = ({
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  bridgeDesc: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    color: theme.colors.darkGray,
+  },
   section: {
     display: 'flex',
     flexDirection: 'column',
@@ -243,13 +300,13 @@ const getStylesFromProps = ({ theme }) => ({
       default: getDesignRelativeHeight(75) / 2,
     }),
     marginTop: getDesignRelativeHeight(15),
-    marginBottom: getDesignRelativeHeight(24),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
   redIcon: {
     backgroundColor: theme.colors.red,
+    marginBottom: 75,
   },
   greenIcon: {
     backgroundColor: theme.colors.green,
@@ -284,8 +341,8 @@ const getStylesFromProps = ({ theme }) => ({
   },
   vendorInfoWrapper: {
     display: 'flex',
-    justifyContent: 'start',
-    alignItems: 'justify',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
   },
   buttonsWrapper: {
     flex: 1,

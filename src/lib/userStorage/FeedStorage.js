@@ -2,6 +2,7 @@
 import { debounce, find, get, has, isEqual, isUndefined, orderBy, pick, set } from 'lodash'
 import EventEmitter from 'eventemitter3'
 import moment from 'moment'
+import { t } from '@lingui/macro'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
@@ -16,7 +17,7 @@ import { asLogRecord } from './utlis'
 
 const log = logger.child({ from: 'FeedStorage' })
 
-const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
+const COMPLETED_BONUS_REASON_TEXT = t`Your recent earned rewards`
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export const TxType = {
@@ -30,6 +31,8 @@ export const TxType = {
   TX_MINT: 'TX_MINT',
   TX_ERROR: 'TX_ERROR',
   TX_UKNOWN: 'TX_UNKNOWN',
+  TX_BRIDGE_IN: 'TX_BRIDGE_IN',
+  TX_BRIDGE_OUT: 'TX_BRIDGE_OUT',
 }
 
 export const FeedItemType = {
@@ -51,6 +54,8 @@ export const TxTypeToEventType = {
   TX_CLAIM: FeedItemType.EVENT_TYPE_CLAIM,
   TX_REWARD: FeedItemType.EVENT_TYPE_BONUS,
   TX_MINT: FeedItemType.EVENT_TYPE_RECEIVE,
+  TX_BRIDGE_OUT: FeedItemType.EVENT_TYPE_SEND,
+  TX_BRIDGE_IN: FeedItemType.EVENT_TYPE_RECEIVE,
 }
 
 export const TxStatus = {
@@ -69,6 +74,7 @@ export type TransactionDetails = {
 
 export type FeedEvent = {
   id: string,
+  chainId: Number,
   type: string,
   date: string,
   createdDate?: string,
@@ -91,7 +97,7 @@ export const getEventDirection = (feedEvent, reverse = false) => {
     FeedItemType.EVENT_TYPE_BONUS,
   ]
 
-  log.debug('getCounterParty:', feedEvent?.data?.receiptEvent, feedEvent?.id, feedEvent?.txType)
+  log.debug('getEventDirection:', feedEvent?.data?.receiptEvent, feedEvent?.id, feedEvent?.txType)
 
   if (receiveCases.includes(type)) {
     return reverse ? 'to' : 'from'
@@ -181,6 +187,8 @@ export class FeedStorage {
             e.name === 'PaymentDeposit' ||
             (_to(e) === this.wallet.oneTimePaymentsContract._address.toLowerCase() && _from(e) === this.walletAddress),
         )
+
+      case TxType.TX_BRIDGE_OUT:
       case TxType.TX_SEND_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
           e =>
@@ -188,6 +196,7 @@ export class FeedStorage {
             e.name === 'Transfer' &&
             _from(e) === this.walletAddress,
         )
+      case TxType.TX_BRIDGE_IN:
       case TxType.TX_MINT:
       case TxType.TX_RECEIVE_GD:
         return orderBy(receipt.logs, 'e.data.value', 'desc').find(
@@ -283,6 +292,18 @@ export class FeedStorage {
       }
       if (gdTransferEvents.find(e => this.wallet.getRewardsAddresses().includes(e.data.from.toLowerCase()))) {
         return TxType.TX_REWARD
+      }
+      if (
+        gdTransferEvents.find(e => this.wallet.getBridgeAddresses().includes(e.data.from.toLowerCase())) || //transfer to bridge router
+        gdTransferEvents.find(e => this.wallet.getBridgeAddresses().includes(e.data.to.toLowerCase())) || // transfer from bridge router
+        this.wallet.getBridgeAddresses().includes(receipt.to.toLowerCase()) // tx executed on a bridge router in case router can mint from address 0x0...
+      ) {
+        if (gdTransferEvents.find(e => e.data.to.toLowerCase() === this.walletAddress)) {
+          return TxType.TX_BRIDGE_IN
+        }
+        if (gdTransferEvents.find(e => e.data.from.toLowerCase() === this.walletAddress)) {
+          return TxType.TX_BRIDGE_OUT
+        }
       }
       if (gdTransferEvents.find(e => e.data.from.toLowerCase() === NULL_ADDRESS)) {
         return TxType.TX_MINT
@@ -429,6 +450,9 @@ export class FeedStorage {
 
       // merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
+        // we are adding chainId to receipt in GoodWalletClass (chainId is not part of the eth rpc response receipt)
+        // this is to prevent possible race condition between receiving events and switching chains which can result in incorrect wallet.networkId
+        chainId: receipt.chainId || this.wallet.networkId,
         ...feedEvent,
         ...initialEvent,
         type,
@@ -451,12 +475,17 @@ export class FeedStorage {
 
       switch (txType) {
         case TxType.TX_REWARD:
-          updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
-          updatedFeedEvent.data.counterPartyFullName = 'GoodDollar'
+          set(updatedFeedEvent, 'data.reason', COMPLETED_BONUS_REASON_TEXT)
+          set(updatedFeedEvent, 'data.counterPartyFullName', 'GoodDollar')
+          break
+        case TxType.TX_BRIDGE_OUT:
+        case TxType.TX_BRIDGE_IN:
+          set(updatedFeedEvent, 'data.reason', t`Bridged G$`)
+          set(updatedFeedEvent, 'data.counterPartyFullName', t`Bridge`)
           break
         case TxType.TX_MINT:
-          set(feedEvent, 'data.reason', 'Your Transferred G$s')
-          set(feedEvent, 'data.counterPartyfullName', 'Fuse Bridge')
+          set(updatedFeedEvent, 'data.reason', t`Minted G$`)
+          set(updatedFeedEvent, 'data.counterPartyFullName', t`Rewards`)
           break
         default:
           break
@@ -530,7 +559,7 @@ export class FeedStorage {
 
     return {
       counterPartyAddress: address,
-      counterPartyFullName: fullName,
+      counterPartyFullName: fullName || feedEvent.data.counterPartyFullName,
       counterPartySmallAvatar: smallAvatar,
     }
   }
@@ -614,6 +643,7 @@ export class FeedStorage {
         return false
       }
 
+      event.chainId = event.chainId || this.wallet.networkId
       event.status = event.status || 'pending'
       event.createdDate = event.createdDate || new Date().toISOString()
       event.date = event.date || event.createdDate
@@ -773,13 +803,11 @@ export class FeedStorage {
 
     await this.ready
 
-    const items = await this.storage.getFeedPage(numResult, this.cursor, category)
+    const items = await this.storage.getFeedPage(numResult, this.cursor, category, this.wallet.networkId)
 
     this.cursor += items.length
 
-    log.debug('getFeedPage', {
-      items,
-    })
+    log.debug('getFeedPage result:', { length: items.length, items })
 
     const events = await Promise.all(
       items.map(async item => {

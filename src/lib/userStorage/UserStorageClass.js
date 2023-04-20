@@ -838,7 +838,7 @@ export class UserStorage {
       }
     }
 
-    const { date, id, status, createdDate, animationExecuted, action } = event
+    const { date, id, status, createdDate, animationExecuted, action, chainId } = event
     const {
       sender,
       preReasonText,
@@ -870,6 +870,7 @@ export class UserStorage {
 
     let updatedEvent = {
       id,
+      chainId,
       date: new Date(date).getTime(),
       type,
       displayType,

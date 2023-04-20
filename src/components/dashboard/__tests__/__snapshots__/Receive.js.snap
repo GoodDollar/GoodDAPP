@@ -130,6 +130,7 @@ exports[`Receive matches snapshot 1`] = `
                     "purple": "#9F6A9D",
                     "red": "#FA6C77",
                     "secondary": "#A3A3A3",
+                    "secondaryGray": "#F6F8FA",
                     "surface": "#ffffff",
                     "text": "#222",
                     "white": "#ffffff",

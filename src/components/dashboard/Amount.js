@@ -43,7 +43,7 @@ const Amount = (props: AmountProps) => {
   const { screenProps, styles } = props
   const { push } = screenProps
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { params } = props.navigation.state
+  const { params = {} } = props.navigation.state
   const { isBridge = false } = params
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()

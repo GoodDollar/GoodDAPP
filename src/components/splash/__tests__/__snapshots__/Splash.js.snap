@@ -31,11 +31,16 @@ exports[`Splash matches snapshot 1`] = `
           }
         />
         <div
-          className="css-text-901oao r-color-waoq6i r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-          dir="auto"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-display-6koalj r-justifyContent-1777fci r-marginTop-1x0uki6 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
         >
-          V
-          1.0
+          <goodWalletSplash.svg />
+          <div
+            className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            dir="auto"
+          >
+            V
+            1.0
+          </div>
         </div>
       </div>
     </div>

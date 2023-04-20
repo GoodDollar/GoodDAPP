@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { theme as defaultTheme } from '../../components/theme/styles'
 
@@ -24,17 +24,13 @@ export const withStoresProvider = Component => props => (
 )
 
 export const withUserStorage = Component => props => {
-  const [isReady, setReady] = useState(false)
-  const { initWalletAndStorage } = useContext(GoodWalletContext)
+  const { initWalletAndStorage, goodWallet } = useContext(GoodWalletContext)
   useEffect(() => {
     initWalletAndStorage &&
-      initWalletAndStorage(
-        'burger must derive wrong dry unaware reopen laptop acoustic report slender scene',
-        'SEED',
-      ).then(_ => setReady(true))
+      initWalletAndStorage('burger must derive wrong dry unaware reopen laptop acoustic report slender scene', 'SEED')
   }, [initWalletAndStorage])
 
-  return isReady ? <Component {...props} /> : null
+  return goodWallet ? <Component {...props} /> : null
 }
 export const withSimpleStateProvider = Component => props => (
   <GlobalTogglesContextProvider>

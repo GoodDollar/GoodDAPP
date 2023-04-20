@@ -39,7 +39,7 @@ const SummaryGeneric = ({
   const { isBridge, network } = screenState
 
   const goodWallet = useWallet()
-  const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
+  const { bridgeFees = { fee: 0 } } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
   const { toDecimals } = useFormatG$()
 
   const formattedFeeInGd = toDecimals((amount * bridgeFees.fee) / 10000)

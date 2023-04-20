@@ -145,7 +145,7 @@ exports[`Amount matches snapshot 1`] = `
                     readOnly={false}
                     spellCheck={true}
                     type="text"
-                    value="0"
+                    value=""
                   />
                 </div>
               </div>
@@ -344,7 +344,7 @@ exports[`Amount matches snapshot 1`] = `
                         }
                       }
                     >
-                      
+                      
                     </div>
                   </div>
                 </div>

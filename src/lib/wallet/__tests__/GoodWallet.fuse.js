@@ -11,9 +11,11 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   beforeAll(async () => {
     testWallet = new GoodWallet({
       web3Transport: 'HttpProvider',
+      network: 'dapptest',
     })
     testWallet2 = new GoodWallet({
       web3Transport: 'HttpProvider',
+      network: 'dapptest',
     })
 
     await adminWallet.ready

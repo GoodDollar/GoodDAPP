@@ -309,25 +309,33 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     switchNetwork,
   }
 
-  const env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
+  let env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
+  if (['fuse', 'staging', 'producton'].includes(env) === false) {
+    env = 'fuse'
+  }
+
+  // disable goodweb3provider for tests
+  const Provider = Config.env === 'test' ? React.Fragment : GoodWeb3Provider
+  const props =
+    Config.env === 'test'
+      ? {}
+      : {
+          web3Provider,
+          env,
+          config: {
+            pollingInterval: 15000,
+            networks: [Goerli, Mainnet, Fuse, Celo],
+            readOnlyChainId: undefined,
+            readOnlyUrls: {
+              1: 'https://rpc.ankr.com/eth',
+              122: 'https://rpc.fuse.io',
+              42220: 'https://forno.celo.org',
+            },
+          },
+        }
   return (
     <GoodWalletContext.Provider value={contextValue}>
-      <GoodWeb3Provider
-        web3Provider={web3Provider}
-        env={env}
-        config={{
-          pollingInterval: 15000,
-          networks: [Goerli, Mainnet, Fuse, Celo],
-          readOnlyChainId: undefined,
-          readOnlyUrls: {
-            1: 'https://rpc.ankr.com/eth',
-            122: 'https://rpc.fuse.io',
-            42220: 'https://forno.celo.org',
-          },
-        }}
-      >
-        {children}
-      </GoodWeb3Provider>
+      <Provider {...props}>{children}</Provider>
     </GoodWalletContext.Provider>
   )
 }
@@ -398,8 +406,8 @@ export const useFormatG$ = () => {
 
   //using args so functions do not lose "this" context
   return {
-    toDecimals: (...args) => wallet.toDecimals(...args),
-    fromDecimals: (...args) => wallet.fromDecimals(...args),
+    toDecimals: (...args) => wallet?.toDecimals(...args),
+    fromDecimals: (...args) => wallet?.fromDecimals(...args),
   }
 }
 

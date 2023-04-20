@@ -8,6 +8,7 @@ import { ACTION_SEND_TO_ADDRESS } from '../sendReceiveFlow'
 
 const goodWallet = new GoodWallet({
   web3Transport: Config.web3TransportProvider,
+  network: 'dapptest',
 })
 
 let networkId = 4447

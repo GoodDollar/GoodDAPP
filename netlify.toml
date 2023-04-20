@@ -63,6 +63,7 @@ command = "CI= rm -f .env* && CI= yarn build --ignore-engines"
 [build.environment]
 GENERATE_SOURCEMAP = "true"
 NODE_ENV = "development"
+NODE_OPTIONS = "--max-old-space-size=4096"
 YARN_CACHE_FOLDER = "/opt/buildhome/.yarn_cache"
 YARN_FLAGS = "--immutable"
 YARN_VERSION = "3.2.2"

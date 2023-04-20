@@ -2,14 +2,17 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { t } from '@lingui/macro'
+
 import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
+
 import { BackButton, useScreenState } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, InputRounded, Section, Wrapper } from '../../common'
 import BorderedBox from '../../common/view/BorderedBox'
 import TopBar from '../../common/view/TopBar'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
-import { useFormatG$, useWallet } from '../../../lib/wallet/GoodWalletProvider'
+
+import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobile } from '../../../lib/utils/platform'
 import isEmail from '../../../lib/validators/isEmail'
@@ -39,11 +42,21 @@ const SummaryGeneric = ({
   const { isBridge, network } = screenState
 
   const goodWallet = useWallet()
-  const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
-  const { toDecimals } = useFormatG$()
 
-  const formattedFeeInGd = toDecimals((amount * bridgeFees.fee) / 10000)
-  const bridgeReceiveAmount = Math.floor(amount * (1 - bridgeFees.fee / 10000)).toString()
+  const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
+  const { fee } = bridgeFees
+
+  const amountInFloat = Number(goodWallet.toDecimals(amount))
+
+  // calculate the fee in G$
+  const feeinPercentage = (fee.toNumber() * 100) / 10000 //assuming bridgeFees.fee is BigNumber
+
+  const feeToPay = (amountInFloat * feeinPercentage) / 100
+
+  // calculate amount to receive
+  const amountToReceiveInFloat = (amountInFloat - feeToPay).toString()
+
+  const amountToReceive = goodWallet.fromDecimals(amountToReceiveInFloat)
 
   const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'
 
@@ -135,7 +148,8 @@ const SummaryGeneric = ({
           <Section.Title fontWeight="medium">{title}</Section.Title>
           <Section.Row justifyContent="center" fontWeight="medium" style={styles.amountWrapper}>
             <BigGoodDollar
-              number={isBridge ? bridgeReceiveAmount : amount}
+              chainId={goodWallet.networkId}
+              number={isBridge ? amountToReceive : amount}
               color={isSend ? 'red' : 'green'}
               bigNumberProps={{
                 fontSize: 36,
@@ -154,7 +168,7 @@ const SummaryGeneric = ({
                   {mustache(t` on {altNetwork}`, { altNetwork })}
                 </Section.Text>
                 <Section.Text>
-                  {mustache(t`You'll pay ${formattedFeeInGd} G$ in fees to use the bridge`, { formattedFeeInGd })}
+                  {mustache(t`You'll pay ${feeToPay} G$ in fees to use the bridge`, { feeToPay })}
                 </Section.Text>
               </View>
             </Section.Row>

@@ -15,7 +15,6 @@ import FaucetABI from '@gooddollar/goodprotocol/artifacts/abis/Faucet.min.json'
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
-import { formatUnits, parseUnits } from '@ethersproject/units'
 
 import abiDecoder from 'abi-decoder'
 import {
@@ -188,6 +187,8 @@ export class GoodWallet {
 
   web3Mainnet: Web3
 
+  ethers = { formatUnits: noop, parseUnits: noop }
+
   constructor(walletConfig: {} = {}) {
     this.config = walletConfig
     this.init()
@@ -213,7 +214,18 @@ export class GoodWallet {
 
     const network = this.config.network
     const networkId = get(ContractsAddress, network + '.networkId', 122)
-    const ready = WalletFactory.create({ ...this.config, network_id: networkId })
+
+    const ready = (async () => {
+      const { ethers } = this
+
+      if (ethers.formatUnits === noop) {
+        const { formatUnits, parseUnits } = await import('@ethersproject/units')
+
+        assign(ethers, { formatUnits, parseUnits })
+      }
+
+      return WalletFactory.create({ ...this.config, network_id: networkId })
+    })()
 
     this.ready = ready
       .then(wallet => {
@@ -1311,11 +1323,11 @@ export class GoodWallet {
   }
 
   toDecimals(wei, chainId) {
-    return formatUnits(String(wei || '0'), Config.ethereum[chainId || this.networkId].g$Decimals)
+    return this.ethers.formatUnits(String(wei || '0'), Config.ethereum[chainId || this.networkId].g$Decimals)
   }
 
   fromDecimals(amount, chainId) {
-    return parseUnits(amount, Config.ethereum[chainId || this.networkId].g$Decimals).toString()
+    return this.ethers.parseUnits(amount, Config.ethereum[chainId || this.networkId].g$Decimals).toString()
   }
 
   async getUserInviteBounty() {

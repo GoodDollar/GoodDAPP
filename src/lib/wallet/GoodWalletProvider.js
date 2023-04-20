@@ -3,7 +3,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { noop } from 'lodash'
 
 import PrivateKeyProvider from 'truffle-privatekey-provider'
-import { Web3Provider } from '@ethersproject/providers'
 
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
@@ -147,6 +146,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design
         if (type === 'SEED') {
+          const { Web3Provider } = await import('@ethersproject/providers')
+
           web3Provider = new Web3Provider(
             new PrivateKeyProvider(wallet.wallet.eth.accounts.wallet[0].privateKey, wallet.wallet._provider.host),
           )
@@ -282,6 +283,9 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         await goodWallet.setIsPollEvents(false) //stop watching prev chain events
         await goodWallet.init({ network: contractsNetwork }) //reinit wallet
+
+        const { Web3Provider } = await import('@ethersproject/providers')
+
         let web3Provider = new Web3Provider(
           new PrivateKeyProvider(goodWallet.wallet.eth.accounts.wallet[0].privateKey, goodWallet.wallet._provider.host),
         )

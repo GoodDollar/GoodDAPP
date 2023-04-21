@@ -6,7 +6,6 @@ import { t } from '@lingui/macro'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
-import { updateFeedEventAvatar } from '../updates/utils/feed'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
@@ -541,13 +540,6 @@ export class FeedStorage {
 
       profile = await this.userStorage.getPublicProfile(address)
       ;({ fullName, smallAvatar } = profile)
-
-      /** THIS CODE BLOCK MAY BE REMOVED AFTER SEPTEMBER 2021 */
-      /** =================================================== */
-      if (Config.ipfsLazyUpload && smallAvatar) {
-        // keep old base64 value if upload failed
-        smallAvatar = await updateFeedEventAvatar(smallAvatar, this.userStorage).catch(() => smallAvatar)
-      }
 
       /** =================================================== */
 

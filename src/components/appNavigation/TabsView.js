@@ -13,10 +13,6 @@ import { theme } from '../theme/styles'
 import GreenCircle from '../../assets/ellipse46.svg'
 import GoodWallet from '../../assets/goodwallet.svg'
 
-// const showSupportFirst = !isEToro && !showInvite && !showRewards
-// const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
-// const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyless
-
 const styles = {
   marginRight10: {
     marginRight: 10,

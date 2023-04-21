@@ -8,9 +8,9 @@ const envUrl = env.REACT_APP_PUBLIC_URL
 const getDefaultUrl = env => {
   switch (env) {
     case 'development':
-      return 'https://gooddev.netlify.app'
+      return 'https://dev.gooddollar.org'
     case 'staging':
-      return 'https://goodqa.netlify.app'
+      return 'https://qa.gooddollar.org'
     case 'production':
       return 'https://wallet.gooddollar.org'
     default:

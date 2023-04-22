@@ -33,24 +33,24 @@ export class MultipleHttpProvider extends HttpProvider {
 
     // eslint-disable-next-line require-await
     const calls = peers.map(({ provider, options }) => async () => {
-      log.debug('Picked up peer', { provider, options })
+      log.trace('Picked up peer', { provider, options })
 
       // calling ctor as fn with this context, to re-apply ALL settings
       // as ctor is defined as function, not as class this hack will work
       // see node_modules/web3-providers-http/src/index.js
       HttpProvider.call(this, provider, options)
 
-      log.debug('Sending request to peer', { payload })
+      log.trace('Sending request to peer', { payload })
       return this._sendRequest(payload)
     })
 
     const onSuccess = result => {
-      log.debug('Success, got result', { result })
+      log.trace('Success, got result', { result })
       callback(null, result)
     }
 
     const onFailed = error => {
-      log.debug('Failed with last error', error.message, error)
+      log.trace('Failed with last error', error.message, error)
       callback(error, null)
     }
 
@@ -59,11 +59,11 @@ export class MultipleHttpProvider extends HttpProvider {
       const { message } = error
       const willFallback = connectionErrorRe.test(message)
 
-      log.debug('send: got error', message, error, { willFallback })
+      log.warn('send: got error', message, error, { willFallback })
       return willFallback
     }
 
-    log.debug('send: exec over peers', { peers, strategy, calls })
+    log.trace('send: exec over peers', { peers, strategy, calls })
 
     fallback(calls, onFallback)
       .then(onSuccess)

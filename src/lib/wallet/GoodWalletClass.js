@@ -64,7 +64,7 @@ import {
 
 import pricesQuery from './queries/reservePrices.gql'
 import interestQuery from './queries/interestReceived.gql'
-import { MultipleHttpProvider } from './transport'
+import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 100000
@@ -868,10 +868,6 @@ export class GoodWallet {
       throw exception
     }
   }
-
-  signMessage() {}
-
-  sendTx() {}
 
   getAccountForType(type: AccountUsage): string {
     const { defaultAccount } = get(this.wallet, 'eth', {})

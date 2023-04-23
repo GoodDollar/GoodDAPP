@@ -150,7 +150,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         if (type === 'SEED') {
           web3Provider = new Web3Provider(
             new JsonRpcProviderWithSigner(
-              wallet.wallet._provider.host,
+              new Web3Provider(wallet.wallet.currentProvider), // this way we will be using our multiplehttpprovider
               wallet.wallet.eth.accounts.wallet[0].privateKey,
             ),
           )

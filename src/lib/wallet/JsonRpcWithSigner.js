@@ -3,9 +3,10 @@ import { JsonRpcProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
 
 export class JsonRpcProviderWithSigner extends JsonRpcProvider {
-  constructor(url: string, privateKey: string) {
-    super(url)
+  constructor(jsonRpcProvider, privateKey: string) {
+    super()
     this.signer = new Wallet(privateKey, this)
+    this.jsonRpcProvider = jsonRpcProvider
   }
 
   // eslint-disable-next-line require-await
@@ -18,7 +19,7 @@ export class JsonRpcProviderWithSigner extends JsonRpcProvider {
     if (method === 'eth_sendTransaction') {
       const transaction = params[0]
       const signedTransaction = await this.request({ method: 'eth_signTransaction', params: [transaction] })
-      return super.send('eth_sendRawTransaction', [signedTransaction])
+      return this.jsonRpcProvider.send('eth_sendRawTransaction', [signedTransaction])
     }
     if (method === 'eth_signTransaction') {
       const transaction = params[0]
@@ -40,6 +41,6 @@ export class JsonRpcProviderWithSigner extends JsonRpcProvider {
     } else if (method === 'eth_accounts') {
       return [this.signer.address]
     }
-    return super.send(method, params)
+    return this.jsonRpcProvider.send(method, params)
   }
 }

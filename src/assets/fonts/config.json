@@ -1237,6 +1237,12 @@
       "search": [
         "gooddapp"
       ]
+    },
+    {
+      "uid": "e15f0d620a7897e2035c18c80142f6d9",
+      "css": "link-ext",
+      "code": 61582,
+      "src": "fontawesome"
     }
   ]
 }

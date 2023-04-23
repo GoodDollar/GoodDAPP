@@ -37,4 +37,4 @@ export const createUrlObject = link => (isValidURI(link) ? new CustomURL(link) :
 
 export const decodeBase64Params = value => tryJson(atob(decodeURIComponent(value)))
 
-export const encodeBase64Params = value => encodeURIComponent(btoa(isString(value) ? value : JSON.stringify(value)))
+export const encodeBase64Params = value => btoa(isString(value) ? value : JSON.stringify(value))

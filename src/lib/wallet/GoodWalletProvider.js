@@ -15,6 +15,7 @@ import UserProperties from '../userStorage/UserProperties'
 import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
+import api from '../API/api'
 import { getNetworkName, NETWORK_ID } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
 import { GoodWallet } from './GoodWalletClass'
@@ -296,6 +297,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     },
     [goodWallet, userStorage],
   )
+
+  useEffect(() => {
+    if (login) {
+      api.setLoginCallback(login)
+    }
+  }, [login])
 
   let contextValue = {
     userStorage,

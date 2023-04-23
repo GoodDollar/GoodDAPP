@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios'
-import { find, identity } from 'lodash'
+import { find } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import Config, { fuseNetwork } from '../../config/config'
@@ -62,12 +62,28 @@ export class APIService {
 
       const { request, response } = instance.interceptors
 
-      request.use(identity, requestErrorHandler)
+      request.use(this.verifyJWT, requestErrorHandler)
       response.use(responseHandler, responseErrorHandler)
 
       this.client = instance
       log.info('API ready', jwt)
     })())
+  }
+
+  setLoginCallback(callback) {
+    this.login = callback
+  }
+
+  // using arrow function so it is binded to this, when passed to axios
+  verifyJWT = async config => {
+    if (config.auth !== false) {
+      //by default use auth
+      const token = this.login ? await this.login() : this.jwt
+      if (token) {
+        config.headers.Authorization = 'Bearer ' + token
+      }
+    }
+    return config
   }
 
   /**
@@ -86,11 +102,11 @@ export class APIService {
    * @param {Credentials} creds
    */
   auth(creds: Credentials): AxiosPromise<any> {
-    return this.client.post('/auth/eth', creds)
+    return this.client.post('/auth/eth', creds, { auth: false }) // auth false to prevent loop
   }
 
   fvAuth(creds: Credentials): AxiosPromise<any> {
-    return this.client.post('/auth/fv2', creds)
+    return this.client.post('/auth/fv2', creds, { auth: false }) // auth false to prevent loop
   }
 
   /**

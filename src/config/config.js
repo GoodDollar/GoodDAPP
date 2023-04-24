@@ -28,8 +28,8 @@ const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://{cid}.ipfs.nftstora
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'development-celo'
 const { networkId } = contractsAddress[network]
-const fuseRpc = 'https://rpc.fuse.io'
-const celoRpc = isWeb ? env.REACT_APP_WEB3_RPC_CELO : 'https://forno.celo.org'
+const fuseRpc = env.REACT_APP_WEB3_RPC
+const celoRpc = env.REACT_APP_WEB3_RPC_CELO
 
 export const fuseNetwork = {
   httpWeb3provider: `${fuseRpc ? `${fuseRpc},` : ''}https://rpc.fuse.io/,https://fuse-mainnet.chainstacklabs.com`,

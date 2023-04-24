@@ -48,6 +48,6 @@ jobs:
         run: |
           git config --local user.email "techadmin@gooddollar.org"
           git config --local user.name "Techadmin"
-      - name: update version qa
+      - name: release
         run: |
           git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP ${{ env.SOURCE_BRANCH }}:${{ env.TARGET_BRANCH }} --force

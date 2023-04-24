@@ -71,6 +71,7 @@ export const routeAndPathForCode = async (
         },
       }
 
+      // commented so opening payment links always go through the amount -> reason flow
       // if (!amount) {
       //   if (!reason) {
       //     nextRoutes.unshift('Reason')

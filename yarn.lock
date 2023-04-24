@@ -5987,7 +5987,7 @@ __metadata:
     react-native-webview-crypto: ^0.0.25
     react-navigation: ^4.0.10
     react-navigation-stack: ^1.10.3
-    react-phone-number-input: ^2.3.18
+    react-phone-number-input: ^3.2.19
     react-qr-reader: ^2.2.1
     react-scripts: ^4.0.3
     react-share: ^4.3.1
@@ -16761,6 +16761,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classnames@npm:^2.3.1":
+  version: 2.3.2
+  resolution: "classnames@npm:2.3.2"
+  checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
+  languageName: node
+  linkType: hard
+
 "clean-css@npm:^4.2.3":
   version: 4.2.4
   resolution: "clean-css@npm:4.2.4"
@@ -17425,13 +17432,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"compute-scroll-into-view@npm:^1.0.17":
-  version: 1.0.17
-  resolution: "compute-scroll-into-view@npm:1.0.17"
-  checksum: b20c05a10c37813c5a6e4bf053c00f65c88d23afed7a6bd7a2a69e05e2ffc2df3483ecfe407d36bf16b8cec8be21ae1966c9c523093a03117e567156cd79a51e
-  languageName: node
-  linkType: hard
-
 "concat-map@npm:0.0.1":
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
@@ -17814,6 +17814,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"country-flag-icons@npm:^1.5.4":
+  version: 1.5.7
+  resolution: "country-flag-icons@npm:1.5.7"
+  checksum: b2512623ec7fa5a7b3d875b173469637f8782bb160d6054cd281223847b434316b22a736488a441168fc278fc9ee4b0b5e84a0b6164ab0a371a7afb1c2d50ca5
+  languageName: node
+  linkType: hard
+
 "coveralls@npm:^3.0.3":
   version: 3.1.1
   resolution: "coveralls@npm:3.1.1"
@@ -17882,19 +17889,6 @@ __metadata:
     loose-envify: ^1.3.1
     object-assign: ^4.1.1
   checksum: 0c5f43da705fa9f67ec289051dd5780792652d440dfa17cd2c7d8423c1f604609596f895dabf46fda1960ddd93ee96fe1b61ef4d55a94fc4271b07d515486714
-  languageName: node
-  linkType: hard
-
-"create-react-context@npm:^0.2.2":
-  version: 0.2.3
-  resolution: "create-react-context@npm:0.2.3"
-  dependencies:
-    fbjs: ^0.8.0
-    gud: ^1.0.0
-  peerDependencies:
-    prop-types: ^15.0.0
-    react: ^0.14.0 || ^15.0.0 || ^16.0.0
-  checksum: c48829815c90dc8fcd80a1542c70920fe9a1ba18c5f226de42f2494a82701fc5ca5197a64a412dcf1bf6e54b9ea603a8d14ad38df7870ed798490a505b38ac89
   languageName: node
   linkType: hard
 
@@ -21434,7 +21428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exenv@npm:^1.2.0, exenv@npm:^1.2.2":
+"exenv@npm:^1.2.2":
   version: 1.2.2
   resolution: "exenv@npm:1.2.2"
   checksum: a894f3b60ab8419e0b6eec99c690a009c8276b4c90655ccaf7d28faba2de3a6b93b3d92210f9dc5efd36058d44f04098f6bbccef99859151104bfd49939904dc
@@ -21842,7 +21836,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fbjs@npm:^0.8.0, fbjs@npm:^0.8.9":
+"fbjs@npm:^0.8.9":
   version: 0.8.18
   resolution: "fbjs@npm:0.8.18"
   dependencies:
@@ -23417,13 +23411,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gud@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "gud@npm:1.0.0"
-  checksum: 3e2eb37cf794364077c18f036d6aa259c821c7fd188f2b7935cb00d589d82a41e0ebb1be809e1a93679417f62f1ad0513e745c3cf5329596e489aef8c5e5feae
-  languageName: node
-  linkType: hard
-
 "gzip-size@npm:5.1.1":
   version: 5.1.1
   resolution: "gzip-size@npm:5.1.1"
@@ -24543,12 +24530,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"input-format@npm:^0.2.8":
-  version: 0.2.8
-  resolution: "input-format@npm:0.2.8"
+"input-format@npm:^0.3.8":
+  version: 0.3.8
+  resolution: "input-format@npm:0.3.8"
   dependencies:
-    prop-types: ^15.7.2
-  checksum: 495cbc18b45cb2c9337be1ac7b409b9fd01e51e172367be75484ed403b874bdf02db6da36a68c57c82693919b2f057511b1a854bb55563437d2274c083acb6fd
+    prop-types: ^15.8.1
+  checksum: 22a0266504536c4c18cee1e44f45d995a7c3f8599e63f52e0cf1805eea16997508dc6182736caf8676d5e279695997ef8edc4f4e091a9f17fa365ffe6e19710e
   languageName: node
   linkType: hard
 
@@ -27712,10 +27699,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"libphonenumber-js@npm:^1.7.28":
-  version: 1.10.6
-  resolution: "libphonenumber-js@npm:1.10.6"
-  checksum: 8754240b52f87bacfec01aa55f0cf6393d898ec5548c6da92a68ed1b4cb6129a1be9353e0f4c1b7e7ba9035b380d5a0d7d3142929dea5ad44bfe8d21934fbc2d
+"libphonenumber-js@npm:^1.10.20":
+  version: 1.10.28
+  resolution: "libphonenumber-js@npm:1.10.28"
+  checksum: 3a3aac653265751822b495d30c1196a072c52612fb2b7cf0efe38b0ad25a48df2a0bf2220fb7066af1a1734b9cd9ba78ddaf758da5194422bbb57c4c592c381a
   languageName: node
   linkType: hard
 
@@ -34828,15 +34815,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-create-ref@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "react-create-ref@npm:1.0.1"
-  peerDependencies:
-    react: "*"
-  checksum: 42095daeb618453322d05eff274bbaee8da996864e321d02eaf4a99fa3fab99b32365affd7f6f023118e630baef8495d43171b2809a05ebff127a778b4169680
-  languageName: node
-  linkType: hard
-
 "react-cropper@npm:^1.2.0":
   version: 1.3.0
   resolution: "react-cropper@npm:1.3.0"
@@ -34847,17 +34825,6 @@ __metadata:
   peerDependencies:
     react: ^0.14.0 || ^15.0.0 || ^16.0.0
   checksum: b84057e0e73e2b7395d4a5da1e15f403eaf7555b4b127a10c43283e7ec7486100b6968df45c955fa2a5093184def728032398b7ee5156c24f41f7f3750f931b9
-  languageName: node
-  linkType: hard
-
-"react-day-picker@npm:^7.2.4":
-  version: 7.4.10
-  resolution: "react-day-picker@npm:7.4.10"
-  dependencies:
-    prop-types: ^15.6.2
-  peerDependencies:
-    react: ~0.13.x || ~0.14.x || ^15.0.0 || ^16.0.0 || ^17.0.0
-  checksum: 33a4614bb4d457a3e72462d092fa131d3d7ec1ba858ac7e70d65b59e464606ffc039afdd226db37ead1326e248ca9a103007ee0bb829b277cd7297e5f5807ad1
   languageName: node
   linkType: hard
 
@@ -35020,7 +34987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-lifecycles-compat@npm:^3.0.0, react-lifecycles-compat@npm:^3.0.2, react-lifecycles-compat@npm:^3.0.4":
+"react-lifecycles-compat@npm:^3.0.4":
   version: 3.0.4
   resolution: "react-lifecycles-compat@npm:3.0.4"
   checksum: a904b0fc0a8eeb15a148c9feb7bc17cec7ef96e71188280061fc340043fd6d8ee3ff233381f0e8f95c1cf926210b2c4a31f38182c8f35ac55057e453d6df204f
@@ -35034,21 +35001,6 @@ __metadata:
     react: ^16.6.0
     react-dom: ^16.6.0
   checksum: 3db13eded654ad6e84391b23b6ba74135dc4d61e09e2f444d77a926aeed62ca9b63d1e2caf1b364bbc4b0c55c481bb9fa807bb0eea08cd374a1521bc705637b2
-  languageName: node
-  linkType: hard
-
-"react-modal@npm:^3.8.1":
-  version: 3.15.1
-  resolution: "react-modal@npm:3.15.1"
-  dependencies:
-    exenv: ^1.2.0
-    prop-types: ^15.7.2
-    react-lifecycles-compat: ^3.0.0
-    warning: ^4.0.3
-  peerDependencies:
-    react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
-    react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
-  checksum: ee99ca312c35bcec9ef0868babf970ce03c52801731e29be336bb6bdc867a1ecf00a73e1fb5bc3b1b1ef66ceb0c9b4a0199fadb85b1b9829f731409951b018f0
   languageName: node
   linkType: hard
 
@@ -35899,20 +35851,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-phone-number-input@npm:^2.3.18":
-  version: 2.5.3
-  resolution: "react-phone-number-input@npm:2.5.3"
+"react-phone-number-input@npm:^3.2.19":
+  version: 3.2.19
+  resolution: "react-phone-number-input@npm:3.2.19"
   dependencies:
-    classnames: ^2.2.5
-    input-format: ^0.2.8
-    libphonenumber-js: ^1.7.28
-    prop-types: ^15.7.2
-    react-lifecycles-compat: ^3.0.4
-    react-responsive-ui: ^0.14.177
+    classnames: ^2.3.1
+    country-flag-icons: ^1.5.4
+    input-format: ^0.3.8
+    libphonenumber-js: ^1.10.20
+    prop-types: ^15.8.1
   peerDependencies:
-    react: ">=0.14.0"
-    react-dom: ">=0.14.0"
-  checksum: bcc81e7e0588eb2c991dc09fdbe132379bde8fae54ecfec439ff1c67e4f5f33bdb83c897f3a2605a9c522c2ec9316462b6b90bf3be1c0a035777a05899c49c4f
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 4d75dea76dbaa8fb4c61066f620495ba5fb952057151cb7e9edac9fb143a2e9420021970eb82bc9beb663828726feadce4d30cde6941312f09c9a9983f33b15e
   languageName: node
   linkType: hard
 
@@ -35941,28 +35892,6 @@ __metadata:
   version: 0.8.3
   resolution: "react-refresh@npm:0.8.3"
   checksum: 3cffe5a9cbac1c5d59bf74bf9fff43c987d87ef32098b9092ea94b6637377d86c08565b9374d9397f446b3fbcd95de986ec77220a16f979687cb39b7b89e2f91
-  languageName: node
-  linkType: hard
-
-"react-responsive-ui@npm:^0.14.177":
-  version: 0.14.202
-  resolution: "react-responsive-ui@npm:0.14.202"
-  dependencies:
-    classnames: ^2.2.5
-    create-react-context: ^0.2.2
-    lodash: ^4.17.4
-    prop-types: ^15.7.2
-    raf: ^3.4.1
-    react-create-ref: ^1.0.1
-    react-day-picker: ^7.2.4
-    react-lifecycles-compat: ^3.0.2
-    react-modal: ^3.8.1
-    request-animation-frame-timeout: ^1.0.0
-    scroll-into-view-if-needed: ^2.2.16
-  peerDependencies:
-    react: ">=0.16.3"
-    react-dom: ">=0.16.3"
-  checksum: 2d0e12b4fc80cbd0262f9e3377f89d7bd4a84045e2b7c4764899466e79501ed6f86ecdc28cb3dd08d17ba2124ab40e71cfa6be7b02364b052aba62d4fe59ae46
   languageName: node
   linkType: hard
 
@@ -36981,15 +36910,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"request-animation-frame-timeout@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "request-animation-frame-timeout@npm:1.0.0"
-  dependencies:
-    raf: ^3.4.1
-  checksum: c1c4b7ba94808384c197503b7303cdd748bc173901db9c7cf4e1608c436d51c5754ee213c20cd1d22d20714e7a37956b2016c5ffddb27fd8defa97e62889ef39
-  languageName: node
-  linkType: hard
-
 "request-progress@npm:^2.0.1":
   version: 2.0.1
   resolution: "request-progress@npm:2.0.1"
@@ -37953,15 +37873,6 @@ __metadata:
   version: 0.0.2
   resolution: "scoop@npm:0.0.2"
   checksum: d6d66fea561ca175610e8265814b41041dc301aafdd629f1b419af3a48cd770923df1ed269ba3abdf7e68dcbc56e18f214279b7a62af38e46bd81621eb34a218
-  languageName: node
-  linkType: hard
-
-"scroll-into-view-if-needed@npm:^2.2.16":
-  version: 2.2.29
-  resolution: "scroll-into-view-if-needed@npm:2.2.29"
-  dependencies:
-    compute-scroll-into-view: ^1.0.17
-  checksum: 6b888404ccf68fe2f2f1da8977e1a8a0a64a7139352e02e98621a0e8be3b3db393519ee3dcfb7c32aff3c4790a36829f1be1cccc0cfb2b90a60a61caa669eee2
   languageName: node
   linkType: hard
 
@@ -42532,15 +42443,6 @@ __metadata:
   dependencies:
     makeerror: 1.0.12
   checksum: ad7a257ea1e662e57ef2e018f97b3c02a7240ad5093c392186ce0bcf1f1a60bbadd520d073b9beb921ed99f64f065efb63dfc8eec689a80e569f93c1c5d5e16c
-  languageName: node
-  linkType: hard
-
-"warning@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "warning@npm:4.0.3"
-  dependencies:
-    loose-envify: ^1.0.0
-  checksum: 4f2cb6a9575e4faf71ddad9ad1ae7a00d0a75d24521c193fa464f30e6b04027bd97aa5d9546b0e13d3a150ab402eda216d59c1d0f2d6ca60124d96cd40dfa35c
   languageName: node
   linkType: hard
 

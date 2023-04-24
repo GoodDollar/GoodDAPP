@@ -6,8 +6,7 @@ import { useTheme } from 'react-native-paper'
 import { t } from '@lingui/macro'
 import { entries, first } from 'lodash'
 import { isAddress } from 'web3-utils'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import { Image, Text } from '../common'
+import { Icon, Image, Text } from '../common'
 import QrReader from '../dashboard/QR/QRScanner'
 
 import logger from '../../lib/logger/js-logger'
@@ -118,7 +117,7 @@ export const Launch = ({ explorer, address, txHash }) => {
     return null
   }
 
-  return <Icon name="launch" onPress={onLaunch} />
+  return <Icon name="link-ext" size={16} onPress={onLaunch} />
 }
 
 export const ContractCall = ({ styles, txJson, explorer, method }) => {

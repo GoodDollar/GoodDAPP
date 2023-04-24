@@ -1,13 +1,16 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { assign, map, noop, zipObject } from 'lodash'
+import { assign, filter, map, noop, zipObject } from 'lodash'
 import { decode, isMNID } from 'mnid'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { NETWORK_ID } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
+import Config from '../../config/config'
+import { isMobileNative } from '../utils/platform'
+import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 const DECIMALS = 2
 const log = pino.child({ from: 'withdraw' })
@@ -36,6 +39,7 @@ export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
 export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+
 export const extractEthAddress = uri => {
   const regExResult = uri.match(ethAddressRegex)
 
@@ -79,6 +83,7 @@ export const gdToWei = (gd: string): string => (gd * Math.pow(10, DECIMALS)).toF
 const getComposedSettings = (settings?: {} = {}): {} => {
   const { showUnits, ...restSettings } = settings
   const customSettings = { suffixUnit: showUnits ? ' G$' : undefined }
+
   return { ...maskSettings, ...restSettings, ...customSettings }
 }
 
@@ -206,4 +211,39 @@ export const safeCall = async (method, defaultValue = {}) => {
   const result = await retryCall(() => method().call()).catch(noop)
 
   return result || defaultValue
+}
+
+export const makeHttpProvider = (rpcsUrls, strategy) => {
+  const { infuraKey, publicUrl } = Config
+  const config = { strategy }
+
+  // parsing multiple rpc urls
+  const endpoints = filter(
+    rpcsUrls.split(',').map(endpoint => {
+      let options = {} // opts for each url separately
+      let provider = endpoint
+      const backend = ['infura', 'pokt'].find(server => endpoint.includes(server))
+
+      switch (backend) {
+        case 'infura':
+          provider += infuraKey
+          break
+        case 'pokt':
+          if (isMobileNative) {
+            const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
+
+            options = {
+              headers: [{ name: 'User-Agent', value: userAgentString }, { name: 'Origin', value: publicUrl }],
+            }
+          }
+          break
+        default:
+          break
+      }
+
+      return { provider, options }
+    }),
+  )
+
+  return new MultipleHttpProvider(endpoints, config)
 }

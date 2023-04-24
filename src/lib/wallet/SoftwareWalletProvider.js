@@ -6,10 +6,10 @@ import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
 import logger from '../logger/js-logger'
-import { isMobileNative } from '../utils/platform'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
-import { MultipleHttpProvider, WebsocketProvider } from './MultipleHttpProvider'
+import { WebsocketProvider } from './MultipleHttpProvider'
+import { makeHttpProvider } from './utils'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 
@@ -129,37 +129,9 @@ class SoftwareWalletProvider {
 
   /** @private */
   _createHttpProvider() {
-    const { infuraKey, publicUrl } = Config
     const { httpWeb3provider, httpProviderStrategy } = this.conf
-    const config = { strategy: httpProviderStrategy }
 
-    // parsing multiple rpc urls
-    const endpoints = httpWeb3provider.split(',').map(endpoint => {
-      let options = {} // opts for each url separately
-      let provider = endpoint
-      const backend = ['infura', 'pokt'].find(server => endpoint.includes(server))
-
-      switch (backend) {
-        case 'infura':
-          provider += infuraKey
-          break
-        case 'pokt':
-          if (isMobileNative) {
-            const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
-
-            options = {
-              headers: [{ name: 'User-Agent', value: userAgentString }, { name: 'Origin', value: publicUrl }],
-            }
-          }
-          break
-        default:
-          break
-      }
-
-      return { provider, options }
-    })
-
-    return new MultipleHttpProvider(endpoints, config)
+    return makeHttpProvider(httpWeb3provider, httpProviderStrategy)
   }
 }
 

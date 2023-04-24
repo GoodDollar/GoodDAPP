@@ -54,6 +54,7 @@ import WalletFactory from './WalletFactory'
 
 import {
   getTxLogArgs,
+  makeHttpProvider,
   NULL_ADDRESS,
   retryCall,
   safeCall,
@@ -64,7 +65,6 @@ import {
 
 import pricesQuery from './queries/reservePrices.gql'
 import interestQuery from './queries/interestReceived.gql'
-import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 100000
@@ -205,11 +205,9 @@ export class GoodWallet {
     })()
 
     const mainnetNetworkId = get(ContractsAddress, this.mainnetNetwork + '.networkId', 122)
-    const { httpWeb3provider: endpoints } = Config.ethereum[mainnetNetworkId]
+    const { httpWeb3provider } = Config.ethereum[mainnetNetworkId]
 
-    this.web3Mainnet = new Web3(
-      new MultipleHttpProvider(endpoints.split(',').map(provider => ({ provider, options: {} })), {}),
-    )
+    this.web3Mainnet = new Web3(makeHttpProvider(httpWeb3provider, Config.httpProviderStrategy))
 
     const network = this.config.network
     const networkId = get(ContractsAddress, network + '.networkId', 122)

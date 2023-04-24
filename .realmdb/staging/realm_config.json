@@ -5,5 +5,5 @@
   "location": "IE",
   "deployment_model": "LOCAL",
   "environment": "qa",
-  "allowed_request_origins": ["https://goodqa.netlify.app", "https://localhost:3000"]
+  "allowed_request_origins": ["https://qa.gooddollar.org", "https://localhost:3000"]
 }

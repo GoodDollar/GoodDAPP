@@ -1,7 +1,7 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { assign, filter, map, noop, zipObject } from 'lodash'
+import { assign, filter, map, noop, uniq, zipObject } from 'lodash'
 import { decode, isMNID } from 'mnid'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
@@ -214,12 +214,12 @@ export const safeCall = async (method, defaultValue = {}) => {
 }
 
 export const makeHttpProvider = (rpcsUrls, strategy) => {
-  const { infuraKey, publicUrl } = Config
+  const { infuraKey, publicUrl, usePokt } = Config
   const config = { strategy }
 
   // parsing multiple rpc urls
   const endpoints = filter(
-    rpcsUrls.split(',').map(endpoint => {
+    uniq(rpcsUrls.split(',')).map(endpoint => {
       let options = {} // opts for each url separately
       let provider = endpoint
       const backend = ['infura', 'pokt'].find(server => endpoint.includes(server))
@@ -229,6 +229,11 @@ export const makeHttpProvider = (rpcsUrls, strategy) => {
           provider += infuraKey
           break
         case 'pokt':
+          if (!usePokt) {
+            // return undefined, so pokt endpoint will be excluded by filter()
+            return // eslint-disable-line  array-callback-return
+          }
+
           if (isMobileNative) {
             const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
 

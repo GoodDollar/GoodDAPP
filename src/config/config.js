@@ -1,4 +1,4 @@
-import { defaultsDeep, get, noop } from 'lodash'
+import { get, noop } from 'lodash'
 import moment from 'moment'
 
 import contractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
@@ -38,21 +38,11 @@ export const fuseNetwork = {
   explorerAPI: 'https://explorer.fuse.io',
   explorerName: 'fusescan',
   network_id: 122,
-  gasPrice:10, //in gwei
+  gasPrice: 10, // in gwei
   g$Decimals:2,
 }
 
-let altProviders = {}
-
-try {
-  // web3 rpc needs to be an object with key networkId and value of same type as above fuseNetwork record
-  altProviders = JSON.parse(env.REACT_APP_WEB3_RPC)
-} catch(e) {
-  altProviders = {}
-}
-
-
-const ethereum = defaultsDeep(altProviders, {
+const ethereum = {
   '1': {
     network_id: 1,
     httpWeb3provider: `https://rpc.ankr.com/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
@@ -101,9 +91,7 @@ const ethereum = defaultsDeep(altProviders, {
     gasPrice: 5,
     g$Decimals: 18,
   },
-})
-
-
+}
 
 const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute
@@ -182,7 +170,6 @@ const Config = {
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
   mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
-  httpWeb3provider: env.REACT_APP_WEB3_RPC,
   httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'next',
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
@@ -246,6 +233,7 @@ const Config = {
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
   defaultTxGas: parseInt(env.REACT_APP_DEFAULT_TX_GAS || 1000000),
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
+  usePokt: env.REACT_APP_USE_POKT !== 'false',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts)
 }
 

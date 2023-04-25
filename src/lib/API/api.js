@@ -98,6 +98,10 @@ export class APIService {
     return this.client.get(`/userWhitelisted/${encodeURIComponent(address)}`, { throttle: false })
   }
 
+  syncWhitelist(address): AxiosPromise<any> {
+    return this.client.get(`/syncWhitelist/${encodeURIComponent(address)}`, { throttle: false })
+  }
+
   /**
    * `/auth/eth` post api call
    * @param {Credentials} creds

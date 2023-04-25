@@ -35,6 +35,14 @@ type NETWORK = $Keys<typeof NETWORK_ID>
  **/
 const log = logger.child({ from: 'GoodWalletProvider' })
 
+const makeWeb3Provider = wallet =>
+  new Web3Provider(
+    new JsonRpcProviderWithSigner(
+      new Web3Provider(wallet.wallet.currentProvider), // this will also use our multiplehttpprovider
+      wallet.wallet.eth.accounts.wallet[0].privateKey,
+    ),
+  )
+
 export const GoodWalletContext = React.createContext({
   userStorage: undefined,
   error: undefined,
@@ -148,12 +156,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design
         if (type === 'SEED') {
-          web3Provider = new Web3Provider(
-            new JsonRpcProviderWithSigner(
-              new Web3Provider(wallet.wallet.currentProvider), // this way we will be using our multiplehttpprovider
-              wallet.wallet.eth.accounts.wallet[0].privateKey,
-            ),
-          )
+          web3Provider = makeWeb3Provider(wallet)
         }
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
@@ -287,12 +290,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         await goodWallet.setIsPollEvents(false) //stop watching prev chain events
         await goodWallet.init({ network: contractsNetwork }) //reinit wallet
 
-        let web3Provider = new Web3Provider(
-          new JsonRpcProviderWithSigner(
-            new Web3Provider(goodWallet.wallet.currentProvider), // this will also use our multiplehttpprovider
-            goodWallet.wallet.eth.accounts.wallet[0].privateKey,
-          ),
-        )
+        let web3Provider = makeWeb3Provider(goodWallet)
 
         setWalletAndStorage(_ => ({ ..._, goodWallet, web3Provider }))
         updateWalletData(goodWallet)

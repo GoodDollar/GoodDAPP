@@ -5,7 +5,7 @@ import contractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
 import { version as contractsVersion } from '@gooddollar/goodcontracts/package.json'
 import { version } from '../../package.json'
 
-import { isMobileNative, isWeb } from '../lib/utils/platform'
+import { isWeb } from '../lib/utils/platform'
 import { appEnv, fixNL, appUrl as publicUrl } from '../lib/utils/env'
 import mustache from '../lib/utils/mustache'
 
@@ -30,7 +30,6 @@ const network = env.REACT_APP_NETWORK || 'development-celo'
 const { networkId } = contractsAddress[network]
 const fuseRpc = env.REACT_APP_WEB3_RPC
 const celoRpc = env.REACT_APP_WEB3_RPC_CELO
-const poktMainnet = isMobileNative ? '' : 'https://eth-rpc.gateway.pokt.network,'
 
 export const fuseNetwork = {
   httpWeb3provider: `${fuseRpc ? `${fuseRpc},` : ''}https://rpc.fuse.io/,https://fuse-mainnet.chainstacklabs.com`,
@@ -54,7 +53,7 @@ try {
 const ethereum = defaultsDeep(altProviders, {
   '1': {
     network_id: 1,
-    httpWeb3provider: `https://rpc.ankr.com/eth,${poktMainnet}https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    httpWeb3provider: `https://rpc.ankr.com/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
     explorerAPI: 'https://api.etherscan.io',

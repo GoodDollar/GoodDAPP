@@ -60,6 +60,12 @@ const getEventSettingsByType = (theme, type) => {
       component: FeedSendPending,
       name: 'clock-filled',
     },
+    sendbridgepending: {
+      actionSymbol: '-',
+      color: theme.colors.orange,
+      component: FeedSendPending,
+      name: 'clock-filled',
+    },
     receive: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,

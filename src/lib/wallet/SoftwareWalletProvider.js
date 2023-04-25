@@ -116,22 +116,15 @@ class SoftwareWalletProvider {
   }
 
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {
-    const { web3Transport, websocketWeb3Provider } = this.conf
+    const { web3Transport, websocketWeb3Provider, httpWeb3provider, httpProviderStrategy } = this.conf
     const wsOptions = { timeout: 10000, reconnectDelay: 2000 }
 
     switch (web3Transport) {
       case 'WebSocketProvider':
         return new WebsocketProvider(websocketWeb3Provider, wsOptions)
       default:
-        return this._createHttpProvider()
+        return makeHttpProvider(httpWeb3provider, httpProviderStrategy)
     }
-  }
-
-  /** @private */
-  _createHttpProvider() {
-    const { httpWeb3provider, httpProviderStrategy } = this.conf
-
-    return makeHttpProvider(httpWeb3provider, httpProviderStrategy)
   }
 }
 

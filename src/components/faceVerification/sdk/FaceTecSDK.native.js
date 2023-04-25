@@ -37,7 +37,7 @@ export const FaceTecSDK = new class {
     }
   }
 
-  async faceVerification(enrollmentIdentifier, chainId = null, sessionOptions = null) {
+  async faceVerification(enrollmentIdentifier, v1Identifier, chainId = null, sessionOptions = null) {
     const { sdk, logger, requestTimeout } = this
     // eslint-disable-next-line no-undef
     const { UI_READY, CAPTURE_DONE, FV_RETRY } = FaceTecUxEvent

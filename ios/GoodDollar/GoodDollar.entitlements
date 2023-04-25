@@ -6,8 +6,8 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:gooddev.netlify.app</string>
-		<string>applinks:goodqa.netlify.app</string>
+		<string>applinks:dev.gooddollar,org</string>
+		<string>applinks:qa.gooddollar.org</string>
 		<string>applinks:gooddollar.app.link</string>
 		<string>applinks:gooddollar-alternate.app.link</string>
 		<string>applinks:wallet.gooddollar.org</string>

@@ -78,9 +78,10 @@ export class APIService {
   verifyJWT = async config => {
     if (config.auth !== false) {
       //by default use auth
-      const token = this.login ? await this.login() : this.jwt
-      if (token) {
-        config.headers.Authorization = 'Bearer ' + token
+      const loginResult = this.login && (await this.login())
+      const { jwt } = loginResult || this
+      if (jwt) {
+        config.headers.Authorization = 'Bearer ' + jwt
       }
     }
     return config

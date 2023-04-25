@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: GoodID release
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'release type'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - qa
+          - prod
+        
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  release:
+    name: Release
+    if: "github.event_name == 'workflow_dispatch'"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Set Default env
+        run: |              
+          echo "TARGET_BRANCH=goodid/${{ github.event.inputs.release }}" >> $GITHUB_ENV
+          echo "SOURCE_BRANCH=master" >> $GITHUB_ENV
+      - name: Set env - QA
+        if: ${{ github.event.inputs.release == 'qa' }}
+        run: |              
+          echo "SOURCE_BRANCH=staging" >> $GITHUB_ENV
+      - name: Set env - PROD
+        if: ${{ github.event.inputs.release == 'prod' }}
+        run: |              
+          echo "SOURCE_BRANCH=next" >> $GITHUB_ENV
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ env.SOURCE_BRANCH }}
+      - name: setup git
+        run: |
+          git config --local user.email "techadmin@gooddollar.org"
+          git config --local user.name "Techadmin"
+      - name: release
+        run: |
+          git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP ${{ env.SOURCE_BRANCH }}:${{ env.TARGET_BRANCH }} --force

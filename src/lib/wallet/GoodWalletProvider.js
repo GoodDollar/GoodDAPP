@@ -1,8 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { noop } from 'lodash'
-
-import PrivateKeyProvider from 'truffle-privatekey-provider'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
 import { Goerli, Mainnet } from '@usedapp/core'
@@ -19,6 +17,7 @@ import api from '../API/api'
 import { getNetworkName, NETWORK_ID } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
 import { GoodWallet } from './GoodWalletClass'
+import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
 
 type NETWORK = $Keys<typeof NETWORK_ID>
 
@@ -150,7 +149,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design
         if (type === 'SEED') {
           web3Provider = new Web3Provider(
-            new PrivateKeyProvider(wallet.wallet.eth.accounts.wallet[0].privateKey, wallet.wallet._provider.host),
+            new JsonRpcProviderWithSigner(
+              new Web3Provider(wallet.wallet.currentProvider), // this way we will be using our multiplehttpprovider
+              wallet.wallet.eth.accounts.wallet[0].privateKey,
+            ),
           )
         }
 
@@ -285,7 +287,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         await goodWallet.setIsPollEvents(false) //stop watching prev chain events
         await goodWallet.init({ network: contractsNetwork }) //reinit wallet
         let web3Provider = new Web3Provider(
-          new PrivateKeyProvider(goodWallet.wallet.eth.accounts.wallet[0].privateKey, goodWallet.wallet._provider.host),
+          new JsonRpcProviderWithSigner(
+            goodWallet.wallet._provider.host,
+            goodWallet.wallet.eth.accounts.wallet[0].privateKey,
+          ),
         )
 
         setWalletAndStorage(_ => ({ ..._, goodWallet, web3Provider }))

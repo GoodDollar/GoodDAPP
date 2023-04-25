@@ -53,7 +53,7 @@ export const FaceTecSDK = new class {
     ]
 
     try {
-      return await sdk.enroll(enrollmentIdentifier, chainId, maxRetries, requestTimeout)
+      return await sdk.enroll(enrollmentIdentifier, v1Identifier, chainId, maxRetries, requestTimeout)
     } catch (exception) {
       const { message } = exception
 

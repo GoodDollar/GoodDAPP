@@ -286,9 +286,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         await goodWallet.setIsPollEvents(false) //stop watching prev chain events
         await goodWallet.init({ network: contractsNetwork }) //reinit wallet
+
         let web3Provider = new Web3Provider(
           new JsonRpcProviderWithSigner(
-            goodWallet.wallet._provider.host,
+            new Web3Provider(goodWallet.wallet.currentProvider), // this will also use our multiplehttpprovider
             goodWallet.wallet.eth.accounts.wallet[0].privateKey,
           ),
         )

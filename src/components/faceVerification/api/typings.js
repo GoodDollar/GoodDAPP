@@ -15,4 +15,5 @@ export type FaceVerificationPayload = {
   status: FaceTecSessionStatus,
   chainId?: string | undefined,
   [key: string]: string | FaceTecSessionStatus | null | {},
+  fvSigner?: string,
 }

@@ -50,7 +50,6 @@ try {
   altProviders = {}
 }
 
-
 const ethereum = defaultsDeep(altProviders, {
   '1': {
     network_id: 1,

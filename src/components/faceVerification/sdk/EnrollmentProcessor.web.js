@@ -33,6 +33,8 @@ export class EnrollmentProcessor {
 
   enrollmentIdentifier = null
 
+  v1Identifier = null
+
   chainId = null
 
   resultCallback = null
@@ -48,8 +50,8 @@ export class EnrollmentProcessor {
   // should be non-async for not confuse developers
   // By Zoom's design, EnrollmentProcessor should return
   // session result only via callbacks / subscriptions
-  enroll(enrollmentIdentifier, chainId = null) {
-    assign(this, { enrollmentIdentifier, chainId })
+  enroll(enrollmentIdentifier, v1Identifier, chainId = null) {
+    assign(this, { enrollmentIdentifier, v1Identifier, chainId })
 
     // so we're just proxying call to the async _startEnrollmentSession
     this._startEnrollmentSession()
@@ -81,7 +83,7 @@ export class EnrollmentProcessor {
    */
   async sendEnrollmentRequest() {
     // reading current session state vars
-    const { lastResult, resultCallback, enrollmentIdentifier, chainId } = this
+    const { lastResult, resultCallback, enrollmentIdentifier, v1Identifier, chainId } = this
 
     // setting initial progress to 0 for freeze progress bar
     resultCallback.uploadProgress(0)
@@ -92,6 +94,7 @@ export class EnrollmentProcessor {
     try {
       // preparing request payload
       const payload = {
+        fvSigner: v1Identifier,
         faceScan,
         sessionId,
         lowQualityAuditTrailImage: first(lowQualityAuditTrail),

@@ -94,13 +94,15 @@ const styles = StyleSheet.create({
     color: theme.colors.lighterGray,
   },
   balance: {
-    height: Platform.select({
-      android: 10,
+    ...Platform.select({
+      android: { height: 10 },
+      default: {}
     }),
   },
   bigGoodDollar: {
-    height: Platform.select({
-      android: 30,
+    ...Platform.select({
+      android: { height: 30 },
+      default: {},
     }),
     display: 'flex',
     justifyContent: 'flex-end',

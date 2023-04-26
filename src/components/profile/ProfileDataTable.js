@@ -129,7 +129,7 @@ const ProfileDataTable = ({
         <Section.Row>
           {editable ? (
             <Section.Stack grow>
-              <Section.Row>
+              <Section.Row style={phoneInputStyles}>
                 <PhoneInput
                   error={!!errors.mobile}
                   id="signup_phone"
@@ -138,7 +138,6 @@ const ProfileDataTable = ({
                   onBlur={onPhoneInputBlur}
                   placeholder="Enter phone number"
                   value={mobile}
-                  style={phoneInputStyles}
                   textStyle={{ color: errors.mobile && theme.colors.red }}
                 />
                 <Section.Row style={styles.suffixIcon}>
@@ -222,9 +221,12 @@ const getStylesFromProps = ({ theme, errors }) => {
       borderRadius: 24,
       borderWidth: 1,
       color: errors && (errors.mobile ? theme.colors.red : theme.colors.text),
-      padding: 10,
       position: 'relative',
       marginVertical: 4,
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingTop: 6,
+      paddingBottom: 6,
     },
     flagContainer: {
       height: 24,

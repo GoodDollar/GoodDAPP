@@ -58,7 +58,9 @@ const TopBar = ({
           if children=undefined and hideBalance=false, BigGoodDollar will be rendered
           if children=undefined and hideBalance=true, nothing will be rendered
           */}
-        <Section.Text style={styles.balance}> {!hideBalance && <BigGoodDollar number={balance} />}</Section.Text>
+        <Section.Text style={styles.balance}>
+          {!hideBalance && <BigGoodDollar style={styles.bigGoodDollar} number={balance} />}
+        </Section.Text>
 
         {children}
         {hideProfile !== true && !isBridge && (!children || hideBalance) && (
@@ -92,12 +94,17 @@ const styles = StyleSheet.create({
     color: theme.colors.lighterGray,
   },
   balance: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     height: Platform.select({
-      android: 20,
+      android: 10,
     }),
+  },
+  bigGoodDollar: {
+    height: Platform.select({
+      android: 30,
+    }),
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
 })
 

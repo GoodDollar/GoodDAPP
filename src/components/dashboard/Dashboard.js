@@ -145,7 +145,9 @@ const balanceStyles = {
     fontSize: 14,
     color: theme.colors.secondary,
     fontWeight: 'bold',
-    width: '46%',
+    width: Platform.select({
+      web: '46%',
+    }),
     backgroundColor: theme.colors.secondaryGray,
     padding: 0,
     margin: 0,
@@ -187,7 +189,8 @@ const BalanceAndSwitch = ({
     <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? 1 : 0.5 }]}>
       <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>
         <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
-          {balance}
+          {/* {balance} */}
+          50000000.00
         </Text>
         <View style={balanceStyles.networkName}>
           <View style={[balanceStyles.activeIcon, { display: !networkName || isCurrent ? 'flex' : 'none' }]}>

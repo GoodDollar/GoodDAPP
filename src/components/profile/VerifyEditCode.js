@@ -39,7 +39,7 @@ const VerifyEditCode = props => {
     content,
   })
 
-  const { isValidRecaptcha, Captcha } = useRecaptcha({ enabled: field !== 'phone' })
+  const { isValidRecaptcha, Captcha } = useRecaptcha({ enabled: field === 'phone' })
 
   const handleSubmit = useCallback(async () => {
     const privacy = await userStorage.getFieldPrivacy(fieldToSave)

@@ -1,32 +1,36 @@
 @import url('~react-phone-number-input/style.css');
 
-.signup_phone_input.react-phone-number-input {
+.signup_phone_input {
   width: 100% !important;
   border: none !important;
   border-radius: 0 !important;
 }
 
-.signup_phone_input.react-phone-number-input
-  > .react-phone-number-input__row
-  > .react-phone-number-input__input.react-phone-number-input__phone {
+#Phone_input:not([error]) {
   border-bottom: 1px solid rgb(0, 0, 0);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-size: inherit;
+  height: 40px;
+  padding-top: 20px;
 }
 
-.signup_phone_input.react-phone-number-input
-  > .react-phone-number-input__row
-  > .react-phone-number-input__input.react-phone-number-input__phone.react-phone-number-input__input--invalid {
+#Phone_input[error] {
+  border-top: none;
+  border-left: none;
+  border-right: none;
   border-bottom: 1px solid #fa6c77;
   color: #fa6c77;
   border-color: #fa6c77;
+  font-size: inherit;
+  height: 40px;
+  padding-top: 20px;
 }
 
-.signup_phone_input.react-phone-number-input.react-phone-number-input--invalid .react-phone-number-input__error {
-  display: none;
-}
-
-.signup_phone_input.react-phone-number-input .react-phone-number-input__icon {
+.PhoneInputCountryIcon--border {
   border: 0;
   border-radius: 2px;
-  width: 1.85em;
-  height: 1.42em;
+  width: 40px;
+  box-shadow: none;
 }

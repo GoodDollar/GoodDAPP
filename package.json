@@ -14,7 +14,7 @@
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
     "analyze": "webpack-bundle-analyzer 'build/stats.json'",
     "start:local": "npm link @gooddollar/goodcontracts && npm start",
-    "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start:native -- --reset-cache",
+    "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm run start:native -- --reset-cache",
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
     "build": "npm run lingui:compile && react-app-rewired build --analyze",

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   balance: {
     ...Platform.select({
       android: { height: 10 },
-      default: {}
+      default: {},
     }),
   },
   bigGoodDollar: {

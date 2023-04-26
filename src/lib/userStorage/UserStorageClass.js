@@ -678,6 +678,7 @@ export class UserStorage {
     numResults: number,
     reset?: boolean,
     category: FeedCategory = FeedCategories.All,
+    chainId?: number,
   ): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset, category)
 
@@ -687,8 +688,14 @@ export class UserStorage {
       feedPage: feed,
     })
 
+    let filteredFeed = feed
+    if (chainId) {
+      // only map events where chainId matches
+      filteredFeed = filteredFeed.filter(event => event.chainId === chainId)
+    }
+
     // eslint-disable-next-line require-await
-    const res = await Promise.all(feed.map(async event => this.formatEvent(event)))
+    const res = await Promise.all(filteredFeed.map(async event => this.formatEvent(event)))
 
     logger.debug('getFormattedEvents done formatting events')
     return res

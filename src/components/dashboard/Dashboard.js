@@ -325,8 +325,10 @@ const Dashboard = props => {
 
         await userStorage.registeredReady
 
+        const chainId = currentNetwork === 'CELO' ? 42220 : 122
+
         const feedPromise = userStorage
-          .getFormattedEvents(PAGE_SIZE, reset, tab)
+          .getFormattedEvents(PAGE_SIZE, reset, tab, chainId)
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
 
         if (reset) {
@@ -362,7 +364,7 @@ const Dashboard = props => {
         release()
       }
     },
-    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab],
+    [setFeedLoadAnimShown, setFeeds, feedRef, userStorage, activeTab, currentNetwork],
   )
 
   const [feedLoaded, setFeedLoaded] = useState(false)

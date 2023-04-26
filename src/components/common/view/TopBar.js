@@ -50,7 +50,6 @@ const TopBar = ({
       <Section.Row
         alignItems={Platform.select({
           web: 'center',
-          default: 'flex-end',
         })}
         style={[contentStyle, { flexDirection: isBridge ? 'row-reverse' : 'row' }]}
       >
@@ -59,7 +58,8 @@ const TopBar = ({
           if children=undefined and hideBalance=false, BigGoodDollar will be rendered
           if children=undefined and hideBalance=true, nothing will be rendered
           */}
-        {!hideBalance && <BigGoodDollar number={balance} />}
+        <Section.Text style={styles.balance}> {!hideBalance && <BigGoodDollar number={balance} />}</Section.Text>
+
         {children}
         {hideProfile !== true && !isBridge && (!children || hideBalance) && (
           <Avatar
@@ -90,6 +90,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     color: theme.colors.lighterGray,
+  },
+  balance: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: Platform.select({
+      android: 20,
+    }),
   },
 })
 

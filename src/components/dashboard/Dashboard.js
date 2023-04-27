@@ -184,12 +184,13 @@ const BalanceAndSwitch = ({
   const networkNameUp = networkName.toUpperCase()
   const isCurrent = currentNetwork === networkNameUp
   const toggle = () => switchNetwork(altNetwork)
+  const formattedBalance = formatWithAbbreviations(balance, 2)
 
   return (
     <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? 1 : 0.5 }]}>
       <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>
         <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
-          {balance}
+          {formattedBalance}
         </Text>
         <View style={balanceStyles.networkName}>
           <View style={[balanceStyles.activeIcon, { display: !networkName || isCurrent ? 'flex' : 'none' }]}>

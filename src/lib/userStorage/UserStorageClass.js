@@ -827,6 +827,7 @@ export class UserStorage {
       FeedItemType.EVENT_TYPE_SEND,
       FeedItemType.EVENT_TYPE_WITHDRAW,
       FeedItemType.EVENT_TYPE_RECEIVE,
+      FeedItemType.EVENT_TYPE_SENDBRIDGE,
     ]
 
     if (counterPartyEvents.includes(type) && (!counterPartyFullName || !counterPartySmallAvatar)) {
@@ -924,7 +925,11 @@ export class UserStorage {
       message: '',
     }
 
-    if (type === FeedItemType.EVENT_TYPE_SEND || type === FeedItemType.EVENT_TYPE_SENDDIRECT) {
+    if (
+      type === FeedItemType.EVENT_TYPE_SEND ||
+      type === FeedItemType.EVENT_TYPE_SENDDIRECT ||
+      type === FeedItemType.EVENT_TYPE_SENDBRIDGE
+    ) {
       data.address = isAddress(to) ? to : receiptEvent && receiptEvent.to
       data.initiator = to
     } else if (type === FeedItemType.EVENT_TYPE_CLAIM) {
@@ -973,7 +978,8 @@ export class UserStorage {
     switch (event.type) {
       case FeedItemType.EVENT_TYPE_BONUS:
       case FeedItemType.EVENT_TYPE_SEND:
-      case FeedItemType.EVENT_TYPE_SENDDIRECT: {
+      case FeedItemType.EVENT_TYPE_SENDDIRECT:
+      case FeedItemType.EVENT_TYPE_SENDBRIDGE: {
         const type = FeedItemType.EVENT_TYPE_SENDDIRECT === event.type ? FeedItemType.EVENT_TYPE_SEND : event.type
 
         if (event.otplStatus) {

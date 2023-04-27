@@ -232,6 +232,16 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </>
       )
+    case 'sendbridgepending':
+      return (
+        <View style={styles.buttonsView}>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.rightButton} fontWeight="medium" onPress={_handleModalClose}>
+              {t`Ok`}
+            </CustomButton>
+          </View>
+        </View>
+      )
     case 'message':
       return (
         <View style={styles.buttonsView}>

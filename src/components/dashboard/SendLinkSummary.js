@@ -290,7 +290,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         id: tx.hash,
         createdDate: new Date().toISOString(),
         date: new Date().toISOString(),
-        type: FeedItemType.EVENT_TYPE_SENDDIRECT,
+        type: FeedItemType.EVENT_TYPE_SENDBRIDGE,
         chainId: goodWallet.networkId,
         data: {
           reason: t`Bridged G$`,

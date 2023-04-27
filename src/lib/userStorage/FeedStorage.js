@@ -43,6 +43,7 @@ export const FeedItemType = {
   EVENT_TYPE_SENDDIRECT: 'senddirect', //send to address
   EVENT_TYPE_MINT: 'mint',
   EVENT_TYPE_RECEIVE: 'receive',
+  EVENT_TYPE_SENDBRIDGE: 'sendbridge',
 }
 
 export const TxTypeToEventType = {
@@ -89,7 +90,11 @@ export type FeedEvent = {
 
 export const getEventDirection = (feedEvent, reverse = false) => {
   const { type } = feedEvent
-  const sendCases = [FeedItemType.EVENT_TYPE_SENDDIRECT, FeedItemType.EVENT_TYPE_SEND]
+  const sendCases = [
+    FeedItemType.EVENT_TYPE_SENDDIRECT,
+    FeedItemType.EVENT_TYPE_SEND,
+    FeedItemType.EVENT_TYPE_SENDBRIDGE,
+  ]
   const receiveCases = [
     FeedItemType.EVENT_TYPE_CLAIM,
     FeedItemType.EVENT_TYPE_RECEIVE,

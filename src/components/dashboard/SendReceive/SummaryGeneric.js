@@ -100,9 +100,13 @@ const SummaryGeneric = ({
     try {
       await onConfirm(vendorFields)
     } finally {
-      setLoading(false)
+      // the bridge transaction is handled by a separate useEffect so incorrectly finalizes here
+      // while it should still be loading
+      if (!isBridge) {
+        setLoading(false)
+      }
     }
-  }, [name, email, vendorInfo, onConfirm])
+  }, [name, email, vendorInfo, onConfirm, isBridge])
 
   // Custom verifier to ensure that we have all needed info
   const formHasErrors = useCallback(() => {
@@ -266,7 +270,7 @@ const SummaryGeneric = ({
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3} style={styles.nextButtonContainer}>
-            <CustomButton disabled={formHasErrors()} onPress={_onPress} loading={loading}>
+            <CustomButton disabled={formHasErrors() || loading} onPress={_onPress} loading={loading}>
               {address || isBridge ? 'Confirm' : 'Confirm & Share Link'}
             </CustomButton>
           </Section.Stack>

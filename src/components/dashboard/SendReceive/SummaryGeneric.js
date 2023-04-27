@@ -106,7 +106,7 @@ const SummaryGeneric = ({
         setLoading(false)
       }
     }
-  }, [name, email, vendorInfo, onConfirm])
+  }, [name, email, vendorInfo, onConfirm, isBridge])
 
   // Custom verifier to ensure that we have all needed info
   const formHasErrors = useCallback(() => {

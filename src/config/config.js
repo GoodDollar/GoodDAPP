@@ -1,4 +1,4 @@
-import { defaultsDeep, get, noop } from 'lodash'
+import { get, noop } from 'lodash'
 import moment from 'moment'
 
 import contractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
@@ -42,9 +42,7 @@ export const fuseNetwork = {
   g$Decimals:2,
 }
 
-let altProviders = {}
-
-const ethereum = defaultsDeep(altProviders, {
+const ethereum = {
   '1': {
     network_id: 1,
     httpWeb3provider: `https://rpc.ankr.com/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
@@ -93,9 +91,7 @@ const ethereum = defaultsDeep(altProviders, {
     gasPrice: 5,
     g$Decimals: 18,
   },
-})
-
-
+}
 
 const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute

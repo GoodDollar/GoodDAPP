@@ -9,7 +9,7 @@ import logger from '../logger/js-logger'
 import { isMobileNative } from '../utils/platform'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
-import { MultipleHttpProvider, WebsocketProvider } from './transport'
+import { MultipleHttpProvider, WebsocketProvider } from './MultipleHttpProvider'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 

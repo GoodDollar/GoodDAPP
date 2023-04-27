@@ -10,10 +10,11 @@ import claimGOOD from './claimGOOD'
 import verifyCRM from './verifycrm'
 import fixRegMethod from './fixRegMethod'
 import resetRefund from './resetRefund'
+import syncWhitelist from './syncWhitelist'
 
 const log = logger.child({ from: 'updates' })
 
-const updates = [upgradeProfile, uploadAvatars, claimGOOD, verifyCRM, fixRegMethod, resetRefund]
+const updates = [upgradeProfile, uploadAvatars, claimGOOD, verifyCRM, fixRegMethod, resetRefund, syncWhitelist]
 
 const update = async (goodWallet, userStorage) => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {

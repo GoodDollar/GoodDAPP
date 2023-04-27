@@ -145,7 +145,9 @@ const balanceStyles = {
     fontSize: 14,
     color: theme.colors.secondary,
     fontWeight: 'bold',
-    width: '46%',
+    width: Platform.select({
+      web: '46%',
+    }),
     backgroundColor: theme.colors.secondaryGray,
     padding: 0,
     margin: 0,

@@ -413,6 +413,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 0,
     height: Platform.select({
       web: '100%',
+      android: 70,
     }),
     width: normalize(34),
   },

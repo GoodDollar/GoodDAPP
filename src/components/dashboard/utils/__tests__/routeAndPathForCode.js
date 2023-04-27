@@ -46,12 +46,13 @@ describe('routeAndPathForCode', () => {
         address: code.address,
         action: ACTION_SEND_TO_ADDRESS,
         type: 'receive',
-        nextRoutes: ['Reason', 'SendLinkSummary'],
+        nextRoutes: ['SendLinkSummary'],
         profile: expect.any(Object),
         counterPartyDisplayName: undefined,
         amount: undefined,
         reason: undefined,
         category: undefined,
+        vendorInfo: undefined,
       })
     })
   })
@@ -74,7 +75,7 @@ describe('routeAndPathForCode', () => {
     }
 
     return routeAndPathForCode('send', code, goodWallet, userStorageMock).then(({ route, params }) => {
-      expect(route).toMatch('Reason')
+      expect(route).toMatch('Amount')
     })
   })
 
@@ -87,7 +88,7 @@ describe('routeAndPathForCode', () => {
       reason: '',
     }
     return routeAndPathForCode('send', code, goodWallet, userStorageMock).then(({ route, params }) => {
-      expect(route).toMatch('SendLinkSummary')
+      expect(route).toMatch('Amount')
     })
   })
 

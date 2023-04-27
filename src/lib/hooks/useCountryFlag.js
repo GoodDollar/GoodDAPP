@@ -1,7 +1,7 @@
 /* eslint import/namespace: ['error', { allowComputed: true }] */
 // @flow
 import { useMemo } from 'react'
-import * as flags from '../../components/common/view/flags'
+import flags from 'react-phone-number-input/flags'
 
 const getCountryFlag = countryCode => {
   const code = countryCode.toLowerCase()

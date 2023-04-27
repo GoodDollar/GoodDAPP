@@ -43,14 +43,14 @@ const SummaryGeneric = ({
 
   const goodWallet = useWallet()
 
-  const { bridgeFees } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
+  const { bridgeFees = {} } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
   const { minFee, fee } = bridgeFees
 
   const minBridgeFee = Number(goodWallet.toDecimals(minFee))
   const amountInFloat = Number(goodWallet.toDecimals(amount))
 
   // calculate the fee in G$
-  const feeinPercentage = (fee.toNumber() * 100) / 10000 //assuming bridgeFees.fee is BigNumber
+  const feeinPercentage = fee ? (fee.toNumber() * 100) / 10000 : 0 //assuming bridgeFees.fee is BigNumber
 
   let feeToPay = (amountInFloat * feeinPercentage) / 100
   feeToPay = feeToPay < minBridgeFee ? minBridgeFee : feeToPay

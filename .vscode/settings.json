@@ -1,5 +1,15 @@
 {
     "typescript.format.enable": false,
     "javascript.validate.enable": false,
-    "typescript.validate.enable": false
+    "typescript.validate.enable": false,
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "files.autoSave": "onFocusChange",
+    "[javascript]": {
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "java.configuration.updateBuildConfiguration": "interactive",
 }

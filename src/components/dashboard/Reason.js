@@ -29,38 +29,17 @@ export type AmountProps = {
 }
 
 class PaymentCategory {
-  static DigitalServices = 1
+  static DigitalServices = 'Digital Services'
 
-  static SocialMedia = 2
+  static SocialMedia = 'Social Media Management'
 
-  static Product = 3
+  static Product = 'Product'
 
-  static Course = 4
+  static Course = 'Course'
 
-  static Donation = 5
+  static Donation = 'Donation'
 
-  static Other = 6
-
-  static labelOf(category) {
-    const { DigitalServices, SocialMedia, Product, Course, Donation, Other } = this
-
-    switch (category) {
-      case DigitalServices:
-        return 'Digital Services'
-      case SocialMedia:
-        return 'Social Media Management'
-      case Product:
-        return 'Product'
-      case Course:
-        return 'Course / Private Consultation'
-      case Donation:
-        return 'Donation'
-      case Other:
-        return 'Other'
-      default:
-        return ''
-    }
-  }
+  static Other = 'Other'
 }
 
 const SendReason = (props: AmountProps) => {
@@ -69,20 +48,19 @@ const SendReason = (props: AmountProps) => {
 
   const [screenState, setScreenState] = useScreenState(screenProps)
 
-  const { reason, isDisabledNextButton, ...restState } = screenState
+  const { reason, ...restState } = screenState
   const { category, action, amount, nextRoutes = [] } = restState || {}
 
   const [paymentCategory, paymentParams] = useMemo(() => {
-    const categoryLabel = category ? PaymentCategory.labelOf(category) : null
-    const allParams = { ...params, ...restState, reason, category: categoryLabel }
+    const allParams = { ...params, ...restState, reason, category }
 
-    return [categoryLabel, allParams]
+    return [category, allParams]
   }, [category, params, reason, restState])
 
   const next = useCallback(() => {
     const [nextRoute, ...rest] = nextRoutes
 
-    if (!category || isDisabledNextButton !== false) {
+    if (!category) {
       return
     }
 
@@ -90,12 +68,12 @@ const SendReason = (props: AmountProps) => {
       nextRoutes: rest,
       ...paymentParams,
     })
-  }, [paymentParams, nextRoutes, isDisabledNextButton, category])
+  }, [paymentParams, nextRoutes, category])
 
   const handleCategoryBoxOnPress = useCallback(
     category => {
       // set category and enable next button
-      setScreenState({ category, isDisabledNextButton: false })
+      setScreenState({ category })
     },
     [setScreenState],
   )
@@ -140,7 +118,7 @@ const SendReason = (props: AmountProps) => {
                     styles.border,
                     screenState.category === PaymentCategory.DigitalServices ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
-                  title={PaymentCategory.labelOf(PaymentCategory.DigitalServices)}
+                  title={PaymentCategory.DigitalServices}
                 >
                   <View>
                     <DigitalServiceSVG />
@@ -182,7 +160,7 @@ const SendReason = (props: AmountProps) => {
                     styles.border,
                     screenState.category === PaymentCategory.Product ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
-                  title={PaymentCategory.labelOf(PaymentCategory.Product)}
+                  title={PaymentCategory.Product}
                 >
                   <View>
                     <ProductSVG />
@@ -226,7 +204,7 @@ const SendReason = (props: AmountProps) => {
                     styles.border,
                     screenState.category === PaymentCategory.Donation ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
-                  title={PaymentCategory.labelOf(PaymentCategory.Donation)}
+                  title={PaymentCategory.Donation}
                 >
                   <View>
                     <DonationSVG />
@@ -247,7 +225,7 @@ const SendReason = (props: AmountProps) => {
                     styles.border,
                     screenState.category === PaymentCategory.Other ? { borderWidth: 2 } : { borderWidth: 0 },
                   ]}
-                  title={PaymentCategory.labelOf(PaymentCategory.Other)}
+                  title={PaymentCategory.Other}
                 >
                   <View>
                     <OtherSVG />
@@ -277,7 +255,7 @@ const SendReason = (props: AmountProps) => {
           </Section.Row>
           <Section.Stack grow={3} style={styles.nextButtonContainer}>
             <NextButton
-              disabled={isDisabledNextButton !== false}
+              disabled={!paymentCategory}
               nextRoutes={nextRoutes}
               values={paymentParams}
               {...props}

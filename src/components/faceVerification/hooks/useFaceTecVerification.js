@@ -52,6 +52,8 @@ export default (options = null) => {
   // Wrapped to useCallback for encapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
+    log.debug('startVerification', { fvSigner, chainId })
+
     // destructuring accessors keeping theirs names the
     // same like in the props for avoid code modifications
     const [onUIReady, onCaptureDone, onRetry, onComplete, onError, getMaxRetries] = refs
@@ -103,7 +105,12 @@ export default (options = null) => {
 
     // initializing zoom session
     try {
-      const verificationStatus = await FaceTecSDK.faceVerification(enrollmentIdentifier, chainId, verificationOptions)
+      const verificationStatus = await FaceTecSDK.faceVerification(
+        enrollmentIdentifier,
+        fvSigner,
+        chainId,
+        verificationOptions,
+      )
 
       log.debug('Zoom verification successful', { verificationStatus })
       onComplete(verificationStatus)

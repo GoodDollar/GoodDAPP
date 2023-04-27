@@ -6,7 +6,7 @@
     "deployment_model": "GLOBAL",
     "environment": "development",
     "allowed_request_origins": [
-        "https://gooddev.netlify.app",
+        "https://dev.gooddollar.org",
         "https://localhost:3000",
         "http://localhost:3000",
         "http://localhost"

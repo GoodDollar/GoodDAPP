@@ -1,3 +1,6 @@
+// polyfill Crypto.getRandomValues()
+import 'react-native-get-random-values'
+import '@ethersproject/shims'
 import '@walletconnect/react-native-compat'
 import SQLite from 'react-native-sqlite-2'
 import { XMLHttpRequest as XHR2 } from 'xhr2-cookies'

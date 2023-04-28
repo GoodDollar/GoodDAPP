@@ -16,13 +16,6 @@ const webStorage = isWeb ? window.localStorage : { getItem: noop }
 
 const forceLogLevel = get(qs.match(/level=(.*?)($|&)/), 1, webStorage.getItem('GD_LogLevel'))
 
-const phase = env.REACT_APP_RELEASE_PHASE || 1
-
-const isPhaseZero = 0 === phase
-const isPhaseOne = 1 === phase
-const isPhaseTwo = 2 === phase
-
-const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://{cid}.ipfs.nftstorage.link,https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
 
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
@@ -117,11 +110,6 @@ const Config = {
   contractsVersion,
   network,
   ethereum,
-  isEToro,
-  phase,
-  isPhaseZero,
-  isPhaseOne,
-  isPhaseTwo,
   publicUrl,
   alchemyKey,
   supportUrl: env.REACT_APP_SUPPORT_URL || 'https://t.me/+jay3UR6_rEwxNjY0',
@@ -130,13 +118,10 @@ const Config = {
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   ipfsGateways: ipfsGateways.split(',').map(gatewayTmpl => mustache(gatewayTmpl)),
   ipfsUploadGateway: env.REACT_APP_IPFS_UPLOADGATEWAY || 'https://ipfsgateway.goodworker.workers.dev',
-  learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: env.REACT_APP_INFURA_KEY,
-  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 8, // default is 1Week, add 1 day because its not exact
   goodSwapUrl: env.REACT_APP_GOODSWAP_URL || 'http://dev.gooddapp.org/#/swap',
   goodDollarPriceInfoUrl: env.REACT_APP_PRICE_INFO_URL || 'https://datastudio.google.com/u/0/reporting/f1ce8f56-058c-4e31-bfd4-1a741482642a/page/p_97jwocmrmc',
-  marketUrl: env.REACT_APP_MARKET_URL || 'https://goodmarkets.xyz/',
   learnUrl: env.REACT_APP_LEARN_URL || 'https://gooddollar.notion.site/GoodDollar-550f7d74c59c4123a7851fea52891811',
   useGdUrl: env.REACT_APP_USE_GD_URL || 'https://gooddollar.notion.site/Use-G-8639553aa7214590a70afec91a7d9e73',
   donateUrl: env.REACT_APP_DONATE_URL || 'https://gooddollar.notion.site/Donate-to-a-G-Cause-e7d31fb67bb8494abb3a7989ebe6f181',
@@ -152,7 +137,7 @@ const Config = {
   auth0ClientId: env.REACT_APP_AUTH0_CLIENT_ID,
   auth0SMSClientId: env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
-  enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
+  enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false', // true by default
   invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
   suggestMobileApp: env.REACT_APP_SUGGEST_MOBILE_APP !== 'false',
   suggestMobileAppUpdate: env.REACT_APP_SUGGEST_MOBILE_APP_UPDATE === 'true',

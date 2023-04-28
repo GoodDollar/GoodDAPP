@@ -191,7 +191,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <ModalButton fontWeight="medium" onPress={_handleModalClose}>
-              {Config.isPhaseZero ? t`OK` : t`LET\`S DO IT`}
+              {t`LET\`S DO IT`}
             </ModalButton>
           </View>
         </View>

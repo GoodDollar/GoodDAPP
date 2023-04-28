@@ -1,11 +1,7 @@
 // @flow
 import { useCallback, useEffect, useRef } from 'react'
 
-import Config from '../../../config/config'
-import { fireEvent } from '../../../lib/analytics/analytics'
-import { longUseOfClaims } from '../../../lib/userStorage/UserStorageClass'
 import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
-import { CLAIM_TASK_COMPLETED, claimDaysThreshold } from './events'
 
 const claimDaysProperty = 'countClaim'
 
@@ -24,11 +20,6 @@ export default () => {
     }
 
     claimsCountRef.current += 1
-
-    if (Config.isPhaseZero && claimsCountRef.current === claimDaysThreshold) {
-      fireEvent(CLAIM_TASK_COMPLETED)
-      await userStorage.enqueueTX({ ...longUseOfClaims, chainId: userStorage.wallet.networkId })
-    }
 
     await userProperties.set(claimDaysProperty, claimsCountRef.current)
     return claimsCountRef.current

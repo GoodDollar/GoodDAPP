@@ -17,7 +17,6 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/ut
 import { isMobile } from '../../../lib/utils/platform'
 import isEmail from '../../../lib/validators/isEmail'
 import normalize from '../../../lib/utils/normalizeText'
-import SurveySend from '../SurveySend'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { theme } from '../../theme/styles'
 import mustache from '../../../lib/utils/mustache'
@@ -62,7 +61,6 @@ const SummaryGeneric = ({
 
   const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'
 
-  const [, setSurvey] = useState(undefined)
   const [loading, setLoading] = useState(false)
 
   const { fullName, email: emailAddress } = useProfile()
@@ -272,7 +270,6 @@ const SummaryGeneric = ({
           </Section.Stack>
         </Section.Row>
       </Section>
-      <SurveySend handleCheckSurvey={setSurvey} />
     </Wrapper>
   )
 }

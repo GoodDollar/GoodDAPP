@@ -85,31 +85,9 @@ export const welcomeMessage = {
     receiptEvent: {
       from: NULL_ADDRESS,
     },
-    reason: Config.isPhaseZero
-      ? t`This is where you will claim UBI in
-      GoodDollar coins every day.
-      This is a demo version - please note that all
-      demo G$ coins collected have no value
-      outside of this pilot, and will be destroyed
-      upon completion of the demo period.`
-      : t`Right here is where you will claim your basic income in GoodDollar coins every day.
+    reason: t`Right here is where you will claim your basic income in GoodDollar coins every day.
 
       Together, we will build a better financial future for all of us!`,
-  },
-}
-
-export const welcomeMessageOnlyEtoro = {
-  id: '1',
-  type: 'welcome',
-  status: 'completed',
-  data: {
-    counterPartyFullName: t`Welcome to GoodDollar!`,
-    subtitle: t`Welcome to GoodDollar!`,
-    readMore: false,
-    receiptEvent: {
-      from: NULL_ADDRESS,
-    },
-    reason: t`Start collecting your income by claiming GoodDollars every day. Since this is a test version - all coins are “play” coins and have no value outside of this pilot, you can use them to buy goods during the trail, at the end of it, they will be returned to the system.`,
   },
 }
 
@@ -159,35 +137,9 @@ export const startClaiming = {
       from: NULL_ADDRESS,
     },
 
-    // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
-    reason: Config.isPhaseZero
-      ? t`Hey, just a reminder to claim your daily G$’s.
-      Remember, claim for 14 days and secure
-      a spot for GoodDollar’s live launch.`
-      : t`GoodDollar gives every active member a small daily income.
+    reason: t`GoodDollar gives every active member a small daily income.
 
       Every day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
-  },
-}
-
-export const longUseOfClaims = {
-  id: '5',
-  type: 'claimsThreshold',
-  status: 'completed',
-  data: {
-    counterPartyFullName: t`Woohoo! You’ve made it!`, //title in modal
-    subtitle: t`Woohoo! You’ve made it!`,
-    smallReadMore: t`Congrats! You claimed G$ for 14 days.`,
-    receiptEvent: {
-      from: NULL_ADDRESS,
-    },
-    reason: t`Nice work. You’ve claimed demo G$’s for
-    14 days and your spot is now secured for
-    GoodDollar’s live launch.
-    Live G$ coins are coming your way soon!`,
-    endpoint: {
-      displayName: t`Congrats! You’ve made it!`,
-    },
   },
 }
 
@@ -509,7 +461,7 @@ export class UserStorage {
 
     // first time user visit
     if (firstVisitAppDate == null) {
-      this.enqueueTX(Config.isEToro ? welcomeMessageOnlyEtoro : welcomeMessage)
+      this.enqueueTX(welcomeMessage)
       await this.userProperties.set('firstVisitApp', Date.now())
     }
 
@@ -519,7 +471,7 @@ export class UserStorage {
   async addAllCardsTest() {
     const inviteCard = await prepareInviteCard(uuid(), inviteFriendsMessage, this.wallet)
 
-    ;[welcomeMessage, inviteCard, startClaiming, longUseOfClaims].forEach(m => {
+    ;[welcomeMessage, inviteCard, startClaiming].forEach(m => {
       this.feedStorage.enqueueTX({ ...m, id: String(Math.random()) })
     })
   }

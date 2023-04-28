@@ -32,25 +32,13 @@ export class AnalyticsClass {
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.get('analytics')
-    const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'mixpanelKey', 'version', 'env', 'phase')
+    const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'mixpanelKey', 'version', 'env')
 
     assign(this, options, { logger, apisFactory, rootApi, loggerApi })
   }
 
   initAnalytics = async (tags = {}) => {
-    const {
-      apis,
-      apisFactory,
-      sentryDSN,
-      amplitudeKey,
-      mixpanelKey,
-      version,
-      network,
-      logger,
-      env,
-      phase,
-      loggerApi,
-    } = this
+    const { apis, apisFactory, sentryDSN, amplitudeKey, mixpanelKey, version, network, logger, env, loggerApi } = this
 
     const apisDetected = apisFactory()
     let { amplitude, sentry, googleAnalytics, mixpanel } = apisDetected
@@ -73,7 +61,7 @@ export class AnalyticsClass {
     source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
     const platform = isWeb ? (isWebApp ? 'webapp' : 'web') : 'native'
 
-    const allTags = { phase: String(phase), ...(tags || {}), os_version: osVersion, platform, version }
+    const allTags = { ...(tags || {}), os_version: osVersion, platform, version }
 
     const onceTags = { first_open_date: new Date().toString(), source }
 
@@ -125,7 +113,6 @@ export class AnalyticsClass {
       const sentryScope = {
         appVersion: version,
         networkUsed: network,
-        phase,
         ...(tags || {}),
       }
 

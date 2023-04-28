@@ -45,6 +45,9 @@ const ethereum = {
     explorerName: 'etherscan',
     gasPrice: 1,
   },
+
+  // kovan/ropsten should/could be removed, 
+  // but dev contracts in goodprotocol could still request the networks
   '42': {
     network_id: 42,
     httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
@@ -155,18 +158,14 @@ const Config = {
   mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
   httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'next',
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
-  recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
-  withMockedFeeds: env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
   feedItemTtl: moment.duration(env.REACT_APP_FEEDITEM_TTL || '24:00:00').as('milliseconds'), // default for 1 day
   safariMobileKeyboardGuidedSize: env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
   receiveUrl: env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
   enableShortUrl: env.REACT_APP_ENABLE_SHORTURL === 'true',
   sendUrl: env.REACT_APP_SEND_URL || `${publicUrl}`,
-  nextTimeClaim: env.REACT_APP_NEXT_TIME_CLAIM || 86400,
   displayStartClaimingCardTime: env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
-  backgroundReqsInterval: env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, // minutes
   sentryDSN: env.REACT_APP_SENTRY_DSN,
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
@@ -177,7 +176,6 @@ const Config = {
   torusGoogle: env.REACT_APP_TORUS_GOOGLE || 'google-gooddollar',
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
-  torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
   torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
@@ -185,10 +183,8 @@ const Config = {
   hcaptchaSiteKey: env.REACT_APP_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001', //test key
   fpSiteKey: env.REACT_APP_FINGERPRINT_SITE_KEY,
   fpEndpoint: env.REACT_APP_FINGERPRINT_ENDPOINT || 'https://api.fpjs.io',
-  textileKey: env.REACT_APP_TEXTILE_KEY,
   enableRefund: env.REACT_APP_ENABLE_REFUND === 'true',
   refundInfoLink: env.REACT_APP_REFUND_INFO_LINK || 'https://www.gooddollar.org/restoring-a-fair-gooddollar-ubi-pool/?utm_source=wallet',
-  textileSecret: env.REACT_APP_TEXTILE_SECRET,
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
   realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
   nodeEnv: env.NODE_ENV,

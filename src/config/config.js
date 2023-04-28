@@ -186,9 +186,6 @@ const Config = {
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
-  claimQueue: env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
-  mauticUrl: env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
-  mauticAddContractFormID: env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
   apiTimeout: env.REACT_APP_API_REQUEST_TIMEOUT || 30000,
   blockchainTimeout: parseInt(env.REACT_APP_BLOCKCHAIN_REQUEST_TIMEOUT || 1000),
   torusFacebook: env.REACT_APP_TORUS_FACEBOOK || 'facebook-gooddollar',
@@ -210,7 +207,6 @@ const Config = {
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
   realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
   nodeEnv: env.NODE_ENV,
-  isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
   storeAppIconAndroid: env.STORE_APP_ICON_ANDROID || "/store-app-icon-android.jpg",
   storeAppUrlAndroid: env.STORE_APP_URL_ANDROID || "https://play.google.com/store/apps/details?id=org.gooddollar",
   minimalIOSVersion: env.MINIMAL_IOS_VERSION || 12,

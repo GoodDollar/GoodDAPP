@@ -29,7 +29,6 @@ import {
   identity,
   keyBy,
   mapValues,
-  maxBy,
   noop,
   pickBy,
   range,
@@ -364,10 +363,13 @@ export class GoodWallet {
     return [...micorBridge, multichainRouter, kimaRouter].filter(_ => _).map(_ => _.toLowerCase())
   }
 
-  setIsPollEvents(active) {
+  async setIsPollEvents(active) {
     this.isPollEvents = active
     if (!active) {
+      this.pollEventsCurrentPromise && (await this.pollEventsCurrentPromise)
       this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
+      this.pollEventsCurrentPromise = null
+      this.pollEventsTimeout = null
     }
   }
 
@@ -378,37 +380,18 @@ export class GoodWallet {
           return
         }
 
-        let lastBlock = await retryCall(() => this.wallet.eth.getBlockNumber())
+        const startBlock = this.lastEventsBlock
+        const lastBlock = await this.syncTxWithBlockchain(startBlock)
+        this.lastEventsBlock = lastBlock
+        lastBlockCallback(lastBlock)
 
-        if (lastBlock <= this.lastEventsBlock) {
-          // if next block not mined yet
-          return
-        }
-
-        let nextLastBlock = Math.min(lastBlock, this.lastEventsBlock + POKT_MAX_EVENTSBLOCKS)
-
-        // await callback to finish processing events before updating lastEventblock
-        // we pass nextlastblock as null so the request naturally requests until the last block a node has,
-        // this is to prevent errors where some nodes for some reason still dont have the last block
-        const events = flatten(await fn(nextLastBlock < lastBlock ? nextLastBlock : null))
-
-        if (events.length) {
-          const lastEvent = maxBy(events, 'blockNumber')
-          this._notifyEvents(flatten(events), this.lastEventsBlock)
-          const lastBlock = parseInt(lastEvent.blockNumber) + 1
-          this.lastEventsBlock = lastBlock
-          lastBlockCallback(lastBlock)
-        } else {
-          this.lastEventsBlock = nextLastBlock
-        }
-
-        log.info('pollEvents success:', { events: events.length, nextLastBlock })
+        log.info('pollEvents success:', { startBlock, lastBlock })
         return true
       }
 
-      const runRes = await Promise.race([run(), delay(5000, false)])
-
-      if (runRes === false) {
+      const runRes = Promise.race([run(), delay(5000, false)])
+      this.pollEventsCurrentPromise = runRes
+      if ((await runRes) === false) {
         throw new Error('pollEvents not completed after 5 seconds')
       }
     } catch (e) {
@@ -423,7 +406,7 @@ export class GoodWallet {
     const { _address: tokenAddress } = tokenContract
     let fromBlock = startFrom
 
-    this.setIsPollEvents(true)
+    await this.setIsPollEvents(true)
 
     if (!startFrom) {
       const fetchTokenTxs = () => API.getTokenTXs(tokenAddress, account)
@@ -485,19 +468,24 @@ export class GoodWallet {
         const ps = chunk.map(async fromBlock => {
           let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
 
-          if (toBlock > lastBlock) {
-            toBlock = lastBlock
+          // await callback to finish processing events before updating lastEventblock
+          // we pass toBlock as null so the request naturally requests until the last block a node has,
+          // this is to prevent errors where some nodes for some reason still dont have the last block
+          if (toBlock >= lastBlock) {
+            toBlock = undefined
           }
 
           log.debug('sync tx step:', { fromBlock, toBlock })
 
-          const events = await Promise.all([
-            this.pollSendEvents(toBlock, fromBlock),
-            this.pollReceiveEvents(toBlock, fromBlock),
-            this.pollOTPLEvents(toBlock, fromBlock),
-          ])
+          const events = flatten(
+            await Promise.all([
+              this.pollSendEvents(toBlock, fromBlock),
+              this.pollReceiveEvents(toBlock, fromBlock),
+              this.pollOTPLEvents(toBlock, fromBlock),
+            ]),
+          )
 
-          this._notifyEvents(flatten(events), fromBlock)
+          this._notifyEvents(events, fromBlock)
         })
 
         // eslint-disable-next-line no-await-in-loop
@@ -506,7 +494,7 @@ export class GoodWallet {
       log.debug('sync tx from blockchain finished successfully')
       return lastBlock
     } catch (e) {
-      log.error('Failed to sync tx from blockchain', e.message, e)
+      log.error('Failed to sync tx from blockchain', e.message, e, { startBlock, lastBlock })
     }
   }
 

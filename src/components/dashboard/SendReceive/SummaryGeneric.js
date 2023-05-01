@@ -100,13 +100,9 @@ const SummaryGeneric = ({
     try {
       await onConfirm(vendorFields)
     } finally {
-      // the bridge transaction is handled by a separate useEffect so incorrectly finalizes here
-      // while it should still be loading
-      if (!isBridge) {
-        setLoading(false)
-      }
+      setLoading(false)
     }
-  }, [name, email, vendorInfo, onConfirm, isBridge])
+  }, [name, email, vendorInfo, onConfirm])
 
   // Custom verifier to ensure that we have all needed info
   const formHasErrors = useCallback(() => {

@@ -38,6 +38,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const userStorage = useUserStorage()
   const inviteCode = userStorage.userProperties.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
+  const bridgePromiseRef = useRef({})
   const { isBridge, network } = screenState
   const { showDialog, hideDialog, showErrorDialog } = useDialog()
 
@@ -275,15 +276,20 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     async (amount: string) => {
       logger.debug('sendViaBridge', { amount, network })
       try {
-        await sendBridgeRequest(amount, network.toLowerCase())
+        await new Promise((res, rej) => {
+          bridgePromiseRef.current = { res, rej }
+          sendBridgeRequest(amount, network.toLowerCase())
+        })
       } catch (e) {
         logger.error('sendViaBridge failed:', e.message, e, { amount, network })
+        showErrorDialog(t`Could not complete bridge transaction. Please try again.`, '', { onDismiss: goToRoot })
       }
     },
     [amount],
   )
 
   useEffect(() => {
+    const { res, rej } = bridgePromiseRef.current
     if (bridgeRequestStatus.status === 'Mining') {
       const { transaction: tx } = bridgeRequestStatus
       const transactionEvent: TransactionEvent = {
@@ -304,7 +310,10 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       userStorage.enqueueTX(transactionEvent)
 
       fireEvent(SEND_DONE, { type: 'Bridge' })
+      res()
       goToRoot()
+    } else if (bridgeRequestStatus.status === 'Exception' || bridgeRequestStatus.status === 'Fail') {
+      rej()
     }
   }, [bridgeRequestStatus])
 

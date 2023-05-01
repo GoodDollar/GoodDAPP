@@ -16,9 +16,9 @@ import { GlobalTogglesContext } from '../contexts/togglesContext'
 import api from '../API/api'
 import { getNetworkName, NETWORK_ID } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
+import { setChainId } from '../analytics/analytics'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-
 type NETWORK = $Keys<typeof NETWORK_ID>
 
 /** CELO TODO:
@@ -122,6 +122,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       )
 
       goodWallet.balanceChanged(() => updateWalletData(goodWallet))
+
+      setChainId(goodWallet.networkId)
     },
     [userStorage],
   )

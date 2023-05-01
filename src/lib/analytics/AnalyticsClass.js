@@ -208,9 +208,10 @@ export class AnalyticsClass {
     )
   }
 
-  fireEvent = (event: string, data: any = {}) => {
-    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger } = this
+  fireEvent = (event: string, eventData: any = {}) => {
+    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId } = this
     const { amplitude, googleAnalytics, mixpanel } = apis
+    const data = { chainId, ...eventData }
 
     if (isMixpanelEnabled) {
       mixpanel.track(event, data)
@@ -302,6 +303,10 @@ export class AnalyticsClass {
         scope.setUser({ ...(_user || {}), ...props })
       })
     }
+  }
+
+  setChainId = chainId => {
+    this.chainId = chainId
   }
 
   /** @private */

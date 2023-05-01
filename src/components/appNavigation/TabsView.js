@@ -12,6 +12,7 @@ import { useSwitchNetwork } from '../../lib/wallet/GoodWalletProvider'
 import { theme } from '../theme/styles'
 import GreenCircle from '../../assets/ellipse46.svg'
 import GoodWallet from '../../assets/goodwallet.svg'
+import { fireEvent, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 
 // const showSupportFirst = !isEToro && !showInvite && !showRewards
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
@@ -64,6 +65,7 @@ const NetworkName = () => {
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
 
   const toggle = () => {
+    fireEvent(SWITCH_NETWORK, { type: 'topbar' })
     switchNetwork(currentNetwork === 'FUSE' ? 'CELO' : 'FUSE')
   }
 

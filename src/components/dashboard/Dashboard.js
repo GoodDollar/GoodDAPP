@@ -14,7 +14,7 @@ import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { decimalsToFixed, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
-import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
+import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 import { useFormatG$, useSwitchNetwork, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
@@ -182,7 +182,10 @@ const BalanceAndSwitch = ({
   const altNetwork = currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
   const networkNameUp = networkName.toUpperCase()
   const isCurrent = currentNetwork === networkNameUp
-  const toggle = () => switchNetwork(altNetwork)
+  const toggle = () => {
+    fireEvent(SWITCH_NETWORK, { type: 'balance' })
+    switchNetwork(altNetwork)
+  }
   const formattedBalance = formatWithAbbreviations(balance, 2)
 
   return (

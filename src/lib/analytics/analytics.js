@@ -20,6 +20,7 @@ export const {
   fireGoogleAnalyticsEvent,
   setUserProps,
   setUserPropsOnce,
+  setChainId,
 } = analytics
 
 export default analytics

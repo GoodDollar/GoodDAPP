@@ -36,16 +36,15 @@ const GlobalStyle = createGlobalStyle`
 
 
   :root {
-    --onboard-wallet-columns: 1;
-    --onboard-connect-sidebar-background: #F6F8FA;
+    --onboard-wallet-columns: 2;
+    --foreground-color: #eff1fc;
+    --onboard-wallet-button-background-hover: #eff1fc;
     --onboard-wallet-button-border-color: #E9ECFF;
     --onboard-wallet-app-icon-border-color: #E9ECFF;
     --onboard-close-button-background: none;
     --onboard-close-button-color: black;
     --onboard-font-family-normal: ${({ theme }) => theme.font.primary};
     --onboard-font-family-light: ${({ theme }) => theme.font.secondary};
-    // --onboard-font-size-6: 1.05rem;
-    // --onboard-gray-700: #999EA8;
 
 
   }

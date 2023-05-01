@@ -1,0 +1,28 @@
+diff --git a/dist/Index-2b46630a.js b/dist/Index-2b46630a.js
+index 06ea0c4a094b86395ce012089b34d6f143cc7101..dbd1c739538b41f4c3a06997e735b111f232c999 100644
+--- a/dist/Index-2b46630a.js
++++ b/dist/Index-2b46630a.js
+@@ -286,7 +286,8 @@ function create_if_block_1$1(ctx) {
+ 		c() {
+ 			div = element("div");
+ 			create_component(chainbadge.$$.fragment);
+-			attr(div, "class", "absolute chain-icon-container svelte-jvic9v");
++      attr(div, "class", "absolute chain-icon-container svelte-jvic9v");
++      attr(div, "part", "sidebar-heading-img");
+ 		},
+ 		m(target, anchor) {
+ 			insert(target, div, anchor);
+diff --git a/dist/index-d817b0d2.js b/dist/index-d817b0d2.js
+index 52157b0929ecaad891f07643f2fbc0ef2a665d1b..237119d5eaa207286bfbfa2153dd906238cf93bd 100644
+--- a/dist/index-d817b0d2.js
++++ b/dist/index-d817b0d2.js
+@@ -6152,7 +6152,8 @@ function create_if_block_2$2(ctx) {
+ 			t = space();
+ 			if (if_block1) if_block1.c();
+ 			if_block1_anchor = empty();
+-			attr(div, "class", "icon-container svelte-2l58pt");
++      attr(div, "class", "icon-container svelte-2l58pt");
++      attr(div, "part", "sidebar-heading-img");
+ 		},
+ 		m(target, anchor) {
+ 			insert(target, div, anchor);

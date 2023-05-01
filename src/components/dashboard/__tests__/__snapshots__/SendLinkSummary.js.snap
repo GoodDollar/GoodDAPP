@@ -20,28 +20,30 @@ exports[`SendLinkSummary matches snapshot 1`] = `
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
         >
           <div
-            className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-            dir="auto"
+            className="css-view-1dbjc4n r-alignItems-obd0qt r-display-6koalj r-flexDirection-18u37iz r-justifyContent-17s6mgv"
           >
-            0
-          </div>
-          <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
-          >
-            <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             >
-              G
-            </div>
+              0
+            </span>
             <div
-              className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-              dir="auto"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-xoduu5 r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
             >
-              $
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              >
+                G
+              </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406 r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              >
+                $
+              </span>
             </div>
           </div>
         </div>
@@ -92,14 +94,13 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-tvqc6p r-borderRadius-ieixw r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-egdndh r-marginTop-1mnahxq r-position-bnwqim r-width-1h2t8mc"
           >
             <div
-              className="css-text-901oao r-fontSize-hiw28u"
+              className="css-text-901oao r-fontSize-hiw28u r-fontWeight-1it3c9n"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "gooddollar",
                   "fontStyle": "normal",
-                  "fontWeight": "normal",
                 }
               }
             >

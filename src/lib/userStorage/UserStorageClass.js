@@ -1,7 +1,7 @@
 //@flow
 
 import { assign, get, invokeMap, isEqual, keys, memoize, pick } from 'lodash'
-
+import { isAddress } from 'web3-utils'
 import moment from 'moment'
 
 import { t } from '@lingui/macro'
@@ -915,7 +915,6 @@ export class UserStorage {
     status,
     data: { receiptEvent, from = '', to = '', customName = '', counterPartyFullName, counterPartySmallAvatar, amount },
   }) {
-    const { isAddress } = this.wallet.wallet.utils
     const data = {
       address: '',
       initiator: '',
@@ -943,8 +942,7 @@ export class UserStorage {
 
     data.value = get(receiptEvent, 'value') || get(receiptEvent, 'amount') || amount
 
-    const ubiAddressLc = this.wallet.UBIContract._address
-    const fromGDUbi = (data.address || '').toLowerCase() === ubiAddressLc && 'GoodDollar UBI'
+    const fromGDUbi = this.wallet.getUBIAddresses().includes((data.address || '').toLowerCase()) && 'GoodDollar UBI'
 
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||

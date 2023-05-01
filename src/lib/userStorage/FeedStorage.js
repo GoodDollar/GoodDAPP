@@ -55,7 +55,7 @@ export const TxTypeToEventType = {
   TX_CLAIM: FeedItemType.EVENT_TYPE_CLAIM,
   TX_REWARD: FeedItemType.EVENT_TYPE_BONUS,
   TX_MINT: FeedItemType.EVENT_TYPE_RECEIVE,
-  TX_BRIDGE_OUT: FeedItemType.EVENT_TYPE_SEND,
+  TX_BRIDGE_OUT: FeedItemType.EVENT_TYPE_SENDBRIDGE,
   TX_BRIDGE_IN: FeedItemType.EVENT_TYPE_RECEIVE,
 }
 
@@ -405,7 +405,7 @@ export class FeedStorage {
 
       let status = TxStatus.COMPLETED
       let otplStatus = ''
-      let type = TxTypeToEventType[txType] || feedEvent.type
+      let type = feedEvent.type || TxTypeToEventType[txType]
 
       switch (txType) {
         case TxType.TX_UKNOWN:

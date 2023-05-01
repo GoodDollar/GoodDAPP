@@ -8,7 +8,7 @@ import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { useSwitchNetwork, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { useSwitchNetwork, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
@@ -47,6 +47,7 @@ const Amount = (props: AmountProps) => {
   const { isBridge = false } = params
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
+  const { balance } = useWalletData()
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeLimits } = useGetBridgeData(goodWallet.networkId, goodWallet.account)
   const { minAmount } = bridgeLimits || { minAmount: 0 }
@@ -81,7 +82,7 @@ const Amount = (props: AmountProps) => {
       const fee = await goodWallet.calculateTxFee(weiAmount)
       const amount = new BN(weiAmount)
       const amountWithFee = amount.add(fee)
-      const canSend = await goodWallet.canSend(amountWithFee, { feeIncluded: true })
+      const canSend = amountWithFee.lte(new BN(balance))
 
       if (isBridge) {
         const min = parseFloat(goodWallet.toDecimals(minAmount))

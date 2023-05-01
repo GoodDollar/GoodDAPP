@@ -41,7 +41,6 @@ import { createUrlObject } from '../../lib/utils/uri'
 import useProfile from '../../lib/userStorage/useProfile'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import Separator from '../common/layout/Separator'
-import { useInviteCode } from '../invite/useInvites'
 import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
@@ -238,7 +237,6 @@ const Dashboard = props => {
   const { currentNetwork } = useSwitchNetwork()
 
   useRefundDialog(screenProps)
-  useInviteCode() // preload user invite code
 
   const sendReceiveMinimzedYAnimValue = new Animated.Value(0)
   const sendReceiveOutputRange = headerLarge ? [0, 500] : [100, 0]

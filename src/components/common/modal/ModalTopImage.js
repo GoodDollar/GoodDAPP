@@ -39,6 +39,10 @@ export const getImageByType = (type, styles = {}) =>
       Component: ReceivedAnimation,
       containerStyle: styles.mainImageContainer,
     },
+    sendbridgecompleted: {
+      Component: SendAnimation,
+      containerStyle: styles.mainImageContainer,
+    },
     sendcompleted: {
       Component: SendAnimation,
       containerStyle: styles.mainImageContainer,

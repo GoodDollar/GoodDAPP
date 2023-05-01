@@ -361,7 +361,7 @@ export class FeedStorage {
       log.debug('handleReceiptUpdate got lock:', receipt.transactionHash, { txEvent, txType })
 
       if (txType === TxType.TX_OTPL_WITHDRAW || txType === TxType.TX_OTPL_CANCEL) {
-        const paymentId = txEvent.data.paymentId
+        const paymentId = get(txEvent, 'data.paymentId')
 
         feedEvent = await this.getFeedItemByPaymentId(paymentId)
 
@@ -377,7 +377,7 @@ export class FeedStorage {
           }
         } else {
           log.debug('handleReceiptUpdate: found original tx for payment link', {
-            paymentId: txEvent.data.paymentId,
+            paymentId: get(txEvent, 'data.paymentId'),
             txHash: receipt.transactionHash,
             originalTX: feedEvent.id,
           })
@@ -471,9 +471,9 @@ export class FeedStorage {
           ...initialEvent.data,
           receiptEvent: {
             txHash: receipt.transactionHash,
-            name: txEvent.name,
-            eventSource: txEvent.address,
-            ...txEvent.data,
+            name: get(txEvent, 'name'),
+            eventSource: get(txEvent, 'address'),
+            ...get(txEvent, 'data', {}),
           },
         },
       }

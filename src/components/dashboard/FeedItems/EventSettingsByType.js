@@ -43,6 +43,12 @@ const getEventSettingsByType = (theme, type) => {
       component: FeedSendComplete,
       name: 'send-filled',
     },
+    sendbridgecompleted: {
+      actionSymbol: '-',
+      color: theme.colors.red,
+      component: FeedSendComplete,
+      name: 'send-filled',
+    },
     sendcompleted: {
       actionSymbol: '-',
       color: theme.colors.red,

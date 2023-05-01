@@ -34,7 +34,7 @@ const FeedModalItem = (props: FeedEventProps) => {
 
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
-  const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
+  const showJaggedEdge = ['claim', 'sendcompleted', 'sendbridgecompleted', 'withdraw', 'receive'].includes(itemType)
   const topImageExists = !!getImageByType(itemType)
   const avatar = get(item, 'data.endpoint.avatar')
   const sellerWebsite = get(item, 'data.sellerWebsite', '')

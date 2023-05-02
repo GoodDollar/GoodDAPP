@@ -845,7 +845,7 @@ export class GoodWallet {
       const { message } = exception
 
       log.error('BalanceOf failed', message, exception)
-      return 0
+      return toBN(0)
     }
   }
 

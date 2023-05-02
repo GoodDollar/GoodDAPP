@@ -74,14 +74,14 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     })
     const run = async () => {
       expect(await testWallet.claim()).toBeTruthy()
-      expect(await testWallet.balanceOf()).toBeGreaterThan(0)
+      expect(Number(await testWallet.balanceOf())).toBeGreaterThan(0)
     }
     run()
   })
 
   it('should allow token transfer', async () => {
     await testWallet.sendAmount(testWallet2.account, 1)
-    expect(await testWallet2.balanceOf()).toBe(1)
+    expect(Number(await testWallet2.balanceOf())).toBe(1)
   })
 
   it('should deposit payment and withdraw', async () => {
@@ -113,7 +113,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
     const newBalance = await testWallet.balanceOf()
 
-    expect(newBalance).toEqual(0)
+    expect(Number(newBalance)).toEqual(0)
 
     const isused = await testWallet.isPaymentLinkAvailable(DEPOSIT_CODE_HASH)
     expect(isused).toBeTruthy()

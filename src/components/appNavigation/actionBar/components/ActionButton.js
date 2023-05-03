@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native'
 import Icon from '../../../common/view/Icon'
 import { withStyles } from '../../../../lib/styles'
 import useOnPress from '../../../../lib/hooks/useOnPress'

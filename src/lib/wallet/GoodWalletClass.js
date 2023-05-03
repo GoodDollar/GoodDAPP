@@ -732,10 +732,12 @@ export class GoodWallet {
   getReservePriceDAI = throttle(
     async () => {
       try {
-        const priceResult = await retryCall(() => API.graphQuery(pricesQuery))
-
-        const { closePriceDAI } = get(priceResult, 'data.reserveHistories[0]')
-        return Number(closePriceDAI)
+        const priceResult = await retryCall(async () => {
+          const result = await API.graphQuery(pricesQuery)
+          const { closePriceDAI } = get(result, 'data.reserveHistories[0]')
+          return Number(closePriceDAI)
+        })
+        return priceResult
       } catch (e) {
         log.warn('getReservePriceDAI failed:', e.message, e)
         throw e

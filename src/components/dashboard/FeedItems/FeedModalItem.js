@@ -234,6 +234,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       alignSelf: 'center',
       marginRight: theme.sizes.default,
+      width: 30,
     },
   }
 }

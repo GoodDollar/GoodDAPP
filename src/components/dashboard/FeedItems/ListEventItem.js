@@ -140,7 +140,7 @@ export const NetworkIcon = ({ chainId = 122, txHash }) => {
   }
   return isTx ? (
     <TouchableOpacity onPress={goToTxDetails}>
-      <Icon height={20} />
+      <Icon height={20} width={20} />
     </TouchableOpacity>
   ) : null
 }

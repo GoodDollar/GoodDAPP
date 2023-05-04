@@ -464,19 +464,19 @@ export const useWalletConnectSession = () => {
           accounts: [wallet.account],
           rpcUrl: getChainRpc(chainDetails),
         })
-        log.debug('switching chain notification v1 done')
+        log.debug('switching chain notification v1 done', { chainDetails })
         AsyncStorage.setItem('walletconnect_requestedChain', chainDetails.chainId)
       } else {
         //for v2 each request contains the chain and we handle rpc there
         await cachedV2Connector.emitSessionEvent({
           topic: v2session.topic,
-          event: { name: 'chainChanged', data: `eip155:${chain.chainId}` },
-          chainId: `eip155:${v2session.chainId}`,
+          event: { name: 'chainChanged', data: [chainDetails.chainId] },
+          chainId: `eip155:${chainDetails.chainId}`,
         })
-        log.debug('switching chain notification v2 done')
-        AsyncStorage.setItem('walletconnect_requestedChain_v2', chain.chainId)
+        log.debug('switching chain notification v2 done', { chainDetails, v2session })
+        AsyncStorage.setItem('walletconnect_requestedChain_v2', chainDetails.chainId)
       }
-      setChain(chain)
+      setChain(chainDetails)
     },
     [wallet, v2session, activeConnector],
   )

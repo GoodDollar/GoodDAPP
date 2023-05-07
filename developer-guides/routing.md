@@ -39,11 +39,11 @@ This example also uses [createNavigator](https://reactnavigation.org/docs/en/cus
 
 _'Splash'_ for instance is a single component without any further navigation and _'_[_AppNavigation_](../docs/dapp/components/app-navigation.md)_'_ contains the entire logged in flow.
 
-There are a few patterns being used to handle navigation levels explained bellow.
+There are a few patterns being used to handle navigation levels explained below.
 
 ## Switch Navigation
 
-There are several navigation levels using [createSwitchNavigator](https://reactnavigation.org/docs/en/switch-navigator.html). This is the standard navigator for web and it behaves by simply show one screen at the time. When that's the case in order to navigate
+There are several navigation levels using [createSwitchNavigator](https://reactnavigation.org/docs/en/switch-navigator.html). This is the standard navigator for web and it behaves by simply showing one screen at the time. When that's the case in order to navigate
 
 ```
 props.navigation.navigate('NewScreen')
@@ -58,7 +58,7 @@ This navigation is being used in several screens. Is build on top of [createSwit
 Example
 
 ```text
-cosnt ChildrenComponent = props => {
+const ChildrenComponent = props => {
    const handleGoToSendConfirmation = () => props.screenProps.push('SendConfirmation', { sendLink, amount, reason, to })
 
    ...

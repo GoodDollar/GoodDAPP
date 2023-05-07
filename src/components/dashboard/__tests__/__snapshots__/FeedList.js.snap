@@ -576,6 +576,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                   >
                     <fuse.svg
                       height={20}
+                      width={20}
                     />
                   </div>
                 </div>
@@ -784,6 +785,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                   >
                     <fuse.svg
                       height={20}
+                      width={20}
                     />
                   </div>
                 </div>

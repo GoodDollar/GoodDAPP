@@ -1480,119 +1480,111 @@ exports[`Dashboard matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            role="button"
+            className="css-view-1dbjc4n r-cursor-1loqt21 r-marginLeft-1n0xq6e r-marginRight-zso239 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onKeyDown={[Function]}
+            style={
+              Object {
+                "WebkitTransitionDuration": "0s",
+                "transitionDuration": "0s",
+              }
+            }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-marginLeft-1n0xq6e r-marginRight-zso239"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              dir="auto"
               style={
                 Object {
-                  "opacity": 1,
+                  "fontFamily": "gooddollar",
+                  "fontSize": "48px",
+                  "fontStyle": "normal",
                 }
               }
-              tabIndex="0"
             >
-              <div
-                className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
-                dir="auto"
-                style={
-                  Object {
-                    "fontFamily": "gooddollar",
-                    "fontSize": "48px",
-                    "fontStyle": "normal",
-                  }
-                }
-              >
-                
-              </div>
+              
             </div>
           </div>
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            role="button"
+            className="css-view-1dbjc4n r-cursor-1loqt21 r-marginLeft-1n0xq6e r-marginRight-zso239 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onKeyDown={[Function]}
+            style={
+              Object {
+                "WebkitTransitionDuration": "0s",
+                "transitionDuration": "0s",
+              }
+            }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-marginLeft-1n0xq6e r-marginRight-zso239"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              dir="auto"
               style={
                 Object {
-                  "opacity": 1,
+                  "fontFamily": "gooddollar",
+                  "fontSize": "48px",
+                  "fontStyle": "normal",
                 }
               }
-              tabIndex="0"
             >
-              <div
-                className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
-                dir="auto"
-                style={
-                  Object {
-                    "fontFamily": "gooddollar",
-                    "fontSize": "48px",
-                    "fontStyle": "normal",
-                  }
-                }
-              >
-                
-              </div>
+              
             </div>
           </div>
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            role="button"
+            className="css-view-1dbjc4n r-cursor-1loqt21 r-marginLeft-1n0xq6e r-marginRight-zso239 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onKeyDown={[Function]}
+            style={
+              Object {
+                "WebkitTransitionDuration": "0s",
+                "transitionDuration": "0s",
+              }
+            }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-marginLeft-1n0xq6e r-marginRight-zso239"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              dir="auto"
               style={
                 Object {
-                  "opacity": 1,
+                  "fontFamily": "gooddollar",
+                  "fontSize": "48px",
+                  "fontStyle": "normal",
                 }
               }
-              tabIndex="0"
             >
-              <div
-                className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
-                dir="auto"
-                style={
-                  Object {
-                    "fontFamily": "gooddollar",
-                    "fontSize": "48px",
-                    "fontStyle": "normal",
-                  }
-                }
-              >
-                
-              </div>
+              
             </div>
           </div>
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            role="button"
+            className="css-view-1dbjc4n r-cursor-1loqt21 r-marginLeft-1n0xq6e r-marginRight-zso239 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onKeyDown={[Function]}
+            style={
+              Object {
+                "WebkitTransitionDuration": "0s",
+                "transitionDuration": "0s",
+              }
+            }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-marginLeft-1n0xq6e r-marginRight-zso239"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              dir="auto"
               style={
                 Object {
-                  "opacity": 1,
+                  "fontFamily": "gooddollar",
+                  "fontSize": "48px",
+                  "fontStyle": "normal",
                 }
               }
-              tabIndex="0"
             >
-              <div
-                className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
-                dir="auto"
-                style={
-                  Object {
-                    "fontFamily": "gooddollar",
-                    "fontSize": "48px",
-                    "fontStyle": "normal",
-                  }
-                }
-              >
-                
-              </div>
+              
             </div>
           </div>
         </div>

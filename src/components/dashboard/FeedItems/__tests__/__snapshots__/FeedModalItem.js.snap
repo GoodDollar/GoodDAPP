@@ -106,7 +106,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh r-width-199wky7"
                   >
                     <div
                       className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
@@ -123,6 +123,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     >
                       <fuse.svg
                         height={20}
+                        width={20}
                       />
                     </div>
                   </div>
@@ -415,7 +416,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh r-width-199wky7"
                   >
                     <div
                       className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
@@ -432,6 +433,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     >
                       <fuse.svg
                         height={20}
+                        width={20}
                       />
                     </div>
                   </div>
@@ -818,7 +820,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh r-width-199wky7"
                   >
                     <div
                       className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
@@ -835,6 +837,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     >
                       <fuse.svg
                         height={20}
+                        width={20}
                       />
                     </div>
                   </div>
@@ -1258,7 +1261,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh r-width-199wky7"
                   >
                     <div
                       className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
@@ -1275,6 +1278,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     >
                       <fuse.svg
                         height={20}
+                        width={20}
                       />
                     </div>
                   </div>
@@ -1698,7 +1702,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-6gpygo"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                    className="css-view-1dbjc4n r-alignContent-uia4a0 r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh r-width-199wky7"
                   >
                     <div
                       className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
@@ -1715,6 +1719,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     >
                       <fuse.svg
                         height={20}
+                        width={20}
                       />
                     </div>
                   </div>

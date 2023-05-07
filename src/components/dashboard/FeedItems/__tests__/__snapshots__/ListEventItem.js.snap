@@ -39,6 +39,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           >
             <fuse.svg
               height={20}
+              width={20}
             />
           </div>
         </div>
@@ -240,6 +241,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
           >
             <fuse.svg
               height={20}
+              width={20}
             />
           </div>
         </div>
@@ -441,6 +443,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           >
             <fuse.svg
               height={20}
+              width={20}
             />
           </div>
         </div>

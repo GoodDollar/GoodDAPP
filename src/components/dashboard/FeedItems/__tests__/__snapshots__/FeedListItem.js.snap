@@ -46,6 +46,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             >
               <fuse.svg
                 height={20}
+                width={20}
               />
             </div>
           </div>
@@ -255,6 +256,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             >
               <fuse.svg
                 height={20}
+                width={20}
               />
             </div>
           </div>

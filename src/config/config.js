@@ -203,7 +203,6 @@ const Config = {
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
   networkId,
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
-  enableWebNotifications: env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
   defaultTxGas: parseInt(env.REACT_APP_DEFAULT_TX_GAS || 1000000),

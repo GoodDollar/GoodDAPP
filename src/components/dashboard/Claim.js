@@ -522,7 +522,7 @@ const Claim = props => {
   const handleClaim = useCallback(async () => {
     const claimed = await onClaim()
 
-    if (!userProperties || (isWeb && !Config.enableWebNotifications) || !claimed) {
+    if (!userProperties || isWeb || !claimed) {
       return
     }
 

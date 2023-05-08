@@ -47,8 +47,6 @@ const tips = {
 const profileFields = ['mobile', 'email']
 const titles = { mobile: 'Phone number', email: 'Email' }
 
-const { enableWebNotifications } = Config
-
 const PrivacyOption = ({ title, value, field, setPrivacy }) => {
   const handlePrivacyChange = useCallback(
     value => {
@@ -152,7 +150,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     <Wrapper style={styles.mainWrapper} withGradient={false}>
       <Section grow style={styles.wrapper}>
         <Section.Stack grow justifyContent="flex-start">
-          {isWeb && !enableWebNotifications ? null : (
+          {isWeb ? null : (
             <>
               <Section.Row justifyContent="center" style={styles.subtitleRow}>
                 <Section.Text fontWeight="bold" color="gray">

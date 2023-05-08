@@ -340,12 +340,6 @@ export class APIService {
     return this.client.post('/user/enqueue')
   }
 
-  async getActualPhase() {
-    const { data } = await this.client.get('/verify/phase')
-
-    return data.phase
-  }
-
   // eslint-disable-next-line require-await
   async notifyVendor(transactionId, transactionInfo) {
     const { callbackUrl, invoiceId, senderEmail, senderName } = transactionInfo || {}

@@ -6,7 +6,7 @@ const fromDate = new Date('2022/07/13')
  * @returns {Promise<void>}
  */
 // eslint-disable-next-line require-await
-const resetRefund = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
+const resetRefund = async (lastUpdate, prevVersion, log, { goodWallet }, userStorage) => {
   const { userProperties } = userStorage
 
   log.debug('ready to reset refund flag, updating user props')

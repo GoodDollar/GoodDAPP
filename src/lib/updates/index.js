@@ -16,7 +16,7 @@ const log = logger.child({ from: 'updates' })
 
 const updates = [upgradeProfile, uploadAvatars, claimGOOD, verifyCRM, fixRegMethod, resetRefund, syncWhitelist]
 
-const update = async (goodWallet, userStorage) => {
+const update = async (wallets, userStorage) => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {
     lastUpdate: new Date(0),
     status: {},
@@ -36,7 +36,7 @@ const update = async (goodWallet, userStorage) => {
       if (upd.fromDate > lastUpdate || !doneUpdates[updateKey]) {
         acc.push(() =>
           upd
-            .update(lastUpdate, prevVersion, log, goodWallet, userStorage)
+            .update(lastUpdate, prevVersion, log, wallets, userStorage)
             .then(_ => {
               doneUpdates[updateKey] = true
               log.info('update done:', updateKey)
@@ -76,11 +76,11 @@ const update = async (goodWallet, userStorage) => {
   await userStorage.userProperties.set('updates', updatesData)
 }
 
-export default async (goodWallet, userStorage, from = null) => {
+export const runUpdates = async (wallets, userStorage, from = null) => {
   const logger = from || log
 
   try {
-    await update(goodWallet, userStorage)
+    await update(wallets, userStorage)
   } catch (e) {
     logger.warn('Run update failed', e.message, e)
   }

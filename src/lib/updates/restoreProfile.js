@@ -4,7 +4,7 @@ import API from '../API'
 
 const fromDate = new Date('2021/09/09')
 
-const restoreProfile = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
+const restoreProfile = async (lastUpdate, prevVersion, log, { goodWallet }, userStorage) => {
   let { fullName, walletAddress } = userStorage.getDisplayProfile()
 
   log.info('start restoreProfile')

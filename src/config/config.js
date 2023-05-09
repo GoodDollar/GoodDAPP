@@ -1,4 +1,4 @@
-import { defaultsDeep, get, noop } from 'lodash'
+import { get, noop } from 'lodash'
 import moment from 'moment'
 
 import contractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
@@ -16,13 +16,6 @@ const webStorage = isWeb ? window.localStorage : { getItem: noop }
 
 const forceLogLevel = get(qs.match(/level=(.*?)($|&)/), 1, webStorage.getItem('GD_LogLevel'))
 
-const phase = env.REACT_APP_RELEASE_PHASE || 1
-
-const isPhaseZero = 0 === phase
-const isPhaseOne = 1 === phase
-const isPhaseTwo = 2 === phase
-
-const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://{cid}.ipfs.nftstorage.link,https://cloudflare-ipfs.com/ipfs/{cid},https://ipfs.io/ipfs/{cid},https://{cid}.ipfs.dweb.link'
 
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
@@ -42,15 +35,7 @@ export const fuseNetwork = {
   g$Decimals:2,
 }
 
-let altProviders = {}
-try {
-  // web3 rpc needs to be an object with key networkId and value of same type as above fuseNetwork record
-  altProviders = JSON.parse(env.REACT_APP_WEB3_RPC)
-} catch(e) {
-  altProviders = {}
-}
-
-const ethereum = defaultsDeep(altProviders, {
+const ethereum = {
   '1': {
     network_id: 1,
     httpWeb3provider: `https://rpc.ankr.com/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
@@ -60,6 +45,9 @@ const ethereum = defaultsDeep(altProviders, {
     explorerName: 'etherscan',
     gasPrice: 1,
   },
+
+  // kovan/ropsten should/could be removed, 
+  // but dev contracts in goodprotocol could still request the networks
   '42': {
     network_id: 42,
     httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
@@ -99,9 +87,7 @@ const ethereum = defaultsDeep(altProviders, {
     gasPrice: 5,
     g$Decimals: 18,
   },
-})
-
-
+}
 
 const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute
@@ -127,11 +113,6 @@ const Config = {
   contractsVersion,
   network,
   ethereum,
-  isEToro,
-  phase,
-  isPhaseZero,
-  isPhaseOne,
-  isPhaseTwo,
   publicUrl,
   alchemyKey,
   supportUrl: env.REACT_APP_SUPPORT_URL || 'https://t.me/+jay3UR6_rEwxNjY0',
@@ -140,14 +121,10 @@ const Config = {
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   ipfsGateways: ipfsGateways.split(',').map(gatewayTmpl => mustache(gatewayTmpl)),
   ipfsUploadGateway: env.REACT_APP_IPFS_UPLOADGATEWAY || 'https://ipfsgateway.goodworker.workers.dev',
-  ipfsLazyUpload: env.REACT_APP_IPFS_LAZY_UPLOAD === 'true',
-  learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: env.REACT_APP_INFURA_KEY,
-  interestCollectedInterval: env.REACT_APP_INTEREST_BLOCKS_INTERVAL || 5760 * 8, // default is 1Week, add 1 day because its not exact
   goodSwapUrl: env.REACT_APP_GOODSWAP_URL || 'http://dev.gooddapp.org/#/swap',
   goodDollarPriceInfoUrl: env.REACT_APP_PRICE_INFO_URL || 'https://datastudio.google.com/u/0/reporting/f1ce8f56-058c-4e31-bfd4-1a741482642a/page/p_97jwocmrmc',
-  marketUrl: env.REACT_APP_MARKET_URL || 'https://goodmarkets.xyz/',
   learnUrl: env.REACT_APP_LEARN_URL || 'https://gooddollar.notion.site/GoodDollar-550f7d74c59c4123a7851fea52891811',
   useGdUrl: env.REACT_APP_USE_GD_URL || 'https://gooddollar.notion.site/Use-G-8639553aa7214590a70afec91a7d9e73',
   donateUrl: env.REACT_APP_DONATE_URL || 'https://gooddollar.notion.site/Donate-to-a-G-Cause-e7d31fb67bb8494abb3a7989ebe6f181',
@@ -163,9 +140,8 @@ const Config = {
   auth0ClientId: env.REACT_APP_AUTH0_CLIENT_ID,
   auth0SMSClientId: env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
-  enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
+  enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false', // true by default
   invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
-  showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   suggestMobileApp: env.REACT_APP_SUGGEST_MOBILE_APP !== 'false',
   suggestMobileAppUpdate: env.REACT_APP_SUGGEST_MOBILE_APP_UPDATE === 'true',
   suggestCodePushUpdate: env.REACT_APP_SUGGEST_CODE_PUSH_UPDATE !== 'false',
@@ -180,35 +156,26 @@ const Config = {
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
   mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
-  httpWeb3provider: env.REACT_APP_WEB3_RPC,
   httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'next',
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
-  recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
-  withMockedFeeds: env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
   feedItemTtl: moment.duration(env.REACT_APP_FEEDITEM_TTL || '24:00:00').as('milliseconds'), // default for 1 day
   safariMobileKeyboardGuidedSize: env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
   receiveUrl: env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
   enableShortUrl: env.REACT_APP_ENABLE_SHORTURL === 'true',
   sendUrl: env.REACT_APP_SEND_URL || `${publicUrl}`,
-  nextTimeClaim: env.REACT_APP_NEXT_TIME_CLAIM || 86400,
   displayStartClaimingCardTime: env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
-  backgroundReqsInterval: env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, // minutes
   sentryDSN: env.REACT_APP_SENTRY_DSN,
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
-  claimQueue: env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
-  mauticUrl: env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
-  mauticAddContractFormID: env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
   apiTimeout: env.REACT_APP_API_REQUEST_TIMEOUT || 30000,
   blockchainTimeout: parseInt(env.REACT_APP_BLOCKCHAIN_REQUEST_TIMEOUT || 1000),
   torusFacebook: env.REACT_APP_TORUS_FACEBOOK || 'facebook-gooddollar',
   torusGoogle: env.REACT_APP_TORUS_GOOGLE || 'google-gooddollar',
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
-  torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
   torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
@@ -216,14 +183,11 @@ const Config = {
   hcaptchaSiteKey: env.REACT_APP_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001', //test key
   fpSiteKey: env.REACT_APP_FINGERPRINT_SITE_KEY,
   fpEndpoint: env.REACT_APP_FINGERPRINT_ENDPOINT || 'https://api.fpjs.io',
-  textileKey: env.REACT_APP_TEXTILE_KEY,
   enableRefund: env.REACT_APP_ENABLE_REFUND === 'true',
   refundInfoLink: env.REACT_APP_REFUND_INFO_LINK || 'https://www.gooddollar.org/restoring-a-fair-gooddollar-ubi-pool/?utm_source=wallet',
-  textileSecret: env.REACT_APP_TEXTILE_SECRET,
   web3Polling: env.REACT_APP_WEB3_POLLING || 30 * 1000, //poll every 30 seconds by default
   realmAppID: env.REACT_APP_REALM_APP_ID || 'wallet_dev-dhiht',
   nodeEnv: env.NODE_ENV,
-  isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
   storeAppIconAndroid: env.STORE_APP_ICON_ANDROID || "/store-app-icon-android.jpg",
   storeAppUrlAndroid: env.STORE_APP_URL_ANDROID || "https://play.google.com/store/apps/details?id=org.gooddollar",
   minimalIOSVersion: env.MINIMAL_IOS_VERSION || 12,
@@ -239,7 +203,6 @@ const Config = {
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
   networkId,
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
-  enableWebNotifications: env.REACT_APP_ENABLE_WEB_NOTIFICATIONS === 'true',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
   defaultTxGas: parseInt(env.REACT_APP_DEFAULT_TX_GAS || 1000000),

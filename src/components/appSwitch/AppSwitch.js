@@ -15,7 +15,6 @@ import useAppState from '../../lib/hooks/useAppState'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { identifyWith } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
-import config from '../../config/config'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 import { restart } from '../../lib/utils/system'
@@ -160,7 +159,6 @@ const AppSwitch = (props: LoadingProps) => {
       const email = userStorage.getProfileFieldValue('email') || null
 
       identifyWith(identifier, email)
-      AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
 
       // this needs to wait after initreg where we initialize the database
       runUpdates({ celowallet, fusewallet, goodWallet }, userStorage, log)

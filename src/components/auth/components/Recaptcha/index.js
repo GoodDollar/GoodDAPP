@@ -1,6 +1,5 @@
 import { get, noop } from 'lodash'
 import React, { useCallback, useImperativeHandle, useRef, useState } from 'react'
-import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API'
 import { useDialog } from '../../../../lib/dialog/useDialog'
@@ -9,8 +8,6 @@ import { useFingerprint } from '../../../../lib/fingerprint/useFingerprint'
 import Captcha from './Recaptcha'
 
 const log = logger.child({ from: 'recaptcha' })
-
-const { recaptchaSiteKey, publicUrl } = Config
 
 const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, children }, ref) => {
   const captchaRef = useRef()
@@ -70,7 +67,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
   )
 
   return (
-    <Captcha ref={captchaRef} siteKey={recaptchaSiteKey} baseUrl={publicUrl} onError={onFailure} onVerify={onVerify}>
+    <Captcha ref={captchaRef} onError={onFailure} onVerify={onVerify}>
       {children}
     </Captcha>
   )

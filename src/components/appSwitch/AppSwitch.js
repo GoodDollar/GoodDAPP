@@ -10,7 +10,7 @@ import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/dialog/useDialog'
-import runUpdates from '../../lib/updates'
+import { runUpdates } from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { identifyWith } from '../../lib/analytics/analytics'
@@ -41,7 +41,7 @@ const AppSwitch = (props: LoadingProps) => {
   const { showErrorDialog } = useDialog()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
-  const { initWalletAndStorage, isCitizen, login } = useContext(GoodWalletContext)
+  const { initWalletAndStorage, isCitizen, login, celowallet, fusewallet } = useContext(GoodWalletContext)
 
   const [ready, setReady] = useState(false)
   const [initializedRegistered, setRegistered] = useState(false)
@@ -163,7 +163,7 @@ const AppSwitch = (props: LoadingProps) => {
       AsyncStorage.safeSet('GD_version', 'phase' + config.phase)
 
       // this needs to wait after initreg where we initialize the database
-      runUpdates(goodWallet, userStorage, log)
+      runUpdates({ celowallet, fusewallet, goodWallet }, userStorage, log)
       showOutOfGasError()
 
       log.debug('initialize done')

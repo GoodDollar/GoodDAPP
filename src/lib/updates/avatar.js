@@ -48,7 +48,7 @@ const uploadCounterPartyAvatar = async (feedEvents, userStorage) => {
 /**
  * @returns {Promise<void>}
  */
-const uploadAvatars = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
+const uploadAvatars = async (lastUpdate, prevVersion, log, { goodWallet }, userStorage) => {
   await userStorage.registeredReady
 
   const allEvents = await userStorage.getAllFeed()

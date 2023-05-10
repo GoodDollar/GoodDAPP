@@ -3,7 +3,7 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
 import { ScrollView } from 'react-native'
-import { get } from 'lodash'
+import { first, get, uniq } from 'lodash'
 
 // components
 import { t } from '@lingui/macro'
@@ -48,7 +48,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
     return [
       account,
       get(goodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''),
-      networkId && config.ethereum[networkId].httpWeb3provider,
+      networkId && first(uniq(config.ethereum[networkId].httpWeb3provider.split(','))),
       networkId,
     ]
   }, [goodWallet])
@@ -116,7 +116,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
         <BorderedBox
           styles={styles}
           theme={theme}
-          title="Fuse Network RPC Address"
+          title="Network RPC Address"
           content={web3ProviderUrl}
           imageSize={checkmarkIconSize}
           image={Checkmark}
@@ -129,11 +129,11 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
         <BorderedBox
           styles={styles}
           theme={theme}
-          title="Fuse ID Chain"
+          title="Chain ID"
           content={String(networkId)}
           imageSize={checkmarkIconSize}
           image={Checkmark}
-          copyButtonText="Copy ID Chain"
+          copyButtonText="Copy Chain ID"
           showCopyIcon={false}
           enableIndicateAction
           enableSideMode

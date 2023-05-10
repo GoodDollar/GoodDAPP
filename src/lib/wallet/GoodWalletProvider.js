@@ -44,10 +44,21 @@ const makeWeb3Provider = wallet =>
   )
 
 export const GoodWalletContext = React.createContext({
-  userStorage: undefined,
-  error: undefined,
+  userStorage: UserStorage,
   goodWallet: undefined,
-  init: undefined,
+  celowallet: undefined,
+  fusewallet: undefined,
+  balance: '0',
+  totalBalance: '0',
+  fuseBalance: '0',
+  celoBalance: '0',
+  init: () => {},
+  initWalletAndStorage: undefined,
+  login: undefined,
+  isLoggedInJWT: undefined,
+  dailyUBI: undefined,
+  isCitizen: false,
+  switchNetwork: undefined,
 })
 
 /**
@@ -313,6 +324,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   let contextValue = {
     userStorage,
     goodWallet,
+    fusewallet,
+    celowallet,
     initWalletAndStorage,
     login,
     isLoggedInJWT,

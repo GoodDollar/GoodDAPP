@@ -3,8 +3,8 @@ import { fireEvent, GOOD_AIRDROP } from '../analytics/analytics'
 
 const fromDate = new Date('2022/03/19')
 
-const claimGOOD = async (lastUpdate, prevVersion, log, goodWallet, userStorage) => {
-  const address = goodWallet.account
+const claimGOOD = async (lastUpdate, prevVersion, log, { fusewallet }, userStorage) => {
+  const address = fusewallet.account
 
   try {
     const proof = await API.sharedClient
@@ -18,14 +18,14 @@ const claimGOOD = async (lastUpdate, prevVersion, log, goodWallet, userStorage) 
 
     if (proof.hexProof) {
       const hasClaimed =
-        (await goodWallet.GOODContract.methods
+        (await fusewallet.GOODContract.methods
           .stateHashBalances('0x' + proof.merkleRootHash, proof.addr)
           .call()
           .then(parseInt)) > 0
 
       if (hasClaimed === false) {
-        await goodWallet.sendTransaction(
-          goodWallet.GOODContract.methods.proveBalanceOfAtBlockchainLegacy(
+        await fusewallet.sendTransaction(
+          fusewallet.GOODContract.methods.proveBalanceOfAtBlockchainLegacy(
             'rootState',
             proof.addr,
             proof.reputationInWei,

@@ -6,17 +6,17 @@ __metadata:
   cacheKey: 8
 
 "@amplitude/analytics-browser@npm:^1.6.4":
-  version: 1.10.2
-  resolution: "@amplitude/analytics-browser@npm:1.10.2"
+  version: 1.10.3
+  resolution: "@amplitude/analytics-browser@npm:1.10.3"
   dependencies:
-    "@amplitude/analytics-client-common": ^0.6.5
-    "@amplitude/analytics-core": ^0.13.2
-    "@amplitude/analytics-types": ^0.19.0
-    "@amplitude/plugin-page-view-tracking-browser": ^0.7.3
-    "@amplitude/plugin-web-attribution-browser": ^0.6.7
+    "@amplitude/analytics-client-common": ^0.7.0
+    "@amplitude/analytics-core": ^0.13.3
+    "@amplitude/analytics-types": ^0.20.0
+    "@amplitude/plugin-page-view-tracking-browser": ^0.8.0
+    "@amplitude/plugin-web-attribution-browser": ^0.7.0
     "@amplitude/ua-parser-js": ^0.7.31
     tslib: ^2.4.1
-  checksum: 7325ef12d2538dbccd22fed6352a0dbd420001a2112afcb80589a652b8f6edf95db1d426a48a5919aa57398a9ebc4a3db866358d3f74782725b577d5512a466d
+  checksum: b5c6cfb2604c9d1babc62647903d4b92a1910d936806b400c693346a326f7b9c6970f57f40685749ee811c4094279c7bcf4b2646583f586d02f250fcb7c5d8d8
   languageName: node
   linkType: hard
 
@@ -32,24 +32,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-client-common@npm:^0.6.5":
-  version: 0.6.5
-  resolution: "@amplitude/analytics-client-common@npm:0.6.5"
+"@amplitude/analytics-client-common@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "@amplitude/analytics-client-common@npm:0.7.0"
   dependencies:
     "@amplitude/analytics-connector": ^1.4.5
-    "@amplitude/analytics-core": ^0.13.2
-    "@amplitude/analytics-types": ^0.19.0
+    "@amplitude/analytics-core": ^0.13.3
+    "@amplitude/analytics-types": ^0.20.0
     tslib: ^2.4.1
-  checksum: 3a0e78755f5a0125930aac484b78bfc768f3ae2985d84809d484a9a40b1c79ce931bbdca659ed482f18803812829e287861c8b789ba86c3d6051430dd70ec539
+  checksum: 710509aaddafdaf456471858280e7a08044390259ca68f89beee475e4f7c9c36aa2fcaa90b3dafc038b04bb342b45bfeca2ee7a5daaef020262756e03fbb2ec6
   languageName: node
   linkType: hard
 
 "@amplitude/analytics-connector@npm:^1.4.5":
-  version: 1.4.7
-  resolution: "@amplitude/analytics-connector@npm:1.4.7"
-  dependencies:
-    "@amplitude/ua-parser-js": ^0.7.31
-  checksum: c53282900a5af502f8b08fb1ce8b38abd59ec81c4df07d195d8633ef75f6cc3502f1150e218787fef2f01e7286ef2d3fa643203a7915099f22ade46e09d758ee
+  version: 1.4.8
+  resolution: "@amplitude/analytics-connector@npm:1.4.8"
+  checksum: 72b94cc2018af4d7bec48acf2129a933bee8268fee53d737408a058eef98ac84e7239265d53885f0d8fc73774657a6620db401a44674137486ebc550b320d6e4
   languageName: node
   linkType: hard
 
@@ -72,13 +70,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-core@npm:^0.13.2":
-  version: 0.13.2
-  resolution: "@amplitude/analytics-core@npm:0.13.2"
+"@amplitude/analytics-core@npm:^0.13.3":
+  version: 0.13.3
+  resolution: "@amplitude/analytics-core@npm:0.13.3"
   dependencies:
-    "@amplitude/analytics-types": ^0.19.0
+    "@amplitude/analytics-types": ^0.20.0
     tslib: ^2.4.1
-  checksum: 0abbc6f3e7fd0770869267a96bb4bf14b523bb0c8a6e405b733d848fc7f209aa1b5e32d9ce14b48e2193f066af540973a2335324ae6abecd80d476e172118fcf
+  checksum: c41179d42a0113c0ca75161687ba125f83ed3569c124a0ed7c62ddb74be230f03cdeefcc755edb4458bb9713a2018a674d2ed304ad2c5fc1f6be636bfffbc0d3
   languageName: node
   linkType: hard
 
@@ -113,32 +111,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-types@npm:^0.19.0":
-  version: 0.19.0
-  resolution: "@amplitude/analytics-types@npm:0.19.0"
-  checksum: 9d25789ba15b657d7059f5799f3f4709cf42caa5598a776f89d275e5404345a863a6e44db8774f932c5310bd2537205951ff71e5e5126aa53f69008bce4b8b41
+"@amplitude/analytics-types@npm:^0.20.0":
+  version: 0.20.0
+  resolution: "@amplitude/analytics-types@npm:0.20.0"
+  checksum: e9c8c5e42483850ef8896efd6452a8737f2ad1a16f76e0f7c2d6c6388bd194c5ede7df7a4b373c139952ab37e4f9abedc72fe6dca565842e022a59e28289d0a3
   languageName: node
   linkType: hard
 
-"@amplitude/plugin-page-view-tracking-browser@npm:^0.7.3":
-  version: 0.7.3
-  resolution: "@amplitude/plugin-page-view-tracking-browser@npm:0.7.3"
+"@amplitude/plugin-page-view-tracking-browser@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@amplitude/plugin-page-view-tracking-browser@npm:0.8.0"
   dependencies:
-    "@amplitude/analytics-client-common": ^0.6.5
-    "@amplitude/analytics-types": ^0.19.0
+    "@amplitude/analytics-client-common": ^0.7.0
+    "@amplitude/analytics-types": ^0.20.0
     tslib: ^2.4.1
-  checksum: 9764ba20fe4989d235030fe7e40954d8cb1d2ebe0c3a69b24765d279605edcf932dbaacea070891570311af2b52fb7bc38c77f3e5dfac9ef63d4c8c1427e51b5
+  checksum: fd7dd556f080802554d3978f50d710a354f58a94a38059d814923a390100c8d9e765eb7145f4691b5510550cfac3b2a2cf15ba25a20f68341d6b62f320bf1260
   languageName: node
   linkType: hard
 
-"@amplitude/plugin-web-attribution-browser@npm:^0.6.7":
-  version: 0.6.7
-  resolution: "@amplitude/plugin-web-attribution-browser@npm:0.6.7"
+"@amplitude/plugin-web-attribution-browser@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "@amplitude/plugin-web-attribution-browser@npm:0.7.0"
   dependencies:
-    "@amplitude/analytics-client-common": ^0.6.5
-    "@amplitude/analytics-types": ^0.19.0
+    "@amplitude/analytics-client-common": ^0.7.0
+    "@amplitude/analytics-types": ^0.20.0
     tslib: ^2.4.1
-  checksum: 9711789e9225f77a4278c004be436b1c7367ebd61e2f8c7bc2db5fd4845ea2f4bee5ff1f052c6ba846366df07492deba73d8eaa6cc88121d91cb9359ab2f94ba
+  checksum: a6b5a8cf8bc09c11598544e0b97fb6a826008c876211766a8b3917301b531b4da5d1f6923e801d536c3fcdb1306171578c79e640389c0c26aad93a3d463ab1bb
   languageName: node
   linkType: hard
 
@@ -525,8 +523,8 @@ __metadata:
   linkType: hard
 
 "@babel/core@npm:^7.18.10":
-  version: 7.21.5
-  resolution: "@babel/core@npm:7.21.5"
+  version: 7.21.8
+  resolution: "@babel/core@npm:7.21.8"
   dependencies:
     "@ampproject/remapping": ^2.2.0
     "@babel/code-frame": ^7.21.4
@@ -534,7 +532,7 @@ __metadata:
     "@babel/helper-compilation-targets": ^7.21.5
     "@babel/helper-module-transforms": ^7.21.5
     "@babel/helpers": ^7.21.5
-    "@babel/parser": ^7.21.5
+    "@babel/parser": ^7.21.8
     "@babel/template": ^7.20.7
     "@babel/traverse": ^7.21.5
     "@babel/types": ^7.21.5
@@ -543,7 +541,7 @@ __metadata:
     gensync: ^1.0.0-beta.2
     json5: ^2.2.2
     semver: ^6.3.0
-  checksum: 77ca0e6493860fb6f91cf441313c0bb464d21f8c6842cf3f1dbb083a910370e37a4c0ada35cf11ef0ebe7d0ee2d6bde2f4ee9b4caa3328e807988aa282787677
+  checksum: f28118447355af2a90bd340e2e60699f94c8020517eba9b71bf8ebff62fa9e00d63f076e033f9dfb97548053ad62ada45fafb0d96584b1a90e8aef5a3b8241b1
   languageName: node
   linkType: hard
 
@@ -929,12 +927,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.21.5":
-  version: 7.21.5
-  resolution: "@babel/parser@npm:7.21.5"
+"@babel/parser@npm:^7.21.5, @babel/parser@npm:^7.21.8":
+  version: 7.21.8
+  resolution: "@babel/parser@npm:7.21.8"
   bin:
     parser: ./bin/babel-parser.js
-  checksum: c7ec0dae795f2a43885fdd5c1c53c7f11b3428628ae82ebe1e1537cb3d13e25e7993549e026662a3e05dcc743b595f82b25f0a49ef9155459a9a424eedb7e2b0
+  checksum: 1b9a820fedfb6ef179e6ffa1dbc080808882949dec68340a616da2aa354af66ea2886bd68e61bd444d270aa0b24ad6273e3cfaf17d6878c34bf2521becacb353
   languageName: node
   linkType: hard
 
@@ -4192,9 +4190,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/bridge-app@npm:^1.3.2":
-  version: 1.3.3
-  resolution: "@gooddollar/bridge-app@npm:1.3.3"
+"@gooddollar/bridge-app@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@gooddollar/bridge-app@npm:1.5.0"
   dependencies:
     dotenv: ^16.0.3
     eth-proof: ^2.1.6
@@ -4204,7 +4202,7 @@ __metadata:
     lodash: ^4.17.21
     node-fetch: 2
     p-all: 3.0.0
-  checksum: 7b31c465b46916fe5bbb60883b9ad070301ab6909ceb59087f77b6c86ebe506770e14175cee3b3ffa3378dfc18295f20fc14c3055157d4d2d24426080fe4edd6
+  checksum: fce6c0b5a8635bc3f4eea686d87c4e6a09ec8d0c79b763219f601027a43872db001678a651308d9fa074c3183cf4879b793973f188c1d3da4c8a4e6dd9661ce3
   languageName: node
   linkType: hard
 
@@ -4224,9 +4222,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.71":
-  version: 0.0.71
-  resolution: "@gooddollar/good-design@npm:0.0.71"
+"@gooddollar/good-design@npm:^0.0.73":
+  version: 0.0.73
+  resolution: "@gooddollar/good-design@npm:0.0.73"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -4253,7 +4251,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: 17b64ff71c239f27aae74843b1462817cc60f160e11bfbe40a5935a0de37fdfdd4c2da24a82e640ce97e7fcf3d130ec7d224b04b4b0032cc605f535f8ddff52d
+  checksum: 17ed78b865aa0b154c70eb4a17e88ddf8fb9ea5d6388aadadb9a1c6676da7f6d720c879a3ce9578e9f7916576dd046476bbe799b53944972118bb7f43abfc7fe
   languageName: node
   linkType: hard
 
@@ -4305,10 +4303,10 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.71
+    "@gooddollar/good-design": ^0.0.73
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.20
-    "@gooddollar/web3sdk-v2": ^0.1.91
+    "@gooddollar/web3sdk-v2": ^0.1.94
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@kimafinance/kima-transaction-widget": ^1.1.42-beta.1
@@ -4480,13 +4478,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.91":
-  version: 0.1.91
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.91"
+"@gooddollar/web3sdk-v2@npm:^0.1.94":
+  version: 0.1.94
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.94"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
-    "@gooddollar/bridge-app": ^1.3.2
+    "@gooddollar/bridge-app": ^1.5.0
     "@gooddollar/bridge-contracts": ^1.0.14
     "@gooddollar/goodprotocol": ^2.0.3
     "@react-native-firebase/analytics": ^16.4.6
@@ -4498,7 +4496,7 @@ __metadata:
     "@web3-onboard/coinbase": ^2.2.0
     "@web3-onboard/core": ^2.12.1
     "@web3-onboard/injected-wallets": ^2.4.0
-    "@web3-onboard/react": ^2.5.3
+    "@web3-onboard/react": 2.7.0
     "@web3-onboard/torus": ^2.2.1
     "@web3-onboard/walletconnect": ^2.2.2
     "@web3auth/base": ^4.0.0
@@ -4519,7 +4517,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 445d009f427605918d77b37f74a1ee0e0881b22a587631464f31a516cf9a944e912e485942fcbafcc8d52637d591a8f86ebcd9d69c8622a24f4cfbd4ad45b96d
+  checksum: 0aa91b48ac980a197268ae7b1b717f0915e67fefa071f3feed7b9bee7f8d476acd826f7df29157dc2281a13ed8afb15749d7248c2fa2b62469d2c87be61946ea
   languageName: node
   linkType: hard
 
@@ -5951,7 +5949,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/curves@npm:1.0.0, @noble/curves@npm:~1.0.0":
+"@noble/curves@npm:1.0.0, @noble/curves@npm:^1.0.0, @noble/curves@npm:~1.0.0":
   version: 1.0.0
   resolution: "@noble/curves@npm:1.0.0"
   dependencies:
@@ -8122,8 +8120,8 @@ __metadata:
   linkType: hard
 
 "@sentry/react-native@npm:^4.8.0":
-  version: 4.15.0
-  resolution: "@sentry/react-native@npm:4.15.0"
+  version: 4.15.2
+  resolution: "@sentry/react-native@npm:4.15.2"
   dependencies:
     "@sentry/browser": 7.37.2
     "@sentry/cli": 1.74.4
@@ -8138,7 +8136,7 @@ __metadata:
   peerDependencies:
     react: ">=16.4.1"
     react-native: ">=0.56.0"
-  checksum: da458652b45825f8445389746d291d32e39febe7aeda4ab84c338ae8a9716d99340228d99f0f5768a7eb024553bf7c2a4094c25dffcb1e5cfa565748b3ffbb22
+  checksum: 9c7cbeb4603513d008b1feb06ecc5feea99c6bc8f28710358bd98b8dd29dc199cf5d2078acd0604ef82f820e41ffb021a3cd04f8093fa01b8a11d69a874cd4bf
   languageName: node
   linkType: hard
 
@@ -9068,7 +9066,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.32.0, @solana/web3.js@npm:^1.36.0, @solana/web3.js@npm:^1.44.3, @solana/web3.js@npm:^1.63.1, @solana/web3.js@npm:^1.66.1, @solana/web3.js@npm:^1.70.1, @solana/web3.js@npm:^1.72.0":
+"@solana/web3.js@npm:^1.32.0, @solana/web3.js@npm:^1.36.0, @solana/web3.js@npm:^1.44.3, @solana/web3.js@npm:^1.63.1, @solana/web3.js@npm:^1.66.1, @solana/web3.js@npm:^1.70.1":
   version: 1.75.0
   resolution: "@solana/web3.js@npm:1.75.0"
   dependencies:
@@ -9089,6 +9087,29 @@ __metadata:
     rpc-websockets: ^7.5.1
     superstruct: ^0.14.2
   checksum: 84f0e5238d42b25ab91af695b2cd5a9022bf489bdd7aedf47ae9ffdf2f6cd7aadf689323c984a63b54de8e0be579897f87dcd2df050830b53f6d1fad98d5c24c
+  languageName: node
+  linkType: hard
+
+"@solana/web3.js@npm:^1.72.0":
+  version: 1.76.0
+  resolution: "@solana/web3.js@npm:1.76.0"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@noble/curves": ^1.0.0
+    "@noble/hashes": ^1.3.0
+    "@solana/buffer-layout": ^4.0.0
+    agentkeepalive: ^4.2.1
+    bigint-buffer: ^1.1.5
+    bn.js: ^5.0.0
+    borsh: ^0.7.0
+    bs58: ^4.0.1
+    buffer: 6.0.3
+    fast-stable-stringify: ^1.0.0
+    jayson: ^3.4.4
+    node-fetch: ^2.6.7
+    rpc-websockets: ^7.5.1
+    superstruct: ^0.14.2
+  checksum: f42f7cae09cef78ee169933e1df7676f2e11b34783b2fa726f3207e3d696054feb79ed8539526f170d609001474d07973457732a64396c74eb78c9eed614b45b
   languageName: node
   linkType: hard
 
@@ -10024,20 +10045,20 @@ __metadata:
   linkType: hard
 
 "@toruslabs/openlogin-jrpc@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@toruslabs/openlogin-jrpc@npm:4.0.0"
+  version: 4.2.0
+  resolution: "@toruslabs/openlogin-jrpc@npm:4.2.0"
   dependencies:
-    "@toruslabs/openlogin-utils": ^4.0.0
+    "@toruslabs/openlogin-utils": ^4.2.0
     end-of-stream: ^1.4.4
     eth-rpc-errors: ^4.0.3
     events: ^3.3.0
     fast-safe-stringify: ^2.1.1
     once: ^1.4.0
     pump: ^3.0.0
-    readable-stream: ^3.6.2
+    readable-stream: ^4.3.0
   peerDependencies:
     "@babel/runtime": 7.x
-  checksum: 584803dda81f5b75098e556036fe9ba5ebf9da92880b27e14b67f779e3373f75952eb77e078bf944b1ed113708e54ce93b2e494dd3aa0c228f0ebddfae882522
+  checksum: 6fc1f3b6c109e7e3d9a1dda2b2dd1d898e76d45cedb5407862603272da3897f11527c30dec39be473b53f0e169aee21d69e2dae138f2c4fda75aebca4cada621
   languageName: node
   linkType: hard
 
@@ -10067,14 +10088,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toruslabs/openlogin-utils@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@toruslabs/openlogin-utils@npm:4.0.0"
+"@toruslabs/openlogin-utils@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "@toruslabs/openlogin-utils@npm:4.2.0"
   dependencies:
     base64url: ^3.0.1
   peerDependencies:
     "@babel/runtime": 7.x
-  checksum: 8620ed3fe00368109d411f504e3dbd67a1b8b4c2eb6fbe01de2998caa12fe60298748d60f58a74cd6e9fa2b178a9151840553bdc84f4484fbd9ee7804cb794e8
+  checksum: 6f7eb473550a28d3667a8558fee6d73d56ffe2b3c8a3b564da05d4d4640e8b1901ab6fbc9517735f6c2d525743b6ec5fc5a4661ba9d70902992e65c78e3d1dd1
   languageName: node
   linkType: hard
 
@@ -12970,19 +12991,6 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 6d38b8eb3a28036b18e60fba29224f74d9c4e7b8f7a64ed5077993b977a66c974bd454d1273e0b29e817beabd71cc9a32fed4f1e44750e9f5f0b7a8968709d79
-  languageName: node
-  linkType: hard
-
-"@web3-onboard/react@npm:^2.5.3":
-  version: 2.8.0
-  resolution: "@web3-onboard/react@npm:2.8.0"
-  dependencies:
-    "@web3-onboard/common": ^2.3.1
-    "@web3-onboard/core": ^2.17.0
-    use-sync-external-store: 1.0.0
-  peerDependencies:
-    react: ">=16.8"
-  checksum: 1c639e3eda166eb8a5395ad9b859b2f425e66e1b15bebf3bf52840d790799b45a7d26b777397219ce00a9149c081081506ef955df6e9c1a670563d101c7078f7
   languageName: node
   linkType: hard
 
@@ -28974,9 +28982,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2, node-fetch@npm:^2.0.0-alpha.8, node-fetch@npm:^2.2.0, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
-  version: 2.6.9
-  resolution: "node-fetch@npm:2.6.9"
+"node-fetch@npm:2, node-fetch@npm:^2.0.0-alpha.8":
+  version: 2.6.11
+  resolution: "node-fetch@npm:2.6.11"
   dependencies:
     whatwg-url: ^5.0.0
   peerDependencies:
@@ -28984,7 +28992,7 @@ __metadata:
   peerDependenciesMeta:
     encoding:
       optional: true
-  checksum: acb04f9ce7224965b2b59e71b33c639794d8991efd73855b0b250921382b38331ffc9d61bce502571f6cc6e11a8905ca9b1b6d4aeb586ab093e2756a1fd190d0
+  checksum: 249d0666a9497553384d46b5ab296ba223521ac88fed4d8a17d6ee6c2efb0fc890f3e8091cafe7f9fba8151a5b8d925db2671543b3409a56c3cd522b468b47b3
   languageName: node
   linkType: hard
 
@@ -29009,6 +29017,20 @@ __metadata:
     encoding: ^0.1.11
     is-stream: ^1.0.1
   checksum: 3bb0528c05d541316ebe52770d71ee25a6dce334df4231fd55df41a644143e07f068637488c18a5b0c43f05041dbd3346752f9e19b50df50569a802484544d5b
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.2.0, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
+  version: 2.6.9
+  resolution: "node-fetch@npm:2.6.9"
+  dependencies:
+    whatwg-url: ^5.0.0
+  peerDependencies:
+    encoding: ^0.1.0
+  peerDependenciesMeta:
+    encoding:
+      optional: true
+  checksum: acb04f9ce7224965b2b59e71b33c639794d8991efd73855b0b250921382b38331ffc9d61bce502571f6cc6e11a8905ca9b1b6d4aeb586ab093e2756a1fd190d0
   languageName: node
   linkType: hard
 
@@ -33750,6 +33772,18 @@ __metadata:
     string_decoder: ^1.1.1
     util-deprecate: ^1.0.1
   checksum: bdcbe6c22e846b6af075e32cf8f4751c2576238c5043169a1c221c92ee2878458a816a4ea33f4c67623c0b6827c8a400409bfb3cf0bf3381392d0b1dfb52ac8d
+  languageName: node
+  linkType: hard
+
+"readable-stream@npm:^4.3.0":
+  version: 4.4.0
+  resolution: "readable-stream@npm:4.4.0"
+  dependencies:
+    abort-controller: ^3.0.0
+    buffer: ^6.0.3
+    events: ^3.3.0
+    process: ^0.11.10
+  checksum: cc1630c2de134aee92646e77b1770019633000c408fd48609babf2caa53f00ca794928023aa9ad3d435a1044cec87d2ce7e2b7389dd1caf948b65c175edb7f52
   languageName: node
   linkType: hard
 

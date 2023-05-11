@@ -4,8 +4,7 @@ import { useMemo } from 'react'
 import flags from 'react-phone-number-input/flags'
 
 const getCountryFlag = countryCode => {
-  const code = countryCode.toLowerCase()
-
+  const code = countryCode.toUpperCase()
   return flags[code]
 }
 

@@ -22,6 +22,7 @@ import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import { handleLinks } from './lib/utils/linking'
 import useServiceWorker from './lib/hooks/useServiceWorker'
+import Config from './config/config'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -99,7 +100,7 @@ const RouterWrapper = () => {
 
   useEffect(() => {
     // once user is logged in check if their browser is supported and show warning if not
-    if (isLoggedInRouter && supported === false) {
+    if (!Config.isDeltaApp && isLoggedInRouter && supported === false) {
       checkBrowser()
     }
 

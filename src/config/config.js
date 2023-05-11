@@ -33,6 +33,7 @@ export const fuseNetwork = {
   network_id: 122,
   gasPrice:10, //in gwei
   g$Decimals:2,
+  defaultPublicRpc: 'https://rpc.fuse.io/',
 }
 
 const ethereum = {
@@ -86,6 +87,7 @@ const ethereum = {
     startBlock: 18000000,    
     gasPrice: 5,
     g$Decimals: 18,
+    defaultPublicRpc: 'https://forno.celo.org/',
   },
 }
 

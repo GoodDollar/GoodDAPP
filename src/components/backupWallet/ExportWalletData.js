@@ -3,7 +3,7 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
 import { ScrollView } from 'react-native'
-import { first, get, uniq } from 'lodash'
+import { get } from 'lodash'
 
 // components
 import { t } from '@lingui/macro'
@@ -16,6 +16,8 @@ import NavBar from '../appNavigation/NavBar'
 import { withStyles } from '../../lib/styles'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import config from '../../config/config'
+import { getNetworkName } from '../../lib/constants/network'
+import mustache from '../../lib/utils/mustache'
 
 // assets
 import Checkmark from '../../assets/checkmark.svg'
@@ -48,10 +50,12 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
     return [
       account,
       get(goodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''),
-      networkId && first(uniq(config.ethereum[networkId].httpWeb3provider.split(','))),
+      networkId && config.ethereum[networkId].defaultPublicRpc,
       networkId,
     ]
   }, [goodWallet])
+
+  const label = getNetworkName(networkId)
 
   const onPrivateKeyCopy = useCallback(
     resultCallback => {
@@ -116,7 +120,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
         <BorderedBox
           styles={styles}
           theme={theme}
-          title="Network RPC Address"
+          title={mustache(t`{ label } RPC Address`, { label })}
           content={web3ProviderUrl}
           imageSize={checkmarkIconSize}
           image={Checkmark}

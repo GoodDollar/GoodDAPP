@@ -13,8 +13,9 @@ const log = logger.child({ from: 'InternetConnection' })
 
 const InternetConnection = props => {
   const { hideDialog, showDialog } = useDialog()
+  const { isLoggedIn } = props
   const isConnection = useConnection()
-  const isAPIConnection = useAPIConnection(!props.isLoggedIn) // only ping server and block usage for new users if server is down.
+  const isAPIConnection = useAPIConnection(!isLoggedIn) // only ping server and block usage for new users if server is down.
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
 
@@ -22,15 +23,17 @@ const InternetConnection = props => {
     message => {
       setShowDisconnect(true)
 
-      showDialog({
-        title: t`Waiting for network`,
-        image: <LoadingIcon />,
-        message,
-        showButtons: false,
-        showCloseButtons: false,
-      })
+      if (!isLoggedIn) {
+        showDialog({
+          title: t`Waiting for network`,
+          image: <LoadingIcon />,
+          message,
+          showButtons: false,
+          showCloseButtons: false,
+        })
+      }
     },
-    [setShowDisconnect, showDialog],
+    [setShowDisconnect, showDialog, isLoggedIn],
   )
 
   const showDialogWindow = useDebouncedCallback(showWaiting, Config.delayMessageNetworkDisconnection)

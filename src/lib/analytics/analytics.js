@@ -7,9 +7,11 @@ import apisFactory from './apis'
 import { AnalyticsClass } from './AnalyticsClass'
 
 const analytics = new AnalyticsClass(apisFactory, API, Config, logger)
+const { emitter } = analytics
 
 // backward compatibility exports
 export * from './constants'
+export const on = emitter.on.bind(emitter)
 
 export const {
   initAnalytics,

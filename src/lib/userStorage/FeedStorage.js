@@ -6,7 +6,6 @@ import { t } from '@lingui/macro'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
-
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import { type UserStorage } from './UserStorageClass'
@@ -356,10 +355,10 @@ export class FeedStorage {
 
       let feedEvent
       const txEvent = this.getTXEvent(txType, receipt)
-
+      const isPaymentLinkUpdate = txType === TxType.TX_OTPL_WITHDRAW || txType === TxType.TX_OTPL_CANCEL
       log.debug('handleReceiptUpdate got lock:', receipt.transactionHash, { txEvent, txType })
 
-      if (txType === TxType.TX_OTPL_WITHDRAW || txType === TxType.TX_OTPL_CANCEL) {
+      if (isPaymentLinkUpdate) {
         const paymentId = get(txEvent, 'data.paymentId')
 
         feedEvent = await this.getFeedItemByPaymentId(paymentId)
@@ -444,9 +443,9 @@ export class FeedStorage {
         feedEvent,
       })
 
-      // reprocess same receipt in case we updated data format, only skip strictly older
-      // we can get receipt without having a previous feed item, so veerify .date field exists
-      if (feedEvent.receiptReceived && feedEvent.date && receiptDate.getTime() < new Date(feedEvent.date).getTime()) {
+      // if already processed receipt then skip.
+      // we need to update item only in case of payment link withdraw/cancel
+      if (!isPaymentLinkUpdate && feedEvent.receiptReceived && feedEvent.date) {
         return feedEvent
       }
 
@@ -545,8 +544,6 @@ export class FeedStorage {
 
       profile = await this.userStorage.getPublicProfile(address)
       ;({ fullName, smallAvatar } = profile)
-
-      /** =================================================== */
 
       log.debug('getCounterParty: refetch profile', asLogRecord(profile))
 

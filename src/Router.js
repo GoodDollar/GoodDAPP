@@ -18,6 +18,7 @@ import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 import { isInstalledApp } from './lib/utils/platform'
 import { VerificationContextProvider } from './components/faceVerification/context/VerificationContext'
+import Config from './config/config'
 
 const AppNavigator = createNavigator(
   AppSwitch,
@@ -45,7 +46,7 @@ const Router = () => {
 
   return (
     <React.Fragment>
-      {!isInstalledApp && <AddWebApp />}
+      {!isInstalledApp && !Config.isDeltaApp && <AddWebApp />}
       <Portal.Host>
         <Blurred whenDialog>
           <VerificationContextProvider>

@@ -1,11 +1,12 @@
 import React from 'react'
 
 import SmartBanner from '../components/smartbanner/SmartBanner'
+import Config from '../config/config'
 import AppHolder from './AppHolder'
 
 const WalletApp = () => (
   <>
-    <SmartBanner />
+    {!Config.isDeltaApp && <SmartBanner />}
     <AppHolder />
   </>
 )

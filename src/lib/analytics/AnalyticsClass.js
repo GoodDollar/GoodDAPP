@@ -18,7 +18,7 @@ import {
   toLower,
   values,
 } from 'lodash'
-
+import EventEmitter from 'eventemitter3'
 import { cloneErrorObject, ExceptionCategory } from '../exceptions/utils'
 import { isWeb, osVersion } from '../utils/platform'
 import DeepLinking from '../utils/deepLinking'
@@ -29,6 +29,8 @@ export class AnalyticsClass {
   apis = {}
 
   apisFactory = null
+
+  emitter = new EventEmitter()
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.get('analytics')
@@ -69,6 +71,7 @@ export class AnalyticsClass {
     if (tags?.isLoggedIn) {
       onceTags.signedup = true
     }
+
     if (isMixpanelEnabled) {
       logger.info('preinitializing Mixpanel with license key')
 
@@ -196,7 +199,7 @@ export class AnalyticsClass {
   }
 
   fireEvent = (event: string, eventData: any = {}) => {
-    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId } = this
+    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId, emitter } = this
     const { amplitude, googleAnalytics, mixpanel } = apis
     const data = { chainId, ...eventData }
 
@@ -227,6 +230,8 @@ export class AnalyticsClass {
     }
 
     logger.debug('fired event', { event, data })
+    emitter.emit('fireEvent', { event, data })
+    emitter.emit(event, data)
   }
 
   /**

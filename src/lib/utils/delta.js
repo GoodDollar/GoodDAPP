@@ -1,6 +1,8 @@
+import { isArray, isDate, isPlainObject, mapValues } from 'lodash'
 import Config from '../../config/config'
 import { on } from '../analytics/analytics'
 import logger from '../logger/js-logger'
+import { isScalar } from './object'
 
 const postMessage = data => {
   const { ReactNativeWebView, parent, opener } = window
@@ -13,7 +15,37 @@ const postMessage = data => {
   messenger.postMessage(data, '*')
 }
 
+const transformValue = value => {
+  if (isArray(value)) {
+    return value.map(transformValue)
+  }
+
+  if (isPlainObject(value)) {
+    return mapValues(value, transformValue)
+  }
+
+  if (!isScalar(value) || !isDate(value)) {
+    return
+  }
+
+  return value
+}
+
 if (Config.isDeltaApp) {
-  on('fireEvent', data => postMessage({ type: 'event', ...data }))
-  logger.on('*', ({ level, ...data }) => postMessage({ type: level.name, level, ...data }))
+  logger.on('*', ({ name, level, messages }) =>
+    postMessage({
+      name,
+      level,
+      type: level.name,
+      messages: messages.map(transformValue),
+    }),
+  )
+
+  on('fireEvent', ({ event, data }) =>
+    postMessage({
+      type: 'event',
+      event,
+      data,
+    }),
+  )
 }

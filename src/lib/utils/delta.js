@@ -23,7 +23,7 @@ const transformValue = value => {
     return mapValues(value, transformValue)
   }
 
-  if (!isScalar(value) || !isDate(value)) {
+  if (!isScalar(value) && !isDate(value)) {
     return
   }
 
@@ -34,8 +34,7 @@ if (Config.isDeltaApp) {
   logger.on('*', ({ name, level, messages }) =>
     postMessage({
       name,
-      level,
-      type: level.name,
+      type: level.name.toLowerCase(),
       messages: messages.map(transformValue),
     }),
   )

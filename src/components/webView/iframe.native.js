@@ -3,24 +3,16 @@ import { WebView } from 'react-native-webview'
 
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 
+const DOMReady = 'DOMContentLoaded'
 const DOMLoadedDispatcher = `(function () {
-    var messenger = window.ReactNativeWebView || parent;
+    var messenger = window.ReactNativeWebView;
 
-    if (!messenger || ('function' !== (typeof messenger.postMessage))) {
+    if ('undefined' === typeof messenger) {
       return;
     }
 
-    var documentUrl = location.href;
-    var DOMReady = 'DOMContentLoaded';
-
     var onDOMContentLoaded = function() {
-      var messagePayload = {
-        event: DOMReady,
-        target: 'iframe',
-        src: documentUrl
-      };
-
-      messenger.postMessage(messagePayload, '*');
+      messenger.postMessage('${DOMReady}');
     }
 
     if (document.readyState !== 'loading') {
@@ -36,9 +28,7 @@ export const Iframe = ({ src, title }) => {
 
   const onMessage = useCallback(
     ({ nativeEvent: { data } }) => {
-      const { event } = data
-
-      if ('DOMContentLoaded' === event) {
+      if (DOMReady === data) {
         hideLoading()
       }
     },
@@ -58,7 +48,6 @@ export const Iframe = ({ src, title }) => {
       scrollEnabled={true}
       automaticallyAdjustContentInsets={false}
       originWhitelist={['*']}
-      javaScriptEnabledAndroid={true}
       injectedJavaScript={DOMLoadedDispatcher}
       onMessage={onMessage}
     />

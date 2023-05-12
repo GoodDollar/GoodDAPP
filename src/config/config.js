@@ -209,7 +209,8 @@ const Config = {
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
   defaultTxGas: parseInt(env.REACT_APP_DEFAULT_TX_GAS || 1000000),
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
-  ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts)
+  ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
+  isDeltaApp: env.REACT_APP_DELTA === 'true',
 }
 
 global.config = Config

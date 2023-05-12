@@ -227,7 +227,7 @@
     "react-native-webview-crypto": "^0.0.25",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3",
-    "react-phone-number-input": "^3.2.19",
+    "react-phone-number-input": "^3.2.23",
     "react-qr-reader": "^2.2.1",
     "react-scripts": "^4.0.3",
     "react-share": "^4.3.1",

@@ -4366,7 +4366,7 @@ __metadata:
     react-native-webview-crypto: ^0.0.25
     react-navigation: ^4.0.10
     react-navigation-stack: ^1.10.3
-    react-phone-number-input: ^3.2.19
+    react-phone-number-input: ^3.2.23
     react-qr-reader: ^2.2.1
     react-scripts: ^4.0.3
     react-share: ^4.3.1
@@ -25431,10 +25431,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"libphonenumber-js@npm:^1.10.20":
-  version: 1.10.28
-  resolution: "libphonenumber-js@npm:1.10.28"
-  checksum: 3a3aac653265751822b495d30c1196a072c52612fb2b7cf0efe38b0ad25a48df2a0bf2220fb7066af1a1734b9cd9ba78ddaf758da5194422bbb57c4c592c381a
+"libphonenumber-js@npm:^1.10.30":
+  version: 1.10.30
+  resolution: "libphonenumber-js@npm:1.10.30"
+  checksum: 677bdd25b709cc55f10c599df09e67b501554578e4700ae31d9f2153b4e6847710d2454b4551f19df3e443eb836c0f287a12159ee6acd931150407c0eaf010a0
   languageName: node
   linkType: hard
 
@@ -33497,19 +33497,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-phone-number-input@npm:^3.2.19":
-  version: 3.2.19
-  resolution: "react-phone-number-input@npm:3.2.19"
+"react-phone-number-input@npm:^3.2.23":
+  version: 3.2.23
+  resolution: "react-phone-number-input@npm:3.2.23"
   dependencies:
     classnames: ^2.3.1
     country-flag-icons: ^1.5.4
     input-format: ^0.3.8
-    libphonenumber-js: ^1.10.20
+    libphonenumber-js: ^1.10.30
     prop-types: ^15.8.1
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 4d75dea76dbaa8fb4c61066f620495ba5fb952057151cb7e9edac9fb143a2e9420021970eb82bc9beb663828726feadce4d30cde6941312f09c9a9983f33b15e
+  checksum: 2e5096821dc2c91ab2b34d948d7aa8dc508c4aba8de067d3d20623dd6bfc8c8f18153a74669cf7f11985ed06e89e4b064c23c251df3d383d4b24cefb8e5bec4d
   languageName: node
   linkType: hard
 

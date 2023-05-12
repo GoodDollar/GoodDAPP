@@ -4362,7 +4362,7 @@ __metadata:
     react-native-web: ^0.17.5
     react-native-web-linear-gradient: ^1.0.5
     react-native-web-lottie: ^1.2.0
-    react-native-webview: ^11.25.0
+    react-native-webview: ^12.0.2
     react-native-webview-crypto: ^0.0.25
     react-navigation: ^4.0.10
     react-navigation-stack: ^1.10.3
@@ -33372,16 +33372,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-webview@npm:^11.25.0":
-  version: 11.25.0
-  resolution: "react-native-webview@npm:11.25.0"
+"react-native-webview@npm:^12.0.2":
+  version: 12.0.2
+  resolution: "react-native-webview@npm:12.0.2"
   dependencies:
     escape-string-regexp: 2.0.0
     invariant: 2.2.4
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 50b0d61c1550594657e9dba5fc7b87eb3446b2ad67cb8b7e5226233d26c88845d26cc4c5b5abf0091f3ca98a6ebe49ac697ac6803718e5ffd32e46ad3c014114
+  checksum: f777dc48683ada530eb4c87ff85ab9bcdcb35156c319f226a220fd194c226fe136c240d020b6a835f2eba44cba3e08e42752cc6ee8d38ebb4408a31d2e2ab9c8
   languageName: node
   linkType: hard
 

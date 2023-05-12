@@ -5,14 +5,13 @@ import logger from '../logger/js-logger'
 import { isScalar } from './object'
 
 const postMessage = data => {
-  const { ReactNativeWebView, parent, opener } = window
-  const messenger = ReactNativeWebView || parent || opener
+  const messenger = window.ReactNativeWebView
 
-  if (!messenger || 'function' !== typeof messenger.postMessage) {
+  if ('undefined' === typeof messenger) {
     return
   }
 
-  messenger.postMessage(data, '*')
+  messenger.postMessage(JSON.stringify(data))
 }
 
 const transformValue = value => {

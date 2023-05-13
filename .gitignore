@@ -105,3 +105,4 @@ service-worker.js
 !.yarn/sdks
 !.yarn/versions
 .yalc.lock
+.vercel

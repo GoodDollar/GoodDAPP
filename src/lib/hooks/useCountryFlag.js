@@ -1,11 +1,11 @@
 /* eslint import/namespace: ['error', { allowComputed: true }] */
 // @flow
 import { useMemo } from 'react'
-import flags from 'react-phone-number-input/flags'
+import flags from 'react-native-phone-input/lib/resources/flags'
 
 const getCountryFlag = countryCode => {
-  const code = countryCode.toUpperCase()
-  return flags[code]
+  const code = countryCode.toLowerCase()
+  return flags.get(code)
 }
 
 export const getCountryCodeForFlag = country => {

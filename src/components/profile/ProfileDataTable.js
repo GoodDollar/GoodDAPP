@@ -6,6 +6,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { t } from '@lingui/macro'
 import useCountryFlag from '../../lib/hooks/useCountryFlag'
 import Icon from '../common/view/Icon'
+import Image from '../common/view/Image'
 import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
@@ -26,13 +27,13 @@ const CountryFlag = withStyles(
   }),
   false,
 )(({ styles, code }) => {
-  const CountryFlag = useCountryFlag(code)
+  const flag = useCountryFlag(code)
 
-  if (!CountryFlag) {
+  if (!flag) {
     return null
   }
 
-  return <CountryFlag style={styles.flag} />
+  return <Image source={flag} style={styles.flag} />
 })
 
 const ProfileDataTable = ({
@@ -52,7 +53,6 @@ const ProfileDataTable = ({
     showCustomFlag,
     mobile,
   ])
-
   const { country: countryCode = null } = phoneMeta || {}
 
   const verifyEdit = useCallback(

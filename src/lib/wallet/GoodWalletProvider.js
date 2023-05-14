@@ -59,6 +59,7 @@ export const GoodWalletContext = React.createContext({
   dailyUBI: undefined,
   isCitizen: false,
   switchNetwork: undefined,
+  currentNetwork: undefined,
 })
 
 /**
@@ -68,7 +69,10 @@ export const GoodWalletContext = React.createContext({
  */
 export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
-  const [{ goodWallet, userStorage, fusewallet, celowallet, web3Provider }, setWalletAndStorage] = useState({})
+  const [
+    { goodWallet, userStorage, fusewallet, celowallet, web3Provider, currentNetwork },
+    setWalletAndStorage,
+  ] = useState({})
   const [isLoggedInJWT, setLoggedInJWT] = useState()
   const [balance, setBalance] = useState({ totalBalance: '0', balance: '0', fuseBalance: '0', celoBalance: '0' })
   const [dailyUBI, setDailyUBI] = useState('0')
@@ -199,7 +203,14 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         global.userStorage = storage
         global.wallet = wallet
-        setWalletAndStorage({ goodWallet: wallet, userStorage: storage, celowallet, fusewallet, web3Provider })
+        setWalletAndStorage({
+          goodWallet: wallet,
+          userStorage: storage,
+          celowallet,
+          fusewallet,
+          web3Provider,
+          currentNetwork: getNetworkName(wallet.networkId),
+        })
         log.info('initWalletAndStorage done', { web3Provider })
         return [wallet, storage]
       } catch (e) {
@@ -305,8 +316,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         let web3Provider = makeWeb3Provider(goodWallet)
 
-        setWalletAndStorage(_ => ({ ..._, goodWallet, web3Provider }))
-        updateWalletData(goodWallet)
+        setWalletAndStorage(_ => ({ ..._, goodWallet, web3Provider, currentNetwork: network }))
+        await updateWalletData(goodWallet)
         updateWalletListeners(goodWallet)
       } catch (e) {
         log.error('switchNetwork failed:', e.message, e, { contractsNetwork, network })
@@ -333,6 +344,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     dailyUBI,
     isCitizen,
     switchNetwork,
+    currentNetwork,
   }
 
   let env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
@@ -393,9 +405,9 @@ export const useWalletData = () => {
 }
 
 export const useSwitchNetwork = () => {
-  const { switchNetwork, goodWallet } = useContext(GoodWalletContext)
+  const { switchNetwork, currentNetwork } = useContext(GoodWalletContext)
 
-  return { switchNetwork, currentNetwork: getNetworkName(goodWallet.networkId) }
+  return { switchNetwork, currentNetwork }
 }
 
 export const useSwitchNetworkModal = (toNetwork?: NETWORK, onDismiss = noop) => {

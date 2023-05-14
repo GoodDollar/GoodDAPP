@@ -141,6 +141,10 @@ const MultiCalls = {
 
 const gasMutex = new Mutex()
 
+// this is used on functions that perform "sendTransaction". We prevent another call
+// to same method for the duration of 2.5 seconds which is half the block time of fuse/celo.
+const throttlelize = fn => throttle(fn, 2500, { leading: true })
+
 export class GoodWallet {
   static AccountUsageToPath = {
     gd: 0,
@@ -373,7 +377,7 @@ export class GoodWallet {
     }
   }
 
-  async pollEvents(fn, time, lastBlockCallback) {
+  async pollEvents(time, lastBlockCallback) {
     try {
       const run = async () => {
         if (this.isPollEvents === false) {
@@ -397,7 +401,7 @@ export class GoodWallet {
     } catch (e) {
       log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }
-    this.pollEventsTimeout = setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
+    this.pollEventsTimeout = setTimeout(() => this.pollEvents(time, lastBlockCallback), time)
   }
 
   // eslint-disable-next-line require-await
@@ -426,12 +430,7 @@ export class GoodWallet {
     lastBlockCallback(lastBlock)
     this.lastEventsBlock = lastBlock
 
-    this.pollEvents(
-      toBlock =>
-        Promise.all([this.pollSendEvents(toBlock), this.pollReceiveEvents(toBlock), this.pollOTPLEvents(toBlock)]),
-      Config.web3Polling,
-      lastBlockCallback,
-    )
+    this.pollEvents(Config.web3Polling, lastBlockCallback)
   }
 
   _notifyEvents(events, fromBlock) {
@@ -472,7 +471,7 @@ export class GoodWallet {
           // we pass toBlock as null so the request naturally requests until the last block a node has,
           // this is to prevent errors where some nodes for some reason still dont have the last block
           if (toBlock >= lastBlock) {
-            toBlock = undefined
+            toBlock = lastBlock
           }
 
           log.debug('sync tx step:', { fromBlock, toBlock })
@@ -662,9 +661,11 @@ export class GoodWallet {
    * Claims tokens for current account
    * @returns {Promise<TransactionReceipt>|Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|*>}
    */
-  claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
-    return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
-  }
+  claim = throttlelize(
+    (callbacks: PromiEvents): Promise<TransactionReceipt> => {
+      return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
+    },
+  )
 
   async checkEntitlement(): Promise<number> {
     try {
@@ -998,17 +999,19 @@ export class GoodWallet {
    * @param {string} hashedCode
    * @param {PromieEvents} callbacks
    */
-  async depositToHash(amount: number, hashedCode: string, callbacks: PromiEvents): Promise<TransactionReceipt> {
-    if (!(await this.canSend(amount))) {
-      throw new Error(`Amount is bigger than balance`)
-    }
+  depositToHash = throttlelize(
+    async (amount: number, hashedCode: string, callbacks: PromiEvents): Promise<TransactionReceipt> => {
+      if (!(await this.canSend(amount))) {
+        throw new Error(`Amount is bigger than balance`)
+      }
 
-    const otpAddress = this.oneTimePaymentsContract._address
-    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
+      const otpAddress = this.oneTimePaymentsContract._address
+      const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
 
-    // don't wait for transaction return immediately with hash code and link (not using await here)
-    return this.sendTransaction(transferAndCall, callbacks)
-  }
+      // don't wait for transaction return immediately with hash code and link (not using await here)
+      return this.sendTransaction(transferAndCall, callbacks)
+    },
+  )
 
   /**
    * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
@@ -1118,7 +1121,7 @@ export class GoodWallet {
    * @param {string} otlCode - the privatekey to unlock payment
    * @param {PromiEvents} callbacks
    */
-  withdraw(otlCode: string, callbacks: PromiEvents) {
+  withdraw = throttlelize((otlCode: string, callbacks: PromiEvents) => {
     let method = 'withdraw'
     let args
 
@@ -1137,7 +1140,7 @@ export class GoodWallet {
     const withdrawCall = this.oneTimePaymentsContract.methods[method](...args)
 
     return this.sendTransaction(withdrawCall, callbacks)
-  }
+  })
 
   /**
    * Cancels a Deposit based on its transaction hash
@@ -1169,25 +1172,27 @@ export class GoodWallet {
    * @param {object} txCallbacks
    * @returns {Promise<TransactionReceipt>}
    */
-  async cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    // check if already canceled
-    const isValid = await this.isPaymentLinkAvailable(hashedCode)
-    if (isValid) {
-      const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
-      return this.sendTransaction(cancelOtlCall, txCallbacks)
-    }
-  }
+  cancelOTL = throttlelize(
+    async (hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> => {
+      // check if already canceled
+      const isValid = await this.isPaymentLinkAvailable(hashedCode)
+      if (isValid) {
+        const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
+        return this.sendTransaction(cancelOtlCall, txCallbacks)
+      }
+    },
+  )
 
-  async collectInviteBounties() {
+  collectInviteBounties = throttlelize(async () => {
     const tx = this.invitesContract.methods.collectBounties()
     const nativeBalance = await this.balanceOfNative()
     const gas = Math.min(800000, nativeBalance / this.gasPrice - 150000) //convert to gwei and leave 150K gwei for user
     const res = await this.sendTransaction(tx, {}, { gas })
     return res
-  }
+  })
 
   // eslint-disable-next-line require-await
-  async canCollectBountyFor(invitees) {
+  canCollectBountyFor = throttlelize(async invitees => {
     const { methods } = this.invitesContract
 
     if (invitees.length === 0) {
@@ -1206,9 +1211,9 @@ export class GoodWallet {
     const [[result]] = await retryCall(() => this.multicallFuse.all([[calls]]))
 
     return result
-  }
+  })
 
-  async collectInviteBounty(invitee) {
+  collectInviteBounty = throttlelize(async invitee => {
     try {
       const bountyFor = invitee || this.account
       const statuses = await this.canCollectBountyFor([bountyFor])
@@ -1224,7 +1229,7 @@ export class GoodWallet {
       log.warn('collectInviteBounty failed:', e.message, e)
       throw e
     }
-  }
+  })
 
   async isInviterCodeValid(inviterCode) {
     try {
@@ -1249,7 +1254,7 @@ export class GoodWallet {
     }
   }
 
-  async joinInvites(inviter, codeLength = 10) {
+  joinInvites = throttlelize(async (inviter, codeLength = 10) => {
     try {
       const [hasJoined, invitedBy, inviteCode] = await this.hasJoinedInvites()
 
@@ -1294,7 +1299,7 @@ export class GoodWallet {
       log.warn('joinInvites failed:', e.message, e)
       throw e
     }
-  }
+  })
 
   toDecimals(wei, chainId) {
     return formatUnits(String(wei || '0'), Config.ethereum[chainId || this.networkId].g$Decimals)
@@ -1354,34 +1359,31 @@ export class GoodWallet {
     return this.sendAmountWithData(to, amount, null, callbacks)
   }
 
-  async sendAmountWithData(
-    to: string,
-    amount: number,
-    data: string,
-    callbacks: PromiEvents,
-  ): Promise<TransactionReceipt> {
-    if (!this.wallet.utils.isAddress(to)) {
-      throw new Error('Address is invalid')
-    }
+  sendAmountWithData = throttlelize(
+    async (to: string, amount: number, data: string, callbacks: PromiEvents): Promise<TransactionReceipt> => {
+      if (!this.wallet.utils.isAddress(to)) {
+        throw new Error('Address is invalid')
+      }
 
-    if (amount === 0 || !(await this.canSend(amount))) {
-      throw new Error('Amount is bigger than balance')
-    }
+      if (amount === 0 || !(await this.canSend(amount))) {
+        throw new Error('Amount is bigger than balance')
+      }
 
-    log.info({ amount, to, data })
-    const transferCall = data
-      ? this.tokenContract.methods.transferAndCall(to, amount.toString(), this.wallet.utils.toHex(data))
-      : this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
+      log.info({ amount, to, data })
+      const transferCall = data
+        ? this.tokenContract.methods.transferAndCall(to, amount.toString(), this.wallet.utils.toHex(data))
+        : this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
-    return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain
-  }
+      return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain
+    },
+  )
 
   /**
    * Helper to check if user has enough native token balance, if not try to ask server to topwallet
    * @param {number} wei
    * @param {object} options
    */
-  async verifyHasGas(wei: number, options = {}) {
+  verifyHasGas = throttlelize(async (wei: number, options = {}) => {
     const TOP_GWEI = 100000 * this.gasPrice //the gas fee for topWallet faucet call
     const minWei = wei ? wei : 200000 * this.gasPrice
 
@@ -1467,7 +1469,7 @@ export class GoodWallet {
     } finally {
       release()
     }
-  }
+  })
 
   // eslint-disable-next-line require-await
   async signTransaction(tx) {
@@ -1475,7 +1477,7 @@ export class GoodWallet {
   }
 
   // eslint-disable-next-line require-await
-  async sendRawTransaction(tx, tempWeb3, callbacks = {}) {
+  sendRawTransaction = throttlelize(async (tx, tempWeb3, callbacks = {}) => {
     tempWeb3.eth.accounts.wallet.add(this.accounts[0])
     log.debug('sendRawTransaction', { tx })
     const promiEvent = tempWeb3.eth.sendTransaction(tx)
@@ -1483,7 +1485,7 @@ export class GoodWallet {
     callbacks.onError && promiEvent.on('error', callbacks.onError)
     callbacks.onReceipt && promiEvent.on('receipt', callbacks.onReceipt)
     return promiEvent
-  }
+  })
 
   /**
    * Helper function to handle a tx Send call

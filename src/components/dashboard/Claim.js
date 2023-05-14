@@ -2,14 +2,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
-import { assign, noop } from 'lodash'
+import { assign } from 'lodash'
 import { t, Trans } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
-import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { useSwitchNetwork, useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -221,11 +221,13 @@ const Claim = props => {
   const { goToRoot, screenState, push: navigate } = screenProps
   const goodWallet = useWallet()
   const { dailyUBI: entitlement, isCitizen } = useWalletData()
+  const { switchNetwork, currentNetwork } = useSwitchNetwork()
   const decimalsEntitlement = goodWallet.toDecimals(entitlement || '0')
   const { appState } = useAppState()
   const userStorage = useUserStorage()
   const { userProperties } = userStorage || {}
 
+  const [triggerNextClaim, setTriggerNextClaim] = useState(false)
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(decimalsEntitlement)) || 0)
   const { isValid } = screenState
 
@@ -381,7 +383,7 @@ const Claim = props => {
     } catch (exception) {
       const { message } = exception
 
-      const isAlreadySent = message.search('same nonce|same hash|AlreadyKnown') >= 0
+      const isAlreadySent = message.search(/same nonce|same hash|AlreadyKnown|already known/i) >= 0
 
       if (!txHash || !isAlreadySent) {
         throw exception
@@ -394,6 +396,14 @@ const Claim = props => {
 
     return receipt
   }, [goodWallet])
+
+  /**
+   * switch chain and trigger claim again
+   */
+  const claimNext = useCallback(async () => {
+    await switchNetwork(currentNetwork === 'FUSE' ? 'CELO' : 'FUSE')
+    setTriggerNextClaim(true)
+  }, [switchNetwork, currentNetwork])
 
   const onClaim = useCallback(async () => {
     let curEntitlement
@@ -440,7 +450,7 @@ const Claim = props => {
     setLoading(true)
     showDialog({
       image: <LoadingAnimation />,
-      message: t`please wait while processing...` + `\n`,
+      message: t`claiming on ${currentNetwork} please wait...` + `\n`,
       buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
       title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
       showCloseButtons: false,
@@ -485,12 +495,14 @@ const Claim = props => {
         // reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
 
-        showDialog({
-          image: <LoadingAnimation success speed={2} />,
-          buttons: [{ text: t`Yay!` }],
-          message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
-          title: t`CHA-CHING!`,
-          onDismiss: noop,
+        const nextClaimPromise = new Promise(res => {
+          showDialog({
+            image: <LoadingAnimation success speed={2} />,
+            buttons: [{ text: t`Yay!` }],
+            message: t`You've claimed your daily G$ on ${currentNetwork}` + `\n` + t`see you tomorrow.`,
+            title: t`CHA-CHING!`,
+            onDismiss: res,
+          })
         })
 
         // collect invite bonuses
@@ -499,6 +511,8 @@ const Claim = props => {
         if (didCollect) {
           fireEvent(INVITE_BOUNTY, { from: 'invitee' })
         }
+        await nextClaimPromise
+        await claimNext()
       })
 
       return true
@@ -517,7 +531,18 @@ const Claim = props => {
     onClaimError,
     goodWallet,
     userStorage,
+    currentNetwork,
   ])
+
+  /**
+   * effect to trigger claim on next chain
+   */
+  useEffect(() => {
+    if (triggerNextClaim) {
+      setTriggerNextClaim(false)
+      onClaim()
+    }
+  }, [currentNetwork, triggerNextClaim])
 
   const handleClaim = useCallback(async () => {
     const claimed = await onClaim()

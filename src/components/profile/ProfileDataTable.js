@@ -166,7 +166,7 @@ const ProfileDataTable = ({
                 iconColor={theme.colors.primary}
                 iconSize={28}
                 placeholder="Add your Mobile"
-                value={mobile}
+                value={mobile ?? ''}
               />
             </Fragment>
           )}
@@ -182,7 +182,7 @@ const ProfileDataTable = ({
             onChange={onEmailChange}
             onBlur={onEmailBlur}
             placeholder="Add your Email"
-            value={profile.email}
+            value={profile.email ?? ''}
           />
         </Section.Row>
       </KeyboardAwareScrollView>

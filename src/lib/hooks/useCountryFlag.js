@@ -1,11 +1,16 @@
 /* eslint import/namespace: ['error', { allowComputed: true }] */
 // @flow
 import { useMemo } from 'react'
+import { Platform } from 'react-native'
 import flags from 'react-native-phone-input/lib/resources/flags'
 
 const getCountryFlag = countryCode => {
   const code = countryCode.toLowerCase()
-  return flags.get(code)
+  let flagSource = flags.get(code)
+  if (Platform.OS === 'web') {
+    flagSource = flagSource.default
+  }
+  return flagSource
 }
 
 export const getCountryCodeForFlag = country => {

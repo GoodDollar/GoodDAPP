@@ -47,6 +47,7 @@ import useRefundDialog from '../refund/hooks/useRefundDialog'
 import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
 import { IconButton, Text } from '../../components/common'
 import GreenCircle from '../../assets/ellipse46.svg'
+import { useInviteCode } from '../invite/useInvites'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -57,7 +58,6 @@ import OutOfGasError from './OutOfGasError'
 import Reason from './Reason'
 import Receive from './Receive'
 import HandlePaymentLink from './HandlePaymentLink'
-
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
 import ReceiveToAddress from './ReceiveToAddress'
@@ -239,6 +239,7 @@ const Dashboard = props => {
   const [price, showPrice] = useGoodDollarPrice()
   const { currentNetwork } = useSwitchNetwork()
 
+  useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
 
   const sendReceiveMinimzedYAnimValue = new Animated.Value(0)

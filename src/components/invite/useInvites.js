@@ -67,7 +67,7 @@ export const useRegisterForInvites = () => {
   return registerForInvites
 }
 
-export const useInviteCode = () => {
+export const useInviteCode = (registerOnlyInvited = false) => {
   const userStorage = useUserStorage()
   const registerForInvites = useRegisterForInvites()
 
@@ -79,6 +79,11 @@ export const useInviteCode = () => {
   const getInviteCode = useCallback(async () => {
     const inviterInviteCode =
       userStorage.userProperties.get(`inviterInviteCode${propSuffix}`) || (await AsyncStorage.getItem(INVITE_CODE))
+
+    if (registerOnlyInvited && !inviterInviteCode) {
+      return
+    }
+
     const code = await registerForInvites(inviterInviteCode)
 
     // fix accidental selfinvite

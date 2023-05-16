@@ -1,6 +1,6 @@
 // libraries
 import React, { memo, useContext, useEffect, useState } from 'react'
-import { first, pick } from 'lodash'
+import { assign, first, pick } from 'lodash'
 
 // components
 
@@ -24,6 +24,7 @@ import { handleLinks } from './lib/utils/linking'
 import useServiceWorker from './lib/hooks/useServiceWorker'
 import Config from './config/config'
 
+const { isDeltaApp } = Config
 const log = logger.child({ from: 'RouterSelector' })
 
 // identify the case user signup/in using torus redirect flow, so we want to load page asap
@@ -95,12 +96,19 @@ const RouterWrapper = () => {
   })
 
   useEffect(() => {
-    initAnalytics({ isLoggedIn: isLoggedInRouter }).then(() => log.debug('RouterSelector Rendered'))
+    const tags = { isLoggedIn: isLoggedInRouter }
+
+    // send extra flag only at delta instance
+    if (isDeltaApp) {
+      assign(tags, { isDeltaApp })
+    }
+
+    initAnalytics(tags).then(() => log.debug('RouterSelector Rendered'))
   }, [])
 
   useEffect(() => {
     // once user is logged in check if their browser is supported and show warning if not
-    if (!Config.isDeltaApp && isLoggedInRouter && supported === false) {
+    if (!isDeltaApp && isLoggedInRouter && supported === false) {
       checkBrowser()
     }
 

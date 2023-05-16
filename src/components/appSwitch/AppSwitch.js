@@ -79,9 +79,12 @@ const AppSwitch = (props: LoadingProps) => {
         return
       }
 
+      // on android uri is not set so need to get it from the link for it to be placed in the pastecode field
+      const androidUri = link.match(/uri=([\w\-@.:?&=]{1,256})/)[1]
+
       if (isWalletConnect) {
         path = 'AppNavigation/Dashboard/WalletConnect'
-        params = { ...params, wcUri: decodeURIComponent(uri || link) }
+        params = { ...params, wcUri: decodeURIComponent(uri || androidUri) }
       } else if (paymentCode || code) {
         path = 'AppNavigation/Dashboard/HandlePaymentLink'
       } else if (!path) {

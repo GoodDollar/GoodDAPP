@@ -42,7 +42,9 @@
     "lingui:extract": "lingui extract --clean",
     "lingui:compile": "lingui compile && node scripts/i18n.js",
     "lingui": "npm run lingui:extract --clean && npm run lingui:compile",
-    "ganache": "npx ganache -D"
+    "ganache": "npx ganache -D",
+    "clearcfcache": "node cloudflare-purge.js",
+    "postbuild": "npm run clearcfcache"
   },
   "repository": {
     "type": "git",

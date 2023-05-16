@@ -698,10 +698,15 @@ export class GoodWallet {
 
     // entitelment is separate because it depends on msg.sender
     const [[[res]], entitlement] = await Promise.all([this.multicallFuse.all([calls]), this.checkEntitlement()])
+
+    // fetch prev day claimers
+    const prevDayClaimers = await this.UBIContract.methods.getClaimerCount(Number(res.currentDay) - 1).call()
+
     res.entitlement = this.toDecimals(entitlement)
     res.claimers = res.dailyStats[0]
     res.claimAmount = this.toDecimals(res.dailyStats[1])
     res.distribution = this.toDecimals(res.distribution)
+    res.activeClaimers = Math.max(res.activeClaimers, res.claimers, prevDayClaimers)
     delete res.dailyStats
 
     // const result = mapValues(res, parseInt)

@@ -3,7 +3,7 @@ import ReCAPTCHA from 'react-native-recaptcha-that-works'
 import { noop } from 'lodash'
 import Config from '../../../../config/config'
 
-const { recaptchaSiteKey, baseUrl } = Config
+const { recaptchaSiteKey, publicUrl } = Config
 
 const Recaptcha = forwardRef(({ onError, onVerify, children, ...props }, ref) => {
   const captchaRef = useRef()
@@ -23,7 +23,7 @@ const Recaptcha = forwardRef(({ onError, onVerify, children, ...props }, ref) =>
         {...props}
         ref={captchaRef}
         siteKey={recaptchaSiteKey}
-        baseUrl={baseUrl}
+        baseUrl={publicUrl}
         size="normal"
         onExpire={onExpired}
         onError={onError}

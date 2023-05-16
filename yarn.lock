@@ -4373,7 +4373,6 @@ __metadata:
     react-test-renderer: ^17.0.2
     readable-stream: ^1.0.33
     realm-web: ^2.0.0
-    reaptcha: ^1.7.3
     recaptcha-v3-react: ^3.0.3
     resolve: 1.8.1
     rxjs: ^6.4.0
@@ -33956,15 +33955,6 @@ __metadata:
     node-fetch:
       optional: true
   checksum: a4266502ad6fc63d068e8a05dac32522aa86b0f3f55474e769a286d2ec018cd557f5db9642d35c039f87ac2eea1aad54d32ecd27b6a59078f78aed58f445fbb3
-  languageName: node
-  linkType: hard
-
-"reaptcha@npm:^1.7.3":
-  version: 1.12.0
-  resolution: "reaptcha@npm:1.12.0"
-  peerDependencies:
-    react: ^16 || ^17 || ^18
-  checksum: 97aad03f1d31166cda37a78be4f4f04ea37c3ba9dcd7bb86a80c1cbc99508673809fe48b7c30aacd38c6249f70e3206535eef1c78bf2e5b009a0e4d776f3f828
   languageName: node
   linkType: hard
 

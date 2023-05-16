@@ -94,12 +94,16 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # Build runs on manual release or on any commit to dev/qa or on release commit to PROD
+    # GH actions not supports regex match, so to avoid adding extra step with custom action
+    # we compare to commt string to starts with 2. Should be updated on major version change
     if: |
       github.event_name == 'workflow_dispatch' || 
       endsWith(github.ref, '/master') || 
       endsWith(github.ref, '/staging') || (
-        endsWith(github.ref, '/next') && 
-        contains(github.event.head_commit.message, 'release prod')
+        endsWith(github.ref, '/next') && (
+          contains(github.event.head_commit.message, 'release prod') ||
+          startsWith(github.event.head_commit.message, '2.')
+        )
       )
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:

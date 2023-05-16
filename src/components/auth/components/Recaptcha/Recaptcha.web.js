@@ -1,1 +1,1 @@
-export default from './RecaptchaWeb'
+export default from './HCaptchaWeb'

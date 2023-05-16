@@ -1,7 +1,7 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
-import usePromise from '../../../../lib/hooks/usePromise'
-import Config from '../../../../config/config'
+import usePromise from '../../../../../lib/hooks/usePromise'
+import Config from '../../../../../config/config'
 
 const { hcaptchaSiteKey } = Config
 

@@ -1,7 +1,8 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
 import Reaptcha from 'reaptcha'
-import Config from '../../../../config/config'
-import usePromise from '../../../../lib/hooks/usePromise'
+import Config from '../../../../../config/config'
+import usePromise from '../../../../../lib/hooks/usePromise'
+
 const { recaptchaSiteKey } = Config
 
 const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) => {
@@ -17,7 +18,13 @@ const Recaptcha = forwardRef(({ onVerify, onError, children, ...props }, ref) =>
         await whenLoaded
         captchaRef.current.execute()
       },
-      reset: () => captchaRef.current && captchaRef.current.reset(),
+      reset: () => {
+        const { current: captcha } = captchaRef
+
+        if (captcha) {
+          captcha.reset()
+        }
+      },
       type: () => {
         return 'recaptcha'
       },

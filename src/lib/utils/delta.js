@@ -14,7 +14,7 @@ const postMessage = data => {
 if (Config.isDeltaApp) {
   on('*', (event, data) =>
     postMessage({
-      type: event,
+      type: event === 'fireEvent' ? 'event' : event,
       ...data,
     }),
   )

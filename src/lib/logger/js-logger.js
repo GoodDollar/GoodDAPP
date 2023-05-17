@@ -1,6 +1,6 @@
 import Logger from 'js-logger'
 import EventEmitter from 'eventemitter3'
-import { assign, clone, noop } from 'lodash'
+import { assign, noop } from 'lodash'
 
 import Config from '../../config/config'
 import { addLoggerMonitor } from './monitor'
@@ -13,13 +13,11 @@ const consoleHandler = Logger.createDefaultHandler({ formatter: noop })
 
 const formatter = (messages, context) => {
   const { name, level } = context
-  const originalMessages = clone(messages)
 
   if (name) {
     messages.unshift({ from: name })
   }
 
-  emitter.emit('*', { name, level, messages: originalMessages })
   emitter.emit(level.name, ...messages)
 }
 

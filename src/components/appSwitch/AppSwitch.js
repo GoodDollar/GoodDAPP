@@ -74,7 +74,7 @@ const AppSwitch = (props: LoadingProps) => {
       let { path, params, link } = destinationPath
       const { paymentCode, code, uri } = params || {}
 
-      const isWalletConnect = (decodeURIComponent(link) || uri || '').match(/wc:[\w\d]+@\d+.{1,256}/)
+      const isWalletConnect = (decodeURIComponent(link) || uri || '').match(/wc:[\w\d]+@\d+.*/)
       if (!path && !params && !isWalletConnect) {
         return
       }

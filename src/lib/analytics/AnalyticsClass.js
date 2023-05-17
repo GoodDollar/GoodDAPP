@@ -178,6 +178,8 @@ export class AnalyticsClass {
         isMixpanelEnabled,
       },
     )
+
+    this.emit('identify', { email, identifier, signup: false })
   }
 
   // eslint-disable-next-line require-await
@@ -196,10 +198,12 @@ export class AnalyticsClass {
         isMixpanelEnabled,
       },
     )
+
+    this.emit('identify', { email, signup: true })
   }
 
   fireEvent = (event: string, eventData: any = {}) => {
-    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId, emitter } = this
+    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId } = this
     const { amplitude, googleAnalytics, mixpanel } = apis
     const data = { chainId, ...eventData }
 
@@ -230,8 +234,7 @@ export class AnalyticsClass {
     }
 
     logger.debug('fired event', { event, data })
-    emitter.emit('fireEvent', { event, data })
-    emitter.emit(event, data)
+    this.emit('fireEvent', { event, data })
   }
 
   /**
@@ -447,5 +450,15 @@ export class AnalyticsClass {
       logger.warn('logging error failed', e.message, e, { args })
       this.fireEvent('ERROR_LOG_FAILED', { eMsg: e.message })
     }
+  }
+
+  /**
+   * @private
+   */
+  emit(event, data) {
+    const { emitter } = this
+
+    emitter.emit(event, data)
+    emitter.emit('*', event, data)
   }
 }

@@ -58,11 +58,6 @@ export const readWalletConnectUri = link => {
   }
 }
 
-export const getWalletConnectTopic = link => {
-  const eip1328UriFormat = /wc:([\w\d-]+)@\d+\?bridge=.*&key=[a-z0-9]+/
-  const topic = link.match(eip1328UriFormat)[1]
-  return topic
-}
 
 let chainsCache = []
 const highlights = [122, 42220, 1, 100, 56, 137, 42161, 43114, 10, 250, 25, 2222, 8217, 1284, 1666600000]

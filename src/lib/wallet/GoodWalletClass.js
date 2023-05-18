@@ -706,7 +706,7 @@ export class GoodWallet {
     res.claimers = res.dailyStats[0]
     res.claimAmount = this.toDecimals(res.dailyStats[1])
     res.distribution = this.toDecimals(res.distribution)
-    res.activeClaimers = Math.max(res.activeClaimers, res.claimers, prevDayClaimers)
+    res.activeClaimers = Math.max(res.activeClaimers || 0, res.claimers, prevDayClaimers)
     delete res.dailyStats
 
     // const result = mapValues(res, parseInt)

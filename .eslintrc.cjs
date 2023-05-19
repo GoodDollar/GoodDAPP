@@ -4,22 +4,22 @@ module.exports = {
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        "plugin:prettier/recommended",
-        'prettier',
+        'plugin:prettier/recommended',
+        'prettier'
     ],
     plugins: ['@typescript-eslint', 'prettier', 'eslint-plugin-import', 'react-hooks', 'react-hooks-addons'],
     parserOptions: {
         ecmaVersion: 2020,
         ecmaFeatures: {
-            jsx: true,
+            jsx: true
         },
         sourceType: 'module',
         tsconfigRootDir: __dirname,
-        project: ['./tsconfig.json'],
+        project: ['./tsconfig.json']
     },
     ignorePatterns: ['/build/**/*', '/types/*/*d.ts', '/src/**/*.test.ts*', '/**/*.*js'],
     rules: {
-        "prettier/prettier": "warn",
+        'prettier/prettier': 'warn',
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/ban-types': 'off',
@@ -41,27 +41,26 @@ module.exports = {
         'import/no-anonymous-default-export': [
             'error',
             {
-                allowCallExpression: false,
-            },
+                allowCallExpression: false
+            }
         ],
         'no-extend-native': 'off',
         'react/prop-types': 'off',
         'react/display-name': 'off',
-        'react-hooks/exhaustive-deps': 'warn',
-        'react-hooks-addons/no-unused-deps': ['warn', { "effectComment": "used"}],
+        'react-hooks-addons/no-unused-deps': ['warn', { effectComment: 'used' }],
         'prettier/prettier': 'error',
         'prefer-const': 'warn',
         'no-constant-condition': 'off',
-        'no-async-promise-executor': 'off',
+        'no-async-promise-executor': 'off'
     },
     settings: {
         'import/resolver': {
             node: {
-                paths: ['src'],
-            },
+                paths: ['src']
+            }
         },
         react: {
-            version: 'detect',
-        },
-    },
+            version: 'detect'
+        }
+    }
 }

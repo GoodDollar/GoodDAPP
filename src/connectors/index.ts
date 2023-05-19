@@ -1,5 +1,5 @@
 import LogoSmall from '../assets/images/logo_primary_small.png'
-import { torus as torusModule } from '@gooddollar/web3sdk-v2'
+import { torus as torusModule, customwc, getDevice, wc2InitOptions } from '@gooddollar/web3sdk-v2'
 import { getNetworkEnv } from 'utils/env'
 
 const network = getNetworkEnv()
@@ -9,6 +9,31 @@ export enum AdditionalChainIds {
     ETH = 1,
     CELO = 42220,
 }
+
+const devEnv = ['development-celo', 'fuse', 'fuse-mainnet']
+const stagingEnv = ['staging-celo', 'staging', 'staging-mainnet']
+
+const getUrl = (env: string) => {
+    const walletEnv = devEnv.includes(env) ? 'dev' : stagingEnv.includes(env) ? 'qa' : 'wallet'
+    return `https://${walletEnv}.gooddollar.org/wc?uri=`
+}
+
+export const gd = customwc({
+    label: 'gooddollar',
+    ...(wc2InitOptions as any),
+    handleUri: async (uri) => {
+        const url = getUrl(network || 'development-celo')
+        const wcUri = url + encodeURIComponent(uri)
+        switch (getDevice().os.name) {
+            case 'Android':
+                window.open(`gooddollar://wc?uri=${encodeURIComponent(uri)}`, '_blank')
+                break
+            default:
+                window.open(wcUri, '_blank')
+        }
+        return true
+    },
+})
 
 export const torus = torusModule({
     buildEnv: network !== 'production' ? 'testing' : network,

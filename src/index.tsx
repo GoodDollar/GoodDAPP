@@ -21,7 +21,7 @@ import { Web3ContextProvider } from './hooks/useWeb3'
 import { theme, NativeBaseProvider } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 import { OnboardProvider } from '@gooddollar/web3sdk-v2'
-import { connectOptions, torus } from 'connectors'
+import { connectOptions, torus, gd } from 'connectors'
 import { HttpsProvider } from 'utils/HttpsProvider'
 import { registerServiceWorker } from './serviceWorker'
 
@@ -62,7 +62,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   onboard-v2::part(mobile-icon-img) {
-    width: 150px;
+    width: 120px;
     height: fit-content;
   }
 `
@@ -74,7 +74,7 @@ const enableServiceWorker =
 ReactDOM.render(
     <StrictMode>
         <HttpsProvider enabled={enableHttpsRedirect}>
-            <OnboardProvider options={connectOptions} wallets={{ custom: [torus] }}>
+            <OnboardProvider options={connectOptions} wallets={{ custom: [torus, gd] }}>
                 <Web3ContextProvider>
                     <Provider store={store}>
                         <LanguageProvider>

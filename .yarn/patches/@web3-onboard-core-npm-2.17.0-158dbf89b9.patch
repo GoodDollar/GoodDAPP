@@ -1,5 +1,5 @@
 diff --git a/dist/Index-2b46630a.js b/dist/Index-2b46630a.js
-index 06ea0c4a094b86395ce012089b34d6f143cc7101..dbd1c739538b41f4c3a06997e735b111f232c999 100644
+index 06ea0c4a094b86395ce012089b34d6f143cc7101..3f284b784b0cd6542fba923496ca5515d88d0c8e 100644
 --- a/dist/Index-2b46630a.js
 +++ b/dist/Index-2b46630a.js
 @@ -286,7 +286,8 @@ function create_if_block_1$1(ctx) {
@@ -8,12 +8,26 @@ index 06ea0c4a094b86395ce012089b34d6f143cc7101..dbd1c739538b41f4c3a06997e735b111
  			create_component(chainbadge.$$.fragment);
 -			attr(div, "class", "absolute chain-icon-container svelte-jvic9v");
 +      attr(div, "class", "absolute chain-icon-container svelte-jvic9v");
-+      attr(div, "part", "sidebar-heading-img");
++
  		},
  		m(target, anchor) {
  			insert(target, div, anchor);
+diff --git a/dist/Index-f8e62c0c.js b/dist/Index-f8e62c0c.js
+index 69aab46f4550d47306095dec9c489e76ae27fcfa..4e7a47eb6a72e0012b515d34530f7a0f8dc432f9 100644
+--- a/dist/Index-f8e62c0c.js
++++ b/dist/Index-f8e62c0c.js
+@@ -1195,7 +1195,8 @@ function create_default_slot(ctx) {
+ 			t6 = space();
+ 			button1 = element("button");
+ 			t7 = text(t7_value);
+-			attr(div0, "class", "icon-container flex justify-center items-center svelte-1ubxcdp");
++      attr(div0, "class", "icon-container flex justify-center items-center svelte-1ubxcdp");
++      attr(div0, "class", "mobile-icon-container");
+ 			attr(h4, "class", "svelte-1ubxcdp");
+ 			attr(p, "class", "svelte-1ubxcdp");
+ 			attr(button0, "class", "button-neutral-solid-b rounded svelte-1ubxcdp");
 diff --git a/dist/index-d817b0d2.js b/dist/index-d817b0d2.js
-index 52157b0929ecaad891f07643f2fbc0ef2a665d1b..237119d5eaa207286bfbfa2153dd906238cf93bd 100644
+index 52157b0929ecaad891f07643f2fbc0ef2a665d1b..e46e514b91674cc389dfb3c609b3a18e3c2affc8 100644
 --- a/dist/index-d817b0d2.js
 +++ b/dist/index-d817b0d2.js
 @@ -6152,7 +6152,8 @@ function create_if_block_2$2(ctx) {
@@ -26,3 +40,23 @@ index 52157b0929ecaad891f07643f2fbc0ef2a665d1b..237119d5eaa207286bfbfa2153dd9062
  		},
  		m(target, anchor) {
  			insert(target, div, anchor);
+@@ -6897,7 +6898,8 @@ function create_if_block_6$1(ctx) {
+ 			t2 = space();
+ 			div2 = element("div");
+ 			t3 = text(t3_value);
+-			attr(div0, "class", "icon-container svelte-1qwmck3");
++      attr(div0, "class", "icon-container svelte-1qwmck3");
++      attr(div0, "part", "mobile-icon-container");
+ 			attr(div1, "class", "header-heading svelte-1qwmck3");
+ 			attr(div2, "class", "mobile-subheader svelte-1qwmck3");
+ 			attr(div3, "class", "flex flex-column justify-center w-full svelte-1qwmck3");
+@@ -7007,7 +7009,8 @@ function create_else_block_1(ctx) {
+ 		c() {
+ 			img = element("img");
+ 			if (!src_url_equal(img.src, img_src_value = /*icon*/ ctx[14])) attr(img, "src", img_src_value);
+-			attr(img, "alt", "logo");
++      attr(img, "alt", "logo");
++      attr(img, "part", "mobile-icon-img");
+ 		},
+ 		m(target, anchor) {
+ 			insert(target, img, anchor);

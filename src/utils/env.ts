@@ -9,7 +9,7 @@ export interface IOSVersionInfo {
     build: number
 }
 
-export function getNetworkEnv(defaultValue = 'fuse'): string {
+export function getNetworkEnv(defaultValue = 'development-celo'): string {
     return process.env.REACT_APP_NETWORK || defaultValue
 }
 

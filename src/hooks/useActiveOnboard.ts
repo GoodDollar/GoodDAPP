@@ -32,15 +32,11 @@ export const WalletLabels: Readonly<string[]> = [
     'Coinbase Wallet',
     'Google (Web3Auth)',
     'GoodDollar Wallet',
+    'Valora',
 ]
 
-export const WalletConnectLabels: Readonly<string[]> = ['GoodDollar Wallet', 'WalletConnect']
-
-export const WalletLinkKeys: Readonly<string[]> = [
-    '-walletlink:https://www.walletlink.org:Addresses',
-    '-walletlink:https://www.walletlink.org:session:secret',
-    '-walletlink:https://www.walletlink.org:session:id',
-]
+export const WalletConnectLabels: Readonly<string[]> = ['WalletConnect']
+export const WalletConnectV2Labels: Readonly<string[]> = ['Valora', 'GoodDollar Wallet']
 
 export type ActiveOnboard<T = any> = Omit<
     Web3ReactContextInterface<Web3Provider>,
@@ -120,7 +116,7 @@ export function useActiveOnboard<T = any>(): ActiveOnboardInterface<T> {
  */
 export function StoreOnboardState(wallets: WalletState[], activeChainId: string | undefined): void {
     if (isEmpty(wallets)) {
-        void AsyncStorage.removeItem('currentConnectWallet')
+        void AsyncStorage.safeRemove('currentConnectWallet')
         return
     }
 
@@ -230,7 +226,8 @@ export function useOnboardConnect(): OnboardConnectProps {
 
         // disconnect
         if (!isConnected && previouslyConnected.length && (tried || activated)) {
-            const toReload = WalletLabels.includes(previouslyConnected[0].label[0])
+            const prevConnected = previouslyConnected[0]?.label[0]
+            const toReload = WalletLabels.includes(prevConnected)
 
             StoreOnboardState(connectedWallets, '0x1')
             setActivated(false)
@@ -240,10 +237,24 @@ export function useOnboardConnect(): OnboardConnectProps {
             }
 
             const promises = []
-            const cleanup = async (key: string) => AsyncStorage.removeItem(key).catch(noop)
+            const cleanup = async (key: string) => AsyncStorage.safeRemove(key)
+            const cleanupList = async (regex: RegExp) => {
+                try {
+                    const keys = await AsyncStorage.getAllKeys()
+                    const filteredKeys = keys.filter((key) => regex.test(key))
+                    return Promise.all(filteredKeys.map((key) => cleanup(key)))
+                } catch (error) {
+                    sendData({ event: 'wallet_connect_v2', action: 'failed_disconnect_cleanup' })
+                    return
+                }
+            }
 
-            if (previouslyConnected[0].label[0] === 'Coinbase Wallet') {
-                promises.push(...WalletLinkKeys.map(cleanup))
+            if (prevConnected === 'Coinbase Wallet') {
+                promises.push(cleanupList(/-walletlink/))
+            }
+
+            if (WalletConnectV2Labels.includes(prevConnected)) {
+                promises.push(cleanupList(/wc@2/))
             }
 
             if (toReload) {

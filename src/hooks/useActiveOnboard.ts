@@ -153,7 +153,7 @@ export function useOnboardConnect(): OnboardConnectProps {
 
     const [previouslyConnected, loading]: readonly [any, boolean, any, any] = usePromise(
         async () => AsyncStorage.getItem('currentConnectWallet').then((value: any): any => value ?? {}),
-        []
+        [connectedWallets]
     )
 
     const updateStorage = (newChainId: string, currentWallet: WalletState[]) => {
@@ -267,8 +267,7 @@ export function useOnboardConnect(): OnboardConnectProps {
 
             void Promise.all(promises).then(() => restartApp()) // temporarily necessary, as there is a irrecoverable error/bug when not reloading
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [connectedWallets, tried, loading])
+    }, [connectedWallets, tried, loading, previouslyConnected])
 
     return { tried, activated }
 }

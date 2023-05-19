@@ -4252,6 +4252,7 @@ __metadata:
     https-browserify: 0.0.1
     husky: ^1.3.1
     identity-obj-proxy: 3.0.0
+    is-ua-webview: ^1.1.2
     jest-pnp-resolver: ^1.2.2
     jest-resolve: ^27.2.4
     jetifier: ^1.6.5
@@ -4272,7 +4273,7 @@ __metadata:
     mixpanel-browser: ^2.45.0
     mixpanel-react-native: ^2.1.0
     mnid: ^0.1.3
-    mobile-device-detect: ^0.2.3
+    mobile-device-detect: ^0.4.3
     moment: ^2.29.4
     moment-duration-format: ^2.3.2
     multiformats: ^9.6.4
@@ -23303,6 +23304,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-ua-webview@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "is-ua-webview@npm:1.1.2"
+  checksum: c8a976f2ce39a716d12024a904cc122fbd576bd4082952dac9badd3cceb34438d6bd81d292e2bab407bea92a188140339865a01ea4b82115fe6166fbf543f215
+  languageName: node
+  linkType: hard
+
 "is-unc-path@npm:^1.0.0":
   version: 1.0.0
   resolution: "is-unc-path@npm:1.0.0"
@@ -27736,10 +27744,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mobile-device-detect@npm:^0.2.3":
-  version: 0.2.3
-  resolution: "mobile-device-detect@npm:0.2.3"
-  checksum: 97ae951466e1f166642e3b64b4e5d77e5d13f8589e0d09550c5bb33bb455bceeb6ba72e64aa87b63c0a814b9b5013a93c17d3f2d89e5176e77bd4460128d39b5
+"mobile-device-detect@npm:^0.4.3":
+  version: 0.4.3
+  resolution: "mobile-device-detect@npm:0.4.3"
+  checksum: 2da4a9fce70d22555f419c13844275c5bb64896378163672d35878347825392426da256043f47e9e3395fa9fc9a07e7e5149ef17c18b1e43ad746a5bef42829f
   languageName: node
   linkType: hard
 

@@ -5,21 +5,18 @@ import React from 'react'
 import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
-// utils
-import { isIOSWeb } from '../../../lib/utils/platform'
-
 // assets
 import illustration from '../../../assets/UnsuportedBrowser.svg'
+import Config from '../../../config/config'
+import mustache from '../../../lib/utils/mustache'
 
 // localization
 
 export default ({ onDismiss }) => (
   <ExplanationDialog
-    title={t`Oops! This browser isn't supported`}
+    title={t`Oops! GoodWallet doesn't works from the web view`}
     text={
-      t`For best experience` +
-      `\n` +
-      (isIOSWeb ? t`on iOS please switch to Safari` : t`please switch to Chrome or Safari`)
+      t`For best experience` + `\n` + t`please open Your browser app``\n` + mustache(t`and go to {publicUrl}`, Config)
     }
     image={illustration}
     imageHeight={124}

@@ -23,6 +23,7 @@ import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import { handleLinks } from './lib/utils/linking'
 import useServiceWorker from './lib/hooks/useServiceWorker'
 import Config from './config/config'
+import { isWebView } from './lib/utils/platform'
 
 const { isDeltaApp } = Config
 const log = logger.child({ from: 'RouterSelector' })
@@ -76,6 +77,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   }, [isLoggedIn])
 
   const Router = isLoggedIn ? AppRouter : SignupRouter
+
   return (
     <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedIn}>
       <Router />
@@ -93,6 +95,7 @@ const RouterWrapper = () => {
   let [supported, checkBrowser] = useBrowserSupport({
     checkOnMounted: false,
     unsupportedPopup: UnsupportedBrowser,
+    onCheck: () => !isWebView,
   })
 
   useEffect(() => {

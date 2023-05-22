@@ -509,11 +509,12 @@ export const useWalletConnectSession = () => {
     [showApprove, chains, switchChain],
   )
 
-  const cleanup = async (key: string) => AsyncStorage.safeRemove(key)
+  const cleanup = async (key: string) => AsyncStorage.removeItem(key)
   const cleanupList = async (regex: RegExp) => {
     try {
       const keys = await AsyncStorage.getAllKeys()
       const filteredKeys = keys.filter(key => regex.test(key))
+
       return Promise.all(filteredKeys.map(key => cleanup(key)))
     } catch (error) {
       // log.error('failed_disconnect_cleanup', { error })
@@ -529,14 +530,18 @@ export const useWalletConnectSession = () => {
       if (isV2) {
         const activeSessions = connector?.getActiveSessions()
 
-        log.info('ending v2 sessions:', { activeSessions })
+        log.info('ending v2 sessions:', { activeSessions, topic: metadata.topic })
 
         if (Object.entries(activeSessions).length > 0) {
-          await connector.disconnectSession({ topic: metadata.topic, reason: getSdkError('USER_DISCONNECTED') })
+          const { topic } = metadata
+
+          if (activeSessions[topic]) {
+            await connector.disconnectSession({ topic, reason: getSdkError('USER_DISCONNECTED') })
+          }
         }
 
         // old wc2 storage items cause caching issues when trying to make a new connection to a previous used disconnected dapp
-        if (Object.entries(activeSessions).length === 0) {
+        if (Object.entries(activeSessions).length < 2) {
           await cleanupList(/wc@2/)
         }
 

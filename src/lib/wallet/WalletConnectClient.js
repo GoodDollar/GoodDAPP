@@ -542,7 +542,9 @@ export const useWalletConnectSession = () => {
 
         // old wc2 storage items cause caching issues when trying to make a new connection to a previous used disconnected dapp
         if (Object.entries(activeSessions).length < 2) {
-          await cleanupList(/wc@2/)
+           await AsyncStorage.getAllKeys().then(keys => keys.filter(wc2Re.test)
+             .then(keys => AsyncStorage.multiRemove(keys))
+             .catch(e => log.warn('failed_disconnect_cleanup', e.message, e))
         }
 
         setSession(undefined)

@@ -58,7 +58,6 @@ export const readWalletConnectUri = link => {
   }
 }
 
-
 let chainsCache = []
 const highlights = [122, 42220, 1, 100, 56, 137, 42161, 43114, 10, 250, 25, 2222, 8217, 1284, 1666600000]
 export const useChainsList = () => {
@@ -510,13 +509,37 @@ export const useWalletConnectSession = () => {
     [showApprove, chains, switchChain],
   )
 
+  const cleanup = async (key: string) => AsyncStorage.safeRemove(key)
+  const cleanupList = async (regex: RegExp) => {
+    try {
+      const keys = await AsyncStorage.getAllKeys()
+      const filteredKeys = keys.filter(key => regex.test(key))
+      return Promise.all(filteredKeys.map(key => cleanup(key)))
+    } catch (error) {
+      // log.error('failed_disconnect_cleanup', { error })
+      return
+    }
+  }
+
   const handleSessionDisconnect = useCallback(
     async connector => {
       const metadata = v2session || connector?.session?.peerMeta
       const isV2 = connector === cachedV2Connector
       log.info('ending session:', { metadata, session: connector?.session })
       if (isV2) {
-        await connector.disconnectSession({ topic: metadata.topic, reason: getSdkError('USER_DISCONNECTED') })
+        const activeSessions = connector?.getActiveSessions()
+
+        log.info('ending v2 sessions:', { activeSessions })
+
+        if (Object.entries(activeSessions).length > 0) {
+          await connector.disconnectSession({ topic: metadata.topic, reason: getSdkError('USER_DISCONNECTED') })
+        }
+
+        // old wc2 storage items cause caching issues when trying to make a new connection to a previous used disconnected dapp
+        if (Object.entries(activeSessions).length === 0) {
+          await cleanupList(/wc@2/)
+        }
+
         setSession(undefined)
         AsyncStorage.removeItem('walletconnect_requestedChain_v2')
       } else {
@@ -812,7 +835,7 @@ export const useWalletConnectSession = () => {
         (sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
       )
       if (sessionv2) {
-        log.debug('setting v2 session and active connector', { sessionv2 })
+        log.debug('setting v2 session and active connector', { sessionv2, cachedV2Connector })
         setConnector(cachedV2Connector)
         setSession({
           ...sessionv2.peer.metadata,

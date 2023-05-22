@@ -791,7 +791,7 @@ export class GoodWallet {
     }
 
     const subscribers = this.subscribers[eventName]
-    const id = Math.max(...Object.keys(subscribers).map(parseInt), 0) + 1 // Give next id in a raw to current subscriber
+    const id = Math.max(...Object.keys(subscribers).map(Number), 0) + 1 // Give next id in a raw to current subscriber
     this.subscribers[eventName][id] = cb
     return { id, eventName }
   }

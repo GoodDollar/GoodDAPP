@@ -509,19 +509,9 @@ export const useWalletConnectSession = () => {
     [showApprove, chains, switchChain],
   )
 
-  const cleanup = async (key: string) => AsyncStorage.removeItem(key)
-  const cleanupList = async (regex: RegExp) => {
-    try {
-      const keys = await AsyncStorage.getAllKeys()
-      const filteredKeys = keys.filter(key => regex.test(key))
-
-      return Promise.all(filteredKeys.map(key => cleanup(key)))
-    } catch (error) {
-      // log.error('failed_disconnect_cleanup', { error })
-      return
-    }
-  }
-
+  const wc2Re = /wc@2/
+  
+  bindAll(wc2Re, 'test')
   const handleSessionDisconnect = useCallback(
     async connector => {
       const metadata = v2session || connector?.session?.peerMeta

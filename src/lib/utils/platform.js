@@ -1,5 +1,6 @@
 import { Platform } from 'react-native'
-import { findKey, get, over } from 'lodash'
+import { get, over } from 'lodash'
+import isUAWebView from 'is-ua-webview'
 
 import {
   osName as detectedOS,
@@ -79,6 +80,21 @@ const iosSupportedWeb =
   isSafari ||
   ((osVersionInfo.major > 14 || (osVersionInfo.major === 14 && osVersionInfo.minor >= 4)) && (isChrome || isFirefox))
 
+export const isWebView = Platform.select({
+  default: () => false,
+  web: () => {
+    const { ReactNativeWebView, navigator } = window
+    const { userAgent, standalone } = navigator
+
+    const isUserAgentWV = isUAWebView(userAgent)
+    const isReactNativeWV = !!ReactNativeWebView
+    const isIOSWV = isUserAgentWV || (!standalone && !isSafariWeb)
+    const isAndroidWV = isUserAgentWV
+
+    return isReactNativeWV || (isIOSWeb ? isIOSWV : isAndroidWV)
+  },
+})()
+
 export {
   isMobileWeb,
   isIOSWeb,
@@ -89,38 +105,4 @@ export {
   isChrome,
   isFirefox,
   iosSupportedWeb,
-}
-
-// from https://github.com/f2etw/detect-inapp/blob/master/src/inapp.js
-export class DetectWebview {
-  BROWSER = {
-    messenger: /\bFB[\w_]+\/(Messenger|MESSENGER)/,
-    facebook: /\bFB[\w_]+\//,
-    twitter: /\bTwitter/i,
-    line: /\bLine\//i,
-    wechat: /\bMicroMessenger\//i,
-    puffin: /\bPuffin/i,
-    miui: /\bMiuiBrowser\//i,
-    instagram: /\bInstagram/i,
-    chrome: /\bCrMo\b|CriOS|Android.*Chrome\/[.0-9]* (Mobile)?/,
-    safari: /Version.*Mobile.*Safari|Safari.*Mobile|MobileSafari/,
-    ie: /IEMobile|MSIEMobile/,
-    firefox: /fennec|firefox.*maemo|(Mobile|Tablet).*Firefox|Firefox.*Mobile|FxiOS/,
-  }
-
-  ua = ''
-
-  constructor(useragent) {
-    this.ua = useragent
-  }
-
-  get browser() {
-    return findKey(this.BROWSER, regex => regex.test(this.ua)) || 'other'
-  }
-
-  get isInWebview() {
-    const rules = ['WebView', '(iPhone|iPod|iPad)(?!.*Safari/)', 'Android.*(wv|.0.0.0)']
-    const regex = new RegExp(`(${rules.join('|')})`, 'ig')
-    return Boolean(this.ua.match(regex))
-  }
 }

@@ -316,6 +316,7 @@ exports[`Profile matches snapshot 1`] = `
                             readOnly={true}
                             spellCheck={true}
                             type="text"
+                            value=""
                           />
                           <div
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
@@ -364,6 +365,7 @@ exports[`Profile matches snapshot 1`] = `
                             readOnly={true}
                             spellCheck={true}
                             type="text"
+                            value=""
                           />
                           <div
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"

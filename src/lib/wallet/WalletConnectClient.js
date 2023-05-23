@@ -9,7 +9,7 @@ import { Web3Wallet } from '@walletconnect/web3wallet'
 import { parseUri, getSdkError } from '@walletconnect/utils'
 
 import Web3 from 'web3'
-import { bindAll, defaults, first, last, maxBy, sortBy, sample } from 'lodash'
+import { bindAll, first, last, maxBy, defaults, sortBy, sample } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'

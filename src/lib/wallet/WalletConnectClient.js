@@ -9,7 +9,7 @@ import { Web3Wallet } from '@walletconnect/web3wallet'
 import { parseUri, getSdkError } from '@walletconnect/utils'
 
 import Web3 from 'web3'
-import { first, last, maxBy, defaults, sortBy, sample } from 'lodash'
+import { bindAll, defaults, first, last, maxBy, sortBy, sample } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
@@ -90,8 +90,6 @@ export const useChainsList = () => {
 
   return chains
 }
-
-
 
 const getWeb3 = async (chainDetails, retry = 5) => {
   const rpc = getChainRpc(chainDetails)
@@ -246,6 +244,7 @@ export const useWalletConnectSession = () => {
       )
       let requestedChainId = requestedChainIdV1 || requestedChainIdV2 || Number(wallet.networkId)
       const appUrl = metadata.url
+
       if (appUrl.includes('gooddapp') || appUrl.includes('gooddollar.org')) {
         // force Celo when connecting to gooddapp
         requestedChainId = 42220
@@ -368,7 +367,6 @@ export const useWalletConnectSession = () => {
       let explorer = first(chainDetails.explorers)?.url
 
       log.info('handleTxRequest', { message, method, params, metadata, connector, chainDetails })
-
       const [decodedTx, balance] = await Promise.all([
         decodeTx(message, explorer, web3, chainDetails.chainId),
         web3.eth.getBalance(wallet.account),
@@ -417,7 +415,7 @@ export const useWalletConnectSession = () => {
         onReject: () => rejectRequest(connector, payload.id, payload.topic),
       })
     },
-    [wallet, chain, chains, showApprove, decodeTx],
+    [wallet, chain, chains, showApprove, decodeTx, v2session],
   )
 
   const handleScanRequest = useCallback(
@@ -514,7 +512,7 @@ export const useWalletConnectSession = () => {
     },
     [showApprove, chains, switchChain],
   )
-  
+
   const handleSessionDisconnect = useCallback(
     async connector => {
       const metadata = v2session || connector?.session?.peerMeta
@@ -535,9 +533,10 @@ export const useWalletConnectSession = () => {
 
         // old wc2 storage items cause caching issues when trying to make a new connection to a previous used disconnected dapp
         if (Object.entries(activeSessions).length < 2) {
-           await AsyncStorage.getAllKeys().then(keys => keys.filter(wc2Re.test))
-             .then(keys => AsyncStorage.multiRemove(keys))
-             .catch(e => log.warn('failed_disconnect_cleanup', e.message, e))
+          await AsyncStorage.getAllKeys()
+            .then(keys => keys.filter(wc2Re.test))
+            .then(keys => AsyncStorage.multiRemove(keys))
+            .catch(e => log.warn('failed_disconnect_cleanup', e.message, e))
         }
 
         setSession(undefined)
@@ -647,7 +646,7 @@ export const useWalletConnectSession = () => {
       activeConnector,
     ],
   )
-  
+
   const connect = useCallback(
     async (uriOrSession, chainId) => {
       if (wallet) {
@@ -832,9 +831,10 @@ export const useWalletConnectSession = () => {
 
   const setV2Session = useCallback(
     sessionv2 => {
-      let requestedChainIdV2 = Number(
-        (sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
-      )
+      let requestedChainIdV2 =
+        sessionv2?.chainId ??
+        Number((sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1])
+      log.info('settingv2session', { sessionv2, requestedChainIdV2, chain })
       if (sessionv2) {
         log.debug('setting v2 session and active connector', { sessionv2, cachedV2Connector })
         setConnector(cachedV2Connector)
@@ -847,7 +847,7 @@ export const useWalletConnectSession = () => {
         AsyncStorage.setItem('walletconnect_requestedChain_v2', requestedChainIdV2)
       }
     },
-    [setSession, setConnector, wallet],
+    [setSession, setConnector, wallet, chain],
   )
   const reconnect = useCallback(async () => {
     log.debug('reconnect:', { activeConnector, isInitialized, cachedV2Connector })
@@ -887,13 +887,20 @@ export const useWalletConnectSession = () => {
   }, [])
 
   useEffect(() => {
+    if (v2session && chain && chain?.chainId !== v2session?.chainId) {
+      const activeSessions = cachedV2Connector.getActiveSessions()
+      const sessionv2 = first(Object.values(activeSessions))
+      sessionv2.chainId = chain.chainId
+
+      setV2Session(sessionv2)
+    }
     const chainDetails = chains.find(
-      _ => Number(_.chainId) === Number(activeConnector?.session?.chainId || v2session?.chainId),
+      _ => Number(_.chainId) === Number(chain?.chainId || activeConnector?.session?.chainId || v2session?.chainId),
     )
-    
+
     log.debug('setting chain:', { chainDetails })
-    setChain(chainDetails)   
-  }, [activeConnector, chains, v2session, setChain, handleTxRequest])
+    setChain(chainDetails)
+  }, [activeConnector, chains, setChain, handleTxRequest])
 
   useEffect(() => {
     ;(async () => {
@@ -912,7 +919,7 @@ export const useWalletConnectSession = () => {
 
   const isConnected = activeConnector?.connected || v2session
 
-  console.log({
+  log.debug('walletconnect active connector/sessions', {
     activeConnector,
     isConnected,
     session: activeConnector?.session || v2session,

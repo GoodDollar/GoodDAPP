@@ -24,7 +24,7 @@ const useEnrollmentIdentifier = () => {
       return {
         faceIdentifier: v2Identifier,
         chainId: wallet.networkId,
-        v1FaceIdentifier: v1Identifier,
+        v1FaceIdentifier: isFVFlow ? v2Identifier : v1Identifier,
       }
     }
     return {}

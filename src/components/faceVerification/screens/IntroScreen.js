@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useContext, useEffect, useMemo } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Platform, View } from 'react-native'
 
 import { get } from 'lodash'
@@ -57,52 +57,54 @@ const WalletDeletedPopupText = ({ styles }) => (
   </View>
 )
 
-const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
-  <Wrapper>
-    <Section style={styles.topContainer} grow>
-      <View style={styles.mainContent}>
-        <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
-          {firstName && `${firstName},`}
-          <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
-            {firstName ? `\n` : ''}
-            {'Verify you are a real\nlive person'}
+const Intro = ({ styles, ready, onVerify, onLearnMore }) => {
+  const { fullName } = useProfile()
+  const firstName = getFirstWord(fullName)
+
+  return (
+    <Wrapper>
+      <Section style={styles.topContainer} grow>
+        <View style={styles.mainContent}>
+          <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
+            {firstName && `${firstName},`}
+            <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
+              {firstName ? `\n` : ''}
+              {'Verify you are a real\nlive person'}
+            </Section.Text>
+          </Section.Title>
+          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
+            {t`Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any third party`}
           </Section.Text>
-        </Section.Title>
-        <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
-          {t`Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any third party`}
-        </Section.Text>
-        <Section.Text
-          fontWeight="bold"
-          fontSize={18}
-          lineHeight={26}
-          textDecorationLine="underline"
-          style={styles.learnMore}
-          onPress={onLearnMore}
-        >
-          {t`Learn More`}
-        </Section.Text>
-        <View style={styles.illustration}>
-          <FashionShootSVG />
+          <Section.Text
+            fontWeight="bold"
+            fontSize={18}
+            lineHeight={26}
+            textDecorationLine="underline"
+            style={styles.learnMore}
+            onPress={onLearnMore}
+          >
+            {t`Learn More`}
+          </Section.Text>
+          <View style={styles.illustration}>
+            <FashionShootSVG />
+          </View>
+          <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
+            {t`OK, VERIFY ME`}
+          </CustomButton>
         </View>
-        <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
-          {t`OK, VERIFY ME`}
-        </CustomButton>
-      </View>
-    </Section>
-  </Wrapper>
-)
+      </Section>
+    </Wrapper>
+  )
+}
 
 const IntroScreen = ({ styles, screenProps, navigation }) => {
-  const { fullName } = useProfile()
   const { showDialog } = useDialog()
-
-  const { firstName, isFVFlow, isFVFlowReady, faceIdentifier: fvSignerV2 } = useContext(FVFlowContext)
+  const { isFVFlow, isFVFlowReady, faceIdentifier: fvSignerV2 } = useContext(FVFlowContext)
   const { screenState, goToRoot, navigateTo, pop, push } = screenProps
   const isValid = get(screenState, 'isValid', false)
 
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSignerV1 } = useEnrollmentIdentifier()
   const fvSigner = isFVFlow ? fvSignerV2 : fvSignerV1
-  const userName = useMemo(() => (isFVFlow ? firstName : getFirstWord(fullName)), [isFVFlow, firstName, fullName])
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 
@@ -162,7 +164,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
-    log.debug({ enrollmentIdentifier, userName, isFVFlow, isValid, isFVFlowReady })
+    log.debug({ enrollmentIdentifier, isFVFlow, isValid, isFVFlowReady })
 
     if (isValid) {
       const state = { isValid }
@@ -202,15 +204,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     )
   }
 
-  return (
-    <Intro
-      styles={styles}
-      firstName={userName}
-      onLearnMore={openPrivacy}
-      onVerify={handleVerifyClick}
-      ready={false === disposing}
-    />
-  )
+  return <Intro styles={styles} onLearnMore={openPrivacy} onVerify={handleVerifyClick} ready={false === disposing} />
 }
 
 const getStylesFromProps = ({ theme }) => ({

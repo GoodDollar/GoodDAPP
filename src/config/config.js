@@ -108,6 +108,7 @@ const notifyOpts = {
 }
 
 const torusNetwork = env.REACT_APP_TORUS_NETWORK || 'testnet'
+const isDeltaApp = env.REACT_APP_DELTA === 'true'
 
 const Config = {
   env: appEnv,
@@ -179,6 +180,7 @@ const Config = {
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
   torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
+  torusRedirectUrl: isDeltaApp ? env.REACT_APP_TORUS_REDIRECT_URL || publicUrl : publicUrl, // REACT_APP_TORUS_REDIRECT_URL avalable for Delta ONLY
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
   recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
@@ -210,7 +212,7 @@ const Config = {
   defaultTxGas: parseInt(env.REACT_APP_DEFAULT_TX_GAS || 1000000),
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
-  isDeltaApp: env.REACT_APP_DELTA === 'true',
+  isDeltaApp,
 }
 
 global.config = Config

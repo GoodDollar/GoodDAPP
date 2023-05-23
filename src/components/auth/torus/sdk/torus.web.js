@@ -3,9 +3,9 @@ import { defaults } from 'lodash'
 
 // should be non-arrow function to be invoked with new
 function Torus(Config, options) {
-  const { publicUrl } = Config
+  const { torusRedirectUrl } = Config
   const popupMode = options.uxMode === 'popup'
-  const baseUrl = publicUrl + (popupMode ? '/torus' : '')
+  const baseUrl = torusRedirectUrl + (popupMode ? '/torus' : '')
   const redirectPathName = popupMode ? 'redirect' : 'Welcome/Auth'
 
   // setting values for url & redirect if  aren't overridden

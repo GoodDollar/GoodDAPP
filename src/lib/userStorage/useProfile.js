@@ -11,9 +11,13 @@ const useProfileHook = (fields, allowRefresh = false, display = false) => {
 
   const getProfile = useCallback(
     (fields, display) => {
-      if (!userStorage) {
+      // the function checks are for when in FV-Standalone flow
+      // when redirect/reload within flow it cam lose the context if it is fvFlow or not since it is using
+      // some shared components with the regular flow
+      if (!userStorage || !userStorage.getDisplayProfile) {
         return {}
       }
+
       const profile = display ? userStorage.getDisplayProfile() : userStorage.getPrivateProfile()
 
       return fields ? pick(profile, fields) : profile

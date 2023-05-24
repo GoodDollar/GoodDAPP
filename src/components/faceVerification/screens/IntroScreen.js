@@ -93,7 +93,7 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
 )
 
 const IntroScreen = ({ styles, screenProps, navigation }) => {
-  const { fullName } = useProfile() || {}
+  const { fullName } = useProfile()
   const { showDialog } = useDialog()
 
   const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
@@ -101,7 +101,11 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const isValid = get(screenState, 'isValid', false)
 
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
-  const userName = useMemo(() => (isFVFlow ? firstName : getFirstWord(fullName)), [isFVFlow, firstName, fullName])
+  const userName = useMemo(() => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''), [
+    isFVFlow,
+    firstName,
+    fullName,
+  ])
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 

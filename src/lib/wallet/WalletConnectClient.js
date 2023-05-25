@@ -765,9 +765,9 @@ export const useWalletConnectSession = () => {
     })
     cachedV2Connector.on('session_ping', event => log.info('v2 incoming session_ping:', event))
     cachedV2Connector.on('session_event', event => log.info('v2 incoming session_event:', event))
-    cachedV2Connector.on('session_delete', event => log.info('v2 incoming session_delete:', event))
+    cachedV2Connector.on('session_delete', event => handleSessionDisconnect(cachedV2Connector))
     cachedV2Connector.core.pairing.events.on('pairing_ping', event => log.info('v2 incoming pairing_ping:', event))
-    cachedV2Connector.core.pairing.events.on('pairing_delete', event => log.info('v2 incoming pairing_delete:', event))
+    cachedV2Connector.core.pairing.events.on('pairing_delete', event => handleSessionDisconnect(cachedV2Connector))
     cachedV2Connector.core.pairing.events.on('pairing_expire', event => log.info('v2 incoming pairing_expire:', event))
     cachedV2Connector.initialized = true
     reconnect()

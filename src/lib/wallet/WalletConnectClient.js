@@ -236,13 +236,13 @@ export const useWalletConnectSession = () => {
   const handleSessionRequest = useCallback(
     (connector, payload) => {
       const isV2 = connector === cachedV2Connector
-      log.info('WC2Events&Sessions -- handleSessionRequest', { isV2, payload })
       const session = connector.session
       const metadata = payload?.params?.[0]?.peerMeta || payload?.params?.proposer?.metadata
       let requestedChainIdV1 = Number(payload?.params?.[0]?.chainId)
       let requestedChainIdV2 = Number(
         (payload?.params?.requiredNamespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
       )
+      log.debug('WC2Events&Sessions -- handleSessionRequest', { isV2, payload, session, metadata })
       let requestedChainId = requestedChainIdV1 || requestedChainIdV2 || Number(wallet.networkId)
       const appUrl = metadata.url
 
@@ -518,7 +518,7 @@ export const useWalletConnectSession = () => {
     async connector => {
       const metadata = v2session || connector?.session?.peerMeta
       const isV2 = connector === cachedV2Connector
-      log.info('ending session:', { metadata, session: connector?.session })
+      log.debug('WC2Events&Sessions: ending session:', { metadata, session: connector?.session })
       if (isV2) {
         const activeSessions = connector?.getActiveSessions()
 
@@ -760,28 +760,28 @@ export const useWalletConnectSession = () => {
     cachedV2Connector.on('session_proposal', event => handleSessionRequest(cachedV2Connector, event))
     cachedV2Connector.on('session_request', event => {
       const sessionv2 = cachedV2Connector.getActiveSessions()[event.topic]
-      log.info('WC2Events&Sessions -- v2 incoming session_request:', { event, sessionv2 })
+      log.debug('WC2Events&Sessions -- v2 incoming session_request:', { event, sessionv2 })
       setV2Session(sessionv2) //set latest request as the active session, required for switchchain
       handleCallRequest(cachedV2Connector, event)
     })
-    cachedV2Connector.on('session_ping', event => log.info('WC2Events&Sessions -- v2 incoming session_ping:', event))
+    cachedV2Connector.on('session_ping', event => log.debug('WC2Events&Sessions -- v2 incoming session_ping:', event))
     cachedV2Connector.on('session_update', event =>
-      log.info('WC2Events&Sessions -- v2 incoming session_update:', event),
+      log.debug('WC2Events&Sessions -- v2 incoming session_update:', event),
     )
-    cachedV2Connector.on('session_event', event => log.info('WC2Events&Sessions -- v2 incoming session_event:', event))
+    cachedV2Connector.on('session_event', event => log.debug('WC2Events&Sessions -- v2 incoming session_event:', event))
     cachedV2Connector.on('session_delete', event => {
-      log.info('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })
+      log.debug('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })
       handleSessionDisconnect(cachedV2Connector)
     })
     cachedV2Connector.core.pairing.events.on('pairing_ping', event =>
-      log.info('WC2Events&Sessions -- v2 incoming pairing_ping:', event),
+      log.debug('WC2Events&Sessions -- v2 incoming pairing_ping:', event),
     )
     cachedV2Connector.core.pairing.events.on('pairing_delete', event => {
-      log.info('WC2Events&Sessions -- v2 pairing delete:', { cachedV2Connector, event })
+      log.debug('WC2Events&Sessions -- v2 pairing delete:', { cachedV2Connector, event })
       handleSessionDisconnect(cachedV2Connector)
     })
     cachedV2Connector.core.pairing.events.on('pairing_expire', event =>
-      log.info('WC2Events&Sessions -- v2 incoming pairing_expire:', event),
+      log.debug('WC2Events&Sessions -- v2 incoming pairing_expire:', event),
     )
     cachedV2Connector.initialized = true
     reconnect()

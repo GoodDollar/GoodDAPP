@@ -236,7 +236,7 @@ export const useWalletConnectSession = () => {
   const handleSessionRequest = useCallback(
     (connector, payload) => {
       const isV2 = connector === cachedV2Connector
-      log.info('WC2EventsAndSessions -- handleSessionRequest', { isV2, payload })
+      log.info('WC2Events&Sessions -- handleSessionRequest', { isV2, payload })
       const session = connector.session
       const metadata = payload?.params?.[0]?.peerMeta || payload?.params?.proposer?.metadata
       let requestedChainIdV1 = Number(payload?.params?.[0]?.chainId)
@@ -522,10 +522,8 @@ export const useWalletConnectSession = () => {
       if (isV2) {
         const activeSessions = connector?.getActiveSessions()
 
-        log.info('ending v2 sessions:', { activeSessions, topic: metadata.topic })
-
         if (Object.entries(activeSessions).length > 0) {
-          const { topic } = metadata
+          const { topic } = metadata || {}
 
           if (activeSessions[topic]) {
             await connector.disconnectSession({ topic, reason: getSdkError('USER_DISCONNECTED') })
@@ -755,7 +753,7 @@ export const useWalletConnectSession = () => {
     }
     const sessions = cachedV2Connector.getActiveSessions()
     log.debug('v2 init active sessions:', { sessions })
-    log.info('WC2EventsAndSessions:', { sessions })
+    log.info('WC2Events&Sessions:', { sessions })
     // Object.values(sessions).map(s =>
     //   cachedV2Connector.disconnectSession({ topic: s.topic, reason: getSdkError('USER_DISCONNECTED') }),
     // )
@@ -771,19 +769,23 @@ export const useWalletConnectSession = () => {
       log.info('WC2Events&Sessions -- v2 incoming session_update:', event),
     )
     cachedV2Connector.on('session_event', event => log.info('WC2Events&Sessions -- v2 incoming session_event:', event))
-    cachedV2Connector.on('session_delete', event => handleSessionDisconnect(cachedV2Connector))
+    cachedV2Connector.on('session_delete', event => {
+      log.info('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })
+      handleSessionDisconnect(cachedV2Connector)
+    })
     cachedV2Connector.core.pairing.events.on('pairing_ping', event =>
       log.info('WC2Events&Sessions -- v2 incoming pairing_ping:', event),
     )
-    cachedV2Connector.core.pairing.events.on('pairing_delete', event =>
-      log.info('WC2Events&Sessions -- v2 incoming pairing_delete:', event),
-    )
+    cachedV2Connector.core.pairing.events.on('pairing_delete', event => {
+      log.info('WC2Events&Sessions -- v2 pairing delete:', { cachedV2Connector, event })
+      handleSessionDisconnect(cachedV2Connector)
+    })
     cachedV2Connector.core.pairing.events.on('pairing_expire', event =>
       log.info('WC2Events&Sessions -- v2 incoming pairing_expire:', event),
     )
     cachedV2Connector.initialized = true
     reconnect()
-  }, [isInitialized, reconnect, setV2Session, handleCallRequest, handleSessionRequest])
+  }, [isInitialized, reconnect, cachedV2Connector, setV2Session, handleCallRequest, handleSessionRequest])
 
   //v1 connector initialize
   const initializeV1 = connector => {

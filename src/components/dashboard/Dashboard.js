@@ -48,6 +48,7 @@ import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
 import { IconButton, Text } from '../../components/common'
 import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
+import Config from '../../config/config'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -238,6 +239,7 @@ const Dashboard = props => {
   const [getCurrentTab] = usePropsRefs([activeTab])
   const [price, showPrice] = useGoodDollarPrice()
   const { currentNetwork } = useSwitchNetwork()
+  const { bridgeEnabled } = Config
 
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
@@ -837,7 +839,7 @@ const Dashboard = props => {
                 <View style={styles.multiBalance}>
                   <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
                   <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
-                    <BridgeButton onPress={goToBridge} />
+                    {bridgeEnabled && <BridgeButton onPress={goToBridge} />}
                   </Section.Text>
                   <BalanceAndSwitch balance={celoBalance} networkName="Celo" />
                 </View>

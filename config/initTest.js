@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto'
 import any from 'promise.any'
 import { assign, noop } from 'lodash'
-import { Crypto } from 'node-webcrypto-ossl'
+import Crypto from 'crypto'
 import { TextEncoder, TextDecoder } from 'util'
 
 import '../src/lib/shim'
@@ -19,7 +19,7 @@ if (typeof window !== 'undefined') {
     })
   }
 
-  window.crypto = new Crypto()
+  window.crypto = Crypto.webcrypto
   window.matchMedia = () => ({ matches: true });
   assign(window, { TextDecoder, TextEncoder })
 }

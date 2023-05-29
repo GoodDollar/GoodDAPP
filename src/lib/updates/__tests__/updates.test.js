@@ -1,7 +1,7 @@
 // @flow
 import Config from '../../../config/config'
 import userStorage from '../../userStorage/UserStorage'
-import update from '../index'
+import { update } from '../'
 
 jest.setTimeout(30000)
 
@@ -14,7 +14,7 @@ describe('Updates', () => {
     expect(updatesDataBefore.lastVersionUpdate).toBeUndefined()
     expect(updatesDataBefore.status).toBeUndefined()
 
-    await update(userStorage.wallet, userStorage)
+    await update({ fuse: userStorage.wallet }, userStorage)
 
     const updatesDataAfter = (await userStorage.userProperties.get('updates')) || {}
     expect(typeof updatesDataAfter.lastUpdate === 'string').toBeTruthy()

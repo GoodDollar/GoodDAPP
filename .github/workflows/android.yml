@@ -37,7 +37,7 @@ jobs:
     steps:
       - name: Pull dev vercel secrets
         if: ${{ !endsWith(github.ref, '/next') }}
-        run: vercel env pull --yes --environment=preview --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=preview --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV

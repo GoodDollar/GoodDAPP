@@ -35,10 +35,13 @@ jobs:
       endsWith(github.ref, '/next') &&
       !contains(github.event.head_commit.message, 'release prod')
     steps:
+      - name: Pull dev vercel secrets
+        if: ${{ !endsWith(github.ref, '/next') }}
+        run: vercel env pull --yes --environment=preview --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
-          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
+          cat .vercel/.env.preview.local >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
@@ -47,7 +50,7 @@ jobs:
         if: ${{ endsWith(github.ref, '/staging') }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
-          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
+          cat .vercel/.env.preview.local >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
@@ -55,7 +58,8 @@ jobs:
         if: ${{ endsWith(github.ref, '/next') }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
-          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          cat .vercel/.env.production.local >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV

@@ -14,9 +14,12 @@ import mustache from '../../../lib/utils/mustache'
 
 export default ({ onDismiss }) => (
   <ExplanationDialog
-    title={t`Oops! GoodWallet doesn't works from the web view`}
+    title={t`Oops! GoodWallet might not work correctly on webviews`}
     text={
-      t`For best experience` + `\n` + t`please open Your browser app``\n` + mustache(t`and go to {publicUrl}`, Config)
+      t`For best experience` +
+      `\n` +
+      t`please switch to your browser app``\n` +
+      mustache(t`and go to {publicUrl}`, Config)
     }
     image={illustration}
     imageHeight={124}

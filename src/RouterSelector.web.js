@@ -24,6 +24,8 @@ import { handleLinks } from './lib/utils/linking'
 import useServiceWorker from './lib/hooks/useServiceWorker'
 import Config from './config/config'
 import { isWebView } from './lib/utils/platform'
+import AsyncStorage from './lib/utils/asyncStorage'
+import { BROWSER_CHECKED } from './lib/constants/localStorage'
 
 const { isDeltaApp } = Config
 const log = logger.child({ from: 'RouterSelector' })
@@ -110,13 +112,19 @@ const RouterWrapper = () => {
   }, [])
 
   useEffect(() => {
-    // once user is logged in check if their browser is supported and show warning if not
-    if (!isDeltaApp && isLoggedInRouter && supported === false) {
-      checkBrowser()
+    const check = async () => {
+      // once user is logged in check if their browser is supported and show warning if not
+      const didCheck = await AsyncStorage.getItem(BROWSER_CHECKED)
+      if (!didCheck && !isDeltaApp && isLoggedInRouter && supported === false) {
+        checkBrowser()
+      }
+
+      AsyncStorage.setItem(BROWSER_CHECKED, true)
+      setIgnoreUnsupported(true)
+      setCheckedForBrowserSupport(true)
     }
 
-    setIgnoreUnsupported(true)
-    setCheckedForBrowserSupport(true)
+    check()
   }, [isLoggedInRouter, checkBrowser, setIgnoreUnsupported, setCheckedForBrowserSupport])
 
   // starting animation once we're checked for browser support and awaited

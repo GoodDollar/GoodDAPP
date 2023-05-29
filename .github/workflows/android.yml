@@ -35,13 +35,9 @@ jobs:
       endsWith(github.ref, '/next') &&
       !contains(github.event.head_commit.message, 'release prod')
     steps:
-      - name: Pull dev vercel secrets
-        if: ${{ !endsWith(github.ref, '/next') }}
-        run: vercel pull --yes --environment=preview --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
-          cat .vercel/.env.preview.local >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
@@ -50,7 +46,6 @@ jobs:
         if: ${{ endsWith(github.ref, '/staging') }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
-          cat .vercel/.env.preview.local >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
@@ -58,8 +53,6 @@ jobs:
         if: ${{ endsWith(github.ref, '/next') }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          cat .vercel/.env.production.local >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
@@ -79,6 +72,14 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           env_name="${{ env.ENV }}"
+          if [[ "${{github.ref_name }}" == "next"]]; then
+           vercel_env_name="production"
+           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          else 
+            vercel_env_name="preview"
+            vercel pull --yes --environment=$vercel_env_name --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
+          fi
+          cat .vercel/.env.$vercel_env_name.local >> .env.$env_name
           echo $env_name
           cat .env.$env_name
           echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"

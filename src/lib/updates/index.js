@@ -16,7 +16,7 @@ const log = logger.child({ from: 'updates' })
 
 const updates = [upgradeProfile, uploadAvatars, claimGOOD, verifyCRM, fixRegMethod, resetRefund, syncWhitelist]
 
-const update = async (wallets, userStorage) => {
+export const update = async (wallets, userStorage) => {
   const updatesData = (await userStorage.userProperties.get('updates')) || {
     lastUpdate: new Date(0),
     status: {},

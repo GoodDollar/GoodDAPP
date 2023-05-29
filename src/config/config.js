@@ -213,7 +213,7 @@ const Config = {
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
   isDeltaApp,
-  bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED === 'true'
+  bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED !== 'false'
 }
 
 global.config = Config

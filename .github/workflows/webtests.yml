@@ -32,8 +32,8 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 14
-      - uses: actions/checkout@v2
+          node-version: 18
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -67,7 +67,7 @@ jobs:
       wallet-chunk-id: ${{ steps['set-test-chunk-ids'].outputs['wallet-chunk-id'] }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: set-test-chunks
         name: Set Chunks
         run: echo "::set-output name=test-chunks::$(find ./src -path \*/__tests__/*.js | sort | jq -R -s -c 'split("\n")[:-1] | map(select(contains("__util") == false))' | jq -cM '[_nwise(length / 10 | floor)]')"
@@ -101,10 +101,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "wallet chunk id $WALLET_CHUNK chunk ${{ matrix.chunk }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
           cache: 'yarn'
       - uses: actions/setup-python@v4
         with:

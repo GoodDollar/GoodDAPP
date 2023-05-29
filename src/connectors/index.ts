@@ -63,10 +63,11 @@ export const connectOptions = {
         },
     ],
     appMetadata: {
-        name: 'GoodSwap',
+        name: 'GoodDapp',
         icon: LogoSmall,
-        description: 'GoodDollar Swap Interface',
+        description: 'GoodDollar Protocol Interface',
         recommendedInjectedWallets: [{ name: 'MetaMask', url: 'https://metamask.io' }],
+        explore: 'https://gooddapp.org',
     },
     accountCenter: {
         desktop: {

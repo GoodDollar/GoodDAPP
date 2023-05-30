@@ -85,7 +85,20 @@ const SwapCore = memo(() => {
     useEffect(() => {
         clearTimeout(metaTimer.current)
         if (!account || !web3 || !SupportedChainId[Number(chainId)] || !lastEdited) return
+
+        const symbol = swapPair.token.getSymbol()
+        if (!symbol) return
+
         const { field } = lastEdited
+        const value = field === 'external' ? swapPair.value : swapValue
+        const setOtherValue = field === 'external' ? setSwapValue : handleSetPairValue
+
+        if (!/[^0.]/.exec(value)) {
+            setOtherValue('')
+            setMeta(undefined)
+            return
+        }
+
         const getMeta = buying
             ? field === 'external'
                 ? getBuyMeta
@@ -93,16 +106,6 @@ const SwapCore = memo(() => {
             : field === 'internal'
             ? getSellMeta
             : getSellMetaReverse
-        const value = field === 'external' ? swapPair.value : swapValue
-        const symbol = swapPair.token.getSymbol()
-        const setOtherValue = field === 'external' ? setSwapValue : handleSetPairValue
-
-        if (!symbol) return
-        if (!/[^0.]/.exec(value)) {
-            setOtherValue('')
-            setMeta(undefined)
-            return
-        }
 
         const timer = (metaTimer.current = setTimeout(async () => {
             buying && field === 'external' ? setCalcExternal(true) : setCalcInternal(true)
@@ -126,7 +129,7 @@ const SwapCore = memo(() => {
 
             buying && field === 'external' ? setCalcExternal(false) : setCalcInternal(false)
         }, 400))
-    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value, swapPair, swapValue, handleSetPairValue])
+    }, [account, chainId, lastEdited, buying, web3, slippageTolerance.value])
     const [approving, setApproving] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [approved, setApproved] = useState(false)

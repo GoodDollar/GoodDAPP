@@ -1262,8 +1262,10 @@ export class GoodWallet {
         ? inviteCode
         : this.wallet.utils.fromUtf8(bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength))
 
+      const myCodeUtf8 = this.wallet.utils.toUtf8(myCode)
+
       // prevent bug of self invite
-      if (myCode === inviter) {
+      if (myCodeUtf8 === inviter) {
         inviter = undefined
       }
 
@@ -1288,13 +1290,13 @@ export class GoodWallet {
         log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })
 
         await this.sendTransaction(tx).catch(e => {
-          log.warn('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
+          log.error('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
           throw e
         })
       }
 
       // already registered
-      return this.wallet.utils.toUtf8(myCode)
+      return myCodeUtf8
     } catch (e) {
       log.warn('joinInvites failed:', e.message, e)
       throw e

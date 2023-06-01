@@ -508,6 +508,8 @@ export const useWalletConnectSession = () => {
           event: { name: 'chainChanged', data: [chainDetails.chainId] },
           chainId: `eip155:${chainDetails.chainId}`,
         })
+        v2session.chainId = chainDetails.chainId
+        setSession(v2session) //make sure chainId in UI dropdown changes        
         log.debug('switching chain notification v2 done', { chainDetails, v2session })
         AsyncStorage.setItem('walletconnect_requestedChain_v2', chainDetails.chainId)
       }

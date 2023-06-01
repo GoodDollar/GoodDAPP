@@ -14,12 +14,11 @@ import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
 import api from '../API/api'
-import { getNetworkName, NETWORK_ID } from '../constants/network'
+import { getNetworkName, type NETWORK } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
 import { setChainId } from '../analytics/analytics'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-type NETWORK = $Keys<typeof NETWORK_ID>
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -271,25 +270,20 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
 
-  const getContractsNetwork = (network: 'fuse' | 'celo') => {
-    network = network.toLowerCase()
+  const getContractsNetwork = (network: NETWORK) => {
+    const net = network.toLowerCase()
     const env = Config.network.split('-')[0]
 
-    let contractsNetwork
     switch (env) {
       default:
       case 'fuse':
       case 'development':
-        contractsNetwork = network === 'fuse' ? 'fuse' : `development-${network}`
-        break
+        return net === 'fuse' ? 'fuse' : `development-${net}`
       case 'staging':
-        contractsNetwork = network === 'fuse' ? 'staging' : `${env}-${network}`
-        break
+        return net === 'fuse' ? 'staging' : `${env}-${net}`
       case 'production':
-        contractsNetwork = network === 'fuse' ? 'production' : `${env}-${network}`
-        break
+        return net === 'fuse' ? 'production' : `${env}-${net}`
     }
-    return contractsNetwork
   }
 
   const switchNetwork = useCallback(

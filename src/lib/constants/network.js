@@ -7,6 +7,7 @@ export const NETWORK_ID = {
   MAINNET: 1,
   ROPSTEN: 3,
   RINKEBY: 4,
+  GOERLI: 5,
   RSK: 30,
   RSK_TESTNET: 31,
   KOVAN: 42,
@@ -17,6 +18,8 @@ export const NETWORK_ID = {
   DEVELOP: 4447,
   CELO: 42220,
 }
+
+export type NETWORK = $Keys<typeof NETWORK_ID>
 
 /**
  * Returns the network name based on the id provided or UNDEFINED if it's not in the dictionary

@@ -165,21 +165,26 @@ export const useWalletConnectSession = () => {
     async (tx, explorer, web3, chainId) => {
       log.info('decodetx:', { tx, chain, explorer, chainId })
       if (tx.data !== '0x' && explorer) {
-        log.info('fetching contract data', { chain, explorer, contract: tx.to })
-        const proxyOrAddress = await wallet.getContractProxy(tx.to, web3).catch()
-        const result = await api.getContractAbi(proxyOrAddress || tx.to, chainId, explorer).catch(e => {
-          log.error('failed fetching contract abi:', e.message, e, { chainId, explorer, contract: tx.to })
-        })
-        log.info('got contract data', { result })
-        if (!result) {
+        try {
+          log.info('fetching contract data', { chain, explorer, contract: tx.to })
+          const proxyOrAddress = await wallet.getContractProxy(tx.to, web3).catch()
+          const result = await api.getContractAbi(proxyOrAddress || tx.to, chainId, explorer).catch(e => {
+            log.error('failed fetching contract abi:', e.message, e, { chainId, explorer, contract: tx.to })
+          })
+          log.info('got contract data', { result })
+          if (!result) {
+            return {}
+          }
+          const abi = JSON.parse(result)
+          abiDecoder.addABI(abi)
+          const decoded = abiDecoder.decodeMethod(tx.data)
+          log.info('decoded:', { decoded })
+
+          return { decoded }
+        } catch (e) {
+          log.warn('failed parsing contract abi', e.message, e)
           return {}
         }
-        const abi = JSON.parse(result)
-        abiDecoder.addABI(abi)
-        const decoded = abiDecoder.decodeMethod(tx.data)
-        log.info('decoded:', { decoded })
-
-        return { decoded }
       }
     },
     [chain, wallet],
@@ -373,8 +378,33 @@ export const useWalletConnectSession = () => {
         web3.eth.getBalance(wallet.account),
       ])
 
+      // force gas price for celo and fuse
+      switch (requestedChainId) {
+        case 122:
+          delete message.maxFeePerGas
+          delete message.maxPriorityFeePerGas
+          message.gasPrice = 1e10
+          break
+        case 42220:
+          delete message.gasPrice
+          message.maxPriorityFeePerGas = 1e8
+          message.maxFeePerGas = 5e9
+          break
+        default: {
+          const gasPrice = await web3.eth.getGasPrice()
+          let gasField = message.maxFeePerGas ? 'maxFeePerGas' : 'gasPrice'
+          if(message[gasField])
+          {
+            message[gasField] = web3Utils.toBN(message[gasField]).gt(web3Utils.toBN(gasPrice)) ? gasPrice : message[gasField]
+          }
+          else {
+            message[gasField] = gasPrice
+          }
+        }
+      }
+
       let error
-      let estimatedGast
+      let estimatedGas
       try {
         estimatedGas = await web3.eth.estimateGas(message)
       } catch (e) {
@@ -383,17 +413,23 @@ export const useWalletConnectSession = () => {
       log.info('validateCall', { error, estimatedGas, web3 })
 
       // We must pass a number through the bridge
-      if (!message.gas) {
-        message.gas = estimatedGas || String(Config.defaultTxGas)
+      message.gas = estimatedGas || message.gas || String(Config.defaultTxGas)
+      
+      
+      const eip1599Gas = () => web3Utils.toBN(message.maxFeePerGas).add(web3Utils.toBN(message.maxPriorityFeePerGas))
+      const gasRequired = web3Utils
+        .toBN(message.gas)
+        .mul(message.gasPrice ? web3Utils.toBN(message.gasPrice) : eip1599Gas())
+      const gasStatus = {
+        balance,
+        hasEnoughGas: web3Utils.toBN(balance).gte(gasRequired),
+        gasRequired: gasRequired.toString(),
       }
 
-      const eip1599Gas = () => Number(message.maxFeeParGas) + Number(message.maxPriorityFeePerGas)
-      const gasRequired = Number(message.gas) * (message.gasPrice ? Number(message.gasPrice) : eip1599Gas())
-      const gasStatus = { balance, hasEnoughGas: balance >= gasRequired, gasRequired }
       showApprove({
         walletAddress: wallet.account,
         metadata,
-        message: { ...message, error, decodedTx, gasStatus, gasRequired },
+        message: { ...message, error, decodedTx, gasStatus },
         payload: { method },
         modalType: 'tx',
         explorer,
@@ -735,8 +771,8 @@ export const useWalletConnectSession = () => {
   const cancelTx = useCallback(async () => {
     const web3 = await getWeb3(chain)
     const minGasPrice = await web3.eth.getGasPrice()
-    const { params } = maxBy(chainPendingTxs, _ => Number(_.params?.gasPrice || _.params?.maxFeeParGas))
-    const gasPrice = Math.max(Number(minGasPrice), Number(params.gasPrice || params.maxFeeParGas) * 1.1).toFixed(0)
+    const { params } = maxBy(chainPendingTxs, _ => Number(_.params?.gasPrice || _.params?.maxFeePerGas))
+    const gasPrice = Math.max(Number(minGasPrice), Number(params.gasPrice || params.maxFeePerGas) * 1.1).toFixed(0)
     return sendTx(
       { from: wallet.account, to: wallet.account, gasPrice, value: 0, gas: 21000 },
       {},

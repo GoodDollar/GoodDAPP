@@ -16,7 +16,6 @@ import { openLink } from '../../lib/utils/linking'
 // hooks
 import { useDialog } from '../../lib/dialog/useDialog'
 import Config from '../../config/config'
-import mustache from '../../lib/utils/mustache'
 
 const log = logger.child({ from: 'WalletConnectModals' })
 
@@ -110,7 +109,7 @@ export const WcHeader = withStyles(getStylesFromProps)(({ styles, requestedChain
 
 export const Launch = ({ explorer, address, txHash }) => {
   const onLaunch = useCallback(() => {
-    openLink(`${explorer}/` + (address ? 'address/' : 'transaction/') + encodeURIComponent(address || txHash || ''))
+    openLink(`${explorer}/` + (address ? 'address/' : 'tx/') + encodeURIComponent(address || txHash || ''))
   }, [address, explorer])
 
   if (!explorer || (!isAddress(address) && !txHash)) {
@@ -135,10 +134,8 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
       )}
       {!isSign && !gasStatus.hasEnoughGas && (
         <Text color="red" fontWeight="bold">
-          {mustache(
-            t`Not enough balance to execute transaction. Balance: {balance} Required: {gasRequired}`,
-            gasStatus,
-          )}
+          {t`Not enough balance to execute transaction. Balance: ${gasStatus.balance /
+            1e18} Required: ${gasStatus.gasRequired / 1e18}`}
         </Text>
       )}
       {name && (

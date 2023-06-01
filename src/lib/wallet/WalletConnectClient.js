@@ -406,7 +406,8 @@ export const useWalletConnectSession = () => {
       let error
       let estimatedGas
       try {
-        estimatedGas = await web3.eth.estimateGas(message)
+        const {data, from, to ,value} = message
+        estimatedGas = await web3.eth.estimateGas({data,from,to,value})
       } catch (e) {
         error = e.message
       }

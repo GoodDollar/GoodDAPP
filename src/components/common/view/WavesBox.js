@@ -50,7 +50,7 @@ const styles = {
     elevation: 4,
   }),
   box: {
-    // flex: 1,
+    flex: 1,
     borderRadius: 10,
   },
 }

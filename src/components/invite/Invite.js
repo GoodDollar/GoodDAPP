@@ -143,7 +143,6 @@ const ShareBox = ({ level, styles }) => {
           fontWeight={'medium'}
           lineHeight={30}
           style={styles.shareLink}
-          numberOfLines={1}
         >
           {shareUrl}
         </Text>

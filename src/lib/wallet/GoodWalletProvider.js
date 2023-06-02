@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { noop } from 'lodash'
+import { first, last, noop } from 'lodash'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
 import { Goerli, Mainnet } from '@usedapp/core'
@@ -24,6 +24,7 @@ import { setChainId } from '../analytics/analytics'
 import { withStyles } from '../styles'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
+import { supportsG$UBI } from './utils'
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -83,43 +84,53 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const updateWalletData = useCallback(
     async goodWallet => {
-      const { tokenContract, UBIContract, identityContract, account } = goodWallet
+      const { tokenContract, UBIContract, identityContract, account, networkId } = goodWallet
 
       const calls = [
         {
           balance: tokenContract.methods.balanceOf(account),
         },
-        {
-          ubi: UBIContract.methods.checkEntitlement(account),
-        },
-        {
-          isCitizen: identityContract.methods.isWhitelisted(account),
-        },
       ]
 
+      if (supportsG$UBI(networkId)) {
+        calls.push(
+          {
+            ubi: UBIContract.methods.checkEntitlement(account),
+          },
+          {
+            isCitizen: identityContract.methods.isWhitelisted(account),
+          },
+        )
+      }
+
       // entitelment is separate because it depends on msg.sender
-      const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
+      const [[{ balance }, ...results]] = await goodWallet.multicallFuse.all([calls])
+      const { ubi = 0 } = first(results) || {}
+      const { isCitizen = false } = last(results) || {}
 
       let totalBalance = balance
-      let fuseBalance = 0,
-        celoBalance = 0
+      let fuseBalance = 0
+      let celoBalance = 0
+
       if (fusewallet && celowallet) {
         ;[fuseBalance = '0', celoBalance = '0'] = await Promise.all([fusewallet?.balanceOf(), celowallet?.balanceOf()])
+
         fuseBalance = Number(fusewallet.toDecimals(fuseBalance))
         celoBalance = Number(celowallet.toDecimals(celoBalance))
         totalBalance = (fuseBalance + celoBalance).toFixed(2)
       }
-      log.debug('updateWalletData', {
+
+      const walletData = {
         balance,
         totalBalance,
         fuseBalance: fuseBalance.toFixed(2),
         celoBalance: celoBalance.toFixed(2),
-      })
+      }
 
-      setBalance({ balance, totalBalance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
-
-      setDailyUBI(ubi)
+      log.debug('updateWalletData', { walletData })
+      setBalance(walletData)
       setIsCitizen(isCitizen)
+      setDailyUBI(ubi)
     },
     [setBalance, setDailyUBI, setIsCitizen, fusewallet, celowallet],
   )
@@ -178,7 +189,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
 
-        const storage = new UserStorage(wallet, db, new UserProperties(db))
+        const storage = new UserStorage(wallet, db, new UserProperties(db), { fuse: fusewallet, celo: celowallet })
         const loginAndWatch = shouldLoginAndWatch()
 
         await storage.ready
@@ -292,8 +303,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   }
 
   const switchNetwork = useCallback(
-    async (network: NETWORK) => {
-      network = network.toUpperCase()
+    async (switchToNetwork: NETWORK) => {
+      const network = switchToNetwork.toUpperCase()
       let contractsNetwork = getContractsNetwork(network)
 
       try {
@@ -353,6 +364,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
             readOnlyChainId: undefined,
             readOnlyUrls: {
               1: 'https://rpc.ankr.com/eth',
+              5: 'https://rpc.ankr.com/eth_goerli',
               122: 'https://rpc.fuse.io',
               42220: 'https://forno.celo.org',
             },

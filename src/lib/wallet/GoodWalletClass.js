@@ -21,6 +21,7 @@ import abiDecoder from 'abi-decoder'
 import {
   assign,
   chunk,
+  cloneDeep,
   filter,
   findKey,
   first,
@@ -161,6 +162,8 @@ export class GoodWallet {
 
   oneTimePaymentsContract: Web3.eth.Contract
 
+  oneTimePaymentsV2Contract: Web3.eth.Contract
+
   erc20Contract: Web3.eth.Contract
 
   UBIContract: Web3.eth.Contract
@@ -249,73 +252,50 @@ export class GoodWallet {
 
         log.info('GoodWallet setting up contracts:')
 
+        const makeContract = (abi, name, defaultAddress = null) => {
+          const address = get(ContractsAddress, `${this.network}.${name}`, defaultAddress)
+
+          // do not create contract if no address in contracts for the network selected
+          if (address) {
+            return new this.wallet.eth.Contract(abi.abi, address, { from: this.account })
+          }
+        }
+
+        const addContract = (abi, name, defaultAddress = null) => {
+          const contract = makeContract(abi, name, defaultAddress)
+
+          if (contract) {
+            abiDecoder.addABI(abi.abi)
+            return contract
+          }
+        }
+
         // Identity Contract
-        this.identityContract = new this.wallet.eth.Contract(
-          IdentityABI.abi,
-          get(ContractsAddress, `${this.network}.Identity` /*IdentityABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
+        this.identityContract = makeContract(IdentityABI, 'Identity')
 
         // Token Contract
-        this.tokenContract = new this.wallet.eth.Contract(
-          GoodDollarABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
-        abiDecoder.addABI(GoodDollarABI.abi)
+        this.tokenContract = addContract(GoodDollarABI, 'GoodDollar')
 
         // ERC20 Contract
-        this.erc20Contract = new this.wallet.eth.Contract(
-          cERC20ABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
-        abiDecoder.addABI(cERC20ABI.abi)
+        this.erc20Contract = addContract(cERC20ABI, 'GoodDollar')
 
         // UBI Contract
-        this.UBIContract = new this.wallet.eth.Contract(
-          UBIABI.abi,
-          get(ContractsAddress, `${this.network}.UBIScheme` /*UBIABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
-        abiDecoder.addABI(UBIABI.abi)
+        this.UBIContract = addContract(UBIABI, 'UBIScheme')
 
         // OneTimePaymentLinks Contract
-        this.oneTimePaymentsContract = new this.wallet.eth.Contract(
-          OneTimePaymentsABI.abi,
-          get(
-            ContractsAddress,
-            `${this.network}.OneTimePayments` /*OneTimePaymentsABI.networks[this.networkId].address*/,
-          ),
-          {
-            from: this.account,
-          },
-        )
-        abiDecoder.addABI(OneTimePaymentsABI.abi)
+        this.oneTimePaymentsContract = addContract(OneTimePaymentsABI, 'OneTimePayments')
+
+        // OneTimePaymentsV2 Contract
+        this.oneTimePaymentsContract = addContract(OneTimePaymentsABI, 'OneTimePaymentsV2')
 
         // UBI Contract
-        this.invitesContract = new this.wallet.eth.Contract(
-          InvitesABI.abi,
-          get(ContractsAddress, `${this.network}.Invites`, '0x5a35C3BC159C4e4afAfadbdcDd8dCd2dd8EC8CBE'),
-          { from: this.account },
-        )
-        abiDecoder.addABI(InvitesABI.abi)
+        this.invitesContract = addContract(InvitesABI, 'Invites', '0x5a35C3BC159C4e4afAfadbdcDd8dCd2dd8EC8CBE')
 
         // faucet Contract
-        this.faucetContract = new this.wallet.eth.Contract(
-          FaucetABI.abi,
-          get(ContractsAddress, `${this.network}.FuseFaucet`) || get(ContractsAddress, `${this.network}.Faucet`),
-          { from: this.account },
-        )
-        abiDecoder.addABI(FaucetABI.abi)
+        this.faucetContract = addContract(FaucetABI, 'FuseFaucet', get(ContractsAddress, `${this.network}.Faucet`))
 
         // GOOD Contract
-        this.GOODContract = new this.wallet.eth.Contract(
-          GOODToken.abi,
-          get(ContractsAddress, `${this.network}.GReputation` /*UBIABI.networks[this.networkId].address*/),
-          { from: this.account },
-        )
-        abiDecoder.addABI(GOODToken.abi)
+        this.GOODContract = addContract(GOODToken, 'GReputation')
 
         // debug print contracts addresses
         {
@@ -382,6 +362,7 @@ export class GoodWallet {
 
         const startBlock = this.lastEventsBlock
         const lastBlock = await this.syncTxWithBlockchain(startBlock)
+
         this.lastEventsBlock = lastBlock
         lastBlockCallback(lastBlock)
 
@@ -390,13 +371,16 @@ export class GoodWallet {
       }
 
       const runRes = Promise.race([run(), delay(5000, false)])
+
       this.pollEventsCurrentPromise = runRes
+
       if ((await runRes) === false) {
         throw new Error('pollEvents not completed after 5 seconds')
       }
     } catch (e) {
       log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }
+
     this.pollEventsTimeout = setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
   }
 
@@ -451,10 +435,11 @@ export class GoodWallet {
     })
   }
 
-  async syncTxWithBlockchain(startBlock) {
+  async syncTxWithBlockchain(fromBlock) {
     const lastBlock = await this.wallet.eth.getBlockNumber()
-    startBlock = Math.min(startBlock, lastBlock)
+    const startBlock = Math.min(fromBlock, lastBlock)
     const steps = range(startBlock, lastBlock, POKT_MAX_EVENTSBLOCKS)
+
     log.debug('Start sync tx from blockchain', {
       steps,
       startBlock,
@@ -462,35 +447,37 @@ export class GoodWallet {
     })
 
     try {
-      const chunks = chunk(steps, 10)
+      await chunk(steps, 10).reduce(
+        (p, chunk) =>
+          p.then(() =>
+            Promise.all(
+              chunk.map(async fromBlock => {
+                let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
 
-      for (let chunk of chunks) {
-        const ps = chunk.map(async fromBlock => {
-          let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
+                // await callback to finish processing events before updating lastEventblock
+                // we pass toBlock as null so the request naturally requests until the last block a node has,
+                // this is to prevent errors where some nodes for some reason still dont have the last block
+                if (toBlock >= lastBlock) {
+                  toBlock = undefined
+                }
 
-          // await callback to finish processing events before updating lastEventblock
-          // we pass toBlock as null so the request naturally requests until the last block a node has,
-          // this is to prevent errors where some nodes for some reason still dont have the last block
-          if (toBlock >= lastBlock) {
-            toBlock = undefined
-          }
+                log.debug('sync tx step:', { fromBlock, toBlock })
 
-          log.debug('sync tx step:', { fromBlock, toBlock })
+                const events = flatten(
+                  await Promise.all([
+                    this.pollSendEvents(toBlock, fromBlock),
+                    this.pollReceiveEvents(toBlock, fromBlock),
+                    this.pollOTPLEvents(toBlock, fromBlock),
+                  ]),
+                )
 
-          const events = flatten(
-            await Promise.all([
-              this.pollSendEvents(toBlock, fromBlock),
-              this.pollReceiveEvents(toBlock, fromBlock),
-              this.pollOTPLEvents(toBlock, fromBlock),
-            ]),
-          )
+                this._notifyEvents(events, fromBlock)
+              }),
+            ),
+          ),
+        Promise.resolve(),
+      )
 
-          this._notifyEvents(events, fromBlock)
-        })
-
-        // eslint-disable-next-line no-await-in-loop
-        await Promise.all(ps)
-      }
       log.debug('sync tx from blockchain finished successfully')
       return lastBlock
     } catch (e) {
@@ -499,104 +486,116 @@ export class GoodWallet {
   }
 
   async pollSendEvents(toBlock, from = null) {
-    const fromBlock = from || this.lastEventsBlock
-    const contract = this.erc20Contract
+    const { lastEventsBlock, erc20Contract, wallet, account } = this
+    const fromBlock = from || lastEventsBlock
+    const contract = erc20Contract
+    let events = []
 
-    const fromEventsFilter = pickBy(
-      {
-        fromBlock,
-        toBlock,
-        filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
-      },
-      identity,
-    )
+    if (contract) {
+      const fromEventsFilter = pickBy(
+        {
+          fromBlock,
+          toBlock,
+          filter: { from: wallet.utils.toChecksumAddress(account) },
+        },
+        identity,
+      )
 
-    const events = await retryCall(() => contract.getPastEvents('Transfer', fromEventsFilter)).catch((e = {}) => {
-      // just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? 'warn' : 'error'
-      log[logFunc]('pollSendEvents failed:', e.message, e, {
-        category: ExceptionCategory.Blockhain,
-        fromEventsFilter,
-      })
-      return []
-    })
+      try {
+        events = await retryCall(() => contract.getPastEvents('Transfer', fromEventsFilter))
+      } catch (e) {
+        // just warn about block not  found which is recoverable
+        const logFunc = e.code === -32000 ? 'warn' : 'error'
 
-    log.info('pollSendEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
+        log[logFunc]('pollSendEvents failed:', e.message, e, {
+          category: ExceptionCategory.Blockhain,
+          fromEventsFilter,
+        })
+      }
+    }
 
+    log.info('pollSendEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock })
     return events
   }
 
   async pollReceiveEvents(toBlock, from = null) {
-    const fromBlock = from || this.lastEventsBlock
-    const contract = this.erc20Contract
+    const { lastEventsBlock, erc20Contract, wallet, account } = this
+    const fromBlock = from || lastEventsBlock
+    const contract = erc20Contract
+    let events = []
 
-    const toEventsFilter = pickBy(
-      {
-        fromBlock,
-        toBlock,
-        filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
-      },
-      identity,
-    )
+    if (contract) {
+      const toEventsFilter = pickBy(
+        {
+          fromBlock,
+          toBlock,
+          filter: { to: wallet.utils.toChecksumAddress(account) },
+        },
+        identity,
+      )
 
-    const events = await retryCall(() => contract.getPastEvents('Transfer', toEventsFilter)).catch((e = {}) => {
-      // just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? 'warn' : 'error'
-      log[logFunc]('pollReceiveEvents failed:', e.message, e, {
-        category: ExceptionCategory.Blockhain,
-        toEventsFilter,
-      })
-      return []
-    })
+      try {
+        events = await retryCall(() => contract.getPastEvents('Transfer', toEventsFilter))
+      } catch (e) {
+        // just warn about block not  found which is recoverable
+        const logFunc = e.code === -32000 ? 'warn' : 'error'
 
-    log.info('pollReceiveEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
+        log[logFunc]('pollReceiveEvents failed:', e.message, e, {
+          category: ExceptionCategory.Blockhain,
+          toEventsFilter,
+        })
+      }
+    }
 
+    log.info('pollReceiveEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock })
     return events
   }
 
   async pollOTPLEvents(toBlock, from = null) {
-    const fromBlock = from || this.lastEventsBlock
-    const contract = this.oneTimePaymentsContract
+    const { account, wallet, lastEventsBlock, oneTimePaymentsContract } = this
+    const fromBlock = from || lastEventsBlock
+    const contract = oneTimePaymentsContract
+    let eventsCancel = []
+    let eventsWithdraw = []
 
-    let fromEventsFilter = pickBy(
-      {
-        fromBlock,
-        toBlock,
-        filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
-      },
-      identity,
-    )
+    if (contract) {
+      const fromEventsFilter = pickBy(
+        {
+          fromBlock,
+          toBlock,
+          filter: { from: wallet.utils.toChecksumAddress(account) },
+        },
+        identity,
+      )
 
-    log.debug('pollOTPLEvents call', { fromEventsFilter })
-
-    const eventsCancel = await retryCall(() =>
-      contract.getPastEvents('PaymentCancel', Object.assign({}, fromEventsFilter)),
-    ).catch((e = {}) => {
-      // just warn about block not  found which is recoverable
-      const logFunc = e.code === -32000 ? 'warn' : 'error'
-      log[logFunc]('pollOTPLEvents failed:', e.message, e, {
-        category: ExceptionCategory.Blockhain,
-        fromEventsFilter,
-      })
-      return []
-    })
-
-    // const eventsWithdraw = []
-    const eventsWithdraw = await retryCall(() => contract.getPastEvents('PaymentWithdraw', fromEventsFilter)).catch(
-      (e = {}) => {
+      const logError = e => {
         // just warn about block not  found which is recoverable
         const logFunc = e.code === -32000 ? 'warn' : 'error'
+
         log[logFunc]('pollOTPLEvents failed:', e.message, e, {
           category: ExceptionCategory.Blockhain,
           fromEventsFilter,
         })
-        return []
-      },
-    )
+      }
+
+      log.debug('pollOTPLEvents call', { fromEventsFilter })
+
+      try {
+        eventsCancel = await retryCall(() => contract.getPastEvents('PaymentCancel', cloneDeep(fromEventsFilter)))
+      } catch (e) {
+        logError(e)
+      }
+
+      try {
+        eventsWithdraw = await retryCall(() => contract.getPastEvents('PaymentWithdraw', fromEventsFilter))
+      } catch (e) {
+        logError(e)
+      }
+    }
 
     const events = eventsWithdraw.concat(eventsCancel)
 
-    log.info('pollOTPLEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
+    log.info('pollOTPLEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock })
 
     return events
   }
@@ -608,11 +607,13 @@ export class GoodWallet {
   async getReceiptWithLogs(transactionHash: string) {
     const chainId = this.networkId
     const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
+
     if (!transactionReceipt) {
       return null
     }
 
-    const logs = abiDecoder.decodeLogs(transactionReceipt.logs).filter(_ => _)
+    const logs = abiDecoder.decodeLogs(transactionReceipt.logs).filter(identity)
+
     return { ...transactionReceipt, logs, chainId } //add network id in case of wallet provider network switch
   }
 
@@ -1250,7 +1251,7 @@ export class GoodWallet {
       return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
     } catch (e) {
       log.error('hasJoinedInvites failed:', e.message, e)
-      return false
+      return [false, null, null]
     }
   }
 

@@ -1,6 +1,6 @@
 //@flow
 
-import { assign, get, invokeMap, isEqual, keys, memoize, pick } from 'lodash'
+import { assign, flatten, get, invokeMap, isEqual, keys, memoize, pick, uniq } from 'lodash'
 import { isAddress } from 'web3-utils'
 import moment from 'moment'
 
@@ -216,8 +216,9 @@ export class UserStorage {
 
   registeredReady: Promise<boolean> = null
 
-  constructor(wallet: GoodWallet, database: DB, userProperties) {
+  constructor(wallet: GoodWallet, database: DB, userProperties, wallets: { fuse: GoodWallet, celo: GoodWallet }) {
     this.wallet = wallet
+    this.wallets = wallets
     this.database = database
     this.userProperties = userProperties
     this._formatEvent.cache = new WeakMap()
@@ -894,7 +895,14 @@ export class UserStorage {
 
     data.value = get(receiptEvent, 'value') || get(receiptEvent, 'amount') || amount
 
-    const fromGDUbi = this.wallet.getUBIAddresses().includes((data.address || '').toLowerCase()) && 'GoodDollar UBI'
+    const {
+      wallet,
+      wallets: { fuse, celo },
+    } = this
+
+    const ubiAddresses = uniq(flatten([wallet, fuse, celo].map(w => w.getUBIAddresses())))
+    const addressLc = (data.address || '').toLowerCase()
+    const fromGDUbi = ubiAddresses.some(addr => addr === addressLc) && 'GoodDollar UBI'
 
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||

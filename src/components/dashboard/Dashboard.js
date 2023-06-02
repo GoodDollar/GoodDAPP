@@ -834,18 +834,17 @@ const Dashboard = props => {
                 )}
               </Animated.View>
             </Animated.View>
-            {headerLarge &&
-              supportsG$(currentNetwork)(
-                <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
-                  <View style={styles.multiBalance}>
-                    <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
-                    <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
-                      {bridgeEnabled && <BridgeButton onPress={goToBridge} />}
-                    </Section.Text>
-                    <BalanceAndSwitch balance={celoBalance} networkName="Celo" />
-                  </View>
-                </Animated.View>,
-              )}
+            {headerLarge && supportsG$(currentNetwork) && (
+              <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
+                <View style={styles.multiBalance}>
+                  <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
+                  <Section.Text style={[styles.gdPrice, gdPriceAnimStyles, { width: '40%', fontSize: 20 }]}>
+                    {bridgeEnabled && <BridgeButton onPress={goToBridge} />}
+                  </Section.Text>
+                  <BalanceAndSwitch balance={celoBalance} networkName="Celo" />
+                </View>
+              </Animated.View>
+            )}
             <Animated.View style={sendReceiveAnimStyles}>
               <Section style={[styles.txButtons]}>
                 <Section.Row style={styles.buttonsRow}>

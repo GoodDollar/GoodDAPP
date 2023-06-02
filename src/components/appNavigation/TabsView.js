@@ -72,11 +72,13 @@ const NetworkName = () => {
     showModal()
   }, [showModal])
 
+  const onToggle = Config.isDeltaApp ? select : toggle
+
   return (
     <View style={styles.networkName}>
-      <TouchableOpacity onPress={toggle} style={styles.switchButton}>
+      <TouchableOpacity onPress={onToggle} style={styles.switchButton}>
         <IconButton
-          onPress={Config.isDeltaApp ? select : toggle}
+          onPress={onToggle}
           name="switch"
           bgColor="transparent"
           color="white"

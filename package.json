@@ -17,7 +17,7 @@
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm run start:native -- --reset-cache",
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
-    "build": "npm run lingui:compile && NODE_OPTIONS=--openssl-legacy-provider NODE_OPTIONS=--max_old_space_size=8192 react-app-rewired build",
+    "build": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider --max_old_space_size=4096\" react-app-rewired build",
     "animation:assets": "node ./animationAssets.js",
     "copy:gdfont": "cp src/assets/fonts/*.ttf android/app/src/main/assets/fonts/",
     "test": "npm run lingui:compile && npm run test:web && npm run test:native",

@@ -150,3 +150,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+
+   # This allows us to have a branch protection rule for tests and deploys with matrix
+  deploy-status:
+    needs: test
+    steps:
+      - name: Successful deploy
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: exit 0
+      - name: Failing deploy
+        if: ${{ contains(needs.*.result, 'failure') }}
+        run: exit 1

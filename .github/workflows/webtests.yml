@@ -154,6 +154,7 @@ jobs:
    # This allows us to have a branch protection rule for tests and deploys with matrix
   deploy-status:
     needs: test
+    runs-on: ubuntu-latest
     steps:
       - name: Successful deploy
         if: ${{ !(contains(needs.*.result, 'failure')) }}

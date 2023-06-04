@@ -66,7 +66,7 @@ import interestQuery from './queries/interestReceived.gql'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 const ZERO = new BN('0')
-const POKT_MAX_EVENTSBLOCKS = 100000
+const POKT_MAX_EVENTSBLOCKS = 50000
 
 const log = logger.child({ from: 'GoodWalletV2' })
 
@@ -373,7 +373,7 @@ export class GoodWallet {
     }
   }
 
-  async pollEvents(fn, time, lastBlockCallback) {
+  async pollEvents(time, lastBlockCallback) {
     try {
       const run = async () => {
         if (this.isPollEvents === false) {
@@ -397,7 +397,7 @@ export class GoodWallet {
     } catch (e) {
       log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }
-    this.pollEventsTimeout = setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
+    this.pollEventsTimeout = setTimeout(() => this.pollEvents(time, lastBlockCallback), time)
   }
 
   // eslint-disable-next-line require-await
@@ -426,12 +426,7 @@ export class GoodWallet {
     lastBlockCallback(lastBlock)
     this.lastEventsBlock = lastBlock
 
-    this.pollEvents(
-      toBlock =>
-        Promise.all([this.pollSendEvents(toBlock), this.pollReceiveEvents(toBlock), this.pollOTPLEvents(toBlock)]),
-      Config.web3Polling,
-      lastBlockCallback,
-    )
+    this.pollEvents(Config.web3Polling, lastBlockCallback)
   }
 
   _notifyEvents(events, fromBlock) {

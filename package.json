@@ -3,7 +3,7 @@
   "version": "2.8.0",
   "engines": {
     "node": "18.x",
-    "npm": "8.x"
+    "npm": "9.x"
   },
   "scripts": {
     "web": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider\" react-app-rewired  start",

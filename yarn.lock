@@ -6,17 +6,17 @@ __metadata:
   cacheKey: 8
 
 "@amplitude/analytics-browser@npm:^1.6.4":
-  version: 1.10.4
-  resolution: "@amplitude/analytics-browser@npm:1.10.4"
+  version: 1.10.6
+  resolution: "@amplitude/analytics-browser@npm:1.10.6"
   dependencies:
-    "@amplitude/analytics-client-common": ^0.7.0
-    "@amplitude/analytics-core": ^0.13.3
-    "@amplitude/analytics-types": ^0.20.0
-    "@amplitude/plugin-page-view-tracking-browser": ^0.8.1
-    "@amplitude/plugin-web-attribution-browser": ^0.7.0
+    "@amplitude/analytics-client-common": ^1.0.0
+    "@amplitude/analytics-core": ^1.0.0
+    "@amplitude/analytics-types": ^1.0.0
+    "@amplitude/plugin-page-view-tracking-browser": ^1.0.0
+    "@amplitude/plugin-web-attribution-browser": ^1.0.0
     "@amplitude/ua-parser-js": ^0.7.31
     tslib: ^2.4.1
-  checksum: e024529e2df32837fdd90dd61d25c2555a30ccf87ade3022d6e7fac149cbc08c3bb68acab1df925c33f52383c44838ecb6b7fb3c4b80f9026dee554db839bda8
+  checksum: 5fa561df5fc257f4303f68170185e741f0e212c048261c5238bdff5b6bea7dc68f6c94929601c8e819999a133b57dc8c855c490be1366054effee4726e2243ae
   languageName: node
   linkType: hard
 
@@ -32,15 +32,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-client-common@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@amplitude/analytics-client-common@npm:0.7.0"
+"@amplitude/analytics-client-common@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@amplitude/analytics-client-common@npm:1.0.0"
   dependencies:
     "@amplitude/analytics-connector": ^1.4.5
-    "@amplitude/analytics-core": ^0.13.3
-    "@amplitude/analytics-types": ^0.20.0
+    "@amplitude/analytics-core": ^1.0.0
+    "@amplitude/analytics-types": ^1.0.0
     tslib: ^2.4.1
-  checksum: 710509aaddafdaf456471858280e7a08044390259ca68f89beee475e4f7c9c36aa2fcaa90b3dafc038b04bb342b45bfeca2ee7a5daaef020262756e03fbb2ec6
+  checksum: 863179221ee7ea797142052f05c607852b76717127aa525af418b966b499b5816a76287edca0b5b70dd2d07b98994632a5894376fbc1201dfbfdd0962b05c50d
   languageName: node
   linkType: hard
 
@@ -70,13 +70,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-core@npm:^0.13.3":
-  version: 0.13.3
-  resolution: "@amplitude/analytics-core@npm:0.13.3"
+"@amplitude/analytics-core@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@amplitude/analytics-core@npm:1.0.0"
   dependencies:
-    "@amplitude/analytics-types": ^0.20.0
+    "@amplitude/analytics-types": ^1.0.0
     tslib: ^2.4.1
-  checksum: c41179d42a0113c0ca75161687ba125f83ed3569c124a0ed7c62ddb74be230f03cdeefcc755edb4458bb9713a2018a674d2ed304ad2c5fc1f6be636bfffbc0d3
+  checksum: d68459ffbd5e2a4e61b22e4c17d480ed05f188503091032df0ab4fdac8dead3a6b9c3332bfa665b2abf49a096bdc0e242e6c8d16ce12120b50fa82654bf23baf
   languageName: node
   linkType: hard
 
@@ -111,32 +111,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-types@npm:^0.20.0":
-  version: 0.20.0
-  resolution: "@amplitude/analytics-types@npm:0.20.0"
-  checksum: e9c8c5e42483850ef8896efd6452a8737f2ad1a16f76e0f7c2d6c6388bd194c5ede7df7a4b373c139952ab37e4f9abedc72fe6dca565842e022a59e28289d0a3
+"@amplitude/analytics-types@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@amplitude/analytics-types@npm:1.0.0"
+  checksum: 32ec00e322013203afb57978d673a5259e347b6c38c08f79d1de1e5eec505b64418231092d45dbbfbdf33ebac03543e9a90d60f3d31affe8bf6867a6c8824512
   languageName: node
   linkType: hard
 
-"@amplitude/plugin-page-view-tracking-browser@npm:^0.8.1":
-  version: 0.8.1
-  resolution: "@amplitude/plugin-page-view-tracking-browser@npm:0.8.1"
+"@amplitude/plugin-page-view-tracking-browser@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@amplitude/plugin-page-view-tracking-browser@npm:1.0.0"
   dependencies:
-    "@amplitude/analytics-client-common": ^0.7.0
-    "@amplitude/analytics-types": ^0.20.0
+    "@amplitude/analytics-client-common": ^1.0.0
+    "@amplitude/analytics-types": ^1.0.0
     tslib: ^2.4.1
-  checksum: a7b6f9fa3613839df727dbba453309406a84f5c4fe0ed69d136f659bc34e4f7270d05a47cab076cc4ee7358c1dc7b72460b25900e3a0a6904d8c44e7be8bdfbd
+  checksum: e0225931467abda3d889e82748c9191cae6930e54ca864e59268aa0281957be4d3e50b59a13be054b932c1761ba7f0c6e73c7c6c8c4b603e7b0e6947a9f82fde
   languageName: node
   linkType: hard
 
-"@amplitude/plugin-web-attribution-browser@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@amplitude/plugin-web-attribution-browser@npm:0.7.0"
+"@amplitude/plugin-web-attribution-browser@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@amplitude/plugin-web-attribution-browser@npm:1.0.0"
   dependencies:
-    "@amplitude/analytics-client-common": ^0.7.0
-    "@amplitude/analytics-types": ^0.20.0
+    "@amplitude/analytics-client-common": ^1.0.0
+    "@amplitude/analytics-types": ^1.0.0
     tslib: ^2.4.1
-  checksum: a6b5a8cf8bc09c11598544e0b97fb6a826008c876211766a8b3917301b531b4da5d1f6923e801d536c3fcdb1306171578c79e640389c0c26aad93a3d463ab1bb
+  checksum: ebca75948311fdf606806a5392ef5abb16c06faef7ad76179c04b14fdd7267b125e0b4a72246c205739b46dede4c1ae7b68cfb5e235bf09a09e9be30eb18d900
   languageName: node
   linkType: hard
 
@@ -4306,7 +4306,7 @@ __metadata:
     "@gooddollar/good-design": ^0.0.74
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.20
-    "@gooddollar/web3sdk-v2": ^0.1.97
+    "@gooddollar/web3sdk-v2": ^0.1.98
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@kimafinance/kima-transaction-widget": ^1.1.42-beta.1
@@ -4478,9 +4478,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.97":
-  version: 0.1.97
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.97"
+"@gooddollar/web3sdk-v2@npm:^0.1.98":
+  version: 0.1.98
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.98"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4517,7 +4517,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 1b5dbcecfd4d47b46eb3dfc22d916aeaca6b4a7ecf7a8425bf5ae810aef10cfc4d2dc63dec35137e5ca216817eb30bfbacf00603a2523f09a359c3afdb9f370f
+  checksum: 497c4f9e6c2f51afaf5d957ee00353c028ea320f27899b7249086d4f42c5e0e46e601a3bd19cf01b2a792e3c78705117cbba0918cacc337992631cb844e4aaf5
   languageName: node
   linkType: hard
 
@@ -37596,7 +37596,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tough-cookie@npm:^2.3.3 || ^3.0.1 || ^4.0.0, tough-cookie@npm:^4.0.0":
+"tough-cookie@npm:^2.3.3 || ^3.0.1 || ^4.0.0":
+  version: 4.1.3
+  resolution: "tough-cookie@npm:4.1.3"
+  dependencies:
+    psl: ^1.1.33
+    punycode: ^2.1.1
+    universalify: ^0.2.0
+    url-parse: ^1.5.3
+  checksum: c9226afff36492a52118432611af083d1d8493a53ff41ec4ea48e5b583aec744b989e4280bcf476c910ec1525a89a4a0f1cae81c08b18fb2ec3a9b3a72b91dcc
+  languageName: node
+  linkType: hard
+
+"tough-cookie@npm:^4.0.0":
   version: 4.1.2
   resolution: "tough-cookie@npm:4.1.2"
   dependencies:

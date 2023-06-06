@@ -21,7 +21,6 @@ import abiDecoder from 'abi-decoder'
 import {
   assign,
   chunk,
-  cloneDeep,
   filter,
   findKey,
   first,
@@ -252,6 +251,7 @@ export class GoodWallet {
 
         log.info('GoodWallet setting up contracts:')
 
+        // added those helpers just do not check address / contract existence 9 times
         const makeContract = (abi, name, defaultAddress = null) => {
           const address = get(ContractsAddress, `${this.network}.${name}`, defaultAddress)
 
@@ -447,36 +447,33 @@ export class GoodWallet {
     })
 
     try {
-      await chunk(steps, 10).reduce(
-        (p, chunk) =>
-          p.then(() =>
-            Promise.all(
-              chunk.map(async fromBlock => {
-                let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
+      const chunks = chunk(steps, 10)
 
-                // await callback to finish processing events before updating lastEventblock
-                // we pass toBlock as null so the request naturally requests until the last block a node has,
-                // this is to prevent errors where some nodes for some reason still dont have the last block
-                if (toBlock >= lastBlock) {
-                  toBlock = undefined
-                }
+      for (let chunk of chunks) {
+        const ps = chunk.map(async fromBlock => {
+          let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
 
-                log.debug('sync tx step:', { fromBlock, toBlock })
+          // await callback to finish processing events before updating lastEventblock
+          // we pass toBlock as null so the request naturally requests until the last block a node has,
+          // this is to prevent errors where some nodes for some reason still dont have the last block
+          if (toBlock >= lastBlock) {
+            toBlock = undefined
+          }
 
-                const events = flatten(
-                  await Promise.all([
-                    this.pollSendEvents(toBlock, fromBlock),
-                    this.pollReceiveEvents(toBlock, fromBlock),
-                    this.pollOTPLEvents(toBlock, fromBlock),
-                  ]),
-                )
+          log.debug('sync tx step:', { fromBlock, toBlock })
 
-                this._notifyEvents(events, fromBlock)
-              }),
-            ),
-          ),
-        Promise.resolve(),
-      )
+          const events = await Promise.all([
+            this.pollSendEvents(toBlock, fromBlock),
+            this.pollReceiveEvents(toBlock, fromBlock),
+            this.pollOTPLEvents(toBlock, fromBlock),
+          ]).then(flatten)
+
+          this._notifyEvents(events, fromBlock)
+        })
+
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.all(ps)
+      }
 
       log.debug('sync tx from blockchain finished successfully')
       return lastBlock
@@ -486,117 +483,118 @@ export class GoodWallet {
   }
 
   async pollSendEvents(toBlock, from = null) {
-    const { lastEventsBlock, erc20Contract, wallet, account } = this
-    const fromBlock = from || lastEventsBlock
-    const contract = erc20Contract
-    let events = []
+    const fromBlock = from || this.lastEventsBlock
+    const contract = this.erc20Contract
 
-    if (contract) {
-      const fromEventsFilter = pickBy(
-        {
-          fromBlock,
-          toBlock,
-          filter: { from: wallet.utils.toChecksumAddress(account) },
-        },
-        identity,
-      )
+    const fromEventsFilter = pickBy(
+      {
+        fromBlock,
+        toBlock,
+        filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+      },
+      identity,
+    )
 
-      try {
-        events = await retryCall(() => contract.getPastEvents('Transfer', fromEventsFilter))
-      } catch (e) {
-        // just warn about block not  found which is recoverable
-        const logFunc = e.code === -32000 ? 'warn' : 'error'
+    const ps = contract ? retryCall(() => contract.getPastEvents('Transfer', fromEventsFilter)) : Promise.resolve([])
 
-        log[logFunc]('pollSendEvents failed:', e.message, e, {
-          category: ExceptionCategory.Blockhain,
-          fromEventsFilter,
-        })
-      }
-    }
+    const events = await ps.catch((e = {}) => {
+      // just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
 
-    log.info('pollSendEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock })
+      log[logFunc]('pollSendEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+        fromEventsFilter,
+      })
+
+      return []
+    })
+
+    log.info('pollSendEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
     return events
   }
 
   async pollReceiveEvents(toBlock, from = null) {
-    const { lastEventsBlock, erc20Contract, wallet, account } = this
-    const fromBlock = from || lastEventsBlock
-    const contract = erc20Contract
-    let events = []
+    const fromBlock = from || this.lastEventsBlock
+    const contract = this.erc20Contract
 
-    if (contract) {
-      const toEventsFilter = pickBy(
-        {
-          fromBlock,
-          toBlock,
-          filter: { to: wallet.utils.toChecksumAddress(account) },
-        },
-        identity,
-      )
+    const toEventsFilter = pickBy(
+      {
+        fromBlock,
+        toBlock,
+        filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
+      },
+      identity,
+    )
 
-      try {
-        events = await retryCall(() => contract.getPastEvents('Transfer', toEventsFilter))
-      } catch (e) {
-        // just warn about block not  found which is recoverable
-        const logFunc = e.code === -32000 ? 'warn' : 'error'
+    const ps = contract ? retryCall(() => contract.getPastEvents('Transfer', toEventsFilter)) : Promise.resolve([])
 
-        log[logFunc]('pollReceiveEvents failed:', e.message, e, {
-          category: ExceptionCategory.Blockhain,
-          toEventsFilter,
-        })
-      }
-    }
+    const events = await ps.catch((e = {}) => {
+      // just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
 
-    log.info('pollReceiveEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock })
+      log[logFunc]('pollReceiveEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+        toEventsFilter,
+      })
+
+      return []
+    })
+
+    log.info('pollReceiveEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
     return events
   }
 
   async pollOTPLEvents(toBlock, from = null) {
-    const { account, wallet, lastEventsBlock, oneTimePaymentsContract } = this
-    const fromBlock = from || lastEventsBlock
-    const contract = oneTimePaymentsContract
-    let eventsCancel = []
-    let eventsWithdraw = []
+    const fromBlock = from || this.lastEventsBlock
+    const contract = this.oneTimePaymentsContract
+
+    let fromEventsFilter = pickBy(
+      {
+        fromBlock,
+        toBlock,
+        filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+      },
+      identity,
+    )
+
+    log.debug('pollOTPLEvents call', { fromEventsFilter })
+
+    let ps = contract
+      ? retryCall(() => contract.getPastEvents('PaymentCancel', Object.assign({}, fromEventsFilter)))
+      : Promise.resolve([])
+
+    const eventsCancel = await ps.catch((e = {}) => {
+      // just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+
+      log[logFunc]('pollOTPLEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+        fromEventsFilter,
+      })
+
+      return []
+    })
 
     if (contract) {
-      const fromEventsFilter = pickBy(
-        {
-          fromBlock,
-          toBlock,
-          filter: { from: wallet.utils.toChecksumAddress(account) },
-        },
-        identity,
-      )
-
-      const logError = e => {
-        // just warn about block not  found which is recoverable
-        const logFunc = e.code === -32000 ? 'warn' : 'error'
-
-        log[logFunc]('pollOTPLEvents failed:', e.message, e, {
-          category: ExceptionCategory.Blockhain,
-          fromEventsFilter,
-        })
-      }
-
-      log.debug('pollOTPLEvents call', { fromEventsFilter })
-
-      try {
-        eventsCancel = await retryCall(() => contract.getPastEvents('PaymentCancel', cloneDeep(fromEventsFilter)))
-      } catch (e) {
-        logError(e)
-      }
-
-      try {
-        eventsWithdraw = await retryCall(() => contract.getPastEvents('PaymentWithdraw', fromEventsFilter))
-      } catch (e) {
-        logError(e)
-      }
+      ps = retryCall(() => contract.getPastEvents('PaymentWithdraw', fromEventsFilter))
     }
+
+    // const eventsWithdraw = []
+    const eventsWithdraw = await ps.catch((e = {}) => {
+      // just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? 'warn' : 'error'
+
+      log[logFunc]('pollOTPLEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+        fromEventsFilter,
+      })
+
+      return []
+    })
 
     const events = eventsWithdraw.concat(eventsCancel)
 
-    log.info('pollOTPLEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock })
-
+    log.info('pollOTPLEvents result:', { events, from, fromBlock, toBlock, lastEventsBlock: this.lastEventsBlock })
     return events
   }
 
@@ -612,7 +610,7 @@ export class GoodWallet {
       return null
     }
 
-    const logs = abiDecoder.decodeLogs(transactionReceipt.logs).filter(identity)
+    const logs = filter(abiDecoder.decodeLogs(transactionReceipt.logs))
 
     return { ...transactionReceipt, logs, chainId } //add network id in case of wallet provider network switch
   }

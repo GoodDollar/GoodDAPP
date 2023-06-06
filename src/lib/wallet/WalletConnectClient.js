@@ -165,21 +165,26 @@ export const useWalletConnectSession = () => {
     async (tx, explorer, web3, chainId) => {
       log.info('decodetx:', { tx, chain, explorer, chainId })
       if (tx.data !== '0x' && explorer) {
-        log.info('fetching contract data', { chain, explorer, contract: tx.to })
-        const proxyOrAddress = await wallet.getContractProxy(tx.to, web3).catch()
-        const result = await api.getContractAbi(proxyOrAddress || tx.to, chainId, explorer).catch(e => {
-          log.error('failed fetching contract abi:', e.message, e, { chainId, explorer, contract: tx.to })
-        })
-        log.info('got contract data', { result })
-        if (!result) {
+        try {
+          log.info('fetching contract data', { chain, explorer, contract: tx.to })
+          const proxyOrAddress = await wallet.getContractProxy(tx.to, web3).catch()
+          const result = await api.getContractAbi(proxyOrAddress || tx.to, chainId, explorer).catch(e => {
+            log.error('failed fetching contract abi:', e.message, e, { chainId, explorer, contract: tx.to })
+          })
+          log.info('got contract data', { result })
+          if (!result) {
+            return {}
+          }
+          const abi = JSON.parse(result)
+          abiDecoder.addABI(abi)
+          const decoded = abiDecoder.decodeMethod(tx.data)
+          log.info('decoded:', { decoded })
+
+          return { decoded }
+        } catch (e) {
+          log.warn('failed parsing contract abi', e.message, e)
           return {}
         }
-        const abi = JSON.parse(result)
-        abiDecoder.addABI(abi)
-        const decoded = abiDecoder.decodeMethod(tx.data)
-        log.info('decoded:', { decoded })
-
-        return { decoded }
       }
     },
     [chain, wallet],
@@ -373,27 +378,59 @@ export const useWalletConnectSession = () => {
         web3.eth.getBalance(wallet.account),
       ])
 
+      // force gas price for celo and fuse
+      switch (requestedChainId) {
+        case 122:
+          delete message.maxFeePerGas
+          delete message.maxPriorityFeePerGas
+          message.gasPrice = 1e10
+          break
+        case 42220:
+          delete message.gasPrice
+          message.maxPriorityFeePerGas = 1e8
+          message.maxFeePerGas = 5e9
+          break
+        default: {
+          const gasPrice = await web3.eth.getGasPrice()
+          let gasField = message.maxFeePerGas ? 'maxFeePerGas' : 'gasPrice'
+          if(message[gasField])
+          {
+            message[gasField] = web3Utils.toBN(message[gasField]).gt(web3Utils.toBN(gasPrice)) ? gasPrice : message[gasField]
+          }
+          else {
+            message[gasField] = gasPrice
+          }
+        }
+      }
+
       let error
-      let estimatedGast
+      let estimatedGas
       try {
-        estimatedGas = await web3.eth.estimateGas(message)
+        const {data, from, to ,value} = message
+        estimatedGas = await web3.eth.estimateGas({data,from,to,value})
       } catch (e) {
         error = e.message
       }
       log.info('validateCall', { error, estimatedGas, web3 })
 
       // We must pass a number through the bridge
-      if (!message.gas) {
-        message.gas = estimatedGas || String(Config.defaultTxGas)
+      message.gas = estimatedGas || message.gas || String(Config.defaultTxGas)
+      
+      
+      const eip1599Gas = () => web3Utils.toBN(message.maxFeePerGas).add(web3Utils.toBN(message.maxPriorityFeePerGas))
+      const gasRequired = web3Utils
+        .toBN(message.gas)
+        .mul(message.gasPrice ? web3Utils.toBN(message.gasPrice) : eip1599Gas())
+      const gasStatus = {
+        balance,
+        hasEnoughGas: web3Utils.toBN(balance).gte(gasRequired),
+        gasRequired: gasRequired.toString(),
       }
 
-      const eip1599Gas = () => Number(message.maxFeeParGas) + Number(message.maxPriorityFeePerGas)
-      const gasRequired = Number(message.gas) * (message.gasPrice ? Number(message.gasPrice) : eip1599Gas())
-      const gasStatus = { balance, hasEnoughGas: balance >= gasRequired, gasRequired }
       showApprove({
         walletAddress: wallet.account,
         metadata,
-        message: { ...message, error, decodedTx, gasStatus, gasRequired },
+        message: { ...message, error, decodedTx, gasStatus },
         payload: { method },
         modalType: 'tx',
         explorer,
@@ -416,7 +453,7 @@ export const useWalletConnectSession = () => {
         onReject: () => rejectRequest(connector, payload.id, payload.topic),
       })
     },
-    [wallet, chain, chains, showApprove, decodeTx, v2session],
+    [wallet, chain, chains, showApprove, decodeTx],
   )
 
   const handleScanRequest = useCallback(
@@ -472,6 +509,8 @@ export const useWalletConnectSession = () => {
           event: { name: 'chainChanged', data: [chainDetails.chainId] },
           chainId: `eip155:${chainDetails.chainId}`,
         })
+        v2session.chainId = chainDetails.chainId
+        setSession(v2session) //make sure chainId in UI dropdown changes        
         log.debug('switching chain notification v2 done', { chainDetails, v2session })
         AsyncStorage.setItem('walletconnect_requestedChain_v2', chainDetails.chainId)
       }
@@ -515,27 +554,20 @@ export const useWalletConnectSession = () => {
   )
 
   const handleSessionDisconnect = useCallback(
-    async connector => {
-      const metadata = v2session || connector?.session?.peerMeta
+    async (connector, event) => {
+      const metadata = v2session || event || connector?.session?.peerMeta
       const isV2 = connector === cachedV2Connector
-      log.debug('WC2Events&Sessions: ending session:', { metadata, session: connector?.session })
+      log.debug('WC2Events&Sessions: ending session:', { metadata, session: connector?.session, v2session })
+
       if (isV2) {
+        const { topic } = metadata || {}
         const activeSessions = connector?.getActiveSessions()
-
-        if (Object.entries(activeSessions).length > 0) {
-          const { topic } = metadata || {}
-
-          if (activeSessions[topic]) {
-            await connector.disconnectSession({ topic, reason: getSdkError('USER_DISCONNECTED') })
-          }
+        try {
+          await connector.disconnectSession({ topic, reason: getSdkError('USER_DISCONNECTED') })
         }
-
-        // old wc2 storage items cause caching issues when trying to make a new connection to a previous used disconnected dapp
-        if (Object.entries(activeSessions).length < 2) {
-          await AsyncStorage.getAllKeys()
-            .then(keys => keys.filter(wc2Re.test))
-            .then(keys => AsyncStorage.multiRemove(keys))
-            .catch(e => log.warn('failed_disconnect_cleanup', e.message, e))
+        catch(e)
+        {
+          log.warn("session disconnect failed",e.message,e)
         }
 
         setSession(undefined)
@@ -735,8 +767,8 @@ export const useWalletConnectSession = () => {
   const cancelTx = useCallback(async () => {
     const web3 = await getWeb3(chain)
     const minGasPrice = await web3.eth.getGasPrice()
-    const { params } = maxBy(chainPendingTxs, _ => Number(_.params?.gasPrice || _.params?.maxFeeParGas))
-    const gasPrice = Math.max(Number(minGasPrice), Number(params.gasPrice || params.maxFeeParGas) * 1.1).toFixed(0)
+    const { params } = maxBy(chainPendingTxs, _ => Number(_.params?.gasPrice || _.params?.maxFeePerGas))
+    const gasPrice = Math.max(Number(minGasPrice), Number(params.gasPrice || params.maxFeePerGas) * 1.1).toFixed(0)
     return sendTx(
       { from: wallet.account, to: wallet.account, gasPrice, value: 0, gas: 21000 },
       {},
@@ -748,20 +780,24 @@ export const useWalletConnectSession = () => {
 
   // initialize v2 connector effect
   useEffect(() => {
-    if (!isInitialized || cachedV2Connector.initialized) {
+    if (!isInitialized) {
       return
     }
     const sessions = cachedV2Connector.getActiveSessions()
     log.debug('v2 init active sessions:', { sessions })
-    log.info('WC2Events&Sessions:', { sessions })
-    // Object.values(sessions).map(s =>
-    //   cachedV2Connector.disconnectSession({ topic: s.topic, reason: getSdkError('USER_DISCONNECTED') }),
-    // )
+
+    cachedV2Connector.events.removeAllListeners('session_proposal')
+    cachedV2Connector.events.removeAllListeners('session_request')
+    cachedV2Connector.events.removeAllListeners('session_ping')
+    cachedV2Connector.events.removeAllListeners('session_update')
+    cachedV2Connector.events.removeAllListeners('session_event')
+    cachedV2Connector.events.removeAllListeners('session_delete')
+
     cachedV2Connector.on('session_proposal', event => handleSessionRequest(cachedV2Connector, event))
     cachedV2Connector.on('session_request', event => {
       const sessionv2 = cachedV2Connector.getActiveSessions()[event.topic]
       log.debug('WC2Events&Sessions -- v2 incoming session_request:', { event, sessionv2 })
-      setV2Session(sessionv2) //set latest request as the active session, required for switchchain
+      setV2Session(sessionv2, event) //set latest request as the active session, required for switchchain
       handleCallRequest(cachedV2Connector, event)
     })
     cachedV2Connector.on('session_ping', event => log.debug('WC2Events&Sessions -- v2 incoming session_ping:', event))
@@ -771,21 +807,14 @@ export const useWalletConnectSession = () => {
     cachedV2Connector.on('session_event', event => log.debug('WC2Events&Sessions -- v2 incoming session_event:', event))
     cachedV2Connector.on('session_delete', event => {
       log.debug('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })
-      handleSessionDisconnect(cachedV2Connector)
+      handleSessionDisconnect(cachedV2Connector, event)
     })
-    cachedV2Connector.core.pairing.events.on('pairing_ping', event =>
-      log.debug('WC2Events&Sessions -- v2 incoming pairing_ping:', event),
-    )
-    cachedV2Connector.core.pairing.events.on('pairing_delete', event => {
-      log.debug('WC2Events&Sessions -- v2 pairing delete:', { cachedV2Connector, event })
-      handleSessionDisconnect(cachedV2Connector)
-    })
-    cachedV2Connector.core.pairing.events.on('pairing_expire', event =>
-      log.debug('WC2Events&Sessions -- v2 incoming pairing_expire:', event),
-    )
-    cachedV2Connector.initialized = true
-    reconnect()
-  }, [isInitialized, reconnect, cachedV2Connector, setV2Session, handleCallRequest, handleSessionRequest])
+    
+    if(!v2session)
+    {
+      reconnect()
+    }
+  }, [isInitialized, reconnect,v2session, cachedV2Connector, setV2Session, handleCallRequest, handleSessionRequest, handleSessionDisconnect])
 
   //v1 connector initialize
   const initializeV1 = connector => {
@@ -844,13 +873,11 @@ export const useWalletConnectSession = () => {
   }, [activeConnector, handleSessionDisconnect])
 
   const setV2Session = useCallback(
-    sessionv2 => {
-      let requestedChainIdV2 =
-        sessionv2?.chainId ??
-        Number((sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1])
+    (sessionv2, event) => {
+      let requestedChainIdV2 = Number((event?.params?.chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1])
       log.info('settingv2session', { sessionv2, requestedChainIdV2, chain })
       if (sessionv2) {
-        log.debug('setting v2 session and active connector', { sessionv2, cachedV2Connector })
+        log.debug('setting v2 session and active connector', { sessionv2, cachedV2Connector, requestedChainIdV2 })
         setConnector(cachedV2Connector)
         setSession({
           ...sessionv2.peer.metadata,
@@ -861,7 +888,7 @@ export const useWalletConnectSession = () => {
         AsyncStorage.setItem('walletconnect_requestedChain_v2', requestedChainIdV2)
       }
     },
-    [setSession, setConnector, wallet, chain],
+    [setSession, setConnector, wallet, chain, chains],
   )
   const reconnect = useCallback(async () => {
     log.debug('reconnect:', { activeConnector, isInitialized, cachedV2Connector })
@@ -901,15 +928,9 @@ export const useWalletConnectSession = () => {
   }, [])
 
   useEffect(() => {
-    if (v2session && chain && chain?.chainId !== v2session?.chainId) {
-      const activeSessions = cachedV2Connector.getActiveSessions()
-      const sessionv2 = first(Object.values(activeSessions))
-      sessionv2.chainId = chain.chainId
 
-      setV2Session(sessionv2)
-    }
     const chainDetails = chains.find(
-      _ => Number(_.chainId) === Number(chain?.chainId || activeConnector?.session?.chainId || v2session?.chainId),
+      _ => Number(_.chainId) === Number(activeConnector?.session?.chainId || v2session?.chainId),
     )
 
     log.debug('setting chain:', { chainDetails })
@@ -938,6 +959,7 @@ export const useWalletConnectSession = () => {
     isConnected,
     session: activeConnector?.session || v2session,
     version: activeConnector === cachedV2Connector ? 2 : 1,
+    v2session
   })
   return {
     isWCDialogShown: isDialogShown,

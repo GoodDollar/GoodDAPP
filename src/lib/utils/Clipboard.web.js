@@ -5,6 +5,7 @@ import writeText from 'clipboard-copy'
 import { assign, isFunction } from 'lodash'
 
 import logger from '../../lib/logger/js-logger'
+import { isWebView } from './platform'
 
 const log = logger.child({ from: 'Clipboard' })
 
@@ -23,7 +24,7 @@ export default new class {
 
   async setString(text: string): Promise<void> {
     const { api, fallbackApi } = this
-    const rwApi = isFunction(api.writeText) ? api : fallbackApi
+    const rwApi = isWebView || !isFunction(api.writeText) ? fallbackApi : api
 
     await rwApi.writeText(text)
     log.debug('setString', text)

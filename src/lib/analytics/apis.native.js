@@ -29,10 +29,16 @@ class GoogleWrapper {
     assign(this, { analytics })
   }
 
-  async setDefaultParams(params = {}) {
+  async identify(userId) {
     const { analytics } = this
 
-    await analytics.setDefaultEventParameters(params)
+    await analytics.setUserId(userId)
+  }
+
+  async setUserProperties(params = {}) {
+    const { analytics } = this
+
+    await analytics.setUserProperties(params)
   }
 
   logEvent(event: string, data: any = {}) {

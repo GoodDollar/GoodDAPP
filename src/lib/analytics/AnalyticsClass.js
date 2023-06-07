@@ -1,29 +1,11 @@
 // @flow
-import {
-  assign,
-  debounce,
-  forIn,
-  forOwn,
-  get,
-  isEmpty,
-  isError,
-  isNumber,
-  isString,
-  isUndefined,
-  memoize,
-  negate,
-  pick,
-  pickBy,
-  remove,
-  toLower,
-  values,
-} from 'lodash'
+import { assign, debounce, forIn, forOwn, get, isEmpty, isError, isString, memoize, pick, toLower } from 'lodash'
 import EventEmitter from 'eventemitter3'
 import { cloneErrorObject, ExceptionCategory } from '../exceptions/utils'
 import { isWeb, osVersion } from '../utils/platform'
 import DeepLinking from '../utils/deepLinking'
 import isWebApp from '../utils/isWebApp'
-import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
+import { ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
   apis = {}
@@ -129,8 +111,8 @@ export class AnalyticsClass {
       sentry.configureScope(scope => forIn(sentryScope, (value, property) => scope.setTag(property, value)))
     }
 
-    if (isGoogleEnabled && !isEmpty(tags)) {
-      await googleAnalytics.setDefaultParams(tags)
+    if (isGoogleEnabled && !isEmpty(allTags)) {
+      await googleAnalytics.setUserProperties(allTags)
     }
 
     logger.debug('available analytics:', {
@@ -146,8 +128,8 @@ export class AnalyticsClass {
   }
 
   identifyWith = (identifier, email = null) => {
-    const { apis, logger, isAmplitudeEnabled, isMixpanelEnabled, isSentryEnabled } = this
-    const { amplitude, sentry, mixpanel } = apis
+    const { apis, logger, isAmplitudeEnabled, isMixpanelEnabled, isSentryEnabled, isGoogleEnabled } = this
+    const { amplitude, sentry, mixpanel, googleAnalytics } = apis
 
     if (isMixpanelEnabled && identifier) {
       mixpanel.identify(identifier)
@@ -157,12 +139,16 @@ export class AnalyticsClass {
       amplitude.setUserId(identifier)
     }
 
-    if (isSentryEnabled) {
+    if (isSentryEnabled && identifier) {
       sentry.configureScope(scope =>
         scope.setUser({
           id: identifier,
         }),
       )
+    }
+
+    if (isGoogleEnabled && identifier) {
+      googleAnalytics.identify(identifier)
     }
 
     if (email) {
@@ -219,18 +205,7 @@ export class AnalyticsClass {
 
     // fire all events on  GA also
     if (googleAnalytics) {
-      const _values = values(data)
-
-      // remove returns the removed items, so eventValues will be numbers
-      const eventValues = remove(_values, isNumber)
-      const eventStrings = remove(_values, isString)
-      const eventData = {
-        eventAction: event,
-        eventValue: eventValues.shift(),
-        eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(_values.shift()),
-      }
-
-      this.fireGoogleAnalyticsEvent(ANALYTICS_EVENT, pickBy(eventData, negate(isUndefined)))
+      this.fireGoogleAnalyticsEvent(event, data)
     }
 
     logger.debug('fired event', { event, data })

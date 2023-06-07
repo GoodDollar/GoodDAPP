@@ -158,6 +158,7 @@ jobs:
           cat .vercel.env.$vercel_env_name.local >> .env.$env_name
           echo $env_name
           echo "APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.$env_name)" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)')" >> $GITHUB_ENV
           cat .env.$env_name
           echo "adding secrets to .env.$env_name file"
           echo "$SENTRYRC" > android/sentry.properties

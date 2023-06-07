@@ -50,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
   }
   onboard-v2::part(sidebar-heading-img) {
     max-width: 100%;
-    height: fit-content;
+    height: auto;
   }
   onboard-v2::part(main-modal) {
     @media screen and (max-width: 420px) {
@@ -58,12 +58,12 @@ const GlobalStyle = createGlobalStyle`
     }
   }
   onboard-v2::part(mobile-icon-container) {
-    width: fit-content;
+    width: auto;
   }
 
   onboard-v2::part(mobile-icon-img) {
     width: 120px;
-    height: fit-content;
+    height: auto;
   }
 `
 

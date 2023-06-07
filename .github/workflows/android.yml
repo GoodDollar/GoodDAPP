@@ -41,7 +41,7 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_FLAGS='--debug'" >> $GITHUB_ENV
+          # echo "APPCENTER_CODEPUSH_FLAGS='--debug'" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ endsWith(github.ref, '/staging') }}
         run: |
@@ -163,6 +163,14 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           env_name="${{ env.ENV }}"
+          if [[ "${{github.ref_name }}" == "next"]]; then
+           vercel_env_name="production"
+           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          else 
+            vercel_env_name="preview"
+            vercel pull --yes --environment=$vercel_env_name --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
+          fi
+          cat .vercel.env.$vercel_env_name.local >> .env.$env_name
           echo $env_name
           cat .env.$env_name
           echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"

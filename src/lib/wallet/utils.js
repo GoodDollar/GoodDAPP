@@ -1,11 +1,11 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { assign, map, noop, zipObject } from 'lodash'
+import { assign, isString, map, noop, pick, values, zipObject } from 'lodash'
 import { decode, isMNID } from 'mnid'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
-import { NETWORK_ID } from '../constants/network'
+import { type NETWORK, NETWORK_ID } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
 
@@ -31,11 +31,26 @@ type ReceiptType = {
   status: boolean,
 }
 
+const makeNetworkMatcher = (...networks: NETWORK[]) => {
+  const supportedNetworkIds = values(pick(NETWORK_ID, ...networks))
+
+  return (networkOrId: number | NETWORK) => {
+    const networkId = isString(networkOrId) ? NETWORK_ID[networkOrId.toUpperCase()] : networkOrId
+
+    return supportedNetworkIds.includes(networkId)
+  }
+}
+
 export const WITHDRAW_STATUS_PENDING = 'pending'
 export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
 export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+
+export const supportsG$ = makeNetworkMatcher('MAINNET', 'GOERLI', 'FUSE', 'CELO')
+
+export const supportsG$UBI = makeNetworkMatcher('FUSE', 'CELO')
+
 export const extractEthAddress = uri => {
   const regExResult = uri.match(ethAddressRegex)
 

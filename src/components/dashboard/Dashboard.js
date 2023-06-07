@@ -12,7 +12,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
-import { decimalsToFixed, toMask } from '../../lib/wallet/utils'
+import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 import { useFormatG$, useSwitchNetwork, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
@@ -428,7 +428,7 @@ const Dashboard = props => {
   }, [appState, feedLoaded])
 
   const animateClaim = useCallback(() => {
-    if (!entitlement) {
+    if (!entitlement || !supportsG$UBI(currentNetwork)) {
       return
     }
 
@@ -449,7 +449,7 @@ const Dashboard = props => {
         }),
       ]).start(resolve),
     )
-  }, [entitlement])
+  }, [entitlement, currentNetwork])
 
   const animateItems = useCallback(async () => {
     await animateClaim()
@@ -834,7 +834,7 @@ const Dashboard = props => {
                 )}
               </Animated.View>
             </Animated.View>
-            {headerLarge && (
+            {headerLarge && supportsG$(currentNetwork) && (
               <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
                 <View style={styles.multiBalance}>
                   <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
@@ -864,12 +864,16 @@ const Dashboard = props => {
                   >
                     Send
                   </PushButton>
-                  <ClaimButton
-                    screenProps={screenProps}
-                    amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
-                    animated
-                    animatedScale={claimScale}
-                  />
+                  {supportsG$UBI(currentNetwork) ? (
+                    <ClaimButton
+                      screenProps={screenProps}
+                      amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
+                      animated
+                      animatedScale={claimScale}
+                    />
+                  ) : (
+                    <View style={styles.buttonSpacer} />
+                  )}
                   <PushButton
                     icon="receive"
                     iconSize={20}
@@ -1149,6 +1153,9 @@ const getStylesFromProps = ({ theme }) => ({
     }),
     height: 54,
     justifyContent: 'center',
+  },
+  buttonSpacer: {
+    width: theme.sizes.defaultQuadruple,
   },
 })
 

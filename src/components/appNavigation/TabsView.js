@@ -1,5 +1,5 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
@@ -8,11 +8,12 @@ import { Icon, IconButton, Text } from '../../components/common'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
-import { useSwitchNetwork } from '../../lib/wallet/GoodWalletProvider'
+import { useSwitchNetwork, useSwitchNetworkModal } from '../../lib/wallet/GoodWalletProvider'
 import { theme } from '../theme/styles'
 import GreenCircle from '../../assets/ellipse46.svg'
 import GoodWallet from '../../assets/goodwallet.svg'
 import { fireEvent, SWITCH_NETWORK } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 
 const styles = {
   marginRight10: {
@@ -59,17 +60,25 @@ const defaultRightButtonStyles = [iconStyle, styles.iconViewRight]
 
 const NetworkName = () => {
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
+  const showModal = useSwitchNetworkModal()
 
-  const toggle = () => {
+  const toggle = useCallback(() => {
     fireEvent(SWITCH_NETWORK, { type: 'topbar' })
     switchNetwork(currentNetwork === 'FUSE' ? 'CELO' : 'FUSE')
-  }
+  }, [switchNetwork, currentNetwork])
+
+  const select = useCallback(() => {
+    fireEvent(SWITCH_NETWORK, { type: 'topbar' })
+    showModal()
+  }, [showModal])
+
+  const onToggle = Config.isDeltaApp ? select : toggle
 
   return (
     <View style={styles.networkName}>
-      <TouchableOpacity onPress={toggle} style={styles.switchButton}>
+      <TouchableOpacity onPress={onToggle} style={styles.switchButton}>
         <IconButton
-          onPress={toggle}
+          onPress={onToggle}
           name="switch"
           bgColor="transparent"
           color="white"

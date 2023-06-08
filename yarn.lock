@@ -4143,7 +4143,7 @@ __metadata:
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
-    "@gooddollar/goodprotocol": ^2.0.5
+    "@gooddollar/goodprotocol": ^2.0.6
     "@gooddollar/react-native-facetec": ^1.0.36
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.1.91
@@ -4426,9 +4426,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@gooddollar/goodprotocol@npm:2.0.5"
+"@gooddollar/goodprotocol@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "@gooddollar/goodprotocol@npm:2.0.6"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
@@ -4444,7 +4444,7 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: 11eec2be8d76d85c9a0a01a527bda82b9fa17fb9ea008255d177572454088c5fe6b367faa2064210a701de3fa3f642c8acdef1090111e089b69acc83084f5345
+  checksum: cc03f3b73128116ed1242e96c042ce76029194dfba128e50244d7adef7af0d6fbcfc0d40c0d2506645b6670ec5404e2651730fcd19d8e965832503594c45e6e3
   languageName: node
   linkType: hard
 

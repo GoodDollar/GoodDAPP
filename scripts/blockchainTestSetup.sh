@@ -6,6 +6,8 @@ export ADMIN_MNEMONIC='test test test test test test test test test test test ju
 yarn set version berry
 yarn --immutable
 yarn add node-jq
+yarn rebuild
+ls -la node_modules/node-jq/bin
 npx patch-package
 yarn runNode &
 yarn deployTest

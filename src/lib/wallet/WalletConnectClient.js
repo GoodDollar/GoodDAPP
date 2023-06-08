@@ -37,6 +37,7 @@ bindAll(wc2Re, 'test')
 // 11. show warning if unable to decode contract call
 
 const CELO_APPS = ["gooddapp.xyz","gooddapp.org","gooddollar.org","prosperity.global","ubeswap.org"]
+const CELO_ALFAJORES_APPS = ["dev.app.prosperity.global"]
 
 const metadata = {
   description: 'GoodDollar Wallet App',
@@ -253,11 +254,15 @@ export const useWalletConnectSession = () => {
       let requestedChainId = requestedChainIdV1 || requestedChainIdV2 || Number(wallet.networkId)
       const appUrl = metadata.url
 
-      if (CELO_APPS.find(_ => appUrl.includes(_))) {
+      if (CELO_ALFAJORES_APPS.find(_ => appUrl.includes(_))) {
+        // force Celo when connecting to gooddapp
+        requestedChainId = 44787
+      }
+      else if (CELO_APPS.find(_ => appUrl.includes(_))) {
         // force Celo when connecting to gooddapp
         requestedChainId = 42220
       }
-      if (appUrl.includes('voltage.finance')) {
+      else if (appUrl.includes('voltage.finance')) {
         // bug in voltage chainid request
         requestedChainId = 122
       }

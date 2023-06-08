@@ -1297,12 +1297,12 @@ export class GoodWallet {
     }
   }
 
-  toDecimals(wei, chainId) {
-    return formatUnits(String(wei || '0'), Config.ethereum[chainId || this.networkId].g$Decimals)
+  toDecimals(wei, chainId = null, decimals = null) {
+    return formatUnits(String(wei || '0'), decimals ?? Config.ethereum[chainId ?? this.networkId].g$Decimals)
   }
 
-  fromDecimals(amount, chainId) {
-    return parseUnits(amount, Config.ethereum[chainId || this.networkId].g$Decimals).toString()
+  fromDecimals(amount, chainId = null, decimals = null) {
+    return parseUnits(amount, decimals ?? Config.ethereum[chainId ?? this.networkId].g$Decimals).toString()
   }
 
   async getUserInviteBounty() {

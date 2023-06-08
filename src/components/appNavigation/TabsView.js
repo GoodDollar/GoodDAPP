@@ -1,5 +1,5 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
@@ -8,7 +8,12 @@ import { Icon, IconButton, Text } from '../../components/common'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { isMobileNative } from '../../lib/utils/platform'
-import { useSwitchNetwork, useSwitchNetworkModal } from '../../lib/wallet/GoodWalletProvider'
+import {
+  TokenContext,
+  useSwitchNetwork,
+  useSwitchNetworkModal,
+  useSwitchTokenModal,
+} from '../../lib/wallet/GoodWalletProvider'
 import { theme } from '../theme/styles'
 import GreenCircle from '../../assets/ellipse46.svg'
 import GoodWallet from '../../assets/goodwallet.svg'
@@ -58,6 +63,19 @@ const iconStyle = isMobileNative ? styles.iconView : styles.iconWidth
 
 const defaultRightButtonStyles = [iconStyle, styles.iconViewRight]
 
+const TokenName = () => {
+  const showModal = useSwitchTokenModal()
+  const { token } = useContext(TokenContext)
+
+  return (
+    <TouchableOpacity onPress={showModal} style={styles.switchButton}>
+      <Text color={'white'} fontWeight="bold" fontSize={10}>
+        / {token}
+      </Text>
+    </TouchableOpacity>
+  )
+}
+
 const NetworkName = () => {
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const showModal = useSwitchNetworkModal()
@@ -72,7 +90,8 @@ const NetworkName = () => {
     showModal()
   }, [showModal])
 
-  const onToggle = Config.isDeltaApp ? select : toggle
+  const { isDeltaApp } = Config
+  const onToggle = isDeltaApp ? select : toggle
 
   return (
     <View style={styles.networkName}>
@@ -91,10 +110,12 @@ const NetworkName = () => {
         <Text color={'white'} fontWeight="bold" fontSize={10}>
           {currentNetwork}
         </Text>
+        {isDeltaApp && <TokenName />}
       </TouchableOpacity>
     </View>
   )
 }
+
 const TabsView = React.memo(
   ({ navigation }) => {
     const { slideToggle } = useSideMenu()

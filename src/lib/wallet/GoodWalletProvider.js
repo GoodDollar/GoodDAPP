@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { first, last, noop } from 'lodash'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
@@ -24,7 +24,7 @@ import { setChainId } from '../analytics/analytics'
 import { withStyles } from '../styles'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-import { supportsG$UBI } from './utils'
+import { getNativeToken, supportsG$, supportsG$UBI } from './utils'
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -64,6 +64,12 @@ export const GoodWalletContext = React.createContext({
   dailyUBI: undefined,
   isCitizen: false,
   switchNetwork: undefined,
+})
+
+export const TokenContext = React.createContext({
+  token: 'G$',
+  native: false,
+  setToken(token, native = false) {},
 })
 
 /**
@@ -352,6 +358,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   // disable goodweb3provider for tests
   const Provider = Config.env === 'test' ? React.Fragment : GoodWeb3Provider
+
   const props =
     Config.env === 'test'
       ? {}
@@ -372,9 +379,26 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         }
   return (
     <GoodWalletContext.Provider value={contextValue}>
-      <Provider {...props}>{children}</Provider>
+      <Provider {...props}>
+        <TokenProvider>{children}</TokenProvider>
+      </Provider>
     </GoodWalletContext.Provider>
   )
+}
+
+const TokenProvider = ({ children }) => {
+  const [token, setTokenName] = useState('G$')
+  const [native, setIsNative] = useState(false)
+
+  const setToken = useCallback(
+    (token, native = false) => {
+      setTokenName(token)
+      setIsNative(native)
+    },
+    [setTokenName, setIsNative],
+  )
+
+  return <TokenContext.Provider value={{ token, native, setToken }}>{children}</TokenContext.Provider>
 }
 
 export const useWallet = () => {
@@ -409,7 +433,7 @@ export const useSwitchNetwork = () => {
   return { switchNetwork, currentNetwork: getNetworkName(goodWallet.networkId) }
 }
 
-const NetworkSwitch = withStyles(({ theme }) => ({
+const PopupSwitch = withStyles(({ theme }) => ({
   optionsRowWrapper: {
     padding: 0,
   },
@@ -429,28 +453,27 @@ const NetworkSwitch = withStyles(({ theme }) => ({
     alignItems: 'center',
     paddingRight: theme.sizes.default,
   },
-}))(({ value, onChange, styles, theme }) => {
-  const [network, setNetwork] = useState(value)
-  const networks = ['FUSE', 'CELO', Config.env === 'production' ? 'MAINNET' : 'GOERLI']
+}))(({ value, values, onChange, styles, theme }) => {
+  const [selectedValue, setSelected] = useState(value)
 
-  const handleNetworkSelect = useCallback(
+  const handleSelect = useCallback(
     selectedValue => {
-      setNetwork(selectedValue)
+      setSelected(selectedValue)
       onChange(selectedValue)
     },
-    [setNetwork, onChange],
+    [setSelected, onChange],
   )
 
   return (
     <Section.Stack justifyContent="flex-start" style={styles.optionsRowWrapper}>
-      <RadioButton.Group onValueChange={handleNetworkSelect} value={network}>
-        {networks.map(network => (
-          <View style={styles.optionsRowContainer} key={network}>
+      <RadioButton.Group onValueChange={handleSelect} value={selectedValue}>
+        {values.map(item => (
+          <View style={styles.optionsRowContainer} key={item}>
             <View style={styles.optionsRowTitle}>
-              <RadioButton value={network} uncheckedColor={theme.colors.gray} color={theme.colors.primary} />
+              <RadioButton value={item} uncheckedColor={theme.colors.gray} color={theme.colors.primary} />
             </View>
             <Text style={styles.growTwo} textAlign="left" color="gray" fontWeight="medium">
-              {network}
+              {item}
             </Text>
           </View>
         ))}
@@ -465,6 +488,7 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const toNetwork = switchToNetwork?.toUpperCase()
   const defaultSwitchTo = isDeltaApp ? currentNetwork : currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
+  const networks = ['FUSE', 'CELO', Config.env === 'production' ? 'MAINNET' : 'GOERLI']
 
   const showModal = useCallback(
     (toNetwork = null) => {
@@ -477,7 +501,9 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
         type: 'info',
         isMinHeight: true,
         onDismiss,
-        content: showSwitch ? <NetworkSwitch value={switchTo} onChange={value => (switchTo = value)} /> : null,
+        content: showSwitch ? (
+          <PopupSwitch values={networks} value={switchTo} onChange={value => (switchTo = value)} />
+        ) : null,
         buttons: [
           {
             text: showSwitch ? 'Switch chain' : `Switch to ${switchTo.toUpperCase()}`,
@@ -503,18 +529,78 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
   return toNetwork ? null : selectNetwork
 }
 
-export const useFormatG$ = () => {
+export const useSwitchTokenModal = (onDismiss = noop) => {
+  const { showDialog, hideDialog } = useDialog()
+  const { networkId } = useWallet()
+  const { token, setToken } = useContext(TokenContext)
+
+  const tokens = useMemo(() => {
+    const list = [getNativeToken(networkId)]
+
+    if (supportsG$(networkId)) {
+      // put G$ on the first place at the network supporting UBI, native token otherwise
+      if (supportsG$UBI(networkId)) {
+        list.unshift('G$')
+      } else {
+        list.push('G$')
+      }
+    }
+
+    return list
+  }, [networkId])
+
+  const switchToken = useCallback(
+    token => {
+      setToken(token, token === getNativeToken(networkId))
+    },
+    [networkId, setToken],
+  )
+
+  // set first one value from the list available once network changes and list recalculates
+  useEffect(() => {
+    switchToken(first(tokens))
+  }, [tokens])
+
+  return useCallback(() => {
+    let switchTo = token
+
+    showDialog({
+      title: 'Select token',
+      visible: true,
+      type: 'info',
+      isMinHeight: true,
+      onDismiss,
+      content: <PopupSwitch values={tokens} value={switchTo} onChange={value => (switchTo = value)} />,
+      buttons: [
+        {
+          text: 'Select token',
+          onPress: () => {
+            switchToken(switchTo)
+            hideDialog()
+          },
+        },
+      ],
+    })
+  }, [showDialog, onDismiss, hideDialog, switchToken, token, tokens])
+}
+
+// pass 18 as default value for CELO/FUSE/ETH/goerliETH
+export const useFormatToken = (decimals = 18) => {
   const wallet = useWallet()
 
-  //using args so functions do not lose "this" context
+  // using args so functions do not lose "this" context
   return {
-    toDecimals: (...args) => wallet?.toDecimals(...args),
-    fromDecimals: (...args) => wallet?.fromDecimals(...args),
+    toDecimals: (wei, chainId = null) => wallet?.toDecimals(wei, chainId, decimals),
+    fromDecimals: (amount, chainId = null) => wallet?.fromDecimals(amount, chainId, decimals),
   }
 }
+
+// pass null to not force decimals and use values from Config.ethereum for G$
+export const useFormatG$ = () => useFormatToken(null)
 
 export const usePropSuffix = () => {
   const { goodWallet } = useContext(GoodWalletContext)
   const propSuffix = goodWallet.networkId === 122 ? '' : `_${goodWallet.networkId}`
+
   return propSuffix
 }

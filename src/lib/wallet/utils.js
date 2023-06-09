@@ -5,7 +5,7 @@ import { assign, isString, map, noop, pick, values, zipObject } from 'lodash'
 import { decode, isMNID } from 'mnid'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
-import { type NETWORK, NETWORK_ID } from '../constants/network'
+import { getNetworkName, type NETWORK, NETWORK_ID } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
 
@@ -50,6 +50,34 @@ export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 export const supportsG$ = makeNetworkMatcher('MAINNET', 'GOERLI', 'FUSE', 'CELO')
 
 export const supportsG$UBI = makeNetworkMatcher('FUSE', 'CELO')
+
+export const getNativeToken = networkOrId => {
+  const networkName = isString(networkOrId) ? networkOrId.toUpperCase() : getNetworkName(networkOrId)
+
+  switch (networkName) {
+    case 'MAINNET':
+      return 'ETH'
+    case 'GOERLI':
+      return 'GETH'
+    default:
+      return networkName
+  }
+}
+
+export const getTokensList = networkId => {
+  const list = [getNativeToken(networkId)]
+
+  if (supportsG$(networkId)) {
+    // put G$ on the first place at the network supporting UBI, native token otherwise
+    if (supportsG$UBI(networkId)) {
+      list.unshift('G$')
+    } else {
+      list.push('G$')
+    }
+  }
+
+  return list
+}
 
 export const extractEthAddress = uri => {
   const regExResult = uri.match(ethAddressRegex)

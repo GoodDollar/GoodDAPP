@@ -89,6 +89,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 
 const RouterWrapper = () => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
+  const [analyticsInitialized, setAnalyticsInitialized] = useState(false)
 
   // we use global state for signup process to signal user has registered
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
@@ -108,8 +109,13 @@ const RouterWrapper = () => {
       assign(tags, { isDeltaApp })
     }
 
-    initAnalytics(tags).then(() => log.debug('RouterSelector Rendered'))
-  }, [])
+    if (isLoggedInRouter && !analyticsInitialized) {
+      initAnalytics(tags).then(() => {
+        setAnalyticsInitialized(true)
+        log.debug('RouterSelector Rendered')
+      })
+    }
+  }, [isLoggedInRouter, analyticsInitialized])
 
   useEffect(() => {
     const check = async () => {

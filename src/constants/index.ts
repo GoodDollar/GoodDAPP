@@ -69,7 +69,7 @@ Object.defineProperty(Currency, 'CELO', { value: CELO })
 Object.defineProperty(ChainId, 'FUSE', { value: 122, writable: false, configurable: false })
 Object.defineProperty(ChainId, 122, { value: 'FUSE', writable: false, configurable: false })
 Object.defineProperty(WETH, 122, {
-    value: new Token(122, '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', 18, 'WFUSE', 'Wrapped FUSE'),
+    value: new Token(122 as ChainId, '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', 18, 'WFUSE', 'Wrapped FUSE'),
     writable: false,
     configurable: false,
 })
@@ -77,7 +77,7 @@ Object.defineProperty(WETH, 122, {
 Object.defineProperty(ChainId, 'CELO', { value: 42220, writable: false, configurable: false })
 Object.defineProperty(ChainId, 42220, { value: 'CELO', writable: false, configurable: false })
 Object.defineProperty(WETH, 42220, {
-    value: new Token(42220, '0x122013fd7dF1C6F636a5bb8f03108E876548b455', 18, 'WETH', 'Wrapped ETH'),
+    value: new Token(42220 as ChainId, '0x122013fd7dF1C6F636a5bb8f03108E876548b455', 18, 'WETH', 'Wrapped ETH'),
     writable: false,
     configurable: false,
 })

@@ -9,7 +9,7 @@ module.exports = {
     ],
     plugins: ['@typescript-eslint', 'prettier', 'eslint-plugin-import', 'react-hooks', 'react-hooks-addons'],
     parserOptions: {
-        ecmaVersion: 2020,
+        ecmaVersion: 2022,
         ecmaFeatures: {
             jsx: true
         },
@@ -17,7 +17,7 @@ module.exports = {
         tsconfigRootDir: __dirname,
         project: ['./tsconfig.json']
     },
-    ignorePatterns: ['/build/**/*', '/types/*/*d.ts', '/src/**/*.test.ts*', '/**/*.*js'],
+    ignorePatterns: ['/build/**/*', '/types/*/*d.ts', '/src/**/*.test.ts*', '/**/*.*js', '*.config.ts'],
     rules: {
         'prettier/prettier': 'warn',
         '@typescript-eslint/explicit-function-return-type': 'off',

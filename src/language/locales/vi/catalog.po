@@ -1,0 +1,3474 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-05-31 12:45+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/components/AppBar.tsx:202
+#: src/components/Savings/SavingsCard/index.tsx:48
+msgid ""
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/pages/gd/Portfolio/index.tsx:399
+msgid "Stake Positions"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/pages/gd/Portfolio/index.tsx:452
+msgid "Savings"
+msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "(COMING SOON) Accrue automatic yield through flash loans and\n"
+#~ "SUSHI strategies"
+#~ msgstr ""
+#~ "(SẮP RA MẮT) Tích lũy lợi tức tự động thông qua các khoản vay nhanh và \n"
+#~ " chiến lược SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "(View on explorer)"
+#~ msgstr "(Xem trên Explorer)"
+
+#. js-lingui-explicit-id
+#~ msgid "+ Add a send (optional)"
+#~ msgstr "+ Thêm gửi (tùy chọn)"
+
+#. js-lingui-explicit-id
+#~ msgid "+ Create a new market"
+#~ msgstr "+ Tạo thị trường mới"
+
+#. js-lingui-explicit-id
+#~ msgid "- Remove send"
+#~ msgstr "- Xóa gửi"
+
+#. js-lingui-explicit-id
+#~ msgid "300M+ TVL on Polygon! Optimized routing enabled"
+#~ msgstr "300M+ TVL on Polygon! Optimized routing enabled"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> In order to start earning rewards, you will need to first acquire some SLP by adding liquidity to the specified pair or <1>migrating existing liquidity.</1> Once you have SLP you can stake it into this yield farm to start earning rewards. Unstake anytime and then you can convert your SLP back to base tokens by clicking Remove Liquidity. Click Harvest to receive your rewards at any time."
+#~ msgstr "<0> Mẹo: </0> Để bắt đầu kiếm phần thưởng, trước tiên bạn cần phải có được một số SLP bằng cách thêm thanh khoản vào cặp được chỉ định hoặc <1> di chuyển thanh khoản hiện có. </1> Sau khi có SLP, bạn có thể đặt cược vào trang trại năng suất này để bắt đầu kiếm phần thưởng. Bỏ chạy bất kỳ lúc nào và sau đó bạn có thể chuyển đổi SLP của mình trở lại thành mã thông báo cơ sở bằng cách nhấp vào Xóa tính thanh khoản. Nhấp vào Thu hoạch để nhận phần thưởng cho bạn bất cứ lúc nào."
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive."
+#~ msgstr "<0> Mẹo: </0> Xóa mã nhóm sẽ chuyển đổi vị trí của bạn trở lại thành các mã cơ bản với tỷ lệ hiện tại, tỷ lệ thuận với thị phần của bạn trong nhóm. Phí tích lũy được bao gồm trong số tiền bạn nhận được."
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> Use this tool to find pairs that don't automatically appear in the interface"
+#~ msgstr "<0> Mẹo: </0> Sử dụng công cụ này để tìm các cặp không tự động xuất hiện trong giao diện"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> When you add liquidity, you will receive pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time."
+#~ msgstr "<0> Mẹo: </0> Khi bạn thêm thanh khoản, bạn sẽ nhận được mã thông báo chung đại diện cho vị thế của bạn. Các mã thông báo này tự động kiếm được phí tương ứng với phần của bạn trong nhóm và có thể được đổi bất kỳ lúc nào."
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Your</0> Positions"
+#~ msgstr "<0> </0> Vị trí của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>{0}:</0> {1}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "A contribution to the reserve paid by members for directly selling G$ tokens."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive."
+#~ msgstr "Một phần của mỗi giao dịch (0,25%) được chuyển đến các nhà cung cấp thanh khoản như một biện pháp khuyến khích giao thức."
+
+#. js-lingui-explicit-id
+#~ msgid "APPROVE"
+#~ msgstr "CHẤP THUẬN"
+
+#. js-lingui-explicit-id
+#~ msgid "APPROVED"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "APPROVING"
+#~ msgstr "Phê duyệt"
+
+#. js-lingui-explicit-id
+#~ msgid "APR"
+#~ msgstr "APR"
+
+#. js-lingui-explicit-id
+#~ msgid "APR (incl. Fees)"
+#~ msgstr "APR (incl. Fees)"
+
+#. js-lingui-explicit-id
+#~ msgid "APY"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "APY (incl. Fees)"
+#~ msgstr "APY (incl. Fees)"
+
+#. js-lingui-explicit-id
+#~ msgid "Accept"
+#~ msgstr "Chấp nhận"
+
+#. js-lingui-explicit-id
+#~ msgid "Accept update"
+#~ msgstr "CHẤP NHẬN CẬP NHẬT."
+
+#. js-lingui-explicit-id
+#~ msgid "Account"
+#~ msgstr "Tài khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Active"
+#~ msgstr "Tích cực"
+
+#. js-lingui-explicit-id
+#~ msgid "Add"
+#~ msgstr "Thêm vào"
+
+#. js-lingui-explicit-id
+#~ msgid "Add Liquidity"
+#~ msgstr "Thêm thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Add SAK3 to your Metamask wallet"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Add Sushi to your Metamask wallet"
+#~ msgstr "Thêm Sushi vào ví Metamask của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Add collateral in order to borrow assets"
+#~ msgstr "Thêm tài sản thế chấp để vay tài sản"
+
+#. js-lingui-explicit-id
+#~ msgid "Add liquidity"
+#~ msgstr "Thêm thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Add xSushi to your Metamask wallet"
+#~ msgstr "Thêm xSushi vào ví Metamask của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "All Yield Farms"
+#~ msgstr "Tất cả các trang trại năng suất"
+
+#. js-lingui-explicit-id
+#~ msgid "Amount"
+#~ msgstr "Số lượng"
+
+#. js-lingui-explicit-id
+#~ msgid "Amount of Tokens"
+#~ msgstr "Số lượng mã thông báo"
+
+#. js-lingui-explicit-id
+#~ msgid "Amount to Remove"
+#~ msgstr "Số tiền để loại bỏ"
+
+#. js-lingui-explicit-id
+#~ msgid "An update is available for the token list"
+#~ msgstr "Một bản cập nhật có sẵn cho danh sách mã thông báo"
+
+#. js-lingui-explicit-id
+#~ msgid "Analytics"
+#~ msgstr "phân tích"
+
+#. js-lingui-explicit-id
+#~ msgid "Annual Percentage Yield (APY) is the percentage yield being earned."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Anyone can create a token, including creating fake versions of existing tokens that claim to represent projects."
+#~ msgstr "Bất cứ ai cũng có thể tạo mã thông báo, bao gồm tạo các phiên bản giả mạo của mã thông báo hiện có yêu cầu đại diện cho các dự án."
+
+#. js-lingui-explicit-id
+#~ msgid "Approve"
+#~ msgstr "Phê duyệt"
+
+#. js-lingui-explicit-id
+#~ msgid "Approve Kashi"
+#~ msgstr "Phê duyệt Kashi"
+
+#. js-lingui-explicit-id
+#~ msgid "Approve {0}"
+#~ msgstr "Phê duyệt {0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Approved"
+#~ msgstr "Tán thành"
+
+#. js-lingui-explicit-id
+#~ msgid "Approving"
+#~ msgstr "Phê duyệt"
+
+#. js-lingui-explicit-id
+#~ msgid "Approving {0}"
+#~ msgstr "Phê duyệt {0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Are you sure?"
+#~ msgstr "Bạn có chắc không?"
+
+#. js-lingui-explicit-id
+#~ msgid "Available"
+#~ msgstr "Có sẵn"
+
+#. js-lingui-explicit-id
+#~ msgid "Awesome!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Back"
+#~ msgstr "Mặt sau"
+
+#. js-lingui-explicit-id
+#~ msgid "Back to portfolio"
+#~ msgstr "Quay lại danh mục đầu tư"
+
+#. js-lingui-explicit-id
+#~ msgid "Balance"
+#~ msgstr "Thăng bằng"
+
+#. js-lingui-explicit-id
+#~ msgid "Bento Balance: {0}"
+#~ msgstr "Số dư Bento: {0}"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox"
+#~ msgstr "Hộp đựng cơm"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox Apps"
+#~ msgstr "Ứng dụng BentoBox"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox is an innovative way to use dapps gas-efficiently and gain extra yield."
+#~ msgstr "BentoBox là một cách sáng tạo để sử dụng hiệu quả khí dapps và tăng thêm năng suất."
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox provides extra yield on deposits with flash lending, strategies, and fixed, low-gas transfers among integrated dapps, like Kashi markets"
+#~ msgstr "BentoBox cung cấp thêm lợi suất tiền gửi với cho vay nhanh, chiến lược và chuyển khoản cố định, tiết kiệm xăng giữa các dapp tích hợp, như thị trường Kashi"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox strategies can create yield for your collateral tokens. This token does not yet have a strategy in the BentoBox."
+#~ msgstr "Các chiến lược BentoBox có thể tạo ra lợi nhuận cho các mã thông báo thế chấp của bạn. Mã thông báo này chưa có chiến lược trong BentoBox."
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox strategies can create yield for your liquidity while it is not lent out. This token does not yet have a strategy in the BentoBox."
+#~ msgstr "Chiến lược BentoBox có thể tạo ra lợi nhuận cho thanh khoản của bạn trong khi nó không được cho vay. Mã thông báo này chưa có chiến lược trong BentoBox."
+
+#. js-lingui-explicit-id
+#~ msgid "Blocked address"
+#~ msgstr "Địa chỉ bị chặn"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow"
+#~ msgstr "Vay"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow APR"
+#~ msgstr "Vay APR"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow assets and leverage up"
+#~ msgstr "Vay tài sản và sử dụng đòn bẩy"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow {0}"
+#~ msgstr "Vay {0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow {0}-{1}"
+#~ msgstr "Vay {0} - {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrowed"
+#~ msgstr "Mượn"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrowing allows you to obtain liquidity without selling. Your borrow limit depends on the amount of deposited collateral. You will be able to borrow up to 75% of your collateral and repay at any time with accrued interest."
+#~ msgstr "Việc đi vay cho phép bạn có được khả năng thanh khoản mà không cần bán. Hạn mức vay của bạn phụ thuộc vào số tiền ký quỹ. Bạn sẽ có thể vay tới 75% tài sản thế chấp của mình và hoàn trả bất kỳ lúc nào với lãi suất cộng dồn."
+
+#. js-lingui-explicit-id
+#~ msgid "Bridge Assets"
+#~ msgstr "Nội dung cầu nối"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "By adding liquidity you'll earn 0.25% of all trades on this pair proportional to your share\n"
+#~ "of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing\n"
+#~ "your liquidity."
+#~ msgstr ""
+#~ "Bằng cách thêm thanh khoản, bạn sẽ kiếm được 0,25% của tất cả các giao dịch trên cặp này tỷ lệ với phần \n"
+#~ " của bạn trong nhóm. Phí được thêm vào nhóm, tích lũy trong thời gian thực và có thể được yêu cầu bằng cách rút \n"
+#~ " thanh khoản của bạn."
+
+#. js-lingui-explicit-id
+#~ msgid "By adding this list you are implicitly trusting that the data is correct. Anyone can create a list, including creating fake versions of existing lists and lists that claim to represent projects that do not have one."
+#~ msgstr "Bằng cách thêm danh sách này, bạn đang tin tưởng vào dữ liệu là chính xác. Bất kỳ ai cũng có thể tạo một danh sách, bao gồm tạo các phiên bản giả của danh sách hiện có và liệt kê yêu cầu để thể hiện các dự án không có."
+
+#. js-lingui-explicit-id
+#~ msgid "Bypasses confirmation modals and allows high slippage trades. Use at your own risk."
+#~ msgstr "Bỏ qua các phương thức xác nhận và cho phép các giao dịch có độ trượt cao. Sử dụng có nguy cơ của riêng bạn."
+
+#. js-lingui-explicit-id
+#~ msgid "CLAIMABLE REWARDS"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "CONFIRM SWAP"
+#~ msgstr "Xác nhận trao đổi"
+
+#. js-lingui-explicit-id
+#~ msgid "Change"
+#~ msgstr "Thay đổi"
+
+#. js-lingui-explicit-id
+#~ msgid "Check out Sushi on Polygon (Matic)"
+#~ msgstr "Xem Sushi trên Polygon (Matic)"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim"
+#~ msgstr "Yêu cầu"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim All"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim G$ rewards"
+#~ msgstr "Yêu cầu G $ Phần thưởng"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim GOOD"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim GOOD rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim SUSHI"
+#~ msgstr "Yêu cầu SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim UBI"
+#~ msgstr "Yêu cầu UBI."
+
+#. js-lingui-explicit-id
+#~ msgid "Claim reward"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim your test tokens here..."
+#~ msgstr "Yêu cầu mã thông báo thử nghiệm của bạn ở đây ..."
+
+#. js-lingui-explicit-id
+#~ msgid "Claimable"
+#~ msgstr "Yêu cầu"
+
+#. js-lingui-explicit-id
+#~ msgid "Claimable Rewards"
+#~ msgstr "Phần thưởng yêu cầu"
+
+#. js-lingui-explicit-id
+#~ msgid "Claimed"
+#~ msgstr "Đã yêu cầu bồi thường"
+
+#. js-lingui-explicit-id
+#~ msgid "Claimed G$ Rewards"
+#~ msgstr "Yêu cầu G $ Phần thưởng"
+
+#. js-lingui-explicit-id
+#~ msgid "Claimed GOOD Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claiming the following rewards:"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claiming your rewards will reset your multiplier"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claiming your rewards will reset your multiplier."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Clear History"
+#~ msgstr "Xóa lịch sử"
+
+#. js-lingui-explicit-id
+#~ msgid "Clear all"
+#~ msgstr "Quet sạch tât cả"
+
+#. js-lingui-explicit-id
+#~ msgid "Click here to switch to Polygon using Metamask"
+#~ msgstr "Nhấp vào đây để chuyển sang Đa giác bằng Metamask"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Click on a pool below, input the amount you wish to migrate or select max, and click\n"
+#~ "migrate"
+#~ msgstr ""
+#~ "Nhấp vào nhóm bên dưới, nhập số tiền bạn muốn di chuyển hoặc chọn tối đa và nhấp vào \n"
+#~ " di chuyển"
+
+#. js-lingui-explicit-id
+#~ msgid "Click this button to Claim your Daily UBI in"
+#~ msgstr "Nhấp vào nút này để yêu cầu UBI hàng ngày của bạn trong"
+
+#. js-lingui-explicit-id
+#~ msgid "Click this button to Claim your Daily UBI in G$"
+#~ msgstr "Nhấp vào nút này để yêu cầu UBI hàng ngày của bạn trong G $"
+
+#. js-lingui-explicit-id
+#~ msgid "Close"
+#~ msgstr "Gần"
+
+#. js-lingui-explicit-id
+#~ msgid "Collateral"
+#~ msgstr "Tài sản thế chấp"
+
+#. js-lingui-explicit-id
+#~ msgid "Collect G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Common bases"
+#~ msgstr "Căn cứ thông thường"
+
+#. js-lingui-explicit-id
+#~ msgid "Community Approval"
+#~ msgstr "Sự chấp thuận của cộng đồng"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm"
+#~ msgstr "Xác nhận"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Adding Liquidity"
+#~ msgstr "Xác nhận Thêm Thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Staking"
+#~ msgstr "Xác nhận đặt cọc"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Supply"
+#~ msgstr "Xác nhận cung cấp"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Swap"
+#~ msgstr "Xác nhận Hoán đổi"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Withdrawal"
+#~ msgstr "Xác nhận Rút tiền"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm swap"
+#~ msgstr "Xác nhận trao đổi"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm this transaction in your wallet"
+#~ msgstr "Xác nhận giao dịch này trong ví của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Congratulations!"
+#~ msgstr "Xin chúc mừng!"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect Wallet"
+#~ msgstr "Kết nối ví"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect a wallet to see your portfolio"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Connect to a wallet"
+#~ msgstr "Kết nối với ví"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect to a wallet to find pools"
+#~ msgstr "Kết nối với ví để tìm nhóm"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect to a wallet to view your liquidity"
+#~ msgstr "Kết nối với ví để xem tính thanh khoản của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect wallet"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Connected with"
+#~ msgstr "Kết nối với"
+
+#. js-lingui-explicit-id
+#~ msgid "Copied"
+#~ msgstr "Đã sao chép"
+
+#. js-lingui-explicit-id
+#~ msgid "Copy address"
+#~ msgstr "Sao chép địa chỉ"
+
+#. js-lingui-explicit-id
+#~ msgid "Create Pool & Supply"
+#~ msgstr "Tạo Pool & Supply"
+
+#. js-lingui-explicit-id
+#~ msgid "Create a Pair"
+#~ msgstr "Tạo một cặp"
+
+#. js-lingui-explicit-id
+#~ msgid "Create a pair"
+#~ msgstr "Tạo một cặp"
+
+#. js-lingui-explicit-id
+#~ msgid "Create pool"
+#~ msgstr "Tạo hồ bơi"
+
+#. js-lingui-explicit-id
+#~ msgid "Current Rate"
+#~ msgstr "Tỷ lệ hiện tại"
+
+#. js-lingui-explicit-id
+#~ msgid "DEPOSIT"
+#~ msgstr "ĐẶT CỌC"
+
+#. js-lingui-explicit-id
+#~ msgid "Dashboard"
+#~ msgstr "bảng điều khiển"
+
+#. js-lingui-explicit-id
+#~ msgid "Date"
+#~ msgstr "Ngày"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit"
+#~ msgstr "Tiền gửi"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit SUSHI into BentoBox"
+#~ msgstr "Gửi SUSHI vào BentoBox"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit overview"
+#~ msgstr "Tổng quan về tiền gửi."
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit tokens into BentoBox for all the yields"
+#~ msgstr "Gửi mã thông báo vào BentoBox để nhận tất cả lợi suất"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposited"
+#~ msgstr "Đã ký gửi"
+
+#. js-lingui-explicit-id
+#~ msgid "Dev"
+#~ msgstr "Dev"
+
+#. js-lingui-explicit-id
+#~ msgid "Did you just create UBI for thousands of people around the world?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Disable Multihops"
+#~ msgstr "Vô hiệu hóa nhiều giám mục"
+
+#. js-lingui-explicit-id
+#~ msgid "Disconnect"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Discontinued"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Discord"
+#~ msgstr "Bất hòa"
+
+#. js-lingui-explicit-id
+#~ msgid "Dismiss"
+#~ msgstr "Bỏ qua"
+
+#. js-lingui-explicit-id
+#~ msgid "Docs"
+#~ msgstr "Docs"
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for developers"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for developers of Sushi."
+#~ msgstr "Tài liệu dành cho các nhà phát triển Sushi."
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for users"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for users of Sushi."
+#~ msgstr "Tài liệu cho người dùng Sushi."
+
+#. js-lingui-explicit-id
+#~ msgid "Don't see a pool you joined? <0>Import it.</0>"
+#~ msgstr "Không thấy nhóm bạn đã tham gia? <0> Nhập nó. </0>"
+
+#. js-lingui-explicit-id
+#~ msgid "Dont see a pool you joined?"
+#~ msgstr "Không thấy nhóm bạn đã tham gia?"
+
+#. js-lingui-explicit-id
+#~ msgid "Double Yield Farms"
+#~ msgstr "Trang trại gấp đôi"
+
+#. js-lingui-explicit-id
+#~ msgid "ETHEREUM"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Enjoy the lowest slippage on Polygon"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Enter"
+#~ msgstr "Đi vào"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter Amount"
+#~ msgstr "Nhập số tiền"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter a recipient"
+#~ msgstr "Nhập người nhận"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter a valid slippage percentage"
+#~ msgstr "Nhập phần trăm trượt giá hợp lệ"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter an amount"
+#~ msgstr "Nhập số tiền"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter valid list location"
+#~ msgstr "Nhập vị trí danh sách hợp lệ"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter valid token address"
+#~ msgstr "Nhập địa chỉ mã thông báo hợp lệ"
+
+#. js-lingui-explicit-id
+#~ msgid "Error"
+#~ msgstr "lỗi"
+
+#. js-lingui-explicit-id
+#~ msgid "Error connecting"
+#~ msgstr "Lỗi kết nối"
+
+#. js-lingui-explicit-id
+#~ msgid "Error connecting."
+#~ msgstr "Lỗi kết nối."
+
+#. js-lingui-explicit-id
+#~ msgid "Error connecting. Try refreshing the page."
+#~ msgstr "Lỗi kết nối. Hãy thử làm mới trang."
+
+#. js-lingui-explicit-id
+#~ msgid "Error importing list"
+#~ msgstr "Lỗi nhập danh sách"
+
+#. js-lingui-explicit-id
+#~ msgid "Expanded results from inactive Token Lists"
+#~ msgstr "Kết quả mở rộng từ danh sách mã thông báo không hoạt động"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Expert mode turns off the confirm transaction prompt and allows high slippage trades\n"
+#~ "that often result in bad rates and lost funds."
+#~ msgstr ""
+#~ "Chế độ chuyên gia tắt lời nhắc xác nhận giao dịch và cho phép các giao dịch trượt giá cao \n"
+#~ " thường dẫn đến tỷ giá xấu và mất tiền."
+
+#. js-lingui-explicit-id
+#~ msgid "FUSE"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Fetching Farms"
+#~ msgstr "Fetching Farms."
+
+#. js-lingui-explicit-id
+#~ msgid "Fetching Instruments"
+#~ msgstr "Tìm nạp công cụ"
+
+#. js-lingui-explicit-id
+#~ msgid "Find Pool"
+#~ msgstr "Tìm nhóm"
+
+#. js-lingui-explicit-id
+#~ msgid "Fixed Apy"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "For every swap on the exchange on every chain, 0.05% of the swap fees are distributed as SUSHI\n"
+#~ "proportional to your share of the SushiBar. When your SUSHI is staked into the SushiBar, you receive\n"
+#~ "xSUSHI in return for voting rights and a fully composable token that can interact with other protocols.\n"
+#~ "Your xSUSHI is continuously compounding, when you unstake you will receive all the originally deposited\n"
+#~ "SUSHI and any additional from fees."
+#~ msgstr ""
+#~ "Đối với mỗi giao dịch hoán đổi trên sàn giao dịch trên mọi chuỗi, 0,05% phí hoán đổi được phân bổ dưới dạng SUSHI \n"
+#~ " tỷ lệ với phần của bạn trên SushiBar. Khi SUSHI của bạn được đặt vào SushiBar, bạn sẽ nhận được \n"
+#~ " xSUSHI để đổi lại quyền biểu quyết và một mã thông báo hoàn toàn có thể tổng hợp có thể tương tác với các giao thức khác. \n"
+#~ " xSUSHI của bạn liên tục được cộng gộp, khi bạn hủy bỏ, bạn sẽ nhận được tất cả số tiền đã gửi ban đầu \n"
+#~ " SUSHI và bất kỳ khoản bổ sung nào từ phí."
+
+#. js-lingui-explicit-id
+#~ msgid "From"
+#~ msgstr "Từ"
+
+#. js-lingui-explicit-id
+#~ msgid "From (estimated)"
+#~ msgstr "Từ (ước tính)"
+
+#. js-lingui-explicit-id
+#~ msgid "Fuse Bridge"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GDX"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the\n"
+#~ "contribution exit."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GOO"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GOOD"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GOOD Airdrop"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Gain exposure to tokens without reducing your assets. Leverage will enable you to take short positions against assets and earn from downside movements."
+#~ msgstr "Nhận được mã thông báo tiếp xúc mà không làm giảm tài sản của bạn. Đòn bẩy sẽ cho phép bạn thực hiện các vị thế bán khống đối với tài sản và kiếm tiền từ các biến động giảm giá."
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Gain governance rights with xSUSHI and earn 5% APR (0.05% of\n"
+#~ "all swaps from all chains)"
+#~ msgstr ""
+#~ "Nhận quyền quản trị với xSUSHI và kiếm 5% APR (0,05% trong số \n"
+#~ " tất cả các giao dịch hoán đổi từ tất cả các chuỗi)"
+
+#. js-lingui-explicit-id
+#~ msgid "Go Back"
+#~ msgstr "Quay lại"
+
+#. js-lingui-explicit-id
+#~ msgid "Go to Portfolio"
+#~ msgstr "Đi đến danh mục đầu tư"
+
+#. js-lingui-explicit-id
+#~ msgid "Good Airdrop"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDAO"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDAO Staking"
+#~ msgstr "GoodDAO Staking"
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDollar"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDollar is a supporter of open source"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodStakes"
+#~ msgstr "GoodStakes"
+
+#. js-lingui-explicit-id
+#~ msgid "Hardware Wallet"
+#~ msgstr "Ví phần cứng"
+
+#. js-lingui-explicit-id
+#~ msgid "Harvest {0} SUSHI"
+#~ msgstr "Thu hoạch {0} SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Harvest {0} SUSHI & {1} ALCX"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Harvest {0} SUSHI & {1} MATIC"
+#~ msgstr "Thu hoạch {0} SUSHI & {1} MATIC"
+
+#. js-lingui-explicit-id
+#~ msgid "Have Liquidity on {0}?"
+#~ msgstr "Có Thanh khoản trên {0} ?"
+
+#. js-lingui-explicit-id
+#~ msgid "Have assets you want to earn additional interest on? Lend them in isolated markets and earn interest from borrowers. It's as easy as deposit and withdraw whenever you want."
+#~ msgstr "Bạn có tài sản nào mà bạn muốn kiếm thêm tiền lãi không? Cho họ vay ở các thị trường biệt lập và thu lãi từ những người đi vay. Dễ dàng như gửi tiền và rút tiền bất cứ khi nào bạn muốn."
+
+#. js-lingui-explicit-id
+#~ msgid "Health"
+#~ msgstr "Sức khỏe"
+
+#. js-lingui-explicit-id
+#~ msgid "Helpful Sushi Tools"
+#~ msgstr "Dụng cụ Sushi hữu ích"
+
+#. js-lingui-explicit-id
+#~ msgid "Historical Total Locked: Connect Wallet"
+#~ msgstr "Tổng số lịch sử đã khóa: Connect Wallet"
+
+#. js-lingui-explicit-id
+#~ msgid "Historical Total Locked: Fetching Total"
+#~ msgstr "Tổng số lịch sử đã khóa: Tổng số tìm nạp"
+
+#. js-lingui-explicit-id
+#~ msgid "Historical Total Locked: {0} SUSHI"
+#~ msgstr "Tổng số lịch sử đã khóa: {0} SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Holding"
+#~ msgstr "Giữ"
+
+#. js-lingui-explicit-id
+#~ msgid "How many GOOD tokens you are accumulating by this stake position."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much rewards would you like to donate"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much tokens your deposits have accumulated so far."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much value your stake has accumulated so far."
+#~ msgstr "Bao nhiêu giá trị cổ phần của bạn đã tích lũy cho đến nay."
+
+#. js-lingui-explicit-id
+#~ msgid "How much would you like to deposit?"
+#~ msgstr "Bạn muốn gửi bao nhiêu tiền?"
+
+#. js-lingui-explicit-id
+#~ msgid "How much would you like to withdraw?"
+#~ msgstr "Bạn muốn rút bao nhiêu tiền?"
+
+#. js-lingui-explicit-id
+#~ msgid "I understand"
+#~ msgstr "Tôi hiểu"
+
+#. js-lingui-explicit-id
+#~ msgid "If you purchase a token from this list, you may not be able to sell it back."
+#~ msgstr "Nếu bạn mua mã thông báo từ danh sách này, bạn có thể không thể bán lại."
+
+#. js-lingui-explicit-id
+#~ msgid "If you purchase this token, you may not be able to sell it back."
+#~ msgstr "Nếu bạn mua mã thông báo này, bạn có thể không thể bán lại."
+
+#. js-lingui-explicit-id
+#~ msgid "Import"
+#~ msgstr "Nhập khẩu"
+
+#. js-lingui-explicit-id
+#~ msgid "Import List"
+#~ msgstr "Nhập danh sách"
+
+#. js-lingui-explicit-id
+#~ msgid "Import Pool"
+#~ msgstr "Nhập nhóm"
+
+#. js-lingui-explicit-id
+#~ msgid "Import at your own risk"
+#~ msgstr "Nhập khẩu rủi ro của riêng bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Import it"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Initializing..."
+#~ msgstr "Khởi tạo ..."
+
+#. js-lingui-explicit-id
+#~ msgid "Input is estimated. You will sell at most"
+#~ msgstr "Đầu vào được ước tính. Bạn sẽ bán nhiều nhất"
+
+#. js-lingui-explicit-id
+#~ msgid "Input is estimated. You will sell at most <0>{0} {1}</0> or the transaction will revert."
+#~ msgstr "Đầu vào được ước tính. Bạn sẽ bán nhiều nhất <0> {0} {1} </0> nếu không giao dịch sẽ hoàn nguyên."
+
+#. js-lingui-explicit-id
+#~ msgid "Instruments"
+#~ msgstr "Dụng cụ"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient Balance"
+#~ msgstr "Thiếu cân bằng"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient WETH balance"
+#~ msgstr "Số dư WETH không đủ"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient liquidity for this trade"
+#~ msgstr "Không đủ thanh khoản cho giao dịch này"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient {0} balance"
+#~ msgstr "Số dư {0} không đủ"
+
+#. js-lingui-explicit-id
+#~ msgid "Interface Settings"
+#~ msgstr "Cài đặt giao diện"
+
+#. js-lingui-explicit-id
+#~ msgid "Invalid pair"
+#~ msgstr "Cặp không hợp lệ"
+
+#. js-lingui-explicit-id
+#~ msgid "Invalid recipient"
+#~ msgstr "Người nhận không hợp lệ"
+
+#. js-lingui-explicit-id
+#~ msgid "Isolated lending markets mitigate your risks as an asset lender. Know exactly what collateral is available to you in the event of counter party insolvency."
+#~ msgstr "Thị trường cho vay biệt lập giúp giảm thiểu rủi ro của bạn với tư cách là người cho vay tài sản. Biết chính xác tài sản thế chấp nào có sẵn cho bạn trong trường hợp bên phản đối mất khả năng thanh toán."
+
+#. js-lingui-explicit-id
+#~ msgid "Join the community of discord"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Join the community on Discord."
+#~ msgstr "Tham gia cộng đồng trên Discord."
+
+#. js-lingui-explicit-id
+#~ msgid "Kashi Lending"
+#~ msgstr "Kashi Lending"
+
+#. js-lingui-explicit-id
+#~ msgid "Keys Burned: 2022.03.04 at 22:05"
+#~ msgstr "Cháy phím: 2022.03.04 lúc 22:05"
+
+#. js-lingui-explicit-id
+#~ msgid "Learn More"
+#~ msgstr "Tìm hiểu thêm"
+
+#. js-lingui-explicit-id
+#~ msgid "Learn more about wallets"
+#~ msgstr "Tìm hiểu thêm về ví"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend"
+#~ msgstr "Cho vay"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend assets for interest from borrowers."
+#~ msgstr "Cho khách hàng vay tài sản lấy lãi."
+
+#. js-lingui-explicit-id
+#~ msgid "Lend your assets, earn yield with no impermanent loss"
+#~ msgstr "Cho vay tài sản của bạn, kiếm lợi nhuận mà không mất mát vô thường"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend {assetSymbol}"
+#~ msgstr "Cho vay {assetSymbol}"
+
+#. js-lingui-explicit-id
+#~ msgid "Lending"
+#~ msgstr "Cho vay"
+
+#. js-lingui-explicit-id
+#~ msgid "Lending Yield Farms"
+#~ msgstr "Cho vay Năng tiêu trang trại"
+
+#. js-lingui-explicit-id
+#~ msgid "Lent"
+#~ msgstr "Mùa chay"
+
+#. js-lingui-explicit-id
+#~ msgid "Limit <0>Used</0>"
+#~ msgstr "Giới hạn <0> Đã sử dụng </0>"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity"
+#~ msgstr "Liquidity"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Positions"
+#~ msgstr "Vị trí thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Provider Fee"
+#~ msgstr "Phí nhà cung cấp thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Provider Rewards"
+#~ msgstr "Phần thưởng cho nhà cung cấp thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Yield Farms"
+#~ msgstr "Năng sản lợi suất thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity is the total value staked in the GoodDollar Trust staking contract (USD)."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Liquidity providers earn a 0.25% fee on all trades proportional to their share of\n"
+#~ "the pool. Fees are added to the pool, accrue in real time and can be claimed by\n"
+#~ "withdrawing your liquidity"
+#~ msgstr ""
+#~ "Các nhà cung cấp tính thanh khoản kiếm được khoản phí 0,25% trên tất cả các giao dịch tỷ lệ với phần của họ trong \n"
+#~ " nhóm. Phí được thêm vào nhóm, tích lũy trong thời gian thực và có thể được yêu cầu bằng cách \n"
+#~ " rút thanh khoản của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Lists"
+#~ msgstr "Danh sách"
+
+#. js-lingui-explicit-id
+#~ msgid "Loaded"
+#~ msgstr "Nạp vào"
+
+#. js-lingui-explicit-id
+#~ msgid "Loading"
+#~ msgstr "Đang tải"
+
+#. js-lingui-explicit-id
+#~ msgid "Loading your {exchange} liquidity positions"
+#~ msgstr "Đang tải các vị trí thanh khoản {exchange}"
+
+#. js-lingui-explicit-id
+#~ msgid "Loading..."
+#~ msgstr "Đang tải..."
+
+#. js-lingui-explicit-id
+#~ msgid "Loan to Value"
+#~ msgstr "Khoản vay đối với giá trị"
+
+#. js-lingui-explicit-id
+#~ msgid "MAX"
+#~ msgstr "TỐI ĐA"
+
+#. js-lingui-explicit-id
+#~ msgid "MULTIPLIER"
+#~ msgstr "Số nhân"
+
+#. js-lingui-explicit-id
+#~ msgid "Make the most of your"
+#~ msgstr "Tận dụng tối đa"
+
+#. js-lingui-explicit-id
+#~ msgid "Manage"
+#~ msgstr "Quản lý"
+
+#. js-lingui-explicit-id
+#~ msgid "Manage Liquidity in Rewards Pool"
+#~ msgstr "Quản lý tính thanh khoản trong nhóm phần thưởng"
+
+#. js-lingui-explicit-id
+#~ msgid "Manage this pool"
+#~ msgstr "Quản lý nhóm này"
+
+#. js-lingui-explicit-id
+#~ msgid "Market Info"
+#~ msgstr "Thông tin thị trường"
+
+#. js-lingui-explicit-id
+#~ msgid "Market Staked"
+#~ msgstr "Thị trường đã đặt cọc"
+
+#. js-lingui-explicit-id
+#~ msgid "Markets"
+#~ msgstr "Thị trường"
+
+#. js-lingui-explicit-id
+#~ msgid "Max"
+#~ msgstr "Max"
+
+#. js-lingui-explicit-id
+#~ msgid "Maximize yield by staking SUSHI for xSUSHI"
+#~ msgstr "Tối đa hóa lợi nhuận bằng cách đặt SUSHI cho xSUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Maximum sold"
+#~ msgstr "Bán tối đa"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate"
+#~ msgstr "Di cư"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate Now"
+#~ msgstr "Di cư ngay"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate Now."
+#~ msgstr "Di cư bây giờ."
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate {exchange} Liquidity"
+#~ msgstr "Di chuyển {exchange} Thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrating"
+#~ msgstr "Di cư"
+
+#. js-lingui-explicit-id
+#~ msgid "Migration is done in one-click using your signature (permit)"
+#~ msgstr "Quá trình di chuyển được thực hiện bằng một cú nhấp chuột bằng chữ ký của bạn (giấy phép)"
+
+#. js-lingui-explicit-id
+#~ msgid "Minimum received"
+#~ msgstr "Số tiền nhận được tối thiểu"
+
+#. js-lingui-explicit-id
+#~ msgid "Miso"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Missed the Auction?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Multichain Bridge"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "My Stake"
+#~ msgstr "Cổ phần của tôi"
+
+#. js-lingui-explicit-id
+#~ msgid "NETWORK"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Network"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Network Fee"
+#~ msgstr "Phí mạng"
+
+#. js-lingui-explicit-id
+#~ msgid "New"
+#~ msgstr "Mới"
+
+#. js-lingui-explicit-id
+#~ msgid "New network, new features"
+#~ msgstr "Mạng mới, tính năng mới"
+
+#. js-lingui-explicit-id
+#~ msgid "New to Ethereum?"
+#~ msgstr "Mới đối với ethereum?"
+
+#. js-lingui-explicit-id
+#~ msgid "Next month:"
+#~ msgstr "Tháng tiếp theo:"
+
+#. js-lingui-explicit-id
+#~ msgid "No LP tokens found"
+#~ msgstr "Không tìm thấy mã thông báo lp"
+
+#. js-lingui-explicit-id
+#~ msgid "No Liquidity found"
+#~ msgstr "Không tìm thấy tính thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "No Results"
+#~ msgstr "Ko có kết quả"
+
+#. js-lingui-explicit-id
+#~ msgid "No Results."
+#~ msgstr "Ko có kết quả."
+
+#. js-lingui-explicit-id
+#~ msgid "No data."
+#~ msgstr "Không có dữ liệu."
+
+#. js-lingui-explicit-id
+#~ msgid "No liquidity found"
+#~ msgstr "Không tìm thấy thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "No liquidity found to do swap"
+#~ msgstr "Không tìm thấy thanh khoản để thực hiện hoán đổi"
+
+#. js-lingui-explicit-id
+#~ msgid "No liquidity positions found"
+#~ msgstr "Không tìm thấy vị trí thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "No pool found"
+#~ msgstr "Không tìm thấy hồ bơi"
+
+#. js-lingui-explicit-id
+#~ msgid "No results found"
+#~ msgstr "không có kết quả nào được tìm thấy"
+
+#. js-lingui-explicit-id
+#~ msgid "Non-hardware Wallet"
+#~ msgstr "Ví không phải phần cứng"
+
+#. js-lingui-explicit-id
+#~ msgid "None"
+#~ msgstr "không ai"
+
+#. js-lingui-explicit-id
+#~ msgid "OFF"
+#~ msgstr "TẮT"
+
+#. js-lingui-explicit-id
+#~ msgid "ON"
+#~ msgstr "TRÊN"
+
+#. js-lingui-explicit-id
+#~ msgid "ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING."
+#~ msgstr "CHỈ SỬ DỤNG CHẾ ĐỘ NÀY NẾU BẠN BIẾT BẠN ĐANG LÀM GÌ."
+
+#. js-lingui-explicit-id
+#~ msgid "Off"
+#~ msgstr "Tắt"
+
+#. js-lingui-explicit-id
+#~ msgid "On"
+#~ msgstr "Trên"
+
+#. js-lingui-explicit-id
+#~ msgid "One click SUSHI → xSUSHI → aXSUSHI"
+#~ msgstr "Một cú nhấp chuột SUSHI → xSUSHI → aXSUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
+#~ msgstr "Giáo sư! Đã xảy ra lỗi không xác định. Vui lòng làm mới trang hoặc truy cập từ trình duyệt hoặc thiết bị khác"
+
+#. js-lingui-explicit-id
+#~ msgid "Open Source"
+#~ msgstr "Mã nguồn mở"
+
+#. js-lingui-explicit-id
+#~ msgid "Open main menu"
+#~ msgstr "Mở menu chính"
+
+#. js-lingui-explicit-id
+#~ msgid "Oracle"
+#~ msgstr "Oracle"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. If the price changes by more than {0}% your transaction will revert."
+#~ msgstr "Sản lượng được ước tính. Nếu giá thay đổi hơn {0} % thì giao dịch của bạn sẽ hoàn nguyên."
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least"
+#~ msgstr "Đầu ra được ước tính. Bạn sẽ nhận được ít nhất"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least <0>{0} {1}</0> or the transaction will revert."
+#~ msgstr "Sản lượng được ước tính. Bạn sẽ nhận được ít nhất <0> {0} {1} </0> hoặc giao dịch sẽ hoàn nguyên."
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least {0} or the transaction will revert"
+#~ msgstr "Đầu ra được ước tính. Bạn sẽ nhận được ít nhất {0} hoặc giao dịch sẽ hoàn nguyên"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least {minimumReceived} or the transaction will revert"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Output will be sent to"
+#~ msgstr "Đầu ra sẽ được gửi đến"
+
+#. js-lingui-explicit-id
+#~ msgid "Output will be sent to <0>{0}</0>"
+#~ msgstr "Đầu ra sẽ được gửi đến <0> {0} </0>"
+
+#. js-lingui-explicit-id
+#~ msgid "PENDING SIGN..."
+#~ msgstr "Đăng nhập Đăng nhập ..."
+
+#. js-lingui-explicit-id
+#~ msgid "PROTOCOL"
+#~ msgstr "Giao thức"
+
+#. js-lingui-explicit-id
+#~ msgid "Pending"
+#~ msgstr "Đang chờ xử lý"
+
+#. js-lingui-explicit-id
+#~ msgid "Pending Treasury Transfer"
+#~ msgstr "Chuyển khoản Kho bạc đang chờ xử lý"
+
+#. js-lingui-explicit-id
+#~ msgid "Please confirm you would like to remove this list by typing"
+#~ msgstr "Vui lòng xác nhận bạn muốn xóa danh sách này bằng cách gõ"
+
+#. js-lingui-explicit-id
+#~ msgid "Please connect to the appropriate Ethereum network."
+#~ msgstr "Vui lòng kết nối với mạng Ethereum thích hợp."
+
+#. js-lingui-explicit-id
+#~ msgid "Please connect to the appropriate network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Please connect your Web3 wallet to the Fuse Network to Claim UBI."
+#~ msgstr "Vui lòng kết nối ví Web3 của bạn với Mạng cầu chì để Yêu cầu UBI."
+
+#. js-lingui-explicit-id
+#~ msgid "Please type the word \"confirm\" to enable expert mode."
+#~ msgstr "Vui lòng nhập từ \"xác nhận\" để bật chế độ chuyên gia."
+
+#. js-lingui-explicit-id
+#~ msgid "Please wait"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information."
+#~ msgstr "Subgraphs đa giác hiện đang gặp tải cao. APY được hiển thị dựa trên phí lag. Quỹ an toàn, chúng tôi đang nghiên cứu giải quyết và cung cấp thông tin APY hợp nhất chính xác."
+
+#. js-lingui-explicit-id
+#~ msgid "Pool"
+#~ msgstr "Hồ bơi"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool Found!"
+#~ msgstr "Đã tìm thấy hồ bơi!"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool Rewards"
+#~ msgstr "Phần thưởng hồ bơi"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool Tokens"
+#~ msgstr "Mã thông báo hồ bơi"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool tokens in rewards pool"
+#~ msgstr "Nhóm mã thông báo trong nhóm phần thưởng"
+
+#. js-lingui-explicit-id
+#~ msgid "Pooled {0}"
+#~ msgstr "Đã gộp chung {0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Portfolio"
+#~ msgstr "Danh mục đầu tư"
+
+#. js-lingui-explicit-id
+#~ msgid "Positions"
+#~ msgstr "Vị trí"
+
+#. js-lingui-explicit-id
+#~ msgid "Pour a hot bowl of MISO, the new <0>token launchpad</0> from SUSHI"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Price"
+#~ msgstr "Giá bán"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Impact"
+#~ msgstr "Tác động giá"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Impact High"
+#~ msgstr "Tác động giá cao"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Impact Too High"
+#~ msgstr "Tác động giá quá cao"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Updated"
+#~ msgstr "Đã cập nhật giá"
+
+#. js-lingui-explicit-id
+#~ msgid "Protocol"
+#~ msgstr "Giao thức"
+
+#. js-lingui-explicit-id
+#~ msgid "REWARDS"
+#~ msgstr "Phần thưởng"
+
+#. js-lingui-explicit-id
+#~ msgid "Rates"
+#~ msgstr "Giá"
+
+#. js-lingui-explicit-id
+#~ msgid "Read Tutorial"
+#~ msgstr "Đọc hướng dẫn"
+
+#. js-lingui-explicit-id
+#~ msgid "Read more about unsupported assets"
+#~ msgstr "Đọc thêm về tài sản không được hỗ trợ"
+
+#. js-lingui-explicit-id
+#~ msgid "Read the contract"
+#~ msgstr "Đọc hợp đồng"
+
+#. js-lingui-explicit-id
+#~ msgid "Recent Transactions"
+#~ msgstr "Giao dịch gần đây"
+
+#. js-lingui-explicit-id
+#~ msgid "Recipient"
+#~ msgstr "Người nhận"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove"
+#~ msgstr "Tẩy"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove Liquidity"
+#~ msgstr "Loại bỏ tính thanh khoản"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove list"
+#~ msgstr "Xóa danh sách"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove send"
+#~ msgstr "Xóa gửi"
+
+#. js-lingui-explicit-id
+#~ msgid "Removing {0} {1} and {2} {3}"
+#~ msgstr "Xóa {0} {1} và {2} {3}"
+
+#. js-lingui-explicit-id
+#~ msgid "Repay"
+#~ msgstr "Trả lại"
+
+#. js-lingui-explicit-id
+#~ msgid "Request Tool"
+#~ msgstr "Công cụ yêu cầu"
+
+#. js-lingui-explicit-id
+#~ msgid "Restricts swaps to direct pairs only."
+#~ msgstr "Chỉ hạn chế hoán đổi đối với các cặp trực tiếp."
+
+#. js-lingui-explicit-id
+#~ msgid "Rewards"
+#~ msgstr "Phần thưởng"
+
+#. js-lingui-explicit-id
+#~ msgid "Route"
+#~ msgstr "Lộ trình"
+
+#. js-lingui-explicit-id
+#~ msgid "Routing through these tokens resulted in the best price for your trade."
+#~ msgstr "Định tuyến thông qua các mã thông báo này dẫn đến giá tốt nhất cho giao dịch của bạn."
+
+#. js-lingui-explicit-id
+#~ msgid "SAAVE"
+#~ msgstr "Sauve."
+
+#. js-lingui-explicit-id
+#~ msgid "SAAVE: Stack your yields in one transaction"
+#~ msgstr "TIẾT KIỆM: Cộng dồn lợi tức của bạn trong một giao dịch"
+
+#. js-lingui-explicit-id
+#~ msgid "STAKE"
+#~ msgstr "CỔ PHẦN"
+
+#. js-lingui-explicit-id
+#~ msgid "SUSHI Balance"
+#~ msgstr "Số dư SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "SUSHI Balance: {sushiBalance}"
+#~ msgstr "Số dư SUSHI: {sushiBalance}"
+
+#. js-lingui-explicit-id
+#~ msgid "SUSHI {0}/{1} Burned"
+#~ msgstr "SUSHI {0} / {1} Bị bỏng"
+
+#. js-lingui-explicit-id
+#~ msgid "SWAP"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Search by name, symbol, address"
+#~ msgstr "Tìm kiếm theo tên, ký hiệu, địa chỉ"
+
+#. js-lingui-explicit-id
+#~ msgid "Search name or paste address"
+#~ msgstr "Tìm kiếm tên hoặc dán địa chỉ"
+
+#. js-lingui-explicit-id
+#~ msgid "Search name or paste the address"
+#~ msgstr "Tên tìm kiếm hoặc dán địa chỉ"
+
+#. js-lingui-explicit-id
+#~ msgid "Select a token"
+#~ msgstr "Chọn một mã thông báo"
+
+#. js-lingui-explicit-id
+#~ msgid "Select a token to find your liquidity"
+#~ msgstr "Chọn một mã thông báo để tìm thanh khoản của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Select an LP Token"
+#~ msgstr "Chọn mã thông báo LP"
+
+#. js-lingui-explicit-id
+#~ msgid "Share of Pool"
+#~ msgstr "Chia sẻ của Pool"
+
+#. js-lingui-explicit-id
+#~ msgid "Share of Pool:"
+#~ msgstr "Chia sẻ của Pool:"
+
+#. js-lingui-explicit-id
+#~ msgid "Share with friends"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Slippage Tolerance"
+#~ msgstr "Khả năng chịu trượt"
+
+#. js-lingui-explicit-id
+#~ msgid "Slippage tolerance"
+#~ msgstr "Khả năng chịu trượt"
+
+#. js-lingui-explicit-id
+#~ msgid "Social APY"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Some assets are not available through this interface because they may not work well with our smart contract or we are unable to allow trading for legal reasons."
+#~ msgstr "Một số tài sản không có sẵn thông qua giao diện này vì chúng có thể không hoạt động tốt với hợp đồng thông minh của chúng tôi hoặc chúng tôi không thể cho phép giao dịch vì lý do pháp lý."
+
+#. js-lingui-explicit-id
+#~ msgid "Something went wrong during signing of the approval. This is expected for hardware wallets, such as Trezor and Ledger. Click again and the fallback method will be used"
+#~ msgstr "Đã xảy ra sự cố khi ký phê duyệt. Điều này được mong đợi đối với các ví phần cứng, chẳng hạn như Trezor và Ledger. Nhấp lại và phương pháp dự phòng sẽ được sử dụng"
+
+#. js-lingui-explicit-id
+#~ msgid "Stack Yields with SAAVE"
+#~ msgstr "Lợi nhuận xếp chồng với SAAVE"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake"
+#~ msgstr "Cổ phần"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake SUSHI"
+#~ msgstr "Cổ phần SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake SUSHI for xSUSHI"
+#~ msgstr "Cổ phần SUSHI cho xSUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Stake into xSUSHI add collateral as axSUSHI on Aave all in\n"
+#~ "one click"
+#~ msgstr ""
+#~ "Đặt cọc vào xSUSHI thêm tài sản thế chấp là axSUSHI trên Aave all in \n"
+#~ " một cú nhấp chuột"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake your SUSHI into xSUSHI for ~5% APY. Deposit your xSUSHI into Aave as aXSUSHI to earn collateral interest and borrowing power. All in one click."
+#~ msgstr "Đặt SUSHI của bạn vào xSUSHI với ~ 5% APY. Gửi xSUSHI của bạn vào Aave dưới dạng aXSUSHI để kiếm lãi thế chấp và quyền đi vay. Tất cả chỉ trong một cú nhấp chuột."
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Stake your SUSHI into xSUSHI for ~5% APY. No impermanent loss, no loss of governance rights.\n"
+#~ "Continuously compounding."
+#~ msgstr ""
+#~ "Đặt SUSHI của bạn vào xSUSHI với ~ 5% APY. Không tổn thất vô thường, không mất quyền quản trị. \n"
+#~ " Liên tục lãi kép."
+
+#. js-lingui-explicit-id
+#~ msgid "Staked {0} at {1}"
+#~ msgstr "Staked {0} tại {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Stakes"
+#~ msgstr "CARKE."
+
+#. js-lingui-explicit-id
+#~ msgid "Staking"
+#~ msgstr "Bắt đầu"
+
+#. js-lingui-explicit-id
+#~ msgid "Staking APR"
+#~ msgstr "APR cố định"
+
+#. js-lingui-explicit-id
+#~ msgid "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!"
+#~ msgstr "Bắt đầu từ 1.0, hệ số nhân của bạn sẽ tăng lên 2.0 sau một tháng tập tin vào sự tin tưởng, tại thời điểm nào bạn có thể được thưởng nhiều G $ mỗi ngày!"
+
+#. js-lingui-explicit-id
+#~ msgid "Submit Tool"
+#~ msgstr "Gửi công cụ"
+
+#. js-lingui-explicit-id
+#~ msgid "Success!"
+#~ msgstr "Sự thành công!"
+
+#. js-lingui-explicit-id
+#~ msgid "Supply APR"
+#~ msgstr "Cung cấp APR"
+
+#. js-lingui-explicit-id
+#~ msgid "Supplying {0} {1} and {2} {3}"
+#~ msgstr "Cung cấp {0} {1} và {2} {3}"
+
+#. js-lingui-explicit-id
+#~ msgid "Sushi allows for swapping of ERC20 compatible tokens across multiple networks"
+#~ msgstr "Sushi cho phép hoán đổi các mã thông báo tương thích ERC20 trên nhiều mạng"
+
+#. js-lingui-explicit-id
+#~ msgid "Sushi is a supporter of Open Source."
+#~ msgstr "Sushi là người ủng hộ Mã nguồn mở."
+
+#. js-lingui-explicit-id
+#~ msgid "SushiBar"
+#~ msgstr "Quán sushi"
+
+#. js-lingui-explicit-id
+#~ msgid "SushiBar: Make SUSHI work for you"
+#~ msgstr "SushiBar: Làm cho SUSHI làm việc cho bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap"
+#~ msgstr "Hoán đổi"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap Anyway"
+#~ msgstr "Vẫn hoán đổi"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap Completed"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Swap From (est.):"
+#~ msgstr "Hoán đổi Từ (ước tính):"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap From:"
+#~ msgstr "Hoán đổi Từ:"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap To (est.):"
+#~ msgstr "Chuyển sang (ước tính):"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap To:"
+#~ msgstr "Chuyển sang:"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap for SAK3 token on SUSHI now. Click here to swap."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Swap from"
+#~ msgstr "Trao đổi từ"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap to"
+#~ msgstr "Trao đổi đến."
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapped  {0} {1}\n"
+#~ "to {2} {3}"
+#~ msgstr ""
+#~ "Hoán đổi {0} {1} \n"
+#~ " đến {2} {3}"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapped {inputSig} {0}\n"
+#~ "to a minimum of {minimumOutputSig} {1}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapped {inputSig} {0} \n"
+#~ "to a minimum of {minimumOutputSig} {1}"
+#~ msgstr ""
+#~ "Hoán đổi {inputSig} {0} \n"
+#~ " đến mức tối thiểu {minimumOutputSig} {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Swapping"
+#~ msgstr "Trao đổi"
+
+#. js-lingui-explicit-id
+#~ msgid "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers."
+#~ msgstr "Hoán đổi G $ chống GoodReserve không có phí của bên thứ ba nếu bạn trao đổi từ / sang CDai vì đó là mã thông báo dự trữ của chúng tôi. Hoán đổi G $ S từ / đến các tài sản khác ngụ ý 0,3% phí chuyển đến các nhà cung cấp thanh khoản AMM của Bên thứ 3."
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapping {inputSig} {0} \n"
+#~ "to a minimum of {minimumOutputSig} {1}"
+#~ msgstr ""
+#~ "Trao đổi {inputSig} {0} \n"
+#~ " đến mức tối thiểu {minimumOutputSig} {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Switch to {network}"
+#~ msgstr "Chuyển sang {network}"
+
+#. js-lingui-explicit-id
+#~ msgid "Switch to {requireChain}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Switch your network to {0} to work with Portfolio"
+#~ msgstr "Chuyển mạng của bạn thành {0} để hoạt động với danh mục đầu tư"
+
+#. js-lingui-explicit-id
+#~ msgid "Switch your network to {0} to work with Stakes"
+#~ msgstr "Chuyển mạng của bạn thành {0} để làm việc với cổ phần"
+
+#. js-lingui-explicit-id
+#~ msgid "TOKEN"
+#~ msgstr "MÃ THÔNG BÁO"
+
+#. js-lingui-explicit-id
+#~ msgid "TVL"
+#~ msgstr "TVL"
+
+#. js-lingui-explicit-id
+#~ msgid "TYPE"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum.\n"
+#~ "This contract is able to mint and burn G$s according to the increase or decrease of it's demand.\n"
+#~ "Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum. \n"
+#~ "This contract is able to mint and burn G$s according to the increase or decrease of it's demand. \n"
+#~ "Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The difference between the market price and estimated price due to trade size."
+#~ msgstr "Sự khác biệt giữa giá thị trường và giá ước tính do quy mô thương mại."
+
+#. js-lingui-explicit-id
+#~ msgid "The difference between the market price and your price due to trade size."
+#~ msgstr "Sự khác biệt giữa giá thị trường và giá của bạn do quy mô giao dịch."
+
+#. js-lingui-explicit-id
+#~ msgid "The fixed annual interest."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The minimum amount of tokens to receive."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The network this savings account belongs to"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The onchain oracle that tracks the pricing for this pair"
+#~ msgstr "Nhà tiên tri onchain theo dõi giá cho cặp này"
+
+#. js-lingui-explicit-id
+#~ msgid "The token list"
+#~ msgstr "Danh sách mã thông báo"
+
+#. js-lingui-explicit-id
+#~ msgid "The total of your deposits which accumulates the rewards."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The transaction cannot succeed due to error: {0}. This is probably an issue with one of the tokens you are swapping."
+#~ msgstr "Giao dịch không thể thành công do lỗi: {0} . Đây có thể là vấn đề với một trong những mã thông báo bạn đang hoán đổi."
+
+#. js-lingui-explicit-id
+#~ msgid "These are the total yearly rewards in G$ and GOOD."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "These tokens are commonly paired with other tokens."
+#~ msgstr "Những mã thông báo này thường được ghép nối với các mã thông báo khác."
+
+#. js-lingui-explicit-id
+#~ msgid "Things you can do with your SUSHI"
+#~ msgstr "Những điều bạn có thể làm với SUSHI của mình"
+
+#. js-lingui-explicit-id
+#~ msgid "This is the annual percentage of UBI your stake will create."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the protocol that the token is staked to."
+#~ msgstr "Đây là giao thức mà mã thông báo được đặt cược."
+
+#. js-lingui-explicit-id
+#~ msgid "This is the protocol that the token will be staked to."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the token that is currently available to stake to the Fund."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the token that is currently being staked."
+#~ msgstr "Đây là mã thông báo hiện đang được đặt cược."
+
+#. js-lingui-explicit-id
+#~ msgid "This is the token that you can deposit into the savings contract."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This month"
+#~ msgstr "Tháng này"
+
+#. js-lingui-explicit-id
+#~ msgid "This project is in beta. Use at your own risk"
+#~ msgstr "Dự án này đang trong giai đoạn thử nghiệm. Sử dụng có nguy cơ của riêng bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "This transaction will not succeed either due to price movement or fee on transfer. Try increasing your slippage tolerance."
+#~ msgstr "Giao dịch này sẽ không thành công do biến động giá hoặc phí chuyển nhượng. Hãy thử tăng khả năng chịu trượt của bạn."
+
+#. js-lingui-explicit-id
+#~ msgid "Tip"
+#~ msgstr "Mẹo"
+
+#. js-lingui-explicit-id
+#~ msgid "Tip: Custom tokens are stored locally in your browser"
+#~ msgstr "Mẹo: Token tùy chỉnh được lưu trữ cục bộ trong trình duyệt của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "To"
+#~ msgstr "Đến"
+
+#. js-lingui-explicit-id
+#~ msgid "To (estimated)"
+#~ msgstr "Tới (ước tính)"
+
+#. js-lingui-explicit-id
+#~ msgid "To withdraw into SUSHI, go to Aave and remove axSUSHI as collateral and then to SushiBar to unstake. A full unwind will be avaialble soon."
+#~ msgstr "Để rút tiền vào SUSHI, hãy chuyển đến Aave và xóa axSUSHI làm tài sản thế chấp, sau đó đến SushiBar để hủy đăng ký. Một buổi thư giãn đầy đủ sẽ sớm có."
+
+#. js-lingui-explicit-id
+#~ msgid "Toggle Expert Mode"
+#~ msgstr "Chuyển đổi chế độ chuyên gia"
+
+#. js-lingui-explicit-id
+#~ msgid "Token"
+#~ msgstr "Mã thông báo"
+
+#. js-lingui-explicit-id
+#~ msgid "Tokens"
+#~ msgstr "Mã thông báo"
+
+#. js-lingui-explicit-id
+#~ msgid "Tokens from inactive lists. Import specific tokens below or click 'Manage' to activate more lists."
+#~ msgstr "Token từ danh sách không hoạt động. Nhập mã thông báo cụ thể bên dưới hoặc nhấp vào 'Quản lý' để kích hoạt nhiều danh sách hơn."
+
+#. js-lingui-explicit-id
+#~ msgid "Tools"
+#~ msgstr "Công cụ"
+
+#. js-lingui-explicit-id
+#~ msgid "Tools to optimize workflow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Tools to optimize your workflow."
+#~ msgstr "Các công cụ để tối ưu hóa quy trình làm việc của bạn."
+
+#. js-lingui-explicit-id
+#~ msgid "Total"
+#~ msgstr "Toàn bộ"
+
+#. js-lingui-explicit-id
+#~ msgid "Total Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total Rewards Paid"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total Staked"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total amount on value staked."
+#~ msgstr "Tổng số tiền trên giá trị được đặt cược."
+
+#. js-lingui-explicit-id
+#~ msgid "Total currently saved."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total rewards claimed."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total stake"
+#~ msgstr "Tổng số cổ phần"
+
+#. js-lingui-explicit-id
+#~ msgid "Trade"
+#~ msgstr "Buôn bán"
+
+#. js-lingui-explicit-id
+#~ msgid "Trade at your own risk!"
+#~ msgstr "Triển nguy cơ của riêng bạn!"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction History"
+#~ msgstr "Lịch sử giao dịch"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction Settings"
+#~ msgstr "Cài đặt giao dịch"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction Submitted"
+#~ msgstr "Giao dịch được gửi"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction deadline"
+#~ msgstr "Thời hạn giao dịch"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction rejected."
+#~ msgstr "Giao dịch bị từ chối."
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction settings"
+#~ msgstr "Cài đặt giao dịch"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction was sent to the blockchain"
+#~ msgstr "Giao dịch đã được gửi đến Blockchain"
+
+#. js-lingui-explicit-id
+#~ msgid "Transactions"
+#~ msgstr "Giao dịch"
+
+#. js-lingui-explicit-id
+#~ msgid "Transfer Type"
+#~ msgstr "Chuyển loại"
+
+#. js-lingui-explicit-id
+#~ msgid "Try Again"
+#~ msgstr "Thử lại"
+
+#. js-lingui-explicit-id
+#~ msgid "Try enabling multi-hop trades"
+#~ msgstr "Thử kích hoạt giao dịch nhiều bước"
+
+#. js-lingui-explicit-id
+#~ msgid "Turn On Expert Mode"
+#~ msgstr "Bật Chế độ chuyên gia"
+
+#. js-lingui-explicit-id
+#~ msgid "Type"
+#~ msgstr "Kiểu"
+
+#. js-lingui-explicit-id
+#~ msgid "UBI is your fair share of G$ tokens, which you can claim daily on CELO."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "UBI is your fair share of G$ tokens, which you can claim daily on {network}."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Uh Oh!"
+#~ msgstr "Uh oh!"
+
+#. js-lingui-explicit-id
+#~ msgid "Unknown Source"
+#~ msgstr "Nguồn không rõ"
+
+#. js-lingui-explicit-id
+#~ msgid "Unknown error"
+#~ msgstr "Lỗi không xác định"
+
+#. js-lingui-explicit-id
+#~ msgid "Unstake"
+#~ msgstr "Không bắt đầu"
+
+#. js-lingui-explicit-id
+#~ msgid "Unstaked"
+#~ msgstr "Chưa đóng dấu"
+
+#. js-lingui-explicit-id
+#~ msgid "Unsupported Asset"
+#~ msgstr "Nội dung không được hỗ trợ"
+
+#. js-lingui-explicit-id
+#~ msgid "Unsupported Assets"
+#~ msgstr "Tài sản không được hỗ trợ"
+
+#. js-lingui-explicit-id
+#~ msgid "Unsupported network"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Unwrap"
+#~ msgstr "Unwrap"
+
+#. js-lingui-explicit-id
+#~ msgid "Unwrap {0} W{1} to {2}"
+#~ msgstr "Mở rộng {0} W {1} thành {2}"
+
+#. js-lingui-explicit-id
+#~ msgid "Update list"
+#~ msgstr "Danh sách cập nhật"
+
+#. js-lingui-explicit-id
+#~ msgid "Use any tool below to optimize your workflow. Please note, some tools are experimental so use with discretion. If theres a smart contract involved for the tool, read the code and confirm the keys have been burned."
+#~ msgstr "Sử dụng bất kỳ công cụ nào bên dưới để tối ưu hóa quy trình làm việc của bạn. Xin lưu ý, một số công cụ là thử nghiệm nên hãy sử dụng tùy ý. Nếu có một hợp đồng thông minh liên quan đến công cụ, hãy đọc mã và xác nhận các khóa đã được ghi."
+
+#. js-lingui-explicit-id
+#~ msgid "Use this tool to find pairs that don't automatically appear in the interface"
+#~ msgstr "Sử dụng công cụ này để tìm các cặp không tự động xuất hiện trong giao diện"
+
+#. js-lingui-explicit-id
+#~ msgid "V2 Rewarder"
+#~ msgstr "Trình thưởng V2"
+
+#. js-lingui-explicit-id
+#~ msgid "Vesting"
+#~ msgstr "Vesting"
+
+#. js-lingui-explicit-id
+#~ msgid "Vesting is executed within the guidelines selected by the community in <0>SIMP3</0>.<1/><2/>Please refer to the <3>forum discussion</3> for deliberations on additional points.<4/><5/>Additional records and weekly merkle updates can be found on <6>Github</6>"
+#~ msgstr "Vesting được thực hiện theo các nguyên tắc được cộng đồng lựa chọn trong <0> SIMP3 </0> . <1/> <2/> Vui lòng tham khảo <3> thảo luận trên diễn đàn </3> để cân nhắc về các điểm bổ sung. <4/> <5/> Các bản ghi bổ sung và cập nhật hàng tuần của merkle có thể được tìm thấy trên <6> Github </6>"
+
+#. js-lingui-explicit-id
+#~ msgid "View On"
+#~ msgstr "Xem trên"
+
+#. js-lingui-explicit-id
+#~ msgid "View Stats"
+#~ msgstr "Xem số liệu thống kê"
+
+#. js-lingui-explicit-id
+#~ msgid "View SushiBar Stats"
+#~ msgstr "Xem Thống kê SushiBar"
+
+#. js-lingui-explicit-id
+#~ msgid "View Your Liquidity Positions"
+#~ msgstr "Xem vị trí thanh khoản của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "View Your Liquidity Positions >"
+#~ msgstr "Xem vị trí thanh khoản của bạn >"
+
+#. js-lingui-explicit-id
+#~ msgid "View list"
+#~ msgstr "Danh sách xem"
+
+#. js-lingui-explicit-id
+#~ msgid "View on explorer"
+#~ msgstr "Xem trên explorer"
+
+#. js-lingui-explicit-id
+#~ msgid "View pair analytics"
+#~ msgstr "Xem phân tích cặp"
+
+#. js-lingui-explicit-id
+#~ msgid "View transaction on explorer"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "View your SushiBar Portfolio"
+#~ msgstr "Xem danh mục SushiBar của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Voltage is an UNI-V2 Automated Market Maker (AMM)\n"
+#~ "that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC.\n"
+#~ "The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool.\n"
+#~ "Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Voltage is an UNI-V2 Automated Market Maker (AMM) \n"
+#~ "that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC. \n"
+#~ "The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool. \n"
+#~ "Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "WITHDRAW"
+#~ msgstr "RÚT"
+
+#. js-lingui-explicit-id
+#~ msgid "Waiting For Confirmation"
+#~ msgstr "Chờ đợi sự xác nhận"
+
+#. js-lingui-explicit-id
+#~ msgid "Waiting for Confirmation"
+#~ msgstr "Chờ đợi sự xác nhận"
+
+#. js-lingui-explicit-id
+#~ msgid "Wallet"
+#~ msgstr "Ví tiền"
+
+#. js-lingui-explicit-id
+#~ msgid "Wallet Balance"
+#~ msgstr "Số dư trên Wallet"
+
+#. js-lingui-explicit-id
+#~ msgid "Wallet balance"
+#~ msgstr "Ví thăng bằng"
+
+#. js-lingui-explicit-id
+#~ msgid "We see you don't have {0} added to your wallet. Kindly add the network, and try again."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Welcome to Sushi on Polygon (Matic)"
+#~ msgstr "Chào mừng đến với Sushi trên Polygon (Matic)"
+
+#. js-lingui-explicit-id
+#~ msgid "What's an exit contribution?"
+#~ msgstr "Đóng góp xuất cảnh là gì?"
+
+#. js-lingui-explicit-id
+#~ msgid "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review"
+#~ msgstr "Khi tạo một cặp, bạn là nhà cung cấp thanh khoản đầu tiên. Tỷ lệ mã thông báo bạn thêm vào sẽ thiết lập giá của nhóm này. Khi bạn hài lòng với tỷ lệ, hãy nhấp vào cung cấp để xem xét"
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw"
+#~ msgstr "Rút tiền"
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw Liquidity"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw as {0}?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw {assetSymbol}"
+#~ msgstr "Rút tiền {assetSymbol}"
+
+#. js-lingui-explicit-id
+#~ msgid "Withdrawing your stake will reset your multiplier."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdrew funds from {0}"
+#~ msgstr "Đã rút tiền từ {0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Wrap"
+#~ msgstr "Bọc lại"
+
+#. js-lingui-explicit-id
+#~ msgid "Wrong Network"
+#~ msgstr "Mạng sai"
+
+#. js-lingui-explicit-id
+#~ msgid "Yes, I did!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Yesterday's APR"
+#~ msgstr "APR của ngày hôm qua"
+
+#. js-lingui-explicit-id
+#~ msgid "Yield"
+#~ msgstr "Năng suất"
+
+#. js-lingui-explicit-id
+#~ msgid "Yield Debugger"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Yield Farms"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Yield Instruments"
+#~ msgstr "Công cụ lợi nhuận"
+
+#. js-lingui-explicit-id
+#~ msgid "You Will Receive:"
+#~ msgstr "Bạn sẽ nhận:"
+
+#. js-lingui-explicit-id
+#~ msgid "You are creating UBI to thousands of people around the world."
+#~ msgstr "Bạn đang tạo UBI cho hàng ngàn người trên khắp thế giới."
+
+#. js-lingui-explicit-id
+#~ msgid "You are creating a pool"
+#~ msgstr "Bạn đang tạo một nhóm"
+
+#. js-lingui-explicit-id
+#~ msgid "You are currently browsing"
+#~ msgstr "Bạn đang đang duyệt"
+
+#. js-lingui-explicit-id
+#~ msgid "You are on the wrong network"
+#~ msgstr "Bạn đang ở trên mạng sai"
+
+#. js-lingui-explicit-id
+#~ msgid "You can leave the bar and exchange your xSUSHI for SUSHI (as well as collect any earned interest) at any time. However, there are more ways to use xSUSHI to maximize your yield potential!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You can leave the bar and exchange your {0} for {1} (as well as collect any earned interest) at any time. However, there are more ways to use {2} to maximize your yield potential!"
+#~ msgstr "Bạn có thể rời khỏi thanh và trao đổi {0} cho {1} (cũng như thu thập bất kỳ lợi ích kiếm được) bất cứ lúc nào. Tuy nhiên, có nhiều cách để sử dụng {2} để tối đa hóa tiềm năng năng suất của bạn!"
+
+#. js-lingui-explicit-id
+#~ msgid "You don’t have liquidity in this pool yet"
+#~ msgstr "Bạn chưa có thanh khoản trong nhóm này"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "You have just staked your G$s towards our GoodDAO,\n"
+#~ "this action is gonna reward you with GOOD governance tokens,\n"
+#~ "which are non-transferable so can't be traded."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "You have just staked your G$s towards our GoodDAO, \n"
+#~ "this action is gonna reward you with GOOD governance tokens, \n"
+#~ "which are non-transferable so can't be traded."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You have successfully claimed your rewards"
+#~ msgstr "Bạn đã yêu cầu thành công phần thưởng của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "You just used your crypto for good to help fund crypto UBI \n"
+#~ "for all with GoodDollar!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You just used your crypto for good to help fund crypto UBI for all with GoodDollar!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You need to first approve LP tokens and then migrate it"
+#~ msgstr "Trước tiên, bạn cần phê duyệt mã thông báo LP và sau đó di chuyển nó"
+
+#. js-lingui-explicit-id
+#~ msgid "You need to sign the transaction in your wallet"
+#~ msgstr "Bạn cần ký giao dịch trong ví của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "You will receive"
+#~ msgstr "Bạn sẽ nhận"
+
+#. js-lingui-explicit-id
+#~ msgid "You've already claimed today. Come back in {tillClaim}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your Claimable SUSHI this Week"
+#~ msgstr "SUSHI có thể yêu cầu của bạn trong tuần này"
+
+#. js-lingui-explicit-id
+#~ msgid "Your History"
+#~ msgstr "Lịch sử của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Liquidity"
+#~ msgstr "Tính thanh khoản của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Liquidity Positions"
+#~ msgstr "Vị trí thanh khoản của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Pool Share"
+#~ msgstr "Chia sẻ nhóm của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Pool Tokens"
+#~ msgstr "Mã thông báo hồ bơi của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Staked"
+#~ msgstr "Tiền đặt cọc của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Staked Farms"
+#~ msgstr "Trang trại của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your SushiBar Stats"
+#~ msgstr "Thống kê SushiBar của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Transaction History"
+#~ msgstr "Lịch sử giao dịch của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Transaction History on {0}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next."
+#~ msgstr "Sushi tặng của bạn sẽ được phát hành mỗi tuần trong 6 tháng tới. Số tiền được phát hành mỗi tuần được xác định bởi các phần thưởng canh tác lịch sử của bạn. Bạn không cần thu hoạch mỗi tuần với số tiền không có người nhận từ mỗi tuần sẽ tiếp tục tích lũy vào tiếp theo."
+
+#. js-lingui-explicit-id
+#~ msgid "Your Wallet"
+#~ msgstr "Ví của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Yields"
+#~ msgstr "Lợi nhuận của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your current network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your current savings balance."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your pool share"
+#~ msgstr "Chia sẻ nhóm của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your social contribution from:"
+#~ msgstr "Đóng góp xã hội của bạn từ:"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Your staking transaction which will generate UBI for thousands of people around\n"
+#~ "the world has just been broadcasted to the network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Your staking transaction which will generate UBI for thousands of people around \n"
+#~ "the world has just been broadcasted to the network."
+#~ msgstr ""
+#~ "Giao dịch đặt cược của bạn sẽ tạo UBI cho hàng ngàn người xung quanh \n"
+#~ " Thế giới vừa được phát sóng đến mạng."
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Your staking transaction will generate UBI for thousands of people around \n"
+#~ "the world has just been broadcasted to the network."
+#~ msgstr ""
+#~ "Giao dịch đặt cược của bạn sẽ tạo UBI cho hàng ngàn người xung quanh \n"
+#~ " Thế giới vừa được phát sóng đến mạng."
+
+#. js-lingui-explicit-id
+#~ msgid "Your total pool tokens"
+#~ msgstr "Tổng số mã thông báo chung của bạn"
+
+#. js-lingui-explicit-id
+#~ msgid "Your total pool tokens:"
+#~ msgstr "Total of Pool của bạn:"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction may be frontrun"
+#~ msgstr "Giao dịch của bạn có thể chạy trước"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction may fail"
+#~ msgstr "Giao dịch của bạn có thể thất bại"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if it is pending for more than this long."
+#~ msgstr "Giao dịch của bạn sẽ hoàn nguyên nếu nó đang chờ xử lý quá lâu."
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if it is pending for more than this time."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if the price changes unfavorably by more than this percentage."
+#~ msgstr "Giao dịch của bạn sẽ hoàn nguyên nếu giá thay đổi bất lợi hơn tỷ lệ phần trăm này."
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+#~ msgstr "Giao dịch của bạn sẽ hoàn nguyên nếu có một biến động giá lớn, bất lợi trước khi nó được xác nhận."
+
+#. js-lingui-explicit-id
+#~ msgid "Your transactions will appear here..."
+#~ msgstr "Giao dịch của bạn sẽ xuất hiện ở đây ..."
+
+#. js-lingui-explicit-id
+#~ msgid "Your {exchange} {0}/{1} liquidity will become SushiSwap {2}/{3} liquidity."
+#~ msgstr "Thanh khoản {exchange} {0} / {1} bạn sẽ trở thành thanh khoản SushiSwap {2} / {3} ."
+
+#. js-lingui-explicit-id
+#~ msgid "Your {type} transaction has been confirmed!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "added"
+#~ msgstr "thêm"
+
+#. js-lingui-explicit-id
+#~ msgid "amount"
+#~ msgstr "số lượng"
+
+#. js-lingui-explicit-id
+#~ msgid "annualized"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "failed to load"
+#~ msgstr "không tải được"
+
+#. js-lingui-explicit-id
+#~ msgid "has been updated to"
+#~ msgstr "đã được cập nhật để"
+
+#. js-lingui-explicit-id
+#~ msgid "import it"
+#~ msgstr "nhập nó"
+
+#. js-lingui-explicit-id
+#~ msgid "loading..."
+#~ msgstr "Đang tải..."
+
+#. js-lingui-explicit-id
+#~ msgid "max"
+#~ msgstr "tối đa"
+
+#. js-lingui-explicit-id
+#~ msgid "minutes"
+#~ msgstr "phút"
+
+#. js-lingui-explicit-id
+#~ msgid "network"
+#~ msgstr "mạng"
+
+#. js-lingui-explicit-id
+#~ msgid "on the"
+#~ msgstr "trên"
+
+#. js-lingui-explicit-id
+#~ msgid "or the transaction will revert."
+#~ msgstr "hoặc giao dịch sẽ hoàn nguyên."
+
+#. js-lingui-explicit-id
+#~ msgid "per day"
+#~ msgstr "mỗi ngày"
+
+#. js-lingui-explicit-id
+#~ msgid "per month"
+#~ msgstr "mỗi tháng"
+
+#. js-lingui-explicit-id
+#~ msgid "removed"
+#~ msgstr "loại bỏ"
+
+#. js-lingui-explicit-id
+#~ msgid "rewards"
+#~ msgstr "Phần thưởng"
+
+#. js-lingui-explicit-id
+#~ msgid "to"
+#~ msgstr "đến"
+
+#. js-lingui-explicit-id
+#~ msgid "tokens"
+#~ msgstr "Tokens."
+
+#. js-lingui-explicit-id
+#~ msgid "tokens updated"
+#~ msgstr "Token cập nhật"
+
+#. js-lingui-explicit-id
+#~ msgid "via"
+#~ msgstr "qua"
+
+#. js-lingui-explicit-id
+#~ msgid "xSUSHI Balance"
+#~ msgstr "Số dư xSUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "xSUSHI automatically earn fees (0.05% of all swaps, including multichain swaps) proportional\n"
+#~ "to your share of the SushiBar."
+#~ msgstr ""
+#~ "xSUSHI tự động kiếm phí (0,05% của tất cả các giao dịch hoán đổi, bao gồm cả các giao dịch hoán đổi nhiều vòng) tỷ lệ \n"
+#~ " với phần của bạn trên SushiBar."
+
+#. js-lingui-explicit-id
+#~ msgid "{0}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{0} <0>{1} {2}</0> {3}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{0} <0>{1}</0>"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{0} Deposited"
+#~ msgstr "{0} gửi"
+
+#. js-lingui-explicit-id
+#~ msgid "{0} Strategy"
+#~ msgstr "{0} Chiến lược"
+
+#. js-lingui-explicit-id
+#~ msgid "{0} per {1}"
+#~ msgstr "{0} mỗi {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "{amount} {0}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{label}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "• Added by user"
+#~ msgstr "• Được thêm bởi người dùng"
+
+#: src/components/Savings/SavingsModal/index.tsx:280
+#: src/components/Savings/SavingsModal/index.tsx:282
+#: src/components/Savings/SavingsModal/index.tsx:283
+msgid "{0}"
+msgstr ""
+
+#: src/components/Savings/SavingsModal/index.tsx:128
+msgid "{amount} {0}"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:242
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:31
+#: src/pages/gd/Swap/SwapDetails/index.tsx:75
+msgid "A contribution to the reserve paid by members for directly selling G$ tokens."
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:245
+msgid "Account"
+msgstr "Tài khoản"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:311
+msgid "amount"
+msgstr "số lượng"
+
+#: src/pages/gd/Stake/index.tsx:74
+msgid "Annual Percentage Yield (APY) is the percentage yield being earned."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:410
+msgid "Approve"
+msgstr "Phê duyệt"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:305
+msgid "APPROVE"
+msgstr "CHẤP THUẬN"
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:409
+msgid "Approved"
+msgstr "Tán thành"
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:407
+msgid "Approving"
+msgstr "Phê duyệt"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:302
+msgid "APPROVING"
+msgstr "Phê duyệt"
+
+#: src/pages/gd/Stake/index.tsx:73
+msgid "APY"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:224
+msgid "Awesome!"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:144
+#: src/components/Withdraw/index.tsx:210
+#: src/components/WithdrawRewards/index.tsx:150
+msgid "Back to portfolio"
+msgstr "Quay lại danh mục đầu tư"
+
+#: src/pages/gd/Swap/SwapInput/index.tsx:57
+msgid "Balance"
+msgstr "Thăng bằng"
+
+#: src/components/Blocklist/index.tsx:12
+msgid "Blocked address"
+msgstr "Địa chỉ bị chặn"
+
+#: src/components/AccountDetails/index.tsx:268
+msgid "Change"
+msgstr "Thay đổi"
+
+#: src/components/ClaimRewards/index.tsx:80
+msgid "Claim All"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:378
+msgid "Claim G$ rewards"
+msgstr "Yêu cầu G $ Phần thưởng"
+
+#: src/components/ClaimRewards/index.tsx:86
+msgid "Claim GOOD"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:390
+msgid "Claim GOOD rewards"
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:76
+#: src/components/PortfolioTableRow/index.tsx:161
+#: src/pages/gd/Portfolio/index.tsx:167
+msgid "Claim rewards"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:93
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:80
+msgid "Claim Rewards"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:343
+msgid "Claimable"
+msgstr "Yêu cầu"
+
+#: src/components/ClaimRewards/index.tsx:72
+#: src/components/WithdrawRewards/index.tsx:97
+msgid "Claimable Rewards"
+msgstr "Phần thưởng yêu cầu"
+
+#: src/components/Savings/SavingsCard/index.tsx:72
+msgid "CLAIMABLE REWARDS"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:192
+#: src/components/WithdrawRewards/index.tsx:50
+msgid "Claimed G$ Rewards"
+msgstr "Yêu cầu G $ Phần thưởng"
+
+#: src/components/ClaimRewards/index.tsx:191
+#: src/components/WithdrawRewards/index.tsx:50
+msgid "Claimed GOOD Rewards"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:105
+msgid "Claiming the following rewards:"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:97
+msgid "Claiming your rewards will reset your multiplier"
+msgstr ""
+
+#: src/components/WithdrawRewards/index.tsx:102
+msgid "Claiming your rewards will reset your multiplier."
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:306
+msgid "Clear all"
+msgstr "Quet sạch tât cả"
+
+#: src/components/TransactionConfirmationModal/index.tsx:100
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:286
+msgid "Close"
+msgstr "Gần"
+
+#: src/pages/gd/Claim/index.tsx:255
+msgid "Collect G$"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:160
+msgid "Confirm swap"
+msgstr "Xác nhận trao đổi"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:250
+msgid "CONFIRM SWAP"
+msgstr "Xác nhận trao đổi"
+
+#: src/components/ModalViews/index.tsx:37
+#: src/components/TransactionConfirmationModal/index.tsx:57
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:263
+msgid "Confirm this transaction in your wallet"
+msgstr "Xác nhận giao dịch này trong ví của bạn"
+
+#: src/components/WithdrawRewards/index.tsx:123
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:226
+msgid "Congratulations!"
+msgstr "Xin chúc mừng!"
+
+#: src/pages/gd/Portfolio/index.tsx:466
+msgid "Connect a wallet to see your portfolio"
+msgstr ""
+
+#: src/components/BlockNativeOnboard/index.tsx:22
+msgid "Connect to a wallet"
+msgstr "Kết nối với ví"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:304
+msgid "Connect wallet"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:218
+msgid "Connected with"
+msgstr "Kết nối với"
+
+#: src/components/AccountDetails/Copy.tsx:24
+msgid "Copied"
+msgstr "Đã sao chép"
+
+#: src/components/AccountDetails/index.tsx:284
+msgid "Copy address"
+msgstr "Sao chép địa chỉ"
+
+#: src/components/Liquidity/LiquidityPrice.tsx:22
+msgid "Current Rate"
+msgstr "Tỷ lệ hiện tại"
+
+#: src/components/Savings/SavingsCard/index.tsx:67
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:371
+msgid "DEPOSIT"
+msgstr "ĐẶT CỌC"
+
+#: src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx:41
+#: src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx:53
+#: src/pages/gd/Stake/Savings/index.tsx:70
+msgid "Deposit G$"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:222
+msgid "Deposit overview"
+msgstr "Tổng quan về tiền gửi."
+
+#: src/components/AccountDetails/index.tsx:259
+msgid "Disconnect"
+msgstr ""
+
+#: src/components/SideBar.tsx:147
+msgid "Docs"
+msgstr ""
+
+#: src/components/Gas/index.tsx:12
+msgid "failed to load"
+msgstr "không tải được"
+
+#: src/pages/gd/Stake/Savings/index.tsx:119
+msgid "Fixed Apy"
+msgstr ""
+
+#: src/components/SideBar.tsx:140
+msgid "Fuse Bridge"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:108
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:37
+#: src/components/Savings/SavingsStat/SavingsMobileStat.tsx:45
+msgid "G$"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:20
+msgid "GDX"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:22
+msgid ""
+"GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the\n"
+"contribution exit."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:233
+#: src/pages/gd/Swap/SwapDetails/index.tsx:67
+msgid "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit."
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:411
+msgid "Go to Portfolio"
+msgstr "Đi đến danh mục đầu tư"
+
+#: src/components/ClaimRewards/index.tsx:114
+msgid "GOOD"
+msgstr ""
+
+#: src/components/SideBar.tsx:154
+msgid "Good Airdrop"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:38
+msgid "GoodDAO"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:478
+msgid "GoodDAO Staking"
+msgstr ""
+
+#: src/components/Savings/SavingsStat/SavingsMobileStat.tsx:47
+msgid "GoodDollar"
+msgstr ""
+
+#: src/pages/gd/Claim/index.tsx:266
+msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:463
+#: src/pages/gd/Stake/index.tsx:467
+msgid "GoodStakes"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:333
+msgid "Holding"
+msgstr "Giữ"
+
+#: src/pages/gd/Portfolio/index.tsx:236
+msgid "How many GOOD tokens you are accumulating by this stake position."
+msgstr ""
+
+#: src/components/Withdraw/PercentInputControls/index.tsx:54
+msgid "How much rewards would you like to donate"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:73
+msgid "How much tokens your deposits have accumulated so far."
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:226
+msgid "How much value your stake has accumulated so far."
+msgstr "Bao nhiêu giá trị cổ phần của bạn đã tích lũy cho đến nay."
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:233
+msgid "How much would you like to deposit?"
+msgstr "Bạn muốn gửi bao nhiêu tiền?"
+
+#: src/components/Withdraw/PercentInputControls/index.tsx:55
+msgid "How much would you like to withdraw?"
+msgstr "Bạn muốn rút bao nhiêu tiền?"
+
+#: src/pages/gd/Stake/index.tsx:81
+msgid "Liquidity"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:82
+msgid "Liquidity is the total value staked in the GoodDollar Trust staking contract (USD)."
+msgstr ""
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:37
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:219
+#: src/pages/gd/Swap/SwapDetails/index.tsx:53
+msgid "Liquidity Provider Fee"
+msgstr "Phí nhà cung cấp thanh khoản"
+
+#: src/components/Gas/index.tsx:13
+msgid "loading..."
+msgstr "Đang tải..."
+
+#: src/pages/gd/Stake/index.tsx:97
+#: src/pages/gd/Stake/index.tsx:283
+msgid "Loading..."
+msgstr "Đang tải..."
+
+#: src/pages/gd/Swap/SwapInput/index.tsx:40
+msgid "max"
+msgstr "tối đa"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:205
+#: src/pages/gd/Swap/SwapDetails/index.tsx:41
+msgid "Minimum received"
+msgstr "Số tiền nhận được tối thiểu"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:167
+msgid "minutes"
+msgstr "phút"
+
+#: src/components/SideBar.tsx:126
+msgid "Multichain Bridge"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:229
+msgid "MULTIPLIER"
+msgstr "Số nhân"
+
+#: src/pages/gd/Portfolio/index.tsx:299
+msgid "My Stake"
+msgstr "Cổ phần của tôi"
+
+#: src/components/NetworkModal/index.tsx:142
+#: src/components/NetworkModal/index.tsx:191
+msgid "network"
+msgstr "mạng"
+
+#: src/pages/gd/Stake/Savings/index.tsx:114
+msgid "Network"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:62
+msgid "NETWORK"
+msgstr ""
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:45
+msgid "Network Fee"
+msgstr "Phí mạng"
+
+#: src/components/PortfolioTableRow/index.tsx:128
+#: src/pages/gd/Portfolio/index.tsx:104
+msgid "Next month:"
+msgstr "Tháng tiếp theo:"
+
+#: src/pages/gd/Stake/index.tsx:102
+#: src/pages/gd/Stake/index.tsx:290
+msgid "No data."
+msgstr "Không có dữ liệu."
+
+#: src/components/NetworkModal/index.tsx:141
+#: src/components/NetworkModal/index.tsx:190
+msgid "on the"
+msgstr "trên"
+
+#: src/components/Web3ReactManager/index.tsx:61
+msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
+msgstr "Giáo sư! Đã xảy ra lỗi không xác định. Vui lòng làm mới trang hoặc truy cập từ trình duyệt hoặc thiết bị khác"
+
+#: src/components/AppBar.tsx:223
+msgid "Open main menu"
+msgstr "Mở menu chính"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:199
+msgid "Output is estimated. You will receive at least {minimumReceived} or the transaction will revert"
+msgstr ""
+
+#: src/components/Web3Status/index.tsx:56
+msgid "Pending"
+msgstr "Đang chờ xử lý"
+
+#: src/components/ClaimRewards/index.tsx:93
+#: src/components/Withdraw/index.tsx:176
+msgid "PENDING SIGN..."
+msgstr "Đăng nhập Đăng nhập ..."
+
+#: src/components/ClaimRewards/index.tsx:123
+#: src/components/Withdraw/index.tsx:187
+msgid "Please wait"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:212
+#: src/pages/gd/Swap/SwapDetails/index.tsx:46
+msgid "Price Impact"
+msgstr "Tác động giá"
+
+#: src/components/Withdraw/index.tsx:146
+#: src/pages/gd/Stake/index.tsx:69
+#: src/pages/gd/Stake/Savings/index.tsx:109
+msgid "Protocol"
+msgstr "Giao thức"
+
+#: src/components/Savings/SavingsCard/index.tsx:57
+#: src/pages/gd/Portfolio/index.tsx:217
+msgid "PROTOCOL"
+msgstr "Giao thức"
+
+#: src/components/AccountDetails/index.tsx:304
+msgid "Recent Transactions"
+msgstr "Giao dịch gần đây"
+
+#: src/pages/gd/Portfolio/index.tsx:343
+msgid "rewards"
+msgstr "Phần thưởng"
+
+#: src/pages/gd/Portfolio/index.tsx:305
+#: src/pages/gd/Portfolio/index.tsx:316
+#: src/pages/gd/Portfolio/index.tsx:347
+#: src/pages/gd/Portfolio/index.tsx:358
+msgid "Rewards"
+msgstr "Phần thưởng"
+
+#: src/pages/gd/Portfolio/index.tsx:225
+#: src/pages/gd/Portfolio/index.tsx:235
+msgid "REWARDS"
+msgstr "Phần thưởng"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:226
+#: src/pages/gd/Swap/SwapDetails/index.tsx:60
+msgid "Route"
+msgstr "Lộ trình"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:228
+#: src/pages/gd/Swap/SwapDetails/index.tsx:62
+msgid "Routing through these tokens resulted in the best price for your trade."
+msgstr "Định tuyến thông qua các mã thông báo này dẫn đến giá tốt nhất cho giao dịch của bạn."
+
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:36
+#: src/pages/gd/Stake/Savings/index.tsx:151
+msgid "Savings"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapTokensModal/index.tsx:53
+msgid "Search name or paste the address"
+msgstr "Tên tìm kiếm hoặc dán địa chỉ"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:414
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:300
+msgid "Share with friends"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:374
+#: src/pages/gd/Swap/SwapSettings/index.tsx:80
+msgid "Slippage Tolerance"
+msgstr "Khả năng chịu trượt"
+
+#: src/pages/gd/Stake/index.tsx:77
+msgid "Social APY"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:215
+#: src/pages/gd/Stake/index.tsx:319
+#: src/pages/gd/Stake/index.tsx:397
+#: src/pages/gd/Stake/index.tsx:463
+msgid "Stake"
+msgstr "Cổ phần"
+
+#: src/pages/gd/Portfolio/index.tsx:221
+msgid "STAKE"
+msgstr "CỔ PHẦN"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:361
+msgid "Staked {0} at {1}"
+msgstr "Staked {0} tại {1}"
+
+#: src/pages/gd/Portfolio/index.tsx:329
+msgid "Staking"
+msgstr "Bắt đầu"
+
+#: src/pages/gd/Portfolio/index.tsx:209
+msgid "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards."
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:231
+msgid "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!"
+msgstr "Bắt đầu từ 1.0, hệ số nhân của bạn sẽ tăng lên 2.0 sau một tháng tập tin vào sự tin tưởng, tại thời điểm nào bạn có thể được thưởng nhiều G $ mỗi ngày!"
+
+#: src/components/ClaimRewards/index.tsx:123
+#: src/components/Withdraw/index.tsx:187
+#: src/components/WithdrawRewards/index.tsx:123
+msgid "Success!"
+msgstr "Sự thành công!"
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:424
+msgid "Swap"
+msgstr "Hoán đổi"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:295
+msgid "Swap Completed"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:347
+#: src/pages/gd/Swap/SwapCore/index.tsx:361
+msgid "Swap from"
+msgstr "Trao đổi từ"
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:347
+#: src/pages/gd/Swap/SwapCore/index.tsx:361
+msgid "Swap to"
+msgstr "Trao đổi đến."
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:100
+msgid ""
+"Swapped {inputSig} {0}\n"
+"to a minimum of {minimumOutputSig} {1}"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:260
+msgid "Swapping"
+msgstr "Trao đổi"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:222
+#: src/pages/gd/Swap/SwapDetails/index.tsx:56
+msgid "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers."
+msgstr "Hoán đổi G $ chống GoodReserve không có phí của bên thứ ba nếu bạn trao đổi từ / sang CDai vì đó là mã thông báo dự trữ của chúng tôi. Hoán đổi G $ S từ / đến các tài sản khác ngụ ý 0,3% phí chuyển đến các nhà cung cấp thanh khoản AMM của Bên thứ 3."
+
+#: src/components/gd/Button/ActionOrSwitchButton.tsx:53
+msgid "Switch to {requireChain}"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:120
+msgid "The fixed annual interest."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:255
+msgid ""
+"The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum.\n"
+"This contract is able to mint and burn G$s according to the increase or decrease of it's demand.\n"
+"Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDetails/index.tsx:43
+msgid "The minimum amount of tokens to receive."
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:63
+msgid "The network this savings account belongs to"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:68
+msgid "The total of your deposits which accumulates the rewards."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:86
+msgid "These are the total yearly rewards in G$ and GOOD."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:78
+msgid "This is the annual percentage of UBI your stake will create."
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:58
+#: src/pages/gd/Portfolio/index.tsx:218
+msgid "This is the protocol that the token is staked to."
+msgstr "Đây là giao thức mà mã thông báo được đặt cược."
+
+#: src/pages/gd/Stake/index.tsx:70
+msgid "This is the protocol that the token will be staked to."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:66
+msgid "This is the token that is currently available to stake to the Fund."
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:53
+#: src/pages/gd/Portfolio/index.tsx:214
+msgid "This is the token that is currently being staked."
+msgstr "Đây là mã thông báo hiện đang được đặt cược."
+
+#: src/pages/gd/Stake/Savings/index.tsx:105
+msgid "This is the token that you can deposit into the savings contract."
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:123
+#: src/components/PortfolioTableRow/index.tsx:126
+#: src/pages/gd/Portfolio/index.tsx:99
+#: src/pages/gd/Portfolio/index.tsx:102
+msgid "This month"
+msgstr "Tháng này"
+
+#: src/pages/App.tsx:137
+msgid "This project is in beta. Use at your own risk"
+msgstr "Dự án này đang trong giai đoạn thử nghiệm. Sử dụng có nguy cơ của riêng bạn"
+
+#: src/components/Withdraw/index.tsx:142
+#: src/pages/gd/Stake/index.tsx:65
+#: src/pages/gd/Stake/Savings/index.tsx:104
+msgid "Token"
+msgstr "Mã thông báo"
+
+#: src/components/Savings/SavingsCard/index.tsx:52
+#: src/pages/gd/Portfolio/index.tsx:213
+msgid "TOKEN"
+msgstr "MÃ THÔNG BÁO"
+
+#: src/pages/gd/Portfolio/index.tsx:222
+msgid "Total amount on value staked."
+msgstr "Tổng số tiền trên giá trị được đặt cược."
+
+#: src/pages/gd/Stake/Savings/index.tsx:125
+msgid "Total currently saved."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:85
+msgid "Total Rewards"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:130
+msgid "Total rewards claimed."
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:129
+msgid "Total Rewards Paid"
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:150
+msgid "Total stake"
+msgstr "Tổng số cổ phần"
+
+#: src/pages/gd/Stake/Savings/index.tsx:124
+msgid "Total Staked"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:153
+msgid "Transaction deadline"
+msgstr "Thời hạn giao dịch"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:77
+msgid "Transaction settings"
+msgstr "Cài đặt giao dịch"
+
+#: src/components/TransactionConfirmationModal/index.tsx:89
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:271
+msgid "Transaction Submitted"
+msgstr "Giao dịch được gửi"
+
+#: src/components/ClaimRewards/index.tsx:127
+#: src/components/Withdraw/index.tsx:191
+#: src/components/WithdrawRewards/index.tsx:127
+msgid "Transaction was sent to the blockchain"
+msgstr "Giao dịch đã được gửi đến Blockchain"
+
+#: src/components/Savings/SavingsCard/index.tsx:47
+#: src/pages/gd/Portfolio/index.tsx:207
+msgid "TYPE"
+msgstr ""
+
+#: src/components/Web3Network/index.tsx:69
+msgid "Unsupported network"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:290
+#: src/components/Popups/TransactionPopup.tsx:46
+#: src/components/TransactionConfirmationModal/index.tsx:93
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:280
+msgid "View on explorer"
+msgstr "Xem trên explorer"
+
+#: src/components/ModalViews/index.tsx:69
+msgid "View transaction on explorer"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:249
+msgid ""
+"Voltage is an UNI-V2 Automated Market Maker (AMM)\n"
+"that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC.\n"
+"The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool.\n"
+"Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:258
+msgid "Waiting for Confirmation"
+msgstr "Chờ đợi sự xác nhận"
+
+#: src/components/TransactionConfirmationModal/index.tsx:49
+msgid "Waiting For Confirmation"
+msgstr "Chờ đợi sự xác nhận"
+
+#: src/components/SideBar.tsx:133
+msgid "Wallet"
+msgstr "Ví tiền"
+
+#: src/components/SideBar.tsx:218
+msgid "Wallet balance"
+msgstr "Ví thăng bằng"
+
+#: src/components/NetworkModal/index.tsx:121
+#: src/components/NetworkModal/index.tsx:170
+msgid "We see you don't have {0} added to your wallet. Kindly add the network, and try again."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:29
+msgid "What's an exit contribution?"
+msgstr "Đóng góp xuất cảnh là gì?"
+
+#: src/components/PortfolioTableRow/index.tsx:67
+#: src/components/Withdraw/index.tsx:140
+#: src/pages/gd/Portfolio/index.tsx:163
+msgid "Withdraw"
+msgstr "Rút tiền"
+
+#: src/components/Withdraw/index.tsx:177
+msgid "WITHDRAW"
+msgstr "RÚT"
+
+#: src/components/Withdraw/index.tsx:157
+msgid "Withdraw as {0}?"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:73
+#: src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx:49
+msgid "Withdraw G$"
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:152
+msgid "Withdraw Liquidity"
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:171
+msgid "Withdrawing your stake will reset your multiplier."
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:90
+msgid "Withdrew funds from {0}"
+msgstr "Đã rút tiền từ {0}"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:389
+msgid "You are creating UBI to thousands of people around the world."
+msgstr "Bạn đang tạo UBI cho hàng ngàn người trên khắp thế giới."
+
+#: src/components/NetworkModal/index.tsx:137
+#: src/components/NetworkModal/index.tsx:186
+msgid "You are currently browsing"
+msgstr "Bạn đang đang duyệt"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:380
+msgid ""
+"You have just staked your G$s towards our GoodDAO,\n"
+"this action is gonna reward you with GOOD governance tokens,\n"
+"which are non-transferable so can't be traded."
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:128
+#: src/components/Withdraw/index.tsx:192
+#: src/components/WithdrawRewards/index.tsx:128
+msgid "You have successfully claimed your rewards"
+msgstr "Bạn đã yêu cầu thành công phần thưởng của bạn"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:297
+msgid "You just used your crypto for good to help fund crypto UBI for all with GoodDollar!"
+msgstr ""
+
+#: src/components/WithdrawRewards/index.tsx:115
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:421
+msgid "You need to sign the transaction in your wallet"
+msgstr "Bạn cần ký giao dịch trong ví của bạn"
+
+#: src/components/Liquidity/RemoveLiquidityReceiveDetails.tsx:39
+msgid "You Will Receive:"
+msgstr "Bạn sẽ nhận:"
+
+#: src/components/Savings/SavingsModal/index.tsx:294
+msgid "Your {type} transaction has been confirmed!"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:115
+msgid "Your current network."
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:110
+msgid "Your current savings balance."
+msgstr ""
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:26
+msgid "Your Pool Share"
+msgstr "Chia sẻ nhóm của bạn"
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:15
+msgid "Your Pool Tokens"
+msgstr "Mã thông báo hồ bơi của bạn"
+
+#: src/pages/gd/Portfolio/index.tsx:324
+msgid "Your social contribution from:"
+msgstr "Đóng góp xã hội của bạn từ:"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:387
+msgid ""
+"Your staking transaction which will generate UBI for thousands of people around\n"
+"the world has just been broadcasted to the network."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:149
+msgid "Your transaction may be frontrun"
+msgstr "Giao dịch của bạn có thể chạy trước"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:148
+msgid "Your transaction may fail"
+msgstr "Giao dịch của bạn có thể thất bại"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:155
+msgid "Your transaction will revert if it is pending for more than this time."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:83
+msgid "Your transaction will revert if the price changes unfavorably by more than this percentage."
+msgstr "Giao dịch của bạn sẽ hoàn nguyên nếu giá thay đổi bất lợi hơn tỷ lệ phần trăm này."
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:208
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:215
+#: src/pages/gd/Swap/SwapDetails/index.tsx:49
+msgid "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+msgstr "Giao dịch của bạn sẽ hoàn nguyên nếu có một biến động giá lớn, bất lợi trước khi nó được xác nhận."
+
+#: src/components/AccountDetails/index.tsx:313
+msgid "Your transactions will appear here..."
+msgstr "Giao dịch của bạn sẽ xuất hiện ở đây ..."

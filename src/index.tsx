@@ -14,7 +14,7 @@ import store from './state'
 import ApplicationUpdater from './state/application/updater'
 import MulticallUpdater from './state/multicall/updater'
 import UserUpdater from './state/user/updater'
-import ThemeProvider from './theme'
+import ThemeProvider, { TwTheme } from './theme'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
@@ -31,9 +31,8 @@ if (window.ethereum) {
 
 const GlobalStyle = createGlobalStyle`
   body {
-      color: ${({ theme }) => theme.color.text1};
+      color: ${({ theme }: { theme: TwTheme }) => theme.color.text1};
   }
-
 
   :root {
     --onboard-wallet-columns: 2;
@@ -43,8 +42,8 @@ const GlobalStyle = createGlobalStyle`
     --onboard-wallet-app-icon-border-color: #E9ECFF;
     --onboard-close-button-background: none;
     --onboard-close-button-color: black;
-    --onboard-font-family-normal: ${({ theme }) => theme.font.primary};
-    --onboard-font-family-light: ${({ theme }) => theme.font.secondary};
+    --onboard-font-family-normal: ${({ theme }: { theme: TwTheme }) => theme.font.primary};
+    --onboard-font-family-light: ${({ theme }: { theme: TwTheme }) => theme.font.secondary};
 
 
   }

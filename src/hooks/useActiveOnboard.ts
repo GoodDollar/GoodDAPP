@@ -192,7 +192,6 @@ export function useOnboardConnect(): OnboardConnectProps {
         } else if (activated || !previouslyConnected[0]) {
             setTried(true)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [/* used */ connect, activated, tried, previouslyConnected, loading])
 
     useEffect(() => {
@@ -236,7 +235,7 @@ export function useOnboardConnect(): OnboardConnectProps {
                 return
             }
 
-            const promises = []
+            const promises: Array<Promise<void[] | void | undefined>> = []
             const cleanup = async (key: string) => AsyncStorage.safeRemove(key)
             const cleanupList = async (regex: RegExp) => {
                 try {

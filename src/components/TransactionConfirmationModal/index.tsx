@@ -5,7 +5,7 @@ import { Text } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import Circle from '../../assets/images/blue-loader.svg'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { ExternalLink } from '../../theme'
+import { ExternalLink, TwTheme } from '../../theme'
 import { CloseIcon, CustomLightSpinner } from '../../theme/components'
 import { getExplorerLink } from '../../utils'
 import { ButtonPrimary } from '../ButtonLegacy'
@@ -72,7 +72,7 @@ function TransactionSubmittedContent({
     chainId: ChainId
 }) {
     const { i18n } = useLingui()
-    const theme = useTheme()
+    const theme = useTheme() as TwTheme
 
     return (
         <Wrapper>
@@ -111,7 +111,7 @@ const Title = styled(Text)`
     font-size: 34px;
     line-height: 40px;
     letter-spacing: -0.02em;
-    color: ${({ theme }) => theme.color.text4};
+    color: ${({ theme }: { theme: TwTheme }) => theme.color.text4};
 `
 
 export function ConfirmationModalContent({
@@ -140,7 +140,7 @@ export function ConfirmationModalContent({
 }
 
 export function TransactionErrorContent({ message, onDismiss }: { message: string; onDismiss: () => void }) {
-    const theme = useTheme()
+    const theme = useTheme() as TwTheme
     return (
         <Wrapper>
             <Section>

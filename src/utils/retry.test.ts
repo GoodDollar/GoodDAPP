@@ -51,7 +51,7 @@ describe('retry', () => {
     }
 
     it('waits random amount of time between min and max', async () => {
-        const promises = []
+        const promises: Array<any> = []
         for (let i = 0; i < 10; i++) {
             promises.push(
                 checkTime(

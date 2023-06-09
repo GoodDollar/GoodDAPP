@@ -1,0 +1,3458 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-05-31 12:45+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/components/AppBar.tsx:202
+#: src/components/Savings/SavingsCard/index.tsx:48
+msgid ""
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/pages/gd/Portfolio/index.tsx:399
+msgid "Stake Positions"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/pages/gd/Portfolio/index.tsx:452
+msgid "Savings"
+msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "(COMING SOON) Accrue automatic yield through flash loans and\n"
+#~ "SUSHI strategies"
+#~ msgstr ""
+#~ "（近日公開）フラッシュローンと\n"
+#~ " nSUSHI戦略を通じて自動利回りを獲得"
+
+#. js-lingui-explicit-id
+#~ msgid "(View on explorer)"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "+ Add a send (optional)"
+#~ msgstr "+送信を追加（オプション）"
+
+#. js-lingui-explicit-id
+#~ msgid "+ Create a new market"
+#~ msgstr "+新しい市場を作成する"
+
+#. js-lingui-explicit-id
+#~ msgid "- Remove send"
+#~ msgstr "-送信を削除します"
+
+#. js-lingui-explicit-id
+#~ msgid "300M+ TVL on Polygon! Optimized routing enabled"
+#~ msgstr "300M+ TVL on Polygon! Optimized routing enabled"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> In order to start earning rewards, you will need to first acquire some SLP by adding liquidity to the specified pair or <1>migrating existing liquidity.</1> Once you have SLP you can stake it into this yield farm to start earning rewards. Unstake anytime and then you can convert your SLP back to base tokens by clicking Remove Liquidity. Click Harvest to receive your rewards at any time."
+#~ msgstr "<0>ヒント： </0>報酬の獲得を開始するには、最初に、指定されたペアに流動性を追加するか、 <1>既存の流動性を移行してSLPを取得する必要があります。 </1> SLPを入手したら、それをこの収穫農場に賭けて報酬を獲得し始めることができます。いつでも賭けを解除し、[流動性の削除]をクリックしてSLPをベーストークンに戻すことができます。いつでも報酬を受け取るには、[収穫]をクリックします。"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive."
+#~ msgstr "<0>ヒント： </0>プールトークンを削除すると、プールのシェアに比例して、現在のレートでポジションが基になるトークンに変換されます。未払料金は、受け取る金額に含まれています。"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> Use this tool to find pairs that don't automatically appear in the interface"
+#~ msgstr "<0>ヒント： </0>このツールを使用して、インターフェースに自動的に表示されないペアを見つけます"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> When you add liquidity, you will receive pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time."
+#~ msgstr "<0>ヒント： </0>流動性を追加すると、自分のポジションを表すプールトークンを受け取ります。これらのトークンは、プールのシェアに比例した料金を自動的に獲得し、いつでも利用できます。"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Your</0> Positions"
+#~ msgstr "<0>あなたの</0>ポジション"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>{0}:</0> {1}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "A contribution to the reserve paid by members for directly selling G$ tokens."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive."
+#~ msgstr "各取引の一部（0.25％）は、プロトコルのインセンティブとして流動性プロバイダーに送られます。"
+
+#. js-lingui-explicit-id
+#~ msgid "APPROVE"
+#~ msgstr "APPROVE"
+
+#. js-lingui-explicit-id
+#~ msgid "APPROVED"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "APPROVING"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "APR"
+#~ msgstr "4月"
+
+#. js-lingui-explicit-id
+#~ msgid "APR (incl. Fees)"
+#~ msgstr "APR (incl. Fees)"
+
+#. js-lingui-explicit-id
+#~ msgid "APY"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "APY (incl. Fees)"
+#~ msgstr "APY (incl. Fees)"
+
+#. js-lingui-explicit-id
+#~ msgid "Accept"
+#~ msgstr "受け入れる"
+
+#. js-lingui-explicit-id
+#~ msgid "Accept update"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Account"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Active"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Add"
+#~ msgstr "追加"
+
+#. js-lingui-explicit-id
+#~ msgid "Add Liquidity"
+#~ msgstr "流動性を追加する"
+
+#. js-lingui-explicit-id
+#~ msgid "Add SAK3 to your Metamask wallet"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Add Sushi to your Metamask wallet"
+#~ msgstr "メタマスクウォレットに寿司を追加する"
+
+#. js-lingui-explicit-id
+#~ msgid "Add collateral in order to borrow assets"
+#~ msgstr "資産を借りるために担保を追加する"
+
+#. js-lingui-explicit-id
+#~ msgid "Add liquidity"
+#~ msgstr "流動性を追加する"
+
+#. js-lingui-explicit-id
+#~ msgid "Add xSushi to your Metamask wallet"
+#~ msgstr "xSushiをメタマスクウォレットに追加します"
+
+#. js-lingui-explicit-id
+#~ msgid "All Yield Farms"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Amount"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Amount of Tokens"
+#~ msgstr "トークンの量"
+
+#. js-lingui-explicit-id
+#~ msgid "Amount to Remove"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "An update is available for the token list"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Analytics"
+#~ msgstr "分析"
+
+#. js-lingui-explicit-id
+#~ msgid "Annual Percentage Yield (APY) is the percentage yield being earned."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Anyone can create a token, including creating fake versions of existing tokens that claim to represent projects."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Approve"
+#~ msgstr "承認する"
+
+#. js-lingui-explicit-id
+#~ msgid "Approve Kashi"
+#~ msgstr "樫を承認する"
+
+#. js-lingui-explicit-id
+#~ msgid "Approve {0}"
+#~ msgstr "{0}承認する"
+
+#. js-lingui-explicit-id
+#~ msgid "Approved"
+#~ msgstr "承認済み"
+
+#. js-lingui-explicit-id
+#~ msgid "Approving"
+#~ msgstr "承認"
+
+#. js-lingui-explicit-id
+#~ msgid "Approving {0}"
+#~ msgstr "{0}承認する"
+
+#. js-lingui-explicit-id
+#~ msgid "Are you sure?"
+#~ msgstr "本気ですか？"
+
+#. js-lingui-explicit-id
+#~ msgid "Available"
+#~ msgstr "利用可能"
+
+#. js-lingui-explicit-id
+#~ msgid "Awesome!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Back"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Back to portfolio"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Balance"
+#~ msgstr "残高"
+
+#. js-lingui-explicit-id
+#~ msgid "Bento Balance: {0}"
+#~ msgstr "お弁当残高： {0}"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox"
+#~ msgstr "BentoBox"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox Apps"
+#~ msgstr "BentoBoxアプリ"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox is an innovative way to use dapps gas-efficiently and gain extra yield."
+#~ msgstr "BentoBoxは、dappsをガス効率よく使用し、追加の歩留まりを得る革新的な方法です。"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox provides extra yield on deposits with flash lending, strategies, and fixed, low-gas transfers among integrated dapps, like Kashi markets"
+#~ msgstr "BentoBoxは、フラッシュ貸付、戦略、およびカシ市場のような統合されたダップ間の固定された低ガス転送により、預金に追加の利回りを提供します"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox strategies can create yield for your collateral tokens. This token does not yet have a strategy in the BentoBox."
+#~ msgstr "BentoBox戦略は、担保トークンの利回りを生み出すことができます。このトークンには、BentoBoxにまだ戦略がありません。"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox strategies can create yield for your liquidity while it is not lent out. This token does not yet have a strategy in the BentoBox."
+#~ msgstr "BentoBox戦略は、貸し出されていない間、流動性の利回りを生み出すことができます。このトークンには、BentoBoxにまだ戦略がありません。"
+
+#. js-lingui-explicit-id
+#~ msgid "Blocked address"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow"
+#~ msgstr "かりて"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow APR"
+#~ msgstr "4月を借りる"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow assets and leverage up"
+#~ msgstr "資産を借りて活用する"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow {0}"
+#~ msgstr "{0}借りる"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow {0}-{1}"
+#~ msgstr "借りる{0} - {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrowed"
+#~ msgstr "借りた"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrowing allows you to obtain liquidity without selling. Your borrow limit depends on the amount of deposited collateral. You will be able to borrow up to 75% of your collateral and repay at any time with accrued interest."
+#~ msgstr "借りることで、売らずに流動性を得ることができます。借り入れ限度額は、預け入れられた担保の金額によって異なります。担保の最大75％を借り入れ、未収利息でいつでも返済することができます。"
+
+#. js-lingui-explicit-id
+#~ msgid "Bridge Assets"
+#~ msgstr "ブリッジアセット"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "By adding liquidity you'll earn 0.25% of all trades on this pair proportional to your share\n"
+#~ "of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing\n"
+#~ "your liquidity."
+#~ msgstr ""
+#~ "流動性を追加することで、あなたの共有にこのペア比例上のすべての取引の0.25％を獲得できます\n"
+#~ "のプールの。料金はプールに追加され、リアルタイムで発生し、流動性を\n"
+#~ ""
+
+#. js-lingui-explicit-id
+#~ msgid "By adding this list you are implicitly trusting that the data is correct. Anyone can create a list, including creating fake versions of existing lists and lists that claim to represent projects that do not have one."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Bypasses confirmation modals and allows high slippage trades. Use at your own risk."
+#~ msgstr "確認モーダルをバイパスし、高いスリッページ取引を可能にします。自己責任。"
+
+#. js-lingui-explicit-id
+#~ msgid "CLAIMABLE REWARDS"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "CONFIRM SWAP"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Change"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Check out Sushi on Polygon (Matic)"
+#~ msgstr "ポリゴンの寿司をチェック（マティック）"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim"
+#~ msgstr "請求"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim All"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim G$ rewards"
+#~ msgstr "G $ Rewards."
+
+#. js-lingui-explicit-id
+#~ msgid "Claim GOOD"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim GOOD rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim SUSHI"
+#~ msgstr "SUSHIを主張する"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim UBI"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim reward"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim your test tokens here..."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claimable"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claimable Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claimed"
+#~ msgstr "主張"
+
+#. js-lingui-explicit-id
+#~ msgid "Claimed G$ Rewards"
+#~ msgstr "GRED READDER."
+
+#. js-lingui-explicit-id
+#~ msgid "Claimed GOOD Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claiming the following rewards:"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claiming your rewards will reset your multiplier"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claiming your rewards will reset your multiplier."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Clear History"
+#~ msgstr "履歴をクリア"
+
+#. js-lingui-explicit-id
+#~ msgid "Clear all"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Click here to switch to Polygon using Metamask"
+#~ msgstr "メタマスクを使用してポリゴンに切り替えるには、ここをクリックしてください"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Click on a pool below, input the amount you wish to migrate or select max, and click\n"
+#~ "migrate"
+#~ msgstr ""
+#~ "下のプールをクリックし、移行する金額を入力するか、最大を選択して、 \n"
+#~ "移行をクリックします"
+
+#. js-lingui-explicit-id
+#~ msgid "Click this button to Claim your Daily UBI in"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Close"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Collateral"
+#~ msgstr "担保"
+
+#. js-lingui-explicit-id
+#~ msgid "Collect G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Common bases"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Community Approval"
+#~ msgstr "コミュニティの承認"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm"
+#~ msgstr "確認"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Adding Liquidity"
+#~ msgstr "流動性の追加を確認する"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Staking"
+#~ msgstr "ステーキングを確認する"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Supply"
+#~ msgstr "供給を確認する"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Swap"
+#~ msgstr "スワップの確認"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Withdrawal"
+#~ msgstr "引き出しを確認する"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm swap"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm this transaction in your wallet"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Congratulations!"
+#~ msgstr "おめでとう！"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect Wallet"
+#~ msgstr "ウォレットを接続する"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect a wallet to see your portfolio"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Connect to a wallet"
+#~ msgstr "ウォレットに接続する"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect to a wallet to find pools"
+#~ msgstr "プールを見つけるために財布に接続します"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect to a wallet to view your liquidity"
+#~ msgstr "ウォレットに接続して流動性を確認します"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect wallet"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Connected with"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Copied"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Copy address"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Create Pool & Supply"
+#~ msgstr "プールと供給を作成する"
+
+#. js-lingui-explicit-id
+#~ msgid "Create a Pair"
+#~ msgstr "ペアを作成する"
+
+#. js-lingui-explicit-id
+#~ msgid "Create a pair"
+#~ msgstr "ペアを作成する"
+
+#. js-lingui-explicit-id
+#~ msgid "Create pool"
+#~ msgstr "プールを作成する"
+
+#. js-lingui-explicit-id
+#~ msgid "Current Rate"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "DEPOSIT"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Dashboard"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Date"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit"
+#~ msgstr "保証金"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit SUSHI into BentoBox"
+#~ msgstr "SUSHIをBentoBoxに預ける"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit overview"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit tokens into BentoBox for all the yields"
+#~ msgstr "すべての利回りのためにBentoBoxにトークンを入金します"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposited"
+#~ msgstr "寄託"
+
+#. js-lingui-explicit-id
+#~ msgid "Dev"
+#~ msgstr "開発者"
+
+#. js-lingui-explicit-id
+#~ msgid "Did you just create UBI for thousands of people around the world?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Disable Multihops"
+#~ msgstr "マルチホップを無効にする"
+
+#. js-lingui-explicit-id
+#~ msgid "Disconnect"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Discontinued"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Discord"
+#~ msgstr "不和"
+
+#. js-lingui-explicit-id
+#~ msgid "Dismiss"
+#~ msgstr "退出させる"
+
+#. js-lingui-explicit-id
+#~ msgid "Docs"
+#~ msgstr "ドキュメント"
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for developers"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for developers of Sushi."
+#~ msgstr "Sushiの開発者向けのドキュメント。"
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for users"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for users of Sushi."
+#~ msgstr "寿司のユーザーのためのドキュメント。"
+
+#. js-lingui-explicit-id
+#~ msgid "Don't see a pool you joined? <0>Import it.</0>"
+#~ msgstr "参加したプールが表示されませんか？ <0>インポートします。 </0>"
+
+#. js-lingui-explicit-id
+#~ msgid "Dont see a pool you joined?"
+#~ msgstr "参加したプールが表示されませんか？"
+
+#. js-lingui-explicit-id
+#~ msgid "Double Yield Farms"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "ETHEREUM"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Enjoy the lowest slippage on Polygon"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Enter"
+#~ msgstr "入る"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter Amount"
+#~ msgstr "金額を入力します"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter a recipient"
+#~ msgstr "受信者を入力してください"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter a valid slippage percentage"
+#~ msgstr "有効なスリッページの割合を入力してください"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter an amount"
+#~ msgstr "金額を入力してください"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter valid list location"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Enter valid token address"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Error"
+#~ msgstr "エラー"
+
+#. js-lingui-explicit-id
+#~ msgid "Error connecting"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Error connecting."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Error connecting. Try refreshing the page."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Error importing list"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Expanded results from inactive Token Lists"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Expert mode turns off the confirm transaction prompt and allows high slippage trades\n"
+#~ "that often result in bad rates and lost funds."
+#~ msgstr ""
+#~ "エキスパートモードは、取引確認プロンプトをオフにし、スリッページ取引を許可します。 \n"
+#~ "これにより、レートが低くなり、資金が失われることがよくあります。"
+
+#. js-lingui-explicit-id
+#~ msgid "FUSE"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Fetching Farms"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Fetching Instruments"
+#~ msgstr "楽器のフェッチ"
+
+#. js-lingui-explicit-id
+#~ msgid "Find Pool"
+#~ msgstr "プールを探す"
+
+#. js-lingui-explicit-id
+#~ msgid "Fixed Apy"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "For every swap on the exchange on every chain, 0.05% of the swap fees are distributed as SUSHI\n"
+#~ "proportional to your share of the SushiBar. When your SUSHI is staked into the SushiBar, you receive\n"
+#~ "xSUSHI in return for voting rights and a fully composable token that can interact with other protocols.\n"
+#~ "Your xSUSHI is continuously compounding, when you unstake you will receive all the originally deposited\n"
+#~ "SUSHI and any additional from fees."
+#~ msgstr ""
+#~ "すべてのチェーンの取引所でのすべてのスワップについて、スワップ手数料の0.05％がSushiBarのシェアに比例して\n"
+#~ " SUSHIがSushiBarに固定されると、 \n"
+#~ " xSUSHIを受け取り、投票権と他のプロトコルと対話できる完全に構成可能なトークンを受け取ります。 \n"
+#~ " xSUSHIは継続的に複利計算されます。賭けを解除すると、最初にデポジットされたすべての\n"
+#~ " nSUSHIと追加料金が発生します。"
+
+#. js-lingui-explicit-id
+#~ msgid "From"
+#~ msgstr "から"
+
+#. js-lingui-explicit-id
+#~ msgid "From (estimated)"
+#~ msgstr "から（推定）"
+
+#. js-lingui-explicit-id
+#~ msgid "Fuse Bridge"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GDX"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the\n"
+#~ "contribution exit."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GOO"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GOOD"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GOOD Airdrop"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Gain exposure to tokens without reducing your assets. Leverage will enable you to take short positions against assets and earn from downside movements."
+#~ msgstr "資産を減らすことなく、トークンへの露出を獲得します。レバレッジを使用すると、資産に対してショートポジションを取り、下振れから収益を得ることができます。"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Gain governance rights with xSUSHI and earn 5% APR (0.05% of\n"
+#~ "all swaps from all chains)"
+#~ msgstr ""
+#~ "xSUSHIでガバナンス権を取得し、5％APRを獲得します（ \n"
+#~ "すべてのチェーンからのすべてのスワップの0.05％）"
+
+#. js-lingui-explicit-id
+#~ msgid "Go Back"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Go to Portfolio"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Good Airdrop"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDAO"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDAO Staking"
+#~ msgstr "GoodDAO Staking"
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDollar"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDollar is a supporter of open source"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodStakes"
+#~ msgstr "GoodStakes"
+
+#. js-lingui-explicit-id
+#~ msgid "Hardware Wallet"
+#~ msgstr "ハードウェアウォレット"
+
+#. js-lingui-explicit-id
+#~ msgid "Harvest {0} SUSHI"
+#~ msgstr "{0}寿司を収穫する"
+
+#. js-lingui-explicit-id
+#~ msgid "Harvest {0} SUSHI & {1} ALCX"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Harvest {0} SUSHI & {1} MATIC"
+#~ msgstr "{0} SUSHI＆ {1} MATICを収穫する"
+
+#. js-lingui-explicit-id
+#~ msgid "Have Liquidity on {0}?"
+#~ msgstr "{0}流動性がありますか？"
+
+#. js-lingui-explicit-id
+#~ msgid "Have assets you want to earn additional interest on? Lend them in isolated markets and earn interest from borrowers. It's as easy as deposit and withdraw whenever you want."
+#~ msgstr "追加の利息を稼ぎたい資産がありますか？孤立した市場でそれらを貸し、借り手から利息を稼ぎます。いつでも入出金するのと同じくらい簡単です。"
+
+#. js-lingui-explicit-id
+#~ msgid "Health"
+#~ msgstr "健康"
+
+#. js-lingui-explicit-id
+#~ msgid "Helpful Sushi Tools"
+#~ msgstr "役立つ寿司ツール"
+
+#. js-lingui-explicit-id
+#~ msgid "Historical Total Locked: Connect Wallet"
+#~ msgstr "過去の合計ロック：ウォレットの接続"
+
+#. js-lingui-explicit-id
+#~ msgid "Historical Total Locked: Fetching Total"
+#~ msgstr "過去の合計がロックされています：合計を取得しています"
+
+#. js-lingui-explicit-id
+#~ msgid "Historical Total Locked: {0} SUSHI"
+#~ msgstr "過去の合計ロック数： {0} SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Holding"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How many GOOD tokens you are accumulating by this stake position."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much rewards would you like to donate"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much tokens your deposits have accumulated so far."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much value your stake has accumulated so far."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much would you like to deposit?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much would you like to withdraw?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "I understand"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "If you purchase a token from this list, you may not be able to sell it back."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "If you purchase this token, you may not be able to sell it back."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Import"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Import List"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Import Pool"
+#~ msgstr "インポートプール"
+
+#. js-lingui-explicit-id
+#~ msgid "Import at your own risk"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Import it"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Initializing..."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Input is estimated. You will sell at most"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Input is estimated. You will sell at most <0>{0} {1}</0> or the transaction will revert."
+#~ msgstr "入力が推定されます。 <0> {0} {1} </0>を販売するか、トランザクションが元に戻ります。"
+
+#. js-lingui-explicit-id
+#~ msgid "Instruments"
+#~ msgstr "楽器"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient Balance"
+#~ msgstr "残高不足です"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient WETH balance"
+#~ msgstr "WETHバランスが不十分"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient liquidity for this trade"
+#~ msgstr "この取引のための不十分な流動性"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient {0} balance"
+#~ msgstr "{0}残高が不足しています"
+
+#. js-lingui-explicit-id
+#~ msgid "Interface Settings"
+#~ msgstr "インターフェース設定"
+
+#. js-lingui-explicit-id
+#~ msgid "Invalid pair"
+#~ msgstr "無効なペア"
+
+#. js-lingui-explicit-id
+#~ msgid "Invalid recipient"
+#~ msgstr "無効な受信者"
+
+#. js-lingui-explicit-id
+#~ msgid "Isolated lending markets mitigate your risks as an asset lender. Know exactly what collateral is available to you in the event of counter party insolvency."
+#~ msgstr "孤立した貸付市場は、資産貸し手としてのリスクを軽減します。カウンターパーティが破産した場合に利用できる担保を正確に把握します。"
+
+#. js-lingui-explicit-id
+#~ msgid "Join the community of discord"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Join the community on Discord."
+#~ msgstr "Discordでコミュニティに参加してください。"
+
+#. js-lingui-explicit-id
+#~ msgid "Kashi Lending"
+#~ msgstr "樫貸し出し"
+
+#. js-lingui-explicit-id
+#~ msgid "Keys Burned: 2022.03.04 at 22:05"
+#~ msgstr "燃やされた鍵：22：05に2022.03.04"
+
+#. js-lingui-explicit-id
+#~ msgid "Learn More"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Learn more about wallets"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Lend"
+#~ msgstr "貸す"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend assets for interest from borrowers."
+#~ msgstr "借り手からの利子のために資産を貸します。"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend your assets, earn yield with no impermanent loss"
+#~ msgstr "あなたの資産を貸し、永久的な損失なしで利回りを稼ぎます"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend {assetSymbol}"
+#~ msgstr "{assetSymbol}"
+
+#. js-lingui-explicit-id
+#~ msgid "Lending"
+#~ msgstr "貸し出し"
+
+#. js-lingui-explicit-id
+#~ msgid "Lending Yield Farms"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Lent"
+#~ msgstr "四旬節"
+
+#. js-lingui-explicit-id
+#~ msgid "Limit <0>Used</0>"
+#~ msgstr "制限<0>使用済み</0>"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity"
+#~ msgstr "Liquidity"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Positions"
+#~ msgstr "流動性ポジション"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Provider Fee"
+#~ msgstr "流動性プロバイダー手数料"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Provider Rewards"
+#~ msgstr "流動性プロバイダーの報酬"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Yield Farms"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity is the total value staked in the GoodDollar Trust staking contract (USD)."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Liquidity providers earn a 0.25% fee on all trades proportional to their share of\n"
+#~ "the pool. Fees are added to the pool, accrue in real time and can be claimed by\n"
+#~ "withdrawing your liquidity"
+#~ msgstr ""
+#~ "すべての取引がのシェアに比例した上で流動性プロバイダーは、0.25％の手数料を稼ぐ\n"
+#~ "のプール。料金はプールに追加され、リアルタイムで発生し、 \n"
+#~ "流動性を引き出すことで請求できます"
+
+#. js-lingui-explicit-id
+#~ msgid "Lists"
+#~ msgstr "リスト"
+
+#. js-lingui-explicit-id
+#~ msgid "Loaded"
+#~ msgstr "Loaded"
+
+#. js-lingui-explicit-id
+#~ msgid "Loading"
+#~ msgstr "読み込み中"
+
+#. js-lingui-explicit-id
+#~ msgid "Loading your {exchange} liquidity positions"
+#~ msgstr "{exchange}流動性ポジションの読み込み"
+
+#. js-lingui-explicit-id
+#~ msgid "Loading..."
+#~ msgstr "読み込んでいます..."
+
+#. js-lingui-explicit-id
+#~ msgid "Loan to Value"
+#~ msgstr "ローントゥバリュー"
+
+#. js-lingui-explicit-id
+#~ msgid "MAX"
+#~ msgstr "MAX"
+
+#. js-lingui-explicit-id
+#~ msgid "MULTIPLIER"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Make the most of your"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Manage"
+#~ msgstr "管理する"
+
+#. js-lingui-explicit-id
+#~ msgid "Manage Liquidity in Rewards Pool"
+#~ msgstr "リワードプールの流動性を管理する"
+
+#. js-lingui-explicit-id
+#~ msgid "Manage this pool"
+#~ msgstr "このプールを管理する"
+
+#. js-lingui-explicit-id
+#~ msgid "Market Info"
+#~ msgstr "市場情報"
+
+#. js-lingui-explicit-id
+#~ msgid "Market Staked"
+#~ msgstr "市場の賭け"
+
+#. js-lingui-explicit-id
+#~ msgid "Markets"
+#~ msgstr "市場"
+
+#. js-lingui-explicit-id
+#~ msgid "Max"
+#~ msgstr "マックス"
+
+#. js-lingui-explicit-id
+#~ msgid "Maximize yield by staking SUSHI for xSUSHI"
+#~ msgstr "xSUSHIにSUSHIをステーキングして歩留まりを最大化"
+
+#. js-lingui-explicit-id
+#~ msgid "Maximum sold"
+#~ msgstr "最大販売数"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate"
+#~ msgstr "移行する"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate Now"
+#~ msgstr "今すぐ移行"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate Now."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate {exchange} Liquidity"
+#~ msgstr "{exchange}流動性を移行する"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrating"
+#~ msgstr "移行中"
+
+#. js-lingui-explicit-id
+#~ msgid "Migration is done in one-click using your signature (permit)"
+#~ msgstr "移行は、署名を使用してワンクリックで実行されます（許可）"
+
+#. js-lingui-explicit-id
+#~ msgid "Minimum received"
+#~ msgstr "受け取った最小値"
+
+#. js-lingui-explicit-id
+#~ msgid "Miso"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Missed the Auction?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Multichain Bridge"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "My Stake"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "NETWORK"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Network"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Network Fee"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "New"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "New network, new features"
+#~ msgstr "新しいネットワーク、新機能"
+
+#. js-lingui-explicit-id
+#~ msgid "New to Ethereum?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Next month:"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "No LP tokens found"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "No Liquidity found"
+#~ msgstr "流動性が見つかりません"
+
+#. js-lingui-explicit-id
+#~ msgid "No Results"
+#~ msgstr "結果がありません"
+
+#. js-lingui-explicit-id
+#~ msgid "No Results."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "No data."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "No liquidity found"
+#~ msgstr "流動性が見つかりません"
+
+#. js-lingui-explicit-id
+#~ msgid "No liquidity found to do swap"
+#~ msgstr "スワップを行うための流動性は見つかりませんでした"
+
+#. js-lingui-explicit-id
+#~ msgid "No liquidity positions found"
+#~ msgstr "流動性ポジションが見つかりません"
+
+#. js-lingui-explicit-id
+#~ msgid "No pool found"
+#~ msgstr "プールが見つかりません"
+
+#. js-lingui-explicit-id
+#~ msgid "No results found"
+#~ msgstr "結果が見つかりません"
+
+#. js-lingui-explicit-id
+#~ msgid "Non-hardware Wallet"
+#~ msgstr "非ハードウェアウォレット"
+
+#. js-lingui-explicit-id
+#~ msgid "None"
+#~ msgstr "無し"
+
+#. js-lingui-explicit-id
+#~ msgid "OFF"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "ON"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING."
+#~ msgstr "このモードは、自分が何をしているのかを知っている場合にのみ使用してください。"
+
+#. js-lingui-explicit-id
+#~ msgid "Off"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "On"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "One click SUSHI → xSUSHI → aXSUSHI"
+#~ msgstr "ワンクリックSUSHI→xSUSHI→aXSUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
+#~ msgstr "おっとっと！不明なエラーが発生しました。ページを更新するか、別のブラウザまたはデバイスからアクセスしてください"
+
+#. js-lingui-explicit-id
+#~ msgid "Open Source"
+#~ msgstr "オープンソース"
+
+#. js-lingui-explicit-id
+#~ msgid "Open main menu"
+#~ msgstr "メインメニューを開く"
+
+#. js-lingui-explicit-id
+#~ msgid "Oracle"
+#~ msgstr "オラクル"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. If the price changes by more than {0}% your transaction will revert."
+#~ msgstr "出力は推定されます。 {0} ％を超えて変化した場合、トランザクションは元に戻ります。"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least <0>{0} {1}</0> or the transaction will revert."
+#~ msgstr "出力は推定されます。 <0> {0} {1} </0>を受け取るか、トランザクションが元に戻ります。"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least {minimumReceived} or the transaction will revert"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Output will be sent to"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Output will be sent to <0>{0}</0>"
+#~ msgstr "<0> {0} </0>送信されます"
+
+#. js-lingui-explicit-id
+#~ msgid "PENDING SIGN..."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "PROTOCOL"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Pending"
+#~ msgstr "保留中"
+
+#. js-lingui-explicit-id
+#~ msgid "Pending Treasury Transfer"
+#~ msgstr "保留中の財務転送"
+
+#. js-lingui-explicit-id
+#~ msgid "Please confirm you would like to remove this list by typing"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Please connect to the appropriate Ethereum network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Please connect to the appropriate network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Please connect your Web3 wallet to the Fuse Network to Claim UBI."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Please type the word \"confirm\" to enable expert mode."
+#~ msgstr "エキスパートモードを有効にするには、「確認」という単語を入力してください。"
+
+#. js-lingui-explicit-id
+#~ msgid "Please wait"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Pool"
+#~ msgstr "プール"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool Found!"
+#~ msgstr "プールが見つかりました！"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool Rewards"
+#~ msgstr "プールリワード"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool Tokens"
+#~ msgstr "プールトークン"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool tokens in rewards pool"
+#~ msgstr "報酬プールのプールトークン"
+
+#. js-lingui-explicit-id
+#~ msgid "Pooled {0}"
+#~ msgstr "プールされた{0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Portfolio"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Positions"
+#~ msgstr "ポジション"
+
+#. js-lingui-explicit-id
+#~ msgid "Pour a hot bowl of MISO, the new <0>token launchpad</0> from SUSHI"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Price"
+#~ msgstr "価格"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Impact"
+#~ msgstr "価格への影響"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Impact High"
+#~ msgstr "価格への影響が高い"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Impact Too High"
+#~ msgstr "価格への影響が高すぎる"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Updated"
+#~ msgstr "価格が更新されました"
+
+#. js-lingui-explicit-id
+#~ msgid "Protocol"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "REWARDS"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Rates"
+#~ msgstr "料金"
+
+#. js-lingui-explicit-id
+#~ msgid "Read Tutorial"
+#~ msgstr "チュートリアルを読む"
+
+#. js-lingui-explicit-id
+#~ msgid "Read more about unsupported assets"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Read the contract"
+#~ msgstr "契約書を読む"
+
+#. js-lingui-explicit-id
+#~ msgid "Recent Transactions"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Recipient"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Remove"
+#~ msgstr "削除する"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove Liquidity"
+#~ msgstr "流動性を取り除く"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove list"
+#~ msgstr "Remove list"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove send"
+#~ msgstr "送信を削除"
+
+#. js-lingui-explicit-id
+#~ msgid "Removing {0} {1} and {2} {3}"
+#~ msgstr "{0} {1}と{2} {3}削除しています"
+
+#. js-lingui-explicit-id
+#~ msgid "Repay"
+#~ msgstr "返済"
+
+#. js-lingui-explicit-id
+#~ msgid "Request Tool"
+#~ msgstr "リクエストツール"
+
+#. js-lingui-explicit-id
+#~ msgid "Restricts swaps to direct pairs only."
+#~ msgstr "スワップを直接ペアのみに制限します。"
+
+#. js-lingui-explicit-id
+#~ msgid "Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Route"
+#~ msgstr "ルート"
+
+#. js-lingui-explicit-id
+#~ msgid "Routing through these tokens resulted in the best price for your trade."
+#~ msgstr "これらのトークンを介してルーティングすると、取引に最適な価格が得られました。"
+
+#. js-lingui-explicit-id
+#~ msgid "SAAVE"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "SAAVE: Stack your yields in one transaction"
+#~ msgstr "保存：1回の取引で利回りを積み上げます"
+
+#. js-lingui-explicit-id
+#~ msgid "STAKE"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "SUSHI Balance"
+#~ msgstr "SUSHIバランス"
+
+#. js-lingui-explicit-id
+#~ msgid "SUSHI Balance: {sushiBalance}"
+#~ msgstr "SUSHIバランス： {sushiBalance}"
+
+#. js-lingui-explicit-id
+#~ msgid "SUSHI {0}/{1} Burned"
+#~ msgstr "SUSHI {0} / {1}やけど"
+
+#. js-lingui-explicit-id
+#~ msgid "SWAP"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Search by name, symbol, address"
+#~ msgstr "名前、記号、住所で検索"
+
+#. js-lingui-explicit-id
+#~ msgid "Search name or paste address"
+#~ msgstr "名前を検索するか、アドレスを貼り付けます"
+
+#. js-lingui-explicit-id
+#~ msgid "Search name or paste the address"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Select a token"
+#~ msgstr "トークンを選択してください"
+
+#. js-lingui-explicit-id
+#~ msgid "Select a token to find your liquidity"
+#~ msgstr "トークンを選択して流動性を見つけます"
+
+#. js-lingui-explicit-id
+#~ msgid "Select an LP Token"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Share of Pool"
+#~ msgstr "プールのシェア"
+
+#. js-lingui-explicit-id
+#~ msgid "Share of Pool:"
+#~ msgstr "プールのシェア："
+
+#. js-lingui-explicit-id
+#~ msgid "Share with friends"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Slippage Tolerance"
+#~ msgstr "スリッページ許容値"
+
+#. js-lingui-explicit-id
+#~ msgid "Slippage tolerance"
+#~ msgstr "すべり耐性"
+
+#. js-lingui-explicit-id
+#~ msgid "Social APY"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Some assets are not available through this interface because they may not work well with our smart contract or we are unable to allow trading for legal reasons."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Something went wrong during signing of the approval. This is expected for hardware wallets, such as Trezor and Ledger. Click again and the fallback method will be used"
+#~ msgstr "承認の署名中に問題が発生しました。これは、TrezorやLedgerなどのハードウェアウォレットで予想されます。もう一度クリックすると、フォールバック方式が使用されます"
+
+#. js-lingui-explicit-id
+#~ msgid "Stack Yields with SAAVE"
+#~ msgstr "SAAVEでのスタック利回り"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake"
+#~ msgstr "ステーク"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake SUSHI"
+#~ msgstr "ステークSUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake SUSHI for xSUSHI"
+#~ msgstr "xSUSHIのStakeSUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Stake into xSUSHI add collateral as axSUSHI on Aave all in\n"
+#~ "one click"
+#~ msgstr ""
+#~ "xSUSHIに賭けて、AaveにaxSUSHIとして担保を追加し\n"
+#~ "ワンクリック"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake your SUSHI into xSUSHI for ~5% APY. Deposit your xSUSHI into Aave as aXSUSHI to earn collateral interest and borrowing power. All in one click."
+#~ msgstr "SUSHIをxSUSHIに5％APYで賭けます。 xSUSHIをaXSUSHIとしてAaveに預け入れ、担保利息と借入権を獲得します。オールインワンクリック。"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Stake your SUSHI into xSUSHI for ~5% APY. No impermanent loss, no loss of governance rights.\n"
+#~ "Continuously compounding."
+#~ msgstr ""
+#~ "SUSHIをxSUSHIに5％APYで賭けます。永続的な損失やガバナンスの権利の損失はありません。 \n"
+#~ "継続的に複利計算します。"
+
+#. js-lingui-explicit-id
+#~ msgid "Staked {0} at {1}"
+#~ msgstr "{1}で杭打ち{0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Stakes"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Staking"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Staking APR"
+#~ msgstr "ステーキングAPR"
+
+#. js-lingui-explicit-id
+#~ msgid "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Submit Tool"
+#~ msgstr "送信ツール"
+
+#. js-lingui-explicit-id
+#~ msgid "Success!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Supply APR"
+#~ msgstr "4月の供給"
+
+#. js-lingui-explicit-id
+#~ msgid "Supplying {0} {1} and {2} {3}"
+#~ msgstr "{0} {1}と{2} {3}"
+
+#. js-lingui-explicit-id
+#~ msgid "Sushi allows for swapping of ERC20 compatible tokens across multiple networks"
+#~ msgstr "Sushiでは、複数のネットワーク間でERC20互換トークンを交換できます"
+
+#. js-lingui-explicit-id
+#~ msgid "Sushi is a supporter of Open Source."
+#~ msgstr "寿司はオープンソースのサポーターです。"
+
+#. js-lingui-explicit-id
+#~ msgid "SushiBar"
+#~ msgstr "SushiBar"
+
+#. js-lingui-explicit-id
+#~ msgid "SushiBar: Make SUSHI work for you"
+#~ msgstr "SushiBar：SUSHIをあなたのために働かせましょう"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap"
+#~ msgstr "スワップ"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap Anyway"
+#~ msgstr "とにかくスワップ"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap Completed"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Swap From (est.):"
+#~ msgstr "スワップ元（推定）："
+
+#. js-lingui-explicit-id
+#~ msgid "Swap From:"
+#~ msgstr "スワップ元："
+
+#. js-lingui-explicit-id
+#~ msgid "Swap To (est.):"
+#~ msgstr "スワップ先（推定）："
+
+#. js-lingui-explicit-id
+#~ msgid "Swap To:"
+#~ msgstr "スワップ先："
+
+#. js-lingui-explicit-id
+#~ msgid "Swap for SAK3 token on SUSHI now. Click here to swap."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Swap from"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Swap to"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapped  {0} {1}\n"
+#~ "to {2} {3}"
+#~ msgstr ""
+#~ "スワップ{0} {1} \n"
+#~ " {2} {3}へ"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapped {inputSig} {0}\n"
+#~ "to a minimum of {minimumOutputSig} {1}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapped {inputSig} {0} \n"
+#~ "to a minimum of {minimumOutputSig} {1}"
+#~ msgstr ""
+#~ "スワップ{inputSig} {0} \n"
+#~ " 最低限の{minimumOutputSig} {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Swapping"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapping {inputSig} {0} \n"
+#~ "to a minimum of {minimumOutputSig} {1}"
+#~ msgstr ""
+#~ "スワッピング{inputSig} {0} \n"
+#~ " 最低限の{minimumOutputSig} {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Switch to {requireChain}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Switch your network to {0} to work with Portfolio"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Switch your network to {0} to work with Stakes"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "TOKEN"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "TVL"
+#~ msgstr "TVL"
+
+#. js-lingui-explicit-id
+#~ msgid "TYPE"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum.\n"
+#~ "This contract is able to mint and burn G$s according to the increase or decrease of it's demand.\n"
+#~ "Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum. \n"
+#~ "This contract is able to mint and burn G$s according to the increase or decrease of it's demand. \n"
+#~ "Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The difference between the market price and estimated price due to trade size."
+#~ msgstr "取引規模による市場価格と推定価格の差。"
+
+#. js-lingui-explicit-id
+#~ msgid "The difference between the market price and your price due to trade size."
+#~ msgstr "取引規模による市場価格とあなたの価格の差。"
+
+#. js-lingui-explicit-id
+#~ msgid "The fixed annual interest."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The minimum amount of tokens to receive."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The network this savings account belongs to"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The onchain oracle that tracks the pricing for this pair"
+#~ msgstr "このペアの価格を追跡するオンチェーンオラクル"
+
+#. js-lingui-explicit-id
+#~ msgid "The token list"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The total of your deposits which accumulates the rewards."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The transaction cannot succeed due to error: {0}. This is probably an issue with one of the tokens you are swapping."
+#~ msgstr "エラーのため、トランザクションは成功しません： {0} 。これは、スワップしているトークンの1つに問題がある可能性があります。"
+
+#. js-lingui-explicit-id
+#~ msgid "These are the total yearly rewards in G$ and GOOD."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "These tokens are commonly paired with other tokens."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Things you can do with your SUSHI"
+#~ msgstr "SUSHIでできること"
+
+#. js-lingui-explicit-id
+#~ msgid "This is the annual percentage of UBI your stake will create."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the protocol that the token is staked to."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the protocol that the token will be staked to."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the token that is currently available to stake to the Fund."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the token that is currently being staked."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the token that you can deposit into the savings contract."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This month"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This project is in beta. Use at your own risk"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This transaction will not succeed either due to price movement or fee on transfer. Try increasing your slippage tolerance."
+#~ msgstr "この取引は、価格変動または振込手数料のいずれかにより成功しません。スリッページの許容範囲を広げてみてください。"
+
+#. js-lingui-explicit-id
+#~ msgid "Tip"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Tip: Custom tokens are stored locally in your browser"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "To"
+#~ msgstr "に"
+
+#. js-lingui-explicit-id
+#~ msgid "To (estimated)"
+#~ msgstr "に（推定）"
+
+#. js-lingui-explicit-id
+#~ msgid "To withdraw into SUSHI, go to Aave and remove axSUSHI as collateral and then to SushiBar to unstake. A full unwind will be avaialble soon."
+#~ msgstr "SUSHIに撤退するには、Aaveに移動し、担保としてaxSUSHIを削除してから、SushiBarに移動して賭けを解除します。完全なくつろぎはすぐに利用できるようになります。"
+
+#. js-lingui-explicit-id
+#~ msgid "Toggle Expert Mode"
+#~ msgstr "エキスパートモードの切り替え"
+
+#. js-lingui-explicit-id
+#~ msgid "Token"
+#~ msgstr "トークン"
+
+#. js-lingui-explicit-id
+#~ msgid "Tokens"
+#~ msgstr "トークン"
+
+#. js-lingui-explicit-id
+#~ msgid "Tokens from inactive lists. Import specific tokens below or click 'Manage' to activate more lists."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Tools"
+#~ msgstr "ツール"
+
+#. js-lingui-explicit-id
+#~ msgid "Tools to optimize workflow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Tools to optimize your workflow."
+#~ msgstr "ワークフローを最適化するためのツール。"
+
+#. js-lingui-explicit-id
+#~ msgid "Total"
+#~ msgstr "合計"
+
+#. js-lingui-explicit-id
+#~ msgid "Total Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total Rewards Paid"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total Staked"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total amount on value staked."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total currently saved."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total rewards claimed."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total stake"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Trade"
+#~ msgstr "トレード"
+
+#. js-lingui-explicit-id
+#~ msgid "Trade at your own risk!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction History"
+#~ msgstr "取引履歴"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction Settings"
+#~ msgstr "トランザクション設定"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction Submitted"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction deadline"
+#~ msgstr "取引期限"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction rejected."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction settings"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction was sent to the blockchain"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Transactions"
+#~ msgstr "トランザクション"
+
+#. js-lingui-explicit-id
+#~ msgid "Transfer Type"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Try Again"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Try enabling multi-hop trades"
+#~ msgstr "マルチホップ取引を有効にしてみてください"
+
+#. js-lingui-explicit-id
+#~ msgid "Turn On Expert Mode"
+#~ msgstr "エキスパートモードをオンにする"
+
+#. js-lingui-explicit-id
+#~ msgid "Type"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "UBI is your fair share of G$ tokens, which you can claim daily on CELO."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "UBI is your fair share of G$ tokens, which you can claim daily on {network}."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Uh Oh!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Unknown Source"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Unknown error"
+#~ msgstr "不明なエラー"
+
+#. js-lingui-explicit-id
+#~ msgid "Unstake"
+#~ msgstr "アンステーク"
+
+#. js-lingui-explicit-id
+#~ msgid "Unstaked"
+#~ msgstr "賭けていない"
+
+#. js-lingui-explicit-id
+#~ msgid "Unsupported Asset"
+#~ msgstr "サポートされていないアセット"
+
+#. js-lingui-explicit-id
+#~ msgid "Unsupported Assets"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Unsupported network"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Unwrap"
+#~ msgstr "アンラップ"
+
+#. js-lingui-explicit-id
+#~ msgid "Unwrap {0} W{1} to {2}"
+#~ msgstr "{0} W {1}を{2}アンラップします"
+
+#. js-lingui-explicit-id
+#~ msgid "Update list"
+#~ msgstr "Update list"
+
+#. js-lingui-explicit-id
+#~ msgid "Use any tool below to optimize your workflow. Please note, some tools are experimental so use with discretion. If theres a smart contract involved for the tool, read the code and confirm the keys have been burned."
+#~ msgstr "以下のツールを使用して、ワークフローを最適化します。一部のツールは実験的なものであるため、慎重に使用してください。ツールにスマートコントラクトが含まれている場合は、コードを読み、キーが焼き付けられていることを確認します。"
+
+#. js-lingui-explicit-id
+#~ msgid "Use this tool to find pairs that don't automatically appear in the interface"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "V2 Rewarder"
+#~ msgstr "V2リワーダー"
+
+#. js-lingui-explicit-id
+#~ msgid "Vesting"
+#~ msgstr "権利確定"
+
+#. js-lingui-explicit-id
+#~ msgid "Vesting is executed within the guidelines selected by the community in <0>SIMP3</0>.<1/><2/>Please refer to the <3>forum discussion</3> for deliberations on additional points.<4/><5/>Additional records and weekly merkle updates can be found on <6>Github</6>"
+#~ msgstr "<0> SIMP3 </0>選択したガイドラインの範囲内で実行されます。 <1/> <2/>追加のポイントに関する審議<3>フォーラムディスカッション</3>を参照してください。 <4/> <5/>追加のレコードと毎週のマークルの更新は<6> Github </6>"
+
+#. js-lingui-explicit-id
+#~ msgid "View On"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "View Stats"
+#~ msgstr "統計を見る"
+
+#. js-lingui-explicit-id
+#~ msgid "View SushiBar Stats"
+#~ msgstr "SushiBarの統計を見る"
+
+#. js-lingui-explicit-id
+#~ msgid "View Your Liquidity Positions"
+#~ msgstr "流動性ポジションを表示する"
+
+#. js-lingui-explicit-id
+#~ msgid "View Your Liquidity Positions >"
+#~ msgstr "流動性ポジションを表示>"
+
+#. js-lingui-explicit-id
+#~ msgid "View list"
+#~ msgstr "View list"
+
+#. js-lingui-explicit-id
+#~ msgid "View on explorer"
+#~ msgstr "エクスプローラーで表示"
+
+#. js-lingui-explicit-id
+#~ msgid "View pair analytics"
+#~ msgstr "ペア分析を表示"
+
+#. js-lingui-explicit-id
+#~ msgid "View transaction on explorer"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "View your SushiBar Portfolio"
+#~ msgstr "SushiBarポートフォリオを表示する"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Voltage is an UNI-V2 Automated Market Maker (AMM)\n"
+#~ "that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC.\n"
+#~ "The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool.\n"
+#~ "Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Voltage is an UNI-V2 Automated Market Maker (AMM) \n"
+#~ "that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC. \n"
+#~ "The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool. \n"
+#~ "Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "WITHDRAW"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Waiting For Confirmation"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Waiting for Confirmation"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Wallet"
+#~ msgstr "財布"
+
+#. js-lingui-explicit-id
+#~ msgid "Wallet Balance"
+#~ msgstr "ウォレットバランス"
+
+#. js-lingui-explicit-id
+#~ msgid "Wallet balance"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "We see you don't have {0} added to your wallet. Kindly add the network, and try again."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Welcome to Sushi on Polygon (Matic)"
+#~ msgstr "Sushi on Polygon（Matic）へようこそ"
+
+#. js-lingui-explicit-id
+#~ msgid "What's an exit contribution?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review"
+#~ msgstr "ペアを作成するとき、あなたは最初の流動性プロバイダーです。追加するトークンの比率によって、このプールの価格が設定されます。料金に満足したら、[供給]をクリックして確認します"
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw"
+#~ msgstr "撤回"
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw Liquidity"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw as {0}?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw {assetSymbol}"
+#~ msgstr "{assetSymbol}撤回する"
+
+#. js-lingui-explicit-id
+#~ msgid "Withdrawing your stake will reset your multiplier."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdrew funds from {0}"
+#~ msgstr "{0}から資金を撤回しました"
+
+#. js-lingui-explicit-id
+#~ msgid "Wrap"
+#~ msgstr "ラップ"
+
+#. js-lingui-explicit-id
+#~ msgid "Wrong Network"
+#~ msgstr "間違ったネットワーク"
+
+#. js-lingui-explicit-id
+#~ msgid "Yes, I did!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Yesterday's APR"
+#~ msgstr "昨日の4月"
+
+#. js-lingui-explicit-id
+#~ msgid "Yield"
+#~ msgstr "産出"
+
+#. js-lingui-explicit-id
+#~ msgid "Yield Debugger"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Yield Farms"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Yield Instruments"
+#~ msgstr "イールドインスツルメント"
+
+#. js-lingui-explicit-id
+#~ msgid "You Will Receive:"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You are creating UBI to thousands of people around the world."
+#~ msgstr "あなたは世界中の何千人もの人々にUBIを作成しています。"
+
+#. js-lingui-explicit-id
+#~ msgid "You are creating a pool"
+#~ msgstr "プールを作成しています"
+
+#. js-lingui-explicit-id
+#~ msgid "You are currently browsing"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You are on the wrong network"
+#~ msgstr "あなたは間違ったネットワークにいます"
+
+#. js-lingui-explicit-id
+#~ msgid "You can leave the bar and exchange your xSUSHI for SUSHI (as well as collect any earned interest) at any time. However, there are more ways to use xSUSHI to maximize your yield potential!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You don’t have liquidity in this pool yet"
+#~ msgstr "このプールにはまだ流動性がありません"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "You have just staked your G$s towards our GoodDAO,\n"
+#~ "this action is gonna reward you with GOOD governance tokens,\n"
+#~ "which are non-transferable so can't be traded."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "You have just staked your G$s towards our GoodDAO, \n"
+#~ "this action is gonna reward you with GOOD governance tokens, \n"
+#~ "which are non-transferable so can't be traded."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You have successfully claimed your rewards"
+#~ msgstr "あなたはあなたの報酬を正常に主張しました"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "You just used your crypto for good to help fund crypto UBI \n"
+#~ "for all with GoodDollar!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You just used your crypto for good to help fund crypto UBI for all with GoodDollar!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You need to first approve LP tokens and then migrate it"
+#~ msgstr "最初にLPトークンを承認してから、移行する必要があります"
+
+#. js-lingui-explicit-id
+#~ msgid "You need to sign the transaction in your wallet"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You will receive"
+#~ msgstr "あなたが受け取る"
+
+#. js-lingui-explicit-id
+#~ msgid "You've already claimed today. Come back in {tillClaim}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your Claimable SUSHI this Week"
+#~ msgstr "今週のあなたの主張できる寿司"
+
+#. js-lingui-explicit-id
+#~ msgid "Your History"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your Liquidity"
+#~ msgstr "あなたの流動性"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Liquidity Positions"
+#~ msgstr "あなたの流動性ポジション"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Pool Share"
+#~ msgstr "あなたのプールシェア"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Pool Tokens"
+#~ msgstr "あなたのプールトークン"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Staked"
+#~ msgstr "あなたの賭け"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Staked Farms"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your SushiBar Stats"
+#~ msgstr "あなたのSushiBar統計"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Transaction History"
+#~ msgstr "あなたの取引履歴"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Transaction History on {0}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your Wallet"
+#~ msgstr "あなたの財布"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Yields"
+#~ msgstr "あなたの収量"
+
+#. js-lingui-explicit-id
+#~ msgid "Your current network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your current savings balance."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your pool share"
+#~ msgstr "あなたのプールシェア"
+
+#. js-lingui-explicit-id
+#~ msgid "Your social contribution from:"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Your staking transaction which will generate UBI for thousands of people around\n"
+#~ "the world has just been broadcasted to the network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Your staking transaction which will generate UBI for thousands of people around \n"
+#~ "the world has just been broadcasted to the network."
+#~ msgstr ""
+#~ "あなたのステーキング取引は、何千人もの人々のためにUBIを生成するでしょう \n"
+#~ " 世界はネットワークに放送されました。"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Your staking transaction will generate UBI for thousands of people around \n"
+#~ "the world has just been broadcasted to the network."
+#~ msgstr ""
+#~ "あなたのステーキング取引は、周りの何千人もの人々のためのUBIを生成します \n"
+#~ " 世界はネットワークに放送されました。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your total pool tokens"
+#~ msgstr "プールトークンの合計"
+
+#. js-lingui-explicit-id
+#~ msgid "Your total pool tokens:"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction may be frontrun"
+#~ msgstr "あなたのトランザクションはフロントランである可能性があります"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction may fail"
+#~ msgstr "トランザクションが失敗する可能性があります"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if it is pending for more than this long."
+#~ msgstr "トランザクションがこれより長く保留されている場合、トランザクションは元に戻ります。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if it is pending for more than this time."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if the price changes unfavorably by more than this percentage."
+#~ msgstr "価格がこのパーセンテージを超えて不利に変化した場合、トランザクションは元に戻ります。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+#~ msgstr "確認される前に大きな不利な価格変動があった場合、取引は元に戻ります。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transactions will appear here..."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your {exchange} {0}/{1} liquidity will become SushiSwap {2}/{3} liquidity."
+#~ msgstr "{exchange} {0} / {1}流動性はSushiSwap {2} / {3}流動性になります。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your {type} transaction has been confirmed!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "added"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "amount"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "annualized"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "failed to load"
+#~ msgstr "読み込みに失敗しました"
+
+#. js-lingui-explicit-id
+#~ msgid "has been updated to"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "import it"
+#~ msgstr "インポートする"
+
+#. js-lingui-explicit-id
+#~ msgid "loading..."
+#~ msgstr "読み込み中..."
+
+#. js-lingui-explicit-id
+#~ msgid "max"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "minutes"
+#~ msgstr "分"
+
+#. js-lingui-explicit-id
+#~ msgid "network"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "on the"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "or the transaction will revert."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "per day"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "per month"
+#~ msgstr "月額"
+
+#. js-lingui-explicit-id
+#~ msgid "removed"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "to"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "tokens"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "tokens updated"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "via"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "xSUSHI Balance"
+#~ msgstr "xSUSHIバランス"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "xSUSHI automatically earn fees (0.05% of all swaps, including multichain swaps) proportional\n"
+#~ "to your share of the SushiBar."
+#~ msgstr ""
+#~ "xSUSHIは、SushiBarのシェアに\n"
+#~ "料金（マルチチェーンスワップを含むすべてのスワップの0.05％）を自動的に獲得します。"
+
+#. js-lingui-explicit-id
+#~ msgid "{0}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{0} <0>{1} {2}</0> {3}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{0} <0>{1}</0>"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{0} Deposited"
+#~ msgstr "{0}預け入れ"
+
+#. js-lingui-explicit-id
+#~ msgid "{0} Strategy"
+#~ msgstr "{0}戦略"
+
+#. js-lingui-explicit-id
+#~ msgid "{0} per {1}"
+#~ msgstr "{0}あたり{1}"
+
+#. js-lingui-explicit-id
+#~ msgid "{amount} {0}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{label}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "• Added by user"
+#~ msgstr ""
+
+#: src/components/Savings/SavingsModal/index.tsx:280
+#: src/components/Savings/SavingsModal/index.tsx:282
+#: src/components/Savings/SavingsModal/index.tsx:283
+msgid "{0}"
+msgstr ""
+
+#: src/components/Savings/SavingsModal/index.tsx:128
+msgid "{amount} {0}"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:242
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:31
+#: src/pages/gd/Swap/SwapDetails/index.tsx:75
+msgid "A contribution to the reserve paid by members for directly selling G$ tokens."
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:245
+msgid "Account"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:311
+msgid "amount"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:74
+msgid "Annual Percentage Yield (APY) is the percentage yield being earned."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:410
+msgid "Approve"
+msgstr "承認する"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:305
+msgid "APPROVE"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:409
+msgid "Approved"
+msgstr "承認済み"
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:407
+msgid "Approving"
+msgstr "承認"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:302
+msgid "APPROVING"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:73
+msgid "APY"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:224
+msgid "Awesome!"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:144
+#: src/components/Withdraw/index.tsx:210
+#: src/components/WithdrawRewards/index.tsx:150
+msgid "Back to portfolio"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapInput/index.tsx:57
+msgid "Balance"
+msgstr "残高"
+
+#: src/components/Blocklist/index.tsx:12
+msgid "Blocked address"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:268
+msgid "Change"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:80
+msgid "Claim All"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:378
+msgid "Claim G$ rewards"
+msgstr "G $ Rewards."
+
+#: src/components/ClaimRewards/index.tsx:86
+msgid "Claim GOOD"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:390
+msgid "Claim GOOD rewards"
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:76
+#: src/components/PortfolioTableRow/index.tsx:161
+#: src/pages/gd/Portfolio/index.tsx:167
+msgid "Claim rewards"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:93
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:80
+msgid "Claim Rewards"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:343
+msgid "Claimable"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:72
+#: src/components/WithdrawRewards/index.tsx:97
+msgid "Claimable Rewards"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:72
+msgid "CLAIMABLE REWARDS"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:192
+#: src/components/WithdrawRewards/index.tsx:50
+msgid "Claimed G$ Rewards"
+msgstr "GRED READDER."
+
+#: src/components/ClaimRewards/index.tsx:191
+#: src/components/WithdrawRewards/index.tsx:50
+msgid "Claimed GOOD Rewards"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:105
+msgid "Claiming the following rewards:"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:97
+msgid "Claiming your rewards will reset your multiplier"
+msgstr ""
+
+#: src/components/WithdrawRewards/index.tsx:102
+msgid "Claiming your rewards will reset your multiplier."
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:306
+msgid "Clear all"
+msgstr ""
+
+#: src/components/TransactionConfirmationModal/index.tsx:100
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:286
+msgid "Close"
+msgstr ""
+
+#: src/pages/gd/Claim/index.tsx:255
+msgid "Collect G$"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:160
+msgid "Confirm swap"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:250
+msgid "CONFIRM SWAP"
+msgstr ""
+
+#: src/components/ModalViews/index.tsx:37
+#: src/components/TransactionConfirmationModal/index.tsx:57
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:263
+msgid "Confirm this transaction in your wallet"
+msgstr ""
+
+#: src/components/WithdrawRewards/index.tsx:123
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:226
+msgid "Congratulations!"
+msgstr "おめでとう！"
+
+#: src/pages/gd/Portfolio/index.tsx:466
+msgid "Connect a wallet to see your portfolio"
+msgstr ""
+
+#: src/components/BlockNativeOnboard/index.tsx:22
+msgid "Connect to a wallet"
+msgstr "ウォレットに接続する"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:304
+msgid "Connect wallet"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:218
+msgid "Connected with"
+msgstr ""
+
+#: src/components/AccountDetails/Copy.tsx:24
+msgid "Copied"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:284
+msgid "Copy address"
+msgstr ""
+
+#: src/components/Liquidity/LiquidityPrice.tsx:22
+msgid "Current Rate"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:67
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:371
+msgid "DEPOSIT"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx:41
+#: src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx:53
+#: src/pages/gd/Stake/Savings/index.tsx:70
+msgid "Deposit G$"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:222
+msgid "Deposit overview"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:259
+msgid "Disconnect"
+msgstr ""
+
+#: src/components/SideBar.tsx:147
+msgid "Docs"
+msgstr "ドキュメント"
+
+#: src/components/Gas/index.tsx:12
+msgid "failed to load"
+msgstr "読み込みに失敗しました"
+
+#: src/pages/gd/Stake/Savings/index.tsx:119
+msgid "Fixed Apy"
+msgstr ""
+
+#: src/components/SideBar.tsx:140
+msgid "Fuse Bridge"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:108
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:37
+#: src/components/Savings/SavingsStat/SavingsMobileStat.tsx:45
+msgid "G$"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:20
+msgid "GDX"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:22
+msgid ""
+"GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the\n"
+"contribution exit."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:233
+#: src/pages/gd/Swap/SwapDetails/index.tsx:67
+msgid "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit."
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:411
+msgid "Go to Portfolio"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:114
+msgid "GOOD"
+msgstr ""
+
+#: src/components/SideBar.tsx:154
+msgid "Good Airdrop"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:38
+msgid "GoodDAO"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:478
+msgid "GoodDAO Staking"
+msgstr ""
+
+#: src/components/Savings/SavingsStat/SavingsMobileStat.tsx:47
+msgid "GoodDollar"
+msgstr ""
+
+#: src/pages/gd/Claim/index.tsx:266
+msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:463
+#: src/pages/gd/Stake/index.tsx:467
+msgid "GoodStakes"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:333
+msgid "Holding"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:236
+msgid "How many GOOD tokens you are accumulating by this stake position."
+msgstr ""
+
+#: src/components/Withdraw/PercentInputControls/index.tsx:54
+msgid "How much rewards would you like to donate"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:73
+msgid "How much tokens your deposits have accumulated so far."
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:226
+msgid "How much value your stake has accumulated so far."
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:233
+msgid "How much would you like to deposit?"
+msgstr ""
+
+#: src/components/Withdraw/PercentInputControls/index.tsx:55
+msgid "How much would you like to withdraw?"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:81
+msgid "Liquidity"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:82
+msgid "Liquidity is the total value staked in the GoodDollar Trust staking contract (USD)."
+msgstr ""
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:37
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:219
+#: src/pages/gd/Swap/SwapDetails/index.tsx:53
+msgid "Liquidity Provider Fee"
+msgstr "流動性プロバイダー手数料"
+
+#: src/components/Gas/index.tsx:13
+msgid "loading..."
+msgstr "読み込み中..."
+
+#: src/pages/gd/Stake/index.tsx:97
+#: src/pages/gd/Stake/index.tsx:283
+msgid "Loading..."
+msgstr "読み込んでいます..."
+
+#: src/pages/gd/Swap/SwapInput/index.tsx:40
+msgid "max"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:205
+#: src/pages/gd/Swap/SwapDetails/index.tsx:41
+msgid "Minimum received"
+msgstr "受け取った最小値"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:167
+msgid "minutes"
+msgstr "分"
+
+#: src/components/SideBar.tsx:126
+msgid "Multichain Bridge"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:229
+msgid "MULTIPLIER"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:299
+msgid "My Stake"
+msgstr ""
+
+#: src/components/NetworkModal/index.tsx:142
+#: src/components/NetworkModal/index.tsx:191
+msgid "network"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:114
+msgid "Network"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:62
+msgid "NETWORK"
+msgstr ""
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:45
+msgid "Network Fee"
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:128
+#: src/pages/gd/Portfolio/index.tsx:104
+msgid "Next month:"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:102
+#: src/pages/gd/Stake/index.tsx:290
+msgid "No data."
+msgstr ""
+
+#: src/components/NetworkModal/index.tsx:141
+#: src/components/NetworkModal/index.tsx:190
+msgid "on the"
+msgstr ""
+
+#: src/components/Web3ReactManager/index.tsx:61
+msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
+msgstr "おっとっと！不明なエラーが発生しました。ページを更新するか、別のブラウザまたはデバイスからアクセスしてください"
+
+#: src/components/AppBar.tsx:223
+msgid "Open main menu"
+msgstr "メインメニューを開く"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:199
+msgid "Output is estimated. You will receive at least {minimumReceived} or the transaction will revert"
+msgstr ""
+
+#: src/components/Web3Status/index.tsx:56
+msgid "Pending"
+msgstr "保留中"
+
+#: src/components/ClaimRewards/index.tsx:93
+#: src/components/Withdraw/index.tsx:176
+msgid "PENDING SIGN..."
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:123
+#: src/components/Withdraw/index.tsx:187
+msgid "Please wait"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:212
+#: src/pages/gd/Swap/SwapDetails/index.tsx:46
+msgid "Price Impact"
+msgstr "価格への影響"
+
+#: src/components/Withdraw/index.tsx:146
+#: src/pages/gd/Stake/index.tsx:69
+#: src/pages/gd/Stake/Savings/index.tsx:109
+msgid "Protocol"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:57
+#: src/pages/gd/Portfolio/index.tsx:217
+msgid "PROTOCOL"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:304
+msgid "Recent Transactions"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:343
+msgid "rewards"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:305
+#: src/pages/gd/Portfolio/index.tsx:316
+#: src/pages/gd/Portfolio/index.tsx:347
+#: src/pages/gd/Portfolio/index.tsx:358
+msgid "Rewards"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:225
+#: src/pages/gd/Portfolio/index.tsx:235
+msgid "REWARDS"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:226
+#: src/pages/gd/Swap/SwapDetails/index.tsx:60
+msgid "Route"
+msgstr "ルート"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:228
+#: src/pages/gd/Swap/SwapDetails/index.tsx:62
+msgid "Routing through these tokens resulted in the best price for your trade."
+msgstr "これらのトークンを介してルーティングすると、取引に最適な価格が得られました。"
+
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:36
+#: src/pages/gd/Stake/Savings/index.tsx:151
+msgid "Savings"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapTokensModal/index.tsx:53
+msgid "Search name or paste the address"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:414
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:300
+msgid "Share with friends"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:374
+#: src/pages/gd/Swap/SwapSettings/index.tsx:80
+msgid "Slippage Tolerance"
+msgstr "スリッページ許容値"
+
+#: src/pages/gd/Stake/index.tsx:77
+msgid "Social APY"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:215
+#: src/pages/gd/Stake/index.tsx:319
+#: src/pages/gd/Stake/index.tsx:397
+#: src/pages/gd/Stake/index.tsx:463
+msgid "Stake"
+msgstr "ステーク"
+
+#: src/pages/gd/Portfolio/index.tsx:221
+msgid "STAKE"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:361
+msgid "Staked {0} at {1}"
+msgstr "{1}で杭打ち{0}"
+
+#: src/pages/gd/Portfolio/index.tsx:329
+msgid "Staking"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:209
+msgid "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards."
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:231
+msgid "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:123
+#: src/components/Withdraw/index.tsx:187
+#: src/components/WithdrawRewards/index.tsx:123
+msgid "Success!"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:424
+msgid "Swap"
+msgstr "スワップ"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:295
+msgid "Swap Completed"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:347
+#: src/pages/gd/Swap/SwapCore/index.tsx:361
+msgid "Swap from"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:347
+#: src/pages/gd/Swap/SwapCore/index.tsx:361
+msgid "Swap to"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:100
+msgid ""
+"Swapped {inputSig} {0}\n"
+"to a minimum of {minimumOutputSig} {1}"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:260
+msgid "Swapping"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:222
+#: src/pages/gd/Swap/SwapDetails/index.tsx:56
+msgid "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers."
+msgstr ""
+
+#: src/components/gd/Button/ActionOrSwitchButton.tsx:53
+msgid "Switch to {requireChain}"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:120
+msgid "The fixed annual interest."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:255
+msgid ""
+"The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum.\n"
+"This contract is able to mint and burn G$s according to the increase or decrease of it's demand.\n"
+"Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDetails/index.tsx:43
+msgid "The minimum amount of tokens to receive."
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:63
+msgid "The network this savings account belongs to"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:68
+msgid "The total of your deposits which accumulates the rewards."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:86
+msgid "These are the total yearly rewards in G$ and GOOD."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:78
+msgid "This is the annual percentage of UBI your stake will create."
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:58
+#: src/pages/gd/Portfolio/index.tsx:218
+msgid "This is the protocol that the token is staked to."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:70
+msgid "This is the protocol that the token will be staked to."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:66
+msgid "This is the token that is currently available to stake to the Fund."
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:53
+#: src/pages/gd/Portfolio/index.tsx:214
+msgid "This is the token that is currently being staked."
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:105
+msgid "This is the token that you can deposit into the savings contract."
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:123
+#: src/components/PortfolioTableRow/index.tsx:126
+#: src/pages/gd/Portfolio/index.tsx:99
+#: src/pages/gd/Portfolio/index.tsx:102
+msgid "This month"
+msgstr ""
+
+#: src/pages/App.tsx:137
+msgid "This project is in beta. Use at your own risk"
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:142
+#: src/pages/gd/Stake/index.tsx:65
+#: src/pages/gd/Stake/Savings/index.tsx:104
+msgid "Token"
+msgstr "トークン"
+
+#: src/components/Savings/SavingsCard/index.tsx:52
+#: src/pages/gd/Portfolio/index.tsx:213
+msgid "TOKEN"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:222
+msgid "Total amount on value staked."
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:125
+msgid "Total currently saved."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:85
+msgid "Total Rewards"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:130
+msgid "Total rewards claimed."
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:129
+msgid "Total Rewards Paid"
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:150
+msgid "Total stake"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:124
+msgid "Total Staked"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:153
+msgid "Transaction deadline"
+msgstr "取引期限"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:77
+msgid "Transaction settings"
+msgstr ""
+
+#: src/components/TransactionConfirmationModal/index.tsx:89
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:271
+msgid "Transaction Submitted"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:127
+#: src/components/Withdraw/index.tsx:191
+#: src/components/WithdrawRewards/index.tsx:127
+msgid "Transaction was sent to the blockchain"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:47
+#: src/pages/gd/Portfolio/index.tsx:207
+msgid "TYPE"
+msgstr ""
+
+#: src/components/Web3Network/index.tsx:69
+msgid "Unsupported network"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:290
+#: src/components/Popups/TransactionPopup.tsx:46
+#: src/components/TransactionConfirmationModal/index.tsx:93
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:280
+msgid "View on explorer"
+msgstr "エクスプローラーで表示"
+
+#: src/components/ModalViews/index.tsx:69
+msgid "View transaction on explorer"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:249
+msgid ""
+"Voltage is an UNI-V2 Automated Market Maker (AMM)\n"
+"that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC.\n"
+"The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool.\n"
+"Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:258
+msgid "Waiting for Confirmation"
+msgstr ""
+
+#: src/components/TransactionConfirmationModal/index.tsx:49
+msgid "Waiting For Confirmation"
+msgstr ""
+
+#: src/components/SideBar.tsx:133
+msgid "Wallet"
+msgstr "財布"
+
+#: src/components/SideBar.tsx:218
+msgid "Wallet balance"
+msgstr ""
+
+#: src/components/NetworkModal/index.tsx:121
+#: src/components/NetworkModal/index.tsx:170
+msgid "We see you don't have {0} added to your wallet. Kindly add the network, and try again."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:29
+msgid "What's an exit contribution?"
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:67
+#: src/components/Withdraw/index.tsx:140
+#: src/pages/gd/Portfolio/index.tsx:163
+msgid "Withdraw"
+msgstr "撤回"
+
+#: src/components/Withdraw/index.tsx:177
+msgid "WITHDRAW"
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:157
+msgid "Withdraw as {0}?"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:73
+#: src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx:49
+msgid "Withdraw G$"
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:152
+msgid "Withdraw Liquidity"
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:171
+msgid "Withdrawing your stake will reset your multiplier."
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:90
+msgid "Withdrew funds from {0}"
+msgstr "{0}から資金を撤回しました"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:389
+msgid "You are creating UBI to thousands of people around the world."
+msgstr "あなたは世界中の何千人もの人々にUBIを作成しています。"
+
+#: src/components/NetworkModal/index.tsx:137
+#: src/components/NetworkModal/index.tsx:186
+msgid "You are currently browsing"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:380
+msgid ""
+"You have just staked your G$s towards our GoodDAO,\n"
+"this action is gonna reward you with GOOD governance tokens,\n"
+"which are non-transferable so can't be traded."
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:128
+#: src/components/Withdraw/index.tsx:192
+#: src/components/WithdrawRewards/index.tsx:128
+msgid "You have successfully claimed your rewards"
+msgstr "あなたはあなたの報酬を正常に主張しました"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:297
+msgid "You just used your crypto for good to help fund crypto UBI for all with GoodDollar!"
+msgstr ""
+
+#: src/components/WithdrawRewards/index.tsx:115
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:421
+msgid "You need to sign the transaction in your wallet"
+msgstr ""
+
+#: src/components/Liquidity/RemoveLiquidityReceiveDetails.tsx:39
+msgid "You Will Receive:"
+msgstr ""
+
+#: src/components/Savings/SavingsModal/index.tsx:294
+msgid "Your {type} transaction has been confirmed!"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:115
+msgid "Your current network."
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:110
+msgid "Your current savings balance."
+msgstr ""
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:26
+msgid "Your Pool Share"
+msgstr "あなたのプールシェア"
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:15
+msgid "Your Pool Tokens"
+msgstr "あなたのプールトークン"
+
+#: src/pages/gd/Portfolio/index.tsx:324
+msgid "Your social contribution from:"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:387
+msgid ""
+"Your staking transaction which will generate UBI for thousands of people around\n"
+"the world has just been broadcasted to the network."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:149
+msgid "Your transaction may be frontrun"
+msgstr "あなたのトランザクションはフロントランである可能性があります"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:148
+msgid "Your transaction may fail"
+msgstr "トランザクションが失敗する可能性があります"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:155
+msgid "Your transaction will revert if it is pending for more than this time."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:83
+msgid "Your transaction will revert if the price changes unfavorably by more than this percentage."
+msgstr "価格がこのパーセンテージを超えて不利に変化した場合、トランザクションは元に戻ります。"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:208
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:215
+#: src/pages/gd/Swap/SwapDetails/index.tsx:49
+msgid "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+msgstr "確認される前に大きな不利な価格変動があった場合、取引は元に戻ります。"
+
+#: src/components/AccountDetails/index.tsx:313
+msgid "Your transactions will appear here..."
+msgstr ""

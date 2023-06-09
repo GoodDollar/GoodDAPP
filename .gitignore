@@ -7,6 +7,8 @@
 /.yarn/cache
 /.yarn/install-state.gz
 /.yalc/
+dist
+.swc
 
 # testing
 /coverage

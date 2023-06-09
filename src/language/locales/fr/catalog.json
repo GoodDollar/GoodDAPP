@@ -1,622 +1,2443 @@
 {
-  "(COMING SOON) Accrue automatic yield through flash loans and\nSUSHI strategies": "(À VENIR) Accroître le rendement automatique grâce aux prêts flash et aux stratégies \n",
-  "(View on explorer)": "",
-  "+ Add a send (optional)": "+ Ajouter un envoi (facultatif)",
-  "+ Create a new market": "+ Créer un nouveau marché",
-  "- Remove send": "- Supprimer l'envoi",
-  "300M+ TVL on Polygon! Optimized routing enabled": "300M+ TVL sur Polygon! Routage optimisé activé",
-  "<0>Tip:</0> In order to start earning rewards, you will need to first acquire some SLP by adding liquidity to the specified pair or <1>migrating existing liquidity.</1> Once you have SLP you can stake it into this yield farm to start earning rewards. Unstake anytime and then you can convert your SLP back to base tokens by clicking Remove Liquidity. Click Harvest to receive your rewards at any time.": "<0>Tip:</0> In order to start earning rewards, you will need to first acquire some SLP by adding liquidity to the specified pair or <1>migrating existing liquidity.</1> Once you have SLP you can stake it into this yield farm to start earning rewards. Unstake anytime and then you can convert your SLP back to base tokens by clicking Remove Liquidity. Click Harvest to receive your rewards at any time.",
-  "<0>Tip:</0> Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive.": "<0> Conseil: </0> suppression des jetons de pool convertit votre position en jetons sous-jacents au taux actuel, proportionnel à votre part du pool. Les frais à payer sont inclus dans les montants que vous recevez.",
-  "<0>Tip:</0> Use this tool to find pairs that don't automatically appear in the interface": "<0> Conseil: </0> Utilisez cet outil pour rechercher des paires qui n'apparaissent pas automatiquement dans l'interface",
-  "<0>Tip:</0> When you add liquidity, you will receive pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.": "<0> Astuce: </0> Lorsque vous ajoutez de la liquidité, vous recevrez des jetons de pool représentant votre position. Ces jetons gagnent automatiquement des frais proportionnels à votre part du pool et peuvent être échangés à tout moment.",
-  "<0>Your</0> Positions": "<0> Vos </0> positions",
-  "<0>{0}:</0> {1}": "",
-  "A contribution to the reserve paid by members for directly selling G$ tokens.": "",
-  "A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.": "Une portion de chaque transaction (0,25%) est reversée aux fournisseurs de liquidité au titre d'incitation à participer au protocole.",
-  "APPROVE": "APPROVE",
-  "APPROVED": "",
-  "APPROVING": "",
-  "APR": "APR",
-  "APR (incl. Fees)": "APR (frais inclus)",
-  "APY": "",
-  "APY (incl. Fees)": "APY (frais inclus)",
-  "Accept": "Accepter",
-  "Accept update": "",
-  "Account": "",
-  "Active": "",
-  "Add": "Ajouter",
-  "Add Liquidity": "Ajouter de la liquidité",
-  "Add SAK3 to your Metamask wallet": "",
-  "Add Sushi to your Metamask wallet": "Ajoutez Sushi à votre portefeuille Metamask",
-  "Add collateral in order to borrow assets": "Ajouter des garanties pour emprunter des actifs",
-  "Add liquidity": "Ajouter de la liquidité",
-  "Add xSushi to your Metamask wallet": "Ajoutez xSushi à votre portefeuille Metamask",
-  "All Yield Farms": "",
-  "Amount": "",
-  "Amount of Tokens": "Quantité de tokens",
-  "Amount to Remove": "",
-  "An update is available for the token list": "",
-  "Analytics": "Statistiques",
-  "Annual Percentage Yield (APY) is the percentage yield being earned.": "",
-  "Anyone can create a token, including creating fake versions of existing tokens that claim to represent projects.": "",
-  "Approve": "Approuver",
-  "Approve Kashi": "Approuver Kashi",
-  "Approve {0}": "Approuver {0}",
-  "Approved": "Approuvé",
-  "Approving": "Approbation en cours",
-  "Approving {0}": "Approuver {0}",
-  "Are you sure?": "Êtes-vous sûr?",
-  "Available": "Disponible",
-  "Awesome!": "",
-  "Back": "",
-  "Back to portfolio": "",
-  "Balance": "Solde",
-  "Bento Balance: {0}": "Solde Bento: {0}",
-  "BentoBox": "BentoBox",
-  "BentoBox Apps": "Applications BentoBox",
-  "BentoBox is an innovative way to use dapps gas-efficiently and gain extra yield.": "BentoBox est une façon innovante d'utiliser les dapps en économisant du gaz et en maximisant les rendements.",
-  "BentoBox provides extra yield on deposits with flash lending, strategies, and fixed, low-gas transfers among integrated dapps, like Kashi markets": "BentoBox offre des rendements supplémentaires sur les dépôts avec des prêts flash, des stratégies et des transferts à faible gaz entre les dapps intégrées, comme Kashi",
-  "BentoBox strategies can create yield for your collateral tokens. This token does not yet have a strategy in the BentoBox.": "Les stratégies BentoBox peuvent générer du rendement pour les tokens déposés en garantie. Ce token n'a pas encore de stratégie dans la BentoBox.",
-  "BentoBox strategies can create yield for your liquidity while it is not lent out. This token does not yet have a strategy in the BentoBox.": "Les stratégies BentoBox peuvent générer du rendement pour les liquidités qui ne sont pas prêtées. Ce token n'a pas encore de stratégie dans la BentoBox.",
-  "Blocked address": "",
-  "Borrow": "Emprunter",
-  "Borrow APR": "APR Emprunt",
-  "Borrow assets and leverage up": "Emprunter des actifs et recourir à l'effet de levier",
-  "Borrow {0}": "Emprunter {0}",
-  "Borrow {0}-{1}": "Emprunter {0} - {1}",
-  "Borrowed": "Emprunté",
-  "Borrowing allows you to obtain liquidity without selling. Your borrow limit depends on the amount of deposited collateral. You will be able to borrow up to 75% of your collateral and repay at any time with accrued interest.": "Emprunter vous permet d'obtenir des liquidités sans vendre. Votre limite d'emprunt dépend du montant de la garantie déposée. Vous pourrez emprunter jusqu'à 75% de votre garantie et rembourser à tout moment avec les intérêts dus.",
-  "Bridge Assets": "Transférer des actifs",
-  "By adding liquidity you'll earn 0.25% of all trades on this pair proportional to your share\nof the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing\nyour liquidity.": "En ajoutant des liquidités, vous gagnerez 0,25% de toutes les transactions sur cette paire proportionnellement à votre part \n du pool. Les frais sont ajoutés au pool, s'accumulent en temps réel et peuvent être réclamés en retirant \n vos liquidités.",
-  "By adding this list you are implicitly trusting that the data is correct. Anyone can create a list, including creating fake versions of existing lists and lists that claim to represent projects that do not have one.": "",
-  "Bypasses confirmation modals and allows high slippage trades. Use at your own risk.": "Contourne les notifications de confirmation et permet des transactions à slippage élevé. À utiliser avec précaution, en toute connaissance de cause.",
-  "CLAIMABLE REWARDS": "",
-  "CONFIRM SWAP": "",
-  "Change": "",
-  "Check out Sushi on Polygon (Matic)": "Découvrez Sushi sur Polygon (Matic)",
-  "Claim": "Collecter",
-  "Claim All": "",
-  "Claim G$": "",
-  "Claim G$ rewards": "Revendication G $ Récompenses",
-  "Claim GOOD": "",
-  "Claim GOOD rewards": "",
-  "Claim Rewards": "",
-  "Claim SUSHI": "Collecter SUSHI",
-  "Claim UBI": "",
-  "Claim reward": "",
-  "Claim rewards": "",
-  "Claim your test tokens here...": "",
-  "Claimable": "",
-  "Claimable Rewards": "",
-  "Claimed": "Collecté",
-  "Claimed G$ Rewards": "Réclamé g $ récompenses",
-  "Claimed GOOD Rewards": "",
-  "Claiming the following rewards:": "",
-  "Claiming your rewards will reset your multiplier": "",
-  "Claiming your rewards will reset your multiplier.": "",
-  "Clear History": "Effacer l'historique des transactions",
-  "Clear all": "",
-  "Click here to switch to Polygon using Metamask": "Cliquez ici pour passer sur Polygon via Metamask",
-  "Click on a pool below, input the amount you wish to migrate or select max, and click\nmigrate": "Cliquez sur un pool ci-dessous, saisissez le montant que vous souhaitez migrer ou sélectionnez max, puis cliquez sur \n migrer",
-  "Click this button to Claim your Daily UBI in": "",
-  "Close": "",
-  "Collateral": "Collatéral",
-  "Collect G$": "",
-  "Common bases": "",
-  "Community Approval": "Approbation de la communauté",
-  "Confirm": "Confirmer",
-  "Confirm Adding Liquidity": "Confirmer l'ajout de liquidité",
-  "Confirm Staking": "Confirmer le staking",
-  "Confirm Supply": "Confirmer le dépôt",
-  "Confirm Swap": "Confirmer le swap",
-  "Confirm Withdrawal": "Confirmer le retrait",
-  "Confirm swap": "",
-  "Confirm this transaction in your wallet": "",
-  "Congratulations!": "Toutes nos félicitations!",
-  "Connect Wallet": "Connecter le portefeuille",
-  "Connect a wallet to see your portfolio": "",
-  "Connect to a wallet": "Connecter un portefeuille",
-  "Connect to a wallet to find pools": "Connectez votre portefeuille pour trouver des pools",
-  "Connect to a wallet to view your liquidity": "Connectez votre portefeuille pour consulter vos liquidités",
-  "Connect wallet": "",
-  "Connected with": "",
-  "Copied": "",
-  "Copy address": "",
-  "Create Pool & Supply": "Créer un pool et apporter de la liquidité",
-  "Create a Pair": "Créer une paire",
-  "Create a pair": "Créer une paire",
-  "Create pool": "Créer un pool",
-  "Current Rate": "",
-  "DEPOSIT": "",
-  "Dashboard": "",
-  "Date": "",
-  "Deposit": "Dépôt",
-  "Deposit G$": "",
-  "Deposit SUSHI into BentoBox": "Déposer SUSHI dans BentoBox",
-  "Deposit overview": "",
-  "Deposit tokens into BentoBox for all the yields": "Déposez des tokens dans BentoBox pour tous les rendements",
-  "Deposited": "Déposé",
-  "Dev": "Dev",
-  "Did you just create UBI for thousands of people around the world?": "",
-  "Disable Multihops": "Désactiver le Multihop",
-  "Disconnect": "",
-  "Discontinued": "",
-  "Discord": "Discord",
-  "Dismiss": "Rejeter",
-  "Docs": "Docs",
-  "Documentation for developers": "",
-  "Documentation for developers of Sushi.": "Documentation pour les développeurs de Sushi.",
-  "Documentation for users": "",
-  "Documentation for users of Sushi.": "Documentation pour les utilisateurs de Sushi.",
-  "Don't see a pool you joined? <0>Import it.</0>": "Vous ne voyez pas une piscine que vous avez rejoint? <0> Importez-le. </0>",
-  "Dont see a pool you joined?": "Le pool que vous avez rejoint ne s'affiche pas?",
-  "Double Yield Farms": "",
-  "ETHEREUM": "",
-  "Enjoy the lowest slippage on Polygon": "Profitez du slippage le plus faible sur Polygon",
-  "Enter": "Entrer",
-  "Enter Amount": "Entrer le montant",
-  "Enter a recipient": "Entrez un destinataire",
-  "Enter a valid slippage percentage": "Entrez un pourcentage de slippage valide",
-  "Enter an amount": "Entrez un montant",
-  "Enter valid list location": "",
-  "Enter valid token address": "",
-  "Error": "Erreur",
-  "Error connecting": "",
-  "Error connecting.": "",
-  "Error connecting. Try refreshing the page.": "",
-  "Error importing list": "",
-  "Expanded results from inactive Token Lists": "",
-  "Expert mode turns off the confirm transaction prompt and allows high slippage trades\nthat often result in bad rates and lost funds.": "Le mode Expert désactive l'invite de confirmation de transaction et autorise les transactions à glissement élevé \n qui se traduisent souvent par de mauvais taux et des fonds perdus.",
-  "FUSE": "",
-  "Fetching Farms": "",
-  "Fetching Instruments": "Récupération des données",
-  "Find Pool": "Trouver un pool",
-  "Fixed Apy": "",
-  "For every swap on the exchange on every chain, 0.05% of the swap fees are distributed as SUSHI\nproportional to your share of the SushiBar. When your SUSHI is staked into the SushiBar, you receive\nxSUSHI in return for voting rights and a fully composable token that can interact with other protocols.\nYour xSUSHI is continuously compounding, when you unstake you will receive all the originally deposited\nSUSHI and any additional from fees.": "For every swap on the exchange on every chain, 0.05% of the swap fees are distributed as SUSHI\nproportional to your share of the SushiBar. When your SUSHI is staked into the SushiBar, you recieve\nxSUSHI in return for voting rights and a fully composable token that can interact with other protocols.\nYour xSUSHI is continuously compounding, when you unstake you will receive all the originally deposited\nSUSHI and any additional from fees.",
-  "From": "De",
-  "From (estimated)": "De (estimé)",
-  "Fuse Bridge": "",
-  "G$": "",
-  "GDX": "",
-  "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the\ncontribution exit.": "",
-  "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit.": "",
-  "GOO": "",
-  "GOOD": "",
-  "GOOD Airdrop": "",
-  "Gain exposure to tokens without reducing your assets. Leverage will enable you to take short positions against assets and earn from downside movements.": "Profitez d'une exposition aux tokens de votre choix sans réduire vos actifs. L'effet de levier vous permet de prendre des positions short sur des actifs et de tirer profit des mouvements baissiers.",
-  "Gain governance rights with xSUSHI and earn 5% APR (0.05% of\nall swaps from all chains)": "Obtenez des droits de gouvernance avec xSUSHI et gagnez 5% APR (0,05% de \n tous les swaps de toutes les chaînes)",
-  "Go Back": "",
-  "Go to Portfolio": "",
-  "Good Airdrop": "",
-  "GoodDAO": "",
-  "GoodDAO Staking": "GoodDAO Staking",
-  "GoodDollar": "",
-  "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily.": "",
-  "GoodDollar is a supporter of open source": "",
-  "GoodStakes": "GoodStakes",
-  "Hardware Wallet": "Portefeuille Hardware",
-  "Harvest {0} SUSHI": "Récolter {0} SUSHI",
-  "Harvest {0} SUSHI & {1} ALCX": "",
-  "Harvest {0} SUSHI & {1} MATIC": "Récoltez {0} SUSHI et {1} MATIC",
-  "Have Liquidity on {0}?": "Vous avez des liquidités sur {0} ?",
-  "Have assets you want to earn additional interest on? Lend them in isolated markets and earn interest from borrowers. It's as easy as deposit and withdraw whenever you want.": "Vous avez des actifs que lesquels vous souhaitez faire fructifier? Prêtez-les sur des marchés isolés et collectez des intérêts auprès des emprunteurs. C'est aussi simple que de déposer et de retirer quand vous le souhaitez.",
-  "Health": "Facteur de risque",
-  "Helpful Sushi Tools": "Boîte à outils Sushi",
-  "Historical Total Locked: Connect Wallet": "Total SUSHI verrouillé: Connecter un portefeuille",
-  "Historical Total Locked: Fetching Total": "Total SUSHI verrouillé: récupération du solde total",
-  "Historical Total Locked: {0} SUSHI": "Total SUSHI verrouillé: {0} SUSHI",
-  "Holding": "",
-  "How many GOOD tokens you are accumulating by this stake position.": "",
-  "How much rewards would you like to donate": "",
-  "How much tokens your deposits have accumulated so far.": "",
-  "How much value your stake has accumulated so far.": "",
-  "How much would you like to deposit?": "",
-  "How much would you like to withdraw?": "",
-  "I understand": "",
-  "If you purchase a token from this list, you may not be able to sell it back.": "",
-  "If you purchase this token, you may not be able to sell it back.": "",
-  "Import": "",
-  "Import List": "",
-  "Import Pool": "Importer le pool",
-  "Import at your own risk": "",
-  "Import it": "Importer",
-  "Initializing...": "",
-  "Input is estimated. You will sell at most": "",
-  "Input is estimated. You will sell at most <0>{0} {1}</0> or the transaction will revert.": "L'entrée est estimée. Vous vendez au plus <0> {0} {1} </0> ou la transaction sera annulée.",
-  "Instruments": "Instruments",
-  "Insufficient Balance": "Solde insuffisant",
-  "Insufficient WETH balance": "Solde de WETH insuffisant",
-  "Insufficient liquidity for this trade": "Liquidité insuffisante pour cette transaction",
-  "Insufficient {0} balance": "Solde de {0} insuffisant",
-  "Interface Settings": "Paramètres",
-  "Invalid pair": "Paire invalide",
-  "Invalid recipient": "Destinataire non valide",
-  "Isolated lending markets mitigate your risks as an asset lender. Know exactly what collateral is available to you in the event of counter party insolvency.": "Les marchés de prêts isolés atténuent vos risques en tant que prêteur d'actifs. Vous savez exactement quelles garanties sont à votre disposition en cas d'insolvabilité de la contrepartie.",
-  "Join the community of discord": "",
-  "Join the community on Discord.": "Rejoignez la communauté sur Discord.",
-  "Kashi Lending": "Prêts Kashi",
-  "Keys Burned: 2022.03.04 at 22:05": "Clés brûlées: 2022.03.04 à 22:05",
-  "Learn More": "",
-  "Learn more about wallets": "",
-  "Lend": "Prêter",
-  "Lend assets for interest from borrowers.": "Prêtez vos actifs et collectez des intérêts auprès des emprunteurs.",
-  "Lend your assets, earn yield with no impermanent loss": "Prêtez vos actifs et générez du rendement sans perte impermanente",
-  "Lend {assetSymbol}": "Prêter {assetSymbol}",
-  "Lending": "Prêt",
-  "Lending Yield Farms": "",
-  "Lent": "Prêté",
-  "Limit <0>Used</0>": "Limite <0> Utilisé </0>",
-  "Liquidity": "Liquidité",
-  "Liquidity Positions": "Positions",
-  "Liquidity Provider Fee": "Frais de fournisseur de liquidité",
-  "Liquidity Provider Rewards": "Récompenses des fournisseurs de liquidités",
-  "Liquidity Yield Farms": "",
-  "Liquidity is the total value staked in the GoodDollar Trust staking contract (USD).": "",
-  "Liquidity providers earn a 0.25% fee on all trades proportional to their share of\nthe pool. Fees are added to the pool, accrue in real time and can be claimed by\nwithdrawing your liquidity": "Les fournisseurs de liquidité gagnent une redevance de 0,25% sur tous les métiers proportionnelle à leur part de \n la piscine. Les frais sont ajoutés au pool, s'accumulent en temps réel et peuvent être réclamés en \n retirant vos liquidités",
-  "Lists": "Listes",
-  "Loaded": "Loaded",
-  "Loading": "Chargement",
-  "Loading your {exchange} liquidity positions": "Chargement de vos positions {exchange}",
-  "Loading...": "Chargement...",
-  "Loan to Value": "Prêt à la valeur",
-  "MAX": "MAX",
-  "MULTIPLIER": "",
-  "Make the most of your": "",
-  "Manage": "Gérer",
-  "Manage Liquidity in Rewards Pool": "Gérer la liquidité dans le pool de récompenses",
-  "Manage this pool": "Gérer ce pool",
-  "Market Info": "Informations sur le marché",
-  "Market Staked": "Marché staké",
-  "Markets": "Marchés",
-  "Max": "Max",
-  "Maximize yield by staking SUSHI for xSUSHI": "Maximisez vos rendements en stakant SUSHI pour xSUSHI",
-  "Maximum sold": "Maximum vendu",
-  "Migrate": "Migrer",
-  "Migrate Now": "Migrer maintenant",
-  "Migrate Now.": "",
-  "Migrate {exchange} Liquidity": "Migrer les liquidités {exchange}",
-  "Migrating": "Migration",
-  "Migration is done in one-click using your signature (permit)": "La migration se fait en un clic à l'aide de votre signature (autorisation)",
-  "Minimum received": "Minimum reçu",
-  "Miso": "",
-  "Missed the Auction?": "",
-  "Multichain Bridge": "",
-  "My Stake": "",
-  "NETWORK": "",
-  "Network": "",
-  "Network Fee": "",
-  "New": "",
-  "New network, new features": "Nouveau réseau, nouvelles fonctionnalités",
-  "New to Ethereum?": "",
-  "Next month:": "",
-  "No LP tokens found": "",
-  "No Liquidity found": "Aucune liquidité trouvée",
-  "No Results": "Aucun résultat",
-  "No Results.": "",
-  "No data.": "",
-  "No liquidity found": "Aucune liquidité trouvée",
-  "No liquidity found to do swap": "Aucune liquidité trouvée pour swapper",
-  "No liquidity positions found": "Aucune position trouvée",
-  "No pool found": "Aucun pool trouvé",
-  "No results found": "Aucun résultat trouvé",
-  "Non-hardware Wallet": "Portefeuille non-hardware",
-  "None": "Aucun",
-  "OFF": "",
-  "ON": "",
-  "ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.": "N'UTILISEZ CE MODE QUE SI VOUS SAVEZ CE QUE VOUS FAITES.",
-  "Off": "",
-  "On": "",
-  "One click SUSHI → xSUSHI → aXSUSHI": "SUSHI → xSUSHI → aXSUSHI en un clic",
-  "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device": "Oops! Une erreur inconnue est survenue. Veuillez actualiser la page ou la consulter à partir d'un autre navigateur ou appareil",
-  "Open Source": "Open source",
-  "Open main menu": "Ouvrir le menu principal",
-  "Oracle": "Oracle",
-  "Output is estimated. If the price changes by more than {0}% your transaction will revert.": "Montant total estimé. Si le prix évolue au-delà de {0} %, votre transaction sera annulée.",
-  "Output is estimated. You will receive at least": "",
-  "Output is estimated. You will receive at least <0>{0} {1}</0> or the transaction will revert.": "La production est estimée. Vous recevrez au moins <0> {0} {1} </0> ou la transaction sera annulée.",
-  "Output is estimated. You will receive at least {minimumReceived} or the transaction will revert": "",
-  "Output will be sent to": "",
-  "Output will be sent to <0>{0}</0>": "La sortie sera envoyée à <0> {0} </0>",
-  "PENDING SIGN...": "",
-  "PROTOCOL": "",
-  "Pending": "En attente",
-  "Pending Treasury Transfer": "Transfert de trésorerie en attente",
-  "Please confirm you would like to remove this list by typing": "",
-  "Please connect to the appropriate Ethereum network.": "",
-  "Please connect to the appropriate network.": "",
-  "Please connect your Web3 wallet to the Fuse Network to Claim UBI.": "",
-  "Please type the word \"confirm\" to enable expert mode.": "Veuillez taper «confirmer» pour activer le mode expert.",
-  "Please wait": "",
-  "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information.": "",
-  "Pool": "Pool",
-  "Pool Found!": "Pool identifié",
-  "Pool Rewards": "Récompenses du pool",
-  "Pool Tokens": "Tokens du pool",
-  "Pool tokens in rewards pool": "Tokens disponibles dans le pool de récompenses",
-  "Pooled {0}": "{0} déposé dans le pool",
-  "Portfolio": "",
-  "Positions": "Positions",
-  "Pour a hot bowl of MISO, the new <0>token launchpad</0> from SUSHI": "",
-  "Price": "Prix",
-  "Price Impact": "Impact prix",
-  "Price Impact High": "Impact prix élevé",
-  "Price Impact Too High": "Impact prix trop important",
-  "Price Updated": "Prix actualisé",
-  "Protocol": "",
-  "REWARDS": "",
-  "Rates": "Taux",
-  "Read Tutorial": "Lire le tutoriel",
-  "Read more about unsupported assets": "",
-  "Read the contract": "Lire le contrat",
-  "Recent Transactions": "",
-  "Recipient": "",
-  "Remove": "Retirer",
-  "Remove Liquidity": "Retirer la liquidité",
-  "Remove list": "Remove list",
-  "Remove send": "Supprimer l'envoi",
-  "Removing {0} {1} and {2} {3}": "Retrait de {0} {1} et {2} {3}",
-  "Repay": "Rembourser",
-  "Request Tool": "Réclamer un outil",
-  "Restricts swaps to direct pairs only.": "Limiter les swaps aux seules paires directes.",
-  "Rewards": "",
-  "Route": "Route",
-  "Routing through these tokens resulted in the best price for your trade.": "Le routage à travers ces tokens vous a permis d'obtenir le meilleur prix pour votre trade.",
-  "SAAVE": "",
-  "SAAVE: Stack your yields in one transaction": "SAAVE: cumulez vos rendements en une seule transaction",
-  "STAKE": "",
-  "SUSHI Balance": "Solde SUSHI",
-  "SUSHI Balance: {sushiBalance}": "Solde SUSHI: {sushiBalance}",
-  "SUSHI {0}/{1} Burned": "SUSHI {0} / {1} brûlé",
-  "SWAP": "",
-  "Savings": "",
-  "Search by name, symbol, address": "Recherche par nom, symbole, adresse",
-  "Search name or paste address": "Rechercher un nom ou coller une adresse",
-  "Search name or paste the address": "",
-  "Select a token": "Sélectionnez un token",
-  "Select a token to find your liquidity": "Sélectionnez un token pour trouver votre liquidité",
-  "Select an LP Token": "",
-  "Share of Pool": "Part du pool",
-  "Share of Pool:": "Part du pool:",
-  "Share with friends": "",
-  "Slippage Tolerance": "Tolérance de slippage",
-  "Slippage tolerance": "Tolérance de slippage",
-  "Social APY": "",
-  "Some assets are not available through this interface because they may not work well with our smart contract or we are unable to allow trading for legal reasons.": "",
-  "Something went wrong during signing of the approval. This is expected for hardware wallets, such as Trezor and Ledger. Click again and the fallback method will be used": "Une erreur s'est produite lors de la signature de l'approbation. Cela peut arriver lors de l'utilisation de portefeuilles \"hardware\", tels que Trezor et Ledger. Cliquez à nouveau et la méthode de récupération sera utilisée",
-  "Stack Yields with SAAVE": "Accumulez des rendements avec SAAVE",
-  "Stake": "Staker",
-  "Stake SUSHI": "Placer SUSHI",
-  "Stake SUSHI for xSUSHI": "Staker SUSHI pour xSUSHI",
-  "Stake into xSUSHI add collateral as axSUSHI on Aave all in\none click": "Participez à xSUSHI et ajoutez des garanties comme axSUSHI sur Aave tout en \n un clic",
-  "Stake your SUSHI into xSUSHI for ~5% APY. Deposit your xSUSHI into Aave as aXSUSHI to earn collateral interest and borrowing power. All in one click.": "Stakez vos SUSHI pour xSUSHI et profitez de ~ 5% APY. Déposez vos xSUSHI sur Aave pour aXSUSHI et bénéficiez d'intêrets et d'une capacité d'emprunt. Le tout en un seul clic.",
-  "Stake your SUSHI into xSUSHI for ~5% APY. No impermanent loss, no loss of governance rights.\nContinuously compounding.": "Mettez votre SUSHI dans xSUSHI pour ~ 5% APY. Aucune perte impermanente, aucune perte des droits de gouvernance. \n Composition continue.",
-  "Staked {0} at {1}": "Piqueté {0} à {1}",
-  "Stakes": "",
-  "Staking": "",
-  "Staking APR": "APR Staking",
-  "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.": "",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!": "",
-  "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can claim more G$ every day!": "",
-  "Submit Tool": "Soumettre l'outil",
-  "Success!": "",
-  "Supply APR": "APR prêt",
-  "Supplying {0} {1} and {2} {3}": "Ajouter {0} {1} et {2} {3}",
-  "Sushi allows for swapping of ERC20 compatible tokens across multiple networks": "Sushi permet de swapper des tokens ERC20 sur plusieurs réseaux",
-  "Sushi is a supporter of Open Source.": "Sushi soutient l'Open Source.",
-  "SushiBar": "SushiBar",
-  "SushiBar: Make SUSHI work for you": "SushiBar: Faites travailler SUSHI pour vous",
-  "Swap": "Swapper",
-  "Swap Anyway": "Swapper quand même",
-  "Swap Completed": "",
-  "Swap From (est.):": "Swapper depuis (montant estimé):",
-  "Swap From:": "Swapper depuis:",
-  "Swap To (est.):": "Swap pour (estimé):",
-  "Swap To:": "Swapper pour:",
-  "Swap for SAK3 token on SUSHI now. Click here to swap.": "",
-  "Swap from": "",
-  "Swap to": "",
-  "Swapped  {0} {1}\nto {2} {3}": "Échangé {0} {1} \n à {2} {3}",
-  "Swapped {inputSig} {0}\nto a minimum of {minimumOutputSig} {1}": "",
-  "Swapped {inputSig} {0} \nto a minimum of {minimumOutputSig} {1}": "Échangé {inputSig} {0} \n à un minimum de {minimumOutputSig} {1}",
-  "Swapping": "",
-  "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.": "",
-  "Swapping {inputSig} {0} \nto a minimum of {minimumOutputSig} {1}": "Échanger {inputSig} {0} \n à un minimum de {minimumOutputSig} {1}",
-  "Switch to {requireChain}": "",
-  "Switch your network to {0} to work with Portfolio": "",
-  "Switch your network to {0} to work with Stakes": "",
-  "TOKEN": "",
-  "TVL": "TVL",
-  "TYPE": "",
-  "The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum.\nThis contract is able to mint and burn G$s according to the increase or decrease of it's demand.\nPrice impact is low as G$ liquidity is produced on demand depending by the reserve ratio.": "",
-  "The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum. \nThis contract is able to mint and burn G$s according to the increase or decrease of it's demand. \nPrice impact is low as G$ liquidity is produced on demand depending by the reserve ratio.": "",
-  "The difference between the market price and estimated price due to trade size.": "La différence entre le prix du marché et le prix estimé causé par la taille de l'ordre.",
-  "The difference between the market price and your price due to trade size.": "La différence entre le prix du marché et votre prix d'achat causé par la taille de l'ordre.",
-  "The fixed annual interest.": "",
-  "The minimum amount of tokens to receive.": "",
-  "The network this savings account belongs to": "",
-  "The onchain oracle that tracks the pricing for this pair": "L'oracle \"on chain\" qui suit le prix de cette paire",
-  "The token list": "",
-  "The total of your deposits which accumulates the rewards.": "",
-  "The transaction cannot succeed due to error: {0}. This is probably an issue with one of the tokens you are swapping.": "La transaction ne peut aboutir en raison de l'erreur suivante: {0} . Elle est probablement liée à l'un des tokens que vous cherchez à échanger.",
-  "These are the total yearly rewards in G$ and GOOD.": "",
-  "These tokens are commonly paired with other tokens.": "",
-  "Things you can do with your SUSHI": "Les possibilités offertes par vos SUSHI",
-  "This is the annual percentage of UBI your stake will create.": "",
-  "This is the protocol that the token is staked to.": "",
-  "This is the protocol that the token will be staked to.": "",
-  "This is the token that is currently available to stake to the Fund.": "",
-  "This is the token that is currently being staked.": "",
-  "This is the token that you can deposit into the savings contract.": "",
-  "This month": "",
-  "This project is in beta. Use at your own risk": "",
-  "This transaction will not succeed either due to price movement or fee on transfer. Try increasing your slippage tolerance.": "La variation du prix ou des frais risque d'empêcher cette transaction d'aboutir. Essayez d'augmenter le niveau de slippage.",
-  "Tip": "",
-  "Tip: Custom tokens are stored locally in your browser": "",
-  "To": "Pour",
-  "To (estimated)": "Pour (estimé)",
-  "To withdraw into SUSHI, go to Aave and remove axSUSHI as collateral and then to SushiBar to unstake. A full unwind will be avaialble soon.": "Pour vous retirer vos SUSHI, rendez-vous sur Aave, retirez axSUSHI comme garantie, puis unstakez depuis le SushiBar. Ce processus sera prochainement optimisé.",
-  "Toggle Expert Mode": "Basculer en mode expert",
-  "Token": "Token",
-  "Tokens": "Tokens",
-  "Tokens from inactive lists. Import specific tokens below or click 'Manage' to activate more lists.": "",
-  "Tools": "Outils",
-  "Tools to optimize workflow": "",
-  "Tools to optimize your workflow.": "Des outils pour optimiser votre flux de travail.",
-  "Total": "Total",
-  "Total Rewards": "",
-  "Total Rewards Paid": "",
-  "Total Staked": "",
-  "Total amount on value staked.": "",
-  "Total currently saved.": "",
-  "Total rewards claimed.": "",
-  "Total stake": "",
-  "Trade": "Échanger",
-  "Trade at your own risk!": "",
-  "Transaction History": "Historique des transactions",
-  "Transaction Settings": "Paramètres de transaction",
-  "Transaction Submitted": "",
-  "Transaction deadline": "Durée limite de transaction",
-  "Transaction rejected.": "",
-  "Transaction settings": "",
-  "Transaction was sent to the blockchain": "",
-  "Transactions": "Transactions",
-  "Transfer Type": "",
-  "Try Again": "",
-  "Try enabling multi-hop trades": "Essayez d'activer les transactions multihop",
-  "Turn On Expert Mode": "Activer le mode expert",
-  "Type": "",
-  "UBI is your fair share of G$ tokens, which you can claim daily on CELO.": "",
-  "UBI is your fair share of G$ tokens, which you can claim daily on {network}.": "",
-  "Uh Oh!": "",
-  "Unknown Source": "",
-  "Unknown error": "Erreur inconnue",
-  "Unstake": "Unstake",
-  "Unstaked": "Unstaked",
-  "Unsupported Asset": "Actif non disponible",
-  "Unsupported Assets": "",
-  "Unsupported network": "",
-  "Unwrap": "Unwrap",
-  "Unwrap {0} W{1} to {2}": "Unwrap {0} W {1} pour {2}",
-  "Update list": "Update list",
-  "Use any tool below to optimize your workflow. Please note, some tools are experimental so use with discretion. If theres a smart contract involved for the tool, read the code and confirm the keys have been burned.": "Utilisez n'importe quel outil ci-dessous pour optimiser votre flux de travail. Veuillez noter que certains outils sont au stade expérimental. Utilisez-les en connaissance de cause. Si un smart contract est impliqué, prenez le temps de parcourir le code et veillez à ce que les clés aient été brûlées.",
-  "Use this tool to find pairs that don't automatically appear in the interface": "",
-  "V2 Rewarder": "Récompense V2",
-  "Vesting": "Vesting",
-  "Vesting is executed within the guidelines selected by the community in <0>SIMP3</0>.<1/><2/>Please refer to the <3>forum discussion</3> for deliberations on additional points.<4/><5/>Additional records and weekly merkle updates can be found on <6>Github</6>": "L'acquisition est exécutée selon les directives sélectionnées par la communauté dans <0> SIMP3 </0> . <1/> <2/> Veuillez vous reporter au <3> forum de discussion </3> pour des délibérations sur des points supplémentaires. <4/> <5/> Des enregistrements supplémentaires et des mises à jour hebdomadaires des produits merkle sont disponibles sur <6> Github </6>",
-  "View On": "",
-  "View Stats": "Voir les statistiques",
-  "View SushiBar Stats": "Consultez les statistiques du SushiBar",
-  "View Your Liquidity Positions": "Consulter vos liquidités",
-  "View Your Liquidity Positions >": "Consulter vos liquidités",
-  "View list": "View list",
-  "View on explorer": "Voir sur l'explorateur",
-  "View pair analytics": "Afficher les statistiques de paire",
-  "View transaction on explorer": "",
-  "View your SushiBar Portfolio": "Consultez votre portfolio SushiBar",
-  "Voltage is an UNI-V2 Automated Market Maker (AMM)\nthat operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC.\nThe liquidity relies on Liquidity Providers that aggregate paired tokens to a pool.\nPrice impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool.": "",
-  "Voltage is an UNI-V2 Automated Market Maker (AMM) \nthat operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC. \nThe liquidity relies on Liquidity Providers that aggregate paired tokens to a pool. \nPrice impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool.": "",
-  "WITHDRAW": "",
-  "Waiting For Confirmation": "",
-  "Waiting for Confirmation": "",
-  "Wallet": "Portefeuille",
-  "Wallet Balance": "Solde de votre portefeuille",
-  "Wallet balance": "",
-  "We see you don't have {0} added to your wallet. Kindly add the network, and try again.": "",
-  "Welcome to Sushi on Polygon (Matic)": "Bienvenue chez Sushi sur Polygon (Matic)",
-  "What's an exit contribution?": "",
-  "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review": "Vous êtes le premier fournisseur de liquidité. Le ratio entre les tokens que vous ajoutez déterminera le prix de ce pool. Une fois que vous êtes satisfait du taux, cliquez sur ajouter pour le revoir.",
-  "Withdraw": "Retirer",
-  "Withdraw G$": "",
-  "Withdraw Liquidity": "",
-  "Withdraw as {0}?": "",
-  "Withdraw {assetSymbol}": "Retirer {assetSymbol}",
-  "Withdrawing your stake will reset your multiplier.": "",
-  "Withdrew funds from {0}": "A retiré des fonds de {0}",
-  "Wrap": "Wrapper",
-  "Wrong Network": "Mauvais réseau",
-  "Yes, I did!": "",
-  "Yesterday's APR": "APR d'hier",
-  "Yield": "Rendement",
-  "Yield Debugger": "",
-  "Yield Farms": "",
-  "Yield Instruments": "Instruments de rendement",
-  "You Will Receive:": "",
-  "You are creating UBI to thousands of people around the world.": "Vous créez UBI à des milliers de personnes dans le monde entier.",
-  "You are creating a pool": "Vous créez un pool",
-  "You are currently browsing": "",
-  "You are on the wrong network": "Vous êtes sur le mauvais réseau",
-  "You can leave the bar and exchange your xSUSHI for SUSHI (as well as collect any earned interest) at any time. However, there are more ways to use xSUSHI to maximize your yield potential!": "",
-  "You don’t have liquidity in this pool yet": "Vous n'avez pas encore de liquidité dans ce pool",
-  "You have just staked your G$s towards our GoodDAO,\nthis action is gonna reward you with GOOD governance tokens,\nwhich are non-transferable so can't be traded.": "",
-  "You have just staked your G$s towards our GoodDAO, \nthis action is gonna reward you with GOOD governance tokens, \nwhich are non-transferable so can't be traded.": "",
-  "You have successfully claimed your rewards": "Vous avez réussi à affirmer vos récompenses",
-  "You just used your crypto for good to help fund crypto UBI \nfor all with GoodDollar!": "",
-  "You just used your crypto for good to help fund crypto UBI for all with GoodDollar!": "",
-  "You need to first approve LP tokens and then migrate it": "Vous devez d'abord approuver les tokens LP, puis les migrer",
-  "You need to sign the transaction in your wallet": "",
-  "You will receive": "Vous allez recevoir",
-  "You've already claimed today. Come back in {tillClaim}": "",
-  "Your Claimable SUSHI this Week": "Vos SUSHI à récolter cette semaine",
-  "Your History": "",
-  "Your Liquidity": "Votre liquidité",
-  "Your Liquidity Positions": "Vos positions",
-  "Your Pool Share": "Votre part du pool",
-  "Your Pool Tokens": "Vos tokens du pool",
-  "Your Staked": "Vos X placés",
-  "Your Staked Farms": "",
-  "Your SushiBar Stats": "Vos statistiques SushiBar",
-  "Your Transaction History": "Votre historique de transactions",
-  "Your Transaction History on {0}": "Historique des transactions sur {0}",
-  "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next.": "",
-  "Your Wallet": "Votre portefeuille",
-  "Your Yields": "Vos rendements",
-  "Your current network.": "",
-  "Your current savings balance.": "",
-  "Your pool share": "Votre part du pool",
-  "Your social contribution from:": "",
-  "Your staking transaction which will generate UBI for thousands of people around\nthe world has just been broadcasted to the network.": "",
-  "Your staking transaction which will generate UBI for thousands of people around \nthe world has just been broadcasted to the network.": "Votre transaction de jalonnement qui générera UBI pour des milliers de personnes autour \n Le monde vient d'être diffusé au réseau.",
-  "Your staking transaction will generate UBI for thousands of people around \nthe world has just been broadcasted to the network.": "Votre transaction de jack générera UBI pour des milliers de personnes autour de \n Le monde vient d'être diffusé au réseau.",
-  "Your total pool tokens": "Votre total de jetons de pool",
-  "Your total pool tokens:": "",
-  "Your transaction may be frontrun": "Votre transaction peut être en \"frontrun\"",
-  "Your transaction may fail": "Votre transaction peut échouer",
-  "Your transaction will revert if it is pending for more than this long.": "Votre transaction sera annulée si elle n'est pas validée dans la durée précisée.",
-  "Your transaction will revert if it is pending for more than this time.": "",
-  "Your transaction will revert if the price changes unfavorably by more than this percentage.": "Votre transaction sera annulée si la variation de prix défavorable excède ce pourcentage.",
-  "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.": "Votre transaction sera annulée en cas de mouvement de prix important et défavorable avant qu'elle ne soit confirmée.",
-  "Your transactions will appear here...": "",
-  "Your {exchange} {0}/{1} liquidity will become SushiSwap {2}/{3} liquidity.": "Votre liquidité {exchange} {0} / {1} deviendra la liquidité SushiSwap {2} / {3} .",
-  "Your {type} transaction has been confirmed!": "",
-  "added": "",
-  "amount": "",
-  "annualized": "annualisé",
-  "failed to load": "échec du chargement",
-  "has been updated to": "",
-  "import it": "Importer",
-  "loading...": "Chargement en cours...",
-  "max": "",
-  "minutes": "minutes",
-  "network": "",
-  "on the": "",
-  "or the transaction will revert.": "",
-  "per day": "",
-  "per month": "par mois",
-  "removed": "",
-  "rewards": "",
-  "to": "",
-  "tokens": "",
-  "tokens updated": "",
-  "via": "",
-  "xSUSHI Balance": "Solde xSUSHI",
-  "xSUSHI automatically earn fees (0.05% of all swaps, including multichain swaps) proportional\nto your share of the SushiBar.": "xSUSHI gagne automatiquement des frais (0,05% de tous les swaps, y compris les swaps multichaînes) proportionnels \n à votre part du SushiBar.",
-  "{0}": "",
-  "{0} <0>{1} {2}</0> {3}": "",
-  "{0} <0>{1}</0>": "",
-  "{0} Deposited": "{0} Déposé",
-  "{0} Strategy": "{0} Stratégie",
-  "{0} per {1}": "{0} par {1}",
-  "{amount} {0}": "",
-  "{label}": "",
-  "• Added by user": ""
+  "/+Z5u4": {
+    "translation": "",
+    "message": "",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AppBar.tsx",
+        202
+      ],
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        48
+      ]
+    ]
+  },
+  "Stake Positions": {
+    "translation": "",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        399
+      ]
+    ]
+  },
+  "Savings": {
+    "translation": "",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        452
+      ]
+    ]
+  },
+  "J/hVSQ": {
+    "translation": "",
+    "message": "{0}",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsModal/index.tsx",
+        280
+      ],
+      [
+        "src/components/Savings/SavingsModal/index.tsx",
+        282
+      ],
+      [
+        "src/components/Savings/SavingsModal/index.tsx",
+        283
+      ]
+    ]
+  },
+  "W0PdT6": {
+    "translation": "",
+    "message": "{amount} {0}",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsModal/index.tsx",
+        128
+      ]
+    ]
+  },
+  "raM+/Y": {
+    "translation": "",
+    "message": "A contribution to the reserve paid by members for directly selling G$ tokens.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        242
+      ],
+      [
+        "src/pages/gd/Swap/SwapDescriptions/index.tsx",
+        31
+      ],
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        75
+      ]
+    ]
+  },
+  "AeXO77": {
+    "translation": "",
+    "message": "Account",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/index.tsx",
+        245
+      ]
+    ]
+  },
+  "Om0/tH": {
+    "translation": "",
+    "message": "amount",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        311
+      ]
+    ]
+  },
+  "/UNRsg": {
+    "translation": "",
+    "message": "Annual Percentage Yield (APY) is the percentage yield being earned.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        74
+      ]
+    ]
+  },
+  "Z7ZXbT": {
+    "translation": "",
+    "message": "Approve",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        407
+      ]
+    ]
+  },
+  "aRpxS7": {
+    "translation": "",
+    "message": "APPROVE",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        305
+      ]
+    ]
+  },
+  "7kb4LU": {
+    "translation": "",
+    "message": "Approved",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        406
+      ]
+    ]
+  },
+  "j2Uisd": {
+    "translation": "",
+    "message": "Approving",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        404
+      ]
+    ]
+  },
+  "QxaqQl": {
+    "translation": "",
+    "message": "APPROVING",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        302
+      ]
+    ]
+  },
+  "rSayea": {
+    "translation": "",
+    "message": "APY",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        73
+      ]
+    ]
+  },
+  "Nl2SmD": {
+    "translation": "",
+    "message": "Awesome!",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        224
+      ]
+    ]
+  },
+  "nrs9G1": {
+    "translation": "",
+    "message": "Back to portfolio",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        144
+      ],
+      [
+        "src/components/Withdraw/index.tsx",
+        210
+      ],
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        150
+      ]
+    ]
+  },
+  "fsBGk0": {
+    "translation": "",
+    "message": "Balance",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapInput/index.tsx",
+        57
+      ]
+    ]
+  },
+  "c2y/7S": {
+    "translation": "",
+    "message": "Blocked address",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Blocklist/index.tsx",
+        12
+      ]
+    ]
+  },
+  "o+XJ9D": {
+    "translation": "",
+    "message": "Change",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/index.tsx",
+        268
+      ]
+    ]
+  },
+  "J1krUf": {
+    "translation": "",
+    "message": "Claim All",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        80
+      ]
+    ]
+  },
+  "NhvOtZ": {
+    "translation": "",
+    "message": "Claim G$ rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        378
+      ]
+    ]
+  },
+  "Cva4ED": {
+    "translation": "",
+    "message": "Claim GOOD",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        86
+      ]
+    ]
+  },
+  "TMLQ6N": {
+    "translation": "",
+    "message": "Claim GOOD rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        390
+      ]
+    ]
+  },
+  "JalkSW": {
+    "translation": "",
+    "message": "Claim rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/PortfolioTableRow/index.tsx",
+        76
+      ],
+      [
+        "src/components/PortfolioTableRow/index.tsx",
+        161
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        167
+      ]
+    ]
+  },
+  "zXCpR0": {
+    "translation": "",
+    "message": "Claim Rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        93
+      ],
+      [
+        "src/components/Savings/SavingsCard/SavingsCardRow/index.tsx",
+        80
+      ]
+    ]
+  },
+  "TZDLPg": {
+    "translation": "",
+    "message": "Claimable",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        343
+      ]
+    ]
+  },
+  "UBA25E": {
+    "translation": "",
+    "message": "Claimable Rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        72
+      ],
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        97
+      ]
+    ]
+  },
+  "xassDF": {
+    "translation": "",
+    "message": "CLAIMABLE REWARDS",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        72
+      ]
+    ]
+  },
+  "0x82pv": {
+    "translation": "",
+    "message": "Claimed G$ Rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        192
+      ],
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        50
+      ]
+    ]
+  },
+  "yhgjLi": {
+    "translation": "",
+    "message": "Claimed GOOD Rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        191
+      ],
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        50
+      ]
+    ]
+  },
+  "+B+sn4": {
+    "translation": "",
+    "message": "Claiming the following rewards:",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        105
+      ]
+    ]
+  },
+  "odsjxa": {
+    "translation": "",
+    "message": "Claiming your rewards will reset your multiplier",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        97
+      ]
+    ]
+  },
+  "irVHbr": {
+    "translation": "",
+    "message": "Claiming your rewards will reset your multiplier.",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        102
+      ]
+    ]
+  },
+  "yYxB17": {
+    "translation": "",
+    "message": "Clear all",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/index.tsx",
+        306
+      ]
+    ]
+  },
+  "yz7wBu": {
+    "translation": "",
+    "message": "Close",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/TransactionConfirmationModal/index.tsx",
+        100
+      ],
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        286
+      ]
+    ]
+  },
+  "/e1tjS": {
+    "translation": "",
+    "message": "Collect G$",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Claim/index.tsx",
+        255
+      ]
+    ]
+  },
+  "lQ6r7x": {
+    "translation": "",
+    "message": "Confirm swap",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        160
+      ]
+    ]
+  },
+  "fKkpU3": {
+    "translation": "",
+    "message": "CONFIRM SWAP",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        250
+      ]
+    ]
+  },
+  "oG26Rt": {
+    "translation": "",
+    "message": "Confirm this transaction in your wallet",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ModalViews/index.tsx",
+        37
+      ],
+      [
+        "src/components/TransactionConfirmationModal/index.tsx",
+        57
+      ],
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        263
+      ]
+    ]
+  },
+  "ryWxhG": {
+    "translation": "",
+    "message": "Congratulations!",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        123
+      ],
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        226
+      ]
+    ]
+  },
+  "kSH3bB": {
+    "translation": "",
+    "message": "Connect a wallet to see your portfolio",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        466
+      ]
+    ]
+  },
+  "r7ScnQ": {
+    "translation": "",
+    "message": "Connect to a wallet",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/BlockNativeOnboard/index.tsx",
+        22
+      ]
+    ]
+  },
+  "VHOVEJ": {
+    "translation": "",
+    "message": "Connect wallet",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        304
+      ]
+    ]
+  },
+  "Sg80Ug": {
+    "translation": "",
+    "message": "Connected with",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/index.tsx",
+        218
+      ]
+    ]
+  },
+  "6V3Ea3": {
+    "translation": "",
+    "message": "Copied",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/Copy.tsx",
+        24
+      ]
+    ]
+  },
+  "DzHUbu": {
+    "translation": "",
+    "message": "Copy address",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/index.tsx",
+        284
+      ]
+    ]
+  },
+  "EC43CD": {
+    "translation": "",
+    "message": "Current Rate",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Liquidity/LiquidityPrice.tsx",
+        22
+      ]
+    ]
+  },
+  "ds/X9M": {
+    "translation": "",
+    "message": "DEPOSIT",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        67
+      ],
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        371
+      ]
+    ]
+  },
+  "Uvd97Z": {
+    "translation": "",
+    "message": "Deposit G$",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx",
+        41
+      ],
+      [
+        "src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx",
+        53
+      ],
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        70
+      ]
+    ]
+  },
+  "pjeW2u": {
+    "translation": "",
+    "message": "Deposit overview",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        222
+      ]
+    ]
+  },
+  "+K0AvT": {
+    "translation": "",
+    "message": "Disconnect",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/index.tsx",
+        259
+      ]
+    ]
+  },
+  "TbjyhA": {
+    "translation": "",
+    "message": "Docs",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideBar.tsx",
+        147
+      ]
+    ]
+  },
+  "ox7j3N": {
+    "translation": "",
+    "message": "failed to load",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Gas/index.tsx",
+        12
+      ]
+    ]
+  },
+  "s2pNcI": {
+    "translation": "",
+    "message": "Fixed Apy",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        119
+      ]
+    ]
+  },
+  "O+3q2G": {
+    "translation": "",
+    "message": "Fuse Bridge",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideBar.tsx",
+        140
+      ]
+    ]
+  },
+  "DwINHk": {
+    "translation": "",
+    "message": "G$",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        108
+      ],
+      [
+        "src/components/Savings/SavingsCard/SavingsCardRow/index.tsx",
+        37
+      ],
+      [
+        "src/components/Savings/SavingsStat/SavingsMobileStat.tsx",
+        45
+      ]
+    ]
+  },
+  "EZ4l7z": {
+    "translation": "",
+    "message": "GDX",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapDescriptions/index.tsx",
+        20
+      ]
+    ]
+  },
+  "C5Ailc": {
+    "translation": "",
+    "message": "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the\ncontribution exit.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapDescriptions/index.tsx",
+        22
+      ]
+    ]
+  },
+  "IngQmC": {
+    "translation": "",
+    "message": "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        233
+      ],
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        67
+      ]
+    ]
+  },
+  "AIG5ff": {
+    "translation": "",
+    "message": "Go to Portfolio",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        411
+      ]
+    ]
+  },
+  "tRE2S2": {
+    "translation": "",
+    "message": "GOOD",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        114
+      ]
+    ]
+  },
+  "HqpMIo": {
+    "translation": "",
+    "message": "Good Airdrop",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideBar.tsx",
+        154
+      ]
+    ]
+  },
+  "YefaIJ": {
+    "translation": "",
+    "message": "GoodDAO",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/SavingsCardRow/index.tsx",
+        38
+      ]
+    ]
+  },
+  "oDC2sY": {
+    "translation": "",
+    "message": "GoodDAO Staking",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        478
+      ]
+    ]
+  },
+  "zHZLzO": {
+    "translation": "",
+    "message": "GoodDollar",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsStat/SavingsMobileStat.tsx",
+        47
+      ]
+    ]
+  },
+  "XDTdBa": {
+    "translation": "",
+    "message": "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Claim/index.tsx",
+        266
+      ]
+    ]
+  },
+  "dmXjaQ": {
+    "translation": "",
+    "message": "GoodStakes",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        463
+      ],
+      [
+        "src/pages/gd/Stake/index.tsx",
+        467
+      ]
+    ]
+  },
+  "FYzHRF": {
+    "translation": "",
+    "message": "Holding",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        333
+      ]
+    ]
+  },
+  "aOXD/7": {
+    "translation": "",
+    "message": "How many GOOD tokens you are accumulating by this stake position.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        236
+      ]
+    ]
+  },
+  "hdK3p8": {
+    "translation": "",
+    "message": "How much rewards would you like to donate",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Withdraw/PercentInputControls/index.tsx",
+        54
+      ]
+    ]
+  },
+  "nN/sPs": {
+    "translation": "",
+    "message": "How much tokens your deposits have accumulated so far.",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        73
+      ]
+    ]
+  },
+  "kjHBax": {
+    "translation": "",
+    "message": "How much value your stake has accumulated so far.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        226
+      ]
+    ]
+  },
+  "KmvX7a": {
+    "translation": "",
+    "message": "How much would you like to deposit?",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        233
+      ]
+    ]
+  },
+  "iE/M09": {
+    "translation": "",
+    "message": "How much would you like to withdraw?",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Withdraw/PercentInputControls/index.tsx",
+        55
+      ]
+    ]
+  },
+  "6y2TB3": {
+    "translation": "",
+    "message": "Liquidity",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        81
+      ]
+    ]
+  },
+  "sbXbRr": {
+    "translation": "",
+    "message": "Liquidity is the total value staked in the GoodDollar Trust staking contract (USD).",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        82
+      ]
+    ]
+  },
+  "q4v94l": {
+    "translation": "",
+    "message": "Liquidity Provider Fee",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Liquidity/AdvancedLiquidityDetails.tsx",
+        37
+      ],
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        219
+      ],
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        53
+      ]
+    ]
+  },
+  "+yD+Wu": {
+    "translation": "",
+    "message": "loading...",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Gas/index.tsx",
+        13
+      ]
+    ]
+  },
+  "Z3FXyt": {
+    "translation": "",
+    "message": "Loading...",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        97
+      ],
+      [
+        "src/pages/gd/Stake/index.tsx",
+        283
+      ]
+    ]
+  },
+  "ydV21Q": {
+    "translation": "",
+    "message": "max",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapInput/index.tsx",
+        40
+      ]
+    ]
+  },
+  "HTX2HV": {
+    "translation": "",
+    "message": "Minimum received",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        205
+      ],
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        41
+      ]
+    ]
+  },
+  "H9HlDe": {
+    "translation": "",
+    "message": "minutes",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapSettings/index.tsx",
+        167
+      ]
+    ]
+  },
+  "dGeVKy": {
+    "translation": "",
+    "message": "Multichain Bridge",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideBar.tsx",
+        126
+      ]
+    ]
+  },
+  "IJTnNs": {
+    "translation": "",
+    "message": "MULTIPLIER",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        229
+      ]
+    ]
+  },
+  "D8xG5t": {
+    "translation": "",
+    "message": "My Stake",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        299
+      ]
+    ]
+  },
+  "oPYIL5": {
+    "translation": "",
+    "message": "network",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/NetworkModal/index.tsx",
+        141
+      ],
+      [
+        "src/components/NetworkModal/index.tsx",
+        190
+      ]
+    ]
+  },
+  "OR475H": {
+    "translation": "",
+    "message": "Network",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        114
+      ]
+    ]
+  },
+  "m2DB21": {
+    "translation": "",
+    "message": "NETWORK",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        62
+      ]
+    ]
+  },
+  "KXkywD": {
+    "translation": "",
+    "message": "Network Fee",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Liquidity/AdvancedLiquidityDetails.tsx",
+        45
+      ]
+    ]
+  },
+  "ZtmN17": {
+    "translation": "",
+    "message": "Next month:",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/PortfolioTableRow/index.tsx",
+        128
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        104
+      ]
+    ]
+  },
+  "ckHspi": {
+    "translation": "",
+    "message": "No data.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        102
+      ],
+      [
+        "src/pages/gd/Stake/index.tsx",
+        290
+      ]
+    ]
+  },
+  "tprTU9": {
+    "translation": "",
+    "message": "on the",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/NetworkModal/index.tsx",
+        140
+      ],
+      [
+        "src/components/NetworkModal/index.tsx",
+        189
+      ]
+    ]
+  },
+  "KldVUP": {
+    "translation": "",
+    "message": "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Web3ReactManager/index.tsx",
+        61
+      ]
+    ]
+  },
+  "Iz9LFJ": {
+    "translation": "",
+    "message": "Open main menu",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AppBar.tsx",
+        223
+      ]
+    ]
+  },
+  "0EYQEk": {
+    "translation": "",
+    "message": "Output is estimated. You will receive at least {minimumReceived} or the transaction will revert",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        199
+      ]
+    ]
+  },
+  "UbRKMZ": {
+    "translation": "",
+    "message": "Pending",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Web3Status/index.tsx",
+        56
+      ]
+    ]
+  },
+  "AuoZmj": {
+    "translation": "",
+    "message": "PENDING SIGN...",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        93
+      ],
+      [
+        "src/components/Withdraw/index.tsx",
+        176
+      ]
+    ]
+  },
+  "tnHeOD": {
+    "translation": "",
+    "message": "Please wait",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        123
+      ],
+      [
+        "src/components/Withdraw/index.tsx",
+        187
+      ]
+    ]
+  },
+  "T+qgFw": {
+    "translation": "",
+    "message": "Price Impact",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        212
+      ],
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        46
+      ]
+    ]
+  },
+  "6+OdGi": {
+    "translation": "",
+    "message": "Protocol",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Withdraw/index.tsx",
+        146
+      ],
+      [
+        "src/pages/gd/Stake/index.tsx",
+        69
+      ],
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        109
+      ]
+    ]
+  },
+  "EeR7jl": {
+    "translation": "",
+    "message": "PROTOCOL",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        57
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        217
+      ]
+    ]
+  },
+  "0TAbjq": {
+    "translation": "",
+    "message": "Recent Transactions",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/index.tsx",
+        304
+      ]
+    ]
+  },
+  "5BAZfS": {
+    "translation": "",
+    "message": "rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        343
+      ]
+    ]
+  },
+  "4cJ0hF": {
+    "translation": "",
+    "message": "Rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        305
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        316
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        347
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        358
+      ]
+    ]
+  },
+  "SITt2a": {
+    "translation": "",
+    "message": "REWARDS",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        225
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        235
+      ]
+    ]
+  },
+  "rT8e1f": {
+    "translation": "",
+    "message": "Route",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        226
+      ],
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        60
+      ]
+    ]
+  },
+  "ZiCftH": {
+    "translation": "",
+    "message": "Routing through these tokens resulted in the best price for your trade.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        228
+      ],
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        62
+      ]
+    ]
+  },
+  "Baj2MJ": {
+    "translation": "",
+    "message": "Savings",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/SavingsCardRow/index.tsx",
+        36
+      ],
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        151
+      ]
+    ]
+  },
+  "8egcjO": {
+    "translation": "",
+    "message": "Search name or paste the address",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapTokensModal/index.tsx",
+        53
+      ]
+    ]
+  },
+  "RDprz0": {
+    "translation": "",
+    "message": "Share with friends",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        414
+      ],
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        300
+      ]
+    ]
+  },
+  "lqTDfd": {
+    "translation": "",
+    "message": "Slippage Tolerance",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        371
+      ],
+      [
+        "src/pages/gd/Swap/SwapSettings/index.tsx",
+        80
+      ]
+    ]
+  },
+  "VdZsuv": {
+    "translation": "",
+    "message": "Social APY",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        77
+      ]
+    ]
+  },
+  "JYKRJS": {
+    "translation": "",
+    "message": "Stake",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        215
+      ],
+      [
+        "src/pages/gd/Stake/index.tsx",
+        319
+      ],
+      [
+        "src/pages/gd/Stake/index.tsx",
+        397
+      ],
+      [
+        "src/pages/gd/Stake/index.tsx",
+        463
+      ]
+    ]
+  },
+  "x8fOuo": {
+    "translation": "",
+    "message": "STAKE",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        221
+      ]
+    ]
+  },
+  "PrONzF": {
+    "translation": "",
+    "message": "Staked {0} at {1}",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        361
+      ]
+    ]
+  },
+  "KsqhWn": {
+    "translation": "",
+    "message": "Staking",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        329
+      ]
+    ]
+  },
+  "s/hW81": {
+    "translation": "",
+    "message": "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        209
+      ]
+    ]
+  },
+  "WfU9sj": {
+    "translation": "",
+    "message": "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        231
+      ]
+    ]
+  },
+  "oMgC5V": {
+    "translation": "",
+    "message": "Success!",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        123
+      ],
+      [
+        "src/components/Withdraw/index.tsx",
+        187
+      ],
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        123
+      ]
+    ]
+  },
+  "vH2C/2": {
+    "translation": "",
+    "message": "Swap",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        421
+      ]
+    ]
+  },
+  "2489VD": {
+    "translation": "",
+    "message": "Swap Completed",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        295
+      ]
+    ]
+  },
+  "n3WWb+": {
+    "translation": "",
+    "message": "Swap from",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        344
+      ],
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        358
+      ]
+    ]
+  },
+  "N7dVh7": {
+    "translation": "",
+    "message": "Swap to",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        344
+      ],
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        358
+      ]
+    ]
+  },
+  "8geu8I": {
+    "translation": "",
+    "message": "Swapped {inputSig} {0}\nto a minimum of {minimumOutputSig} {1}",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        100
+      ]
+    ]
+  },
+  "JPHuMW": {
+    "translation": "",
+    "message": "Swapping",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        260
+      ]
+    ]
+  },
+  "vos/Eb": {
+    "translation": "",
+    "message": "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        222
+      ],
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        56
+      ]
+    ]
+  },
+  "atImLn": {
+    "translation": "",
+    "message": "Switch to {requireChain}",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/gd/Button/ActionOrSwitchButton.tsx",
+        53
+      ]
+    ]
+  },
+  "loDNfv": {
+    "translation": "",
+    "message": "The fixed annual interest.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        120
+      ]
+    ]
+  },
+  "dF9+OE": {
+    "translation": "",
+    "message": "The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum.\nThis contract is able to mint and burn G$s according to the increase or decrease of it's demand.\nPrice impact is low as G$ liquidity is produced on demand depending by the reserve ratio.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        252
+      ]
+    ]
+  },
+  "2sfcgm": {
+    "translation": "",
+    "message": "The minimum amount of tokens to receive.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        43
+      ]
+    ]
+  },
+  "Z1C6tp": {
+    "translation": "",
+    "message": "The network this savings account belongs to",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        63
+      ]
+    ]
+  },
+  "jzCU9g": {
+    "translation": "",
+    "message": "The total of your deposits which accumulates the rewards.",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        68
+      ]
+    ]
+  },
+  "kfOwFa": {
+    "translation": "",
+    "message": "These are the total yearly rewards in G$ and GOOD.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        86
+      ]
+    ]
+  },
+  "NBnPaK": {
+    "translation": "",
+    "message": "This is the annual percentage of UBI your stake will create.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        78
+      ]
+    ]
+  },
+  "6AVWQE": {
+    "translation": "",
+    "message": "This is the protocol that the token is staked to.",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        58
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        218
+      ]
+    ]
+  },
+  "r3x/8q": {
+    "translation": "",
+    "message": "This is the protocol that the token will be staked to.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        70
+      ]
+    ]
+  },
+  "2T/wkr": {
+    "translation": "",
+    "message": "This is the token that is currently available to stake to the Fund.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        66
+      ]
+    ]
+  },
+  "bNW7a7": {
+    "translation": "",
+    "message": "This is the token that is currently being staked.",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        53
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        214
+      ]
+    ]
+  },
+  "mnrNNp": {
+    "translation": "",
+    "message": "This is the token that you can deposit into the savings contract.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        105
+      ]
+    ]
+  },
+  "oW3yYY": {
+    "translation": "",
+    "message": "This month",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/PortfolioTableRow/index.tsx",
+        123
+      ],
+      [
+        "src/components/PortfolioTableRow/index.tsx",
+        126
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        99
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        102
+      ]
+    ]
+  },
+  "Yr8/YG": {
+    "translation": "",
+    "message": "This project is in beta. Use at your own risk",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/App.tsx",
+        137
+      ]
+    ]
+  },
+  "TP9/K5": {
+    "translation": "",
+    "message": "Token",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Withdraw/index.tsx",
+        142
+      ],
+      [
+        "src/pages/gd/Stake/index.tsx",
+        65
+      ],
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        104
+      ]
+    ]
+  },
+  "ETkk6Z": {
+    "translation": "",
+    "message": "TOKEN",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        52
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        213
+      ]
+    ]
+  },
+  "3xcyNB": {
+    "translation": "",
+    "message": "Total amount on value staked.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        222
+      ]
+    ]
+  },
+  "W3iWgj": {
+    "translation": "",
+    "message": "Total currently saved.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        125
+      ]
+    ]
+  },
+  "qmYDVk": {
+    "translation": "",
+    "message": "Total Rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/index.tsx",
+        85
+      ]
+    ]
+  },
+  "q71w+b": {
+    "translation": "",
+    "message": "Total rewards claimed.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        130
+      ]
+    ]
+  },
+  "0MKTgp": {
+    "translation": "",
+    "message": "Total Rewards Paid",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        129
+      ]
+    ]
+  },
+  "3UPDSj": {
+    "translation": "",
+    "message": "Total stake",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Withdraw/index.tsx",
+        150
+      ]
+    ]
+  },
+  "KWcdtZ": {
+    "translation": "",
+    "message": "Total Staked",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        124
+      ]
+    ]
+  },
+  "T9SU2H": {
+    "translation": "",
+    "message": "Transaction deadline",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapSettings/index.tsx",
+        153
+      ]
+    ]
+  },
+  "wuPwM2": {
+    "translation": "",
+    "message": "Transaction settings",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapSettings/index.tsx",
+        77
+      ]
+    ]
+  },
+  "RSb2E9": {
+    "translation": "",
+    "message": "Transaction Submitted",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/TransactionConfirmationModal/index.tsx",
+        89
+      ],
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        271
+      ]
+    ]
+  },
+  "YBSaW6": {
+    "translation": "",
+    "message": "Transaction was sent to the blockchain",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        127
+      ],
+      [
+        "src/components/Withdraw/index.tsx",
+        191
+      ],
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        127
+      ]
+    ]
+  },
+  "WPGxzz": {
+    "translation": "",
+    "message": "TYPE",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/index.tsx",
+        47
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        207
+      ]
+    ]
+  },
+  "PEFqH+": {
+    "translation": "",
+    "message": "Unsupported network",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Web3Network/index.tsx",
+        69
+      ]
+    ]
+  },
+  "sQWzwD": {
+    "translation": "",
+    "message": "View on explorer",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/index.tsx",
+        290
+      ],
+      [
+        "src/components/Popups/TransactionPopup.tsx",
+        46
+      ],
+      [
+        "src/components/TransactionConfirmationModal/index.tsx",
+        93
+      ],
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        280
+      ]
+    ]
+  },
+  "iX/tep": {
+    "translation": "",
+    "message": "View transaction on explorer",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ModalViews/index.tsx",
+        69
+      ]
+    ]
+  },
+  "lKOHg0": {
+    "translation": "",
+    "message": "Voltage is an UNI-V2 Automated Market Maker (AMM)\nthat operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC.\nThe liquidity relies on Liquidity Providers that aggregate paired tokens to a pool.\nPrice impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapCore/index.tsx",
+        246
+      ]
+    ]
+  },
+  "7RETuR": {
+    "translation": "",
+    "message": "Waiting for Confirmation",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        258
+      ]
+    ]
+  },
+  "/gjECX": {
+    "translation": "",
+    "message": "Waiting For Confirmation",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/TransactionConfirmationModal/index.tsx",
+        49
+      ]
+    ]
+  },
+  "sb9Y58": {
+    "translation": "",
+    "message": "Wallet",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideBar.tsx",
+        133
+      ]
+    ]
+  },
+  "JoMQnI": {
+    "translation": "",
+    "message": "Wallet balance",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideBar.tsx",
+        218
+      ]
+    ]
+  },
+  "ZgeDPK": {
+    "translation": "",
+    "message": "We see you don't have {0} added to your wallet. Kindly add the network, and try again.",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/NetworkModal/index.tsx",
+        120
+      ],
+      [
+        "src/components/NetworkModal/index.tsx",
+        169
+      ]
+    ]
+  },
+  "BlLRFM": {
+    "translation": "",
+    "message": "What's an exit contribution?",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapDescriptions/index.tsx",
+        29
+      ]
+    ]
+  },
+  "OsyKSt": {
+    "translation": "",
+    "message": "Withdraw",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/PortfolioTableRow/index.tsx",
+        67
+      ],
+      [
+        "src/components/Withdraw/index.tsx",
+        140
+      ],
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        163
+      ]
+    ]
+  },
+  "S7vTeA": {
+    "translation": "",
+    "message": "WITHDRAW",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Withdraw/index.tsx",
+        177
+      ]
+    ]
+  },
+  "fbJWpG": {
+    "translation": "",
+    "message": "Withdraw as {0}?",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Withdraw/index.tsx",
+        157
+      ]
+    ]
+  },
+  "GA5XaQ": {
+    "translation": "",
+    "message": "Withdraw G$",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsCard/SavingsCardRow/index.tsx",
+        73
+      ],
+      [
+        "src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx",
+        49
+      ]
+    ]
+  },
+  "qSpnX8": {
+    "translation": "",
+    "message": "Withdraw Liquidity",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/PortfolioTableRow/index.tsx",
+        152
+      ]
+    ]
+  },
+  "txQV+A": {
+    "translation": "",
+    "message": "Withdrawing your stake will reset your multiplier.",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Withdraw/index.tsx",
+        171
+      ]
+    ]
+  },
+  "qyo9ZZ": {
+    "translation": "",
+    "message": "Withdrew funds from {0}",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Withdraw/index.tsx",
+        90
+      ]
+    ]
+  },
+  "Q8lcJN": {
+    "translation": "",
+    "message": "You are creating UBI to thousands of people around the world.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        389
+      ]
+    ]
+  },
+  "wUUChg": {
+    "translation": "",
+    "message": "You are currently browsing",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/NetworkModal/index.tsx",
+        136
+      ],
+      [
+        "src/components/NetworkModal/index.tsx",
+        185
+      ]
+    ]
+  },
+  "wMxRHJ": {
+    "translation": "",
+    "message": "You have just staked your G$s towards our GoodDAO,\nthis action is gonna reward you with GOOD governance tokens,\nwhich are non-transferable so can't be traded.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        380
+      ]
+    ]
+  },
+  "BdXvBv": {
+    "translation": "",
+    "message": "You have successfully claimed your rewards",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ClaimRewards/index.tsx",
+        128
+      ],
+      [
+        "src/components/Withdraw/index.tsx",
+        192
+      ],
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        128
+      ]
+    ]
+  },
+  "e3SD2j": {
+    "translation": "",
+    "message": "You just used your crypto for good to help fund crypto UBI for all with GoodDollar!",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        297
+      ]
+    ]
+  },
+  "NWZccY": {
+    "translation": "",
+    "message": "You need to sign the transaction in your wallet",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/WithdrawRewards/index.tsx",
+        115
+      ],
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        421
+      ]
+    ]
+  },
+  "vDI6pK": {
+    "translation": "",
+    "message": "You Will Receive:",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Liquidity/RemoveLiquidityReceiveDetails.tsx",
+        39
+      ]
+    ]
+  },
+  "85qztN": {
+    "translation": "",
+    "message": "Your {type} transaction has been confirmed!",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Savings/SavingsModal/index.tsx",
+        294
+      ]
+    ]
+  },
+  "Pta62A": {
+    "translation": "",
+    "message": "Your current network.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        115
+      ]
+    ]
+  },
+  "WQywc/": {
+    "translation": "",
+    "message": "Your current savings balance.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/Savings/index.tsx",
+        110
+      ]
+    ]
+  },
+  "EVdk17": {
+    "translation": "",
+    "message": "Your Pool Share",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Liquidity/AdvancedLiquidityDetails.tsx",
+        26
+      ]
+    ]
+  },
+  "Y1X1wV": {
+    "translation": "",
+    "message": "Your Pool Tokens",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Liquidity/AdvancedLiquidityDetails.tsx",
+        15
+      ]
+    ]
+  },
+  "wkXhj/": {
+    "translation": "",
+    "message": "Your social contribution from:",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Portfolio/index.tsx",
+        324
+      ]
+    ]
+  },
+  "ccljxg": {
+    "translation": "",
+    "message": "Your staking transaction which will generate UBI for thousands of people around\nthe world has just been broadcasted to the network.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Stake/StakeDeposit/index.tsx",
+        387
+      ]
+    ]
+  },
+  "q038gv": {
+    "translation": "",
+    "message": "Your transaction may be frontrun",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapSettings/index.tsx",
+        149
+      ]
+    ]
+  },
+  "O0eo+g": {
+    "translation": "",
+    "message": "Your transaction may fail",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapSettings/index.tsx",
+        148
+      ]
+    ]
+  },
+  "jnDJgO": {
+    "translation": "",
+    "message": "Your transaction will revert if it is pending for more than this time.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapSettings/index.tsx",
+        155
+      ]
+    ]
+  },
+  "gXdBQ2": {
+    "translation": "",
+    "message": "Your transaction will revert if the price changes unfavorably by more than this percentage.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapSettings/index.tsx",
+        83
+      ]
+    ]
+  },
+  "OwcmTl": {
+    "translation": "",
+    "message": "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.",
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        208
+      ],
+      [
+        "src/pages/gd/Swap/SwapConfirmModal/index.tsx",
+        215
+      ],
+      [
+        "src/pages/gd/Swap/SwapDetails/index.tsx",
+        49
+      ]
+    ]
+  },
+  "8663Dz": {
+    "translation": "",
+    "message": "Your transactions will appear here...",
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AccountDetails/index.tsx",
+        313
+      ]
+    ]
+  }
 }

@@ -1,0 +1,3453 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-05-31 12:45+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/components/AppBar.tsx:202
+#: src/components/Savings/SavingsCard/index.tsx:48
+msgid ""
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/pages/gd/Portfolio/index.tsx:399
+msgid "Stake Positions"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/pages/gd/Portfolio/index.tsx:452
+msgid "Savings"
+msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "(COMING SOON) Accrue automatic yield through flash loans and\n"
+#~ "SUSHI strategies"
+#~ msgstr ""
+#~ "（即将推出）通过闪电贷和\n"
+#~ "SUSHI策略累积自动获取收益"
+
+#. js-lingui-explicit-id
+#~ msgid "(View on explorer)"
+#~ msgstr "（在探险家上查看）"
+
+#. js-lingui-explicit-id
+#~ msgid "+ Add a send (optional)"
+#~ msgstr "+添加发送（可选）"
+
+#. js-lingui-explicit-id
+#~ msgid "+ Create a new market"
+#~ msgstr "创建新的市场"
+
+#. js-lingui-explicit-id
+#~ msgid "- Remove send"
+#~ msgstr "-删除发送"
+
+#. js-lingui-explicit-id
+#~ msgid "300M+ TVL on Polygon! Optimized routing enabled"
+#~ msgstr "Polygon上的300M+ TVL!启用优化的路由"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> In order to start earning rewards, you will need to first acquire some SLP by adding liquidity to the specified pair or <1>migrating existing liquidity.</1> Once you have SLP you can stake it into this yield farm to start earning rewards. Unstake anytime and then you can convert your SLP back to base tokens by clicking Remove Liquidity. Click Harvest to receive your rewards at any time."
+#~ msgstr "<0>提示： </0>为了开始获得奖励，您需要首先通过向指定代币对添加流动性或<1>迁移现有流动性来获取一些SLP。 </1>拥有SLP后，您可以将其抵押到此挖矿页面中开始挖矿。随时可以借出质押停止挖矿，通过单击“移除流动性”将SLP转换回基本代币。单击“收获”可随时获得奖励。"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> Removing pool tokens converts your position back into underlying tokens at the current rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive."
+#~ msgstr "<0>提示：</0>移除流动性池中的代币会按比例以现价将您的持仓转换为相应的代币。手续费收入包括在其中。"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> Use this tool to find pairs that don't automatically appear in the interface"
+#~ msgstr "<0>提示：</0>如果交易对没有自动显示，请使用这个工具。"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Tip:</0> When you add liquidity, you will receive pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time."
+#~ msgstr "<0>提示：</0>当您添加流动性的时候，您将收到代表您所提供流动性的持仓代币SLP。这些代币会自动收取手续费收入，随时可以取出。"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>Your</0> Positions"
+#~ msgstr "<0>您的</0>仓位"
+
+#. js-lingui-explicit-id
+#~ msgid "<0>{0}:</0> {1}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "A contribution to the reserve paid by members for directly selling G$ tokens."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive."
+#~ msgstr "每笔交易的0.25%都会分给协议的流动性提供者。"
+
+#. js-lingui-explicit-id
+#~ msgid "APPROVE"
+#~ msgstr "批准"
+
+#. js-lingui-explicit-id
+#~ msgid "APPROVED"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "APPROVING"
+#~ msgstr "批准"
+
+#. js-lingui-explicit-id
+#~ msgid "APR"
+#~ msgstr "APR"
+
+#. js-lingui-explicit-id
+#~ msgid "APR (incl. Fees)"
+#~ msgstr "APR(包括费用)"
+
+#. js-lingui-explicit-id
+#~ msgid "APY"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "APY (incl. Fees)"
+#~ msgstr "APY(含费用)"
+
+#. js-lingui-explicit-id
+#~ msgid "Accept"
+#~ msgstr "接受"
+
+#. js-lingui-explicit-id
+#~ msgid "Accept update"
+#~ msgstr "接受更新"
+
+#. js-lingui-explicit-id
+#~ msgid "Account"
+#~ msgstr "帐户"
+
+#. js-lingui-explicit-id
+#~ msgid "Active"
+#~ msgstr "积极的"
+
+#. js-lingui-explicit-id
+#~ msgid "Add"
+#~ msgstr "添加"
+
+#. js-lingui-explicit-id
+#~ msgid "Add Liquidity"
+#~ msgstr "添加流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "Add SAK3 to your Metamask wallet"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Add Sushi to your Metamask wallet"
+#~ msgstr "将Sushi添加到您的Metamask钱包"
+
+#. js-lingui-explicit-id
+#~ msgid "Add collateral in order to borrow assets"
+#~ msgstr "添加抵押品以借出资产"
+
+#. js-lingui-explicit-id
+#~ msgid "Add liquidity"
+#~ msgstr "添加流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "Add xSushi to your Metamask wallet"
+#~ msgstr "将xSushi添加到您的Metamask钱包中"
+
+#. js-lingui-explicit-id
+#~ msgid "All Yield Farms"
+#~ msgstr "所有屈服农场"
+
+#. js-lingui-explicit-id
+#~ msgid "Amount"
+#~ msgstr "数量"
+
+#. js-lingui-explicit-id
+#~ msgid "Amount of Tokens"
+#~ msgstr "代币数量"
+
+#. js-lingui-explicit-id
+#~ msgid "Amount to Remove"
+#~ msgstr "删除金额"
+
+#. js-lingui-explicit-id
+#~ msgid "An update is available for the token list"
+#~ msgstr "令牌列表可用更新"
+
+#. js-lingui-explicit-id
+#~ msgid "Analytics"
+#~ msgstr "分析界面"
+
+#. js-lingui-explicit-id
+#~ msgid "Annual Percentage Yield (APY) is the percentage yield being earned."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Anyone can create a token, including creating fake versions of existing tokens that claim to represent projects."
+#~ msgstr "任何人都可以创建一个令牌，包括创建一个索赔的现有令牌的假版本代表项目。"
+
+#. js-lingui-explicit-id
+#~ msgid "Approve"
+#~ msgstr "批准"
+
+#. js-lingui-explicit-id
+#~ msgid "Approve Kashi"
+#~ msgstr "批准Kashi"
+
+#. js-lingui-explicit-id
+#~ msgid "Approve {0}"
+#~ msgstr "批准{0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Approved"
+#~ msgstr "已批准"
+
+#. js-lingui-explicit-id
+#~ msgid "Approving"
+#~ msgstr "批准中"
+
+#. js-lingui-explicit-id
+#~ msgid "Approving {0}"
+#~ msgstr "批准{0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Are you sure?"
+#~ msgstr "您确定吗？"
+
+#. js-lingui-explicit-id
+#~ msgid "Available"
+#~ msgstr "可用的"
+
+#. js-lingui-explicit-id
+#~ msgid "Awesome!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Back"
+#~ msgstr "后退"
+
+#. js-lingui-explicit-id
+#~ msgid "Back to portfolio"
+#~ msgstr "回到投资组合"
+
+#. js-lingui-explicit-id
+#~ msgid "Balance"
+#~ msgstr "余额"
+
+#. js-lingui-explicit-id
+#~ msgid "Bento Balance: {0}"
+#~ msgstr "Bento余额： {0}"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox"
+#~ msgstr "BentoBox"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox Apps"
+#~ msgstr "BentoBox应用"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox is an innovative way to use dapps gas-efficiently and gain extra yield."
+#~ msgstr "BentoBox可以实现用很低的gas费用体验高收益的dapp。"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox provides extra yield on deposits with flash lending, strategies, and fixed, low-gas transfers among integrated dapps, like Kashi markets"
+#~ msgstr "BentoBox通过在集成的dapp中使用闪电贷、策略以及固定和低Gas的转账，来提供额外收益"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox strategies can create yield for your collateral tokens. This token does not yet have a strategy in the BentoBox."
+#~ msgstr "BentoBox策略可以为您的抵押代币创造收益。这个代币暂时在BentoBox中没有策略。"
+
+#. js-lingui-explicit-id
+#~ msgid "BentoBox strategies can create yield for your liquidity while it is not lent out. This token does not yet have a strategy in the BentoBox."
+#~ msgstr "BentoBox策略可以为您的流动性在不借出的情况下创造收益。这个代币暂时在BentoBox中没有策略。"
+
+#. js-lingui-explicit-id
+#~ msgid "Blocked address"
+#~ msgstr "被封锁的地址"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow"
+#~ msgstr "借"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow APR"
+#~ msgstr "贷款APR"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow assets and leverage up"
+#~ msgstr "借入资产并提高杠杆率"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow {0}"
+#~ msgstr "借款 {0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrow {0}-{1}"
+#~ msgstr "借款{0}-{1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrowed"
+#~ msgstr "已借入"
+
+#. js-lingui-explicit-id
+#~ msgid "Borrowing allows you to obtain liquidity without selling. Your borrow limit depends on the amount of deposited collateral. You will be able to borrow up to 75% of your collateral and repay at any time with accrued interest."
+#~ msgstr "借款让您在不出售资产的情况下获得流动性。您的借款上限取决于您抵押物的价值。您可以借出您抵押品价值的75%，随时可以还款，并附上利息。"
+
+#. js-lingui-explicit-id
+#~ msgid "Bridge Assets"
+#~ msgstr "桥接资产"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "By adding liquidity you'll earn 0.25% of all trades on this pair proportional to your share\n"
+#~ "of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing\n"
+#~ "your liquidity."
+#~ msgstr "通过添加流动性，您可以按比例收取所有交易的0.25%作为手续费。手续费直接实时添加进池子里，通过撤出流动性时获得。"
+
+#. js-lingui-explicit-id
+#~ msgid "By adding this list you are implicitly trusting that the data is correct. Anyone can create a list, including creating fake versions of existing lists and lists that claim to represent projects that do not have one."
+#~ msgstr "通过添加此列表，您隐式信任数据是正确的。 任何人都可以创建一个列表，包括创建虚假版本的现有列表和列表，该列表声称代表没有一个的项目。"
+
+#. js-lingui-explicit-id
+#~ msgid "Bypasses confirmation modals and allows high slippage trades. Use at your own risk."
+#~ msgstr "跳过确认、接受交易高滑点。使用时风险自担。"
+
+#. js-lingui-explicit-id
+#~ msgid "CLAIMABLE REWARDS"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "CONFIRM SWAP"
+#~ msgstr "确认交换"
+
+#. js-lingui-explicit-id
+#~ msgid "Change"
+#~ msgstr "改变"
+
+#. js-lingui-explicit-id
+#~ msgid "Check out Sushi on Polygon (Matic)"
+#~ msgstr "在Polygon（Matic）上查看Sushi"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim"
+#~ msgstr "获取"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim All"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim G$ rewards"
+#~ msgstr "索赔g $奖励"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim GOOD"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim GOOD rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim SUSHI"
+#~ msgstr "获取SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Claim UBI"
+#~ msgstr "索赔UBI."
+
+#. js-lingui-explicit-id
+#~ msgid "Claim reward"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claim your test tokens here..."
+#~ msgstr "在这里介绍你的测试令牌......"
+
+#. js-lingui-explicit-id
+#~ msgid "Claimable"
+#~ msgstr "4."
+
+#. js-lingui-explicit-id
+#~ msgid "Claimable Rewards"
+#~ msgstr "索赔奖励"
+
+#. js-lingui-explicit-id
+#~ msgid "Claimed"
+#~ msgstr "已获取"
+
+#. js-lingui-explicit-id
+#~ msgid "Claimed G$ Rewards"
+#~ msgstr "声称g $奖励"
+
+#. js-lingui-explicit-id
+#~ msgid "Claimed GOOD Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claiming the following rewards:"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claiming your rewards will reset your multiplier"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Claiming your rewards will reset your multiplier."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Clear History"
+#~ msgstr "清除历史"
+
+#. js-lingui-explicit-id
+#~ msgid "Clear all"
+#~ msgstr "清除所有"
+
+#. js-lingui-explicit-id
+#~ msgid "Click here to switch to Polygon using Metamask"
+#~ msgstr "点击这里，使用Metamask切换到Polygon。"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Click on a pool below, input the amount you wish to migrate or select max, and click\n"
+#~ "migrate"
+#~ msgstr "点击下面的一个池子，输入您想迁移的数量或选择最大，然后点击/nmigrate"
+
+#. js-lingui-explicit-id
+#~ msgid "Click this button to Claim your Daily UBI in"
+#~ msgstr "单击此按钮可供您在每日UBI"
+
+#. js-lingui-explicit-id
+#~ msgid "Click this button to Claim your Daily UBI in G$"
+#~ msgstr "单击此按钮可介绍每日UBI以$"
+
+#. js-lingui-explicit-id
+#~ msgid "Close"
+#~ msgstr "关闭"
+
+#. js-lingui-explicit-id
+#~ msgid "Collateral"
+#~ msgstr "抵押品"
+
+#. js-lingui-explicit-id
+#~ msgid "Collect G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Common bases"
+#~ msgstr "共同的基础"
+
+#. js-lingui-explicit-id
+#~ msgid "Community Approval"
+#~ msgstr "社区批准"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm"
+#~ msgstr "确认"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Adding Liquidity"
+#~ msgstr "确认添加流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Staking"
+#~ msgstr "确认质押"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Supply"
+#~ msgstr "确认供应"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Swap"
+#~ msgstr "确认交换"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm Withdrawal"
+#~ msgstr "确认提取"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm swap"
+#~ msgstr "确认交换"
+
+#. js-lingui-explicit-id
+#~ msgid "Confirm this transaction in your wallet"
+#~ msgstr "在钱包中确认此事务"
+
+#. js-lingui-explicit-id
+#~ msgid "Congratulations!"
+#~ msgstr "祝贺！"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect Wallet"
+#~ msgstr "连接钱包"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect a wallet to see your portfolio"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Connect to a wallet"
+#~ msgstr "连接钱包"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect to a wallet to find pools"
+#~ msgstr "连接钱包以查找池"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect to a wallet to view your liquidity"
+#~ msgstr "连接钱包以查看您的流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "Connect wallet"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Connected with"
+#~ msgstr "与"
+
+#. js-lingui-explicit-id
+#~ msgid "Copied"
+#~ msgstr "已复制"
+
+#. js-lingui-explicit-id
+#~ msgid "Copy address"
+#~ msgstr "复制地址"
+
+#. js-lingui-explicit-id
+#~ msgid "Create Pool & Supply"
+#~ msgstr "创建池和供应"
+
+#. js-lingui-explicit-id
+#~ msgid "Create a Pair"
+#~ msgstr "创建池"
+
+#. js-lingui-explicit-id
+#~ msgid "Create a pair"
+#~ msgstr "创建交易对"
+
+#. js-lingui-explicit-id
+#~ msgid "Create pool"
+#~ msgstr "创建池"
+
+#. js-lingui-explicit-id
+#~ msgid "Current Rate"
+#~ msgstr "当前利率"
+
+#. js-lingui-explicit-id
+#~ msgid "DEPOSIT"
+#~ msgstr "订金"
+
+#. js-lingui-explicit-id
+#~ msgid "Dashboard"
+#~ msgstr "仪表盘"
+
+#. js-lingui-explicit-id
+#~ msgid "Date"
+#~ msgstr "日期"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit"
+#~ msgstr "存款"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit SUSHI into BentoBox"
+#~ msgstr "将SUSHI存入BentoBox"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit overview"
+#~ msgstr "存款概述"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposit tokens into BentoBox for all the yields"
+#~ msgstr "将代币存入BentoBox，以获得所有收益。"
+
+#. js-lingui-explicit-id
+#~ msgid "Deposited"
+#~ msgstr "已存入"
+
+#. js-lingui-explicit-id
+#~ msgid "Dev"
+#~ msgstr "开发人员"
+
+#. js-lingui-explicit-id
+#~ msgid "Did you just create UBI for thousands of people around the world?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Disable Multihops"
+#~ msgstr "禁用Multihops"
+
+#. js-lingui-explicit-id
+#~ msgid "Disconnect"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Discontinued"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Discord"
+#~ msgstr "Discord"
+
+#. js-lingui-explicit-id
+#~ msgid "Dismiss"
+#~ msgstr "解散"
+
+#. js-lingui-explicit-id
+#~ msgid "Docs"
+#~ msgstr "文档"
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for developers"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for developers of Sushi."
+#~ msgstr "Sushi开发文档。"
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for users"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Documentation for users of Sushi."
+#~ msgstr "Sushi用户文档。"
+
+#. js-lingui-explicit-id
+#~ msgid "Don't see a pool you joined? <0>Import it.</0>"
+#~ msgstr "看不到您加入的池吗？ <0>导入它。 </0>"
+
+#. js-lingui-explicit-id
+#~ msgid "Dont see a pool you joined?"
+#~ msgstr "没有看到您加入的池子吗？"
+
+#. js-lingui-explicit-id
+#~ msgid "Double Yield Farms"
+#~ msgstr "双产农场"
+
+#. js-lingui-explicit-id
+#~ msgid "ETHEREUM"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Enjoy the lowest slippage on Polygon"
+#~ msgstr "在Polygon上享受最低的滑点"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter"
+#~ msgstr "进入"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter Amount"
+#~ msgstr "输入金额"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter a recipient"
+#~ msgstr "输入接收人"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter a valid slippage percentage"
+#~ msgstr "输入有效的滑点百分比"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter an amount"
+#~ msgstr "输入金额"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter valid list location"
+#~ msgstr "输入有效列表位置"
+
+#. js-lingui-explicit-id
+#~ msgid "Enter valid token address"
+#~ msgstr "输入有效的令牌地址"
+
+#. js-lingui-explicit-id
+#~ msgid "Error"
+#~ msgstr "错误"
+
+#. js-lingui-explicit-id
+#~ msgid "Error connecting"
+#~ msgstr "连接时出错"
+
+#. js-lingui-explicit-id
+#~ msgid "Error connecting."
+#~ msgstr "连接错误。"
+
+#. js-lingui-explicit-id
+#~ msgid "Error connecting. Try refreshing the page."
+#~ msgstr "连接错误。 尝试刷新页面。"
+
+#. js-lingui-explicit-id
+#~ msgid "Error importing list"
+#~ msgstr "导入列表时出错"
+
+#. js-lingui-explicit-id
+#~ msgid "Expanded results from inactive Token Lists"
+#~ msgstr "从非活动令牌列表扩展结果"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Expert mode turns off the confirm transaction prompt and allows high slippage trades\n"
+#~ "that often result in bad rates and lost funds."
+#~ msgstr "专家模式关闭确认交易弹出、允许高交易滑点经常会导致不好的价格和资金的丢失。"
+
+#. js-lingui-explicit-id
+#~ msgid "FUSE"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Fetching Farms"
+#~ msgstr "救援农场"
+
+#. js-lingui-explicit-id
+#~ msgid "Fetching Instruments"
+#~ msgstr "提取工具"
+
+#. js-lingui-explicit-id
+#~ msgid "Find Pool"
+#~ msgstr "查找池"
+
+#. js-lingui-explicit-id
+#~ msgid "Fixed Apy"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "For every swap on the exchange on every chain, 0.05% of the swap fees are distributed as SUSHI\n"
+#~ "proportional to your share of the SushiBar. When your SUSHI is staked into the SushiBar, you receive\n"
+#~ "xSUSHI in return for voting rights and a fully composable token that can interact with other protocols.\n"
+#~ "Your xSUSHI is continuously compounding, when you unstake you will receive all the originally deposited\n"
+#~ "SUSHI and any additional from fees."
+#~ msgstr "每条链上每笔交易手续费的0.05%都分给SushiBar（以SUSHI的形式）。当您的SUSHI质押在SushiBar的时候，您将会收到xSUSHI，它有治理权及可以与其它协议交互。xSUSHI可持续复利，当您解除质押时，您将收到质押时的SUSHI及手续费。"
+
+#. js-lingui-explicit-id
+#~ msgid "From"
+#~ msgstr "从"
+
+#. js-lingui-explicit-id
+#~ msgid "From (estimated)"
+#~ msgstr "从 （估计）"
+
+#. js-lingui-explicit-id
+#~ msgid "Fuse Bridge"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GDX"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the\n"
+#~ "contribution exit."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GOO"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GOOD"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GOOD Airdrop"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Gain exposure to tokens without reducing your assets. Leverage will enable you to take short positions against assets and earn from downside movements."
+#~ msgstr "在不减少资产的情况下获得代币的敞口。杠杆将使您能够对资产做空，并从下跌趋势中获利。"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Gain governance rights with xSUSHI and earn 5% APR (0.05% of\n"
+#~ "all swaps from all chains)"
+#~ msgstr "通过xSUSHI获得治理权，并获得5%的年利率（来自所有链上交易手续费的0.05%）"
+
+#. js-lingui-explicit-id
+#~ msgid "Go Back"
+#~ msgstr "回去"
+
+#. js-lingui-explicit-id
+#~ msgid "Go to Portfolio"
+#~ msgstr "去投资组合"
+
+#. js-lingui-explicit-id
+#~ msgid "Good Airdrop"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDAO"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDAO Staking"
+#~ msgstr "GoodDAO Staking"
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDollar"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodDollar is a supporter of open source"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "GoodStakes"
+#~ msgstr "GoodStakes"
+
+#. js-lingui-explicit-id
+#~ msgid "Hardware Wallet"
+#~ msgstr "硬件钱包"
+
+#. js-lingui-explicit-id
+#~ msgid "Harvest {0} SUSHI"
+#~ msgstr "收获{0}SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Harvest {0} SUSHI & {1} ALCX"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Harvest {0} SUSHI & {1} MATIC"
+#~ msgstr "收获{0} SUSHI和{1} MATIC"
+
+#. js-lingui-explicit-id
+#~ msgid "Have Liquidity on {0}?"
+#~ msgstr "{0}有流动性吗？"
+
+#. js-lingui-explicit-id
+#~ msgid "Have assets you want to earn additional interest on? Lend them in isolated markets and earn interest from borrowers. It's as easy as deposit and withdraw whenever you want."
+#~ msgstr "您有想赚取额外利息的资产吗？把它们借给孤立的市场，从借款人那里赚取利息。这就像存款一样简单，随时取款。"
+
+#. js-lingui-explicit-id
+#~ msgid "Health"
+#~ msgstr "健康值"
+
+#. js-lingui-explicit-id
+#~ msgid "Helpful Sushi Tools"
+#~ msgstr "有用的Sushi工具"
+
+#. js-lingui-explicit-id
+#~ msgid "Historical Total Locked: Connect Wallet"
+#~ msgstr "锁仓的总数：连接钱包"
+
+#. js-lingui-explicit-id
+#~ msgid "Historical Total Locked: Fetching Total"
+#~ msgstr "锁仓的总数：获取总数"
+
+#. js-lingui-explicit-id
+#~ msgid "Historical Total Locked: {0} SUSHI"
+#~ msgstr "锁仓的总数：{0}SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Holding"
+#~ msgstr "保持"
+
+#. js-lingui-explicit-id
+#~ msgid "How many GOOD tokens you are accumulating by this stake position."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much rewards would you like to donate"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much tokens your deposits have accumulated so far."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "How much value your stake has accumulated so far."
+#~ msgstr "到目前为止，您的股权累计有多大价值。"
+
+#. js-lingui-explicit-id
+#~ msgid "How much would you like to deposit?"
+#~ msgstr "你想存入多少钱？"
+
+#. js-lingui-explicit-id
+#~ msgid "How much would you like to withdraw?"
+#~ msgstr "你想退出多少钱？"
+
+#. js-lingui-explicit-id
+#~ msgid "I understand"
+#~ msgstr "我明白"
+
+#. js-lingui-explicit-id
+#~ msgid "If you purchase a token from this list, you may not be able to sell it back."
+#~ msgstr "如果您从此列表中购买令牌，您可能无法销售它。"
+
+#. js-lingui-explicit-id
+#~ msgid "If you purchase this token, you may not be able to sell it back."
+#~ msgstr "如果您购买此令牌，您可能无法销售它。"
+
+#. js-lingui-explicit-id
+#~ msgid "Import"
+#~ msgstr "进口"
+
+#. js-lingui-explicit-id
+#~ msgid "Import List"
+#~ msgstr "导入列表"
+
+#. js-lingui-explicit-id
+#~ msgid "Import Pool"
+#~ msgstr "导入流动性池"
+
+#. js-lingui-explicit-id
+#~ msgid "Import at your own risk"
+#~ msgstr "以自己的风险进口"
+
+#. js-lingui-explicit-id
+#~ msgid "Import it"
+#~ msgstr "导入"
+
+#. js-lingui-explicit-id
+#~ msgid "Initializing..."
+#~ msgstr "初始化......"
+
+#. js-lingui-explicit-id
+#~ msgid "Input is estimated. You will sell at most"
+#~ msgstr "输入估计。 你最多卖"
+
+#. js-lingui-explicit-id
+#~ msgid "Input is estimated. You will sell at most <0>{0} {1}</0> or the transaction will revert."
+#~ msgstr "输入是估计的。您将最多卖出<0>{0}{1}</0>，否则交易将被退回。"
+
+#. js-lingui-explicit-id
+#~ msgid "Instruments"
+#~ msgstr "工具"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient Balance"
+#~ msgstr "余额不足"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient WETH balance"
+#~ msgstr "WETH余额不足"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient liquidity for this trade"
+#~ msgstr "该交易的流动性不足"
+
+#. js-lingui-explicit-id
+#~ msgid "Insufficient {0} balance"
+#~ msgstr "代币{0}余额不足"
+
+#. js-lingui-explicit-id
+#~ msgid "Interface Settings"
+#~ msgstr "交互设置"
+
+#. js-lingui-explicit-id
+#~ msgid "Invalid pair"
+#~ msgstr "无效的代币对"
+
+#. js-lingui-explicit-id
+#~ msgid "Invalid recipient"
+#~ msgstr "无效接收人"
+
+#. js-lingui-explicit-id
+#~ msgid "Isolated lending markets mitigate your risks as an asset lender. Know exactly what collateral is available to you in the event of counter party insolvency."
+#~ msgstr "孤立借贷市场降低您作为资产提供人的风险。在对手方破产时确切知道对方的抵押品。"
+
+#. js-lingui-explicit-id
+#~ msgid "Join the community of discord"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Join the community on Discord."
+#~ msgstr "加入Discord社区。"
+
+#. js-lingui-explicit-id
+#~ msgid "Kashi Lending"
+#~ msgstr "Kashi借贷"
+
+#. js-lingui-explicit-id
+#~ msgid "Keys Burned: 2022.03.04 at 22:05"
+#~ msgstr "烧毁的私钥: 2022.03.04 22:05"
+
+#. js-lingui-explicit-id
+#~ msgid "Learn More"
+#~ msgstr "了解更多"
+
+#. js-lingui-explicit-id
+#~ msgid "Learn more about wallets"
+#~ msgstr "了解有关钱包的更多信息"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend"
+#~ msgstr "借贷"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend assets for interest from borrowers."
+#~ msgstr "向借款人收取的利息"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend your assets, earn yield with no impermanent loss"
+#~ msgstr "借出您的资产，赚取收益无无常损失"
+
+#. js-lingui-explicit-id
+#~ msgid "Lend {assetSymbol}"
+#~ msgstr "借出{assetSymbol}"
+
+#. js-lingui-explicit-id
+#~ msgid "Lending"
+#~ msgstr "借贷"
+
+#. js-lingui-explicit-id
+#~ msgid "Lending Yield Farms"
+#~ msgstr "贷款屈服农场"
+
+#. js-lingui-explicit-id
+#~ msgid "Lent"
+#~ msgstr "借出"
+
+#. js-lingui-explicit-id
+#~ msgid "Limit <0>Used</0>"
+#~ msgstr "限制<0>使用</0>"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity"
+#~ msgstr "流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Positions"
+#~ msgstr "LP"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Provider Fee"
+#~ msgstr "LP奖励"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Provider Rewards"
+#~ msgstr "LP奖励"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity Yield Farms"
+#~ msgstr "流动性屈服农场"
+
+#. js-lingui-explicit-id
+#~ msgid "Liquidity is the total value staked in the GoodDollar Trust staking contract (USD)."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Liquidity providers earn a 0.25% fee on all trades proportional to their share of\n"
+#~ "the pool. Fees are added to the pool, accrue in real time and can be claimed by\n"
+#~ "withdrawing your liquidity"
+#~ msgstr "流动性提供者(LP)可按比例收取流动性池中交易额的0.25%作为手续费收入。手续费收入将被直接实时添加至流动性池，在撤出流动性时可收取。"
+
+#. js-lingui-explicit-id
+#~ msgid "Lists"
+#~ msgstr "清单"
+
+#. js-lingui-explicit-id
+#~ msgid "Loaded"
+#~ msgstr "装了"
+
+#. js-lingui-explicit-id
+#~ msgid "Loading"
+#~ msgstr "载入中"
+
+#. js-lingui-explicit-id
+#~ msgid "Loading your {exchange} liquidity positions"
+#~ msgstr "正在加载您的{exchange}您的流动性仓位"
+
+#. js-lingui-explicit-id
+#~ msgid "Loading..."
+#~ msgstr "载入中..."
+
+#. js-lingui-explicit-id
+#~ msgid "Loan to Value"
+#~ msgstr "贷款价值比（LTV)"
+
+#. js-lingui-explicit-id
+#~ msgid "MAX"
+#~ msgstr "最大数量"
+
+#. js-lingui-explicit-id
+#~ msgid "MULTIPLIER"
+#~ msgstr "乘数"
+
+#. js-lingui-explicit-id
+#~ msgid "Make the most of your"
+#~ msgstr "充分利用你的"
+
+#. js-lingui-explicit-id
+#~ msgid "Manage"
+#~ msgstr "管理"
+
+#. js-lingui-explicit-id
+#~ msgid "Manage Liquidity in Rewards Pool"
+#~ msgstr "管理奖励池中的流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "Manage this pool"
+#~ msgstr "管理这个池子"
+
+#. js-lingui-explicit-id
+#~ msgid "Market Info"
+#~ msgstr "市场信息"
+
+#. js-lingui-explicit-id
+#~ msgid "Market Staked"
+#~ msgstr "总质押量"
+
+#. js-lingui-explicit-id
+#~ msgid "Markets"
+#~ msgstr "市场"
+
+#. js-lingui-explicit-id
+#~ msgid "Max"
+#~ msgstr "最大数量"
+
+#. js-lingui-explicit-id
+#~ msgid "Maximize yield by staking SUSHI for xSUSHI"
+#~ msgstr "将SUSHI质押成xSUSHI最大化收益"
+
+#. js-lingui-explicit-id
+#~ msgid "Maximum sold"
+#~ msgstr "最大可出售"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate"
+#~ msgstr "迁移"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate Now"
+#~ msgstr "立即迁移"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate Now."
+#~ msgstr "现在迁移。"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrate {exchange} Liquidity"
+#~ msgstr "迁移{exchange}流动资金"
+
+#. js-lingui-explicit-id
+#~ msgid "Migrating"
+#~ msgstr "正在迁移"
+
+#. js-lingui-explicit-id
+#~ msgid "Migration is done in one-click using your signature (permit)"
+#~ msgstr "使用您的签名(许可证)，一键完成迁移"
+
+#. js-lingui-explicit-id
+#~ msgid "Minimum received"
+#~ msgstr "最少可获得的数量"
+
+#. js-lingui-explicit-id
+#~ msgid "Miso"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Missed the Auction?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Multichain Bridge"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "My Stake"
+#~ msgstr "我的股份"
+
+#. js-lingui-explicit-id
+#~ msgid "NETWORK"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Network"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Network Fee"
+#~ msgstr "网络费用"
+
+#. js-lingui-explicit-id
+#~ msgid "New"
+#~ msgstr "新的"
+
+#. js-lingui-explicit-id
+#~ msgid "New network, new features"
+#~ msgstr "新网络，新功能"
+
+#. js-lingui-explicit-id
+#~ msgid "New to Ethereum?"
+#~ msgstr "以外的新人？"
+
+#. js-lingui-explicit-id
+#~ msgid "Next month:"
+#~ msgstr "下个月："
+
+#. js-lingui-explicit-id
+#~ msgid "No LP tokens found"
+#~ msgstr "没有找到LP令牌"
+
+#. js-lingui-explicit-id
+#~ msgid "No Liquidity found"
+#~ msgstr "没有发现流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "No Results"
+#~ msgstr "未找到结果"
+
+#. js-lingui-explicit-id
+#~ msgid "No Results."
+#~ msgstr "没有结果。"
+
+#. js-lingui-explicit-id
+#~ msgid "No data."
+#~ msgstr "没有数据。"
+
+#. js-lingui-explicit-id
+#~ msgid "No liquidity found"
+#~ msgstr "没有发现流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "No liquidity found to do swap"
+#~ msgstr "该交换没有流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "No liquidity positions found"
+#~ msgstr "没有发现流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "No pool found"
+#~ msgstr "未找到池"
+
+#. js-lingui-explicit-id
+#~ msgid "No results found"
+#~ msgstr "未找到结果"
+
+#. js-lingui-explicit-id
+#~ msgid "Non-hardware Wallet"
+#~ msgstr "非硬件钱包"
+
+#. js-lingui-explicit-id
+#~ msgid "None"
+#~ msgstr "无"
+
+#. js-lingui-explicit-id
+#~ msgid "OFF"
+#~ msgstr "离开"
+
+#. js-lingui-explicit-id
+#~ msgid "ON"
+#~ msgstr "在"
+
+#. js-lingui-explicit-id
+#~ msgid "ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING."
+#~ msgstr "请了解您在做什么之后再选择该模式。"
+
+#. js-lingui-explicit-id
+#~ msgid "Off"
+#~ msgstr "离开"
+
+#. js-lingui-explicit-id
+#~ msgid "On"
+#~ msgstr "在"
+
+#. js-lingui-explicit-id
+#~ msgid "One click SUSHI → xSUSHI → aXSUSHI"
+#~ msgstr "一键点击SUSHI→xSUSHI→aXSUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
+#~ msgstr "糟糕！出现未知错误。请刷新页面，或从其他浏览器或设备访问"
+
+#. js-lingui-explicit-id
+#~ msgid "Open Source"
+#~ msgstr "开源"
+
+#. js-lingui-explicit-id
+#~ msgid "Open main menu"
+#~ msgstr "打开主菜单"
+
+#. js-lingui-explicit-id
+#~ msgid "Oracle"
+#~ msgstr "预言机"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. If the price changes by more than {0}% your transaction will revert."
+#~ msgstr "估计输出。如果价格变化超过{0} ％，您的交易将被退回。"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least"
+#~ msgstr "输出估计。 你至少会收到"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least <0>{0} {1}</0> or the transaction will revert."
+#~ msgstr "结果是预计的。您最少将收到<0>{0} {1}</0>，或您的交易将被还原。"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least {0} or the transaction will revert"
+#~ msgstr "输出估计。 您将至少收到{0}或交易将恢复"
+
+#. js-lingui-explicit-id
+#~ msgid "Output is estimated. You will receive at least {minimumReceived} or the transaction will revert"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Output will be sent to"
+#~ msgstr "输出将发送到"
+
+#. js-lingui-explicit-id
+#~ msgid "Output will be sent to <0>{0}</0>"
+#~ msgstr "输出将发送到<0> {0} </0>"
+
+#. js-lingui-explicit-id
+#~ msgid "PENDING SIGN..."
+#~ msgstr "待定标志......"
+
+#. js-lingui-explicit-id
+#~ msgid "PROTOCOL"
+#~ msgstr "协议"
+
+#. js-lingui-explicit-id
+#~ msgid "Pending"
+#~ msgstr "处理中"
+
+#. js-lingui-explicit-id
+#~ msgid "Pending Treasury Transfer"
+#~ msgstr "等待金库转账"
+
+#. js-lingui-explicit-id
+#~ msgid "Please confirm you would like to remove this list by typing"
+#~ msgstr "请确认您要通过键入删除此列表"
+
+#. js-lingui-explicit-id
+#~ msgid "Please connect to the appropriate Ethereum network."
+#~ msgstr "请连接到适当的形象网络。"
+
+#. js-lingui-explicit-id
+#~ msgid "Please connect to the appropriate network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Please connect your Web3 wallet to the Fuse Network to Claim UBI."
+#~ msgstr "请将您的 Web3 钱包连接到 Fuse 网络以领取 UBI。"
+
+#. js-lingui-explicit-id
+#~ msgid "Please type the word \"confirm\" to enable expert mode."
+#~ msgstr "请输入“确认”以开启专家模式。"
+
+#. js-lingui-explicit-id
+#~ msgid "Please wait"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Polygon subgraphs are currently experiencing high loads. The APY displayed are based on lagging fees. Funds are safe, we are working on resolving and providing accurate consolidated APY information."
+#~ msgstr "多边形子图目前正在经历高负荷。 显示的APY基于滞后费用。 资金是安全的，我们正在努力解决和提供准确的综合APY信息。"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool"
+#~ msgstr "资金池"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool Found!"
+#~ msgstr "找到池！"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool Rewards"
+#~ msgstr "流动性池奖励"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool Tokens"
+#~ msgstr "流动性池中的总代币"
+
+#. js-lingui-explicit-id
+#~ msgid "Pool tokens in rewards pool"
+#~ msgstr "奖励池中的代币"
+
+#. js-lingui-explicit-id
+#~ msgid "Pooled {0}"
+#~ msgstr "汇集{0}"
+
+#. js-lingui-explicit-id
+#~ msgid "Portfolio"
+#~ msgstr "文件夹"
+
+#. js-lingui-explicit-id
+#~ msgid "Positions"
+#~ msgstr "仓位"
+
+#. js-lingui-explicit-id
+#~ msgid "Pour a hot bowl of MISO, the new <0>token launchpad</0> from SUSHI"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Price"
+#~ msgstr "价格"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Impact"
+#~ msgstr "价格影响"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Impact High"
+#~ msgstr "价格影响高"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Impact Too High"
+#~ msgstr "价格影响过高"
+
+#. js-lingui-explicit-id
+#~ msgid "Price Updated"
+#~ msgstr "价格更新"
+
+#. js-lingui-explicit-id
+#~ msgid "Protocol"
+#~ msgstr "协议"
+
+#. js-lingui-explicit-id
+#~ msgid "REWARDS"
+#~ msgstr "奖励"
+
+#. js-lingui-explicit-id
+#~ msgid "Rates"
+#~ msgstr "费率"
+
+#. js-lingui-explicit-id
+#~ msgid "Read Tutorial"
+#~ msgstr "阅读教程"
+
+#. js-lingui-explicit-id
+#~ msgid "Read more about unsupported assets"
+#~ msgstr "阅读更多关于不支持的资产"
+
+#. js-lingui-explicit-id
+#~ msgid "Read the contract"
+#~ msgstr "阅读合约"
+
+#. js-lingui-explicit-id
+#~ msgid "Recent Transactions"
+#~ msgstr "最近的交易"
+
+#. js-lingui-explicit-id
+#~ msgid "Recipient"
+#~ msgstr "接受者"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove"
+#~ msgstr "去除"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove Liquidity"
+#~ msgstr "删除流动金"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove list"
+#~ msgstr "删除列表"
+
+#. js-lingui-explicit-id
+#~ msgid "Remove send"
+#~ msgstr "删除发送"
+
+#. js-lingui-explicit-id
+#~ msgid "Removing {0} {1} and {2} {3}"
+#~ msgstr "移除{0}{1}和{2}{3}"
+
+#. js-lingui-explicit-id
+#~ msgid "Repay"
+#~ msgstr "还款"
+
+#. js-lingui-explicit-id
+#~ msgid "Request Tool"
+#~ msgstr "请求工具"
+
+#. js-lingui-explicit-id
+#~ msgid "Restricts swaps to direct pairs only."
+#~ msgstr "限制只交易直接交易对。"
+
+#. js-lingui-explicit-id
+#~ msgid "Rewards"
+#~ msgstr "奖励"
+
+#. js-lingui-explicit-id
+#~ msgid "Route"
+#~ msgstr "路径"
+
+#. js-lingui-explicit-id
+#~ msgid "Routing through these tokens resulted in the best price for your trade."
+#~ msgstr "路由经过这些代币将给您的交易带来最好的价格。"
+
+#. js-lingui-explicit-id
+#~ msgid "SAAVE"
+#~ msgstr "萨瓦"
+
+#. js-lingui-explicit-id
+#~ msgid "SAAVE: Stack your yields in one transaction"
+#~ msgstr "SAAVE：在一次交易中叠加您的收益率"
+
+#. js-lingui-explicit-id
+#~ msgid "STAKE"
+#~ msgstr "赌注"
+
+#. js-lingui-explicit-id
+#~ msgid "SUSHI Balance"
+#~ msgstr "SUSHI余额"
+
+#. js-lingui-explicit-id
+#~ msgid "SUSHI Balance: {sushiBalance}"
+#~ msgstr "SUSHI余额： {sushiBalance}"
+
+#. js-lingui-explicit-id
+#~ msgid "SUSHI {0}/{1} Burned"
+#~ msgstr "SUSHI {0} / {1}被销毁"
+
+#. js-lingui-explicit-id
+#~ msgid "SWAP"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Search by name, symbol, address"
+#~ msgstr "通过名字、代号或地址搜索"
+
+#. js-lingui-explicit-id
+#~ msgid "Search name or paste address"
+#~ msgstr "搜索名称或粘贴地址"
+
+#. js-lingui-explicit-id
+#~ msgid "Search name or paste the address"
+#~ msgstr "搜索名称或粘贴地址"
+
+#. js-lingui-explicit-id
+#~ msgid "Select a token"
+#~ msgstr "选择通证"
+
+#. js-lingui-explicit-id
+#~ msgid "Select a token to find your liquidity"
+#~ msgstr "选择代币以找到您的流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "Select an LP Token"
+#~ msgstr "选择LP令牌"
+
+#. js-lingui-explicit-id
+#~ msgid "Share of Pool"
+#~ msgstr "池子里的份额"
+
+#. js-lingui-explicit-id
+#~ msgid "Share of Pool:"
+#~ msgstr "池子里的份额："
+
+#. js-lingui-explicit-id
+#~ msgid "Share with friends"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Slippage Tolerance"
+#~ msgstr "可容忍滑点"
+
+#. js-lingui-explicit-id
+#~ msgid "Slippage tolerance"
+#~ msgstr "可容忍滑点"
+
+#. js-lingui-explicit-id
+#~ msgid "Social APY"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Some assets are not available through this interface because they may not work well with our smart contract or we are unable to allow trading for legal reasons."
+#~ msgstr "通过此界面不提供某些资产，因为我们的智能合同可能无法正常工作，或者我们无法允许出于法律原因进行交易。"
+
+#. js-lingui-explicit-id
+#~ msgid "Something went wrong during signing of the approval. This is expected for hardware wallets, such as Trezor and Ledger. Click again and the fallback method will be used"
+#~ msgstr "在签署批准时出现错误。可能是硬件钱包例如Trezor和Ledger。再次点击，将使用倒退的办法。"
+
+#. js-lingui-explicit-id
+#~ msgid "Stack Yields with SAAVE"
+#~ msgstr "使用SAAVE叠加收益"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake"
+#~ msgstr "质押"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake SUSHI"
+#~ msgstr "质押SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake SUSHI for xSUSHI"
+#~ msgstr "将SUSHI质押成xSUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Stake into xSUSHI add collateral as axSUSHI on Aave all in\n"
+#~ "one click"
+#~ msgstr ""
+#~ "放入xSUSHI进行抵押，将抵押品作为axSUSHI添加到\n"
+#~ "一键中"
+
+#. js-lingui-explicit-id
+#~ msgid "Stake your SUSHI into xSUSHI for ~5% APY. Deposit your xSUSHI into Aave as aXSUSHI to earn collateral interest and borrowing power. All in one click."
+#~ msgstr "将您的SUSHI放入xSUSHI中，可获得约5％的APY。将您的xSUSHI作为aXSUSHI存入Aave，以获得抵押利息和借贷能力。一键操作。"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Stake your SUSHI into xSUSHI for ~5% APY. No impermanent loss, no loss of governance rights.\n"
+#~ "Continuously compounding."
+#~ msgstr "质押SUSHI获得xSUSHI，年化收益近5%。没有无常损失、享受治理权、可持续复利。"
+
+#. js-lingui-explicit-id
+#~ msgid "Staked {0} at {1}"
+#~ msgstr "Staked {0}在{1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Stakes"
+#~ msgstr "赌注"
+
+#. js-lingui-explicit-id
+#~ msgid "Staking"
+#~ msgstr "st"
+
+#. js-lingui-explicit-id
+#~ msgid "Staking APR"
+#~ msgstr "质押APR"
+
+#. js-lingui-explicit-id
+#~ msgid "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!"
+#~ msgstr "从1.0开始，您的乘数将增加到2.0，在一个月的绑定到信任后，您可以每天更多G $奖励！"
+
+#. js-lingui-explicit-id
+#~ msgid "Submit Tool"
+#~ msgstr "提交工具"
+
+#. js-lingui-explicit-id
+#~ msgid "Success!"
+#~ msgstr "成功！"
+
+#. js-lingui-explicit-id
+#~ msgid "Supply APR"
+#~ msgstr "存款APR"
+
+#. js-lingui-explicit-id
+#~ msgid "Supplying {0} {1} and {2} {3}"
+#~ msgstr "提供{0} {1}和{2} {3}"
+
+#. js-lingui-explicit-id
+#~ msgid "Sushi allows for swapping of ERC20 compatible tokens across multiple networks"
+#~ msgstr "Sushi允许在多个网络中交换兼容ERC20的代币"
+
+#. js-lingui-explicit-id
+#~ msgid "Sushi is a supporter of Open Source."
+#~ msgstr "Sushi是开源协议的支持者。"
+
+#. js-lingui-explicit-id
+#~ msgid "SushiBar"
+#~ msgstr "SushiBar"
+
+#. js-lingui-explicit-id
+#~ msgid "SushiBar: Make SUSHI work for you"
+#~ msgstr "SushiBar：让SUSHI为您工作"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap"
+#~ msgstr "兑换"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap Anyway"
+#~ msgstr "仍要交换"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap Completed"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Swap From (est.):"
+#~ msgstr "交换自（估计）："
+
+#. js-lingui-explicit-id
+#~ msgid "Swap From:"
+#~ msgstr "交换自："
+
+#. js-lingui-explicit-id
+#~ msgid "Swap To (est.):"
+#~ msgstr "交换至（估算）："
+
+#. js-lingui-explicit-id
+#~ msgid "Swap To:"
+#~ msgstr "交换至："
+
+#. js-lingui-explicit-id
+#~ msgid "Swap for SAK3 token on SUSHI now. Click here to swap."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Swap from"
+#~ msgstr "换从"
+
+#. js-lingui-explicit-id
+#~ msgid "Swap to"
+#~ msgstr "交换到"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapped  {0} {1}\n"
+#~ "to {2} {3}"
+#~ msgstr ""
+#~ "交换{0} {1} \n"
+#~ " 到{2} {3}"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapped {inputSig} {0}\n"
+#~ "to a minimum of {minimumOutputSig} {1}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapped {inputSig} {0} \n"
+#~ "to a minimum of {minimumOutputSig} {1}"
+#~ msgstr ""
+#~ "交换{inputSig} {0} \n"
+#~ " 至少{minimumOutputSig} {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Swapping"
+#~ msgstr "交换"
+
+#. js-lingui-explicit-id
+#~ msgid "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers."
+#~ msgstr "如果您从/ To CDAI转换为我们的储备令牌，则交换G $兑换GoodReserve没有第三方费用。 从/往其他资产交换至其他资产意味着第三方AMM流动资金提供商的0.3％的费用。"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Swapping {inputSig} {0} \n"
+#~ "to a minimum of {minimumOutputSig} {1}"
+#~ msgstr ""
+#~ "交换{inputSig} {0} \n"
+#~ " 至少{minimumOutputSig} {1}"
+
+#. js-lingui-explicit-id
+#~ msgid "Switch to {network}"
+#~ msgstr "切换到 {network}"
+
+#. js-lingui-explicit-id
+#~ msgid "Switch to {requireChain}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Switch your network to {0} to work with Portfolio"
+#~ msgstr "将您的网络切换到{0}以与投资组合一起使用"
+
+#. js-lingui-explicit-id
+#~ msgid "Switch your network to {0} to work with Stakes"
+#~ msgstr "将您的网络切换到{0}与赌注一起使用"
+
+#. js-lingui-explicit-id
+#~ msgid "TOKEN"
+#~ msgstr "令牌"
+
+#. js-lingui-explicit-id
+#~ msgid "TVL"
+#~ msgstr "TVL"
+
+#. js-lingui-explicit-id
+#~ msgid "TYPE"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum.\n"
+#~ "This contract is able to mint and burn G$s according to the increase or decrease of it's demand.\n"
+#~ "Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum. \n"
+#~ "This contract is able to mint and burn G$s according to the increase or decrease of it's demand. \n"
+#~ "Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The difference between the market price and estimated price due to trade size."
+#~ msgstr "因为交易规模所导致的市场价格和预计价格之间的差距。"
+
+#. js-lingui-explicit-id
+#~ msgid "The difference between the market price and your price due to trade size."
+#~ msgstr "因为交易规模所导致的市场价格和您的价格之间的差距。"
+
+#. js-lingui-explicit-id
+#~ msgid "The fixed annual interest."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The minimum amount of tokens to receive."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The network this savings account belongs to"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The onchain oracle that tracks the pricing for this pair"
+#~ msgstr "链上预言机追踪这个交易对的价格"
+
+#. js-lingui-explicit-id
+#~ msgid "The token list"
+#~ msgstr "令牌列表"
+
+#. js-lingui-explicit-id
+#~ msgid "The total of your deposits which accumulates the rewards."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "The transaction cannot succeed due to error: {0}. This is probably an issue with one of the tokens you are swapping."
+#~ msgstr "交易未成功因为错误: {0}。可能是因为您交换中的一个代币所导致的。"
+
+#. js-lingui-explicit-id
+#~ msgid "These are the total yearly rewards in G$ and GOOD."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "These tokens are commonly paired with other tokens."
+#~ msgstr "这些令牌通常与其他令牌配对。"
+
+#. js-lingui-explicit-id
+#~ msgid "Things you can do with your SUSHI"
+#~ msgstr "SUSHI可以做的事情"
+
+#. js-lingui-explicit-id
+#~ msgid "This is the annual percentage of UBI your stake will create."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the protocol that the token is staked to."
+#~ msgstr "这是令牌赌注的协议。"
+
+#. js-lingui-explicit-id
+#~ msgid "This is the protocol that the token will be staked to."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the token that is currently available to stake to the Fund."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This is the token that is currently being staked."
+#~ msgstr "这是目前正在赌注的令牌。"
+
+#. js-lingui-explicit-id
+#~ msgid "This is the token that you can deposit into the savings contract."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "This month"
+#~ msgstr "这个月"
+
+#. js-lingui-explicit-id
+#~ msgid "This project is in beta. Use at your own risk"
+#~ msgstr "该项目处于测试阶段。使用风险自负"
+
+#. js-lingui-explicit-id
+#~ msgid "This transaction will not succeed either due to price movement or fee on transfer. Try increasing your slippage tolerance."
+#~ msgstr "交易未成功，可能因为价格变动，也可能转账中产生的费用。请提高您可接受的滑点。"
+
+#. js-lingui-explicit-id
+#~ msgid "Tip"
+#~ msgstr "提示"
+
+#. js-lingui-explicit-id
+#~ msgid "Tip: Custom tokens are stored locally in your browser"
+#~ msgstr "提示：自定义令牌在您的浏览器中本地存储"
+
+#. js-lingui-explicit-id
+#~ msgid "To"
+#~ msgstr "到"
+
+#. js-lingui-explicit-id
+#~ msgid "To (estimated)"
+#~ msgstr "至(估计)"
+
+#. js-lingui-explicit-id
+#~ msgid "To withdraw into SUSHI, go to Aave and remove axSUSHI as collateral and then to SushiBar to unstake. A full unwind will be avaialble soon."
+#~ msgstr "撤回到SUSHI，去Aave把axSUSHI从质押品中移除，然后前往SushiBar解除质押。全流程即将在本网站启用。"
+
+#. js-lingui-explicit-id
+#~ msgid "Toggle Expert Mode"
+#~ msgstr "切换专家模式"
+
+#. js-lingui-explicit-id
+#~ msgid "Token"
+#~ msgstr "代币"
+
+#. js-lingui-explicit-id
+#~ msgid "Tokens"
+#~ msgstr "代币"
+
+#. js-lingui-explicit-id
+#~ msgid "Tokens from inactive lists. Import specific tokens below or click 'Manage' to activate more lists."
+#~ msgstr "非活动列表中的令牌。 导入以下特定令牌或单击“管理”以激活更多列表。"
+
+#. js-lingui-explicit-id
+#~ msgid "Tools"
+#~ msgstr "工具"
+
+#. js-lingui-explicit-id
+#~ msgid "Tools to optimize workflow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Tools to optimize your workflow."
+#~ msgstr "用于优化工作流程的工具。"
+
+#. js-lingui-explicit-id
+#~ msgid "Total"
+#~ msgstr "总数"
+
+#. js-lingui-explicit-id
+#~ msgid "Total Rewards"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total Rewards Paid"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total Staked"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total amount on value staked."
+#~ msgstr "价值总额托出来。"
+
+#. js-lingui-explicit-id
+#~ msgid "Total currently saved."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total rewards claimed."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Total stake"
+#~ msgstr "总股份"
+
+#. js-lingui-explicit-id
+#~ msgid "Trade"
+#~ msgstr "交易"
+
+#. js-lingui-explicit-id
+#~ msgid "Trade at your own risk!"
+#~ msgstr "自负风险！"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction History"
+#~ msgstr "交易历史"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction Settings"
+#~ msgstr "交易设置"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction Submitted"
+#~ msgstr "交易提交"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction deadline"
+#~ msgstr "交易期限"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction rejected."
+#~ msgstr "交易被拒绝。"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction settings"
+#~ msgstr "交易设置"
+
+#. js-lingui-explicit-id
+#~ msgid "Transaction was sent to the blockchain"
+#~ msgstr "交易被发送到区块链"
+
+#. js-lingui-explicit-id
+#~ msgid "Transactions"
+#~ msgstr "交易"
+
+#. js-lingui-explicit-id
+#~ msgid "Transfer Type"
+#~ msgstr "转移类型"
+
+#. js-lingui-explicit-id
+#~ msgid "Try Again"
+#~ msgstr "再试一次"
+
+#. js-lingui-explicit-id
+#~ msgid "Try enabling multi-hop trades"
+#~ msgstr "尝试启用多跳交易"
+
+#. js-lingui-explicit-id
+#~ msgid "Turn On Expert Mode"
+#~ msgstr "开启专家模式"
+
+#. js-lingui-explicit-id
+#~ msgid "Type"
+#~ msgstr "类型"
+
+#. js-lingui-explicit-id
+#~ msgid "UBI is your fair share of G$ tokens, which you can claim daily on CELO."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "UBI is your fair share of G$ tokens, which you can claim daily on {network}."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Uh Oh!"
+#~ msgstr "哦！"
+
+#. js-lingui-explicit-id
+#~ msgid "Unknown Source"
+#~ msgstr "未知的来源"
+
+#. js-lingui-explicit-id
+#~ msgid "Unknown error"
+#~ msgstr "未知错误"
+
+#. js-lingui-explicit-id
+#~ msgid "Unstake"
+#~ msgstr "解除抵押"
+
+#. js-lingui-explicit-id
+#~ msgid "Unstaked"
+#~ msgstr "解除质押"
+
+#. js-lingui-explicit-id
+#~ msgid "Unsupported Asset"
+#~ msgstr "不支持的资产"
+
+#. js-lingui-explicit-id
+#~ msgid "Unsupported Assets"
+#~ msgstr "不支持的资产"
+
+#. js-lingui-explicit-id
+#~ msgid "Unsupported network"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Unwrap"
+#~ msgstr "解开"
+
+#. js-lingui-explicit-id
+#~ msgid "Unwrap {0} W{1} to {2}"
+#~ msgstr "解开{0}W{1}到{2}的包装"
+
+#. js-lingui-explicit-id
+#~ msgid "Update list"
+#~ msgstr "更新列表"
+
+#. js-lingui-explicit-id
+#~ msgid "Use any tool below to optimize your workflow. Please note, some tools are experimental so use with discretion. If theres a smart contract involved for the tool, read the code and confirm the keys have been burned."
+#~ msgstr "用下方工具优化您的工作流程。请注意，一些工具是实验性的，请谨慎使用。如果该工具涉及智能合约，请阅读代码并确认私钥被销毁。"
+
+#. js-lingui-explicit-id
+#~ msgid "Use this tool to find pairs that don't automatically appear in the interface"
+#~ msgstr "使用此工具查找未自动出现在界面中的对"
+
+#. js-lingui-explicit-id
+#~ msgid "V2 Rewarder"
+#~ msgstr "V2奖励器"
+
+#. js-lingui-explicit-id
+#~ msgid "Vesting"
+#~ msgstr "锁仓"
+
+#. js-lingui-explicit-id
+#~ msgid "Vesting is executed within the guidelines selected by the community in <0>SIMP3</0>.<1/><2/>Please refer to the <3>forum discussion</3> for deliberations on additional points.<4/><5/>Additional records and weekly merkle updates can be found on <6>Github</6>"
+#~ msgstr "锁仓是社区在<0>SIMP3</0>中决定执行的。<1/><2/>请参考<3>论坛的讨论</3>，以了解更多要点。<4/><5/>其他记录和每周Merkle的更新可以在<6>Github</6>上找到。"
+
+#. js-lingui-explicit-id
+#~ msgid "View On"
+#~ msgstr "看法"
+
+#. js-lingui-explicit-id
+#~ msgid "View Stats"
+#~ msgstr "查看数据"
+
+#. js-lingui-explicit-id
+#~ msgid "View SushiBar Stats"
+#~ msgstr "查看SushiBar数据"
+
+#. js-lingui-explicit-id
+#~ msgid "View Your Liquidity Positions"
+#~ msgstr "查看您的LP"
+
+#. js-lingui-explicit-id
+#~ msgid "View Your Liquidity Positions >"
+#~ msgstr "查看您的LP"
+
+#. js-lingui-explicit-id
+#~ msgid "View list"
+#~ msgstr "查看列表"
+
+#. js-lingui-explicit-id
+#~ msgid "View on explorer"
+#~ msgstr "在浏览器查看"
+
+#. js-lingui-explicit-id
+#~ msgid "View pair analytics"
+#~ msgstr "查看交易对分析"
+
+#. js-lingui-explicit-id
+#~ msgid "View transaction on explorer"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "View your SushiBar Portfolio"
+#~ msgstr "查看您的SushiBar组合"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Voltage is an UNI-V2 Automated Market Maker (AMM)\n"
+#~ "that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC.\n"
+#~ "The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool.\n"
+#~ "Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Voltage is an UNI-V2 Automated Market Maker (AMM) \n"
+#~ "that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC. \n"
+#~ "The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool. \n"
+#~ "Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "WITHDRAW"
+#~ msgstr "提取"
+
+#. js-lingui-explicit-id
+#~ msgid "Waiting For Confirmation"
+#~ msgstr "等待确认中"
+
+#. js-lingui-explicit-id
+#~ msgid "Waiting for Confirmation"
+#~ msgstr "等待确认中"
+
+#. js-lingui-explicit-id
+#~ msgid "Wallet"
+#~ msgstr "钱包"
+
+#. js-lingui-explicit-id
+#~ msgid "Wallet Balance"
+#~ msgstr "钱包余额"
+
+#. js-lingui-explicit-id
+#~ msgid "Wallet balance"
+#~ msgstr "钱包平衡"
+
+#. js-lingui-explicit-id
+#~ msgid "We see you don't have {0} added to your wallet. Kindly add the network, and try again."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Welcome to Sushi on Polygon (Matic)"
+#~ msgstr "欢迎来到Polygon（Matic）上的Sushi"
+
+#. js-lingui-explicit-id
+#~ msgid "What's an exit contribution?"
+#~ msgstr "退出贡献是什么？"
+
+#. js-lingui-explicit-id
+#~ msgid "When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review"
+#~ msgstr "当创建一个交易对时，您是第一个流动性提供者。您添加的代币比例将决定这个池子的价格。一旦您对该比率满意，点击供应进行查看"
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw"
+#~ msgstr "提取"
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw G$"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw Liquidity"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw as {0}?"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdraw {assetSymbol}"
+#~ msgstr "提现{assetSymbol}"
+
+#. js-lingui-explicit-id
+#~ msgid "Withdrawing your stake will reset your multiplier."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Withdrew funds from {0}"
+#~ msgstr "退出{0}的资金"
+
+#. js-lingui-explicit-id
+#~ msgid "Wrap"
+#~ msgstr "包裹"
+
+#. js-lingui-explicit-id
+#~ msgid "Wrong Network"
+#~ msgstr "错误的网络"
+
+#. js-lingui-explicit-id
+#~ msgid "Yes, I did!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Yesterday's APR"
+#~ msgstr "昨天的APR"
+
+#. js-lingui-explicit-id
+#~ msgid "Yield"
+#~ msgstr "收益"
+
+#. js-lingui-explicit-id
+#~ msgid "Yield Debugger"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Yield Farms"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Yield Instruments"
+#~ msgstr "收益率工具"
+
+#. js-lingui-explicit-id
+#~ msgid "You Will Receive:"
+#~ msgstr "您将收到："
+
+#. js-lingui-explicit-id
+#~ msgid "You are creating UBI to thousands of people around the world."
+#~ msgstr "您正在为世界各地的数千人创建UBI。"
+
+#. js-lingui-explicit-id
+#~ msgid "You are creating a pool"
+#~ msgstr "您正在创建一个池"
+
+#. js-lingui-explicit-id
+#~ msgid "You are currently browsing"
+#~ msgstr "您目前正在浏览"
+
+#. js-lingui-explicit-id
+#~ msgid "You are on the wrong network"
+#~ msgstr "网络错误"
+
+#. js-lingui-explicit-id
+#~ msgid "You can leave the bar and exchange your xSUSHI for SUSHI (as well as collect any earned interest) at any time. However, there are more ways to use xSUSHI to maximize your yield potential!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You can leave the bar and exchange your {0} for {1} (as well as collect any earned interest) at any time. However, there are more ways to use {2} to maximize your yield potential!"
+#~ msgstr "您可以随时留下栏并将您的{0}交换{0}（以及收集任何赚取的兴趣）。 但是，有更多的方法可以使用{2}来最大化您的产量潜力！"
+
+#. js-lingui-explicit-id
+#~ msgid "You don’t have liquidity in this pool yet"
+#~ msgstr "您的这个池中还没有流动性"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "You have just staked your G$s towards our GoodDAO,\n"
+#~ "this action is gonna reward you with GOOD governance tokens,\n"
+#~ "which are non-transferable so can't be traded."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "You have just staked your G$s towards our GoodDAO, \n"
+#~ "this action is gonna reward you with GOOD governance tokens, \n"
+#~ "which are non-transferable so can't be traded."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You have just staked your G$s towards our GoodDAO, this action is gonna reward you with GOOD governance tokens, which are non-transferable so can't be traded."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You have successfully claimed your rewards"
+#~ msgstr "您已成功声称您的奖励"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "You just used your crypto for good to help fund crypto UBI \n"
+#~ "for all with GoodDollar!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You just used your crypto for good to help fund crypto UBI for all with GoodDollar!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "You need to first approve LP tokens and then migrate it"
+#~ msgstr "您需要首先批准LP代币，然后迁移它"
+
+#. js-lingui-explicit-id
+#~ msgid "You need to sign the transaction in your wallet"
+#~ msgstr "您需要在钱包中签署交易"
+
+#. js-lingui-explicit-id
+#~ msgid "You will receive"
+#~ msgstr "您将收到"
+
+#. js-lingui-explicit-id
+#~ msgid "You've already claimed today. Come back in {tillClaim}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your Claimable SUSHI this Week"
+#~ msgstr "本周您可领取的SUSHI"
+
+#. js-lingui-explicit-id
+#~ msgid "Your History"
+#~ msgstr "你的历史"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Liquidity"
+#~ msgstr "您的流动性"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Liquidity Positions"
+#~ msgstr "您的LP"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Pool Share"
+#~ msgstr "您在流动性池的占比"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Pool Tokens"
+#~ msgstr "您池子里的代币"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Staked"
+#~ msgstr "您在流动性池的占比"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Staked Farms"
+#~ msgstr "你的赌场"
+
+#. js-lingui-explicit-id
+#~ msgid "Your SushiBar Stats"
+#~ msgstr "您的SushiBar统计信息"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Transaction History"
+#~ msgstr "您的交易历史"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Transaction History on {0}"
+#~ msgstr "您在{0}上的交易记录"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Vested SUSHI will be released each week for the next 6 months. The amount released each week is determined by your historical farming rewards. You do not need to harvest each week as unclaimed amounts from each week will continue to accrue onto the next."
+#~ msgstr "您的既寿司将在未来6个月内每周发布。 每周发布的金额由您的历史农业奖励决定。 您不需要每周收获，因为每周的无人认领金额将继续累积到下一个。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Wallet"
+#~ msgstr "您的钱包"
+
+#. js-lingui-explicit-id
+#~ msgid "Your Yields"
+#~ msgstr "您的收益"
+
+#. js-lingui-explicit-id
+#~ msgid "Your current network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your current savings balance."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your pool share"
+#~ msgstr "您在流动性池的占比"
+
+#. js-lingui-explicit-id
+#~ msgid "Your social contribution from:"
+#~ msgstr "您的社会贡献："
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Your staking transaction which will generate UBI for thousands of people around\n"
+#~ "the world has just been broadcasted to the network."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Your staking transaction which will generate UBI for thousands of people around \n"
+#~ "the world has just been broadcasted to the network."
+#~ msgstr ""
+#~ "您的衡量交易将为成千上万的人生成UBI \n"
+#~ " 世界刚刚广播到网络。"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "Your staking transaction will generate UBI for thousands of people around \n"
+#~ "the world has just been broadcasted to the network."
+#~ msgstr ""
+#~ "您的铆接交易将为成千上万的人生成UBI \n"
+#~ " 世界刚刚广播到网络。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your total pool tokens"
+#~ msgstr "流动性池中的总代币"
+
+#. js-lingui-explicit-id
+#~ msgid "Your total pool tokens:"
+#~ msgstr "您的池总代币："
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction may be frontrun"
+#~ msgstr "您的交易可能被抢跑。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction may fail"
+#~ msgstr "您的交易可能失败。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if it is pending for more than this long."
+#~ msgstr "如果您的交易待处理的时间超过此时间，则它将还原。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if it is pending for more than this time."
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if the price changes unfavorably by more than this percentage."
+#~ msgstr "如果价格的不利变化超过这个百分比，您的交易将被退回。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+#~ msgstr "如果交易在确认之前出现大的不利价格变动，则交易将恢复。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your transactions will appear here..."
+#~ msgstr "您的交易将出现在这里......"
+
+#. js-lingui-explicit-id
+#~ msgid "Your {exchange} {0}/{1} liquidity will become SushiSwap {2}/{3} liquidity."
+#~ msgstr "您的{exchange} {0} / {1}流动性将变为SushiSwap {2} / {3}的流动性。"
+
+#. js-lingui-explicit-id
+#~ msgid "Your {type} transaction has been confirmed!"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "added"
+#~ msgstr "添加"
+
+#. js-lingui-explicit-id
+#~ msgid "amount"
+#~ msgstr "数量"
+
+#. js-lingui-explicit-id
+#~ msgid "annualized"
+#~ msgstr "年化"
+
+#. js-lingui-explicit-id
+#~ msgid "failed to load"
+#~ msgstr "加载失败"
+
+#. js-lingui-explicit-id
+#~ msgid "has been updated to"
+#~ msgstr "已更新到"
+
+#. js-lingui-explicit-id
+#~ msgid "import it"
+#~ msgstr "导入流动性池"
+
+#. js-lingui-explicit-id
+#~ msgid "loading..."
+#~ msgstr "载入中..."
+
+#. js-lingui-explicit-id
+#~ msgid "max"
+#~ msgstr "最大限度"
+
+#. js-lingui-explicit-id
+#~ msgid "minutes"
+#~ msgstr "分钟"
+
+#. js-lingui-explicit-id
+#~ msgid "network"
+#~ msgstr "网络"
+
+#. js-lingui-explicit-id
+#~ msgid "on the"
+#~ msgstr "在这一点"
+
+#. js-lingui-explicit-id
+#~ msgid "or the transaction will revert."
+#~ msgstr "或者交易将恢复。"
+
+#. js-lingui-explicit-id
+#~ msgid "per day"
+#~ msgstr "每天"
+
+#. js-lingui-explicit-id
+#~ msgid "per month"
+#~ msgstr "每月"
+
+#. js-lingui-explicit-id
+#~ msgid "removed"
+#~ msgstr "删除了"
+
+#. js-lingui-explicit-id
+#~ msgid "rewards"
+#~ msgstr "奖励"
+
+#. js-lingui-explicit-id
+#~ msgid "to"
+#~ msgstr "到"
+
+#. js-lingui-explicit-id
+#~ msgid "tokens"
+#~ msgstr "令牌"
+
+#. js-lingui-explicit-id
+#~ msgid "tokens updated"
+#~ msgstr "令牌更新"
+
+#. js-lingui-explicit-id
+#~ msgid "via"
+#~ msgstr "通过"
+
+#. js-lingui-explicit-id
+#~ msgid "xSUSHI Balance"
+#~ msgstr "xSUSHI余额"
+
+#. js-lingui-explicit-id
+#~ msgid ""
+#~ "xSUSHI automatically earn fees (0.05% of all swaps, including multichain swaps) proportional\n"
+#~ "to your share of the SushiBar."
+#~ msgstr "xSUSHI自动收取手续费（按比例收取每笔交易的0.05%）。"
+
+#. js-lingui-explicit-id
+#~ msgid "{0}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{0} <0>{1} {2}</0> {3}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{0} <0>{1}</0>"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{0} Deposited"
+#~ msgstr "{0}存入的"
+
+#. js-lingui-explicit-id
+#~ msgid "{0} Strategy"
+#~ msgstr "{0}策略"
+
+#. js-lingui-explicit-id
+#~ msgid "{0} per {1}"
+#~ msgstr "{0}每{1}"
+
+#. js-lingui-explicit-id
+#~ msgid "{amount} {0}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "{label}"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#~ msgid "• Added by user"
+#~ msgstr "•由用户添加"
+
+#: src/components/Savings/SavingsModal/index.tsx:280
+#: src/components/Savings/SavingsModal/index.tsx:282
+#: src/components/Savings/SavingsModal/index.tsx:283
+msgid "{0}"
+msgstr ""
+
+#: src/components/Savings/SavingsModal/index.tsx:128
+msgid "{amount} {0}"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:242
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:31
+#: src/pages/gd/Swap/SwapDetails/index.tsx:75
+msgid "A contribution to the reserve paid by members for directly selling G$ tokens."
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:245
+msgid "Account"
+msgstr "帐户"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:311
+msgid "amount"
+msgstr "数量"
+
+#: src/pages/gd/Stake/index.tsx:74
+msgid "Annual Percentage Yield (APY) is the percentage yield being earned."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:410
+msgid "Approve"
+msgstr "批准"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:305
+msgid "APPROVE"
+msgstr "批准"
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:409
+msgid "Approved"
+msgstr "已批准"
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:407
+msgid "Approving"
+msgstr "批准中"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:302
+msgid "APPROVING"
+msgstr "批准"
+
+#: src/pages/gd/Stake/index.tsx:73
+msgid "APY"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:224
+msgid "Awesome!"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:144
+#: src/components/Withdraw/index.tsx:210
+#: src/components/WithdrawRewards/index.tsx:150
+msgid "Back to portfolio"
+msgstr "回到投资组合"
+
+#: src/pages/gd/Swap/SwapInput/index.tsx:57
+msgid "Balance"
+msgstr "余额"
+
+#: src/components/Blocklist/index.tsx:12
+msgid "Blocked address"
+msgstr "被封锁的地址"
+
+#: src/components/AccountDetails/index.tsx:268
+msgid "Change"
+msgstr "改变"
+
+#: src/components/ClaimRewards/index.tsx:80
+msgid "Claim All"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:378
+msgid "Claim G$ rewards"
+msgstr "索赔g $奖励"
+
+#: src/components/ClaimRewards/index.tsx:86
+msgid "Claim GOOD"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:390
+msgid "Claim GOOD rewards"
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:76
+#: src/components/PortfolioTableRow/index.tsx:161
+#: src/pages/gd/Portfolio/index.tsx:167
+msgid "Claim rewards"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:93
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:80
+msgid "Claim Rewards"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:343
+msgid "Claimable"
+msgstr "4."
+
+#: src/components/ClaimRewards/index.tsx:72
+#: src/components/WithdrawRewards/index.tsx:97
+msgid "Claimable Rewards"
+msgstr "索赔奖励"
+
+#: src/components/Savings/SavingsCard/index.tsx:72
+msgid "CLAIMABLE REWARDS"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:192
+#: src/components/WithdrawRewards/index.tsx:50
+msgid "Claimed G$ Rewards"
+msgstr "声称g $奖励"
+
+#: src/components/ClaimRewards/index.tsx:191
+#: src/components/WithdrawRewards/index.tsx:50
+msgid "Claimed GOOD Rewards"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:105
+msgid "Claiming the following rewards:"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:97
+msgid "Claiming your rewards will reset your multiplier"
+msgstr ""
+
+#: src/components/WithdrawRewards/index.tsx:102
+msgid "Claiming your rewards will reset your multiplier."
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:306
+msgid "Clear all"
+msgstr "清除所有"
+
+#: src/components/TransactionConfirmationModal/index.tsx:100
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:286
+msgid "Close"
+msgstr "关闭"
+
+#: src/pages/gd/Claim/index.tsx:255
+msgid "Collect G$"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:160
+msgid "Confirm swap"
+msgstr "确认交换"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:250
+msgid "CONFIRM SWAP"
+msgstr "确认交换"
+
+#: src/components/ModalViews/index.tsx:37
+#: src/components/TransactionConfirmationModal/index.tsx:57
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:263
+msgid "Confirm this transaction in your wallet"
+msgstr "在钱包中确认此事务"
+
+#: src/components/WithdrawRewards/index.tsx:123
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:226
+msgid "Congratulations!"
+msgstr "祝贺！"
+
+#: src/pages/gd/Portfolio/index.tsx:466
+msgid "Connect a wallet to see your portfolio"
+msgstr ""
+
+#: src/components/BlockNativeOnboard/index.tsx:22
+msgid "Connect to a wallet"
+msgstr "连接钱包"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:304
+msgid "Connect wallet"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:218
+msgid "Connected with"
+msgstr "与"
+
+#: src/components/AccountDetails/Copy.tsx:24
+msgid "Copied"
+msgstr "已复制"
+
+#: src/components/AccountDetails/index.tsx:284
+msgid "Copy address"
+msgstr "复制地址"
+
+#: src/components/Liquidity/LiquidityPrice.tsx:22
+msgid "Current Rate"
+msgstr "当前利率"
+
+#: src/components/Savings/SavingsCard/index.tsx:67
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:371
+msgid "DEPOSIT"
+msgstr "订金"
+
+#: src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx:41
+#: src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx:53
+#: src/pages/gd/Stake/Savings/index.tsx:70
+msgid "Deposit G$"
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:222
+msgid "Deposit overview"
+msgstr "存款概述"
+
+#: src/components/AccountDetails/index.tsx:259
+msgid "Disconnect"
+msgstr ""
+
+#: src/components/SideBar.tsx:147
+msgid "Docs"
+msgstr "文档"
+
+#: src/components/Gas/index.tsx:12
+msgid "failed to load"
+msgstr "加载失败"
+
+#: src/pages/gd/Stake/Savings/index.tsx:119
+msgid "Fixed Apy"
+msgstr ""
+
+#: src/components/SideBar.tsx:140
+msgid "Fuse Bridge"
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:108
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:37
+#: src/components/Savings/SavingsStat/SavingsMobileStat.tsx:45
+msgid "G$"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:20
+msgid "GDX"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:22
+msgid ""
+"GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the\n"
+"contribution exit."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:233
+#: src/pages/gd/Swap/SwapDetails/index.tsx:67
+msgid "GDX is a token earned by directly buying G$ from the Reserve. Members with GDX do not pay the contribution exit."
+msgstr ""
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:411
+msgid "Go to Portfolio"
+msgstr "去投资组合"
+
+#: src/components/ClaimRewards/index.tsx:114
+msgid "GOOD"
+msgstr ""
+
+#: src/components/SideBar.tsx:154
+msgid "Good Airdrop"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:38
+msgid "GoodDAO"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:478
+msgid "GoodDAO Staking"
+msgstr ""
+
+#: src/components/Savings/SavingsStat/SavingsMobileStat.tsx:47
+msgid "GoodDollar"
+msgstr ""
+
+#: src/pages/gd/Claim/index.tsx:266
+msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:463
+#: src/pages/gd/Stake/index.tsx:467
+msgid "GoodStakes"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:333
+msgid "Holding"
+msgstr "保持"
+
+#: src/pages/gd/Portfolio/index.tsx:236
+msgid "How many GOOD tokens you are accumulating by this stake position."
+msgstr ""
+
+#: src/components/Withdraw/PercentInputControls/index.tsx:54
+msgid "How much rewards would you like to donate"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:73
+msgid "How much tokens your deposits have accumulated so far."
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:226
+msgid "How much value your stake has accumulated so far."
+msgstr "到目前为止，您的股权累计有多大价值。"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:233
+msgid "How much would you like to deposit?"
+msgstr "你想存入多少钱？"
+
+#: src/components/Withdraw/PercentInputControls/index.tsx:55
+msgid "How much would you like to withdraw?"
+msgstr "你想退出多少钱？"
+
+#: src/pages/gd/Stake/index.tsx:81
+msgid "Liquidity"
+msgstr "流动性"
+
+#: src/pages/gd/Stake/index.tsx:82
+msgid "Liquidity is the total value staked in the GoodDollar Trust staking contract (USD)."
+msgstr ""
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:37
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:219
+#: src/pages/gd/Swap/SwapDetails/index.tsx:53
+msgid "Liquidity Provider Fee"
+msgstr "LP奖励"
+
+#: src/components/Gas/index.tsx:13
+msgid "loading..."
+msgstr "载入中..."
+
+#: src/pages/gd/Stake/index.tsx:97
+#: src/pages/gd/Stake/index.tsx:283
+msgid "Loading..."
+msgstr "载入中..."
+
+#: src/pages/gd/Swap/SwapInput/index.tsx:40
+msgid "max"
+msgstr "最大限度"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:205
+#: src/pages/gd/Swap/SwapDetails/index.tsx:41
+msgid "Minimum received"
+msgstr "最少可获得的数量"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:167
+msgid "minutes"
+msgstr "分钟"
+
+#: src/components/SideBar.tsx:126
+msgid "Multichain Bridge"
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:229
+msgid "MULTIPLIER"
+msgstr "乘数"
+
+#: src/pages/gd/Portfolio/index.tsx:299
+msgid "My Stake"
+msgstr "我的股份"
+
+#: src/components/NetworkModal/index.tsx:142
+#: src/components/NetworkModal/index.tsx:191
+msgid "network"
+msgstr "网络"
+
+#: src/pages/gd/Stake/Savings/index.tsx:114
+msgid "Network"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:62
+msgid "NETWORK"
+msgstr ""
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:45
+msgid "Network Fee"
+msgstr "网络费用"
+
+#: src/components/PortfolioTableRow/index.tsx:128
+#: src/pages/gd/Portfolio/index.tsx:104
+msgid "Next month:"
+msgstr "下个月："
+
+#: src/pages/gd/Stake/index.tsx:102
+#: src/pages/gd/Stake/index.tsx:290
+msgid "No data."
+msgstr "没有数据。"
+
+#: src/components/NetworkModal/index.tsx:141
+#: src/components/NetworkModal/index.tsx:190
+msgid "on the"
+msgstr "在这一点"
+
+#: src/components/Web3ReactManager/index.tsx:61
+msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
+msgstr "糟糕！出现未知错误。请刷新页面，或从其他浏览器或设备访问"
+
+#: src/components/AppBar.tsx:223
+msgid "Open main menu"
+msgstr "打开主菜单"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:199
+msgid "Output is estimated. You will receive at least {minimumReceived} or the transaction will revert"
+msgstr ""
+
+#: src/components/Web3Status/index.tsx:56
+msgid "Pending"
+msgstr "处理中"
+
+#: src/components/ClaimRewards/index.tsx:93
+#: src/components/Withdraw/index.tsx:176
+msgid "PENDING SIGN..."
+msgstr "待定标志......"
+
+#: src/components/ClaimRewards/index.tsx:123
+#: src/components/Withdraw/index.tsx:187
+msgid "Please wait"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:212
+#: src/pages/gd/Swap/SwapDetails/index.tsx:46
+msgid "Price Impact"
+msgstr "价格影响"
+
+#: src/components/Withdraw/index.tsx:146
+#: src/pages/gd/Stake/index.tsx:69
+#: src/pages/gd/Stake/Savings/index.tsx:109
+msgid "Protocol"
+msgstr "协议"
+
+#: src/components/Savings/SavingsCard/index.tsx:57
+#: src/pages/gd/Portfolio/index.tsx:217
+msgid "PROTOCOL"
+msgstr "协议"
+
+#: src/components/AccountDetails/index.tsx:304
+msgid "Recent Transactions"
+msgstr "最近的交易"
+
+#: src/pages/gd/Portfolio/index.tsx:343
+msgid "rewards"
+msgstr "奖励"
+
+#: src/pages/gd/Portfolio/index.tsx:305
+#: src/pages/gd/Portfolio/index.tsx:316
+#: src/pages/gd/Portfolio/index.tsx:347
+#: src/pages/gd/Portfolio/index.tsx:358
+msgid "Rewards"
+msgstr "奖励"
+
+#: src/pages/gd/Portfolio/index.tsx:225
+#: src/pages/gd/Portfolio/index.tsx:235
+msgid "REWARDS"
+msgstr "奖励"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:226
+#: src/pages/gd/Swap/SwapDetails/index.tsx:60
+msgid "Route"
+msgstr "路径"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:228
+#: src/pages/gd/Swap/SwapDetails/index.tsx:62
+msgid "Routing through these tokens resulted in the best price for your trade."
+msgstr "路由经过这些代币将给您的交易带来最好的价格。"
+
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:36
+#: src/pages/gd/Stake/Savings/index.tsx:151
+msgid "Savings"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapTokensModal/index.tsx:53
+msgid "Search name or paste the address"
+msgstr "搜索名称或粘贴地址"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:414
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:300
+msgid "Share with friends"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:374
+#: src/pages/gd/Swap/SwapSettings/index.tsx:80
+msgid "Slippage Tolerance"
+msgstr "可容忍滑点"
+
+#: src/pages/gd/Stake/index.tsx:77
+msgid "Social APY"
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:215
+#: src/pages/gd/Stake/index.tsx:319
+#: src/pages/gd/Stake/index.tsx:397
+#: src/pages/gd/Stake/index.tsx:463
+msgid "Stake"
+msgstr "质押"
+
+#: src/pages/gd/Portfolio/index.tsx:221
+msgid "STAKE"
+msgstr "赌注"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:361
+msgid "Staked {0} at {1}"
+msgstr "Staked {0}在{1}"
+
+#: src/pages/gd/Portfolio/index.tsx:329
+msgid "Staking"
+msgstr "st"
+
+#: src/pages/gd/Portfolio/index.tsx:209
+msgid "Staking could be of two types: UBI for funds staked on the GoodDollar trust for the generation of new G$ for universal income distribution, or Governance (to be enabled) for staking G$s for GOOD Rewards."
+msgstr ""
+
+#: src/pages/gd/Portfolio/index.tsx:231
+msgid "Starting at 1.0, your multiplier will increase to 2.0 after one month of staking to the Trust, at which point you can be rewarded with more G$ every day!"
+msgstr "从1.0开始，您的乘数将增加到2.0，在一个月的绑定到信任后，您可以每天更多G $奖励！"
+
+#: src/components/ClaimRewards/index.tsx:123
+#: src/components/Withdraw/index.tsx:187
+#: src/components/WithdrawRewards/index.tsx:123
+msgid "Success!"
+msgstr "成功！"
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:424
+msgid "Swap"
+msgstr "兑换"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:295
+msgid "Swap Completed"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:347
+#: src/pages/gd/Swap/SwapCore/index.tsx:361
+msgid "Swap from"
+msgstr "换从"
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:347
+#: src/pages/gd/Swap/SwapCore/index.tsx:361
+msgid "Swap to"
+msgstr "交换到"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:100
+msgid ""
+"Swapped {inputSig} {0}\n"
+"to a minimum of {minimumOutputSig} {1}"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:260
+msgid "Swapping"
+msgstr "交换"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:222
+#: src/pages/gd/Swap/SwapDetails/index.tsx:56
+msgid "Swapping G$ against GoodReserve has no third party fees if you swap from/to cDAI as it's our reserve token. Swapping G$s from/to other assets implies a 0.3% of fee going to 3rd party AMM liquidity providers."
+msgstr "如果您从/ To CDAI转换为我们的储备令牌，则交换G $兑换GoodReserve没有第三方费用。 从/往其他资产交换至其他资产意味着第三方AMM流动资金提供商的0.3％的费用。"
+
+#: src/components/gd/Button/ActionOrSwitchButton.tsx:53
+msgid "Switch to {requireChain}"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:120
+msgid "The fixed annual interest."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:255
+msgid ""
+"The GoodReserve is a Bancor-V1 Automated Market Maker (AMM) that operates on Ethereum.\n"
+"This contract is able to mint and burn G$s according to the increase or decrease of it's demand.\n"
+"Price impact is low as G$ liquidity is produced on demand depending by the reserve ratio."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDetails/index.tsx:43
+msgid "The minimum amount of tokens to receive."
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:63
+msgid "The network this savings account belongs to"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:68
+msgid "The total of your deposits which accumulates the rewards."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:86
+msgid "These are the total yearly rewards in G$ and GOOD."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:78
+msgid "This is the annual percentage of UBI your stake will create."
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:58
+#: src/pages/gd/Portfolio/index.tsx:218
+msgid "This is the protocol that the token is staked to."
+msgstr "这是令牌赌注的协议。"
+
+#: src/pages/gd/Stake/index.tsx:70
+msgid "This is the protocol that the token will be staked to."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:66
+msgid "This is the token that is currently available to stake to the Fund."
+msgstr ""
+
+#: src/components/Savings/SavingsCard/index.tsx:53
+#: src/pages/gd/Portfolio/index.tsx:214
+msgid "This is the token that is currently being staked."
+msgstr "这是目前正在赌注的令牌。"
+
+#: src/pages/gd/Stake/Savings/index.tsx:105
+msgid "This is the token that you can deposit into the savings contract."
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:123
+#: src/components/PortfolioTableRow/index.tsx:126
+#: src/pages/gd/Portfolio/index.tsx:99
+#: src/pages/gd/Portfolio/index.tsx:102
+msgid "This month"
+msgstr "这个月"
+
+#: src/pages/App.tsx:137
+msgid "This project is in beta. Use at your own risk"
+msgstr "该项目处于测试阶段。使用风险自负"
+
+#: src/components/Withdraw/index.tsx:142
+#: src/pages/gd/Stake/index.tsx:65
+#: src/pages/gd/Stake/Savings/index.tsx:104
+msgid "Token"
+msgstr "代币"
+
+#: src/components/Savings/SavingsCard/index.tsx:52
+#: src/pages/gd/Portfolio/index.tsx:213
+msgid "TOKEN"
+msgstr "令牌"
+
+#: src/pages/gd/Portfolio/index.tsx:222
+msgid "Total amount on value staked."
+msgstr "价值总额托出来。"
+
+#: src/pages/gd/Stake/Savings/index.tsx:125
+msgid "Total currently saved."
+msgstr ""
+
+#: src/pages/gd/Stake/index.tsx:85
+msgid "Total Rewards"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:130
+msgid "Total rewards claimed."
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:129
+msgid "Total Rewards Paid"
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:150
+msgid "Total stake"
+msgstr "总股份"
+
+#: src/pages/gd/Stake/Savings/index.tsx:124
+msgid "Total Staked"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:153
+msgid "Transaction deadline"
+msgstr "交易期限"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:77
+msgid "Transaction settings"
+msgstr "交易设置"
+
+#: src/components/TransactionConfirmationModal/index.tsx:89
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:271
+msgid "Transaction Submitted"
+msgstr "交易提交"
+
+#: src/components/ClaimRewards/index.tsx:127
+#: src/components/Withdraw/index.tsx:191
+#: src/components/WithdrawRewards/index.tsx:127
+msgid "Transaction was sent to the blockchain"
+msgstr "交易被发送到区块链"
+
+#: src/components/Savings/SavingsCard/index.tsx:47
+#: src/pages/gd/Portfolio/index.tsx:207
+msgid "TYPE"
+msgstr ""
+
+#: src/components/Web3Network/index.tsx:69
+msgid "Unsupported network"
+msgstr ""
+
+#: src/components/AccountDetails/index.tsx:290
+#: src/components/Popups/TransactionPopup.tsx:46
+#: src/components/TransactionConfirmationModal/index.tsx:93
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:280
+msgid "View on explorer"
+msgstr "在浏览器查看"
+
+#: src/components/ModalViews/index.tsx:69
+msgid "View transaction on explorer"
+msgstr ""
+
+#: src/pages/gd/Swap/SwapCore/index.tsx:249
+msgid ""
+"Voltage is an UNI-V2 Automated Market Maker (AMM)\n"
+"that operates on Fuse Network where G$ is paired to other market tokens such as FUSE or USDC.\n"
+"The liquidity relies on Liquidity Providers that aggregate paired tokens to a pool.\n"
+"Price impact might be too high when the swapping volume of one transaction is relatively high to the total liquidity in the pool."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:258
+msgid "Waiting for Confirmation"
+msgstr "等待确认中"
+
+#: src/components/TransactionConfirmationModal/index.tsx:49
+msgid "Waiting For Confirmation"
+msgstr "等待确认中"
+
+#: src/components/SideBar.tsx:133
+msgid "Wallet"
+msgstr "钱包"
+
+#: src/components/SideBar.tsx:218
+msgid "Wallet balance"
+msgstr "钱包平衡"
+
+#: src/components/NetworkModal/index.tsx:121
+#: src/components/NetworkModal/index.tsx:170
+msgid "We see you don't have {0} added to your wallet. Kindly add the network, and try again."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapDescriptions/index.tsx:29
+msgid "What's an exit contribution?"
+msgstr "退出贡献是什么？"
+
+#: src/components/PortfolioTableRow/index.tsx:67
+#: src/components/Withdraw/index.tsx:140
+#: src/pages/gd/Portfolio/index.tsx:163
+msgid "Withdraw"
+msgstr "提取"
+
+#: src/components/Withdraw/index.tsx:177
+msgid "WITHDRAW"
+msgstr "提取"
+
+#: src/components/Withdraw/index.tsx:157
+msgid "Withdraw as {0}?"
+msgstr ""
+
+#: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:73
+#: src/components/Savings/SavingsCard/SavingsCardTableMobile/SavingsCellsMobile.tsx:49
+msgid "Withdraw G$"
+msgstr ""
+
+#: src/components/PortfolioTableRow/index.tsx:152
+msgid "Withdraw Liquidity"
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:171
+msgid "Withdrawing your stake will reset your multiplier."
+msgstr ""
+
+#: src/components/Withdraw/index.tsx:90
+msgid "Withdrew funds from {0}"
+msgstr "退出{0}的资金"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:389
+msgid "You are creating UBI to thousands of people around the world."
+msgstr "您正在为世界各地的数千人创建UBI。"
+
+#: src/components/NetworkModal/index.tsx:137
+#: src/components/NetworkModal/index.tsx:186
+msgid "You are currently browsing"
+msgstr "您目前正在浏览"
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:380
+msgid ""
+"You have just staked your G$s towards our GoodDAO,\n"
+"this action is gonna reward you with GOOD governance tokens,\n"
+"which are non-transferable so can't be traded."
+msgstr ""
+
+#: src/components/ClaimRewards/index.tsx:128
+#: src/components/Withdraw/index.tsx:192
+#: src/components/WithdrawRewards/index.tsx:128
+msgid "You have successfully claimed your rewards"
+msgstr "您已成功声称您的奖励"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:297
+msgid "You just used your crypto for good to help fund crypto UBI for all with GoodDollar!"
+msgstr ""
+
+#: src/components/WithdrawRewards/index.tsx:115
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:421
+msgid "You need to sign the transaction in your wallet"
+msgstr "您需要在钱包中签署交易"
+
+#: src/components/Liquidity/RemoveLiquidityReceiveDetails.tsx:39
+msgid "You Will Receive:"
+msgstr "您将收到："
+
+#: src/components/Savings/SavingsModal/index.tsx:294
+msgid "Your {type} transaction has been confirmed!"
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:115
+msgid "Your current network."
+msgstr ""
+
+#: src/pages/gd/Stake/Savings/index.tsx:110
+msgid "Your current savings balance."
+msgstr ""
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:26
+msgid "Your Pool Share"
+msgstr "您在流动性池的占比"
+
+#: src/components/Liquidity/AdvancedLiquidityDetails.tsx:15
+msgid "Your Pool Tokens"
+msgstr "您池子里的代币"
+
+#: src/pages/gd/Portfolio/index.tsx:324
+msgid "Your social contribution from:"
+msgstr "您的社会贡献："
+
+#: src/pages/gd/Stake/StakeDeposit/index.tsx:387
+msgid ""
+"Your staking transaction which will generate UBI for thousands of people around\n"
+"the world has just been broadcasted to the network."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:149
+msgid "Your transaction may be frontrun"
+msgstr "您的交易可能被抢跑。"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:148
+msgid "Your transaction may fail"
+msgstr "您的交易可能失败。"
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:155
+msgid "Your transaction will revert if it is pending for more than this time."
+msgstr ""
+
+#: src/pages/gd/Swap/SwapSettings/index.tsx:83
+msgid "Your transaction will revert if the price changes unfavorably by more than this percentage."
+msgstr "如果价格的不利变化超过这个百分比，您的交易将被退回。"
+
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:208
+#: src/pages/gd/Swap/SwapConfirmModal/index.tsx:215
+#: src/pages/gd/Swap/SwapDetails/index.tsx:49
+msgid "Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
+msgstr "如果交易在确认之前出现大的不利价格变动，则交易将恢复。"
+
+#: src/components/AccountDetails/index.tsx:313
+msgid "Your transactions will appear here..."
+msgstr "您的交易将出现在这里......"

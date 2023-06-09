@@ -2,7 +2,7 @@ import React from 'react'
 import { AlertCircle, CheckCircle } from 'react-feather'
 import styled, { useTheme } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { TYPE } from '../../theme'
+import { TYPE, TwTheme } from '../../theme'
 import { ExternalLink } from '../../theme/components'
 import { getExplorerLink } from '../../utils'
 import { AutoColumn } from '../Column'
@@ -26,7 +26,7 @@ export default function TransactionPopup({
     const { i18n } = useLingui()
     const { chainId } = useActiveWeb3React()
 
-    const theme = useTheme()
+    const theme = useTheme() as TwTheme
 
     return (
         <RowNoFlex>

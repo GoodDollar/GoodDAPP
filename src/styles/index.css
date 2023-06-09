@@ -71,7 +71,7 @@ https://tailwindcss.com/docs/adding-custom-styles#adding-base-styles
     appearance: unset;
     padding: unset;
     -webkit-print-color-adjust: unset;
-    color-adjust: unset;
+    print-color-adjust: unset;
     display: unset;
     vertical-align: unset;
     background-origin: unset;
@@ -87,5 +87,5 @@ https://tailwindcss.com/docs/adding-custom-styles#adding-base-styles
   }
   [type='checkbox']:checked {
     background-image: none
-}
+  }
 }

@@ -2,7 +2,6 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
-    darkMode: false, // or 'media' or 'class'
     theme: {
         linearBorderGradients: {
             directions: {
@@ -14,24 +13,24 @@ module.exports = {
                 b: 'to bottom',
                 bl: 'to bottom left',
                 l: 'to left',
-                tl: 'to top left',
+                tl: 'to top left'
             },
             colors: {
                 'blue-pink': ['#27B0E6', '#FA52A0'],
-                'pink-red-light-brown': ['#FE5A75', '#FEC464'],
+                'pink-red-light-brown': ['#FE5A75', '#FEC464']
             },
             background: {
                 'dark-1000': '#0D0415',
                 'dark-900': '#161522',
                 'dark-800': '#202231',
-                'dark-pink-red': '#4e3034',
+                'dark-pink-red': '#4e3034'
             },
             border: {
                 // defaults to these values (optional)
                 1: '1px',
                 2: '2px',
-                4: '4px',
-            },
+                4: '4px'
+            }
         },
         colors: {
             ...defaultTheme.colors,
@@ -61,7 +60,7 @@ module.exports = {
             // 'high-emphesis': '#E3E3E3',
             primary: '#BFBFBF',
             secondary: '#7F7F7F',
-            'low-emphesis': '#575757',
+            'low-emphesis': '#575757'
         },
         screens: {
             xs: '320px',
@@ -69,7 +68,7 @@ module.exports = {
             md: '768px',
             lg: '976px',
             lg2: '1024px',
-            xl: '1440px',
+            xl: '1440px'
         },
         fontSize: {
             ...defaultTheme.fontSize,
@@ -78,81 +77,81 @@ module.exports = {
                 {
                     letterSpacing: '-0.02em;',
                     lineHeight: '96px',
-                    fontWeight: 700,
-                },
+                    fontWeight: 700
+                }
             ],
             h1: [
                 '36px',
                 {
                     letterSpacing: '-0.02em;',
                     lineHeight: '36px',
-                    fontWeight: 700,
-                },
+                    fontWeight: 700
+                }
             ],
             h2: [
                 '30px',
                 {
                     letterSpacing: '-0.01em;',
                     lineHeight: '36px',
-                    fontWeight: 700,
-                },
+                    fontWeight: 700
+                }
             ],
             h3: [
                 '28px',
                 {
                     letterSpacing: '-0.01em;',
                     lineHeight: '30px',
-                    fontWeight: 700,
-                },
+                    fontWeight: 700
+                }
             ],
             h4: [
                 '24px',
                 {
                     letterSpacing: '-0.01em;',
                     lineHeight: '28px',
-                    fontWeight: 700,
-                },
+                    fontWeight: 700
+                }
             ],
             h5: [
                 '24px',
                 {
                     letterSpacing: '-0.01em;',
                     lineHeight: '28px',
-                    fontWeight: 500,
-                },
+                    fontWeight: 500
+                }
             ],
             body: [
                 '18px',
                 {
                     letterSpacing: '-0.01em;',
-                    lineHeight: '26px',
-                },
+                    lineHeight: '26px'
+                }
             ],
             caption: [
                 '16px',
                 {
-                    lineHeight: '24px',
-                },
+                    lineHeight: '24px'
+                }
             ],
             caption2: [
                 '14px',
                 {
-                    lineHeight: '20px',
-                },
-            ],
+                    lineHeight: '20px'
+                }
+            ]
         },
         extend: {
             lineHeight: {
                 ...defaultTheme.lineHeight,
-                '48px': '48px',
+                '48px': '48px'
             },
             backgroundImage: (theme) => ({
                 ...defaultTheme.backgroundImage,
                 'bentobox-hero': "url('/src/assets/kashi/bentobox-hero.jpg')",
-                'bentobox-logo': "url('/src/assets/kashi/bentobox-logo.png')",
+                'bentobox-logo': "url('/src/assets/kashi/bentobox-logo.png')"
             }),
             fontFamily: {
-                sans: ['DM Sans', ...defaultTheme.fontFamily.sans],
+                sans: ['DM Sans', ...defaultTheme.fontFamily.sans]
             },
             borderRadius: {
                 ...defaultTheme.borderRadius,
@@ -160,18 +159,18 @@ module.exports = {
                 px: '1px',
                 sm: '6px',
                 DEFAULT: '12px',
-                md: '20px',
+                md: '20px'
             },
             textColor: {
                 ...defaultTheme.textColor,
                 'low-emphesis': '#575757',
                 primary: '#BFBFBF',
                 secondary: '#7F7F7F',
-                'high-emphesis': '#E3E3E3',
+                'high-emphesis': '#E3E3E3'
             },
             backgroundColor: {
                 ...defaultTheme.backgroundColor,
-                input: '#2E3348',
+                input: '#2E3348'
             },
             boxShadow: {
                 ...defaultTheme.boxShadow,
@@ -181,42 +180,42 @@ module.exports = {
                 'blue-glow-hovered': '0px 57px 90px -47px rgba(39, 176, 230, 0.34)',
 
                 'swap-blue-glow': '0px 50px 250px -47px rgba(39, 176, 230, 0.29)',
-                'liquidity-purple-glow': '0px 50px 250px -47px rgba(123, 97, 255, 0.23);',
+                'liquidity-purple-glow': '0px 50px 250px -47px rgba(123, 97, 255, 0.23);'
             },
             ringWidth: {
                 ...defaultTheme.ringWidth,
-                DEFAULT: '1px',
+                DEFAULT: '1px'
             },
             padding: {
                 ...defaultTheme.padding,
                 px: '1px',
-                '3px': '3px',
+                '3px': '3px'
             },
             outline: {
                 ...defaultTheme.outline,
-                'low-emphesis': '#575757',
+                'low-emphesis': '#575757'
             },
             animation: {
-                ellipsis: ' ellipsis 1.25s infinite',
+                ellipsis: ' ellipsis 1.25s infinite'
             },
             keyframes: {
                 ellipsis: {
                     '0%': { content: '"."' },
                     '33%': { content: '".."' },
-                    '66%': { content: '"..."' },
-                },
+                    '66%': { content: '"..."' }
+                }
             },
             minHeight: {
                 cardContent: '230px',
-                fitContent: 'fit-content',
+                fitContent: 'fit-content'
             },
             screens: {
-                sh: { raw: '(min-height: 665px)' },
+                sh: { raw: '(min-height: 665px)' }
             },
             width: {
-                274: '274px',
-            },
-        },
+                274: '274px'
+            }
+        }
     },
     variants: {
         linearBorderGradients: ['responsive', 'hover', 'dark'], // defaults to ['responsive']
@@ -228,13 +227,11 @@ module.exports = {
             opacity: ['hover', 'disabled'],
             placeholderColor: ['hover', 'active'],
             ringWidth: ['disabled'],
-            ringColor: ['disabled'],
-        },
+            ringColor: ['disabled']
+        }
     },
     plugins: [
-        // require('@tailwindcss/typography'),
         require('@tailwindcss/forms'),
-        require('@tailwindcss/line-clamp'),
         require('@tailwindcss/aspect-ratio'),
         require('tailwindcss-border-gradient-radius'),
         plugin(function ({ addUtilities }) {
@@ -242,8 +239,8 @@ module.exports = {
                 '.gradiant-border-bottom': {
                     background:
                         'linear-gradient(to right, rgba(39, 176, 230, 0.2) 0%, rgba(250, 82, 160, 0.2) 100%) left bottom no-repeat',
-                    backgroundSize: '100% 1px',
-                },
+                    backgroundSize: '100% 1px'
+                }
             })
         }),
         plugin(function ({ addUtilities }) {
@@ -255,18 +252,18 @@ module.exports = {
                         backgroundImage:
                             'linear-gradient(#202231, #202231), linear-gradient(to right, #0993EC, #F338C3)',
                         backgroundOrigin: 'border-box',
-                        backgroundClip: 'padding-box, border-box',
-                    },
+                        backgroundClip: 'padding-box, border-box'
+                    }
                 },
                 {
-                    variants: ['responsive'],
+                    variants: ['responsive']
                 }
             )
-        }),
+        })
     ],
     corePlugins: {
         fontFamily: true,
-        preflight: true,
+        preflight: true
     },
-    purge: process.env.NODE_ENV !== 'development' ? ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'] : false,
+    content: ['./src/**/*.{js,jsx,ts,tsx}', './index.html']
 }

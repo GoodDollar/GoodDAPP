@@ -3,7 +3,7 @@ import { ArrowUpCircle } from 'react-feather'
 import styled, { useTheme } from 'styled-components'
 import Circle from '../../assets/images/blue-loader.svg'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { CloseIcon, CustomLightSpinner, TYPE } from '../../theme'
+import { CloseIcon, CustomLightSpinner, TYPE, TwTheme } from '../../theme'
 import { ExternalLink } from '../../theme/components'
 import { getExplorerLink } from '../../utils'
 import { AutoColumn, ColumnCenter } from '../Column'
@@ -50,7 +50,7 @@ export function SubmittedView({
     hash: string | undefined
 }) {
     const { i18n } = useLingui()
-    const theme = useTheme()
+    const theme = useTheme() as TwTheme
     const { chainId } = useActiveWeb3React()
 
     return (

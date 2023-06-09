@@ -3,6 +3,7 @@ import { X } from 'react-feather'
 import { animated } from 'react-spring'
 import { useSpring } from 'react-spring'
 import styled, { useTheme } from 'styled-components'
+import { TwTheme } from '../../theme'
 import { PopupContent } from '../../state/application/types'
 import { useRemovePopup } from '../../state/application/hooks'
 import TransactionPopup from './TransactionPopup'
@@ -70,7 +71,7 @@ export default function PopupItem({
         }
     }, [removeAfterMs, removeThisPopup])
 
-    const theme = useTheme()
+    const theme = useTheme() as TwTheme
 
     let popupContent
     if ('txn' in content) {

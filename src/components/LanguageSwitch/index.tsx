@@ -9,6 +9,7 @@ import HeFlag from '../../assets/images/he-flag.png'
 import ItFlag from '../../assets/images/it-flag.png'
 import RoFlag from '../../assets/images/ro-flag.png'
 import RuFlag from '../../assets/images/ru-flag.png'
+import UkFlag from '../../assets/images/uk-flag.png'
 import ViFlag from '../../assets/images/vi-flag.png'
 import { useLanguageData } from '../../language/hooks'
 import { useModalOpen, useToggleModal } from '../../state/application/hooks'
@@ -92,6 +93,10 @@ const LANGUAGES: { [x: string]: { flag: string; language: string; dialect?: stri
     ro: {
         flag: RoFlag,
         language: 'Romanian',
+    },
+    uk: {
+        flag: UkFlag,
+        language: 'Ukrainian',
     },
     vi: {
         flag: ViFlag,

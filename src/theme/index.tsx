@@ -5,6 +5,8 @@ import { useApplicationTheme } from '../state/application/hooks'
 
 export * from './components'
 
+export type TwTheme = ReturnType<typeof theme>
+
 const MEDIA_WIDTHS = {
     upToExtra2Small: 320,
     upToExtraSmall: 500,

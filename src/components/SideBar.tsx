@@ -55,7 +55,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
     })
 
     const importToMetamask = async () => {
-        const allTokens = []
+        const allTokens: any[] = []
         allTokens.push({
             type: 'ERC20',
             options: {

@@ -221,8 +221,9 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
   const isUBI = supportsG$UBI(network)
 
   // show aggregated balance on FUSE/CELO, delta only
-  const balance = isDeltaApp && isUBI ? totalBalance : tokenBalance
-  const balanceFormatter = useCallback(amount => formatWithAbbreviations(amount, native ? 18 : 2), [native])
+  const balance = isDeltaApp && (native || !isUBI) ? tokenBalance : totalBalance
+  // eslint-disable-next-line prettier/prettier
+  const balanceFormatter = useCallback(amount => formatWithAbbreviations(amount, isDeltaApp && native ? 18 : 2), [native])
 
   const calculateFontSize = useMemo(
     () => ({

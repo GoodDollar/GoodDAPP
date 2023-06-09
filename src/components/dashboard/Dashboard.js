@@ -72,6 +72,7 @@ import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 import Settings from './Settings'
 
 const log = logger.child({ from: 'Dashboard' })
+const { isDeltaApp } = Config
 
 // prettier-ignore
 const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNavigationOptions({
@@ -834,7 +835,7 @@ const Dashboard = props => {
                 )}
               </Animated.View>
             </Animated.View>
-            {headerLarge && supportsG$(currentNetwork) && (
+            {headerLarge && (!isDeltaApp || supportsG$(currentNetwork)) && (
               <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
                 <View style={styles.multiBalance}>
                   <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
@@ -864,7 +865,7 @@ const Dashboard = props => {
                   >
                     Send
                   </PushButton>
-                  {supportsG$UBI(currentNetwork) ? (
+                  {!isDeltaApp || supportsG$UBI(currentNetwork) ? (
                     <ClaimButton
                       screenProps={screenProps}
                       amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}

@@ -54,7 +54,14 @@ export const supportsG$UBI = makeNetworkMatcher('FUSE', 'CELO')
 export const getNativeToken = networkOrId => {
   const networkName = isString(networkOrId) ? networkOrId.toUpperCase() : getNetworkName(networkOrId)
 
-  return networkName === 'GOERLI' ? 'goerliETH' : networkName
+  switch (networkName) {
+    case 'MAINNET':
+      return 'ETH'
+    case 'GOERLI':
+      return 'GETH'
+    default:
+      return networkName
+  }
 }
 
 export const extractEthAddress = uri => {

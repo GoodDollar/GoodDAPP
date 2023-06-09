@@ -69,6 +69,7 @@ export const GoodWalletContext = React.createContext({
 export const TokenContext = React.createContext({
   token: 'G$',
   native: false,
+  balance: '0',
   setToken(token, native = false) {},
 })
 
@@ -377,28 +378,34 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
             },
           },
         }
+
   return (
     <GoodWalletContext.Provider value={contextValue}>
-      <Provider {...props}>
-        <TokenProvider>{children}</TokenProvider>
-      </Provider>
+      <TokenProvider wallet={goodWallet} walletData={balance}>
+        <Provider {...props}>{children}</Provider>
+      </TokenProvider>
     </GoodWalletContext.Provider>
   )
 }
 
-const TokenProvider = ({ children }) => {
-  const [token, setTokenName] = useState('G$')
-  const [native, setIsNative] = useState(false)
+const TokenProvider = ({ children, wallet, walletData }) => {
+  const [balance, setBalance] = useState(() => walletData.balance)
+  const [tokenData, setTokenData] = useState(() => ({ token: 'G$', native: false }))
+  const setToken = useCallback((token, native = false) => setTokenData({ token, native }), [setTokenData])
 
-  const setToken = useCallback(
-    (token, native = false) => {
-      setTokenName(token)
-      setIsNative(native)
-    },
-    [setTokenName, setIsNative],
-  )
+  useEffect(() => {
+    if (!tokenData.native) {
+      setBalance(walletData.balance)
+      return
+    }
 
-  return <TokenContext.Provider value={{ token, native, setToken }}>{children}</TokenContext.Provider>
+    wallet
+      .balanceOfNative()
+      .then(setBalance)
+      .catch(e => log.warn('Failed to fetch native balance', e.message, e, { account: wallet.account }))
+  }, [wallet, walletData, tokenData, setBalance])
+
+  return <TokenContext.Provider value={{ ...tokenData, balance, setToken }}>{children}</TokenContext.Provider>
 }
 
 export const useWallet = () => {
@@ -411,6 +418,7 @@ export const useUserStorage = (): UserStorage => {
 
   return userStorage
 }
+
 export const useWalletData = () => {
   const { dailyUBI, balance, totalBalance, celoBalance, fuseBalance, isCitizen, goodWallet } = useContext(
     GoodWalletContext,

@@ -33,7 +33,7 @@ export class AnalyticsClass {
     const isMixpanelEnabled = !!(mixpanel && mixpanelKey)
 
     assign(apis, apisDetected)
-    assign(this, { isSentryEnabled, isAmplitudeEnabled, isMixpanelEnabled })
+    assign(this, { isSentryEnabled, isAmplitudeEnabled, isMixpanelEnabled, isGoogleEnabled })
 
     const params = DeepLinking.params
 

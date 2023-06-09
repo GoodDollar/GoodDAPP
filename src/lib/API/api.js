@@ -417,6 +417,12 @@ export class APIService {
         explorer = Config.ethereum['1'].explorerAPI
         break
       default:
+        // eslint-disable-next-line no-lone-blocks
+        {
+          if (explorer.startsWith('https://api.') === false) {
+            explorer = explorer.replace('https://', 'https://api.')
+          }
+        }
         break
     }
     if (!explorer) {

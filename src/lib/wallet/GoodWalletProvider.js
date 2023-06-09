@@ -70,7 +70,7 @@ export const TokenContext = React.createContext({
   token: 'G$',
   native: false,
   balance: '0',
-  setToken(token, native = false) {},
+  setToken(token) {},
 })
 
 /**
@@ -392,12 +392,18 @@ const TokenProvider = ({ children, wallet, walletData }) => {
   const { networkId } = wallet ?? {}
   const [balance, setBalance] = useState(() => walletData.balance)
   const [tokenData, setTokenData] = useState(() => ({ token: 'G$', native: false }))
-  const setToken = useCallback((token, native = false) => setTokenData({ token, native }), [setTokenData])
+
+  const setToken = useCallback(
+    token =>
+      setTokenData({
+        token,
+        native: token === getNativeToken(networkId),
+      }),
+    [setTokenData, networkId],
+  )
 
   useEffect(() => {
-    const defaultToken = first(getTokensList(networkId))
-
-    setToken(defaultToken, defaultToken === getNativeToken(networkId))
+    setToken(first(getTokensList(networkId)))
   }, [networkId])
 
   useEffect(() => {
@@ -556,13 +562,6 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
   const { token, setToken } = useContext(TokenContext)
   const tokens = useMemo(() => getTokensList(networkId), [networkId])
 
-  const switchToken = useCallback(
-    token => {
-      setToken(token, token === getNativeToken(networkId))
-    },
-    [networkId, setToken],
-  )
-
   return useCallback(() => {
     let switchTo = token
 
@@ -577,13 +576,13 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
         {
           text: 'Select token',
           onPress: () => {
-            switchToken(switchTo)
+            setToken(switchTo)
             hideDialog()
           },
         },
       ],
     })
-  }, [showDialog, onDismiss, hideDialog, switchToken, token, tokens])
+  }, [showDialog, onDismiss, hideDialog, token, tokens])
 }
 
 export const useFormatG$ = () => {

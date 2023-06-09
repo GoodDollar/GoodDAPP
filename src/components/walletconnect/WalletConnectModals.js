@@ -4,7 +4,7 @@ import React, { useCallback, useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { t } from '@lingui/macro'
-import { entries, first } from 'lodash'
+import { entries, first, mapValues, pick } from 'lodash'
 import { isAddress } from 'web3-utils'
 import { Icon, Image, Text } from '../common'
 import QrReader from '../dashboard/QR/QRScanner'
@@ -17,7 +17,6 @@ import { openLink } from '../../lib/utils/linking'
 import { useDialog } from '../../lib/dialog/useDialog'
 import Config from '../../config/config'
 import mustache from '../../lib/utils/mustache'
-import { pick, mapValues } from 'lodash'
 
 const log = logger.child({ from: 'WalletConnectModals' })
 
@@ -137,9 +136,9 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
       {!isSign && !gasStatus.hasEnoughGas && (
         <Text color="red" fontWeight="bold">
           {mustache(
-             t`Not enough balance to execute transaction. Balance: {balance} Required: {gasRequired}`,
-             mapValues(pick(gasStatus, 'balance', 'gasRequired'), _ => _ / 1e18)
-           )}
+            t`Not enough balance to execute transaction. Balance: {balance} Required: {gasRequired}`,
+            mapValues(pick(gasStatus, 'balance', 'gasRequired'), _ => _ / 1e18),
+          )}
         </Text>
       )}
       {name && (

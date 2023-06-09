@@ -592,19 +592,15 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
   }, [showDialog, onDismiss, hideDialog, switchToken, token, tokens])
 }
 
-// pass 18 as default value for CELO/FUSE/ETH/goerliETH
-export const useFormatToken = (decimals = 18) => {
+export const useFormatG$ = () => {
   const wallet = useWallet()
 
-  // using args so functions do not lose "this" context
+  //using args so functions do not lose "this" context
   return {
-    toDecimals: (wei, chainId = null) => wallet?.toDecimals(wei, chainId, decimals),
-    fromDecimals: (amount, chainId = null) => wallet?.fromDecimals(amount, chainId, decimals),
+    toDecimals: (...args) => wallet?.toDecimals(...args),
+    fromDecimals: (...args) => wallet?.fromDecimals(...args),
   }
 }
-
-// pass null to not force decimals and use values from Config.ethereum for G$
-export const useFormatG$ = () => useFormatToken(null)
 
 export const usePropSuffix = () => {
   const { goodWallet } = useContext(GoodWalletContext)

@@ -12,10 +12,16 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
-import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
+import { decimalsToFixed, getNativeToken, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
-import { useFormatG$, useSwitchNetwork, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import {
+  TokenContext,
+  useFormatG$,
+  useSwitchNetwork,
+  useUserStorage,
+  useWalletData,
+} from '../../lib/wallet/GoodWalletProvider'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
@@ -209,6 +215,63 @@ const BalanceAndSwitch = ({
   )
 }
 
+const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalance }) => {
+  const { native, balance: tokenBalance } = useContext(TokenContext)
+  const [price, showPrice] = useGoodDollarPrice()
+  const isUBI = supportsG$UBI(network)
+
+  // show aggregated balance on FUSE/CELO, delta only
+  const balance = isDeltaApp && isUBI ? totalBalance : tokenBalance
+  const balanceFormatter = useCallback(amount => formatWithAbbreviations(amount, native ? 18 : 2), [native])
+
+  const calculateFontSize = useMemo(
+    () => ({
+      fontSize: normalizeByLength(balance, 42, 10),
+    }),
+    [balance],
+  )
+
+  const calculateUSDWorthOfBalance = useMemo(
+    () => (showPrice && (!isDeltaApp || !native) ? formatWithFixedValueDigits(price * Number(balance)) : null),
+    [showPrice, price, balance, native],
+  )
+
+  if (isDeltaApp && !native && !supportsG$(network)) {
+    return null
+  }
+
+  return (
+    <Animated.View style={styles.totalBalance}>
+      {headerLarge && (!isDeltaApp || isUBI) && (
+        <Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={12} style={styles.totalBalanceText}>
+          {` MY TOTAL BALANCE `}
+        </Text>
+      )}
+      <View style={styles.balanceUsdRow}>
+        <BigGoodDollar
+          testID="amount_value"
+          number={balance}
+          formatter={balanceFormatter}
+          units={native ? getNativeToken(network) : null}
+          bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
+          bigNumberUnitStyles={styles.bigNumberUnitStyles}
+          bigNumberProps={{
+            numberOfLines: 1,
+          }}
+          style={styles.bigGoodDollar}
+        />
+      </View>
+      {/* TODO: get ETH/GETH/FUSE/CELO price and calculate native tokens worth, may not needed for demo */}
+      {headerLarge &&
+        (!isDeltaApp || !native)(
+          <Text style={styles.gdPrice}>
+            ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
+          </Text>,
+        )}
+    </Animated.View>
+  )
+}
+
 const Dashboard = props => {
   const feedRef = useRef([])
   const resizeSubscriptionRef = useRef()
@@ -238,7 +301,7 @@ const Dashboard = props => {
   const userStorage = useUserStorage()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
-  const [price, showPrice] = useGoodDollarPrice()
+
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeEnabled } = Config
 
@@ -304,14 +367,6 @@ const Dashboard = props => {
     setHeaderContentWidth(newHeaderContentWidth)
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
-
-  const balanceFormatter = useCallback(
-    amount => {
-      const inDecimals = amount
-      return formatWithAbbreviations(inDecimals, 2)
-    },
-    [headerLarge, toDecimals],
-  )
 
   const listFooterComponent = <Separator color="transparent" width={50} />
 
@@ -764,18 +819,6 @@ const Dashboard = props => {
   //   [],
   // )
 
-  const calculateFontSize = useMemo(
-    () => ({
-      fontSize: normalizeByLength(balance, 42, 10),
-    }),
-    [balance, toDecimals],
-  )
-
-  const calculateUSDWorthOfBalance = useMemo(
-    () => (showPrice ? formatWithFixedValueDigits(price * Number(balance)) : null),
-    [showPrice, price, balance, toDecimals],
-  )
-
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Animated.View style={[styles.topInfo, topInfoAnimStyles]}>
@@ -804,36 +847,7 @@ const Dashboard = props => {
                   )}
                 </Animated.View>
               </Section>
-              <Animated.View style={styles.totalBalance}>
-                {headerLarge && (
-                  <Text
-                    color="gray100Percent"
-                    fontFamily={theme.fonts.default}
-                    fontSize={12}
-                    style={styles.totalBalanceText}
-                  >
-                    {` MY TOTAL BALANCE `}
-                  </Text>
-                )}
-                <View style={styles.balanceUsdRow}>
-                  <BigGoodDollar
-                    testID="amount_value"
-                    number={balance}
-                    formatter={balanceFormatter}
-                    bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
-                    bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                    bigNumberProps={{
-                      numberOfLines: 1,
-                    }}
-                    style={styles.bigGoodDollar}
-                  />
-                </View>
-                {headerLarge && (
-                  <Text style={styles.gdPrice}>
-                    ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
-                  </Text>
-                )}
-              </Animated.View>
+              <TotalBalance headerLarge={headerLarge} theme={theme} styles={styles} network={currentNetwork} />
             </Animated.View>
             {headerLarge && (!isDeltaApp || supportsG$(currentNetwork)) && (
               <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>

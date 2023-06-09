@@ -64,6 +64,21 @@ export const getNativeToken = networkOrId => {
   }
 }
 
+export const getTokensList = networkId => {
+  const list = [getNativeToken(networkId)]
+
+  if (supportsG$(networkId)) {
+    // put G$ on the first place at the network supporting UBI, native token otherwise
+    if (supportsG$UBI(networkId)) {
+      list.unshift('G$')
+    } else {
+      list.push('G$')
+    }
+  }
+
+  return list
+}
+
 export const extractEthAddress = uri => {
   const regExResult = uri.match(ethAddressRegex)
 

@@ -70,7 +70,7 @@ const TokenName = () => {
   return (
     <TouchableOpacity onPress={showModal} style={styles.switchButton}>
       <Text color={'white'} fontWeight="bold" fontSize={10}>
-        / {token}
+        {token}
       </Text>
     </TouchableOpacity>
   )
@@ -110,7 +110,15 @@ const NetworkName = () => {
         <Text color={'white'} fontWeight="bold" fontSize={10}>
           {currentNetwork}
         </Text>
-        {isDeltaApp && <TokenName />}
+        {isDeltaApp && (
+          <>
+            <Text color={'white'} fontWeight="bold" fontSize={10}>
+              {' '}
+              /{' '}
+            </Text>
+            <TokenName />
+          </>
+        )}
       </TouchableOpacity>
     </View>
   )

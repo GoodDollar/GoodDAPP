@@ -227,7 +227,7 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
 
   const calculateFontSize = useMemo(
     () => ({
-      fontSize: normalizeByLength(balance, 42, 10),
+      fontSize: balance ? normalizeByLength(balance, 42, 10) : 42,
     }),
     [balance],
   )
@@ -253,7 +253,7 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
           testID="amount_value"
           number={balance}
           formatter={balanceFormatter}
-          units={native ? getNativeToken(network) : null}
+          unit={isDeltaApp && native ? getNativeToken(network) : null}
           bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
           bigNumberUnitStyles={styles.bigNumberUnitStyles}
           bigNumberProps={{
@@ -263,12 +263,11 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
         />
       </View>
       {/* TODO: get ETH/GETH/FUSE/CELO price and calculate native tokens worth, may not needed for demo */}
-      {headerLarge &&
-        (!isDeltaApp || !native)(
-          <Text style={styles.gdPrice}>
-            ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
-          </Text>,
-        )}
+      {headerLarge && (!isDeltaApp || !native) && (
+        <Text style={styles.gdPrice}>
+          ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
+        </Text>
+      )}
     </Animated.View>
   )
 }
@@ -848,7 +847,13 @@ const Dashboard = props => {
                   )}
                 </Animated.View>
               </Section>
-              <TotalBalance headerLarge={headerLarge} theme={theme} styles={styles} network={currentNetwork} />
+              <TotalBalance
+                headerLarge={headerLarge}
+                theme={theme}
+                styles={styles}
+                network={currentNetwork}
+                balance={balance}
+              />
             </Animated.View>
             {headerLarge && (!isDeltaApp || supportsG$(currentNetwork)) && (
               <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>

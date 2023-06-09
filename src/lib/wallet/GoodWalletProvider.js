@@ -24,7 +24,7 @@ import { setChainId } from '../analytics/analytics'
 import { withStyles } from '../styles'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-import { getNativeToken, supportsG$, supportsG$UBI } from './utils'
+import { getNativeToken, getTokensList, supportsG$UBI } from './utils'
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -389,20 +389,33 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 }
 
 const TokenProvider = ({ children, wallet, walletData }) => {
+  const { networkId } = wallet ?? {}
   const [balance, setBalance] = useState(() => walletData.balance)
   const [tokenData, setTokenData] = useState(() => ({ token: 'G$', native: false }))
   const setToken = useCallback((token, native = false) => setTokenData({ token, native }), [setTokenData])
 
   useEffect(() => {
+    const defaultToken = first(getTokensList(networkId))
+
+    setToken(defaultToken, defaultToken === getNativeToken(networkId))
+  }, [networkId])
+
+  useEffect(() => {
     if (!tokenData.native) {
-      setBalance(walletData.balance)
+      setBalance(walletData?.balance)
       return
     }
+
+    if (!wallet) {
+      return
+    }
+
+    const { account } = wallet
 
     wallet
       .balanceOfNative()
       .then(setBalance)
-      .catch(e => log.warn('Failed to fetch native balance', e.message, e, { account: wallet.account }))
+      .catch(e => log.warn('Failed to fetch native balance', e.message, e, { account }))
   }, [wallet, walletData, tokenData, setBalance])
 
   return <TokenContext.Provider value={{ ...tokenData, balance, setToken }}>{children}</TokenContext.Provider>
@@ -541,21 +554,7 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
   const { showDialog, hideDialog } = useDialog()
   const { networkId } = useWallet()
   const { token, setToken } = useContext(TokenContext)
-
-  const tokens = useMemo(() => {
-    const list = [getNativeToken(networkId)]
-
-    if (supportsG$(networkId)) {
-      // put G$ on the first place at the network supporting UBI, native token otherwise
-      if (supportsG$UBI(networkId)) {
-        list.unshift('G$')
-      } else {
-        list.push('G$')
-      }
-    }
-
-    return list
-  }, [networkId])
+  const tokens = useMemo(() => getTokensList(networkId), [networkId])
 
   const switchToken = useCallback(
     token => {
@@ -563,11 +562,6 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
     },
     [networkId, setToken],
   )
-
-  // set first one value from the list available once network changes and list recalculates
-  useEffect(() => {
-    switchToken(first(tokens))
-  }, [tokens])
 
   return useCallback(() => {
     let switchTo = token

@@ -125,8 +125,7 @@ jobs:
         if: matrix.chunk == env.WALLET_CHUNK
         run: |
           npm i -g yarn
-          yarn set version berry
-          ./scripts/blockchainTestSetup.sh
+          yarn test:setup
 
       - name: run local node so providers dont crash in tests
         if: matrix.chunk != env.WALLET_CHUNK

@@ -13,7 +13,11 @@ curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -o ./
 chmod +x ./node_modules/node-jq/bin/jq
 npx patch-package
 yarn runNode &
+echo "sleeping 15 sec for node start..."
+sleep 15
+echo "deploying test..."
 yarn deployTest
+echo "minimizing..."
 yarn minimize
 popd
 cp -R /tmp/goodprotocol/artifacts node_modules/@gooddollar/goodprotocol/

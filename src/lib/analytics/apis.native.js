@@ -37,8 +37,9 @@ class GoogleWrapper {
 
   async setUserProperties(params = {}) {
     const { analytics } = this
-    const mappedParams = mapValues(params, String)
-    await analytics.setUserProperties(mappedParams)
+
+    const safeParams = mapValues(params, String)
+    await analytics.setUserProperties(safeParams)
   }
 
   logEvent(event: string, data: any = {}) {

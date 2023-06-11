@@ -10,7 +10,7 @@ ls -la node_modules
 mkdir node_modules && true
 mkdir node_modules/node-jq && true
 mkdir node_modules/node-jq/bin && true
-curl -LO https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -o ./node_modules/node-jq/bin/jq
+curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -o ./node_modules/node-jq/bin/jq
 chmod +x ./node_modules/node-jq/bin/jq
 npx patch-package
 yarn runNode &

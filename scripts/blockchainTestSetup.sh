@@ -5,12 +5,8 @@ export CI=false
 export MNEMONIC='test test test test test test test test test test test junk'
 export ADMIN_MNEMONIC='test test test test test test test test test test test junk'
 yarn set version berry
+echo "nodeLinker: node-modules" >> .yarnrc.yml
 yarn --immutable
-mkdir node_modules && true
-mkdir node_modules/node-jq && true
-mkdir node_modules/node-jq/bin && true
-curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -o ./node_modules/node-jq/bin/jq
-chmod +x ./node_modules/node-jq/bin/jq
 npx patch-package
 yarn runNode &
 echo "sleeping 15 sec for node start..."

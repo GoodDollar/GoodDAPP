@@ -113,13 +113,13 @@ jobs:
       - name: Install dependencies
         run: yarn --immutable
 
-      - uses: actions/cache@v3
-        id: contractsCache
-        if: matrix.chunk == env.WALLET_CHUNK
-        name: cache goodcontracts
-        with:
-          path: /tmp/goodprotocol
-          key: ${{ hashFiles('node_modules/@gooddollar/goodprotocol/yarn.lock') }}
+      # - uses: actions/cache@v3
+      #   id: contractsCache
+      #   if: matrix.chunk == env.WALLET_CHUNK
+      #   name: cache goodcontracts
+      #   with:
+      #     path: /tmp/goodprotocol
+      #     key: ${{ hashFiles('node_modules/@gooddollar/goodprotocol/yarn.lock') }}
 
       - name: install goodcontracts
         if: matrix.chunk == env.WALLET_CHUNK

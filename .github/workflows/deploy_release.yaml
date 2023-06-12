@@ -92,7 +92,7 @@ jobs:
               uses: web3-storage/add-to-web3@v1
               with:
                   web3_token: ${{ secrets.WEB3_STORAGE }}
-                  path_to_add: './build'
+                  path_to_add: './dist'
 
             - name: Display pin address
               run: |

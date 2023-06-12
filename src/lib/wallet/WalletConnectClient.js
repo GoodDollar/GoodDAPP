@@ -311,8 +311,10 @@ export const useWalletConnectSession = () => {
         },
         onReject: () => {
           if (isV2) {
+            log.debug('v2 rejectSession', { payload, isV2 })
+            // rejectRequest(connector, payload.id, payload.params.pairingTopic, getSdkError('USER_REJECTED'))
             connector.rejectSession({
-              proposerPublicKey: payload?.params?.peer.publicKey,
+              id: payload?.id,
               reason: getSdkError('USER_REJECTED'),
             })
           }
@@ -699,20 +701,36 @@ export const useWalletConnectSession = () => {
             clientMeta: metadata,
           })
           initializeV1(connector)
-
           log.debug('got uri created connection:', { uri, session, wallet, connector })
           if (session && connector.pending && !connector.connected) {
             log.debug('calling handlesession from connect...')
-            handleSessionRequest(connector, { params: [{ chainId }] })
+            handleSessionRequest(connector, { params: [{ chainId, test }] })
           }
           setConnector(connector)
           cachedConnector = connector
 
           return connector
         } else if (isInitialized && version == 2) {
-          const pairResult = await cachedV2Connector.core.pairing.pair({ uri })
-          log.debug('v2 paired:', { uri, pairResult })
-          setConnector(cachedV2Connector)
+          try {
+            const pairResult = await cachedV2Connector.core.pairing.pair({ uri })
+            log.debug('v2 paired:', { uri, pairResult })
+            setConnector(cachedV2Connector)
+          } catch (e) {
+            if (e.message.includes('Pairing already exists')) {
+              const { topic } = parseUri(uri)
+              // wip: this is not working
+              const activateResult = await cachedV2Connector.core.pairing.activate({ topic })
+              log.debug('v2 pairing failed: ', {
+                message: e.message,
+                e,
+                cachedV2Connector,
+                uri,
+                activateResult,
+                connect: cachedV2Connector.connect,
+              })
+              setConnector(cachedV2Connector)
+            }
+          }
         }
       }
     },

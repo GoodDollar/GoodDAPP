@@ -36,8 +36,8 @@ bindAll(wc2Re, 'test')
 // 10. events
 // 11. show warning if unable to decode contract call
 
-const CELO_APPS = ["gooddapp.xyz","gooddapp.org","gooddollar.org","prosperity.global","ubeswap.org"]
-const CELO_ALFAJORES_APPS = ["dev.app.prosperity.global"]
+const CELO_APPS = ['gooddapp.xyz', 'gooddapp.org', 'gooddollar.org', 'app.prosperity.global', 'ubeswap.org']
+const CELO_ALFAJORES_APPS = ['dev.app.prosperity.global']
 
 const metadata = {
   description: 'GoodDollar Wallet App',
@@ -169,7 +169,7 @@ export const useWalletConnectSession = () => {
       log.info('decodetx:', { tx, explorer, chainId })
       if (tx.data !== '0x' && explorer) {
         try {
-          log.info('fetching contract data', {chainId, explorer, contract: tx.to })
+          log.info('fetching contract data', { chainId, explorer, contract: tx.to })
           const proxyOrAddress = await wallet.getContractProxy(tx.to, web3).catch()
           const result = await api.getContractAbi(proxyOrAddress || tx.to, chainId, explorer).catch(e => {
             log.error('failed fetching contract abi:', e.message, e, { chainId, explorer, contract: tx.to })
@@ -257,12 +257,10 @@ export const useWalletConnectSession = () => {
       if (CELO_ALFAJORES_APPS.find(_ => appUrl.includes(_))) {
         // force Celo when connecting to gooddapp
         requestedChainId = 44787
-      }
-      else if (CELO_APPS.find(_ => appUrl.includes(_))) {
+      } else if (CELO_APPS.find(_ => appUrl.includes(_))) {
         // force Celo when connecting to gooddapp
         requestedChainId = 42220
-      }
-      else if (appUrl.includes('voltage.finance')) {
+      } else if (appUrl.includes('voltage.finance')) {
         // bug in voltage chainid request
         requestedChainId = 122
       }
@@ -375,8 +373,8 @@ export const useWalletConnectSession = () => {
       const requestedChainId = Number(v2meta?.chainId || connector.session?.chainId)
       //handle v2 per request chain
       const chainDetails = v2meta?.chainId || !chain ? chains.find(_ => Number(_.chainId) === requestedChainId) : chain
-      log.info('handleTxRequest', { message, method, params,requestedChainId, metadata, connector, chainDetails })
-      
+      log.info('handleTxRequest', { message, method, params, requestedChainId, metadata, connector, chainDetails })
+
       const web3 = await getWeb3(chainDetails)
       let explorer = first(chainDetails.explorers)?.url
 
@@ -400,11 +398,11 @@ export const useWalletConnectSession = () => {
         default: {
           const gasPrice = await web3.eth.getGasPrice()
           let gasField = message.maxFeePerGas ? 'maxFeePerGas' : 'gasPrice'
-          if(message[gasField])
-          {
-            message[gasField] = web3Utils.toBN(message[gasField]).gt(web3Utils.toBN(gasPrice)) ? gasPrice : message[gasField]
-          }
-          else {
+          if (message[gasField]) {
+            message[gasField] = web3Utils.toBN(message[gasField]).gt(web3Utils.toBN(gasPrice))
+              ? gasPrice
+              : message[gasField]
+          } else {
             message[gasField] = gasPrice
           }
         }
@@ -413,8 +411,8 @@ export const useWalletConnectSession = () => {
       let error
       let estimatedGas
       try {
-        const {data, from, to ,value} = message
-        estimatedGas = await web3.eth.estimateGas({data,from,to,value})
+        const { data, from, to, value } = message
+        estimatedGas = await web3.eth.estimateGas({ data, from, to, value })
       } catch (e) {
         error = e.message
       }
@@ -422,8 +420,7 @@ export const useWalletConnectSession = () => {
 
       // We must pass a number through the bridge
       message.gas = estimatedGas || message.gas || String(Config.defaultTxGas)
-      
-      
+
       const eip1599Gas = () => web3Utils.toBN(message.maxFeePerGas).add(web3Utils.toBN(message.maxPriorityFeePerGas))
       const gasRequired = web3Utils
         .toBN(message.gas)
@@ -518,7 +515,7 @@ export const useWalletConnectSession = () => {
           chainId: `eip155:${chainDetails.chainId}`,
         })
         v2session.chainId = chainDetails.chainId
-        setSession(v2session) //make sure chainId in UI dropdown changes        
+        setSession(v2session) //make sure chainId in UI dropdown changes
         log.debug('switching chain notification v2 done', { chainDetails, v2session })
         AsyncStorage.setItem('walletconnect_requestedChain_v2', chainDetails.chainId)
       }
@@ -572,10 +569,8 @@ export const useWalletConnectSession = () => {
         const activeSessions = connector?.getActiveSessions()
         try {
           await connector.disconnectSession({ topic, reason: getSdkError('USER_DISCONNECTED') })
-        }
-        catch(e)
-        {
-          log.warn("session disconnect failed",e.message,e)
+        } catch (e) {
+          log.warn('session disconnect failed', e.message, e)
         }
 
         setSession(undefined)
@@ -788,8 +783,7 @@ export const useWalletConnectSession = () => {
 
   // initialize v2 connector effect
   useEffect(() => {
-    if(cachedConnector)
-    {
+    if (cachedConnector) {
       initializeV1(cachedConnector)
     }
     if (!isInitialized) {
@@ -821,12 +815,20 @@ export const useWalletConnectSession = () => {
       log.debug('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })
       handleSessionDisconnect(cachedV2Connector, event)
     })
-    
-    if(!v2session)
-    {
+
+    if (!v2session) {
       reconnectV2()
     }
-  }, [isInitialized, reconnectV2,v2session, cachedV2Connector, setV2Session, handleCallRequest, handleSessionRequest, handleSessionDisconnect])
+  }, [
+    isInitialized,
+    reconnectV2,
+    v2session,
+    cachedV2Connector,
+    setV2Session,
+    handleCallRequest,
+    handleSessionRequest,
+    handleSessionDisconnect,
+  ])
 
   //v1 connector initialize
   const initializeV1 = connector => {
@@ -886,7 +888,9 @@ export const useWalletConnectSession = () => {
 
   const setV2Session = useCallback(
     (sessionv2, event) => {
-      let requestedChainIdV2 = Number((event?.params?.chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1])
+      let requestedChainIdV2 = Number(
+        (event?.params?.chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
+      )
       log.info('settingv2session', { sessionv2, requestedChainIdV2, chain })
       if (sessionv2) {
         log.debug('setting v2 session and active connector', { sessionv2, cachedV2Connector, requestedChainIdV2 })
@@ -915,11 +919,10 @@ export const useWalletConnectSession = () => {
         session.chainId,
       )
     }
-
   }, [activeConnector, connect])
 
   const reconnectV2 = useCallback(async () => {
-    log.debug('reconnect v2:', {isInitialized, cachedV2Connector })
+    log.debug('reconnect v2:', { isInitialized, cachedV2Connector })
 
     if (isInitialized) {
       // handle v2
@@ -936,23 +939,18 @@ export const useWalletConnectSession = () => {
     setPending(txs)
   }
 
-  
   useEffect(() => {
     loadPendingTxs()
     reconnectV1().then(connected => {
-      log.info("v1 reconnec result:",{connected})      
+      log.info('v1 reconnec result:', { connected })
       if (!connected && cachedConnector) {
         log.info('cachedConnector exists not reconnecting')
         return setConnector(cachedConnector)
       }
-
     })
-    
-    
   }, [])
 
   useEffect(() => {
-
     const chainDetails = chains.find(
       _ => Number(_.chainId) === Number(activeConnector?.session?.chainId || v2session?.chainId),
     )
@@ -983,7 +981,7 @@ export const useWalletConnectSession = () => {
     isConnected,
     session: activeConnector?.session || v2session,
     version: activeConnector === cachedV2Connector ? 2 : 1,
-    v2session
+    v2session,
   })
   return {
     isWCDialogShown: isDialogShown,

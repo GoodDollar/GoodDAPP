@@ -1,7 +1,7 @@
 // @flow
 
 // libraries
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { isAddress } from 'web3-utils'
 
 // components
@@ -16,11 +16,13 @@ import usePermissions from '../permissions/hooks/usePermissions'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 
 // utils
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { Permissions } from '../permissions/types'
+import Config from '../../config/config'
 import { GDTokensWarningBox } from './ReceiveToAddress'
+import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type TypeProps = {
   screenProps: any,
@@ -32,6 +34,7 @@ const SendToAddress = (props: TypeProps) => {
   const { screenProps, styles, navigation } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
   const goodWallet = useWallet()
+  const { native } = useContext(TokenContext)
 
   const { push, navigateTo } = screenProps
   const { params } = navigation.state
@@ -95,9 +98,11 @@ const SendToAddress = (props: TypeProps) => {
             autoFocus
           />
         </Section.Stack>
-        <Section grow justifyContent="center">
-          <GDTokensWarningBox isSend={true} />
-        </Section>
+        {(!Config.isDeltaApp || !native) && (
+          <Section grow justifyContent="center">
+            <GDTokensWarningBox isSend={true} />
+          </Section>
+        )}
         <Section.Row alignItems="flex-end">
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
@@ -120,9 +125,7 @@ const SendToAddress = (props: TypeProps) => {
   )
 }
 
-SendToAddress.navigationOptions = {
-  title: 'Send G$',
-}
+SendToAddress.navigationOptions = navigationOptions
 
 SendToAddress.shouldNavigateToComponent = ({ screenProps }) => {
   const { screenState } = screenProps

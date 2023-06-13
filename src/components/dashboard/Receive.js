@@ -15,7 +15,7 @@ import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/siz
 import { generateCode, generateReceiveShareObject, isSharingAvailable } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
 import Config from '../../config/config'
-import NavBar from './SendReceive/NavBar'
+import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -75,23 +75,25 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
           <Section.Text fontSize={14}>- OR -</Section.Text>
         </Section.Stack>
         <Section.Stack alignItems="stretch">
-          {(!isDeltaApp || !native) && (
-            <>
-              <PushButton
-                dark={false}
-                routeName="Amount"
-                mode="outlined"
-                screenProps={screenProps}
-                params={{
-                  nextRoutes: ['Reason', 'ReceiveSummary', 'TransactionConfirmation'],
-                  action: 'Receive',
-                }}
-              >
-                {t`Request specific amount`}
-              </PushButton>
-              <View style={styles.space} />
-            </>
+          {isDeltaApp && native ? (
+            <PushButton dark={false} routeName="ReceiveToAddress" mode="outlined" screenProps={screenProps}>
+              {t`Receive via wallet address`}
+            </PushButton>
+          ) : (
+            <PushButton
+              dark={false}
+              routeName="Amount"
+              mode="outlined"
+              screenProps={screenProps}
+              params={{
+                nextRoutes: ['Reason', 'ReceiveSummary', 'TransactionConfirmation'],
+                action: 'Receive',
+              }}
+            >
+              {t`Request specific amount`}
+            </PushButton>
           )}
+          <View style={styles.space} />
           {isSharingAvailable ? (
             <CustomButton onPress={shareHandler}>{SHARE_TEXT}</CustomButton>
           ) : (
@@ -110,11 +112,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   )
 }
 
-// eslint-disable-next-line prettier/prettier
-Receive.navigationOptions = !isDeltaApp ? { title: t`Receive G$` } : ({ screenProps }) => ({
-      title: t`Receive`,
-      navigationBar: () => <NavBar title={t`Receive`} screenProps={screenProps} />,
-    })
+Receive.navigationOptions = navigationOptions
 
 const getStylesFromProps = ({ theme }) => ({
   emptySpace: {

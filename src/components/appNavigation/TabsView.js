@@ -76,7 +76,7 @@ const TokenName = () => {
   )
 }
 
-export const NetworkName = () => {
+export const NetworkName = ({ icon = true }) => {
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const showModal = useSwitchNetworkModal()
 
@@ -96,14 +96,16 @@ export const NetworkName = () => {
   return (
     <View style={styles.networkName}>
       <TouchableOpacity onPress={onToggle} style={styles.switchButton}>
-        <IconButton
-          onPress={onToggle}
-          name="switch"
-          bgColor="transparent"
-          color="white"
-          circle={false}
-          style={styles.switchNetworkIcon}
-        />
+        {icon && (
+          <IconButton
+            onPress={onToggle}
+            name="switch"
+            bgColor="transparent"
+            color="white"
+            circle={false}
+            style={styles.switchNetworkIcon}
+          />
+        )}
         <View style={styles.activeIcon}>
           <GreenCircle />
         </View>

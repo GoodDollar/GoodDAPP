@@ -1,20 +1,22 @@
 // @flow
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { BN, toBN } from 'web3-utils'
 import { t } from '@lingui/macro'
 import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 import logger from '../../lib/logger/js-logger'
-import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
+import { AmountInput, ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { useSwitchNetwork, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useSwitchNetwork, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import mustache from '../../lib/utils/mustache'
-import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
+import Config from '../../config/config'
+import useOnPress from '../../lib/hooks/useOnPress'
+import { ACTION_RECEIVE, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
@@ -51,6 +53,7 @@ const Amount = (props: AmountProps) => {
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeLimits } = useGetBridgeData(goodWallet.networkId, goodWallet.account)
   const { minAmount } = bridgeLimits || { minAmount: 0 }
+  const { native } = useContext(TokenContext)
 
   const bridgeState = isBridge
     ? {
@@ -123,13 +126,23 @@ const Amount = (props: AmountProps) => {
     setError('')
   }
 
-  const showScanQR = !isReceive && !params?.counterPartyDisplayName //not in receive flow and also QR wasnt displayed on Who screen
+  const handlePressSendToAddress = useOnPress(
+    () =>
+      push('SendToAddress', {
+        nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
+        action: ACTION_SEND_TO_ADDRESS,
+      }),
+    [push],
+  )
+
+  const showScanQR = !isReceive && !params?.counterPartyDisplayName // ot in receive flow and also QR wasnt displayed on Who screen
+
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper withGradient={true}>
         <TopBar push={screenProps.push} isBridge={isBridge} network={currentNetwork}>
           {showScanQR && !isBridge && <ScanQRButton onPress={handlePressQR} />}
-          {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
+          {Config.isDeltaApp && !isReceive && native && <SendToAddressButton onPress={handlePressSendToAddress} />}
         </TopBar>
         <Section grow style={styles.buttonsContainer}>
           <Section.Stack grow justifyContent="flex-start">

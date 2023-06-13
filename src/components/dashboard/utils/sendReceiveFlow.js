@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { t } from '@lingui/macro'
 import Config from '../../../config/config'
-import NavBar from '../SendReceive/NavBar'
+import AppNavBar from '../../appNavigation/NavBar'
+import { TokenContext } from '../../../lib/wallet/GoodWalletProvider'
+import { NetworkName } from '../../appNavigation/TabsView'
+
+const NavBar = ({ title, goBack }) => {
+  const { token } = useContext(TokenContext)
+
+  return (
+    <AppNavBar goBack={goBack} title={`${title} ${token}`}>
+      <NetworkName icon={false} />
+    </AppNavBar>
+  )
+}
 
 export const navigationOptions = ({ navigation, screenProps }) => {
   const { routeName } = navigation.state

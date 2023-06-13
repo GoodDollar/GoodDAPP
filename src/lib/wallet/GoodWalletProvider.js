@@ -196,7 +196,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         log.info('initWalletAndStorage wallet ready', { type, seedOrWeb3 })
 
-        const storage = new UserStorage(wallet, db, new UserProperties(db), { fuse: fusewallet, celo: celowallet })
+        const storage = new UserStorage(wallet, db, new UserProperties(db))
         const loginAndWatch = shouldLoginAndWatch()
 
         await storage.ready

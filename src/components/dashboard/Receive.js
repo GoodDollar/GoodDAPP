@@ -1,11 +1,11 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { PixelRatio, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent, RECEIVE_DONE } from '../../lib/analytics/analytics'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
@@ -14,6 +14,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 import { generateCode, generateReceiveShareObject, isSharingAvailable } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
+import Config from '../../config/config'
 export type ReceiveProps = {
   screenProps: any,
   navigation: any,
@@ -30,6 +31,8 @@ const reason = ''
 const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const { fullName } = useProfile() || {}
   const goodWallet = useWallet()
+  const { native } = useContext(TokenContext)
+
   const share = useMemo(() => {
     const { account, networkId } = goodWallet
     const code = generateCode(account, networkId, amount, reason)
@@ -68,19 +71,23 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
           <Section.Text fontSize={14}>- OR -</Section.Text>
         </Section.Stack>
         <Section.Stack alignItems="stretch">
-          <PushButton
-            dark={false}
-            routeName="Amount"
-            mode="outlined"
-            screenProps={screenProps}
-            params={{
-              nextRoutes: ['Reason', 'ReceiveSummary', 'TransactionConfirmation'],
-              action: 'Receive',
-            }}
-          >
-            {t`Request specific amount`}
-          </PushButton>
-          <View style={styles.space} />
+          {(!Config.isDeltaApp || !native) && (
+            <>
+              <PushButton
+                dark={false}
+                routeName="Amount"
+                mode="outlined"
+                screenProps={screenProps}
+                params={{
+                  nextRoutes: ['Reason', 'ReceiveSummary', 'TransactionConfirmation'],
+                  action: 'Receive',
+                }}
+              >
+                {t`Request specific amount`}
+              </PushButton>
+              <View style={styles.space} />
+            </>
+          )}
           {isSharingAvailable ? (
             <CustomButton onPress={shareHandler}>{SHARE_TEXT}</CustomButton>
           ) : (

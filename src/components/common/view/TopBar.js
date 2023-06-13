@@ -1,11 +1,16 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Platform, StyleSheet } from 'react-native'
+import { formatUnits } from '@ethersproject/units'
 import Section from '../layout/Section'
 import useProfile from '../../../lib/userStorage/useProfile'
-import { useWalletData } from '../../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useWalletData } from '../../../lib/wallet/GoodWalletProvider'
 import { theme } from '../../theme/styles'
+import Config from '../../../config/config'
+import { decimalsToFixed } from '../../../lib/wallet/utils'
 import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
+
+const nativeFormatter = number => decimalsToFixed(formatUnits(String(number ?? '0'), 18))
 
 /**
  * TopBar - used To display contextual information in a small container
@@ -28,8 +33,9 @@ const TopBar = ({
   network,
 }) => {
   const { balance } = useWalletData()
-
   const { smallAvatar: avatar } = useProfile()
+  const { balance: tokenBalance, token, native } = useContext(TokenContext)
+  const isNativeToken = Config.isDeltaApp && native
 
   const redirectToProfile = useCallback(() => {
     if (!push || !profileAsLink) {
@@ -59,7 +65,14 @@ const TopBar = ({
           if children=undefined and hideBalance=true, nothing will be rendered
           */}
         <Section.Text style={styles.balance}>
-          {!hideBalance && <BigGoodDollar style={styles.bigGoodDollar} number={balance} />}
+          {!hideBalance && (
+            <BigGoodDollar
+              style={styles.bigGoodDollar}
+              number={isNativeToken ? tokenBalance : balance}
+              unit={isNativeToken ? token : undefined}
+              formatter={isNativeToken ? nativeFormatter : undefined}
+            />
+          )}
         </Section.Text>
 
         {children}

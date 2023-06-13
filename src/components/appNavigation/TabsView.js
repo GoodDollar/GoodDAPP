@@ -76,7 +76,7 @@ const TokenName = () => {
   )
 }
 
-const NetworkName = () => {
+export const NetworkName = () => {
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const showModal = useSwitchNetworkModal()
 

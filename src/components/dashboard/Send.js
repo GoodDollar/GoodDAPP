@@ -8,8 +8,11 @@ import InputRecipient from '../common/form/InputRecipient'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import { CustomButton, IconButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
+import Config from '../../config/config'
+import NavBar from './SendReceive/NavBar'
 
-const SEND_TITLE = 'Send G$'
+const { isDeltaApp } = Config
+const SEND_TITLE = isDeltaApp ? 'Send' : 'Send G$'
 
 const log = logger.child({ from: SEND_TITLE })
 
@@ -115,8 +118,17 @@ const Send = ({ screenProps }) => {
   )
 }
 
-Send.navigationOptions = {
-  title: SEND_TITLE,
+// eslint-disable-next-line prettier/prettier
+Send.navigationOptions = ({ screenProps }) => {
+  const options = {
+    title: SEND_TITLE,
+  }
+
+  if (isDeltaApp) {
+    options.navigationBar = () => <NavBar title={options.title} screenProps={screenProps} />
+  }
+
+  return options
 }
 
 export default Send

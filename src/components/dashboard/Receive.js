@@ -15,11 +15,15 @@ import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/siz
 import { generateCode, generateReceiveShareObject, isSharingAvailable } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
 import Config from '../../config/config'
+import NavBar from './SendReceive/NavBar'
+
 export type ReceiveProps = {
   screenProps: any,
   navigation: any,
   styles: any,
 }
+
+const { isDeltaApp } = Config
 
 // This condition recognizes the devices which resolution is higher than Iphone 6/7/8 Plus
 const useTopSpaceForMobile = isMobileOnlyWeb && PixelRatio.get() >= 2 && getMaxDeviceHeight() >= 622
@@ -71,7 +75,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
           <Section.Text fontSize={14}>- OR -</Section.Text>
         </Section.Stack>
         <Section.Stack alignItems="stretch">
-          {(!Config.isDeltaApp || !native) && (
+          {(!isDeltaApp || !native) && (
             <>
               <PushButton
                 dark={false}
@@ -106,9 +110,11 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   )
 }
 
-Receive.navigationOptions = {
-  title: t`Receive G$`,
-}
+// eslint-disable-next-line prettier/prettier
+Receive.navigationOptions = !isDeltaApp ? { title: t`Receive G$` } : ({ screenProps }) => ({
+      title: t`Receive`,
+      navigationBar: () => <NavBar title={t`Receive`} screenProps={screenProps} />,
+    })
 
 const getStylesFromProps = ({ theme }) => ({
   emptySpace: {

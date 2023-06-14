@@ -717,9 +717,6 @@ export const useWalletConnectSession = () => {
             setConnector(cachedV2Connector)
           } catch (e) {
             if (e.message.includes('Pairing already exists')) {
-              const { topic } = parseUri(uri)
-              // wip: this is not working
-              const activateResult = await cachedV2Connector.core.pairing.activate({ topic })
               log.debug('v2 pairing failed: ', {
                 message: e.message,
                 e,
@@ -728,7 +725,6 @@ export const useWalletConnectSession = () => {
                 activateResult,
                 connect: cachedV2Connector.connect,
               })
-              setConnector(cachedV2Connector)
             }
           }
         }

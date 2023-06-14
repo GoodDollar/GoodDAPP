@@ -66,7 +66,7 @@ import interestQuery from './queries/interestReceived.gql'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 const ZERO = new BN('0')
-const POKT_MAX_EVENTSBLOCKS = 100000
+const POKT_MAX_EVENTSBLOCKS = 50000
 
 const log = logger.child({ from: 'GoodWalletV2' })
 
@@ -373,7 +373,7 @@ export class GoodWallet {
     }
   }
 
-  async pollEvents(fn, time, lastBlockCallback) {
+  async pollEvents(time, lastBlockCallback) {
     try {
       const run = async () => {
         if (this.isPollEvents === false) {
@@ -397,7 +397,7 @@ export class GoodWallet {
     } catch (e) {
       log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }
-    this.pollEventsTimeout = setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
+    this.pollEventsTimeout = setTimeout(() => this.pollEvents(time, lastBlockCallback), time)
   }
 
   // eslint-disable-next-line require-await
@@ -426,12 +426,7 @@ export class GoodWallet {
     lastBlockCallback(lastBlock)
     this.lastEventsBlock = lastBlock
 
-    this.pollEvents(
-      toBlock =>
-        Promise.all([this.pollSendEvents(toBlock), this.pollReceiveEvents(toBlock), this.pollOTPLEvents(toBlock)]),
-      Config.web3Polling,
-      lastBlockCallback,
-    )
+    this.pollEvents(Config.web3Polling, lastBlockCallback)
   }
 
   _notifyEvents(events, fromBlock) {
@@ -1262,8 +1257,10 @@ export class GoodWallet {
         ? inviteCode
         : this.wallet.utils.fromUtf8(bs58.encode(Buffer.from(this.account.slice(2), 'hex')).slice(0, codeLength))
 
+      const myCodeUtf8 = this.wallet.utils.toUtf8(myCode)
+
       // prevent bug of self invite
-      if (myCode === inviter) {
+      if (myCodeUtf8 === inviter) {
         inviter = undefined
       }
 
@@ -1288,13 +1285,13 @@ export class GoodWallet {
         log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })
 
         await this.sendTransaction(tx).catch(e => {
-          log.warn('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
+          log.error('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
           throw e
         })
       }
 
       // already registered
-      return this.wallet.utils.toUtf8(myCode)
+      return myCodeUtf8
     } catch (e) {
       log.warn('joinInvites failed:', e.message, e)
       throw e

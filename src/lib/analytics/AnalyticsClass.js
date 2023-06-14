@@ -101,7 +101,7 @@ export class AnalyticsClass {
 
       const identity = new amplitude.Identify()
       forOwn(onceTags, (value, key) => identity.setOnce(key, value))
-      forOwn(allTags, (value, key) => identity.append(key, value))
+      forOwn(allTags, (value, key) => identity.set(key, value))
 
       amplitude.setVersionName(version)
       amplitude.identify(identity)

@@ -4144,7 +4144,7 @@ __metadata:
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": latest
-    "@gooddollar/react-native-facetec": ^1.0.36
+    "@gooddollar/react-native-facetec": ^1.0.37
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.1.91
     "@hcaptcha/react-hcaptcha": ^1.6.0
@@ -4426,13 +4426,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:^1.0.36":
-  version: 1.0.36
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.36"
+"@gooddollar/react-native-facetec@npm:^1.0.37":
+  version: 1.0.37
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.37"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: 2d899d89424ee7f9aff79e9ecf9d1f2a113d31968b65b0b3cb96a9c5c21248403bb984ea17856dfa60c231c11afa4ed371511ba16fbe78bf45ccfa683cc46e31
+  checksum: ddb5ab448fee9bc5fa47e8863ffda50be7206a7f13ff92ee09acf07010b810ca262e49f297db138c938e22294895859635981cf4fdf08b0a7b640ae7b090c692
   languageName: node
   linkType: hard
 
@@ -5936,7 +5936,7 @@ __metadata:
 
 "@react-native-community/toolbar-android@patch:@react-native-community/toolbar-android@npm:0.2.1#.yarn/patches/@react-native-community-toolbar-android-npm-0.2.1-3adb606246.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 0.2.1
-  resolution: "@react-native-community/toolbar-android@patch:@react-native-community/toolbar-android@npm%3A0.2.1#.yarn/patches/@react-native-community-toolbar-android-npm-0.2.1-3adb606246.patch::version=0.2.1&hash=e84814&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "@react-native-community/toolbar-android@patch:@react-native-community/toolbar-android@npm%3A0.2.1#.yarn/patches/@react-native-community-toolbar-android-npm-0.2.1-3adb606246.patch::version=0.2.1&hash=38f08c&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   peerDependencies:
     react: "*"
     react-native: "*"
@@ -9006,7 +9006,7 @@ __metadata:
 
 "@usedapp/core@patch:@usedapp/core@npm:1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 1.2.6
-  resolution: "@usedapp/core@patch:@usedapp/core@npm%3A1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch::version=1.2.6&hash=a044c1&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "@usedapp/core@patch:@usedapp/core@npm%3A1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch::version=1.2.6&hash=4d7479&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     "@metamask/detect-provider": ^2.0.0
     "@uniswap/token-lists": ^1.0.0-beta.27
@@ -20518,7 +20518,7 @@ __metadata:
 
 "fsevents@patch:fsevents@^1.2.7#~builtin<compat/fsevents>":
   version: 1.2.13
-  resolution: "fsevents@patch:fsevents@npm%3A1.2.13#~builtin<compat/fsevents>::version=1.2.13&hash=18f3a7"
+  resolution: "fsevents@patch:fsevents@npm%3A1.2.13#~builtin<compat/fsevents>::version=1.2.13&hash=d11327"
   dependencies:
     bindings: ^1.5.0
     nan: ^2.12.1
@@ -20528,7 +20528,7 @@ __metadata:
 
 "fsevents@patch:fsevents@^2.1.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@^2.1.3#~builtin<compat/fsevents>, fsevents@patch:fsevents@^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.1#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.2
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=18f3a7"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -23871,7 +23871,7 @@ __metadata:
 
 "jest-environment-jsdom@patch:jest-environment-jsdom@npm:26.6.2#.yarn/patches/jest-environment-jsdom-npm-26.6.2-defa486869.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 26.6.2
-  resolution: "jest-environment-jsdom@patch:jest-environment-jsdom@npm%3A26.6.2#.yarn/patches/jest-environment-jsdom-npm-26.6.2-defa486869.patch::version=26.6.2&hash=c555c7&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "jest-environment-jsdom@patch:jest-environment-jsdom@npm%3A26.6.2#.yarn/patches/jest-environment-jsdom-npm-26.6.2-defa486869.patch::version=26.6.2&hash=b1cf23&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     "@jest/environment": ^26.6.2
     "@jest/fake-timers": ^26.6.2
@@ -26252,7 +26252,7 @@ __metadata:
 
 "lottie-react-native@patch:lottie-react-native@npm:5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 5.1.5
-  resolution: "lottie-react-native@patch:lottie-react-native@npm%3A5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch::version=5.1.5&hash=8fc76c&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "lottie-react-native@patch:lottie-react-native@npm%3A5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch::version=5.1.5&hash=d0c5cb&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     invariant: ^2.2.2
     react-native-safe-modules: ^1.0.3
@@ -27332,7 +27332,7 @@ __metadata:
 
 "metro@patch:metro@npm:0.66.2#.yarn/patches/metro-npm-0.66.2-6bf2522f94.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 0.66.2
-  resolution: "metro@patch:metro@npm%3A0.66.2#.yarn/patches/metro-npm-0.66.2-6bf2522f94.patch::version=0.66.2&hash=349047&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "metro@patch:metro@npm%3A0.66.2#.yarn/patches/metro-npm-0.66.2-6bf2522f94.patch::version=0.66.2&hash=5e285c&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     "@babel/code-frame": ^7.0.0
     "@babel/core": ^7.14.0
@@ -32765,7 +32765,7 @@ __metadata:
 
 "react-native-branch@patch:react-native-branch@npm:5.4.1#.yarn/patches/react-native-branch-npm-5.4.1-88119fa31b.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 5.4.1
-  resolution: "react-native-branch@patch:react-native-branch@npm%3A5.4.1#.yarn/patches/react-native-branch-npm-5.4.1-88119fa31b.patch::version=5.4.1&hash=0d000a&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "react-native-branch@patch:react-native-branch@npm%3A5.4.1#.yarn/patches/react-native-branch-npm-5.4.1-88119fa31b.patch::version=5.4.1&hash=dbdd7c&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   peerDependencies:
     react-native: ">= 0.60"
   checksum: 87243c0ffe993e324ab056f9aedda99fe263fbf84c11a3ca5a6009194e14353d7c1499d0b7822dbb6abd2db58a9e1cd9a584261e003e9a87eda19a028dbecbea
@@ -32909,7 +32909,7 @@ __metadata:
 
 "react-native-gesture-handler@patch:react-native-gesture-handler@npm:1.10.3#.yarn/patches/react-native-gesture-handler-npm-1.10.3-be0b33cc52.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 1.10.3
-  resolution: "react-native-gesture-handler@patch:react-native-gesture-handler@npm%3A1.10.3#.yarn/patches/react-native-gesture-handler-npm-1.10.3-be0b33cc52.patch::version=1.10.3&hash=b13f76&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "react-native-gesture-handler@patch:react-native-gesture-handler@npm%3A1.10.3#.yarn/patches/react-native-gesture-handler-npm-1.10.3-be0b33cc52.patch::version=1.10.3&hash=e5e8e9&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     "@egjs/hammerjs": ^2.0.17
     fbjs: ^3.0.0
@@ -33338,7 +33338,7 @@ __metadata:
 
 "react-native-tcp@patch:react-native-tcp@npm:4.0.0#.yarn/patches/react-native-tcp-npm-4.0.0-b88d3de807.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 4.0.0
-  resolution: "react-native-tcp@patch:react-native-tcp@npm%3A4.0.0#.yarn/patches/react-native-tcp-npm-4.0.0-b88d3de807.patch::version=4.0.0&hash=a24574&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "react-native-tcp@patch:react-native-tcp@npm%3A4.0.0#.yarn/patches/react-native-tcp-npm-4.0.0-b88d3de807.patch::version=4.0.0&hash=453d13&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     base64-js: 0.0.8
     buffer: ^5.0.0
@@ -33524,7 +33524,7 @@ __metadata:
 
 "react-native@patch:react-native@npm:0.65.2#.yarn/patches/react-native-npm-0.65.2-326cd156c0.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 0.65.2
-  resolution: "react-native@patch:react-native@npm%3A0.65.2#.yarn/patches/react-native-npm-0.65.2-326cd156c0.patch::version=0.65.2&hash=96b615&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "react-native@patch:react-native@npm%3A0.65.2#.yarn/patches/react-native-npm-0.65.2-326cd156c0.patch::version=0.65.2&hash=7b1aba&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     "@jest/create-cache-key-function": ^27.0.1
     "@react-native-community/cli": ^6.0.0
@@ -34824,14 +34824,14 @@ __metadata:
 
 "resolve@patch:resolve@1.1.7#~builtin<compat/resolve>":
   version: 1.1.7
-  resolution: "resolve@patch:resolve@npm%3A1.1.7#~builtin<compat/resolve>::version=1.1.7&hash=07638b"
+  resolution: "resolve@patch:resolve@npm%3A1.1.7#~builtin<compat/resolve>::version=1.1.7&hash=3bafbf"
   checksum: e9dbca78600ae56835c43a09f1276876c883e4b4bbd43e2683fa140671519d2bdebeb1c1576ca87c8c508ae2987b3ec481645ac5d3054b0f23254cfc1ce49942
   languageName: node
   linkType: hard
 
 "resolve@patch:resolve@1.18.1#~builtin<compat/resolve>":
   version: 1.18.1
-  resolution: "resolve@patch:resolve@npm%3A1.18.1#~builtin<compat/resolve>::version=1.18.1&hash=07638b"
+  resolution: "resolve@patch:resolve@npm%3A1.18.1#~builtin<compat/resolve>::version=1.18.1&hash=c3c19d"
   dependencies:
     is-core-module: ^2.0.0
     path-parse: ^1.0.6
@@ -34841,7 +34841,7 @@ __metadata:
 
 "resolve@patch:resolve@1.8.1#~builtin<compat/resolve>":
   version: 1.8.1
-  resolution: "resolve@patch:resolve@npm%3A1.8.1#~builtin<compat/resolve>::version=1.8.1&hash=07638b"
+  resolution: "resolve@patch:resolve@npm%3A1.8.1#~builtin<compat/resolve>::version=1.8.1&hash=3bafbf"
   dependencies:
     path-parse: ^1.0.5
   checksum: b7e0748492c5c5a3bacd94b8ef8f52b529dbfea264ed560f352cb5c93ebc92bd8ab072843ff3af775133bdfa3d4b80d3b5a49382ff7457d026e97e2925410fc3
@@ -34850,7 +34850,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.1.3#~builtin<compat/resolve>, resolve@patch:resolve@^1.1.4#~builtin<compat/resolve>, resolve@patch:resolve@^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.12.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.17.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.18.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.3.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.4.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.5.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.8.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.9.0#~builtin<compat/resolve>, resolve@patch:resolve@~1.22.0#~builtin<compat/resolve>":
   version: 1.22.3
-  resolution: "resolve@patch:resolve@npm%3A1.22.3#~builtin<compat/resolve>::version=1.22.3&hash=07638b"
+  resolution: "resolve@patch:resolve@npm%3A1.22.3#~builtin<compat/resolve>::version=1.22.3&hash=c3c19d"
   dependencies:
     is-core-module: ^2.12.0
     path-parse: ^1.0.7
@@ -34863,7 +34863,7 @@ __metadata:
 
 "resolve@patch:resolve@^2.0.0-next.3#~builtin<compat/resolve>":
   version: 2.0.0-next.3
-  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.3#~builtin<compat/resolve>::version=2.0.0-next.3&hash=07638b"
+  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.3#~builtin<compat/resolve>::version=2.0.0-next.3&hash=c3c19d"
   dependencies:
     is-core-module: ^2.2.0
     path-parse: ^1.0.6
@@ -40019,7 +40019,7 @@ __metadata:
 
 "web3-core-method@patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 1.6.0
-  resolution: "web3-core-method@patch:web3-core-method@npm%3A1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch::version=1.6.0&hash=b967e4&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "web3-core-method@patch:web3-core-method@npm%3A1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch::version=1.6.0&hash=c241f2&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     "@ethereumjs/common": ^2.4.0
     "@ethersproject/transactions": ^5.0.0-beta.135
@@ -40740,7 +40740,7 @@ __metadata:
 
 "webpack-dev-server@patch:webpack-dev-server@npm:3.11.1#.yarn/patches/webpack-dev-server-npm-3.11.1-9edb45f7e5.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
   version: 3.11.1
-  resolution: "webpack-dev-server@patch:webpack-dev-server@npm%3A3.11.1#.yarn/patches/webpack-dev-server-npm-3.11.1-9edb45f7e5.patch::version=3.11.1&hash=e33c19&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  resolution: "webpack-dev-server@patch:webpack-dev-server@npm%3A3.11.1#.yarn/patches/webpack-dev-server-npm-3.11.1-9edb45f7e5.patch::version=3.11.1&hash=f5663c&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     ansi-html: 0.0.7
     bonjour: ^3.5.0

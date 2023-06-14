@@ -4,7 +4,7 @@ import React, { useCallback, useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { t } from '@lingui/macro'
-import { entries, first } from 'lodash'
+import { entries, first, mapValues, pick } from 'lodash'
 import { isAddress } from 'web3-utils'
 import { Icon, Image, Text } from '../common'
 import QrReader from '../dashboard/QR/QRScanner'
@@ -110,7 +110,7 @@ export const WcHeader = withStyles(getStylesFromProps)(({ styles, requestedChain
 
 export const Launch = ({ explorer, address, txHash }) => {
   const onLaunch = useCallback(() => {
-    openLink(`${explorer}/` + (address ? 'address/' : 'transaction/') + encodeURIComponent(address || txHash || ''))
+    openLink(`${explorer}/` + (address ? 'address/' : 'tx/') + encodeURIComponent(address || txHash || ''))
   }, [address, explorer])
 
   if (!explorer || (!isAddress(address) && !txHash)) {
@@ -137,7 +137,7 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
         <Text color="red" fontWeight="bold">
           {mustache(
             t`Not enough balance to execute transaction. Balance: {balance} Required: {gasRequired}`,
-            gasStatus,
+            mapValues(pick(gasStatus, 'balance', 'gasRequired'), _ => _ / 1e18),
           )}
         </Text>
       )}

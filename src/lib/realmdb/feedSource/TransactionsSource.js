@@ -6,12 +6,15 @@ export default class TransactionsSource extends FeedSource {
     const { user, encryptedFeed } = db
 
     const lastSync = (await storage.getItem('GD_lastRealmSync')) || 0
-    const newItems = await db.wrapQuery(() =>
-      encryptedFeed.find({
-        user_id: user.id,
-        date: { $gt: new Date(lastSync) },
-      }),
-    )
+    const syncQuery = {
+      user_id: user.id,
+    }
+
+    if (lastSync > 0) {
+      syncQuery.date = { $gt: new Date(lastSync) }
+    }
+
+    const newItems = await db.wrapQuery(() => encryptedFeed.find(syncQuery))
 
     const filtered = newItems.filter(_ => !_._id.toString().includes('settings') && _.txHash)
 

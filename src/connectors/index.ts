@@ -13,16 +13,21 @@ export enum AdditionalChainIds {
 const devEnv = ['development-celo', 'fuse', 'fuse-mainnet']
 const stagingEnv = ['staging-celo', 'staging', 'staging-mainnet']
 
-const getUrl = (env: string) => {
+const getWalletUrl = (env: string) => {
     const walletEnv = devEnv.includes(env) ? 'dev' : stagingEnv.includes(env) ? 'qa' : 'wallet'
     return `https://${walletEnv}.gooddollar.org/wc?uri=`
+}
+
+const getDappUrl = (env: string) => {
+    const dappEnv = devEnv.includes(env) ? 'dev.' : stagingEnv.includes(env) ? 'qa.' : ''
+    return `https://${dappEnv}gooddapp.org`
 }
 
 export const gd = customwc({
     label: 'gooddollar',
     ...(wc2InitOptions as any),
     handleUri: async (uri) => {
-        const url = getUrl(network || 'development-celo')
+        const url = getWalletUrl(network || 'development-celo')
         const wcUri = url + encodeURIComponent(uri)
         switch (getDevice().os.name) {
             case 'Android':
@@ -67,7 +72,7 @@ export const connectOptions = {
         icon: LogoSmall,
         description: 'GoodDollar Protocol Interface',
         recommendedInjectedWallets: [{ name: 'MetaMask', url: 'https://metamask.io' }],
-        explore: 'https://gooddapp.org',
+        explore: getDappUrl(network || 'development-celo'),
     },
     accountCenter: {
         desktop: {

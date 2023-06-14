@@ -1,6 +1,6 @@
 // libraries
-import React, { memo, useContext, useEffect, useRef, useState } from 'react'
-import { assign, first, pick } from 'lodash'
+import React, { memo, useContext, useEffect, useState } from 'react'
+import { assign, first, isBoolean, pick } from 'lodash'
 
 // components
 
@@ -89,7 +89,6 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 
 const RouterWrapper = () => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
-  const analyticsInitializedRef = useRef(false)
 
   // we use global state for signup process to signal user has registered
   const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
@@ -109,11 +108,8 @@ const RouterWrapper = () => {
       assign(tags, { isDeltaApp })
     }
 
-    if (isLoggedInRouter && !analyticsInitializedRef.current) {
-      initAnalytics(tags).then(() => {
-        analyticsInitializedRef.current = true
-        log.debug('RouterSelector Rendered')
-      })
+    if (isBoolean(isLoggedInRouter)) {
+      initAnalytics(tags).then(() => log.debug('RouterSelector Rendered'))
     }
   }, [isLoggedInRouter])
 

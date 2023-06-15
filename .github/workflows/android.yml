@@ -38,27 +38,17 @@ jobs:
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
-          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_FLAGS='--debug'" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ endsWith(github.ref, '/staging') }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
-          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ endsWith(github.ref, '/next') }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
-          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_FLAGS=''" >> $GITHUB_ENV
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -73,21 +63,34 @@ jobs:
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           env_name="${{ env.ENV }}"
+          if [[ "${{ github.ref_name }}" == "master" ]]; then
+           vercel_env_name="development"
+           vercel pull --yes --environment=$vercel_env_name --token=${{ secrets.VERCEL_TOKEN }}
+          elif [[ "${{ github.ref_name }}" == "next" ]]; then
+           vercel_env_name="production"
+           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          else 
+            vercel_env_name="preview"
+            vercel pull --yes --environment=$vercel_env_name --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
+          fi
+          cat .vercel/.env.$vercel_env_name.local >> .env.$env_name
           echo $env_name
           cat .env.$env_name
-          echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
+          echo "adding secrets to .env.$env_name file"
           echo "$SENTRYRC" > android/sentry.properties
-          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
-          echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
+          echo "REACT_APP_CODE_PUSH_KEY=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> .env.$env_name
       - name: Code push release
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           FORMATTED_VERSION=${BUILD_VERSION%.*}.x
+          APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.$env_name) 
           echo Code push release target version ${FORMATTED_VERSION}
           yarn lingui:compile
-          npx appcenter codepush release-react --token ${{ env.APPCENTER_TOKEN }} -a ${{ env.APPCENTER_NAME }} -d Production  -t ${FORMATTED_VERSION}
+          npx appcenter codepush release-react --token ${APPCENTER_TOKEN} -a ${{ env.APPCENTER_NAME }} -d Production  -t ${FORMATTED_VERSION}
 
   build:
     name: Build
@@ -115,28 +118,19 @@ jobs:
       - name: Pre-checks - Env is Dev
         run: |
           echo "ENV=development" >> $GITHUB_ENV
-          echo "SECRET_NAME=DEV_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_DEV }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_DEV }}" >> $GITHUB_ENV
           echo "ANDROID_BUNDLE_PATH=./android/app/build/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
-          echo "SECRET_NAME=STAGING_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_STAGING }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_STAGING }}" >> $GITHUB_ENV
           echo "APPCENTER_STORE=Alpha" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ env.TARGET_BRANCH == 'next' }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
-          echo "SECRET_NAME=PROD_ENV" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
-          echo "APPCENTER_TOKEN=${{ secrets.APPCENTER_ANDROID_PROD }}" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_TOKEN=${{ secrets.APPCENTER_CODEPUSH_PROD }}" >> $GITHUB_ENV
           echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         with:
@@ -156,14 +150,28 @@ jobs:
       - name: add .env secrets
         env:
           SENTRYRC: ${{ secrets.sentryrc_file }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           env_name="${{ env.ENV }}"
+          if [[ "${{ github.ref_name }}" == "master" ]]; then
+           vercel_env_name="development"
+           vercel pull --yes --environment=$vercel_env_name --token=${{ secrets.VERCEL_TOKEN }}
+          elif [[ "${{ github.ref_name }}" == "next" ]]; then
+           vercel_env_name="production"
+           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          else 
+            vercel_env_name="preview"
+            vercel pull --yes --environment=$vercel_env_name --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
+          fi
+          cat .vercel/.env.$vercel_env_name.local >> .env.$env_name
           echo $env_name
+          echo "APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.$env_name)" >> $GITHUB_ENV
+          echo "APPCENTER_CODEPUSH_TOKEN=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> $GITHUB_ENV
           cat .env.$env_name
-          echo "adding secrets to .env.$env_name file: ${{ env.SECRET_NAME }}"
+          echo "adding secrets to .env.$env_name file"
           echo "$SENTRYRC" > android/sentry.properties
-          echo "${{ secrets[env.SECRET_NAME] }}" >> .env.$env_name
-          echo "REACT_APP_CODE_PUSH_KEY=${{ env.APPCENTER_CODEPUSH_TOKEN }}"  >> .env.$env_name
+          echo "REACT_APP_CODE_PUSH_KEY=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> .env.$env_name
       - name: Setup google services file
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
       - name: Set release keystore

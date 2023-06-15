@@ -78,7 +78,7 @@
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
     "@gooddollar/goodcontracts": "^2.6.2",
     "@gooddollar/goodprotocol": "latest",
-    "@gooddollar/react-native-facetec": "^1.0.36",
+    "@gooddollar/react-native-facetec": "^1.0.37",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/web3sdk-v2": "^0.1.91",
     "@hcaptcha/react-hcaptcha": "^1.6.0",

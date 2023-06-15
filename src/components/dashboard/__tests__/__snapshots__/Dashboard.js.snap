@@ -1043,12 +1043,11 @@ exports[`Dashboard matches snapshot 1`] = `
                             }
                           >
                             <div
-                              className="css-view-1dbjc4n"
+                              className="css-view-1dbjc4n r-width-1q42mak"
                               style={
                                 Object {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
-                                  "width": "74px",
                                 }
                               }
                             />
@@ -1086,12 +1085,11 @@ exports[`Dashboard matches snapshot 1`] = `
                               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                             >
                               <div
-                                className="css-view-1dbjc4n r-marginTop-14gqq1x"
+                                className="css-view-1dbjc4n r-marginTop-14gqq1x r-width-1q42mak"
                                 style={
                                   Object {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
-                                    "width": "74px",
                                   }
                                 }
                               />
@@ -1186,12 +1184,11 @@ exports[`Dashboard matches snapshot 1`] = `
                             }
                           >
                             <div
-                              className="css-view-1dbjc4n"
+                              className="css-view-1dbjc4n r-width-1q42mak"
                               style={
                                 Object {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
-                                  "width": "74px",
                                 }
                               }
                             />
@@ -1229,12 +1226,11 @@ exports[`Dashboard matches snapshot 1`] = `
                               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                             >
                               <div
-                                className="css-view-1dbjc4n r-marginTop-14gqq1x"
+                                className="css-view-1dbjc4n r-marginTop-14gqq1x r-width-1q42mak"
                                 style={
                                   Object {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
-                                    "width": "74px",
                                   }
                                 }
                               />
@@ -1329,12 +1325,11 @@ exports[`Dashboard matches snapshot 1`] = `
                             }
                           >
                             <div
-                              className="css-view-1dbjc4n"
+                              className="css-view-1dbjc4n r-width-1q42mak"
                               style={
                                 Object {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
-                                  "width": "74px",
                                 }
                               }
                             />
@@ -1372,12 +1367,11 @@ exports[`Dashboard matches snapshot 1`] = `
                               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                             >
                               <div
-                                className="css-view-1dbjc4n r-marginTop-14gqq1x"
+                                className="css-view-1dbjc4n r-marginTop-14gqq1x r-width-1q42mak"
                                 style={
                                   Object {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
-                                    "width": "74px",
                                   }
                                 }
                               />

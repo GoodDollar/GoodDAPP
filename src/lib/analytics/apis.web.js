@@ -33,7 +33,14 @@ const MixpanelAPI = {
 
 class GoogleWrapper {
   // eslint-disable-next-line require-await
-  async setDefaultParams(params = {}) {
+  async identify(userId) {
+    const { dataLayer } = window
+
+    dataLayer.push({ user_id: userId })
+  }
+
+  // eslint-disable-next-line require-await
+  async setUserProperties(params = {}) {
     const { dataLayer } = window
 
     // set vars by one according data layer docs

@@ -1,6 +1,6 @@
 // libraries
 import React, { memo, useContext, useEffect, useState } from 'react'
-import { assign, first, pick } from 'lodash'
+import { assign, first, isBoolean, pick } from 'lodash'
 
 // components
 
@@ -108,8 +108,10 @@ const RouterWrapper = () => {
       assign(tags, { isDeltaApp })
     }
 
-    initAnalytics(tags).then(() => log.debug('RouterSelector Rendered'))
-  }, [])
+    if (isBoolean(isLoggedInRouter)) {
+      initAnalytics(tags).then(() => log.debug('RouterSelector Rendered'))
+    }
+  }, [isLoggedInRouter])
 
   useEffect(() => {
     const check = async () => {

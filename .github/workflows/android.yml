@@ -65,7 +65,7 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           env_name="${{ env.ENV }}"
-          if [[ "${{github.ref_name }}" == "next"]]; then
+          if [[ "${{ github.ref_name }}" == "next" ]]; then
            vercel_env_name="production"
            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           else 
@@ -147,7 +147,7 @@ jobs:
           SENTRYRC: ${{ secrets.sentryrc_file }}
         run: |
           env_name="${{ env.ENV }}"
-          if [[ "${{github.ref_name }}" == "next"]]; then
+          if [[ "${{ github.ref_name }}" == "next" ]]; then
            vercel_env_name="production"
            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           else 

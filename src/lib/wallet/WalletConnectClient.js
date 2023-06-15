@@ -703,7 +703,7 @@ export const useWalletConnectSession = () => {
           log.debug('got uri created connection:', { uri, session, wallet, connector })
           if (session && connector.pending && !connector.connected) {
             log.debug('calling handlesession from connect...')
-            handleSessionRequest(connector, { params: [{ chainId, test }] })
+            handleSessionRequest(connector, { params: [{ chainId }] })
           }
           setConnector(connector)
           cachedConnector = connector

@@ -314,11 +314,10 @@ export const useWalletConnectSession = () => {
             log.debug('v2 rejectSession', { payload, isV2 })
             // rejectRequest(connector, payload.id, payload.params.pairingTopic, getSdkError('USER_REJECTED'))
             connector.rejectSession({
-              id: payload?.id,
+              id: Number(payload?.id),
               reason: getSdkError('USER_REJECTED'),
             })
-          }
-          {
+          } else {
             connector.rejectSession({ message: 'USER_DECLINE' })
           }
         },

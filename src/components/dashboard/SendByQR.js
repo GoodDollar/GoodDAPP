@@ -73,6 +73,7 @@ const SendByQR = ({ screenProps }: Props) => {
   }
   const handleScan = useCallback(
     async data => {
+      // TODO: wallet address scan
       if (data) {
         await handleRequest(data, gotoSend, onScanError)
       }

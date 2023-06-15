@@ -31,13 +31,15 @@ type ReceiptType = {
   status: boolean,
 }
 
+export const supportedNetworks = ['MAINNET', 'GOERLI', 'FUSE', 'CELO']
+
 const makeNetworkMatcher = (...networks: NETWORK[]) => {
-  const supportedNetworkIds = values(pick(NETWORK_ID, ...networks))
+  const allNetworkIds = values(pick(NETWORK_ID, ...networks))
 
   return (networkOrId: number | NETWORK) => {
     const networkId = isString(networkOrId) ? NETWORK_ID[networkOrId.toUpperCase()] : networkOrId
 
-    return supportedNetworkIds.includes(networkId)
+    return allNetworkIds.includes(networkId)
   }
 }
 
@@ -47,7 +49,7 @@ export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
-export const supportsG$ = makeNetworkMatcher('MAINNET', 'GOERLI', 'FUSE', 'CELO')
+export const supportsG$ = makeNetworkMatcher(supportedNetworks)
 
 export const supportsG$UBI = makeNetworkMatcher('FUSE', 'CELO')
 
@@ -63,6 +65,10 @@ export const getNativeToken = networkOrId => {
       return networkName
   }
 }
+
+export const nativeTokens = supportedNetworks.map(getNativeToken)
+
+export const isNativeToken = token => nativeTokens.includes(token)
 
 export const getTokensList = networkId => {
   const list = [getNativeToken(networkId)]

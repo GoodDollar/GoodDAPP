@@ -36,14 +36,14 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const { fullName } = useProfile() || {}
   const goodWallet = useWallet()
   const { native } = useContext(TokenContext)
+  const { account, networkId } = goodWallet
 
   const share = useMemo(() => {
-    const { account, networkId } = goodWallet
     const code = generateCode(account, networkId, amount, reason)
     const shareObject = generateReceiveShareObject(code, decimalsToFixed(goodWallet.toDecimals(amount)), '', fullName)
 
     return shareObject
-  }, [fullName, goodWallet])
+  }, [fullName, goodWallet, account, networkId])
 
   const shareLink = useMemo(() => {
     const { url, message } = share || {}
@@ -53,6 +53,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
 
   const fireReceiveDoneEvent = useCallback(() => fireEvent(RECEIVE_DONE, { type: 'wallet' }), [])
   const shareHandler = useNativeSharing(share, { onSharePress: fireReceiveDoneEvent })
+  const isNativeFlow = isDeltaApp && native
 
   return (
     <Wrapper>
@@ -69,42 +70,44 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
           <Section.Text fontSize={16} fontWeight="medium" style={styles.mainText}>
             {t`Let someone scan your wallet address`}
           </Section.Text>
-          <QRCode value={share.url} size={150} />
+          <QRCode value={isNativeFlow ? account : share.url} size={150} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center" style={styles.orText}>
           <Section.Text fontSize={14}>- OR -</Section.Text>
         </Section.Stack>
         <Section.Stack alignItems="stretch">
-          {isDeltaApp && native ? (
+          {isNativeFlow ? (
             <PushButton dark={false} routeName="ReceiveToAddress" mode="outlined" screenProps={screenProps}>
               {t`Receive via wallet address`}
             </PushButton>
           ) : (
-            <PushButton
-              dark={false}
-              routeName="Amount"
-              mode="outlined"
-              screenProps={screenProps}
-              params={{
-                nextRoutes: ['Reason', 'ReceiveSummary', 'TransactionConfirmation'],
-                action: 'Receive',
-              }}
-            >
-              {t`Request specific amount`}
-            </PushButton>
-          )}
-          <View style={styles.space} />
-          {isSharingAvailable ? (
-            <CustomButton onPress={shareHandler}>{SHARE_TEXT}</CustomButton>
-          ) : (
-            <CopyButton
-              style={styles.shareButton}
-              toCopy={shareLink}
-              onPress={fireReceiveDoneEvent}
-              onPressDone={screenProps.goToRoot}
-            >
-              {SHARE_TEXT}
-            </CopyButton>
+            <>
+              <View style={styles.space} />
+              {isSharingAvailable ? (
+                <CustomButton onPress={shareHandler}>{SHARE_TEXT}</CustomButton>
+              ) : (
+                <CopyButton
+                  style={styles.shareButton}
+                  toCopy={shareLink}
+                  onPress={fireReceiveDoneEvent}
+                  onPressDone={screenProps.goToRoot}
+                >
+                  {SHARE_TEXT}
+                </CopyButton>
+              )}
+              <PushButton
+                dark={false}
+                routeName="Amount"
+                mode="outlined"
+                screenProps={screenProps}
+                params={{
+                  nextRoutes: ['Reason', 'ReceiveSummary', 'TransactionConfirmation'],
+                  action: 'Receive',
+                }}
+              >
+                {t`Request specific amount`}
+              </PushButton>
+            </>
           )}
         </Section.Stack>
       </Section>

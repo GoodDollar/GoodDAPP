@@ -53,6 +53,7 @@ import WalletFactory from './WalletFactory'
 
 import {
   getTxLogArgs,
+  isNativeToken,
   NULL_ADDRESS,
   retryCall,
   safeCall,
@@ -1297,12 +1298,16 @@ export class GoodWallet {
     }
   }
 
-  toDecimals(wei, chainId = null) {
-    return formatUnits(String(wei || '0'), Config.ethereum[chainId ?? this.networkId].g$Decimals)
+  toDecimals(wei, chainOrToken = null) {
+    const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken ?? this.networkId].g$Decimals
+
+    return formatUnits(String(wei || '0'), decimals)
   }
 
-  fromDecimals(amount, chainId = null) {
-    return parseUnits(amount, Config.ethereum[chainId ?? this.networkId].g$Decimals).toString()
+  fromDecimals(amount, chainOrToken = null) {
+    const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken ?? this.networkId].g$Decimals
+
+    return parseUnits(amount, decimals).toString()
   }
 
   async getUserInviteBounty() {

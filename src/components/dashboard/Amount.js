@@ -5,18 +5,23 @@ import { BN, toBN } from 'web3-utils'
 import { t } from '@lingui/macro'
 import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 import logger from '../../lib/logger/js-logger'
-import { AmountInput, ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
+import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { TokenContext, useSwitchNetwork, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import {
+  TokenContext,
+  useFormatToken,
+  useSwitchNetwork,
+  useWallet,
+  useWalletData,
+} from '../../lib/wallet/GoodWalletProvider'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import mustache from '../../lib/utils/mustache'
 import Config from '../../config/config'
-import useOnPress from '../../lib/hooks/useOnPress'
-import { ACTION_RECEIVE, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
+import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
@@ -39,6 +44,8 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
+const { isDeltaApp } = Config
+
 const log = logger.child({ from: 'Amount' })
 
 const Amount = (props: AmountProps) => {
@@ -53,7 +60,8 @@ const Amount = (props: AmountProps) => {
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeLimits } = useGetBridgeData(goodWallet.networkId, goodWallet.account)
   const { minAmount } = bridgeLimits || { minAmount: 0 }
-  const { native } = useContext(TokenContext)
+  const { native, token } = useContext(TokenContext)
+  const { toDecimals, fromDecimals } = useFormatToken(token)
 
   const bridgeState = isBridge
     ? {
@@ -62,15 +70,14 @@ const Amount = (props: AmountProps) => {
       }
     : {}
 
-  const [GDAmount, setGDAmount] = useState(() =>
-    toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '',
-  )
+  const [GDAmount, setGDAmount] = useState(() => (toBN(amount).gt(0) ? decimalsToFixed(toDecimals(amount)) : ''))
   const [loading, setLoading] = useState(() => toBN(amount).lte(0))
   const [error, setError] = useState()
 
-  const GDAmountInWei = useMemo(() => GDAmount && goodWallet.fromDecimals(GDAmount), [GDAmount])
+  const GDAmountInWei = useMemo(() => GDAmount && fromDecimals(GDAmount), [GDAmount])
 
   const isReceive = params && params.action === ACTION_RECEIVE
+  const isNativeFlow = isDeltaApp && native
 
   const handlePressQR = useCallback(() => push('SendByQR'), [push])
 
@@ -88,17 +95,17 @@ const Amount = (props: AmountProps) => {
       const canSend = amountWithFee.lte(new BN(balance))
 
       if (isBridge) {
-        const min = parseFloat(goodWallet.toDecimals(minAmount))
+        const min = parseFloat(toDecimals(minAmount))
         const canBridge = parseInt(GDAmount) >= min
 
         if (!canBridge) {
-          setError(mustache(t`Sorry, minimum amount to bridge is {min} G$'s`, { min }))
+          setError(mustache(t`Sorry, minimum amount to bridge is {min} {token}'s`, { min, token }))
           return canBridge
         }
       }
 
       if (!canSend) {
-        setError(t`Sorry, you don't have enough G$s`)
+        setError(mustache(t`Sorry, you don't have enough {token}s`, { token }))
       }
 
       return canSend
@@ -126,23 +133,14 @@ const Amount = (props: AmountProps) => {
     setError('')
   }
 
-  const handlePressSendToAddress = useOnPress(
-    () =>
-      push('SendToAddress', {
-        nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
-        action: ACTION_SEND_TO_ADDRESS,
-      }),
-    [push],
-  )
-
   const showScanQR = !isReceive && !params?.counterPartyDisplayName // ot in receive flow and also QR wasnt displayed on Who screen
 
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper withGradient={true}>
         <TopBar push={screenProps.push} isBridge={isBridge} network={currentNetwork}>
-          {showScanQR && !isBridge && <ScanQRButton onPress={handlePressQR} />}
-          {Config.isDeltaApp && !isReceive && native && <SendToAddressButton onPress={handlePressSendToAddress} />}
+          {/* Hide it temporarly on native flow */}
+          {showScanQR && !isBridge && !isNativeFlow && <ScanQRButton onPress={handlePressQR} />}
         </TopBar>
         <Section grow style={styles.buttonsContainer}>
           <Section.Stack grow justifyContent="flex-start">
@@ -167,6 +165,8 @@ const Amount = (props: AmountProps) => {
                     ? ['SendLinkSummary', 'Home']
                     : isReceive
                     ? ['Reason', 'ReceiveSummary', 'TransactionConfirmation']
+                    : isNativeFlow
+                    ? ['SendToAddress', 'TransactionConfirmation']
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }
                 canContinue={handleContinue}

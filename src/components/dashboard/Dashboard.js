@@ -18,6 +18,7 @@ import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib
 import {
   TokenContext,
   useFormatG$,
+  useFormatToken,
   useSwitchNetwork,
   useUserStorage,
   useWalletData,
@@ -218,12 +219,16 @@ const BalanceAndSwitch = ({
 const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalance }) => {
   const { native, token, balance: tokenBalance } = useContext(TokenContext)
   const [price, showPrice] = useGoodDollarPrice()
+  const { toDecimals } = useFormatToken(token)
   const isUBI = supportsG$UBI(network)
 
   // show aggregated balance on FUSE/CELO, delta only
   const balance = isDeltaApp && (native || !isUBI) ? tokenBalance : totalBalance
-  // eslint-disable-next-line prettier/prettier
-  const balanceFormatter = useCallback(amount => formatWithAbbreviations(amount, isDeltaApp && native ? 18 : 2), [native])
+
+  const balanceFormatter = useCallback(
+    amount => (isDeltaApp && native ? decimalsToFixed(toDecimals(amount)) : formatWithAbbreviations(amount, 2)),
+    [native, toDecimals],
+  )
 
   const calculateFontSize = useMemo(
     () => ({

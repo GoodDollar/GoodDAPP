@@ -24,7 +24,7 @@ import { setChainId } from '../analytics/analytics'
 import { withStyles } from '../styles'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-import { getNativeToken, getTokensList, supportsG$UBI } from './utils'
+import { getTokensList, isNativeToken, supportedNetworks, supportsG$UBI } from './utils'
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -397,7 +397,7 @@ const TokenProvider = ({ children, wallet, walletData }) => {
     token =>
       setTokenData({
         token,
-        native: token === getNativeToken(networkId),
+        native: isNativeToken(token),
       }),
     [setTokenData, networkId],
   )
@@ -515,7 +515,7 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const toNetwork = switchToNetwork?.toUpperCase()
   const defaultSwitchTo = isDeltaApp ? currentNetwork : currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
-  const networks = ['FUSE', 'CELO', Config.env === 'production' ? 'MAINNET' : 'GOERLI']
+  const networks = supportedNetworks.filter(net => net !== (Config.env === 'production' ? 'GOERLI' : 'MAINNET'))
 
   const showModal = useCallback(
     (toNetwork = null) => {
@@ -585,15 +585,18 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
   }, [showDialog, onDismiss, hideDialog, token, tokens])
 }
 
-export const useFormatG$ = () => {
+export const useFormatToken = (token = 'G$') => {
   const wallet = useWallet()
+  const isNative = isNativeToken(token)
 
-  //using args so functions do not lose "this" context
+  // using args so functions do not lose "this" context
   return {
-    toDecimals: (...args) => wallet?.toDecimals(...args),
-    fromDecimals: (...args) => wallet?.fromDecimals(...args),
+    toDecimals: (wei, chainId = null) => wallet?.toDecimals(wei, isNative ? token : chainId),
+    fromDecimals: (amount, chainId = null) => wallet?.fromDecimals(amount, isNative ? token : chainId),
   }
 }
+
+export const useFormatG$ = () => useFormatToken()
 
 export const usePropSuffix = () => {
   const { goodWallet } = useContext(GoodWalletContext)

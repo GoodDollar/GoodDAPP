@@ -2,7 +2,7 @@
 import * as sentry from '@sentry/react-native'
 import { Amplitude, Identify } from '@amplitude/react-native'
 import FireBaseAnalytics from '@react-native-firebase/analytics'
-import { assign, isFunction, noop } from 'lodash'
+import { assign, isFunction, mapValues, noop } from 'lodash'
 import { Mixpanel } from 'mixpanel-react-native'
 
 // eslint-disable-next-line require-await
@@ -29,10 +29,17 @@ class GoogleWrapper {
     assign(this, { analytics })
   }
 
-  async setDefaultParams(params = {}) {
+  async identify(userId) {
     const { analytics } = this
 
-    await analytics.setDefaultEventParameters(params)
+    await analytics.setUserId(userId)
+  }
+
+  async setUserProperties(params = {}) {
+    const { analytics } = this
+
+    const safeParams = mapValues(params, String)
+    await analytics.setUserProperties(safeParams)
   }
 
   logEvent(event: string, data: any = {}) {

@@ -230,7 +230,7 @@ export class GoodWallet {
           mainnetNetworkId,
         })
 
-        const defaultGasPrice = Config.ethereum[networkId].gasPrice
+        const defaultGasPrice = Config.ethereum[networkId].gasPrice ?? 1
 
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet

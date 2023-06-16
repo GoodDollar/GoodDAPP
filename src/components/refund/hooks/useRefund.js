@@ -28,7 +28,7 @@ const useRefund = () => {
   const wallet = useWallet()
 
   const [claimAddress, tokenAddress] = useMemo(() => {
-    const getAddress = contract => wallet[contract]._address
+    const getAddress = contract => wallet[contract]?._address
 
     if (!wallet) {
       return []
@@ -104,7 +104,7 @@ const useRefund = () => {
       userProperties.setLocal(REFUNDED_FLAG, true)
     }
 
-    if (!enableRefund || !userProperties || !wallet) {
+    if (!enableRefund || !userProperties || !wallet || !claimAddress || !tokenAddress) {
       log.debug('Check send receive skipping', {
         enableRefund,
         wallet: !!wallet,

@@ -111,7 +111,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       }
 
       // entitelment is separate because it depends on msg.sender
-      const [[{ balance }, ...results]] = await goodWallet.multicallFuse.all([calls])
+      const [[{ balance = 0 }, ...results]] = await goodWallet.multicallFuse.all([calls]).catch(() => [[{}]])
       const { ubi = 0 } = first(results) || {}
       const { isCitizen = false } = last(results) || {}
 

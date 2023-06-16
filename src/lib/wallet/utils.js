@@ -103,6 +103,7 @@ export const extractEthAddress = uri => {
   return { networkId: NETWORK_ID[networkName.toUpperCase()], address }
 }
 
+export const amountRegexp = /^0$|^[1-9]\d*$|^0[.,]\d*$|^[1-9]\d*[.,]\d*$/
 export const moneyRegexp = new RegExp(`^(?!0\\d)(0|([1-9])\\d*)([.,]?(\\d{0,${DECIMALS}}))$`)
 export const numberWithCommas = (gd: string): string => gd.replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 

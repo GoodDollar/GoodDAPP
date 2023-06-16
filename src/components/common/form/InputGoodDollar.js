@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import normalize from '../../../lib/utils/normalizeText'
 
-import { moneyRegexp } from '../../../lib/wallet/utils'
+import { amountRegexp, isNativeToken, moneyRegexp } from '../../../lib/wallet/utils'
 import { withStyles } from '../../../lib/styles'
 import InputText from './InputText'
 
@@ -35,11 +35,21 @@ type SelectionEvent = {
  * @returns {React.Node}
  */
 const InputGoodDollar = (props: Props) => {
-  const { onChangeAmount, amount, onSelectionChange, style, styles, selection: selDefault, ...rest } = props
+  const {
+    onChangeAmount,
+    amount,
+    onSelectionChange,
+    style,
+    styles,
+    selection: selDefault,
+    unit = 'G$',
+    ...rest
+  } = props
   const [selection, setSelection] = useState(selDefault)
+  const regex = isNativeToken(unit) ? amountRegexp : moneyRegexp
 
   const handleValueChange = (text: string) => {
-    if (text === '' || moneyRegexp.test(text)) {
+    if (text === '' || regex.test(text)) {
       onChangeAmount(text.replace(',', '.'))
     }
   }
@@ -60,7 +70,7 @@ const InputGoodDollar = (props: Props) => {
       onSelectionChange={handleSelectionChange}
       value={amount}
       onChangeText={handleValueChange}
-      placeholder="0 G$"
+      placeholder={`0 ${unit}`}
     />
   )
 }

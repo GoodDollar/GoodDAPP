@@ -1,20 +1,14 @@
 // @flow
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
-import { BN, toBN } from 'web3-utils'
+import { BN } from 'web3-utils'
 import { t } from '@lingui/macro'
 import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import {
-  TokenContext,
-  useFormatToken,
-  useSwitchNetwork,
-  useWallet,
-  useWalletData,
-} from '../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useFormatToken, useSwitchNetwork, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
@@ -56,11 +50,10 @@ const Amount = (props: AmountProps) => {
   const { isBridge = false } = params
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
-  const { balance } = useWalletData()
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeLimits } = useGetBridgeData(goodWallet.networkId, goodWallet.account)
   const { minAmount } = bridgeLimits || { minAmount: 0 }
-  const { native, token } = useContext(TokenContext)
+  const { native, token, balance } = useContext(TokenContext)
   const { toDecimals, fromDecimals } = useFormatToken(token)
 
   const bridgeState = isBridge
@@ -70,8 +63,8 @@ const Amount = (props: AmountProps) => {
       }
     : {}
 
-  const [GDAmount, setGDAmount] = useState(() => (toBN(amount).gt(0) ? decimalsToFixed(toDecimals(amount)) : ''))
-  const [loading, setLoading] = useState(() => toBN(amount).lte(0))
+  const [GDAmount, setGDAmount] = useState(() => (amount ? decimalsToFixed(toDecimals(amount)) : ''))
+  const [loading, setLoading] = useState(() => !amount)
   const [error, setError] = useState()
 
   const GDAmountInWei = useMemo(() => GDAmount && fromDecimals(GDAmount), [GDAmount])
@@ -86,13 +79,14 @@ const Amount = (props: AmountProps) => {
       return true
     }
 
-    log.info('canContiniue?', { weiAmount, params })
+    log.info('canContiniue?', { weiAmount, balance, params })
 
     try {
-      const fee = await goodWallet.calculateTxFee(weiAmount)
+      // TODO: tx fee for native token
+      const fee = isNativeFlow ? new BN(0) : await goodWallet.calculateTxFee(weiAmount)
       const amount = new BN(weiAmount)
       const amountWithFee = amount.add(fee)
-      const canSend = amountWithFee.lte(new BN(balance))
+      const canSend = amountWithFee.lte(new BN(String(balance)))
 
       if (isBridge) {
         const min = parseFloat(toDecimals(minAmount))
@@ -129,7 +123,7 @@ const Amount = (props: AmountProps) => {
 
   const handleAmountChange = (value: string) => {
     setGDAmount(value)
-    setLoading(value <= 0)
+    setLoading(!value)
     setError('')
   }
 
@@ -145,10 +139,11 @@ const Amount = (props: AmountProps) => {
           <Section.Stack grow justifyContent="flex-start">
             <AmountInput
               maxLength={20}
-              amount={GDAmount === '0' ? '' : GDAmount}
+              amount={GDAmount}
               handleAmountChange={handleAmountChange}
               error={error}
               title={t`How much?`}
+              unit={token}
             />
           </Section.Stack>
           <Section.Row>

@@ -21,20 +21,17 @@ export const navigationOptions = ({ navigation, screenProps }) => {
 
   const isBridge = navigation.getParam('isBridge')
   const isReceive = action === ACTION_RECEIVE || ['Receive', 'ReceiveToAddress'].includes(routeName)
-  const isSendToAddress = routeName === ACTION_SEND_TO_ADDRESS
-  const isSend = isSendToAddress || [ACTION_SEND, ACTION_SEND_TO_ADDRESS].includes(action)
-  const isAmount = routeName === 'Amount'
 
   let options = {
     title: isReceive ? RECEIVE_TITLE : isBridge ? BRIDGE_TITLE : SEND_TITLE,
     isBridge,
   }
 
-  if (Config.isDeltaApp && !isBridge && (isAmount || (isSend ? isSendToAddress : !action))) {
-    options = {
-      ...options,
-      title: isReceive ? RECEIVE_NATIVE_TITLE : SEND_NATIVE_TITLE,
-      navigationBar: props => <NavBar {...props} />,
+  if (Config.isDeltaApp && !isBridge) {
+    options.title = isReceive ? RECEIVE_NATIVE_TITLE : SEND_NATIVE_TITLE
+
+    if (['Amount', 'Receive'].includes(routeName)) {
+      options.navigationBar = props => <NavBar {...props} />
     }
   }
 

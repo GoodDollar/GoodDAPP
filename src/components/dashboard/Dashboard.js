@@ -308,7 +308,8 @@ const Dashboard = props => {
   const [getCurrentTab] = usePropsRefs([activeTab])
 
   const { currentNetwork } = useSwitchNetwork()
-  const { bridgeEnabled } = Config
+  const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
+  const bridgeEnabled = ubiEnabled && Config.bridgeEnabled
 
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
@@ -890,7 +891,7 @@ const Dashboard = props => {
                   >
                     Send
                   </PushButton>
-                  {!isDeltaApp || supportsG$UBI(currentNetwork) ? (
+                  {ubiEnabled ? (
                     <ClaimButton
                       screenProps={screenProps}
                       amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}

@@ -6,7 +6,7 @@ import { isAddress } from 'web3-utils'
 
 // components
 import InputWithAdornment from '../common/form/InputWithAdornment'
-import { Section, Wrapper } from '../common'
+import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 
@@ -29,6 +29,8 @@ export type TypeProps = {
   navigation: any,
   styles: any,
 }
+
+const { isDeltaApp } = Config
 
 const SendToAddress = (props: TypeProps) => {
   const { screenProps, styles, navigation } = props
@@ -75,11 +77,14 @@ const SendToAddress = (props: TypeProps) => {
     navigate: navigateTo,
   })
 
-  const handleAdornmentAction = useCallback(requestClipboardPermissions)
+  const handlePressQR = useCallback(() => push('SendByQR'), [push])
+  const isNativeFlow = isDeltaApp && native
 
   return (
     <Wrapper>
-      <TopBar push={push} hideProfile={false} profileAsLink={false} />
+      <TopBar push={push} hideBalance={true} hideProfile={false} profileAsLink={false}>
+        {isNativeFlow && <ScanQRButton onPress={handlePressQR} />}
+      </TopBar>
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title fontWeight="medium">Send To?</Section.Title>
@@ -92,13 +97,13 @@ const SendToAddress = (props: TypeProps) => {
             value={state.value}
             showAdornment
             adornment="paste"
-            adornmentAction={handleAdornmentAction}
+            adornmentAction={requestClipboardPermissions}
             adornmentSize={32}
             adornmentStyle={styles.adornmentStyle}
             autoFocus
           />
         </Section.Stack>
-        {(!Config.isDeltaApp || !native) && (
+        {!isNativeFlow && (
           <Section grow justifyContent="center">
             <GDTokensWarningBox isSend={true} />
           </Section>

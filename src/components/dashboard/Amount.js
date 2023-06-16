@@ -139,7 +139,6 @@ const Amount = (props: AmountProps) => {
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper withGradient={true}>
         <TopBar push={screenProps.push} isBridge={isBridge} network={currentNetwork}>
-          {/* Hide it temporarly on native flow */}
           {showScanQR && !isBridge && !isNativeFlow && <ScanQRButton onPress={handlePressQR} />}
         </TopBar>
         <Section grow style={styles.buttonsContainer}>
@@ -166,7 +165,7 @@ const Amount = (props: AmountProps) => {
                     : isReceive
                     ? ['Reason', 'ReceiveSummary', 'TransactionConfirmation']
                     : isNativeFlow
-                    ? ['SendToAddress', 'TransactionConfirmation']
+                    ? ['SendToAddress', 'SendLinkSummary', 'TransactionConfirmation']
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }
                 canContinue={handleContinue}

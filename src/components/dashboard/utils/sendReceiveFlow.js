@@ -31,7 +31,7 @@ export const navigationOptions = ({ navigation, screenProps }) => {
     options.title = isReceive ? RECEIVE_NATIVE_TITLE : SEND_NATIVE_TITLE
 
     if (['Amount', 'Receive'].includes(routeName)) {
-      options.navigationBar = props => <NavBar {...props} />
+      options.navigationBar = NavBar
     }
   }
 

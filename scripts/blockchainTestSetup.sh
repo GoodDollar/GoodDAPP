@@ -6,7 +6,9 @@ export MNEMONIC='test test test test test test test test test test test junk'
 export ADMIN_MNEMONIC='test test test test test test test test test test test junk'
 yarn set version berry
 echo "nodeLinker: node-modules" >> .yarnrc.yml
+echo "running yarn..."
 yarn --immutable
+ls -la node_modules
 npx patch-package
 yarn runNode &
 echo "sleeping 15 sec for node start..."

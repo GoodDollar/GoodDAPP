@@ -18,7 +18,7 @@ import Transaction from './Transaction'
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 
 import { useConnectWallet } from '@web3-onboard/react'
-import { getNetworkEnv } from '@gooddollar/web3sdk'
+import { getEnv } from 'utils/env'
 
 const UpperSection = styled.div`
     position: relative;
@@ -209,7 +209,7 @@ export default function AccountDetails({
     const { i18n } = useLingui()
     const { chainId, account } = useActiveWeb3React()
     const dispatch = useDispatch<AppDispatch>()
-    const network = getNetworkEnv()
+    const network = getEnv()
     //eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
     const sendData = useSendAnalyticsData()

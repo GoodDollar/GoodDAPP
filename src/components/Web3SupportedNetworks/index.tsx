@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
-import { getNetworkEnv } from '@gooddollar/web3sdk'
 import { SupportedV2Networks, SupportedV2Network } from '@gooddollar/web3sdk-v2'
+import { getEnv } from 'utils/env'
 
 export interface IWeb3SupportedNetworkRecord {
     network: string
@@ -12,7 +12,7 @@ export interface IWeb3SupportedNetworksProps {
 }
 
 export default function Web3SupportedNetworks({ onItem }: IWeb3SupportedNetworksProps): JSX.Element | null {
-    const network = getNetworkEnv()
+    const network = getEnv()
 
     const networks = useMemo(
         () => Object.keys(SupportedV2Networks).filter((v) => isNaN(Number(v))) as SupportedV2Network[],

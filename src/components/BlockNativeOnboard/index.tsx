@@ -6,7 +6,7 @@ import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 import { noop } from 'lodash'
 import { useBreakpointValue } from 'native-base'
 import { Web3ActionButton } from '@gooddollar/good-design'
-import { SupportedChains } from '@gooddollar/web3sdk-v2'
+import { SupportedChains, AsyncStorage, getDevice } from '@gooddollar/web3sdk-v2'
 
 /**
  * Just a button to trigger the onboard connect modal.
@@ -31,8 +31,14 @@ export const OnboardConnectButton: FC = () => {
     const onWalletConnect = async () => {
         connectionStartedRef.current = true
         sendData({ event: 'wallet_connect', action: 'wallet_connect_start' })
+        const osName = getDevice().os.name
 
         try {
+            // temp solution for where it tries and open a deeplink for desktop app
+            if (['Linux', 'Windows', 'macOS'].includes(osName)) {
+                AsyncStorage.safeRemove('WALLETCONNECT_DEEPLINK_CHOICE')
+            }
+
             await connect()
         } catch {
             connectionStartedRef.current = false

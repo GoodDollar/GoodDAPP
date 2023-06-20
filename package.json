@@ -205,10 +205,10 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.18.9",
-        "@gooddollar/good-design": "^0.0.78",
+        "@gooddollar/good-design": "^0.0.80",
         "@gooddollar/goodprotocol": "^2.0.3",
         "@gooddollar/web3sdk": "^0.1.25",
-        "@gooddollar/web3sdk-v2": "^0.1.103",
+        "@gooddollar/web3sdk-v2": "^0.1.104",
         "@headlessui/react": "1.5.0",
         "@kimafinance/kima-transaction-widget": "^1.1.42-beta.1",
         "@lingui/format-json": "^4.0.0",

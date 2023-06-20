@@ -20,8 +20,13 @@ export function getEnv(defaultValue = 'development'): string {
         return defaultValue
     }
 
-    if (network === 'fuse') {
+    if (network === 'fuse' || network === 'development-celo') {
         return 'development'
+    }
+
+    if (network.includes('-celo')) {
+        const baseNetwork = network.replace('-celo', '')
+        return baseNetwork
     }
 
     return network

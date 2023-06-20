@@ -52,7 +52,9 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
         [eipProvider]
     )
 
-    const contractsEnv = getEnv()
+    const network = getEnv()
+    const contractsEnv = network
+    const contractsEnvV2 = network === 'development' ? 'fuse' : network
 
     return (
         <GdSdkContext.Provider
@@ -64,7 +66,7 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
         >
             <Web3Provider
                 web3Provider={webprovider}
-                env={contractsEnv}
+                env={contractsEnvV2}
                 config={{
                     pollingInterval: 15000,
                     networks: [Goerli, Mainnet, Fuse, Celo],

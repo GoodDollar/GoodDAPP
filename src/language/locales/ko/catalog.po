@@ -2938,8 +2938,8 @@ msgstr ""
 msgid "My Stake"
 msgstr ""
 
-#: src/components/NetworkModal/index.tsx:142
-#: src/components/NetworkModal/index.tsx:191
+#: src/components/NetworkModal/index.tsx:143
+#: src/components/NetworkModal/index.tsx:192
 msgid "network"
 msgstr ""
 
@@ -2965,8 +2965,8 @@ msgstr ""
 msgid "No data."
 msgstr ""
 
-#: src/components/NetworkModal/index.tsx:141
-#: src/components/NetworkModal/index.tsx:190
+#: src/components/NetworkModal/index.tsx:142
+#: src/components/NetworkModal/index.tsx:191
 msgid "on the"
 msgstr ""
 
@@ -3301,8 +3301,8 @@ msgstr "지갑"
 msgid "Wallet balance"
 msgstr ""
 
-#: src/components/NetworkModal/index.tsx:121
-#: src/components/NetworkModal/index.tsx:170
+#: src/components/NetworkModal/index.tsx:122
+#: src/components/NetworkModal/index.tsx:171
 msgid "We see you don't have {0} added to your wallet. Kindly add the network, and try again."
 msgstr ""
 
@@ -3345,8 +3345,8 @@ msgstr "{0}에서 철수 된 자금"
 msgid "You are creating UBI to thousands of people around the world."
 msgstr "당신은 전 세계의 수천 명의 사람들에게 UBI를 만들고 있습니다."
 
-#: src/components/NetworkModal/index.tsx:137
-#: src/components/NetworkModal/index.tsx:186
+#: src/components/NetworkModal/index.tsx:138
+#: src/components/NetworkModal/index.tsx:187
 msgid "You are currently browsing"
 msgstr ""
 

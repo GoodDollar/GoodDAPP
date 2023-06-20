@@ -2979,8 +2979,8 @@ msgstr "Multiplicator."
 msgid "My Stake"
 msgstr "Miza mea"
 
-#: src/components/NetworkModal/index.tsx:142
-#: src/components/NetworkModal/index.tsx:191
+#: src/components/NetworkModal/index.tsx:143
+#: src/components/NetworkModal/index.tsx:192
 msgid "network"
 msgstr "reţea"
 
@@ -3006,8 +3006,8 @@ msgstr "Luna viitoare:"
 msgid "No data."
 msgstr "Nu există date."
 
-#: src/components/NetworkModal/index.tsx:141
-#: src/components/NetworkModal/index.tsx:190
+#: src/components/NetworkModal/index.tsx:142
+#: src/components/NetworkModal/index.tsx:191
 msgid "on the"
 msgstr "pe"
 
@@ -3342,8 +3342,8 @@ msgstr "Portofel"
 msgid "Wallet balance"
 msgstr "Balanța portofelului"
 
-#: src/components/NetworkModal/index.tsx:121
-#: src/components/NetworkModal/index.tsx:170
+#: src/components/NetworkModal/index.tsx:122
+#: src/components/NetworkModal/index.tsx:171
 msgid "We see you don't have {0} added to your wallet. Kindly add the network, and try again."
 msgstr ""
 
@@ -3386,8 +3386,8 @@ msgstr "A retras fonduri de la {0}"
 msgid "You are creating UBI to thousands of people around the world."
 msgstr "Creați UBI la mii de oameni din întreaga lume."
 
-#: src/components/NetworkModal/index.tsx:137
-#: src/components/NetworkModal/index.tsx:186
+#: src/components/NetworkModal/index.tsx:138
+#: src/components/NetworkModal/index.tsx:187
 msgid "You are currently browsing"
 msgstr "În prezent, navigați"
 

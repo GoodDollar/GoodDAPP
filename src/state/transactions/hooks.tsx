@@ -50,7 +50,8 @@ export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
 
     const state = useSelector<AppState, AppState['transactions']>((state) => state.transactions)
     const filterTransactions = {}
-    if (chainId) {
+    console.log('useAllTransactions -->', { state })
+    if (chainId && state[chainId]) {
         Object.values(state[chainId])?.forEach((tx) => {
             if (tx.from === account) {
                 filterTransactions[tx.hash] = tx

@@ -225,9 +225,34 @@ const Approve = ({
   const displayData = useMemo(() => {
     switch (modalType) {
       case 'sign': {
-        if (payload.method === 'eth_signTypedData') {
-          const parsed = JSON.parse(message)
+        // signedType_V4
+        // Message:
+        // {
+        //     "domain": {
+        //         "name": "Permit2",
+        //         "chainId": "42220",
+        //         "verifyingContract": ""
+        //     },
+        //     "primaryType": "PermitSingle",
+        //     "message": {
+        //         "details": {
+        //             "token": "",
+        //             "amount": "",
+        //             "expiration": "",
+        //             "nonce": "0"
+        //         },
+        //         "spender": "",
+        //         "sigDeadline": ""
+        //     }
+        // }
+        if (payload.method === 'eth_signTypedData' || payload.method === 'eth_signTypedData_v4') {
+          let parsed = JSON.parse(message)
           delete parsed.types //dont show types to user
+
+          if (payload.method === 'eth_signTypedData_v4' && parsed.primaryType === 'PermitSingle') {
+            const { token } = parsed.message.details
+            parsed = `Approve spending for token: ${token}`
+          }
           return JSON.stringify(parsed, null, 4)
         }
         return message

@@ -290,6 +290,7 @@ export const useWalletConnectSession = () => {
                     'eth_sign',
                     'personal_sign',
                     'eth_signTypedData',
+                    'eth_signTypedData_v4',
                     'wallet_addEthereumChain',
                     'wallet_switchEthereumChain',
                     'wallet_scanQrCode',

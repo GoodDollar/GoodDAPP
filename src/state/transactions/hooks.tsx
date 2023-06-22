@@ -46,11 +46,19 @@ export function useTransactionAdder(): (
 
 // returns all the transactions for the current chain
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
-    const { chainId } = useActiveWeb3React()
+    const { chainId, account } = useActiveWeb3React()
 
     const state = useSelector<AppState, AppState['transactions']>((state) => state.transactions)
+    const filterTransactions = {}
+    if (chainId) {
+        Object.values(state[chainId])?.forEach((tx) => {
+            if (tx.from === account) {
+                filterTransactions[tx.hash] = tx
+            }
+        })
+    }
 
-    return chainId ? state[chainId] ?? {} : {}
+    return filterTransactions
 }
 
 export function useIsTransactionPending(transactionHash?: string): boolean {

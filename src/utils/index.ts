@@ -378,7 +378,7 @@ const builders = {
         }
     },
     celo: (chainName = '', data: string, type: 'transaction' | 'token' | 'address' | 'block') => {
-        const prefix = 'https://explorer.celo.org/'
+        const prefix = 'https://celoscan.io/'
         switch (type) {
             case 'transaction':
                 return `${prefix}/tx/${data}`

@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useWeb3Context } from '@gooddollar/web3sdk-v2'
+import { Web3Provider } from '@ethersproject/providers'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { useAddPopup, useBlockNumber } from '../application/hooks'
 import { AppDispatch, AppState } from '../index'
@@ -27,7 +29,8 @@ export function shouldCheck(
 }
 
 export default function Updater(): null {
-    const { chainId, library } = useActiveWeb3React()
+    const { chainId } = useActiveWeb3React()
+    const { web3Provider: library } = useWeb3Context() as { web3Provider: Web3Provider }
 
     const lastBlockNumber = useBlockNumber()
 

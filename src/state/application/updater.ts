@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Web3Provider } from '@ethersproject/providers'
+import { useWeb3Context } from '@gooddollar/web3sdk-v2'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import useDebounce from '../../hooks/useDebounce'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { updateBlockNumber } from './actions'
 
 export default function Updater(): null {
-    const { library, chainId, account } = useActiveWeb3React()
+    const { chainId, account } = useActiveWeb3React()
+    const { web3Provider: library } = useWeb3Context() as { web3Provider: Web3Provider }
     const dispatch = useDispatch()
 
     const windowVisible = useIsWindowVisible()
@@ -43,7 +46,7 @@ export default function Updater(): null {
         return () => {
             library.removeListener('block', blockNumberCallback)
         }
-    }, [dispatch, chainId, library, blockNumberCallback, windowVisible, account])
+    }, [/*used */ dispatch, chainId, library, blockNumberCallback, windowVisible, account])
 
     const debouncedState = useDebounce(state, 100)
 

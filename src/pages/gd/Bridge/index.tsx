@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
-import { useSwitchNetwork } from '@gooddollar/web3sdk-v2'
+import { useSwitchNetwork, useWeb3Context } from '@gooddollar/web3sdk-v2'
+import { Web3Provider } from '@ethersproject/providers'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useApplicationTheme } from 'state/application/hooks'
 import {
@@ -22,7 +23,8 @@ const SupportedBridgeNetworks = {
 }
 
 const Bridge = memo(() => {
-    const { library, chainId } = useActiveWeb3React()
+    const { chainId } = useActiveWeb3React()
+    const { web3Provider } = useWeb3Context() as { web3Provider: Web3Provider }
     const [theme] = useApplicationTheme()
     const sendData = useSendAnalyticsData()
     const { switchNetwork } = useSwitchNetwork()
@@ -78,12 +80,12 @@ const Bridge = memo(() => {
             dAppOption: DAppOptions.G$,
             kimaBackendUrl: 'https://gooddollar-beta.kima.finance',
             kimaNodeProviderQuery: 'https://api_testnet.kima.finance',
-            provider: library,
+            provider: web3Provider,
             compliantOption: false,
             autoConnect: false,
             helpURL: 'https://t.me/GoodDollarX',
         }),
-        [theme, library]
+        [theme, web3Provider]
     )
 
     return (

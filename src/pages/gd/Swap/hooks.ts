@@ -32,7 +32,8 @@ export function useTokens() {
     const [tokens, setTokens] = useState<Currency[] | null>(null)
     useEffect(() => {
         setTokens(!chainId ? [] : null)
-        chainId &&
+        void (
+            chainId &&
             (async () => {
                 try {
                     const list = await getTokenList(chainId as any)
@@ -56,6 +57,7 @@ export function useTokens() {
                     setTokens([])
                 }
             })()
+        )
     }, [chainId])
 
     return tokens

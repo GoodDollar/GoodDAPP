@@ -5,6 +5,7 @@ import { FAUCET_ABI, FAUCET_ADDRESS } from '../constants/abis/faucet'
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall'
 
 import { Contract } from '@ethersproject/contracts'
+import { Web3Provider } from '@ethersproject/providers'
 import { abi as STAKING_REWARDS_ABI } from '@uniswap/liquidity-staker/build/StakingRewards.json'
 import { abi as MERKLE_DISTRIBUTOR_ABI } from '@uniswap/merkle-distributor/build/MerkleDistributor.json'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
@@ -15,10 +16,12 @@ import { ERC20_BYTES32_ABI } from '../constants/abis/erc20'
 import PENDING_ABI from '../constants/abis/pending.json'
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './useActiveWeb3React'
+import { useWeb3Context } from '@gooddollar/web3sdk-v2'
 
 // returns null on errors
 export function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
-    const { library, account } = useActiveWeb3React()
+    const { account } = useActiveWeb3React()
+    const { web3Provider: library } = useWeb3Context() as { web3Provider: Web3Provider }
 
     return useMemo(() => {
         if (!address || !ABI || !library) return null

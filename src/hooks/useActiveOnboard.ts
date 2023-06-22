@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useMemo, useState, useRef } from 'react'
 import { Web3Provider } from '@ethersproject/providers'
-import { AsyncStorage, useAppRestart } from '@gooddollar/web3sdk-v2'
 import { ChainId } from '@sushiswap/sdk'
 import { EIP1193Provider } from '@web3-onboard/common'
 import { WalletState } from '@web3-onboard/core'
 import type { Account } from '@web3-onboard/core/dist/types'
+import { useConnectWallet, useSetChain, useWallets } from '@web3-onboard/react'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
-import { isEmpty, noop } from 'lodash'
-import { useEffect, useMemo, useState, useRef } from 'react'
+import { isEmpty } from 'lodash'
 import web3Utils from 'web3-utils'
+import { SupportedChainId, UnsupportedChainId } from '@gooddollar/web3sdk'
+import { AsyncStorage, useAppRestart } from '@gooddollar/web3sdk-v2'
+
 import usePromise from './usePromise'
 import useSendAnalyticsData from './useSendAnalyticsData'
-
-import { SupportedChainId, UnsupportedChainId } from '@gooddollar/web3sdk'
-
-import { useConnectWallet, useSetChain, useWallets } from '@web3-onboard/react'
 
 export type IsSupportedChainId = {
     isSupported: boolean
@@ -79,7 +78,6 @@ export function IsSupportedChain(chainIdHex: string): IsSupportedChainId {
 
 export function onboardContext(wstate: WalletState[]): ActiveOnboardInterface {
     const [{ provider, label, accounts, chains }] = wstate
-    const web3provider = new Web3Provider(provider)
     const chainIdHex = chains[0].id
     const { isSupported, chainId } = IsSupportedChain(chainIdHex)
     const error = !isSupported ? new UnsupportedChainId(chainIdHex) : undefined
@@ -91,7 +89,6 @@ export function onboardContext(wstate: WalletState[]): ActiveOnboardInterface {
         account: web3Utils.toChecksumAddress(accounts[0]?.address),
         label: label,
         eipProvider: provider as EIP1193ProviderExtended,
-        library: web3provider,
         error: error,
     }
 }

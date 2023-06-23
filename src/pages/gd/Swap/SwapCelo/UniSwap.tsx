@@ -12,6 +12,7 @@ import { ChainId } from '@sushiswap/sdk'
 
 const jsonRpcUrlMap = {
     122: ['https://rpc.fuse.io', 'https://fuse-rpc.gateway.pokt.network'],
+    42220: ['https://forno.celo.org', 'https://celo-rpc.gateway.pokt.network'],
 }
 
 const celoTokenList: TokenInfo[] = [

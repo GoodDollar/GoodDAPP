@@ -9,6 +9,7 @@ import { AsyncStorage, getDevice, G$ContractAddresses, useGetEnvChainId, useWeb3
 import { useDispatch } from 'react-redux'
 import { addTransaction } from 'state/transactions/actions'
 import { ChainId } from '@sushiswap/sdk'
+import { isMobile } from 'react-device-detect'
 
 const jsonRpcUrlMap = {
     122: ['https://rpc.fuse.io', 'https://fuse-rpc.gateway.pokt.network'],
@@ -191,7 +192,7 @@ export const UniSwap = (): JSX.Element => {
     return (
         <div>
             <SwapWidget
-                width="550px"
+                width={isMobile ? 'auto' : '550px'}
                 tokenList={celoTokenList}
                 defaultInputTokenAddress={gdTokenAddress}
                 permit2={true}
@@ -203,6 +204,7 @@ export const UniSwap = (): JSX.Element => {
                 onTxFail={handleTxFailed}
                 onTxSubmit={handleTxSubmit}
                 onTxSuccess={handleTxSuccess}
+                dialogOptions={{ pageCentered: !!isMobile }}
             />
         </div>
     )

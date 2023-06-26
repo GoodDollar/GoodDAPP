@@ -16,6 +16,7 @@ import { useFaucet } from '@gooddollar/web3sdk-v2'
 import TransactionUpdater from '../state/transactions/updater'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { isMobile } from 'react-device-detect'
+import WalletChat from '../components/WalletChat'
 
 export const Beta = styled.div`
     font-style: normal;
@@ -137,6 +138,7 @@ function App(): JSX.Element {
                         <Beta className="mt-3 lg:mt-8">{i18n._(t`This project is in beta. Use at your own risk`)}</Beta>
                     </MainBody>
                 </Wrapper>
+                <WalletChat />
             </div>
         </Suspense>
     )

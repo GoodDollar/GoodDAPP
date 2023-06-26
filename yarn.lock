@@ -4157,7 +4157,7 @@ __metadata:
     "@lingui/react": ^3.13.0
     "@metamask/eth-sig-util": ^4.0.1
     "@react-native-async-storage/async-storage": ^1.15.8
-    "@react-native-community/blur": ^3.6.0
+    "@react-native-community/blur": "https://github.com/Kureev/react-native-blur/archive/refs/tags/v3.6.1.tar.gz"
     "@react-native-community/clipboard": ^1.5.1
     "@react-native-community/eslint-config": ^2.0.0
     "@react-native-community/netinfo": ^6.0.2
@@ -5695,12 +5695,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/blur@npm:^3.6.0":
-  version: 3.6.0
-  resolution: "@react-native-community/blur@npm:3.6.0"
+"@react-native-community/blur@https://github.com/Kureev/react-native-blur/archive/refs/tags/v3.6.1.tar.gz":
+  version: 3.6.1
+  resolution: "@react-native-community/blur@https://github.com/Kureev/react-native-blur/archive/refs/tags/v3.6.1.tar.gz"
   dependencies:
     prop-types: ^15.5.10
-  checksum: 2a6b3ecf08c0d1eae760a4ad69599ed34842d0dbf8fad0955a3e878844c2dc066c55045ec382d52df9b23c89e82274565ee662084039bad29f41562eab89ee38
+  checksum: 25bc6b8b18de7a447cba9d9f4c5fc932a0b21710031b2b26c0b975ab7f06c131177f08222d3ebd7d52b6e9b211f2ff3e7e1b56dfa26b6ca76902ba48a0750702
   languageName: node
   linkType: hard
 

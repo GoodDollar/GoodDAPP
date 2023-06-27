@@ -1,0 +1,48 @@
+diff --git a/dist/Index-a0e1e0dc.js b/dist/Index-a0e1e0dc.js
+index df7d35877d9a875dc85239366ea1dc5c46e7d579..4ae8ce2b2e2ffaa7bc557a48882253dfde619a29 100644
+--- a/dist/Index-a0e1e0dc.js
++++ b/dist/Index-a0e1e0dc.js
+@@ -1199,7 +1199,8 @@ function create_default_slot(ctx) {
+ 			t6 = space();
+ 			button1 = element("button");
+ 			t7 = text(t7_value);
+-			attr(div0, "class", "icon-container flex justify-center items-center svelte-1ubxcdp");
++      attr(div0, "class", "icon-container flex justify-center items-center svelte-1ubxcdp");
++      attr(div0, "part", "mobile-icon-container");
+ 			attr(h4, "class", "svelte-1ubxcdp");
+ 			attr(p, "class", "svelte-1ubxcdp");
+ 			attr(button0, "class", "button-neutral-solid-b rounded svelte-1ubxcdp");
+diff --git a/dist/index-a7988992.js b/dist/index-a7988992.js
+index 7727ca7408827983a539ba0b32a2df99c005b5be..1449646edd95dd54b8151a26b6ea85f0ba1bf7bb 100644
+--- a/dist/index-a7988992.js
++++ b/dist/index-a7988992.js
+@@ -6281,7 +6281,8 @@ function create_if_block_2$2(ctx) {
+ 			t = space();
+ 			if (if_block1) if_block1.c();
+ 			if_block1_anchor = empty();
+-			attr(div, "class", "icon-container svelte-2l58pt");
++      attr(div, "class", "icon-container svelte-2l58pt");
++      attr(div, "part", "sidebar-heading-img");
+ 		},
+ 		m(target, anchor) {
+ 			insert(target, div, anchor);
+@@ -7038,7 +7039,8 @@ function create_if_block_6$1(ctx) {
+ 			t2 = space();
+ 			div2 = element("div");
+ 			t3 = text(t3_value);
+-			attr(div0, "class", "icon-container svelte-b3j15j");
++      attr(div0, "class", "icon-container svelte-b3j15j");
++      attr(div0, "part", "mobile-icon-container");
+ 			attr(div1, "class", "header-heading svelte-b3j15j");
+ 			attr(div2, "class", "mobile-subheader svelte-b3j15j");
+ 			attr(div3, "class", "flex flex-column justify-center w-full svelte-b3j15j");
+@@ -7148,7 +7150,8 @@ function create_else_block_1(ctx) {
+ 		c() {
+ 			img = element("img");
+ 			if (!src_url_equal(img.src, img_src_value = /*icon*/ ctx[14])) attr(img, "src", img_src_value);
+-			attr(img, "alt", "logo");
++      attr(img, "alt", "logo");
++      attr(img, "part", "mobile-icon-img");
+ 		},
+ 		m(target, anchor) {
+ 			insert(target, img, anchor);

@@ -35,6 +35,7 @@ export interface IAnalyticsData {
     network?: string
     token?: string
     error?: string
+    label?: string
 }
 
 function useSendAnalyticsData(): (data: IAnalyticsData) => void {

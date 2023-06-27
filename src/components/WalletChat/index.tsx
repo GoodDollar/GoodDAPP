@@ -2,12 +2,10 @@ import React from 'react'
 
 import { WalletChatWidget } from 'react-wallet-chat-gd'
 import { isMobile } from 'react-device-detect'
-import { useWeb3Context } from '@gooddollar/web3sdk-v2'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 
 const WalletChat = () => {
-    const { account, chainId, label } = useActiveWeb3React()
-    const { web3Provider } = useWeb3Context()
+    const { account, chainId, label, eipProvider } = useActiveWeb3React()
 
     return (
         <WalletChatWidget
@@ -18,7 +16,7 @@ const WalletChat = () => {
                           walletName: label || '',
                           account: account,
                           chainId,
-                          provider: web3Provider,
+                          provider: eipProvider,
                       }
                     : undefined
             }

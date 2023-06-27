@@ -3240,7 +3240,7 @@ msgstr ""
 msgid "This month"
 msgstr "Этот месяц"
 
-#: src/pages/App.tsx:137
+#: src/pages/App.tsx:138
 msgid "This project is in beta. Use at your own risk"
 msgstr "Этот проект находится в стадии бета-тестирования. Используйте на свой риск"
 

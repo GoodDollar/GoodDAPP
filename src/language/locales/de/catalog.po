@@ -3236,7 +3236,7 @@ msgstr ""
 msgid "This month"
 msgstr "Diesen Monat"
 
-#: src/pages/App.tsx:137
+#: src/pages/App.tsx:138
 msgid "This project is in beta. Use at your own risk"
 msgstr "Dieses Projekt befindet sich in der Betaphase. Benutzung auf eigene Gefahr"
 

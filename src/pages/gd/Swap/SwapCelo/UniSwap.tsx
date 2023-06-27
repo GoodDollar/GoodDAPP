@@ -1,58 +1,45 @@
 import React, { useCallback } from 'react'
 
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useApplicationTheme } from 'state/application/hooks'
-import { darkTheme, lightTheme, OnTxFail, OnTxSubmit, OnTxSuccess, SwapWidget, TokenInfo } from '@uniswap/widgets'
+import { darkTheme, lightTheme, OnTxFail, OnTxSubmit, OnTxSuccess, SwapWidget } from '@uniswap/widgets'
 import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
 import { useConnectWallet } from '@web3-onboard/react'
-import { AsyncStorage, getDevice, G$ContractAddresses, useGetEnvChainId, useWeb3Context } from '@gooddollar/web3sdk-v2'
+import {
+    AsyncStorage,
+    getDevice,
+    G$ContractAddresses,
+    useGetEnvChainId,
+    useWeb3Context,
+    SupportedChains,
+} from '@gooddollar/web3sdk-v2'
 import { useDispatch } from 'react-redux'
 import { addTransaction } from 'state/transactions/actions'
 import { ChainId } from '@sushiswap/sdk'
 import { isMobile } from 'react-device-detect'
+import { Box } from 'native-base'
+
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useApplicationTheme } from 'state/application/hooks'
+import useSendAnalytics from 'hooks/useSendAnalyticsData'
+import { tokens } from './celo-tokenlist.json'
 
 const jsonRpcUrlMap = {
     122: ['https://rpc.fuse.io', 'https://fuse-rpc.gateway.pokt.network'],
     42220: ['https://forno.celo.org', 'https://celo-rpc.gateway.pokt.network'],
 }
 
-const celoTokenList: TokenInfo[] = [
-    {
-        name: 'Wrapped Ether',
-        address: '0x2DEf4285787d58a2f811AF24755A8150622f4361',
-        symbol: 'WETH',
-        decimals: 18,
-        chainId: 42220,
-        logoURI:
-            'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
-        extensions: {
-            bridgeInfo: {
-                '1': {
-                    tokenAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-                },
-            },
-        },
-    },
-    //todo-fix: adding this native token in the list makes it show up twice. but by default the logo's are not functioning on the widget
-    // {
-    //     chainId: 42220,
-    //     address: '0x471EcE3750Da237f93B8E339c536989b8978a438',
-    //     name: 'Celo',
-    //     symbol: 'CELO',
-    //     decimals: 18,
-    //     logoURI: 'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_CELO.png',
-    // },
-]
-
 export const UniSwap = (): JSX.Element => {
     const [theme] = useApplicationTheme()
     const uniTheme = theme === 'dark' ? darkTheme : lightTheme
-    const { account } = useActiveWeb3React()
     const { web3Provider } = useWeb3Context()
+    const { account, chainId } = useActiveWeb3React()
+    const network = SupportedChains[chainId]
     const [, connect] = useConnectWallet()
     const globalDispatch = useDispatch()
+    const sendData = useSendAnalytics()
     const { connectedEnv } = useGetEnvChainId(42220)
     const gdTokenAddress = G$ContractAddresses('GoodDollar', connectedEnv) as string
+    const containerWidth = isMobile ? 'auto' : '550px'
+
     const customTheme = {
         ...uniTheme,
         primary: '#404040',
@@ -78,7 +65,7 @@ export const UniSwap = (): JSX.Element => {
             'https://raw.githubusercontent.com/GoodDollar/GoodProtocolUI/master/src/assets/images/tokens/gd-logo.png',
     }
 
-    celoTokenList.push(gdToken)
+    tokens.push(gdToken)
 
     const connectOnboard = useCallback(async () => {
         if (!account) {
@@ -98,7 +85,7 @@ export const UniSwap = (): JSX.Element => {
     }, [connect])
 
     const handleError = useCallback(async (e) => {
-        console.log('handleError -->', { e })
+        sendData({ event: 'swap', action: 'swap_failed', error: e.message })
     }, [])
 
     const handleTxFailed: OnTxFail = useCallback(async (error: string, data: any) => {
@@ -114,6 +101,8 @@ export const UniSwap = (): JSX.Element => {
                     const { tokenAddress } = info
                     const symbol = tokenSymbols[tokenAddress]
                     const summary = symbol ? `Approved spending of ${symbol}` : 'Approved spending'
+                    const type = symbol ? 'sell' : 'buy'
+                    sendData({ event: 'swap', action: 'swap_approve', type, network })
                     globalDispatch(
                         addTransaction({
                             chainId: 42220 as ChainId,
@@ -146,6 +135,17 @@ export const UniSwap = (): JSX.Element => {
                     const swappedAmount = inputAmount.toSignificant(6)
                     const receivedAmount = outputAmount.toSignificant(6)
                     const summary = `Swapped ${swappedAmount} ${input.symbol} to ${receivedAmount} ${output.symbol}`
+                    const type = input.symbol === 'G$' ? 'sell' : 'buy'
+
+                    sendData({
+                        event: 'swap',
+                        action: 'swap_confirm',
+                        amount: type === 'buy' ? receivedAmount : swappedAmount,
+                        tokens: [input.symbol, output.symbol],
+                        type,
+                        network,
+                    })
+
                     globalDispatch(
                         addTransaction({
                             chainId: 42220 as ChainId,
@@ -159,41 +159,23 @@ export const UniSwap = (): JSX.Element => {
                 }
             }
         },
-        [account]
+        [account, network]
     )
 
-    const handleTxSuccess: OnTxSuccess = useCallback(async (txHash: string, data: any) => {
-        console.log('handleTxSuccess -->', { txHash, data })
-        //todo: potentially showing share modal (as we do on other chains when buying G$)
-        //     <ShareTransaction
-        //     title={i18n._(t`Swap Completed`)}
-        //     text={i18n._(
-        //         t`You just used your crypto for good to help fund crypto UBI for all with GoodDollar!`
-        //     )}
-        //     shareProps={{
-        //         title: i18n._(t`Share with friends`),
-        //         copyText: 'I just bought GoodDollars at https://goodswap.xyz to make the world better',
-        //         show: true,
-        //         linkedin: {
-        //             url: 'https://gooddollar.org',
-        //         },
-        //         twitter: {
-        //             url: 'https://gooddollar.org',
-        //             hashtags: ['InvestForGood'],
-        //         },
-        //         facebook: {
-        //             url: 'https://gooddollar.org',
-        //             hashtag: '#InvestForGood',
-        //         },
-        //     }}
-        // />
-    }, [])
+    const handleTxSuccess: OnTxSuccess = useCallback(
+        async (txHash: string, data: any) => {
+            const { inputAmount } = data.info.trade.swaps[0]
+            const type = inputAmount.currency.symbol === 'G$' ? 'sell' : 'buy'
+            sendData({ event: 'swap', action: 'swap_success', type, network })
+        },
+        [network]
+    )
 
     return (
-        <div>
+        <Box w={containerWidth}>
             <SwapWidget
-                width={isMobile ? 'auto' : '550px'}
-                tokenList={celoTokenList}
+                width={containerWidth}
+                tokenList={tokens}
                 defaultInputTokenAddress={gdTokenAddress}
                 permit2={true}
                 jsonRpcUrlMap={jsonRpcUrlMap}
@@ -206,6 +188,6 @@ export const UniSwap = (): JSX.Element => {
                 onTxSuccess={handleTxSuccess}
                 dialogOptions={{ pageCentered: !!isMobile }}
             />
-        </div>
+        </Box>
     )
 }

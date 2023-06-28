@@ -4337,9 +4337,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.81":
-  version: 0.0.81
-  resolution: "@gooddollar/good-design@npm:0.0.81"
+"@gooddollar/good-design@npm:^0.0.82":
+  version: 0.0.82
+  resolution: "@gooddollar/good-design@npm:0.0.82"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -4366,7 +4366,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: 7ba8b3ea51f208adf9ea1fe148e275f3207abd510321ba4fff9470b838c31d9f7365b1d174e65c489a12cb94491321fb68f91dee3a4774c7cc5a7ea98e3d71a5
+  checksum: 5d3f27659f4724e7dadedd954b39d835099189c7ff03272576bdf74fb41b6312694cc5cd71f5e0d7d5dca6a4310423601a44eaa57ce573785b3b60db70e8f5d3
   languageName: node
   linkType: hard
 
@@ -4417,7 +4417,7 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.81
+    "@gooddollar/good-design": ^0.0.82
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.25
     "@gooddollar/web3sdk-v2": ^0.1.106

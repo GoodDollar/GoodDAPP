@@ -11,13 +11,14 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import logger from '../../lib/logger/js-logger'
 import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { generateShareObject, isSharingAvailable } from '../../lib/share'
+import { /*generateShareObject,*/ isSharingAvailable } from '../../lib/share'
 import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
-import createABTesting from '../../lib/hooks/useABTesting'
+
+// import createABTesting from '../../lib/hooks/useABTesting'
 import { withStyles } from '../../lib/styles'
 import CeloLogo from '../../assets/celo-logo.svg'
 
@@ -29,7 +30,8 @@ import {
   useWallet,
 } from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
-import mustache from '../../lib/utils/mustache'
+
+// import mustache from '../../lib/utils/mustache'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import {
   useCollectBounty,
@@ -41,13 +43,14 @@ import {
 } from './useInvites'
 import FriendsSVG from './friends.svg'
 import ShareIcons from './ShareIcons'
-import useShareMessages from './useShareMessages'
+
+// import useShareMessages from './useShareMessages'
 
 const log = logger.child({ from: 'Invite' })
 
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
-const { useOption } = createABTesting('INVITE_CAMPAIGNS')
+// const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const InvitedUser = ({ address, status }) => {
   const profile = usePublicProfileOf(address)
@@ -89,38 +92,44 @@ const InvitedUser = ({ address, status }) => {
 }
 
 const ShareBox = ({ level, styles }) => {
-  const [{ shareMessage, shareTitle }] = useShareMessages()
+  // const [{ shareMessage, shareTitle }] = useShareMessages()
   const { toDecimals } = useFormatG$()
-  const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'celo' }], [shareMessage])
+
+  // const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'celo' }], [shareMessage])
 
   const inviteCode = useInviteCode()
-  const abTestOption = useOption(abTestOptions)
+
+  // const abTestOption = useOption(abTestOptions)
   const bounty = useMemo(() => (level?.bounty ? decimalsToFixed(toDecimals(level.bounty)) : ''), [level])
 
+  // const shareUrl = useMemo(
+  //   () =>
+  //     inviteCode && abTestOption ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id}` : '',
+  //   [inviteCode, abTestOption],
+  // )
+
   const shareUrl = useMemo(
-    () =>
-      inviteCode && abTestOption ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id}` : '',
-    [inviteCode, abTestOption],
+    () => (inviteCode ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=url-only` : ''),
+    [inviteCode],
   )
 
-  const abTestMessage = useMemo(() => {
-    const { value } = abTestOption || {}
+  // const abTestMessage = useMemo(() => {
+  //   const { value } = abTestOption || {}
 
-    if (value) {
-      const reward = bounty / 2
+  //   if (value) {
+  //     const reward = bounty / 2
 
-      return mustache(value, { bounty, reward })
-    }
-  }, [abTestOption, bounty])
+  //     return mustache(value, { bounty, reward })
+  //   }
+  // }, [abTestOption, bounty])
 
-  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
-    shareTitle,
-    shareUrl,
-    abTestMessage,
-  ])
+  // const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
+  //   shareTitle,
+  //   shareUrl,
+  //   abTestMessage,
+  // ])
 
-  useEffect(() => log.debug('Generated share object', { share }), [share])
-
+  const share = shareUrl
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Share Your Invite Link`}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>

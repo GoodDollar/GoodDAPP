@@ -59,7 +59,7 @@
         "@types/numeral": "^2.0.1",
         "@types/qs": "^6.9.2",
         "@types/react": "^17.0",
-        "@types/react-dom": "17.0,2",
+        "@types/react-dom": "17.0.2",
         "@types/react-helmet": "^6.1",
         "@types/react-native": "0.70.4",
         "@types/react-redux": "7.1.16",
@@ -83,13 +83,7 @@
         "@uniswap/v2-sdk": "^3.0.0",
         "@vitalets/google-translate-api": "^7.0.0",
         "@vitejs/plugin-react": "^4.0.0",
-        "@walletconnect/ethereum-provider": "1.5.0",
-        "@web3-onboard/core": "^2.17.0",
-        "@web3-onboard/react": "2.7.0",
         "@web3-react/core": "^6.1.9",
-        "@web3-react/injected-connector": "^6.0.7",
-        "@web3-react/walletconnect-connector": "6.2.4",
-        "@web3-react/walletlink-connector": "6.2.5",
         "ajv": "^6.12.3",
         "autoprefixer": "^9",
         "babel-plugin-import": "^1.13.5",
@@ -201,14 +195,15 @@
         "react-error-overlay": "6.0.9",
         "@gooddollar/goodprotocol": "2.0.3",
         "@react-native-async-storage/async-storage": "1.17.10",
-        "@web3-onboard/core": "patch:@web3-onboard/core@npm%3A2.17.0#./.yarn/patches/@web3-onboard-core-npm-2.17.0-158dbf89b9.patch"
+        "@walletconnect/modal": "2.5.4",
+        "@web3-onboard/core": "patch:@web3-onboard/core@npm%3A2.20.2#./.yarn/patches/@web3-onboard-core-npm-2.20.2-2119caa15c.patch"
     },
     "dependencies": {
         "@babel/runtime": "^7.18.9",
-        "@gooddollar/good-design": "^0.0.80",
+        "@gooddollar/good-design": "^0.0.82",
         "@gooddollar/goodprotocol": "^2.0.3",
         "@gooddollar/web3sdk": "^0.1.25",
-        "@gooddollar/web3sdk-v2": "^0.1.105",
+        "@gooddollar/web3sdk-v2": "^0.1.106",
         "@headlessui/react": "1.5.0",
         "@kimafinance/kima-transaction-widget": "^1.1.42-beta.1",
         "@lingui/format-json": "^4.0.0",
@@ -219,11 +214,12 @@
         "@uniswap/sdk-core": "^3.0.0",
         "@uniswap/widgets": "^2.51.2",
         "@usedapp/core": "^1.2.6",
-        "@web3-onboard/coinbase": "^2.0.10",
-        "@web3-onboard/injected-wallets": "^2.0.15",
-        "@web3-onboard/react": "2.7.0",
+        "@web3-onboard/coinbase": "^2.2.4",
+        "@web3-onboard/core": "^2.20.3",
+        "@web3-onboard/injected-wallets": "^2.10.1",
+        "@web3-onboard/react": "^2.8.7",
         "@web3-onboard/walletconnect": "^2.3.9",
-        "@web3-onboard/walletlink": "^2.0.6",
+        "@web3-onboard/walletlink": "^2.1.7",
         "amplitude-js": "^8.21.2",
         "ethers": "^5.7.2",
         "mobile-device-detect": "^0.4.3",
@@ -241,9 +237,5 @@
         "ubeswap-swap-dev": "^1.4.2",
         "web3": "1.8.2"
     },
-    "packageManager": "yarn@3.2.1",
-    "peerDependencies": {
-        "@web3-onboard/core": "*",
-        "@web3-onboard/react": "*"
-    }
+    "packageManager": "yarn@3.2.1"
 }

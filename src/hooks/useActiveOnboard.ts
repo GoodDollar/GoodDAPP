@@ -201,19 +201,12 @@ export function useOnboardConnect(): OnboardConnectProps {
 
         if (isConnected && connectedChain) {
             if (!hasSendAnalyticsRef.current) {
-                // for a wallet-connect v1 bug we need to verify the existence of peerId to
-                // determine if there is a working connection established
-                if (WalletConnectLabels.includes(connectedWallets[0].label)) {
-                    const peerId = (connectedWallets[0].provider as any).connector.peerId
-
-                    if (!peerId) {
-                        sendData({ event: 'wallet_connect', action: 'wallet_connect_failed' })
-                        hasSendAnalyticsRef.current = true
-                        return
-                    }
-                }
-
-                sendData({ event: 'wallet_connect', action: 'wallet_connect_success' })
+                //todo: find way to derive chosen wallet for wallet-connect
+                sendData({
+                    event: 'wallet_connect',
+                    action: 'wallet_connect_success',
+                    label: connectedWallets[0].label,
+                })
                 hasSendAnalyticsRef.current = true
             }
 

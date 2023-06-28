@@ -13,17 +13,17 @@ __metadata:
   linkType: hard
 
 "@amplitude/analytics-browser@npm:^1.6.4":
-  version: 1.11.2
-  resolution: "@amplitude/analytics-browser@npm:1.11.2"
+  version: 1.12.0
+  resolution: "@amplitude/analytics-browser@npm:1.12.0"
   dependencies:
-    "@amplitude/analytics-client-common": ^1.0.3
-    "@amplitude/analytics-core": ^1.1.2
-    "@amplitude/analytics-types": ^1.2.1
-    "@amplitude/plugin-page-view-tracking-browser": ^1.0.5
-    "@amplitude/plugin-web-attribution-browser": ^1.0.5
+    "@amplitude/analytics-client-common": ^1.1.0
+    "@amplitude/analytics-core": ^1.2.0
+    "@amplitude/analytics-types": ^1.3.0
+    "@amplitude/plugin-page-view-tracking-browser": ^1.0.6
+    "@amplitude/plugin-web-attribution-browser": ^1.0.6
     "@amplitude/ua-parser-js": ^0.7.31
     tslib: ^2.4.1
-  checksum: 3f5c3bd4611503910fa674f7fa8220babcfc14c5dc16f8a0f7f7e381de417c14cc65a702418e1cfad137bb2c7a9dc713057ccd28d76e0693fb96c37a271b5fe1
+  checksum: 5bbdf84014c98eabd0a30d39a37d90e8f4daabbd6ed2d2b1577b50222beb7ba187c00f70cc819b2fa6b9dbd1c96ba5e2d0b5cf40a9d298627b4a00611c97dbd9
   languageName: node
   linkType: hard
 
@@ -39,15 +39,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-client-common@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@amplitude/analytics-client-common@npm:1.0.3"
+"@amplitude/analytics-client-common@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@amplitude/analytics-client-common@npm:1.1.0"
   dependencies:
     "@amplitude/analytics-connector": ^1.4.5
-    "@amplitude/analytics-core": ^1.1.2
-    "@amplitude/analytics-types": ^1.2.1
+    "@amplitude/analytics-core": ^1.2.0
+    "@amplitude/analytics-types": ^1.3.0
     tslib: ^2.4.1
-  checksum: 34c158c32566d375cfbab43b0f9539c6f88e09b310113f6017f1f508efe9eb251fab2fd66582f64503257817f7c7c323bbb50f61bf68ffd1fc3cb0a18b4c08ab
+  checksum: dc8dd2b0f1069ae7cf7c6fa93c4d9cb1d24b325e27d0281f70ff9fb5909c1aa95a881ce3d9c7576e9c18a3ce3907a02b44ee5f9c38972551219d466ec2968c9b
   languageName: node
   linkType: hard
 
@@ -68,13 +68,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-core@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "@amplitude/analytics-core@npm:1.1.2"
+"@amplitude/analytics-core@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@amplitude/analytics-core@npm:1.2.0"
   dependencies:
-    "@amplitude/analytics-types": ^1.2.1
+    "@amplitude/analytics-types": ^1.3.0
     tslib: ^2.4.1
-  checksum: c274bfdff3408b1c9604cb77e123288e07f46516cc574087c59154b3f3986a4db2f0515971214650d22041317c2c2a03aca823aad650bc7e4ea8c0ac90401301
+  checksum: c5b731460693e33820fbfb5c6405e3aaef9d2ea1eb1b52e1c7bad7d77cf50d0957d18287da0f8476818ab8ea82fee82fac7e25a825e3d55f5549ebffbae21c18
   languageName: node
   linkType: hard
 
@@ -109,32 +109,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-types@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "@amplitude/analytics-types@npm:1.2.1"
-  checksum: 263adea76537f4d5ef429338ff5bf3a080192bd392a4422fe40026bf94b10158195d48575117dd6b414f9f0c724a695f9d625e8f661544e1e4fe97c85c400e02
+"@amplitude/analytics-types@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@amplitude/analytics-types@npm:1.3.0"
+  checksum: f5ece685846393385087d71c16be4ef0ab389240045024814a0b33574a1ee0b75355bd6f948311f90dc6616585da8d79074368abd095d94273523c0cf138bca3
   languageName: node
   linkType: hard
 
-"@amplitude/plugin-page-view-tracking-browser@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "@amplitude/plugin-page-view-tracking-browser@npm:1.0.5"
+"@amplitude/plugin-page-view-tracking-browser@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "@amplitude/plugin-page-view-tracking-browser@npm:1.0.6"
   dependencies:
-    "@amplitude/analytics-client-common": ^1.0.3
-    "@amplitude/analytics-types": ^1.2.1
+    "@amplitude/analytics-client-common": ^1.1.0
+    "@amplitude/analytics-types": ^1.3.0
     tslib: ^2.4.1
-  checksum: dfd469d65a280048988e8bf33c6ac5bcdca7ed546b2e528f610c9dd9e69814e3923d629257b7baa37a6f1f3229477d47b42b2a58351e8de526cbf8971d120b47
+  checksum: bbb3b0775c17690a2c8bb5ba43f6eaa5a96659bc845aeefec685f9195d5e26a176a249083a6e89e8af8c9796c29e0470c2feeeab1b42a9eda73a79f488945da9
   languageName: node
   linkType: hard
 
-"@amplitude/plugin-web-attribution-browser@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "@amplitude/plugin-web-attribution-browser@npm:1.0.5"
+"@amplitude/plugin-web-attribution-browser@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "@amplitude/plugin-web-attribution-browser@npm:1.0.6"
   dependencies:
-    "@amplitude/analytics-client-common": ^1.0.3
-    "@amplitude/analytics-types": ^1.2.1
+    "@amplitude/analytics-client-common": ^1.1.0
+    "@amplitude/analytics-types": ^1.3.0
     tslib: ^2.4.1
-  checksum: 45132c0e502c79238ba18f2737c0dcee2bcf3dc3ccca30590571cca53728b8fee6bd625abefb8db902cd30ce369b8ca95579fa96e03f9383c1321730eda702f9
+  checksum: 75359c910872986f25bf64567675a9b02817f5ef8333b7462488fcbf3d582bbc30478ee9aa66eb8a44aee5fca58cc3f0a07d4aea7d9e33cc9fc1354ccc64c565
   languageName: node
   linkType: hard
 
@@ -326,11 +326,11 @@ __metadata:
   linkType: hard
 
 "@apollo/usage-reporting-protobuf@npm:^4.0.0":
-  version: 4.1.0
-  resolution: "@apollo/usage-reporting-protobuf@npm:4.1.0"
+  version: 4.1.1
+  resolution: "@apollo/usage-reporting-protobuf@npm:4.1.1"
   dependencies:
     "@apollo/protobufjs": 1.2.7
-  checksum: 442532d7077a728a499de6c2c2340d106b26f14695446361f947a14d3092e4109239a86cfb99e4bb795d913523c1f61a05bb799b45fc72615560693bbd62e645
+  checksum: 899f13cfb57cfe4320e50fff84254604c25538620aa5a56bad06fb4fc929a8842237b376a5ab6d82800d9aceacc8e79ccae01a1c11e85456d4a9ed50a6fe40ee
   languageName: node
   linkType: hard
 
@@ -4337,9 +4337,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@file:.yalc/@gooddollar/good-design::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
-  version: 0.0.81-beta.7bc9fe9
-  resolution: "@gooddollar/good-design@file:.yalc/@gooddollar/good-design#.yalc/@gooddollar/good-design::hash=88f2c0&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
+"@gooddollar/good-design@npm:^0.0.81":
+  version: 0.0.81
+  resolution: "@gooddollar/good-design@npm:0.0.81"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -4366,7 +4366,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: 77dd2bc812e528b0b45ac475c42ab3b50a6acfaad4182a0271b1c7e5bbc1f03e8218f8b31a7e247531e616aba248dd9775d11c6b9fc58bee1ea45d4c37c6cbeb
+  checksum: 7ba8b3ea51f208adf9ea1fe148e275f3207abd510321ba4fff9470b838c31d9f7365b1d174e65c489a12cb94491321fb68f91dee3a4774c7cc5a7ea98e3d71a5
   languageName: node
   linkType: hard
 
@@ -4417,10 +4417,10 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": "file:.yalc/@gooddollar/good-design"
+    "@gooddollar/good-design": ^0.0.81
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.25
-    "@gooddollar/web3sdk-v2": "file:.yalc/@gooddollar/web3sdk-v2"
+    "@gooddollar/web3sdk-v2": ^0.1.106
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@kimafinance/kima-transaction-widget": ^1.1.42-beta.1
@@ -4597,9 +4597,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@file:.yalc/@gooddollar/web3sdk-v2::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
+"@gooddollar/web3sdk-v2@npm:^0.1.106":
   version: 0.1.106
-  resolution: "@gooddollar/web3sdk-v2@file:.yalc/@gooddollar/web3sdk-v2#.yalc/@gooddollar/web3sdk-v2::hash=e5b8ac&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.106"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -4637,7 +4637,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 2d5ea887a0533f551fbe61974873bcf571c13018c26ff4010a731ae187e44262cbf87a7478a26cc8e392a1fe18814ba2783e86bf4beac8f8de00331076bd66b5
+  checksum: b6a6b33b7efb161af2bebf17feca3772a03abe8189545dbe8c3272686fe3c8960701587e92fd5612e56f4635c1c811044b4f3ea87735933a7a009a0846cc56e8
   languageName: node
   linkType: hard
 
@@ -10529,9 +10529,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/codec@npm:^0.15.3":
-  version: 0.15.3
-  resolution: "@truffle/codec@npm:0.15.3"
+"@truffle/codec@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "@truffle/codec@npm:0.16.0"
   dependencies:
     "@truffle/abi-utils": ^1.0.1
     "@truffle/compile-common": ^0.9.6
@@ -10540,10 +10540,10 @@ __metadata:
     cbor: ^5.2.0
     debug: ^4.3.1
     lodash: ^4.17.21
-    semver: 7.3.7
+    semver: 7.5.2
     utf8: ^3.0.0
     web3-utils: 1.10.0
-  checksum: 3567a641cb665fb338952d4ed7dc403689412d04cc3331c7602daa94168862cca36212cd4c34670362fe60491440dd413dc02497625fe2b057d93005f0e79e15
+  checksum: e6ec07ba5771e4efd21616d89753d34d871568b0bef889a2b0c0a47ed273e29471a9091174afaba7c3e12ab77d59e95db2cf85774b2da7930d8eca6870cc84e6
   languageName: node
   linkType: hard
 
@@ -10685,21 +10685,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/db-loader@npm:^0.2.29":
-  version: 0.2.29
-  resolution: "@truffle/db-loader@npm:0.2.29"
+"@truffle/db-loader@npm:^0.2.30":
+  version: 0.2.30
+  resolution: "@truffle/db-loader@npm:0.2.30"
   dependencies:
-    "@truffle/db": ^2.0.29
+    "@truffle/db": ^2.0.30
   dependenciesMeta:
     "@truffle/db":
       optional: true
-  checksum: fd7460a9da44e66dac0818582fffc481835c9c248903a97ef2a5a04eb5463c0fa1054fbe705ebf9178a8cee21893949dec2f254d6d92f601e34a4319ec8d99b2
+  checksum: e46c1555c026c060546f26750095202aa8bff93bd2fed540d0a9e99a3cab9077676f3a711febeef37552e0c3095f85bd0ecf9e966307d5ac1476218e7b677364
   languageName: node
   linkType: hard
 
-"@truffle/db@npm:^2.0.29":
-  version: 2.0.29
-  resolution: "@truffle/db@npm:2.0.29"
+"@truffle/db@npm:^2.0.30":
+  version: 2.0.30
+  resolution: "@truffle/db@npm:2.0.30"
   dependencies:
     "@graphql-tools/delegate": ^8.4.3
     "@graphql-tools/schema": ^8.3.1
@@ -10720,7 +10720,7 @@ __metadata:
     pouchdb-debug: ^7.1.1
     pouchdb-find: ^7.0.0
     web3-utils: 1.10.0
-  checksum: 8daec04346276483d358700a43c5d2d7c7ac428ce69d05b975f5d42d79de21f3eef142294e75bda04da21b1f484bb1c7048adf673ae0b2acaad23e896569f2b2
+  checksum: 1b77129d409cdccdc6eec92efe9d1fbe4f7e220a5229da2e8b8cf0112014680709266fd652a9c2986abbdbb01c86b6ff032081514a1f03409891d32ac44a4975
   languageName: node
   linkType: hard
 
@@ -10738,14 +10738,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/debugger@npm:^11.1.5":
-  version: 11.1.5
-  resolution: "@truffle/debugger@npm:11.1.5"
+"@truffle/debugger@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "@truffle/debugger@npm:12.0.0"
   dependencies:
     "@ensdomains/ensjs": ^2.1.0
     "@truffle/abi-utils": ^1.0.1
-    "@truffle/codec": ^0.15.3
-    "@truffle/source-map-utils": ^1.3.114
+    "@truffle/codec": ^0.16.0
+    "@truffle/source-map-utils": ^1.3.115
     bn.js: ^5.1.3
     debug: ^4.3.1
     json-pointer: ^0.6.1
@@ -10754,10 +10754,10 @@ __metadata:
     redux: ^3.7.2
     redux-saga: 1.0.0
     reselect-tree: ^1.3.7
-    semver: 7.3.7
+    semver: 7.5.2
     web3: 1.10.0
     web3-eth-abi: 1.10.0
-  checksum: ca977c0fe08bcac2d9b0aa10cf34882cc813c6df398ecd51777db4402a9b440ecf42d8aba723c472504e98bd35515731031446aa7e238c2186d073cec44d67ba
+  checksum: e92cd989b2ce4674b8f58ce86b50fcf720a01bf6f9ac58af2b67aca059b227811ea91f5dc4dc26ea1b1cb60d11cbfdf28e7f469822a9d167e2c41cf189f5c897
   languageName: node
   linkType: hard
 
@@ -10866,17 +10866,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/source-map-utils@npm:^1.3.114":
-  version: 1.3.114
-  resolution: "@truffle/source-map-utils@npm:1.3.114"
+"@truffle/source-map-utils@npm:^1.3.115":
+  version: 1.3.115
+  resolution: "@truffle/source-map-utils@npm:1.3.115"
   dependencies:
     "@truffle/code-utils": ^3.0.3
-    "@truffle/codec": ^0.15.3
+    "@truffle/codec": ^0.16.0
     debug: ^4.3.1
     json-pointer: ^0.6.1
     node-interval-tree: ^1.3.3
     web3-utils: 1.10.0
-  checksum: 96a6f8350c18751d4c1830ecca23df747729631773b3c25cfffdf31e919baf0039f6ce3016d7fc1b4bb6d99741b7d507da53ccbbaa9cd8a31033bb56c400e8cb
+  checksum: 73e8cc97b1d9627748079f60b1d98f5c77c461a7e276ca32a6ac6c8097037dcab84a3da6e4091a50249c27ee6d61a771a5e44893fe0efb859cf5309c3bc0d08f
   languageName: node
   linkType: hard
 
@@ -11275,6 +11275,13 @@ __metadata:
   version: 4.0.1
   resolution: "@types/http-cache-semantics@npm:4.0.1"
   checksum: 1048aacf627829f0d5f00184e16548205cd9f964bf0841c29b36bc504509230c40bc57c39778703a1c965a6f5b416ae2cbf4c1d4589c889d2838dd9dbfccf6e9
+  languageName: node
+  linkType: hard
+
+"@types/http-errors@npm:*":
+  version: 2.0.1
+  resolution: "@types/http-errors@npm:2.0.1"
+  checksum: 3bb0c50b0a652e679a84c30cd0340d696c32ef6558518268c238840346c077f899315daaf1c26c09c57ddd5dc80510f2a7f46acd52bf949e339e35ed3ee9654f
   languageName: node
   linkType: hard
 
@@ -11757,12 +11764,13 @@ __metadata:
   linkType: hard
 
 "@types/serve-static@npm:*":
-  version: 1.15.1
-  resolution: "@types/serve-static@npm:1.15.1"
+  version: 1.15.2
+  resolution: "@types/serve-static@npm:1.15.2"
   dependencies:
+    "@types/http-errors": "*"
     "@types/mime": "*"
     "@types/node": "*"
-  checksum: 2e078bdc1e458c7dfe69e9faa83cc69194b8896cce57cb745016580543c7ab5af07fdaa8ac1765eb79524208c81017546f66056f44d1204f812d72810613de36
+  checksum: 15c261dbfc57890f7cc17c04d5b22b418dfa0330c912b46c5d8ae2064da5d6f844ef7f41b63c7f4bbf07675e97ebe6ac804b032635ec742ae45d6f1274259b3e
   languageName: node
   linkType: hard
 
@@ -36422,6 +36430,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:7.5.2":
+  version: 7.5.2
+  resolution: "semver@npm:7.5.2"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 3fdf5d1e6f170fe8bcc41669e31787649af91af7f54f05c71d0865bb7aa27e8b92f68b3e6b582483e2c1c648008bc84249d2cd86301771fe5cbf7621d1fe5375
+  languageName: node
+  linkType: hard
+
 "semver@npm:^6.0.0, semver@npm:^6.1.0, semver@npm:^6.1.1, semver@npm:^6.1.2, semver@npm:^6.3.0":
   version: 6.3.0
   resolution: "semver@npm:6.3.0"
@@ -38995,12 +39014,12 @@ __metadata:
   linkType: hard
 
 "truffle@npm:^5.7.3":
-  version: 5.10.0
-  resolution: "truffle@npm:5.10.0"
+  version: 5.10.1
+  resolution: "truffle@npm:5.10.1"
   dependencies:
-    "@truffle/db": ^2.0.29
-    "@truffle/db-loader": ^0.2.29
-    "@truffle/debugger": ^11.1.5
+    "@truffle/db": ^2.0.30
+    "@truffle/db-loader": ^0.2.30
+    "@truffle/debugger": ^12.0.0
     app-module-path: ^2.2.0
     ganache: 7.8.0
     mocha: 10.1.0
@@ -39010,7 +39029,7 @@ __metadata:
       optional: true
   bin:
     truffle: build/cli.bundled.js
-  checksum: 8f23e6784c9cee43a8cc16c276e6644b15bb8fae395554e7492a6edfb08a94ca63cab5deb37eaef20777bdc472f5d71c4203f63a6c3b6fa881d4c6d0dcab07cc
+  checksum: 47534cd6c9ffed9f2cfc3750d430610d16c210f3021c2fe94bb7c0dd6a78eaeee9e3873c7fbd061355ac5fafc2100df83c4137804291b9d4134bbb9e0441cf46
   languageName: node
   linkType: hard
 
@@ -39183,10 +39202,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.4.1":
+"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0":
   version: 2.5.3
   resolution: "tslib@npm:2.5.3"
   checksum: 88902b309afaf83259131c1e13da1dceb0ad1682a213143a1346a649143924d78cf3760c448b84d796938fd76127183894f8d85cbb3bf9c4fddbfcc140c0003c
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.4.1":
+  version: 2.6.0
+  resolution: "tslib@npm:2.6.0"
+  checksum: c01066038f950016a18106ddeca4649b4d76caa76ec5a31e2a26e10586a59fceb4ee45e96719bf6c715648e7c14085a81fee5c62f7e9ebee68e77a5396e5538f
   languageName: node
   linkType: hard
 

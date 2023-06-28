@@ -106,3 +106,4 @@ service-worker.js
 !.yarn/versions
 .yalc.lock
 .vercel
+.vscode/settings.json

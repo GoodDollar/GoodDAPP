@@ -2294,7 +2294,7 @@ msgstr ""
 msgid "Connect a wallet to see your portfolio"
 msgstr ""
 
-#: src/components/BlockNativeOnboard/index.tsx:22
+#: src/components/BlockNativeOnboard/index.tsx:30
 msgid "Connect to a wallet"
 msgstr "Conecte a uma carteira"
 

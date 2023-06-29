@@ -14,6 +14,7 @@ import { AsyncStorage, useAppRestart } from '@gooddollar/web3sdk-v2'
 
 import usePromise from './usePromise'
 import useSendAnalyticsData from './useSendAnalyticsData'
+import { clearDeeplink } from 'components/BlockNativeOnboard'
 
 export type IsSupportedChainId = {
     isSupported: boolean
@@ -243,6 +244,7 @@ export function useOnboardConnect(): OnboardConnectProps {
             }
 
             if (WalletConnectV2Labels.includes(prevConnected)) {
+                clearDeeplink()
                 promises.push(cleanupList(/wc@2/))
             }
 

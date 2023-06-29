@@ -14,6 +14,14 @@ import { SupportedChains, AsyncStorage, getDevice } from '@gooddollar/web3sdk-v2
  * @returns Connect Button or Empty
  */
 
+export const clearDeeplink = () => {
+    const osName = getDevice().os.name
+    // temp solution for where it tries and open a deeplink for desktop app
+    if (['Linux', 'Windows', 'macOS', 'iOS'].includes(osName)) {
+        AsyncStorage.safeRemove('WALLETCONNECT_DEEPLINK_CHOICE')
+    }
+}
+
 export const OnboardConnectButton: FC = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
@@ -31,14 +39,9 @@ export const OnboardConnectButton: FC = () => {
     const onWalletConnect = async () => {
         connectionStartedRef.current = true
         sendData({ event: 'wallet_connect', action: 'wallet_connect_start' })
-        const osName = getDevice().os.name
 
         try {
-            // temp solution for where it tries and open a deeplink for desktop app
-            if (['Linux', 'Windows', 'macOS', 'iOS'].includes(osName)) {
-                AsyncStorage.safeRemove('WALLETCONNECT_DEEPLINK_CHOICE')
-            }
-
+            clearDeeplink()
             await connect()
         } catch {
             connectionStartedRef.current = false

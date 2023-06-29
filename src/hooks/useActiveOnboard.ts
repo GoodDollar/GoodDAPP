@@ -35,8 +35,7 @@ export const WalletLabels: Readonly<string[]> = [
     'Valora',
 ]
 
-export const WalletConnectLabels: Readonly<string[]> = ['WalletConnect']
-export const WalletConnectV2Labels: Readonly<string[]> = ['Valora', 'GoodDollar Wallet']
+export const WalletConnectV2Labels: Readonly<string[]> = ['Valora', 'GoodDollar Wallet', 'WalletConnect']
 
 export type ActiveOnboard<T = any> = Omit<
     Web3ReactContextInterface<Web3Provider>,

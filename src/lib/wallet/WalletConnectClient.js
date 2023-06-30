@@ -718,7 +718,7 @@ export const useWalletConnectSession = () => {
             setConnector(cachedV2Connector)
           } catch (e) {
             if (e.message.includes('Pairing already exists')) {
-              showErrorDialog(`Failed to pair, please try with a new QR code`)
+              showErrorDialog(`Failed to connect. Please try again with a new QR Code.`)
               log.debug('v2 pairing failed: ', {
                 message: e.message,
                 e,

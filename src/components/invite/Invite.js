@@ -10,7 +10,7 @@ import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import logger from '../../lib/logger/js-logger'
-import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
+import { captureUtmTags, fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
@@ -106,7 +106,7 @@ const ShareBox = ({ level, styles }) => {
   const shareUrl = useMemo(
     () =>
       inviteCode && abTestOption
-        ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id || 'default'}`
+        ? `${Config.invitesUrl}?inviteCode=${inviteCode}&utm_campaign=${abTestOption.id || 'default'}`
         : '',
     [inviteCode, abTestOption],
   )
@@ -228,10 +228,13 @@ const InputCodeBox = ({ navigateTo, styles }) => {
     })
 
     try {
+      // capture utm tags from invite link
+      captureUtmTags(code)
       await registerForInvites(extractedCode)
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
+    } finally {
       hideDialog()
     }
   }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, registerForInvites])

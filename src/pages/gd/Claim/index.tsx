@@ -200,46 +200,6 @@ your G$. 🙂`,
             externalLink: 'https://www.notion.so/gooddollar/Use-G-8639553aa7214590a70afec91a7d9e73',
             bgColor: 'primary',
         },
-        {
-            id: 'gd-by-numbers',
-            title: {
-                text: 'GoodDollar by numbers',
-                color: 'primary',
-            },
-            content: [
-                {
-                    list: [
-                        {
-                            id: 'number-countries',
-                            key: '🌏 Number of Countries',
-                            value: '#',
-                        },
-                        {
-                            id: 'tokens-claimed',
-                            key: '✋🏽 Number of G$ Tokens Claimed',
-                            value: '#',
-                        },
-                        {
-                            id: 'total-distributed',
-                            key: '🪂 Total UBI Distributed',
-                            value: '$327.5k',
-                        },
-                        {
-                            id: 'unique-claimers',
-                            key: '💰 Unique UBI Claimers',
-                            value: '$475k',
-                        },
-                        {
-                            id: 'market-capitalization',
-                            key: '🚢  Market Capitalization',
-                            value: '$876k',
-                        },
-                    ],
-                },
-            ],
-            externalLink: 'https://dashboard.gooddollar.org',
-            bgColor: 'goodWhite.100',
-        },
     ]
 
     return (
@@ -281,7 +241,7 @@ your G$. 🙂`,
                     </Box>
                 </div>
                 <div
-                    className={`w-full lg:flex lg:flex-col ${claimed ? 'lg:w-full' : 'lg:w-6/12'}`}
+                    className={`w-3/5 lg:flex lg:flex-col ${claimed ? 'lg:w-full' : 'lg:w-3/5'}`}
                     style={{ flexGrow: '1' }}
                 >
                     <ClaimCarousel cards={mockedCards} claimed={claimed} />

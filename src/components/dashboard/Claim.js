@@ -48,6 +48,7 @@ import useClaimNotificationsDialog from '../permissions/hooks/useClaimNotificati
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
+import { PostClaimDialog } from './Claim/PostClaimDialog'
 
 type ClaimProps = DashboardProps
 
@@ -485,13 +486,15 @@ const Claim = props => {
         // reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
 
-        showDialog({
-          image: <LoadingAnimation success speed={2} />,
-          buttons: [{ text: t`Yay!` }],
-          message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
-          title: t`CHA-CHING!`,
-          onDismiss: noop,
-        })
+        showDialog({ content: <PostClaimDialog />, buttons: [{ text: 'Maybe Later' }], onDismiss: noop })
+
+        // showDialog({
+        //   image: <LoadingAnimation success speed={2} />,
+        //   buttons: [{ text: t`Yay!` }],
+        //   message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
+        //   title: t`CHA-CHING!`,
+        //   onDismiss: noop,
+        // })
 
         // collect invite bonuses
         const didCollect = await collectInviteBounty()

@@ -270,13 +270,13 @@ export const useInvited = () => {
 
   const { toDecimals } = useFormatG$()
 
-  const { level, totalEarned } = data || {}
+  const { level } = data || {}
 
   const updateData = useCallback(async () => {
     try {
       const { user, level } = await goodWallet.getUserInviteBounty()
       const totalEarned = decimalsToFixed(toDecimals(user.totalEarned))
-      const invitesData = { level, totalEarned }
+      const invitesData = { level, totalEarned, totalInvited: Number(user.totalApprovedInvites) }
 
       setData(invitesData)
       log.debug('set invitesData to', { invitesData, user })
@@ -313,7 +313,7 @@ export const useInvited = () => {
 
   const { pending = [], approved = [] } = useMemo(() => groupBy(invites, 'status'), [invites])
 
-  return [invites, updateInvited, level, { pending: pending.length, approved: approved.length, totalEarned }]
+  return [invites, updateInvited, level, { pending: pending.length, approved: approved.length, ...data }]
 }
 
 export const useInviteScreenOpened = () => {

@@ -1215,7 +1215,7 @@ export class GoodWallet {
 
       if (canCollect) {
         const tx = this.invitesContract.methods.bountyFor(bountyFor)
-        const result = await this.sendTransaction(tx, {}, { gas: await tx.estimateGas().catch(e => 600000) })
+        const result = await this.sendTransaction(tx)
 
         return result
       }
@@ -1513,10 +1513,18 @@ export class GoodWallet {
 
     if (!gas) {
       //estimate gas and add 40k for non deterministic writes (required for example when GOOD minting happens)
-      gas = await tx
-        .estimateGas()
-        .then(cost => (Number(cost) + 40000).toFixed(0))
-        .catch(e => log.debug('estimate gas failed'))
+      try {
+        gas = await tx.estimateGas().then(cost => (Number(cost) + 40000).toFixed(0))
+      } catch (e) {
+        if (e.message.toLowerCase().includes('revert')) {
+          log.error('sendTransaction gas estimate reverted:', e.message, e, {
+            method: tx._method?.name,
+            tx: tx._method,
+          })
+          return Promise.reject(e)
+        }
+        log.debug('sendTransaction gas estimate failed, using default gas', e.message, e)
+      }
     }
 
     if (!gas) {

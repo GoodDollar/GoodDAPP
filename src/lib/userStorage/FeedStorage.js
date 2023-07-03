@@ -8,6 +8,7 @@ import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
+import { FEED_UPDATED, fireEvent } from '../analytics/analytics'
 import { type UserStorage } from './UserStorageClass'
 import { FeedCategories } from './FeedCategory'
 import type { FeedFilter } from './UserStorage'
@@ -672,6 +673,11 @@ export class FeedStorage {
   async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
     log.debug('updateFeedEvent:', event.id, { event })
 
+    fireEvent(FEED_UPDATED, {
+      eventType: event.type,
+      value: event.receiptEvent?.value,
+      isNew: event.date === event.createdDate,
+    })
     const eventAck = this.writeFeedEvent(event).catch(e => {
       log.error('updateFeedEvent failedEncrypt byId:', e.message, e, {
         event,

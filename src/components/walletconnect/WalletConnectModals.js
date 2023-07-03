@@ -225,7 +225,7 @@ const Approve = ({
   const displayData = useMemo(() => {
     switch (modalType) {
       case 'sign': {
-        if (payload.method === 'eth_signTypedData') {
+        if (['eth_signTypedData', 'eth_signTypedData_v4'].includes(payload.method)) {
           const parsed = JSON.parse(message)
           delete parsed.types //dont show types to user
           return JSON.stringify(parsed, null, 4)

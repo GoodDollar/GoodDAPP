@@ -86,7 +86,7 @@
     "@lingui/react": "^3.13.0",
     "@metamask/eth-sig-util": "^4.0.1",
     "@react-native-async-storage/async-storage": "^1.15.8",
-    "@react-native-community/blur": "^3.6.0",
+    "@react-native-community/blur": "https://github.com/Kureev/react-native-blur/archive/refs/tags/v3.6.1.tar.gz",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/netinfo": "^6.0.2",
     "@react-native-community/push-notification-ios": "^1.10.1",

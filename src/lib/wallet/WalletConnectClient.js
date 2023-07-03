@@ -17,6 +17,7 @@ import logger from '../logger/js-logger'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
 import Config from '../../config/config'
 import { useWallet } from './GoodWalletProvider'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 const log = logger.child({ from: 'WalletConnectClient' })
 
@@ -162,6 +163,7 @@ export const useWalletConnectSession = () => {
 
   const wallet = useWallet()
   const { show: showApprove, isDialogShown } = useSessionApproveModal()
+  const { showErrorDialog } = useDialog()
   const chains = useChainsList()
 
   const decodeTx = useCallback(
@@ -290,6 +292,7 @@ export const useWalletConnectSession = () => {
                     'eth_sign',
                     'personal_sign',
                     'eth_signTypedData',
+                    'eth_signTypedData_v4',
                     'wallet_addEthereumChain',
                     'wallet_switchEthereumChain',
                     'wallet_scanQrCode',
@@ -715,12 +718,12 @@ export const useWalletConnectSession = () => {
             setConnector(cachedV2Connector)
           } catch (e) {
             if (e.message.includes('Pairing already exists')) {
+              showErrorDialog(`Failed to connect. Please try again with a new QR Code.`)
               log.debug('v2 pairing failed: ', {
                 message: e.message,
                 e,
                 cachedV2Connector,
                 uri,
-                activateResult,
                 connect: cachedV2Connector.connect,
               })
             }

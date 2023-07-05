@@ -49,7 +49,7 @@ const Router = () => {
       {!isInstalledApp && !Config.isDeltaApp && <AddWebApp />}
       <Portal.Host>
         <Blurred whenDialog>
-          <PostHogProvider apiKey={Config.posthogApiKey} autocapture={false}>
+          <PostHogProvider apiKey={Config.posthogApiKey} options={{ host: Config.posthogHost }} autocapture={false}>
             <VerificationContextProvider>
               <RouterWrapper onNavigationStateChange={navigationStateHandler} />
             </VerificationContextProvider>

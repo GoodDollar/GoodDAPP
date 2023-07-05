@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/ingest/:match*",
+            "destination": "https://app.posthog.com/:match*"
+        }
+    ]
+}

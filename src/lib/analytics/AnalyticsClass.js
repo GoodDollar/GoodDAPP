@@ -1,10 +1,25 @@
 // @flow
-import { assign, debounce, forIn, forOwn, get, isEmpty, isError, isString, memoize, pick, toLower } from 'lodash'
+import {
+  assign,
+  debounce,
+  forIn,
+  forOwn,
+  get,
+  isEmpty,
+  isError,
+  isString,
+  mapKeys,
+  memoize,
+  pick,
+  pickBy,
+  toLower,
+} from 'lodash'
 import EventEmitter from 'eventemitter3'
 import { cloneErrorObject, ExceptionCategory } from '../exceptions/utils'
 import { isWeb, osVersion } from '../utils/platform'
 import DeepLinking from '../utils/deepLinking'
 import isWebApp from '../utils/isWebApp'
+import { createUrlObject } from '../utils/uri'
 import { ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
@@ -45,9 +60,18 @@ export class AnalyticsClass {
     source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
     const platform = isWeb ? (isWebApp ? 'webapp' : 'web') : 'native'
 
-    const allTags = { ...(tags || {}), os_version: osVersion, platform, version }
+    // invites backward compatability for campaign
+    const utmTags = pickBy(params, (value, key) => key.startsWith('utm_') || key === 'campaign')
+    if (utmTags.campaign) {
+      utmTags.utm_campaign = utmTags.campaign
+      delete utmTags.campaign
+    }
 
-    const onceTags = { first_open_date: new Date().toString(), source }
+    const allTags = { ...(tags || {}), os_version: osVersion, platform, version, ...utmTags }
+
+    const onceTags = { first_open_date: new Date().toString(), source, ...mapKeys(utmTags, (v, k) => `initial_${k}`) }
+
+    logger.debug('init analytics tags:', { allTags, onceTags })
 
     // make sure all users will have the new signedup prop
     if (tags?.isLoggedIn) {
@@ -242,6 +266,23 @@ export class AnalyticsClass {
 
     googleAnalytics.logEvent(event, data)
     logger.debug('Fired GoogleAnalytics event', { event, data })
+  }
+
+  captureUtmTags = (url: string) => {
+    try {
+      const { params } = createUrlObject(url)
+      const utmTags = pickBy(params, (value, key) => key.startsWith('utm_') || key === 'campaign')
+      if (utmTags.campaign) {
+        utmTags.utm_campaign = utmTags.campaign
+        delete utmTags.campaign
+      }
+      const onceTags = mapKeys(utmTags, (v, k) => `initial_${k}`)
+      this.setUserProps(utmTags)
+      this.setUserProps(onceTags, true)
+      this.logger.debug('captureUtmTags', { url, utmTags, onceTags, params })
+    } catch (e) {
+      this.logger.error('captureUtmTags failed:', e.message, e, { url })
+    }
   }
 
   setUserPropsOnce = props => {

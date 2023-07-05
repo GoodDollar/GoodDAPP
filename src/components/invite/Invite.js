@@ -3,22 +3,23 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
 import { t } from '@lingui/macro'
+import { usePostHog } from 'posthog-react-native'
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import Avatar from '../common/view/Avatar'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import logger from '../../lib/logger/js-logger'
-import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
+import { captureUtmTags, fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { /*generateShareObject,*/ isSharingAvailable } from '../../lib/share'
+import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
-// import createABTesting from '../../lib/hooks/useABTesting'
+import createABTesting from '../../lib/hooks/useABTesting'
 import { withStyles } from '../../lib/styles'
 import CeloLogo from '../../assets/celo-logo.svg'
 
@@ -31,7 +32,7 @@ import {
 } from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
 
-// import mustache from '../../lib/utils/mustache'
+import mustache from '../../lib/utils/mustache'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import {
   useCollectBounty,
@@ -50,7 +51,7 @@ const log = logger.child({ from: 'Invite' })
 
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
 
-// const { useOption } = createABTesting('INVITE_CAMPAIGNS')
+const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const InvitedUser = ({ address, status }) => {
   const profile = usePublicProfileOf(address)
@@ -92,44 +93,40 @@ const InvitedUser = ({ address, status }) => {
 }
 
 const ShareBox = ({ level, styles }) => {
-  // const [{ shareMessage, shareTitle }] = useShareMessages()
+  const posthog = usePostHog()
+  const abTestOptions = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('share-link') : []), [posthog])
   const { toDecimals } = useFormatG$()
-
-  // const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'celo' }], [shareMessage])
 
   const inviteCode = useInviteCode()
 
-  // const abTestOption = useOption(abTestOptions)
+  const abTestOption = useOption(abTestOptions) || {}
+  const { shareTitle } = abTestOption
   const bounty = useMemo(() => (level?.bounty ? decimalsToFixed(toDecimals(level.bounty)) : ''), [level])
 
-  // const shareUrl = useMemo(
-  //   () =>
-  //     inviteCode && abTestOption ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id}` : '',
-  //   [inviteCode, abTestOption],
-  // )
-
   const shareUrl = useMemo(
-    () => (inviteCode ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=url-only` : ''),
-    [inviteCode],
+    () =>
+      inviteCode && abTestOption
+        ? `${Config.invitesUrl}?inviteCode=${inviteCode}&utm_campaign=${abTestOption.id || 'default'}`
+        : '',
+    [inviteCode, abTestOption],
   )
 
-  // const abTestMessage = useMemo(() => {
-  //   const { value } = abTestOption || {}
+  const abTestMessage = useMemo(() => {
+    const { shareMessage: value } = abTestOption || {}
 
-  //   if (value) {
-  //     const reward = bounty / 2
+    if (value) {
+      const reward = bounty / 2
 
-  //     return mustache(value, { bounty, reward })
-  //   }
-  // }, [abTestOption, bounty])
+      return mustache(value, { bounty, reward })
+    }
+  }, [abTestOption, bounty])
 
-  // const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
-  //   shareTitle,
-  //   shareUrl,
-  //   abTestMessage,
-  // ])
+  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
+    shareTitle,
+    shareUrl,
+    abTestMessage,
+  ])
 
-  const share = shareUrl
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Share Your Invite Link`}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
@@ -231,10 +228,13 @@ const InputCodeBox = ({ navigateTo, styles }) => {
     })
 
     try {
+      // capture utm tags from invite link
+      captureUtmTags(code)
       await registerForInvites(extractedCode)
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
+    } finally {
       hideDialog()
     }
   }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, registerForInvites])

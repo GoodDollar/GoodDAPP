@@ -23,6 +23,7 @@ export const {
   setUserProps,
   setUserPropsOnce,
   setChainId,
+  captureUtmTags,
 } = analytics
 
 export default analytics

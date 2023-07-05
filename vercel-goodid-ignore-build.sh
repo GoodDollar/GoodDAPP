@@ -7,7 +7,6 @@ if [[ "$VERCEL_GIT_COMMIT_REF" == "goodid/dev" || "$VERCEL_GIT_COMMIT_REF" == "g
   # Proceed with the build
     echo "✅ - Build can proceed"
   exit 1;
-
 else
   # Don't build
   echo "🛑 - Build cancelled"

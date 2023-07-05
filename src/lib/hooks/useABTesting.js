@@ -70,7 +70,7 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
     }, [test, componentA, componentB])
   }
 
-  const useOption = (options: [{ value: any, chance: number }], event = null) => {
+  const useOption = (options: [{ chance: number }], event = null) => {
     const [option, setOption] = useState()
     const [optionIndex, setOptionIndex] = useState(-1)
 

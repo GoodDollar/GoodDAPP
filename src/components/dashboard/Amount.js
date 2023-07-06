@@ -160,7 +160,7 @@ const Amount = (props: AmountProps) => {
                     : isReceive
                     ? ['Reason', 'ReceiveSummary', 'TransactionConfirmation']
                     : isNativeFlow
-                    ? ['SendToAddress', 'SendLinkSummary', 'TransactionConfirmation']
+                    ? ['SendToAddress', 'SendLinkSummary']
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }
                 canContinue={handleContinue}

@@ -21,7 +21,6 @@ import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import { TokenContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { useHandlePaymentRequest } from '../../lib/hooks/useHandlePaymentRequest'
 import Config from '../../config/config'
-import { useScreenState } from '../appNavigation/stackNavigation'
 import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
@@ -36,7 +35,6 @@ type Props = {
 
 const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
-  const [, setScreenState] = useScreenState(screenProps)
   const { showErrorDialog } = useDialog()
   const handleRequest = useHandlePaymentRequest()
   const goodWallet = useWallet()
@@ -88,10 +86,10 @@ const SendByQR = ({ screenProps }: Props) => {
         return
       }
 
-      setScreenState({ address: data })
-      pop()
+      log.debug('scan send code got address', { data })
+      pop({ address: data })
     },
-    [push, setQRDelay, gotoSend, goodWallet, isNativeFlow, setScreenState],
+    [push, setQRDelay, gotoSend, goodWallet, isNativeFlow],
   )
 
   const handleError = useCallback(

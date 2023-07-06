@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, noop, trimEnd, uniqBy } from 'lodash'
+import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
@@ -17,8 +17,8 @@ import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/u
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 import {
   TokenContext,
+  useFixedDecimals,
   useFormatG$,
-  useFormatToken,
   useSwitchNetwork,
   useUserStorage,
   useWalletData,
@@ -219,16 +219,15 @@ const BalanceAndSwitch = ({
 const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalance }) => {
   const { native, token, balance: tokenBalance } = useContext(TokenContext)
   const [price, showPrice] = useGoodDollarPrice()
-  const { toDecimals } = useFormatToken(token)
+  const formatFixed = useFixedDecimals(token)
   const isUBI = supportsG$UBI(network)
 
   // show aggregated balance on FUSE/CELO, delta only
   const balance = isDeltaApp && (native || !isUBI) ? tokenBalance : totalBalance
 
   const balanceFormatter = useCallback(
-    amount =>
-      isDeltaApp && native ? trimEnd(decimalsToFixed(toDecimals(amount), 18), '0') : formatWithAbbreviations(amount, 2),
-    [native, toDecimals],
+    amount => (isDeltaApp && native ? formatFixed(amount) : formatWithAbbreviations(amount, 2)),
+    [native, formatFixed],
   )
 
   const calculateFontSize = useMemo(

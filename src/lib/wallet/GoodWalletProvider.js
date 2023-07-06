@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { first, last, noop } from 'lodash'
+import { first, last, noop, trimEnd } from 'lodash'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
 import { Goerli, Mainnet } from '@usedapp/core'
@@ -24,7 +24,7 @@ import { setChainId } from '../analytics/analytics'
 import { withStyles } from '../styles'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-import { getTokensList, isNativeToken, supportedNetworks, supportsG$UBI } from './utils'
+import { decimalsToFixed, getTokensList, isNativeToken, supportedNetworks, supportsG$UBI } from './utils'
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -583,6 +583,15 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
       ],
     })
   }, [showDialog, onDismiss, hideDialog, token, tokens])
+}
+
+export const useFixedDecimals = (token = 'G$', chainId = null) => {
+  const { toDecimals } = useFormatToken(token)
+  const asDecimals = number => toDecimals(number, chainId)
+
+  return isNativeToken(token)
+    ? number => trimEnd(decimalsToFixed(asDecimals(number), 18), '0')
+    : number => decimalsToFixed(asDecimals(number))
 }
 
 export const useFormatToken = (token = 'G$') => {

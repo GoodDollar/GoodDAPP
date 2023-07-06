@@ -8,8 +8,13 @@ import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { TokenContext, useFormatToken, useSwitchNetwork, useWallet } from '../../lib/wallet/GoodWalletProvider'
-import { decimalsToFixed } from '../../lib/wallet/utils'
+import {
+  TokenContext,
+  useFixedDecimals,
+  useFormatToken,
+  useSwitchNetwork,
+  useWallet,
+} from '../../lib/wallet/GoodWalletProvider'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -55,6 +60,8 @@ const Amount = (props: AmountProps) => {
   const { minAmount } = bridgeLimits || { minAmount: 0 }
   const { native, token, balance } = useContext(TokenContext)
   const { toDecimals, fromDecimals } = useFormatToken(token)
+  const formatFixed = useFixedDecimals(token)
+  const isNativeFlow = isDeltaApp && native
 
   const bridgeState = isBridge
     ? {
@@ -63,14 +70,13 @@ const Amount = (props: AmountProps) => {
       }
     : {}
 
-  const [GDAmount, setGDAmount] = useState(() => (amount ? decimalsToFixed(toDecimals(amount)) : ''))
+  const [GDAmount, setGDAmount] = useState(() => (amount ? formatFixed(amount) : ''))
   const [loading, setLoading] = useState(() => !amount)
   const [error, setError] = useState()
 
   const GDAmountInWei = useMemo(() => GDAmount && fromDecimals(GDAmount), [GDAmount])
 
   const isReceive = params && params.action === ACTION_RECEIVE
-  const isNativeFlow = isDeltaApp && native
 
   const handlePressQR = useCallback(() => push('SendByQR'), [push])
 

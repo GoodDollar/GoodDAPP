@@ -39,8 +39,8 @@ const SendToAddress = (props: TypeProps) => {
   const { native } = useContext(TokenContext)
 
   const { push, navigateTo } = screenProps
-  const { params } = navigation.state
-  const { address } = screenState
+  const { params = {} } = navigation.state
+  const { address = null, ...restState } = screenState
 
   const validate = useCallback(
     value => {
@@ -118,7 +118,7 @@ const SendToAddress = (props: TypeProps) => {
             <NextButton
               {...props}
               nextRoutes={screenState.nextRoutes}
-              values={{ params, address: state.value }}
+              values={{ ...params, ...restState, address: state.value }}
               canContinue={canContinue}
               label="Next"
               disabled={!state.isValid}

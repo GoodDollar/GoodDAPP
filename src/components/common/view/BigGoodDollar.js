@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
-import { decimalsToFixed } from '../../../lib/wallet/utils'
+import { trimEnd } from 'lodash'
+import { decimalsToFixed, isNativeToken } from '../../../lib/wallet/utils'
 import { useFormatToken } from '../../../lib/wallet/GoodWalletProvider'
 import Section from '../layout/Section'
 import { theme } from '../../theme/styles'
@@ -23,7 +24,12 @@ const GOOD_SIGN_SIZE = 18
 
 const BigGoodDollar = ({ number, formatter, testID, chainId, unit, ...props }: Props) => {
   const { toDecimals } = useFormatToken(unit ?? 'G$')
-  const defaultFormat = number => decimalsToFixed(toDecimals(number, chainId))
+  const asDecimals = number => toDecimals(number, chainId)
+
+  const defaultFormat = isNativeToken(unit)
+    ? number => trimEnd(decimalsToFixed(asDecimals(number), 18), '0')
+    : number => decimalsToFixed(asDecimals(number))
+
   const numberFormatter = formatter || defaultFormat
   const formatted = number === undefined ? '-.--' : numberFormatter(number)
 

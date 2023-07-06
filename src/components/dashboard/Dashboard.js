@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, noop, uniqBy } from 'lodash'
+import { concat, noop, trimEnd, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
@@ -226,7 +226,8 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
   const balance = isDeltaApp && (native || !isUBI) ? tokenBalance : totalBalance
 
   const balanceFormatter = useCallback(
-    amount => (isDeltaApp && native ? decimalsToFixed(toDecimals(amount)) : formatWithAbbreviations(amount, 2)),
+    amount =>
+      isDeltaApp && native ? trimEnd(decimalsToFixed(toDecimals(amount), 18), '0') : formatWithAbbreviations(amount, 2),
     [native, toDecimals],
   )
 

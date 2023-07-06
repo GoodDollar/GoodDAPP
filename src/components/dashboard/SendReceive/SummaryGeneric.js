@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { t } from '@lingui/macro'
@@ -12,7 +12,7 @@ import TopBar from '../../common/view/TopBar'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
 
-import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobile } from '../../../lib/utils/platform'
 import isEmail from '../../../lib/validators/isEmail'
@@ -20,6 +20,7 @@ import normalize from '../../../lib/utils/normalizeText'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { theme } from '../../theme/styles'
 import mustache from '../../../lib/utils/mustache'
+import Config from '../../../config/config'
 
 const SummaryGeneric = ({
   screenProps,
@@ -41,6 +42,8 @@ const SummaryGeneric = ({
   const { isBridge, network } = screenState
 
   const goodWallet = useWallet()
+  const { token, native } = useContext(TokenContext)
+  const isNativeToken = Config.isDeltaApp && native
 
   const { bridgeFees = {} } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
   const { minFee, fee } = bridgeFees
@@ -158,6 +161,7 @@ const SummaryGeneric = ({
                 fontWeight: 'bold',
               }}
               bigNumberUnitProps={{ fontSize: 14 }}
+              unit={isNativeToken ? token : undefined}
             />
           </Section.Row>
           {isBridge && (

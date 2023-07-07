@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { filter, groupBy, keys, noop, values } from 'lodash'
+import { groupBy, noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { useFormatG$, usePropSuffix, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
@@ -137,6 +137,7 @@ export const useInviteBonus = () => {
     }
   }, [goodWallet])
 
+  // collect one time bonus as invitee
   const collectInviteBounty = useCallback(
     async (onUnableToCollect = noop) => {
       if (collected) {
@@ -208,7 +209,7 @@ export const useCollectBounty = () => {
       fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
       userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
-
+      await checkBounties() //after collectinng check how much left to collect
       showDialog({
         ...labels,
         loading: false,
@@ -229,22 +230,17 @@ export const useCollectBounty = () => {
 
   const checkBounties = async () => {
     try {
-      const invites = await goodWallet.getUserInvites(goodWallet.account)
-      const pending = keys(invites.pending)
+      const { totalPendingBounties } = await goodWallet.getUserInvites(goodWallet.account)
 
-      log.debug('checkBounties got pending invites:', { pending })
-
-      if (pending.length > 0 && (await goodWallet.isCitizen()) === false) {
+      log.debug('checkBounties got pending invites:', { totalPendingBounties })
+      if (totalPendingBounties > 0 && (await goodWallet.isCitizen()) === false) {
         log.debug('checkBounties inviter not whitelisted')
         showErrorDialog(t`Can't collect invite bonus. You need to first complete your Face Verification.`)
         return
       }
 
-      const statuses = await goodWallet.canCollectBountyFor(pending)
-      const hasBounty = filter(values(statuses))
-
-      log.debug('checkBounties:', { hasBounty, pending })
-      setCanCollect(hasBounty.length)
+      log.debug('checkBounties:', { totalPendingBounties })
+      setCanCollect(totalPendingBounties)
     } catch (e) {
       log.error('checkBounties failed:', e.message, e)
     }

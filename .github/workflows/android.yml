@@ -90,6 +90,7 @@ jobs:
           APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.$env_name) 
           echo Code push release target version ${FORMATTED_VERSION}
           yarn lingui:compile
+          yarn animation:assets
           npx appcenter codepush release-react --token ${APPCENTER_TOKEN} -a ${{ env.APPCENTER_NAME }} -d Production  -t ${FORMATTED_VERSION}
 
   build:
@@ -188,6 +189,7 @@ jobs:
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
           yarn lingui:compile
+          yarn animation:assets
           cd android && ./gradlew bundleRelease
       - name: Build Universal APK
         uses: skywall/universal-apk-builder@v1.0.1

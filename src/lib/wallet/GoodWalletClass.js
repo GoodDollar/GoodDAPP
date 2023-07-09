@@ -27,7 +27,6 @@ import {
   flatten,
   get,
   identity,
-  keyBy,
   mapValues,
   noop,
   pickBy,
@@ -1330,10 +1329,9 @@ export class GoodWallet {
     // entitelment is separate because it depends on msg.sender
     const calls = mapValues(callsMap, method => methods[method](account))
     const [[result]] = await retryCall(() => multicallFuse.all([[calls]]))
-    let { invitees, pending, totalPendingBounties } = result
-    pending = keyBy(pending)
-    invitees = keyBy(invitees)
-    return { invitees, pending, totalPendingBounties }
+
+    result.totalPendingBounties = Number(result.totalPendingBounties)
+    return result
   }
 
   async getGasPrice(): Promise<number> {

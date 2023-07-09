@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { groupBy, noop } from 'lodash'
+import { groupBy, keyBy, noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { useFormatG$, usePropSuffix, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
@@ -293,8 +293,9 @@ export const useInvited = () => {
       let invited = invitees.map(addr => ({
         address: addr,
       }))
+      let isPending = keyBy(pending)
 
-      invited.forEach(i => (i.status = pending[i.address] ? 'pending' : 'approved'))
+      invited.forEach(i => (i.status = isPending[i.address] ? 'pending' : 'approved'))
       setInvites(invited)
 
       log.debug('set invitees to', { invitees })

@@ -223,7 +223,8 @@ const Config = {
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
   isDeltaApp,
   bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED !== 'false',
-  posthogApiKey: env.REACT_APP_POSTHOG_KEY
+  posthogApiKey: env.REACT_APP_POSTHOG_KEY,
+  posthogHost: isWeb ? publicUrl+"/ingest" : "https://app.posthog.com",
 }
 
 global.config = Config

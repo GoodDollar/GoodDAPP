@@ -27,7 +27,6 @@ import {
   flatten,
   get,
   identity,
-  keyBy,
   mapValues,
   noop,
   pickBy,
@@ -1181,7 +1180,7 @@ export class GoodWallet {
   async collectInviteBounties() {
     const tx = this.invitesContract.methods.collectBounties()
     const nativeBalance = await this.balanceOfNative()
-    const gas = Math.min(800000, nativeBalance / this.gasPrice - 150000) //convert to gwei and leave 150K gwei for user
+    const gas = Math.min(await tx.estimateGas(), nativeBalance / this.gasPrice - 150000) //convert to gwei and leave 150K gwei for user
     const res = await this.sendTransaction(tx, {}, { gas })
     return res
   }
@@ -1328,15 +1327,15 @@ export class GoodWallet {
     const callsMap = {
       invitees: 'getInvitees',
       pending: 'getPendingInvitees',
+      totalPendingBounties: 'getPendingBounties',
     }
 
     // entitelment is separate because it depends on msg.sender
     const calls = mapValues(callsMap, method => methods[method](account))
     const [[result]] = await retryCall(() => multicallFuse.all([[calls]]))
-    const { invitees, pending: statuses } = result
-    const pending = keyBy(statuses)
 
-    return { invitees, pending }
+    result.totalPendingBounties = Number(result.totalPendingBounties)
+    return result
   }
 
   async getGasPrice(): Promise<number> {

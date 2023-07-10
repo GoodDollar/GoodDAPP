@@ -29,6 +29,7 @@ import {
   identity,
   mapValues,
   noop,
+  over,
   pickBy,
   range,
   sortBy,
@@ -1424,6 +1425,26 @@ export class GoodWallet {
     return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain
   }
 
+  async sendNativeAmount(to: string, amount: number, callbacks: PromiEvents): Promise<TransactionReceipt> {
+    if (!this.wallet.utils.isAddress(to)) {
+      throw new Error('Address is invalid')
+    }
+
+    if (amount === 0 || !(await this.canSendNative(amount))) {
+      throw new Error('Amount is bigger than balance')
+    }
+
+    const txData = {
+      to,
+      from: this.account,
+      value: amount.toString(),
+    }
+
+    log.info('prepared native tx:', txData)
+
+    return this.sendNativeTransaction(txData, callbacks) // Send TX to the blockchain
+  }
+
   /**
    * Helper to check if user has enough native token balance, if not try to ask server to topwallet
    * @param {number} wei
@@ -1630,8 +1651,45 @@ export class GoodWallet {
     return res
   }
 
+  // eslint-disable-next-line require-await
+  async sendNativeTransaction(txData: any, txCallbacks: PromiEvents = defaultPromiEvents) {
+    const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
+
+    return new Promise((resolve, reject) => {
+      this.wallet.eth
+        .sendTransaction(txData)
+        .on('transactionHash', hash => {
+          log.debug('got txhash', hash)
+          onTransactionHash(hash) // is empty fn by default
+        })
+        .on('receipt', receipt => {
+          log.debug('got receipt', receipt)
+
+          resolve(receipt)
+
+          this._notifyReceipt(receipt.transactionHash) // although receipt will be received by polling, we do this anyways immediately
+          over(this.getSubscribers('balanceChanged'))()
+          onReceipt(receipt)
+        })
+        .on('confirmation', confirmation => {
+          log.debug('got confirmation', confirmation)
+          onConfirmation(confirmation)
+        })
+        .on('error', exception => {
+          log.warn('sendTransaction error:', exception.message, exception, {
+            tx: txData,
+            category: ExceptionCategory.Blockhain,
+          })
+
+          reject(exception)
+          onError(exception)
+        })
+    })
+  }
+
   async isKnownAddress(address) {
     const nonce = await this.wallet.eth.getTransactionCount(address)
+
     return nonce > 0
   }
 

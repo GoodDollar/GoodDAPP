@@ -1,7 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
-import { BN } from 'web3-utils'
 import { t } from '@lingui/macro'
 import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 import logger from '../../lib/logger/js-logger'
@@ -88,12 +87,6 @@ const Amount = (props: AmountProps) => {
     log.info('canContiniue?', { weiAmount, balance, params })
 
     try {
-      // TODO: tx fee for native token
-      const fee = isNativeFlow ? new BN(0) : await goodWallet.calculateTxFee(weiAmount)
-      const amount = new BN(weiAmount)
-      const amountWithFee = amount.add(fee)
-      const canSend = amountWithFee.lte(new BN(String(balance)))
-
       if (isBridge) {
         const min = parseFloat(toDecimals(minAmount))
         const canBridge = parseInt(GDAmount) >= min
@@ -103,6 +96,9 @@ const Amount = (props: AmountProps) => {
           return canBridge
         }
       }
+
+      const validateMethod = `canSend${isNativeFlow ? 'Native' : ''}`
+      const canSend = await goodWallet[validateMethod](weiAmount, { feeIncluded: true })
 
       if (!canSend) {
         setError(mustache(t`Sorry, you don't have enough {token}s`, { token }))

@@ -240,9 +240,8 @@ export class GoodWallet {
         log.info(`networkId: ${this.networkId}`)
 
         if (estimateGasPrice) {
-          wallet.eth
-            .getGasPrice()
-            .then(price => (this.gasPrice = Number(price)))
+          this.fetchGasPrice()
+            .then(price => (this.gasPrice = price))
             .catch(noop)
         }
 
@@ -965,6 +964,20 @@ export class GoodWallet {
     }
   }
 
+  async getNativeTxFee(): Promise<number> {
+    try {
+      const gasPrice = await retryCall(() => this.fetchGasPrice())
+
+      // Gas Cost : 21000 for fixed Send
+      return toBN(21000 * gasPrice)
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('getNativeTxFee failed', message, exception)
+      throw exception
+    }
+  }
+
   /**
    * Checks if use can send an specific amount of G$s
    * @param {number} amount
@@ -982,11 +995,36 @@ export class GoodWallet {
 
         amountWithFee = new BN(amount).add(fee)
       }
+
       const balance = await this.balanceOf()
+
       return amountWithFee.lte(balance)
     } catch (exception) {
       const { message } = exception
+
       log.error('canSend failed', message, exception)
+    }
+    return false
+  }
+
+  async canSendNative(amount: number, options = {}): Promise<boolean> {
+    try {
+      const { feeIncluded = false } = options
+      let amountWithFee = amount
+
+      if (!feeIncluded) {
+        const fee = await this.getNativeTxFee()
+
+        amountWithFee = new BN(amount).add(fee)
+      }
+
+      const balance = await this.balanceOfNative()
+
+      return amountWithFee.lte(balance)
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('canSendNative failed', message, exception)
     }
     return false
   }
@@ -1338,11 +1376,16 @@ export class GoodWallet {
     return result
   }
 
+  // eslint-disable-next-line require-await
+  async fetchGasPrice() {
+    return this.wallet.eth.getGasPrice().then(Number)
+  }
+
   async getGasPrice(): Promise<number> {
     let gasPrice = this.gasPrice
 
     try {
-      const networkGasPrice = await retryCall(() => this.wallet.eth.getGasPrice().then(toBN))
+      const networkGasPrice = await retryCall(() => this.fetchGasPrice().then(toBN))
 
       if (networkGasPrice.gt(toBN('0'))) {
         gasPrice = networkGasPrice.toString()

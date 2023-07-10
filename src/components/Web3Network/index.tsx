@@ -2,7 +2,7 @@ import React from 'react'
 import { darken } from 'polished'
 import { Activity } from 'react-feather'
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React'
-import { useNetworkModalToggle } from '../../state/application/hooks'
+import { useNetworkModalToggle, useSelectedChain } from '../../state/application/hooks'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
 import NetworkModal from '../NetworkModal'
 import styled from 'styled-components'
@@ -47,7 +47,9 @@ const NetworkIcon = styled(Activity)`
 `
 
 function Web3Network(): JSX.Element | null {
-    const { chainId, error } = useActiveWeb3React()
+    const { chainId = 42220, active, error } = useActiveWeb3React()
+    const { selectedChain = 42220 } = useSelectedChain()
+    const displayChain = active ? chainId : selectedChain
     const { i18n } = useLingui()
     const sendData = useSendAnalyticsData()
 
@@ -57,8 +59,6 @@ function Web3Network(): JSX.Element | null {
         toggleNetworkModal()
         sendData({ event: 'network_switch', action: 'network_switch_start', network: ChainId[chainId] })
     }
-
-    if (!chainId) return null
 
     return (
         <>
@@ -86,13 +86,13 @@ function Web3Network(): JSX.Element | null {
                 >
                     <div className="grid items-center grid-flow-col px-1 py-2 rounded-lg pointer-events-auto auto-cols-max">
                         <img
-                            src={NETWORK_ICON[chainId]}
+                            src={NETWORK_ICON[displayChain]}
                             alt="Switch Network"
                             className="mr-2 rounded-md"
                             style={{ width: 22, height: 22 }}
                         />
                         <Text fontFamily="subheading" color="primary" fontSize="sm">
-                            {NETWORK_LABEL[chainId]}
+                            {NETWORK_LABEL[displayChain]}
                         </Text>
                     </div>
                 </Pressable>

@@ -39,4 +39,5 @@ export interface ApplicationState {
     readonly openModal: ApplicationModal | null
     kashiApprovalPending: string
     theme: 'light' | 'dark'
+    selectedChain: number
 }

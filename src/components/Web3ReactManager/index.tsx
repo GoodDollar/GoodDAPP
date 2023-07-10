@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useAnalytics } from '@gooddollar/web3sdk-v2/dist/sdk/analytics'
+import { useAnalytics } from '@gooddollar/web3sdk-v2'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import styled from 'styled-components'

@@ -1,13 +1,10 @@
-import { useSendAnalytics } from '@gooddollar/web3sdk-v2/dist/sdk/analytics'
+import { useSendAnalytics, IAnalyticsConfig, IAppProps } from '@gooddollar/web3sdk-v2'
 
 import { assign, isArray } from 'lodash'
 import { useCallback } from 'react'
 
 import { getEnv, osVersion } from 'utils/env'
 import { version } from '../../package.json'
-
-declare type IAnalyticsConfig = typeof import('@gooddollar/web3sdk-v2/dist/sdk/analytics')
-declare type IAppProps = typeof import('@gooddollar/web3sdk-v2/dist/sdk/analytics')
 
 const indicativeKey = process.env.REACT_APP_INDICATIVE_KEY
 const posthogKey = process.env.REACT_APP_POSTHOG_KEY

@@ -9,3 +9,4 @@ export const addPopup = createAction<{ key?: string; removeAfterMs?: number | nu
 export const removePopup = createAction<{ key: string }>('application/removePopup')
 export const setKashiApprovalPending = createAction<string>('application/setKashiApprovalPending')
 export const setTheme = createAction<ApplicationState['theme']>('application/setTheme')
+export const setChain = createAction<ApplicationState['selectedChain']>('application/setChain')

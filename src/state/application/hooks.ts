@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AsyncStorage } from '@gooddollar/web3sdk-v2'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { AppDispatch, AppState } from '../index'
-import { addPopup, removePopup, setOpenModal, setTheme as setThemeAction } from './actions'
+import { addPopup, removePopup, setChain, setOpenModal, setTheme as setThemeAction } from './actions'
 import { ApplicationModal, PopupContent, ApplicationState } from './types'
 import { useColorMode } from 'native-base'
 
@@ -11,6 +11,12 @@ export function useBlockNumber(): number | undefined {
     const { chainId } = useActiveWeb3React()
 
     return useSelector((state: AppState) => state.application.blockNumber[chainId ?? -1])
+}
+
+export function useSelectedChain() {
+    const dispatch = useDispatch<AppDispatch>()
+    const setSelectedChain = useCallback((chainId: number) => dispatch(setChain(chainId)), [dispatch, setChain])
+    return { selectedChain: useSelector((state: AppState) => state.application.selectedChain), setSelectedChain }
 }
 
 export function useModalOpen(modal: ApplicationModal): boolean {

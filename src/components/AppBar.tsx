@@ -166,10 +166,9 @@ const G$Balance = ({
 )
 
 function AppBar(): JSX.Element {
-    //eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [theme, setTheme] = useApplicationTheme()
+    const [theme] = useApplicationTheme()
     const { i18n } = useLingui()
-    const { account, chainId, active } = useActiveWeb3React()
+    const { account, chainId } = useActiveWeb3React()
     const [G$Price] = usePromise(async () => {
         try {
             const data = await g$Price()
@@ -228,12 +227,11 @@ function AppBar(): JSX.Element {
                                     )}
                                 </button>
                             </div>
-                            <div className="fixed bottom-0 left-0 flex flex-row items-center justify-center w-full lg:w-auto lg:relative lg:p-0 actions-wrapper lg:h-12 ">
-                                {active && (
-                                    <div className="hidden xs:inline-block">
-                                        <Web3Network />
-                                    </div>
-                                )}
+                            <div className="fixed bottom-0 left-0 flex flex-row items-center justify-center w-full h-20 gap-2 lg:w-auto lg:relative lg:p-0 actions-wrapper lg:h-12">
+                                <div className="hidden xs:inline-block">
+                                    <Web3Network />
+                                </div>
+
                                 {account ? (
                                     <Pressable
                                         onPress={toggleWalletModal}

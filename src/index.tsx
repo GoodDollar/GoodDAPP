@@ -7,7 +7,7 @@ import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter as Router } from 'react-router-dom'
-import { AnalyticsProvider } from '@gooddollar/web3sdk-v2/dist/sdk/analytics'
+import { AnalyticsProvider } from '@gooddollar/web3sdk-v2'
 import Blocklist from './components/Blocklist'
 import App from './pages/App'
 import store from './state'
@@ -20,10 +20,9 @@ import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
 import { theme, NativeBaseProvider } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
-import { OnboardProvider } from '@gooddollar/web3sdk-v2'
-import { connectOptions, torus, gd } from 'connectors'
 import { HttpsProvider } from 'utils/HttpsProvider'
 import { registerServiceWorker } from './serviceWorker'
+import { OnboardProviderWrapper } from 'components/BlockNativeOnboard'
 
 if (window.ethereum) {
     window.ethereum.autoRefreshOnNetworkChange = false
@@ -73,9 +72,9 @@ const enableServiceWorker =
 ReactDOM.render(
     <StrictMode>
         <HttpsProvider enabled={enableHttpsRedirect}>
-            <OnboardProvider options={connectOptions} wallets={{ custom: [torus, gd] }}>
-                <Web3ContextProvider>
-                    <Provider store={store}>
+            <Provider store={store}>
+                <OnboardProviderWrapper>
+                    <Web3ContextProvider>
                         <LanguageProvider>
                             <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
                                 <Blocklist>
@@ -93,9 +92,9 @@ ReactDOM.render(
                                 </Blocklist>
                             </AnalyticsProvider>
                         </LanguageProvider>
-                    </Provider>
-                </Web3ContextProvider>
-            </OnboardProvider>
+                    </Web3ContextProvider>
+                </OnboardProviderWrapper>
+            </Provider>
         </HttpsProvider>
     </StrictMode>,
     document.getElementById('root')

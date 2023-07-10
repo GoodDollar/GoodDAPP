@@ -14,7 +14,7 @@ import { AdditionalChainId } from '../../constants'
 
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../constants/networks'
-import { useModalOpen, useNetworkModalToggle } from '../../state/application/hooks'
+import { useModalOpen, useNetworkModalToggle, useSelectedChain } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/types'
 
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
@@ -61,7 +61,8 @@ const ChainOption = ({ chainId, chain, toggleNetworkModal, switchChain, labels, 
 
 export default function NetworkModal(): JSX.Element | null {
     const { i18n } = useLingui()
-    const { chainId, error } = useActiveWeb3React()
+    const { setSelectedChain } = useSelectedChain()
+    const { chainId, error, active } = useActiveWeb3React()
     const sendData = useSendAnalyticsData()
     const { switchNetwork } = useSwitchNetwork()
     const networkModalOpen = useModalOpen(ApplicationModal.NETWORK)
@@ -93,7 +94,8 @@ export default function NetworkModal(): JSX.Element | null {
     const switchChain = useCallback(
         async (chain: ChainId | AdditionalChainId) => {
             try {
-                await switchNetwork(chain)
+                if (active) await switchNetwork(chain)
+                else setSelectedChain(chain) // only change chain to trigger onboard re-init if not already connected
             } catch (e: any) {
                 if (e.code === 4902) {
                     setToAddNetwork(chain)

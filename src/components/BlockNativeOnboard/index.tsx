@@ -4,9 +4,12 @@ import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 import { noop } from 'lodash'
-import { useBreakpointValue } from 'native-base'
 import { Web3ActionButton } from '@gooddollar/good-design'
 import { SupportedChains, AsyncStorage, getDevice } from '@gooddollar/web3sdk-v2'
+import { connectOptions, torus } from 'connectors'
+
+import { OnboardProvider } from '@gooddollar/web3sdk-v2'
+import { useSelectedChain } from 'state/application/hooks'
 
 /**
  * Just a button to trigger the onboard connect modal.
@@ -30,11 +33,6 @@ export const OnboardConnectButton: FC = () => {
     const buttonText = i18n._(t`Connect to a wallet`)
     // flag to detect for wallet connected only after we pressed a button
     const connectionStartedRef = useRef(false)
-
-    const variant = useBreakpointValue({
-        base: 'mobile',
-        lg: 'outlined',
-    })
 
     const onWalletConnect = async () => {
         connectionStartedRef.current = true
@@ -70,9 +68,23 @@ export const OnboardConnectButton: FC = () => {
             web3Action={noop}
             supportedChains={[SupportedChains.CELO, SupportedChains.MAINNET, SupportedChains.FUSE]}
             handleConnect={onWalletConnect}
-            variant={variant}
+            variant={'outlined'}
             isDisabled={connecting}
             isLoading={connecting}
         />
+    )
+}
+
+// wrapper so we can pass the selected chain
+export const OnboardProviderWrapper = ({ children }) => {
+    const { selectedChain } = useSelectedChain()
+    return (
+        <OnboardProvider
+            options={connectOptions}
+            wallets={{ custom: [torus] }}
+            wc2Options={{ requiredChains: [selectedChain] }}
+        >
+            {children}
+        </OnboardProvider>
     )
 }

@@ -995,13 +995,11 @@ export class GoodWallet {
         // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
         const fee = await this.calculateTxFee(amount)
 
-        log.debug('canSend:', { fee: fee.toNumber() })
         amountWithFee = amountWithFee.add(fee)
       }
 
       const balance = await this.balanceOf()
 
-      log.debug('canSend:', { amount: amountWithFee.toNumber(), balance })
       return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
       const { message } = exception
@@ -1019,13 +1017,11 @@ export class GoodWallet {
       if (!feeIncluded) {
         const fee = await this.getNativeTxFee()
 
-        log.debug('canSendNative:', { fee: fee.toNumber() })
         amountWithFee = amountWithFee.add(fee)
       }
 
       const balance = await this.balanceOfNative()
 
-      log.debug('canSendNative:', { amount: amountWithFee.toNumber(), balance })
       return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
       const { message } = exception

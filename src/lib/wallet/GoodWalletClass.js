@@ -68,6 +68,7 @@ import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 50000
+const FIXED_SEND_GAS = 21000
 
 const log = logger.child({ from: 'GoodWalletV2' })
 
@@ -970,7 +971,7 @@ export class GoodWallet {
       const gasPrice = await retryCall(() => this.fetchGasPrice())
 
       // Gas Cost : 21000 for fixed Send
-      return toBN(21000 * gasPrice)
+      return toBN(FIXED_SEND_GAS * gasPrice)
     } catch (exception) {
       const { message } = exception
 
@@ -988,18 +989,20 @@ export class GoodWallet {
   async canSend(amount: number, options = {}): Promise<boolean> {
     try {
       const { feeIncluded = false } = options
-      let amountWithFee = amount
+      let amountWithFee = new BN(amount)
 
       if (!feeIncluded) {
         // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
         const fee = await this.calculateTxFee(amount)
 
-        amountWithFee = new BN(amount).add(fee)
+        log.debug('canSend:', { fee: fee.toNumber() })
+        amountWithFee = amountWithFee.add(fee)
       }
 
       const balance = await this.balanceOf()
 
-      return amountWithFee.lte(balance)
+      log.debug('canSend:', { amount: amountWithFee.toNumber(), balance })
+      return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
       const { message } = exception
 
@@ -1011,17 +1014,19 @@ export class GoodWallet {
   async canSendNative(amount: number, options = {}): Promise<boolean> {
     try {
       const { feeIncluded = false } = options
-      let amountWithFee = amount
+      let amountWithFee = new BN(amount)
 
       if (!feeIncluded) {
         const fee = await this.getNativeTxFee()
 
-        amountWithFee = new BN(amount).add(fee)
+        log.debug('canSendNative:', { fee: fee.toNumber() })
+        amountWithFee = amountWithFee.add(fee)
       }
 
       const balance = await this.balanceOfNative()
 
-      return amountWithFee.lte(balance)
+      log.debug('canSendNative:', { amount: amountWithFee.toNumber(), balance })
+      return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
       const { message } = exception
 
@@ -1657,7 +1662,7 @@ export class GoodWallet {
 
     return new Promise((resolve, reject) => {
       this.wallet.eth
-        .sendTransaction(txData)
+        .sendTransaction({ gas: FIXED_SEND_GAS, ...txData })
         .on('transactionHash', hash => {
           log.debug('got txhash', hash)
           onTransactionHash(hash) // is empty fn by default

@@ -97,8 +97,7 @@ const Amount = (props: AmountProps) => {
         }
       }
 
-      const validateMethod = `canSend${isNativeFlow ? 'Native' : ''}`
-      const canSend = await goodWallet[validateMethod](weiAmount, { feeIncluded: true })
+      const canSend = await (isNativeFlow ? goodWallet.canSendNative(weiAmount) : goodWallet.canSend(weiAmount))
 
       if (!canSend) {
         setError(mustache(t`Sorry, you don't have enough {token}s`, { token }))

@@ -204,8 +204,11 @@ export const useCollectBounty = () => {
       })
 
       log.debug('useCollectBounty calling collectInviteBounties', { canCollect })
-      await goodWallet.collectInviteBounties()
-
+      const collected = await goodWallet.collectInviteBounties()
+      if (!collected) {
+        return
+      }
+      setCanCollect(0)
       fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
       userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
@@ -243,6 +246,8 @@ export const useCollectBounty = () => {
       setCanCollect(totalPendingBounties)
     } catch (e) {
       log.error('checkBounties failed:', e.message, e)
+    } finally {
+      setCollected(false)
     }
   }
 

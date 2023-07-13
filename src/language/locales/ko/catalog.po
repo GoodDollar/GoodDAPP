@@ -2792,7 +2792,7 @@ msgstr ""
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:147
+#: src/components/SideBar.tsx:140
 msgid "Docs"
 msgstr "문서"
 
@@ -2804,7 +2804,7 @@ msgstr "불러 오지 못했습니다"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:140
+#: src/components/SideBar.tsx:133
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2837,7 +2837,7 @@ msgstr ""
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:154
+#: src/components/SideBar.tsx:147
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2927,8 +2927,8 @@ msgid "minutes"
 msgstr "분"
 
 #: src/components/SideBar.tsx:126
-msgid "Multichain Bridge"
-msgstr ""
+#~ msgid "Multichain Bridge"
+#~ msgstr ""
 
 #: src/pages/gd/Portfolio/index.tsx:229
 msgid "MULTIPLIER"
@@ -3293,11 +3293,11 @@ msgstr ""
 msgid "Waiting For Confirmation"
 msgstr ""
 
-#: src/components/SideBar.tsx:133
+#: src/components/SideBar.tsx:126
 msgid "Wallet"
 msgstr "지갑"
 
-#: src/components/SideBar.tsx:218
+#: src/components/SideBar.tsx:211
 msgid "Wallet balance"
 msgstr ""
 

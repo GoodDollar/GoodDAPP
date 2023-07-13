@@ -2833,7 +2833,7 @@ msgstr "Übersicht einleiten."
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:147
+#: src/components/SideBar.tsx:140
 msgid "Docs"
 msgstr ""
 
@@ -2845,7 +2845,7 @@ msgstr "Laden fehlgeschlagen"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:140
+#: src/components/SideBar.tsx:133
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2878,7 +2878,7 @@ msgstr "Gehe zum Portfolio."
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:154
+#: src/components/SideBar.tsx:147
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2968,8 +2968,8 @@ msgid "minutes"
 msgstr "Protokoll"
 
 #: src/components/SideBar.tsx:126
-msgid "Multichain Bridge"
-msgstr ""
+#~ msgid "Multichain Bridge"
+#~ msgstr ""
 
 #: src/pages/gd/Portfolio/index.tsx:229
 msgid "MULTIPLIER"
@@ -3334,11 +3334,11 @@ msgstr "Auf Bestätigung warten"
 msgid "Waiting For Confirmation"
 msgstr "Auf Bestätigung warten"
 
-#: src/components/SideBar.tsx:133
+#: src/components/SideBar.tsx:126
 msgid "Wallet"
 msgstr "Brieftasche"
 
-#: src/components/SideBar.tsx:218
+#: src/components/SideBar.tsx:211
 msgid "Wallet balance"
 msgstr "Geldbörsenbetrag"
 

@@ -65,7 +65,7 @@
           <data android:scheme="https" android:host="gooddollar.app.link" />
         </intent-filter>
 
-        <intent-filter>
+        <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />

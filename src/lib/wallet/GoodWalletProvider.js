@@ -418,10 +418,19 @@ const TokenProvider = ({ children, wallet, walletData }) => {
 
     const { account } = wallet
 
-    wallet
-      .balanceOfNative()
-      .then(setBalance)
-      .catch(e => log.warn('Failed to fetch native balance', e.message, e, { account }))
+    const updateNativeBalance = () =>
+      wallet
+        .balanceOfNative()
+        .then(setBalance)
+        .catch(e => log.warn('Failed to fetch native balance', e.message, e, { account }))
+
+    const interval = setInterval(updateNativeBalance, Config.web3Polling)
+
+    updateNativeBalance()
+
+    return () => {
+      clearInterval(interval)
+    }
   }, [wallet, walletData, tokenData, setBalance])
 
   return <TokenContext.Provider value={{ ...tokenData, balance, setToken }}>{children}</TokenContext.Provider>

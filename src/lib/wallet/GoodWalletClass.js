@@ -29,7 +29,6 @@ import {
   identity,
   mapValues,
   noop,
-  over,
   pickBy,
   range,
   sortBy,
@@ -1665,11 +1664,7 @@ export class GoodWallet {
         })
         .on('receipt', receipt => {
           log.debug('got receipt', receipt)
-
           resolve(receipt)
-
-          this._notifyReceipt(receipt.transactionHash) // although receipt will be received by polling, we do this anyways immediately
-          over(this.getSubscribers('balanceChanged'))()
           onReceipt(receipt)
         })
         .on('confirmation', confirmation => {

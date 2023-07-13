@@ -12,11 +12,12 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
-import { decimalsToFixed, getNativeToken, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
+import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 import {
   TokenContext,
+  useFixedDecimals,
   useFormatG$,
   useSwitchNetwork,
   useUserStorage,
@@ -216,14 +217,18 @@ const BalanceAndSwitch = ({
 }
 
 const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalance }) => {
-  const { native, balance: tokenBalance } = useContext(TokenContext)
+  const { native, token, balance: tokenBalance } = useContext(TokenContext)
   const [price, showPrice] = useGoodDollarPrice()
+  const formatFixed = useFixedDecimals(token)
   const isUBI = supportsG$UBI(network)
 
   // show aggregated balance on FUSE/CELO, delta only
   const balance = isDeltaApp && (native || !isUBI) ? tokenBalance : totalBalance
-  // eslint-disable-next-line prettier/prettier
-  const balanceFormatter = useCallback(amount => formatWithAbbreviations(amount, isDeltaApp && native ? 18 : 2), [native])
+
+  const balanceFormatter = useCallback(
+    amount => (isDeltaApp && native ? formatFixed(amount) : formatWithAbbreviations(amount, 2)),
+    [native, formatFixed],
+  )
 
   const calculateFontSize = useMemo(
     () => ({
@@ -253,7 +258,7 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
           testID="amount_value"
           number={balance}
           formatter={balanceFormatter}
-          unit={isDeltaApp && native ? getNativeToken(network) : null}
+          unit={isDeltaApp && native ? token : null}
           bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
           bigNumberUnitStyles={styles.bigNumberUnitStyles}
           bigNumberProps={{
@@ -303,7 +308,8 @@ const Dashboard = props => {
   const [getCurrentTab] = usePropsRefs([activeTab])
 
   const { currentNetwork } = useSwitchNetwork()
-  const { bridgeEnabled } = Config
+  const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
+  const bridgeEnabled = ubiEnabled && Config.bridgeEnabled
 
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
@@ -885,7 +891,7 @@ const Dashboard = props => {
                   >
                     Send
                   </PushButton>
-                  {!isDeltaApp || supportsG$UBI(currentNetwork) ? (
+                  {ubiEnabled ? (
                     <ClaimButton
                       screenProps={screenProps}
                       amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
@@ -1180,13 +1186,11 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-Dashboard.navigationOptions = ({ navigation, screenProps }) => {
-  return {
-    navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />,
-    title: 'Wallet',
-    disableScroll: true,
-  }
-}
+Dashboard.navigationOptions = ({ navigation, screenProps }) => ({
+  navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />,
+  title: 'Wallet',
+  disableScroll: true,
+})
 
 const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)
 

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { t } from '@lingui/macro'
@@ -11,7 +11,7 @@ import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import logger from '../../lib/logger/js-logger'
 import { ExceptionCategory } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
-import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { retry } from '../../lib/utils/async'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import API from '../../lib/API'
@@ -19,6 +19,8 @@ import API from '../../lib/API'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
 import { useScreenState } from '../appNavigation/stackNavigation'
+import Config from '../../config/config'
+import mustache from '../../lib/utils/mustache'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -48,6 +50,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [link, setLink] = useState('')
 
   const goodWallet = useWallet()
+  const { token, native } = useContext(TokenContext)
+  const isNativeFlow = Config.isDeltaApp && native
 
   const { goToRoot, navigateTo } = screenProps
   const { fullName } = useProfile()
@@ -63,6 +67,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     action,
     vendorInfo = null,
   } = screenState
+
+  const isSendToAddress = action === ACTION_SEND_TO_ADDRESS
 
   // Going to root after shared
   useEffect(() => {
@@ -254,6 +260,69 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     [address, amount, reason, showDialog, showErrorDialog, goToRoot, goodWallet, userStorage],
   )
 
+  const sendNative = useCallback(
+    async to => {
+      try {
+        let txhash
+
+        await goodWallet.sendNativeAmount(to, amount, {
+          onTransactionHash: hash => {
+            log.debug(`Send ${token} to address`, { hash })
+            txhash = hash
+
+            // Save transaction
+            const transactionEvent: TransactionEvent = {
+              id: hash,
+              createdDate: new Date().toISOString(),
+              date: new Date().toISOString(),
+              type: FeedItemType.EVENT_TYPE_SENDDIRECT,
+              chainId: goodWallet.networkId,
+              asset: token, // additional field to filter out G$ txs in the feed when native token selected and vice versa
+              data: {
+                to: address,
+                amount,
+              },
+            }
+
+            log.debug('sendViaAddress: enqueueTX', { transactionEvent })
+
+            userStorage.enqueueTX(transactionEvent)
+
+            fireEvent(SEND_DONE, { type: 'native' }) //type can be QR, receive, contact, contactsms
+
+            showDialog({
+              visible: true,
+              title: t`SUCCESS!`,
+              message: mustache(t`The {token} was sent successfully`, { token }),
+              buttons: [{ text: t`Yay!` }],
+              onDismiss: goToRoot,
+            })
+
+            return hash
+          },
+          onError: e => {
+            log.error('Send TX failed:', e.message, e, { category: ExceptionCategory.Blockhain })
+
+            userStorage.markWithErrorEvent(txhash)
+          },
+        })
+      } catch (e) {
+        log.error('Send TX failed:', e.message, e, {
+          category: ExceptionCategory.Blockhain,
+          dialogShown: true,
+        })
+
+        showErrorDialog({
+          visible: true,
+          title: t`Transaction Failed!`,
+          message: mustache(t`There was a problem sending {token}. Check payment details.`, { token }),
+          dismissText: t`OK`,
+        })
+      }
+    },
+    [address, token, showDialog, showErrorDialog, goToRoot, goodWallet, userStorage],
+  )
+
   const sendViaLink = useCallback(() => {
     try {
       const paymentLink = getLink()
@@ -363,7 +432,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
       if (isBridge) {
         await sendViaBridge(amount)
-      } else if (action === ACTION_SEND_TO_ADDRESS) {
+      } else if (isNativeFlow) {
+        await sendNative(address)
+      } else if (isSendToAddress) {
         await sendViaAddress(address)
       } else {
         handlePayment()

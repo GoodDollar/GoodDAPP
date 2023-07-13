@@ -52,6 +52,7 @@ import WalletFactory from './WalletFactory'
 
 import {
   getTxLogArgs,
+  isNativeToken,
   NULL_ADDRESS,
   retryCall,
   safeCall,
@@ -66,6 +67,7 @@ import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 50000
+const FIXED_SEND_GAS = 21000
 
 const log = logger.child({ from: 'GoodWalletV2' })
 
@@ -228,7 +230,7 @@ export class GoodWallet {
           mainnetNetworkId,
         })
 
-        const defaultGasPrice = Config.ethereum[networkId].gasPrice
+        const defaultGasPrice = Config.ethereum[networkId].gasPrice ?? 1
 
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
@@ -239,9 +241,8 @@ export class GoodWallet {
         log.info(`networkId: ${this.networkId}`)
 
         if (estimateGasPrice) {
-          wallet.eth
-            .getGasPrice()
-            .then(price => (this.gasPrice = Number(price)))
+          this.fetchGasPrice()
+            .then(price => (this.gasPrice = price))
             .catch(noop)
         }
 
@@ -964,6 +965,20 @@ export class GoodWallet {
     }
   }
 
+  async getNativeTxFee(): Promise<number> {
+    try {
+      const gasPrice = await retryCall(() => this.fetchGasPrice())
+
+      // Gas Cost : 21000 for fixed Send
+      return toBN(FIXED_SEND_GAS * gasPrice)
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('getNativeTxFee failed', message, exception)
+      throw exception
+    }
+  }
+
   /**
    * Checks if use can send an specific amount of G$s
    * @param {number} amount
@@ -973,19 +988,44 @@ export class GoodWallet {
   async canSend(amount: number, options = {}): Promise<boolean> {
     try {
       const { feeIncluded = false } = options
-      let amountWithFee = amount
+      let amountWithFee = new BN(amount)
 
       if (!feeIncluded) {
         // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
         const fee = await this.calculateTxFee(amount)
 
-        amountWithFee = new BN(amount).add(fee)
+        amountWithFee = amountWithFee.add(fee)
       }
+
       const balance = await this.balanceOf()
-      return amountWithFee.lte(balance)
+
+      return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
       const { message } = exception
+
       log.error('canSend failed', message, exception)
+    }
+    return false
+  }
+
+  async canSendNative(amount: number, options = {}): Promise<boolean> {
+    try {
+      const { feeIncluded = false } = options
+      let amountWithFee = new BN(amount)
+
+      if (!feeIncluded) {
+        const fee = await this.getNativeTxFee()
+
+        amountWithFee = amountWithFee.add(fee)
+      }
+
+      const balance = await this.balanceOfNative()
+
+      return amountWithFee.lte(new BN(String(balance)))
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('canSendNative failed', message, exception)
     }
     return false
   }
@@ -1296,12 +1336,16 @@ export class GoodWallet {
     }
   }
 
-  toDecimals(wei, chainId = null) {
-    return formatUnits(String(wei || '0'), Config.ethereum[chainId ?? this.networkId].g$Decimals)
+  toDecimals(wei, chainOrToken = null) {
+    const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken ?? this.networkId].g$Decimals
+
+    return formatUnits(String(wei || '0'), decimals)
   }
 
-  fromDecimals(amount, chainId = null) {
-    return parseUnits(amount, Config.ethereum[chainId ?? this.networkId].g$Decimals).toString()
+  fromDecimals(amount, chainOrToken = null) {
+    const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken ?? this.networkId].g$Decimals
+
+    return parseUnits(amount, decimals).toString()
   }
 
   async getUserInviteBounty() {
@@ -1333,11 +1377,16 @@ export class GoodWallet {
     return result
   }
 
+  // eslint-disable-next-line require-await
+  async fetchGasPrice() {
+    return this.wallet.eth.getGasPrice().then(Number)
+  }
+
   async getGasPrice(): Promise<number> {
     let gasPrice = this.gasPrice
 
     try {
-      const networkGasPrice = await retryCall(() => this.wallet.eth.getGasPrice().then(toBN))
+      const networkGasPrice = await retryCall(() => this.fetchGasPrice().then(toBN))
 
       if (networkGasPrice.gt(toBN('0'))) {
         gasPrice = networkGasPrice.toString()
@@ -1374,6 +1423,26 @@ export class GoodWallet {
       : this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
     return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain
+  }
+
+  async sendNativeAmount(to: string, amount: number, callbacks: PromiEvents): Promise<TransactionReceipt> {
+    if (!this.wallet.utils.isAddress(to)) {
+      throw new Error('Address is invalid')
+    }
+
+    if (amount === 0 || !(await this.canSendNative(amount))) {
+      throw new Error('Amount is bigger than balance')
+    }
+
+    const txData = {
+      to,
+      from: this.account,
+      value: amount.toString(),
+    }
+
+    log.info('prepared native tx:', txData)
+
+    return this.sendNativeTransaction(txData, callbacks) // Send TX to the blockchain
   }
 
   /**
@@ -1582,8 +1651,41 @@ export class GoodWallet {
     return res
   }
 
+  // eslint-disable-next-line require-await
+  async sendNativeTransaction(txData: any, txCallbacks: PromiEvents = defaultPromiEvents) {
+    const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
+
+    return new Promise((resolve, reject) => {
+      this.wallet.eth
+        .sendTransaction({ gas: FIXED_SEND_GAS, ...txData })
+        .on('transactionHash', hash => {
+          log.debug('got txhash', hash)
+          onTransactionHash(hash) // is empty fn by default
+        })
+        .on('receipt', receipt => {
+          log.debug('got receipt', receipt)
+          resolve(receipt)
+          onReceipt(receipt)
+        })
+        .on('confirmation', confirmation => {
+          log.debug('got confirmation', confirmation)
+          onConfirmation(confirmation)
+        })
+        .on('error', exception => {
+          log.warn('sendTransaction error:', exception.message, exception, {
+            tx: txData,
+            category: ExceptionCategory.Blockhain,
+          })
+
+          reject(exception)
+          onError(exception)
+        })
+    })
+  }
+
   async isKnownAddress(address) {
     const nonce = await this.wallet.eth.getTransactionCount(address)
+
     return nonce > 0
   }
 

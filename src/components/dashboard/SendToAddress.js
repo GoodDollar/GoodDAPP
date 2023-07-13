@@ -1,12 +1,12 @@
 // @flow
 
 // libraries
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { isAddress } from 'web3-utils'
 
 // components
 import InputWithAdornment from '../common/form/InputWithAdornment'
-import { Section, Wrapper } from '../common'
+import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 
@@ -16,11 +16,13 @@ import usePermissions from '../permissions/hooks/usePermissions'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 
 // utils
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { Permissions } from '../permissions/types'
+import Config from '../../config/config'
 import { GDTokensWarningBox } from './ReceiveToAddress'
+import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type TypeProps = {
   screenProps: any,
@@ -28,14 +30,17 @@ export type TypeProps = {
   styles: any,
 }
 
+const { isDeltaApp } = Config
+
 const SendToAddress = (props: TypeProps) => {
   const { screenProps, styles, navigation } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
   const goodWallet = useWallet()
+  const { native } = useContext(TokenContext)
 
   const { push, navigateTo } = screenProps
-  const { params } = navigation.state
-  const { address } = screenState
+  const { params = {} } = navigation.state
+  const { address = null, ...restState } = screenState
 
   const validate = useCallback(
     value => {
@@ -72,11 +77,14 @@ const SendToAddress = (props: TypeProps) => {
     navigate: navigateTo,
   })
 
-  const handleAdornmentAction = useCallback(requestClipboardPermissions)
+  const handlePressQR = useCallback(() => push('SendByQR'), [push])
+  const isNativeFlow = isDeltaApp && native
 
   return (
     <Wrapper>
-      <TopBar push={push} hideProfile={false} profileAsLink={false} />
+      <TopBar push={push} hideBalance={true} hideProfile={false} profileAsLink={false}>
+        {isNativeFlow && <ScanQRButton onPress={handlePressQR} />}
+      </TopBar>
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title fontWeight="medium">Send To?</Section.Title>
@@ -89,15 +97,17 @@ const SendToAddress = (props: TypeProps) => {
             value={state.value}
             showAdornment
             adornment="paste"
-            adornmentAction={handleAdornmentAction}
+            adornmentAction={requestClipboardPermissions}
             adornmentSize={32}
             adornmentStyle={styles.adornmentStyle}
             autoFocus
           />
         </Section.Stack>
-        <Section grow justifyContent="center">
-          <GDTokensWarningBox isSend={true} />
-        </Section>
+        {!isNativeFlow && (
+          <Section grow justifyContent="center">
+            <GDTokensWarningBox isSend={true} />
+          </Section>
+        )}
         <Section.Row alignItems="flex-end">
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
@@ -108,7 +118,7 @@ const SendToAddress = (props: TypeProps) => {
             <NextButton
               {...props}
               nextRoutes={screenState.nextRoutes}
-              values={{ params, address: state.value }}
+              values={{ ...params, ...restState, address: state.value }}
               canContinue={canContinue}
               label="Next"
               disabled={!state.isValid}
@@ -120,9 +130,7 @@ const SendToAddress = (props: TypeProps) => {
   )
 }
 
-SendToAddress.navigationOptions = {
-  title: 'Send G$',
-}
+SendToAddress.navigationOptions = navigationOptions
 
 SendToAddress.shouldNavigateToComponent = ({ screenProps }) => {
   const { screenState } = screenProps

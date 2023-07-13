@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { first, last, noop } from 'lodash'
+import { first, last, noop, trimEnd } from 'lodash'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
 import { Goerli, Mainnet } from '@usedapp/core'
@@ -24,7 +24,7 @@ import { setChainId } from '../analytics/analytics'
 import { withStyles } from '../styles'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-import { getNativeToken, getTokensList, supportsG$UBI } from './utils'
+import { decimalsToFixed, getTokensList, isNativeToken, supportedNetworks, supportsG$UBI } from './utils'
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -111,7 +111,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       }
 
       // entitelment is separate because it depends on msg.sender
-      const [[{ balance }, ...results]] = await goodWallet.multicallFuse.all([calls])
+      const [[{ balance = 0 }, ...results]] = await goodWallet.multicallFuse.all([calls]).catch(() => [[{}]])
       const { ubi = 0 } = first(results) || {}
       const { isCitizen = false } = last(results) || {}
 
@@ -397,7 +397,7 @@ const TokenProvider = ({ children, wallet, walletData }) => {
     token =>
       setTokenData({
         token,
-        native: token === getNativeToken(networkId),
+        native: isNativeToken(token),
       }),
     [setTokenData, networkId],
   )
@@ -418,10 +418,26 @@ const TokenProvider = ({ children, wallet, walletData }) => {
 
     const { account } = wallet
 
-    wallet
-      .balanceOfNative()
-      .then(setBalance)
-      .catch(e => log.warn('Failed to fetch native balance', e.message, e, { account }))
+    const updateNativeBalance = async () => {
+      log.debug('updateNativeBalance: fetching')
+
+      try {
+        await wallet.balanceOfNative().then(setBalance)
+        log.debug('updateNativeBalance: success')
+      } catch (e) {
+        log.warn('updateNativeBalance: Failed to fetch', e.message, e, { account })
+      }
+    }
+
+    const interval = setInterval(updateNativeBalance, Config.web3Polling)
+
+    updateNativeBalance()
+    log.debug('poll nativeBalance: started')
+
+    return () => {
+      log.debug('poll nativeBalance: stopped')
+      clearInterval(interval)
+    }
   }, [wallet, walletData, tokenData, setBalance])
 
   return <TokenContext.Provider value={{ ...tokenData, balance, setToken }}>{children}</TokenContext.Provider>
@@ -515,7 +531,7 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const toNetwork = switchToNetwork?.toUpperCase()
   const defaultSwitchTo = isDeltaApp ? currentNetwork : currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
-  const networks = ['FUSE', 'CELO', Config.env === 'production' ? 'MAINNET' : 'GOERLI']
+  const networks = supportedNetworks.filter(net => net !== (Config.env === 'production' ? 'GOERLI' : 'MAINNET'))
 
   const showModal = useCallback(
     (toNetwork = null) => {
@@ -585,15 +601,27 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
   }, [showDialog, onDismiss, hideDialog, token, tokens])
 }
 
-export const useFormatG$ = () => {
-  const wallet = useWallet()
+export const useFixedDecimals = (token = 'G$', chainId = null) => {
+  const { toDecimals } = useFormatToken(token)
+  const asDecimals = number => toDecimals(number, chainId)
 
-  //using args so functions do not lose "this" context
+  return isNativeToken(token)
+    ? number => trimEnd(decimalsToFixed(asDecimals(number), 18), '0')
+    : number => decimalsToFixed(asDecimals(number))
+}
+
+export const useFormatToken = (token = 'G$') => {
+  const wallet = useWallet()
+  const isNative = isNativeToken(token)
+
+  // using args so functions do not lose "this" context
   return {
-    toDecimals: (...args) => wallet?.toDecimals(...args),
-    fromDecimals: (...args) => wallet?.fromDecimals(...args),
+    toDecimals: (wei, chainId = null) => wallet?.toDecimals(wei, isNative ? token : chainId),
+    fromDecimals: (amount, chainId = null) => wallet?.fromDecimals(amount, isNative ? token : chainId),
   }
 }
+
+export const useFormatG$ = () => useFormatToken()
 
 export const usePropSuffix = () => {
   const { goodWallet } = useContext(GoodWalletContext)

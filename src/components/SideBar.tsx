@@ -123,13 +123,6 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
     const externalLinks = useMemo(
         () => [
             {
-                label: i18n._(t`Multichain Bridge`),
-                url: 'https://app.multichain.org',
-                dataAttr: 'multichain',
-                withIcon: true,
-                show: process.env.REACT_APP_CELO_PHASE_1,
-            },
-            {
                 label: i18n._(t`Wallet`),
                 url: 'https://wallet.gooddollar.org',
                 dataAttr: 'wallet',

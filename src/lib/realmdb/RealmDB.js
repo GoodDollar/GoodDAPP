@@ -20,6 +20,7 @@ import { retry } from '../utils/async'
 import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
+import TatumSource from './feedSource/TatumSource'
 
 // when 'failed to fetch' increase delay before next try for 1.5x times
 const _retryMiddleware = (exception, options, defaultOptions) => {
@@ -68,6 +69,7 @@ class RealmDB implements DB, ProfileDB {
 
   sources = [
     TransactionsSource,
+    TatumSource,
     {
       // poll ceramic feed once per some time interval
       source: NewsSource,

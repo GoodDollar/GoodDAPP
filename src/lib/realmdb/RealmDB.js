@@ -1,5 +1,5 @@
 // @flow
-import { first, isPlainObject, once } from 'lodash'
+import { assign, first, isPlainObject, once } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
@@ -91,10 +91,9 @@ class RealmDB implements DB, ProfileDB {
    */
   async init(db: ThreadDB) {
     try {
-      const { privateKey, Feed } = db
+      const { privateKey, address, Feed } = db
 
-      this.privateKey = privateKey
-      this.db = db
+      assign(this, { db, privateKey, address })
 
       Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
       Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))

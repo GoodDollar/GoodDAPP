@@ -43,6 +43,9 @@ export const FeedItemType = {
   EVENT_TYPE_MINT: 'mint',
   EVENT_TYPE_RECEIVE: 'receive',
   EVENT_TYPE_SENDBRIDGE: 'sendbridge',
+  EVENT_TYPE_SENDNATIVE: 'sendnative',
+  EVENT_TYPE_RECEIVENATIVE: 'receivenative',
+  EVENT_TYPE_NEWS: 'news',
 }
 
 export const TxTypeToEventType = {
@@ -814,7 +817,7 @@ export class FeedStorage {
         const { id } = item
         log.debug('getFeedPage got item', { id: item.id, item })
 
-        if (!item.receiptReceived && id.startsWith('0x') && item.type !== 'news') {
+        if (!item.receiptReceived && id.startsWith('0x') && item.type !== FeedItemType.EVENT_TYPE_NEWS) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             log.warn('getFeedPage no receipt found for id:', e.message, e, { id })
           })

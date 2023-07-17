@@ -19,6 +19,7 @@ import CeloIcon from '../../../assets/logos/celo.svg'
 import FuseIcon from '../../../assets/logos/fuse.svg'
 import Config from '../../../config/config'
 import { openLink } from '../../../lib/utils/linking'
+import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -163,6 +164,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
+
   if (itemType === 'invite') {
     return (
       <View style={[styles.rowContent, { backgroundColor: theme.colors.green }]}>
@@ -172,9 +174,11 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
       </View>
     )
   }
-  if (itemType === 'news') {
+
+  if (itemType === FeedItemType.EVENT_TYPE_NEWS) {
     return <NewsItem item={feed} eventSettings={eventSettings} styles={styles} />
   }
+
   return (
     <View style={styles.rowContent}>
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />

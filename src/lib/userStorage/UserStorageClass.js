@@ -659,7 +659,7 @@ export class UserStorage {
     if (
       id.startsWith('0x') === false ||
       get(prevFeedEvent, 'data.receiptData', receiptReceived) ||
-      prevFeedEvent.type === 'news'
+      prevFeedEvent.type === FeedItemType.EVENT_TYPE_NEWS
     ) {
       return standardPrevFeedEvent
     }

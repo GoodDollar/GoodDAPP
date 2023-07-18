@@ -202,11 +202,12 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                   </Text>
                 )}
                 <BigGoodDollar
-                  number={get(feed, 'data.amount', 0)}
-                  chainId={chainId}
                   color={mainColor}
-                  bigNumberProps={{ fontSize: 20, lineHeight: 22 }}
+                  chainId={chainId}
+                  number={get(feed, 'data.amount', 0)}
+                  unit={get(feed, 'data.asset', undefined)}
                   bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberProps={{ fontSize: 20, lineHeight: 22 }}
                   bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
                 />
               </React.Fragment>

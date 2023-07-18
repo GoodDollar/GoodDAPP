@@ -21,6 +21,12 @@ export default class TatumSource extends FeedSource {
     const { wallet } = this.db
     const { address, amount, counterAddress, hash, timestamp, transactionSubtype } = tx
     const isSend = transactionSubtype === 'outgoing'
+    const value = amount && amount.startsWith('-') ? amount.substring(1) : amount
+
+    const receipt = {
+      [isSend ? 'to' : 'from']: counterAddress,
+      amount: wallet.fromDecimals(value, token),
+    }
 
     const date = moment(timestamp)
       .utc()
@@ -38,9 +44,9 @@ export default class TatumSource extends FeedSource {
       chainId,
       data: {
         asset: token,
-        [isSend ? 'to' : 'from']: counterAddress,
-        amount: wallet.fromDecimals(amount, token),
+        ...receipt,
         receiptEvent: {
+          ...receipt,
           txHash: hash,
           eventSource: address,
         },

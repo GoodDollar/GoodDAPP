@@ -810,7 +810,7 @@ export class UserStorage {
       sponsoredLink,
       sponsoredLogo,
     } = data
-    const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
+    const { address, initiator, initiatorType, value, displayName, message, avatar, asset } = this._extractData(event)
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
     const displayType = this._extractDisplayType(event)
@@ -832,9 +832,10 @@ export class UserStorage {
       animationExecuted,
       action,
       data: {
+        asset,
         receiptHash: get(event, 'data.receiptEvent.txHash'),
         endpoint: {
-          address: sender,
+          address: sender || address,
           displayName,
           avatar,
         },
@@ -865,7 +866,16 @@ export class UserStorage {
     type,
     id,
     status,
-    data: { receiptEvent, from = '', to = '', customName = '', counterPartyFullName, counterPartySmallAvatar, amount },
+    data: {
+      receiptEvent,
+      from = '',
+      to = '',
+      customName = '',
+      counterPartyFullName,
+      counterPartySmallAvatar,
+      amount,
+      asset,
+    },
   }) {
     const data = {
       address: '',
@@ -874,12 +884,14 @@ export class UserStorage {
       value: '',
       displayName: '',
       message: '',
+      asset,
     }
 
     if (
       type === FeedItemType.EVENT_TYPE_SEND ||
       type === FeedItemType.EVENT_TYPE_SENDDIRECT ||
-      type === FeedItemType.EVENT_TYPE_SENDBRIDGE
+      type === FeedItemType.EVENT_TYPE_SENDBRIDGE ||
+      type === FeedItemType.EVENT_TYPE_SENDNATIVE
     ) {
       data.address = isAddress(to) ? to : receiptEvent && receiptEvent.to
       data.initiator = to
@@ -904,10 +916,20 @@ export class UserStorage {
         id.startsWith('0x') === false) &&
       'GoodDollar'
 
+    const fromNative = mustache(
+      type === FeedItemType.EVENT_TYPE_RECEIVENATIVE
+        ? t`Receive {asset}`
+        : type === FeedItemType.EVENT_TYPE_SENDNATIVE
+        ? t`Send {asset}`
+        : '',
+      { asset },
+    )
+
     const fromEmailMobile = data.initiatorType && data.initiator
 
-    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || 'Unknown'
-    data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
+    data.displayName =
+      customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromNative || 'Unknown'
+    data.avatar = status === 'error' || fromGD || fromNative ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {
       id,
@@ -929,6 +951,7 @@ export class UserStorage {
       case FeedItemType.EVENT_TYPE_BONUS:
       case FeedItemType.EVENT_TYPE_SEND:
       case FeedItemType.EVENT_TYPE_SENDDIRECT:
+      case FeedItemType.EVENT_TYPE_SENDNATIVE:
       case FeedItemType.EVENT_TYPE_SENDBRIDGE: {
         const type = FeedItemType.EVENT_TYPE_SENDDIRECT === event.type ? FeedItemType.EVENT_TYPE_SEND : event.type
 

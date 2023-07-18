@@ -60,7 +60,6 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.red,
       component: FeedSendComplete,
       name: 'send-filled',
-      withoutAvatar: true,
     },
     senderror: {
       color: theme.colors.primary,
@@ -90,7 +89,6 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.lightGreen,
       component: FeedReceiveSuccess,
       name: 'receive-filled',
-      withoutAvatar: true,
     },
     withdraw: {
       actionSymbol: '+',

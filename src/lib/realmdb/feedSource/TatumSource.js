@@ -17,12 +17,14 @@ const { COMPLETED } = TxStatus
 const { EVENT_TYPE_SENDNATIVE, EVENT_TYPE_RECEIVENATIVE } = FeedItemType
 
 export default class TatumSource extends FeedSource {
-  static formatTatumTx(chainId, token, tx): TransactionEvent {
+  formatTatumTx(chainId, token, tx): TransactionEvent {
+    const { wallet } = this.db
     const { address, amount, counterAddress, hash, timestamp, transactionSubtype } = tx
+    const isSend = transactionSubtype === 'outgoing'
+
     const date = moment(timestamp)
       .utc()
       .format()
-    const isSend = transactionSubtype === 'outgoing'
 
     return {
       _id: hash,
@@ -37,7 +39,7 @@ export default class TatumSource extends FeedSource {
       data: {
         asset: token,
         [isSend ? 'to' : 'from']: counterAddress,
-        amount,
+        amount: wallet.fromDecimals(amount, token),
         receiptEvent: {
           txHash: hash,
           eventSource: address,
@@ -47,9 +49,8 @@ export default class TatumSource extends FeedSource {
   }
 
   async syncFromRemote() {
-    const { formatTatumTx } = TatumSource
     const { db, Feed, log, storage } = this
-    const { address } = db
+    const address = db.wallet.account
 
     const lastBlock = await storage.getItem(LAST_BLOCK_ITEM)
 
@@ -64,7 +65,7 @@ export default class TatumSource extends FeedSource {
           log.info('Tatum got txs', { chainTxs, chainId })
 
           return {
-            txs: txs.concat(chainTxs.map(tx => formatTatumTx(chainId, token, tx))),
+            txs: txs.concat(chainTxs.map(tx => this.formatTatumTx(chainId, token, tx))),
             maxBlock: Math.max(maxBlock, chainTxs.length ? max(map(chainTxs, 'blockNumber')) : 0),
           }
         }),

@@ -932,7 +932,7 @@ export class UserStorage {
     data.displayName =
       customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromNativeAddress || 'Unknown'
 
-    data.avatar = status === 'error' || fromGD || fromNative ? -1 : counterPartySmallAvatar
+    data.avatar = status === 'error' || fromGD ? -1 : fromNative ? asset : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {
       id,

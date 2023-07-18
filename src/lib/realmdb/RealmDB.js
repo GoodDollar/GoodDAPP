@@ -69,7 +69,7 @@ class RealmDB implements DB, ProfileDB {
 
   sources = [
     TransactionsSource,
-    TatumSource,
+    ...(Config.isDeltaApp ? [TatumSource] : []),
     {
       // poll ceramic feed once per some time interval
       source: NewsSource,

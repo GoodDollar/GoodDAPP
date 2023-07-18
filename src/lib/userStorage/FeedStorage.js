@@ -96,10 +96,12 @@ export const getEventDirection = (feedEvent, reverse = false) => {
     FeedItemType.EVENT_TYPE_SENDDIRECT,
     FeedItemType.EVENT_TYPE_SEND,
     FeedItemType.EVENT_TYPE_SENDBRIDGE,
+    FeedItemType.EVENT_TYPE_SENDNATIVE,
   ]
   const receiveCases = [
     FeedItemType.EVENT_TYPE_CLAIM,
     FeedItemType.EVENT_TYPE_RECEIVE,
+    FeedItemType.EVENT_TYPE_RECEIVENATIVE,
     FeedItemType.EVENT_TYPE_WITHDRAW,
     FeedItemType.EVENT_TYPE_BONUS,
   ]

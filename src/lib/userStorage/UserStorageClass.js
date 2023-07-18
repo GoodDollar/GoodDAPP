@@ -21,6 +21,7 @@ import mustache from '../utils/mustache'
 import { ThreadDB } from '../textile/ThreadDB'
 import uuid from '../utils/uuid'
 import type { DB } from '../realmdb/RealmDB'
+import { truncateMiddle } from '../utils/string'
 import { type StandardFeed } from './StandardFeed'
 import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
@@ -877,13 +878,22 @@ export class UserStorage {
       asset,
     },
   }) {
+    const fromNative = mustache(
+      type === FeedItemType.EVENT_TYPE_RECEIVENATIVE
+        ? t`Receive {asset}`
+        : type === FeedItemType.EVENT_TYPE_SENDNATIVE
+        ? t`Send {asset}`
+        : '',
+      { asset },
+    )
+
     const data = {
       address: '',
       initiator: '',
       initiatorType: '',
       value: '',
       displayName: '',
-      message: '',
+      message: fromNative,
       asset,
     }
 
@@ -916,19 +926,12 @@ export class UserStorage {
         id.startsWith('0x') === false) &&
       'GoodDollar'
 
-    const fromNative = mustache(
-      type === FeedItemType.EVENT_TYPE_RECEIVENATIVE
-        ? t`Receive {asset}`
-        : type === FeedItemType.EVENT_TYPE_SENDNATIVE
-        ? t`Send {asset}`
-        : '',
-      { asset },
-    )
-
     const fromEmailMobile = data.initiatorType && data.initiator
+    const fromNativeAddress = fromNative ? truncateMiddle(data.address, 29) : ''
 
     data.displayName =
-      customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromNative || 'Unknown'
+      customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromNativeAddress || 'Unknown'
+
     data.avatar = status === 'error' || fromGD || fromNative ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {

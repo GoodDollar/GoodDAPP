@@ -483,7 +483,7 @@ export class APIService {
     return this.sharedClient.post(url, payload, options)
   }
 
-  async tatumQuery(address, chainId, from = null, to = null): Promise<any[]> {
+  async tatumQuery(address, chainId, from = null): Promise<any[]> {
     const url = '/data/transactions'
     const { CELO, MAINNET, GOERLI } = NETWORK_ID
 
@@ -513,19 +513,43 @@ export class APIService {
       params.blockFrom = from
     }
 
-    if (to) {
-      params.blockTo = to
-    }
-
     for (;;) {
-      const { result } = await this.sharedClient.get(url, options) // eslint-disable-line no-await-in-loop
+      const chunk = await this.sharedClient // eslint-disable-line no-await-in-loop
+        .get(url, options)
+        .then(({ result }) => result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer'))
 
-      if (!result.length) {
+      if (!chunk.length) {
         break
       }
 
       params.offset += 50
-      txs.push(...result)
+      txs.push(...chunk)
+    }
+
+    return txs
+  }
+
+  async fuseExplorerQuery(address, from = null) {
+    const txs = []
+    const url = '/api'
+    const params = { module: 'account', action: 'txlist', address, page: 1 }
+    const options = { baseURL: fuseNetwork.explorerAPI, params }
+
+    if (from) {
+      params.start_block = from
+    }
+
+    for (;;) {
+      const chunk = await this.sharedClient // eslint-disable-line no-await-in-loop
+        .get(url, options)
+        .then(({ result }) => result.filter(({ value }) => value !== '0'))
+
+      if (!chunk.length) {
+        break
+      }
+
+      params.page += 1
+      txs.push(...chunk)
     }
 
     return txs

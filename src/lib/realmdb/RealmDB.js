@@ -20,7 +20,7 @@ import { retry } from '../utils/async'
 import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
-import TatumSource from './feedSource/TatumSource'
+import NativeTxsSource from './feedSource/NativeTxsSource'
 
 // when 'failed to fetch' increase delay before next try for 1.5x times
 const _retryMiddleware = (exception, options, defaultOptions) => {
@@ -69,7 +69,7 @@ class RealmDB implements DB, ProfileDB {
 
   sources = [
     TransactionsSource,
-    ...(Config.isDeltaApp ? [TatumSource] : []),
+    ...(Config.isDeltaApp ? [NativeTxsSource] : []),
     {
       // poll ceramic feed once per some time interval
       source: NewsSource,

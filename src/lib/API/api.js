@@ -10,6 +10,7 @@ import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 import { throttleAdapter } from '../utils/axios'
+import { NETWORK_ID } from '../constants/network'
 import { log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
 import type { Credentials, UserRecord } from './utils'
@@ -480,6 +481,78 @@ export class APIService {
     const url = '/' + encodeURIComponent(subgraph)
 
     return this.sharedClient.post(url, payload, options)
+  }
+
+  async tatumQuery(address, chainId, from = null): Promise<any[]> {
+    const url = '/data/transactions'
+    const { CELO, MAINNET, GOERLI } = NETWORK_ID
+
+    let chain
+    const txs = []
+
+    switch (chainId) {
+      case MAINNET:
+        chain = 'ethereum'
+        break
+      case GOERLI:
+        chain = 'ethereum-goerli'
+        break
+      case CELO:
+        chain = 'celo'
+        break
+
+      // FUSE not supported on Tatum
+      default:
+        throw new Error('Chain not supported')
+    }
+
+    const params = { chain, addresses: address, transactionTypes: 'native', offset: 0 }
+    const options = { baseURL: Config.tatumApiUrl, params }
+
+    if (from) {
+      params.blockFrom = from
+    }
+
+    for (;;) {
+      const chunk = await this.sharedClient // eslint-disable-line no-await-in-loop
+        .get(url, options)
+        .then(({ result }) => result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer'))
+
+      if (!chunk.length) {
+        break
+      }
+
+      params.offset += 50
+      txs.push(...chunk)
+    }
+
+    return txs
+  }
+
+  async fuseExplorerQuery(address, from = null) {
+    const txs = []
+    const url = '/api'
+    const params = { module: 'account', action: 'txlist', address, page: 1 }
+    const options = { baseURL: fuseNetwork.explorerAPI, params }
+
+    if (from) {
+      params.start_block = from
+    }
+
+    for (;;) {
+      const chunk = await this.sharedClient // eslint-disable-line no-await-in-loop
+        .get(url, options)
+        .then(({ result }) => result.filter(({ value }) => value !== '0'))
+
+      if (!chunk.length) {
+        break
+      }
+
+      params.page += 1
+      txs.push(...chunk)
+    }
+
+    return txs
   }
 }
 

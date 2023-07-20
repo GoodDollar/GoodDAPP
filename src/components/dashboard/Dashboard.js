@@ -56,6 +56,7 @@ import { IconButton, Text } from '../../components/common'
 import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
 import Config from '../../config/config'
+import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -743,7 +744,7 @@ const Dashboard = props => {
         data: { link },
       } = receipt
 
-      if (type !== 'news' || !link) {
+      if (type !== FeedItemType.EVENT_TYPE_NEWS || !link) {
         showEventModal(horizontal ? receipt : null)
         setDialogBlur(horizontal)
         return

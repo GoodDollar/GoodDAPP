@@ -225,6 +225,7 @@ const Config = {
   bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED !== 'false',
   posthogApiKey: env.REACT_APP_POSTHOG_KEY,
   posthogHost: isWeb ? publicUrl+"/ingest" : "https://app.posthog.com",
+  tatumApiUrl: env.REACT_APP_TATUM_API_URL || 'https://api.tatum.io/v3',
 }
 
 global.config = Config

@@ -55,6 +55,12 @@ const getEventSettingsByType = (theme, type) => {
       component: FeedSendComplete,
       name: 'send-filled',
     },
+    sendnativecompleted: {
+      actionSymbol: '-',
+      color: theme.colors.red,
+      component: FeedSendComplete,
+      name: 'send-filled',
+    },
     senderror: {
       color: theme.colors.primary,
       name: 'system-filled',
@@ -73,6 +79,12 @@ const getEventSettingsByType = (theme, type) => {
       name: 'clock-filled',
     },
     receive: {
+      actionSymbol: '+',
+      color: theme.colors.lightGreen,
+      component: FeedReceiveSuccess,
+      name: 'receive-filled',
+    },
+    receivenative: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
       component: FeedReceiveSuccess,

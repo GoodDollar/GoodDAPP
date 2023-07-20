@@ -263,32 +263,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const sendNative = useCallback(
     async to => {
       try {
-        let txhash
-
         await goodWallet.sendNativeAmount(to, amount, {
           onTransactionHash: hash => {
             log.debug(`Send ${token} to address`, { hash })
-            txhash = hash
 
-            // Save transaction
-            const transactionEvent: TransactionEvent = {
-              id: hash,
-              createdDate: new Date().toISOString(),
-              date: new Date().toISOString(),
-              type: FeedItemType.EVENT_TYPE_SENDDIRECT,
-              chainId: goodWallet.networkId,
-              asset: token, // additional field to filter out G$ txs in the feed when native token selected and vice versa
-              data: {
-                to: address,
-                amount,
-              },
-            }
-
-            log.debug('sendViaAddress: enqueueTX', { transactionEvent })
-
-            userStorage.enqueueTX(transactionEvent)
-
-            fireEvent(SEND_DONE, { type: 'native' }) //type can be QR, receive, contact, contactsms
+            fireEvent(SEND_DONE, { type: 'native', token }) // type can be QR, receive, contact, contactsms
 
             showDialog({
               visible: true,
@@ -302,8 +281,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           },
           onError: e => {
             log.error('Send TX failed:', e.message, e, { category: ExceptionCategory.Blockhain })
-
-            userStorage.markWithErrorEvent(txhash)
           },
         })
       } catch (e) {

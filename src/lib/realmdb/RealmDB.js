@@ -1,5 +1,5 @@
 // @flow
-import { first, isPlainObject, once } from 'lodash'
+import { assign, first, isPlainObject, once } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
@@ -20,6 +20,7 @@ import { retry } from '../utils/async'
 import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
+import NativeTxsSource from './feedSource/NativeTxsSource'
 
 // when 'failed to fetch' increase delay before next try for 1.5x times
 const _retryMiddleware = (exception, options, defaultOptions) => {
@@ -68,6 +69,7 @@ class RealmDB implements DB, ProfileDB {
 
   sources = [
     TransactionsSource,
+    ...(Config.isDeltaApp ? [NativeTxsSource] : []),
     {
       // poll ceramic feed once per some time interval
       source: NewsSource,
@@ -91,10 +93,9 @@ class RealmDB implements DB, ProfileDB {
    */
   async init(db: ThreadDB) {
     try {
-      const { privateKey, Feed } = db
+      const { privateKey, wallet, Feed } = db
 
-      this.privateKey = privateKey
-      this.db = db
+      assign(this, { db, privateKey, wallet })
 
       Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
       Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))

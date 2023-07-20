@@ -19,6 +19,7 @@ import CeloIcon from '../../../assets/logos/celo.svg'
 import FuseIcon from '../../../assets/logos/fuse.svg'
 import Config from '../../../config/config'
 import { openLink } from '../../../lib/utils/linking'
+import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -163,6 +164,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
+
   if (itemType === 'invite') {
     return (
       <View style={[styles.rowContent, { backgroundColor: theme.colors.green }]}>
@@ -172,9 +174,11 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
       </View>
     )
   }
-  if (itemType === 'news') {
+
+  if (itemType === FeedItemType.EVENT_TYPE_NEWS) {
     return <NewsItem item={feed} eventSettings={eventSettings} styles={styles} />
   }
+
   return (
     <View style={styles.rowContent}>
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
@@ -198,11 +202,12 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                   </Text>
                 )}
                 <BigGoodDollar
-                  number={get(feed, 'data.amount', 0)}
-                  chainId={chainId}
                   color={mainColor}
-                  bigNumberProps={{ fontSize: 20, lineHeight: 22 }}
+                  chainId={chainId}
+                  number={get(feed, 'data.amount', 0)}
+                  unit={get(feed, 'data.asset', undefined)}
                   bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberProps={{ fontSize: 20, lineHeight: 22 }}
                   bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
                 />
               </React.Fragment>

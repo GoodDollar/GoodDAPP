@@ -57,8 +57,9 @@ const SummaryGeneric = ({
       setNativeFee(formattedFee)
     }
 
-    if (isNativeFlow) {
+    if (!isNativeFlow) {
       setNativeFee(null)
+      return
     }
 
     fetchNativeFee()

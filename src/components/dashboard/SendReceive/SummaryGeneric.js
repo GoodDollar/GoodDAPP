@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { t } from '@lingui/macro'
@@ -43,24 +43,46 @@ const SummaryGeneric = ({
 
   const goodWallet = useWallet()
   const { token, native } = useContext(TokenContext)
-  const isNativeToken = Config.isDeltaApp && native
+  const isNativeFlow = Config.isDeltaApp && native
 
   const { bridgeFees = {} } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
-  const { minFee, fee } = bridgeFees
 
-  const minBridgeFee = Number(goodWallet.toDecimals(minFee))
-  const amountInFloat = Number(goodWallet.toDecimals(amount))
+  const [nativeFee, setNativeFee] = useState(null)
 
-  // calculate the fee in G$
-  const feeinPercentage = fee ? (fee.toNumber() * 100) / 10000 : 0 //assuming bridgeFees.fee is BigNumber
+  useEffect(() => {
+    const fetchNativeFee = async () => {
+      const fee = await goodWallet.getNativeTxFee()
+      const formattedFee = goodWallet.toDecimals(fee, token)
 
-  let feeToPay = (amountInFloat * feeinPercentage) / 100
-  feeToPay = feeToPay < minBridgeFee ? minBridgeFee : feeToPay
+      setNativeFee(formattedFee)
+    }
 
-  // calculate amount to receive
-  const amountToReceiveInFloat = (amountInFloat - feeToPay).toString()
+    if (isNativeFlow) {
+      setNativeFee(null)
+    }
 
-  const amountToReceive = goodWallet.fromDecimals(amountToReceiveInFloat)
+    fetchNativeFee()
+  }, [goodWallet, token, isNativeFlow])
+
+  const { feeToPay, amountToReceive } = useMemo(() => {
+    const { minFee, fee } = bridgeFees
+
+    const minBridgeFee = Number(goodWallet.toDecimals(minFee))
+    const amountInFloat = Number(goodWallet.toDecimals(amount))
+
+    // calculate the fee in G$
+    const feeinPercentage = fee ? (fee.toNumber() * 100) / 10000 : 0 //assuming bridgeFees.fee is BigNumber
+
+    let feeToPay = (amountInFloat * feeinPercentage) / 100
+    feeToPay = feeToPay < minBridgeFee ? minBridgeFee : feeToPay
+
+    // calculate amount to receive
+    const amountToReceiveInFloat = (amountInFloat - feeToPay).toString()
+
+    const amountToReceive = goodWallet.fromDecimals(amountToReceiveInFloat)
+
+    return { feeToPay, amountToReceive }
+  }, [bridgeFees, goodWallet, amount])
 
   const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'
 
@@ -161,7 +183,7 @@ const SummaryGeneric = ({
                 fontWeight: 'bold',
               }}
               bigNumberUnitProps={{ fontSize: 14 }}
-              unit={isNativeToken ? token : undefined}
+              unit={isNativeFlow ? token : undefined}
             />
           </Section.Row>
           {isBridge && (
@@ -172,7 +194,16 @@ const SummaryGeneric = ({
                   {mustache(t` on {altNetwork}`, { altNetwork })}
                 </Section.Text>
                 <Section.Text>
-                  {mustache(t`You'll pay ${feeToPay} G$ in fees to use the bridge`, { feeToPay })}
+                  {mustache(t`You'll pay {feeToPay} G$ in fees to use the bridge`, { feeToPay })}
+                </Section.Text>
+              </View>
+            </Section.Row>
+          )}
+          {isNativeFlow && (
+            <Section.Row justifyContent="center">
+              <View styles={styles.bridgeDesc}>
+                <Section.Text>
+                  {mustache(t`You'll pay {nativeFee} {token} in fees for this transaction`, { nativeFee, token })}
                 </Section.Text>
               </View>
             </Section.Row>

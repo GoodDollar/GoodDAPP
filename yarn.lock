@@ -4427,6 +4427,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gooddollar/goodprotocol@npm:latest":
+  version: 2.0.6
+  resolution: "@gooddollar/goodprotocol@npm:2.0.6"
+  dependencies:
+    "@gooddollar/goodcontracts": ^2.6.6
+    "@jsier/retrier": ^1.2.4
+    "@openzeppelin/contracts": ^4.8.0
+    "@openzeppelin/contracts-upgradeable": ^4.8.0
+    "@openzeppelin/upgrades-core": 1.18.0
+    "@superfluid-finance/ethereum-contracts": ^1.4.3
+    "@superfluid-finance/sdk-core": ^0.5.8
+    "@typechain/hardhat": ^6.1.5
+    async-promise-pool: ^1.0.4
+    openzeppelin-solidity: ^4.3.2
+    patch-package: latest
+    press-any-key: ^0.1.1
+    truffle-plugin-verify: ^0.6.1
+    truffle-source-verify: ^0.0.6
+  checksum: cc03f3b73128116ed1242e96c042ce76029194dfba128e50244d7adef7af0d6fbcfc0d40c0d2506645b6670ec5404e2651730fcd19d8e965832503594c45e6e3
+  languageName: node
+  linkType: hard
+
 "@gooddollar/react-native-facetec@npm:^1.0.38":
   version: 1.0.38
   resolution: "@gooddollar/react-native-facetec@npm:1.0.38"

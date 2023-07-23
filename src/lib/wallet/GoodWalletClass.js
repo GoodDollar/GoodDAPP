@@ -33,6 +33,7 @@ import {
   range,
   sortBy,
   throttle,
+  uniq,
   uniqBy,
   values,
 } from 'lodash'
@@ -206,7 +207,7 @@ export class GoodWallet {
     const { httpWeb3provider: endpoints } = Config.ethereum[mainnetNetworkId]
 
     this.web3Mainnet = new Web3(
-      new MultipleHttpProvider(endpoints.split(',').map(provider => ({ provider, options: {} })), {}),
+      new MultipleHttpProvider(uniq(endpoints.split(',')).map(provider => ({ provider, options: {} })), {}),
     )
 
     const network = this.config.network

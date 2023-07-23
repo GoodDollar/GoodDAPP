@@ -2,8 +2,6 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react'
 import { Platform, View } from 'react-native'
 
-import { get } from 'lodash'
-
 // components
 import { t } from '@lingui/macro'
 import Text from '../../common/view/Text'
@@ -97,8 +95,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { showDialog } = useDialog()
 
   const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
-  const { screenState, goToRoot, navigateTo, pop, push } = screenProps
-  const isValid = get(screenState, 'isValid', false)
+  const { goToRoot, navigateTo, push } = screenProps
 
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
   const userName = useMemo(() => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''), [
@@ -160,38 +157,26 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkForCameraSupport()
   }, [checkForCameraSupport])
 
-  useFaceTecSDK({ initOnMounted: !isValid }) // early initialize
+  useFaceTecSDK({ initOnMounted: true }) // early initialize
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
-    log.debug({ enrollmentIdentifier, userName, isFVFlow, isValid, isFVFlowReady })
-
-    if (isValid) {
-      const state = { isValid }
-
-      if (isFVFlow) {
-        navigateTo('FVFlowSuccess', state)
-        return
-      }
-
-      pop(state)
-      return
-    }
+    log.debug({ enrollmentIdentifier, userName, isFVFlow, isFVFlowReady })
 
     if (enrollmentIdentifier && (!isFVFlow || isFVFlowReady)) {
       fireEvent(FV_INTRO)
       checkDisposalState()
     }
-  }, [enrollmentIdentifier, isFVFlow, isValid, isFVFlowReady, navigateTo, pop, checkDisposalState])
+  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigateTo, checkDisposalState])
 
   useFVLoginInfoCheck(navigation)
 
   useEffect(() => {
-    if (!isValid && isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier) {
+    if (isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier) {
       handleVerifyClick()
     }
-  }, [isFVFlow, isFVFlowReady, disposing, enrollmentIdentifier, isValid])
+  }, [isFVFlow, isFVFlowReady, disposing, enrollmentIdentifier])
 
   if (isFVFlow) {
     return (

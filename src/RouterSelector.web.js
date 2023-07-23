@@ -1,6 +1,6 @@
 // libraries
-import React, { memo, useContext, useEffect, useState } from 'react'
-import { assign, first, pick } from 'lodash'
+import React, { memo, useContext, useEffect, useRef, useState } from 'react'
+import { assign, first, isBoolean, pick } from 'lodash'
 
 // components
 
@@ -59,25 +59,6 @@ let AppRouter = React.lazy(async () => {
 const NestedRouter = memo(({ isLoggedIn }) => {
   useUpdateDialog()
 
-  useEffect(() => {
-    let source, platform, params
-    params = DeepLinking.params
-
-    source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
-    source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
-    platform = isWebApp ? 'webapp' : 'web'
-
-    // only track potentialy new users
-    if (!isLoggedIn) {
-      fireEvent(APP_OPEN, { source, platform, isLoggedIn, params })
-    }
-    log.debug('NestedRouter Rendered', { isLoggedIn, params, source, platform })
-
-    if (isLoggedIn) {
-      document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
-    }
-  }, [isLoggedIn])
-
   const Router = isLoggedIn ? AppRouter : SignupRouter
 
   return (
@@ -88,6 +69,8 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 })
 
 const RouterWrapper = () => {
+  const initRef = useRef()
+
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
   // we use global state for signup process to signal user has registered
@@ -108,8 +91,24 @@ const RouterWrapper = () => {
       assign(tags, { isDeltaApp })
     }
 
-    initAnalytics(tags).then(() => log.debug('RouterSelector Rendered'))
-  }, [])
+    if (isBoolean(isLoggedInRouter) && !initRef.current) {
+      initAnalytics(tags).then(() => {
+        let source, platform, params
+        params = DeepLinking.params
+
+        source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
+        source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
+        platform = isWebApp ? 'webapp' : 'web'
+
+        // only track potentialy new users
+        if (!isLoggedInRouter) {
+          fireEvent(APP_OPEN, { source, platform, isLoggedIn: isLoggedInRouter, params })
+        }
+        log.debug('Analytics Initialized RouterWrapper Rendered', { isLoggedInRouter, params, source, platform })
+        initRef.current = true
+      })
+    }
+  }, [isLoggedInRouter])
 
   useEffect(() => {
     const check = async () => {

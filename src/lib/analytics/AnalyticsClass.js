@@ -7,23 +7,20 @@ import {
   get,
   isEmpty,
   isError,
-  isNumber,
   isString,
-  isUndefined,
+  mapKeys,
   memoize,
-  negate,
   pick,
   pickBy,
-  remove,
   toLower,
-  values,
 } from 'lodash'
 import EventEmitter from 'eventemitter3'
 import { cloneErrorObject, ExceptionCategory } from '../exceptions/utils'
 import { isWeb, osVersion } from '../utils/platform'
 import DeepLinking from '../utils/deepLinking'
 import isWebApp from '../utils/isWebApp'
-import { ANALYTICS_EVENT, ERROR_LOG } from './constants'
+import { createUrlObject } from '../utils/uri'
+import { ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
   apis = {}
@@ -51,7 +48,7 @@ export class AnalyticsClass {
     const isMixpanelEnabled = !!(mixpanel && mixpanelKey)
 
     assign(apis, apisDetected)
-    assign(this, { isSentryEnabled, isAmplitudeEnabled, isMixpanelEnabled })
+    assign(this, { isSentryEnabled, isAmplitudeEnabled, isMixpanelEnabled, isGoogleEnabled })
 
     const params = DeepLinking.params
 
@@ -63,9 +60,18 @@ export class AnalyticsClass {
     source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
     const platform = isWeb ? (isWebApp ? 'webapp' : 'web') : 'native'
 
-    const allTags = { ...(tags || {}), os_version: osVersion, platform, version }
+    // invites backward compatability for campaign
+    const utmTags = pickBy(params, (value, key) => key.startsWith('utm_') || key === 'campaign')
+    if (utmTags.campaign) {
+      utmTags.utm_campaign = utmTags.campaign
+      delete utmTags.campaign
+    }
 
-    const onceTags = { first_open_date: new Date().toString(), source }
+    const allTags = { ...(tags || {}), os_version: osVersion, platform, version, ...utmTags }
+
+    const onceTags = { first_open_date: new Date().toString(), source, ...mapKeys(utmTags, (v, k) => `initial_${k}`) }
+
+    logger.debug('init analytics tags:', { allTags, onceTags })
 
     // make sure all users will have the new signedup prop
     if (tags?.isLoggedIn) {
@@ -129,8 +135,8 @@ export class AnalyticsClass {
       sentry.configureScope(scope => forIn(sentryScope, (value, property) => scope.setTag(property, value)))
     }
 
-    if (isGoogleEnabled && !isEmpty(tags)) {
-      await googleAnalytics.setDefaultParams(tags)
+    if (isGoogleEnabled && !isEmpty(allTags)) {
+      await googleAnalytics.setUserProperties(allTags)
     }
 
     logger.debug('available analytics:', {
@@ -146,8 +152,8 @@ export class AnalyticsClass {
   }
 
   identifyWith = (identifier, email = null) => {
-    const { apis, logger, isAmplitudeEnabled, isMixpanelEnabled, isSentryEnabled } = this
-    const { amplitude, sentry, mixpanel } = apis
+    const { apis, logger, isAmplitudeEnabled, isMixpanelEnabled, isSentryEnabled, isGoogleEnabled } = this
+    const { amplitude, sentry, mixpanel, googleAnalytics } = apis
 
     if (isMixpanelEnabled && identifier) {
       mixpanel.identify(identifier)
@@ -157,12 +163,16 @@ export class AnalyticsClass {
       amplitude.setUserId(identifier)
     }
 
-    if (isSentryEnabled) {
+    if (isSentryEnabled && identifier) {
       sentry.configureScope(scope =>
         scope.setUser({
           id: identifier,
         }),
       )
+    }
+
+    if (isGoogleEnabled && identifier) {
+      googleAnalytics.identify(identifier)
     }
 
     if (email) {
@@ -219,18 +229,7 @@ export class AnalyticsClass {
 
     // fire all events on  GA also
     if (googleAnalytics) {
-      const _values = values(data)
-
-      // remove returns the removed items, so eventValues will be numbers
-      const eventValues = remove(_values, isNumber)
-      const eventStrings = remove(_values, isString)
-      const eventData = {
-        eventAction: event,
-        eventValue: eventValues.shift(),
-        eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(_values.shift()),
-      }
-
-      this.fireGoogleAnalyticsEvent(ANALYTICS_EVENT, pickBy(eventData, negate(isUndefined)))
+      this.fireGoogleAnalyticsEvent(event, data)
     }
 
     logger.debug('fired event', { event, data })
@@ -267,6 +266,23 @@ export class AnalyticsClass {
 
     googleAnalytics.logEvent(event, data)
     logger.debug('Fired GoogleAnalytics event', { event, data })
+  }
+
+  captureUtmTags = (url: string) => {
+    try {
+      const { params } = createUrlObject(url)
+      const utmTags = pickBy(params, (value, key) => key.startsWith('utm_') || key === 'campaign')
+      if (utmTags.campaign) {
+        utmTags.utm_campaign = utmTags.campaign
+        delete utmTags.campaign
+      }
+      const onceTags = mapKeys(utmTags, (v, k) => `initial_${k}`)
+      this.setUserProps(utmTags)
+      this.setUserProps(onceTags, true)
+      this.logger.debug('captureUtmTags', { url, utmTags, onceTags, params })
+    } catch (e) {
+      this.logger.error('captureUtmTags failed:', e.message, e, { url })
+    }
   }
 
   setUserPropsOnce = props => {

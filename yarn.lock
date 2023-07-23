@@ -4143,8 +4143,8 @@ __metadata:
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
-    "@gooddollar/goodprotocol": ^2.0.6
-    "@gooddollar/react-native-facetec": ^1.0.36
+    "@gooddollar/goodprotocol": latest
+    "@gooddollar/react-native-facetec": ^1.0.38
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.1.91
     "@hcaptcha/react-hcaptcha": ^1.6.0
@@ -4157,7 +4157,7 @@ __metadata:
     "@lingui/react": ^3.13.0
     "@metamask/eth-sig-util": ^4.0.1
     "@react-native-async-storage/async-storage": ^1.15.8
-    "@react-native-community/blur": ^3.6.0
+    "@react-native-community/blur": "https://github.com/Kureev/react-native-blur/archive/refs/tags/v3.6.1.tar.gz"
     "@react-native-community/clipboard": ^1.5.1
     "@react-native-community/eslint-config": ^2.0.0
     "@react-native-community/netinfo": ^6.0.2
@@ -4285,6 +4285,7 @@ __metadata:
     pn: ^1.1.0
     pnp-webpack-plugin: ^1.6.4
     postcss-loader: ^4.0.4
+    posthog-react-native: ^2.7.1
     prettier: ~1.16.4
     process: ^0.11.10
     progress-bar-webpack-plugin: ^2.1.0
@@ -4426,35 +4427,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@npm:^2.0.6":
-  version: 2.0.6
-  resolution: "@gooddollar/goodprotocol@npm:2.0.6"
-  dependencies:
-    "@gooddollar/goodcontracts": ^2.6.6
-    "@jsier/retrier": ^1.2.4
-    "@openzeppelin/contracts": ^4.8.0
-    "@openzeppelin/contracts-upgradeable": ^4.8.0
-    "@openzeppelin/upgrades-core": 1.18.0
-    "@superfluid-finance/ethereum-contracts": ^1.4.3
-    "@superfluid-finance/sdk-core": ^0.5.8
-    "@typechain/hardhat": ^6.1.5
-    async-promise-pool: ^1.0.4
-    openzeppelin-solidity: ^4.3.2
-    patch-package: latest
-    press-any-key: ^0.1.1
-    truffle-plugin-verify: ^0.6.1
-    truffle-source-verify: ^0.0.6
-  checksum: cc03f3b73128116ed1242e96c042ce76029194dfba128e50244d7adef7af0d6fbcfc0d40c0d2506645b6670ec5404e2651730fcd19d8e965832503594c45e6e3
-  languageName: node
-  linkType: hard
-
-"@gooddollar/react-native-facetec@npm:^1.0.36":
-  version: 1.0.36
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.36"
+"@gooddollar/react-native-facetec@npm:^1.0.38":
+  version: 1.0.38
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.38"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: 2d899d89424ee7f9aff79e9ecf9d1f2a113d31968b65b0b3cb96a9c5c21248403bb984ea17856dfa60c231c11afa4ed371511ba16fbe78bf45ccfa683cc46e31
+  checksum: 39e90ae4798f2b92291d72a26f92e486cfe591fcd751cf68cba80cb0526bbb0b9571ae4a7a0bfb7d369d2ee7db332ab0ba9de2ad03bf522993103b313a402f1b
   languageName: node
   linkType: hard
 
@@ -5732,12 +5711,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/blur@npm:^3.6.0":
-  version: 3.6.0
-  resolution: "@react-native-community/blur@npm:3.6.0"
+"@react-native-community/blur@https://github.com/Kureev/react-native-blur/archive/refs/tags/v3.6.1.tar.gz":
+  version: 3.6.1
+  resolution: "@react-native-community/blur@https://github.com/Kureev/react-native-blur/archive/refs/tags/v3.6.1.tar.gz"
   dependencies:
     prop-types: ^15.5.10
-  checksum: 2a6b3ecf08c0d1eae760a4ad69599ed34842d0dbf8fad0955a3e878844c2dc066c55045ec382d52df9b23c89e82274565ee662084039bad29f41562eab89ee38
+  checksum: 25bc6b8b18de7a447cba9d9f4c5fc932a0b21710031b2b26c0b975ab7f06c131177f08222d3ebd7d52b6e9b211f2ff3e7e1b56dfa26b6ca76902ba48a0750702
   languageName: node
   linkType: hard
 
@@ -31448,6 +31427,39 @@ __metadata:
     react-native-navigation:
       optional: true
   checksum: 266ef497581a73b8854b583444e19bb4d67f1dd346693bf97ae7dbec3d6bba6b37ec04a13638d72726fa1c867c2cd625ee33b0b863231272116e8ddd139a648c
+  languageName: node
+  linkType: hard
+
+"posthog-react-native@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "posthog-react-native@npm:2.7.1"
+  peerDependencies:
+    "@react-native-async-storage/async-storage": ">=1.0.0"
+    "@react-navigation/native": ">= 5.0.10"
+    expo-application: ">= 4.0.0"
+    expo-device: ">= 4.0.0"
+    expo-file-system: ">= 13.0.0"
+    expo-localization: ">= 11.0.0"
+    react-native-device-info: ">= 10.0.0"
+    react-native-navigation: ">=6.0.0"
+  peerDependenciesMeta:
+    "@react-native-async-storage/async-storage":
+      optional: true
+    "@react-navigation/native":
+      optional: true
+    expo-application:
+      optional: true
+    expo-device:
+      optional: true
+    expo-file-system:
+      optional: true
+    expo-localization:
+      optional: true
+    react-native-device-info:
+      optional: true
+    react-native-navigation:
+      optional: true
+  checksum: 8acfe544579740227496370dbd0fb0b1883ce0ff1b6e095dd25fc41ce159463d5790cdacf7aeb4886777e95658b571d03bb39d049de10f9f24678f351c498450
   languageName: node
   linkType: hard
 

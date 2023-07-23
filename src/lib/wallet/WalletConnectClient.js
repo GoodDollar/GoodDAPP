@@ -17,6 +17,7 @@ import logger from '../logger/js-logger'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
 import Config from '../../config/config'
 import { useWallet } from './GoodWalletProvider'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 const log = logger.child({ from: 'WalletConnectClient' })
 
@@ -162,6 +163,7 @@ export const useWalletConnectSession = () => {
 
   const wallet = useWallet()
   const { show: showApprove, isDialogShown } = useSessionApproveModal()
+  const { showErrorDialog } = useDialog()
   const chains = useChainsList()
 
   const decodeTx = useCallback(
@@ -290,6 +292,7 @@ export const useWalletConnectSession = () => {
                     'eth_sign',
                     'personal_sign',
                     'eth_signTypedData',
+                    'eth_signTypedData_v4',
                     'wallet_addEthereumChain',
                     'wallet_switchEthereumChain',
                     'wallet_scanQrCode',
@@ -311,12 +314,12 @@ export const useWalletConnectSession = () => {
         },
         onReject: () => {
           if (isV2) {
+            log.debug('v2 rejectSession', { payload, isV2 })
             connector.rejectSession({
-              proposerPublicKey: payload?.params?.peer.publicKey,
+              id: Number(payload?.id),
               reason: getSdkError('USER_REJECTED'),
             })
-          }
-          {
+          } else {
             connector.rejectSession({ message: 'USER_DECLINE' })
           }
         },
@@ -699,7 +702,6 @@ export const useWalletConnectSession = () => {
             clientMeta: metadata,
           })
           initializeV1(connector)
-
           log.debug('got uri created connection:', { uri, session, wallet, connector })
           if (session && connector.pending && !connector.connected) {
             log.debug('calling handlesession from connect...')
@@ -710,9 +712,22 @@ export const useWalletConnectSession = () => {
 
           return connector
         } else if (isInitialized && version == 2) {
-          const pairResult = await cachedV2Connector.core.pairing.pair({ uri })
-          log.debug('v2 paired:', { uri, pairResult })
-          setConnector(cachedV2Connector)
+          try {
+            const pairResult = await cachedV2Connector.core.pairing.pair({ uri })
+            log.debug('v2 paired:', { uri, pairResult })
+            setConnector(cachedV2Connector)
+          } catch (e) {
+            if (e.message.includes('Pairing already exists')) {
+              showErrorDialog(`Failed to connect. Please try again with a new QR Code.`)
+              log.debug('v2 pairing failed: ', {
+                message: e.message,
+                e,
+                cachedV2Connector,
+                uri,
+                connect: cachedV2Connector.connect,
+              })
+            }
+          }
         }
       }
     },

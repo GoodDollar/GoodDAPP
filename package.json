@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "engines": {
     "node": "18.x",
     "npm": "9.x"
@@ -77,8 +77,8 @@
     "@expo/react-native-action-sheet": "^3.9.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
     "@gooddollar/goodcontracts": "^2.6.2",
-    "@gooddollar/goodprotocol": "^2.0.6",
-    "@gooddollar/react-native-facetec": "^1.0.36",
+    "@gooddollar/goodprotocol": "latest",
+    "@gooddollar/react-native-facetec": "^1.0.38",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/web3sdk-v2": "^0.1.91",
     "@hcaptcha/react-hcaptcha": "^1.6.0",
@@ -86,7 +86,7 @@
     "@lingui/react": "^3.13.0",
     "@metamask/eth-sig-util": "^4.0.1",
     "@react-native-async-storage/async-storage": "^1.15.8",
-    "@react-native-community/blur": "^3.6.0",
+    "@react-native-community/blur": "https://github.com/Kureev/react-native-blur/archive/refs/tags/v3.6.1.tar.gz",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/netinfo": "^6.0.2",
     "@react-native-community/push-notification-ios": "^1.10.1",
@@ -155,6 +155,7 @@
     "numeral": "^2.0.6",
     "path-browserify": "0.0.0",
     "pnp-webpack-plugin": "^1.6.4",
+    "posthog-react-native": "^2.7.1",
     "process": "^0.11.10",
     "promisify-file-reader": "^4.1.0",
     "punycode": "^1.4.1",

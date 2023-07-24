@@ -51,6 +51,13 @@ const MainBody = styled.div<{ $page?: string }>`
     background-color: ${({ theme }) => theme.color.bgBody};
 `
 
+const AppWrap = styled.div`
+    height: 100vh;
+    @supports (height: 100svh) {
+        height: 100svh; // should handle viewport on safari better
+    }
+`
+
 function App(): JSX.Element {
     const bodyRef = useRef<any>(null)
 
@@ -114,7 +121,7 @@ function App(): JSX.Element {
 
     return (
         <Suspense fallback={null}>
-            <div className="flex flex-col h-screen overflow-hidden">
+            <AppWrap className="flex flex-col overflow-hidden">
                 <AppBar />
                 <Wrapper className="flex flex-grow overflow-hidden">
                     {!isMobile && <SideBar />}
@@ -139,7 +146,7 @@ function App(): JSX.Element {
                     </MainBody>
                 </Wrapper>
                 <WalletChat />
-            </div>
+            </AppWrap>
         </Suspense>
     )
 }

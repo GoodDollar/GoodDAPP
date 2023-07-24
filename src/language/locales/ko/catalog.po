@@ -2749,7 +2749,7 @@ msgstr "축하합니다!"
 msgid "Connect a wallet to see your portfolio"
 msgstr ""
 
-#: src/components/BlockNativeOnboard/index.tsx:33
+#: src/components/BlockNativeOnboard/index.tsx:35
 msgid "Connect to a wallet"
 msgstr "지갑에 연결"
 

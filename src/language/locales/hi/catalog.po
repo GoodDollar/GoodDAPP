@@ -1546,7 +1546,7 @@ msgstr ""
 msgid "Connect a wallet to see your portfolio"
 msgstr ""
 
-#: src/components/BlockNativeOnboard/index.tsx:33
+#: src/components/BlockNativeOnboard/index.tsx:35
 msgid "Connect to a wallet"
 msgstr "एक वॉलेट से कनेक्ट करें"
 

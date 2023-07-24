@@ -1,6 +1,6 @@
 // @flow
 
-import { chunk, map, max, pick, values } from 'lodash'
+import { chunk, isEmpty, map, max, pick, values } from 'lodash'
 import moment from 'moment'
 import api from '../../API/api'
 import { NETWORK_ID } from '../../constants/network'
@@ -10,7 +10,7 @@ import { FeedItemType, TxStatus } from '../../userStorage/FeedStorage'
 import { getNativeToken } from '../../wallet/utils'
 
 const SYNC_CHAINS = values(pick(NETWORK_ID, 'FUSE', 'CELO', 'MAINNET', 'GOERLI'))
-const LAST_BLOCK_ITEM = 'GD_lastNativeTxsBlock'
+const LAST_BLOCKS_ITEM = 'GD_lastNativeTxsBlocks'
 const TX_CHUNK = 20
 
 const { COMPLETED } = TxStatus
@@ -21,34 +21,46 @@ export default class NativeTxsSource extends FeedSource {
     const { db, Feed, log, storage } = this
     const address = db.wallet.account
 
-    const lastBlock = await storage.getItem(LAST_BLOCK_ITEM)
+    const lastBlocks = await storage.getItem(LAST_BLOCKS_ITEM)
 
-    log.info('Native transactions sync started', { lastBlock, address })
+    log.info('Native transactions sync started', { lastBlock: lastBlocks, address })
 
     const result = await SYNC_CHAINS.reduce(
       (promise, chainId) =>
-        promise.then(async ({ txs, maxBlock }) => {
+        promise.then(async ({ txs, maxBlocks }) => {
           const token = getNativeToken(chainId)
+          const lastBlock = maxBlocks[chainId]
           const chainTxs = await this.queryTxs(chainId, lastBlock)
 
           log.info('Got native transactions', { chainTxs, chainId })
 
-          return {
-            txs: txs.concat(chainTxs.map(tx => this.formatTx(chainId, token, tx))),
-            maxBlock: Math.max(maxBlock, chainTxs.length ? max(map(chainTxs, 'blockNumber').map(Number)) : 0),
+          const result = { maxBlocks, txs: txs.concat(chainTxs.map(tx => this.formatTx(chainId, token, tx))) }
+
+          if (chainTxs.length) {
+            result.maxBlocks[chainId] = max(map(chainTxs, 'blockNumber').map(Number))
           }
+
+          return result
         }),
-      Promise.resolve({ txs: [], maxBlock: 0 }),
+      Promise.resolve({ txs: [], maxBlocks: lastBlocks || {} }),
     )
 
     log.info('Processed native transactions', result)
 
-    if (!lastBlock) {
-      // replacing the whole tx feed with the new one if no last block was stored
-      await Promise.all([EVENT_TYPE_RECEIVENATIVE, EVENT_TYPE_SENDNATIVE].map(type => Feed.find({ type }).delete()))
-    }
+    const { txs, maxBlocks } = result
 
-    const { txs, maxBlock } = result
+    await SYNC_CHAINS.reduce(
+      (promise, chainId) =>
+        promise.then(async () => {
+          if (!maxBlocks[chainId]) {
+            // replacing the whole tx feed with the new one if no last blocks were stored
+            await Promise.all(
+              [EVENT_TYPE_RECEIVENATIVE, EVENT_TYPE_SENDNATIVE].map(type => Feed.find({ type, chainId }).delete()),
+            )
+          }
+        }),
+      Promise.resolve(),
+    )
 
     if (txs.length) {
       // storing txs in the feed by the chunks
@@ -56,9 +68,9 @@ export default class NativeTxsSource extends FeedSource {
       log.info('Stored new native transactions in the feed', { txs })
     }
 
-    if (maxBlock) {
-      await storage.setItem(LAST_BLOCK_ITEM, maxBlock)
-      log.info('Last native transactions block updated', { lastBlock: maxBlock })
+    if (!isEmpty(maxBlocks)) {
+      await storage.setItem(LAST_BLOCKS_ITEM, maxBlocks)
+      log.info('Last native transactions block updated', { lastBlocks: maxBlocks })
     }
 
     log.info('Native transactions sync done')

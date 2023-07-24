@@ -199,8 +199,8 @@
         "ethereum-cryptography": "2.0.0",
         "@react-native-aria/interactions": "0.2.8",
         "@web3-onboard/core": "patch:@web3-onboard/core@npm%3A2.20.2#./.yarn/patches/@web3-onboard-core-npm-2.20.2-2119caa15c.patch",
-        "@uniswap/widgets@^2.51.2": "patch:@uniswap/widgets@npm%3A2.53.0#./.yarn/patches/@uniswap-widgets-npm-2.53.0-515f06935c.patch",
-        "@uniswap/widgets/@uniswap/sdk-core": "^4.0.6"
+        "@uniswap/widgets/@uniswap/sdk-core": "^4.0.6",
+        "@uniswap/widgets@^2.53.0": "patch:@uniswap/widgets@npm%3A2.53.0#./.yarn/patches/@uniswap-widgets-npm-2.53.0-515f06935c.patch"
     },
     "dependencies": {
         "@babel/runtime": "^7.18.9",
@@ -216,7 +216,7 @@
         "@types/react-text-mask": "^5.4.8",
         "@types/text-mask-addons": "^3.8.1",
         "@uniswap/sdk-core": "^4.0.6",
-        "@uniswap/widgets": "^2.51.2",
+        "@uniswap/widgets": "^2.53.0",
         "@usedapp/core": "^1.2.6",
         "@web3-onboard/coinbase": "^2.2.4",
         "@web3-onboard/core": "^2.20.5",

@@ -1,5 +1,5 @@
 diff --git a/dist/clientSideSmartOrderRouter-639d63e0.js b/dist/clientSideSmartOrderRouter-639d63e0.js
-index 4d427f77e2a7a91c510a24cea8c618b97ffd5e78..f0fb228b0bf60ac70032765be51b36fa9184f15c 100644
+index 4d427f77e2a7a91c510a24cea8c618b97ffd5e78..bbab2fbce737a2c2fe49516d795a100918c01027 100644
 --- a/dist/clientSideSmartOrderRouter-639d63e0.js
 +++ b/dist/clientSideSmartOrderRouter-639d63e0.js
 @@ -2,7 +2,8 @@ import _defineProperty from '@babel/runtime/helpers/defineProperty';
@@ -8,7 +8,20 @@ index 4d427f77e2a7a91c510a24cea8c618b97ffd5e78..f0fb228b0bf60ac70032765be51b36fa
  import { Token, CurrencyAmount } from '@uniswap/sdk-core';
 -import { ChainId, StaticV2SubgraphProvider, UniswapMulticallProvider, OnChainQuoteProvider, AlphaRouter, routeAmountsToString } from '@uniswap/smart-order-router';
 +import { StaticV2SubgraphProvider, UniswapMulticallProvider, OnChainQuoteProvider, AlphaRouter, routeAmountsToString } from '@uniswap/smart-order-router';
-+import { ChainId } from '@uniswap/sdk-core'
++import { ChainId } from '@uniswap/sdk-core';
  import { Q as QuoteState, i as isExactInput, S as SwapRouterNativeAssets, n as nativeOnChain } from './index-19ef7fb1.js';
  import JSBI from 'jsbi';
  import { Protocol } from '@uniswap/router-sdk';
+diff --git a/dist/index-19ef7fb1.js b/dist/index-19ef7fb1.js
+index ac0d963f45c3766ff139d9f6f40be46db61045b2..2a009c25210495e4e5705e40e1f75b32a4192379 100644
+--- a/dist/index-19ef7fb1.js
++++ b/dist/index-19ef7fb1.js
+@@ -17784,7 +17784,7 @@ function SummaryDialog(props) {
+   return /*#__PURE__*/React.createElement(Column, {
+     style: {
+       minWidth: isPageCentered ? Math.min(MIN_PAGE_CENTERED_DIALOG_WIDTH, width) : 'auto',
+-      height: '100%'
++      height: 'auto'
+     },
+     ref: setBoundary
+   }, showSpeedbump && props.impact ? /*#__PURE__*/React.createElement(SpeedBumpDialog, {

@@ -4848,7 +4848,7 @@ __metadata:
     "@uniswap/v2-core": 1.0.0
     "@uniswap/v2-periphery": ^1.1.0-beta.0
     "@uniswap/v2-sdk": ^3.0.0
-    "@uniswap/widgets": ^2.51.2
+    "@uniswap/widgets": ^2.53.0
     "@usedapp/core": ^1.2.6
     "@vitalets/google-translate-api": ^7.0.0
     "@vitejs/plugin-react": ^4.0.0
@@ -13038,7 +13038,7 @@ __metadata:
 
 "@uniswap/widgets@patch:@uniswap/widgets@npm%3A2.53.0#./.yarn/patches/@uniswap-widgets-npm-2.53.0-515f06935c.patch::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
   version: 2.53.0
-  resolution: "@uniswap/widgets@patch:@uniswap/widgets@npm%3A2.53.0#./.yarn/patches/@uniswap-widgets-npm-2.53.0-515f06935c.patch::version=2.53.0&hash=e6c02e&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
+  resolution: "@uniswap/widgets@patch:@uniswap/widgets@npm%3A2.53.0#./.yarn/patches/@uniswap-widgets-npm-2.53.0-515f06935c.patch::version=2.53.0&hash=0c308d&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
   dependencies:
     "@babel/runtime": ">=7.17.0"
     "@fontsource/ibm-plex-mono": ^4.5.1
@@ -13111,7 +13111,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: b1e71b5cc787c22019911206ca499fe183facc69cfbeefc0683942da68efa02f1e7bfb1684d2b228e6f90b2600a99dd6b911c0f011bc575ff94dd0b8ab05b0a2
+  checksum: 82cafc806ba8931c310cd1ee42f576679b417b33fa5f07066916c186715e08b8b6e77d250e1db4a0693eeddbc67611029d600e32a093c72d70ad0af43c0b4087
   languageName: node
   linkType: hard
 

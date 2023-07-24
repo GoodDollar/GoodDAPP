@@ -1,6 +1,6 @@
 // @flow
 
-import { chunk, isEmpty, map, max, pick, values } from 'lodash'
+import { chunk, map, max, pick, values } from 'lodash'
 import moment from 'moment'
 import api from '../../API/api'
 import { NETWORK_ID } from '../../constants/network'
@@ -21,7 +21,7 @@ export default class NativeTxsSource extends FeedSource {
     const { db, Feed, log, storage } = this
     const address = db.wallet.account
 
-    const lastBlocks = await storage.getItem(LAST_BLOCKS_ITEM)
+    const lastBlocks = await storage.getItem(LAST_BLOCKS_ITEM).then(blocks => blocks || {})
 
     log.info('Native transactions sync started', { lastBlock: lastBlocks, address })
 
@@ -42,7 +42,7 @@ export default class NativeTxsSource extends FeedSource {
 
           return result
         }),
-      Promise.resolve({ txs: [], maxBlocks: lastBlocks || {} }),
+      Promise.resolve({ txs: [], maxBlocks: lastBlocks }),
     )
 
     log.info('Processed native transactions', result)
@@ -52,7 +52,7 @@ export default class NativeTxsSource extends FeedSource {
     await SYNC_CHAINS.reduce(
       (promise, chainId) =>
         promise.then(async () => {
-          if (!maxBlocks[chainId]) {
+          if (!lastBlocks[chainId]) {
             // replacing the whole tx feed with the new one if no last blocks were stored
             await Promise.all(
               [EVENT_TYPE_RECEIVENATIVE, EVENT_TYPE_SENDNATIVE].map(type => Feed.find({ type, chainId }).delete()),
@@ -68,10 +68,8 @@ export default class NativeTxsSource extends FeedSource {
       log.info('Stored new native transactions in the feed', { txs })
     }
 
-    if (!isEmpty(maxBlocks)) {
-      await storage.setItem(LAST_BLOCKS_ITEM, maxBlocks)
-      log.info('Last native transactions block updated', { lastBlocks: maxBlocks })
-    }
+    await storage.setItem(LAST_BLOCKS_ITEM, maxBlocks)
+    log.info('Last native transactions block updated', { lastBlocks: maxBlocks })
 
     log.info('Native transactions sync done')
   }

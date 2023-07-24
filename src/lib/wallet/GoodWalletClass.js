@@ -1181,8 +1181,9 @@ export class GoodWallet {
   async collectInviteBounties() {
     const tx = this.invitesContract.methods.collectBounties()
     const nativeBalance = await this.balanceOfNative()
-    const gas = Math.min(await tx.estimateGas(), nativeBalance / this.gasPrice - 150000) //convert to gwei and leave 150K gwei for user
-    if (gas < 150000) {
+    const gas = Math.min(2000000, nativeBalance / this.gasPrice - 150000) //convert to gwei and leave 150K gwei for user
+    // we need around 400k gas to collect 1 bounty, so that's the minimum
+    if (gas < 400000) {
       log.error('collectInvites low gas:', '', '', { gas, nativeBalance })
       return false
     }

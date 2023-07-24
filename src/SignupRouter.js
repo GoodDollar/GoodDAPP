@@ -11,7 +11,6 @@ import SigninInfo from './components/signin/SigninInfo'
 import Blurred from './components/common/view/Blurred'
 import Welcome from './components/auth/login/WelcomeScreen'
 import { AuthContextProvider } from './components/auth/context/AuthContext'
-import { useFingerprint } from './lib/fingerprint/useFingerprint'
 
 const log = logger.child({ from: 'SignupRouter' })
 
@@ -36,9 +35,6 @@ const generateRouter = () => {
 
 const Router = () => {
   const navigationStateHandler = useNavigationStateHandler()
-
-  // initialize fingerprint in signup router (used in passwordless login button, part of the captcha component)
-  useFingerprint()
 
   // will exec once during first render
   const RouterWrapper = useMemo(generateRouter, [])

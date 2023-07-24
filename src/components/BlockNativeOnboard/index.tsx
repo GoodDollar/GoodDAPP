@@ -2,13 +2,15 @@ import React, { FC, useEffect, useRef } from 'react'
 import { useConnectWallet } from '@web3-onboard/react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
-import { noop } from 'lodash'
+import { OnboardProvider } from '@gooddollar/web3sdk-v2'
 import { Web3ActionButton } from '@gooddollar/good-design'
 import { SupportedChains, AsyncStorage, getDevice } from '@gooddollar/web3sdk-v2'
-import { connectOptions, torus } from 'connectors'
+import { noop } from 'lodash'
 
-import { OnboardProvider } from '@gooddollar/web3sdk-v2'
+import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
+
+import { connectOptions, torus } from 'connectors'
+import { getNetworkEnv } from 'utils/env'
 import { useSelectedChain } from 'state/application/hooks'
 
 /**
@@ -78,11 +80,13 @@ export const OnboardConnectButton: FC = () => {
 // wrapper so we can pass the selected chain
 export const OnboardProviderWrapper = ({ children }) => {
     const { selectedChain } = useSelectedChain()
+    const network = getNetworkEnv()
     return (
         <OnboardProvider
             options={connectOptions}
             wallets={{ custom: [torus] }}
             wc2Options={{ requiredChains: [selectedChain] }}
+            gdEnv={network}
         >
             {children}
         </OnboardProvider>

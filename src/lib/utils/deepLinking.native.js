@@ -27,7 +27,9 @@ class DeepLinkingNative {
 
   initialize = async () => {
     Linking.addEventListener('url', this.processLink)
+    
     const universalLink = await Linking.getInitialURL()
+    
     log.info('initialized subscribe', { universalLink })
 
     if (universalLink) {
@@ -45,6 +47,7 @@ class DeepLinkingNative {
       this.navigationCallbacks.push(navigationCallback)
 
       log.info('subscribing activating calback for app open if first run', this._isAppOpenLink)
+      
       if (this._isAppOpenLink === true) {
         // if we had a link previously then call callback
         this._isAppOpenLink = false

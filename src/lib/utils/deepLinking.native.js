@@ -1,21 +1,12 @@
-import branch from 'react-native-branch'
-import { assign, camelCase, mapKeys, over } from 'lodash'
+import { Linking } from 'react-native'
+import { assign, over } from 'lodash'
 import logger from '../logger/js-logger'
 import { createUrlObject } from './uri'
 
 const log = logger.child({ from: 'deeplinking.native' })
 
 class DeepLinkingNative {
-  constructor() {
-    log.info('initial subscribe')
-    this.subscribe()
-  }
-
-  _unsubscribe = null
-
-  _lastClick = null
-
-  _isFirstRun = true
+  _isAppOpenLink = false
 
   params = {
     paymentCode: '',
@@ -30,6 +21,21 @@ class DeepLinkingNative {
 
   pathname = ''
 
+  constructor() {
+    this.initialize()
+  }
+
+  initialize = async () => {
+    Linking.addEventListener('url', this.processLink)
+    const universalLink = await Linking.getInitialURL()
+    log.info('initialized subscribe', { universalLink })
+
+    if (universalLink) {
+      this._isAppOpenLink = true
+      this.processLink({ url: universalLink })
+    }
+  }
+
   subscribe = navigationCallback => {
     // starting subscription only when first valid callback is passed
     // and we haven't active subscription yet
@@ -38,51 +44,21 @@ class DeepLinkingNative {
     if (navigationCallback) {
       this.navigationCallbacks.push(navigationCallback)
 
-      log.info('subscribing activating callback', this._isFirstRun)
-      if (this._isFirstRun === false) {
+      log.info('subscribing activating calback for app open if first run', this._isAppOpenLink)
+      if (this._isAppOpenLink === true) {
         // if we had a link previously then call callback
+        this._isAppOpenLink = false
         navigationCallback(this.callbackParams)
       }
-    }
-
-    if (!this._unsubscribe) {
-      // storing unsubscribe fn inside instance var
-      this._unsubscribe = branch.subscribe(this._listener)
     }
   }
 
   unsubscribe = () => {
-    // if we have active subscription
-    if (this._unsubscribe) {
-      // then calling unsubscribe fn
-      this._unsubscribe()
-
-      // cleaning up unsubscribe fn link
-      this._unsubscribe = null
-
-      // and cleaning callback previously added
-      // if we don't perform this, they will be called
-      // once we'll .subscribe() again
-      this.navigationCallbacks.length = 0
-    }
+    this.navigationCallbacks = []
   }
 
-  _listener = ({ error, params, uri }) => {
-    log.debug('branch listener', { params, uri })
-    if (error) {
-      const exception = new Error(error)
-
-      log.error('Error from Branch:', exception.message, exception)
-      return
-    }
-
-    const ccParams = mapKeys(params, (_, name) => camelCase(name))
-
-    const { clickedBranchLink, clickTimestamp, nonBranchLink, referringLink, url } = ccParams
-
-    log.debug({ error, params, uri, ccParams, referringLink, nonBranchLink, clickedBranchLink })
-
-    const link = uri || referringLink || url || nonBranchLink
+  processLink = ({ url: link }) => {
+    log.debug('universal link listener', { link })
 
     // no link do nothing
     if (!link) {
@@ -90,25 +66,20 @@ class DeepLinkingNative {
     }
 
     this.params = {}
-    this._isFirstRun = false
-    this._lastClick = clickTimestamp
-    let queryParams = params
 
     const decodedLink = decodeURI(link)
-    const { params: decodedParams } = createUrlObject(decodedLink)
+    const { params: queryParams } = createUrlObject(decodedLink)
     const { pathname } = createUrlObject(link)
 
-    assign(queryParams, decodedParams)
     assign(this, { link: decodedLink })
     assign(this, { pathname })
     assign(this.params, queryParams)
-    assign(this.callbackParams, { link: decodedLink, path: pathname, queryParams, branch: ccParams })
+    assign(this.callbackParams, { link: decodedLink, path: pathname, queryParams })
 
     log.debug('calling deeplink callbacks with:', {
       originalLink: link,
       path: this.pathname,
       queryParams,
-      branch: ccParams,
     })
 
     over(this.navigationCallbacks)(this.callbackParams)

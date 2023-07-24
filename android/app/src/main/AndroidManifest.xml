@@ -55,15 +55,7 @@
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-        </intent-filter>
-
-        <!-- Branch App Links (optional) -->
-        <intent-filter android:autoVerify="true">
-          <action android:name="android.intent.action.VIEW" />
-          <category android:name="android.intent.category.DEFAULT" />
-          <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="https" android:host="gooddollar.app.link" />
-        </intent-filter>
+        </intent-filter>        
 
         <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -111,9 +103,6 @@
             </intent-filter>
         </service>
 
-      <!-- Branch keys -->
-      <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ikHIYZgGRpA8nYBtiRlGHpkhBDaBI273"/>
-      <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_cgJV25dQUfs3i9EwlQcNshglEFcrVW5K"/>
       <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notification_icon" />
     </application>
 

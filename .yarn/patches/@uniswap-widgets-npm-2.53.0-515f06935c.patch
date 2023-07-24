@@ -1,5 +1,40 @@
+diff --git a/dist/cjs/index-31b4ac89.cjs b/dist/cjs/index-31b4ac89.cjs
+index a4f7a31f63b4a6f951306bfc7745d6c65bd4337e..17652eb2c9aaf877d48573eaa525b75c8d0ac0f8 100644
+--- a/dist/cjs/index-31b4ac89.cjs
++++ b/dist/cjs/index-31b4ac89.cjs
+@@ -15562,7 +15562,7 @@ var TokenList = /*#__PURE__*/_styled__default["default"](reactWindow.FixedSizeLi
+ var OnHover = /*#__PURE__*/_styled__default["default"].div.withConfig({
+   displayName: "TokenOptions__OnHover",
+   componentId: "sc-xx1k3q-2"
+-})(["background-color:", ";height:", "px;left:0;position:absolute;top:", "px;width:100%;"], function (_ref4) {
++})(["background-color:", ";height:", "px;left:0;position:absolute;top:", "px;width:100%;display:none;"], function (_ref4) {
+   var theme = _ref4.theme;
+   return theme.onHover(theme.module);
+ }, ITEM_SIZE, function (_ref5) {
+@@ -15749,10 +15749,10 @@ var TokenOptions = /*#__PURE__*/React.forwardRef(function TokenOptions(_ref9, re
+       minHeight: Math.min(tokens.length, MIN_VISIBLE_TOKENS) * ITEM_SIZE,
+       overflow: 'hidden'
+     }
+-  }, /*#__PURE__*/React__default["default"].createElement(OnHover, {
++  },/*#__PURE__*/React__default["default"].createElement(OnHover, {
+     hover: hover,
+     ref: onHover
+-  }), /*#__PURE__*/React__default["default"].createElement(AutoSizer__default["default"], {
++   }),/*#__PURE__*/React__default["default"].createElement(AutoSizer__default["default"], {
+     disableWidth: true
+   }, function (_ref13) {
+     var height = _ref13.height;
+@@ -17835,7 +17835,7 @@ function SummaryDialog(props) {
+   return /*#__PURE__*/React__default["default"].createElement(Column, {
+     style: {
+       minWidth: isPageCentered ? Math.min(MIN_PAGE_CENTERED_DIALOG_WIDTH, width) : 'auto',
+-      height: '100%'
++      height: 'auto'
+     },
+     ref: setBoundary
+   }, showSpeedbump && props.impact ? /*#__PURE__*/React__default["default"].createElement(SpeedBumpDialog, {
 diff --git a/dist/clientSideSmartOrderRouter-639d63e0.js b/dist/clientSideSmartOrderRouter-639d63e0.js
-index 4d427f77e2a7a91c510a24cea8c618b97ffd5e78..bbab2fbce737a2c2fe49516d795a100918c01027 100644
+index 4d427f77e2a7a91c510a24cea8c618b97ffd5e78..164aa298c9e1ea866efa68a78b66320d89d4165d 100644
 --- a/dist/clientSideSmartOrderRouter-639d63e0.js
 +++ b/dist/clientSideSmartOrderRouter-639d63e0.js
 @@ -2,7 +2,8 @@ import _defineProperty from '@babel/runtime/helpers/defineProperty';
@@ -8,14 +43,36 @@ index 4d427f77e2a7a91c510a24cea8c618b97ffd5e78..bbab2fbce737a2c2fe49516d795a1009
  import { Token, CurrencyAmount } from '@uniswap/sdk-core';
 -import { ChainId, StaticV2SubgraphProvider, UniswapMulticallProvider, OnChainQuoteProvider, AlphaRouter, routeAmountsToString } from '@uniswap/smart-order-router';
 +import { StaticV2SubgraphProvider, UniswapMulticallProvider, OnChainQuoteProvider, AlphaRouter, routeAmountsToString } from '@uniswap/smart-order-router';
-+import { ChainId } from '@uniswap/sdk-core';
++import { ChainId } from "@uniswap/sdk-core";
  import { Q as QuoteState, i as isExactInput, S as SwapRouterNativeAssets, n as nativeOnChain } from './index-19ef7fb1.js';
  import JSBI from 'jsbi';
  import { Protocol } from '@uniswap/router-sdk';
 diff --git a/dist/index-19ef7fb1.js b/dist/index-19ef7fb1.js
-index ac0d963f45c3766ff139d9f6f40be46db61045b2..2a009c25210495e4e5705e40e1f75b32a4192379 100644
+index ac0d963f45c3766ff139d9f6f40be46db61045b2..f7cbff8248e00a6a2d794c4d1b2f77ae85692eff 100644
 --- a/dist/index-19ef7fb1.js
 +++ b/dist/index-19ef7fb1.js
+@@ -15511,7 +15511,7 @@ var TokenList = /*#__PURE__*/_styled(FixedSizeList).withConfig({
+ var OnHover = /*#__PURE__*/_styled.div.withConfig({
+   displayName: "TokenOptions__OnHover",
+   componentId: "sc-xx1k3q-2"
+-})(["background-color:", ";height:", "px;left:0;position:absolute;top:", "px;width:100%;"], function (_ref4) {
++})(["background-color:", ";height:", "px;left:0;position:absolute;top:", "px;width:100%;display:none;"], function (_ref4) {
+   var theme = _ref4.theme;
+   return theme.onHover(theme.module);
+ }, ITEM_SIZE, function (_ref5) {
+@@ -15698,10 +15698,10 @@ var TokenOptions = /*#__PURE__*/forwardRef(function TokenOptions(_ref9, ref) {
+       minHeight: Math.min(tokens.length, MIN_VISIBLE_TOKENS) * ITEM_SIZE,
+       overflow: 'hidden'
+     }
+-  }, /*#__PURE__*/React.createElement(OnHover, {
++  },/*#__PURE__*/React.createElement(OnHover, {
+     hover: hover,
+     ref: onHover
+-  }), /*#__PURE__*/React.createElement(AutoSizer, {
++  }),/*#__PURE__*/React.createElement(AutoSizer, {
+     disableWidth: true
+   }, function (_ref13) {
+     var height = _ref13.height;
 @@ -17784,7 +17784,7 @@ function SummaryDialog(props) {
    return /*#__PURE__*/React.createElement(Column, {
      style: {

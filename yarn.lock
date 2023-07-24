@@ -434,8 +434,8 @@ __metadata:
   linkType: hard
 
 "@babel/cli@npm:^7.21.0":
-  version: 7.22.6
-  resolution: "@babel/cli@npm:7.22.6"
+  version: 7.22.9
+  resolution: "@babel/cli@npm:7.22.9"
   dependencies:
     "@jridgewell/trace-mapping": ^0.3.17
     "@nicolo-ribaudo/chokidar-2": 2.1.8-no-fsevents.3
@@ -456,7 +456,7 @@ __metadata:
   bin:
     babel: ./bin/babel.js
     babel-external-helpers: ./bin/babel-external-helpers.js
-  checksum: c2a6b7d68226f1601446a0e452fcbec9df40c5aabb991f427ad1e2d0eb75f123f530c1319b55b040d32b3593e003fced99e073ed556435e301d97a10965ac947
+  checksum: 6acc76e521f8d657d8a85ff27387149b415507095911356417c7d26c456685153c76924bd5469f2ff026e83b65091df22d2066f1f403aeed82c4762611d9a9da
   languageName: node
   linkType: hard
 
@@ -1995,7 +1995,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.12.1, @babel/preset-env@npm:^7.16.4, @babel/preset-env@npm:^7.20.2, @babel/preset-env@npm:^7.8.4":
+"@babel/preset-env@npm:^7.12.1, @babel/preset-env@npm:^7.16.4, @babel/preset-env@npm:^7.8.4":
   version: 7.22.7
   resolution: "@babel/preset-env@npm:7.22.7"
   dependencies:
@@ -2082,6 +2082,96 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: eabde70e450dd54f57997b0f92317f69f268e9a1f85b13f5ef5540d2a38cfae5620bd8e48ddffb547c55fbd2f17673276e6eb9411d6b5fb82e3422faf44cb6cf
+  languageName: node
+  linkType: hard
+
+"@babel/preset-env@npm:^7.20.2":
+  version: 7.22.9
+  resolution: "@babel/preset-env@npm:7.22.9"
+  dependencies:
+    "@babel/compat-data": ^7.22.9
+    "@babel/helper-compilation-targets": ^7.22.9
+    "@babel/helper-plugin-utils": ^7.22.5
+    "@babel/helper-validator-option": ^7.22.5
+    "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression": ^7.22.5
+    "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining": ^7.22.5
+    "@babel/plugin-proposal-private-property-in-object": 7.21.0-placeholder-for-preset-env.2
+    "@babel/plugin-syntax-async-generators": ^7.8.4
+    "@babel/plugin-syntax-class-properties": ^7.12.13
+    "@babel/plugin-syntax-class-static-block": ^7.14.5
+    "@babel/plugin-syntax-dynamic-import": ^7.8.3
+    "@babel/plugin-syntax-export-namespace-from": ^7.8.3
+    "@babel/plugin-syntax-import-assertions": ^7.22.5
+    "@babel/plugin-syntax-import-attributes": ^7.22.5
+    "@babel/plugin-syntax-import-meta": ^7.10.4
+    "@babel/plugin-syntax-json-strings": ^7.8.3
+    "@babel/plugin-syntax-logical-assignment-operators": ^7.10.4
+    "@babel/plugin-syntax-nullish-coalescing-operator": ^7.8.3
+    "@babel/plugin-syntax-numeric-separator": ^7.10.4
+    "@babel/plugin-syntax-object-rest-spread": ^7.8.3
+    "@babel/plugin-syntax-optional-catch-binding": ^7.8.3
+    "@babel/plugin-syntax-optional-chaining": ^7.8.3
+    "@babel/plugin-syntax-private-property-in-object": ^7.14.5
+    "@babel/plugin-syntax-top-level-await": ^7.14.5
+    "@babel/plugin-syntax-unicode-sets-regex": ^7.18.6
+    "@babel/plugin-transform-arrow-functions": ^7.22.5
+    "@babel/plugin-transform-async-generator-functions": ^7.22.7
+    "@babel/plugin-transform-async-to-generator": ^7.22.5
+    "@babel/plugin-transform-block-scoped-functions": ^7.22.5
+    "@babel/plugin-transform-block-scoping": ^7.22.5
+    "@babel/plugin-transform-class-properties": ^7.22.5
+    "@babel/plugin-transform-class-static-block": ^7.22.5
+    "@babel/plugin-transform-classes": ^7.22.6
+    "@babel/plugin-transform-computed-properties": ^7.22.5
+    "@babel/plugin-transform-destructuring": ^7.22.5
+    "@babel/plugin-transform-dotall-regex": ^7.22.5
+    "@babel/plugin-transform-duplicate-keys": ^7.22.5
+    "@babel/plugin-transform-dynamic-import": ^7.22.5
+    "@babel/plugin-transform-exponentiation-operator": ^7.22.5
+    "@babel/plugin-transform-export-namespace-from": ^7.22.5
+    "@babel/plugin-transform-for-of": ^7.22.5
+    "@babel/plugin-transform-function-name": ^7.22.5
+    "@babel/plugin-transform-json-strings": ^7.22.5
+    "@babel/plugin-transform-literals": ^7.22.5
+    "@babel/plugin-transform-logical-assignment-operators": ^7.22.5
+    "@babel/plugin-transform-member-expression-literals": ^7.22.5
+    "@babel/plugin-transform-modules-amd": ^7.22.5
+    "@babel/plugin-transform-modules-commonjs": ^7.22.5
+    "@babel/plugin-transform-modules-systemjs": ^7.22.5
+    "@babel/plugin-transform-modules-umd": ^7.22.5
+    "@babel/plugin-transform-named-capturing-groups-regex": ^7.22.5
+    "@babel/plugin-transform-new-target": ^7.22.5
+    "@babel/plugin-transform-nullish-coalescing-operator": ^7.22.5
+    "@babel/plugin-transform-numeric-separator": ^7.22.5
+    "@babel/plugin-transform-object-rest-spread": ^7.22.5
+    "@babel/plugin-transform-object-super": ^7.22.5
+    "@babel/plugin-transform-optional-catch-binding": ^7.22.5
+    "@babel/plugin-transform-optional-chaining": ^7.22.6
+    "@babel/plugin-transform-parameters": ^7.22.5
+    "@babel/plugin-transform-private-methods": ^7.22.5
+    "@babel/plugin-transform-private-property-in-object": ^7.22.5
+    "@babel/plugin-transform-property-literals": ^7.22.5
+    "@babel/plugin-transform-regenerator": ^7.22.5
+    "@babel/plugin-transform-reserved-words": ^7.22.5
+    "@babel/plugin-transform-shorthand-properties": ^7.22.5
+    "@babel/plugin-transform-spread": ^7.22.5
+    "@babel/plugin-transform-sticky-regex": ^7.22.5
+    "@babel/plugin-transform-template-literals": ^7.22.5
+    "@babel/plugin-transform-typeof-symbol": ^7.22.5
+    "@babel/plugin-transform-unicode-escapes": ^7.22.5
+    "@babel/plugin-transform-unicode-property-regex": ^7.22.5
+    "@babel/plugin-transform-unicode-regex": ^7.22.5
+    "@babel/plugin-transform-unicode-sets-regex": ^7.22.5
+    "@babel/preset-modules": ^0.1.5
+    "@babel/types": ^7.22.5
+    babel-plugin-polyfill-corejs2: ^0.4.4
+    babel-plugin-polyfill-corejs3: ^0.8.2
+    babel-plugin-polyfill-regenerator: ^0.5.1
+    core-js-compat: ^3.31.0
+    semver: ^6.3.1
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: 6caa2897bbda30c6932aed0a03827deb1337c57108050c9f97dc9a857e1533c7125b168b6d70b9d191965bf05f9f233f0ad20303080505dff7ce39740aaa759d
   languageName: node
   linkType: hard
 
@@ -12616,13 +12706,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uniswap/default-token-list@npm:^11.2.0":
-  version: 11.4.0
-  resolution: "@uniswap/default-token-list@npm:11.4.0"
-  checksum: 3aa7bbdeccb6d0933ccd96ab9df15bf4edf0f6520f1f54b6d5d6d42d3f22bb6f03839e5d4eea082a5a0f638f6a2047d2af3ae98cd6c1679386eb6d3dabef055f
-  languageName: node
-  linkType: hard
-
 "@uniswap/default-token-list@npm:^2.0.0":
   version: 2.3.0
   resolution: "@uniswap/default-token-list@npm:2.3.0"
@@ -12753,19 +12836,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uniswap/smart-order-router@npm:^3.10.0":
-  version: 3.13.7
-  resolution: "@uniswap/smart-order-router@npm:3.13.7"
+"@uniswap/smart-order-router@npm:3.13.2-hotfix2":
+  version: 3.13.2-hotfix2
+  resolution: "@uniswap/smart-order-router@npm:3.13.2-hotfix2"
   dependencies:
-    "@uniswap/default-token-list": ^11.2.0
+    "@uniswap/default-token-list": ^2.0.0
     "@uniswap/permit2-sdk": ^1.2.0
-    "@uniswap/router-sdk": ^1.6.0
+    "@uniswap/router-sdk": ^1.3.0
     "@uniswap/swap-router-contracts": ^1.3.0
-    "@uniswap/token-lists": ^1.0.0-beta.31
+    "@uniswap/token-lists": ^1.0.0-beta.25
     "@uniswap/universal-router": ^1.0.1
-    "@uniswap/universal-router-sdk": ^1.5.4
-    "@uniswap/v2-sdk": ^3.2.0
-    "@uniswap/v3-sdk": ^3.10.0
+    "@uniswap/universal-router-sdk": ^1.3.9
+    "@uniswap/v2-sdk": ^3.0.1
+    "@uniswap/v3-sdk": ^3.7.0
     async-retry: ^1.3.1
     await-timeout: ^1.1.1
     axios: ^0.21.1
@@ -12780,7 +12863,7 @@ __metadata:
     stats-lite: ^2.2.0
   peerDependencies:
     jsbi: ^3.2.0
-  checksum: 9f5ad40c24f1408cd24431e49ce24643759ed5151743cd7adc62561a9a002ac93d8b3622688c7dadb2285c6a922db5a84d3314addc9ddf90351f0382d3fdd74f
+  checksum: 0362152bad3618e9fce82fb09715f3251997694ab924617e2d87f0e87adc3ccd6496fb63554b766a463fd15fc1d5dc37fe6bf894efcc6f78ee4fc2adaf66d87e
   languageName: node
   linkType: hard
 
@@ -12811,16 +12894,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uniswap/token-lists@npm:^1.0.0-beta.19, @uniswap/token-lists@npm:^1.0.0-beta.24, @uniswap/token-lists@npm:^1.0.0-beta.27, @uniswap/token-lists@npm:^1.0.0-beta.28, @uniswap/token-lists@npm:^1.0.0-beta.30, @uniswap/token-lists@npm:^1.0.0-beta.31":
+"@uniswap/token-lists@npm:^1.0.0-beta.19, @uniswap/token-lists@npm:^1.0.0-beta.24, @uniswap/token-lists@npm:^1.0.0-beta.25, @uniswap/token-lists@npm:^1.0.0-beta.27, @uniswap/token-lists@npm:^1.0.0-beta.28, @uniswap/token-lists@npm:^1.0.0-beta.30":
   version: 1.0.0-beta.33
   resolution: "@uniswap/token-lists@npm:1.0.0-beta.33"
   checksum: ec6842cb39c42cf3f173ce47d833968de811ffba0a1b3323c0e094d11f37187201fa0754bc6648499664819eaf9cf2420604a8915b98c7309d2e70d496c92cca
   languageName: node
   linkType: hard
 
-"@uniswap/universal-router-sdk@npm:^1.3.8, @uniswap/universal-router-sdk@npm:^1.5.4":
-  version: 1.5.4
-  resolution: "@uniswap/universal-router-sdk@npm:1.5.4"
+"@uniswap/universal-router-sdk@npm:^1.3.8, @uniswap/universal-router-sdk@npm:^1.3.9":
+  version: 1.5.5
+  resolution: "@uniswap/universal-router-sdk@npm:1.5.5"
   dependencies:
     "@uniswap/permit2-sdk": ^1.2.0
     "@uniswap/router-sdk": ^1.6.0
@@ -12830,7 +12913,7 @@ __metadata:
     "@uniswap/v3-sdk": ^3.10.0
     bignumber.js: ^9.0.2
     ethers: ^5.3.1
-  checksum: 678047aa35c16e0bb23fb6d30e95e159aa1427ce4a9854a3f4a25d782bbd16fc2f699f3c710c0f0ebe7afc342bde1a81a90d242afc357e48b45c2a080327cf42
+  checksum: f996aa6cb47d8a01151cd0d5113db232309bcf8463c89118f54034f7a6214a31fdc30ca2ac93f2d3d62504a3593cf10b51b858c52516b6b7c5ab1da869371bd3
   languageName: node
   linkType: hard
 
@@ -12930,7 +13013,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uniswap/v3-sdk@npm:^3.10.0, @uniswap/v3-sdk@npm:^3.8.2":
+"@uniswap/v3-sdk@npm:^3.10.0, @uniswap/v3-sdk@npm:^3.7.0, @uniswap/v3-sdk@npm:^3.8.2":
   version: 3.10.0
   resolution: "@uniswap/v3-sdk@npm:3.10.0"
   dependencies:
@@ -13038,7 +13121,7 @@ __metadata:
 
 "@uniswap/widgets@patch:@uniswap/widgets@npm%3A2.53.0#./.yarn/patches/@uniswap-widgets-npm-2.53.0-515f06935c.patch::locator=%40gooddollar%2Fprotocol-ui%40workspace%3A.":
   version: 2.53.0
-  resolution: "@uniswap/widgets@patch:@uniswap/widgets@npm%3A2.53.0#./.yarn/patches/@uniswap-widgets-npm-2.53.0-515f06935c.patch::version=2.53.0&hash=0c308d&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
+  resolution: "@uniswap/widgets@patch:@uniswap/widgets@npm%3A2.53.0#./.yarn/patches/@uniswap-widgets-npm-2.53.0-515f06935c.patch::version=2.53.0&hash=8d55c4&locator=%40gooddollar%2Fprotocol-ui%40workspace%3A."
   dependencies:
     "@babel/runtime": ">=7.17.0"
     "@fontsource/ibm-plex-mono": ^4.5.1
@@ -13111,7 +13194,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 82cafc806ba8931c310cd1ee42f576679b417b33fa5f07066916c186715e08b8b6e77d250e1db4a0693eeddbc67611029d600e32a093c72d70ad0af43c0b4087
+  checksum: 1ed675be99e651d59d139a1290c9318ea2986c8f241a59fd7ddefba4781a16cba1511af107f32c876d68e9a79173bbddad5746af237750a142669284e728bf2f
   languageName: node
   linkType: hard
 
@@ -38714,8 +38797,8 @@ __metadata:
   linkType: hard
 
 "styled-components@npm:>=5":
-  version: 6.0.3
-  resolution: "styled-components@npm:6.0.3"
+  version: 6.0.5
+  resolution: "styled-components@npm:6.0.5"
   dependencies:
     "@babel/cli": ^7.21.0
     "@babel/core": ^7.21.0
@@ -38743,7 +38826,7 @@ __metadata:
   peerDependenciesMeta:
     babel-plugin-styled-components:
       optional: true
-  checksum: e02e6a38a7d484ed8ce1fa1f36b7934c1c1f57195d9c173853adc8cb89a209c23c79cf9f979ffff22829de5e817fb95aab04038c1270110956dfef168c480b13
+  checksum: 81cc55bb8cba3e85164b9504ac87a61d9435dccc660851f28b570a343facf90e184c01bf8a816ed0b05e21eec0ae36ba6f50a681dd5737696415e8822225bd5f
   languageName: node
   linkType: hard
 

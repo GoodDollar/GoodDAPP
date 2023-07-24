@@ -3219,7 +3219,7 @@ msgstr ""
 msgid "This month"
 msgstr "這個月"
 
-#: src/pages/App.tsx:138
+#: src/pages/App.tsx:145
 msgid "This project is in beta. Use at your own risk"
 msgstr "該項目處於測試階段。使用風險自負"
 

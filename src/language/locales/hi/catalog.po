@@ -1992,7 +1992,7 @@ msgstr ""
 msgid "This month"
 msgstr ""
 
-#: src/pages/App.tsx:138
+#: src/pages/App.tsx:145
 msgid "This project is in beta. Use at your own risk"
 msgstr ""
 

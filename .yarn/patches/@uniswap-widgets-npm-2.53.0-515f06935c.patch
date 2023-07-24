@@ -1,0 +1,14 @@
+diff --git a/dist/clientSideSmartOrderRouter-639d63e0.js b/dist/clientSideSmartOrderRouter-639d63e0.js
+index 4d427f77e2a7a91c510a24cea8c618b97ffd5e78..f0fb228b0bf60ac70032765be51b36fa9184f15c 100644
+--- a/dist/clientSideSmartOrderRouter-639d63e0.js
++++ b/dist/clientSideSmartOrderRouter-639d63e0.js
+@@ -2,7 +2,8 @@ import _defineProperty from '@babel/runtime/helpers/defineProperty';
+ import _asyncToGenerator from '@babel/runtime/helpers/asyncToGenerator';
+ import _regeneratorRuntime from '@babel/runtime/regenerator';
+ import { Token, CurrencyAmount } from '@uniswap/sdk-core';
+-import { ChainId, StaticV2SubgraphProvider, UniswapMulticallProvider, OnChainQuoteProvider, AlphaRouter, routeAmountsToString } from '@uniswap/smart-order-router';
++import { StaticV2SubgraphProvider, UniswapMulticallProvider, OnChainQuoteProvider, AlphaRouter, routeAmountsToString } from '@uniswap/smart-order-router';
++import { ChainId } from '@uniswap/sdk-core'
+ import { Q as QuoteState, i as isExactInput, S as SwapRouterNativeAssets, n as nativeOnChain } from './index-19ef7fb1.js';
+ import JSBI from 'jsbi';
+ import { Protocol } from '@uniswap/router-sdk';

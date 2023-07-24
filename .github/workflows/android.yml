@@ -85,10 +85,9 @@ jobs:
           echo "REACT_APP_CODE_PUSH_KEY=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> .env.$env_name
       - name: Code push release
         run: |
-          env_name="${{ env.ENV }}"
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           FORMATTED_VERSION=${BUILD_VERSION%.*}.x
-          APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.$env_name) 
+          APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.${{ env.ENV }}) 
           echo Code push release target version ${FORMATTED_VERSION}
           yarn lingui:compile
           yarn animation:assets

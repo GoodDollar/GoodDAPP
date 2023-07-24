@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "2.9.0",
+  "version": "2.11.1-0",
   "engines": {
     "node": ">=16.x <17",
     "npm": "8.x"
@@ -78,7 +78,7 @@
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
     "@gooddollar/goodcontracts": "^2.6.2",
     "@gooddollar/goodprotocol": "latest",
-    "@gooddollar/react-native-facetec": "^1.0.37",
+    "@gooddollar/react-native-facetec": "^1.0.38",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/web3sdk-v2": "^0.1.91",
     "@hcaptcha/react-hcaptcha": "^1.6.0",
@@ -155,6 +155,7 @@
     "numeral": "^2.0.6",
     "path-browserify": "0.0.0",
     "pnp-webpack-plugin": "^1.6.4",
+    "posthog-react-native": "^2.7.1",
     "process": "^0.11.10",
     "promisify-file-reader": "^4.1.0",
     "punycode": "^1.4.1",

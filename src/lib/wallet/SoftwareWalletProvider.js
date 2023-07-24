@@ -1,7 +1,7 @@
 // @flow
 import Web3 from 'web3'
 import bip39 from 'bip39-light'
-import { assign } from 'lodash'
+import { assign, uniq } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
@@ -134,7 +134,7 @@ class SoftwareWalletProvider {
     const config = { strategy: httpProviderStrategy }
 
     // parsing multiple rpc urls
-    const endpoints = httpWeb3provider.split(',').map(endpoint => {
+    const endpoints = uniq(httpWeb3provider.split(',')).map(endpoint => {
       let options = {} // opts for each url separately
       let provider = endpoint
       const backend = ['infura', 'pokt'].find(server => endpoint.includes(server))

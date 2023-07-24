@@ -3,13 +3,14 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
 import { t } from '@lingui/macro'
+import { usePostHog } from 'posthog-react-native'
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import Avatar from '../common/view/Avatar'
 import { WavesBox } from '../common/view/WavesBox'
 import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import logger from '../../lib/logger/js-logger'
-import { fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
+import { captureUtmTags, fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { generateShareObject, isSharingAvailable } from '../../lib/share'
 import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
@@ -17,6 +18,7 @@ import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
+
 import createABTesting from '../../lib/hooks/useABTesting'
 import { withStyles } from '../../lib/styles'
 import CeloLogo from '../../assets/celo-logo.svg'
@@ -29,6 +31,7 @@ import {
   useWallet,
 } from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
+
 import mustache from '../../lib/utils/mustache'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import {
@@ -41,7 +44,8 @@ import {
 } from './useInvites'
 import FriendsSVG from './friends.svg'
 import ShareIcons from './ShareIcons'
-import useShareMessages from './useShareMessages'
+
+// import useShareMessages from './useShareMessages'
 
 const log = logger.child({ from: 'Invite' })
 
@@ -89,22 +93,26 @@ const InvitedUser = ({ address, status }) => {
 }
 
 const ShareBox = ({ level, styles }) => {
-  const [{ shareMessage, shareTitle }] = useShareMessages()
+  const posthog = usePostHog()
+  const abTestOptions = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('share-link') : []), [posthog])
   const { toDecimals } = useFormatG$()
-  const abTestOptions = useMemo(() => [{ value: shareMessage, chance: 1, id: 'celo' }], [shareMessage])
 
   const inviteCode = useInviteCode()
-  const abTestOption = useOption(abTestOptions)
+
+  const abTestOption = useOption(abTestOptions) || {}
+  const { shareTitle } = abTestOption
   const bounty = useMemo(() => (level?.bounty ? decimalsToFixed(toDecimals(level.bounty)) : ''), [level])
 
   const shareUrl = useMemo(
     () =>
-      inviteCode && abTestOption ? `${Config.invitesUrl}?inviteCode=${inviteCode}&campaign=${abTestOption.id}` : '',
+      inviteCode && abTestOption
+        ? `${Config.invitesUrl}?inviteCode=${inviteCode}&utm_campaign=${abTestOption.id || 'default'}`
+        : '',
     [inviteCode, abTestOption],
   )
 
   const abTestMessage = useMemo(() => {
-    const { value } = abTestOption || {}
+    const { shareMessage: value } = abTestOption || {}
 
     if (value) {
       const reward = bounty / 2
@@ -118,8 +126,6 @@ const ShareBox = ({ level, styles }) => {
     shareUrl,
     abTestMessage,
   ])
-
-  useEffect(() => log.debug('Generated share object', { share }), [share])
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Share Your Invite Link`}>
@@ -222,10 +228,13 @@ const InputCodeBox = ({ navigateTo, styles }) => {
     })
 
     try {
+      // capture utm tags from invite link
+      captureUtmTags(code)
       await registerForInvites(extractedCode)
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
+    } finally {
       hideDialog()
     }
   }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, registerForInvites])

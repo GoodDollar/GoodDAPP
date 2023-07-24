@@ -2,7 +2,7 @@
 import React from 'react'
 import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { Portal } from 'react-native-paper'
-
+import { PostHogProvider } from 'posthog-react-native'
 import AddWebApp from './components/common/view/AddWebApp'
 import Blurred from './components/common/view/Blurred'
 
@@ -49,9 +49,11 @@ const Router = () => {
       {!isInstalledApp && !Config.isDeltaApp && <AddWebApp />}
       <Portal.Host>
         <Blurred whenDialog>
-          <VerificationContextProvider>
-            <RouterWrapper onNavigationStateChange={navigationStateHandler} />
-          </VerificationContextProvider>
+          <PostHogProvider apiKey={Config.posthogApiKey} options={{ host: Config.posthogHost }} autocapture={false}>
+            <VerificationContextProvider>
+              <RouterWrapper onNavigationStateChange={navigationStateHandler} />
+            </VerificationContextProvider>
+          </PostHogProvider>
         </Blurred>
       </Portal.Host>
     </React.Fragment>

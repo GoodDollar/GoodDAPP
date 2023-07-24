@@ -4144,7 +4144,7 @@ __metadata:
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": latest
-    "@gooddollar/react-native-facetec": ^1.0.37
+    "@gooddollar/react-native-facetec": ^1.0.38
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.1.91
     "@hcaptcha/react-hcaptcha": ^1.6.0
@@ -4285,6 +4285,7 @@ __metadata:
     pn: ^1.1.0
     pnp-webpack-plugin: ^1.6.4
     postcss-loader: ^4.0.4
+    posthog-react-native: ^2.7.1
     prettier: ~1.16.4
     process: ^0.11.10
     progress-bar-webpack-plugin: ^2.1.0
@@ -4426,13 +4427,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:^1.0.37":
-  version: 1.0.37
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.37"
+"@gooddollar/react-native-facetec@npm:^1.0.38":
+  version: 1.0.38
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.38"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: ddb5ab448fee9bc5fa47e8863ffda50be7206a7f13ff92ee09acf07010b810ca262e49f297db138c938e22294895859635981cf4fdf08b0a7b640ae7b090c692
+  checksum: 39e90ae4798f2b92291d72a26f92e486cfe591fcd751cf68cba80cb0526bbb0b9571ae4a7a0bfb7d369d2ee7db332ab0ba9de2ad03bf522993103b313a402f1b
   languageName: node
   linkType: hard
 
@@ -31373,6 +31374,39 @@ __metadata:
     react-native-navigation:
       optional: true
   checksum: 266ef497581a73b8854b583444e19bb4d67f1dd346693bf97ae7dbec3d6bba6b37ec04a13638d72726fa1c867c2cd625ee33b0b863231272116e8ddd139a648c
+  languageName: node
+  linkType: hard
+
+"posthog-react-native@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "posthog-react-native@npm:2.7.1"
+  peerDependencies:
+    "@react-native-async-storage/async-storage": ">=1.0.0"
+    "@react-navigation/native": ">= 5.0.10"
+    expo-application: ">= 4.0.0"
+    expo-device: ">= 4.0.0"
+    expo-file-system: ">= 13.0.0"
+    expo-localization: ">= 11.0.0"
+    react-native-device-info: ">= 10.0.0"
+    react-native-navigation: ">=6.0.0"
+  peerDependenciesMeta:
+    "@react-native-async-storage/async-storage":
+      optional: true
+    "@react-navigation/native":
+      optional: true
+    expo-application:
+      optional: true
+    expo-device:
+      optional: true
+    expo-file-system:
+      optional: true
+    expo-localization:
+      optional: true
+    react-native-device-info:
+      optional: true
+    react-native-navigation:
+      optional: true
+  checksum: 8acfe544579740227496370dbd0fb0b1883ce0ff1b6e095dd25fc41ce159463d5790cdacf7aeb4886777e95658b571d03bb39d049de10f9f24678f351c498450
   languageName: node
   linkType: hard
 

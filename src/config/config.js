@@ -25,7 +25,7 @@ const fuseRpc = env.REACT_APP_WEB3_RPC
 const celoRpc = env.REACT_APP_WEB3_RPC_CELO
 
 export const fuseNetwork = {
-  httpWeb3provider: `${fuseRpc ? `${fuseRpc},` : ''}https://rpc.fuse.io/,https://fuse-mainnet.chainstacklabs.com`,
+  httpWeb3provider: `${fuseRpc ? `${fuseRpc},` : ''}https://rpc.fuse.io`,
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
   explorerAPI: 'https://explorer.fuse.io',
@@ -79,7 +79,7 @@ const ethereum = {
     websocketWeb3Provider: 'ws://localhost:8545/ws',
   },
   '42220': {
-    httpWeb3provider:  `${celoRpc ? `${celoRpc},` : ''}https://forno.celo.org/,https://rpc.ankr.com/celo,https://1rpc.io/celo`,
+    httpWeb3provider:  `${celoRpc ? `${celoRpc},` : ''}https://forno.celo.org`,
     explorer: 'https://celoscan.io',
     explorerAPI: 'https://api.celoscan.io',
     explorerName: 'celoscan',
@@ -213,7 +213,9 @@ const Config = {
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
   isDeltaApp,
-  bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED !== 'false'
+  bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED !== 'false',
+  posthogApiKey: env.REACT_APP_POSTHOG_KEY,
+  posthogHost: isWeb ? publicUrl+"/ingest" : "https://app.posthog.com",
 }
 
 global.config = Config

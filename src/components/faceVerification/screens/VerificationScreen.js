@@ -128,8 +128,13 @@ const FaceVerification = ({ screenProps, navigation }) => {
       resetAttempts()
 
       // 2. returning success to the caller
-      screenProps.navigateTo('FaceVerificationIntro', { isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
+
+      if (isFVFlow) {
+        screenProps.navigateTo('FVFlowSuccess')
+        return
+      }
+      screenProps.navigateTo('Claim', { isValid: true })
     },
     [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow],
   )

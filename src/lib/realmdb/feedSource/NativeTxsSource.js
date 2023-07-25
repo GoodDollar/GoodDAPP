@@ -8,8 +8,9 @@ import { FeedSource } from '../feed'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { FeedItemType, TxStatus } from '../../userStorage/FeedStorage'
 import { getNativeToken } from '../../wallet/utils'
+import Config from '../../../config/config'
 
-const SYNC_CHAINS = values(pick(NETWORK_ID, 'FUSE', 'CELO', 'MAINNET', 'GOERLI'))
+const SYNC_CHAINS = values(pick(NETWORK_ID, 'FUSE', 'CELO', Config.env === 'production' ? 'MAINNET' : 'GOERLI'))
 const LAST_BLOCKS_ITEM = 'GD_lastNativeTxsBlocks'
 const TX_CHUNK = 20
 

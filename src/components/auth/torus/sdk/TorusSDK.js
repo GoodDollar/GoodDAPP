@@ -41,6 +41,7 @@ class TorusSDK {
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
       uxMode: torusUxMode,
+      web3AuthClientId: config.torusClientId,
     })
 
     this.torus = new Torus(config, torusOptions)
@@ -104,7 +105,7 @@ class TorusSDK {
       torusUser = { ...otherResponse, ...userInfo }
     }
 
-    let { name, email, privateKey = '' } = torusUser
+    let { name, email, finalKeyData = {} } = torusUser
     const isLoginPhoneNumber = /\+[0-9]+$/.test(name)
 
     if (isLoginPhoneNumber) {
@@ -115,7 +116,9 @@ class TorusSDK {
       torusUser = omit(torusUser, 'name')
     }
 
-    if (privateKey) {
+    if (finalKeyData.privKey) {
+      let privateKey = finalKeyData.privKey
+
       const leading = privateKey.length - 64
 
       const failWithInvalidKey = () => {
@@ -142,9 +145,7 @@ class TorusSDK {
         privateKey = padStart(privateKey, 64, '0')
       }
 
-      if (leading !== 0) {
-        torusUser = { ...torusUser, privateKey }
-      }
+      torusUser = { ...torusUser, privateKey }
     }
 
     if ('production' !== config.env) {

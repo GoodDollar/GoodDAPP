@@ -181,6 +181,7 @@ const Config = {
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
   torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
   torusRedirectUrl: isDeltaApp ? env.REACT_APP_TORUS_REDIRECT_URL || publicUrl : publicUrl, // REACT_APP_TORUS_REDIRECT_URL avalable for Delta ONLY
+  torusClientId: env.REACT_APP_TORUS_CLIENTID || 'BLQmq83LgX8FRbjPcZ5lVX8EJUjrioOiw3YQd6qCoWs3Of8F2dZRD2nThUSLpbyKO7U3-bXe0D3j8hgjntShi40',
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
   recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,

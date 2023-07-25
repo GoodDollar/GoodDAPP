@@ -102,7 +102,7 @@
     "@textile/threaddb": "^0.1.0",
     "@textile/threads-client": "^2.1.2",
     "@textile/threads-id": "^0.5.1",
-    "@toruslabs/customauth": "^11.4.3",
+    "@toruslabs/customauth": "^15.0.3",
     "@toruslabs/customauth-react-native-sdk": "^4.0.1",
     "@tradle/react-native-http": "^2.0.1",
     "@usedapp/core": "1.2.6",

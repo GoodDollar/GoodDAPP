@@ -82,3 +82,29 @@ index ac0d963f45c3766ff139d9f6f40be46db61045b2..f7cbff8248e00a6a2d794c4d1b2f77ae
      },
      ref: setBoundary
    }, showSpeedbump && props.impact ? /*#__PURE__*/React.createElement(SpeedBumpDialog, {
+diff --git a/dist/cjs/index-31b4ac89.cjs b/dist/cjs/index-31b4ac89.cjs
+index a4f7a31f63b4a6f951306bfc7745d6c65bd4337e..a7d33681a44840f82ea3e5ab9c72366d4fcf68eb 100644
+--- a/dist/cjs/index-31b4ac89.cjs
++++ b/dist/cjs/index-31b4ac89.cjs
+@@ -17023,7 +17023,7 @@ var _templateObject$1;
+ var SpeedBumpWrapper = /*#__PURE__*/_styled__default["default"](Column).withConfig({
+   displayName: "Speedbump__SpeedBumpWrapper",
+   componentId: "sc-1pabh5-0"
+-})(["align-items:stretch;display:flex;height:100%;justify-content:space-between;max-width:420px;padding:1rem;text-align:center;"]);
++})(["align-items:stretch;display:flex;height:auto;justify-content:space-between;max-width:auto;padding:1rem;text-align:center;"]);
+ 
+ var BodyText = /*#__PURE__*/_styled__default["default"](Body1).withConfig({
+   displayName: "Speedbump__BodyText",
+diff --git a/dist/index-19ef7fb1.js b/dist/index-19ef7fb1.js
+index ac0d963f45c3766ff139d9f6f40be46db61045b2..88f13907daa027ee87dd1a0956a2d8d7cbd32673 100644
+--- a/dist/index-19ef7fb1.js
++++ b/dist/index-19ef7fb1.js
+@@ -16972,7 +16972,7 @@ var _templateObject$1;
+ var SpeedBumpWrapper = /*#__PURE__*/_styled(Column).withConfig({
+   displayName: "Speedbump__SpeedBumpWrapper",
+   componentId: "sc-1pabh5-0"
+-})(["align-items:stretch;display:flex;height:100%;justify-content:space-between;max-width:420px;padding:1rem;text-align:center;"]);
++})(["align-items:stretch;display:flex;height:auto;justify-content:space-between;max-width:auto;padding:1rem;text-align:center;"]);
+ 
+ var BodyText = /*#__PURE__*/_styled(Body1).withConfig({
+   displayName: "Speedbump__BodyText",

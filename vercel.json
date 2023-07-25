@@ -1,5 +1,6 @@
 {
     "cleanUrls": false,
+    "trailingSlash": false,
     "rewrites": [
         {
             "source": "/ingest/:path*",

@@ -4,7 +4,6 @@ import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API'
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import LoadingIcon from '../../../common/modal/LoadingIcon'
-import { useFingerprint } from '../../../../lib/fingerprint/useFingerprint'
 import Captcha from './Recaptcha'
 
 const log = logger.child({ from: 'recaptcha' })
@@ -13,27 +12,24 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
   const captchaRef = useRef()
   const { showDialog, hideDialog } = useDialog()
   const [isPassed, setIsPassed] = useState(false)
-  const { getFingerprintId } = useFingerprint()
 
   const onVerify = useCallback(
     async (payload, ekey) => {
       let result
-      let fingerprint
       let hasPassed = false
       const captchaType = captchaRef.current.type?.() || 'recaptcha'
 
       try {
         showDialog({ title: 'Verifying CAPTCHA', image: <LoadingIcon />, showCloseButtons: false, showButtons: false })
 
-        fingerprint = await getFingerprintId()
-        log.debug('Recaptcha payload', { payload, ekey, captchaType, fingerprint })
+        log.debug('Recaptcha payload', { payload, ekey, captchaType })
 
-        result = await API.verifyCaptcha({ payload, captchaType, fingerprint })
+        result = await API.verifyCaptcha({ payload, captchaType })
         hasPassed = get(result, 'success', false)
         log.debug('Recaptcha verify result', { result, hasPassed })
       } catch (exception) {
         const { message } = exception
-        const errorCtx = { payload, ekey, captchaType, fingerprint, result }
+        const errorCtx = { payload, ekey, captchaType, result }
 
         log.error('recaptcha verification failed', message, exception, errorCtx)
       }
@@ -48,7 +44,7 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
       setIsPassed(true)
       onSuccess()
     },
-    [setIsPassed, onSuccess, onFailure, getFingerprintId],
+    [setIsPassed, onSuccess, onFailure],
   )
 
   useImperativeHandle(

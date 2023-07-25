@@ -85,10 +85,9 @@ jobs:
           echo "REACT_APP_CODE_PUSH_KEY=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> .env.$env_name
       - name: Code push release
         run: |
-          env_name="${{ env.ENV }}"
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           FORMATTED_VERSION=${BUILD_VERSION%.*}.x
-          APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.$env_name) 
+          APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.${{ env.ENV }}) 
           echo Code push release target version ${FORMATTED_VERSION}
           yarn lingui:compile
           yarn animation:assets
@@ -127,13 +126,13 @@ jobs:
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
-          echo "APPCENTER_STORE=Alpha" >> $GITHUB_ENV
+          echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ env.TARGET_BRANCH == 'next' }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
-          echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
+          echo "APPCENTER_STORE=Production" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.TARGET_BRANCH }}
@@ -204,7 +203,7 @@ jobs:
         run: |
           echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
           npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-      - name: Distribute to stores - PROD only
-        if: ${{ env.ENV == 'prod' }}
+      - name: Distribute to stores - QA & PROD only
+        if: ${{ env.ENV != 'development' }}
         run: |
           npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"

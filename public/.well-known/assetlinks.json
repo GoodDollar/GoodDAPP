@@ -1,11 +1,14 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "org.gooddollar",
-    "sha256_cert_fingerprints": [
-      "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C",
-      "8D:67:AD:A9:CC:AC:D1:CB:F5:82:93:4E:76:72:2F:E1:61:CE:22:D7:1E:CA:A3:3C:D6:0B:CD:EB:69:CE:E5:FE"
-    ]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.gooddollar",
+      "sha256_cert_fingerprints": [
+        "60:79:8D:5B:04:BA:74:88:5B:38:8D:5E:77:01:D3:7B:35:E8:30:B7:D0:EF:1A:89:45:2A:04:8B:D7:46:4E:89"
+      ]
+    }
   }
-}]
+]

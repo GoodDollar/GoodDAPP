@@ -1215,15 +1215,10 @@ export class GoodWallet {
   async collectInviteBounty(invitee) {
     try {
       const bountyFor = invitee || this.account
-      const statuses = await this.canCollectBountyFor([bountyFor])
-      const canCollect = statuses[bountyFor]
+      const tx = this.invitesContract.methods.bountyFor(bountyFor)
+      const result = await this.sendTransaction(tx)
 
-      if (canCollect) {
-        const tx = this.invitesContract.methods.bountyFor(bountyFor)
-        const result = await this.sendTransaction(tx)
-
-        return result
-      }
+      return result
     } catch (e) {
       log.warn('collectInviteBounty failed:', e.message, e)
       throw e

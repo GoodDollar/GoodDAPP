@@ -177,7 +177,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const propSuffix = usePropSuffix()
-  const inviteCodeUsed = useUserProperty(`inviterInviteCodeUsed${propSuffix}`)
+  const [inviteCodeUsed] = useUserProperty(`inviterInviteCodeUsed${propSuffix}`)
   const [code, setCode] = useState(userStorage.userProperties.get(`inviterInviteCode${propSuffix}`) || '')
 
   // if code wasnt a url it will not have any query params and will then use code as default

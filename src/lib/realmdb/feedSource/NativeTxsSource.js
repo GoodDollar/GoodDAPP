@@ -1,6 +1,6 @@
 // @flow
 
-import { chunk, clone, map, max, pick, values } from 'lodash'
+import { chunk, clone, flatten, map, max, pick, values } from 'lodash'
 import moment from 'moment'
 import api from '../../API/api'
 import { NETWORK_ID } from '../../constants/network'
@@ -26,48 +26,35 @@ export default class NativeTxsSource extends FeedSource {
 
     log.info('Native transactions sync started', { lastBlock: lastBlocks, address })
 
-    const txs = []
     const maxBlocks = clone(lastBlocks)
 
-    for (const chainId of SYNC_CHAINS) {
-      const token = getNativeToken(chainId)
-      const lastBlock = maxBlocks[chainId]
+    // now we do not poll mainnet on dev/qa and goerli on pro
+    // and fuse goes through explorer so it's up to 2 x 2 req to Tatum
+    // which is less than limit of 5 and coudl be done in parralel
+    const txs = await Promise.all(
+      SYNC_CHAINS.map(async chainId => {
+        const token = getNativeToken(chainId)
+        const lastBlock = maxBlocks[chainId]
 
-      // eslint-disable-next-line no-await-in-loop
-      const chainTxs = await this.queryTxs(chainId, lastBlock)
+        // eslint-disable-next-line no-await-in-loop
+        const chainTxs = await this.queryTxs(chainId, lastBlock)
 
-      log.info('Got native transactions', { chainTxs, chainId })
+        log.info('Got native transactions', { chainTxs, chainId })
 
-      if (chainTxs.length) {
-        const formattedTxs = chainTxs.map(tx => this.formatTx(chainId, token, tx))
+        if (!chainTxs.length) {
+          return
+        }
 
         maxBlocks[chainId] = max(map(chainTxs, 'blockNumber').map(Number))
-        txs.push(...formattedTxs)
-      }
-    }
+        return chainTxs.map(tx => this.formatTx(chainId, token, tx))
+      }),
+    ).then(flatten)
 
     log.info('Processed native transactions', { txs, maxBlocks })
 
-    for (const chainId of SYNC_CHAINS) {
-      if (lastBlocks[chainId]) {
-        continue
-      }
-
-      // replacing the whole tx feed with the new one if no last blocks were stored
-      // eslint-disable-next-line no-await-in-loop
-      await Promise.all(
-        [EVENT_TYPE_RECEIVENATIVE, EVENT_TYPE_SENDNATIVE].map(type => Feed.find({ type, chainId }).delete()),
-      )
-    }
-
     if (txs.length) {
       // storing txs in the feed by the chunks
-      const txChunks = chunk(txs, TX_CHUNK)
-
-      for (const txs of txChunks) {
-        // eslint-disable-next-line no-await-in-loop
-        await Feed.save(...txs)
-      }
+      await Promise.all(chunk(txs, TX_CHUNK).map(txs => Feed.save(...txs)))
 
       log.info('Stored new native transactions in the feed', { txs })
     }

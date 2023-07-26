@@ -249,7 +249,7 @@ class RealmDB implements DB, ProfileDB {
    */
   async _syncFromRemote() {
     const { sources, _exclusiveSync } = this
-    const startPolling = source => setInterval(() => _exclusiveSync(source, source.interval))
+    const startPolling = source => setInterval(() => _exclusiveSync(source), source.interval)
 
     await Promise.all(sources.map(_exclusiveSync))
     filter(sources, { polling: true }).forEach(startPolling)

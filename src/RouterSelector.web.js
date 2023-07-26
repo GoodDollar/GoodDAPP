@@ -116,9 +116,9 @@ const RouterWrapper = () => {
       const didCheck = await AsyncStorage.getItem(BROWSER_CHECKED)
       if (!didCheck && !isDeltaApp && isLoggedInRouter && supported === false) {
         checkBrowser()
+        AsyncStorage.setItem(BROWSER_CHECKED, true)
       }
 
-      AsyncStorage.setItem(BROWSER_CHECKED, true)
       setIgnoreUnsupported(true)
       setCheckedForBrowserSupport(true)
     }

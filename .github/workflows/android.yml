@@ -121,18 +121,21 @@ jobs:
           echo "ENV=development" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "ANDROID_BUNDLE_PATH=./android/app/build/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
+          echo "BUILD_NUMBER_PREFIX=20" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
           echo "APPCENTER_STORE=Beta" >> $GITHUB_ENV
+          echo "BUILD_NUMBER_PREFIX=10" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ env.TARGET_BRANCH == 'next' }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "APPCENTER_STORE=Production" >> $GITHUB_ENV
+          echo "BUILD_NUMBER_PREFIX=''" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.TARGET_BRANCH }}
@@ -183,7 +186,7 @@ jobs:
         env:
           RELEASE_ANDROID_PASSPHRASE: ${{ secrets.RELEASE_ANDROID_PASSPHRASE }}
           ENVFILE: '.env.${{ env.ENV }}'
-          BUILD_NUMBER: ${{ github.run_number }}
+          BUILD_NUMBER: '${{ env.BUILD_NUMBER_PREFIX }}${{ github.run_number }}'
           CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`

@@ -43,7 +43,7 @@ export default class NativeTxsSource extends FeedSource {
         log.info('Got native transactions', { chainTxs, chainId })
 
         if (!chainTxs.length) {
-          return
+          return []
         }
 
         maxBlocks[chainId] = max(map(chainTxs, 'blockNumber').map(Number))

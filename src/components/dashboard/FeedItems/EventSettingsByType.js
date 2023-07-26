@@ -66,7 +66,18 @@ const getEventSettingsByType = (theme, type) => {
       name: 'system-filled',
       withoutAmount: true,
     },
+    sendnativeerror: {
+      color: theme.colors.primary,
+      name: 'system-filled',
+      withoutAmount: true,
+    },
     sendpending: {
+      actionSymbol: '-',
+      color: theme.colors.orange,
+      component: FeedSendPending,
+      name: 'clock-filled',
+    },
+    sendnativepending: {
       actionSymbol: '-',
       color: theme.colors.orange,
       component: FeedSendPending,

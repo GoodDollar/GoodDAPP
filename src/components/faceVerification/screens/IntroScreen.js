@@ -29,6 +29,7 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../lib/analytics/analytics'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
+import { BlockingUnsupportedBrowser } from '../../browserSupport/components/UnsupportedBrowser'
 
 // assets
 import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
@@ -142,6 +143,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkOnMounted: false,
     onSupported: requestCameraPermissions,
     onUnsupported: navigateToHome,
+    unsupportedPopup: BlockingUnsupportedBrowser,
   })
 
   const handleVerifyClick = useCallback(async () => {

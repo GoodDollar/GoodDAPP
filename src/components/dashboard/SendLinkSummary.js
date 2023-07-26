@@ -263,9 +263,27 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const sendNative = useCallback(
     async to => {
       try {
+        let txhash
+
         await goodWallet.sendNativeAmount(to, amount, {
           onTransactionHash: hash => {
+            txhash = hash
             log.debug(`Send ${token} to address`, { hash })
+
+            // Save transaction
+            const transactionEvent: TransactionEvent = {
+              id: hash,
+              type: FeedItemType.EVENT_TYPE_SENDNATIVE,
+              data: {
+                asset: token,
+                to: address,
+                amount,
+              },
+            }
+
+            log.debug('sendNative: enqueueNativeTX', { transactionEvent })
+
+            userStorage.enqueueNativeTX(transactionEvent)
 
             fireEvent(SEND_DONE, { type: 'native', token }) // type can be QR, receive, contact, contactsms
 
@@ -281,6 +299,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           },
           onError: e => {
             log.error('Send TX failed:', e.message, e, { category: ExceptionCategory.Blockhain })
+
+            userStorage.markNativeTXWithError(txhash)
           },
         })
       } catch (e) {

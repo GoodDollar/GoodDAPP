@@ -667,6 +667,36 @@ export class FeedStorage {
     }
   }
 
+  async enqueueNativeTX(_event: FeedEvent): Promise<> {
+    const { PENDING } = TxStatus
+    const { networkId, account: address } = this.wallet
+    const { Feed } = this.db
+
+    const date = new Date().toISOString()
+    const { id, data } = _event
+    const { to, amount } = data
+
+    await Feed.save({
+      ..._event,
+      _id: id,
+      date,
+      createdDate: date,
+      receiptReceived: false,
+      status: PENDING,
+      otplStatus: PENDING,
+      chainId: networkId,
+      data: {
+        ...data,
+        receiptEvent: {
+          to,
+          amount,
+          txHash: id,
+          eventSource: address,
+        },
+      },
+    })
+  }
+
   /**
    * Add or Update feed event
    *
@@ -798,6 +828,27 @@ export class FeedStorage {
       log.error('Failed to set error status for feed event', e.message, e)
     } finally {
       // release()
+    }
+  }
+
+  async markNativeTXWithError(txHash: string): Promise<void> {
+    const { Feed } = this.db
+
+    if (!txHash) {
+      return
+    }
+
+    try {
+      const nativeTX = await Feed.findById(txHash)
+      const status = TxStatus.ERROR
+
+      if (!nativeTX) {
+        return
+      }
+
+      await Feed.save({ ...nativeTX, status, otplStatus: status })
+    } catch (e) {
+      log.error('Failed to set error status for native tx', e.message, e)
     }
   }
 

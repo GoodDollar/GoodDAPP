@@ -29,6 +29,7 @@ import {
   identity,
   mapValues,
   noop,
+  over,
   pickBy,
   range,
   sortBy,
@@ -420,8 +421,10 @@ export class GoodWallet {
     }
 
     log.debug('_notifyEvents got events', { events, fromBlock })
-    this.getSubscribers('balanceChanged').forEach(cb => cb())
+    this.notifyBalanceChanged()
+
     const uniqEvents = sortBy(uniqBy(events, 'transactionHash'), 'blockNumber')
+
     uniqEvents.forEach(event => {
       this._notifyReceipt(event.transactionHash).catch(err =>
         log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
@@ -429,6 +432,10 @@ export class GoodWallet {
         }),
       )
     })
+  }
+
+  notifyBalanceChanged() {
+    over(this.getSubscribers('balanceChanged'))()
   }
 
   async syncTxWithBlockchain(fromBlock) {
@@ -1630,8 +1637,8 @@ export class GoodWallet {
         .on('receipt', r => {
           log.debug('got receipt', r)
           res(r)
-          this._notifyReceipt(r.transactionHash) //although receipt will be received by polling, we do this anyways immediately
-          this.getSubscribers('balanceChanged').forEach(cb => cb())
+          this._notifyReceipt(r.transactionHash) // although receipt will be received by polling, we do this anyways immediately
+          this.notifyBalanceChanged()
 
           onReceipt && onReceipt(r)
         })
@@ -1670,6 +1677,7 @@ export class GoodWallet {
         })
         .on('confirmation', confirmation => {
           log.debug('got confirmation', confirmation)
+          this.notifyBalanceChanged()
           onConfirmation(confirmation)
         })
         .on('error', exception => {

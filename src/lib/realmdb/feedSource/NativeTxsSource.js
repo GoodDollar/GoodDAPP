@@ -20,7 +20,8 @@ const { EVENT_TYPE_SENDNATIVE, EVENT_TYPE_RECEIVENATIVE } = FeedItemType
 export default class NativeTxsSource extends FeedSource {
   async syncFromRemote() {
     const { db, Feed, log, storage } = this
-    const address = db.wallet.account
+    const { wallet } = db
+    const { account: address } = wallet
 
     const lastBlocks = await storage.getItem(LAST_BLOCKS_ITEM).then(blocks => blocks || {})
 
@@ -55,6 +56,7 @@ export default class NativeTxsSource extends FeedSource {
     if (txs.length) {
       // storing txs in the feed by the chunks
       await Promise.all(chunk(txs, TX_CHUNK).map(txs => Feed.save(...txs)))
+      wallet.notifyBalanceChanged()
 
       log.info('Stored new native transactions in the feed', { txs })
     }

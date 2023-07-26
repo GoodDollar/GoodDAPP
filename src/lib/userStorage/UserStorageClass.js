@@ -980,6 +980,11 @@ export class UserStorage {
     return this.feedStorage.enqueueTX(_event)
   }
 
+  // eslint-disable-next-line require-await
+  async enqueueNativeTX(_event: FeedEvent): Promise<> {
+    return this.feedStorage.enqueueNativeTX(_event)
+  }
+
   /**
    * Sets the event's status
    * @param {string} eventId
@@ -1021,6 +1026,11 @@ export class UserStorage {
   // eslint-disable-next-line require-await
   async markWithErrorEvent(txHash: string): Promise<void> {
     return this.feedStorage.markWithErrorEvent(txHash)
+  }
+
+  // eslint-disable-next-line require-await
+  async markNativeTXWithError(txHash: string): Promise<void> {
+    return this.feedStorage.markNativeTXWithError(txHash)
   }
 
   /**

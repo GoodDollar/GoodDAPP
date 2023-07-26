@@ -429,15 +429,7 @@ const TokenProvider = ({ children, wallet, walletData }) => {
       }
     }
 
-    const interval = setInterval(updateNativeBalance, Config.web3Polling)
-
     updateNativeBalance()
-    log.debug('poll nativeBalance: started')
-
-    return () => {
-      log.debug('poll nativeBalance: stopped')
-      clearInterval(interval)
-    }
   }, [wallet, walletData, tokenData, setBalance])
 
   return <TokenContext.Provider value={{ ...tokenData, balance, setToken }}>{children}</TokenContext.Provider>

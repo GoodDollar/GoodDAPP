@@ -135,7 +135,7 @@ jobs:
           echo "ENV=prod" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "APPCENTER_STORE=Production" >> $GITHUB_ENV
-          echo "BUILD_NUMBER_PREFIX=''" >> $GITHUB_ENV
+          echo "BUILD_NUMBER_PREFIX=" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.TARGET_BRANCH }}

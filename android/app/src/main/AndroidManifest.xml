@@ -65,7 +65,8 @@
 
                 <data
                     android:scheme="https"
-                    android:host="wallet.gooddollar.org" />
+                    android:host="wallet.gooddollar.org"
+                    android:pathPrefix="/open" />
             </intent-filter>
 
         <!-- WALLETCONNECT -->

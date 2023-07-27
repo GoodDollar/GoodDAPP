@@ -144,7 +144,6 @@ const Config = {
   auth0SMSClientId: env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false', // true by default
-  invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
   suggestMobileApp: env.REACT_APP_SUGGEST_MOBILE_APP !== 'false',
   suggestMobileAppUpdate: env.REACT_APP_SUGGEST_MOBILE_APP_UPDATE === 'true',
   suggestCodePushUpdate: env.REACT_APP_SUGGEST_CODE_PUSH_UPDATE !== 'false',
@@ -165,9 +164,10 @@ const Config = {
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
   feedItemTtl: moment.duration(env.REACT_APP_FEEDITEM_TTL || '24:00:00').as('milliseconds'), // default for 1 day
   safariMobileKeyboardGuidedSize: env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
-  receiveUrl: env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
+  receiveUrl: (env.REACT_APP_RECEIVE_URL || publicUrl) + "/open",
+  sendUrl: (env.REACT_APP_SEND_URL || publicUrl) + "/open",
+  invitesUrl: (env.REACT_APP_INVITES_URL || publicUrl) + "/open",
   enableShortUrl: env.REACT_APP_ENABLE_SHORTURL === 'true',
-  sendUrl: env.REACT_APP_SEND_URL || `${publicUrl}`,
   displayStartClaimingCardTime: env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
   sentryDSN: env.REACT_APP_SENTRY_DSN,
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,

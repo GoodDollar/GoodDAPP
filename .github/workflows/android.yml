@@ -35,15 +35,6 @@ jobs:
       endsWith(github.ref, '/next') &&
       !contains(github.event.head_commit.message, 'release prod')
     steps:
-      - name: Pre-checks - Env is Dev
-        run: |
-          echo "ENV=development" >> $GITHUB_ENV
-          echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
-          echo "APPCENTER_CODEPUSH_FLAGS='--debug'" >> $GITHUB_ENV
-      - name: Pre-checks - Env is QA
-        if: ${{ endsWith(github.ref, '/staging') }}
-        run: |
-          echo "ENV=staging" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ endsWith(github.ref, '/next') }}
         run: |
@@ -67,16 +58,8 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           env_name="${{ env.ENV }}"
-          if [[ "${{ github.ref_name }}" == "master" ]]; then
-           vercel_env_name="development"
-           vercel pull --yes --environment=$vercel_env_name --token=${{ secrets.VERCEL_TOKEN }}
-          elif [[ "${{ github.ref_name }}" == "next" ]]; then
-           vercel_env_name="production"
-           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          else 
-            vercel_env_name="preview"
-            vercel pull --yes --environment=$vercel_env_name --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
-          fi
+          vercel_env_name="production"
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           cat .vercel/.env.$vercel_env_name.local >> .env.$env_name
           echo $env_name
           cat .env.$env_name
@@ -122,19 +105,22 @@ jobs:
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-development" >> $GITHUB_ENV
           echo "ANDROID_BUNDLE_PATH=./android/app/build/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
           echo "BUILD_NUMBER_PREFIX=20" >> $GITHUB_ENV
+          echo "BUILD_VERSION_SUFFIX=-alpha" >> $GITHUB_ENV
       - name: Pre-checks - Env is QA
         if: ${{ env.TARGET_BRANCH == 'staging' }}
         run: |
           echo "ENV=staging" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-staging" >> $GITHUB_ENV
           echo "BUILD_NUMBER_PREFIX=10" >> $GITHUB_ENV
+          echo "BUILD_VERSION_SUFFIX=-beta" >> $GITHUB_ENV
       - name: Pre-checks - Env is PROD
         if: ${{ env.TARGET_BRANCH == 'next' }}
         run: |
           echo "ENV=prod" >> $GITHUB_ENV
           echo "APPCENTER_NAME=GoodDollar/GoodDollar-Android-production" >> $GITHUB_ENV
           echo "APPCENTER_STORE=Production" >> $GITHUB_ENV
-          echo "BUILD_NUMBER_PREFIX=''" >> $GITHUB_ENV
+          echo "BUILD_NUMBER_PREFIX=" >> $GITHUB_ENV
+          echo "BUILD_VERSION_SUFFIX=" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.TARGET_BRANCH }}
@@ -188,7 +174,8 @@ jobs:
           BUILD_NUMBER: '${{ env.BUILD_NUMBER_PREFIX }}${{ github.run_number }}'
           CODE_PUSH_DEPLOYMENT_KEY: ${{ env.APPCENTER_CODEPUSH_TOKEN }}
         run: |
-          BUILD_VERSION=`node -pe "require('./package.json')['version']"`
+          PACKAGE_VERSION=`node -pe "require('./package.json')['version']"`
+          BUILD_VERSION=${PACKAGE_VERSION}${{ env.BUILD_VERSION_SUFFIX }}
           echo "Creating release using env: ${ENVFILE} build:${BUILD_NUMBER} version:${BUILD_VERSION} ${GITHUB_RUN_NUMBER} ${{ github.run_number }}"
           yarn lingui:compile
           yarn animation:assets

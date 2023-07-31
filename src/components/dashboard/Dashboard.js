@@ -1120,7 +1120,9 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberUnitStyles: {
+    display: 'flex',
     alignSelf: 'stretch',
+    alignItems: 'center',
   },
   bigNumberStyles: {
     fontWeight: '700',

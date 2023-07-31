@@ -17,6 +17,7 @@ import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
 import CeloIcon from '../../../assets/logos/celo.svg'
 import FuseIcon from '../../../assets/logos/fuse.svg'
+import GoerliIcon from '../../../assets/Feed/goerli.svg'
 import Config from '../../../config/config'
 import { openLink } from '../../../lib/utils/linking'
 import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
@@ -26,6 +27,7 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
+
 const log = logger.child({ from: 'ListEventItem' })
 
 const InviteItem = ({ item, theme }) => (
@@ -131,6 +133,9 @@ export const NetworkIcon = ({ chainId = 122, txHash }) => {
 
   let Icon
   switch (chainId) {
+    case 5:
+      Icon = GoerliIcon
+      break
     case 42220:
       Icon = CeloIcon
       break
@@ -184,10 +189,10 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
       <View style={styles.innerRow}>
         <View style={styles.emptySpace}>
-          <View style={{ height: 20 }}>
+          <View style={{ height: 20, width: 20 }}>
             <NetworkIcon chainId={feed.chainId} txHash={feed.data.receiptHash || feed.id} />
           </View>
-          <Avatar size={normalize(34)} imageSize={normalize(36)} style={styles.avatarBottom} source={avatar} />
+          <Avatar size={34} imageSize={36} style={styles.avatarBottom} source={avatar} />
         </View>
         <View grow style={styles.mainContents}>
           <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
@@ -368,7 +373,8 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   avatarBottom: {
-    alignSelf: 'flex-start',
+    // alignSelf: 'flex-start',
+    margin: 'auto',
   },
   mainContents: {
     flexGrow: 1,

@@ -215,7 +215,7 @@ const Config = {
   isDeltaApp,
   bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED !== 'false',
   posthogApiKey: env.REACT_APP_POSTHOG_KEY,
-  posthogHost: isWeb ? publicUrl+"/ingest" : "https://app.posthog.com",
+  posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
 }
 
 global.config = Config

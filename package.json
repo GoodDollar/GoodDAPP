@@ -366,7 +366,9 @@
     "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch",
     "bignumber.js": "9.1.1",
     "lottie-react-native": "patch:lottie-react-native@npm:5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch",
-    "@usedapp/core": "patch:@usedapp/core@npm:1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch"
+    "@usedapp/core": "patch:@usedapp/core@npm:1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch",
+    "posthog-react-native@^2.7.1": "patch:posthog-react-native@npm%3A2.7.1#./.yarn/patches/posthog-react-native-npm-2.7.1-cbfad4abb9.patch",
+    "posthog-react-native@^2.4.0": "patch:posthog-react-native@npm%3A2.7.1#./.yarn/patches/posthog-react-native-npm-2.7.1-cbfad4abb9.patch"
   },
   "browserslist": [
     ">0.2%",

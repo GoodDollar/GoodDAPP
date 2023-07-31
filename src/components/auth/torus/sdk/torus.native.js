@@ -5,10 +5,9 @@ import { isAndroidNative } from '../../../../lib/utils/platform'
 
 class Torus {
   constructor(Config, options) {
-    const { torusRedirectUrl } = Config
-    const redirectUri = 'gooddollar://org.gooddollar/redirect'
-    const browserRedirectUri = `${torusRedirectUrl}/torus/scripts.html`
-
+    // const { torusRedirectUrl } = Config
+    const redirectUri = 'https://wallet.gooddollar.org/web3auth/redirect'
+    const browserRedirectUri = redirectUri
     this.options = defaults({}, options, { redirectUri, browserRedirectUri })
   }
 

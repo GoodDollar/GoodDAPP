@@ -172,9 +172,9 @@ android {
             abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a', 'x86_64'
         }
         manifestPlaceholders = [
-            'torusRedirectScheme': 'gooddollar',
-            'torusRedirectHost': 'org.gooddollar',
-            'torusRedirectPathPrefix': '/redirect'
+            'torusRedirectScheme': 'https',
+            'torusRedirectHost': 'wallet.gooddollar.org',
+            'torusRedirectPathPrefix': '/web3auth'
         ]
     }
     splits {

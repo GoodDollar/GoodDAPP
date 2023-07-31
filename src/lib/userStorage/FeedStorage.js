@@ -518,6 +518,12 @@ export class FeedStorage {
 
       if (updatedFeedEvent.type && !isEqual(feedEvent, updatedFeedEvent)) {
         await this.updateFeedEvent(updatedFeedEvent)
+
+        // calling it here make sure it will be fired only once when receipt for event is processed
+        fireEvent(FEED_UPDATED, {
+          eventType: updatedFeedEvent.type,
+          value: updatedFeedEvent.data?.receiptEvent?.value,
+        })
       }
 
       log.debug('handleReceiptUpdate done, returning updatedFeedEvent', receipt.transactionHash, { updatedFeedEvent })
@@ -708,11 +714,6 @@ export class FeedStorage {
   async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
     log.debug('updateFeedEvent:', event.id, { event })
 
-    fireEvent(FEED_UPDATED, {
-      eventType: event.type,
-      value: event.receiptEvent?.value,
-      isNew: event.date === event.createdDate,
-    })
     const eventAck = this.writeFeedEvent(event).catch(e => {
       log.error('updateFeedEvent failedEncrypt byId:', e.message, e, {
         event,

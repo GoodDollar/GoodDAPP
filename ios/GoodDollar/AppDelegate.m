@@ -15,7 +15,6 @@
 
 // React native plugins / services
 #import <UserNotifications/UserNotifications.h>
-#import <RNBranch/RNBranch.h>
 #import <Firebase.h>
 #import <CodePush/CodePush.h>
 #import <RNNotifications.h>
@@ -41,7 +40,6 @@
   #endif
 
   [self initializeAnalytics];
-  [self initializeBranch:launchOptions];
   [self initializeNotifications];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
@@ -128,10 +126,6 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   [FIRApp configure];
 }
 
-- (void) initializeBranch:(NSDictionary *)launchOptions
-{
-  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
-}
 
 - (void) initializeNotifications
 {
@@ -141,14 +135,6 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
   // Listen for notifications
   [RNNotifications startMonitorNotifications];
-}
-
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-  return [RNBranch application:app openURL:url options:options];
-}
-
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
-  return [RNBranch continueUserActivity:userActivity];
 }
 
 #ifdef FB_SONARKIT_ENABLED

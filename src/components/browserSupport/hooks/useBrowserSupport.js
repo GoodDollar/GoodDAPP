@@ -21,7 +21,6 @@ import {
   isChrome,
   isIOSWeb,
   isSafari,
-  isWebView,
   osVersionInfo,
 } from '../../../lib/utils/platform'
 import Config from '../../../config/config'
@@ -108,7 +107,7 @@ export default (options = {}) => {
       }
     }
 
-    if (isSupported && !isOutdated && !isWebView) {
+    if (isSupported && !isOutdated) {
       handleSupported()
     } else {
       handleUnsupported(isOutdated)

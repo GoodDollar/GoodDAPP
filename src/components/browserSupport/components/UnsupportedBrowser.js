@@ -10,6 +10,7 @@ import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 import illustration from '../../../assets/UnsuportedBrowser.svg'
 
 import Config from '../../../config/config'
+import { useDialog } from '../../../lib/dialog/useDialog'
 
 // localization
 
@@ -33,11 +34,21 @@ export default ({ onDismiss }) => (
 // Modal for blocking user further access to functionality
 // Example usage: functionalties which are webviews and we know don't work at all
 export const BlockingUnsupportedBrowser = ({ onDismiss }) => {
-  // todo: get page url
-  const navigateTo = 'https://www.google.com'
+  const { showDialog } = useDialog()
+
+  const navigateTo = Config.publicUrl
+
+  const _onCopy = () => {
+    showDialog({
+      isMinHeight: false,
+      showButtons: false,
+      onDismiss,
+      title: t`Link copied to clipboard`,
+    })
+  }
 
   // todo: add copy flow, now it just closes modal (does copy)
-  const copyToClipboard = useClipboardCopy(navigateTo)
+  const copyToClipboard = useClipboardCopy(navigateTo, _onCopy)
 
   return (
     <ExplanationDialog

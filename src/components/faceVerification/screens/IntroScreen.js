@@ -20,7 +20,7 @@ import logger from '../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
-import { isBrowser, isEmulator, isIOSWeb, isMobileSafari } from '../../../lib/utils/platform'
+import { isBrowser, isEmulator, isIOSWeb, isMobileSafari, isWebView } from '../../../lib/utils/platform'
 import { openLink } from '../../../lib/utils/linking'
 import Config from '../../../config/config'
 import { Permissions } from '../../permissions/types'
@@ -144,6 +144,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     onSupported: requestCameraPermissions,
     onUnsupported: navigateToHome,
     unsupportedPopup: BlockingUnsupportedBrowser,
+    onCheck: () => !isWebView,
   })
 
   const handleVerifyClick = useCallback(async () => {

@@ -1,14 +1,14 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "2.10.0",
+  "version": "2.20.0",
   "engines": {
     "node": ">=16.x <17",
     "npm": "8.x"
   },
   "scripts": {
-    "web": "npm run lingui:compile && react-app-rewired start",
-    "android": "npm run lingui:compile && export ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
-    "ios": "npm run lingui:compile && export ENVFILE=.env;npm run animation:assets && react-native run-ios",
+    "web": "npm run lingui:compile && react-app-rewired  start",
+    "android": "npm run lingui:compile && ENVFILE=.env npm run copy:gdfont && npm run animation:assets && react-native run-android",
+    "ios": "npm run lingui:compile && ENVFILE=.env npm run animation:assets && NODE_OPTIONS=\"--openssl-legacy-provider\" react-native run-ios",
     "start:native": "react-native start",
     "start": "serve -s -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
@@ -36,7 +36,7 @@
     "lint": "eslint \"src/**/*.js\" --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
     "docs": "node scripts/docs.js",
-    "web:serveo": "export REACT_APP_WEB3_RPC=https://gdchain.serveo.net;export REACT_APP_SERVER_URL=https://gdserver.serveo.net;npm run web:local",
+    "web:serveo": "REACT_APP_WEB3_RPC=https://gdchain.serveo.net REACT_APP_SERVER_URL=https://gdserver.serveo.net;npm run web:local",
     "version": "auto-changelog -p && git add CHANGELOG.md",
     "add-locale": "lingui add-locale",
     "lingui:extract": "lingui extract --clean",
@@ -86,7 +86,7 @@
     "@lingui/react": "^3.13.0",
     "@metamask/eth-sig-util": "^4.0.1",
     "@react-native-async-storage/async-storage": "^1.15.8",
-    "@react-native-community/blur": "https://github.com/Kureev/react-native-blur/archive/refs/tags/v3.6.1.tar.gz",
+    "@react-native-community/blur": "^4.3.2",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/netinfo": "^6.0.2",
     "@react-native-community/push-notification-ios": "^1.10.1",
@@ -364,7 +364,9 @@
     "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch",
     "bignumber.js": "9.1.1",
     "lottie-react-native": "patch:lottie-react-native@npm:5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch",
-    "@usedapp/core": "patch:@usedapp/core@npm:1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch"
+    "@usedapp/core": "patch:@usedapp/core@npm:1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch",
+    "posthog-react-native@^2.7.1": "patch:posthog-react-native@npm%3A2.7.1#./.yarn/patches/posthog-react-native-npm-2.7.1-cbfad4abb9.patch",
+    "posthog-react-native@^2.4.0": "patch:posthog-react-native@npm%3A2.7.1#./.yarn/patches/posthog-react-native-npm-2.7.1-cbfad4abb9.patch"
   },
   "browserslist": [
     ">0.2%",

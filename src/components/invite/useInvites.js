@@ -123,7 +123,7 @@ export const useInviteBonus = () => {
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const propSuffix = usePropSuffix()
-  const collected = useUserProperty(collectedProp + propSuffix)
+  const [collected, setCollected] = useUserProperty(collectedProp + propSuffix)
 
   const getCanCollect = useCallback(async () => {
     try {
@@ -164,7 +164,7 @@ export const useInviteBonus = () => {
       })
 
       await goodWallet.collectInviteBounty()
-      userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
+      setCollected(true)
 
       log.debug(`useInviteBonus: invite bonty collected`)
 

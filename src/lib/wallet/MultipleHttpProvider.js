@@ -13,7 +13,7 @@ const connectionErrorRe = /connection (error|timeout)|invalid json rpc/i
 export class MultipleHttpProvider extends HttpProvider {
   constructor(endpoints, config) {
     const [{ provider, options }] = endpoints // init with first endpoint config
-    const { strategy = 'next' } = config || {} // or 'random'
+    const { strategy = 'random' } = config || {} // or 'random'
 
     log.debug('Setting default endpoint', { provider, config })
     super(provider, options)

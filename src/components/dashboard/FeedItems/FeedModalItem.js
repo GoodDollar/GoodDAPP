@@ -57,7 +57,7 @@ const FeedModalItem = (props: FeedEventProps) => {
           <TopImage type={itemType} />
           <ModalPaymentStatus item={item} />
           <View style={styles.dateAndAmount}>
-            {item.id?.startsWith('0x') && !itemType.match(/native/) && (
+            {item.id?.startsWith('0x') && !item.data?.asset && (
               <View style={styles.networkIcon}>
                 <NetworkIcon chainId={item.chainId} txHash={item.data.receiptHash || item.id} />
               </View>

@@ -17,7 +17,6 @@ import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
 import CeloIcon from '../../../assets/logos/celo.svg'
 import FuseIcon from '../../../assets/logos/fuse.svg'
-import GoerliIcon from '../../../assets/Feed/goerli.svg'
 import Config from '../../../config/config'
 import { openLink } from '../../../lib/utils/linking'
 import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
@@ -124,18 +123,24 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
   )
 }
 
-export const NetworkIcon = ({ chainId = 122, txHash }) => {
+const useTxExplorerUrl = (txHash, chainId = 122) => {
   const networkExplorerUrl = Config.ethereum[chainId]?.explorer
-  const isTx = txHash.startsWith('0x')
-  const goToTxDetails = useCallback(() => {
-    networkExplorerUrl ? openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank') : noop()
+
+  return useCallback(() => {
+    if (!networkExplorerUrl) {
+      return
+    }
+
+    openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
   }, [chainId, txHash])
+}
+
+export const NetworkIcon = ({ chainId = 122, txHash }) => {
+  const goToTxDetails = useTxExplorerUrl(txHash, chainId)
+  const isTx = txHash.startsWith('0x')
 
   let Icon
   switch (chainId) {
-    case 5:
-      Icon = GoerliIcon
-      break
     case 42220:
       Icon = CeloIcon
       break
@@ -165,6 +170,9 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
+  const txHash = feed.data.receiptHash || feed.id
+  const goToTxDetails = useTxExplorerUrl(txHash, chainId)
+  const isNativeTx = !!feed.data?.asset
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -189,12 +197,18 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
       <View style={styles.innerRow}>
         <View style={styles.emptySpace}>
-          <View style={{ height: 20, width: 20 }}>
-            {!itemType.match(/native/) && (
-              <NetworkIcon chainId={feed.chainId} txHash={feed.data.receiptHash || feed.id} />
-            )}
-          </View>
-          <Avatar size={34} imageSize={36} style={styles.avatarBottom} source={avatar} />
+          {!isNativeTx && (
+            <View style={{ height: 20, width: 20 }}>
+              <NetworkIcon txHash={txHash} chainId={chainId} />
+            </View>
+          )}
+          <Avatar
+            size={34}
+            imageSize={36}
+            style={styles.avatarBottom}
+            source={avatar}
+            onPress={isNativeTx ? goToTxDetails : noop}
+          />
         </View>
         <View grow style={styles.mainContents}>
           <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>

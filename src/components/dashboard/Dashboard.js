@@ -1143,8 +1143,8 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
   },
   profileIconContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   multiBalance: {
     display: 'flex',

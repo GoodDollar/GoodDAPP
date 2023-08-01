@@ -59,11 +59,11 @@ const TopBar = ({
           if children=undefined and hideBalance=false, BigGoodDollar will be rendered
           if children=undefined and hideBalance=true, nothing will be rendered
           */}
-        <Section.Text style={styles.balance}>
-          {!hideBalance && (
+        {!hideBalance && (
+          <Section.Text style={styles.balance}>
             <BigGoodDollar style={styles.bigGoodDollar} number={balance} unit={isNativeToken ? token : undefined} />
-          )}
-        </Section.Text>
+          </Section.Text>
+        )}
 
         {children}
         {hideProfile !== true && !isBridge && (!children || hideBalance) && (

@@ -26,11 +26,6 @@ const GiveUpButton = () => {
       } else {
         window.requestAnimationFrame(redirect)
       }
-
-      // Tried, but does not redirect it seems
-      // window.requestIdleCallback
-      //   ? window.requestIdleCallback(() => fvRedirect(false, reason))
-      //   : fvRedirect(false, reason)
     },
     [fvRedirect],
   )

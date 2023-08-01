@@ -1,18 +1,60 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="768" height="1024" viewBox="0, 0, 768, 1024">
-  <g id="Layer_1">
-    <g>
-      <path d="M212.519,286.519 L31.5,211.519 L212.519,136.519 L393.539,211.519 z" fill="#888888"/>
-      <path d="M212.519,286.519 L31.5,211.519 L212.519,136.519 L393.539,211.519 z" fill-opacity="0" stroke="#FFFFFF" stroke-width="20"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   x="0"
+   y="0"
+   width="34"
+   height="36"
+   viewBox="0 0 48 47.999999"
+   id="svg167"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs171" />
+  <g
+     id="Layer_1"
+     transform="translate(-5.3745324,-1.6756706)">
+    <g
+       id="g152"
+       transform="matrix(0.11396169,0,0,0.16555181,5.1554431,0.92410174)">
+      <path
+         d="m 212.519,286.519 -181.019,-75 181.019,-75 181.02,75 z"
+         fill="#888888"
+         id="path148" />
+      <path
+         d="m 212.519,286.519 -181.019,-75 181.019,-75 181.02,75 z"
+         fill-opacity="0"
+         stroke="#ffffff"
+         stroke-width="20"
+         id="path150" />
     </g>
-    <g>
-      <path d="M212.519,224.5 L31.5,149.5 L212.519,74.5 L393.539,149.5 z" fill="#888888"/>
-      <path d="M212.519,224.5 L31.5,149.5 L212.519,74.5 L393.539,149.5 z" fill-opacity="0" stroke="#FFFFFF" stroke-width="20"/>
+    <g
+       id="g158"
+       transform="matrix(0.11396169,0,0,0.16555181,5.1554431,0.92410174)">
+      <path
+         d="m 212.519,224.5 -181.019,-75 181.019,-75 181.02,75 z"
+         fill="#888888"
+         id="path154" />
+      <path
+         d="m 212.519,224.5 -181.019,-75 181.019,-75 181.02,75 z"
+         fill-opacity="0"
+         stroke="#ffffff"
+         stroke-width="20"
+         id="path156" />
     </g>
-    <g>
-      <path d="M212.519,162.5 L31.5,87.5 L212.519,12.5 L393.539,87.5 z" fill="#888888"/>
-      <path d="M212.519,162.5 L31.5,87.5 L212.519,12.5 L393.539,87.5 z" fill-opacity="0" stroke="#FFFFFF" stroke-width="20"/>
+    <g
+       id="g164"
+       transform="matrix(0.11396169,0,0,0.16555181,5.1554431,0.92410174)">
+      <path
+         d="M 212.519,162.5 31.5,87.5 l 181.019,-75 181.02,75 z"
+         fill="#888888"
+         id="path160" />
+      <path
+         d="M 212.519,162.5 31.5,87.5 l 181.019,-75 181.02,75 z"
+         fill-opacity="0"
+         stroke="#ffffff"
+         stroke-width="20"
+         id="path162" />
     </g>
   </g>
 </svg>

@@ -190,7 +190,9 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
       <View style={styles.innerRow}>
         <View style={styles.emptySpace}>
           <View style={{ height: 20, width: 20 }}>
-            <NetworkIcon chainId={feed.chainId} txHash={feed.data.receiptHash || feed.id} />
+            {!itemType.match(/native/) && (
+              <NetworkIcon chainId={feed.chainId} txHash={feed.data.receiptHash || feed.id} />
+            )}
           </View>
           <Avatar size={34} imageSize={36} style={styles.avatarBottom} source={avatar} />
         </View>

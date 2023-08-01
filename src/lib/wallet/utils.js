@@ -68,8 +68,6 @@ export const getNativeToken = networkOrId => {
 
 export const nativeTokens = supportedNetworks.map(getNativeToken)
 
-export const nativeMainnetTokens = ['ETH', 'GETH']
-
 export const isNativeToken = token => nativeTokens.includes(token)
 
 export const getTokensList = networkId => {

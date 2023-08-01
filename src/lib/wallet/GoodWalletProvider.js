@@ -24,14 +24,7 @@ import { setChainId } from '../analytics/analytics'
 import { withStyles } from '../styles'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-import {
-  decimalsToFixed,
-  getTokensList,
-  isNativeToken,
-  nativeMainnetTokens,
-  supportedNetworks,
-  supportsG$UBI,
-} from './utils'
+import { decimalsToFixed, getTokensList, isNativeToken, supportedNetworks, supportsG$UBI } from './utils'
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -603,10 +596,9 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
 export const useFixedDecimals = (token = 'G$', chainId = null) => {
   const { toDecimals } = useFormatToken(token)
   const asDecimals = number => toDecimals(number, chainId)
-  const isEth = nativeMainnetTokens.includes(token)
 
   return isNativeToken(token)
-    ? number => trimEnd(decimalsToFixed(asDecimals(number), isEth ? 4 : 18), '0')
+    ? number => trimEnd(decimalsToFixed(asDecimals(number), 4), '0')
     : number => decimalsToFixed(asDecimals(number))
 }
 

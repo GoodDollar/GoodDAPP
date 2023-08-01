@@ -14,7 +14,7 @@ import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
 import EthereumLogo from '../../../assets/Feed/ethereum-eth-logo.svg'
 import GoerliLogo from '../../../assets/Feed/goerli.svg'
 import FuseLogo from '../../../assets/Feed/fuse-logo.svg'
-import CeloLogo from '../../../assets/Feed/celo-logo.svg'
+import CeloLogo from '../../../assets/logos/celo.svg'
 import { isNativeToken } from '../../../lib/wallet/utils'
 
 const TokenLogo = {
@@ -63,12 +63,14 @@ const CustomAvatar = ({
 
   const imgSource = useMemo(() => (dataUrl ? getBase64Source(dataUrl) : null), [dataUrl])
 
+  const isNativeStyles = isNativeToken(source) ? undefined : styles.avatarContainer
+
   return (
     <TouchableOpacity
       activeOpacity={1}
       disabled={!onPress}
       onPress={_onPress}
-      style={[styles.avatarContainer, calculatedStyles.container, style]}
+      style={[isNativeStyles, calculatedStyles.container, style]}
       underlayColor="#fff"
     >
       {isSvgLogo ? (

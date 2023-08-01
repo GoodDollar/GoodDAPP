@@ -8,23 +8,6 @@ import useFVRedirect from '../hooks/useFVRedirect'
 import { fireEvent, FV_GIVEUP } from '../../../../lib/analytics/analytics'
 import GiveUpDialog from './GiveUpDialog'
 
-// ref: https://gist.github.com/paullewis/55efe5d6f05434a96c36
-// requestIdleCallback not supported on safari
-// todo: properly test if this works
-window.requestIdleCallback =
-  window.requestIdleCallback ||
-  function(cb) {
-    return setTimeout(function() {
-      var start = Date.now()
-      cb({
-        didTimeout: false,
-        timeRemaining: function() {
-          return Math.max(0, 50 - (Date.now() - start))
-        },
-      })
-    }, 1)
-  }
-
 const GiveUpButton = () => {
   const { showDialog } = useDialog()
   const fvRedirect = useFVRedirect()
@@ -32,12 +15,17 @@ const GiveUpButton = () => {
   const onReasonChosen = useCallback(
     (reason = undefined) => {
       const data = pickBy({ reason }, negate(isUndefined))
-
+      const redirect = () => fvRedirect(false, reason)
+      
       fireEvent(FV_GIVEUP, data)
 
       // await before analytics scripts will perform some activity
 
-      window.requestIdleCallback(() => fvRedirect(false, reason))
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(redirect)
+      } else {
+        window.requestAnimationFrame(redirect)
+      }
 
       // Tried, but does not redirect it seems
       // window.requestIdleCallback

@@ -4,6 +4,7 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
+import { WalletChatWidget } from 'react-native-wallet-chat'
 
 import { t } from '@lingui/macro'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -783,7 +784,7 @@ const Dashboard = props => {
             <Animated.View style={styles.balanceTop}>
               <Section style={styles.profileContainer}>
                 <Animated.View style={profileAnimStyles}>
-                  <Animated.View testID="avatar-anim-styles" style={avatarAnimStyles}>
+                  <Animated.View testID="avatar-anim-styles" style={[styles.profileIconContainer, avatarAnimStyles]}>
                     <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
                       <Avatar
                         source={avatar}
@@ -793,6 +794,7 @@ const Dashboard = props => {
                         plain
                       />
                     </TouchableOpacity>
+                    <WalletChatWidget />
                   </Animated.View>
                   {headerLarge && (
                     <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
@@ -1139,6 +1141,10 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
     paddingBottom: 0,
     alignItems: 'center',
+  },
+  profileIconContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   multiBalance: {
     display: 'flex',

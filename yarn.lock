@@ -2718,6 +2718,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@callstack/react-theme-provider@npm:^3.0.8":
+  version: 3.0.8
+  resolution: "@callstack/react-theme-provider@npm:3.0.8"
+  dependencies:
+    deepmerge: ^3.2.0
+    hoist-non-react-statics: ^3.3.0
+  peerDependencies:
+    react: ">=16.3.0"
+  checksum: 6077a4795aea4eb06a2a2ffe5cf299c3fdcba56530aa68eba5c3ac0728ce02be2f6e9e71278be303065cb7fbe252c35639538477d5d05ee14f6325d550c8c696
+  languageName: node
+  linkType: hard
+
 "@ceramicnetwork/common@npm:^2.0.4":
   version: 2.0.4
   resolution: "@ceramicnetwork/common@npm:2.0.4"
@@ -4360,6 +4372,7 @@ __metadata:
     react-native-v8: ">=0.65.2-patch.0 <0.66.0"
     react-native-vector-icons: ^6.6.0
     react-native-version-check: ^3.4.3
+    react-native-wallet-chat: ^0.1.37
     react-native-web: ^0.17.5
     react-native-web-linear-gradient: ^1.0.5
     react-native-web-lottie: ^1.2.0
@@ -7022,7 +7035,7 @@ __metadata:
 "@superfluid-finance/metadata@git+https://github.com/superfluid-finance/metadata.git":
   version: 1.1.2
   resolution: "@superfluid-finance/metadata@https://github.com/superfluid-finance/metadata.git#commit=97f0e579c618fbfde8284fa729a480336e9cf611"
-  checksum: 3c3d23702cab8ddd7e628ded4e192eaf68e0be5d460d20409b4f873e2104cfa05a9ff84d1b63db21407404eb506d9e21e8d390bb383cba9f56b9c50813890a62
+  checksum: 450f11cd50cd5374d0e967ffbf8dd28e8b15edc3d2bf5d0436171c1113d1c4748931d791b059dee329a83f6172b91510f91a92af014c058029d4384b98f2f1c5
   languageName: node
   linkType: hard
 
@@ -8593,6 +8606,25 @@ __metadata:
   version: 1.2.4
   resolution: "@types/range-parser@npm:1.2.4"
   checksum: b7c0dfd5080a989d6c8bb0b6750fc0933d9acabeb476da6fe71d8bdf1ab65e37c136169d84148034802f48378ab94e3c37bb4ef7656b2bec2cb9c0f8d4146a95
+  languageName: node
+  linkType: hard
+
+"@types/react-native-vector-icons@npm:^6.4.6":
+  version: 6.4.13
+  resolution: "@types/react-native-vector-icons@npm:6.4.13"
+  dependencies:
+    "@types/react": "*"
+    "@types/react-native": ^0.70
+  checksum: e954807f7229a84ba6aa15c6952a987e0b45406e501131c0d73fdaa3fe634301d466e22eec8bb23d9c509eb39043fae9cad4ca685b125dc4d6d603dc46b789f7
+  languageName: node
+  linkType: hard
+
+"@types/react-native@npm:^0.70":
+  version: 0.70.14
+  resolution: "@types/react-native@npm:0.70.14"
+  dependencies:
+    "@types/react": "*"
+  checksum: 6df79ca70fe0643229dc23ad5121b4bdc80347a10ea8b352e89a97dda6e6f234c5a035e1d88debd3452f91964b95e7cc9a157105c9e09d93cadd28fd079394ba
   languageName: node
   linkType: hard
 
@@ -14721,6 +14753,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ci-info@npm:^3.7.0":
+  version: 3.8.0
+  resolution: "ci-info@npm:3.8.0"
+  checksum: d0a4d3160497cae54294974a7246202244fff031b0a6ea20dd57b10ec510aa17399c41a1b0982142c105f3255aff2173e5c0dd7302ee1b2f28ba3debda375098
+  languageName: node
+  linkType: hard
+
 "cids@npm:^0.7.1":
   version: 0.7.5
   resolution: "cids@npm:0.7.5"
@@ -14789,7 +14828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.5, classnames@npm:^2.3.1":
+"classnames@npm:^2.2.5, classnames@npm:^2.3.1, classnames@npm:^2.3.2":
   version: 2.3.2
   resolution: "classnames@npm:2.3.2"
   checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
@@ -19123,24 +19162,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^4.0.32":
-  version: 4.0.49
-  resolution: "ethers@npm:4.0.49"
-  dependencies:
-    aes-js: 3.0.0
-    bn.js: ^4.11.9
-    elliptic: 6.5.4
-    hash.js: 1.1.3
-    js-sha3: 0.5.7
-    scrypt-js: 2.0.4
-    setimmediate: 1.0.4
-    uuid: 2.0.1
-    xmlhttprequest: 1.8.0
-  checksum: 357115348a5f1484c7745fae1d852876788216c7d94c072c80132192f1800c4d388433ea2456750856641d6d4eed8a3b41847eb44f5e1c42139963864e3bcc38
-  languageName: node
-  linkType: hard
-
-"ethers@npm:^5.*, ethers@npm:^5.0.0, ethers@npm:^5.0.13":
+"ethers@npm:5.7.2, ethers@npm:^5.*, ethers@npm:^5.0.0, ethers@npm:^5.0.13":
   version: 5.7.2
   resolution: "ethers@npm:5.7.2"
   dependencies:
@@ -19175,6 +19197,23 @@ __metadata:
     "@ethersproject/web": 5.7.1
     "@ethersproject/wordlists": 5.7.0
   checksum: b7c08cf3e257185a7946117dbbf764433b7ba0e77c27298dec6088b3bc871aff711462b0621930c56880ff0a7ceb8b1d3a361ffa259f93377b48e34107f62553
+  languageName: node
+  linkType: hard
+
+"ethers@npm:^4.0.32":
+  version: 4.0.49
+  resolution: "ethers@npm:4.0.49"
+  dependencies:
+    aes-js: 3.0.0
+    bn.js: ^4.11.9
+    elliptic: 6.5.4
+    hash.js: 1.1.3
+    js-sha3: 0.5.7
+    scrypt-js: 2.0.4
+    setimmediate: 1.0.4
+    uuid: 2.0.1
+    xmlhttprequest: 1.8.0
+  checksum: 357115348a5f1484c7745fae1d852876788216c7d94c072c80132192f1800c4d388433ea2456750856641d6d4eed8a3b41847eb44f5e1c42139963864e3bcc38
   languageName: node
   linkType: hard
 
@@ -29362,7 +29401,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"opencollective-postinstall@npm:^2.0.1":
+"opencollective-postinstall@npm:^2.0.1, opencollective-postinstall@npm:^2.0.3":
   version: 2.0.3
   resolution: "opencollective-postinstall@npm:2.0.3"
   bin:
@@ -30001,6 +30040,30 @@ __metadata:
   version: 0.1.1
   resolution: "pascalcase@npm:0.1.1"
   checksum: f83681c3c8ff75fa473a2bb2b113289952f802ff895d435edd717e7cb898b0408cbdb247117a938edcbc5d141020909846cc2b92c47213d764e2a94d2ad2b925
+  languageName: node
+  linkType: hard
+
+"patch-package@npm:^7.0.0":
+  version: 7.0.2
+  resolution: "patch-package@npm:7.0.2"
+  dependencies:
+    "@yarnpkg/lockfile": ^1.1.0
+    chalk: ^4.1.2
+    ci-info: ^3.7.0
+    cross-spawn: ^7.0.3
+    find-yarn-workspace-root: ^2.0.0
+    fs-extra: ^9.0.0
+    klaw-sync: ^6.0.0
+    minimist: ^1.2.6
+    open: ^7.4.2
+    rimraf: ^2.6.3
+    semver: ^7.5.3
+    slash: ^2.0.0
+    tmp: ^0.0.33
+    yaml: ^2.2.2
+  bin:
+    patch-package: index.js
+  checksum: de2cf60effc8b59ee15d4930f84eea63c217525f0133c926850ee3a2437651d8aabbd0fec4ddee1b8b8da4fd380bcea90ef3c4acd69026057fa80cdc823b59a4
   languageName: node
   linkType: hard
 
@@ -32913,6 +32976,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-elements@npm:^3.4.3":
+  version: 3.4.3
+  resolution: "react-native-elements@npm:3.4.3"
+  dependencies:
+    "@types/react-native-vector-icons": ^6.4.6
+    color: ^3.1.2
+    deepmerge: ^4.2.2
+    hoist-non-react-statics: ^3.3.2
+    lodash.isequal: ^4.5.0
+    opencollective-postinstall: ^2.0.3
+    react-native-ratings: 8.0.4
+    react-native-size-matters: ^0.3.1
+  peerDependencies:
+    react-native-safe-area-context: ">= 3.0.0"
+    react-native-vector-icons: ">7.0.0"
+  checksum: e055c18b85527366d7b9e76139828fe3d006a7a8c11f81b165e43b4175c0d4b15eef6308679dd596d33f0813a512c27cb993d6ca49e00c56fcb15a0918d96c6c
+  languageName: node
+  linkType: hard
+
 "react-native-fs@npm:^2.18.0":
   version: 2.20.0
   resolution: "react-native-fs@npm:2.20.0"
@@ -33103,6 +33185,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-paper@npm:^5.9.1":
+  version: 5.9.1
+  resolution: "react-native-paper@npm:5.9.1"
+  dependencies:
+    "@callstack/react-theme-provider": ^3.0.8
+    color: ^3.1.2
+    patch-package: ^7.0.0
+    use-latest-callback: ^0.1.5
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-safe-area-context: "*"
+    react-native-vector-icons: "*"
+  checksum: 47b23f827d3d5d296dc888d8c10c689465ccf2b8d815b2ecea8c5a41b2244776d153a6ffeaf14df61a231cd9542cc26199e85dd94687acec6b6adeb3f0ea271d
+  languageName: node
+  linkType: hard
+
 "react-native-permissions@npm:^2.0.2":
   version: 2.2.2
   resolution: "react-native-permissions@npm:2.2.2"
@@ -33194,6 +33293,18 @@ __metadata:
     buffer: ^4.9.1
     sjcl: ^1.0.3
   checksum: a0d8ec80e1a4573d8c4924cb52b01007fe2ae1d3698bb5e1e1330246f0ae307af4e7df236e176f438a7f69151e321a36a633f53dbb61f1c965a960f572bd3b1e
+  languageName: node
+  linkType: hard
+
+"react-native-ratings@npm:8.0.4":
+  version: 8.0.4
+  resolution: "react-native-ratings@npm:8.0.4"
+  dependencies:
+    lodash: ^4.17.15
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: e420dab914a4941722482719e46f8837b51927a11d9861e2f581bac651910ea08419e9a1a2dd4aa072520439c119d6894f0d8d763db3dcc28a15b73072b9eb76
   languageName: node
   linkType: hard
 
@@ -33290,6 +33401,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 30bcc2d650eec423f0d508b1b11bcfa849a5c69a79e0b0ead08b3076a2d8dee0ed07fc8dccf0a4656f6e1675d60bf452d3712926506077a7f8a4d534afa38182
+  languageName: node
+  linkType: hard
+
+"react-native-size-matters@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "react-native-size-matters@npm:0.3.1"
+  peerDependencies:
+    react-native: "*"
+  checksum: f8fa7f301d97dae96df029771445648b4778562c982b3d0625ae78cb397b35efd0e2b482b240531dad68fde0d18cc23f5181a3904259c6e1ff155823ac34996d
   languageName: node
   linkType: hard
 
@@ -33449,6 +33569,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-wallet-chat@npm:^0.1.37":
+  version: 0.1.37
+  resolution: "react-native-wallet-chat@npm:0.1.37"
+  dependencies:
+    "@stablelib/random": ^1.0.2
+    classnames: ^2.3.2
+    ethers: 5.7.2
+    react-native-elements: ^3.4.3
+    react-native-paper: ^5.9.1
+    react-native-webview: ^13.2.2
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: f9f620370095cf8e93fc5c776fbffea9191bd19e39310ff472ff9095a20387aec31b0c41016174dea39343f4f84c05a3fbcb0e670888afe61a187e5b60a1e5f2
+  languageName: node
+  linkType: hard
+
 "react-native-web-linear-gradient@npm:^1.0.5":
   version: 1.1.2
   resolution: "react-native-web-linear-gradient@npm:1.1.2"
@@ -33512,6 +33649,19 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: f777dc48683ada530eb4c87ff85ab9bcdcb35156c319f226a220fd194c226fe136c240d020b6a835f2eba44cba3e08e42752cc6ee8d38ebb4408a31d2e2ab9c8
+  languageName: node
+  linkType: hard
+
+"react-native-webview@npm:^13.2.2":
+  version: 13.3.1
+  resolution: "react-native-webview@npm:13.3.1"
+  dependencies:
+    escape-string-regexp: 2.0.0
+    invariant: 2.2.4
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: c455279ccc42f4787e75c5c0e4609b535bb417eb35536c978079f23474c1135f39f5b8aed32445dd5422913c07651db77343e3c348e193c0b17329fdaa35e1a7
   languageName: node
   linkType: hard
 
@@ -35679,6 +35829,17 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 2d266937756689a76f124ffb4c1ea3e1bbb2b263219f90ada8a11aebebe1280b13bb76cca2ca96bdee3dbc554cbc0b24752eb895b2a51577aa644427e9229f2b
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.5.3":
+  version: 7.5.4
+  resolution: "semver@npm:7.5.4"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 12d8ad952fa353b0995bf180cdac205a4068b759a140e5d3c608317098b3575ac2f1e09182206bf2eb26120e1c0ed8fb92c48c592f6099680de56bb071423ca3
   languageName: node
   linkType: hard
 
@@ -39387,6 +39548,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"use-latest-callback@npm:^0.1.5":
+  version: 0.1.6
+  resolution: "use-latest-callback@npm:0.1.6"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: d94bea5cc5910d5967b12c766355c11812c1f57b5993d4b429dd6e580ac5904087ce732891d4fb3a855e0e56e6a7900b9af2084ede1d86df8e381afe47c2947a
+  languageName: node
+  linkType: hard
+
 "use-subscription@npm:^1.0.0":
   version: 1.8.0
   resolution: "use-subscription@npm:1.8.0"
@@ -42113,6 +42283,13 @@ __metadata:
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: ce4ada136e8a78a0b08dc10b4b900936912d15de59905b2bf415b4d33c63df1d555d23acb2a41b23cf9fb5da41c256441afca3d6509de7247daa062fd2c5ea5f
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.2.2":
+  version: 2.3.1
+  resolution: "yaml@npm:2.3.1"
+  checksum: 2c7bc9a7cd4c9f40d3b0b0a98e370781b68b8b7c4515720869aced2b00d92f5da1762b4ffa947f9e795d6cd6b19f410bd4d15fdd38aca7bd96df59bd9486fb54
   languageName: node
   linkType: hard
 

@@ -21,11 +21,11 @@ const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://{cid}.ipfs.nftstora
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'development-celo'
 const { networkId } = contractsAddress[network]
-const fuseRpc = env.REACT_APP_WEB3_RPC
-const celoRpc = env.REACT_APP_WEB3_RPC_CELO
+const fuseRpc = env.REACT_APP_WEB3_RPC || "https://rpc.fuse.io"
+const celoRpc = env.REACT_APP_WEB3_RPC_CELO || "https://forno.celo.org"
 
 export const fuseNetwork = {
-  httpWeb3provider: `${fuseRpc ? `${fuseRpc},` : ''}https://rpc.fuse.io`,
+  httpWeb3provider: fuseRpc,
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
   explorerAPI: 'https://explorer.fuse.io',
@@ -39,7 +39,7 @@ export const fuseNetwork = {
 const ethereum = {
   '1': {
     network_id: 1,
-    httpWeb3provider: `https://rpc.ankr.com/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    httpWeb3provider: `https://1rpc.io/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
     explorerAPI: 'https://api.etherscan.io',
@@ -79,7 +79,7 @@ const ethereum = {
     websocketWeb3Provider: 'ws://localhost:8545/ws',
   },
   '42220': {
-    httpWeb3provider:  `${celoRpc ? `${celoRpc},` : ''}https://forno.celo.org`,
+    httpWeb3provider: celoRpc,
     explorer: 'https://celoscan.io',
     explorerAPI: 'https://api.celoscan.io',
     explorerName: 'celoscan',
@@ -158,7 +158,7 @@ const Config = {
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
   mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
-  httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'next',
+  httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'random',
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',

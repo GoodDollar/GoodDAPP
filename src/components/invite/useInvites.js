@@ -195,7 +195,7 @@ export const useCollectBounty = () => {
   const collect = async () => {
     const labels = {
       title: t`Collecting Bonus`,
-      message: mustache(t`Collecting invite bonus for {canCollect} invited friends`, { canCollect }),
+      message: mustache(t`Collecting invite bonus for { canCollect } invited friends`, { canCollect }),
     }
     try {
       showDialog({

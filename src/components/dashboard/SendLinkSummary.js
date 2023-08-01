@@ -290,7 +290,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             showDialog({
               visible: true,
               title: t`SUCCESS!`,
-              message: mustache(t`The {token} was sent successfully`, { token }),
+              message: mustache(t`The { token } was sent successfully`, { token }),
               buttons: [{ text: t`Yay!` }],
               onDismiss: goToRoot,
             })
@@ -312,7 +312,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         showErrorDialog({
           visible: true,
           title: t`Transaction Failed!`,
-          message: mustache(t`There was a problem sending {token}. Check payment details.`, { token }),
+          message: mustache(t`There was a problem sending { token }. Check payment details.`, { token }),
           dismissText: t`OK`,
         })
       }

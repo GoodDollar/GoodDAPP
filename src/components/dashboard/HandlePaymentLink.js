@@ -122,7 +122,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           return showDialog({
             onDismiss: screenProps.goToRoot,
             image: <InfoIcon />,
-            title: mustache(t`Payment was created on network {target} you are on {current}`, {
+            title: mustache(t`Payment was created on network { target } you are on { current }`, {
               target: getNetworkName(paymentParams.networkId),
               current: getNetworkName(goodWallet.networkId),
             }),
@@ -133,7 +133,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
                 mode: 'text',
               },
               {
-                text: mustache(t`Switch to {network}`, { network: getNetworkName(paymentParams.networkId) }),
+                text: mustache(t`Switch to { network }`, { network: getNetworkName(paymentParams.networkId) }),
                 onPress: () => switchAndWithdraw(getNetworkName(paymentParams.networkId)),
               },
             ],

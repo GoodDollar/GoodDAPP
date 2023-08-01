@@ -192,10 +192,10 @@ const SummaryGeneric = ({
               <View styles={styles.bridgeDesc}>
                 <Section.Text style={{ marginBottom: 10 }}>
                   {' '}
-                  {mustache(t` on {altNetwork}`, { altNetwork })}
+                  {mustache(t` on { altNetwork }`, { altNetwork })}
                 </Section.Text>
                 <Section.Text>
-                  {mustache(t`You'll pay {feeToPay} G$ in fees to use the bridge`, { feeToPay })}
+                  {mustache(t`You'll pay { feeToPay } G$ in fees to use the bridge`, { feeToPay })}
                 </Section.Text>
               </View>
             </Section.Row>
@@ -204,7 +204,7 @@ const SummaryGeneric = ({
             <Section.Row justifyContent="center">
               <View styles={styles.bridgeDesc}>
                 <Section.Text>
-                  {mustache(t`You'll pay {nativeFee} {token} in fees for this transaction`, { nativeFee, token })}
+                  {mustache(t`You'll pay { nativeFee } { token } in fees for this transaction`, { nativeFee, token })}
                 </Section.Text>
               </View>
             </Section.Row>

@@ -120,7 +120,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
         <BorderedBox
           styles={styles}
           theme={theme}
-          title={mustache(t`{label} RPC Address`, { label })}
+          title={mustache(t`{ label } RPC Address`, { label })}
           content={web3ProviderUrl}
           imageSize={checkmarkIconSize}
           image={Checkmark}

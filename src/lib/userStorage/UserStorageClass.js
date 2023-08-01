@@ -36,7 +36,7 @@ const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
-const FV_IDENTIFIER_MSG2 = mustache(`Sign this message to request verifying your account {account} and to create your own secret unique identifier for your anonymized record.
+const FV_IDENTIFIER_MSG2 = mustache(`Sign this message to request verifying your account { account } and to create your own secret unique identifier for your anonymized record.
 You can use this identifier in the future to delete this anonymized record.
 WARNING: do not sign this message unless you trust the website/application requesting this signature.`)
 
@@ -880,9 +880,9 @@ export class UserStorage {
   }) {
     const fromNative = mustache(
       type === FeedItemType.EVENT_TYPE_RECEIVENATIVE
-        ? t`Receive {asset}`
+        ? t`Receive { asset }`
         : type === FeedItemType.EVENT_TYPE_SENDNATIVE
-        ? t`Send {asset}`
+        ? t`Send { asset }`
         : '',
       { asset },
     )

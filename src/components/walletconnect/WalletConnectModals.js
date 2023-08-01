@@ -136,7 +136,7 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
       {!isSign && !gasStatus.hasEnoughGas && (
         <Text color="red" fontWeight="bold">
           {mustache(
-            t`Not enough balance to execute transaction. Balance: {balance} Required: {gasRequired}`,
+            t`Not enough balance to execute transaction. Balance: { balance } Required: { gasRequired }`,
             mapValues(pick(gasStatus, 'balance', 'gasRequired'), _ => _ / 1e18),
           )}
         </Text>

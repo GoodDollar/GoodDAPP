@@ -37,8 +37,8 @@ export const RecipientWarnDialog = ({
     <ExplanationDialog
       title={mustache(
         isDiffNetwork
-          ? t`Warning payment requested on network {requestedNetwork}. You are on {currentNetwork}`
-          : t`Make sure your recipient is also using the {currentNetwork} network`,
+          ? t`Warning payment requested on network { requestedNetwork }. You are on { currentNetwork }`
+          : t`Make sure your recipient is also using the { currentNetwork } network`,
         { requestedNetwork, currentNetwork },
       )}
       image={InfoIcon}

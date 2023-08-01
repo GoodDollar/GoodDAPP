@@ -68,7 +68,7 @@ const InternetConnection = props => {
           servers.push('API')
         }
 
-        message = mustache(t`Waiting for GoodDollar's server ({servers})`, { servers: servers.join(', ') })
+        message = mustache(t`Waiting for GoodDollar's server ({ servers })`, { servers: servers.join(', ') })
       }
 
       showDialogWindow(message, showDialog, setShowDisconnect)

@@ -129,7 +129,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               {t`Welcome back!`}
             </Text>
           ),
-          message: mustache(t`Hi {firstName},\nyour wallet was recovered successfully`, { firstName }),
+          message: mustache(t`Hi { firstName },\nyour wallet was recovered successfully`, { firstName }),
           onDismiss: () => restart(incomingRedirectUrl),
         })
 

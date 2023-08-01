@@ -19,7 +19,7 @@ export default ({ onDismiss }) => (
       t`For best experience` +
       `\n` +
       t`please switch to your browser app``\n` +
-      mustache(t`and go to {publicUrl}`, Config)
+      mustache(t`and go to { publicUrl }`, Config)
     }
     image={illustration}
     imageHeight={124}

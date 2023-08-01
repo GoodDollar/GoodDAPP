@@ -92,7 +92,7 @@ const Amount = (props: AmountProps) => {
         const canBridge = parseInt(GDAmount) >= min
 
         if (!canBridge) {
-          setError(mustache(t`Sorry, minimum amount to bridge is {min} {token}'s`, { min, token }))
+          setError(mustache(t`Sorry, minimum amount to bridge is { min } { token }'s`, { min, token }))
           return canBridge
         }
       }
@@ -100,7 +100,7 @@ const Amount = (props: AmountProps) => {
       const canSend = await (isNativeFlow ? goodWallet.canSendNative(weiAmount) : goodWallet.canSend(weiAmount))
 
       if (!canSend) {
-        setError(mustache(t`Sorry, you don't have enough {token}s`, { token }))
+        setError(mustache(t`Sorry, you don't have enough { token }s`, { token }))
       }
 
       return canSend

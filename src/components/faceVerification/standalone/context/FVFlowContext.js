@@ -4,6 +4,8 @@ import React, { createContext, useEffect, useRef } from 'react'
 import useFVFlow from '../hooks/useFVFlow'
 import DeepLinking from '../../../../lib/utils/deepLinking'
 
+import { isWebView } from '../../../../lib/utils/platform'
+
 import logger from '../../../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'FVFlowCtx' })
@@ -18,9 +20,13 @@ export const FVFlowContext = createContext({
   chain: null,
   rdu: null,
   cbu: null,
+  isWebView: false,
+  unsupportedCopyUrl: null,
 })
 
 const FVFlowProvider = props => {
+  const unsupportedCopyUrl = window.location.href
+
   const { sig, nonce, fvsig: faceIdentifier, rdu, cbu, firstName, account, chain } = useRef(DeepLinking.params).current
   const { jwt, error } = useFVFlow(sig, nonce, faceIdentifier, account)
 
@@ -44,6 +50,8 @@ const FVFlowProvider = props => {
         chainId: chain,
         rdu,
         cbu,
+        isWebView,
+        unsupportedCopyUrl,
       }}
     >
       {props.children}

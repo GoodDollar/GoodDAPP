@@ -33,10 +33,10 @@ export default ({ onDismiss }) => (
 
 // Modal for blocking user further access to functionality
 // Example usage: functionalties which are webviews and we know don't work at all
-export const BlockingUnsupportedBrowser = ({ onDismiss }) => {
+export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined }) => {
   const { showDialog } = useDialog()
 
-  const navigateTo = Config.publicUrl
+  const navigateTo = copyUrl ?? Config.publicUrl
 
   const _onCopy = () => {
     showDialog({
@@ -47,13 +47,12 @@ export const BlockingUnsupportedBrowser = ({ onDismiss }) => {
     })
   }
 
-  // todo: add copy flow, now it just closes modal (does copy)
   const copyToClipboard = useClipboardCopy(navigateTo, _onCopy)
 
   return (
     <ExplanationDialog
-      title={t`Oops! This browser/app is not supported to pass identity verification`}
-      text={t`please copy the link and open it in your native browser`}
+      title={t`Oops! This browser/app cannot run identity verification`}
+      text={t`Please copy the link and open it on Chrome, Safari, or your native browser.`}
       image={illustration}
       imageHeight={124}
       buttons={[

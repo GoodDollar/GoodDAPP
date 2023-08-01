@@ -15,11 +15,16 @@ const GiveUpButton = () => {
   const onReasonChosen = useCallback(
     (reason = undefined) => {
       const data = pickBy({ reason }, negate(isUndefined))
+      const redirect = () => fvRedirect(false, reason)
 
       fireEvent(FV_GIVEUP, data)
 
       // await before analytics scripts will perform some activity
-      window.requestIdleCallback(() => fvRedirect(false, reason))
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(redirect)
+      } else {
+        window.requestAnimationFrame(redirect)
+      }
     },
     [fvRedirect],
   )

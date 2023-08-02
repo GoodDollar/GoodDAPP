@@ -833,6 +833,7 @@ export const useWalletConnectSession = () => {
     cachedV2Connector.on('session_expire', ({ topic }) => {
       log.debug('WC2Events&Sessions -- session expire:', { cachedV2Connector, topic })
       cachedV2Connector.extend({ topic }).catch(e => {
+      
         log.debug('Wc2Events&Sessions -- session extend failed:', e.message, e, { cachedV2Connector, topic })
         cachedV2Connector.disconnectSession({ topic, reason: 'Failed to extend session' })
       })
@@ -840,6 +841,7 @@ export const useWalletConnectSession = () => {
 
     cachedV2Connector.on('session_update', ({ topic, params }) => {
       const { namespaces } = params
+
       cachedV2Connector.updateSession({ topic, namespaces })
     })
 

@@ -824,9 +824,6 @@ export const useWalletConnectSession = () => {
       handleCallRequest(cachedV2Connector, event)
     })
     cachedV2Connector.on('session_ping', event => log.debug('WC2Events&Sessions -- v2 incoming session_ping:', event))
-    cachedV2Connector.on('session_update', event =>
-      log.debug('WC2Events&Sessions -- v2 incoming session_update:', event),
-    )
     cachedV2Connector.on('session_event', event => log.debug('WC2Events&Sessions -- v2 incoming session_event:', event))
     cachedV2Connector.on('session_delete', event => {
       log.debug('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })

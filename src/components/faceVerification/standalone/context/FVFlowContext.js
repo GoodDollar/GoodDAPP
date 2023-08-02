@@ -25,7 +25,7 @@ export const FVFlowContext = createContext({
 })
 
 const FVFlowProvider = props => {
-  const unsupportedCopyUrl = window.location.href
+  const unsupportedCopyUrl = DeepLinking.link
 
   const { sig, nonce, fvsig: faceIdentifier, rdu, cbu, firstName, account, chain } = useRef(DeepLinking.params).current
   const { jwt, error } = useFVFlow(sig, nonce, faceIdentifier, account)

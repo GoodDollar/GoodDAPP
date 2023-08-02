@@ -6,6 +6,7 @@ import useBrowserSupport from '../../browserSupport/hooks/useBrowserSupport'
 export default (options = {}) => {
   const defaultOnCheck = () => !isIOSWeb || iosSupportedWeb
   const { onCheck = defaultOnCheck, ...otherOptions } = options
+
   return useBrowserSupport({
     ...otherOptions,
     checkOutdated: false,

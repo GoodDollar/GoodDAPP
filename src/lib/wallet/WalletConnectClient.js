@@ -280,6 +280,8 @@ export const useWalletConnectSession = () => {
         onApprove: async () => {
           if (isV2) {
             const eip155Chains = payload?.params?.requiredNamespaces?.eip155?.chains
+            const optionaleip155Chains = payload?.params?.optionalNamespaces?.eip155?.chains
+            eip155Chains.push(...optionaleip155Chains)
             const response = {
               id: payload.id,
               namespaces: {

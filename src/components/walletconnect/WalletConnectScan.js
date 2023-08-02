@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { first, get } from 'lodash'
@@ -39,6 +39,7 @@ type WalletConnectProps = {
 const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletConnectProps) => {
   const [qrDelay, setQrDelay] = useState(QR_DEFAULT_DELAY)
   const wcIncomingLink = get(navigation, 'state.params.wcUri')
+  const incomingLinkRef = useRef('')
   const {
     wcConnect: setWalletConnectUri,
     wcConnected,
@@ -77,6 +78,7 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
             showErrorDialog(t`Invalid QR Code.`)
             setQrDelay(QR_DEFAULT_DELAY)
           } else {
+            incomingLinkRef.current = validUri
             log.info('walletconnect uri:', { validUri })
             setWalletConnectUri(validUri)
           }
@@ -91,7 +93,9 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   )
 
   useEffect(() => {
-    if (wcIncomingLink && uri !== wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
+    if (incomingLinkRef.current === wcIncomingLink) {
+      return
+    } else if (wcIncomingLink && uri !== wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
       setUri(wcIncomingLink)
       handleChange(wcIncomingLink)
     }

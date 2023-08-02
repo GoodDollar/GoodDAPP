@@ -19,9 +19,6 @@ import Config from '../../config/config'
 import { useWallet } from './GoodWalletProvider'
 import { useDialog } from '../../lib/dialog/useDialog'
 
-import DeepLinking from '../../lib/utils/deepLinking'
-import { isWeb } from '../utils/platform'
-
 const log = logger.child({ from: 'WalletConnectClient' })
 
 const wc2Re = /wc@2/
@@ -274,8 +271,6 @@ export const useWalletConnectSession = () => {
       const chainDetails = chains.find(_ => Number(_.chainId) === requestedChainId)
       log.info('approving session:', { session, payload, metadata, requestedChainId, chainDetails })
 
-      log.info('TestingClearingDeeplink -->', { DeepLinking })
-
       showApprove({
         walletAddress: wallet.account,
         payload,
@@ -283,10 +278,6 @@ export const useWalletConnectSession = () => {
         metadata,
         modalType: 'connect',
         onApprove: async () => {
-          if (isWeb) {
-            DeepLinking.clearQuery()
-          }
-
           if (isV2) {
             const eip155Chains = payload?.params?.requiredNamespaces?.eip155?.chains
             const response = {

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { t } from '@lingui/macro'
 
-import mustache from '../../lib/utils/mustache'
 import { isIOS } from '../../lib/utils/platform'
 import logger from '../../lib/logger/js-logger'
 import API, { throwException } from '../../lib/API'
@@ -276,7 +275,7 @@ const SMSAction = ({
 
   return (
     <Section.Text fontSize={14} color="gray80Percent">
-      {mustache(t`Please wait ${waitTime} seconds until the ${isCall ? 'call' : 'SMS'} arrives`, { waitTime })}
+      {`Please wait ${waitTime} seconds until the ${isCall ? 'call' : 'SMS'} arrives`}
     </Section.Text>
   )
 }

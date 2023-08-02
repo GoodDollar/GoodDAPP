@@ -17,7 +17,6 @@ import isMobilePhone from '../validators/isMobilePhone'
 
 import { AVATAR_SIZE, resizeImage, SMALL_AVATAR_SIZE } from '../utils/image'
 import { isValidDataUrl } from '../utils/base64'
-import mustache from '../utils/mustache'
 import { ThreadDB } from '../textile/ThreadDB'
 import uuid from '../utils/uuid'
 import type { DB } from '../realmdb/RealmDB'
@@ -35,9 +34,9 @@ const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
-const FV_IDENTIFIER_MSG2 = mustache(`Sign this message to request verifying your account {account} and to create your own secret unique identifier for your anonymized record.
+const FV_IDENTIFIER_MSG2 = `Sign this message to request verifying your account {account} and to create your own secret unique identifier for your anonymized record.
 You can use this identifier in the future to delete this anonymized record.
-WARNING: do not sign this message unless you trust the website/application requesting this signature.`)
+WARNING: do not sign this message unless you trust the website/application requesting this signature.`
 
 /**
  * possible privacy level for profile fields

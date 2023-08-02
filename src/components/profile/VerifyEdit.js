@@ -4,7 +4,6 @@ import { View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
 
-import mustache from '../../lib/utils/mustache'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
@@ -79,19 +78,16 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
             <Text fontSize={22} lineHeight={25} fontWeight="medium" fontFamily="Roboto" style={styles.mainText}>
-              {mustache(
-                t`${firstName},
+              {t`${firstName},
               we need to verify your 
-              ${fieldToShow} again…`,
-                { firstName, fieldToShow },
-              )}
+              ${fieldToShow} again…`}
             </Text>
           </View>
         </Section.Row>
         <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.descriptionWrap]}>
           <View style={[styles.bottomContainer, styles.width100p]}>
             <Text fontSize={14} lineHeight={16} fontFamily="Roboto" color="gray80Percent">
-              {mustache(t`A verification code will be sent to this ${sendToText}:`, { sendToText })}
+              {`A verification code will be sent to this ${sendToText}:`}
             </Text>
             <Text fontSize={24} lineHeight={32} fontFamily="Roboto" style={styles.content}>
               {content}
@@ -104,7 +100,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
               {t`Cancel`}
             </CustomButton>
             <CustomButton onPress={handleSubmit} style={styles.submitButton} loading={loading}>
-              {mustache(t`Verify my ${sendToText}`, { sendToText })}
+              {`Verify my ${sendToText}`}
             </CustomButton>
           </View>
         </Section.Row>

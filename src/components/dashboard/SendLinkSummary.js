@@ -20,7 +20,6 @@ import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import useProfile from '../../lib/userStorage/useProfile'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import Config from '../../config/config'
-import mustache from '../../lib/utils/mustache'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 import SummaryGeneric from './SendReceive/SummaryGeneric'
 
@@ -290,7 +289,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             showDialog({
               visible: true,
               title: t`SUCCESS!`,
-              message: mustache(t`The { token } was sent successfully`, { token }),
+              message: t`The ${token} was sent successfully`,
               buttons: [{ text: t`Yay!` }],
               onDismiss: goToRoot,
             })
@@ -312,7 +311,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         showErrorDialog({
           visible: true,
           title: t`Transaction Failed!`,
-          message: mustache(t`There was a problem sending { token }. Check payment details.`, { token }),
+          message: t`There was a problem sending ${token}. Check payment details.`,
           dismissText: t`OK`,
         })
       }

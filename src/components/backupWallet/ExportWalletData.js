@@ -17,7 +17,6 @@ import { withStyles } from '../../lib/styles'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import config from '../../config/config'
 import { getNetworkName } from '../../lib/constants/network'
-import mustache from '../../lib/utils/mustache'
 
 // assets
 import Checkmark from '../../assets/checkmark.svg'
@@ -120,7 +119,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
         <BorderedBox
           styles={styles}
           theme={theme}
-          title={mustache(t`{ label } RPC Address`, { label })}
+          title={t`${label} RPC Address`}
           content={web3ProviderUrl}
           imageSize={checkmarkIconSize}
           image={Checkmark}

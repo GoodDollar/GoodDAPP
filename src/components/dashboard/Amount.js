@@ -17,7 +17,6 @@ import {
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
-import mustache from '../../lib/utils/mustache'
 import Config from '../../config/config'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
@@ -92,7 +91,7 @@ const Amount = (props: AmountProps) => {
         const canBridge = parseInt(GDAmount) >= min
 
         if (!canBridge) {
-          setError(mustache(t`Sorry, minimum amount to bridge is { min } { token }'s`, { min, token }))
+          setError(t`Sorry, minimum amount to bridge is ${min} ${token}'s`)
           return canBridge
         }
       }
@@ -100,7 +99,7 @@ const Amount = (props: AmountProps) => {
       const canSend = await (isNativeFlow ? goodWallet.canSendNative(weiAmount) : goodWallet.canSend(weiAmount))
 
       if (!canSend) {
-        setError(mustache(t`Sorry, you don't have enough { token }s`, { token }))
+        setError(t`Sorry, you don't have enough ${token}s`)
       }
 
       return canSend

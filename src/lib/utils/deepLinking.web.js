@@ -17,6 +17,11 @@ class DeepLinkingWeb {
 
     return params
   }
+
+  clearQuery() {
+    const urlWithoutQuery = this.link.split('?')[0]
+    window.history.replaceState({}, '', urlWithoutQuery)
+  }
 }
 
 export default new DeepLinkingWeb()

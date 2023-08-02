@@ -20,7 +20,14 @@ import logger from '../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
-import { isBrowser, isEmulator, isIOSWeb, isMobileSafari, isWebView } from '../../../lib/utils/platform'
+import {
+  iosSupportedWeb,
+  isBrowser,
+  isEmulator,
+  isIOSWeb,
+  isMobileSafari,
+  isWebView,
+} from '../../../lib/utils/platform'
 import { openLink } from '../../../lib/utils/linking'
 import Config from '../../../config/config'
 import { Permissions } from '../../permissions/types'
@@ -144,7 +151,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     onSupported: requestCameraPermissions,
     onUnsupported: navigateToHome,
     unsupportedPopup: BlockingUnsupportedBrowser,
-    onCheck: () => !isWebView,
+    onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
 
   const handleVerifyClick = useCallback(async () => {

@@ -20,7 +20,6 @@ import { formatUnits, parseUnits } from '@ethersproject/units'
 import abiDecoder from 'abi-decoder'
 import {
   assign,
-  chunk,
   filter,
   findKey,
   first,
@@ -43,6 +42,7 @@ import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
 import { signTypedData } from '@metamask/eth-sig-util'
 import Mutex from 'await-mutex'
+import { pRateLimit } from 'p-ratelimit'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
@@ -51,12 +51,10 @@ import API from '../API'
 import { delay, retry } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
-
 import {
   getTxLogArgs,
   isNativeToken,
   NULL_ADDRESS,
-  retryCall,
   safeCall,
   WITHDRAW_STATUS_COMPLETE,
   WITHDRAW_STATUS_PENDING,
@@ -67,8 +65,11 @@ import pricesQuery from './queries/reservePrices.gql'
 import interestQuery from './queries/interestReceived.gql'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
+// eslint-disable-next-line require-await
+export const retryCall = async asyncFn => retry(asyncFn, 3, 1000)
+
 const ZERO = new BN('0')
-const POKT_MAX_EVENTSBLOCKS = 50000
+const POKT_MAX_EVENTSBLOCKS = 40000
 const FIXED_SEND_GAS = 21000
 
 const log = logger.child({ from: 'GoodWalletV2' })
@@ -388,14 +389,13 @@ export class GoodWallet {
 
   // eslint-disable-next-line require-await
   async watchEvents(startFrom, lastBlockCallback) {
-    const { tokenContract, account } = this
-    const { _address: tokenAddress } = tokenContract
+    const { account } = this
     let fromBlock = startFrom
 
     await this.setIsPollEvents(true)
 
     if (!startFrom) {
-      const fetchTokenTxs = () => API.getTokenTXs(tokenAddress, account)
+      const fetchTokenTxs = () => API.getTXs(account, this.networkId)
       const [firstTx] = await retry(fetchTokenTxs, 3, 500).catch(() => [])
 
       fromBlock = get(firstTx, 'blockNumber')
@@ -450,20 +450,18 @@ export class GoodWallet {
     })
 
     try {
-      const chunks = chunk(steps, 10)
+      const limit = pRateLimit({ concurrency: 5, interval: 1000, rate: 3 })
 
-      for (let chunk of chunks) {
-        const ps = chunk.map(async fromBlock => {
-          let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
+      const ps = steps.map(fromBlock => {
+        let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
 
-          // await callback to finish processing events before updating lastEventblock
-          // we pass toBlock as null so the request naturally requests until the last block a node has,
-          // this is to prevent errors where some nodes for some reason still dont have the last block
-          if (toBlock >= lastBlock) {
-            toBlock = undefined
-          }
+        // await callback to finish processing events before updating lastEventblock
+        // we pass toBlock as null so the request naturally requests until the last block a node has,
+        // this is to prevent errors where some nodes for some reason still dont have the last block
+        toBlock = Math.min(toBlock, lastBlock)
 
-          log.debug('sync tx step:', { fromBlock, toBlock })
+        return limit(async () => {
+          log.debug('executing sync tx step:', { fromBlock, toBlock })
 
           const events = await Promise.all([
             this.pollSendEvents(toBlock, fromBlock),
@@ -472,13 +470,15 @@ export class GoodWallet {
           ]).then(flatten)
 
           this._notifyEvents(events, fromBlock)
+          log.debug('DONE executing sync tx step:', { fromBlock, toBlock })
+          return events
         })
+      })
 
-        // eslint-disable-next-line no-await-in-loop
-        await Promise.all(ps)
-      }
-
+      // eslint-disable-next-line no-await-in-loop
+      await Promise.all(ps)
       log.debug('sync tx from blockchain finished successfully')
+
       return lastBlock
     } catch (e) {
       log.error('Failed to sync tx from blockchain', e.message, e, { startBlock, lastBlock })

@@ -153,6 +153,7 @@
     "multiformats": "^9.6.4",
     "node-libs-react-native": "^1.2.1",
     "numeral": "^2.0.6",
+    "p-ratelimit": "^1.0.1",
     "path-browserify": "0.0.0",
     "pnp-webpack-plugin": "^1.6.4",
     "posthog-react-native": "^2.7.1",

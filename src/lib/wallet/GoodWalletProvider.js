@@ -144,13 +144,11 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const updateWalletListeners = useCallback(
     goodWallet => {
-      const lastBlock =
-        userStorage.userProperties.get('lastBlock_' + goodWallet.networkId) ||
-        Config.ethereum[goodWallet.networkId].startBlock
+      const lastBlock = userStorage.userProperties.get('lastBlock_' + goodWallet.networkId)
 
       log.debug('updateWalletListeners', { lastBlock })
 
-      goodWallet.watchEvents(parseInt(lastBlock), toBlock =>
+      goodWallet.watchEvents(lastBlock ? parseInt(lastBlock) : undefined, toBlock =>
         userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
       )
 

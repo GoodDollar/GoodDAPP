@@ -11,18 +11,7 @@ import { withStyles } from '../../../lib/styles'
 
 import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
-import EthereumLogo from '../../../assets/Feed/ethereum-eth-logo.svg'
-import GoerliLogo from '../../../assets/Feed/goerli.svg'
-import FuseLogo from '../../../assets/Feed/fuse-logo.svg'
-import CeloLogo from '../../../assets/logos/celo.svg'
-import { isNativeToken } from '../../../lib/wallet/utils'
-
-const TokenLogo = {
-  ETH: EthereumLogo,
-  GETH: GoerliLogo,
-  FUSE: FuseLogo,
-  CELO: CeloLogo,
-}
+import { isNativeToken, TokenLogo } from '../../../lib/wallet/utils'
 
 /**
  * Touchable Avatar

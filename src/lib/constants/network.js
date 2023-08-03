@@ -1,6 +1,11 @@
 // @flow
 import { findKey, isEqual, partial, startCase } from 'lodash'
 
+import EthereumLogo from '../../assets/Feed/ethereum-eth-logo.svg'
+import GoerliLogo from '../../assets/Feed/goerli.svg'
+import FuseLogo from '../../assets/Feed/fuse-logo.svg'
+import CeloLogo from '../../assets/logos/celo.svg'
+
 export const NETWORK_ID = {
   ETHEREUM: 1,
   ETH: 1,
@@ -28,4 +33,11 @@ export type NETWORK = $Keys<typeof NETWORK_ID>
  */
 export const getNetworkName = (networkId: number): string => {
   return startCase(findKey(NETWORK_ID, partial(isEqual, networkId))) || 'UNDEFINED'
+}
+
+export const NetworkLogo = {
+  [NETWORK_ID.ETH]: EthereumLogo,
+  [NETWORK_ID.GOERLI]: GoerliLogo,
+  [NETWORK_ID.FUSE]: FuseLogo,
+  [NETWORK_ID.CELO]: CeloLogo,
 }

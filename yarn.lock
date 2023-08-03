@@ -4281,6 +4281,7 @@ __metadata:
     node-pre-gyp: ^0.14.0
     node-xml-lite: 0.0.7
     numeral: ^2.0.6
+    p-ratelimit: ^1.0.1
     path-browserify: 0.0.0
     pn: ^1.1.0
     pnp-webpack-plugin: ^1.6.4
@@ -29683,6 +29684,13 @@ __metadata:
   dependencies:
     aggregate-error: ^3.0.0
   checksum: cb0ab21ec0f32ddffd31dfc250e3afa61e103ef43d957cc45497afe37513634589316de4eb88abdfd969fe6410c22c0b93ab24328833b8eb1ccc087fc0442a1c
+  languageName: node
+  linkType: hard
+
+"p-ratelimit@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "p-ratelimit@npm:1.0.1"
+  checksum: 00b01537198b1b88ee32de0f17a36f78737144fea6866c06a954db138578667e1073bbe97e8f78b86691b0897dc4b58f99999c71af51908946c857b61595b0a3
   languageName: node
   linkType: hard
 

@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { View } from 'react-native'
 
 import { FVFlowContext } from '../context/FVFlowContext'
@@ -13,7 +13,7 @@ import { BlockingUnsupportedBrowser } from '../../../browserSupport/components/U
 import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 import { exitApp } from '../../../../lib/utils/system'
 import { openLink, redirectTo } from '../../../../lib/utils/linking'
-import { useDialog } from '../../../../lib/dialog/useDialog'
+import useCameraSupport from '../../../browserSupport/hooks/useCameraSupport'
 
 import withStyles from '../theme/withStyles'
 
@@ -22,19 +22,13 @@ const openDocs = () => openLink(DOCS_URL, '_blank')
 
 const FVFlowError = ({ styles }) => {
   const { isWebView, unsupportedCopyUrl, rdu } = useContext(FVFlowContext)
-  const { showDialog } = useDialog()
 
   const navigateBack = useCallback(() => redirectTo(rdu), [rdu])
 
-  useEffect(() => {
-    if (isWebView) {
-      showDialog({
-        type: 'error',
-        content: <BlockingUnsupportedBrowser onDismiss={navigateBack} copyUrl={unsupportedCopyUrl} />,
-        onDismiss: navigateBack,
-      })
-    }
-  }, [])
+  useCameraSupport({
+    unsupportedPopup: <BlockingUnsupportedBrowser onDismiss={navigateBack} copyUrl={unsupportedCopyUrl} />,
+    onCheck: () => !isWebView,
+  })
 
   const reasonCopy = isWebView ? 'Unsupported Browser' : 'Login information is missing, for instructions please visit:'
 

@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
-import { get, noop } from 'lodash'
+import { get } from 'lodash'
 import { t } from '@lingui/macro'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
@@ -15,11 +15,10 @@ import { Icon, Image, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
-import CeloIcon from '../../../assets/logos/celo.svg'
-import FuseIcon from '../../../assets/logos/fuse.svg'
 import Config from '../../../config/config'
 import { openLink } from '../../../lib/utils/linking'
 import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
+import { NetworkLogo } from '../../../lib/constants/network'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -123,33 +122,20 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
   )
 }
 
-const useTxExplorerUrl = (txHash, chainId = 122) => {
+export const NetworkIcon = ({ chainId = 122, txHash }) => {
   const networkExplorerUrl = Config.ethereum[chainId]?.explorer
+  const isTx = txHash.startsWith('0x')
+  const Icon = NetworkLogo[chainId]
 
-  return useCallback(() => {
+  const goToTxDetails = useCallback(() => {
     if (!networkExplorerUrl) {
       return
     }
 
     openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
   }, [chainId, txHash])
-}
 
-export const NetworkIcon = ({ chainId = 122, txHash }) => {
-  const goToTxDetails = useTxExplorerUrl(txHash, chainId)
-  const isTx = txHash.startsWith('0x')
-
-  let Icon
-  switch (chainId) {
-    case 42220:
-      Icon = CeloIcon
-      break
-    default:
-    case 122:
-      Icon = FuseIcon
-      break
-  }
-  return isTx ? (
+  return isTx && Icon ? (
     <TouchableOpacity onPress={goToTxDetails}>
       <Icon height={20} width={20} />
     </TouchableOpacity>
@@ -171,8 +157,6 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
   const txHash = feed.data.receiptHash || feed.id
-  const goToTxDetails = useTxExplorerUrl(txHash, chainId)
-  const isNativeTx = !!feed.data?.asset
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -197,18 +181,10 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
       <View style={styles.innerRow}>
         <View style={styles.emptySpace}>
-          {!isNativeTx && (
-            <View style={{ height: 20, width: 20 }}>
-              <NetworkIcon txHash={txHash} chainId={chainId} />
-            </View>
-          )}
-          <Avatar
-            size={34}
-            imageSize={36}
-            style={styles.avatarBottom}
-            source={avatar}
-            onPress={isNativeTx ? goToTxDetails : noop}
-          />
+          <View style={{ height: 20, width: 20 }}>
+            <NetworkIcon txHash={txHash} chainId={chainId} />
+          </View>
+          <Avatar size={34} imageSize={36} style={styles.avatarBottom} source={avatar} />
         </View>
         <View grow style={styles.mainContents}>
           <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>

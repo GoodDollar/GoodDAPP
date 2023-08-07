@@ -1,11 +1,11 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { assign, isString, map, noop, pick, values, zipObject } from 'lodash'
+import { assign, isString, map, mapKeys, noop, pick, values, zipObject } from 'lodash'
 import { decode, isMNID } from 'mnid'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
-import { getNetworkName, type NETWORK, NETWORK_ID } from '../constants/network'
+import { getNetworkName, type NETWORK, NETWORK_ID, NetworkLogo } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
 
@@ -65,6 +65,8 @@ export const getNativeToken = networkOrId => {
       return networkName
   }
 }
+
+export const TokenLogo = mapKeys(NetworkLogo, (_, chainId) => getNativeToken(chainId))
 
 export const nativeTokens = supportedNetworks.map(getNativeToken)
 

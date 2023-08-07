@@ -775,7 +775,10 @@ export class UserStorage {
     const { data, type } = event
     const { counterPartyFullName, counterPartySmallAvatar } = data
 
+    const counterPartyNativeEvents = [FeedItemType.EVENT_TYPE_SENDNATIVE, FeedItemType.EVENT_TYPE_RECEIVENATIVE]
+
     const counterPartyEvents = [
+      ...counterPartyNativeEvents,
       FeedItemType.EVENT_TYPE_SENDDIRECT,
       FeedItemType.EVENT_TYPE_SEND,
       FeedItemType.EVENT_TYPE_WITHDRAW,
@@ -788,7 +791,12 @@ export class UserStorage {
 
       if (!isEqual(counterPartyData, pick(data, keys(counterPartyData)))) {
         assign(data, counterPartyData)
-        feedStorage.updateFeedEvent(event)
+
+        if (counterPartyNativeEvents.includes(type)) {
+          feedStorage.updateNativeTx(event)
+        } else {
+          feedStorage.updateFeedEvent(event)
+        }
       }
     }
 
@@ -930,7 +938,7 @@ export class UserStorage {
     data.displayName =
       customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromNativeAddress || 'Unknown'
 
-    data.avatar = status === 'error' || fromGD ? -1 : fromNative ? asset : counterPartySmallAvatar
+    data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {
       id,

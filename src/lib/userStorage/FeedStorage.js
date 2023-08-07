@@ -724,12 +724,31 @@ export class FeedStorage {
     return eventAck
   }
 
+  async updateNativeTx(event: FeedEvent): Promise<FeedEvent> {
+    log.debug('updateNativeTx:', event.id, { event })
+
+    try {
+      await this.writeNativeTx(event)
+    } catch (e) {
+      log.error('updateNativeTx failed byId:', e.message, e, {
+        event,
+      })
+    }
+  }
+
   async writeFeedEvent(event): Promise<FeedEvent> {
     await this.ready //wait before accessing feedIds cache
 
     await this.storage.write(event)
 
     // this.emitUpdate({ event })
+  }
+
+  async writeNativeTx(event): Promise<FeedEvent> {
+    const { Feed } = this.db
+
+    await this.ready //wait before accessing feedIds cache
+    await Feed.save(event)
   }
 
   /**
@@ -751,6 +770,17 @@ export class FeedStorage {
     }
 
     log.warn('getFeedItemByTransactionHash: feed item not found', { id: transactionHash })
+  }
+
+  async getNativeTxByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    const { Feed } = this.db
+    const nativeTX = await Feed.findById(transactionHash)
+
+    if (!nativeTX) {
+      log.warn('getNativeTxByTransactionHash: tx not found', { id: transactionHash })
+    }
+
+    return nativeTX
   }
 
   /**
@@ -791,6 +821,25 @@ export class FeedStorage {
       })
   }
 
+  async updateNativeEventStatus(eventId: string, status: string): Promise<FeedEvent> {
+    let nativeTX
+
+    try {
+      nativeTX = await this.getNativeTxByTransactionHash(eventId)
+
+      if (!nativeTX) {
+        return
+      }
+
+      await this.writeNativeTx({ ...nativeTX, status, otplStatus: status })
+      return nativeTX
+    } catch (e) {
+      log.error('updateNativeEventStatus failed byId:', e.message, e, {
+        nativeTX,
+      })
+    }
+  }
+
   /**
    * Sets the event's status
    * @param {string} eventId
@@ -821,33 +870,20 @@ export class FeedStorage {
       return
     }
 
-    // const release = await this.feedMutex.lock()
-
     try {
-      await this.updateEventStatus(txHash, 'error')
+      await this.updateEventStatus(txHash, TxStatus.ERROR)
     } catch (e) {
       log.error('Failed to set error status for feed event', e.message, e)
-    } finally {
-      // release()
     }
   }
 
   async markNativeTXWithError(txHash: string): Promise<void> {
-    const { Feed } = this.db
-
     if (!txHash) {
       return
     }
 
     try {
-      const nativeTX = await Feed.findById(txHash)
-      const status = TxStatus.ERROR
-
-      if (!nativeTX) {
-        return
-      }
-
-      await Feed.save({ ...nativeTX, status, otplStatus: status })
+      await this.updateNativeEventStatus(txHash, TxStatus.ERROR)
     } catch (e) {
       log.error('Failed to set error status for native tx', e.message, e)
     }

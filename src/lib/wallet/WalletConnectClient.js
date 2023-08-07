@@ -280,6 +280,10 @@ export const useWalletConnectSession = () => {
         onApprove: async () => {
           if (isV2) {
             const eip155Chains = payload?.params?.requiredNamespaces?.eip155?.chains
+            const optionaleip155Chains = payload?.params?.optionalNamespaces?.eip155?.chains
+
+            eip155Chains.push(...optionaleip155Chains)
+            
             const response = {
               id: payload.id,
               namespaces: {
@@ -822,13 +826,25 @@ export const useWalletConnectSession = () => {
       handleCallRequest(cachedV2Connector, event)
     })
     cachedV2Connector.on('session_ping', event => log.debug('WC2Events&Sessions -- v2 incoming session_ping:', event))
-    cachedV2Connector.on('session_update', event =>
-      log.debug('WC2Events&Sessions -- v2 incoming session_update:', event),
-    )
     cachedV2Connector.on('session_event', event => log.debug('WC2Events&Sessions -- v2 incoming session_event:', event))
     cachedV2Connector.on('session_delete', event => {
       log.debug('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })
       handleSessionDisconnect(cachedV2Connector, event)
+    })
+
+    cachedV2Connector.on('session_expire', ({ topic }) => {
+      log.debug('WC2Events&Sessions -- session expire:', { cachedV2Connector, topic })
+      cachedV2Connector.extend({ topic }).catch(e => {
+      
+        log.debug('Wc2Events&Sessions -- session extend failed:', e.message, e, { cachedV2Connector, topic })
+        cachedV2Connector.disconnectSession({ topic, reason: 'Failed to extend session' })
+      })
+    })
+
+    cachedV2Connector.on('session_update', ({ topic, params }) => {
+      const { namespaces } = params
+
+      cachedV2Connector.updateSession({ topic, namespaces })
     })
 
     if (!v2session) {

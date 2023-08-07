@@ -52,7 +52,7 @@ const useRefund = () => {
       const { filter, fromBlock } = filters
       const { from, to } = mapValues(filter, toLower)
       const contractAddress = toLower(contract)
-      const result = await API.getTokenTXs(contractAddress, from, fromBlock)
+      const result = await API.getTokenTXs(contractAddress, from, 122, fromBlock)
 
       // filter & map in a single iteration
       const amounts = result.reduce((values, txData) => {

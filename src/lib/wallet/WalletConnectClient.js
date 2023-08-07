@@ -283,7 +283,7 @@ export const useWalletConnectSession = () => {
             const optionaleip155Chains = payload?.params?.optionalNamespaces?.eip155?.chains
 
             eip155Chains.push(...optionaleip155Chains)
-            
+
             const response = {
               id: payload.id,
               namespaces: {
@@ -835,7 +835,6 @@ export const useWalletConnectSession = () => {
     cachedV2Connector.on('session_expire', ({ topic }) => {
       log.debug('WC2Events&Sessions -- session expire:', { cachedV2Connector, topic })
       cachedV2Connector.extend({ topic }).catch(e => {
-      
         log.debug('Wc2Events&Sessions -- session extend failed:', e.message, e, { cachedV2Connector, topic })
         cachedV2Connector.disconnectSession({ topic, reason: 'Failed to extend session' })
       })
@@ -843,8 +842,10 @@ export const useWalletConnectSession = () => {
 
     cachedV2Connector.on('session_update', ({ topic, params }) => {
       const { namespaces } = params
+      const namespacesBefore = cachedV2Connector.getActiveSessions()[topic].namespaces
+      const newNamespaces = { ...namespacesBefore, ...namespaces }
 
-      cachedV2Connector.updateSession({ topic, namespaces })
+      cachedV2Connector.updateSession({ topic, nameSpaces: newNameSpaces })
     })
 
     if (!v2session) {

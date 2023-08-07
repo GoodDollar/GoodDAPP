@@ -20,7 +20,14 @@ import logger from '../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
-import { isBrowser, isEmulator, isIOSWeb, isMobileSafari } from '../../../lib/utils/platform'
+import {
+  iosSupportedWeb,
+  isBrowser,
+  isEmulator,
+  isIOSWeb,
+  isMobileSafari,
+  isWebView,
+} from '../../../lib/utils/platform'
 import { openLink } from '../../../lib/utils/linking'
 import Config from '../../../config/config'
 import { Permissions } from '../../permissions/types'
@@ -29,6 +36,7 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../lib/analytics/analytics'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
+import { BlockingUnsupportedBrowser } from '../../browserSupport/components/UnsupportedBrowser'
 
 // assets
 import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
@@ -142,6 +150,8 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkOnMounted: false,
     onSupported: requestCameraPermissions,
     onUnsupported: navigateToHome,
+    unsupportedPopup: BlockingUnsupportedBrowser,
+    onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
 
   const handleVerifyClick = useCallback(async () => {

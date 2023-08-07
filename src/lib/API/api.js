@@ -361,13 +361,35 @@ export class APIService {
     return this.sharedClient.post(url, responseObject)
   }
 
-  async getTokenTXs(token, address, fromBlock = null, chainId = 122) {
+  async getTokenTXs(token, address, chainId, fromBlock = null) {
     const params = {
       address,
       sort: 'asc',
       module: 'account',
       action: 'tokentx',
       contractaddress: token,
+    }
+
+    if (fromBlock) {
+      params.startblock = fromBlock
+    }
+
+    const networkExplorerUrl = Config.ethereum[chainId]?.explorerAPI
+
+    const { result } = await this.sharedClient.get('/api', {
+      params,
+      baseURL: networkExplorerUrl,
+    })
+
+    return result
+  }
+
+  async getTXs(address, chainId, fromBlock = null) {
+    const params = {
+      address,
+      sort: 'asc',
+      module: 'account',
+      action: 'txlist',
     }
 
     if (fromBlock) {

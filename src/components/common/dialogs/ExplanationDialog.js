@@ -149,6 +149,7 @@ const mapStylesToProps = ({ theme }) => ({
     justifyContent: 'flex-end',
     paddingLeft: 0,
     paddingRight: 0,
+    gap: '10px',
   },
   buttonText: {
     paddingLeft: 5,

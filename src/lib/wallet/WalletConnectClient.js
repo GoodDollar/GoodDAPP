@@ -841,11 +841,31 @@ export const useWalletConnectSession = () => {
     })
 
     cachedV2Connector.on('session_update', ({ topic, params }) => {
-      const { namespaces } = params
-      const namespacesBefore = cachedV2Connector.getActiveSessions()[topic].namespaces
-      const newNamespaces = { ...namespacesBefore, ...namespaces }
+      const activeSession = cachedV2Connector.getActiveSessions()[topic]
 
-      cachedV2Connector.updateSession({ topic, nameSpaces: newNameSpaces })
+      const { newReqNamespace, newOptNamespace } = {
+        newReqNamespace: params.requiredNamespaces?.eip155?.chains,
+        newOptNamespace: params.optionalNamespaces?.eip155?.chains,
+      }
+
+      const { prevReqNamespace, prevOptNamespace } = {
+        prevReqNamespace: activeSession.requiredNamespaces?.eip155?.chains,
+        prevOptNamespace: activeSession.optionalNamespaces?.eip155?.chains,
+      }
+
+      const newRequired = { ...newReqNamespace, ...prevReqNamespace }
+      const newOptional = { ...newOptNamespace, ...prevOptNamespace }
+
+      cachedV2Connector
+        .updateSession({ topic, optionalNamespaces: newOptional, requiredNamespaces: newRequired })
+        .catch(e => {
+          log.debug('Wc2Events&Sessions -- session update failed:', e.message, e, {
+            cachedV2Connector,
+            topic,
+            namespaces,
+          })
+          cachedV2Connector.disconnectSession({ topic, reason: 'Failed to update session' })
+        })
     })
 
     if (!v2session) {

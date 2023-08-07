@@ -52,7 +52,7 @@ const CustomAvatar = ({
 
   const imgSource = useMemo(() => (dataUrl ? getBase64Source(dataUrl) : null), [dataUrl])
 
-  const isNativeStyles = isNativeToken(source) ? undefined : styles.avatarContainer
+  const isNativeStyles = isSvgLogo ? undefined : styles.avatarContainer
 
   return (
     <TouchableOpacity

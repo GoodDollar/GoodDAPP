@@ -883,7 +883,7 @@ export class FeedStorage {
     }
 
     try {
-      await this.updateNativeTx(txHash, TxStatus.ERROR)
+      await this.updateNativeEventStatus(txHash, TxStatus.ERROR)
     } catch (e) {
       log.error('Failed to set error status for native tx', e.message, e)
     }

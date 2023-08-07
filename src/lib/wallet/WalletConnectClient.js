@@ -862,7 +862,8 @@ export const useWalletConnectSession = () => {
           log.debug('Wc2Events&Sessions -- session update failed:', e.message, e, {
             cachedV2Connector,
             topic,
-            namespaces,
+            newRequired,
+            newOptional,
           })
           cachedV2Connector.disconnectSession({ topic, reason: 'Failed to update session' })
         })

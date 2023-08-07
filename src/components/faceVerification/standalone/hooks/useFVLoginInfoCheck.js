@@ -3,7 +3,7 @@ import useEnrollmentIdentifier from '../../hooks/useEnrollmentIdentifier'
 import { FVFlowContext } from '../context/FVFlowContext'
 
 const useFVLoginInfoCheck = navigation => {
-  const { isFVFlow, fvFlowError } = useContext(FVFlowContext)
+  const { isFVFlow, fvFlowError, isWebView } = useContext(FVFlowContext)
   const { faceIdentifier } = useEnrollmentIdentifier()
   const { navigate } = navigation
 
@@ -12,7 +12,7 @@ const useFVLoginInfoCheck = navigation => {
       return
     }
 
-    if (fvFlowError || !faceIdentifier) {
+    if (isWebView || fvFlowError || !faceIdentifier) {
       navigate('FVFlowError')
     }
   }, [isFVFlow, faceIdentifier, fvFlowError, navigate])

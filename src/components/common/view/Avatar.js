@@ -11,7 +11,6 @@ import { withStyles } from '../../../lib/styles'
 
 import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
-import { isNativeToken, TokenLogo } from '../../../lib/wallet/utils'
 
 /**
  * Touchable Avatar
@@ -37,10 +36,8 @@ const CustomAvatar = ({
 }) => {
   const _onPress = useOnPress(onPress)
   const isGDLogo = isGoodDollarImage(source)
-  const isSvgLogo = isGDLogo || (isNativeToken(source) && source in TokenLogo)
   const ImageComponent = plain ? Image : Avatar.Image
-  const dataUrl = useAvatar(isSvgLogo || !source ? null : source)
-  const SvgLogo = TokenLogo[source]
+  const dataUrl = useAvatar(isGDLogo || !source ? null : source)
 
   const calculatedStyles = useMemo(() => {
     const container = { width: size, height: size, borderRadius: size / 2 }
@@ -51,8 +48,7 @@ const CustomAvatar = ({
   }, [size])
 
   const imgSource = useMemo(() => (dataUrl ? getBase64Source(dataUrl) : null), [dataUrl])
-
-  const isNativeStyles = isSvgLogo ? undefined : styles.avatarContainer
+  const isNativeStyles = isGDLogo ? undefined : styles.avatarContainer
 
   return (
     <TouchableOpacity
@@ -62,9 +58,9 @@ const CustomAvatar = ({
       style={[isNativeStyles, calculatedStyles.container, style]}
       underlayColor="#fff"
     >
-      {isSvgLogo ? (
+      {isGDLogo ? (
         <View style={calculatedStyles.wrapper} {...avatarProps}>
-          {isGDLogo ? <GoodDollarLogo /> : <SvgLogo />}
+          <GoodDollarLogo />
         </View>
       ) : imgSource ? (
         <ImageComponent

@@ -841,15 +841,7 @@ export const useWalletConnectSession = () => {
     })
 
     cachedV2Connector.on('session_update', ({ topic, params }) => {
-      const { eip155 } = params.namespaces
-
-      cachedV2Connector.update({ topic, namespaces: { eip155 } }).catch(e => {
-        log.debug('Wc2Events&Sessions -- session update failed:', e.message, e, {
-          cachedV2Connector,
-          topic,
-        })
-        cachedV2Connector.disconnectSession({ topic, reason: 'Failed to update session' })
-      })
+      log.info('Wc2Events&Sessions -- session update received -->', { topic, params })
     })
 
     if (!v2session) {

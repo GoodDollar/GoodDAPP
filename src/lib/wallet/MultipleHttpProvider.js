@@ -1,7 +1,7 @@
 // @flow
 
 import Web3 from 'web3'
-import { assign, shuffle } from 'lodash'
+import { assign, has, shuffle } from 'lodash'
 import { fallback, makePromiseWrapper } from '../utils/async'
 import logger from '../logger/js-logger'
 
@@ -59,9 +59,9 @@ export class MultipleHttpProvider extends HttpProvider {
       const { message } = error
 
       // retry on network error or if rpc responded with error (error.error)
-      const willFallback = error.error !== undefined || connectionErrorRe.test(message)
+      const willFallback = error.error || !message || connectionErrorRe.test(message)
 
-      log.warn('send: got error', message, error, { willFallback })
+      log.warn('send: got error', { message, error, willFallback })
       return willFallback
     }
 
@@ -86,7 +86,7 @@ export class MultipleHttpProvider extends HttpProvider {
       }
 
       //rpc responded with error or no result
-      if (response.error || !response.result) {
+      if (response.error || has(response, 'result') === false) {
         return pcallback(response)
       }
 

@@ -492,13 +492,6 @@ const Claim = props => {
           title: t`CHA-CHING!`,
           onDismiss: noop,
         })
-
-        // collect invite bonuses
-        const didCollect = await collectInviteBounty()
-
-        if (didCollect) {
-          fireEvent(INVITE_BOUNTY, { from: 'invitee' })
-        }
       })
 
       return true
@@ -519,8 +512,22 @@ const Claim = props => {
     userStorage,
   ])
 
+  const handleInviteBounty = useCallback(async () => {
+    try {
+      // collect invite bonuses
+      const didCollect = await collectInviteBounty()
+
+      if (didCollect) {
+        fireEvent(INVITE_BOUNTY, { from: 'invitee' })
+      }
+    } catch (e) {
+      log.error('collect invite bounty failed', e.message, e)
+    }
+  }, [])
+
   const handleClaim = useCallback(async () => {
     const claimed = await onClaim()
+    await handleInviteBounty()
 
     if (!userProperties || isWeb || !claimed) {
       return

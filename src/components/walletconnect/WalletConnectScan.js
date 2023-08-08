@@ -8,7 +8,7 @@ import { first, get } from 'lodash'
 import Wrapper from '../common/layout/Wrapper'
 
 import { withStyles } from '../../lib/styles'
-import { isMobile } from '../../lib/utils/platform'
+import { isAndroidNative, isMobile } from '../../lib/utils/platform'
 import QRCameraPermissionDialog from '../dashboard/SendRecieveQRCameraPermissionDialog'
 
 // hooks
@@ -39,7 +39,10 @@ type WalletConnectProps = {
 const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletConnectProps) => {
   const [qrDelay, setQrDelay] = useState(QR_DEFAULT_DELAY)
   const wcIncomingLink = get(navigation, 'state.params.wcUri')
+
   const incomingLinkRef = useRef('')
+  const activeSessionTopic = useRef('')
+
   const {
     wcConnect: setWalletConnectUri,
     wcConnected,
@@ -57,6 +60,12 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   const { showErrorDialog } = useDialog()
 
   const { navigateTo } = screenProps
+
+  const hasSessionTopic = (uri: string) => {
+    const topicRegex = /sessionTopic=([^&]+)/
+    const [, sessionTopic] = uri.match(topicRegex) || []
+    return sessionTopic
+  }
 
   const handleChange = useCallback(
     data => {
@@ -78,6 +87,10 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
             showErrorDialog(t`Invalid QR Code.`)
             setQrDelay(QR_DEFAULT_DELAY)
           } else {
+            let sessionTopic
+            if (isAndroidNative && (sessionTopic = hasSessionTopic(validUri))) {
+              activeSessionTopic.current = sessionTopic
+            }
             incomingLinkRef.current = validUri
             log.info('walletconnect uri:', { validUri })
             setWalletConnectUri(validUri)
@@ -93,13 +106,27 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   )
 
   useEffect(() => {
+    // sign requests on native contain requestId and sessionTopic
+    // requestId is on every request different
+    // which makes incomingLinkRef === wcIncomingLink always be false
+    let sessionTopic
+    if (
+      isAndroidNative &&
+      (sessionTopic = hasSessionTopic(wcIncomingLink)) &&
+      sessionTopic !== activeSessionTopic.current
+    ) {
+      // dont retrigger connection
+      return
+    }
+
+    // check for initial connection request
     if (incomingLinkRef.current === wcIncomingLink) {
       return
     } else if (wcIncomingLink && uri !== wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
       setUri(wcIncomingLink)
       handleChange(wcIncomingLink)
     }
-  }, [wcIncomingLink, uri, setUri, readWalletConnectUri])
+  }, [incomingLinkRef, activeSessionTopic, wcIncomingLink, uri, setUri, readWalletConnectUri])
 
   const pasteUri = useClipboardPaste(data => {
     setUri(data)

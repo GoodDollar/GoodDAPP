@@ -151,7 +151,7 @@ jobs:
            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           else 
             vercel_env_name="preview"
-            vercel pull --yes --environment=$vercel_env_name --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
+            vercel pull --yes --environment=$vercel_env_name --git-branch=$env_name --token=${{ secrets.VERCEL_TOKEN }}
           fi
           cat .vercel/.env.$vercel_env_name.local >> .env.$env_name
           echo $env_name

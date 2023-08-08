@@ -113,7 +113,7 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
     if (
       isAndroidNative &&
       (sessionTopic = hasSessionTopic(wcIncomingLink)) &&
-      sessionTopic !== activeSessionTopic.current
+      sessionTopic === activeSessionTopic.current
     ) {
       // dont retrigger connection
       return

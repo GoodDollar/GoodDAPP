@@ -143,15 +143,15 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           env_name="${{ env.ENV }}"
-          if [[ $env_name == "master" ]]; then
+          if [[ ${ env_name } == "development" ]]; then
            vercel_env_name="development"
            vercel pull --yes --environment=$vercel_env_name --token=${{ secrets.VERCEL_TOKEN }}
-          elif [[ $env_name == "next" ]]; then
+          elif [[ ${ env_name } == "production" ]]; then
            vercel_env_name="production"
            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           else 
             vercel_env_name="preview"
-            vercel pull --yes --environment=$vercel_env_name --git-branch=$env_name --token=${{ secrets.VERCEL_TOKEN }}
+            vercel pull --yes --environment=$vercel_env_name --git-branch=zz --token=${{ secrets.VERCEL_TOKEN }}
           fi
           cat .vercel/.env.$vercel_env_name.local >> .env.$env_name
           echo $env_name

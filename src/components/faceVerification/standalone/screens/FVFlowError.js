@@ -20,13 +20,17 @@ import withStyles from '../theme/withStyles'
 const DOCS_URL = 'https://doc.gooddollar/sdk/identity'
 const openDocs = () => openLink(DOCS_URL, '_blank')
 
-const FVFlowError = ({ styles }) => {
-  const { isWebView, unsupportedCopyUrl, rdu } = useContext(FVFlowContext)
-
+const BlockingUnsupportedModal = () => {
+  const { unsupportedCopyUrl, rdu } = useContext(FVFlowContext)
   const navigateBack = useCallback(() => redirectTo(rdu), [rdu])
+  return <BlockingUnsupportedBrowser onDismiss={navigateBack} copyUrl={unsupportedCopyUrl} />
+}
+
+const FVFlowError = ({ styles }) => {
+  const { isWebView } = useContext(FVFlowContext)
 
   useCameraSupport({
-    unsupportedPopup: <BlockingUnsupportedBrowser onDismiss={navigateBack} copyUrl={unsupportedCopyUrl} />,
+    unsupportedPopup: BlockingUnsupportedModal,
     onCheck: () => !isWebView,
   })
 

@@ -143,7 +143,7 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           env_name="${{ env.ENV }}"
-          if [[ $env_name == "master" ]]; then
+          if [[ $env_name == "development" ]]; then
            vercel_env_name="development"
            vercel pull --yes --environment=$vercel_env_name --token=${{ secrets.VERCEL_TOKEN }}
           elif [[ $env_name == "production" ]]; then

@@ -61,7 +61,7 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
 
   const { navigateTo } = screenProps
 
-  const isSignRequest = uri => {
+  const isDeeplinkRedirect = uri => {
     const requestRegex = /requestId=([^&]+)/
     const [, requestId] = uri.match(requestRegex) || []
     return requestId
@@ -102,8 +102,8 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   )
 
   useEffect(() => {
-    // check for initial connection request or if its a sign request
-    if (incomingLinkRef.current === wcIncomingLink || isSignRequest(wcIncomingLink)) {
+    // check for initial connection request or if its a deeplink redirect request
+    if (incomingLinkRef.current === wcIncomingLink || isDeeplinkRedirect(wcIncomingLink)) {
       return
     } else if (wcIncomingLink && uri !== wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
       setUri(wcIncomingLink)

@@ -102,7 +102,7 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
 
   useEffect(() => {
     // check for initial connection request or if its a deeplink redirect request
-    if (incomingLinkRef.current === wcIncomingLink || isDeeplinkRedirect(wcIncomingLink)) {
+    if (incomingLinkRef.current === wcIncomingLink || (wcIncomingLink && isDeeplinkRedirect(wcIncomingLink))) {
       return
     } else if (wcIncomingLink && uri !== wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
       setUri(wcIncomingLink)

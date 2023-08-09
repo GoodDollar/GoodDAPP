@@ -39,7 +39,10 @@ type WalletConnectProps = {
 const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletConnectProps) => {
   const [qrDelay, setQrDelay] = useState(QR_DEFAULT_DELAY)
   const wcIncomingLink = get(navigation, 'state.params.wcUri')
+
   const incomingLinkRef = useRef('')
+  const activeSessionTopic = useRef('')
+
   const {
     wcConnect: setWalletConnectUri,
     wcConnected,
@@ -57,6 +60,12 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   const { showErrorDialog } = useDialog()
 
   const { navigateTo } = screenProps
+
+  const isDeeplinkRedirect = uri => {
+    const requestRegex = /requestId=([^&]+)/
+    const [, requestId] = uri.match(requestRegex) || []
+    return requestId
+  }
 
   const handleChange = useCallback(
     data => {
@@ -93,13 +102,14 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   )
 
   useEffect(() => {
-    if (incomingLinkRef.current === wcIncomingLink) {
+    // check for initial connection request or if its a deeplink redirect request
+    if (incomingLinkRef.current === wcIncomingLink || isDeeplinkRedirect(wcIncomingLink)) {
       return
     } else if (wcIncomingLink && uri !== wcIncomingLink && readWalletConnectUri(wcIncomingLink)) {
       setUri(wcIncomingLink)
       handleChange(wcIncomingLink)
     }
-  }, [wcIncomingLink, uri, setUri, readWalletConnectUri])
+  }, [incomingLinkRef, activeSessionTopic, wcIncomingLink, uri, setUri, readWalletConnectUri])
 
   const pasteUri = useClipboardPaste(data => {
     setUri(data)

@@ -41,7 +41,6 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
   const wcIncomingLink = get(navigation, 'state.params.wcUri')
 
   const incomingLinkRef = useRef('')
-  const activeSessionTopic = useRef('')
 
   const {
     wcConnect: setWalletConnectUri,
@@ -109,7 +108,7 @@ const WalletConnectScan = ({ screenProps, styles, theme, navigation }: WalletCon
       setUri(wcIncomingLink)
       handleChange(wcIncomingLink)
     }
-  }, [incomingLinkRef, activeSessionTopic, wcIncomingLink, uri, setUri, readWalletConnectUri])
+  }, [incomingLinkRef, wcIncomingLink, uri, setUri, readWalletConnectUri])
 
   const pasteUri = useClipboardPaste(data => {
     setUri(data)

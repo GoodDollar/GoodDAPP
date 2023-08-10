@@ -2718,18 +2718,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@callstack/react-theme-provider@npm:^3.0.8":
-  version: 3.0.8
-  resolution: "@callstack/react-theme-provider@npm:3.0.8"
-  dependencies:
-    deepmerge: ^3.2.0
-    hoist-non-react-statics: ^3.3.0
-  peerDependencies:
-    react: ">=16.3.0"
-  checksum: 6077a4795aea4eb06a2a2ffe5cf299c3fdcba56530aa68eba5c3ac0728ce02be2f6e9e71278be303065cb7fbe252c35639538477d5d05ee14f6325d550c8c696
-  languageName: node
-  linkType: hard
-
 "@ceramicnetwork/common@npm:^2.0.4":
   version: 2.0.4
   resolution: "@ceramicnetwork/common@npm:2.0.4"
@@ -4372,7 +4360,7 @@ __metadata:
     react-native-v8: ">=0.65.2-patch.0 <0.66.0"
     react-native-vector-icons: ^6.6.0
     react-native-version-check: ^3.4.3
-    react-native-wallet-chat: ^0.1.45
+    react-native-wallet-chat: ^0.1.54
     react-native-web: ^0.17.5
     react-native-web-linear-gradient: ^1.0.5
     react-native-web-lottie: ^1.2.0
@@ -14750,13 +14738,6 @@ __metadata:
   version: 3.3.2
   resolution: "ci-info@npm:3.3.2"
   checksum: fd81f1edd2d3b0f6cb077b2e84365136d87b9db8c055928c1ad69da8a76c2c2f19cba8ea51b90238302157ca927f91f92b653e933f2398dde4867500f08d6e62
-  languageName: node
-  linkType: hard
-
-"ci-info@npm:^3.7.0":
-  version: 3.8.0
-  resolution: "ci-info@npm:3.8.0"
-  checksum: d0a4d3160497cae54294974a7246202244fff031b0a6ea20dd57b10ec510aa17399c41a1b0982142c105f3255aff2173e5c0dd7302ee1b2f28ba3debda375098
   languageName: node
   linkType: hard
 
@@ -30043,30 +30024,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"patch-package@npm:^7.0.0":
-  version: 7.0.2
-  resolution: "patch-package@npm:7.0.2"
-  dependencies:
-    "@yarnpkg/lockfile": ^1.1.0
-    chalk: ^4.1.2
-    ci-info: ^3.7.0
-    cross-spawn: ^7.0.3
-    find-yarn-workspace-root: ^2.0.0
-    fs-extra: ^9.0.0
-    klaw-sync: ^6.0.0
-    minimist: ^1.2.6
-    open: ^7.4.2
-    rimraf: ^2.6.3
-    semver: ^7.5.3
-    slash: ^2.0.0
-    tmp: ^0.0.33
-    yaml: ^2.2.2
-  bin:
-    patch-package: index.js
-  checksum: de2cf60effc8b59ee15d4930f84eea63c217525f0133c926850ee3a2437651d8aabbd0fec4ddee1b8b8da4fd380bcea90ef3c4acd69026057fa80cdc823b59a4
-  languageName: node
-  linkType: hard
-
 "patch-package@npm:latest":
   version: 6.5.1
   resolution: "patch-package@npm:6.5.1"
@@ -33185,23 +33142,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-paper@npm:^5.9.1":
-  version: 5.9.1
-  resolution: "react-native-paper@npm:5.9.1"
-  dependencies:
-    "@callstack/react-theme-provider": ^3.0.8
-    color: ^3.1.2
-    patch-package: ^7.0.0
-    use-latest-callback: ^0.1.5
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-    react-native-safe-area-context: "*"
-    react-native-vector-icons: "*"
-  checksum: 47b23f827d3d5d296dc888d8c10c689465ccf2b8d815b2ecea8c5a41b2244776d153a6ffeaf14df61a231cd9542cc26199e85dd94687acec6b6adeb3f0ea271d
-  languageName: node
-  linkType: hard
-
 "react-native-permissions@npm:^2.0.2":
   version: 2.2.2
   resolution: "react-native-permissions@npm:2.2.2"
@@ -33569,20 +33509,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-wallet-chat@npm:^0.1.45":
-  version: 0.1.45
-  resolution: "react-native-wallet-chat@npm:0.1.45"
+"react-native-wallet-chat@npm:^0.1.54":
+  version: 0.1.54
+  resolution: "react-native-wallet-chat@npm:0.1.54"
   dependencies:
     "@stablelib/random": ^1.0.2
     classnames: ^2.3.2
     ethers: 5.7.2
     react-native-elements: ^3.4.3
-    react-native-paper: ^5.9.1
     react-native-webview: ^13.2.2
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: c27a6122bda4a74d107cfab3dc3c7327ccd37479920b1994e11c48018ae4ef3d4b2b1eb59f82ad15df50fcef4b7bda467b025abb81642116711e87cebe02bbbe
+  checksum: 618c341cfd02071d1821c2eb52bb98e432678d50a91cb534dcb0314f86c5d2a485b410347f77a1171881bcb52c0a7dc3c5e366123ad58fff11dd030c32beba96
   languageName: node
   linkType: hard
 
@@ -35829,17 +35768,6 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 2d266937756689a76f124ffb4c1ea3e1bbb2b263219f90ada8a11aebebe1280b13bb76cca2ca96bdee3dbc554cbc0b24752eb895b2a51577aa644427e9229f2b
-  languageName: node
-  linkType: hard
-
-"semver@npm:^7.5.3":
-  version: 7.5.4
-  resolution: "semver@npm:7.5.4"
-  dependencies:
-    lru-cache: ^6.0.0
-  bin:
-    semver: bin/semver.js
-  checksum: 12d8ad952fa353b0995bf180cdac205a4068b759a140e5d3c608317098b3575ac2f1e09182206bf2eb26120e1c0ed8fb92c48c592f6099680de56bb071423ca3
   languageName: node
   linkType: hard
 
@@ -39548,15 +39476,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-latest-callback@npm:^0.1.5":
-  version: 0.1.6
-  resolution: "use-latest-callback@npm:0.1.6"
-  peerDependencies:
-    react: ">=16.8"
-  checksum: d94bea5cc5910d5967b12c766355c11812c1f57b5993d4b429dd6e580ac5904087ce732891d4fb3a855e0e56e6a7900b9af2084ede1d86df8e381afe47c2947a
-  languageName: node
-  linkType: hard
-
 "use-subscription@npm:^1.0.0":
   version: 1.8.0
   resolution: "use-subscription@npm:1.8.0"
@@ -42283,13 +42202,6 @@ __metadata:
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: ce4ada136e8a78a0b08dc10b4b900936912d15de59905b2bf415b4d33c63df1d555d23acb2a41b23cf9fb5da41c256441afca3d6509de7247daa062fd2c5ea5f
-  languageName: node
-  linkType: hard
-
-"yaml@npm:^2.2.2":
-  version: 2.3.1
-  resolution: "yaml@npm:2.3.1"
-  checksum: 2c7bc9a7cd4c9f40d3b0b0a98e370781b68b8b7c4515720869aced2b00d92f5da1762b4ffa947f9e795d6cd6b19f410bd4d15fdd38aca7bd96df59bd9486fb54
   languageName: node
   linkType: hard
 

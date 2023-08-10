@@ -70,11 +70,12 @@ jobs:
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           FORMATTED_VERSION=${BUILD_VERSION%.*}.x
-          APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.${{ env.ENV }}) 
+          APPCENTER_TOKEN=`node -pe "require('dotenv').parse(require('fs').readFileSync('.env.${{ env.ENV }}')).APPCENTER_ANDROID_TOKEN"`
           echo Code push release target version ${FORMATTED_VERSION}
           yarn lingui:compile
           yarn animation:assets
-          npx appcenter codepush release-react --token ${APPCENTER_TOKEN} -a ${{ env.APPCENTER_NAME }} -d Production  -t ${FORMATTED_VERSION}
+          npx appcenter --version
+          npx appcenter codepush release-react --token ${APPCENTER_TOKEN} -a ${{ env.APPCENTER_NAME }} -d Production -t ${FORMATTED_VERSION} --debug
 
   build:
     name: Build

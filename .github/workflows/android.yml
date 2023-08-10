@@ -74,8 +74,7 @@ jobs:
           echo Code push release target version ${FORMATTED_VERSION}
           yarn lingui:compile
           yarn animation:assets
-          npx appcenter --version
-          npx appcenter codepush release-react --token ${APPCENTER_TOKEN} -a ${{ env.APPCENTER_NAME }} -d Production -t ${FORMATTED_VERSION} --debug
+          npx appcenter codepush release-react --token ${APPCENTER_TOKEN} -a ${{ env.APPCENTER_NAME }} -d Production -t ${FORMATTED_VERSION}
 
   build:
     name: Build

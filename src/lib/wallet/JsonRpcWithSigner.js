@@ -1,6 +1,7 @@
 // @flow
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
+import web3Utils from 'web3-utils'
 
 export class JsonRpcProviderWithSigner extends JsonRpcProvider {
   constructor(jsonRpcProvider, privateKey: string) {
@@ -37,7 +38,14 @@ export class JsonRpcProviderWithSigner extends JsonRpcProvider {
       }
       case 'personal_sign':
       case 'eth_sign': {
-        return signer.signMessage(data)
+        //the message to sign is in hex and in the transaction variable
+
+        //for WalletChat, we need to sign the plain text message, not the hex data.
+        //not sure if this conversion is working just right due to CR/newline being converted twice
+        let asciiString = web3Utils.hexToUtf8(transaction)
+
+        //console.log('signing message: ', asciiString)
+        return signer.signMessage(asciiString)
       }
       case 'eth_accounts': {
         return [signer.address]

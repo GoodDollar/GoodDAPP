@@ -77,6 +77,8 @@ import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 
+//import { web3Provider } from '../../lib/wallet/GoodWalletProvider'
+
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 import Settings from './Settings'
 
@@ -815,10 +817,10 @@ const Dashboard = props => {
                       connectedWallet={
                         goodWallet
                           ? {
-                              walletName: 'GoodWallet',
+                              walletName: 'GoodWalletV2',
                               account: goodWallet.account,
                               chainId: goodWallet.networkId,
-                              provider: web3ProviderLocal,
+                              provider: web3ProviderLocal, //goodWallet.wallet.currentProvider
                             }
                           : undefined
                       }

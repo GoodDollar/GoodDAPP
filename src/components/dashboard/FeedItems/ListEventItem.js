@@ -3,6 +3,7 @@ import React, { useCallback } from 'react'
 import { Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
 import { get, noop } from 'lodash'
 import { t } from '@lingui/macro'
+import { ChatWithOwner } from 'react-native-wallet-chat'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -234,14 +235,31 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                 </>
               )}
             </View>
-            <EventIcon
-              style={styles.typeIcon}
-              animStyle={styles.typeAnimatedIcon}
-              type={itemType}
-              size={normalize(34)}
-              showAnim={index === 0}
-              delay={100}
-            />
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+              {!eventSettings.withoutAmount && (
+                <ChatWithOwner
+                  render={
+                    <Icon
+                      style={{
+                        marginRight: 10,
+                        marginTop: 5,
+                      }}
+                      name="chat-1"
+                      size={25}
+                      color="gray80Percent"
+                    />
+                  }
+                />
+              )}
+              <EventIcon
+                style={styles.typeIcon}
+                animStyle={styles.typeAnimatedIcon}
+                type={itemType}
+                size={normalize(34)}
+                showAnim={index === 0}
+                delay={100}
+              />
+            </View>
           </View>
         </View>
       </View>

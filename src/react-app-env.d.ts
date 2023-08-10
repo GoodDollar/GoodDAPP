@@ -18,6 +18,7 @@ interface Window {
     BinanceChain?: any
     eth?: object
     ethereum?: {
+        isOpera?: boolean
         isMetaMask?: boolean
         on?: (...args: any[]) => void
         off?: (...args: any[]) => void

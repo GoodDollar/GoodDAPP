@@ -10,13 +10,12 @@ import { parse } from 'qs'
 import isEqual from 'lodash/isEqual'
 import SideBar from '../components/SideBar'
 import styled from 'styled-components'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import { useFaucet } from '@gooddollar/web3sdk-v2'
 import TransactionUpdater from '../state/transactions/updater'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { isMobile } from 'react-device-detect'
 import WalletChat from '../components/WalletChat'
+import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
 
 export const Beta = styled.div`
     font-style: normal;
@@ -34,9 +33,9 @@ export const Beta = styled.div`
     }
 `
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isSimpleApp?: boolean }>`
     @media ${({ theme }) => theme.media.md} {
-        padding-bottom: 75px;
+        padding-bottom: ${(props) => (props.isSimpleApp ? '0px' : '75px')};
     }
 `
 
@@ -117,13 +116,15 @@ function App(): JSX.Element {
         }
     }, [dispatch, search])
 
-    const { i18n } = useLingui()
+    // dont show chat and remove padding for network info if simple app
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const isSimpleApp = useIsSimpleApp()
 
     return (
         <Suspense fallback={null}>
             <AppWrap className="flex flex-col overflow-hidden">
                 <AppBar />
-                <Wrapper className="flex flex-grow overflow-hidden">
+                <Wrapper isSimpleApp className="flex flex-grow overflow-hidden">
                     {!isMobile && <SideBar />}
                     <MainBody
                         ref={bodyRef}
@@ -142,10 +143,10 @@ function App(): JSX.Element {
                                 <TransactionUpdater />
                             </div>
                         </Web3ReactManager>
-                        <Beta className="mt-3 lg:mt-8">{i18n._(t`This project is in beta. Use at your own risk`)}</Beta>
+                        {/* <Beta className="mt-3 lg:mt-8">{i18n._(t`This project is in beta. Use at your own risk`)}</Beta> */}
                     </MainBody>
                 </Wrapper>
-                <WalletChat />
+                {!isSimpleApp && <WalletChat />}
             </AppWrap>
         </Suspense>
     )

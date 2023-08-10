@@ -23,6 +23,7 @@ import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 import { HttpsProvider } from 'utils/HttpsProvider'
 import { registerServiceWorker } from './serviceWorker'
 import { OnboardProviderWrapper } from 'components/BlockNativeOnboard'
+import { SimpleAppProvider } from 'state/simpleapp/simpleapp'
 
 if (window.ethereum) {
     window.ethereum.autoRefreshOnNetworkChange = false
@@ -85,7 +86,9 @@ ReactDOM.render(
                                         <NativeBaseProvider theme={theme}>
                                             <GlobalStyle />
                                             <Router>
-                                                <App />
+                                                <SimpleAppProvider>
+                                                    <App />
+                                                </SimpleAppProvider>
                                             </Router>
                                         </NativeBaseProvider>
                                     </ThemeProvider>

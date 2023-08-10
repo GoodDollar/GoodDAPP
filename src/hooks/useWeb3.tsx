@@ -16,6 +16,8 @@ type NetworkSettings = {
         MAINNET_RPC: string | undefined
         FUSE_RPC: string | undefined
         CELO_RPC: string | undefined
+        KOVAN_RPC: string | undefined
+        ROPSTEN_RPC: string | undefined
     }
 }
 
@@ -29,6 +31,8 @@ export function useNetwork(): NetworkSettings {
                     (ethers.getDefaultProvider('mainnet') as any).providerConfigs[0].provider.connection.url,
                 FUSE_RPC: process.env.REACT_APP_FUSE_RPC || 'https://rpc.fuse.io',
                 CELO_RPC: process.env.REACT_APP_CELO_RPC || 'https://forno.celo.org',
+                KOVAN_RPC: undefined,
+                ROPSTEN_RPC: undefined,
             },
         ],
         []

@@ -146,7 +146,7 @@ jobs:
           if [[ $env_name == "development" ]]; then
            vercel_env_name="development"
            vercel pull --yes --environment=$vercel_env_name --token=${{ secrets.VERCEL_TOKEN }}
-          elif [[ $env_name == "production" ]]; then
+          elif [[ $env_name == "prod" ]]; then
            vercel_env_name="production"
            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           else 

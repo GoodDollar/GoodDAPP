@@ -896,6 +896,13 @@ export class UserStorage {
 
     const fromGDUbi = this.wallet.getUBIAddresses().includes((data.address || '').toLowerCase()) && 'GoodDollar UBI'
 
+    let fromAddy = 'Unknown'
+    if (get(receiptEvent, 'from')) {
+      fromAddy = get(receiptEvent, 'from')
+    }
+
+    //console.log("kevin was here", fromAddy)
+
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||
         type === FeedItemType.EVENT_TYPE_CLAIM ||
@@ -906,7 +913,7 @@ export class UserStorage {
 
     const fromEmailMobile = data.initiatorType && data.initiator
 
-    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || 'Unknown'
+    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromAddy
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {

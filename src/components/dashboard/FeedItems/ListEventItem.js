@@ -244,7 +244,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                         marginRight: 10,
                         marginTop: 5,
                       }}
-                      name="chat-1"
+                      name="whatsapp-1"
                       size={25}
                       color="gray80Percent"
                     />

@@ -897,8 +897,13 @@ export class UserStorage {
     const fromGDUbi = this.wallet.getUBIAddresses().includes((data.address || '').toLowerCase()) && 'GoodDollar UBI'
 
     let fromAddy = 'Unknown'
+    let fullFromAddress = 'Unknown'
     if (get(receiptEvent, 'from')) {
-      fromAddy = get(receiptEvent, 'from')
+      fullFromAddress = get(receiptEvent, 'from')
+
+      //do this for printing
+      fromAddy =
+        fullFromAddress.slice(0, 7) + '...' + fullFromAddress.slice(fullFromAddress.length - 5, fullFromAddress.length)
     }
 
     //console.log("kevin was here", fromAddy)

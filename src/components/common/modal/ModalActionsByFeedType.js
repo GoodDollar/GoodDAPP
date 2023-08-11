@@ -162,28 +162,10 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
   const shareLinkClicked = useCallback(() => fireEventAnalytics('Sharelink'), [])
 
-  const [txHash, fromAddr, isTx] = useMemo(() => {
+  const [txHash, isTx] = useMemo(() => {
     const hash = get(item, 'data.receiptHash', item.id)
 
-    let fromAddy = ''
-    fetch(`https://explorer.celo.org/mainnet/api?module=transaction&action=gettxinfo&txhash=${hash}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok. Status: ${response.status}`)
-        }
-        return response.json()
-      })
-      .then(data => {
-        fromAddy = data?.result?.from || ''
-
-        //console.log("Fetched tx details:", data, "fromAddy:", fromAddy);
-      })
-
-    // .catch(error => {
-    //   console.error('Error fetching data:', error)
-    // })
-
-    return [hash, fromAddy, hash && hash.startsWith('0x')]
+    return [hash, hash && hash.startsWith('0x')]
   }, [item])
 
   const goToTxDetails = useCallback(() => {
@@ -343,13 +325,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               </Section.Text>
               <Section.Text
                 fontSize={11}
-                numberOfLines={5}
+                numberOfLines={1}
                 ellipsizeMode="middle"
                 style={styles.txHash}
                 textAlign="left"
               >
                 {txHash}
-                From: {fromAddr}
               </Section.Text>
             </Section.Stack>
           )}
@@ -377,7 +358,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   txHashWrapper: { justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column', flex: 1 },
   txHash: { maxWidth: 200 },
-  fromAddr: { maxWidth: 200 },
   spaceBetween: {
     justifyContent: 'space-between',
   },

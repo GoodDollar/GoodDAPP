@@ -176,6 +176,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   if (itemType === 'news') {
     return <NewsItem item={feed} eventSettings={eventSettings} styles={styles} />
   }
+
   return (
     <View style={styles.rowContent}>
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
@@ -238,6 +239,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
               {!eventSettings.withoutAmount && (
                 <ChatWithOwner
+                  ownerAddress='0x54f7bcc6a550530743d5dbc814c11cd7703297d0'
                   render={
                     <Icon
                       style={{

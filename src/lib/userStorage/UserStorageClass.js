@@ -906,7 +906,7 @@ export class UserStorage {
         fullFromAddress.slice(0, 7) + '...' + fullFromAddress.slice(fullFromAddress.length - 5, fullFromAddress.length)
     }
 
-    //console.log("kevin was here", fromAddy)
+    // console.log("kevin was here", fromAddy)
 
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||

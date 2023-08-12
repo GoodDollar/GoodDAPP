@@ -810,7 +810,17 @@ export class UserStorage {
       sponsoredLink,
       sponsoredLogo,
     } = data
-    const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
+    const {
+      address,
+      initiator,
+      initiatorType,
+      value,
+      fromAddress,
+      toAddress,
+      displayName,
+      message,
+      avatar,
+    } = this._extractData(event)
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
     const displayType = this._extractDisplayType(event)
@@ -835,6 +845,8 @@ export class UserStorage {
         receiptHash: get(event, 'data.receiptEvent.txHash'),
         endpoint: {
           address: sender,
+          toAddress,
+          fromAddress,
           displayName,
           avatar,
         },
@@ -906,7 +918,14 @@ export class UserStorage {
         fullFromAddress.slice(0, 7) + '...' + fullFromAddress.slice(fullFromAddress.length - 5, fullFromAddress.length)
     }
 
-    //console.log("kevin was here", fromAddy)
+    //let toAddy = 'Unknown'
+    let fullToAddress = 'Unknown'
+    if (get(receiptEvent, 'to')) {
+      fullToAddress = get(receiptEvent, 'to')
+
+      //do this for printing
+      //toAddy = fullToAddress.slice(0, 7) + '...' + fullToAddress.slice(fullFromAddress.length - 5, fullToAddress.length)
+    }
 
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||
@@ -919,6 +938,8 @@ export class UserStorage {
     const fromEmailMobile = data.initiatorType && data.initiator
 
     data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromAddy
+    data.toAddress = fullToAddress
+    data.fromAddress = fullFromAddress
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {

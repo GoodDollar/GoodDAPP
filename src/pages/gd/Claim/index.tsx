@@ -1,7 +1,8 @@
 import React, { memo, useState, useEffect, useCallback } from 'react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
+import { ArrowButton, ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
+import { useHistory } from 'react-router-dom'
 import { Text, useBreakpointValue, Box, View } from 'native-base'
 import { ClaimBalance } from './ClaimBalance'
 import { useClaim, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
@@ -12,6 +13,7 @@ import HowWorks from 'assets/images/claim/howitworks.png'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { QueryParams } from '@usedapp/core'
 import { noop } from 'lodash'
+import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
 
 const Claim = memo(() => {
     const { i18n } = useLingui()
@@ -25,6 +27,8 @@ const Claim = memo(() => {
     const { chainId } = useActiveWeb3React()
     const network = SupportedV2Networks[chainId]
     const sendData = useSendAnalyticsData()
+    const isSimpleApp = useIsSimpleApp()
+    const history = useHistory()
 
     // there are three possible scenarios
     // 1. claim amount is 0, meaning user has claimed that day
@@ -100,6 +104,10 @@ const Claim = memo(() => {
 
         return !!state.length
     }, [connect])
+
+    const navigateToSwap = useCallback(() => {
+        history.push('/swap')
+    }, [history])
 
     const mainView = useBreakpointValue({
         base: {
@@ -240,13 +248,38 @@ your G$. 🙂`,
                         />
                     </Box>
                 </div>
-                <div
-                    className={`w-4/5 lg:flex lg:flex-col ${claimed ? 'lg:w-full' : 'lg:w-3/5'}`}
-                    style={{ flexGrow: '1' }}
-                >
-                    <ClaimCarousel cards={mockedCards} claimed={claimed} />
-                </div>
+                {isSimpleApp && claimed && (
+                    <View>
+                        <ArrowButton
+                            borderWidth="1"
+                            borderColor="borderBlue"
+                            px="6px"
+                            w="220px"
+                            mb="4"
+                            text={`Exchange G$ <> cUSD`}
+                            onPress={navigateToSwap}
+                            innerText={{
+                                fontSize: 'sm',
+                            }}
+                            textInteraction={{ hover: { color: 'white' } }}
+                        />
+                        <Text
+                            alignSelf={'center'}
+                            justifyItems={'center'}
+                            alignContent={'center'}
+                            justifyContent={'center'}
+                        >
+                            OR
+                        </Text>
+                    </View>
+                )}
             </View>
+            <div
+                className={`w-4/5 lg:flex lg:flex-col ${claimed ? 'lg:w-full' : 'lg:w-3/5'}`}
+                style={{ flexGrow: '1' }}
+            >
+                <ClaimCarousel cards={mockedCards} claimed={claimed} />
+            </div>
         </>
     )
 })

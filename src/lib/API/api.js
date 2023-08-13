@@ -371,7 +371,8 @@ export class APIService {
     }
 
     if (fromBlock) {
-      params.startblock = fromBlock
+      params.start_block = fromBlock //blockscout
+      params.startblock = fromBlock //etherscan
     }
 
     const networkExplorerUrl = Config.ethereum[chainId]?.explorerAPI
@@ -393,7 +394,8 @@ export class APIService {
     }
 
     if (fromBlock) {
-      params.startblock = fromBlock
+      params.start_block = fromBlock
+      params.startblock = fromBlock //etherscan
     }
 
     const networkExplorerUrl = Config.ethereum[chainId]?.explorerAPI

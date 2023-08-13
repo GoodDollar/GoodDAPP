@@ -20,12 +20,14 @@ import { formatUnits, parseUnits } from '@ethersproject/units'
 import abiDecoder from 'abi-decoder'
 import {
   assign,
+  chunk,
   filter,
   findKey,
   first,
   flatten,
   get,
   identity,
+  last,
   mapValues,
   noop,
   pickBy,
@@ -382,7 +384,13 @@ export class GoodWallet {
         }
 
         const startBlock = this.lastEventsBlock
-        const lastBlock = await this.syncTxWithBlockchain(startBlock)
+        const lastBlock = await this.syncTxFromExplorer(startBlock).catch(e => {
+          log.error('syncTxFromExplorer failed', e.message, e, {
+            networkId: this.networkId,
+            startBlock,
+          })
+          return this.syncTxWithBlockchain(startBlock)
+        })
         this.lastEventsBlock = lastBlock
         lastBlockCallback(lastBlock)
 
@@ -421,10 +429,8 @@ export class GoodWallet {
       log.info('watchEvents: got txs from explorer', { firstTx, fromBlock })
     }
 
-    const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
-
-    lastBlockCallback(lastBlock)
-    this.lastEventsBlock = lastBlock
+    lastBlockCallback(fromBlock)
+    this.lastEventsBlock = fromBlock
 
     this.pollEvents(Config.web3Polling, lastBlockCallback)
   }
@@ -437,13 +443,26 @@ export class GoodWallet {
     log.debug('_notifyEvents got events', { events, fromBlock })
     this.getSubscribers('balanceChanged').forEach(cb => cb())
     const uniqEvents = sortBy(uniqBy(events, 'transactionHash'), 'blockNumber')
-    uniqEvents.forEach(event => {
-      this._notifyReceipt(event.transactionHash).catch(err =>
+    const ps = uniqEvents.map(event => {
+      return this._notifyReceipt(event.transactionHash).catch(err =>
         log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
           category: ExceptionCategory.Blockhain,
         }),
       )
     })
+    return Promise.all(ps)
+  }
+
+  async syncTxFromExplorer(startBlock) {
+    const results = await API.getTokenTXs(this.tokenContract._address, this.account, this.networkId, startBlock)
+    results.forEach(r => (r.transactionHash = r.hash))
+
+    const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
+    const chunks = chunk(results, 10)
+    const ps = chunks.map(c => limit(() => this._notifyEvents(c, startBlock)))
+    await Promise.all(ps)
+    const lastBlock = Number(last(results)?.blockNumber)
+    return lastBlock ? lastBlock + 1 : startBlock
   }
 
   async syncTxWithBlockchain(startBlock) {
@@ -489,7 +508,7 @@ export class GoodWallet {
       log.debug('sync tx from blockchain finished successfully')
       return lastBlock
     } catch (e) {
-      log.error('Failed to sync tx from blockchain', e.message, e, { startBlock, lastBlock })
+      log.error('syncTxWithBlockchain failed', e.message, e, { startBlock, lastBlock, networkId: this.networkId })
     }
   }
 
@@ -602,7 +621,7 @@ export class GoodWallet {
    */
   async getReceiptWithLogs(transactionHash: string) {
     const chainId = this.networkId
-    const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
+    const transactionReceipt = await retryCall(() => this.wallet.eth.getTransactionReceipt(transactionHash))
     if (!transactionReceipt) {
       return null
     }

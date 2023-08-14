@@ -14,6 +14,7 @@ import logger from '../../lib/logger/js-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blurred'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
+import { redirectTo } from '../../lib/utils/linking'
 import BackButtonHandler from './BackButtonHandler'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
@@ -255,11 +256,19 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
+  goToExternal = () => {
+    // should use rdu url from fvContext
+    redirectTo('https://gooddapp.org?verified=false')
+  }
+
   render() {
     const { isMenuOn, setMenu } = this.context
     this.setMenu = setMenu
     this.isMenuOpened = isMenuOn
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
+
+    const { isFvFlow } = navigationConfig ?? {}
+
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
 
@@ -321,7 +330,11 @@ class AppView extends Component<AppViewProps, AppViewState> {
                 )}
               </>
             ) : (
-              <NavBar backToWallet={backToWallet} goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
+              <NavBar
+                backToWallet={backToWallet}
+                goBack={backButtonHidden ? undefined : isFvFlow ? this.goToExternal : this.pop}
+                title={pageTitle}
+              />
             ))}
           {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />

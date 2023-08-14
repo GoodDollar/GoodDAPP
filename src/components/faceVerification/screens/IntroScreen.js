@@ -104,6 +104,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
   const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const { goToRoot, navigateTo, push } = screenProps
+  const dismissedWebView = navigation.getParam('dismissedWebView')
 
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
   const userName = useMemo(() => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''), [
@@ -112,7 +113,13 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     fullName,
   ])
 
-  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
+  const dismissWebViewNotice = useCallback(() => {
+    push('FaceVerificationIntro', { dismissedWebView: true })
+  })
+
+  // goToRoot is used as there is a unknown issue with navigateTo('Home')
+  // that causes Dashboard to open with loading icon
+  const navigateToHome = useCallback(() => goToRoot(), [goToRoot])
 
   const [disposing, checkDisposalState] = useDisposingState(
     {
@@ -150,8 +157,9 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkOnMounted: false,
     onSupported: requestCameraPermissions,
     onUnsupported: navigateToHome,
+    onDismissWebview: dismissWebViewNotice,
     unsupportedPopup: BlockingUnsupportedBrowser,
-    onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
+    onCheck: () => dismissedWebView || (!isWebView && (!isIOSWeb || iosSupportedWeb)),
   })
 
   const handleVerifyClick = useCallback(async () => {

@@ -1,8 +1,9 @@
 // libraries
 import React from 'react'
+import { t } from '@lingui/macro'
+import { noop } from 'lodash'
 
 // components
-import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 
@@ -33,7 +34,7 @@ export default ({ onDismiss }) => (
 
 // Modal for blocking user further access to functionality
 // Example usage: functionalties which are webviews and we know don't work at all
-export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined }) => {
+export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined, onDismissWebView = noop }) => {
   const { showDialog } = useDialog()
 
   const navigateTo = copyUrl ?? Config.publicUrl
@@ -63,6 +64,10 @@ export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined }) =
         {
           text: `Go back`,
           action: onDismiss,
+        },
+        {
+          text: `Try Anyway`,
+          action: onDismissWebView,
         },
       ]}
     />

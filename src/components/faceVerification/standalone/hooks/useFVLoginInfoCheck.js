@@ -8,7 +8,8 @@ const useFVLoginInfoCheck = navigation => {
   const { navigate } = navigation
 
   useEffect(() => {
-    if (!isFVFlow || !navigate) {
+    const dismissedWebView = navigation.getParam('dismissedWebView')
+    if (!isFVFlow || !navigate || dismissedWebView) {
       return
     }
 

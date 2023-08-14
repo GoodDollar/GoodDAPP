@@ -33,6 +33,7 @@ export default (options = {}) => {
     onChecked = noop,
     onSupported = noop,
     onUnsupported = noop,
+    onDismissWebview = noop,
     checkOnMounted = true,
     unsupportedPopup = null,
     outdatedPopup = null,
@@ -74,9 +75,16 @@ export default (options = {}) => {
         onUnsupported()
       }
 
+      const _onDismissWebview = () => {
+        onChecked(true)
+        onDismissWebview()
+      }
+
       showPopup({
         type: 'error',
-        content: <PopupComponent onDismiss={onDismiss} />,
+        content: (
+          <PopupComponent onDismiss={onDismiss} {...(isOutdated ? {} : { onDismissWebView: _onDismissWebview })} />
+        ),
         onDismiss: onDismiss,
       })
     },

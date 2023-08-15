@@ -1,5 +1,5 @@
 //@flow
-import React, { useContext } from 'react'
+import React from 'react'
 import { Platform, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
@@ -12,8 +12,6 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 import { withStyles } from '../../lib/styles'
 import HeaderLogoImage from '../../assets/goodwallet.svg'
-import useFVRedirect from '../faceVerification/standalone/hooks/useFVRedirect'
-import { FVFlowContext } from '../faceVerification/standalone/context/FVFlowContext'
 
 /**
  * NavigationBar shows title and back button
@@ -28,14 +26,6 @@ const NavBar = ({ navigation, title, styles, goBack, backToWallet = false, logo 
   const showBack = !logo && !!goBack
   const showBackButton = showBack && !backToWallet
   const showBackToWallet = showBack && !!backToWallet
-  const fvredirect = useFVRedirect()
-  const { isFVFlow } = useContext(FVFlowContext)
-
-  //special action for standalone fv flow.
-  const goto =
-    isFVFlow && ['FaceVerificationIntro', 'FaceVerification'].includes(navigation.state.routeName)
-      ? () => fvredirect(false, 'user canceled')
-      : goBack
 
   return (
     <NavigationBar dark style={styles.topbarStyles}>
@@ -46,7 +36,7 @@ const NavBar = ({ navigation, title, styles, goBack, backToWallet = false, logo 
       ) : showBackButton ? (
         <IconButton
           name="arrow-back"
-          onPress={goto}
+          onPress={goBack}
           color="white"
           bgColor="transparent"
           size={22}

@@ -315,7 +315,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
                 <NavigationBar />
                 {isBridge && (
                   <NavBar
-                    navigation={descriptor.navigation}
                     backToWallet={backToWallet}
                     goBack={backButtonHidden ? undefined : this.pop}
                     title={pageTitle}
@@ -323,12 +322,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
                 )}
               </>
             ) : (
-              <NavBar
-                navigation={descriptor.navigation}
-                backToWallet={backToWallet}
-                goBack={backButtonHidden ? undefined : this.pop}
-                title={pageTitle}
-              />
+              <NavBar backToWallet={backToWallet} goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
             ))}
           {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />

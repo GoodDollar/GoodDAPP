@@ -43,6 +43,7 @@ import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../lib/userStorage/useProfile'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
+import useFVRedirect from '../standalone/hooks/useFVRedirect'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -104,6 +105,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
   const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const { goToRoot, navigateTo, push } = screenProps
+  const fvRedirect = useFVRedirect()
 
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
   const userName = useMemo(() => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''), [
@@ -111,6 +113,23 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     firstName,
     fullName,
   ])
+
+  useEffect(() => {
+    if (isFVFlow) {
+      const unsubscribe = navigation.addListener('didFocus', e => {
+        // not dangerous: https://reactnavigation.org/docs/upgrading-from-5.x/#dropped-dangerously-from-dangerouslygetparent-and-dangerouslygetstate
+        const parent = navigation.dangerouslyGetParent()
+
+        // when on root route and didFocus is triggered means a user tried to navigate back on start or error page
+        // so we redirect back to original app/website
+        if (parent.state.index === 0 && e.action.type === 'Navigation/NAVIGATE') {
+          fvRedirect(false, 'Cancelled flow')
+        }
+      })
+
+      return unsubscribe
+    }
+  }, [navigation])
 
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 

@@ -29,7 +29,7 @@ const FVFlowScreens = withNavigationOptions({
 
 // will exec once during first render
 const RouterWrapper = React.lazy(async () => {
-  const router = createStackNavigator(FVFlowScreens)
+  const router = createStackNavigator(FVFlowScreens, {})
   const container = createAppContainer(router)
 
   log.debug('Generated fv router')

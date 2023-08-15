@@ -267,8 +267,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.isMenuOpened = isMenuOn
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
 
-    const { isFvFlow } = navigationConfig ?? {}
-
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
 
@@ -323,6 +321,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
                 <NavigationBar />
                 {isBridge && (
                   <NavBar
+                    navigation={descriptor.navigation}
                     backToWallet={backToWallet}
                     goBack={backButtonHidden ? undefined : this.pop}
                     title={pageTitle}
@@ -331,8 +330,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
               </>
             ) : (
               <NavBar
+                navigation={descriptor.navigation}
                 backToWallet={backToWallet}
-                goBack={backButtonHidden ? undefined : isFvFlow ? this.goToExternal : this.pop}
+                goBack={backButtonHidden ? undefined : this.pop}
                 title={pageTitle}
               />
             ))}

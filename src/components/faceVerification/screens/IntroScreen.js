@@ -20,14 +20,7 @@ import logger from '../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
-import {
-  iosSupportedWeb,
-  isBrowser,
-  isEmulator,
-  isIOSWeb,
-  isMobileSafari,
-  isWebView,
-} from '../../../lib/utils/platform'
+import { iosSupportedWeb, isBrowser, isEmulator, isIOSWeb, isWebView } from '../../../lib/utils/platform'
 import { openLink } from '../../../lib/utils/linking'
 import Config from '../../../config/config'
 import { Permissions } from '../../permissions/types'
@@ -104,7 +97,6 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
   const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const { goToRoot, navigateTo, push } = screenProps
-  const dismissedWebView = navigation.getParam('dismissedWebView')
 
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
   const userName = useMemo(() => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''), [
@@ -112,14 +104,6 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     firstName,
     fullName,
   ])
-
-  const dismissWebViewNotice = useCallback(() => {
-    push('FaceVerificationIntro', { dismissedWebView: true })
-  })
-
-  // goToRoot is used as there is a unknown issue with navigateTo('Home')
-  // that causes Dashboard to open with loading icon
-  const navigateToHome = useCallback(() => goToRoot(), [goToRoot])
 
   const [disposing, checkDisposalState] = useDisposingState(
     {
@@ -156,10 +140,11 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const [, checkForCameraSupport] = useCameraSupport({
     checkOnMounted: false,
     onSupported: requestCameraPermissions,
-    onUnsupported: navigateToHome,
-    onDismissWebview: dismissWebViewNotice,
+    onUnsupported: () => {
+      requestCameraPermissions({ ignoreMountedState: true }) // we let the user try anyways. we add ignoreMOuntedState because when showing the unsupportedbrowser popup it unmounts
+    },
     unsupportedPopup: BlockingUnsupportedBrowser,
-    onCheck: () => dismissedWebView || (!isWebView && (!isIOSWeb || iosSupportedWeb)),
+    onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
 
   const handleVerifyClick = useCallback(async () => {
@@ -176,8 +161,6 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   }, [checkForCameraSupport])
 
   useFaceTecSDK({ initOnMounted: true }) // early initialize
-
-  useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
     log.debug({ enrollmentIdentifier, userName, isFVFlow, isFVFlowReady })

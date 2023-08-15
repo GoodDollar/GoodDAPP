@@ -34,7 +34,7 @@ export default ({ onDismiss }) => (
 
 // Modal for blocking user further access to functionality
 // Example usage: functionalties which are webviews and we know don't work at all
-export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined, onDismissWebView = noop }) => {
+export const BlockingUnsupportedBrowser = ({ onDismiss = noop, copyUrl = undefined }) => {
   const { showDialog } = useDialog()
 
   const navigateTo = copyUrl ?? Config.publicUrl
@@ -43,7 +43,7 @@ export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined, onD
     showDialog({
       isMinHeight: false,
       showButtons: false,
-      onDismiss,
+      onDismiss: noop,
       title: t`Link copied to clipboard`,
     })
   }
@@ -62,12 +62,8 @@ export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined, onD
           action: copyToClipboard,
         },
         {
-          text: `Go back`,
-          action: onDismiss,
-        },
-        {
           text: `Try Anyway`,
-          action: onDismissWebView,
+          action: onDismiss,
         },
       ]}
     />

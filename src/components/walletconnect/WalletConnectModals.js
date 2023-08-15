@@ -1,7 +1,7 @@
 // @flow
 // libraries
 import React, { useCallback, useMemo } from 'react'
-import { ScrollView, View } from 'react-native'
+import { Platform, ScrollView, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { t } from '@lingui/macro'
 import { entries, first, mapValues, pick } from 'lodash'
@@ -28,6 +28,11 @@ const getStylesFromProps = ({ theme }) => {
     container: {
       width: '95%',
       alignSelf: 'center',
+      ...Platform.select({
+        native: {
+          maxHeight: 400,
+        },
+      }),
     },
     header: {
       display: 'flex',
@@ -51,11 +56,20 @@ const getStylesFromProps = ({ theme }) => {
 
     infoView: {
       alignItems: 'flex-start',
-      marginTop: 20,
       width: '100%',
       textAlign: 'left',
       fontSize: 14,
-      maxHeight: 400,
+      ...Platform.select({
+        web: {
+          height: 400,
+        },
+        native: {
+          maxHeight: 150,
+        },
+      }),
+    },
+    requestDesc: {
+      marginTop: 0,
     },
     labelText: {
       color: lightBlue,
@@ -141,15 +155,15 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
         </Text>
       )}
       {name && (
-        <>
+        <View style={styles.requestDesc}>
           <Text fontSize={16} fontWeight={'bold'}>
-            Contrat Call:
+            Contract Call:
           </Text>
           <Text style={styles.labelText}>{t`Contract Method`}</Text>
           <Text fontSize={12} textAlign={'left'}>
             {name}
           </Text>
-        </>
+        </View>
       )}
       {params &&
         params.map(({ name, value }) => (
@@ -247,7 +261,12 @@ const Approve = ({
       <Text style={styles.boldText}>{requestText}</Text>
       <View style={styles.infoView}>
         <Text style={styles.labelText}>{labelText}</Text>
-        <ScrollView style={styles.data} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          style={styles.data}
+          persistentScrollbar={true}
+          showsVerticalScrollIndicator={true}
+          showsHorizontalScrollIndicator={false}
+        >
           {modalType === 'scan' && <QrReader delay={300} onError={() => {}} onScan={onScan} />}
           {['connect', 'sign', 'switchchain'].includes(modalType) && (
             <Text fontSize={12} textAlign={'left'}>

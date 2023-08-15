@@ -14,7 +14,6 @@ import logger from '../../lib/logger/js-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blurred'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
-import { redirectTo } from '../../lib/utils/linking'
 import BackButtonHandler from './BackButtonHandler'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
@@ -254,11 +253,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   setScreenState = data => {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
-  }
-
-  goToExternal = () => {
-    // should use rdu url from fvContext
-    redirectTo('https://gooddapp.org?verified=false')
   }
 
   render() {

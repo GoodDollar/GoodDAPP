@@ -70,11 +70,14 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
     }, [test, componentA, componentB])
   }
 
-  const useOption = (options: [{ value: any, chance: number }], event = null) => {
+  const useOption = (options: [{ chance: number }] = [], event = null) => {
     const [option, setOption] = useState()
     const [optionIndex, setOptionIndex] = useState(-1)
 
     useEffect(() => {
+      if (!options) {
+        return
+      }
       getTestVariant().then(test => {
         const optionIndex = options.findIndex((opt, idx) => idx === options.length - 1 || test.random <= opt.chance)
 
@@ -85,13 +88,15 @@ const createABTesting = (testName, percentage = Config.abTestPercentage, persist
         log.debug('useOption ready', { optionIndex, test })
         setOptionIndex(optionIndex)
       })
-    }, [setOptionIndex])
+    }, [options, setOptionIndex])
 
     useEffect(() => {
-      const option = options[optionIndex]
+      if (options && options.length > 0 && optionIndex >= 0) {
+        const option = options[optionIndex]
 
-      log.debug('useOption updated', { option })
-      setOption(option)
+        log.debug('useOption updated', { option })
+        setOption(option)
+      }
     }, [options, optionIndex])
 
     return option

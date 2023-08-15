@@ -20,20 +20,19 @@ import { formatUnits, parseUnits } from '@ethersproject/units'
 import abiDecoder from 'abi-decoder'
 import {
   assign,
-  chunk,
   filter,
   findKey,
   first,
   flatten,
   get,
   identity,
-  keyBy,
   mapValues,
   noop,
   pickBy,
   range,
   sortBy,
   throttle,
+  uniq,
   uniqBy,
   values,
 } from 'lodash'
@@ -42,6 +41,7 @@ import bs58 from 'bs58'
 import * as TextileCrypto from '@textile/crypto'
 import { signTypedData } from '@metamask/eth-sig-util'
 import Mutex from 'await-mutex'
+import { pRateLimit } from 'p-ratelimit'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
@@ -50,11 +50,9 @@ import API from '../API'
 import { delay, retry } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
-
 import {
   getTxLogArgs,
   NULL_ADDRESS,
-  retryCall,
   safeCall,
   WITHDRAW_STATUS_COMPLETE,
   WITHDRAW_STATUS_PENDING,
@@ -65,8 +63,11 @@ import pricesQuery from './queries/reservePrices.gql'
 import interestQuery from './queries/interestReceived.gql'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
+// eslint-disable-next-line require-await
+export const retryCall = async asyncFn => retry(asyncFn, 3, 1000)
+
 const ZERO = new BN('0')
-const POKT_MAX_EVENTSBLOCKS = 50000
+const POKT_MAX_EVENTSBLOCKS = 40000
 
 const log = logger.child({ from: 'GoodWalletV2' })
 
@@ -207,7 +208,7 @@ export class GoodWallet {
     const { httpWeb3provider: endpoints } = Config.ethereum[mainnetNetworkId]
 
     this.web3Mainnet = new Web3(
-      new MultipleHttpProvider(endpoints.split(',').map(provider => ({ provider, options: {} })), {}),
+      new MultipleHttpProvider(uniq(endpoints.split(',')).map(provider => ({ provider, options: {} })), {}),
     )
 
     const network = this.config.network
@@ -402,14 +403,13 @@ export class GoodWallet {
 
   // eslint-disable-next-line require-await
   async watchEvents(startFrom, lastBlockCallback) {
-    const { tokenContract, account } = this
-    const { _address: tokenAddress } = tokenContract
+    const { account } = this
     let fromBlock = startFrom
 
     await this.setIsPollEvents(true)
 
     if (!startFrom) {
-      const fetchTokenTxs = () => API.getTokenTXs(tokenAddress, account)
+      const fetchTokenTxs = () => API.getTXs(account, this.networkId)
       const [firstTx] = await retry(fetchTokenTxs, 3, 500).catch(() => [])
 
       fromBlock = get(firstTx, 'blockNumber')
@@ -457,20 +457,18 @@ export class GoodWallet {
     })
 
     try {
-      const chunks = chunk(steps, 10)
+      const limit = pRateLimit({ concurrency: 5, interval: 1000, rate: 3 })
 
-      for (let chunk of chunks) {
-        const ps = chunk.map(async fromBlock => {
-          let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
+      const ps = steps.map(fromBlock => {
+        let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
 
-          // await callback to finish processing events before updating lastEventblock
-          // we pass toBlock as null so the request naturally requests until the last block a node has,
-          // this is to prevent errors where some nodes for some reason still dont have the last block
-          if (toBlock >= lastBlock) {
-            toBlock = undefined
-          }
+        // await callback to finish processing events before updating lastEventblock
+        // we pass toBlock as null so the request naturally requests until the last block a node has,
+        // this is to prevent errors where some nodes for some reason still dont have the last block
+        toBlock = Math.min(toBlock, lastBlock)
 
-          log.debug('sync tx step:', { fromBlock, toBlock })
+        return limit(async () => {
+          log.debug('executing sync tx step:', { fromBlock, toBlock })
 
           const events = flatten(
             await Promise.all([
@@ -481,11 +479,13 @@ export class GoodWallet {
           )
 
           this._notifyEvents(events, fromBlock)
+          log.debug('DONE executing sync tx step:', { fromBlock, toBlock })
+          return events
         })
+      })
 
-        // eslint-disable-next-line no-await-in-loop
-        await Promise.all(ps)
-      }
+      // eslint-disable-next-line no-await-in-loop
+      await Promise.all(ps)
       log.debug('sync tx from blockchain finished successfully')
       return lastBlock
     } catch (e) {
@@ -1181,7 +1181,12 @@ export class GoodWallet {
   async collectInviteBounties() {
     const tx = this.invitesContract.methods.collectBounties()
     const nativeBalance = await this.balanceOfNative()
-    const gas = Math.min(800000, nativeBalance / this.gasPrice - 150000) //convert to gwei and leave 150K gwei for user
+    const gas = Math.min(2000000, nativeBalance / this.gasPrice - 150000) //convert to gwei and leave 150K gwei for user
+    // we need around 400k gas to collect 1 bounty, so that's the minimum
+    if (gas < 400000) {
+      log.error('collectInvites low gas:', '', '', { gas, nativeBalance })
+      return false
+    }
     const res = await this.sendTransaction(tx, {}, { gas })
     return res
   }
@@ -1211,15 +1216,10 @@ export class GoodWallet {
   async collectInviteBounty(invitee) {
     try {
       const bountyFor = invitee || this.account
-      const statuses = await this.canCollectBountyFor([bountyFor])
-      const canCollect = statuses[bountyFor]
+      const tx = this.invitesContract.methods.bountyFor(bountyFor)
+      const result = await this.sendTransaction(tx)
 
-      if (canCollect) {
-        const tx = this.invitesContract.methods.bountyFor(bountyFor)
-        const result = await this.sendTransaction(tx)
-
-        return result
-      }
+      return result
     } catch (e) {
       log.warn('collectInviteBounty failed:', e.message, e)
       throw e
@@ -1303,7 +1303,8 @@ export class GoodWallet {
   }
 
   fromDecimals(amount, chainId) {
-    return parseUnits(amount, Config.ethereum[chainId || this.networkId].g$Decimals).toString()
+    const float = parseFloat(amount).toFixed(Config.ethereum[chainId || this.networkId].g$Decimals)
+    return parseUnits(float, Config.ethereum[chainId || this.networkId].g$Decimals).toString()
   }
 
   async getUserInviteBounty() {
@@ -1324,15 +1325,15 @@ export class GoodWallet {
     const callsMap = {
       invitees: 'getInvitees',
       pending: 'getPendingInvitees',
+      totalPendingBounties: 'getPendingBounties',
     }
 
     // entitelment is separate because it depends on msg.sender
     const calls = mapValues(callsMap, method => methods[method](account))
     const [[result]] = await retryCall(() => multicallFuse.all([[calls]]))
-    const { invitees, pending: statuses } = result
-    const pending = keyBy(statuses)
 
-    return { invitees, pending }
+    result.totalPendingBounties = Number(result.totalPendingBounties)
+    return result
   }
 
   async getGasPrice(): Promise<number> {

@@ -17,6 +17,7 @@ import logger from '../logger/js-logger'
 import { useSessionApproveModal } from '../../components/walletconnect/WalletConnectModals'
 import Config from '../../config/config'
 import { useWallet } from './GoodWalletProvider'
+import { useDialog } from '../../lib/dialog/useDialog'
 
 const log = logger.child({ from: 'WalletConnectClient' })
 
@@ -162,6 +163,7 @@ export const useWalletConnectSession = () => {
 
   const wallet = useWallet()
   const { show: showApprove, isDialogShown } = useSessionApproveModal()
+  const { showErrorDialog } = useDialog()
   const chains = useChainsList()
 
   const decodeTx = useCallback(
@@ -278,6 +280,10 @@ export const useWalletConnectSession = () => {
         onApprove: async () => {
           if (isV2) {
             const eip155Chains = payload?.params?.requiredNamespaces?.eip155?.chains
+            const optionaleip155Chains = payload?.params?.optionalNamespaces?.eip155?.chains
+
+            eip155Chains.push(...optionaleip155Chains)
+
             const response = {
               id: payload.id,
               namespaces: {
@@ -716,12 +722,12 @@ export const useWalletConnectSession = () => {
             setConnector(cachedV2Connector)
           } catch (e) {
             if (e.message.includes('Pairing already exists')) {
+              showErrorDialog(`Failed to connect. Please try again with a new QR Code.`)
               log.debug('v2 pairing failed: ', {
                 message: e.message,
                 e,
                 cachedV2Connector,
                 uri,
-                activateResult,
                 connect: cachedV2Connector.connect,
               })
             }
@@ -820,13 +826,22 @@ export const useWalletConnectSession = () => {
       handleCallRequest(cachedV2Connector, event)
     })
     cachedV2Connector.on('session_ping', event => log.debug('WC2Events&Sessions -- v2 incoming session_ping:', event))
-    cachedV2Connector.on('session_update', event =>
-      log.debug('WC2Events&Sessions -- v2 incoming session_update:', event),
-    )
     cachedV2Connector.on('session_event', event => log.debug('WC2Events&Sessions -- v2 incoming session_event:', event))
     cachedV2Connector.on('session_delete', event => {
       log.debug('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })
       handleSessionDisconnect(cachedV2Connector, event)
+    })
+
+    cachedV2Connector.on('session_expire', ({ topic }) => {
+      log.debug('WC2Events&Sessions -- session expire:', { cachedV2Connector, topic })
+      cachedV2Connector.extend({ topic }).catch(e => {
+        log.debug('Wc2Events&Sessions -- session extend failed:', e.message, e, { cachedV2Connector, topic })
+        cachedV2Connector.disconnectSession({ topic, reason: 'Failed to extend session' })
+      })
+    })
+
+    cachedV2Connector.on('session_update', ({ topic, params }) => {
+      log.info('Wc2Events&Sessions -- session update received -->', { topic, params })
     })
 
     if (!v2session) {

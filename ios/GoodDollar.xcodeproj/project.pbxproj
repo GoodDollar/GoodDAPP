@@ -23,7 +23,6 @@
 		2FF5A9749E634C41B5508DCD /* RobotoSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77E20F18A1D644E28CD22FBA /* RobotoSlab-Regular.ttf */; };
 		477F7AF867B84C89B5DD55C3 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E177BA7F034F44F4A748FB5F /* Roboto-BoldItalic.ttf */; };
 		5453E5EB2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */; };
-		5453E5ED240AA27E00E3DC92 /* DeepLink+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */; };
 		5453E5F0240ABC1400E3DC92 /* branch.json in Resources */ = {isa = PBXBuildFile; fileRef = 5453E5EF240ABC1400E3DC92 /* branch.json */; };
 		5453E5F1240AD05900E3DC92 /* GoodDollar.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */; };
 		5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EAE46A7BAAA4CB2A16C5F44 /* gooddollar.ttf */; };
@@ -40,7 +39,7 @@
 		D2008D73257E7D7200BFAF1F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2008D72257E7D7200BFAF1F /* GoogleService-Info.plist */; };
 		D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D726BAB12759C0550092D71C /* LaunchScreen.storyboard */; };
 		D73AC0FC277B5C8700DB2C7E /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = D73AC0FB277B5C8700DB2C7E /* AppIcon.appiconset */; };
-		D73AC0FE277B5D9C00DB2C7E /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		D73AC0FE277B5D9C00DB2C7E /* (null) in Resources */ = {isa = PBXBuildFile; };
 		DB9407204D574FE784DEFFBA /* RobotoSlab-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD2413EB372049FEA212B762 /* RobotoSlab-ExtraBold.ttf */; };
 		DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */ = {isa = PBXBuildFile; fileRef = 93E02E113E3842B8892E0408 /* gooddollar.woff */; };
 		E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */; };
@@ -88,7 +87,6 @@
 		4DD3B67B684149EA91ADA521 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		503435BD5C8549679380F2C6 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "RNPushNotificationIOS+AppDelegate.m"; path = "GoodDollar/RNPushNotificationIOS+AppDelegate.m"; sourceTree = "<group>"; };
-		5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "DeepLink+AppDelegate.m"; path = "GoodDollar/DeepLink+AppDelegate.m"; sourceTree = "<group>"; };
 		5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = GoodDollar.entitlements; path = GoodDollar/GoodDollar.entitlements; sourceTree = "<group>"; };
 		5453E5EF240ABC1400E3DC92 /* branch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = branch.json; path = ../branch.json; sourceTree = "<group>"; };
 		5F3D72A169634237C69CFD32 /* libPods-GoodDollar-GoodDollarTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoodDollar-GoodDollarTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,7 +189,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */,
-				5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */,
 			);
 			name = GoodDollar;
 			sourceTree = "<group>";
@@ -434,7 +431,7 @@
 				A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */,
 				E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */,
 				D726BAB22759C0550092D71C /* LaunchScreen.storyboard in Resources */,
-				D73AC0FE277B5D9C00DB2C7E /* BuildFile in Resources */,
+				D73AC0FE277B5D9C00DB2C7E /* (null) in Resources */,
 				0613FF83B35F4C5C877B0A13 /* Roboto-Medium.ttf in Resources */,
 				63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */,
 				AD667D3DF1084153B388B849 /* Roboto-Regular.ttf in Resources */,
@@ -633,7 +630,6 @@
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				5453E5EB2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m in Sources */,
 				E621C99C23E83AC30047715D /* File.swift in Sources */,
-				5453E5ED240AA27E00E3DC92 /* DeepLink+AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -117,12 +117,12 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   useEffect(() => {
     if (isFVFlow) {
       const unsubscribe = navigation.addListener('didFocus', e => {
-        // not dangerous: https://reactnavigation.org/docs/upgrading-from-5.x/#dropped-dangerously-from-dangerouslygetparent-and-dangerouslygetstate
-        const parent = navigation.dangerouslyGetParent()
+        const isFirst = navigation.isFirstRouteInParent()
+        log.debug('didFocus', { e, navigation, isFirst })
 
         // when on root route and didFocus is triggered means a user tried to navigate back on start or error page
         // so we redirect back to original app/website
-        if (parent.state.index === 0 && e.action.type === 'Navigation/NAVIGATE') {
+        if (isFirst && e.action.type === 'Navigation/NAVIGATE') {
           fvRedirect(false, 'Cancelled flow')
         }
       })

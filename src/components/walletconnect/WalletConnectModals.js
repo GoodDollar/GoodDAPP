@@ -62,7 +62,7 @@ const getStylesFromProps = ({ theme }) => {
       fontSize: 14,
       ...Platform.select({
         web: {
-          height: 400,
+          maxHeight: 400,
         },
         native: {
           maxHeight: 150,

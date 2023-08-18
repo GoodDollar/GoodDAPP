@@ -36,6 +36,7 @@ import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../lib/userStorage/useProfile'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
+import useFVRedirect from '../standalone/hooks/useFVRedirect'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -97,6 +98,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
   const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const { goToRoot, navigateTo, push } = screenProps
+  const fvRedirect = useFVRedirect()
 
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
   const userName = useMemo(() => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''), [
@@ -104,6 +106,23 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     firstName,
     fullName,
   ])
+
+  useEffect(() => {
+    if (isFVFlow) {
+      const unsubscribe = navigation.addListener('didFocus', e => {
+        const isFirst = navigation.isFirstRouteInParent()
+        log.debug('didFocus', { e, navigation, isFirst })
+
+        // when on root route and didFocus is triggered means a user tried to navigate back on start or error page
+        // so we redirect back to original app/website
+        if (isFirst && e.action.type === 'Navigation/NAVIGATE') {
+          fvRedirect(false, 'Cancelled flow')
+        }
+      })
+
+      return unsubscribe
+    }
+  }, [navigation])
 
   const [disposing, checkDisposalState] = useDisposingState(
     {

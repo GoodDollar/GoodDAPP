@@ -260,6 +260,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setMenu = setMenu
     this.isMenuOpened = isMenuOn
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
+
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
 

@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { first } from 'lodash'
-import { usePostHog } from 'posthog-react-native'
 
 import Splash, { animationDuration } from './components/splash/Splash'
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
@@ -9,7 +8,7 @@ import InternetConnection from './components/common/connectionDialog/internetCon
 import { delay } from './lib/utils/async'
 import { retryImport } from './lib/utils/system'
 import { handleLinks } from './lib/utils/linking'
-import { APP_OPEN, fireEvent, initAnalytics, setPostHog } from './lib/analytics/analytics'
+import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 
 import Config from './config/config'
 import logger from './lib/logger/js-logger'
@@ -56,13 +55,6 @@ let AppRouter = React.lazy(() => {
 
 const RouterSelector = () => {
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
-  const posthog = usePostHog()
-
-  useEffect(() => {
-    if (posthog) {
-      setPostHog(posthog)
-    }
-  }, [posthog])
 
   useUpdateDialog()
 

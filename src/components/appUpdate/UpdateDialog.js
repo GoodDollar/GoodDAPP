@@ -1,8 +1,24 @@
 import React, { useEffect, useRef } from 'react'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 import { t } from '@lingui/macro'
 import { RegularDialog } from '../common/dialogs/ServiceWorkerUpdatedDialog'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { useDialog } from '../../lib/dialog/useDialog'
+
+import { theme } from '../theme/styles'
+
+const WhatsNewButtonComponent = ({ onOpenUrl }) => {
+  const handlePress = useOnPress(() => onOpenUrl())
+
+  return (
+    <TouchableOpacity onPress={handlePress} style={styles.serviceWorkerDialogWhatsNew}>
+      <Text fontSize={14} lineHeight={20} fontWeight="medium" color="gray80Percent">
+        {t`WHAT’S NEW?`}
+      </Text>
+    </TouchableOpacity>
+  )
+}
 
 export default () => {
   const { showDialog } = useDialog()
@@ -21,16 +37,17 @@ export default () => {
 
     updateDialogRef.current = (onUpdateCallback, onOpenUrl) =>
       showDialogRef.current({
-        showCloseButtons: true,
+        showCloseButtons: false,
         content: <RegularDialog />,
+        buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
         buttons: [
           {
-            text: t`UPDATE NOW`,
-            onPress: onUpdateCallback,
+            mode: 'custom',
+            Component: () => <WhatsNewButtonComponent onOpenUrl={onOpenUrl} />,
           },
           {
-            text: t`MAYBE LATER`,
-            onPress: dismiss => dismiss(),
+            text: 'UPDATE',
+            onPress: onUpdateCallback,
           },
         ],
       })
@@ -38,3 +55,17 @@ export default () => {
 
   return updateDialogRef
 }
+
+const styles = StyleSheet.create({
+  serviceWorkerDialogButtonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: theme.sizes.defaultDouble,
+    justifyContent: 'space-between',
+  },
+  serviceWorkerDialogWhatsNew: {
+    justifyContent: 'center',
+  },
+})

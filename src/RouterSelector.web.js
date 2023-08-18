@@ -1,7 +1,6 @@
 // libraries
 import React, { memo, useContext, useEffect, useRef, useState } from 'react'
 import { assign, first, isBoolean, pick } from 'lodash'
-import { usePostHog } from 'posthog-react-native'
 
 // components
 
@@ -19,7 +18,7 @@ import DeepLinking from './lib/utils/deepLinking'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
-import { APP_OPEN, fireEvent, initAnalytics, setPostHog } from './lib/analytics/analytics'
+import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import { handleLinks } from './lib/utils/linking'
 import useServiceWorker from './lib/hooks/useServiceWorker'
@@ -71,7 +70,6 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 
 const RouterWrapper = () => {
   const initRef = useRef()
-  const posthog = usePostHog()
 
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
@@ -84,12 +82,6 @@ const RouterWrapper = () => {
     unsupportedPopup: UnsupportedBrowser,
     onCheck: () => !isWebView,
   })
-
-  useEffect(() => {
-    if (posthog) {
-      setPostHog(posthog)
-    }
-  }, [posthog])
 
   useEffect(() => {
     const tags = { isLoggedIn: isLoggedInRouter }

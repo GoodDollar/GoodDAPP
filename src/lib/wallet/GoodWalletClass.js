@@ -1322,7 +1322,8 @@ export class GoodWallet {
   }
 
   fromDecimals(amount, chainId) {
-    return parseUnits(amount, Config.ethereum[chainId || this.networkId].g$Decimals).toString()
+    const float = parseFloat(amount).toFixed(Config.ethereum[chainId || this.networkId].g$Decimals)
+    return parseUnits(float, Config.ethereum[chainId || this.networkId].g$Decimals).toString()
   }
 
   async getUserInviteBounty() {

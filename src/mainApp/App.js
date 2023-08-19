@@ -12,6 +12,7 @@ import { isMobile } from '../lib/utils/platform'
 import logger from '../lib/logger/js-logger'
 
 import { theme } from '../components/theme/styles'
+import Config from '../config/config'
 import AppContext from './AppContext'
 
 // eslint-disable-next-line no-unused-vars
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
 export const App = () => {
   const AppWrapper = isMobile ? Fragment : SafeAreaView
   const wrapperProps = isMobile ? {} : { style: styles.safeAreaView }
-
+  log.debug({ Config })
   return (
     <PaperProvider theme={theme}>
       <AppWrapper {...wrapperProps}>

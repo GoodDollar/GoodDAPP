@@ -29,7 +29,7 @@ export class AnalyticsClass {
 
   emitter = new EventEmitter()
 
-  disabledEvents = []
+  posthog = []
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.get('analytics')
@@ -154,7 +154,7 @@ export class AnalyticsClass {
   }
 
   setPostHog = posthog => {
-    this.disabledEvents = posthog ? posthog.getFeatureFlagPayload('disabled-events') : []
+    this.posthog = posthog
   }
 
   identifyWith = (identifier, email = null) => {
@@ -219,9 +219,10 @@ export class AnalyticsClass {
   }
 
   fireEvent = (event: string, eventData: any = {}) => {
-    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId, disabledEvents } = this
+    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId, posthog } = this
     const { amplitude, googleAnalytics, mixpanel } = apis
     const data = { chainId, ...eventData }
+    const disabledEvents = posthog ? posthog.getFeatureFlagPayload('disabled-events') || [] : []
 
     if (isMixpanelEnabled) {
       mixpanel.track(event, data)

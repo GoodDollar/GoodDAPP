@@ -110,7 +110,7 @@ const usePermissions = (permission: Permission, options = {}) => {
   )
 
   const handleRequestFlow = useCallback(
-    async options => {
+    async (options = {}) => {
       // re-checking mounted state after each delayed / async operation as send link
       // screen could call redirect back if error happens during processing transaction
       if (options.ignoreMountedState) {

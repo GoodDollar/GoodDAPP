@@ -29,7 +29,7 @@ export class AnalyticsClass {
 
   emitter = new EventEmitter()
 
-  posthog = []
+  posthog = null
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.get('analytics')

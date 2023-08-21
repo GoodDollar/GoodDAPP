@@ -54,7 +54,6 @@ const I18n = new class {
         log.debug('Delect locale - System', { sysLocales })
 
         const { languageTag } = RNLocalize.findBestAvailableLanguage(intersection(locales, sysLocales)) ?? {}
-        log.info('LocaleTesting -- should find languageTag or undefined -->', { languageTag })
 
         if (this.isLocaleValid(languageTag)) {
           log.debug('Delect locale - System', { languageTag })

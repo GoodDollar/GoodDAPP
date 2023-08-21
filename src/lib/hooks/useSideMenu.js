@@ -187,6 +187,8 @@ export default (props = {}) => {
         },
       },
 
+      // either we show list here, and set the language
+      // or pop-up a modal where we select from
       // {
       //   icon: 'logout',
       //   name: t`Language`,

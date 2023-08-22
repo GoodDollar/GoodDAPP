@@ -17,7 +17,7 @@ const defaultErrors = {}
 const defaultStoredProfile = {}
 const defaultProfile = {}
 
-const CountryFlag = withStyles(
+export const CountryFlag = withStyles(
   () => ({
     flag: {
       width: 30,

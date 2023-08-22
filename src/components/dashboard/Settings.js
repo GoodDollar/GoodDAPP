@@ -2,10 +2,11 @@
 /* eslint-disable no-unused-vars */
 
 // libraries
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
-import { Platform, TouchableOpacity } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import { get, mapValues, pick, startCase } from 'lodash'
+import ReactFlagsSelect from 'react-flags-select'
 
 // custom components
 import { t } from '@lingui/macro'
@@ -14,6 +15,8 @@ import { Switch } from 'react-native-switch'
 import { useDebounce } from 'use-debounce'
 import Wrapper from '../common/layout/Wrapper'
 import { Icon, Section, Text } from '../common'
+import { LanguageContext } from '../../language/i18n'
+import { CountryFlag } from '../profile/ProfileDataTable'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
@@ -31,6 +34,7 @@ import OptionsRow from '../profile/OptionsRow'
 import Config from '../../config/config'
 import { isWeb } from '../../lib/utils/platform'
 import { useNotificationsOptions } from '../../lib/notifications/hooks/useNotifications'
+import { localesCodes } from '../../language/locales'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -61,10 +65,62 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
     </RadioButton.Group>
   )
 }
+const supportedCountryCodes = ['US', 'GB', 'ES', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID', 'AR']
+type CountryCode = $ElementType<typeof supportedCountryCodes, number>
+
+const countryCodeToLocale: { [key: CountryCode]: string } = {
+  US: 'en',
+  GB: 'en-gb',
+  ES: 'es',
+  FR: 'fr',
+  IT: 'it',
+  KR: 'ko',
+  BR: 'pt-br',
+  UA: 'uk',
+  TR: 'tr',
+  VN: 'vi',
+  CN: 'zh',
+  IN: 'hi',
+  ID: 'id',
+  AR: 'es-419',
+}
+
+const languageCustomLabels: { [key: CountryCode]: string } = {
+  US: 'English-US',
+  GB: 'English-UK',
+  ES: 'Spanish',
+  FR: 'French',
+  IT: 'Italian',
+  KR: 'Korean',
+  DE: 'German',
+  BR: 'Portuguese-Brasilian',
+  UA: 'Ukrainian',
+  TR: 'Turkish',
+  VN: 'Vietnamese',
+  CN: 'Chinese-Simplified',
+  IN: 'Hindi',
+  ID: 'Indonesian',
+  AR: 'Latin-Spanish',
+}
+
+const getKeyByValue = (object, value) => {
+  return Object.keys(object).find(key => object[key] === value)
+}
 
 const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { navigate } = navigation
   const userStorage = useUserStorage()
+  const { setLanguage, language: languageCode } = useContext(LanguageContext)
+  const [countryCode, setCountryCode] = useState(getKeyByValue(countryCodeToLocale, languageCode))
+
+  const handleLanguageChange = useCallback(
+    async code => {
+      setCountryCode(code)
+      const codeLocale = countryCodeToLocale[code]
+      await setLanguage(codeLocale)
+    },
+    [languageCode, setLanguage],
+  )
 
   const { from: wentFrom } = screenProps?.screenState || {}
   const onWentFromClaimProcessedRef = useRef(false)
@@ -199,6 +255,25 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
               />
             ))}
           </Section.Stack>
+
+          <Section.Row justifyContent="center" style={[styles.subtitleRow, { flexDirection: 'column' }]}>
+            <Section.Text fontWeight="bold" color="gray">
+              {t`Language`}
+            </Section.Text>
+            <Section.Stack justifyContent="flex-start" style={{ marginTop: 35, flexDirection: 'column', width: 450 }}>
+              <Section.Row style={{ justifyContent: 'center', gap: 10 }}>
+                <View style={styles.selectLangContainer}>
+                  <ReactFlagsSelect
+                    countries={supportedCountryCodes}
+                    placeholder="Select a language"
+                    customLabels={languageCustomLabels}
+                    selected={countryCode}
+                    onSelect={code => handleLanguageChange(code)}
+                  />
+                </View>
+              </Section.Row>
+            </Section.Stack>
+          </Section.Row>
         </Section.Stack>
       </Section>
     </Wrapper>
@@ -283,6 +358,21 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: theme.paddings.mainContainerPadding,
       paddingHorizontal: theme.sizes.defaultQuadruple,
       marginBottom: theme.sizes.defaultQuadruple,
+    },
+    flagContainer: {
+      width: 55,
+      height: 45,
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: theme.colors.lightGray,
+    },
+    selectLangContainer: {
+      width: '70%',
+    },
+    selectLangInput: {
+      width: `${1000} !important`,
     },
   }
 }

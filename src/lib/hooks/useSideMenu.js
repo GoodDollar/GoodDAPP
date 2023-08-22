@@ -19,7 +19,6 @@ import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/anal
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 
-// import { LanguageContext } from '../../language/i18n'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 const log = logger.child({ from: 'useSideMenu' })
 
@@ -31,7 +30,6 @@ export default (props = {}) => {
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const userStorage = useUserStorage()
 
-  // const { setLanguage } = useContext(LanguageContext)
   const { isMenuOn, setMenu, installPrompt, setAddWebApp } = useContext(GlobalTogglesContext)
   const slideToggle = useCallback(() => setMenu(!isMenuOn), [isMenuOn, setMenu])
   const slideIn = useCallback(() => !isMenuOn && setMenu(true), [isMenuOn, setMenu])
@@ -186,17 +184,6 @@ export default (props = {}) => {
           restart('/')
         },
       },
-
-      // either we show list here, and set the language
-      // or pop-up a modal where we select from
-      // {
-      //   icon: 'logout',
-      //   name: t`Language`,
-      //   action: async () => {
-      //     await setLanguage('en')
-      //     slideOut()
-      //   },
-      // },
     ]
 
     return items

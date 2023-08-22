@@ -8,6 +8,8 @@ import { Platform, TouchableOpacity, View } from 'react-native'
 import { get, mapValues, pick, startCase } from 'lodash'
 import ReactFlagsSelect from 'react-flags-select'
 
+import ModalDropdown from 'react-native-modal-dropdown'
+
 // custom components
 import { t } from '@lingui/macro'
 import { Switch } from 'react-native-switch'
@@ -107,6 +109,27 @@ const getKeyByValue = (object, value) => {
   return Object.keys(object).find(key => object[key] === value)
 }
 
+const RowComponentTest = props => {
+  const { children: countryCode } = props.children.props
+  return (
+    <TouchableOpacity
+      style={{ width: 200, border: 'none', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }}
+      onPress={props.onPress}
+    >
+      <CountryFlag
+        styles={{
+          flag: {
+            width: 24,
+            height: 24,
+          },
+        }}
+        code={countryCode}
+      />
+      <Text style={{ paddingTop: 10, paddingBottom: 10, width: '200%' }}> {languageCustomLabels[countryCode]}</Text>
+    </TouchableOpacity>
+  )
+}
+
 const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { navigate } = navigation
   const userStorage = useUserStorage()
@@ -115,6 +138,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
   const handleLanguageChange = useCallback(
     async code => {
+      log.info('HandleLanguageChange -->', { code })
       setCountryCode(code)
       const codeLocale = countryCodeToLocale[code]
       await setLanguage(codeLocale)
@@ -263,12 +287,27 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
             <Section.Stack justifyContent="flex-start" style={styles.selectLanguageContainer}>
               <Section.Row style={styles.languageRow}>
                 <View style={styles.languageInputContainer}>
-                  <ReactFlagsSelect
-                    countries={supportedCountryCodes}
-                    placeholder="Select a language"
-                    customLabels={languageCustomLabels}
-                    selected={countryCode}
-                    onSelect={code => handleLanguageChange(code)}
+                  <ModalDropdown
+                    style={styles.modalDropDown}
+                    defaultValue={'Select a language'}
+                    renderButtonText={option => {
+                      return languageCustomLabels[option]
+                    }}
+                    options={supportedCountryCodes}
+                    renderRowComponent={RowComponentTest}
+                    onSelect={(index, option) => {
+                      handleLanguageChange(option)
+                    }}
+                    saveScrollPosition={false}
+                    defaultTextStyle={{ fontSize: 18 }}
+                    textStyle={{ display: 'none' }}
+                    renderRightComponent={() => (
+                      <View style={styles.flagContainer}>
+                        <CountryFlag code={countryCode} />
+                      </View>
+                    )}
+                    alignOptionsToRight={true}
+                    renderButtonProps={{ style: styles.renderButtonProps }}
                   />
                 </View>
               </Section.Row>
@@ -362,23 +401,28 @@ const getStylesFromProps = ({ theme }) => {
     flagContainer: {
       width: 55,
       height: 45,
-      justifyContent: 'center',
-      alignItems: 'center',
-      overflow: 'hidden',
-      borderWidth: 1,
-      borderColor: theme.colors.lightGray,
+      marginLeft: 10,
     },
     selectLanguageContainer: {
-      marginTop: 35,
+      marginTop: 15,
       flexDirection: 'column',
-      width: 450,
+      width: 50,
+      justifyContent: 'flex-start',
     },
     languageRow: {
-      justifyContent: 'center',
-      gap: 10,
+      justifyContent: 'flex-start',
     },
     languageInputContainer: {
       width: '70%',
+    },
+    modalDropDown: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    renderButtonProps: {
+      width: 220,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   }
 }

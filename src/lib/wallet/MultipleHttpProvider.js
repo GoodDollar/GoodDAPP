@@ -56,10 +56,10 @@ export class MultipleHttpProvider extends HttpProvider {
 
     // if not connection issue - stop fallback, throw error
     const onFallback = error => {
-      const { message } = error
+      const { message, code } = error
 
       // retry on network error or if rpc responded with error (error.error)
-      const willFallback = error.error || !message || connectionErrorRe.test(message)
+      const willFallback = !!(code || error.error || !message || connectionErrorRe.test(message))
 
       log.warn('send: got error', { message, error, willFallback })
       return willFallback

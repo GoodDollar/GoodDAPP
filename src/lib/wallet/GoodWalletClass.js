@@ -1289,7 +1289,7 @@ export class GoodWallet {
       log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
 
       // code collision
-      if (hasJoined === false && registered !== this.account && registered !== NULL_ADDRESS) {
+      if (hasJoined === false && registered.toLowerCase() !== this.account && registered !== NULL_ADDRESS) {
         log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
         return this.joinInvites(inviter, codeLength + 1)
       }

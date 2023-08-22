@@ -38,7 +38,7 @@ const Image = ({ style = {}, source, ...props }) => {
       setAspectRatio(width / height)
     }
 
-    const onImageError = e => log.error('Get image size error', e?.message, e, { uri })
+    const onImageError = e => log.warn('Get image size error', e?.message, e, { uri })
 
     if (!uri || fixed) {
       return

@@ -5,7 +5,7 @@ import api from '../api/FaceVerificationApi'
 import logger from '../../../lib/logger/js-logger'
 import useMountedState from '../../../lib/hooks/useMountedState'
 
-const log = logger.child({ from: 'useFaceTecVerification' })
+const log = logger.child({ from: 'useDisposingState' })
 
 export default ({ enrollmentIdentifier, fvSigner, requestOnMounted = true, onComplete = noop, onError = noop }) => {
   const [mountedState] = useMountedState()

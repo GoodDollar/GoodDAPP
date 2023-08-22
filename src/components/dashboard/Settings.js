@@ -284,25 +284,26 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
               <Section.Row style={styles.languageRow}>
                 <View style={styles.languageInputContainer}>
                   <ModalDropdown
-                    style={styles.modalDropDown}
                     defaultValue={'Select a language'}
+                    options={supportedCountryCodes}
+                    alignOptionsToRight={true}
+                    saveScrollPosition={false}
                     renderButtonText={option => {
                       return languageCustomLabels[option]
                     }}
-                    options={supportedCountryCodes}
                     renderRowComponent={DropDownRowComponent}
                     onSelect={(index, option) => {
                       handleLanguageChange(option)
                     }}
-                    saveScrollPosition={false}
                     defaultTextStyle={{ fontSize: 18 }}
-                    textStyle={{ display: 'none' }}
+                    textStyle={{ marginLeft: 10, fontSize: 18 }}
+                    buttonAndRightComponentContainerStyle={styles.dropDownContainer}
+                    style={styles.modalDropDown}
                     renderRightComponent={() => (
                       <View style={styles.flagContainer}>
                         <CountryFlag code={countryCode} />
                       </View>
                     )}
-                    alignOptionsToRight={true}
                     renderButtonProps={{ style: styles.renderButtonProps }}
                     renderRowProps={{
                       containerStyles: {
@@ -423,7 +424,6 @@ const getStylesFromProps = ({ theme }) => {
     flagContainer: {
       width: 55,
       height: 45,
-      marginLeft: 10,
     },
     selectLanguageContainer: {
       marginTop: 15,
@@ -452,6 +452,9 @@ const getStylesFromProps = ({ theme }) => {
       width: 160,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    dropDownContainer: {
+      flexDirection: 'row-reverse',
     },
   }
 }

@@ -6,7 +6,6 @@ import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } 
 import { RadioButton } from 'react-native-paper'
 import { Platform, TouchableOpacity, View } from 'react-native'
 import { get, mapValues, pick, startCase } from 'lodash'
-import ReactFlagsSelect from 'react-flags-select'
 
 import ModalDropdown from 'react-native-modal-dropdown'
 

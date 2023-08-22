@@ -36,7 +36,6 @@ import OptionsRow from '../profile/OptionsRow'
 import Config from '../../config/config'
 import { isWeb } from '../../lib/utils/platform'
 import { useNotificationsOptions } from '../../lib/notifications/hooks/useNotifications'
-import { localesCodes } from '../../language/locales'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })

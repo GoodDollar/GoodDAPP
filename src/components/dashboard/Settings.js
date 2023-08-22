@@ -288,6 +288,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                     options={supportedCountryCodes}
                     alignOptionsToRight={true}
                     saveScrollPosition={false}
+                    showsVerticalScrollIndicator={true}
                     renderButtonText={option => {
                       return languageCustomLabels[option]
                     }}

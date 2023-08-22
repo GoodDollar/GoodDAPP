@@ -260,9 +260,9 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
             <Section.Text fontWeight="bold" color="gray">
               {t`Language`}
             </Section.Text>
-            <Section.Stack justifyContent="flex-start" style={{ marginTop: 35, flexDirection: 'column', width: 450 }}>
-              <Section.Row style={{ justifyContent: 'center', gap: 10 }}>
-                <View style={styles.selectLangContainer}>
+            <Section.Stack justifyContent="flex-start" style={styles.selectLanguageContainer}>
+              <Section.Row style={styles.languageRow}>
+                <View style={styles.languageInputContainer}>
                   <ReactFlagsSelect
                     countries={supportedCountryCodes}
                     placeholder="Select a language"
@@ -368,11 +368,17 @@ const getStylesFromProps = ({ theme }) => {
       borderWidth: 1,
       borderColor: theme.colors.lightGray,
     },
-    selectLangContainer: {
-      width: '70%',
+    selectLanguageContainer: {
+      marginTop: 35,
+      flexDirection: 'column',
+      width: 450,
     },
-    selectLangInput: {
-      width: `${1000} !important`,
+    languageRow: {
+      justifyContent: 'center',
+      gap: 10,
+    },
+    languageInputContainer: {
+      width: '70%',
     },
   }
 }

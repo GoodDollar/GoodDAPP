@@ -107,7 +107,7 @@ const getKeyByValue = (object, value) => {
   return Object.keys(object).find(key => object[key] === value)
 }
 
-const RowComponentTest = props => {
+const DropDownRowComponent = props => {
   const { containerStyles, textStyles, children } = props
   const { children: countryCode } = children.props
 
@@ -290,7 +290,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                       return languageCustomLabels[option]
                     }}
                     options={supportedCountryCodes}
-                    renderRowComponent={RowComponentTest}
+                    renderRowComponent={DropDownRowComponent}
                     onSelect={(index, option) => {
                       handleLanguageChange(option)
                     }}

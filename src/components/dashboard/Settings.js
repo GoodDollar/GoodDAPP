@@ -110,12 +110,11 @@ const getKeyByValue = (object, value) => {
 }
 
 const RowComponentTest = props => {
-  const { children: countryCode } = props.children.props
+  const { containerStyles, textStyles, children } = props
+  const { children: countryCode } = children.props
+
   return (
-    <TouchableOpacity
-      style={{ width: 200, border: 'none', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }}
-      onPress={props.onPress}
-    >
+    <TouchableOpacity {...containerStyles} onPress={props.onPress}>
       <CountryFlag
         styles={{
           flag: {
@@ -125,7 +124,7 @@ const RowComponentTest = props => {
         }}
         code={countryCode}
       />
-      <Text style={{ paddingTop: 10, paddingBottom: 10, width: '200%' }}> {languageCustomLabels[countryCode]}</Text>
+      <Text {...textStyles}> {languageCustomLabels[countryCode]}</Text>
     </TouchableOpacity>
   )
 }
@@ -138,7 +137,6 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
 
   const handleLanguageChange = useCallback(
     async code => {
-      log.info('HandleLanguageChange -->', { code })
       setCountryCode(code)
       const codeLocale = countryCodeToLocale[code]
       await setLanguage(codeLocale)
@@ -308,6 +306,32 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                     )}
                     alignOptionsToRight={true}
                     renderButtonProps={{ style: styles.renderButtonProps }}
+                    renderRowProps={{
+                      containerStyles: {
+                        style: {
+                          border: 'none',
+                          alignItems: 'center',
+                          justifyContent: 'flex-start',
+                          flexDirection: 'row',
+                          ...Platform.select({
+                            web: {
+                              width: '200',
+                            },
+                          }),
+                        },
+                      },
+                      textStyles: {
+                        style: {
+                          paddingTop: 10,
+                          paddingBottom: 10,
+                          ...Platform.select({
+                            web: {
+                              width: '200%',
+                            },
+                          }),
+                        },
+                      },
+                    }}
                   />
                 </View>
               </Section.Row>
@@ -413,14 +437,21 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'flex-start',
     },
     languageInputContainer: {
-      width: '70%',
+      ...Platform.select({
+        web: {
+          width: '70%',
+        },
+        native: {
+          width: '120%',
+        },
+      }),
     },
     modalDropDown: {
       alignItems: 'center',
       justifyContent: 'center',
     },
     renderButtonProps: {
-      width: 220,
+      width: 160,
       justifyContent: 'center',
       alignItems: 'center',
     },

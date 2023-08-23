@@ -125,22 +125,24 @@ const FeedModalItem = (props: FeedEventProps) => {
                   { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginRight: 15 },
                 ]}
               >
-                <TouchableOpacity>
-                  <ChatWithOwner
-                    ownerAddress={ownerAddress || '0x17fa0a61bf1719d12c08c61f211a063a58267a19'}
-                    render={
-                      <Icon
-                        style={{
-                          marginRight: 10,
-                          marginTop: 5,
-                        }}
-                        name="whatsapp-1"
-                        size={25}
-                        color="gray80Percent"
-                      />
-                    }
-                  />
-                </TouchableOpacity>
+                {!eventSettings.withoutAmount && ownerAddress.length > 0 && (
+                  <TouchableOpacity>
+                    <ChatWithOwner
+                      ownerAddress={ownerAddress}
+                      render={
+                        <Icon
+                          style={{
+                            marginRight: 10,
+                            marginTop: 5,
+                          }}
+                          name="whatsapp-1"
+                          size={25}
+                          color="gray80Percent"
+                        />
+                      }
+                    />
+                  </TouchableOpacity>
+                )}
                 <EventIcon type={itemType} showAnim={!topImageExists} />
               </View>
             </View>

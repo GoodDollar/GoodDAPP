@@ -65,10 +65,11 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
     </RadioButton.Group>
   )
 }
-const supportedCountryCodes = ['US', 'GB', 'ES', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID', 'AR']
+const supportedCountryCodes = ['DD', 'US', 'GB', 'ES', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID', 'AR']
 type CountryCode = $ElementType<typeof supportedCountryCodes, number>
 
 const countryCodeToLocale: { [key: CountryCode]: string } = {
+  DD: 'dd',
   US: 'en',
   GB: 'en-gb',
   ES: 'es',
@@ -86,6 +87,7 @@ const countryCodeToLocale: { [key: CountryCode]: string } = {
 }
 
 const languageCustomLabels: { [key: CountryCode]: string } = {
+  DD: 'Device Default',
   US: 'English-US',
   GB: 'English-UK',
   ES: 'Spanish',
@@ -93,7 +95,7 @@ const languageCustomLabels: { [key: CountryCode]: string } = {
   IT: 'Italian',
   KR: 'Korean',
   DE: 'German',
-  BR: 'Portuguese-Brasilian',
+  BR: 'Portuguese-Brazilian',
   UA: 'Ukrainian',
   TR: 'Turkish',
   VN: 'Vietnamese',
@@ -137,6 +139,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     async code => {
       setCountryCode(code)
       const codeLocale = countryCodeToLocale[code]
+
       await setLanguage(codeLocale)
     },
     [languageCode, setLanguage],
@@ -284,7 +287,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
               <Section.Row style={styles.languageRow}>
                 <View style={styles.languageInputContainer}>
                   <ModalDropdown
-                    defaultValue={'Select a language'}
+                    defaultValue={languageCustomLabels[countryCode] ?? 'Select a language...'}
                     options={supportedCountryCodes}
                     alignOptionsToRight={true}
                     saveScrollPosition={false}

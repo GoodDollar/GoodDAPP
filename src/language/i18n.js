@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet'
 import logger from '../lib/logger/js-logger'
 import AsyncStorage from '../lib/utils/asyncStorage'
 import { fallback } from '../lib/utils/async'
+import { restart } from '../lib/utils/system'
 import { defaultMessages, localeFiles, localesCodes, sourceLocale } from './locales'
 
 const log = logger.child({ from: 'I18n' })
@@ -42,16 +43,23 @@ const I18n = new class {
   async getInitialLocale() {
     const { defaultLocale, locales } = this
 
-    // first we check for any system defined languages
+    // first we check if user selected default language in settings
+    // if no default or lang is set to DD, we use system detect
     const detectedLocale = await this._detect(
-      () => {
+      async () => {
+        const lang = await AsyncStorage.getItem('lang')
+        log.debug('Detect locale - AsyncStorage', { lang })
+        if (lang && lang !== 'dd') {
+          return lang
+        }
+
         const sysLocales = uniq(
           flatten(
             RNLocalize.getLocales().map(locale => ['Code', 'Tag'].map(prop => locale[`language${prop}`].toLowerCase())),
           ),
         )
 
-        log.debug('Delect locale - System', { sysLocales })
+        log.debug('Detect locale - System', { sysLocales })
 
         const { languageTag = {} } = RNLocalize.findBestAvailableLanguage(intersection(locales, sysLocales))
 
@@ -68,16 +76,6 @@ const I18n = new class {
             return language
           }
         }
-      },
-
-      // else we check if previous language is used
-
-      // eslint-disable-next-line require-await
-      async () => {
-        const lang = await AsyncStorage.getItem('lang')
-
-        log.debug('Delect locale - AsyncStorage', { lang })
-        return lang
       },
 
       // if all fail, we use default 'en'
@@ -100,15 +98,23 @@ const I18n = new class {
   }
 
   async dynamicActivate(locale) {
-    const { messages } = await this.localeFiles[locale]()
-    const { i18n } = this
+    if (locale !== 'dd') {
+      const { messages } = await this.localeFiles[locale]()
+      const { i18n } = this
 
-    i18n.load(locale, messages)
-    i18n.activate(locale)
-    log.debug('Activated locale', { locale, messages })
+      i18n.load(locale, messages)
+      i18n.activate(locale)
+      log.debug('Activated locale', { locale, messages })
+    }
 
     await AsyncStorage.setItem('lang', locale)
     log.debug('AsyncStorage updated', { locale })
+
+    // when locale is dd, user selected Device Default in settings
+    // and it requires a app restart
+    if (locale === 'dd') {
+      restart()
+    }
   }
 
   /** @private */

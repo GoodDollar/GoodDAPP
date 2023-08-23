@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { get, isNil } from 'lodash'
 import { ChatWithOwner } from 'react-native-wallet-chat'
 import Avatar from '../../common/view/Avatar'
@@ -13,6 +13,8 @@ import TopImage, { getImageByType } from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
+import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
+import { Icon } from '../../common'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty, { EventSelfParty } from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
@@ -20,8 +22,7 @@ import EventIcon from './EventIcon'
 import FeedbackModalItem from './FeedbackModalItem'
 import SendModalItemWithError from './SendModalItemWithError'
 import { NetworkIcon } from './ListEventItem'
-import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
-import { Icon } from '../../common'
+
 /**
  * Render modal item according to the type for feed list in horizontal view
  * @param {FeedEventProps} props - feed event
@@ -42,14 +43,14 @@ const FeedModalItem = (props: FeedEventProps) => {
   const sellerWebsite = get(item, 'data.sellerWebsite', '')
   const chainId = item.chainId || '122'
   const direction = useMemo(() => getEventDirection(item), [item])
-  const fromAddress = item?.data?.endpoint?.fromAddress;
+  const fromAddress = item?.data?.endpoint?.fromAddress
   const toAddress = item.data?.endpoint?.toAddress
 
-  let ownerAddress = '';
-  if(direction === 'from'){
-    ownerAddress = fromAddress;
+  let ownerAddress = ''
+  if (direction === 'from') {
+    ownerAddress = fromAddress
   } else {
-    ownerAddress = toAddress;
+    ownerAddress = toAddress
   }
 
   return (
@@ -118,25 +119,28 @@ const FeedModalItem = (props: FeedEventProps) => {
                   {!eventSettings.withoutAvatar && !!sellerWebsite && <EventInfoText>{sellerWebsite}</EventInfoText>}
                 </View>
               )}
-              <View style={[styles.iconContainer, { flexDirection: "row", justifyContent: 'center', alignItems: 'center', marginRight: 15 }]}>
-                {!eventSettings.withoutAmount && ownerAddress.length > 0 && (
-                  <TouchableOpacity>
-                    <ChatWithOwner
-                      ownerAddress={ownerAddress}
-                      render={
-                        <Icon
-                          style={{
-                            marginRight: 10,
-                            marginTop: 5,
-                          }}
-                          name="whatsapp-1"
-                          size={25}
-                          color="gray80Percent"
-                        />
-                      }
-                    />
-                  </TouchableOpacity>
-                )}
+              <View
+                style={[
+                  styles.iconContainer,
+                  { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginRight: 15 },
+                ]}
+              >
+                <TouchableOpacity>
+                  <ChatWithOwner
+                    ownerAddress={ownerAddress || '0x17fa0a61bf1719d12c08c61f211a063a58267a19'}
+                    render={
+                      <Icon
+                        style={{
+                          marginRight: 10,
+                          marginTop: 5,
+                        }}
+                        name="whatsapp-1"
+                        size={25}
+                        color="gray80Percent"
+                      />
+                    }
+                  />
+                </TouchableOpacity>
                 <EventIcon type={itemType} showAnim={!topImageExists} />
               </View>
             </View>

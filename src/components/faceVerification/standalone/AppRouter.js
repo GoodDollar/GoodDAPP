@@ -12,14 +12,26 @@ import createAppContainer from '../../../lib/utils/createAppContainer'
 import Blurred from '../../common/view/Blurred'
 import Splash from '../../../components/splash/Splash'
 import { VerificationContextProvider } from '../context/VerificationContext'
+import NavBar from '../../appNavigation/NavBar'
+import useFVRedirect from './hooks/useFVRedirect'
 import FVFlowProvider from './context/FVFlowContext'
 import { FVFlowError, FVFlowSuccess } from '.'
 
 const log = logger.child({ from: 'FVRouter' })
 
+const FVNavigationBar = () => {
+  const fvRedirect = useFVRedirect()
+
+  const goBack = () => {
+    fvRedirect(false, 'Cancelled flow')
+  }
+  return <NavBar title="Face Verification" goBack={goBack} />
+}
+
 const FVFlowScreens = withNavigationOptions({
   navigationBarHidden: false,
   title: 'Face Verification',
+  navigationBar: FVNavigationBar,
 })({
   FaceVerificationIntro,
   FaceVerification,

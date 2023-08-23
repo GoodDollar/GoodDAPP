@@ -42,23 +42,18 @@ const I18n = new class {
   async getInitialLocale() {
     const { defaultLocale, locales } = this
 
+    // first we check for any system defined languages
     const detectedLocale = await this._detect(
-      // eslint-disable-next-line require-await
-      async () => {
-        const lang = await AsyncStorage.getItem('lang')
-
-        log.debug('Delect locale - AsyncStorage', { lang })
-        return lang
-      },
-
       () => {
         const sysLocales = uniq(
-          flatten(RNLocalize.getLocales().map(locale => ['Code', 'Tag'].map(prop => locale[`language${prop}`]))),
+          flatten(
+            RNLocalize.getLocales().map(locale => ['Code', 'Tag'].map(prop => locale[`language${prop}`].toLowerCase())),
+          ),
         )
 
         log.debug('Delect locale - System', { sysLocales })
 
-        const { languageTag } = RNLocalize.findBestAvailableLanguage(intersection(locales, sysLocales))
+        const { languageTag = {} } = RNLocalize.findBestAvailableLanguage(intersection(locales, sysLocales))
 
         if (this.isLocaleValid(languageTag)) {
           log.debug('Delect locale - System', { languageTag })
@@ -75,6 +70,17 @@ const I18n = new class {
         }
       },
 
+      // else we check if previous language is used
+
+      // eslint-disable-next-line require-await
+      async () => {
+        const lang = await AsyncStorage.getItem('lang')
+
+        log.debug('Delect locale - AsyncStorage', { lang })
+        return lang
+      },
+
+      // if all fail, we use default 'en'
       () => {
         log.debug('Delect locale - Fallback', { defaultLocale })
         return defaultLocale

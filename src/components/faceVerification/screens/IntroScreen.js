@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo } from 'react'
 import { Platform, View } from 'react-native'
 
 // components
@@ -36,8 +36,6 @@ import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../lib/userStorage/useProfile'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
-
-// import useFVRedirect from '../standalone/hooks/useFVRedirect'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -100,39 +98,12 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const { goToRoot, navigateTo, push } = screenProps
 
-  // const fvRedirect = useFVRedirect()
-
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
   const userName = useMemo(() => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''), [
     isFVFlow,
     firstName,
     fullName,
   ])
-
-  const unsubscribeRef = useRef(null)
-
-  useEffect(() => {
-    if (isFVFlow) {
-      unsubscribeRef.current = navigation.addListener('willBlur', e => {
-        const isFirst = navigation.isFirstRouteInParent()
-        const statePage = e.state.key
-        const lastState = e.lastState
-        log.debug('didFocus', { e, navigation, isFirst, statePage, lastState })
-
-        if (isFirst && e.action.type === 'Navigation/NAVIGATE') {
-          log.info('didFocus -- should redirect')
-
-          // fvRedirect(false, 'Cancelled flow')
-        }
-      })
-    }
-
-    return () => {
-      if (unsubscribeRef.current) {
-        unsubscribeRef.current.remove()
-      }
-    }
-  }, [navigation, unsubscribeRef])
 
   const [disposing, checkDisposalState] = useDisposingState(
     {
@@ -170,11 +141,10 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkOnMounted: false,
     onSupported: requestCameraPermissions,
     onUnsupported: () => {
-      log.info('TestTryAnyway -- introscreen -- onUnsupported')
       requestCameraPermissions({ ignoreMountedState: true }) // we let the user try anyways. we add ignoreMOuntedState because when showing the unsupportedbrowser popup it unmounts
     },
     unsupportedPopup: BlockingUnsupportedBrowser,
-    onCheck: () => isWebView && (!isIOSWeb || iosSupportedWeb),
+    onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
 
   const handleVerifyClick = useCallback(async () => {

@@ -14,7 +14,7 @@ This components includes components to visualize and input G\$, buttons, and pro
 
 # Common components
 
-## How to use <Icon> with your custom svg
+## How to use Icon component with your custom svg
 
 Pre requirement:
 A. has to be svg-icon, in 24x24 (can be bigger/smaller ofcourse, but works best with square format)

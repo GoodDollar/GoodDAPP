@@ -17,7 +17,9 @@ This components includes components to visualize and input G\$, buttons, and pro
 ## How to use Icon component with your custom svg
 
 Pre requirement:
-A. has to be svg-icon, in 24x24 (can be bigger/smaller ofcourse, but works best with square format)
+
+A. has to be svg-icon, in 24x24 (can be bigger/smaller ofcourse, but works best with square format) 
+
 B. it does not support all svg features and might not show correctly.. see: [importing svg to fontello](https://github.com/fontello/fontello/wiki/How-to-use-custom-images#importing-svg-images)
 
 1. go to [fontello.com](https://fontello.com)

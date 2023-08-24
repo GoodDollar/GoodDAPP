@@ -12,9 +12,9 @@ This components \(as all other component\) are [react-native-web](https://github
 
 This components includes components to visualize and input G\$, buttons, and profile related components as avatars components. [Check the full list in common](../docs/dapp/components/common.md)
 
-## Common components
+# Common components
 
-# How to use <Icon> with your custom svg
+## How to use <Icon> with your custom svg
 
 Pre requirement:
 A. has to be svg-icon, in 24x24 (can be bigger/smaller ofcourse, but works best with square format)

@@ -29,11 +29,17 @@ B. it does not support all svg features and might not show correctly.. see: [imp
 5. change the name to something short/simple (convience mostly)
 6. top-right, download webfont and extract
 7. go to extracted folder
+
    8A. in /fonts folder, change the names of the font files to gooddollar.X
+
    8B. in /css rename fontello.css > index.css
+
    8C. in index.css change font-family name to "gooddollar" (twice!)
+
    8D. in index.css change the paths of the fonts to ./gooddollar.<font>
+
    8E. in config.json change name to "gooddollar"
+
    8F. copy over the index.css + config.json + fonts to the fonts folder on gooddapp and replace existing files
 
 Then all you have to is use our [Icon](https://github.com/GoodDollar/GoodDAPP/tree/master/src/components/common/view/Icon/)

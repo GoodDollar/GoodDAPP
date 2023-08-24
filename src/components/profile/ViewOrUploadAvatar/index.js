@@ -50,7 +50,9 @@ const ViewOrUploadAvatar = props => {
         refreshProfile()
       } catch (exception) {
         const { message } = exception
-
+        if (message.includes('User cancelled')) {
+          return
+        }
         log.error('saving image failed:', message, exception, { dialogShown: true })
         showErrorDialog(t`We could not capture all your beauty. Please try again.`)
       }

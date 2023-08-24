@@ -52,7 +52,7 @@ export const withTimeout = async (asyncFn, timeoutMs = 60000, errorMessage = 'Ti
 const defaultRetryMiddleware = (rejection, options, defaultOptions) => defaultOptions
 const defaultOnFallback = error => true
 
-export const retry = async (asyncFn, retries = 5, interval = 0, middleware = defaultRetryMiddleware) => {
+export const retry = async (asyncFn, retries = 5, interval = 1000, middleware = defaultRetryMiddleware) => {
   const defaultOpts = { retries, interval }
   let opts = { ...defaultOpts }
 
@@ -67,7 +67,7 @@ export const retry = async (asyncFn, retries = 5, interval = 0, middleware = def
               return throwError(attempt)
             }
 
-            return timer(opts.interval || 0)
+            return timer(opts.interval * index || 0)
           }),
         ),
       ),

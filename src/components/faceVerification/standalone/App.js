@@ -2,6 +2,7 @@
 import React, { Fragment } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
+import { PostHogProvider } from 'posthog-react-native'
 
 import { SimpleStoreDialog } from '../../common/dialogs/CustomDialog'
 import LoadingIndicator from '../../common/view/LoadingIndicator'
@@ -12,6 +13,8 @@ import { DialogContextProvider } from '../../../lib/dialog/dialogContext'
 import logger from '../../../lib/logger/js-logger'
 
 import { theme } from '../../theme/styles'
+import Config from '../../../config/config'
+
 import AppRouter from './AppRouter'
 
 // eslint-disable-next-line no-unused-vars
@@ -32,13 +35,15 @@ const App = () => {
     <PaperProvider theme={theme}>
       <AppWrapper {...wrapperProps}>
         <Fragment>
-          <GlobalTogglesContextProvider>
-            <DialogContextProvider>
-              <SimpleStoreDialog />
-              <LoadingIndicator />
-              <AppRouter />
-            </DialogContextProvider>
-          </GlobalTogglesContextProvider>
+          <PostHogProvider apiKey={Config.posthogApiKey} options={{ host: Config.posthogHost }} autocapture={false}>
+            <GlobalTogglesContextProvider>
+              <DialogContextProvider>
+                <SimpleStoreDialog />
+                <LoadingIndicator />
+                <AppRouter />
+              </DialogContextProvider>
+            </GlobalTogglesContextProvider>
+          </PostHogProvider>
         </Fragment>
       </AppWrapper>
     </PaperProvider>

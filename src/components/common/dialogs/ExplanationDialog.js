@@ -145,6 +145,7 @@ const mapStylesToProps = ({ theme }) => ({
   },
   buttonsContainer: {
     display: 'flex',
+    flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     paddingLeft: 0,

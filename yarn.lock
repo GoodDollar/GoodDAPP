@@ -4369,7 +4369,7 @@ __metadata:
     react-navigation: ^4.0.10
     react-navigation-stack: ^1.10.3
     react-phone-number-input: ^3.2.23
-    react-qr-reader: ^2.2.1
+    react-qr-reader-es6: ^2.2.1-2
     react-scripts: ^4.0.3
     react-share: ^4.3.1
     react-test-renderer: ^17.0.2
@@ -24856,10 +24856,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsqr@npm:^1.2.0":
-  version: 1.4.0
-  resolution: "jsqr@npm:1.4.0"
-  checksum: 7c572971f90c42772e30d152bde63b84edf1164bde80c53942e6b2068ea31caf00ad704aa46cacc9e71645f52dbeddebc6e84ba15e883c678ee93cde690de339
+"jsqr-es6@npm:^1.4.0-1":
+  version: 1.4.0-1
+  resolution: "jsqr-es6@npm:1.4.0-1"
+  checksum: efabfb35c3c7fc55a2ac7d5a7d251739f6c9c11d8db163b73539824060ced521f462272da231fe871e64133fadb33132e09e56126fa20680dd3901c5b30856e7
   languageName: node
   linkType: hard
 
@@ -33688,17 +33688,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-qr-reader@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "react-qr-reader@npm:2.2.1"
+"react-qr-reader-es6@npm:^2.2.1-2":
+  version: 2.2.1-2
+  resolution: "react-qr-reader-es6@npm:2.2.1-2"
   dependencies:
-    jsqr: ^1.2.0
+    jsqr-es6: ^1.4.0-1
     prop-types: ^15.7.2
-    webrtc-adapter: ^7.2.1
   peerDependencies:
-    react: ~16
-    react-dom: ~16
-  checksum: a6e997fdd9106dc06efd5df979c49174cf5da97ced9dd1212ebe084fc6c346d2b8a636c6e710668bde32ced28a54e0a4a99e843101062fc3ca99cb90287473cb
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 263483679736204532ede1ab0a7aff21311fd92113ccbd97fb29c5cf3eef0c40b8e2b69a9ba946df8f8a0aa936a0309fe59ddc6849710a213ba8dd24f4d28658
   languageName: node
   linkType: hard
 
@@ -35249,15 +35248,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rtcpeerconnection-shim@npm:^1.2.15":
-  version: 1.2.15
-  resolution: "rtcpeerconnection-shim@npm:1.2.15"
-  dependencies:
-    sdp: ^2.6.0
-  checksum: 42a733d8e3846b7e7e3c33b6d5cddec95659ceb39d3f990f0a4437e6d719ed717237fea02352d4a18d86c825a1493eaeb481cc835267d2288b0ce43582b97f46
-  languageName: node
-  linkType: hard
-
 "run-async@npm:^2.2.0, run-async@npm:^2.4.0":
   version: 2.4.1
   resolution: "run-async@npm:2.4.1"
@@ -35582,13 +35572,6 @@ __metadata:
   dependencies:
     pbkdf2: ^3.0.3
   checksum: e09cf253b0974171bbcb77fa46405bb07cb8e241e2851fc5f23b38526a33105f0f7748a4d60027642f40bd4518ada30b1dce5005c05d17a25cbcefad371d4259
-  languageName: node
-  linkType: hard
-
-"sdp@npm:^2.12.0, sdp@npm:^2.6.0":
-  version: 2.12.0
-  resolution: "sdp@npm:2.12.0"
-  checksum: 5deb20ac50a1aeb4dd5ff2e506c22d1674222c21f08ae97105c9552ae979e90ddc42b8526f2c3dcacfeebc45c7b2e6b6b4254ae2cf335263bf3ddf2ad9b8ec76
   languageName: node
   linkType: hard
 
@@ -40945,16 +40928,6 @@ __metadata:
   bin:
     webpack: bin/webpack.js
   checksum: 3d42ee6af7a0ff14fc00136d02f4a36381fd5b6ad0636b95a8b83e6d99bc7e02f888f4994c095ae986e567033fe7bb1d445e27afe49d2872b8fe5c3a57d20de6
-  languageName: node
-  linkType: hard
-
-"webrtc-adapter@npm:^7.2.1":
-  version: 7.7.1
-  resolution: "webrtc-adapter@npm:7.7.1"
-  dependencies:
-    rtcpeerconnection-shim: ^1.2.15
-    sdp: ^2.12.0
-  checksum: 16534a721794bf375753b031e538f5c1ce84df3a272085069bbce7fa1b085e5a2d33b92096256a6fdacdf6f9e30f8543e2478a293ccf5a3849bc7143b10b38d3
   languageName: node
   linkType: hard
 

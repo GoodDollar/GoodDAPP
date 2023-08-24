@@ -59,7 +59,13 @@ const uploadAvatars = async (lastUpdate, prevVersion, log, { goodWallet }, userS
 
   await uploadProfileAvatar(goodWallet, userStorage)
   log.debug('done storing user avatar')
-  await Promise.all(groupedEvents.map(_ => uploadCounterPartyAvatar(_, userStorage)))
+  for (let events of groupedEvents) {
+    // eslint-disable-next-line no-await-in-loop
+    await uploadCounterPartyAvatar(events, userStorage)
+  }
+
+  //await Promise.allSettled(groupedEvents.map(_ => uploadCounterPartyAvatar(_, userStorage)))
+
   log.debug('done storing feed avatars')
 }
 

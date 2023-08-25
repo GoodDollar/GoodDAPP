@@ -4,7 +4,7 @@ import { redirectTo } from '../../../../lib/utils/linking'
 import { FVFlowContext } from '../context/FVFlowContext'
 
 const useFVRedirect = () => {
-  const { rdu, cbu } = useContext(FVFlowContext)
+  const { rdu, cbu, chainId } = useContext(FVFlowContext)
 
   const fvRedirect = useCallback(
     (verified, reason = undefined) => {
@@ -13,7 +13,7 @@ const useFVRedirect = () => {
       const payload = pickBy({ verified, reason }, negate(isUndefined))
 
       if (url) {
-        redirectTo(url, urlType, payload)
+        redirectTo(url, urlType, { ...payload, chain: chainId })
       }
     },
     [rdu, cbu],

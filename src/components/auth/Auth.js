@@ -85,9 +85,9 @@ const Auth = (props: Props) => {
                 textDecorationLine="underline"
                 onPress={handleNavigateTermsOfUse}
               >
-                Terms of Use
+                {t`Terms of Use`}
               </Text>
-              {' and '}
+              {t` and `}
               <Text
                 fontSize={12}
                 color="gray80Percent"
@@ -95,7 +95,7 @@ const Auth = (props: Props) => {
                 textDecorationLine="underline"
                 onPress={handleNavigatePrivacyPolicy}
               >
-                Privacy Policy
+                {t`Privacy Policy`}
               </Text>
             </Text>
           </Trans>
@@ -107,9 +107,9 @@ const Auth = (props: Props) => {
           <PushButton testID="signInButton" dark={false} mode="outlined" onPress={handleSignIn}>
             <Trans>
               <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
-                ALREADY REGISTERED?
+                t{`ALREADY REGISTERED?`}
                 <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
-                  {' SIGN IN'}
+                  {t` SIGN IN`}
                 </Text>
               </Text>
             </Trans>

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 import Text from '../../common/view/Text'
 import Separator from '../../common/layout/Separator'
@@ -29,7 +30,9 @@ const NotMatchError = ({ styles, displayTitle, onRetry, nav, exception }) => {
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="medium" textTransform="none" color="red">
             {displayTitle && displayTitle}
-            {(displayTitle ? `,\n` : '') + "Unfortunately,\nwe couldn't confirm your identity..."}
+            {(displayTitle ? `,\n` : '') +
+              t`Unfortunately,
+            we couldn't confirm your identity...`}
           </Section.Title>
           <Section.Row justifyContent="space-evenly">
             <View style={styles.halfIllustration}>
@@ -43,12 +46,13 @@ const NotMatchError = ({ styles, displayTitle, onRetry, nav, exception }) => {
             <Separator width={2} />
             <View style={styles.descriptionWrapper}>
               <Text color="primary" fontWeight="bold" fontSize={18} lineHeight={25}>
-                {"Your face doesn't match the snapshot\nfrom the previous verification"}
+                {t`Your face doesn't match the snapshot 
+                from the previous verification`}
               </Text>
               <Text color="primary" fontSize={18} lineHeight={25}>
-                {
-                  "You could pass verification only by yourself\nIf you're sure this is your account\nplease contact our support"
-                }
+                {t`You could pass verification only by yourself 
+                  If you're sure this is your account 
+                  please contact our support`}
               </Text>
             </View>
             <Separator width={2} />
@@ -56,9 +60,9 @@ const NotMatchError = ({ styles, displayTitle, onRetry, nav, exception }) => {
         </Section>
         <View style={styles.action}>
           <CustomButton onPress={onContactSupport} mode="outlined" style={styles.actionsSpace}>
-            CONTACT SUPPORT
+            {t`CONTACT SUPPORT`}
           </CustomButton>
-          <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
+          <CustomButton onPress={onRetry}>{t`TRY AGAIN`}</CustomButton>
         </View>
       </View>
     </Wrapper>

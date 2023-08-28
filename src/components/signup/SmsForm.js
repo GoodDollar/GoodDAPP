@@ -1,6 +1,9 @@
 // @flow
 import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
+import { t } from '@lingui/macro'
+
+import mustache from '../../lib/utils/mustache'
 import { isIOS } from '../../lib/utils/platform'
 import logger from '../../lib/logger/js-logger'
 import API, { throwException } from '../../lib/API'
@@ -128,7 +131,8 @@ class SmsForm extends React.Component<Props, State> {
             <Section.Stack justifyContent="flex-start" style={styles.container}>
               <Section.Row justifyContent="center">
                 <Section.Title color="darkGray" fontSize={22} fontWeight="medium" textTransform="none">
-                  {'Enter the verification code\nsent to your phone'}
+                  {t`Enter the verification code
+                  sent to your phone`}
                 </Section.Title>
               </Section.Row>
               <Section.Stack justifyContent="center" style={styles.bottomContent}>
@@ -236,7 +240,7 @@ const SMSAction = ({
             onPress={_handleRetry}
             style={styles.sendCodeAgainButton}
           >
-            Send the code again
+            {t`Send the code again`}
           </Section.Text>
         )}
         {tries === 3 && (
@@ -251,7 +255,7 @@ const SMSAction = ({
             }}
             style={styles.sendCodeAgainButton}
           >
-            Send via voice call
+            {t`Send via voice call`}
           </Section.Text>
         )}
         {tries >= 3 && (
@@ -263,7 +267,7 @@ const SMSAction = ({
             onPress={_handleSkip}
             style={styles.sendCodeAgainButton}
           >
-            Skip mobile verification
+            {t`Skip mobile verification`}
           </Section.Text>
         )}
       </SpinnerCheckMark>
@@ -272,7 +276,7 @@ const SMSAction = ({
 
   return (
     <Section.Text fontSize={14} color="gray80Percent">
-      Please wait {waitTime} seconds until the {isCall ? 'call' : 'SMS'} arrives
+      {mustache(t`Please wait ${waitTime} seconds until the ${isCall ? 'call' : 'SMS'} arrives`, { waitTime })}
     </Section.Text>
   )
 }

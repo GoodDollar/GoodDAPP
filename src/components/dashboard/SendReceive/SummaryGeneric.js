@@ -79,11 +79,11 @@ const SummaryGeneric = ({
 
     if (vendorInfo) {
       if (email && !isEmail(email)) {
-        emailError = 'Please enter a valid email address'
+        emailError = t`Please enter a valid email address`
       }
 
       if (fullName && !name) {
-        nameError = 'Please enter a name'
+        nameError = t`Please enter a name`
       }
     }
 

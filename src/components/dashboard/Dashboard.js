@@ -811,7 +811,7 @@ const Dashboard = props => {
                     fontSize={12}
                     style={styles.totalBalanceText}
                   >
-                    {` MY TOTAL BALANCE `}
+                    {t`MY TOTAL BALANCE `}
                   </Text>
                 )}
                 <View style={styles.balanceUsdRow}>
@@ -858,11 +858,11 @@ const Dashboard = props => {
                     contentStyle={styles.leftButtonContent}
                     textStyle={styles.leftButtonText}
                     params={{
-                      action: t`Send`,
+                      action: 'Send',
                     }}
                     compact
                   >
-                    Send
+                    {t`Send`}
                   </PushButton>
                   <ClaimButton
                     screenProps={screenProps}
@@ -874,14 +874,14 @@ const Dashboard = props => {
                     icon="receive"
                     iconSize={20}
                     iconAlignment="right"
-                    routeName={t`Receive`}
+                    routeName={'Receive'}
                     screenProps={screenProps}
                     style={[styles.rightButton, styles.sendReceiveButton]}
                     contentStyle={styles.rightButtonContent}
                     textStyle={styles.rightButtonText}
                     compact
                   >
-                    Receive
+                    {t`Receive`}
                   </PushButton>
                 </Section.Row>
               </Section>

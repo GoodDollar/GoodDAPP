@@ -91,12 +91,12 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
         <BorderedBox
           styles={styles}
           theme={theme}
-          title="My Private Key"
+          title={t`My Private Key`}
           content={fullPrivateKey}
           imageSize={checkmarkIconSize}
           onBeforeCopy={onPrivateKeyCopy}
           image={Checkmark}
-          copyButtonText="Copy Key"
+          copyButtonText={t`Copy Key`}
           showCopyIcon={false}
           enableIndicateAction
           truncateContent
@@ -106,11 +106,11 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
         <BorderedBox
           styles={styles}
           theme={theme}
-          title="My Wallet Address"
+          title={t`My Wallet Address`}
           content={publicKey}
           imageSize={checkmarkIconSize}
           image={Checkmark}
-          copyButtonText="Copy address"
+          copyButtonText={t`Copy address`}
           showCopyIcon={false}
           truncateContent
           enableIndicateAction
@@ -124,7 +124,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           content={web3ProviderUrl}
           imageSize={checkmarkIconSize}
           image={Checkmark}
-          copyButtonText="Copy RPC"
+          copyButtonText={t`Copy RPC`}
           showCopyIcon={false}
           enableIndicateAction
           enableSideMode

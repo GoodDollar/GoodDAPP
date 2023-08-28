@@ -50,7 +50,7 @@ const tips = {
 
 // fields to manage privacy of
 const profileFields = ['mobile', 'email']
-const titles = { mobile: 'Phone number', email: 'Email' }
+const titles = { mobile: t`Phone number`, email: t`Email` }
 
 const PrivacyOption = ({ title, value, field, setPrivacy }) => {
   const handlePrivacyChange = useCallback(

@@ -2,6 +2,8 @@
 import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
 import { get, noop } from 'lodash'
+import { t } from '@lingui/macro'
+
 import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -68,16 +70,16 @@ const FeedModalItem = (props: FeedEventProps) => {
         </View>
         <View style={styles.numbersDescriptionRow}>
           <Text fontWeight="medium" fontSize={14} style={{ marginRight: 'auto' }}>
-            0 - NO WAY!
+            {t`0 - NO WAY!`}
           </Text>
           <Text fontWeight="medium" fontSize={14} style={{ marginLeft: 'auto' }}>
-            10 - FOR SURE!
+            {t`10 - FOR SURE!`}
           </Text>
         </View>
       </View>
       <View style={styles.buttonsRow}>
         <CustomButton mode="text" style={styles.button} onPress={buttonPress} color={theme.colors.gray80Percent}>
-          LATER
+          {t`LATER`}
         </CustomButton>
       </View>
     </React.Fragment>

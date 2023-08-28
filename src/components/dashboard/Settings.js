@@ -65,11 +65,10 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
     </RadioButton.Group>
   )
 }
-const supportedCountryCodes = ['DD', 'US', 'GB', 'ES', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID', 'AR']
+const supportedCountryCodes = ['US', 'GB', 'ES', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID', 'AR']
 type CountryCode = $ElementType<typeof supportedCountryCodes, number>
 
 const countryCodeToLocale: { [key: CountryCode]: string } = {
-  DD: 'dd',
   US: 'en',
   GB: 'en-gb',
   ES: 'es',
@@ -87,7 +86,7 @@ const countryCodeToLocale: { [key: CountryCode]: string } = {
 }
 
 const languageCustomLabels: { [key: CountryCode]: string } = {
-  DD: 'Device Default',
+  '': 'Device Default',
   US: 'English-US',
   GB: 'English-UK',
   ES: 'Spanish',
@@ -115,16 +114,21 @@ const DropDownRowComponent = props => {
 
   return (
     <TouchableOpacity {...containerStyles} onPress={props.onPress}>
-      <CountryFlag
-        styles={{
-          flag: {
-            width: 24,
-            height: 24,
-          },
-        }}
-        code={countryCode}
-      />
-      <Text {...textStyles}> {languageCustomLabels[countryCode]}</Text>
+      <>
+        {countryCode && (
+          <CountryFlag
+            styles={{
+              flag: {
+                width: 24,
+                height: 24,
+              },
+            }}
+            code={countryCode}
+          />
+        )}
+
+        <Text {...textStyles}> {languageCustomLabels[countryCode]}</Text>
+      </>
     </TouchableOpacity>
   )
 }
@@ -288,7 +292,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                 <View style={styles.languageInputContainer}>
                   <ModalDropdown
                     defaultValue={languageCustomLabels[countryCode] ?? 'Select a language...'}
-                    options={supportedCountryCodes}
+                    options={['', ...supportedCountryCodes]}
                     alignOptionsToRight={true}
                     saveScrollPosition={false}
                     showsVerticalScrollIndicator={true}

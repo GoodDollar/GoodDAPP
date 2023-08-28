@@ -26,7 +26,7 @@ export const CountryFlag = withStyles(
   }),
   false,
 )(({ styles, code }) => {
-  if (code === 'DD') {
+  if (!code) {
     return null
   }
   const Flag = useCountryFlag(code)

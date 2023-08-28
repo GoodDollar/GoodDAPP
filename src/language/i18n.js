@@ -48,8 +48,8 @@ const I18n = new class {
     const detectedLocale = await this._detect(
       async () => {
         const lang = await AsyncStorage.getItem('lang')
-        log.debug('Detect locale - AsyncStorage', { lang })
-        if (lang && lang !== 'dd') {
+
+        if (lang) {
           return lang
         }
 
@@ -109,12 +109,6 @@ const I18n = new class {
 
     await AsyncStorage.setItem('lang', locale)
     log.debug('AsyncStorage updated', { locale })
-
-    // when locale is dd, user selected Device Default in settings
-    // and it requires a app restart
-    if (locale === 'dd') {
-      restart()
-    }
   }
 
   /** @private */
@@ -147,6 +141,10 @@ const LanguageProvider = ({ children }) => {
   const setLanguage = useCallback(
     async language => {
       if (!language) {
+        // if no language is passed, setLanguage is called by user through the device default setting
+        // and we need to clear storage and restart to apply the system language
+        await AsyncStorage.removeItem('lang')
+        restart()
         return
       }
 

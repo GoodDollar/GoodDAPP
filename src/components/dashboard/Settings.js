@@ -86,7 +86,6 @@ const countryCodeToLocale: { [key: CountryCode]: string } = {
 }
 
 const languageCustomLabels: { [key: CountryCode]: string } = {
-  '': 'Device Default',
   US: 'English-US',
   GB: 'English-UK',
   ES: 'Spanish',
@@ -291,13 +290,14 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
               <Section.Row style={styles.languageRow}>
                 <View style={styles.languageInputContainer}>
                   <ModalDropdown
-                    defaultValue={languageCustomLabels[countryCode] ?? 'Select a language...'}
+                    defaultValue={languageCustomLabels[countryCode] ?? t`Select a language...`}
                     options={['', ...supportedCountryCodes]}
                     alignOptionsToRight={true}
                     saveScrollPosition={false}
                     showsVerticalScrollIndicator={true}
                     renderButtonText={option => {
-                      return languageCustomLabels[option]
+                      const text = languageCustomLabels[option] ?? 'Device Default'
+                      return t`${text}`
                     }}
                     renderRowComponent={DropDownRowComponent}
                     onSelect={(index, option) => {

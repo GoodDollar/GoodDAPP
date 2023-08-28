@@ -98,14 +98,12 @@ const I18n = new class {
   }
 
   async dynamicActivate(locale) {
-    if (locale !== 'dd') {
-      const { messages } = await this.localeFiles[locale]()
-      const { i18n } = this
+    const { messages } = await this.localeFiles[locale]()
+    const { i18n } = this
 
-      i18n.load(locale, messages)
-      i18n.activate(locale)
-      log.debug('Activated locale', { locale, messages })
-    }
+    i18n.load(locale, messages)
+    i18n.activate(locale)
+    log.debug('Activated locale', { locale, messages })
 
     await AsyncStorage.setItem('lang', locale)
     log.debug('AsyncStorage updated', { locale })

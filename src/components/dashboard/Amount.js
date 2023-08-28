@@ -88,7 +88,7 @@ const Amount = (props: AmountProps) => {
         const canBridge = parseInt(GDAmount) >= min
 
         if (!canBridge) {
-          setError(t`Sorry, minimum amount to bridge is {min} G$'s`)
+          setError(t`Sorry, minimum amount to bridge is ${min} G$'s`)
           return canBridge
         }
       }

@@ -2,10 +2,12 @@
 /* eslint-disable no-unused-vars */
 
 // libraries
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
-import { Platform, TouchableOpacity } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import { get, mapValues, pick, startCase } from 'lodash'
+
+import ModalDropdown from 'react-native-modal-dropdown'
 
 // custom components
 import { t } from '@lingui/macro'
@@ -14,6 +16,8 @@ import { Switch } from 'react-native-switch'
 import { useDebounce } from 'use-debounce'
 import Wrapper from '../common/layout/Wrapper'
 import { Icon, Section, Text } from '../common'
+import { LanguageContext } from '../../language/i18n'
+import { CountryFlag } from '../profile/ProfileDataTable'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
@@ -61,10 +65,88 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
     </RadioButton.Group>
   )
 }
+const supportedCountryCodes = ['US', 'GB', 'ES', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID', 'AR']
+type CountryCode = $ElementType<typeof supportedCountryCodes, number>
+
+const countryCodeToLocale: { [key: CountryCode]: string } = {
+  US: 'en',
+  GB: 'en-gb',
+  ES: 'es',
+  FR: 'fr',
+  IT: 'it',
+  KR: 'ko',
+  BR: 'pt-br',
+  UA: 'uk',
+  TR: 'tr',
+  VN: 'vi',
+  CN: 'zh',
+  IN: 'hi',
+  ID: 'id',
+  AR: 'es-419',
+}
+
+const languageCustomLabels: { [key: CountryCode]: string } = {
+  US: 'English-US',
+  GB: 'English-UK',
+  ES: 'Spanish',
+  FR: 'French',
+  IT: 'Italian',
+  KR: 'Korean',
+  DE: 'German',
+  BR: 'Portuguese-Brazilian',
+  UA: 'Ukrainian',
+  TR: 'Turkish',
+  VN: 'Vietnamese',
+  CN: 'Chinese-Simplified',
+  IN: 'Hindi',
+  ID: 'Indonesian',
+  AR: 'Latin-Spanish',
+}
+
+const getKeyByValue = (object, value) => {
+  return Object.keys(object).find(key => object[key] === value)
+}
+
+const DropDownRowComponent = props => {
+  const { containerStyles, textStyles, children } = props
+  const { children: countryCode } = children.props
+
+  return (
+    <TouchableOpacity {...containerStyles} onPress={props.onPress}>
+      <>
+        {countryCode && (
+          <CountryFlag
+            styles={{
+              flag: {
+                width: 24,
+                height: 24,
+              },
+            }}
+            code={countryCode}
+          />
+        )}
+
+        <Text {...textStyles}> {languageCustomLabels[countryCode]}</Text>
+      </>
+    </TouchableOpacity>
+  )
+}
 
 const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { navigate } = navigation
   const userStorage = useUserStorage()
+  const { setLanguage, language: languageCode } = useContext(LanguageContext)
+  const [countryCode, setCountryCode] = useState(getKeyByValue(countryCodeToLocale, languageCode))
+
+  const handleLanguageChange = useCallback(
+    async code => {
+      setCountryCode(code)
+      const codeLocale = countryCodeToLocale[code]
+
+      await setLanguage(codeLocale)
+    },
+    [languageCode, setLanguage],
+  )
 
   const { from: wentFrom } = screenProps?.screenState || {}
   const onWentFromClaimProcessedRef = useRef(false)
@@ -199,6 +281,71 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
               />
             ))}
           </Section.Stack>
+
+          <Section.Row justifyContent="center" style={[styles.subtitleRow, { flexDirection: 'column' }]}>
+            <Section.Text fontWeight="bold" color="gray">
+              {t`Language`}
+            </Section.Text>
+            <Section.Stack justifyContent="flex-start" style={styles.selectLanguageContainer}>
+              <Section.Row style={styles.languageRow}>
+                <View style={styles.languageInputContainer}>
+                  <ModalDropdown
+                    defaultValue={languageCustomLabels[countryCode] ?? t`Select a language...`}
+                    options={['', ...supportedCountryCodes]}
+                    alignOptionsToRight={true}
+                    saveScrollPosition={false}
+                    showsVerticalScrollIndicator={true}
+                    renderButtonText={option => {
+                      const language = languageCustomLabels[option] ?? 'Device Default'
+                      return t`${language}`
+                    }}
+                    renderRowComponent={DropDownRowComponent}
+                    onSelect={(index, option) => {
+                      handleLanguageChange(option)
+                    }}
+                    defaultTextStyle={{ fontSize: 18 }}
+                    textStyle={{ marginLeft: 10, fontSize: 18 }}
+                    buttonAndRightComponentContainerStyle={styles.dropDownContainer}
+                    style={styles.modalDropDown}
+                    renderRightComponent={() =>
+                      countryCode && (
+                        <View style={styles.flagContainer}>
+                          <CountryFlag code={countryCode} />
+                        </View>
+                      )
+                    }
+                    renderButtonProps={{ style: styles.renderButtonProps }}
+                    renderRowProps={{
+                      containerStyles: {
+                        style: {
+                          border: 'none',
+                          alignItems: 'center',
+                          justifyContent: 'flex-start',
+                          flexDirection: 'row',
+                          ...Platform.select({
+                            web: {
+                              width: '200',
+                            },
+                          }),
+                        },
+                      },
+                      textStyles: {
+                        style: {
+                          paddingTop: 10,
+                          paddingBottom: 10,
+                          ...Platform.select({
+                            web: {
+                              width: '200%',
+                            },
+                          }),
+                        },
+                      },
+                    }}
+                  />
+                </View>
+              </Section.Row>
+            </Section.Stack>
+          </Section.Row>
         </Section.Stack>
       </Section>
     </Wrapper>
@@ -283,6 +430,41 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: theme.paddings.mainContainerPadding,
       paddingHorizontal: theme.sizes.defaultQuadruple,
       marginBottom: theme.sizes.defaultQuadruple,
+    },
+    flagContainer: {
+      width: 55,
+      height: 45,
+    },
+    selectLanguageContainer: {
+      marginTop: 15,
+      flexDirection: 'column',
+      width: 50,
+      justifyContent: 'flex-start',
+    },
+    languageRow: {
+      justifyContent: 'flex-start',
+    },
+    languageInputContainer: {
+      ...Platform.select({
+        web: {
+          width: '70%',
+        },
+        native: {
+          width: '120%',
+        },
+      }),
+    },
+    modalDropDown: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    renderButtonProps: {
+      width: 160,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    dropDownContainer: {
+      flexDirection: 'row-reverse',
     },
   }
 }

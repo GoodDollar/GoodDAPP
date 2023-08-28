@@ -17,7 +17,7 @@ const defaultErrors = {}
 const defaultStoredProfile = {}
 const defaultProfile = {}
 
-const CountryFlag = withStyles(
+export const CountryFlag = withStyles(
   () => ({
     flag: {
       width: 30,
@@ -26,6 +26,10 @@ const CountryFlag = withStyles(
   }),
   false,
 )(({ styles, code }) => {
+  if (!code) {
+    return null
+  }
+  
   const Flag = useCountryFlag(code)
 
   if (!Flag) {

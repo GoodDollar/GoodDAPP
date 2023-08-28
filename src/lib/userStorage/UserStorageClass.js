@@ -908,24 +908,15 @@ export class UserStorage {
 
     const fromGDUbi = this.wallet.getUBIAddresses().includes((data.address || '').toLowerCase()) && 'GoodDollar UBI'
 
-    // let fromAddy = 'Unknown'
-    // let fullFromAddress = 'Unknown'
-    // if (get(receiptEvent, 'from')) {
-    //   fullFromAddress = get(receiptEvent, 'from')
+    let fullFromAddress = 'Unknown'
+    if (get(receiptEvent, 'from')) {
+      fullFromAddress = get(receiptEvent, 'from')
+    }
 
-    //   //do this for printing
-    //   fromAddy =
-    //     fullFromAddress.slice(0, 7) + '...' + fullFromAddress.slice(fullFromAddress.length - 5, fullFromAddress.length)
-    // }
-
-    // //let toAddy = 'Unknown'
-    // let fullToAddress = 'Unknown'
-    // if (get(receiptEvent, 'to')) {
-    //   fullToAddress = get(receiptEvent, 'to')
-
-    //   //do this for printing
-    //   //toAddy = fullToAddress.slice(0, 7) + '...' + fullToAddress.slice(fullFromAddress.length - 5, fullToAddress.length)
-    // }
+    let fullToAddress = 'Unknown'
+    if (get(receiptEvent, 'to')) {
+      fullToAddress = get(receiptEvent, 'to')
+    }
 
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||
@@ -938,8 +929,8 @@ export class UserStorage {
     const fromEmailMobile = data.initiatorType && data.initiator
 
     data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || 'Unknown'
-    // data.toAddress = fullToAddress
-    // data.fromAddress = fullFromAddress
+    data.toAddress = fullToAddress
+    data.fromAddress = fullFromAddress
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {

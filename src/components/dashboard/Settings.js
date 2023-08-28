@@ -296,8 +296,8 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                     saveScrollPosition={false}
                     showsVerticalScrollIndicator={true}
                     renderButtonText={option => {
-                      const text = languageCustomLabels[option] ?? 'Device Default'
-                      return t`${text}`
+                      const language = languageCustomLabels[option] ?? 'Device Default'
+                      return t`${language}`
                     }}
                     renderRowComponent={DropDownRowComponent}
                     onSelect={(index, option) => {

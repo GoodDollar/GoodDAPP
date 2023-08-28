@@ -307,11 +307,13 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                     textStyle={{ marginLeft: 10, fontSize: 18 }}
                     buttonAndRightComponentContainerStyle={styles.dropDownContainer}
                     style={styles.modalDropDown}
-                    renderRightComponent={() => (
-                      <View style={styles.flagContainer}>
-                        <CountryFlag code={countryCode} />
-                      </View>
-                    )}
+                    renderRightComponent={() =>
+                      countryCode && (
+                        <View style={styles.flagContainer}>
+                          <CountryFlag code={countryCode} />
+                        </View>
+                      )
+                    }
                     renderButtonProps={{ style: styles.renderButtonProps }}
                     renderRowProps={{
                       containerStyles: {

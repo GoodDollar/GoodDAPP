@@ -42,9 +42,10 @@ const log = logger.child({ from: 'ProfilePrivacy' })
 // privacy options
 const privacyOptions = ['private', 'masked', 'public']
 const tips = {
-  private: 'Your details will not be visible.',
-  masked: 'Your details will be partially visible\n(e.g.: ****ple@***.com).',
-  public: 'Your details will be fully visible.',
+  private: t`Your details will not be visible.`,
+  masked: t`Your details will be partially visible
+  (e.g.: ****ple@***.com).`,
+  public: t`Your details will be fully visible.`,
 }
 
 // fields to manage privacy of

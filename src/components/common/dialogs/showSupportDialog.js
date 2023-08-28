@@ -25,7 +25,7 @@ export const showSupportDialog = (
     boldMessage: (
       <View style={wrapperStyles}>
         <Trans>
-          <Text fontWeight="inherit">{'Or contact '}</Text>
+          <Text fontWeight="inherit">{t`Or contact `}</Text>
           <Text
             fontWeight="inherit"
             textDecorationLine="underline"

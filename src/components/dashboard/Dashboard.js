@@ -858,7 +858,7 @@ const Dashboard = props => {
                     contentStyle={styles.leftButtonContent}
                     textStyle={styles.leftButtonText}
                     params={{
-                      action: 'Send',
+                      action: t`Send`,
                     }}
                     compact
                   >
@@ -874,7 +874,7 @@ const Dashboard = props => {
                     icon="receive"
                     iconSize={20}
                     iconAlignment="right"
-                    routeName={'Receive'}
+                    routeName={t`Receive`}
                     screenProps={screenProps}
                     style={[styles.rightButton, styles.sendReceiveButton]}
                     contentStyle={styles.rightButtonContent}

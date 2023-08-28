@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { Colors } from 'react-native-paper'
 import { get, truncate } from 'lodash'
+import { t } from '@lingui/macro'
 
 import { CustomButton, Section, Text } from '../common'
 
@@ -34,61 +35,61 @@ const LoginRedirect = ({ navigation, styles }) => {
               <Text style={styles.vendorName}>{vendorName}</Text>
               <View style={styles.detailsView}>
                 <View>
-                  <Text style={styles.detailHeading}>Website</Text>
+                  <Text style={styles.detailHeading}>{t`Website`}</Text>
                   <Text style={styles.detail}>{vendorURL}</Text>
                 </View>
                 <View>
-                  <Text style={styles.detailHeading}>Wallet</Text>
+                  <Text style={styles.detailHeading}>{t`Wallet`}</Text>
                   <Text style={styles.detail}>{shortAddress}</Text>
                 </View>
               </View>
-              <Text style={styles.boldText}>is requesting to view the following information:</Text>
+              <Text style={styles.boldText}>{t`is requesting to view the following information:`}</Text>
               {fullName && (
                 <View style={styles.infoView}>
-                  <Text style={styles.labelText}>Name</Text>
+                  <Text style={styles.labelText}>{t`Name`}</Text>
                   <Text>{fullName}</Text>
                 </View>
               )}
               {mobile && (
                 <View style={styles.infoView}>
-                  <Text style={styles.labelText}>Mobile</Text>
+                  <Text style={styles.labelText}>{t`Mobile`}</Text>
                   <Text>{mobile}</Text>
                 </View>
               )}
               {email && (
                 <View style={styles.infoView}>
-                  <Text style={styles.labelText}>Email</Text>
+                  <Text style={styles.labelText}>{t`Email`}</Text>
                   <Text>{email}</Text>
                 </View>
               )}
               {country && (
                 <View style={styles.infoView}>
-                  <Text style={styles.labelText}>Location</Text>
+                  <Text style={styles.labelText}>{t`Location`}</Text>
                   <Text>{country}</Text>
                 </View>
               )}
               <View style={styles.infoView}>
-                <Text style={styles.labelText}>Wallet Address</Text>
+                <Text style={styles.labelText}>{t`Wallet Address`}</Text>
                 <Text>{walletAddress}</Text>
               </View>
               <View style={styles.infoView}>
-                <Text style={styles.labelText}>GoodDollar verification status</Text>
+                <Text style={styles.labelText}>GoodDollar {t`verification status`}</Text>
                 {isWhitelisted ? (
                   <View style={styles.verifiedView}>
-                    <Text style={styles.verifiedText}>Verified</Text>
+                    <Text style={styles.verifiedText}>{t`Verified`}</Text>
                   </View>
                 ) : (
                   <View style={styles.unVerifiedView}>
-                    <Text style={styles.unVerifiedText}>Not Verified</Text>
+                    <Text style={styles.unVerifiedText}>{t`Not Verified`}</Text>
                   </View>
                 )}
               </View>
               <View style={styles.buttonContainer}>
                 <CustomButton onPress={deny} style={styles.denyButton}>
-                  <Text style={styles.denyText}>Deny</Text>
+                  <Text style={styles.denyText}>{t`Deny`}</Text>
                 </CustomButton>
                 <CustomButton onPress={allow} style={styles.allowButton}>
-                  Allow
+                  {t`Allow`}
                 </CustomButton>
               </View>
             </View>

@@ -9,7 +9,6 @@ import { Helmet } from 'react-helmet'
 import logger from '../lib/logger/js-logger'
 import AsyncStorage from '../lib/utils/asyncStorage'
 import { fallback } from '../lib/utils/async'
-import { restart } from '../lib/utils/system'
 import { defaultMessages, localeFiles, localesCodes, sourceLocale } from './locales'
 
 const log = logger.child({ from: 'I18n' })
@@ -138,16 +137,15 @@ const LanguageProvider = ({ children }) => {
 
   const setLanguage = useCallback(
     async language => {
+      let locale = language
+
       if (!language) {
-        // if no language is passed, setLanguage is called by user through the device default setting
-        // and we need to clear storage and restart to apply the system language
         await AsyncStorage.removeItem('lang')
-        restart()
-        return
+        locale = await I18n.getInitialLocale()
       }
 
-      await I18n.dynamicActivate(language)
-      setCurrentLanguage(language)
+      await I18n.dynamicActivate(locale)
+      setCurrentLanguage(locale)
     },
     [setCurrentLanguage],
   )

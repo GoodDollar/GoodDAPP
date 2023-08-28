@@ -131,7 +131,7 @@ const ShareBox = ({ level, styles }) => {
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Share Your Invite Link`}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
-          {t`You’ll get{' '}`}
+          {t`You’ll get`}{' '}
           <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
             {` ${bounty}G$ `}
           </Section.Text>{' '}

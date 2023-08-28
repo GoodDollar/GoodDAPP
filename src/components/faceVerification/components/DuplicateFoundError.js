@@ -45,7 +45,8 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
                   per person. `}
                 </Text>
                 <Text fontSize={18} lineHeight={25}>
-                  {t`If this is your only active \naccount - please contact our support`}
+                  {t`If this is your only active 
+                  account - please contact our support`}
                 </Text>
               </Text>
             </View>

@@ -91,10 +91,11 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
       <Section grow={5} style={styles.wrapper}>
         <Trans>
           <Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
-            {t`please save your 12-word pass phrase\n`}
+            {t`please save your 12-word pass phrase`}
+            {`\n`}
             <Text fontSize={16} style={styles.instructions}>
-              {t`and keep it in a secure location
-              `}
+              {t`and keep it in a secure location`}
+              {`\n`}
               {t`so you can recover your wallet anytime`}
             </Text>
           </Text>

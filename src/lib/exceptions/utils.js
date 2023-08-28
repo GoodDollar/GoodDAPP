@@ -1,4 +1,5 @@
 import { assign, cloneDeep, fromPairs, has, isFunction, keys, range } from 'lodash'
+import { t } from '@lingui/macro'
 
 import { propertyDescriptor } from '../utils/object'
 
@@ -63,7 +64,8 @@ export const decorate = (exception, withCode) => {
     exception.name = codeString
   }
 
-  return `Sorry, something unexpected happened, please try again. \nError: ${codeString}`
+  return t`Sorry, something unexpected happened, please try again.
+  Error: ${codeString}`
 }
 
 export const cloneErrorObject = exception => {

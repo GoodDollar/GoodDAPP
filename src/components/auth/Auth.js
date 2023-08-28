@@ -77,7 +77,9 @@ const Auth = (props: Props) => {
         <Section style={styles.bottomContainer}>
           <Trans>
             <Text fontSize={12} color="gray80Percent">
-              {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+              {t`By clicking the 'Create a wallet' button,
+              you are accepting our`}
+              {`\n`}
               <Text
                 fontSize={12}
                 color="gray80Percent"

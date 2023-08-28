@@ -37,8 +37,8 @@ const SignupText = ({ screenProps }) => {
     <>
       <Trans>
         <Text fontSize={12} color="gray80Percent">
-          {t`By signing up and entering, you are accepting our
-          `}
+          {t`By signing up and entering, you are accepting our`}
+          {`\n`}
           <Text
             fontSize={12}
             color="gray80Percent"

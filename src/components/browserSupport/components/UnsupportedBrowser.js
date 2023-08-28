@@ -18,7 +18,9 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 export default ({ onDismiss }) => (
   <ExplanationDialog
     title={t`Oops! GoodWallet might not work correctly on webviews`}
-    text={t`For best experience` + `\n` + t`please switch to your browser app``\n` + t`and go to ${Config.publicUrl}`}
+    text={t`For best experience 
+    please switch to your browser app
+    and go to ${Config.publicUrl}`}
     image={illustration}
     imageHeight={124}
     buttons={[

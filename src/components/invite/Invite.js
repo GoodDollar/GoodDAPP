@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
 import { t } from '@lingui/macro'
-import { usePostHog } from 'posthog-react-native'
+
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import Avatar from '../common/view/Avatar'
 import { WavesBox } from '../common/view/WavesBox'
@@ -11,15 +11,13 @@ import { theme } from '../theme/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import logger from '../../lib/logger/js-logger'
 import { captureUtmTags, fireEvent, INVITE_HOWTO, INVITE_SHARE } from '../../lib/analytics/analytics'
-import Config from '../../config/config'
-import { generateShareObject, isSharingAvailable } from '../../lib/share'
+import { isSharingAvailable } from '../../lib/share'
 import { usePublicProfileOf, useUserProperty } from '../../lib/userStorage/useProfile'
 import ModalLeftBorder from '../common/modal/ModalLeftBorder'
 import { useDialog } from '../../lib/dialog/useDialog'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { InfoIcon } from '../common/modal/InfoIcon'
 
-import createABTesting from '../../lib/hooks/useABTesting'
 import { withStyles } from '../../lib/styles'
 import CeloLogo from '../../assets/celo-logo.svg'
 
@@ -32,7 +30,6 @@ import {
 } from '../../lib/wallet/GoodWalletProvider'
 import { createUrlObject } from '../../lib/utils/uri'
 
-import mustache from '../../lib/utils/mustache'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import {
   useCollectBounty,
@@ -40,6 +37,7 @@ import {
   useInviteCode,
   useInvited,
   useInviteScreenOpened,
+  useInviteShare,
   useRegisterForInvites,
 } from './useInvites'
 import FriendsSVG from './friends.svg'
@@ -50,8 +48,6 @@ import ShareIcons from './ShareIcons'
 const log = logger.child({ from: 'Invite' })
 
 const Divider = ({ size = 10 }) => <Section.Separator color="transparent" width={size} style={{ zIndex: -10 }} />
-
-const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const InvitedUser = ({ address, status }) => {
   const profile = usePublicProfileOf(address)
@@ -92,40 +88,21 @@ const InvitedUser = ({ address, status }) => {
   )
 }
 
-const ShareBox = ({ level, styles }) => {
-  const posthog = usePostHog()
-  const abTestOptions = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('share-link') : []), [posthog])
-  const { toDecimals } = useFormatG$()
+export const ShareInviteButton = (isSharingAvailable, share) => (
+  <ShareButton
+    style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
+    color={theme.colors.primary}
+    textStyle={{ fontSize: 14, color: theme.colors.white }}
+    share={share}
+    iconColor={'white'}
+    actionText={isSharingAvailable ? 'share' : 'copy'}
+    onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'native' : 'copy' })}
+    withoutDone
+  />
+)
 
-  const inviteCode = useInviteCode()
-
-  const abTestOption = useOption(abTestOptions) || {}
-  const { shareTitle } = abTestOption
-  const bounty = useMemo(() => (level?.bounty ? decimalsToFixed(toDecimals(level.bounty)) : ''), [level])
-
-  const shareUrl = useMemo(
-    () =>
-      inviteCode && abTestOption
-        ? `${Config.invitesUrl}?inviteCode=${inviteCode}&utm_campaign=${abTestOption.id || 'default'}`
-        : '',
-    [inviteCode, abTestOption],
-  )
-
-  const abTestMessage = useMemo(() => {
-    const { shareMessage: value } = abTestOption || {}
-
-    if (value) {
-      const reward = bounty / 2
-
-      return mustache(value, { bounty, reward })
-    }
-  }, [abTestOption, bounty])
-
-  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
-    shareTitle,
-    shareUrl,
-    abTestMessage,
-  ])
+export const ShareBox = ({ level, styles }) => {
+  const { share, shareUrl, bounty } = useInviteShare(level)
 
   return (
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Share Your Invite Link`}>
@@ -153,16 +130,7 @@ const ShareBox = ({ level, styles }) => {
         >
           {shareUrl}
         </Text>
-        <ShareButton
-          style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
-          color={theme.colors.primary}
-          textStyle={{ fontSize: 14, color: theme.colors.white }}
-          share={share}
-          iconColor={'white'}
-          actionText={isSharingAvailable ? 'share' : 'copy'}
-          onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'native' : 'copy' })}
-          withoutDone
-        />
+        <ShareInviteButton isSharingAvailable={isSharingAvailable} share={share} />
       </Section.Row>
       <ShareIcons shareUrl={shareUrl} />
     </WavesBox>

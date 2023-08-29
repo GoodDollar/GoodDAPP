@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { groupBy, keyBy, noop } from 'lodash'
+import { get, groupBy, keyBy, noop } from 'lodash'
 import { t } from '@lingui/macro'
+import { usePostHog } from 'posthog-react-native'
+
 import { useFormatG$, usePropSuffix, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
+import { generateShareObject } from '../../lib/share'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { INVITE_CODE } from '../../lib/constants/localStorage'
 import { decimalsToFixed } from '../../lib/wallet/utils'
@@ -13,6 +16,10 @@ import Config from '../../config/config'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { useUserProperty } from '../../lib/userStorage/useProfile'
+import mustache from '../../lib/utils/mustache'
+
+import createABTesting from '../../lib/hooks/useABTesting'
+const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const log = logger.child({ from: 'useInvites' })
 
@@ -338,4 +345,52 @@ export const useInviteScreenOpened = () => {
   }, [])
 
   return { wasOpened, trackOpened }
+}
+
+export const useInviteCopy = () => {
+  const { level } = useInvited()
+  const { toDecimals } = useFormatG$()
+  const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
+  return {
+    copy: t`Invite a friend to earn ${bounty} G$ after they
+  claim. They will also earn a ${bounty / 2} G$ bonus`,
+  }
+}
+
+export const useInviteShare = level => {
+  const posthog = usePostHog()
+  const abTestOptions = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('share-link') : []), [posthog])
+  const abTestOption = useOption(abTestOptions) || {}
+  const { shareTitle } = abTestOption
+
+  const bounty = useMemo(() => (level?.bounty ? decimalsToFixed(toDecimals(level.bounty)) : ''), [level])
+
+  const abTestMessage = useMemo(() => {
+    const { shareMessage: value } = abTestOption || {}
+
+    if (value) {
+      const reward = bounty / 2
+
+      return mustache(value, { bounty, reward })
+    }
+  }, [abTestOption, bounty])
+
+  const { toDecimals } = useFormatG$()
+
+  const inviteCode = useInviteCode()
+  const shareUrl = useMemo(
+    () =>
+      inviteCode && abTestOption
+        ? `${Config.invitesUrl}?inviteCode=${inviteCode}&utm_campaign=${abTestOption.id || 'default'}`
+        : '',
+    [inviteCode, abTestOption],
+  )
+
+  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
+    shareTitle,
+    shareUrl,
+    abTestMessage,
+  ])
+
+  return { share, shareUrl, shareTitle, bounty }
 }

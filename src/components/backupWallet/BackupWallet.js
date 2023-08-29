@@ -94,9 +94,8 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
             {t`please save your 12-word pass phrase`}
             {`\n`}
             <Text fontSize={16} style={styles.instructions}>
-              {t`and keep it in a secure location`}
-              {`\n`}
-              {t`so you can recover your wallet anytime`}
+              {t`and keep it in a secure location
+              so you can recover your wallet anytime`}
             </Text>
           </Text>
         </Trans>

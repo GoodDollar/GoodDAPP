@@ -19,7 +19,6 @@ import isEmail from '../../../lib/validators/isEmail'
 import normalize from '../../../lib/utils/normalizeText'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { theme } from '../../theme/styles'
-import mustache from '../../../lib/utils/mustache'
 
 const SummaryGeneric = ({
   screenProps,
@@ -79,11 +78,11 @@ const SummaryGeneric = ({
 
     if (vendorInfo) {
       if (email && !isEmail(email)) {
-        emailError = 'Please enter a valid email address'
+        emailError = t`Please enter a valid email address`
       }
 
       if (fullName && !name) {
-        nameError = 'Please enter a name'
+        nameError = t`Please enter a name`
       }
     }
 
@@ -163,13 +162,8 @@ const SummaryGeneric = ({
           {isBridge && (
             <Section.Row justifyContent="center">
               <View styles={styles.bridgeDesc}>
-                <Section.Text style={{ marginBottom: 10 }}>
-                  {' '}
-                  {mustache(t` on {altNetwork}`, { altNetwork })}
-                </Section.Text>
-                <Section.Text>
-                  {mustache(t`You'll pay ${feeToPay} G$ in fees to use the bridge`, { feeToPay })}
-                </Section.Text>
+                <Section.Text style={{ marginBottom: 10 }}> {t` on ${altNetwork}`}</Section.Text>
+                <Section.Text>{t`You'll pay ${feeToPay} G$ in fees to use the bridge`}</Section.Text>
               </View>
             </Section.Row>
           )}
@@ -252,7 +246,7 @@ const SummaryGeneric = ({
           <Section.Row justifyContent="center" style={styles.warnText}>
             <Section.Text color="gray80Percent">
               {t`* the transaction may take`}
-              {'\n'}
+              {`\n`}
               {isBridge ? t`a few minutes to complete` : t`a few seconds to complete`}
             </Section.Text>
           </Section.Row>

@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 import logger from '../../lib/logger/js-logger'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import EmailConfirmation from '../signup/EmailConfirmation'
@@ -66,7 +67,7 @@ const VerifyEditCode = props => {
 }
 
 VerifyEditCode.navigationOptions = {
-  title: 'Edit Profile',
+  title: t`Edit Profile`,
 }
 
 export default VerifyEditCode

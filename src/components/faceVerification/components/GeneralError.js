@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 
 import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../common'
@@ -31,15 +32,18 @@ const GeneralError = ({ styles, displayTitle, onRetry, exception }) => {
             <Section.Title fontWeight="bold" textTransform="none" color="red">
               {displayTitle && displayTitle}
             </Section.Title>
-            {(displayTitle ? `,\n` : '') + 'Something went wrong\non our side...'}
+            {(displayTitle ? `,\n` : '') +
+              t`Something went wrong 
+            on our side...`}
           </Section.Title>
           <Section style={styles.errorSection}>
             <View style={styles.descriptionWrapper}>
               <Text fontSize={18} lineHeight={25}>
-                {"You see, it's not that easy to \ncapture your beauty :)"}
+                {t`You see, it's not that easy to 
+                capture your beauty :)`}
               </Text>
               <Text fontWeight="bold" fontSize={18} lineHeight={25}>
-                So, let`s give it another shot...
+                {t`So, let’s give it another shot...`}
               </Text>
             </View>
           </Section>

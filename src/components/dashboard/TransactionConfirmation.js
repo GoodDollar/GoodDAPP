@@ -1,6 +1,8 @@
 // @flow
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
+
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import ShareOrCopyButton from '../common/animations/ShareOrCopyButton/ShareOrCopyButtonAnimated'
@@ -37,8 +39,8 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { paymentLink = { url: 'test' }, action } = useCachedScreenState(screenProps, 'GD_sharingCache')
 
   const isSending = action === ACTION_SEND
-  const secondTextPoint = isSending ? 'Share it with your recipient' : 'Share it with sender'
-  const thirdTextPoint = isSending ? 'Recipient approves request' : 'Sender approves request'
+  const secondTextPoint = isSending ? t`Share it with your recipient` : t`Share it with sender`
+  const thirdTextPoint = isSending ? t`Recipient approves request` : t`Sender approves request`
 
   const fireShared = useCallback(() => {
     fireEvent(SEND_CONFIRMATION_SHARE, { action, type: isSharingAvailable ? 'share' : 'copy' })
@@ -49,12 +51,12 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
       <Section grow style={styles.section} justifyContent="space-between" alignItems="center">
         <Section.Stack style={styles.textContainer}>
           <Section.Text style={styles.confirmationTitle} fontSize={22} fontWeight="bold">
-            Complete Your Transaction:
+            {t`Complete Your Transaction:`}
           </Section.Text>
           <Section.Stack style={styles.instructionsText}>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'1. '}</Section.Text>
-              Copy the link below
+              {t`Copy the link below`}
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'2. '}</Section.Text>
@@ -66,7 +68,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'4. '}</Section.Text>
-              GoodDollars are transferred
+              {t`GoodDollars are transferred`}
             </Section.Text>
           </Section.Stack>
         </Section.Stack>

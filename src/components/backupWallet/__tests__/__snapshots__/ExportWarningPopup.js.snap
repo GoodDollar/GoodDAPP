@@ -41,8 +41,8 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
       className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-evnaw r-fontWeight-b88u0q r-lineHeight-1h1c4di r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
       dir="auto"
     >
-      Do Not Send Tokens
-From Ethereum Network
+      Do Not Send Tokens 
+From Ethereum Network 
 To This Address
     </div>
     <div

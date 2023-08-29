@@ -131,7 +131,7 @@ const ShareBox = ({ level, styles }) => {
     <WavesBox primarycolor={theme.colors.primary} style={styles.linkBoxStyle} title={t`Share Your Invite Link`}>
       <Section.Stack style={{ alignItems: 'flex-start', marginTop: 11, marginBottom: 11 }}>
         <Section.Text fontSize={14} textAlign={'left'} lineHeight={19}>
-          You’ll get{' '}
+          {t`You’ll get`}{' '}
           <Section.Text fontWeight={'bold'} fontSize={14} textAlign={'left'} lineHeight={19}>
             {` ${bounty}G$ `}
           </Section.Text>{' '}
@@ -220,7 +220,8 @@ const InputCodeBox = ({ navigateTo, styles }) => {
     showDialog({
       image: <LoadingIcon />,
       loading: true,
-      message: t`Please wait` + `\n` + t`This might take a few seconds`,
+      message: t`Please wait
+      This might take a few seconds`,
       showButtons: false,
       title: t`Collecting Invite Reward`,
       showCloseButtons: false,

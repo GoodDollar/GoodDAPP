@@ -101,12 +101,12 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
     <View style={styles.explanationDialogContainer}>
       <Trans>
         <Text fontSize={14} style={styles.explanationDialogText}>
-          {'Add this web-app to your iPhone:'}
+          {t`Add this web-app to your iPhone:`}
         </Text>
         <Text fontSize={14} style={styles.explanationDialogText}>
-          {'tap'} <Icon name="ios-share" size={20} /> {'then '}
+          {t`tap`} <Icon name="ios-share" size={20} /> {t`then `}
           <Text fontSize={14} style={[styles.explanationDialogText, styles.explanationDialogTextBold]}>
-            {'“Add to home screen"'}
+            {t`“Add to home screen"`}
           </Text>
         </Text>
       </Trans>

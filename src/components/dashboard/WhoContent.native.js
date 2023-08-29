@@ -3,6 +3,8 @@ import { FlatList, PermissionsAndroid } from 'react-native'
 import { promisify } from 'es6-promisify'
 import contacts from 'react-native-contacts'
 import { map, memoize, orderBy, uniq } from 'lodash'
+import { t } from '@lingui/macro'
+
 import logger from '../../lib/logger/js-logger'
 import { isAndroid } from '../../lib/utils/platform'
 import { Section } from '../common'
@@ -36,9 +38,9 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
 
   const showPermissionsAndroid = () => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-      title: 'Contacts',
-      message: 'We need access to view your contacts, so you can easily send G$ to them.',
-      buttonPositive: 'Approve',
+      title: t`Contacts`,
+      message: t`We need access to view your contacts, so you can easily send G$ to them.`,
+      buttonPositive: t`Approve`,
     })
   }
 
@@ -141,7 +143,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
           showAdornment
           error={error}
           onChangeText={handleSearch}
-          placeholder="Search contact name / phone"
+          placeholder={t`Search contact name / phone`}
           value={value}
           enablesReturnKeyAutomatically
           adornment="search"
@@ -156,7 +158,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
         <>
           <Section.Row justifyContent="space-between">
             <Section.Title fontWeight="medium" style={styles.sectionTitle}>
-              {'Recently used'}
+              {t`Recently used`}
             </Section.Title>
             <Section.Separator style={styles.separator} width={1} />
           </Section.Row>
@@ -176,7 +178,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
         <>
           <Section.Row justifyContent="space-between">
             <Section.Title fontWeight="medium" style={styles.sectionTitle}>
-              {'Choose a Contact'}
+              {t`Choose a Contact`}
             </Section.Title>
             <Section.Separator style={styles.separator} width={1} />
           </Section.Row>

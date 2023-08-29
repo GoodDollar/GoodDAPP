@@ -64,7 +64,8 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
           {firstName && `${firstName},`}
           <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
             {firstName ? `\n` : ''}
-            {'Verify you are a real\nlive person'}
+            {t`Verify you are a real live person`}
+            {`\n`}
           </Section.Text>
         </Section.Title>
         <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>

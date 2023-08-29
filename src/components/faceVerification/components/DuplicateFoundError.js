@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../common'
@@ -32,16 +33,20 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
                 {displayTitle}
               </Section.Title>
             )}
-            {(displayTitle ? `,\n` : '') + 'Unfortunately we found \nyour twin...'}
+            {(displayTitle ? `,\n` : '') +
+              t`Unfortunately we found 
+            your twin...`}
           </Section.Title>
           <Section style={styles.errorSection}>
             <View style={styles.descriptionWrapper}>
               <Text>
                 <Text fontSize={18} lineHeight={25} fontWeight="bold">
-                  {'You can open ONLY ONE account \nper person. '}
+                  {t`You can open ONLY ONE account 
+                  per person. `}
                 </Text>
                 <Text fontSize={18} lineHeight={25}>
-                  {'If this is your only active \naccount - please contact our support'}
+                  {t`If this is your only active 
+                  account - please contact our support`}
                 </Text>
               </Text>
             </View>
@@ -54,9 +59,9 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
         </Section>
         <View style={styles.action}>
           <CustomButton onPress={onContactSupport} mode="outlined" style={styles.actionsSpace}>
-            CONTACT SUPPORT
+            {t`CONTACT SUPPORT`}
           </CustomButton>
-          <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
+          <CustomButton onPress={onRetry}>{t`TRY AGAIN`}</CustomButton>
         </View>
       </View>
     </Wrapper>

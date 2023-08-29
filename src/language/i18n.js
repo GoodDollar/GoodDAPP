@@ -9,7 +9,6 @@ import { Helmet } from 'react-helmet'
 import logger from '../lib/logger/js-logger'
 import AsyncStorage from '../lib/utils/asyncStorage'
 import { fallback } from '../lib/utils/async'
-
 import { defaultMessages, localeFiles, localesCodes, sourceLocale } from './locales'
 
 const log = logger.child({ from: 'I18n' })

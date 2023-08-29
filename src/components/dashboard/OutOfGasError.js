@@ -100,10 +100,10 @@ Don’t worry, we’ll take care of you.`
         </Section>
         <Section>
           {isCheatError ? (
-            <CustomButton onPress={gotoSupport}>{'Contact support'}</CustomButton>
+            <CustomButton onPress={gotoSupport}>{t`Contact support`}</CustomButton>
           ) : (
             <AwaitButton isLoading={isLoading} onPress={gotoDb}>
-              {"You're good to go"}
+              {t`You’re good to go`}
             </AwaitButton>
           )}
         </Section>

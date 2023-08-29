@@ -69,7 +69,7 @@ const getLoginButtonStylesFromProps = ({ theme }) => {
 
 const LoginButton = withStyles(getLoginButtonStylesFromProps)(LoginButtonComponent)
 
-const buttonPrefix = 'Continue with'
+const buttonPrefix = t`Continue with`
 const getStylesFromProps = ({ theme }) => {
   const shorterDevice = getMaxDeviceHeight() <= 622
 

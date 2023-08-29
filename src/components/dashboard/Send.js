@@ -1,5 +1,7 @@
 import web3Utils from 'web3-utils'
 import React, { useCallback, useState } from 'react'
+import { t } from '@lingui/macro'
+
 import isEmail from '../../lib/validators/isEmail'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
@@ -42,7 +44,7 @@ const validate = async (to, userStorage) => {
     return null
   }
 
-  return `Needs to be a valid username, email or mobile phone (starts with a '+')`
+  return t`Needs to be a valid username, email or mobile phone (starts with a '+')`
 }
 
 const ContinueButton = ({ push, to, disabled, checkError }) => {

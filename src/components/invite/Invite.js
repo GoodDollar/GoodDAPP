@@ -88,14 +88,14 @@ const InvitedUser = ({ address, status }) => {
   )
 }
 
-export const ShareInviteButton = ({ isSharingAvailable, share }) => (
+export const ShareInviteButton = ({ share, altCopy }) => (
   <ShareButton
     style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
     color={theme.colors.primary}
     textStyle={{ fontSize: 14, color: theme.colors.white }}
     share={share}
     iconColor={'white'}
-    actionText={isSharingAvailable ? 'share' : 'copy'}
+    actionText={altCopy ? altCopy : isSharingAvailable ? 'share' : 'copy'}
     onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'native' : 'copy' })}
     withoutDone
   />
@@ -130,7 +130,7 @@ export const ShareBox = ({ level, styles }) => {
         >
           {shareUrl}
         </Text>
-        <ShareInviteButton isSharingAvailable={isSharingAvailable} share={share} />
+        <ShareInviteButton share={share} />
       </Section.Row>
       <ShareIcons shareUrl={shareUrl} />
     </WavesBox>

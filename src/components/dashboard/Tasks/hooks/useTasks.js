@@ -4,10 +4,12 @@ import { t } from '@lingui/macro'
 
 import { useInviteCopy, useInviteShare } from '../../../invite/useInvites'
 import { ShareInviteButton } from '../../../invite/Invite'
+import { isSharingAvailable } from '../../../../lib/share'
 
 export const useTaskList = () => {
   const { copy: inviteCopy } = useInviteCopy()
-  const { share, shareUrl } = useInviteShare()
+  const { share } = useInviteShare()
+  const actionText = isSharingAvailable ? t`Share invite Link` : t`Copy invite link`
 
   // todo: how/where to define current / active task(s)?
   const tasks = [
@@ -15,7 +17,7 @@ export const useTaskList = () => {
       id: 'invite',
       title: t`Invite friends`,
       description: inviteCopy,
-      actionButton: <ShareInviteButton share={share} shareUrl={shareUrl} />,
+      actionButton: <ShareInviteButton share={share} altCopy={actionText} />,
       isActive: true,
     },
   ]

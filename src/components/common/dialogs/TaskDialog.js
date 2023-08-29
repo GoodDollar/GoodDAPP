@@ -11,11 +11,48 @@ const dialogStyles = ({ theme }) => {
     subTitleContainer: {
       marginBottom: theme.sizes.defaultDouble,
     },
+    subtitle: {
+      textAlign: 'center',
+      marginBottom: 25,
+    },
+    taskContainer: {
+      marginBottom: 30,
+      backgroundColor: 'rgba(167,167,167, 0.11)', // define in theme, add box-shadow
+      borderRadius: 20,
+      maxWidth: 'fit-content',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      position: 'relative',
+      paddingTop: 60,
+      marginTop: 20,
+    },
+    taskHeader: {
+      position: 'absolute',
+      display: 'flex',
+      justifyContent: 'center',
+      top: -20,
+      left: 50,
+      padding: 20,
+      backgroundColor: 'green', //todo: get green color from figma
+      borderRadius: '50%',
+      width: 210,
+      height: 10,
+    },
+    headerText: {
+      fontSize: 18,
+      color: 'white',
+      textTransform: 'uppercase',
+    },
+    taskBody: {
+      flexDirection: 'column',
+    },
     taskDesc: {
-      marginBottom: 10,
+      display: 'flex',
+      justifyContent: 'center',
+      marginBottom: 30,
     },
     taskAction: {
-      //
+      width: '100%',
     },
   }
 }
@@ -26,25 +63,19 @@ export default withStyles(dialogStyles)(({ styles, theme }) => {
   return (
     <View>
       <View style={styles.subTitleContainer}>
-        <Text
-          fontSize={22}
-          lineHeight={26}
-          textAlign="left"
-          fontWeight="bold"
-          color={theme.colors.darkGray}
-          style={styles.title}
-        >
-          {t`Did you know you can earn more GoodDollars by completing tasks?`}
+        <Text color={theme.colors.darkGray} style={styles.subtitle}>
+          {t`Did you know you can earn more 
+          GoodDollars by completing tasks?`}
         </Text>
       </View>
       <Section style={styles.taskContainer}>
         <Section.Row style={styles.taskHeader}>
-          <Section.Text>Next task label</Section.Text>
+          <Section.Text style={styles.headerText}>Next task</Section.Text>
         </Section.Row>
         {tasks.map(task => (
-          <Section.Row key={task.id} styles={styles.taskBody}>
-            <Section.Text styles={styles.taskDesc}>{task.description}</Section.Text>
-            <Section.Text styles={styles.taskAction}>{task.actionButton}</Section.Text>
+          <Section.Row key={task.id} style={styles.taskBody}>
+            <Section.Text style={styles.taskDesc}>{task.description}</Section.Text>
+            <Section.Text style={styles.taskAction}>{task.actionButton}</Section.Text>
           </Section.Row>
         ))}
       </Section>

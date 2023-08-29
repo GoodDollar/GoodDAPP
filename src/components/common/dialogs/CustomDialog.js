@@ -67,6 +67,7 @@ const CustomDialog = ({
   buttons,
   showAtBottom,
   buttonsContainerStyle,
+  titleStyle,
   fullHeight = false,
   isMinHeight = true,
 }: DialogProps) => {
@@ -112,7 +113,13 @@ const CustomDialog = ({
       >
         <React.Fragment>
           {!!title && (
-            <Text color={textColor} fontFamily={theme.fonts.slab} fontSize={24} fontWeight="bold" style={styles.title}>
+            <Text
+              color={textColor}
+              fontFamily={theme.fonts.slab}
+              fontSize={24}
+              fontWeight="bold"
+              style={titleStyle ?? styles.title}
+            >
               {title}
             </Text>
           )}

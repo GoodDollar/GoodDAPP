@@ -493,11 +493,12 @@ const Claim = props => {
           content: <TaskDialog />,
           buttons: [
             {
-              text: t`Skip!`,
+              text: t`Skip`,
               style: { backgroundColor: mainTheme.colors.gray80Percent },
             },
           ],
           title: t`You've claimed today`,
+          titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
           onDismiss: noop,
         })
       })

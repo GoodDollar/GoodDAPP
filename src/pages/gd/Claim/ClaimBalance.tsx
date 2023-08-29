@@ -10,6 +10,7 @@ import { useClaiming } from 'hooks/useClaiming'
 import { useNetworkModalToggle } from 'state/application/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
 import { QueryParams } from '@usedapp/core'
+import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
 
 const NextClaim = ({ time }: { time: string }) => (
     <Text fontFamily="subheading" fontWeight="normal" fontSize="xs" color="main">
@@ -34,6 +35,9 @@ export const ClaimBalance = ({ refresh }: { refresh: QueryParams['refresh'] }) =
     const toggleNetworkModal = useNetworkModalToggle()
 
     const { switchNetwork } = useSwitchNetwork()
+
+    // don't show claim on alternative chain for simple mode
+    const isSimpleApp = useIsSimpleApp()
 
     //we select the alternative chain where a user is able to claim their UBI
     const altChain = chainId === (SupportedChains.FUSE as number) ? SupportedChains[42220] : SupportedChains[122]
@@ -80,7 +84,7 @@ export const ClaimBalance = ({ refresh }: { refresh: QueryParams['refresh'] }) =
                 <BalanceGD gdPrice={G$Price} refresh={refresh} />
             </Box>
             <Box alignItems="center">
-                {!claimedAlt && (
+                {!isSimpleApp && !claimedAlt && (
                     <ArrowButton
                         borderWidth="1"
                         borderColor="borderBlue"

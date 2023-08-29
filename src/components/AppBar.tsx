@@ -20,6 +20,7 @@ import { isMobile } from 'react-device-detect'
 import { Text, useBreakpointValue, ITextProps, Pressable } from 'native-base'
 import { useWalletModalToggle } from '../state/application/hooks'
 import { OnboardConnectButton } from './BlockNativeOnboard'
+import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.secondaryBg};
@@ -179,7 +180,8 @@ function AppBar(): JSX.Element {
     }, [chainId])
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const toggleWalletModal = useWalletModalToggle()
-
+    const isSimpleApp = useIsSimpleApp()
+    console.log({ isSimpleApp })
     const toggleSideBar = useCallback(() => {
         setSidebarOpen(!sidebarOpen)
     }, [sidebarOpen])
@@ -213,52 +215,54 @@ function AppBar(): JSX.Element {
                             <G$Balance price={G$Price} display={showBalance} color={fontColor} pl="0" p="2" />
                         </div>
 
-                        <div className="flex flex-row items-end h-10 space-x-2">
-                            <div className="flex flex-row items-center space-x-2">
-                                <button
-                                    onClick={toggleSideBar}
-                                    className="inline-flex items-center justify-center rounded-md mobile-menu-button focus:outline-none"
-                                >
-                                    <span className="sr-only">{i18n._(t`Open main menu`)}</span>
-                                    {sidebarOpen ? (
-                                        <X title="Close" className="block w-6 h-6" aria-hidden="true" />
-                                    ) : (
-                                        <Burger title="Burger" className="block w-6 h-6" aria-hidden="true" />
-                                    )}
-                                </button>
-                            </div>
-                            <div className="fixed bottom-0 left-0 flex flex-row items-center justify-center w-full h-20 gap-2 lg:w-auto lg:relative lg:p-0 actions-wrapper lg:h-12">
-                                <div className="hidden xs:inline-block">
-                                    <Web3Network />
-                                </div>
-
-                                {account ? (
-                                    <Pressable
-                                        onPress={toggleWalletModal}
-                                        h={10}
-                                        display="flex"
-                                        alignItems="center"
-                                        px={3}
-                                        py={2}
-                                        ml={2}
-                                        borderWidth="1"
-                                        borderRadius="12px"
-                                        borderColor="borderBlue"
+                        {!isSimpleApp && (
+                            <div className="flex flex-row items-end h-10 space-x-2">
+                                <div className="flex flex-row items-center space-x-2">
+                                    <button
+                                        onClick={toggleSideBar}
+                                        className="inline-flex items-center justify-center rounded-md mobile-menu-button focus:outline-none"
                                     >
-                                        <Web3Status />
-                                    </Pressable>
-                                ) : (
-                                    <OnboardConnectButton />
-                                )}
-                                <NetworkModal />
+                                        <span className="sr-only">{i18n._(t`Open main menu`)}</span>
+                                        {sidebarOpen ? (
+                                            <X title="Close" className="block w-6 h-6" aria-hidden="true" />
+                                        ) : (
+                                            <Burger title="Burger" className="block w-6 h-6" aria-hidden="true" />
+                                        )}
+                                    </button>
+                                </div>
+                                <div className="fixed bottom-0 left-0 flex flex-row items-center justify-center w-full h-20 gap-2 lg:w-auto lg:relative lg:p-0 actions-wrapper lg:h-12">
+                                    <div className="hidden xs:inline-block">
+                                        <Web3Network />
+                                    </div>
+
+                                    {account ? (
+                                        <Pressable
+                                            onPress={toggleWalletModal}
+                                            h={10}
+                                            display="flex"
+                                            alignItems="center"
+                                            px={3}
+                                            py={2}
+                                            ml={2}
+                                            borderWidth="1"
+                                            borderRadius="12px"
+                                            borderColor="borderBlue"
+                                        >
+                                            <Web3Status />
+                                        </Pressable>
+                                    ) : (
+                                        <OnboardConnectButton />
+                                    )}
+                                    <NetworkModal />
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </TopBar>
                     <div className="px-4 pb-2 lg:hidden">
                         <G$Balance price={G$Price} color={fontColor} padding="0" />
                     </div>
                 </div>
-                {isMobile && (
+                {isMobile && !isSimpleApp && (
                     <>
                         <SidebarContainer $mobile={isMobile} className={`${sidebarOpen ? ' open ' : ''} w-64`}>
                             <SideBar mobile={isMobile} closeSidebar={toggleSideBar} />

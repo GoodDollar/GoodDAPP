@@ -161,8 +161,9 @@ export function useOnboardConnect(): OnboardConnectProps {
     }
 
     const connectOnboard = async () => {
+        let prevLabel = previouslyConnected?.[0]?.label?.[0]
         // Coinbase reloads instead of sending accountsChanged event, so empty storage if no active address can be found
-        if (previouslyConnected[0].label[0] === 'Coinbase Wallet') {
+        if (previouslyConnected?.[0]?.label?.[0] === 'Coinbase Wallet') {
             const isStillActive = await AsyncStorage.getItem('-walletlink:https://www.walletlink.org:Addresses')
 
             if (!isStillActive) {
@@ -171,8 +172,15 @@ export function useOnboardConnect(): OnboardConnectProps {
                 return
             }
         }
+
+        if (!prevLabel) {
+            if (window.ethereum?.isMetaMask) prevLabel = 'MetaMask'
+            else if (window.ethereum?.isOpera) prevLabel = 'Opera Wallet'
+        }
+        if (!prevLabel) return
+
         // disableModals:true for silently connecting
-        await connect({ autoSelect: { label: previouslyConnected[0].label[0], disableModals: true } })
+        await connect({ autoSelect: { label: prevLabel, disableModals: true } })
         setActivated(true)
     }
 
@@ -183,7 +191,8 @@ export function useOnboardConnect(): OnboardConnectProps {
             return
         }
 
-        if (previouslyConnected.length && !tried) {
+        // automatically connect to metamask or opera
+        if (!tried) {
             void connectOnboard()
             setTried(true)
         } else if (activated || !previouslyConnected[0]) {

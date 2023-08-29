@@ -353,7 +353,7 @@ export const useInviteCopy = () => {
   const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
   return {
     copy: t`Invite a friend to earn ${bounty} G$ after they
-  claim. They will also earn a ${bounty / 2} G$ bonus`,
+  claim. They will also earn a ${bounty / 2} G$ bonus.`,
   }
 }
 
@@ -362,6 +362,7 @@ export const useInviteShare = level => {
   const abTestOptions = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('share-link') : []), [posthog])
   const abTestOption = useOption(abTestOptions) || {}
   const { shareTitle } = abTestOption
+  const { toDecimals } = useFormatG$()
 
   const bounty = useMemo(() => (level?.bounty ? decimalsToFixed(toDecimals(level.bounty)) : ''), [level])
 
@@ -374,8 +375,6 @@ export const useInviteShare = level => {
       return mustache(value, { bounty, reward })
     }
   }, [abTestOption, bounty])
-
-  const { toDecimals } = useFormatG$()
 
   const inviteCode = useInviteCode()
   const shareUrl = useMemo(

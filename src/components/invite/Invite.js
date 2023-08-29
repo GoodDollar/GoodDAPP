@@ -88,7 +88,7 @@ const InvitedUser = ({ address, status }) => {
   )
 }
 
-export const ShareInviteButton = (isSharingAvailable, share) => (
+export const ShareInviteButton = ({ isSharingAvailable, share }) => (
   <ShareButton
     style={{ flexGrow: 0, minWidth: 70, height: 32, minHeight: 32 }}
     color={theme.colors.primary}

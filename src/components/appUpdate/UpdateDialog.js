@@ -25,12 +25,14 @@ export default () => {
         content: <RegularDialog />,
         buttons: [
           {
-            text: t`UPDATE NOW`,
-            onPress: onUpdateCallback,
-          },
-          {
             text: t`MAYBE LATER`,
             onPress: dismiss => dismiss(),
+            style: { backgroundColor: 'none' },
+            textStyle: { color: 'rgb(66, 69, 74)' },
+          },
+          {
+            text: t`UPDATE NOW`,
+            onPress: onUpdateCallback,
           },
         ],
       })

@@ -62,7 +62,7 @@ export const BlockingUnsupportedBrowser = ({ onDismiss = noop, copyUrl = undefin
           action: copyToClipboard,
         },
         {
-          text: `Try Anyway`,
+          text: t`Try Anyway`,
           action: onDismiss,
         },
       ]}

@@ -1,6 +1,7 @@
 // @flow
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 import moment from 'moment'
 import { withStyles } from '../../../lib/styles'
@@ -41,15 +42,15 @@ const RefundDialog = ({ theme, styles, amount, onReturn }) => {
       </Text>
 
       <Text fontFamily={theme.fonts.roboto} fontSize={20} fontWeight="bold" style={styles.bottomTitle}>
-        {`you've claimed.`}
+        {t`you've claimed.`}
       </Text>
 
       <Text fontFamily={theme.fonts.roboto} fontSize={18} fontWeight="bold" style={styles.topDescription}>
-        {`The community is depending on you!`}
+        {t`The community is depending on you!`}
       </Text>
 
       <Text fontFamily={theme.fonts.roboto} fontSize={18} fontWeight="thin" style={styles.description}>
-        {`Fair distribution of G$ UBI is critical to creating a more equal GoodDollar. We're asking everyone to voluntarily return the amount they've received for the good of empowering others.`}
+        {t`Fair distribution of G$ UBI is critical to creating a more equal GoodDollar. We're asking everyone to voluntarily return the amount they've received for the good of empowering others.`}
       </Text>
 
       <Text

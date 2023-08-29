@@ -246,7 +246,7 @@ const SummaryGeneric = ({
           <Section.Row justifyContent="center" style={styles.warnText}>
             <Section.Text color="gray80Percent">
               {t`* the transaction may take`}
-              {'\n'}
+              {`\n`}
               {isBridge ? t`a few minutes to complete` : t`a few seconds to complete`}
             </Section.Text>
           </Section.Row>

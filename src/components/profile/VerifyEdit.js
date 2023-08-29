@@ -87,7 +87,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
         <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.descriptionWrap]}>
           <View style={[styles.bottomContainer, styles.width100p]}>
             <Text fontSize={14} lineHeight={16} fontFamily="Roboto" color="gray80Percent">
-              {`A verification code will be sent to this ${sendToText}:`}
+              {t`A verification code will be sent to this ${sendToText}:`}
             </Text>
             <Text fontSize={24} lineHeight={32} fontFamily="Roboto" style={styles.content}>
               {content}
@@ -100,7 +100,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
               {t`Cancel`}
             </CustomButton>
             <CustomButton onPress={handleSubmit} style={styles.submitButton} loading={loading}>
-              {`Verify my ${sendToText}`}
+              {t`Verify my ${sendToText}`}
             </CustomButton>
           </View>
         </Section.Row>

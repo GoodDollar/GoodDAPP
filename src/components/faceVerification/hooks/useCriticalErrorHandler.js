@@ -51,7 +51,7 @@ export default (logger = null) => {
         onDismiss: () => window.location.reload(true),
         buttons: [
           {
-            text: 'REFRESH',
+            text: t`REFRESH`,
           },
         ],
       })

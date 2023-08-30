@@ -44,7 +44,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
       switch (field) {
         case 'phone':
-          response = await API.sendOTP({ mobile: content }, true)
+          response = await API.sendOTP({ mobile: content }, false)
           break
         case 'email':
           response = await API.sendVerificationEmail({ email: content })

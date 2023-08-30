@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
 import { KeyboardAvoidingView } from 'react-native'
+import { t } from '@lingui/macro'
+
 import { isIOS } from '../../lib/utils/platform'
 import logger from '../../lib/logger/js-logger'
 import API from '../../lib/API'
@@ -167,7 +169,8 @@ class EmailConfirmation extends React.Component<Props, State> {
                   textTransform="none"
                   style={{ marginVertical: 0 }}
                 >
-                  {`Please enter the verification code sent\n to your e-mail.`}
+                  {t`Please enter the verification code sent
+                   to your e-mail.`}
                 </Section.Title>
               </Section.Stack>
               <Section.Stack justifyContent="center" style={styles.bottomContent}>

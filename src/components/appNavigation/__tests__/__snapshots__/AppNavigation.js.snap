@@ -270,7 +270,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     className="css-text-901oao r-color-1mtiv16 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginBottom-p1pxzi r-marginTop-knv0ih r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
-                     MY TOTAL BALANCE 
+                    MY TOTAL BALANCE
                   </div>
                   <div
                     className="css-view-1dbjc4n r-width-13qz1uu"

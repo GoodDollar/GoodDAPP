@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../common'
@@ -38,16 +39,19 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
               {displayTitle && displayTitle}
             </Section.Title>
             {displayTitle ? `,\n` : ''}
-            {'Please turn your camera\nto portrait mode'}
+            {t`Please turn your camera 
+            to portrait mode`}
           </Section.Title>
           <Section style={styles.errorSection}>
             <View style={styles.descriptionWrapper}>
               <Text>
                 <Text fontSize={18} lineHeight={25}>
-                  {'It’s a nice landscape, but we need \nto see your face '}
+                  {t`It’s a nice landscape, but we need 
+                  to see your face `}
                 </Text>
                 <Text fontWeight="bold" fontSize={18} lineHeight={25}>
-                  {'only in portrait \nmode.'}
+                  {t`only in portrait 
+                  mode.`}
                 </Text>
               </Text>
             </View>

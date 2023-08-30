@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import { t } from '@lingui/macro'
 import { RegularDialog } from '../common/dialogs/ServiceWorkerUpdatedDialog'
 import { useDialog } from '../../lib/dialog/useDialog'
+import { theme } from '../theme/styles'
 
 export default () => {
   const { showDialog } = useDialog()
@@ -25,12 +26,14 @@ export default () => {
         content: <RegularDialog />,
         buttons: [
           {
-            text: t`UPDATE NOW`,
-            onPress: onUpdateCallback,
-          },
-          {
             text: t`MAYBE LATER`,
             onPress: dismiss => dismiss(),
+            style: { backgroundColor: 'none' },
+            textStyle: { color: theme.colors.gray80Percent },
+          },
+          {
+            text: t`UPDATE NOW`,
+            onPress: onUpdateCallback,
           },
         ],
       })

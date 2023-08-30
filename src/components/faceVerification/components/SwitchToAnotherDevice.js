@@ -1,5 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 import Text from '../../common/view/Text'
 import Separator from '../../common/layout/Separator'
@@ -16,7 +17,9 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav, isFVFlow 
       <Section style={styles.descriptionContainer} justifyContent="space-between">
         <Section.Title fontWeight="medium" textTransform="none" color="red">
           {displayTitle && displayTitle}
-          {(displayTitle ? `,\n` : '') + 'Please try to switch\nto another device'}
+          {(displayTitle ? `,\n` : '') +
+            t`Please try to switch
+          to another device`}
         </Section.Title>
         <View style={[styles.errorImage, isLargeDevice ? styles.largeSizing : {}]}>
           <SwitchToAnotherDeviceSVG height="100%" width="100%" viewBox="0 0 280 124" />
@@ -24,9 +27,10 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav, isFVFlow 
         <Section style={[styles.errorSection, isLargeDevice ? styles.largeSizing : {}]}>
           <Separator width={2} />
           <View style={styles.descriptionWrapper}>
-            <Text style={styles.description}>{'Sometimes, switching to a\ndifferent device is a good solution.'}</Text>
+            <Text style={styles.description}>{t`Sometimes, switching to a 
+            different device is a good solution.`}</Text>
             <Text style={styles.description} fontWeight="bold">
-              {'Sorry about that… :)'}
+              {t`Sorry about that… :)`}
             </Text>
           </View>
           <Separator width={2} />

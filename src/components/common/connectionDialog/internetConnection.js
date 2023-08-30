@@ -7,7 +7,6 @@ import LoadingIcon from '../modal/LoadingIcon'
 import { useAPIConnection, useConnection, useWeb3Polling } from '../../../lib/hooks/hasConnectionChange'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import logger from '../../../lib/logger/js-logger'
-import mustache from '../../../lib/utils/mustache'
 
 const log = logger.child({ from: 'InternetConnection' })
 
@@ -68,7 +67,7 @@ const InternetConnection = props => {
           servers.push('API')
         }
 
-        message = mustache(t`Waiting for GoodDollar's server ({servers})`, { servers: servers.join(', ') })
+        message = t`Waiting for GoodDollar's server (${servers.join(', ')})`
       }
 
       showDialogWindow(message, showDialog, setShowDisconnect)

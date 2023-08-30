@@ -348,9 +348,10 @@ export const useInviteScreenOpened = () => {
 }
 
 export const useInviteCopy = () => {
-  const { level } = useInvited()
+  const [, , level] = useInvited()
   const { toDecimals } = useFormatG$()
   const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
+
   return {
     copy: t`Invite a friend to earn ${bounty} G$ after they
   claim. They will also earn a ${bounty / 2} G$ bonus.`,

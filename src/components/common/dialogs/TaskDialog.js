@@ -17,7 +17,7 @@ const dialogStyles = ({ theme }) => {
     },
     taskContainer: {
       marginBottom: 30,
-      backgroundColor: 'rgba(167,167,167, 0.11)', // define in theme, add box-shadow
+      backgroundColor: theme.colors.secondaryGray,
       borderRadius: 20,
       maxWidth: 'fit-content',
       marginLeft: 'auto',
@@ -25,6 +25,7 @@ const dialogStyles = ({ theme }) => {
       position: 'relative',
       paddingTop: 60,
       marginTop: 20,
+      boxShadow: theme.shadows.shadow2,
     },
     taskHeader: {
       position: 'absolute',
@@ -33,15 +34,16 @@ const dialogStyles = ({ theme }) => {
       top: -20,
       left: 50,
       padding: 20,
-      backgroundColor: 'green', //todo: get green color from figma
+      backgroundColor: theme.colors.green,
       borderRadius: '50%',
       width: 210,
       height: 10,
     },
     headerText: {
-      fontSize: 18,
+      fontSize: 16,
       color: 'white',
       textTransform: 'uppercase',
+      fontFamily: theme.fonts.slab,
     },
     taskBody: {
       flexDirection: 'column',

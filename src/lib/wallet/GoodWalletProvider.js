@@ -364,6 +364,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   )
 }
 
+export const useWeb3Provider = (wallet) => {
+  const web3Provider = makeWeb3Provider(wallet);
+  
+  return web3Provider
+}
+
 export const useWallet = () => {
   const { goodWallet } = useContext(GoodWalletContext)
 

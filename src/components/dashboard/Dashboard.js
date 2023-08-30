@@ -7,7 +7,6 @@ import Mutex from 'await-mutex'
 
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
-import { Web3Provider } from '@ethersproject/providers'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -23,6 +22,7 @@ import {
   useSwitchNetwork,
   useUserStorage,
   useWalletData,
+  useWeb3Provider,
 } from '../../lib/wallet/GoodWalletProvider'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
@@ -57,7 +57,6 @@ import { IconButton, Text } from '../../components/common'
 import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
 import Config from '../../config/config'
-import { JsonRpcProviderWithSigner } from '../../lib/wallet/JsonRpcWithSigner'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -77,19 +76,10 @@ import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 
-//import { web3Provider } from '../../lib/wallet/GoodWalletProvider'
-
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 import Settings from './Settings'
 
 const log = logger.child({ from: 'Dashboard' })
-const makeWeb3Provider = wallet =>
-  new Web3Provider(
-    new JsonRpcProviderWithSigner(
-      new Web3Provider(wallet.wallet.currentProvider), // this will also use our multiplehttpprovider
-      wallet.wallet.eth.accounts.wallet[0].privateKey,
-    ),
-  )
 
 // prettier-ignore
 const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNavigationOptions({
@@ -260,7 +250,7 @@ const Dashboard = props => {
   const { bridgeEnabled } = Config
 
   const { goodWallet } = useContext(GoodWalletContext)
-  let web3ProviderLocal = makeWeb3Provider(goodWallet)
+  const web3Provider = useWeb3Provider(goodWallet)
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
 
@@ -820,7 +810,7 @@ const Dashboard = props => {
                               walletName: 'GoodWalletV2',
                               account: goodWallet.account,
                               chainId: goodWallet.networkId,
-                              provider: web3ProviderLocal, //goodWallet.wallet.currentProvider
+                              provider: web3Provider, //goodWallet.wallet.currentProvider
                             }
                           : undefined
                       }

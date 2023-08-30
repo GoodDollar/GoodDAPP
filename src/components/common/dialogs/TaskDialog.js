@@ -72,7 +72,7 @@ export default withStyles(dialogStyles)(({ styles, theme }) => {
       </View>
       <Section style={styles.taskContainer}>
         <Section.Row style={styles.taskHeader}>
-          <Section.Text style={styles.headerText}>Next task</Section.Text>
+          <Section.Text style={styles.headerText}>{t`Next task`}</Section.Text>
         </Section.Row>
         {tasks.map(task => (
           <Section.Row key={task.id} style={styles.taskBody}>

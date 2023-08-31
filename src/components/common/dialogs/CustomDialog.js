@@ -93,7 +93,10 @@ const CustomDialog = ({
   const handleMessage = _message => (isString(_message) ? Paragraph : Section.Row)
   const Message = handleMessage(message)
   const BoldMessage = handleMessage(boldMessage)
-  const _onDismiss = useCallback(onDismiss)
+  const _onDismiss = onDismiss
+  const _onClose = useCallback(() => {
+    _onDismiss('closed')
+  }, [_onDismiss])
 
   if (!visible) {
     return null
@@ -102,7 +105,7 @@ const CustomDialog = ({
   return (
     <Portal>
       <ModalWrapper
-        onClose={_onDismiss}
+        onClose={_onClose}
         leftBorderColor={modalColor}
         showCloseButtons={showCloseButtons}
         showAtBottom={showAtBottom}
@@ -195,7 +198,7 @@ const SimpleStoreDialog = () => {
       onDismiss={(...args) => {
         const currentDialogData = { ...dialogData }
         hideDialog()
-        currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
+        currentDialogData.onDismiss && currentDialogData.onDismiss(...args)
       }}
     />
   )

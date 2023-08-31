@@ -34,6 +34,10 @@ export const Beta = styled.div`
 `
 
 const Wrapper = styled.div<{ isSimpleApp?: boolean }>`
+    @media ${({ theme }) => theme.media.sm} {
+        overflow-y: hidden;
+        max-height: 580px;
+    }
     @media ${({ theme }) => theme.media.md} {
         padding-bottom: ${(props) => (props.isSimpleApp ? '0px' : '75px')};
     }
@@ -143,7 +147,6 @@ function App(): JSX.Element {
                                 <TransactionUpdater />
                             </div>
                         </Web3ReactManager>
-                        {/* <Beta className="mt-3 lg:mt-8">{i18n._(t`This project is in beta. Use at your own risk`)}</Beta> */}
                     </MainBody>
                 </Wrapper>
                 {!isSimpleApp && <WalletChat />}

@@ -138,6 +138,7 @@ export function theme(darkMode: boolean) {
             secondary: `'Roboto Slab', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'`,
         },
         media: {
+            sm: 'screen and (max-width: 520px)',
             md: 'screen and (max-width: 975px)',
             lg: 'screen and (min-width: 976px)',
         },

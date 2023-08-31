@@ -17,6 +17,7 @@ import SuccessIcon from '../common/modal/SuccessIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { useUserProperty } from '../../lib/userStorage/useProfile'
 import mustache from '../../lib/utils/mustache'
+import { isWeb } from '../../lib/utils/platform'
 
 import createABTesting from '../../lib/hooks/useABTesting'
 const { useOption } = createABTesting('INVITE_CAMPAIGNS')
@@ -353,8 +354,8 @@ export const useInviteCopy = () => {
   const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
 
   return {
-    copy: t`Invite a friend to earn ${bounty} G$ after they
-  claim. They will also earn a ${bounty / 2} G$ bonus.`,
+    copy: t`Invite a friend to earn ${bounty} G$ after they${isWeb ? '\n' : ' '}claim. They will also earn a ${bounty /
+      2} G$ bonus.`,
   }
 }
 

@@ -22,11 +22,13 @@ const dialogStyles = ({ theme }) => {
       marginLeft: 'auto',
       marginRight: 'auto',
       position: 'relative',
-      paddingTop: 60,
+      paddingTop: 40,
+
       marginTop: 20,
       ...Platform.select({
         web: {
           maxWidth: 'fit-content',
+          paddingTop: 60,
           boxShadow: theme.shadows.shadow2,
         },
         native: {
@@ -35,6 +37,7 @@ const dialogStyles = ({ theme }) => {
           shadowRadius: 2.22,
           shadowOpacity: 1,
           elevation: 4,
+          paddingTop: 40,
         },
       }),
     },
@@ -43,24 +46,36 @@ const dialogStyles = ({ theme }) => {
       display: 'flex',
       justifyContent: 'center',
       backgroundColor: theme.colors.green,
-      width: 210,
+
       borderRadius: 50,
       ...Platform.select({
         web: {
-          top: -20,
-          left: 50,
+          top: -15,
+          left: 80,
           height: 10,
-          padding: 20,
+          padding: 16,
+          width: 150,
         },
         native: {
           top: -20,
-          left: 30,
-          height: 40,
+          left: 75,
+          height: 30,
+          width: 120,
+          paddingLeft: 10,
+          paddingRight: 10,
         },
       }),
     },
     headerText: {
-      fontSize: 16,
+      fontSize: 14,
+      ...Platform.select({
+        web: {
+          fontSize: 14,
+        },
+        native: {
+          fontSize: 12,
+        },
+      }),
       color: 'white',
       textTransform: 'uppercase',
       fontFamily: theme.fonts.slab,
@@ -74,7 +89,11 @@ const dialogStyles = ({ theme }) => {
       marginBottom: 30,
     },
     taskAction: {
-      width: '100%',
+      ...Platform.select({
+        web: {
+          width: '100%',
+        },
+      }),
     },
   }
 }
@@ -86,7 +105,8 @@ export default withStyles(dialogStyles)(({ styles, theme }) => {
     <View>
       <View style={styles.subTitleContainer}>
         <Text color={theme.colors.darkGray} style={styles.subtitle}>
-          {t`Did you know you can earn more GoodDollars by completing tasks?`}
+          {t`Did you know you can earn more 
+          GoodDollars by completing tasks?`}
         </Text>
       </View>
       <Section style={styles.taskContainer}>

@@ -5,6 +5,7 @@ import { t } from '@lingui/macro'
 import { useInviteCopy, useInviteShare } from '../../../invite/useInvites'
 import { ShareInviteButton } from '../../../invite/Invite'
 import { isSharingAvailable } from '../../../../lib/share'
+import { isWeb } from '../../../../lib/utils/platform'
 
 export const useTaskList = () => {
   const { copy: inviteCopy } = useInviteCopy()
@@ -17,7 +18,7 @@ export const useTaskList = () => {
       id: 'invite',
       title: t`Invite friends`,
       description: inviteCopy,
-      actionButton: <ShareInviteButton share={share} altCopy={actionText} />,
+      actionButton: <ShareInviteButton share={share} altCopy={actionText} styles={{ ...(!isWeb && { width: 250 }) }} />,
       isActive: true,
     },
   ]

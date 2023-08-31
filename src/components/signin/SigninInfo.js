@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
 import { Platform, View } from 'react-native'
+import { t } from '@lingui/macro'
+
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
 import Wrapper from '../common/layout/Wrapper'
@@ -30,9 +32,9 @@ const Signin = props => {
           <View style={styles.bottomContainer}>
             <Section.Stack>
               <Circle number={1}>
-                {'Go to your '}
+                {t`Go to your `}
                 <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                  email
+                  {t`email`}
                 </Text>
               </Circle>
               <Circle number={2}>
@@ -52,11 +54,12 @@ const Signin = props => {
                     lineHeight={16}
                     style={styles.thirdCircleSubText}
                   >
-                    {'\n* works from any device'}
+                    {t`
+                    * works from any device`}
                   </Text>
                 }
               >
-                {'Click the '}
+                {t`Click the `}
                 <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
                   Magic Link Button
                 </Text>
@@ -72,7 +75,7 @@ const Signin = props => {
           onPress={handleRecover}
           testID="recoverPhrase"
         >
-          {'Or, recover from pass phrase'}
+          {t`Or, recover from pass phrase`}
         </CustomButton>
       </Section.Row>
       <Section.Row alignItems="center" justifyContent="center">
@@ -82,7 +85,7 @@ const Signin = props => {
           onPress={goToSupport}
           style={styles.haveIssuesText}
         >
-          {'Still having issues? contact support'}
+          {t`Still having issues? contact support`}
         </CustomButton>
       </Section.Row>
     </Section.Stack>

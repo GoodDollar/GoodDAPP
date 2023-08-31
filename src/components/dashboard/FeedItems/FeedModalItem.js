@@ -2,6 +2,7 @@
 import React, { useCallback } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { get, isNil } from 'lodash'
+import { t } from '@lingui/macro'
 import { ChatWithOwner } from 'react-native-wallet-chat'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
@@ -152,7 +153,7 @@ const FeedModalItem = (props: FeedEventProps) => {
             {!!get(item, 'data.preMessageText') && (
               <Text fontSize={14} textAlign="left" lineHeight={20} letterSpacing={0.14} fontWeight="bold">
                 {item.data.preMessageText}
-                {'\n\n'}
+                {`\n`}
               </Text>
             )}
             <Text fontSize={14} textAlign="left">
@@ -173,7 +174,7 @@ const FeedModalItem = (props: FeedEventProps) => {
           {isNil(get(item, 'data.receiptHash')) && item.status === 'pending' && (
             <View style={styles.messageContainer}>
               <Text fontSize={14} color="gray50Percent">
-                Your balance will be updated in a minute
+                {t`Your balance will be updated in a minute`}
               </Text>
             </View>
           )}

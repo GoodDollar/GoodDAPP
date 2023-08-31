@@ -46,11 +46,12 @@ export default (logger = null) => {
       showDialog({
         type: 'error',
         isMinHeight: false,
-        message: t`We couldn't start face verification` + '\n' + t`please reload the app.`,
+        message: t`We couldn't start face verification
+        please reload the app.`,
         onDismiss: () => window.location.reload(true),
         buttons: [
           {
-            text: 'REFRESH',
+            text: t`REFRESH`,
           },
         ],
       })

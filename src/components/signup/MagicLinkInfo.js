@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
 import { Platform, View } from 'react-native'
+import { t } from '@lingui/macro'
+
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
@@ -14,7 +16,7 @@ const MagicLinkInfoComponent = props => {
   const { doneCallback } = screenProps
 
   return (
-    <CustomWrapper valid={true} handleSubmit={doneCallback} submitText="Cool, got it!">
+    <CustomWrapper valid={true} handleSubmit={doneCallback} submitText={t`Cool, got it!`}>
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.headerContainer}>
           <Text
@@ -25,7 +27,7 @@ const MagicLinkInfoComponent = props => {
             style={styles.headerText}
             lineHeight={28}
           >
-            {'GOOD TO KNOW'}
+            {t`GOOD TO KNOW`}
           </Text>
         </View>
       </Section.Row>
@@ -35,28 +37,24 @@ const MagicLinkInfoComponent = props => {
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-            <Text fontWeight="bold" fontSize={22} fontFamily="Roboto">
-              {'Next time '}
+            <Text fontWeight="bold" fontSize="Roboto">
+              {t` Next time
+              you can sign in
+              from any device
+              using your`}
             </Text>
-            {'you can sign in '}
-          </Text>
-          <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-            {`from any device `}
-          </Text>
-          <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-            {`using your `}
-            <Text fontWeight="bold" fontSize={22}>{`Magic Link`}</Text>
+            <Text fontWeight="bold" fontSize={22}>{t`Magic Link`}</Text>
           </Text>
         </View>
       </Section.Row>
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text fontSize={14} fontFamily="Roboto" lineHeight={20}>
-            {'Just find the '}
+            {t`Just find the `}
             <Text fontSize={14} fontFamily="Roboto" lineHeight={20} fontWeight="bold">{`GoodDollar Magic Mail`}</Text>
           </Text>
           <Text fontSize={14} fontFamily="Roboto" lineHeight={20}>
-            {'that we’ll soon send you '}
+            {t`that we’ll soon send you `}
           </Text>
         </View>
       </Section.Row>

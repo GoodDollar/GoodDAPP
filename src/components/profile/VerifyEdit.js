@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
+
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
@@ -77,14 +78,16 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
             <Text fontSize={22} lineHeight={25} fontWeight="medium" fontFamily="Roboto" style={styles.mainText}>
-              {`${firstName},\nwe need to verify your\n${fieldToShow} again…`}
+              {t`${firstName},
+              we need to verify your 
+              ${fieldToShow} again…`}
             </Text>
           </View>
         </Section.Row>
         <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.descriptionWrap]}>
           <View style={[styles.bottomContainer, styles.width100p]}>
             <Text fontSize={14} lineHeight={16} fontFamily="Roboto" color="gray80Percent">
-              {`A verification code will be sent to this ${sendToText}:`}
+              {t`A verification code will be sent to this ${sendToText}:`}
             </Text>
             <Text fontSize={24} lineHeight={32} fontFamily="Roboto" style={styles.content}>
               {content}
@@ -94,10 +97,10 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
         <Section.Row>
           <View style={[styles.bottomContainer, styles.buttonsWrap]}>
             <CustomButton mode="text" color="gray80Percent" onPress={goBack} style={styles.cancelButton}>
-              {'Cancel'}
+              {t`Cancel`}
             </CustomButton>
             <CustomButton onPress={handleSubmit} style={styles.submitButton} loading={loading}>
-              {`Verify my ${sendToText}`}
+              {t`Verify my ${sendToText}`}
             </CustomButton>
           </View>
         </Section.Row>

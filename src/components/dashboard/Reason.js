@@ -1,6 +1,8 @@
 // @flow
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { t } from '@lingui/macro'
+
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
 
@@ -102,7 +104,8 @@ const SendReason = (props: AmountProps) => {
             fontFamily={theme.fonts.slab}
             textTransform="capitalize"
           >
-            {'What Is The\nTransaction For?'}
+            {t`What Is The
+            Transaction For?`}
           </Section.Title>
           <Section.Row style={[styles.categoryRow, { paddingTop: 19 }]}>
             <Section.Stack>

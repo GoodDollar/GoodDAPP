@@ -1,11 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
+
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
 
 const statusLabel = {
-  sendpending: 'Payment Pending...',
-  sendcancelled: 'Payment Cancelled',
+  sendpending: t`Payment Pending...`,
+  sendcancelled: t`Payment Cancelled`,
 }
 
 const PaymentStatus = ({ item, styles }) =>

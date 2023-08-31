@@ -4,6 +4,7 @@ import { noop } from 'lodash'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
 import { Goerli, Mainnet } from '@usedapp/core'
+import { t } from '@lingui/macro'
 
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
@@ -408,14 +409,14 @@ export const useSwitchNetworkModal = (toNetwork?: NETWORK, onDismiss = noop) => 
 
     if (switchTo !== currentNetwork) {
       showDialog({
-        title: 'To continue please switch chains',
+        title: t`To continue please switch chains`,
         visible: true,
         type: 'info',
         isMinHeight: true,
         onDismiss,
         buttons: [
           {
-            text: `Switch to ${switchTo.toUpperCase()}`,
+            text: t`Switch to ${switchTo.toUpperCase()}`,
             onPress: async () => {
               await switchNetwork(switchTo)
               hideDialog()

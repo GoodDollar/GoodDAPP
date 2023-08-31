@@ -1,4 +1,6 @@
 import React from 'react'
+import { t } from '@lingui/macro'
+
 import { Section } from '../common'
 import InputText from '../common/form/InputText'
 import { withStyles } from '../../lib/styles'
@@ -12,7 +14,7 @@ const WhoContent = ({ styles, error, text, setValue, value, next }) => {
         autoFocus
         error={error}
         onChangeText={setValue}
-        placeholder="Enter the recipient name"
+        placeholder={t`Enter the recipient name`}
         style={styles.input}
         value={value}
         maxLength={128}

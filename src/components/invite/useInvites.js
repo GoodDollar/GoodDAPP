@@ -13,7 +13,6 @@ import Config from '../../config/config'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { useUserProperty } from '../../lib/userStorage/useProfile'
-import mustache from '../../lib/utils/mustache'
 
 const log = logger.child({ from: 'useInvites' })
 
@@ -195,7 +194,7 @@ export const useCollectBounty = () => {
   const collect = async () => {
     const labels = {
       title: t`Collecting Bonus`,
-      message: mustache(t`Collecting invite bonus for {canCollect} invited friends`, { canCollect }),
+      message: t`Collecting invite bonus for ${canCollect} invited friends`,
     }
     try {
       showDialog({

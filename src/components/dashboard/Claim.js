@@ -442,7 +442,8 @@ const Claim = props => {
       image: <LoadingAnimation />,
       message: t`please wait while processing...` + `\n`,
       buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
-      title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
+      title: t`YOUR MONEY 
+      IS ON ITS WAY...`,
       showCloseButtons: false,
     })
 
@@ -488,7 +489,8 @@ const Claim = props => {
         showDialog({
           image: <LoadingAnimation success speed={2} />,
           buttons: [{ text: t`Yay!` }],
-          message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
+          message: t`You've claimed your daily G$
+          see you tomorrow.`,
           title: t`CHA-CHING!`,
           onDismiss: noop,
         })
@@ -840,7 +842,7 @@ const getStylesFromProps = ({ theme }) => {
 }
 
 Claim.navigationOptions = {
-  title: 'Claim',
+  title: t`Claim`,
 }
 
 export default withStyles(getStylesFromProps)(Claim)

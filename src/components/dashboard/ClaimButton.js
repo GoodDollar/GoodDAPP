@@ -60,10 +60,10 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
     ) : (
       <>
         <Text color="#0C263D" fontWeight="medium">
-          {`Get your `}
+          {t`Get your `}
         </Text>
         <Text color="#0C263D" fontWeight="medium">
-          {` free daily share:`}
+          {t` free daily share:`}
         </Text>
         <BigGoodDollar
           number={entitlement}

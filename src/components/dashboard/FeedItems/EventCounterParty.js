@@ -55,6 +55,8 @@ export const EventSelfParty = ({ feedItem, styles, style, textStyle, subtitle, i
   const hasSubtitle = get(feedItem, 'data.readMore') !== false
   const senderName = get(feedItem, 'data.senderName', fullName)
 
+  console.log("name:", senderName)
+
   return <EventContent description={senderName} hasSubtitle={hasSubtitle} direction={direction} />
 }
 

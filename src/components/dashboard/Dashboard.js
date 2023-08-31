@@ -22,7 +22,6 @@ import {
   useSwitchNetwork,
   useUserStorage,
   useWalletData,
-  useWeb3Provider,
 } from '../../lib/wallet/GoodWalletProvider'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
@@ -248,9 +247,7 @@ const Dashboard = props => {
   const [price, showPrice] = useGoodDollarPrice()
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeEnabled } = Config
-
-  const { goodWallet } = useContext(GoodWalletContext)
-  const web3Provider = useWeb3Provider(goodWallet)
+  const { goodWallet, web3Provider } = useContext(GoodWalletContext)
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
 
@@ -805,7 +802,7 @@ const Dashboard = props => {
                     </TouchableOpacity>
                     <WalletChatWidget
                       connectedWallet={
-                        goodWallet
+                        web3Provider
                           ? {
                               walletName: 'GoodWalletV2',
                               account: goodWallet.account,

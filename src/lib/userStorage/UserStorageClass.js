@@ -793,7 +793,6 @@ export class UserStorage {
 
     const { date, id, status, createdDate, animationExecuted, action, chainId } = event
     const {
-      sender,
       preReasonText,
       reason,
       code: withdrawCode,
@@ -815,8 +814,6 @@ export class UserStorage {
       initiator,
       initiatorType,
       value,
-      fromAddress,
-      toAddress,
       displayName,
       message,
       avatar,
@@ -844,9 +841,7 @@ export class UserStorage {
       data: {
         receiptHash: get(event, 'data.receiptEvent.txHash'),
         endpoint: {
-          address: sender,
-          toAddress,
-          fromAddress,
+          address,
           displayName,
           avatar,
         },
@@ -908,16 +903,6 @@ export class UserStorage {
 
     const fromGDUbi = this.wallet.getUBIAddresses().includes((data.address || '').toLowerCase()) && 'GoodDollar UBI'
 
-    let fullFromAddress = 'Unknown'
-    if (get(receiptEvent, 'from')) {
-      fullFromAddress = get(receiptEvent, 'from')
-    }
-
-    let fullToAddress = 'Unknown'
-    if (get(receiptEvent, 'to')) {
-      fullToAddress = get(receiptEvent, 'to')
-    }
-
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||
         type === FeedItemType.EVENT_TYPE_CLAIM ||
@@ -929,8 +914,6 @@ export class UserStorage {
     const fromEmailMobile = data.initiatorType && data.initiator
 
     data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || 'Unknown'
-    data.toAddress = fullToAddress
-    data.fromAddress = fullFromAddress
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
     logger.debug('formatEvent: parsed data', {

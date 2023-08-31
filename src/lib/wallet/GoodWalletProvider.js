@@ -59,6 +59,7 @@ export const GoodWalletContext = React.createContext({
   dailyUBI: undefined,
   isCitizen: false,
   switchNetwork: undefined,
+  web3Provider: undefined
 })
 
 /**
@@ -331,6 +332,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     dailyUBI,
     isCitizen,
     switchNetwork,
+    web3Provider
   }
 
   let env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
@@ -362,12 +364,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       <Provider {...props}>{children}</Provider>
     </GoodWalletContext.Provider>
   )
-}
-
-export const useWeb3Provider = (wallet) => {
-  const web3Provider = makeWeb3Provider(wallet);
-  
-  return web3Provider
 }
 
 export const useWallet = () => {

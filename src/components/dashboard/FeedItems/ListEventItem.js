@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { Linking, Platform, Pressable, TouchableOpacity, View, Image } from 'react-native'
 import { get, noop } from 'lodash'
 import { t } from '@lingui/macro'
@@ -26,7 +26,7 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
-import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
+// import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 const log = logger.child({ from: 'ListEventItem' })
 
 const InviteItem = ({ item, theme }) => (
@@ -160,17 +160,8 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
-  const direction = useMemo(() => getEventDirection(feed), [feed])
   const chainId = feed.chainId || '122'
-  const fromAddress = feed?.data?.endpoint?.fromAddress;
-  const toAddress = feed?.data?.endpoint?.toAddress
-
-  let ownerAddress = '';
-  if(direction === 'from'){
-    ownerAddress = fromAddress;
-  } else {
-    ownerAddress = toAddress;
-  }
+  const ownerAddress = feed?.data?.endpoint?.address;
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />

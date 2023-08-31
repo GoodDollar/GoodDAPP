@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { get, isNil } from 'lodash'
 import { ChatWithOwner } from 'react-native-wallet-chat'
@@ -13,7 +13,6 @@ import TopImage, { getImageByType } from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
-import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 import { Icon } from '../../common'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty, { EventSelfParty } from './EventCounterParty'
@@ -42,16 +41,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const avatar = get(item, 'data.endpoint.avatar')
   const sellerWebsite = get(item, 'data.sellerWebsite', '')
   const chainId = item.chainId || '122'
-  const direction = useMemo(() => getEventDirection(item), [item])
-  const fromAddress = item?.data?.endpoint?.fromAddress
-  const toAddress = item.data?.endpoint?.toAddress
-
-  let ownerAddress = ''
-  if (direction === 'from') {
-    ownerAddress = fromAddress
-  } else {
-    ownerAddress = toAddress
-  }
+  const ownerAddress = item?.data?.endpoint?.address
 
   return (
     <ModalWrapper

@@ -218,7 +218,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                           className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                           dir="auto"
                         >
-                          Go to your 
+                          Go to your
                           <span
                             className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                           >
@@ -277,7 +277,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                           className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                           dir="auto"
                         >
-                          Click the 
+                          Click the
                           <span
                             className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                           >
@@ -288,8 +288,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                           className="css-text-901oao r-bottom-3w8uyn r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-1cwl3u0 r-position-u8s1d r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                           dir="auto"
                         >
-                          
-* works from any device
+                          * works from any device
                         </div>
                       </div>
                     </div>

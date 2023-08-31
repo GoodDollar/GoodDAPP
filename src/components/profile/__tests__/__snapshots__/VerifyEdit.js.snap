@@ -26,8 +26,8 @@ exports[`VerifyEdit matches snapshot 1`] = `
             className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
-            undefined,
-we need to verify your
+            ,
+we need to verify your 
 email again…
           </div>
         </div>

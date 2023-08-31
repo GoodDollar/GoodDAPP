@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/AppBar.tsx:201
+#: src/components/AppBar.tsx:203
 #: src/components/Savings/SavingsCard/index.tsx:48
 msgid ""
 msgstr ""
@@ -2267,7 +2267,7 @@ msgstr "امسح الكل"
 msgid "Close"
 msgstr "إغلاق"
 
-#: src/pages/gd/Claim/index.tsx:215
+#: src/pages/gd/Claim/index.tsx:223
 msgid "Collect G$"
 msgstr ""
 
@@ -2398,7 +2398,7 @@ msgstr ""
 msgid "GoodDollar"
 msgstr ""
 
-#: src/pages/gd/Claim/index.tsx:226
+#: src/pages/gd/Claim/index.tsx:234
 msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
 msgstr ""
 
@@ -2519,7 +2519,7 @@ msgstr "على"
 msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
 msgstr "عفوًا! حدث خطأ غير معروف. يرجى تحديث الصفحة، أو الزيارة من متصفح أو جهاز آخر"
 
-#: src/components/AppBar.tsx:222
+#: src/components/AppBar.tsx:225
 msgid "Open main menu"
 msgstr "القائمة الرئيسية المفتوحة"
 
@@ -2741,8 +2741,8 @@ msgid "This month"
 msgstr "هذا الشهر"
 
 #: src/pages/App.tsx:145
-msgid "This project is in beta. Use at your own risk"
-msgstr "هذا المشروع في مرحلة تجريبية. استخدم على مسؤوليتك الخاصة"
+#~ msgid "This project is in beta. Use at your own risk"
+#~ msgstr "هذا المشروع في مرحلة تجريبية. استخدم على مسؤوليتك الخاصة"
 
 #: src/components/Withdraw/index.tsx:142
 #: src/pages/gd/Stake/index.tsx:65

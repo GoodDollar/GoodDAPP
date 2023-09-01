@@ -35,6 +35,7 @@ import OptionsRow from '../profile/OptionsRow'
 import Config from '../../config/config'
 import { isWeb } from '../../lib/utils/platform'
 import { useNotificationsOptions } from '../../lib/notifications/hooks/useNotifications'
+import localeLabels from '../../language/locales/localeLabels.json'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -66,43 +67,18 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
     </RadioButton.Group>
   )
 }
-const supportedCountryCodes = ['US', 'GB', 'ES', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID', 'AR']
-type CountryCode = $ElementType<typeof supportedCountryCodes, number>
 
-const countryCodeToLocale: { [key: CountryCode]: string } = {
-  US: 'en',
-  GB: 'en-gb',
-  ES: 'es',
-  FR: 'fr',
-  IT: 'it',
-  KR: 'ko',
-  BR: 'pt-br',
-  UA: 'uk',
-  TR: 'tr',
-  VN: 'vi',
-  CN: 'zh',
-  IN: 'hi',
-  ID: 'id',
-  AR: 'es-419',
-}
+const supportedLocales = localeLabels.reduce(
+  (locale, { code, countryCode, name }) => {
+    locale.supportedCountryCodes.push(countryCode)
+    locale.countryCodeToLocale[countryCode] = code
+    locale.languageCustomLabels[countryCode] = name
+    return locale
+  },
+  { supportedCountryCodes: [], countryCodeToLocale: {}, languageCustomLabels: {} },
+)
 
-const languageCustomLabels: { [key: CountryCode]: string } = {
-  US: 'English-US',
-  GB: 'English-UK',
-  ES: 'Spanish',
-  FR: 'French',
-  IT: 'Italian',
-  KR: 'Korean',
-  DE: 'German',
-  BR: 'Portuguese-Brazilian',
-  UA: 'Ukrainian',
-  TR: 'Turkish',
-  VN: 'Vietnamese',
-  CN: 'Chinese-Simplified',
-  IN: 'Hindi',
-  ID: 'Indonesian',
-  AR: 'Latin-Spanish',
-}
+const { supportedCountryCodes, countryCodeToLocale, languageCustomLabels } = supportedLocales
 
 const getKeyByValue = (object, value) => {
   return Object.keys(object).find(key => object[key] === value)

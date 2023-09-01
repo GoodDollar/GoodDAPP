@@ -1,0 +1,16 @@
+[
+  { "code": "en", "countryCode": "US", "name": "English-US" },
+  { "code": "en-gb", "countryCode": "GB", "name": "English-UK" },
+  { "code": "es", "countryCode": "ES", "name": "Spanish" },
+  { "code": "fr", "countryCode": "FR", "name": "French" },
+  { "code": "it", "countryCode": "IT", "name": "Italian" },
+  { "code": "ko", "countryCode": "KR", "name": "Korean" },
+  { "code": "pt-br", "countryCode": "BR", "name": "Portuguese-Brazil" },
+  { "code": "uk", "countryCode": "UA", "name": "Ukrainian" },
+  { "code": "tr", "countryCode": "TR", "name": "Turkish" },
+  { "code": "vi", "countryCode": "VN", "name": "Vietnamese" },
+  { "code": "zh", "countryCode": "CN", "name": "Chinese" },
+  { "code": "hi", "countryCode": "IN", "name": "Hindi" },
+  { "code": "id", "countryCode": "ID", "name": "Indonesian" },
+  { "code": "es-419", "countryCode": "AR", "name": "Spanish-Latin America" }
+]

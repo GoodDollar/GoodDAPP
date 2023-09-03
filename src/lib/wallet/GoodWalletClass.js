@@ -1285,8 +1285,23 @@ export class GoodWallet {
 
       // check under which account invitecode is registered, maybe we have a collission
       const registered = !hasJoined && (await retryCall(() => this.invitesContract.methods.codeToUser(myCode).call()))
+      const inviterCode = inviter && this.wallet.utils.fromUtf8(inviter)
+      const inviterRegistered =
+        inviter &&
+        (await retryCall(() => this.invitesContract.methods.codeToUser(inviterCode).call()).then(
+          r => r !== NULL_ADDRESS,
+        ))
 
-      log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
+      log.debug('joinInvites:', {
+        inviter,
+        inviterRegistered,
+        registered,
+        myCode,
+        codeLength,
+        hasJoined,
+        invitedBy,
+        inviteCode,
+      })
 
       // code collision
       if (hasJoined === false && registered.toLowerCase() !== this.account && registered !== NULL_ADDRESS) {
@@ -1295,11 +1310,8 @@ export class GoodWallet {
       }
 
       // not registered or not marked inviter
-      if (!hasJoined || (inviter && invitedBy === NULL_ADDRESS)) {
-        const tx = this.invitesContract.methods.join(
-          myCode,
-          (inviter && this.wallet.utils.fromUtf8(inviter)) || '0x0'.padEnd(66, 0),
-        )
+      if (!hasJoined || (inviterRegistered && invitedBy === NULL_ADDRESS)) {
+        const tx = this.invitesContract.methods.join(myCode, inviter ? inviterCode : '0x0'.padEnd(66, 0))
 
         log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })
 

@@ -6,6 +6,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
 import { t } from '@lingui/macro'
+import { WalletChatWidget } from 'react-native-wallet-chat'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -15,7 +16,13 @@ import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/ut
 import { decimalsToFixed, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
-import { useFormatG$, useSwitchNetwork, useUserStorage, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import {
+  GoodWalletContext,
+  useFormatG$,
+  useSwitchNetwork,
+  useUserStorage,
+  useWalletData,
+} from '../../lib/wallet/GoodWalletProvider'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
@@ -240,7 +247,7 @@ const Dashboard = props => {
   const [price, showPrice] = useGoodDollarPrice()
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeEnabled } = Config
-
+  const { goodWallet, web3Provider } = useContext(GoodWalletContext)
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
 
@@ -783,7 +790,7 @@ const Dashboard = props => {
             <Animated.View style={styles.balanceTop}>
               <Section style={styles.profileContainer}>
                 <Animated.View style={profileAnimStyles}>
-                  <Animated.View testID="avatar-anim-styles" style={avatarAnimStyles}>
+                  <Animated.View testID="avatar-anim-styles" style={[styles.profileIconContainer, avatarAnimStyles]}>
                     <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
                       <Avatar
                         source={avatar}
@@ -793,6 +800,18 @@ const Dashboard = props => {
                         plain
                       />
                     </TouchableOpacity>
+                    <WalletChatWidget
+                      connectedWallet={
+                        web3Provider
+                          ? {
+                              walletName: 'GoodWalletV2',
+                              account: goodWallet.account,
+                              chainId: goodWallet.networkId,
+                              provider: web3Provider, //goodWallet.wallet.currentProvider
+                            }
+                          : undefined
+                      }
+                    />
                   </Animated.View>
                   {headerLarge && (
                     <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
@@ -1139,6 +1158,10 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
     paddingBottom: 0,
     alignItems: 'center',
+  },
+  profileIconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   multiBalance: {
     display: 'flex',

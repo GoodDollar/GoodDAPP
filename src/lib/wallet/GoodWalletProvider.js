@@ -60,6 +60,7 @@ export const GoodWalletContext = React.createContext({
   dailyUBI: undefined,
   isCitizen: false,
   switchNetwork: undefined,
+  web3Provider: undefined
 })
 
 /**
@@ -332,6 +333,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     dailyUBI,
     isCitizen,
     switchNetwork,
+    web3Provider
   }
 
   let env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]

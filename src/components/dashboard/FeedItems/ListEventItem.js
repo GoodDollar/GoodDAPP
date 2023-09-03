@@ -1,8 +1,9 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
+import { Linking, Platform, Pressable, TouchableOpacity, View, Image } from 'react-native'
 import { get, noop } from 'lodash'
 import { t } from '@lingui/macro'
+import { ChatWithOwner } from 'react-native-wallet-chat'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -11,7 +12,7 @@ import { getScreenWidth } from '../../../lib/utils/orientation'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import { Icon, Image, Section, SvgXml, Text } from '../../common'
+import { Icon, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
@@ -25,6 +26,7 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
+// import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
 const log = logger.child({ from: 'ListEventItem' })
 
 const InviteItem = ({ item, theme }) => (
@@ -159,6 +161,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
+  const ownerAddress = feed?.data?.endpoint?.address;
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -175,6 +178,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   if (itemType === 'news') {
     return <NewsItem item={feed} eventSettings={eventSettings} styles={styles} />
   }
+
   return (
     <View style={styles.rowContent}>
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
@@ -234,14 +238,34 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                 </>
               )}
             </View>
-            <EventIcon
-              style={styles.typeIcon}
-              animStyle={styles.typeAnimatedIcon}
-              type={itemType}
-              size={normalize(34)}
-              showAnim={index === 0}
-              delay={100}
-            />
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+              {!eventSettings.withoutAmount && ownerAddress.length > 0 && (
+                <TouchableOpacity>
+                  <ChatWithOwner
+                    ownerAddress={ownerAddress}
+                    render={
+                      <Icon
+                        style={{
+                          marginRight: 10,
+                          marginTop: 5,
+                        }}
+                        name="chat"
+                        size={25}
+                        color="gray80Percent"
+                      />
+                    }
+                  />
+                </TouchableOpacity>
+              )}
+              <EventIcon
+                style={styles.typeIcon}
+                animStyle={styles.typeAnimatedIcon}
+                type={itemType}
+                size={normalize(34)}
+                showAnim={index === 0}
+                delay={100}
+              />
+            </View>
           </View>
         </View>
       </View>

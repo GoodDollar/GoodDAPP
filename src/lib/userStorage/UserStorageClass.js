@@ -793,7 +793,6 @@ export class UserStorage {
 
     const { date, id, status, createdDate, animationExecuted, action, chainId } = event
     const {
-      sender,
       preReasonText,
       reason,
       code: withdrawCode,
@@ -810,7 +809,15 @@ export class UserStorage {
       sponsoredLink,
       sponsoredLogo,
     } = data
-    const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
+    const {
+      address,
+      initiator,
+      initiatorType,
+      value,
+      displayName,
+      message,
+      avatar,
+    } = this._extractData(event)
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
     const displayType = this._extractDisplayType(event)
@@ -834,7 +841,7 @@ export class UserStorage {
       data: {
         receiptHash: get(event, 'data.receiptEvent.txHash'),
         endpoint: {
-          address: sender,
+          address,
           displayName,
           avatar,
         },

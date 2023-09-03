@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 import { CustomButton, Section, Wrapper } from '../../common'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
@@ -46,7 +47,9 @@ const UnrecoverableError = ({ styles, exception, nav }) => {
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="medium" textTransform="none" color="red">
-            {'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
+            {t`Sorry about that…
+            We’re looking in to it,
+            please try again later`}
           </Section.Title>
           <View style={styles.errorImage}>
             <IllustrationSVG />
@@ -57,7 +60,7 @@ const UnrecoverableError = ({ styles, exception, nav }) => {
             OK
           </CustomButton>
           <CustomButton mode="outlined" onPress={onContactSupport}>
-            CONTACT SUPPORT
+            {t`CONTACT SUPPORT`}
           </CustomButton>
         </View>
       </View>

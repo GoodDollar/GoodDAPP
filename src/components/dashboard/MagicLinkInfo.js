@@ -50,7 +50,8 @@ const MagicLinkInfoComponent = props => {
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <View style={styles.bottomContainer}>
               <Text fontWeight="bold" fontSize={28} fontFamily={theme.fonts.slab} color="primary">
-                {t`Abracadabra\nAnd you’re in!`}
+                {t`Abracadabra
+                And you’re in!`}
               </Text>
             </View>
           </Section.Row>
@@ -58,11 +59,11 @@ const MagicLinkInfoComponent = props => {
             <View style={styles.bottomContainer}>
               <Trans>
                 <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-                  {'By clicking your '}
+                  {t`By clicking your `}
                   <Text fontWeight="bold" fontSize={22} fontFamily="Roboto">
                     {'Magic Link\n'}
                   </Text>
-                  {'you can sign in from any device '}
+                  {t`you can sign in from any device `}
                 </Text>
               </Trans>
             </View>

@@ -42,23 +42,25 @@ const I18n = new class {
   async getInitialLocale() {
     const { defaultLocale, locales } = this
 
+    // first we check if user selected default language in settings
+    // if no default or lang is set to DD, we use system detect
     const detectedLocale = await this._detect(
-      // eslint-disable-next-line require-await
       async () => {
         const lang = await AsyncStorage.getItem('lang')
 
-        log.debug('Delect locale - AsyncStorage', { lang })
-        return lang
-      },
+        if (lang) {
+          return lang
+        }
 
-      () => {
         const sysLocales = uniq(
-          flatten(RNLocalize.getLocales().map(locale => ['Code', 'Tag'].map(prop => locale[`language${prop}`]))),
+          flatten(
+            RNLocalize.getLocales().map(locale => ['Code', 'Tag'].map(prop => locale[`language${prop}`].toLowerCase())),
+          ),
         )
 
-        log.debug('Delect locale - System', { sysLocales })
+        log.debug('Detect locale - System', { sysLocales })
 
-        const { languageTag } = RNLocalize.findBestAvailableLanguage(intersection(locales, sysLocales))
+        const { languageTag = {} } = RNLocalize.findBestAvailableLanguage(intersection(locales, sysLocales))
 
         if (this.isLocaleValid(languageTag)) {
           log.debug('Delect locale - System', { languageTag })
@@ -75,6 +77,7 @@ const I18n = new class {
         }
       },
 
+      // if all fail, we use default 'en'
       () => {
         log.debug('Delect locale - Fallback', { defaultLocale })
         return defaultLocale
@@ -134,12 +137,15 @@ const LanguageProvider = ({ children }) => {
 
   const setLanguage = useCallback(
     async language => {
+      let locale = language
+
       if (!language) {
-        return
+        await AsyncStorage.removeItem('lang')
+        locale = await I18n.getInitialLocale()
       }
 
-      await I18n.dynamicActivate(language)
-      setCurrentLanguage(language)
+      await I18n.dynamicActivate(locale)
+      setCurrentLanguage(locale)
     },
     [setCurrentLanguage],
   )

@@ -4,6 +4,7 @@ import { Platform, View } from 'react-native'
 import moment from 'moment'
 import { assign, noop } from 'lodash'
 import { t, Trans } from '@lingui/macro'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 
@@ -13,6 +14,7 @@ import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodW
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
+import TaskDialog from '../common/dialogs/TaskDialog'
 import API from '../../lib/API'
 
 import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
@@ -442,7 +444,8 @@ const Claim = props => {
       image: <LoadingAnimation />,
       message: t`please wait while processing...` + `\n`,
       buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
-      title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
+      title: t`YOUR MONEY 
+      IS ON ITS WAY...`,
       showCloseButtons: false,
     })
 
@@ -487,9 +490,15 @@ const Claim = props => {
 
         showDialog({
           image: <LoadingAnimation success speed={2} />,
-          buttons: [{ text: t`Yay!` }],
-          message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
-          title: t`CHA-CHING!`,
+          content: <TaskDialog />,
+          buttons: [
+            {
+              text: t`Skip`,
+              style: { backgroundColor: mainTheme.colors.gray80Percent },
+            },
+          ],
+          title: t`You've claimed today`,
+          titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
           onDismiss: noop,
         })
       })
@@ -840,7 +849,7 @@ const getStylesFromProps = ({ theme }) => {
 }
 
 Claim.navigationOptions = {
-  title: 'Claim',
+  title: t`Claim`,
 }
 
 export default withStyles(getStylesFromProps)(Claim)

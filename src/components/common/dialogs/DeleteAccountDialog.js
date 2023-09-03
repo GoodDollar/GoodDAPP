@@ -14,7 +14,7 @@ const TrashIcon = () => <IconWrapper iconName="trash" color={theme.colors.error}
 const MessageTextComponent = () => (
   <Text style={{ color: theme.colors.error, fontSize: normalizeText(18) }}>
     {t`If you delete your account`}
-    {'\n'}
+    {`\n`}
     <Text style={{ fontWeight: 'bold' }}>{t`you might lose access to your G$!`}</Text>
   </Text>
 )

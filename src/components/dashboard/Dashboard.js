@@ -811,7 +811,7 @@ const Dashboard = props => {
                     fontSize={12}
                     style={styles.totalBalanceText}
                   >
-                    {` MY TOTAL BALANCE `}
+                    {t`MY TOTAL BALANCE `}
                   </Text>
                 )}
                 <View style={styles.balanceUsdRow}>
@@ -862,7 +862,7 @@ const Dashboard = props => {
                     }}
                     compact
                   >
-                    Send
+                    {t`Send`}
                   </PushButton>
                   <ClaimButton
                     screenProps={screenProps}
@@ -881,7 +881,7 @@ const Dashboard = props => {
                     textStyle={styles.rightButtonText}
                     compact
                   >
-                    Receive
+                    {t`Receive`}
                   </PushButton>
                 </Section.Row>
               </Section>

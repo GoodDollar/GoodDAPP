@@ -2,6 +2,7 @@
 import React from 'react'
 import { Image, Platform, View } from 'react-native'
 import { noop } from 'lodash'
+import { t } from '@lingui/macro'
 
 // components
 import Text from '../../common/view/Text'
@@ -40,15 +41,15 @@ const Instructions = ({ styles, onDismiss = noop, ready }) => (
           <View style={styles.descriptionWrapper}>
             <Text style={styles.text}>
               <Dot />
-              Hold Your Camera at Eye Level
+              {t`Hold Your Camera at Eye Level`}
             </Text>
             <Text style={styles.text}>
               <Dot />
-              Light Your Face Evenly
+              {t`Light Your Face Evenly`}
             </Text>
             <Text style={styles.text}>
               <Dot />
-              Avoid Smiling & Back Light
+              {t`Avoid Smiling & Back Light`}
             </Text>
           </View>
         </View>
@@ -59,7 +60,7 @@ const Instructions = ({ styles, onDismiss = noop, ready }) => (
           onPress={onDismiss}
           testID="dismiss_button"
         >
-          GOT IT
+          {t`GOT IT`}
         </CustomButton>
       </View>
     </Section>

@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "2.22.1-0",
+  "version": "2.23.0",
   "engines": {
     "node": ">=16.x <17",
     "npm": "8.x"
@@ -195,6 +195,7 @@
     "react-native-linear-gradient": "^2.5.6",
     "react-native-localize": "^2.2.1",
     "react-native-masked-text": "^1.13.0",
+    "react-native-modal-dropdown": "^1.0.2",
     "react-native-notifications": "^4.3.1",
     "react-native-os": "^1.2.6",
     "react-native-otp": "^1.0.0",

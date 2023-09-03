@@ -77,15 +77,15 @@ we couldn't confirm your identity...
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
-              Your face doesn't match the snapshot
+              Your face doesn't match the snapshot 
 from the previous verification
             </div>
             <div
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
             >
-              You could pass verification only by yourself
-If you're sure this is your account
+              You could pass verification only by yourself 
+If you're sure this is your account 
 please contact our support
             </div>
           </div>

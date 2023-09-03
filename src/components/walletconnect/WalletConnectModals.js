@@ -16,7 +16,6 @@ import { openLink } from '../../lib/utils/linking'
 // hooks
 import { useDialog } from '../../lib/dialog/useDialog'
 import Config from '../../config/config'
-import mustache from '../../lib/utils/mustache'
 
 const log = logger.child({ from: 'WalletConnectModals' })
 
@@ -140,6 +139,9 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
   const txParams = entries(rest).map(([name, value]) => ({ name, value }))
   const isSign = method.includes('sign')
 
+  // eslint-disable-next-line prettier/prettier
+  const { balance, gasRequired } = useMemo(() => mapValues(pick(gasStatus, 'balance', 'gasRequired'), _ => _ / 1e18), [gasStatus])
+
   return (
     <View style={styles.infoView}>
       {!isSign && error && gasStatus.hasEnoughGas && (
@@ -149,10 +151,7 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
       )}
       {!isSign && !gasStatus.hasEnoughGas && (
         <Text color="red" fontWeight="bold">
-          {mustache(
-            t`Not enough balance to execute transaction. Balance: {balance} Required: {gasRequired}`,
-            mapValues(pick(gasStatus, 'balance', 'gasRequired'), _ => _ / 1e18),
-          )}
+          {t`Not enough balance to execute transaction. Balance: ${balance} Required: ${gasRequired}`}
         </Text>
       )}
       {name && (

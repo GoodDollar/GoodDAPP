@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 import AuthProgressBar from '../../auth/components/AuthProgressBar'
 import { withStyles } from '../../../lib/styles'
@@ -40,7 +41,7 @@ const WelcomeGD = ({ theme, styles, screenProps, navigation, showDelay, afterSho
           fontWeight="bold"
           textTransform="uppercase"
         >
-          {`Congrats You're Done`}
+          {t`Congrats You're Done`}
         </Text>
         <Text
           color={'darkIndigo'}
@@ -51,7 +52,7 @@ const WelcomeGD = ({ theme, styles, screenProps, navigation, showDelay, afterSho
           fontWeight="bold"
           style={{ marginTop: getDesignRelativeHeight(10) }}
         >
-          Welcome to GoodDollar!
+          {t`Welcome to GoodDollar!`}
         </Text>
         <View style={styles.illustration}>
           <Illustration

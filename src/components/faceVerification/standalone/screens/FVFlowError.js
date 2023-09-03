@@ -1,6 +1,7 @@
 // libraries
 import React from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 // components
 import Text from '../../../common/view/Text'
@@ -17,7 +18,7 @@ const DOCS_URL = 'https://doc.gooddollar/sdk/identity'
 const openDocs = () => openLink(DOCS_URL, '_blank')
 
 const FVFlowError = ({ styles }) => {
-  const reasonCopy = 'Login information is missing, for instructions please visit:'
+  const reasonCopy = t`Login information is missing, for instructions please visit:`
 
   return (
     <Wrapper>
@@ -41,7 +42,7 @@ const FVFlowError = ({ styles }) => {
         </View>
         <View style={styles.action}>
           <CustomButton style={styles.actionsSpace} onPress={exitApp}>
-            CLOSE
+            {t`CLOSE`}
           </CustomButton>
         </View>
       </Section>

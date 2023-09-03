@@ -1,5 +1,7 @@
 // @flow
 import React from 'react'
+import { t } from '@lingui/macro'
+
 import normalize from '../../lib/utils/normalizeText'
 
 import { BigGoodDollar, Section, Wrapper } from '../common'
@@ -68,7 +70,7 @@ const Summary = ({ screenProps, ...props }: ReceiveProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section justifyContent="space-between" grow>
-        <Section.Title>Summary</Section.Title>
+        <Section.Title>{t`Summary`}</Section.Title>
         <Section.Stack grow justifyContent="center">
           <CounterPartyRow displayName={counterPartyDisplayName} styles={styles} action={params.action} />
           <AmountRow amount={amount} styles={styles} />
@@ -77,7 +79,7 @@ const Summary = ({ screenProps, ...props }: ReceiveProps) => {
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
-              Cancel
+              {t`Cancel`}
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>

@@ -20,12 +20,14 @@ import { formatUnits, parseUnits } from '@ethersproject/units'
 import abiDecoder from 'abi-decoder'
 import {
   assign,
+  chunk,
   filter,
   findKey,
   first,
   flatten,
   get,
   identity,
+  last,
   mapValues,
   noop,
   over,
@@ -364,8 +366,13 @@ export class GoodWallet {
         }
 
         const startBlock = this.lastEventsBlock
-        const lastBlock = await this.syncTxWithBlockchain(startBlock)
-
+        const lastBlock = await this.syncTxFromExplorer(startBlock).catch(e => {
+          log.error('syncTxFromExplorer failed', e.message, e, {
+            networkId: this.networkId,
+            startBlock,
+          })
+          return this.syncTxWithBlockchain(startBlock)
+        })
         this.lastEventsBlock = lastBlock
         lastBlockCallback(lastBlock)
 
@@ -407,10 +414,8 @@ export class GoodWallet {
       log.info('watchEvents: got txs from explorer', { firstTx, fromBlock })
     }
 
-    const lastBlock = await this.syncTxWithBlockchain(fromBlock).catch(_ => fromBlock)
-
-    lastBlockCallback(lastBlock)
-    this.lastEventsBlock = lastBlock
+    lastBlockCallback(fromBlock)
+    this.lastEventsBlock = fromBlock
 
     this.pollEvents(Config.web3Polling, lastBlockCallback)
   }
@@ -425,13 +430,30 @@ export class GoodWallet {
 
     const uniqEvents = sortBy(uniqBy(events, 'transactionHash'), 'blockNumber')
 
-    uniqEvents.forEach(event => {
-      this._notifyReceipt(event.transactionHash).catch(err =>
-        log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
-          category: ExceptionCategory.Blockhain,
-        }),
-      )
-    })
+    return Promise.all(
+      uniqEvents.map(event =>
+        this._notifyReceipt(event.transactionHash).catch(err =>
+          log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        ),
+      ),
+    )
+  }
+
+  async syncTxFromExplorer(startBlock) {
+    const results = await API.getTokenTXs(this.tokenContract._address, this.account, this.networkId, startBlock).then(
+      results => results.map(result => ({ ...result, transactionHash: result.hash })),
+    )
+
+    const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
+    const chunks = chunk(results, 10)
+
+    await Promise.all(chunks.map(c => limit(() => this._notifyEvents(c, startBlock))))
+
+    const lastBlock = Number(last(results)?.blockNumber)
+
+    return lastBlock ? lastBlock + 1 : startBlock
   }
 
   notifyBalanceChanged() {
@@ -481,7 +503,7 @@ export class GoodWallet {
 
       return lastBlock
     } catch (e) {
-      log.error('Failed to sync tx from blockchain', e.message, e, { startBlock, lastBlock })
+      log.error('syncTxWithBlockchain failed', e.message, e, { startBlock, lastBlock, networkId: this.networkId })
     }
   }
 
@@ -607,7 +629,7 @@ export class GoodWallet {
    */
   async getReceiptWithLogs(transactionHash: string) {
     const chainId = this.networkId
-    const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
+    const transactionReceipt = await retryCall(() => this.wallet.eth.getTransactionReceipt(transactionHash))
 
     if (!transactionReceipt) {
       return null
@@ -1316,7 +1338,7 @@ export class GoodWallet {
       log.debug('joinInvites:', { inviter, myCode, codeLength, hasJoined, invitedBy, inviteCode })
 
       // code collision
-      if (hasJoined === false && registered !== this.account && registered !== NULL_ADDRESS) {
+      if (hasJoined === false && registered.toLowerCase() !== this.account && registered !== NULL_ADDRESS) {
         log.warn('joinInvites code collision:', { inviter, myCode, codeLength, registered })
         return this.joinInvites(inviter, codeLength + 1)
       }
@@ -1352,8 +1374,9 @@ export class GoodWallet {
 
   fromDecimals(amount, chainOrToken = null) {
     const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken ?? this.networkId].g$Decimals
+    const float = parseFloat(amount).toFixed(decimals)
 
-    return parseUnits(amount, decimals).toString()
+    return parseUnits(float, decimals).toString()
   }
 
   async getUserInviteBounty() {

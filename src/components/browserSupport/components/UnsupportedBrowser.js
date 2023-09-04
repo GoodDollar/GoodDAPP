@@ -1,8 +1,9 @@
 // libraries
 import React from 'react'
+import { t } from '@lingui/macro'
+import { noop } from 'lodash'
 
 // components
-import { t } from '@lingui/macro'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 
@@ -17,9 +18,9 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 export default ({ onDismiss }) => (
   <ExplanationDialog
     title={t`Oops! GoodWallet might not work correctly on webviews`}
-    text={
-      t`For the best experience` + `\n` + t`please switch to your browser app` + `\n` + t`and go to ${Config.publicUrl}`
-    }
+    text={t`For best experience 
+    please switch to your browser app
+    and go to ${Config.publicUrl}`}
     image={illustration}
     imageHeight={124}
     buttons={[
@@ -33,7 +34,7 @@ export default ({ onDismiss }) => (
 
 // Modal for blocking user further access to functionality
 // Example usage: functionalties which are webviews and we know don't work at all
-export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined }) => {
+export const BlockingUnsupportedBrowser = ({ onDismiss = noop, copyUrl = undefined }) => {
   const { showDialog } = useDialog()
 
   const navigateTo = copyUrl ?? Config.publicUrl
@@ -42,7 +43,7 @@ export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined }) =
     showDialog({
       isMinHeight: false,
       showButtons: false,
-      onDismiss,
+      onDismiss: noop,
       title: t`Link copied to clipboard`,
     })
   }
@@ -61,7 +62,7 @@ export const BlockingUnsupportedBrowser = ({ onDismiss, copyUrl = undefined }) =
           action: copyToClipboard,
         },
         {
-          text: `Go back`,
+          text: t`Try Anyway`,
           action: onDismiss,
         },
       ]}

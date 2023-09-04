@@ -128,7 +128,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               {t`Welcome back!`}
             </Text>
           ),
-          message: t`Hi ${firstName},\nyour wallet was recovered successfully`,
+          message: t`Hi ${firstName},
+          your wallet was recovered successfully`,
           onDismiss: () => restart(incomingRedirectUrl),
         })
 
@@ -171,7 +172,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         <Section.Stack grow style={styles.instructions} justifyContent="space-around">
           <Text fontWeight="medium" fontSize={22}>
             {t`Please enter your`}
-            {'\n'}
+            {`\n`}
             {t`12-word pass phrase:`}
           </Text>
         </Section.Stack>

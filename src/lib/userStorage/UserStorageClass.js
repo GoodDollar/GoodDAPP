@@ -802,7 +802,6 @@ export class UserStorage {
 
     const { date, id, status, createdDate, animationExecuted, action, chainId } = event
     const {
-      sender,
       preReasonText,
       reason,
       code: withdrawCode,
@@ -844,7 +843,7 @@ export class UserStorage {
         asset,
         receiptHash: get(event, 'data.receiptEvent.txHash'),
         endpoint: {
-          address: sender || address,
+          address,
           displayName,
           avatar,
         },

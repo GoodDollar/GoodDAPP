@@ -2,6 +2,7 @@
 import React, { useCallback } from 'react'
 import { Platform, View } from 'react-native'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 
 import Icon from '../../common/view/Icon'
 import Text from '../../common/view/Text'
@@ -25,10 +26,12 @@ const FeedModalItem = ({ item, onPress, styles, theme }: FeedEventProps) => {
     <React.Fragment>
       <View style={styles.errorStyle}>
         <Text color="red" fontSize={22} fontWeight="medium">
-          {`We're sorry.\nThis transaction failed.`}
+          {t`We're sorry.
+          This transaction failed.`}
         </Text>
         <Text color="red" fontSize={16}>
-          {`Something went wrong on our side,\nplease try again.`}
+          {t`Something went wrong on our side,
+          please try again.`}
         </Text>
         <View style={styles.iconContainer}>
           <Icon name="close" color="red" size={24} />

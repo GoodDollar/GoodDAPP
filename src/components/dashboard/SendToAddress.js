@@ -3,6 +3,7 @@
 // libraries
 import React, { useCallback, useContext, useEffect } from 'react'
 import { isAddress } from 'web3-utils'
+import { t } from '@lingui/macro'
 
 // components
 import InputWithAdornment from '../common/form/InputWithAdornment'
@@ -45,15 +46,15 @@ const SendToAddress = (props: TypeProps) => {
   const validate = useCallback(
     value => {
       if (!value) {
-        return 'Value is mandatory'
+        return t`Value is mandatory`
       }
 
       if (!isAddress(value)) {
-        return 'Invalid wallet address'
+        return t`Invalid wallet address`
       }
 
       if (value.toLowerCase() === goodWallet.account.toLowerCase()) {
-        return "You can't send G$s to yourself, you already own your G$s"
+        return t`You can't send G$s to yourself, you already own your G$s`
       }
 
       return null
@@ -92,7 +93,7 @@ const SendToAddress = (props: TypeProps) => {
             error={state.error}
             onChangeText={setValue}
             maxLength={128}
-            placeholder="Enter Wallet Address"
+            placeholder={t`Enter Wallet Address`}
             style={styles.input}
             value={state.value}
             showAdornment
@@ -111,7 +112,7 @@ const SendToAddress = (props: TypeProps) => {
         <Section.Row alignItems="flex-end">
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
-              Cancel
+              {t`Cancel`}
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
@@ -120,7 +121,7 @@ const SendToAddress = (props: TypeProps) => {
               nextRoutes={screenState.nextRoutes}
               values={{ ...params, ...restState, address: state.value }}
               canContinue={canContinue}
-              label="Next"
+              label={t`Next`}
               disabled={!state.isValid}
             />
           </Section.Stack>

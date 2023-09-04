@@ -20,14 +20,7 @@ import logger from '../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
-import {
-  iosSupportedWeb,
-  isBrowser,
-  isEmulator,
-  isIOSWeb,
-  isMobileSafari,
-  isWebView,
-} from '../../../lib/utils/platform'
+import { iosSupportedWeb, isBrowser, isEmulator, isIOSWeb, isWebView } from '../../../lib/utils/platform'
 import { openLink } from '../../../lib/utils/linking'
 import Config from '../../../config/config'
 import { Permissions } from '../../permissions/types'
@@ -71,7 +64,8 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
           {firstName && `${firstName},`}
           <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
             {firstName ? `\n` : ''}
-            {'Verify you are a real\nlive person'}
+            {t`Verify you are a real live person`}
+            {`\n`}
           </Section.Text>
         </Section.Title>
         <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
@@ -112,8 +106,6 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     fullName,
   ])
 
-  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
-
   const [disposing, checkDisposalState] = useDisposingState(
     {
       requestOnMounted: false,
@@ -149,7 +141,9 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const [, checkForCameraSupport] = useCameraSupport({
     checkOnMounted: false,
     onSupported: requestCameraPermissions,
-    onUnsupported: navigateToHome,
+    onUnsupported: () => {
+      requestCameraPermissions({ ignoreMountedState: true }) // we let the user try anyways. we add ignoreMOuntedState because when showing the unsupportedbrowser popup it unmounts
+    },
     unsupportedPopup: BlockingUnsupportedBrowser,
     onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
@@ -168,8 +162,6 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   }, [checkForCameraSupport])
 
   useFaceTecSDK({ initOnMounted: true }) // early initialize
-
-  useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
     log.debug({ enrollmentIdentifier, userName, isFVFlow, isFVFlowReady })

@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView } from 'react-native'
 import { noop } from 'lodash'
+import { t } from '@lingui/macro'
 
 import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -20,7 +21,7 @@ export type AmountProps = {
 
 const getError = value => {
   if (!value) {
-    return 'Name is mandatory'
+    return t`Name is mandatory`
   }
 
   return null

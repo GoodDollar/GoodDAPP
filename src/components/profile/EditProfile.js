@@ -17,7 +17,7 @@ import RoundIconButton from '../common/buttons/RoundIconButton'
 import useProfile from '../../lib/userStorage/useProfile'
 import ProfileDataTable from './ProfileDataTable'
 
-const TITLE = 'Edit Profile'
+const TITLE = t`Edit Profile`
 const log = logger.child({ from: TITLE })
 const avatarSize = getDesignRelativeWidth(136)
 

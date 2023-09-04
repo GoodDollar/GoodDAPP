@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "2.22.0",
+  "version": "2.23.0",
   "engines": {
     "node": ">=16.x <17",
     "npm": "8.x"
@@ -195,6 +195,7 @@
     "react-native-linear-gradient": "^2.5.6",
     "react-native-localize": "^2.2.1",
     "react-native-masked-text": "^1.13.0",
+    "react-native-modal-dropdown": "^1.0.2",
     "react-native-notifications": "^4.3.1",
     "react-native-os": "^1.2.6",
     "react-native-otp": "^1.0.0",
@@ -224,6 +225,7 @@
     "react-native-v8": ">=0.65.2-patch.0 <0.66.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-version-check": "^3.4.3",
+    "react-native-wallet-chat": "0.1.64",
     "react-native-web": "^0.17.5",
     "react-native-web-linear-gradient": "^1.0.5",
     "react-native-web-lottie": "^1.2.0",
@@ -232,7 +234,7 @@
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3",
     "react-phone-number-input": "^3.2.23",
-    "react-qr-reader": "^2.2.1",
+    "react-qr-reader-es6": "^2.2.1-2",
     "react-scripts": "^4.0.3",
     "react-share": "^4.3.1",
     "readable-stream": "^1.0.33",

@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro'
 import { generateHrefLink } from '..'
 
 describe('generateHrefLink', () => {
@@ -12,7 +13,8 @@ describe('generateHrefLink', () => {
       url,
     }
     const viaEmail = {
-      link: `mailto:${to}?subject=${title}&body=You got G$. To withdraw open:\n${url}`,
+      link: t`mailto:${to}?subject=${title}&body=You got G$. To withdraw open:
+      ${url}`,
       description: 'e-mail',
     }
 

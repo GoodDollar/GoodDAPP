@@ -1,6 +1,8 @@
 // @flow
 import { useCallback, useContext } from 'react'
 import { noop } from 'lodash'
+import { t } from '@lingui/macro'
+
 import { type DialogProps } from '../../components/common/dialogs/CustomDialog'
 
 // import pino from '../logger/js-logger'
@@ -71,7 +73,7 @@ export const useDialog = () => {
 
       showDialog({
         visible: true,
-        title: 'Ooops ...',
+        title: t`Ooops ...`,
         message,
         type: 'error',
         ...dialogProps,

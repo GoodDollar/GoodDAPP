@@ -29,6 +29,8 @@ export class AnalyticsClass {
 
   emitter = new EventEmitter()
 
+  posthog = null
+
   constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.get('analytics')
     const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'mixpanelKey', 'version', 'env')
@@ -151,6 +153,10 @@ export class AnalyticsClass {
     logger.debug('listening for error logs', { errorLevel, logger, loggerApi })
   }
 
+  setPostHog = posthog => {
+    this.posthog = posthog
+  }
+
   identifyWith = (identifier, email = null) => {
     const { apis, logger, isAmplitudeEnabled, isMixpanelEnabled, isSentryEnabled, isGoogleEnabled } = this
     const { amplitude, sentry, mixpanel, googleAnalytics } = apis
@@ -213,18 +219,21 @@ export class AnalyticsClass {
   }
 
   fireEvent = (event: string, eventData: any = {}) => {
-    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId } = this
+    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId, posthog } = this
     const { amplitude, googleAnalytics, mixpanel } = apis
     const data = { chainId, ...eventData }
+    const disabledEvents = posthog ? posthog.getFeatureFlagPayload('disabled-events') || [] : []
 
     if (isMixpanelEnabled) {
       mixpanel.track(event, data)
     }
 
-    if (isAmplitudeEnabled) {
+    if (isAmplitudeEnabled && !disabledEvents.find(ev => event.search('^' + ev + '$') === 0)) {
       if (!amplitude.logEvent(event, data)) {
         logger.warn('Amplitude event not sent', { event, data })
       }
+    } else {
+      logger.debug('skipping disabled event', event)
     }
 
     // fire all events on  GA also
@@ -391,10 +400,12 @@ export class AnalyticsClass {
   // @private
   getDebouncedFireEvent = memoize(uniqueId => debounce(this.fireEvent, 500, { leading: true }))
 
+  filteredNetworkErrors = ['failed to fetch', 'Network request failed', 'Network Error']
+
   // @private
   onErrorLogged(args) {
     const { Unexpected, Network, Human } = ExceptionCategory
-    const { isSentryEnabled, env, logger } = this
+    const { isSentryEnabled, env, logger, filteredNetworkErrors } = this
     const isRunningTests = env === 'test'
 
     try {
@@ -417,7 +428,7 @@ export class AnalyticsClass {
         }
       }
 
-      if (isString(logMessage) && !logMessage.includes('axios')) {
+      if (isString(logMessage) && !logMessage.includes('axios') && !filteredNetworkErrors.includes(eMsg)) {
         const unique = `${eMsg} ${logMessage} (${logContext.from})`
         const debouncedFireEvent = this.getDebouncedFireEvent(unique)
 

@@ -6,6 +6,7 @@ import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sd
 import { Goerli, Mainnet } from '@usedapp/core'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
+import { t } from '@lingui/macro'
 
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
@@ -64,6 +65,7 @@ export const GoodWalletContext = React.createContext({
   dailyUBI: undefined,
   isCitizen: false,
   switchNetwork: undefined,
+  web3Provider: undefined,
 })
 
 export const TokenContext = React.createContext({
@@ -348,6 +350,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     dailyUBI,
     isCitizen,
     switchNetwork,
+    web3Provider,
   }
 
   let env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
@@ -529,7 +532,7 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
       const showSwitch = isDeltaApp && !toNetwork
 
       showDialog({
-        title: showSwitch ? 'Select chain' : 'To continue please switch chains',
+        title: showSwitch ? t`Select chain` : t`To continue please switch chains`,
         visible: true,
         type: 'info',
         isMinHeight: true,
@@ -539,7 +542,7 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
         ) : null,
         buttons: [
           {
-            text: showSwitch ? 'Switch chain' : `Switch to ${switchTo.toUpperCase()}`,
+            text: showSwitch ? t`Switch chain` : t`Switch to ${switchTo.toUpperCase()}`,
             onPress: async () => {
               await switchNetwork(switchTo)
               hideDialog()

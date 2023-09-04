@@ -6,6 +6,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 
 import { t } from '@lingui/macro'
+import { WalletChatWidget } from 'react-native-wallet-chat'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -16,6 +17,7 @@ import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wa
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 import {
+  GoodWalletContext,
   TokenContext,
   useFixedDecimals,
   useFormatG$,
@@ -311,6 +313,7 @@ const Dashboard = props => {
   const { currentNetwork } = useSwitchNetwork()
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && Config.bridgeEnabled
+  const { goodWallet, web3Provider } = useContext(GoodWalletContext)
 
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
@@ -834,7 +837,7 @@ const Dashboard = props => {
             <Animated.View style={styles.balanceTop}>
               <Section style={styles.profileContainer}>
                 <Animated.View style={profileAnimStyles}>
-                  <Animated.View testID="avatar-anim-styles" style={avatarAnimStyles}>
+                  <Animated.View testID="avatar-anim-styles" style={[styles.profileIconContainer, avatarAnimStyles]}>
                     <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
                       <Avatar
                         source={avatar}
@@ -844,6 +847,18 @@ const Dashboard = props => {
                         plain
                       />
                     </TouchableOpacity>
+                    <WalletChatWidget
+                      connectedWallet={
+                        web3Provider
+                          ? {
+                              walletName: 'GoodWalletV2',
+                              account: goodWallet.account,
+                              chainId: goodWallet.networkId,
+                              provider: web3Provider, //goodWallet.wallet.currentProvider
+                            }
+                          : undefined
+                      }
+                    />
                   </Animated.View>
                   {headerLarge && (
                     <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
@@ -890,7 +905,7 @@ const Dashboard = props => {
                     }}
                     compact
                   >
-                    Send
+                    {t`Send`}
                   </PushButton>
                   {ubiEnabled ? (
                     <ClaimButton
@@ -913,7 +928,7 @@ const Dashboard = props => {
                     textStyle={styles.rightButtonText}
                     compact
                   >
-                    Receive
+                    {t`Receive`}
                   </PushButton>
                 </Section.Row>
               </Section>
@@ -1173,6 +1188,10 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
     paddingBottom: 0,
     alignItems: 'center',
+  },
+  profileIconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   multiBalance: {
     display: 'flex',

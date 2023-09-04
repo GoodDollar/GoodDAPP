@@ -56,7 +56,7 @@ exports[`PhoneForm matches snapshot 1`] = `
                   dir="auto"
                 >
                   Kevin,
-enter your phone number
+enter your phone number 
 so we could verify you
                 </div>
               </div>

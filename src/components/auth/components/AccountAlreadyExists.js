@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import { upperFirst } from 'lodash'
+import { t } from '@lingui/macro'
+
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
@@ -72,7 +74,8 @@ const AccountAlreadyExistsScreen = ({
           fontFamily="Roboto"
           fontWeight="bold"
         >
-          {`You Already Have A\n G$ Account`}
+          {t`You Already Have A
+           G$ Account`}
         </Text>
         <Text
           color={'darkIndigo'}
@@ -82,7 +85,8 @@ const AccountAlreadyExistsScreen = ({
           fontFamily="Roboto"
           style={{ marginTop: getDesignRelativeHeight(8) }}
         >
-          {`It seems there is already an account for\n that ${usedText} using ${registeredBy}`}
+          {t`It seems there is already an account for
+           that ${usedText} using ${registeredBy}`}
         </Text>
         <View style={styles.illustration}>
           <Illustration

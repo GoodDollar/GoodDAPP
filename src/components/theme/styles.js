@@ -91,4 +91,9 @@ export const theme = {
     itemBackgroundColor: '#fff',
     height: normalize(84),
   },
+
+  // number translates to figma's pre-defined shadow
+  shadows: {
+    shadow2: '0px 1px 2.2200000286102295px 0px rgba(0, 0, 0, 0.22)',
+  },
 }

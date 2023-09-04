@@ -104,11 +104,11 @@ const SummaryGeneric = ({
 
     if (vendorInfo) {
       if (email && !isEmail(email)) {
-        emailError = 'Please enter a valid email address'
+        emailError = t`Please enter a valid email address`
       }
 
       if (fullName && !name) {
-        nameError = 'Please enter a name'
+        nameError = t`Please enter a name`
       }
     }
 
@@ -280,7 +280,7 @@ const SummaryGeneric = ({
           <Section.Row justifyContent="center" style={styles.warnText}>
             <Section.Text color="gray80Percent">
               {t`* the transaction may take`}
-              {'\n'}
+              {`\n`}
               {isBridge ? t`a few minutes to complete` : t`a few seconds to complete`}
             </Section.Text>
           </Section.Row>

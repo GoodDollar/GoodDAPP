@@ -1682,7 +1682,7 @@ export class GoodWallet {
           onConfirmation && onConfirmation(c)
         })
         .on('error', e => {
-          log.warn('sendTransaction error:', e.message, e, {
+          log.error('sendTransaction error:', e.message, e, {
             tx: getTxLogArgs(tx),
             category: ExceptionCategory.Blockhain,
           })
@@ -1716,7 +1716,7 @@ export class GoodWallet {
           onConfirmation(confirmation)
         })
         .on('error', exception => {
-          log.warn('sendTransaction error:', exception.message, exception, {
+          log.error('sendTransaction error:', exception.message, exception, {
             tx: txData,
             category: ExceptionCategory.Blockhain,
           })

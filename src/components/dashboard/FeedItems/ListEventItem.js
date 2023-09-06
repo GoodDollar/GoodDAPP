@@ -186,7 +186,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
           <View style={{ height: 20, width: 20 }}>
             <NetworkIcon txHash={txHash} chainId={chainId} />
           </View>
-          <Avatar size={34} imageSize={36} style={styles.avatarBottom} source={avatar} />
+          <Avatar size={normalize(34)} imageSize={normalize(36)} style={styles.avatarBottom} source={avatar} />
         </View>
         <View grow style={styles.mainContents}>
           <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>

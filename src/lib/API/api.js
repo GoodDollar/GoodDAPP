@@ -530,6 +530,7 @@ export class APIService {
         throw new Error('Chain not supported')
     }
 
+    const pageSize = 50 // default page size by Tatum
     const params = { chain, addresses: address, transactionTypes: 'native', offset: 0 }
     const options = { baseURL: Config.tatumApiUrl, params }
 
@@ -542,11 +543,11 @@ export class APIService {
         .get(url, options)
         .then(({ result }) => result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer'))
 
-      if (!chunk.length) {
+      if (chunk.length < pageSize) {
         break
       }
 
-      params.offset += 50
+      params.offset += pageSize
       txs.push(...chunk)
     }
 
@@ -568,7 +569,8 @@ export class APIService {
         .get(url, options)
         .then(({ result }) => result.filter(({ value }) => value !== '0'))
 
-      if (!chunk.length) {
+      if (chunk.length < 10000) {
+        // default page size by explorer.fuse.io
         break
       }
 

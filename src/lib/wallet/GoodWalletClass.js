@@ -1740,7 +1740,7 @@ export class GoodWallet {
     const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
     const contractName = first(filter(values(ContractsAddress).map(findByKey)))
 
-    return contractName || API.getContractName(address, this.networkId)
+    return contractName || API.getContractName(await this.getContractProxy(address), this.networkId)
   }
 
   async getContractProxy(address, web3 = this.wallet) {
@@ -1748,12 +1748,12 @@ export class GoodWallet {
     const result = await web3.eth.getStorageAt(address, implStorage)
 
     if (Number(result) === 0) {
-      return undefined
+      return address
     }
 
     // verify first 12 bytes are 0
     if (result.search(/^0x0{24}/) < 0) {
-      return
+      return address
     }
 
     const addr = '0x' + result.slice(26)
@@ -1761,7 +1761,7 @@ export class GoodWallet {
     try {
       return this.wallet.utils.toChecksumAddress(addr)
     } catch (e) {
-      return
+      return address
     }
   }
 }

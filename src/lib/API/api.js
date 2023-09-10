@@ -10,6 +10,7 @@ import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 import { throttleAdapter } from '../utils/axios'
+import { delay } from '../utils/async'
 import { NETWORK_ID } from '../constants/network'
 import { log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
@@ -518,12 +519,14 @@ export class APIService {
         .get(url, options)
         .then(({ result }) => result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer'))
 
+      params.offset += pageSize
+      txs.push(...chunk)
+
       if (allPages === false || chunk.length < pageSize) {
         break
       }
-
-      params.offset += pageSize
-      txs.push(...chunk)
+      // eslint-disable-next-line no-await-in-loop
+      await delay(500) // wait 500ms before next call to prevent rate limits
     }
 
     return txs
@@ -565,12 +568,14 @@ export class APIService {
         .get(url, options)
         .then(({ result }) => result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer'))
 
+      params.offset += pageSize
+      txs.push(...chunk)
+
       if (allPages === false || chunk.length < pageSize) {
         break
       }
-
-      params.offset += pageSize
-      txs.push(...chunk)
+      // eslint-disable-next-line no-await-in-loop
+      await delay(500) // wait 500ms before next call to prevent rate limits
     }
 
     return txs
@@ -583,6 +588,7 @@ export class APIService {
       module: 'account',
       action: 'tokentx',
       contractaddress: token,
+      offset: 10000,
     }
 
     if (fromBlock) {
@@ -600,13 +606,12 @@ export class APIService {
         baseURL: networkExplorerUrl,
       })
 
-      if (allPages === false || result.length < 10000) {
+      params.page += 1
+      txs.push(...result)
+      if (allPages === false || result.length < params.offset) {
         // default page size by explorer.fuse.io
         break
       }
-
-      params.page += 1
-      txs.push(...result)
     }
 
     return txs
@@ -617,7 +622,7 @@ export class APIService {
     const url = '/api'
     const networkExplorerUrl = Config.ethereum[chainId]?.explorerAPI
 
-    const params = { module: 'account', action: 'txlist', address, sort: 'asc', page: 1 }
+    const params = { module: 'account', action: 'txlist', address, sort: 'asc', page: 1, offset: 10000 }
     const options = { baseURL: networkExplorerUrl, params }
 
     if (from) {
@@ -630,13 +635,13 @@ export class APIService {
         .get(url, options)
         .then(({ result }) => result.filter(({ value }) => value !== '0'))
 
-      if (allPages === false || chunk.length < 10000) {
+      params.page += 1
+      txs.push(...chunk)
+
+      if (allPages === false || chunk.length < params.offset) {
         // default page size by explorer.fuse.io
         break
       }
-
-      params.page += 1
-      txs.push(...chunk)
     }
 
     return txs

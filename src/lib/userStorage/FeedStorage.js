@@ -8,7 +8,7 @@ import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
-import { FEED_UPDATED, fireEvent } from '../analytics/analytics'
+import { fireEvent, REWARD_RECEIVED } from '../analytics/analytics'
 import { type UserStorage } from './UserStorageClass'
 import { FeedCategories } from './FeedCategory'
 import type { FeedFilter } from './UserStorage'
@@ -515,10 +515,13 @@ export class FeedStorage {
         await this.updateFeedEvent(updatedFeedEvent)
 
         // calling it here make sure it will be fired only once when receipt for event is processed
-        fireEvent(FEED_UPDATED, {
-          eventType: updatedFeedEvent.type,
-          value: updatedFeedEvent.data?.receiptEvent?.value,
-        })
+        if (updatedFeedEvent.type === FeedItemType.EVENT_TYPE_BONUS) {
+          fireEvent(REWARD_RECEIVED, {
+            eventType: updatedFeedEvent.type,
+            value: updatedFeedEvent.data?.receiptEvent?.value,
+            eventSource: updatedFeedEvent.data?.receiptEvent?.eventSource,
+          })
+        }
       }
 
       log.debug('handleReceiptUpdate done, returning updatedFeedEvent', receipt.transactionHash, { updatedFeedEvent })

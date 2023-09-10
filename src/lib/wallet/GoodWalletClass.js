@@ -442,7 +442,7 @@ export class GoodWallet {
   }
 
   async syncTxFromExplorer(startBlock) {
-    const results = await API.getTokenTXs(this.tokenContract._address, this.account, this.networkId, startBlock).then(
+    const results = await API.getTokenTxs(this.tokenContract._address, this.account, this.networkId, startBlock).then(
       results => results.map(result => ({ ...result, transactionHash: result.hash })),
     )
 

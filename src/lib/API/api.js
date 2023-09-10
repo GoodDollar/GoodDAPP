@@ -515,14 +515,14 @@ export class APIService {
     }
 
     for (;;) {
-      const chunk = await this.sharedClient // eslint-disable-line no-await-in-loop
+      const { result } = await this.sharedClient // eslint-disable-line no-await-in-loop
         .get(url, options)
-        .then(({ result }) => result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer'))
 
-      params.offset += pageSize
+      params.offset += 1
+      const chunk = result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer')
       txs.push(...chunk)
 
-      if (allPages === false || chunk.length < pageSize) {
+      if (allPages === false || result.length < pageSize) {
         break
       }
       // eslint-disable-next-line no-await-in-loop
@@ -564,14 +564,15 @@ export class APIService {
     }
 
     for (;;) {
-      const chunk = await this.sharedClient // eslint-disable-line no-await-in-loop
+      const { result } = await this.sharedClient // eslint-disable-line no-await-in-loop
         .get(url, options)
-        .then(({ result }) => result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer'))
 
-      params.offset += pageSize
+      const chunk = result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer')
+
+      params.offset += 1
       txs.push(...chunk)
 
-      if (allPages === false || chunk.length < pageSize) {
+      if (allPages === false || result.length < pageSize) {
         break
       }
       // eslint-disable-next-line no-await-in-loop
@@ -631,14 +632,15 @@ export class APIService {
     }
 
     for (;;) {
-      const chunk = await this.sharedClient // eslint-disable-line no-await-in-loop
+      const { result } = await this.sharedClient // eslint-disable-line no-await-in-loop
         .get(url, options)
-        .then(({ result }) => result.filter(({ value }) => value !== '0'))
+
+      const chunk = result.filter(({ value }) => value !== '0')
 
       params.page += 1
       txs.push(...chunk)
 
-      if (allPages === false || chunk.length < params.offset) {
+      if (allPages === false || result.length < params.offset) {
         // default page size by explorer.fuse.io
         break
       }

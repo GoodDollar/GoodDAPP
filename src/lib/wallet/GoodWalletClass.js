@@ -402,7 +402,7 @@ export class GoodWallet {
     await this.setIsPollEvents(true)
 
     if (!startFrom) {
-      const fetchTokenTxs = () => API.getTXs(account, this.networkId)
+      const fetchTokenTxs = () => API.getNativeTxs(account, this.networkId, null, false)
       const [firstTx] = await retry(fetchTokenTxs, 3, 500).catch(() => [])
 
       fromBlock = get(firstTx, 'blockNumber')

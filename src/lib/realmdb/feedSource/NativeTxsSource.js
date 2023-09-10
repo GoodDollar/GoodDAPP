@@ -73,11 +73,7 @@ export default class NativeTxsSource extends FeedSource {
     const { account } = this.db.wallet
     const fromBlock = lastBlock ? lastBlock + 1 : undefined
 
-    if (chainId === NETWORK_ID.FUSE) {
-      return api.fuseExplorerQuery(account, fromBlock)
-    }
-
-    return api.tatumQuery(account, chainId, fromBlock)
+    return api.getNativeTxs(account, chainId, fromBlock, true)
   }
 
   /** @private */

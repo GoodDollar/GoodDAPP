@@ -4,7 +4,7 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
-import { usePostHog } from 'posthog-react-native'
+import { useFeatureFlag } from 'posthog-react-native'
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
 
@@ -250,7 +250,7 @@ const Dashboard = props => {
   const { bridgeEnabled } = Config
   const { goodWallet, web3Provider } = useContext(GoodWalletContext)
 
-  const posthog = usePostHog()
+  const walletChatEnabled = useFeatureFlag('wallet-chat')
 
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
@@ -804,7 +804,7 @@ const Dashboard = props => {
                         plain
                       />
                     </TouchableOpacity>
-                    {posthog?.isFeatureEnabled('wallet-chat') && (
+                    {walletChatEnabled && (
                       <WalletChatWidget
                         connectedWallet={
                           web3Provider

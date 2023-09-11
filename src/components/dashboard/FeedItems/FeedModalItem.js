@@ -5,7 +5,7 @@ import { get, isNil } from 'lodash'
 import { t } from '@lingui/macro'
 import { ChatWithOwner } from 'react-native-wallet-chat'
 
-import { usePostHog } from 'posthog-react-native'
+import { useFeatureFlag } from 'posthog-react-native'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -34,7 +34,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const { item, onPress, styles, theme, navigation } = props
   const buttonPress = useCallback(() => onPress(item.id), [item, onPress])
   const { avatar: selfAvatar, email } = useProfile()
-  const posthog = usePostHog()
+  const walletChatEnabled = useFeatureFlag('wallet-chat')
 
   const itemType = item.displayType || item.type
 
@@ -119,7 +119,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                   { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginRight: 15 },
                 ]}
               >
-                {!eventSettings.withoutAmount && ownerAddress.length > 0 && posthog?.isFeatureEnabled('wallet-chat') && (
+                {!eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
                   <TouchableOpacity>
                     <ChatWithOwner
                       ownerAddress={ownerAddress}

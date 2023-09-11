@@ -1740,7 +1740,13 @@ export class GoodWallet {
     const findByKey = contracts => findKey(contracts, key => [lcAddress, checksum].includes(key))
     const contractName = first(filter(values(ContractsAddress).map(findByKey)))
 
-    return contractName || API.getContractName(await this.getContractProxy(address), this.networkId)
+    if (!contractName) {
+      const proxy = await this.getContractProxy(address)
+
+      return API.getContractName(proxy, this.networkId)
+    }
+
+    return contractName
   }
 
   async getContractProxy(address, web3 = this.wallet) {

@@ -213,7 +213,6 @@ const Config = {
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
   isDeltaApp,
-  bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED !== 'false',
   posthogApiKey: env.REACT_APP_POSTHOG_KEY,
   posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
 }

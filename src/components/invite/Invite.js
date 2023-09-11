@@ -88,7 +88,7 @@ const InvitedUser = ({ address, status }) => {
   )
 }
 
-export const ShareInviteButton = ({ share, altCopy, styles }) => (
+export const ShareInviteButton = ({ share, altCopy, styles, eventType = undefined }) => (
   <ShareButton
     style={[styles, { minWidth: 70, height: 32, minHeight: 32 }]}
     color={theme.colors.primary}
@@ -96,7 +96,7 @@ export const ShareInviteButton = ({ share, altCopy, styles }) => (
     share={share}
     iconColor={'white'}
     actionText={altCopy ? altCopy : isSharingAvailable ? 'share' : 'copy'}
-    onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'native' : 'copy' })}
+    onPressed={() => fireEvent(INVITE_SHARE, { method: eventType ?? isSharingAvailable ? 'native' : 'copy' })}
     withoutDone
   />
 )

@@ -18,7 +18,14 @@ export const useTaskList = () => {
       id: 'invite',
       title: t`Invite friends`,
       description: inviteCopy,
-      actionButton: <ShareInviteButton share={share} altCopy={actionText} styles={{ ...(!isWeb && { width: 250 }) }} />,
+      actionButton: (
+        <ShareInviteButton
+          eventType="task"
+          share={share}
+          altCopy={actionText}
+          styles={{ ...(!isWeb && { width: 250 }) }}
+        />
+      ),
       isActive: true,
     },
   ]

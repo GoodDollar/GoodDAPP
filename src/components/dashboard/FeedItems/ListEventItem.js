@@ -242,26 +242,24 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               )}
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              {!eventSettings.withoutAmount &&
-                ownerAddress.length > 0 &&
-                posthog?.isFeatureEnabled('wallet-chat')(
-                  <TouchableOpacity>
-                    <ChatWithOwner
-                      ownerAddress={ownerAddress}
-                      render={
-                        <Icon
-                          style={{
-                            marginRight: 10,
-                            marginTop: 5,
-                          }}
-                          name="chat"
-                          size={25}
-                          color="gray80Percent"
-                        />
-                      }
-                    />
-                  </TouchableOpacity>,
-                )}
+              {!eventSettings.withoutAmount && ownerAddress.length > 0 && posthog?.isFeatureEnabled('wallet-chat') && (
+                <TouchableOpacity>
+                  <ChatWithOwner
+                    ownerAddress={ownerAddress}
+                    render={
+                      <Icon
+                        style={{
+                          marginRight: 10,
+                          marginTop: 5,
+                        }}
+                        name="chat"
+                        size={25}
+                        color="gray80Percent"
+                      />
+                    }
+                  />
+                </TouchableOpacity>
+              )}
               <EventIcon
                 style={styles.typeIcon}
                 animStyle={styles.typeAnimatedIcon}

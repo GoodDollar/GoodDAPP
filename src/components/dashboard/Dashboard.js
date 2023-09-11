@@ -4,9 +4,10 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
-
+import { usePostHog } from 'posthog-react-native'
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -248,6 +249,9 @@ const Dashboard = props => {
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeEnabled } = Config
   const { goodWallet, web3Provider } = useContext(GoodWalletContext)
+
+  const posthog = usePostHog()
+
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
 
@@ -800,18 +804,20 @@ const Dashboard = props => {
                         plain
                       />
                     </TouchableOpacity>
-                    <WalletChatWidget
-                      connectedWallet={
-                        web3Provider
-                          ? {
-                              walletName: 'GoodWalletV2',
-                              account: goodWallet.account,
-                              chainId: goodWallet.networkId,
-                              provider: web3Provider, //goodWallet.wallet.currentProvider
-                            }
-                          : undefined
-                      }
-                    />
+                    {posthog?.isFeatureEnabled('wallet-chat') && (
+                      <WalletChatWidget
+                        connectedWallet={
+                          web3Provider
+                            ? {
+                                walletName: 'GoodWalletV2',
+                                account: goodWallet.account,
+                                chainId: goodWallet.networkId,
+                                provider: web3Provider, //goodWallet.wallet.currentProvider
+                              }
+                            : undefined
+                        }
+                      />
+                    )}
                   </Animated.View>
                   {headerLarge && (
                     <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>

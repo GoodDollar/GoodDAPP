@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 export { default as ac } from '../../../assets/flags/ac.svg'
 export { default as ad } from '../../../assets/flags/ad.svg'
 export { default as ae } from '../../../assets/flags/ae.svg'

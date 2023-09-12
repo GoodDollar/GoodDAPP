@@ -6,24 +6,27 @@ import { isValidHistoryId } from '../../ceramic/client'
 import Config from '../../../config/config'
 import { batch } from '../../utils/async'
 import { FeedSource } from '../feed'
+import { FeedItemType } from '../../userStorage/FeedStorage'
+
+const { EVENT_TYPE_NEWS } = FeedItemType
 
 export default class NewsSource extends FeedSource {
   static historyCacheId = 'GD_CERAMIC_HISTORY'
 
   // format from ceramic format to TreadDB format
   static formatCeramicPost(ceramicPost) {
+    const date = moment(ceramicPost.published)
+      .utc()
+      .format()
+
     return {
       _id: ceramicPost.id,
       id: ceramicPost.id,
-      createdDate: moment(ceramicPost.published)
-        .utc()
-        .format(),
-      date: moment(ceramicPost.published)
-        .utc()
-        .format(),
-      displayType: 'news',
+      createdDate: date,
+      date,
+      displayType: EVENT_TYPE_NEWS,
       status: ceramicPost.hidden ? 'deleted' : 'published',
-      type: 'news',
+      type: EVENT_TYPE_NEWS,
       data: {
         reason: ceramicPost.content,
         counterPartyFullName: ceramicPost.title,
@@ -152,7 +155,7 @@ export default class NewsSource extends FeedSource {
     log.debug('Ceramic fetched posts', { ceramicPosts, formattedCeramicPosts })
 
     // replacing the whole news feed with the new one posts from Ceramic
-    await Feed.find({ type: 'news' }).delete()
+    await Feed.find({ type: EVENT_TYPE_NEWS }).delete()
     await Feed.save(...formattedCeramicPosts)
   }
 

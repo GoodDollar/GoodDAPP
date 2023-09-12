@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { theme } from '../../theme/styles'
 import Text from './Text'
@@ -114,7 +114,7 @@ class BigNumber extends React.Component {
 const getStylesFromProps = ({ theme }) => {
   return {
     bigNumberWrapper: {
-      alignItems: Platform.select({ web: 'baseline', default: 'center' }),
+      alignItems: 'center',
       display: 'flex',
       flexDirection: 'row',
     },

@@ -20,6 +20,7 @@ import mustache from '../../lib/utils/mustache'
 import { isWeb } from '../../lib/utils/platform'
 
 import createABTesting from '../../lib/hooks/useABTesting'
+
 const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const log = logger.child({ from: 'useInvites' })

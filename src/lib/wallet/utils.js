@@ -1,11 +1,11 @@
 // @flow
 
 import { MaskService } from 'react-native-masked-text'
-import { assign, map, noop, zipObject } from 'lodash'
+import { assign, isString, map, noop, pick, values, zipObject } from 'lodash'
 import { decode, isMNID } from 'mnid'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
-import { NETWORK_ID } from '../constants/network'
+import { getNetworkName, type NETWORK, NETWORK_ID } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
 
@@ -31,11 +31,60 @@ type ReceiptType = {
   status: boolean,
 }
 
+export const supportedNetworks = ['MAINNET', 'GOERLI', 'FUSE', 'CELO']
+
+const makeNetworkMatcher = (...networks: NETWORK[]) => {
+  const allNetworkIds = values(pick(NETWORK_ID, ...networks))
+
+  return (networkOrId: number | NETWORK) => {
+    const networkId = isString(networkOrId) ? NETWORK_ID[networkOrId.toUpperCase()] : networkOrId
+
+    return allNetworkIds.includes(networkId)
+  }
+}
+
 export const WITHDRAW_STATUS_PENDING = 'pending'
 export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
 export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+
+export const supportsG$ = makeNetworkMatcher(supportedNetworks)
+
+export const supportsG$UBI = makeNetworkMatcher('FUSE', 'CELO')
+
+export const getNativeToken = networkOrId => {
+  const networkName = isString(networkOrId) ? networkOrId.toUpperCase() : getNetworkName(networkOrId)
+
+  switch (networkName) {
+    case 'MAINNET':
+      return 'ETH'
+    case 'GOERLI':
+      return 'GETH'
+    default:
+      return networkName
+  }
+}
+
+export const nativeTokens = supportedNetworks.map(getNativeToken)
+
+export const isNativeToken = token => nativeTokens.includes(token)
+
+export const getTokensList = networkId => {
+  const list = [getNativeToken(networkId)]
+
+  if (supportsG$(networkId)) {
+    // put G$ on the first place at the network supporting UBI, native token otherwise
+    if (supportsG$UBI(networkId)) {
+      list.unshift('G$')
+    } else {
+      list.push('G$')
+    }
+  }
+
+  return list
+}
+
 export const extractEthAddress = uri => {
   const regExResult = uri.match(ethAddressRegex)
 
@@ -54,6 +103,7 @@ export const extractEthAddress = uri => {
   return { networkId: NETWORK_ID[networkName.toUpperCase()], address }
 }
 
+export const amountRegexp = /^0$|^[1-9]\d*$|^0[.,]\d*$|^[1-9]\d*[.,]\d*$/
 export const moneyRegexp = new RegExp(`^(?!0\\d)(0|([1-9])\\d*)([.,]?(\\d{0,${DECIMALS}}))$`)
 export const numberWithCommas = (gd: string): string => gd.replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 

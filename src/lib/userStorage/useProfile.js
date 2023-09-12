@@ -91,9 +91,11 @@ export const useUserProperty = (property, local = false) => {
     const { userProperties } = userStorage
 
     setPropertyValue(getUserProperty(userStorage, property, local))
+
     if (!local) {
       userProperties.on(property, setPropertyValue)
     }
+
     return () => {
       if (local) {
         return

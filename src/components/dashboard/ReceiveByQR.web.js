@@ -1,7 +1,7 @@
 // libraries
 import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import QrReader from 'react-qr-reader'
+import QrReader from 'react-qr-reader-es6'
 
 // components
 import { t } from '@lingui/macro'

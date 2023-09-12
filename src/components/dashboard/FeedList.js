@@ -13,6 +13,7 @@ import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
+import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
 import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
@@ -163,7 +164,7 @@ const FeedList = ({
     ({ item }) => {
       const canCancel = item && item.displayType === 'sendpending'
       const canDelete = item && item.id && item.id.indexOf('0x') === -1 && feeds.length > 1
-      const hasAction = (canCancel || canDelete) && item.type !== 'news'
+      const hasAction = (canCancel || canDelete) && item.type !== FeedItemType.EVENT_TYPE_NEWS
       const actions = { canCancel, canDelete }
       const props = { item, hasAction }
 

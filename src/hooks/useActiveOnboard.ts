@@ -174,9 +174,9 @@ export function useOnboardConnect(): OnboardConnectProps {
         }
 
         if (!prevLabel) {
-            if (window.ethereum?.isMetaMask) prevLabel = 'MetaMask'
+            if (window.ethereum?.isMiniPay) prevLabel = 'Mini Pay'
+            else if (window.ethereum?.isMetaMask) prevLabel = 'MetaMask'
             else if (window.ethereum?.isOpera) prevLabel = 'Opera Wallet'
-            else if (window.ethereum?.isMiniPay) prevLabel = 'Mini Pay'
         }
         if (!prevLabel) return
 

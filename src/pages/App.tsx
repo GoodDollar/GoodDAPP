@@ -132,7 +132,7 @@ function App(): JSX.Element {
                     {!isMobile && <SideBar />}
                     <MainBody
                         ref={bodyRef}
-                        className="z-0 flex flex-col items-center justify-between flex-grow h-full px-4 pt-4 pb-4 overflow-x-hidden overflow-y-auto sm:pt-8 md:pt-10"
+                        className="z-0 flex flex-col items-center justify-center flex-grow h-full px-4 pt-4 pb-4 overflow-x-hidden overflow-y-auto sm:pt-8 md:pt-10"
                         $page={location.pathname}
                     >
                         <Popups />

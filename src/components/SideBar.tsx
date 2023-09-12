@@ -159,7 +159,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
             {
                 route: '/claim',
                 text: 'Claim',
-                show: process.env.REACT_APP_CELO_PHASE_2,
+                show: true,
             },
             {
                 route: '/swap',

@@ -181,7 +181,6 @@ function AppBar(): JSX.Element {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const toggleWalletModal = useWalletModalToggle()
     const isSimpleApp = useIsSimpleApp()
-    console.log({ isSimpleApp })
     const toggleSideBar = useCallback(() => {
         setSidebarOpen(!sidebarOpen)
     }, [sidebarOpen])

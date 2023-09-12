@@ -406,7 +406,7 @@ export const useWalletConnectSession = () => {
           message.maxFeePerGas = 5e9
           break
         default: {
-          const gasPrice = await web3.eth.getGasPrice()
+          const gasPrice = await wallet.fetchGasPrice()
           let gasField = message.maxFeePerGas ? 'maxFeePerGas' : 'gasPrice'
           if (message[gasField]) {
             message[gasField] = web3Utils.toBN(message[gasField]).gt(web3Utils.toBN(gasPrice))
@@ -791,7 +791,7 @@ export const useWalletConnectSession = () => {
 
   const cancelTx = useCallback(async () => {
     const web3 = await getWeb3(chain)
-    const minGasPrice = await web3.eth.getGasPrice()
+    const minGasPrice = await wallet.fetchGasPrice()
     const { params } = maxBy(chainPendingTxs, _ => Number(_.params?.gasPrice || _.params?.maxFeePerGas))
     const gasPrice = Math.max(Number(minGasPrice), Number(params.gasPrice || params.maxFeePerGas) * 1.1).toFixed(0)
     return sendTx(

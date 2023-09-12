@@ -1,7 +1,7 @@
 // @flow
 
 // libraries
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 // components
@@ -18,13 +18,15 @@ import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCode, wrapFunction } from '../../lib/exceptions/utils'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
-import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { useHandlePaymentRequest } from '../../lib/hooks/useHandlePaymentRequest'
+import Config from '../../config/config'
 import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
-const QR_DEFAULT_DELAY = 300
 
+const QR_DEFAULT_DELAY = 300
+const { isDeltaApp } = Config
 const log = logger.child({ from: 'SendByQR' })
 
 type Props = {
@@ -37,8 +39,10 @@ const SendByQR = ({ screenProps }: Props) => {
   const handleRequest = useHandlePaymentRequest()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
+  const { native } = useContext(TokenContext)
 
   const { pop, push, navigateTo } = screenProps
+  const isNativeFlow = isDeltaApp && native
 
   // check camera permission and show dialog if not allowed
   const handlePermissionDenied = useCallback(() => pop(), [pop])
@@ -73,11 +77,19 @@ const SendByQR = ({ screenProps }: Props) => {
   }
   const handleScan = useCallback(
     async data => {
-      if (data) {
-        await handleRequest(data, gotoSend, onScanError)
+      if (!data) {
+        return
       }
+
+      if (!isNativeFlow) {
+        await handleRequest(data, gotoSend, onScanError)
+        return
+      }
+
+      log.debug('scan send code got address', { data })
+      pop({ address: data })
     },
-    [push, setQRDelay, gotoSend, goodWallet],
+    [push, setQRDelay, gotoSend, goodWallet, isNativeFlow],
   )
 
   const handleError = useCallback(

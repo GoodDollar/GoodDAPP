@@ -312,7 +312,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
           {!navigationBarHidden &&
             (NavigationBar ? (
               <>
-                <NavigationBar />
+                <NavigationBar title={pageTitle} goBack={backButtonHidden ? undefined : this.pop} />
                 {isBridge && (
                   <NavBar
                     backToWallet={backToWallet}

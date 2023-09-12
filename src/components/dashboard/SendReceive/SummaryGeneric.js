@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { t } from '@lingui/macro'
@@ -12,13 +12,14 @@ import TopBar from '../../common/view/TopBar'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
 
-import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
+import { TokenContext, useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobile } from '../../../lib/utils/platform'
 import isEmail from '../../../lib/validators/isEmail'
 import normalize from '../../../lib/utils/normalizeText'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { theme } from '../../theme/styles'
+import Config from '../../../config/config'
 
 const SummaryGeneric = ({
   screenProps,
@@ -40,23 +41,48 @@ const SummaryGeneric = ({
   const { isBridge, network } = screenState
 
   const goodWallet = useWallet()
+  const { token, native } = useContext(TokenContext)
+  const isNativeFlow = Config.isDeltaApp && native
 
   const { bridgeFees = {} } = useGetBridgeData(goodWallet.networkId, goodWallet.address)
-  const { minFee, fee } = bridgeFees
 
-  const minBridgeFee = Number(goodWallet.toDecimals(minFee))
-  const amountInFloat = Number(goodWallet.toDecimals(amount))
+  const [nativeFee, setNativeFee] = useState(null)
 
-  // calculate the fee in G$
-  const feeinPercentage = fee ? (fee.toNumber() * 100) / 10000 : 0 //assuming bridgeFees.fee is BigNumber
+  useEffect(() => {
+    const fetchNativeFee = async () => {
+      const fee = await goodWallet.getNativeTxFee()
+      const formattedFee = goodWallet.toDecimals(fee, token)
 
-  let feeToPay = (amountInFloat * feeinPercentage) / 100
-  feeToPay = feeToPay < minBridgeFee ? minBridgeFee : feeToPay
+      setNativeFee(formattedFee)
+    }
 
-  // calculate amount to receive
-  const amountToReceiveInFloat = (amountInFloat - feeToPay).toString()
+    if (!isNativeFlow) {
+      setNativeFee(null)
+      return
+    }
 
-  const amountToReceive = goodWallet.fromDecimals(amountToReceiveInFloat)
+    fetchNativeFee()
+  }, [goodWallet, token, isNativeFlow])
+
+  const { feeToPay, amountToReceive } = useMemo(() => {
+    const { minFee, fee } = bridgeFees
+
+    const minBridgeFee = Number(goodWallet.toDecimals(minFee))
+    const amountInFloat = Number(goodWallet.toDecimals(amount))
+
+    // calculate the fee in G$
+    const feeinPercentage = fee ? (fee.toNumber() * 100) / 10000 : 0 //assuming bridgeFees.fee is BigNumber
+
+    let feeToPay = (amountInFloat * feeinPercentage) / 100
+    feeToPay = feeToPay < minBridgeFee ? minBridgeFee : feeToPay
+
+    // calculate amount to receive
+    const amountToReceiveInFloat = (amountInFloat - feeToPay).toString()
+
+    const amountToReceive = goodWallet.fromDecimals(amountToReceiveInFloat)
+
+    return { feeToPay, amountToReceive }
+  }, [bridgeFees, goodWallet, amount])
 
   const altNetwork = network === 'FUSE' ? 'CELO' : 'FUSE'
 
@@ -157,6 +183,7 @@ const SummaryGeneric = ({
                 fontWeight: 'bold',
               }}
               bigNumberUnitProps={{ fontSize: 14 }}
+              unit={isNativeFlow ? token : undefined}
             />
           </Section.Row>
           {isBridge && (
@@ -164,6 +191,13 @@ const SummaryGeneric = ({
               <View styles={styles.bridgeDesc}>
                 <Section.Text style={{ marginBottom: 10 }}> {t` on ${altNetwork}`}</Section.Text>
                 <Section.Text>{t`You'll pay ${feeToPay} G$ in fees to use the bridge`}</Section.Text>
+              </View>
+            </Section.Row>
+          )}
+          {isNativeFlow && (
+            <Section.Row justifyContent="center">
+              <View styles={styles.bridgeDesc}>
+                <Section.Text>{t`You'll pay ${nativeFee} ${token} in fees for this transaction`}</Section.Text>
               </View>
             </Section.Row>
           )}
@@ -280,6 +314,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
+    gap: 30,
     marginBottom: theme.paddings.bottomPadding,
   },
   sendIconWrapper: {

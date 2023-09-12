@@ -78,6 +78,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                 )}
                 <BigGoodDollar
                   number={get(item, 'data.amount', 0)}
+                  unit={get(item, 'data.asset', undefined)}
                   chainId={chainId}
                   color={mainColor}
                   bigNumberProps={{ fontSize: 24, lineHeight: 30 }}

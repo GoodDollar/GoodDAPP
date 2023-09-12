@@ -4,6 +4,8 @@ import { Image, Linking, Platform, Pressable, TouchableOpacity, View } from 'rea
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
 import { ChatWithOwner } from 'react-native-wallet-chat'
+import { useFeatureFlag } from 'posthog-react-native'
+
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -151,6 +153,7 @@ export const NetworkIcon = ({ chainId = 122, txHash }) => {
 const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
+  const walletChatEnabled = useFeatureFlag('wallet-chat')
   const mainColor = eventSettings.color
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
@@ -239,7 +242,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               )}
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              {!eventSettings.withoutAmount && ownerAddress.length > 0 && (
+              {!eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
                 <TouchableOpacity>
                   <ChatWithOwner
                     ownerAddress={ownerAddress}

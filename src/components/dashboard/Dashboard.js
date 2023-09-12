@@ -6,7 +6,8 @@ import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 import { useFeatureFlag } from 'posthog-react-native'
 import { t } from '@lingui/macro'
-import { WalletChatWidget } from 'react-native-wallet-chat'
+
+// import { WalletChatWidget } from 'react-native-wallet-chat'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { normalizeByLength } from '../../lib/utils/normalizeText'
@@ -18,7 +19,6 @@ import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wa
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 import {
-  GoodWalletContext,
   TokenContext,
   useFixedDecimals,
   useFormatG$,
@@ -313,12 +313,13 @@ const Dashboard = props => {
 
   const { currentNetwork } = useSwitchNetwork()
 
-  const walletChatEnabled = useFeatureFlag('wallet-chat')
+  // const walletChatEnabled = useFeatureFlag('wallet-chat')
   const isBridgeActive = useFeatureFlag('micro-bridge')
 
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && isBridgeActive
-  const { goodWallet, web3Provider } = useContext(GoodWalletContext)
+
+  // const { goodWallet, web3Provider } = useContext(GoodWalletContext)
 
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
@@ -852,7 +853,7 @@ const Dashboard = props => {
                         plain
                       />
                     </TouchableOpacity>
-                    {walletChatEnabled && (
+                    {/* {walletChatEnabled && (
                       <WalletChatWidget
                         connectedWallet={
                           web3Provider
@@ -865,7 +866,7 @@ const Dashboard = props => {
                             : undefined
                         }
                       />
-                    )}
+                    )} */}
                   </Animated.View>
                   {headerLarge && (
                     <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>

@@ -46,6 +46,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const sellerWebsite = get(item, 'data.sellerWebsite', '')
   const chainId = item.chainId || '122'
   const ownerAddress = item?.data?.endpoint?.address
+  const isRegTx = /(send|receive)(?!.*bridge)/
 
   return (
     <ModalWrapper
@@ -120,24 +121,27 @@ const FeedModalItem = (props: FeedEventProps) => {
                   { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginRight: 15 },
                 ]}
               >
-                {!eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
-                  <TouchableOpacity>
-                    <ChatWithOwner
-                      ownerAddress={ownerAddress}
-                      render={
-                        <Icon
-                          style={{
-                            marginRight: 10,
-                            marginTop: 5,
-                          }}
-                          name="chat"
-                          size={25}
-                          color="gray80Percent"
-                        />
-                      }
-                    />
-                  </TouchableOpacity>
-                )}
+                {walletChatEnabled &&
+                  isRegTx.test(itemType) &&
+                  !eventSettings.withoutAmount &&
+                  ownerAddress.length > 0 && (
+                    <TouchableOpacity>
+                      <ChatWithOwner
+                        ownerAddress={ownerAddress}
+                        render={
+                          <Icon
+                            style={{
+                              marginRight: 10,
+                              marginTop: 5,
+                            }}
+                            name="chat"
+                            size={25}
+                            color="gray80Percent"
+                          />
+                        }
+                      />
+                    </TouchableOpacity>
+                  )}
                 <EventIcon type={itemType} showAnim={!topImageExists} />
               </View>
             </View>

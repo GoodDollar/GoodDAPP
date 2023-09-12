@@ -162,6 +162,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const chainId = feed.chainId || '122'
   const txHash = feed.data.receiptHash || feed.id
   const ownerAddress = feed?.data?.endpoint?.address
+  const isRegTx = /(send|receive)(?!.*bridge)/
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -242,7 +243,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               )}
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              {!eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
+              {walletChatEnabled && isRegTx.test(itemType) && !eventSettings.withoutAmount && ownerAddress.length > 0 && (
                 <TouchableOpacity>
                   <ChatWithOwner
                     ownerAddress={ownerAddress}

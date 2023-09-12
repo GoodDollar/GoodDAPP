@@ -2337,7 +2337,7 @@ msgstr "Deposito oorsig"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:140
+#: src/components/SideBar.tsx:142
 msgid "Docs"
 msgstr "Dokumente"
 
@@ -2349,7 +2349,7 @@ msgstr "misluk om te laai"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:133
+#: src/components/SideBar.tsx:135
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2382,7 +2382,7 @@ msgstr ""
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:147
+#: src/components/SideBar.tsx:149
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2838,11 +2838,11 @@ msgstr "Wag vir Bevestiging"
 msgid "Waiting For Confirmation"
 msgstr "Wag Vir Bevestiging"
 
-#: src/components/SideBar.tsx:126
+#: src/components/SideBar.tsx:128
 msgid "Wallet"
 msgstr "beursie"
 
-#: src/components/SideBar.tsx:211
+#: src/components/SideBar.tsx:218
 msgid "Wallet balance"
 msgstr "Beursie balans"
 

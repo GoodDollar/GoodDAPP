@@ -26,6 +26,23 @@ function Link<S = H.LocationState>({
 
 export default Link
 
+export const SideBarMenuItem = ({ children, onPress, textColor }) => (
+    <Pressable
+        onPress={onPress}
+        _hover={{ bg: 'primary:alpha.10' }}
+        _pressed={{ bg: 'primary' }}
+        py={1}
+        px={2}
+        borderRadius="12px"
+    >
+        {({ isPressed }) => (
+            <Text fontFamily="subheading" fontSize="sm" color={isPressed ? 'white' : textColor}>
+                {children}
+            </Text>
+        )}
+    </Pressable>
+)
+
 export function NavLink<S = H.LocationState>({
     href = '#',
     children,
@@ -38,20 +55,9 @@ export function NavLink<S = H.LocationState>({
 
     return (
         <ReactRouterNavLink href={href} className={className} activeClassName="active" {...rest}>
-            <Pressable
-                onPress={onPress}
-                _hover={{ bg: 'primary:alpha.10' }}
-                _pressed={{ bg: 'primary' }}
-                py={1}
-                px={2}
-                borderRadius="12px"
-            >
-                {({ isPressed }) => (
-                    <Text fontFamily="subheading" fontSize="sm" color={isPressed ? 'white' : textColor}>
-                        {children}
-                    </Text>
-                )}
-            </Pressable>
+            <SideBarMenuItem onPress={onPress} textColor={textColor}>
+                {children}
+            </SideBarMenuItem>
         </ReactRouterNavLink>
     )
 }

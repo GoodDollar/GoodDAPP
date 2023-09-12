@@ -1,8 +1,10 @@
-import { useG$Balance, useG$Tokens, AsyncStorage, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
+import React, { useState, useMemo } from 'react'
+import { Text, Box, View, useBreakpointValue, HStack, useColorModeValue, ScrollView } from 'native-base'
+import { AsyncStorage, useClaim, useG$Balance, useG$Tokens, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+
 import WalletBalance from 'components/WalletBalance'
-import React, { useState, useMemo } from 'react'
 import { ReactComponent as WalletBalanceIcon } from '../assets/images/walletBalanceIcon.svg'
 import DiscordLogo from '../assets/images/discord-logo-new.png'
 import TelegramLogo from '../assets/images/telegram.png'
@@ -14,7 +16,6 @@ import LanguageSwitch from './LanguageSwitch'
 import { NavLink } from './Link'
 import usePromise from '../hooks/usePromise'
 import { ExternalLink } from 'theme'
-import { Text, Box, View, useBreakpointValue, HStack, useColorModeValue, ScrollView } from 'native-base'
 
 const SocialsLink: React.FC<{ network: string; logo: string; url: string }> = ({ network, logo, url }) => (
     <a href={url} target="_blank" className="flex items-center space-x-2" rel="noreferrer">
@@ -31,6 +32,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
     const balances = useG$Balance(5)
     const [G$, GOOD, GDX] = useG$Tokens()
     const [imported, setImported] = useState<boolean>(false)
+    const { isWhitelisted } = useClaim()
 
     const bgContainer = useColorModeValue('goodWhite.100', '#151A30')
     const bgWalletBalance = useColorModeValue('white', '#1a1f38')
@@ -157,6 +159,11 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
     const internalLinks = useMemo(
         () => [
             {
+                route: '/goodid',
+                text: 'GoodID',
+                show: isWhitelisted,
+            },
+            {
                 route: '/claim',
                 text: 'Claim',
                 show: true,
@@ -192,7 +199,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                 show: true,
             },
         ],
-        []
+        [isWhitelisted]
     )
 
     return (

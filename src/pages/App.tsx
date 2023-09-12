@@ -132,7 +132,8 @@ function App(): JSX.Element {
                     {!isMobile && <SideBar />}
                     <MainBody
                         ref={bodyRef}
-                        className="z-0 flex flex-col items-center justify-center flex-grow h-full px-4 pt-4 pb-4 overflow-x-hidden overflow-y-auto sm:pt-8 md:pt-10"
+                        className={`z-0 flex flex-col items-center flex-grow h-full px-4 pt-4 pb-4 overflow-x-hidden overflow-y-auto sm:pt-8 md:pt-10
+                        ${location.pathname === '/goodid' ? 'flex-start' : 'justify-between'}`}
                         $page={location.pathname}
                     >
                         <Popups />
@@ -141,7 +142,11 @@ function App(): JSX.Element {
                                 className={`flex flex-col flex-glow w-full justify-start items-center
                              ${location.pathname === '/dashboard' ? 'md:auto' : 'md:h-screen'}
                              ${location.pathname === '/claim' && 'transform sm:scale-75 xl:scale-100'}
-                             md:justify-center`}
+                             ${
+                                 location.pathname === '/goodid'
+                                     ? 'flex-col-reverse md:justify-end justify-end'
+                                     : 'md:justify-center'
+                             }`}
                             >
                                 <Routes />
                                 <TransactionUpdater />

@@ -170,6 +170,10 @@ function AppBar(): JSX.Element {
     const [theme] = useApplicationTheme()
     const { i18n } = useLingui()
     const { account, chainId } = useActiveWeb3React()
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const toggleWalletModal = useWalletModalToggle()
+    const isSimpleApp = useIsSimpleApp()
+
     const [G$Price] = usePromise(async () => {
         try {
             const data = await g$Price()
@@ -178,9 +182,7 @@ function AppBar(): JSX.Element {
             return undefined
         }
     }, [chainId])
-    const [sidebarOpen, setSidebarOpen] = useState(false)
-    const toggleWalletModal = useWalletModalToggle()
-    const isSimpleApp = useIsSimpleApp()
+
     const toggleSideBar = useCallback(() => {
         setSidebarOpen(!sidebarOpen)
     }, [sidebarOpen])

@@ -2827,7 +2827,7 @@ msgstr "Panoramica del deposito"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:140
+#: src/components/SideBar.tsx:142
 msgid "Docs"
 msgstr "Documenti"
 
@@ -2839,7 +2839,7 @@ msgstr "impossibile caricare"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:133
+#: src/components/SideBar.tsx:135
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2872,7 +2872,7 @@ msgstr "Vai al portfolio."
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:147
+#: src/components/SideBar.tsx:149
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3328,11 +3328,11 @@ msgstr "Aspettando la conferma"
 msgid "Waiting For Confirmation"
 msgstr "Aspettando la conferma"
 
-#: src/components/SideBar.tsx:126
+#: src/components/SideBar.tsx:128
 msgid "Wallet"
 msgstr ""
 
-#: src/components/SideBar.tsx:211
+#: src/components/SideBar.tsx:218
 msgid "Wallet balance"
 msgstr "Bilancia del portafoglio."
 

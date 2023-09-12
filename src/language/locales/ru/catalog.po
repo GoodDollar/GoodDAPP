@@ -2837,7 +2837,7 @@ msgstr "Обзор депозита"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:140
+#: src/components/SideBar.tsx:142
 msgid "Docs"
 msgstr "Документы"
 
@@ -2849,7 +2849,7 @@ msgstr "ошибка загрузки"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:133
+#: src/components/SideBar.tsx:135
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2882,7 +2882,7 @@ msgstr "Перейти к портфолио"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:147
+#: src/components/SideBar.tsx:149
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3338,11 +3338,11 @@ msgstr "Ожидание подтверждения"
 msgid "Waiting For Confirmation"
 msgstr "Ожидание подтверждения"
 
-#: src/components/SideBar.tsx:126
+#: src/components/SideBar.tsx:128
 msgid "Wallet"
 msgstr "Кошелек"
 
-#: src/components/SideBar.tsx:211
+#: src/components/SideBar.tsx:218
 msgid "Wallet balance"
 msgstr "Баланс кошелька"
 

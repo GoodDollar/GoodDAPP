@@ -2816,7 +2816,7 @@ msgstr "存款概述"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:140
+#: src/components/SideBar.tsx:142
 msgid "Docs"
 msgstr "文档"
 
@@ -2828,7 +2828,7 @@ msgstr "加載失敗"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:133
+#: src/components/SideBar.tsx:135
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2861,7 +2861,7 @@ msgstr "去投資組合"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:147
+#: src/components/SideBar.tsx:149
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3317,11 +3317,11 @@ msgstr "等待確認中"
 msgid "Waiting For Confirmation"
 msgstr "等待確認中"
 
-#: src/components/SideBar.tsx:126
+#: src/components/SideBar.tsx:128
 msgid "Wallet"
 msgstr "錢包"
 
-#: src/components/SideBar.tsx:211
+#: src/components/SideBar.tsx:218
 msgid "Wallet balance"
 msgstr "錢包平衡"
 

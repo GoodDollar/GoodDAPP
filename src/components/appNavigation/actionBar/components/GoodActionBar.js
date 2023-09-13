@@ -32,6 +32,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingRight: 20,
     paddingTop: theme.sizes.default,
     paddingBottom: isIOSNative ? theme.sizes.defaultDouble : theme.sizes.default,
+    marginBottom: 0,
     borderTopRightRadius: 12,
     borderTopLeftRadius: 12,
   },

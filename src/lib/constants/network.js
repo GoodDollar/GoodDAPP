@@ -3,7 +3,7 @@ import { findKey, isEqual, partial, startCase } from 'lodash'
 
 import EthereumLogo from '../../assets/Feed/ethereum-eth-logo.svg'
 import GoerliLogo from '../../assets/Feed/goerli.svg'
-import FuseLogo from '../../assets/Feed/fuse-logo.svg'
+import FuseLogo from '../../assets/Feed/fuse-logo-new.svg'
 import CeloLogo from '../../assets/logos/celo.svg'
 
 export const NETWORK_ID = {

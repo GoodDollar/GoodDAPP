@@ -51,7 +51,7 @@ const dialogStyles = ({ theme }) => ({
     ...Platform.select({
       web: {
         top: -15,
-        left: isMobile ? 65 : 80,
+        left: isMobile ? 65 : 90,
         height: 10,
         padding: 16,
         width: 150,

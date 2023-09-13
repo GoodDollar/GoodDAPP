@@ -77,14 +77,20 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
         </Section.Stack>
         <Section.Stack alignItems="stretch">
           {isNativeFlow ? (
-            <PushButton dark={false} routeName="ReceiveToAddress" mode="outlined" screenProps={screenProps}>
+            <PushButton
+              styles={{ marginBottom: 5 }}
+              dark={false}
+              routeName="ReceiveToAddress"
+              mode="outlined"
+              screenProps={screenProps}
+            >
               {t`Receive via wallet address`}
             </PushButton>
           ) : (
             <>
               <View style={styles.space} />
               {isSharingAvailable ? (
-                <CustomButton marginBottom={5} onPress={shareHandler}>
+                <CustomButton style={{ marginBottom: 5 }} onPress={shareHandler}>
                   {SHARE_TEXT}
                 </CustomButton>
               ) : (
@@ -98,6 +104,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
                 </CopyButton>
               )}
               <PushButton
+                style={{ marginTop: 5 }}
                 dark={false}
                 routeName="Amount"
                 mode="outlined"

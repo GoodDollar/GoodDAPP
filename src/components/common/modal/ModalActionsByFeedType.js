@@ -363,6 +363,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   shareButton: {
     width: '48%',
+    marginBottom: 5,
   },
   cancelButton: {
     width: '48%',

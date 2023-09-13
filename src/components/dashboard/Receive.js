@@ -84,7 +84,9 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
             <>
               <View style={styles.space} />
               {isSharingAvailable ? (
-                <CustomButton onPress={shareHandler}>{SHARE_TEXT}</CustomButton>
+                <CustomButton marginBottom={5} onPress={shareHandler}>
+                  {SHARE_TEXT}
+                </CustomButton>
               ) : (
                 <CopyButton
                   style={styles.shareButton}

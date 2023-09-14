@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Image, Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
+import { Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
 
@@ -15,7 +15,7 @@ import { getScreenWidth } from '../../../lib/utils/orientation'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import { Icon, Section, SvgXml, Text } from '../../common'
+import { Icon, Image, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
@@ -83,7 +83,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig={hasPicture} />
 
       <View style={styles.newsContent}>
-        {picture && <Image source={{ uri: picture }} style={styles.feedPicture} />}
+        {hasPicture && <Image source={{ uri: picture }} style={styles.feedPicture} />}
 
         <View style={styles.innerRow}>
           <View grow style={styles.mainContents}>

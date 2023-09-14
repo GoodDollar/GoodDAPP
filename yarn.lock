@@ -2796,7 +2796,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/wallet-sdk@npm:^3.6.0, @coinbase/wallet-sdk@npm:^3.6.6":
+"@coinbase/wallet-sdk@npm:^3.6.0":
   version: 3.7.1
   resolution: "@coinbase/wallet-sdk@npm:3.7.1"
   dependencies:
@@ -2818,6 +2818,31 @@ __metadata:
     stream-browserify: ^3.0.0
     util: ^0.12.4
   checksum: e88c656d08c06d42dcd03006c62162705a7c7dc27171ee721910f76c15c995f0482a314057a582af6e9548e6f49e4a1aff22f33685a33535c9b2550a615efbaf
+  languageName: node
+  linkType: hard
+
+"@coinbase/wallet-sdk@npm:^3.6.6":
+  version: 3.7.2
+  resolution: "@coinbase/wallet-sdk@npm:3.7.2"
+  dependencies:
+    "@metamask/safe-event-emitter": 2.0.0
+    "@solana/web3.js": ^1.70.1
+    bind-decorator: ^1.0.11
+    bn.js: ^5.1.1
+    buffer: ^6.0.3
+    clsx: ^1.1.0
+    eth-block-tracker: 6.1.0
+    eth-json-rpc-filters: 5.1.0
+    eth-rpc-errors: 4.0.2
+    json-rpc-engine: 6.1.0
+    keccak: ^3.0.1
+    preact: ^10.5.9
+    qs: ^6.10.3
+    rxjs: ^6.6.3
+    sha.js: ^2.4.11
+    stream-browserify: ^3.0.0
+    util: ^0.12.4
+  checksum: d42a7b7e443942f657f636eede671979024308c6713af68f774309c04c0e1974cdbfe83514adebf4c0bcdb84adce6a026e5a92b5cff35e08eb1fb0772b1ec7e5
   languageName: node
   linkType: hard
 
@@ -4987,9 +5012,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.0.86":
-  version: 0.0.86
-  resolution: "@gooddollar/good-design@npm:0.0.86"
+"@gooddollar/good-design@npm:^0.0.87":
+  version: 0.0.87
+  resolution: "@gooddollar/good-design@npm:0.0.87"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -5016,7 +5041,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: 878bc47ef9c56f77eda96e34cf24a732ebd19be25fe400115fb34fb664e3011747047984c5bfbc2e72de05c54920f2b2c3ec98d63981bc42d3bd2fba9a7426da
+  checksum: 358f7fc942b26b3eaf803b56d30b5ba7613a0862aec00eff148833139f1fcf2277f689b9c5615d7ff7e69bde35f1011ed0115668384f73fb37dff3771398bd5c
   languageName: node
   linkType: hard
 
@@ -5067,10 +5092,10 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.0.86
+    "@gooddollar/good-design": ^0.0.87
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.25
-    "@gooddollar/web3sdk-v2": ^0.1.117
+    "@gooddollar/web3sdk-v2": ^0.1.118
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@kimafinance/kima-transaction-widget": ^1.1.42-beta.1
@@ -5248,9 +5273,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.1.117":
-  version: 0.1.117
-  resolution: "@gooddollar/web3sdk-v2@npm:0.1.117"
+"@gooddollar/web3sdk-v2@npm:^0.1.118":
+  version: 0.1.118
+  resolution: "@gooddollar/web3sdk-v2@npm:0.1.118"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -5292,7 +5317,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 35cc5aac0d9e5953b203380f43eed2674d84044d674cd9ed8d159f5960f147fed7b8c8da39b412095e13edbd175c84c821799197e90d2a4921929db46d625a23
+  checksum: ac24f4f20034fea1ebab160090432061d9330de8a10bfed1d1f71e79bcb0a5b38a9f68f82ae9d581d0499ac70b742557e5394289c66cf0e4be2b946290ab95e3
   languageName: node
   linkType: hard
 
@@ -10927,47 +10952,47 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:4.35.0":
-  version: 4.35.0
-  resolution: "@tanstack/query-core@npm:4.35.0"
-  checksum: 7a6f24164bce5d7367e2bb58f94380d9608bf4df2726e4e8b0e4f42e84d40cc7883baab2127c0c7e8eaa5c4d444a80c1e5f6e7930d21768a863c82baf22a75d4
+"@tanstack/query-core@npm:4.35.3":
+  version: 4.35.3
+  resolution: "@tanstack/query-core@npm:4.35.3"
+  checksum: 0184cd19a26c4f96d05bbebd7966866741d46e5be19ac99d8cd6e5bbeb6550f257e7b52b674fb2673190696e113dd601422d196bf4870b58b4d2e2edf4307e92
   languageName: node
   linkType: hard
 
-"@tanstack/query-persist-client-core@npm:4.35.0":
-  version: 4.35.0
-  resolution: "@tanstack/query-persist-client-core@npm:4.35.0"
+"@tanstack/query-persist-client-core@npm:4.35.3":
+  version: 4.35.3
+  resolution: "@tanstack/query-persist-client-core@npm:4.35.3"
   dependencies:
-    "@tanstack/query-core": 4.35.0
-  checksum: fcc1c61500f0737a5dd98ff51bc7d46cf366952e4279e5059807b266168c14c82d8161249c9c3db99392e8517138f243b33983534e220e58a589e5387fd35675
+    "@tanstack/query-core": 4.35.3
+  checksum: c48f33936216e0ddbeb7fb0ed4242bb24a4086f4d719547a0f12461293a039b6fc9586056f5d3d8894c2043a014a614f155af8705f539edea633f7403ff7f5b6
   languageName: node
   linkType: hard
 
 "@tanstack/query-sync-storage-persister@npm:^4.27.1":
-  version: 4.35.0
-  resolution: "@tanstack/query-sync-storage-persister@npm:4.35.0"
+  version: 4.35.3
+  resolution: "@tanstack/query-sync-storage-persister@npm:4.35.3"
   dependencies:
-    "@tanstack/query-persist-client-core": 4.35.0
-  checksum: bfb6e19aae9aa9310ecada297a9c8293042ab0052f8ad1d3c5cb711ca885afd4674517942aa7ef94c7564fae777bc51903b0fe2fcc1092b5685b2cc1824b2d1b
+    "@tanstack/query-persist-client-core": 4.35.3
+  checksum: 17865d295d6f7092642adf8282174c059ae459226f84ccf90c4de9d0f7e1116e1db8da7e0ad2e9ebd9acba90057b673703bf4cc22bbf3813bc4bdccdfb3b6973
   languageName: node
   linkType: hard
 
 "@tanstack/react-query-persist-client@npm:^4.28.0":
-  version: 4.35.0
-  resolution: "@tanstack/react-query-persist-client@npm:4.35.0"
+  version: 4.35.3
+  resolution: "@tanstack/react-query-persist-client@npm:4.35.3"
   dependencies:
-    "@tanstack/query-persist-client-core": 4.35.0
+    "@tanstack/query-persist-client-core": 4.35.3
   peerDependencies:
-    "@tanstack/react-query": ^4.35.0
-  checksum: 5dc3121e1e31aa0c21cbb33808856d75f87a08b0ba735e55bcc662a6a0590c813ed15e440ee862da22e1399bf10f20509b869fca334dc7f0a0e08bc5438e1b12
+    "@tanstack/react-query": ^4.35.3
+  checksum: 1f8d5630c34b177341443e34dcc2ce916e9888af9b975a8d3de899fa14a8125abde7009299f5529ab5d1d5de5341ece2b6c68acfe6546e5f83efa39988e8d36e
   languageName: node
   linkType: hard
 
 "@tanstack/react-query@npm:^4.28.0":
-  version: 4.35.0
-  resolution: "@tanstack/react-query@npm:4.35.0"
+  version: 4.35.3
+  resolution: "@tanstack/react-query@npm:4.35.3"
   dependencies:
-    "@tanstack/query-core": 4.35.0
+    "@tanstack/query-core": 4.35.3
     use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -10978,7 +11003,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: d3a140a010f0266eca9dae83c4995f2b541ceb8cafafd7247c5c17ec4e09416d2f2a88450f23ebab45c132125e4e4222e77a69354c0dd5d459170c7a24f1b172
+  checksum: 4d7e4e6a8466095848d2924fdbcd2d22a36b53e2d0f79a7dec121c8d7af36ff857b1bae5a7b802f3a399922c9c9f38f2a06372b1fc7b1d5de960e78fa1d3d722
   languageName: node
   linkType: hard
 
@@ -11555,21 +11580,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/db-loader@npm:^0.2.35":
-  version: 0.2.35
-  resolution: "@truffle/db-loader@npm:0.2.35"
+"@truffle/db-loader@npm:^0.2.36":
+  version: 0.2.36
+  resolution: "@truffle/db-loader@npm:0.2.36"
   dependencies:
-    "@truffle/db": ^2.0.35
+    "@truffle/db": ^2.0.36
   dependenciesMeta:
     "@truffle/db":
       optional: true
-  checksum: caf5675aef8cfb3eb70109d8447d59ffdb2b3cfa9bc762d1a54d28920d3fd1a4306200a0cedd06611c564eed1e852ec37017c6c2b3ca0d42a0f1178306a2712a
+  checksum: a39fb6c454d192590227b94d4a23a03b55133edb2e86ce17b19c27aa8b834252544225be0e9f1f99c4b246ab20eaeec27ebf71ce8ef1549fdffb315ab60fdb16
   languageName: node
   linkType: hard
 
-"@truffle/db@npm:^2.0.35":
-  version: 2.0.35
-  resolution: "@truffle/db@npm:2.0.35"
+"@truffle/db@npm:^2.0.36":
+  version: 2.0.36
+  resolution: "@truffle/db@npm:2.0.36"
   dependencies:
     "@graphql-tools/delegate": ^8.4.3
     "@graphql-tools/schema": ^8.3.1
@@ -11590,7 +11615,7 @@ __metadata:
     pouchdb-debug: ^7.1.1
     pouchdb-find: ^7.0.0
     web3-utils: 1.10.0
-  checksum: aa384d91df84b62aa589db96863d9d126ddf5736f5f08b367a7084f9a9a34aa79dfe9f3cef85f3f1148ad7f54de71ef6236fa8da9e0a3fe0be69b73275c3ea4b
+  checksum: c5109cda3b810488ca4a9afdba3b5db6fd420c403fc46cd7d9c2791f4338b66ad9512940c26c476d209f0a4790239c93102c3a2159e3441fa0e232baadae95e2
   languageName: node
   linkType: hard
 
@@ -11608,9 +11633,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/debugger@npm:^12.1.4":
-  version: 12.1.4
-  resolution: "@truffle/debugger@npm:12.1.4"
+"@truffle/debugger@npm:^12.1.5":
+  version: 12.1.5
+  resolution: "@truffle/debugger@npm:12.1.5"
   dependencies:
     "@ensdomains/ensjs": ^2.1.0
     "@truffle/abi-utils": ^1.0.3
@@ -11627,7 +11652,7 @@ __metadata:
     semver: ^7.5.4
     web3: 1.10.0
     web3-eth-abi: 1.10.0
-  checksum: 426ec07894404dc07c7f8dcc106fdf7265fadd21727cd6b23c10c13d3e93b20eaf015c5d687d24da528a78cba679571cd8e83d90e07f56c2f1e70a1ce5ed3749
+  checksum: 92d04211bb0e22155e1dccd1b6f358cc777b524111af12ddabbd4986e747b923928dc3c8ba3203387ec9df64b05976aaea4efbd697008ad8ffbbfd171e472d63
   languageName: node
   linkType: hard
 
@@ -27190,15 +27215,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isomorphic-ws@npm:5.0.0":
-  version: 5.0.0
-  resolution: "isomorphic-ws@npm:5.0.0"
-  peerDependencies:
-    ws: "*"
-  checksum: e20eb2aee09ba96247465fda40c6d22c1153394c0144fa34fe6609f341af4c8c564f60ea3ba762335a7a9c306809349f9b863c8beedf2beea09b299834ad5398
-  languageName: node
-  linkType: hard
-
 "isomorphic-ws@npm:^4.0.1":
   version: 4.0.1
   resolution: "isomorphic-ws@npm:4.0.1"
@@ -40835,12 +40851,12 @@ __metadata:
   linkType: hard
 
 "truffle@npm:^5.7.3":
-  version: 5.11.4
-  resolution: "truffle@npm:5.11.4"
+  version: 5.11.5
+  resolution: "truffle@npm:5.11.5"
   dependencies:
-    "@truffle/db": ^2.0.35
-    "@truffle/db-loader": ^0.2.35
-    "@truffle/debugger": ^12.1.4
+    "@truffle/db": ^2.0.36
+    "@truffle/db-loader": ^0.2.36
+    "@truffle/debugger": ^12.1.5
     app-module-path: ^2.2.0
     ganache: 7.9.1
     mocha: 10.1.0
@@ -40850,7 +40866,7 @@ __metadata:
       optional: true
   bin:
     truffle: build/cli.bundled.js
-  checksum: 42195098cc7ff9434ea7d0d46d367276474ec36dd75713523d2d34b677955d30de83210db7dce6a0c6602db96a913f0107eacf168b362711c8e4ca055bd50b84
+  checksum: d92f68c63e973a077eef369eac1388c557ace5b8ecf32369207389420e3598a8ff1267b4b0107267e30f0c782b8750198444bb67706761cf0b626ace2d166036
   languageName: node
   linkType: hard
 
@@ -41776,6 +41792,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unws@npm:0.2.4":
+  version: 0.2.4
+  resolution: "unws@npm:0.2.4"
+  peerDependencies:
+    ws: "*"
+  checksum: df3b792bdeeb6c7684e1bd3f2f0022178db6a5601b390c03399ebbc5b074e1d6599e950366ebfc8f8723439567c6ee4a4d8bbdde63742acff10184849ab8aeec
+  languageName: node
+  linkType: hard
+
 "upath@npm:^1.1.1, upath@npm:^1.1.2, upath@npm:^1.2.0":
   version: 1.2.0
   resolution: "upath@npm:1.2.0"
@@ -42325,8 +42350,8 @@ __metadata:
   linkType: hard
 
 "viem@npm:^1.0.0, viem@npm:^1.2.13":
-  version: 1.10.9
-  resolution: "viem@npm:1.10.9"
+  version: 1.10.12
+  resolution: "viem@npm:1.10.12"
   dependencies:
     "@adraffy/ens-normalize": 1.9.4
     "@noble/curves": 1.2.0
@@ -42335,14 +42360,14 @@ __metadata:
     "@scure/bip39": 1.2.1
     "@types/ws": ^8.5.5
     abitype: 0.9.8
-    isomorphic-ws: 5.0.0
+    unws: 0.2.4
     ws: 8.13.0
   peerDependencies:
     typescript: ">=5.0.4"
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 7bf53044abff4ff703d518227921d9a56907be744a30750873231a442dcfdee485d9928f337e22ad698a4d0cf25a57194aee9e636a09233169721bf2a6f2eea0
+  checksum: 3b041b93f9b16ebfef9f69675454fb71122922e7254b0cb71c70cf78dac9759540eaa382b9f04f3925bf7d044bc892462304e3c64894badc532dc44c610e21f0
   languageName: node
   linkType: hard
 

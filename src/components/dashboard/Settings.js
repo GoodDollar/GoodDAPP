@@ -17,6 +17,7 @@ import { useDebounce } from 'use-debounce'
 import Wrapper from '../common/layout/Wrapper'
 import { Icon, Section, Text } from '../common'
 import { LanguageContext } from '../../language/i18n'
+import { countryCodes, countryCodeToLocale, languageLabels } from '../../language/locales'
 import { CountryFlag } from '../profile/ProfileDataTable'
 
 // hooks
@@ -66,43 +67,6 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
     </RadioButton.Group>
   )
 }
-const supportedCountryCodes = ['US', 'GB', 'ES', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID', 'AR']
-type CountryCode = $ElementType<typeof supportedCountryCodes, number>
-
-const countryCodeToLocale: { [key: CountryCode]: string } = {
-  US: 'en',
-  GB: 'en-gb',
-  ES: 'es',
-  FR: 'fr',
-  IT: 'it',
-  KR: 'ko',
-  BR: 'pt-br',
-  UA: 'uk',
-  TR: 'tr',
-  VN: 'vi',
-  CN: 'zh',
-  IN: 'hi',
-  ID: 'id',
-  AR: 'es-419',
-}
-
-const languageCustomLabels: { [key: CountryCode]: string } = {
-  US: 'English-US',
-  GB: 'English-UK',
-  ES: 'Spanish',
-  FR: 'French',
-  IT: 'Italian',
-  KR: 'Korean',
-  DE: 'German',
-  BR: 'Portuguese-Brazilian',
-  UA: 'Ukrainian',
-  TR: 'Turkish',
-  VN: 'Vietnamese',
-  CN: 'Chinese-Simplified',
-  IN: 'Hindi',
-  ID: 'Indonesian',
-  AR: 'Latin-Spanish',
-}
 
 const getKeyByValue = (object, value) => {
   return Object.keys(object).find(key => object[key] === value)
@@ -111,7 +75,7 @@ const getKeyByValue = (object, value) => {
 const DropDownRowComponent = props => {
   const { containerStyles, textStyles, children } = props
   const { children: countryCode } = children.props
-  const countryLabel = languageCustomLabels[countryCode] ?? 'Device Default'
+  const countryLabel = languageLabels[countryCode] ?? 'Device Default'
 
   return (
     <TouchableOpacity {...containerStyles} onPress={props.onPress}>
@@ -291,13 +255,13 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
               <Section.Row style={styles.languageRow}>
                 <View style={styles.languageInputContainer}>
                   <ModalDropdown
-                    defaultValue={languageCustomLabels[countryCode] ?? t`Select a language...`}
-                    options={[isWeb ? '' : 'DD', ...supportedCountryCodes]} // empty string breaks on native
+                    defaultValue={languageLabels[countryCode] ?? t`Select a language...`}
+                    options={[isWeb ? '' : 'DD', ...countryCodes]} // empty string breaks on native
                     alignOptionsToRight={true}
                     saveScrollPosition={false}
                     showsVerticalScrollIndicator={true}
                     renderButtonText={option => {
-                      const language = languageCustomLabels[option] ?? 'Device Default'
+                      const language = languageLabels[option] ?? 'Device Default'
                       return t`${language}`
                     }}
                     renderRowComponent={DropDownRowComponent}

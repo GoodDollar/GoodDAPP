@@ -252,7 +252,7 @@ export class UserStorage {
   }
 
   async initDatabases() {
-    const db = new ThreadDB(this.profilePrivateKey, this.wallet)
+    const db = new ThreadDB(this.profilePrivateKey)
     const userAssets = createAssetStorage(db)
 
     await db.init()

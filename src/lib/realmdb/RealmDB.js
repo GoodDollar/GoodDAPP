@@ -1,5 +1,5 @@
 // @flow
-import { assign, filter, first, isPlainObject, once } from 'lodash'
+import { assign, filter, first, isPlainObject, noop, once } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
@@ -64,6 +64,10 @@ class RealmDB implements DB, ProfileDB {
   privateKey: TextileCrypto.PrivateKey
 
   isReady: boolean = false
+
+  account: string
+
+  onBalanceChanged = noop
 
   dbEvents = new EventEmitter()
 

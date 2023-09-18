@@ -7,7 +7,7 @@ import { NETWORK_ID } from '../../constants/network'
 import { FeedSource } from '../feed'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { FeedItemType, TxStatus } from '../../userStorage/FeedStorage'
-import { getNativeToken } from '../../wallet/utils'
+import { fromDecimals, getNativeToken } from '../../wallet/utils'
 import Config from '../../../config/config'
 
 const SYNC_CHAINS = values(pick(NETWORK_ID, 'FUSE', 'CELO', Config.env === 'production' ? 'MAINNET' : 'GOERLI'))
@@ -20,8 +20,7 @@ const { EVENT_TYPE_SENDNATIVE, EVENT_TYPE_RECEIVENATIVE } = FeedItemType
 export default class NativeTxsSource extends FeedSource {
   async syncFromRemote() {
     const { db, Feed, log, storage } = this
-    const { wallet } = db
-    const { account: address } = wallet
+    const { account: address, onBalanceChanged } = db
 
     const lastBlocks = await storage.getItem(LAST_BLOCKS_ITEM).then(blocks => blocks || {})
 
@@ -56,7 +55,7 @@ export default class NativeTxsSource extends FeedSource {
     if (txs.length) {
       // storing txs in the feed by the chunks
       await Promise.all(chunk(txs, TX_CHUNK).map(txs => Feed.save(...txs)))
-      wallet.notifyBalanceChanged()
+      onBalanceChanged()
 
       log.info('Stored new native transactions in the feed', { txs })
     }
@@ -70,7 +69,7 @@ export default class NativeTxsSource extends FeedSource {
   /** @private */
   // eslint-disable-next-line require-await
   async queryTxs(chainId, lastBlock = undefined) {
-    const { account } = this.db.wallet
+    const { account } = this.db
     const fromBlock = lastBlock ? lastBlock + 1 : undefined
 
     return api.getNativeTxs(account, chainId, fromBlock, true)
@@ -82,14 +81,13 @@ export default class NativeTxsSource extends FeedSource {
       return this.getFuseTxData(tx)
     }
 
-    const { wallet } = this.db
     const { address, amount, counterAddress, timestamp, transactionSubtype } = tx
     const isSend = transactionSubtype === 'outgoing'
     const value = amount && amount.startsWith('-') ? amount.substring(1) : amount
 
     const receipt = {
       [isSend ? 'to' : 'from']: counterAddress,
-      amount: wallet.fromDecimals(value, token),
+      amount: fromDecimals(value, token),
     }
 
     return {
@@ -102,7 +100,7 @@ export default class NativeTxsSource extends FeedSource {
 
   /** @private */
   getFuseTxData(tx) {
-    const { account } = this.db.wallet
+    const { account } = this.db
     const { from, to, timeStamp, value } = tx
     const isSend = from === account.toLowerCase()
     const address = isSend ? from : to

@@ -3,11 +3,13 @@
 import { MaskService } from 'react-native-masked-text'
 import { assign, isString, map, noop, pick, values, zipObject } from 'lodash'
 import { decode, isMNID } from 'mnid'
+import { formatUnits, parseUnits } from '@ethersproject/units'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { getNetworkName, type NETWORK, NETWORK_ID } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
+import Config from '../../config/config'
 
 const DECIMALS = 2
 const log = pino.child({ from: 'withdraw' })
@@ -256,4 +258,17 @@ export const safeCall = async (method, defaultValue = {}) => {
   const result = await retryCall(() => method().call()).catch(noop)
 
   return result || defaultValue
+}
+
+export const toDecimals = (wei, chainOrToken) => {
+  const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken].g$Decimals
+
+  return formatUnits(String(wei || '0'), decimals)
+}
+
+export const fromDecimals = (amount, chainOrToken = null) => {
+  const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken].g$Decimals
+  const float = parseFloat(amount).toFixed(decimals)
+
+  return parseUnits(float, decimals).toString()
 }

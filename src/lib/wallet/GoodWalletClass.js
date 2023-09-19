@@ -290,9 +290,6 @@ export class GoodWallet {
         // OneTimePaymentLinks Contract
         this.oneTimePaymentsContract = addContract(OneTimePaymentsABI, 'OneTimePayments')
 
-        // OneTimePaymentsV2 Contract
-        this.oneTimePaymentsContract = addContract(OneTimePaymentsABI, 'OneTimePaymentsV2')
-
         // UBI Contract
         this.invitesContract = addContract(InvitesABI, 'Invites', '0x5a35C3BC159C4e4afAfadbdcDd8dCd2dd8EC8CBE')
 
@@ -1623,7 +1620,7 @@ export class GoodWallet {
         gas = await tx.estimateGas().then(cost => (Number(cost) + 40000).toFixed(0))
       } catch (e) {
         if (e.message.toLowerCase().includes('revert')) {
-          log.error('sendTransaction gas estimate reverted:', e.message, e, {
+          log.warn('sendTransaction gas estimate reverted:', e.message, e, {
             method: tx._method?.name,
             tx: tx._method,
           })
@@ -1711,7 +1708,7 @@ export class GoodWallet {
           onConfirmation(confirmation)
         })
         .on('error', exception => {
-          log.error('sendTransaction error:', exception.message, exception, {
+          log.error('sendNativeTransaction error:', exception.message, exception, {
             tx: txData,
             category: ExceptionCategory.Blockhain,
           })

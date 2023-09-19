@@ -375,6 +375,22 @@ export const useWalletConnectSession = () => {
     [wallet, showApprove, approveRequest, rejectRequest],
   )
 
+  const handleEthCallRequest = useCallback(
+    async (payload, connector) => {
+      const { method, params } = getMethodAndParams(payload)
+      const v2meta = getV2Meta(payload)
+      const requestedChainId = Number(v2meta?.chainId || connector.session?.chainId)
+      //handle v2 per request chain
+      const chainDetails = v2meta?.chainId || !chain ? chains.find(_ => Number(_.chainId) === requestedChainId) : chain
+      log.info('handleEthCallRequest', { message, method, params, requestedChainId, connector, chainDetails })
+
+      const web3 = await getWeb3(chainDetails)
+      const result = await web3.eth.call(params[0], params[1] || 'latest')
+      approveRequest(connector, payload.id, payload.topic, result)
+    },
+    [chain, chains],
+  )
+
   const handleTxRequest = useCallback(
     async (message, payload, connector) => {
       const { method, params } = getMethodAndParams(payload)
@@ -646,6 +662,10 @@ export const useWalletConnectSession = () => {
 
         if (message) {
           return handleSignRequest(message, payload, connector)
+        }
+
+        if ('eth_call' === method) {
+          return handleEthCallRequest(payload, connector)
         }
 
         if (['eth_signTransaction', 'eth_sendTransaction'].includes(method)) {

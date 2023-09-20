@@ -104,9 +104,9 @@ class RealmDB implements DB, ProfileDB {
    */
   async init(db: ThreadDB) {
     try {
-      const { privateKey, wallet, Feed } = db
+      const { privateKey, Feed } = db
 
-      assign(this, { db, privateKey, wallet })
+      assign(this, { db, privateKey })
 
       Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
       Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))

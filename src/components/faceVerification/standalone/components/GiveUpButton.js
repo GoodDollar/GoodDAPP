@@ -38,7 +38,7 @@ const GiveUpButton = () => {
     })
   }, [showDialog, onReasonChosen])
 
-  return <CustomButton onPress={onGiveUp}>{t`I give up`}</CustomButton>
+  return <CustomButton style={{ marginTop: 8 }} onPress={onGiveUp}>{t`I give up`}</CustomButton>
 }
 
 const getStylesFromProps = ({ theme }) => ({})

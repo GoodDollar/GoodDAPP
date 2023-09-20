@@ -46,7 +46,7 @@ const UnrecoverableError = ({ styles, exception, nav }) => {
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="medium" textTransform="none" color="red">
-            {t`Sorry about that pall…
+            {t`Sorry about that…
             We’re looking in to it,
             please try again later`}
           </Section.Title>

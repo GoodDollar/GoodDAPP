@@ -1,18 +1,22 @@
 import { t } from '@lingui/macro'
 
 export const GiveUpReason = new class {
-  CameraIssue = 'camera'
+  NotRecognizeFace = 'noRecognizeFace'
+
+  LowCameraQuali = 'lowCameraQuality'
 
   OvalIssue = 'oval'
 
   TwinIssue = 'twin'
 
-  TryAgainIssue = 'tryAgain'
+  DoItLater = 'doItLater'
+
+  Privacy = 'privacy'
 
   get reasons() {
-    const { CameraIssue, OvalIssue, TwinIssue, TryAgainIssue } = this
+    const { DoItLater, LowCameraQuali, NotRecognizeFace, OvalIssue, Privacy, TwinIssue } = this
 
-    return [CameraIssue, OvalIssue, TwinIssue, TryAgainIssue]
+    return [DoItLater, LowCameraQuali, NotRecognizeFace, OvalIssue, Privacy, TwinIssue]
   }
 
   get reasonsList() {
@@ -20,17 +24,20 @@ export const GiveUpReason = new class {
   }
 
   getReasonText(reason) {
-    const { CameraIssue, OvalIssue, TwinIssue, TryAgainIssue } = this
-
+    const { DoItLater, LowCameraQuali, NotRecognizeFace, OvalIssue, Privacy, TwinIssue } = this
     switch (reason) {
-      case CameraIssue:
-        return t`Camera issues`
+      case NotRecognizeFace:
+        return t`My face is not recognized on the camera`
       case OvalIssue:
         return t`Unable to put my face in the Oval`
+      case LowCameraQuali:
+        return t`I think my camera quality is too low`
       case TwinIssue:
         return t`It says I have a twin`
-      case TryAgainIssue:
-        return t`It keeps asking me to try again`
+      case Privacy:
+        return t`Privacy concern`
+      case DoItLater:
+        return t`I will do it later`
       default:
         throw new Error('Unknown / invalid reason specified')
     }

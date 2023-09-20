@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { get } from 'lodash'
+import { View } from 'react-native'
 
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
 import DeviceOrientationError from '../components/DeviceOrientationError'
@@ -14,6 +15,29 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
+import { Wrapper } from '../../common'
+import ErrorButtons from '../components/ErrorButtons'
+import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+
+const getStylesFromProps = ({ theme }) => ({
+  topContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    display: 'flex',
+    backgroundColor: theme.colors.surface,
+    height: '100%',
+    flex: 1,
+    flexGrow: 1,
+    flexShrink: 0,
+    paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+    paddingRight: getDesignRelativeWidth(theme.sizes.default),
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    borderRadius: 5,
+    marginBottom: theme.paddings.bottomPadding,
+  },
+})
 
 const ErrorScreen = ({ styles, screenProps, navigation }) => {
   const profile = useProfile()
@@ -54,13 +78,18 @@ const ErrorScreen = ({ styles, screenProps, navigation }) => {
   }
 
   return (
-    <ErrorViewComponent
-      onRetry={onRetry}
-      displayTitle={title}
-      nav={screenProps}
-      exception={exception}
-      isFVFlow={isFVFlow}
-    />
+    <Wrapper>
+      <View style={styles.topContainer} />
+      <ErrorViewComponent
+        onRetry={onRetry}
+        displayTitle={title}
+        nav={screenProps}
+        exception={exception}
+        isFVFlow={isFVFlow}
+        reachedMax={isReachedMaxAttempts}
+      />
+      <ErrorButtons />
+    </Wrapper>
   )
 }
 
@@ -73,4 +102,4 @@ ErrorScreen.kindOfTheIssue = {
   NotSupportedError: SwitchToAnotherDevice,
 }
 
-export default ErrorScreen
+export default withStyles(getStylesFromProps)(ErrorScreen)

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { t } from '@lingui/macro'
 
@@ -12,6 +12,7 @@ import logger from '../../../lib/logger/js-logger'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
 import IllustrationSVG from '../../../assets/FRUnrecoverableError.svg'
+import GiveUpButton from '../standalone/components/GiveUpButton'
 
 import { ExceptionType, isLicenseIssue } from '../utils/kindOfTheIssue'
 
@@ -19,12 +20,10 @@ const log = logger.child({ from: 'FaceVerification' })
 
 const UnrecoverableError = ({ styles, exception, nav }) => {
   const { hideDialog, showErrorDialog } = useDialog()
-  const { navigateTo, goToRoot, push } = nav
+  const { goToRoot, push } = nav
 
   const { type, message } = exception || {}
   const isSDKLicenseIssue = ExceptionType.SDK === type && isLicenseIssue(exception)
-
-  const onContactSupport = useCallback(() => navigateTo('Support'), [navigateTo])
 
   useEffect(() => {
     // if it's not an license issue - we don't have to show dialog
@@ -47,7 +46,7 @@ const UnrecoverableError = ({ styles, exception, nav }) => {
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="medium" textTransform="none" color="red">
-            {t`Sorry about that…
+            {t`Sorry about that pall…
             We’re looking in to it,
             please try again later`}
           </Section.Title>
@@ -59,9 +58,7 @@ const UnrecoverableError = ({ styles, exception, nav }) => {
           <CustomButton onPress={goToRoot} style={styles.actionsSpace}>
             OK
           </CustomButton>
-          <CustomButton mode="outlined" onPress={onContactSupport}>
-            {t`CONTACT SUPPORT`}
-          </CustomButton>
+          <GiveUpButton />
         </View>
       </View>
     </Wrapper>
@@ -98,9 +95,6 @@ const getStylesFromProps = ({ theme }) => {
       paddingLeft: getDesignRelativeWidth(theme.sizes.default),
       paddingRight: getDesignRelativeWidth(theme.sizes.default),
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
-      width: '100%',
-    },
-    action: {
       width: '100%',
     },
     actionsSpace: {

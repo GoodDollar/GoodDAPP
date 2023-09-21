@@ -15,6 +15,7 @@ const failedOptions = {
   OvalIssue: t`Unable to put my face in the Oval`,
   TwinIssue: t`It says I have a twin`,
   Privacy: t`Privacy concern`,
+  BadInternet: t`I have a bad internet connection`,
   DoItLater: t`I will do it later`,
 }
 

@@ -19,7 +19,7 @@ const OptionsRow = ({ styles, theme, reason, text }) => (
   </View>
 )
 
-const GiveUpDialog = ({ styles, theme, onReasonChosen }) => {
+const GiveUpDialog = ({ styles, theme, onReasonChosen, type }) => {
   const { hideDialog } = useDialog()
 
   const onSelected = useCallback(
@@ -34,7 +34,7 @@ const GiveUpDialog = ({ styles, theme, onReasonChosen }) => {
     <ExplanationDialog title={t`What happened?`}>
       <Section.Stack justifyContent="flex-start" style={styles.optionsRowWrapper}>
         <RadioButton.Group onValueChange={onSelected}>
-          {GiveUpReason.reasonsList.map(({ reason, text }) => (
+          {GiveUpReason[type].map(([reason, text]) => (
             <OptionsRow key={reason} {...{ reason, text, theme, styles }} />
           ))}
         </RadioButton.Group>

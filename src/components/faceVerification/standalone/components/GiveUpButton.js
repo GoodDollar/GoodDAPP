@@ -1,42 +1,12 @@
 import { t } from '@lingui/macro'
-import React, { useCallback } from 'react'
-import { isUndefined, negate, pickBy } from 'lodash'
-import { useDialog } from '../../../../lib/dialog/useDialog'
+import React from 'react'
+
 import { withStyles } from '../../../../lib/styles'
 import { CustomButton } from '../../../common'
-import useFVRedirect from '../hooks/useFVRedirect'
-import { fireEvent, FV_GIVEUP } from '../../../../lib/analytics/analytics'
-import GiveUpDialog from './GiveUpDialog'
+import useGiveUpDialog from '../hooks/useGiveUpDialog'
 
-const GiveUpButton = () => {
-  const { showDialog } = useDialog()
-  const fvRedirect = useFVRedirect()
-
-  const onReasonChosen = useCallback(
-    (reason = undefined) => {
-      const data = pickBy({ reason }, negate(isUndefined))
-      const redirect = () => fvRedirect(false, reason)
-
-      fireEvent(FV_GIVEUP, data)
-
-      // await before analytics scripts will perform some activity
-      if (window.requestIdleCallback) {
-        window.requestIdleCallback(redirect)
-      } else {
-        window.requestAnimationFrame(redirect)
-      }
-    },
-    [fvRedirect],
-  )
-
-  const onGiveUp = useCallback(() => {
-    showDialog({
-      content: <GiveUpDialog onReasonChosen={onReasonChosen} />,
-      isMinHeight: false,
-      showButtons: false,
-      onDismiss: onReasonChosen,
-    })
-  }, [showDialog, onReasonChosen])
+const GiveUpButton = navigation => {
+  const { onGiveUp } = useGiveUpDialog(navigation, 'failed')
 
   return <CustomButton style={{ marginTop: 8 }} onPress={onGiveUp}>{t`I give up`}</CustomButton>
 }

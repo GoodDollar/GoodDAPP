@@ -60,6 +60,7 @@ import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
 import Config from '../../config/config'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
+import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -89,6 +90,7 @@ const { isDeltaApp } = Config
 const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNavigationOptions({
   navigationBarHidden: false,
   title: 'Face Verification',
+  navigationBar: FVNavigationBar,
 })(
   lazyScreens(
     () => import('../faceVerification'),

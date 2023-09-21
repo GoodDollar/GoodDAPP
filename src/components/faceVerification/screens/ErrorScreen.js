@@ -81,14 +81,13 @@ const ErrorScreen = ({ styles, screenProps, navigation }) => {
     <Wrapper>
       <View style={styles.topContainer}>
         <ErrorViewComponent
-          onRetry={onRetry}
           displayTitle={title}
           nav={screenProps}
           exception={exception}
           isFVFlow={isFVFlow}
           reachedMax={isReachedMaxAttempts}
         />
-        <ErrorButtons />
+        <ErrorButtons onRetry={onRetry} navigation={navigation} />
       </View>
     </Wrapper>
   )

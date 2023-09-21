@@ -12,7 +12,7 @@ const ErrorButtons = ({ styles, screenProps, navigation, onRetry }) => {
   return (
     <View style={{ width: '100%' }}>
       {!reachedMax && <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>}
-      <GiveUpButton />
+      <GiveUpButton navigation={navigation} />
     </View>
   )
 }

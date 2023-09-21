@@ -1,45 +1,33 @@
 import { t } from '@lingui/macro'
 
+const cancelledOptions = {
+  noScan: t`I don't want my face scanned`,
+  noTime: t`I don't have time for this`,
+  noComprendo: t`I don't understand what I'm doing`,
+  doLater: t`I will do it later`,
+  techIssues: t`I'm having technical issues`,
+  noVerify: t`I don't want to GoodDollar-verify anymore`,
+}
+
+const failedOptions = {
+  NotRecognizeFace: t`My face is not recognized on the camera`,
+  LowCameraQuali: t`I think my camera quality is too low`,
+  OvalIssue: t`Unable to put my face in the Oval`,
+  TwinIssue: t`It says I have a twin`,
+  Privacy: t`Privacy concern`,
+  DoItLater: t`I will do it later`,
+}
+
 export const GiveUpReason = new class {
-  NotRecognizeFace = 'noRecognizeFace'
+  failedSurvey = failedOptions
 
-  LowCameraQuali = 'lowCameraQuality'
+  cancelledSurvey = cancelledOptions
 
-  OvalIssue = 'oval'
-
-  TwinIssue = 'twin'
-
-  DoItLater = 'doItLater'
-
-  Privacy = 'privacy'
-
-  get reasons() {
-    const { DoItLater, LowCameraQuali, NotRecognizeFace, OvalIssue, Privacy, TwinIssue } = this
-
-    return [DoItLater, LowCameraQuali, NotRecognizeFace, OvalIssue, Privacy, TwinIssue]
+  get cancelled() {
+    return Object.entries(this.cancelledSurvey)
   }
 
-  get reasonsList() {
-    return this.reasons.map(reason => ({ reason, text: this.getReasonText(reason) }))
-  }
-
-  getReasonText(reason) {
-    const { DoItLater, LowCameraQuali, NotRecognizeFace, OvalIssue, Privacy, TwinIssue } = this
-    switch (reason) {
-      case NotRecognizeFace:
-        return t`My face is not recognized on the camera`
-      case OvalIssue:
-        return t`Unable to put my face in the Oval`
-      case LowCameraQuali:
-        return t`I think my camera quality is too low`
-      case TwinIssue:
-        return t`It says I have a twin`
-      case Privacy:
-        return t`Privacy concern`
-      case DoItLater:
-        return t`I will do it later`
-      default:
-        throw new Error('Unknown / invalid reason specified')
-    }
+  get failed() {
+    return Object.entries(this.failedSurvey)
   }
 }()

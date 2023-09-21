@@ -30,8 +30,10 @@ const GiveUpDialog = ({ styles, theme, onReasonChosen, type }) => {
     [hideDialog, onReasonChosen],
   )
 
+  const title = type === 'cancelled' ? t`Why didn't you complete the GoodDollar-verification?` : t`What happened?`
+
   return (
-    <ExplanationDialog title={t`What happened?`}>
+    <ExplanationDialog title={title}>
       <Section.Stack justifyContent="flex-start" style={styles.optionsRowWrapper}>
         <RadioButton.Group onValueChange={onSelected}>
           {GiveUpReason[type].map(([reason, text]) => (

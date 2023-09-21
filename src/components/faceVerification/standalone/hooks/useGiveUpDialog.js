@@ -2,6 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import { isUndefined, negate, pickBy } from 'lodash'
 
 import { fireEvent, FV_GIVEUP } from '../../../../lib/analytics/analytics'
+import AsyncStorage from '../../../../lib/utils/asyncStorage'
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import GiveUpDialog from '../components/GiveUpDialog'
 import { FVFlowContext } from '../context/FVFlowContext'
@@ -16,6 +17,10 @@ const useGiveUpDialog = (navigation, type) => {
   const onReasonChosen = useCallback(
     (reason = undefined) => {
       const data = pickBy({ reason }, negate(isUndefined))
+
+      if (reason && reason !== 'closed') {
+        AsyncStorage.removeItem('hasStartedFV')
+      }
 
       fireEvent(FV_GIVEUP, { data, surveyType: type })
 

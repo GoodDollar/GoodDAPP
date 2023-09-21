@@ -27,7 +27,7 @@ interface Window {
         removeAllListeners?: (...args: any[]) => void
         autoRefreshOnNetworkChange?: boolean
         request?: (args: RequestArguments) => Promise<unknown>
-        providers?: array
+        providers?: Array
         selectedProvider: {
             isMetaMask?: boolean
             on?: (...args: any[]) => void

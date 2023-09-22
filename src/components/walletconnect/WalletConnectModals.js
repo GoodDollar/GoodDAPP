@@ -290,7 +290,17 @@ export const useSessionApproveModal = () => {
   const { primary } = colors
 
   const show = useCallback(
-    ({ metadata, payload, requestedChainId, message, walletAddress, onReject, onApprove, modalType, explorer }) => {
+    async ({
+      metadata,
+      payload,
+      requestedChainId,
+      message,
+      walletAddress,
+      onReject,
+      onApprove,
+      modalType,
+      explorer,
+    }) => {
       log.debug('showing dialog', { metadata, payload, message, walletAddress, onReject, onApprove, modalType })
 
       if (modalType === 'error') {
@@ -335,7 +345,7 @@ export const useSessionApproveModal = () => {
       }
 
       try {
-        showDialog({
+        await showDialog({
           showCloseButtons: false,
           isMinHeight: false,
           showButtons: true,
@@ -385,7 +395,7 @@ export const useSessionApproveModal = () => {
       } catch (e) {
         log.error('failed showing dialog', e.message, e, { dialogShown: true, payload, modalType })
 
-        showErrorDialog(t`Unable to process request:` + ' ' + e.message)
+        await showErrorDialog(t`Unable to process request:` + ' ' + e.message)
       }
     },
     [],

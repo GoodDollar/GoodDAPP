@@ -440,7 +440,7 @@ const Claim = props => {
 
     // 4. perform actual Claim
     setLoading(true)
-    showDialog({
+    const processDialog = showDialog({
       image: <LoadingAnimation />,
       message: t`please wait while processing...` + `\n`,
       buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
@@ -448,6 +448,8 @@ const Claim = props => {
       IS ON ITS WAY...`,
       showCloseButtons: false,
     })
+
+    log.debug('processDialog', { processDialog })
 
     try {
       await _retry(async () => {
@@ -488,7 +490,7 @@ const Claim = props => {
         // reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
 
-        showDialog({
+        await showDialog({
           image: <LoadingAnimation success speed={2} />,
           content: <TaskDialog />,
           buttons: [

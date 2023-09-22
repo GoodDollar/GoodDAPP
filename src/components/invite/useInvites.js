@@ -161,7 +161,7 @@ export const useInviteBonus = () => {
         return false
       }
 
-      showDialog({
+      await showDialog({
         image: <LoadingIcon />,
         loading: true,
         message: t`Please wait` + '\n' + t`This might take a few seconds...`,
@@ -176,7 +176,7 @@ export const useInviteBonus = () => {
 
       log.debug(`useInviteBonus: invite bonty collected`)
 
-      showDialog({
+      await showDialog({
         title: t`Reward Collected!`,
         image: <SuccessIcon />,
         buttons: [

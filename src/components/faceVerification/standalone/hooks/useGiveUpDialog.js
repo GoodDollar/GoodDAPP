@@ -6,6 +6,7 @@ import AsyncStorage from '../../../../lib/utils/asyncStorage'
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import GiveUpDialog from '../components/GiveUpDialog'
 import { FVFlowContext } from '../context/FVFlowContext'
+import { requestIdle } from '../../../../lib/utils/requestIdleCallback'
 import useFVRedirect from './useFVRedirect'
 
 const useGiveUpDialog = (navigation, type) => {
@@ -27,12 +28,7 @@ const useGiveUpDialog = (navigation, type) => {
       if (isFVFlow) {
         const redirect = () => fvRedirect(false, reason)
 
-        // await before analytics scripts will perform some activity
-        if (window.requestIdleCallback) {
-          window.requestIdleCallback(redirect)
-        } else {
-          window.requestAnimationFrame(redirect)
-        }
+        requestIdle(redirect)
       } else {
         navigate('Home')
       }

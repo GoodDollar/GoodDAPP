@@ -341,6 +341,7 @@
     "react-hot-loader": "^4.13.0",
     "react-native-codegen": "^0.0.7",
     "react-test-renderer": "^17.0.2",
+    "requestidlecallback": "^0.3.0",
     "resolve": "1.8.1",
     "sass-loader": "^9.0.3",
     "scoop": "0.0.2",

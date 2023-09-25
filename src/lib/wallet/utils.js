@@ -13,7 +13,7 @@ import Config from '../../config/config'
 const DECIMALS = 2
 const log = pino.child({ from: 'withdraw' })
 const ethAddressRegex = /(\w+)?:?(0x[a-fA-F0-9]{40})/
-const { env, forceMainnetEth } = Config
+const { env, showAllChainsEth } = Config
 
 const maskSettings = {
   precision: DECIMALS,
@@ -34,7 +34,7 @@ type ReceiptType = {
 }
 
 export const supportedNetworks = ['MAINNET', 'GOERLI', 'FUSE', 'CELO'].filter(
-  net => forceMainnetEth || net !== (env === 'production' ? 'GOERLI' : 'MAINNET'),
+  net => showAllChainsEth || net !== (env === 'production' ? 'GOERLI' : 'MAINNET'),
 )
 
 const makeNetworkMatcher = (...networks: NETWORK[]) => {

@@ -6,7 +6,7 @@ import { useDialog } from '../../../../lib/dialog/useDialog'
 import { withStyles } from '../../../../lib/styles'
 import { Section, Text } from '../../../common'
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
-import { GiveUpReason } from '../utils/giveupReason'
+import { GiveUpCancelled, GiveUpFailed } from '../utils/giveupReason'
 
 const OptionsRow = ({ styles, theme, reason, text }) => (
   <View style={styles.optionsRowContainer}>
@@ -31,12 +31,12 @@ const GiveUpDialog = ({ styles, theme, onReasonChosen, type }) => {
   )
 
   const title = type === 'cancelled' ? t`Why didn't you complete the GoodDollar-verification?` : t`What happened?`
-
+  const GiveUpReason = type === 'cancelled' ? GiveUpCancelled : GiveUpFailed
   return (
     <ExplanationDialog title={title}>
       <Section.Stack justifyContent="flex-start" style={styles.optionsRowWrapper}>
         <RadioButton.Group onValueChange={onSelected}>
-          {GiveUpReason[type].map(([reason, text]) => (
+          {Object.entries(GiveUpReason).map(([reason, text]) => (
             <OptionsRow key={reason} {...{ reason, text, theme, styles }} />
           ))}
         </RadioButton.Group>

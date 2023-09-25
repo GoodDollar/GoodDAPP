@@ -1,12 +1,11 @@
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { Linking } from 'react-native'
 import VersionCheck from 'react-native-version-check'
 import codePush from 'react-native-code-push' // eslint-disable-line import/default
 
 import logger from '../../lib/logger/js-logger'
 import Config from '../../config/config'
-import AsyncStorage from '../../lib/utils/asyncStorage'
-import { CODEPUSH_CHECKED } from '../../lib/constants/localStorage'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import useShowUpdateDialog from './UpdateDialog'
 
 const { InstallMode } = codePush
@@ -17,6 +16,7 @@ const makeOpenURL = url => () => Linking.openURL(url)
 
 export default () => {
   const updateDialogRef = useShowUpdateDialog()
+  const { setHasSyncedCodePush } = useContext(GlobalTogglesContext)
 
   useEffect(() => {
     const checkVersion = async () => {
@@ -68,13 +68,11 @@ export default () => {
               deploymentKey: codePushDeploymentKey,
             },
             status => {
-              switch (status) {
-                case 0:
-                  AsyncStorage.safeSet(CODEPUSH_CHECKED, true)
-                  break
-                default:
-                  AsyncStorage.safeSet(CODEPUSH_CHECKED, false)
+              if (status === 0) {
+                setHasSyncedCodePush(true)
+                return
               }
+              setHasSyncedCodePush(false)
             },
           )
           .catch(e => {

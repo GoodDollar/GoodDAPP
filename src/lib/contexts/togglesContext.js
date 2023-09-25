@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { CODEPUSH_CHECKED, IS_LOGGED_IN } from '../constants/localStorage'
+import { IS_LOGGED_IN } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 export const GlobalTogglesContext = createContext({})
@@ -26,10 +26,6 @@ export const GlobalTogglesContextProvider = props => {
     AsyncStorage.getItem(IS_LOGGED_IN).then(_ => setLoggedInRouter(!!_))
   }, [])
 
-  useEffect(() => {
-    AsyncStorage.getItem(CODEPUSH_CHECKED).then(_ => setHasSyncedCodePush(_))
-  }, [])
-
   return (
     <GlobalTogglesContext.Provider
       value={{
@@ -54,6 +50,7 @@ export const GlobalTogglesContextProvider = props => {
         setMobileSafariKeyboardShown,
         setLoadingIndicator,
         setFeedLoadAnimShown,
+        setHasSyncedCodePush,
       }}
     >
       {props.children}

@@ -524,7 +524,6 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const toNetwork = switchToNetwork?.toUpperCase()
   const defaultSwitchTo = isDeltaApp ? currentNetwork : currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
-  const networks = supportedNetworks.filter(net => net !== (Config.env === 'production' ? 'GOERLI' : 'MAINNET'))
 
   const showModal = useCallback(
     (toNetwork = null) => {
@@ -538,7 +537,7 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
         isMinHeight: true,
         onDismiss,
         content: showSwitch ? (
-          <PopupSwitch values={networks} value={switchTo} onChange={value => (switchTo = value)} />
+          <PopupSwitch values={supportedNetworks} value={switchTo} onChange={value => (switchTo = value)} />
         ) : null,
         buttons: [
           {

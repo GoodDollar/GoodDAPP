@@ -222,6 +222,7 @@ const Config = {
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
   isDeltaApp,
+  forceMainnetEth: isDeltaApp && env.REACT_APP_FORCE_MAINNET_ETH === 'true',
   posthogApiKey: env.REACT_APP_POSTHOG_KEY,
   tatumApiUrl: env.REACT_APP_TATUM_API_URL || 'https://api.tatum.io/v3',
   posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel

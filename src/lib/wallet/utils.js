@@ -8,10 +8,12 @@ import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { getNetworkName, type NETWORK, NETWORK_ID } from '../constants/network'
 import pino from '../logger/js-logger'
 import { retry } from '../utils/async'
+import Config from '../../config/config'
 
 const DECIMALS = 2
 const log = pino.child({ from: 'withdraw' })
 const ethAddressRegex = /(\w+)?:?(0x[a-fA-F0-9]{40})/
+const { env, forceMainnetEth } = Config
 
 const maskSettings = {
   precision: DECIMALS,
@@ -31,7 +33,9 @@ type ReceiptType = {
   status: boolean,
 }
 
-export const supportedNetworks = ['MAINNET', 'GOERLI', 'FUSE', 'CELO']
+export const supportedNetworks = ['MAINNET', 'GOERLI', 'FUSE', 'CELO'].filter(
+  net => forceMainnetEth || net !== (env === 'production' ? 'GOERLI' : 'MAINNET'),
+)
 
 const makeNetworkMatcher = (...networks: NETWORK[]) => {
   const allNetworkIds = values(pick(NETWORK_ID, ...networks))

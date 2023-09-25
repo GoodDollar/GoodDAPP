@@ -5,6 +5,8 @@ import codePush from 'react-native-code-push' // eslint-disable-line import/defa
 
 import logger from '../../lib/logger/js-logger'
 import Config from '../../config/config'
+import AsyncStorage from '../../lib/utils/asyncStorage'
+import { CODEPUSH_CHECKED } from '../../lib/constants/localStorage'
 import useShowUpdateDialog from './UpdateDialog'
 
 const { InstallMode } = codePush
@@ -52,13 +54,29 @@ export default () => {
         })
       }
 
+      // statusCode = 0 - The app is up-to-date with the CodePush server.
+      // statusCode = 2 The app had an optional update which the end user chose to ignore. (This is only applicable when the updateDialog is used)
+      // statusCode = 1 - The update has been installed and will be run either immediately after the syncStatusChangedCallback function returns or the next time the app resumes/restarts, depending on the InstallMode specified in SyncOptions.
+      // statusCode = 4 - There is an ongoing sync operation running which prevents the current call from being executed.
+
       if (suggestCodePushUpdate && !hasNewVersion) {
         await codePush
-          .sync({
-            updateDialog: false,
-            installMode: InstallMode.IMMEDIATE,
-            deploymentKey: codePushDeploymentKey,
-          })
+          .sync(
+            {
+              updateDialog: false,
+              installMode: InstallMode.IMMEDIATE,
+              deploymentKey: codePushDeploymentKey,
+            },
+            status => {
+              switch (status) {
+                case 0:
+                  AsyncStorage.safeSet(CODEPUSH_CHECKED, true)
+                  break
+                default:
+                  AsyncStorage.safeSet(CODEPUSH_CHECKED, false)
+              }
+            },
+          )
           .catch(e => {
             log.warn('Hot code push sync error', e.message, e)
           })

@@ -440,7 +440,7 @@ const Claim = props => {
 
     // 4. perform actual Claim
     setLoading(true)
-    const processDialog = showDialog({
+    showDialog({
       image: <LoadingAnimation />,
       message: t`please wait while processing...` + `\n`,
       buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
@@ -448,8 +448,6 @@ const Claim = props => {
       IS ON ITS WAY...`,
       showCloseButtons: false,
     })
-
-    log.debug('processDialog', { processDialog })
 
     try {
       await _retry(async () => {

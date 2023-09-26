@@ -14,6 +14,7 @@ export const GlobalTogglesContextProvider = props => {
   const [isMobileSafariKeyboardShown, setMobileSafariKeyboardShown] = useState()
   const [isLoadingIndicator, setLoadingIndicator] = useState()
   const [feedLoadAnimShown, setFeedLoadAnimShown] = useState()
+  const [hasSyncedCodePush, setHasSyncedCodePush] = useState(false)
 
   useEffect(() => {
     if (isLoggedInRouter != null) {
@@ -22,7 +23,9 @@ export const GlobalTogglesContextProvider = props => {
   }, [isLoggedInRouter])
 
   useEffect(() => {
-    AsyncStorage.getItem(IS_LOGGED_IN).then(_ => setLoggedInRouter(!!_))
+    AsyncStorage.getItem(IS_LOGGED_IN)
+      .then(Boolean)
+      .then(setLoggedInRouter)
   }, [])
 
   return (
@@ -38,6 +41,7 @@ export const GlobalTogglesContextProvider = props => {
         isMobileSafariKeyboardShown,
         isLoadingIndicator,
         feedLoadAnimShown,
+        hasSyncedCodePush,
         setServiceWorkerUpdated,
         setInstallPrompt,
         setDialogBlur,
@@ -48,6 +52,7 @@ export const GlobalTogglesContextProvider = props => {
         setMobileSafariKeyboardShown,
         setLoadingIndicator,
         setFeedLoadAnimShown,
+        setHasSyncedCodePush,
       }}
     >
       {props.children}

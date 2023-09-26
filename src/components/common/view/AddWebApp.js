@@ -118,8 +118,8 @@ const AddWebApp = () => {
   const { showDialog } = useDialog()
   const { installPrompt, setInstallPrompt, addWebApp, setAddWebApp } = useContext(GlobalTogglesContext)
 
-  const showExplanationDialog = () => {
-    showDialog({
+  const showExplanationDialog = async () => {
+    await showDialog({
       content: <ExplanationDialog />,
       showButtons: false,
       showAtBottom: true,
@@ -181,7 +181,7 @@ const AddWebApp = () => {
   const showInitialDialog = async isReminder => {
     const skipCount = await AsyncStorage.getItem('GD_AddWebAppSkipCount')
 
-    showDialog({
+    await showDialog({
       content: <InitialDialog showDesc={!isReminder} />,
       onDismiss: () => {
         fireEvent(ADDTOHOME_LATER, { skipCount })

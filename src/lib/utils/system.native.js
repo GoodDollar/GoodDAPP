@@ -5,4 +5,6 @@ export const restart = () => RNRestart.Restart()
 
 export const retryImport = fn => fn()
 
+export const requestIdle = fn => fn()
+
 export const exitApp = () => BackHandler.exitApp()

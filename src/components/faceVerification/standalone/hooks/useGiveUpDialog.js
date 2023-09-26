@@ -6,7 +6,7 @@ import AsyncStorage from '../../../../lib/utils/asyncStorage'
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import GiveUpDialog from '../components/GiveUpDialog'
 import { FVFlowContext } from '../context/FVFlowContext'
-import { requestIdle } from '../../../../lib/utils/requestIdleCallback'
+import { requestIdle } from '../../../../lib/utils/system'
 import useFVRedirect from './useFVRedirect'
 
 const useGiveUpDialog = (navigation, type) => {

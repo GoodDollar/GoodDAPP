@@ -7,9 +7,9 @@ import FuseLogo from '../../assets/Feed/fuse-logo-new.svg'
 import CeloLogo from '../../assets/logos/celo.svg'
 
 export const NETWORK_ID = {
+  MAINNET: 1,
   ETHEREUM: 1,
   ETH: 1,
-  MAINNET: 1,
   ROPSTEN: 3,
   RINKEBY: 4,
   GOERLI: 5,
@@ -32,7 +32,9 @@ export type NETWORK = $Keys<typeof NETWORK_ID>
  * @returns {string} network name
  */
 export const getNetworkName = (networkId: number): string => {
-  return startCase(findKey(NETWORK_ID, partial(isEqual, networkId))) || 'UNDEFINED'
+  const key = networkId === 1 ? 'MAINNET' : findKey(NETWORK_ID, partial(isEqual, networkId))
+
+  return key ? startCase(key) : 'UNDEFINED'
 }
 
 export const NetworkLogo = {

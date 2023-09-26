@@ -31,7 +31,8 @@ export default class NativeTxsSource extends FeedSource {
     // and fuse goes through explorer so it's up to 2 x 2 req to Tatum
     // which is less than limit of 5 and coudl be done in parralel
     const txs = await Promise.all(
-      supportedNetworks.map(async chainId => {
+      supportedNetworks.map(async network => {
+        const chainId = NETWORK_ID[network]
         const token = getNativeToken(chainId)
         const lastBlock = maxBlocks[chainId]
 

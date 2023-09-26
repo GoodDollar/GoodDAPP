@@ -70,7 +70,7 @@ const RouterSelector = () => {
 
   return (
     <React.Suspense fallback={<Splash animation />}>
-      <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedInRouter}>
+      <InternetConnection fallback={DisconnectedSplash} isLoggedIn={isLoggedInRouter}>
         <Router />
       </InternetConnection>
     </React.Suspense>

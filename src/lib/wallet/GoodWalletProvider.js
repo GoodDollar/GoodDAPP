@@ -25,7 +25,7 @@ import { setChainId } from '../analytics/analytics'
 import { withStyles } from '../styles'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-import { decimalsToFixed, getTokensList, isNativeToken, supportedNetworks, supportsG$UBI } from './utils'
+import { decimalsToFixed, getTokensList, isNativeToken, supportedNetworks, supportsG$, supportsG$UBI } from './utils'
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -93,27 +93,36 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const updateWalletData = useCallback(
     async goodWallet => {
-      const { tokenContract, UBIContract, identityContract, account, networkId } = goodWallet
+      const { tokenContract, UBIContract, identityContract, account, networkId, multicallFuse } = goodWallet
+      const calls = []
 
-      const calls = [
-        {
+      if (supportsG$(networkId) && tokenContract) {
+        calls.push({
           balance: tokenContract.methods.balanceOf(account),
-        },
-      ]
-
-      if (supportsG$UBI(networkId)) {
-        calls.push(
-          {
-            ubi: UBIContract.methods.checkEntitlement(account),
-          },
-          {
-            isCitizen: identityContract.methods.isWhitelisted(account),
-          },
-        )
+        })
       }
 
+      if (supportsG$UBI(networkId)) {
+        if (UBIContract) {
+          calls.push({
+            ubi: UBIContract.methods.checkEntitlement(account),
+          })
+        }
+
+        if (identityContract) {
+          calls.push({
+            isCitizen: identityContract.methods.isWhitelisted(account),
+          })
+        }
+      }
+
+      // eslint-disable-next-line require-await
+      const onFallback = async () => [[{}]]
+
       // entitelment is separate because it depends on msg.sender
-      const [[{ balance = 0 }, ...results]] = await goodWallet.multicallFuse.all([calls]).catch(() => [[{}]])
+      const [[{ balance = 0 }, ...results]] = await (calls.length
+        ? multicallFuse.all([calls]).catch(onFallback)
+        : onFallback())
       const { ubi = 0 } = first(results) || {}
       const { isCitizen = false } = last(results) || {}
 
@@ -423,8 +432,10 @@ const TokenProvider = ({ children, wallet, walletData }) => {
       log.debug('updateNativeBalance: fetching')
 
       try {
-        await wallet.balanceOfNative().then(setBalance)
-        log.debug('updateNativeBalance: success')
+        const nativeBalance = await wallet.balanceOfNative()
+
+        log.debug('updateNativeBalance: success', { nativeBalance, account })
+        setBalance(nativeBalance)
       } catch (e) {
         log.warn('updateNativeBalance: Failed to fetch', e.message, e, { account })
       }
@@ -524,7 +535,6 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
   const toNetwork = switchToNetwork?.toUpperCase()
   const defaultSwitchTo = isDeltaApp ? currentNetwork : currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
-  const networks = supportedNetworks.filter(net => net !== (Config.env === 'production' ? 'GOERLI' : 'MAINNET'))
 
   const showModal = useCallback(
     (toNetwork = null) => {
@@ -538,7 +548,7 @@ export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noo
         isMinHeight: true,
         onDismiss,
         content: showSwitch ? (
-          <PopupSwitch values={networks} value={switchTo} onChange={value => (switchTo = value)} />
+          <PopupSwitch values={supportedNetworks} value={switchTo} onChange={value => (switchTo = value)} />
         ) : null,
         buttons: [
           {
@@ -598,9 +608,11 @@ export const useFixedDecimals = (token = 'G$', chainId = null) => {
   const { toDecimals } = useFormatToken(token)
   const asDecimals = number => toDecimals(number, chainId)
 
-  return isNativeToken(token)
+  const format = isNativeToken(token)
     ? number => trimEnd(decimalsToFixed(asDecimals(number), 4), '0')
     : number => decimalsToFixed(asDecimals(number))
+
+  return number => format(number) || '0.0'
 }
 
 export const useFormatToken = (token = 'G$') => {

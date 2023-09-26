@@ -439,14 +439,20 @@ export class GoodWallet {
   }
 
   async syncTxFromExplorer(startBlock) {
-    const results = await API.getTokenTxs(this.tokenContract._address, this.account, this.networkId, startBlock).then(
-      results => results.map(result => ({ ...result, transactionHash: result.hash })),
-    )
+    let results = []
+    const { tokenContract, account, networkId } = this
+    const { _address: tokenAddress } = tokenContract || {}
 
-    const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
-    const chunks = chunk(results, 10)
+    if (tokenAddress) {
+      results = await API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
+        results.map(result => ({ ...result, transactionHash: result.hash })),
+      )
 
-    await Promise.all(chunks.map(c => limit(() => this._notifyEvents(c, startBlock))))
+      const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
+      const chunks = chunk(results, 10)
+
+      await Promise.all(chunks.map(c => limit(() => this._notifyEvents(c, startBlock))))
+    }
 
     const lastBlock = Number(last(results)?.blockNumber)
 

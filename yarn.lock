@@ -4407,7 +4407,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/goodprotocol@npm:^2.0.13":
+"@gooddollar/goodprotocol@npm:2.0.13":
   version: 2.0.13
   resolution: "@gooddollar/goodprotocol@npm:2.0.13"
   dependencies:
@@ -4429,24 +4429,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@npm:^2.0.3, @gooddollar/goodprotocol@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "@gooddollar/goodprotocol@npm:2.0.4"
+"@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.13#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.13-b5c4924f17.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
+  version: 2.0.13
+  resolution: "@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.13#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.13-b5c4924f17.patch::version=2.0.13&hash=ad5d45&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
     "@openzeppelin/contracts": ^4.8.0
     "@openzeppelin/contracts-upgradeable": ^4.8.0
+    "@openzeppelin/upgrades-core": 1.18.0
     "@superfluid-finance/ethereum-contracts": ^1.4.3
     "@superfluid-finance/sdk-core": ^0.5.8
-    "@typechain/hardhat": ^6.1.2
+    "@typechain/hardhat": ^6.1.5
     async-promise-pool: ^1.0.4
     openzeppelin-solidity: ^4.3.2
     patch-package: latest
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: 5c2b37e117eccf50043b824082a8462c17b9efbf26cb3a324c60ba4f1c2c0f56fcfd3587dc694e93b0a11a723698da1c2630996d4993541a20f8e9782d63b946
+  checksum: 9d80691274e834a02490b2b18c2cbcd29fc0bf4825ca02692a65167ab5186ce79efd60effed2b2a27270d97cdc8694b16271f08f5a8e717dca38178166283a8d
   languageName: node
   linkType: hard
 
@@ -8193,22 +8194,6 @@ __metadata:
   version: 1.0.3
   resolution: "@tsconfig/node16@npm:1.0.3"
   checksum: 3a8b657dd047495b7ad23437d6afd20297ce90380ff0bdee93fc7d39a900dbd8d9e26e53ff6b465e7967ce2adf0b218782590ce9013285121e6a5928fbd6819f
-  languageName: node
-  linkType: hard
-
-"@typechain/hardhat@npm:^6.1.2":
-  version: 6.1.5
-  resolution: "@typechain/hardhat@npm:6.1.5"
-  dependencies:
-    fs-extra: ^9.1.0
-  peerDependencies:
-    "@ethersproject/abi": ^5.4.7
-    "@ethersproject/providers": ^5.4.7
-    "@typechain/ethers-v5": ^10.2.0
-    ethers: ^5.4.7
-    hardhat: ^2.9.9
-    typechain: ^8.1.1
-  checksum: ccb4df6eae69d6560125d6eb014989d0097213818d0fdf91a077bacee746f39356de6d11b3f582d55df7d6924bcfffc31e412502bbbe3a5be8e3310197ce4f61
   languageName: node
   linkType: hard
 

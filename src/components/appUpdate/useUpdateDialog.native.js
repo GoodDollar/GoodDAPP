@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { Linking } from 'react-native'
 import VersionCheck from 'react-native-version-check'
 import codePush from 'react-native-code-push' // eslint-disable-line import/default
 
 import logger from '../../lib/logger/js-logger'
 import Config from '../../config/config'
+import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import useShowUpdateDialog from './UpdateDialog'
 
 const { InstallMode } = codePush
@@ -15,6 +16,7 @@ const makeOpenURL = url => () => Linking.openURL(url)
 
 export default () => {
   const updateDialogRef = useShowUpdateDialog()
+  const { setHasSyncedCodePush } = useContext(GlobalTogglesContext)
 
   useEffect(() => {
     const checkVersion = async () => {
@@ -52,13 +54,23 @@ export default () => {
         })
       }
 
+      // statusCode = 0 - The app is up-to-date with the CodePush server.
+      // statusCode = 2 The app had an optional update which the end user chose to ignore. (This is only applicable when the updateDialog is used)
+      // statusCode = 1 - The update has been installed and will be run either immediately after the syncStatusChangedCallback function returns or the next time the app resumes/restarts, depending on the InstallMode specified in SyncOptions.
+      // statusCode = 4 - There is an ongoing sync operation running which prevents the current call from being executed.
+
       if (suggestCodePushUpdate && !hasNewVersion) {
         await codePush
-          .sync({
-            updateDialog: false,
-            installMode: InstallMode.IMMEDIATE,
-            deploymentKey: codePushDeploymentKey,
-          })
+          .sync(
+            {
+              updateDialog: false,
+              installMode: InstallMode.IMMEDIATE,
+              deploymentKey: codePushDeploymentKey,
+            },
+            status => {
+              setHasSyncedCodePush(status === 0)
+            },
+          )
           .catch(e => {
             log.warn('Hot code push sync error', e.message, e)
           })

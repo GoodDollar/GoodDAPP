@@ -1,16 +1,14 @@
 // @flow
 
-import { chunk, clone, flatten, map, max, pick, values } from 'lodash'
+import { chunk, clone, flatten, map, max } from 'lodash'
 import moment from 'moment'
 import api from '../../API/api'
 import { NETWORK_ID } from '../../constants/network'
 import { FeedSource } from '../feed'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { FeedItemType, TxStatus } from '../../userStorage/FeedStorage'
-import { getNativeToken } from '../../wallet/utils'
-import Config from '../../../config/config'
+import { getNativeToken, supportedNetworks } from '../../wallet/utils'
 
-const SYNC_CHAINS = values(pick(NETWORK_ID, 'FUSE', 'CELO', Config.env === 'production' ? 'MAINNET' : 'GOERLI'))
 const LAST_BLOCKS_ITEM = 'GD_lastNativeTxsBlocks'
 const TX_CHUNK = 20
 
@@ -33,7 +31,8 @@ export default class NativeTxsSource extends FeedSource {
     // and fuse goes through explorer so it's up to 2 x 2 req to Tatum
     // which is less than limit of 5 and coudl be done in parralel
     const txs = await Promise.all(
-      SYNC_CHAINS.map(async chainId => {
+      supportedNetworks.map(async network => {
+        const chainId = NETWORK_ID[network]
         const token = getNativeToken(chainId)
         const lastBlock = maxBlocks[chainId]
 

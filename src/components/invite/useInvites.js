@@ -206,7 +206,7 @@ export const useCollectBounty = () => {
       message: t`Collecting invite bonus for ${canCollect} invited friends`,
     }
     try {
-      showDialog({
+      await showDialog({
         ...labels,
         loading: true,
       })
@@ -221,7 +221,7 @@ export const useCollectBounty = () => {
       userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
       await checkBounties() //after collectinng check how much left to collect
-      showDialog({
+      await showDialog({
         ...labels,
         loading: false,
       })

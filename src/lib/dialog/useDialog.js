@@ -58,7 +58,7 @@ export const useDialog = () => {
   )
 
   const showErrorDialog = useCallback(
-    (humanError: string, error: Error | ResponseError, dialogProps?: DialogData) => {
+    async (humanError: string, error: Error | ResponseError, dialogProps?: DialogData) => {
       let message = ''
 
       if (error == null && humanError && typeof humanError !== 'string') {
@@ -87,7 +87,7 @@ export const useDialog = () => {
       fireEvent(ERROR_DIALOG, { humanError, message })
       message = humanError ? humanError + '\n' + message : message
 
-      return showDialog({
+      await showDialog({
         visible: true,
         title: t`Ooops ...`,
         message,

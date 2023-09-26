@@ -13,9 +13,9 @@ const log = logger.child({ from: 'useDeleteAccountDialog' })
 
 export default showErrorDialog => {
   const userStorage = useUserStorage()
-  return useCallback(() => {
+  return useCallback(async () => {
     const deleteHandler = async () => {
-      showErrorDialog('', '', {
+      await showErrorDialog('', '', {
         title: t`ARE YOU SURE?`,
         content: <DeleteAccountDialog icon="loading" />,
         showButtons: false,
@@ -36,15 +36,15 @@ export default showErrorDialog => {
           log.error('Account is not deleted', exception.message, exception, {
             dialogShown: true,
           })
-          showErrorDialog('There was a problem deleting your account. Try again later.')
+          await showErrorDialog('There was a problem deleting your account. Try again later.')
         }
       } catch (e) {
         log.error('Error deleting account', e.message, e, { dialogShown: true })
-        showErrorDialog('There was a problem deleting your account. Try again later.')
+        await showErrorDialog('There was a problem deleting your account. Try again later.')
       }
     }
 
-    showErrorDialog('', '', {
+    await showErrorDialog('', '', {
       title: 'ARE YOU SURE?',
       content: <DeleteAccountDialog />,
       buttons: [

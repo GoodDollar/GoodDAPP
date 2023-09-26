@@ -41,7 +41,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
   const { hasSyncedCodePush } = useContext(GlobalTogglesContext)
 
   const onGetStarted = useCallback(() => {
-    if (!isMobileNative || (isMobileNative && hasSyncedCodePush)) {
+    if (!isMobileNative || hasSyncedCodePush) {
       fireEvent(CLICK_GETSTARTED)
       navigate('Auth')
     }

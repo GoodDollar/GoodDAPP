@@ -68,11 +68,7 @@ export default () => {
               deploymentKey: codePushDeploymentKey,
             },
             status => {
-              if (status === 0) {
-                setHasSyncedCodePush(true)
-                return
-              }
-              setHasSyncedCodePush(false)
+              setHasSyncedCodePush(status === 0)
             },
           )
           .catch(e => {

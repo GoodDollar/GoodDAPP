@@ -18,4 +18,3 @@ export const GiveUpFailed = {
   BadInternet: t`I have a bad internet connection`,
   DoItLater: t`I will do it later`,
 }
-

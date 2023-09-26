@@ -158,7 +158,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   const onUnableToCollect = useCallback(async () => {
     const isCitizen = await goodWallet.isCitizen()
 
-    showDialog({
+    await showDialog({
       image: <InfoIcon />,
       title: isCitizen ? t`Your inviter is not verified yet` : t`Claim your first G$s`,
       message: isCitizen
@@ -185,7 +185,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   }, [navigateTo, showDialog, goodWallet])
 
   const onSubmit = useCallback(async () => {
-    showDialog({
+    await showDialog({
       image: <LoadingIcon />,
       loading: true,
       message: t`Please wait

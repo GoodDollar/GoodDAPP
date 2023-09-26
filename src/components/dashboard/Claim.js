@@ -488,7 +488,7 @@ const Claim = props => {
         // reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
 
-        showDialog({
+        await showDialog({
           image: <LoadingAnimation success speed={2} />,
           content: <TaskDialog />,
           buttons: [

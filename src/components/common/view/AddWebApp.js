@@ -238,7 +238,7 @@ const AddWebApp = () => {
     }
 
     if (installPrompt || (!iOSAdded && isMobileSafari)) {
-      showInitialDialog()
+      await showInitialDialog()
     }
   }
 

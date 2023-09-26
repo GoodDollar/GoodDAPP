@@ -13,7 +13,7 @@ import SwitchToAnotherDeviceSVG from '../../../assets/FRSwitchToAnotherDevice.sv
 const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav, isFVFlow }) => (
   <Section style={styles.descriptionContainer} justifyContent="space-between">
     <Section.Title fontWeight="medium" textTransform="none" color="red">
-      {displayTitle && displayTitle}
+      {displayTitle}
       {(displayTitle ? `,\n` : '') +
         t`Please try to switch
           to another device`}

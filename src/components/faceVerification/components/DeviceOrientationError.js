@@ -34,7 +34,7 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
     <Section style={styles.descriptionContainer} justifyContent="space-evenly">
       <Section.Title fontWeight="regular" textTransform="none" color="red">
         <Section.Title fontWeight="bold" textTransform="none" color="red">
-          {displayTitle && displayTitle}
+          {displayTitle}
         </Section.Title>
         {displayTitle ? `,\n` : ''}
         {t`Please turn your camera 

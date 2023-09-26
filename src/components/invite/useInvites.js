@@ -161,7 +161,7 @@ export const useInviteBonus = () => {
         return false
       }
 
-      showDialog({
+      await showDialog({
         image: <LoadingIcon />,
         loading: true,
         message: t`Please wait` + '\n' + t`This might take a few seconds...`,
@@ -176,7 +176,7 @@ export const useInviteBonus = () => {
 
       log.debug(`useInviteBonus: invite bonty collected`)
 
-      showDialog({
+      await showDialog({
         title: t`Reward Collected!`,
         image: <SuccessIcon />,
         buttons: [
@@ -206,7 +206,7 @@ export const useCollectBounty = () => {
       message: t`Collecting invite bonus for ${canCollect} invited friends`,
     }
     try {
-      showDialog({
+      await showDialog({
         ...labels,
         loading: true,
       })
@@ -221,7 +221,7 @@ export const useCollectBounty = () => {
       userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
       await checkBounties() //after collectinng check how much left to collect
-      showDialog({
+      await showDialog({
         ...labels,
         loading: false,
       })

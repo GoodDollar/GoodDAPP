@@ -13,19 +13,16 @@ import Blurred from '../../common/view/Blurred'
 import Splash from '../../../components/splash/Splash'
 import { VerificationContextProvider } from '../context/VerificationContext'
 import NavBar from '../../appNavigation/NavBar'
-import useFVRedirect from './hooks/useFVRedirect'
 import FVFlowProvider from './context/FVFlowContext'
+import useGiveUpDialog from './hooks/useGiveUpDialog'
 import { FVFlowError, FVFlowSuccess } from '.'
 
 const log = logger.child({ from: 'FVRouter' })
 
-const FVNavigationBar = () => {
-  const fvRedirect = useFVRedirect()
+export const FVNavigationBar = ({ navigation }) => {
+  const { onGiveUp } = useGiveUpDialog(navigation, 'cancelled')
 
-  const goBack = () => {
-    fvRedirect(false, 'Cancelled flow')
-  }
-  return <NavBar title="Face Verification" goBack={goBack} />
+  return <NavBar title="Face Verification" goBack={onGiveUp} />
 }
 
 const FVFlowScreens = withNavigationOptions({

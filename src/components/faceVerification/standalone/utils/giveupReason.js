@@ -1,38 +1,20 @@
 import { t } from '@lingui/macro'
 
-export const GiveUpReason = new class {
-  CameraIssue = 'camera'
+export const GiveUpCancelled = {
+  NoScan: t`I don't want my face scanned`,
+  NoTime: t`I don't have time for this`,
+  NoComprendo: t`I don't understand what I'm doing`,
+  DoLater: t`I will do it later`,
+  TechIssues: t`I'm having technical issues`,
+  NoVerify: t`I don't want to GoodDollar-verify anymore`,
+}
 
-  OvalIssue = 'oval'
-
-  TwinIssue = 'twin'
-
-  TryAgainIssue = 'tryAgain'
-
-  get reasons() {
-    const { CameraIssue, OvalIssue, TwinIssue, TryAgainIssue } = this
-
-    return [CameraIssue, OvalIssue, TwinIssue, TryAgainIssue]
-  }
-
-  get reasonsList() {
-    return this.reasons.map(reason => ({ reason, text: this.getReasonText(reason) }))
-  }
-
-  getReasonText(reason) {
-    const { CameraIssue, OvalIssue, TwinIssue, TryAgainIssue } = this
-
-    switch (reason) {
-      case CameraIssue:
-        return t`Camera issues`
-      case OvalIssue:
-        return t`Unable to put my face in the Oval`
-      case TwinIssue:
-        return t`It says I have a twin`
-      case TryAgainIssue:
-        return t`It keeps asking me to try again`
-      default:
-        throw new Error('Unknown / invalid reason specified')
-    }
-  }
-}()
+export const GiveUpFailed = {
+  NotRecognizeFace: t`My face is not recognized on the camera`,
+  LowCameraQuali: t`I think my camera quality is too low`,
+  OvalIssue: t`Unable to put my face in the Oval`,
+  TwinIssue: t`It says I have a twin`,
+  Privacy: t`Privacy concern`,
+  BadInternet: t`I have a bad internet connection`,
+  DoItLater: t`I will do it later`,
+}

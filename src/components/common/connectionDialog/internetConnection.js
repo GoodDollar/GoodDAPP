@@ -18,11 +18,11 @@ const InternetConnection = ({ isLoggedIn, showSplash, fallback: NoConnectionFall
   const [firstLoadError, setFirstLoadError] = useState(true)
 
   const showWaiting = useCallback(
-    message => {
+    async message => {
       setShowDisconnect(true)
 
       if (!isLoggedIn) {
-        showDialog({
+        await showDialog({
           title: t`Waiting for network`,
           image: <LoadingIcon />,
           message,

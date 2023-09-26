@@ -60,6 +60,8 @@ import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
 import Config from '../../config/config'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
+import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
+import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialog'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -89,6 +91,7 @@ const { isDeltaApp } = Config
 const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNavigationOptions({
   navigationBarHidden: false,
   title: 'Face Verification',
+  navigationBar: FVNavigationBar,
 })(
   lazyScreens(
     () => import('../faceVerification'),
@@ -299,7 +302,7 @@ const Dashboard = props => {
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
-  const { totalBalance: balance, fuseBalance, celoBalance, dailyUBI } = useWalletData()
+  const { totalBalance: balance, fuseBalance, celoBalance, dailyUBI, isCitizen } = useWalletData()
   const entitlement = Number(dailyUBI)
   const { toDecimals } = useFormatG$()
   const { avatar, fullName } = useProfile()
@@ -310,6 +313,7 @@ const Dashboard = props => {
   const userStorage = useUserStorage()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
+  const { onGiveUp } = useGiveUpDialog(navigation, 'cancelled')
 
   const { currentNetwork } = useSwitchNetwork()
 
@@ -498,6 +502,14 @@ const Dashboard = props => {
       animateItems()
     }
   }, [appState, feedLoaded])
+
+  useEffect(async () => {
+    const hasStartedFV = await AsyncStorage.getItem('hasStartedFV')
+
+    if (hasStartedFV && isCitizen) {
+      onGiveUp()
+    }
+  }, [isCitizen])
 
   const animateClaim = useCallback(() => {
     if (!entitlement || !supportsG$UBI(currentNetwork)) {

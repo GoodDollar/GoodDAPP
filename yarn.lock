@@ -4377,6 +4377,7 @@ __metadata:
     realm-web: ^2.0.0
     reaptcha: ^1.7.3
     recaptcha-v3-react: ^3.0.3
+    requestidlecallback: ^0.3.0
     resolve: 1.8.1
     rxjs: ^6.4.0
     sass-loader: ^9.0.3
@@ -34761,6 +34762,13 @@ __metadata:
     tunnel-agent: ^0.6.0
     uuid: ^3.3.2
   checksum: 4e112c087f6eabe7327869da2417e9d28fcd0910419edd2eb17b6acfc4bfa1dad61954525949c228705805882d8a98a86a0ea12d7f739c01ee92af7062996983
+  languageName: node
+  linkType: hard
+
+"requestidlecallback@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "requestidlecallback@npm:0.3.0"
+  checksum: 2405aef711b516e326ff18849b24ad2c0e623d2b60397bdc7919fa40d8575fce0a16a563a53f94ec89d255325a99e5deee952e6024584a5179cbbabb4469f0e8
   languageName: node
   linkType: hard
 

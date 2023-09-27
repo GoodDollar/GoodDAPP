@@ -4144,7 +4144,7 @@ __metadata:
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.13
-    "@gooddollar/react-native-facetec": ^1.0.38
+    "@gooddollar/react-native-facetec": ^1.0.40
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.1.91
     "@hcaptcha/react-hcaptcha": ^1.6.0
@@ -4377,6 +4377,7 @@ __metadata:
     realm-web: ^2.0.0
     reaptcha: ^1.7.3
     recaptcha-v3-react: ^3.0.3
+    requestidlecallback: ^0.3.0
     resolve: 1.8.1
     rxjs: ^6.4.0
     sass-loader: ^9.0.3
@@ -4407,7 +4408,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/goodprotocol@npm:^2.0.13":
+"@gooddollar/goodprotocol@npm:2.0.13":
   version: 2.0.13
   resolution: "@gooddollar/goodprotocol@npm:2.0.13"
   dependencies:
@@ -4429,34 +4430,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@npm:^2.0.3, @gooddollar/goodprotocol@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "@gooddollar/goodprotocol@npm:2.0.4"
+"@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.13#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.13-b5c4924f17.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
+  version: 2.0.13
+  resolution: "@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.13#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.13-b5c4924f17.patch::version=2.0.13&hash=ad5d45&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
     "@openzeppelin/contracts": ^4.8.0
     "@openzeppelin/contracts-upgradeable": ^4.8.0
+    "@openzeppelin/upgrades-core": 1.18.0
     "@superfluid-finance/ethereum-contracts": ^1.4.3
     "@superfluid-finance/sdk-core": ^0.5.8
-    "@typechain/hardhat": ^6.1.2
+    "@typechain/hardhat": ^6.1.5
     async-promise-pool: ^1.0.4
     openzeppelin-solidity: ^4.3.2
     patch-package: latest
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: 5c2b37e117eccf50043b824082a8462c17b9efbf26cb3a324c60ba4f1c2c0f56fcfd3587dc694e93b0a11a723698da1c2630996d4993541a20f8e9782d63b946
+  checksum: 9d80691274e834a02490b2b18c2cbcd29fc0bf4825ca02692a65167ab5186ce79efd60effed2b2a27270d97cdc8694b16271f08f5a8e717dca38178166283a8d
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:^1.0.38":
-  version: 1.0.38
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.38"
+"@gooddollar/react-native-facetec@npm:^1.0.40":
+  version: 1.0.40
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.40"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: 39e90ae4798f2b92291d72a26f92e486cfe591fcd751cf68cba80cb0526bbb0b9571ae4a7a0bfb7d369d2ee7db332ab0ba9de2ad03bf522993103b313a402f1b
+  checksum: 8bfd99d931f3a6c43bf6617ba151cc850ff68d00ebe6192a9a86faf93baea623e8473abb7aa203c32a7b80e3ffa41e7ffe5e5560924b0f8354b43ec8afe80777
   languageName: node
   linkType: hard
 
@@ -8193,22 +8195,6 @@ __metadata:
   version: 1.0.3
   resolution: "@tsconfig/node16@npm:1.0.3"
   checksum: 3a8b657dd047495b7ad23437d6afd20297ce90380ff0bdee93fc7d39a900dbd8d9e26e53ff6b465e7967ce2adf0b218782590ce9013285121e6a5928fbd6819f
-  languageName: node
-  linkType: hard
-
-"@typechain/hardhat@npm:^6.1.2":
-  version: 6.1.5
-  resolution: "@typechain/hardhat@npm:6.1.5"
-  dependencies:
-    fs-extra: ^9.1.0
-  peerDependencies:
-    "@ethersproject/abi": ^5.4.7
-    "@ethersproject/providers": ^5.4.7
-    "@typechain/ethers-v5": ^10.2.0
-    ethers: ^5.4.7
-    hardhat: ^2.9.9
-    typechain: ^8.1.1
-  checksum: ccb4df6eae69d6560125d6eb014989d0097213818d0fdf91a077bacee746f39356de6d11b3f582d55df7d6924bcfffc31e412502bbbe3a5be8e3310197ce4f61
   languageName: node
   linkType: hard
 
@@ -34776,6 +34762,13 @@ __metadata:
     tunnel-agent: ^0.6.0
     uuid: ^3.3.2
   checksum: 4e112c087f6eabe7327869da2417e9d28fcd0910419edd2eb17b6acfc4bfa1dad61954525949c228705805882d8a98a86a0ea12d7f739c01ee92af7062996983
+  languageName: node
+  linkType: hard
+
+"requestidlecallback@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "requestidlecallback@npm:0.3.0"
+  checksum: 2405aef711b516e326ff18849b24ad2c0e623d2b60397bdc7919fa40d8575fce0a16a563a53f94ec89d255325a99e5deee952e6024584a5179cbbabb4469f0e8
   languageName: node
   linkType: hard
 

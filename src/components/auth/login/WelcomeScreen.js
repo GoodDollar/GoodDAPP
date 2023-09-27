@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Linking, View } from 'react-native'
 
 import { t, Trans } from '@lingui/macro'
@@ -19,7 +19,7 @@ import Config from '../../../config/config'
 
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
-import { isBrowser } from '../../../lib/utils/platform'
+import { isBrowser, isMobileNative } from '../../../lib/utils/platform'
 
 import { CLICK_GETSTARTED, CLICK_LEARNMORE, fireEvent, GOTO_WELCOME } from '../../../lib/analytics/analytics'
 
@@ -32,16 +32,20 @@ import {
 
 import { withStyles } from '../../../lib/styles'
 import Illustration from '../../../assets/Auth/torusIllustration.svg'
+import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 
 const AuthScreen = Config.torusEnabled ? AuthTorus : Auth
 
 const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
   const { navigate } = navigation
+  const { hasSyncedCodePush } = useContext(GlobalTogglesContext)
 
   const onGetStarted = useCallback(() => {
-    fireEvent(CLICK_GETSTARTED)
-    navigate('Auth')
-  }, [navigate])
+    if (!isMobileNative || hasSyncedCodePush) {
+      fireEvent(CLICK_GETSTARTED)
+      navigate('Auth')
+    }
+  }, [navigate, hasSyncedCodePush])
 
   const onLearnMore = useCallback(() => {
     fireEvent(CLICK_LEARNMORE)
@@ -120,6 +124,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
             style={styles.buttonLayout}
             textStyle={styles.buttonText}
             onPress={handleGetStarted}
+            disabled={isMobileNative && !hasSyncedCodePush}
           >
             {t`Get Started`}
           </CustomButton>

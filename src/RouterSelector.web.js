@@ -63,7 +63,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   const Router = isLoggedIn ? AppRouter : SignupRouter
 
   return (
-    <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedIn}>
+    <InternetConnection fallback={DisconnectedSplash} isLoggedIn={isLoggedIn}>
       <Router />
     </InternetConnection>
   )
@@ -122,6 +122,7 @@ const RouterWrapper = () => {
     const check = async () => {
       // once user is logged in check if their browser is supported and show warning if not
       const didCheck = await AsyncStorage.getItem(BROWSER_CHECKED)
+
       if (!didCheck && !isDeltaApp && isLoggedInRouter && supported === false) {
         checkBrowser()
         AsyncStorage.setItem(BROWSER_CHECKED, true)

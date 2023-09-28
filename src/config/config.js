@@ -226,6 +226,7 @@ const Config = {
   posthogApiKey: env.REACT_APP_POSTHOG_KEY,
   tatumApiUrl: env.REACT_APP_TATUM_API_URL || 'https://api.tatum.io/v3',
   posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
+  fvTypeformUrl: 'https://gooddollar.typeform.com/to/Prgnwkrz'
 }
 
 global.config = Config

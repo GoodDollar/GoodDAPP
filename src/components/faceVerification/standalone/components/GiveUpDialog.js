@@ -30,7 +30,7 @@ const GiveUpDialog = ({ styles, theme, onReasonChosen, type }) => {
     [hideDialog, onReasonChosen],
   )
 
-  const title = type === 'cancelled' ? t`Why didn't you complete the GoodDollar-verification?` : t`What happened?`
+  const title = type === 'cancelled' ? t`Why didn't you complete the GoodDollar verification?` : t`What happened?`
   const GiveUpReason = type === 'cancelled' ? GiveUpCancelled : GiveUpFailed
   return (
     <ExplanationDialog title={title}>

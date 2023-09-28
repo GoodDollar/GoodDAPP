@@ -21,8 +21,10 @@ const ErrorButtons = ({ styles, screenProps, navigation, onRetry }) => {
     <View style={styles.buttonsContainer}>
       {!reachedMax ? (
         <View>
-          <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
-          <CustomButton onPress={onContactSupport} mode="outlined" style={styles.actionsSpace}>
+          <CustomButton onPress={onRetry} style={styles.actionsSpace}>
+            TRY AGAIN
+          </CustomButton>
+          <CustomButton onPress={onContactSupport} mode="outlined">
             {t`CONTACT SUPPORT`}
           </CustomButton>
         </View>

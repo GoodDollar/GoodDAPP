@@ -4361,7 +4361,7 @@ __metadata:
     react-native-v8: ">=0.65.2-patch.0 <0.66.0"
     react-native-vector-icons: ^6.6.0
     react-native-version-check: ^3.4.3
-    react-native-wallet-chat: 0.1.69
+    react-native-wallet-chat: 0.1.88
     react-native-web: ^0.17.5
     react-native-web-linear-gradient: ^1.0.5
     react-native-web-lottie: ^1.2.0
@@ -33475,19 +33475,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-wallet-chat@npm:0.1.69":
-  version: 0.1.69
-  resolution: "react-native-wallet-chat@npm:0.1.69"
+"react-native-wallet-chat@npm:0.1.88":
+  version: 0.1.88
+  resolution: "react-native-wallet-chat@npm:0.1.88"
   dependencies:
     "@stablelib/random": ^1.0.2
     classnames: ^2.3.2
     ethers: 5.7.2
     react-native-elements: ^3.4.3
-    react-native-webview: ^13.2.2
+    react-native-webview: 12.0.2
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: fe8ca6a5eb6121f932164b0a2d25e11f1f18e6e30fff038fc249b769012785086f657e8927296d9c9335f03c26c8a2ea002911ac5bd898ce5934658202fed386
+  checksum: cd78457a21eb4b7c405ed054bd0da2241c0f68fe678d81f6868d535a528855611e6e3a4b00ec1448b22b1d85f5ce12ed18d4e230b2447d628b1c820e8dacf8b8
   languageName: node
   linkType: hard
 
@@ -33544,7 +33544,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-webview@npm:^12.0.2":
+"react-native-webview@npm:12.0.2, react-native-webview@npm:^12.0.2":
   version: 12.0.2
   resolution: "react-native-webview@npm:12.0.2"
   dependencies:
@@ -33554,19 +33554,6 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: f777dc48683ada530eb4c87ff85ab9bcdcb35156c319f226a220fd194c226fe136c240d020b6a835f2eba44cba3e08e42752cc6ee8d38ebb4408a31d2e2ab9c8
-  languageName: node
-  linkType: hard
-
-"react-native-webview@npm:^13.2.2":
-  version: 13.3.1
-  resolution: "react-native-webview@npm:13.3.1"
-  dependencies:
-    escape-string-regexp: 2.0.0
-    invariant: 2.2.4
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: c455279ccc42f4787e75c5c0e4609b535bb417eb35536c978079f23474c1135f39f5b8aed32445dd5422913c07651db77343e3c348e193c0b17329fdaa35e1a7
   languageName: node
   linkType: hard
 

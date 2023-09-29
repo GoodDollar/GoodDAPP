@@ -788,18 +788,18 @@ const Dashboard = props => {
         <Animated.View style={styles.topHeader}>
           <Section.Stack alignItems="center" style={styles.balanceContainer}>
             <Animated.View style={styles.balanceTop}>
-              <Section style={styles.profileContainer}>
+              <View style={styles.profileContainer}>
                 <Animated.View style={profileAnimStyles}>
                   <Animated.View testID="avatar-anim-styles" style={[styles.profileIconContainer, avatarAnimStyles]}>
-                    <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
-                      <Avatar
-                        source={avatar}
-                        style={styles.avatar}
-                        imageStyle={styles.avatar}
-                        unknownStyle={styles.avatar}
-                        plain
-                      />
-                    </TouchableOpacity>
+                  <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
+                    <Avatar
+                      source={avatar}
+                      style={styles.avatar}
+                      imageStyle={styles.avatar}
+                      unknownStyle={styles.avatar}
+                      plain
+                    />
+                  </TouchableOpacity>
                     <WalletChatWidget
                       connectedWallet={
                         web3Provider
@@ -821,7 +821,7 @@ const Dashboard = props => {
                     </Animated.View>
                   )}
                 </Animated.View>
-              </Section>
+              </View>
               <Animated.View style={styles.totalBalance}>
                 {headerLarge && (
                   <Text
@@ -1034,6 +1034,7 @@ const getStylesFromProps = ({ theme }) => ({
   avatarWrapper: {
     height: '100%',
     width: '100%',
+    right: 40,
   },
   avatar: {
     width: '100%',
@@ -1149,7 +1150,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   balanceTop: {
     display: 'flex',
-    width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
@@ -1162,6 +1162,7 @@ const getStylesFromProps = ({ theme }) => ({
   profileIconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginRight: "43%",
   },
   multiBalance: {
     display: 'flex',

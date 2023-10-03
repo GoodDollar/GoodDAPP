@@ -1,6 +1,6 @@
 import { t } from '@lingui/macro'
 import { shuffle } from 'lodash'
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 
@@ -35,7 +35,7 @@ const GiveUpDialog = ({ styles, theme, onReasonChosen, type }) => {
   const title = type === 'cancelled' ? t`Why didn't you complete the GoodDollar verification?` : t`What happened?`
   const GiveUpReason = type === 'cancelled' ? GiveUpCancelled : GiveUpFailed
 
-  const shuffledReasons = shuffle(Object.entries(GiveUpReason))
+  const shuffledReasons = useMemo(() => shuffle(Object.entries(GiveUpReason)), [])
 
   return (
     <ExplanationDialog title={title}>

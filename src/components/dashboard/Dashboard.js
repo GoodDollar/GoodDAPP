@@ -791,15 +791,15 @@ const Dashboard = props => {
               <View style={styles.profileContainer}>
                 <Animated.View style={profileAnimStyles}>
                   <Animated.View testID="avatar-anim-styles" style={[styles.profileIconContainer, avatarAnimStyles]}>
-                  <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
-                    <Avatar
-                      source={avatar}
-                      style={styles.avatar}
-                      imageStyle={styles.avatar}
-                      unknownStyle={styles.avatar}
-                      plain
-                    />
-                  </TouchableOpacity>
+                    <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
+                      <Avatar
+                        source={avatar}
+                        style={styles.avatar}
+                        imageStyle={styles.avatar}
+                        unknownStyle={styles.avatar}
+                        plain
+                      />
+                    </TouchableOpacity>
                     <WalletChatWidget
                       connectedWallet={
                         web3Provider
@@ -976,7 +976,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   dashboardWrapper: {
     backgroundColor: theme.colors.secondaryGray,
-    flexGrow: 1,
     padding: 0,
     ...Platform.select({
       web: { overflowY: 'hidden' },
@@ -1034,7 +1033,6 @@ const getStylesFromProps = ({ theme }) => ({
   avatarWrapper: {
     height: '100%',
     width: '100%',
-    right: 40,
   },
   avatar: {
     width: '100%',
@@ -1153,6 +1151,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
+    width: "100%",
   },
   profileContainer: {
     paddingTop: 0,
@@ -1162,7 +1161,7 @@ const getStylesFromProps = ({ theme }) => ({
   profileIconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginRight: "43%",
+    width: "100%"
   },
   multiBalance: {
     display: 'flex',

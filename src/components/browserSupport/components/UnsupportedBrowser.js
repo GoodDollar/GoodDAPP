@@ -57,8 +57,7 @@ export const UnsupportedWebview = ({ onDismiss = noop, copyUrl = undefined, type
         {
           text: t`Copy link`,
           action: copyToClipboard,
-          style: { backgroundColor: 'none' },
-          textStyle: { color: theme.colors.gray80Percent },
+          style: { backgroundColor: theme.colors.gray80Percent },
         },
         {
           text: t`Try Anyway`,

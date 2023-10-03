@@ -12,6 +12,7 @@ import illustration from '../../../assets/UnsuportedBrowser.svg'
 
 import Config from '../../../config/config'
 import { useDialog } from '../../../lib/dialog/useDialog'
+import { theme } from '../../theme/styles'
 
 // localization
 
@@ -56,6 +57,8 @@ export const UnsupportedWebview = ({ onDismiss = noop, copyUrl = undefined, type
         {
           text: t`Copy link`,
           action: copyToClipboard,
+          style: { backgroundColor: 'none' },
+          textStyle: { color: theme.colors.gray80Percent },
         },
         {
           text: t`Try Anyway`,

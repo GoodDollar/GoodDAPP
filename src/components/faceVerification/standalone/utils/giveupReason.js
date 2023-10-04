@@ -12,8 +12,6 @@ export const GiveUpCancelled = {
 }
 
 export const GiveUpFailed = {
-  LowCameraQuali: t`I think my camera quality is not good enough`,
-  CameraNotFound: t`My camera is not found/cannot be accessed`,
   MaybeDupe: t`I think I have another account I forgot about`,
   TwinIssue: t`It keeps saying I have a twin but have never registered before`,
   OvalIssue: t`I'm not able to put my face in the circle`,

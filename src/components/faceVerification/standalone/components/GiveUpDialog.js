@@ -1,7 +1,9 @@
 import { t } from '@lingui/macro'
-import React, { useCallback } from 'react'
+import { shuffle } from 'lodash'
+import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
+
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import { withStyles } from '../../../../lib/styles'
 import { Section, Text } from '../../../common'
@@ -30,13 +32,16 @@ const GiveUpDialog = ({ styles, theme, onReasonChosen, type }) => {
     [hideDialog, onReasonChosen],
   )
 
-  const title = type === 'cancelled' ? t`Why didn't you complete the GoodDollar-verification?` : t`What happened?`
+  const title = type === 'cancelled' ? t`Why didn't you complete the GoodDollar verification?` : t`What happened?`
   const GiveUpReason = type === 'cancelled' ? GiveUpCancelled : GiveUpFailed
+
+  const shuffledReasons = useMemo(() => shuffle(Object.entries(GiveUpReason)), [])
+
   return (
     <ExplanationDialog title={title}>
       <Section.Stack justifyContent="flex-start" style={styles.optionsRowWrapper}>
         <RadioButton.Group onValueChange={onSelected}>
-          {Object.entries(GiveUpReason).map(([reason, text]) => (
+          {shuffledReasons.map(([reason, text]) => (
             <OptionsRow key={reason} {...{ reason, text, theme, styles }} />
           ))}
         </RadioButton.Group>

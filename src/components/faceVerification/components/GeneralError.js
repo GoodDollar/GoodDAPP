@@ -13,7 +13,7 @@ import FVErrorGeneralSVG from '../../../assets/FaceVerification/FVErrorGeneral.s
 
 import { fireEvent, FV_GENERALERROR } from '../../../lib/analytics/analytics'
 
-const GeneralError = ({ styles, displayTitle, onRetry, exception }) => {
+const GeneralError = ({ styles, displayTitle, onRetry, exception, reachedMax }) => {
   useEffect(() => {
     if (!exception) {
       return
@@ -40,9 +40,11 @@ const GeneralError = ({ styles, displayTitle, onRetry, exception }) => {
             {t`You see, it's not that easy to 
                 capture your beauty :)`}
           </Text>
-          <Text fontWeight="bold" fontSize={18} lineHeight={25}>
-            {t`So, let’s give it another shot...`}
-          </Text>
+          {!reachedMax && (
+            <Text fontWeight="bold" fontSize={18} lineHeight={25}>
+              {t`So, let’s give it another shot...`}
+            </Text>
+          )}
         </View>
       </Section>
       <View style={styles.errorImage}>

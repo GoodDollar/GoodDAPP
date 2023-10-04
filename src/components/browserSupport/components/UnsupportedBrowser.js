@@ -22,7 +22,7 @@ const webviewCopy = {
     text: t`Please copy the link and open it on Chrome, Safari, or your native browser.`,
   },
   default: {
-    title: t`Oops! GoodWallet might not work correctly on webviews`,
+    title: t`Oops! GoodWallet might not work correctly on this browser`,
     text: t`GoodWallet might not work correctly on this browser
     For the best experience, use Chrome, Safari or your phone's native browser`,
   },

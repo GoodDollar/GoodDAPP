@@ -12,30 +12,27 @@ import illustration from '../../../assets/UnsuportedBrowser.svg'
 
 import Config from '../../../config/config'
 import { useDialog } from '../../../lib/dialog/useDialog'
+import { theme } from '../../theme/styles'
 
 // localization
 
-export default ({ onDismiss }) => (
-  <ExplanationDialog
-    title={t`Oops! GoodWallet might not work correctly on webviews`}
-    text={t`For best experience 
-    please switch to your browser app
-    and go to ${Config.publicUrl}`}
-    image={illustration}
-    imageHeight={124}
-    buttons={[
-      {
-        text: t`GOT IT`,
-        action: onDismiss,
-      },
-    ]}
-  />
-)
+const webviewCopy = {
+  fv: {
+    title: t`Oops! This browser/app cannot run identity verification`,
+    text: t`Please copy the link and open it on Chrome, Safari, or your native browser.`,
+  },
+  default: {
+    title: t`Oops! GoodWallet might not work correctly on this browser`,
+    text: t`GoodWallet might not work correctly on this browser
+    For the best experience, use Chrome, Safari or your phone's native browser`,
+  },
+}
 
 // Modal for blocking user further access to functionality
 // Example usage: functionalties which are webviews and we know don't work at all
-export const BlockingUnsupportedBrowser = ({ onDismiss = noop, copyUrl = undefined }) => {
+export const UnsupportedWebview = ({ onDismiss = noop, copyUrl = undefined, type = 'default' }) => {
   const { showDialog } = useDialog()
+  const { title, text } = webviewCopy[type]
 
   const navigateTo = copyUrl ?? Config.publicUrl
 
@@ -52,14 +49,15 @@ export const BlockingUnsupportedBrowser = ({ onDismiss = noop, copyUrl = undefin
 
   return (
     <ExplanationDialog
-      title={t`Oops! This browser/app cannot run identity verification`}
-      text={t`Please copy the link and open it on Chrome, Safari, or your native browser.`}
+      title={title}
+      text={text}
       image={illustration}
       imageHeight={124}
       buttons={[
         {
           text: t`Copy link`,
           action: copyToClipboard,
+          style: { backgroundColor: theme.colors.gray80Percent },
         },
         {
           text: t`Try Anyway`,

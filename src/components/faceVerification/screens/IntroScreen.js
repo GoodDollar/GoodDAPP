@@ -29,7 +29,7 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../lib/analytics/analytics'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
-import { BlockingUnsupportedBrowser } from '../../browserSupport/components/UnsupportedBrowser'
+import { UnsupportedWebview } from '../../browserSupport/components/UnsupportedBrowser'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 
 // assets
@@ -144,7 +144,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     onUnsupported: () => {
       requestCameraPermissions({ ignoreMountedState: true }) // we let the user try anyways. we add ignoreMOuntedState because when showing the unsupportedbrowser popup it unmounts
     },
-    unsupportedPopup: BlockingUnsupportedBrowser,
+    unsupportedPopup: UnsupportedWebview,
     onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
 

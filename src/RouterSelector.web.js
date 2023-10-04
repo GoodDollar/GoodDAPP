@@ -10,7 +10,7 @@ import Splash, { animationDuration, shouldAnimateSplash } from './components/spl
 // hooks
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
 import useBrowserSupport from './components/browserSupport/hooks/useBrowserSupport'
-import UnsupportedBrowser from './components/browserSupport/components/UnsupportedBrowser'
+import { UnsupportedWebview } from './components/browserSupport/components/UnsupportedBrowser'
 
 // utils
 import { delay } from './lib/utils/async'
@@ -81,7 +81,7 @@ const RouterWrapper = () => {
 
   let [supported, checkBrowser] = useBrowserSupport({
     checkOnMounted: false,
-    unsupportedPopup: UnsupportedBrowser,
+    unsupportedPopup: UnsupportedWebview,
     onCheck: () => !isWebView,
   })
 

@@ -254,9 +254,9 @@ const Dashboard = props => {
   const sendReceiveMinimzedYAnimValue = new Animated.Value(0)
   const sendReceiveOutputRange = headerLarge ? [0, 500] : [100, 0]
 
-  const profileAnimStyles = {
-    alignItems: 'flex-start',
-  }
+  // const profileAnimStyles = {
+  //   alignItems: 'flex-start',
+  // }
 
   const fullNameAnimateStyles = {
     opacity: headerFullNameOpacityAnimValue,
@@ -789,7 +789,7 @@ const Dashboard = props => {
           <Section.Stack alignItems="center" style={styles.balanceContainer}>
             <Animated.View style={styles.balanceTop}>
               <View style={styles.profileContainer}>
-                <Animated.View style={profileAnimStyles}>
+                <Animated.View style={styles.profileAndWalletChat}>
                   <Animated.View testID="avatar-anim-styles" style={[styles.profileIconContainer, avatarAnimStyles]}>
                     <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
                       <Avatar
@@ -800,6 +800,7 @@ const Dashboard = props => {
                         plain
                       />
                     </TouchableOpacity>
+                  </Animated.View>
                     <WalletChatWidget
                       connectedWallet={
                         web3Provider
@@ -812,15 +813,14 @@ const Dashboard = props => {
                           : undefined
                       }
                     />
-                  </Animated.View>
-                  {headerLarge && (
-                    <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
-                      <Section.Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={12}>
-                        {fullName || ' '}
-                      </Section.Text>
-                    </Animated.View>
-                  )}
                 </Animated.View>
+                {headerLarge && (
+                  <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
+                    <Section.Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={12}>
+                      {fullName || ' '}
+                    </Section.Text>
+                  </Animated.View>
+                )}
               </View>
               <Animated.View style={styles.totalBalance}>
                 {headerLarge && (
@@ -970,6 +970,7 @@ const getStylesFromProps = ({ theme }) => ({
   headerFullName: {
     justifyContent: 'center',
     alignItems: 'center',
+    right: 15,
     zIndex: -1,
     marginTop: 8,
     marginBottom: 8,
@@ -1157,10 +1158,14 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
     paddingBottom: 0,
     alignItems: 'center',
+    width: Platform.OS === "web" ? "20%" : "25%",
+  },
+  profileAndWalletChat: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between"
   },
   profileIconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     width: "100%"
   },
   multiBalance: {

@@ -1,7 +1,7 @@
 import { t } from '@lingui/macro'
 import { shuffle } from 'lodash'
 import React, { useCallback, useMemo } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 
 import { useDialog } from '../../../../lib/dialog/useDialog'
@@ -59,10 +59,14 @@ const getStylesFromProps = ({ theme }) => ({
     borderBottomColor: theme.colors.lightGray,
     borderBottomWidth: 1,
     padding: theme.paddings.mainContainerPadding,
-    paddingLeft: theme.sizes.defaultQuadruple,
   },
   growTwo: {
     flexGrow: 2,
+    ...Platform.select({
+      native: {
+        maxWidth: 220,
+      },
+    }),
   },
   optionsRowTitle: {
     width: '15%',

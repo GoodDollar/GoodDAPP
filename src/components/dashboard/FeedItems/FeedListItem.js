@@ -12,6 +12,7 @@ import useOnPress from '../../../lib/hooks/useOnPress'
 import { useNativeDriverForAnimation } from '../../../lib/utils/platform'
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import Config from '../../../config/config'
+import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
 
@@ -62,7 +63,7 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
 
   const onPress = useOnPress(() => {
     if (type !== 'empty') {
-      const isNews = type === 'news'
+      const isNews = type === FeedItemType.EVENT_TYPE_NEWS
       const newsParams = isNews && !!link ? { link } : {}
       fireEvent(CARD_OPEN, { cardId: id, ...newsParams })
       onItemPress()

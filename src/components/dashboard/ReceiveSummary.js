@@ -1,5 +1,7 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
+import { t } from '@lingui/macro'
+
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
@@ -46,7 +48,7 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
       amount={amount}
       reason={reason}
       iconName="receive"
-      title="YOU ARE REQUESTING"
+      title={t`YOU ARE REQUESTING`}
       action="receive"
     />
   )

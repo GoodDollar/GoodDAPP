@@ -1,8 +1,9 @@
 // @flow
 
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { View } from 'react-native'
-import { useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { t } from '@lingui/macro'
+import { TokenContext, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import InputText from '../common/form/InputText'
 import { Section, Text, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -11,7 +12,9 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import normalize from '../../lib/utils/normalizeText'
 import CopyButton from '../common/buttons/CopyButton'
 import { theme } from '../theme/styles'
+import Config from '../../config/config'
 import EventIcon from './FeedItems/EventIcon'
+import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type TypeProps = {
   screenProps: any,
@@ -66,8 +69,8 @@ export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend
       style={styles.text}
     >
       {isSend
-        ? `Keep in mind - your G$ tokens are on an internal network and should be sent on the G$ network and not to Ethereum external wallets`
-        : `Keep in mind - Do not send tokens from Ethereum network to this address. This is an internal Network address for G$ tokens only.`}
+        ? t`Keep in mind - your G$ tokens are on an internal network and should be sent on the G$ network and not to Ethereum external wallets`
+        : t`Keep in mind - Do not send tokens from Ethereum network to this address. This is an internal Network address for G$ tokens only.`}
     </Text>
   </View>
 ))
@@ -75,6 +78,8 @@ export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend
 const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
   const goodWallet = useWallet()
   const onPressDone = useCallback(screenProps.goToRoot)
+  const { native } = useContext(TokenContext)
+
   return (
     <Wrapper>
       <TopBar
@@ -98,18 +103,17 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
           showError={false}
         />
         <Text style={styles.copyText} fontSize={24} fontWeight="medium" lineHeight={30}>
-          {'Copy & share it\nwith others'}
+          {t`Copy & share it
+          with others`}
         </Text>
-        <GDTokensWarningBox />
+        {(!Config.isDeltaApp || !native) && <GDTokensWarningBox />}
         <CopyButton style={styles.confirmButton} toCopy={address || goodWallet.account} onPressDone={onPressDone} />
       </Section>
     </Wrapper>
   )
 }
 
-ReceiveToAddress.navigationOptions = {
-  title: 'Receive G$',
-}
+ReceiveToAddress.navigationOptions = navigationOptions
 
 export default withStyles(({ theme }) => ({
   containerInput: {

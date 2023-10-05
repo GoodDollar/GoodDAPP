@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { moneyRegexp } from '../../../lib/wallet/utils'
+import { amountRegexp, isNativeToken, moneyRegexp } from '../../../lib/wallet/utils'
 import { withStyles } from '../../../lib/styles'
 import KeyboardKey from './KeyboardKey'
 import KeyboardRow from './KeyboardRow'
@@ -25,7 +25,10 @@ const NumPadKeyboard = ({
   caretPosition,
   updateCaretPosition,
   styles,
+  unit = 'G$',
 }: KeyboardProps) => {
+  const regex = isNativeToken(unit) ? amountRegexp : moneyRegexp
+
   const onPressKey = (value: string) => {
     // prevent adding numbers to the amount field if maxLength is reached
     if (isMaxLength) {
@@ -37,7 +40,7 @@ const NumPadKeyboard = ({
       ? [stringAmount.slice(0, caretPosition.start), value, stringAmount.slice(caretPosition.end)].join('')
       : `${stringAmount}${value}`
 
-    if (moneyRegexp.test(updatedValue)) {
+    if (regex.test(updatedValue)) {
       onPress(updatedValue)
       updateCaretPosition({
         start: caretPosition.start + 1,

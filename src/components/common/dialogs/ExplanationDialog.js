@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
-import { Image, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
 // components
@@ -145,11 +145,16 @@ const mapStylesToProps = ({ theme }) => ({
   },
   buttonsContainer: {
     display: 'flex',
+    flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     paddingLeft: 0,
     paddingRight: 0,
-    gap: '10px',
+    ...Platform.select({
+      web: {
+        gap: '10px',
+      },
+    }),
   },
   buttonText: {
     paddingLeft: 5,

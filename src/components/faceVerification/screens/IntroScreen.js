@@ -20,14 +20,7 @@ import logger from '../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
-import {
-  iosSupportedWeb,
-  isBrowser,
-  isEmulator,
-  isIOSWeb,
-  isMobileSafari,
-  isWebView,
-} from '../../../lib/utils/platform'
+import { iosSupportedWeb, isBrowser, isEmulator, isIOSWeb, isWebView } from '../../../lib/utils/platform'
 import { openLink } from '../../../lib/utils/linking'
 import Config from '../../../config/config'
 import { Permissions } from '../../permissions/types'
@@ -36,14 +29,14 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../lib/analytics/analytics'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
-import { BlockingUnsupportedBrowser } from '../../browserSupport/components/UnsupportedBrowser'
+import { UnsupportedWebview } from '../../browserSupport/components/UnsupportedBrowser'
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 
 // assets
 import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../lib/userStorage/useProfile'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
-
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const WalletDeletedPopupText = ({ styles }) => (
@@ -71,7 +64,8 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
           {firstName && `${firstName},`}
           <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
             {firstName ? `\n` : ''}
-            {'Verify you are a real\nlive person'}
+            {t`Verify you are a real live person`}
+            {`\n`}
           </Section.Text>
         </Section.Title>
         <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
@@ -112,8 +106,6 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     fullName,
   ])
 
-  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
-
   const [disposing, checkDisposalState] = useDisposingState(
     {
       requestOnMounted: false,
@@ -149,8 +141,10 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const [, checkForCameraSupport] = useCameraSupport({
     checkOnMounted: false,
     onSupported: requestCameraPermissions,
-    onUnsupported: navigateToHome,
-    unsupportedPopup: BlockingUnsupportedBrowser,
+    onUnsupported: () => {
+      requestCameraPermissions({ ignoreMountedState: true }) // we let the user try anyways. we add ignoreMOuntedState because when showing the unsupportedbrowser popup it unmounts
+    },
+    unsupportedPopup: UnsupportedWebview,
     onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
 
@@ -169,10 +163,10 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
   useFaceTecSDK({ initOnMounted: true }) // early initialize
 
-  useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
-
   useEffect(() => {
     log.debug({ enrollmentIdentifier, userName, isFVFlow, isFVFlowReady })
+
+    AsyncStorage.setItem('hasStartedFV', 'true')
 
     if (enrollmentIdentifier && (!isFVFlow || isFVFlowReady)) {
       fireEvent(FV_INTRO)

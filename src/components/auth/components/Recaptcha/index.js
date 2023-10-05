@@ -1,5 +1,7 @@
 import { get, noop } from 'lodash'
 import React, { useCallback, useImperativeHandle, useRef, useState } from 'react'
+import { t } from '@lingui/macro'
+
 import logger from '../../../../lib/logger/js-logger'
 import API from '../../../../lib/API'
 import { useDialog } from '../../../../lib/dialog/useDialog'
@@ -18,9 +20,10 @@ const Recaptcha = React.forwardRef(({ onSuccess = noop, onFailure = noop, childr
       let result
       let hasPassed = false
       const captchaType = captchaRef.current.type?.() || 'recaptcha'
+      const title = t`Verifying CAPTCHA`
 
       try {
-        showDialog({ title: 'Verifying CAPTCHA', image: <LoadingIcon />, showCloseButtons: false, showButtons: false })
+        showDialog({ title, image: <LoadingIcon />, showCloseButtons: false, showButtons: false })
 
         log.debug('Recaptcha payload', { payload, ekey, captchaType })
 

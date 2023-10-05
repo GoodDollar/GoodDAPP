@@ -4143,8 +4143,8 @@ __metadata:
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
-    "@gooddollar/goodprotocol": latest
-    "@gooddollar/react-native-facetec": ^1.0.38
+    "@gooddollar/goodprotocol": ^2.0.13
+    "@gooddollar/react-native-facetec": ^1.0.40
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.1.91
     "@hcaptcha/react-hcaptcha": ^1.6.0
@@ -4331,6 +4331,7 @@ __metadata:
     react-native-linear-gradient: ^2.5.6
     react-native-localize: ^2.2.1
     react-native-masked-text: ^1.13.0
+    react-native-modal-dropdown: ^1.0.2
     react-native-notifications: ^4.3.1
     react-native-os: ^1.2.6
     react-native-otp: ^1.0.0
@@ -4368,7 +4369,7 @@ __metadata:
     react-navigation: ^4.0.10
     react-navigation-stack: ^1.10.3
     react-phone-number-input: ^3.2.23
-    react-qr-reader: ^2.2.1
+    react-qr-reader-es6: ^2.2.1-2
     react-scripts: ^4.0.3
     react-share: ^4.3.1
     react-test-renderer: ^17.0.2
@@ -4376,6 +4377,7 @@ __metadata:
     realm-web: ^2.0.0
     reaptcha: ^1.7.3
     recaptcha-v3-react: ^3.0.3
+    requestidlecallback: ^0.3.0
     resolve: 1.8.1
     rxjs: ^6.4.0
     sass-loader: ^9.0.3
@@ -4406,30 +4408,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/goodprotocol@npm:^2.0.3, @gooddollar/goodprotocol@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "@gooddollar/goodprotocol@npm:2.0.4"
-  dependencies:
-    "@gooddollar/goodcontracts": ^2.6.6
-    "@jsier/retrier": ^1.2.4
-    "@openzeppelin/contracts": ^4.8.0
-    "@openzeppelin/contracts-upgradeable": ^4.8.0
-    "@superfluid-finance/ethereum-contracts": ^1.4.3
-    "@superfluid-finance/sdk-core": ^0.5.8
-    "@typechain/hardhat": ^6.1.2
-    async-promise-pool: ^1.0.4
-    openzeppelin-solidity: ^4.3.2
-    patch-package: latest
-    press-any-key: ^0.1.1
-    truffle-plugin-verify: ^0.6.1
-    truffle-source-verify: ^0.0.6
-  checksum: 5c2b37e117eccf50043b824082a8462c17b9efbf26cb3a324c60ba4f1c2c0f56fcfd3587dc694e93b0a11a723698da1c2630996d4993541a20f8e9782d63b946
-  languageName: node
-  linkType: hard
-
-"@gooddollar/goodprotocol@npm:latest":
-  version: 2.0.6
-  resolution: "@gooddollar/goodprotocol@npm:2.0.6"
+"@gooddollar/goodprotocol@npm:2.0.13":
+  version: 2.0.13
+  resolution: "@gooddollar/goodprotocol@npm:2.0.13"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
@@ -4445,17 +4426,39 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: cc03f3b73128116ed1242e96c042ce76029194dfba128e50244d7adef7af0d6fbcfc0d40c0d2506645b6670ec5404e2651730fcd19d8e965832503594c45e6e3
+  checksum: bc9115c370efb707674e894ccc0ebb38c791af305a4c9040687a3458c0c193ec53ae217ed82ce20a5a24dab10bbcfce4fc0e6c74fbd5fc2a81255adebdce4852
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:^1.0.38":
-  version: 1.0.38
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.38"
+"@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.13#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.13-b5c4924f17.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
+  version: 2.0.13
+  resolution: "@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.13#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.13-b5c4924f17.patch::version=2.0.13&hash=ad5d45&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+  dependencies:
+    "@gooddollar/goodcontracts": ^2.6.6
+    "@jsier/retrier": ^1.2.4
+    "@openzeppelin/contracts": ^4.8.0
+    "@openzeppelin/contracts-upgradeable": ^4.8.0
+    "@openzeppelin/upgrades-core": 1.18.0
+    "@superfluid-finance/ethereum-contracts": ^1.4.3
+    "@superfluid-finance/sdk-core": ^0.5.8
+    "@typechain/hardhat": ^6.1.5
+    async-promise-pool: ^1.0.4
+    openzeppelin-solidity: ^4.3.2
+    patch-package: latest
+    press-any-key: ^0.1.1
+    truffle-plugin-verify: ^0.6.1
+    truffle-source-verify: ^0.0.6
+  checksum: 9d80691274e834a02490b2b18c2cbcd29fc0bf4825ca02692a65167ab5186ce79efd60effed2b2a27270d97cdc8694b16271f08f5a8e717dca38178166283a8d
+  languageName: node
+  linkType: hard
+
+"@gooddollar/react-native-facetec@npm:^1.0.40":
+  version: 1.0.40
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.40"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: 39e90ae4798f2b92291d72a26f92e486cfe591fcd751cf68cba80cb0526bbb0b9571ae4a7a0bfb7d369d2ee7db332ab0ba9de2ad03bf522993103b313a402f1b
+  checksum: 8bfd99d931f3a6c43bf6617ba151cc850ff68d00ebe6192a9a86faf93baea623e8473abb7aa203c32a7b80e3ffa41e7ffe5e5560924b0f8354b43ec8afe80777
   languageName: node
   linkType: hard
 
@@ -8195,22 +8198,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typechain/hardhat@npm:^6.1.2":
-  version: 6.1.5
-  resolution: "@typechain/hardhat@npm:6.1.5"
-  dependencies:
-    fs-extra: ^9.1.0
-  peerDependencies:
-    "@ethersproject/abi": ^5.4.7
-    "@ethersproject/providers": ^5.4.7
-    "@typechain/ethers-v5": ^10.2.0
-    ethers: ^5.4.7
-    hardhat: ^2.9.9
-    typechain: ^8.1.1
-  checksum: ccb4df6eae69d6560125d6eb014989d0097213818d0fdf91a077bacee746f39356de6d11b3f582d55df7d6924bcfffc31e412502bbbe3a5be8e3310197ce4f61
-  languageName: node
-  linkType: hard
-
 "@typechain/hardhat@npm:^6.1.5":
   version: 6.1.6
   resolution: "@typechain/hardhat@npm:6.1.6"
@@ -11337,6 +11324,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"array.prototype.findlast@npm:^1.2.2":
+  version: 1.2.3
+  resolution: "array.prototype.findlast@npm:1.2.3"
+  dependencies:
+    call-bind: ^1.0.2
+    define-properties: ^1.2.0
+    es-abstract: ^1.22.1
+    es-shim-unscopables: ^1.0.0
+    get-intrinsic: ^1.2.1
+  checksum: 853d359bac5c4ce7354e5f2f2930f09eb47eeed18b6d6fb630cf6fa1fe4f32217fd27d07ee4aeeb3d1fd710538cf7bc00d4efc34df64da49fff0b13f57b0d66f
+  languageName: node
+  linkType: hard
+
 "array.prototype.flat@npm:^1.2.5":
   version: 1.3.0
   resolution: "array.prototype.flat@npm:1.3.0"
@@ -11384,6 +11384,21 @@ __metadata:
     es-array-method-boxes-properly: ^1.0.0
     is-string: ^1.0.7
   checksum: 6a57a1a2d3b77a9543db139cd52211f43a5af8e8271cb3c173be802076e3a6f71204ba8f090f5937ebc0842d5876db282f0f63dffd0e86b153e6e5a45681e4a5
+  languageName: node
+  linkType: hard
+
+"arraybuffer.prototype.slice@npm:^1.0.1":
+  version: 1.0.2
+  resolution: "arraybuffer.prototype.slice@npm:1.0.2"
+  dependencies:
+    array-buffer-byte-length: ^1.0.0
+    call-bind: ^1.0.2
+    define-properties: ^1.2.0
+    es-abstract: ^1.22.1
+    get-intrinsic: ^1.2.1
+    is-array-buffer: ^3.0.2
+    is-shared-array-buffer: ^1.0.2
+  checksum: c200faf437786f5b2c80d4564ff5481c886a16dee642ef02abdc7306c7edd523d1f01d1dd12b769c7eb42ac9bc53874510db19a92a2c035c0f6696172aafa5d3
   languageName: node
   linkType: hard
 
@@ -18015,6 +18030,53 @@ __metadata:
   languageName: node
   linkType: hard
 
+"es-abstract@npm:^1.22.1":
+  version: 1.22.1
+  resolution: "es-abstract@npm:1.22.1"
+  dependencies:
+    array-buffer-byte-length: ^1.0.0
+    arraybuffer.prototype.slice: ^1.0.1
+    available-typed-arrays: ^1.0.5
+    call-bind: ^1.0.2
+    es-set-tostringtag: ^2.0.1
+    es-to-primitive: ^1.2.1
+    function.prototype.name: ^1.1.5
+    get-intrinsic: ^1.2.1
+    get-symbol-description: ^1.0.0
+    globalthis: ^1.0.3
+    gopd: ^1.0.1
+    has: ^1.0.3
+    has-property-descriptors: ^1.0.0
+    has-proto: ^1.0.1
+    has-symbols: ^1.0.3
+    internal-slot: ^1.0.5
+    is-array-buffer: ^3.0.2
+    is-callable: ^1.2.7
+    is-negative-zero: ^2.0.2
+    is-regex: ^1.1.4
+    is-shared-array-buffer: ^1.0.2
+    is-string: ^1.0.7
+    is-typed-array: ^1.1.10
+    is-weakref: ^1.0.2
+    object-inspect: ^1.12.3
+    object-keys: ^1.1.1
+    object.assign: ^4.1.4
+    regexp.prototype.flags: ^1.5.0
+    safe-array-concat: ^1.0.0
+    safe-regex-test: ^1.0.0
+    string.prototype.trim: ^1.2.7
+    string.prototype.trimend: ^1.0.6
+    string.prototype.trimstart: ^1.0.6
+    typed-array-buffer: ^1.0.0
+    typed-array-byte-length: ^1.0.0
+    typed-array-byte-offset: ^1.0.0
+    typed-array-length: ^1.0.4
+    unbox-primitive: ^1.0.2
+    which-typed-array: ^1.1.10
+  checksum: 614e2c1c3717cb8d30b6128ef12ea110e06fd7d75ad77091ca1c5dbfb00da130e62e4bbbbbdda190eada098a22b27fe0f99ae5a1171dac2c8663b1e8be8a3a9b
+  languageName: node
+  linkType: hard
+
 "es-aggregate-error@npm:^1.0.7":
   version: 1.0.8
   resolution: "es-aggregate-error@npm:1.0.8"
@@ -20817,6 +20879,18 @@ __metadata:
     has: ^1.0.3
     has-symbols: ^1.0.3
   checksum: 78fc0487b783f5c58cf2dccafc3ae656ee8d2d8062a8831ce4a95e7057af4587a1d4882246c033aca0a7b4965276f4802b45cc300338d1b77a73d3e3e3f4877d
+  languageName: node
+  linkType: hard
+
+"get-intrinsic@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "get-intrinsic@npm:1.2.1"
+  dependencies:
+    function-bind: ^1.1.1
+    has: ^1.0.3
+    has-proto: ^1.0.1
+    has-symbols: ^1.0.3
+  checksum: 5b61d88552c24b0cf6fa2d1b3bc5459d7306f699de060d76442cce49a4721f52b8c560a33ab392cf5575b7810277d54ded9d4d39a1ea61855619ebc005aa7e5f
   languageName: node
   linkType: hard
 
@@ -24905,10 +24979,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsqr@npm:^1.2.0":
-  version: 1.4.0
-  resolution: "jsqr@npm:1.4.0"
-  checksum: 7c572971f90c42772e30d152bde63b84edf1164bde80c53942e6b2068ea31caf00ad704aa46cacc9e71645f52dbeddebc6e84ba15e883c678ee93cde690de339
+"jsqr-es6@npm:^1.4.0-1":
+  version: 1.4.0-1
+  resolution: "jsqr-es6@npm:1.4.0-1"
+  checksum: efabfb35c3c7fc55a2ac7d5a7d251739f6c9c11d8db163b73539824060ced521f462272da231fe871e64133fadb33132e09e56126fa20680dd3901c5b30856e7
   languageName: node
   linkType: hard
 
@@ -33105,6 +33179,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-modal-dropdown@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "react-native-modal-dropdown@npm:1.0.2"
+  dependencies:
+    prop-types: ^15.6.0
+  checksum: 5fa87939451c2903fae3d1aaaa1cd404cc34ae32a854f212f31be2cd7d692bf9f26e6ee792f4db43c050017c96efb14d86045e497d2e637e9e21bb90016bee83
+  languageName: node
+  linkType: hard
+
 "react-native-notifications@npm:^4.3.1":
   version: 4.3.1
   resolution: "react-native-notifications@npm:4.3.1"
@@ -33686,17 +33769,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-qr-reader@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "react-qr-reader@npm:2.2.1"
+"react-qr-reader-es6@npm:^2.2.1-2":
+  version: 2.2.1-2
+  resolution: "react-qr-reader-es6@npm:2.2.1-2"
   dependencies:
-    jsqr: ^1.2.0
+    jsqr-es6: ^1.4.0-1
     prop-types: ^15.7.2
-    webrtc-adapter: ^7.2.1
   peerDependencies:
-    react: ~16
-    react-dom: ~16
-  checksum: a6e997fdd9106dc06efd5df979c49174cf5da97ced9dd1212ebe084fc6c346d2b8a636c6e710668bde32ced28a54e0a4a99e843101062fc3ca99cb90287473cb
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 263483679736204532ede1ab0a7aff21311fd92113ccbd97fb29c5cf3eef0c40b8e2b69a9ba946df8f8a0aa936a0309fe59ddc6849710a213ba8dd24f4d28658
   languageName: node
   linkType: hard
 
@@ -34315,7 +34397,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regexp.prototype.flags@npm:^1.2.0, regexp.prototype.flags@npm:^1.4.3":
+"regexp.prototype.flags@npm:^1.2.0, regexp.prototype.flags@npm:^1.4.3, regexp.prototype.flags@npm:^1.5.0":
   version: 1.5.0
   resolution: "regexp.prototype.flags@npm:1.5.0"
   dependencies:
@@ -34680,6 +34762,13 @@ __metadata:
     tunnel-agent: ^0.6.0
     uuid: ^3.3.2
   checksum: 4e112c087f6eabe7327869da2417e9d28fcd0910419edd2eb17b6acfc4bfa1dad61954525949c228705805882d8a98a86a0ea12d7f739c01ee92af7062996983
+  languageName: node
+  linkType: hard
+
+"requestidlecallback@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "requestidlecallback@npm:0.3.0"
+  checksum: 2405aef711b516e326ff18849b24ad2c0e623d2b60397bdc7919fa40d8575fce0a16a563a53f94ec89d255325a99e5deee952e6024584a5179cbbabb4469f0e8
   languageName: node
   linkType: hard
 
@@ -35247,15 +35336,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rtcpeerconnection-shim@npm:^1.2.15":
-  version: 1.2.15
-  resolution: "rtcpeerconnection-shim@npm:1.2.15"
-  dependencies:
-    sdp: ^2.6.0
-  checksum: 42a733d8e3846b7e7e3c33b6d5cddec95659ceb39d3f990f0a4437e6d719ed717237fea02352d4a18d86c825a1493eaeb481cc835267d2288b0ce43582b97f46
-  languageName: node
-  linkType: hard
-
 "run-async@npm:^2.2.0, run-async@npm:^2.4.0":
   version: 2.4.1
   resolution: "run-async@npm:2.4.1"
@@ -35330,6 +35410,18 @@ __metadata:
   dependencies:
     mri: ^1.1.0
   checksum: 0756e5b04c51ccdc8221ebffd1548d0ce5a783a44a0fa9017a026659b97d632913e78f7dca59f2496aa996a0be0b0c322afd87ca72ccd909406f49dbffa0f45d
+  languageName: node
+  linkType: hard
+
+"safe-array-concat@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "safe-array-concat@npm:1.0.1"
+  dependencies:
+    call-bind: ^1.0.2
+    get-intrinsic: ^1.2.1
+    has-symbols: ^1.0.3
+    isarray: ^2.0.5
+  checksum: 001ecf1d8af398251cbfabaf30ed66e3855127fbceee178179524b24160b49d15442f94ed6c0db0b2e796da76bb05b73bf3cc241490ec9c2b741b41d33058581
   languageName: node
   linkType: hard
 
@@ -35580,13 +35672,6 @@ __metadata:
   dependencies:
     pbkdf2: ^3.0.3
   checksum: e09cf253b0974171bbcb77fa46405bb07cb8e241e2851fc5f23b38526a33105f0f7748a4d60027642f40bd4518ada30b1dce5005c05d17a25cbcefad371d4259
-  languageName: node
-  linkType: hard
-
-"sdp@npm:^2.12.0, sdp@npm:^2.6.0":
-  version: 2.12.0
-  resolution: "sdp@npm:2.12.0"
-  checksum: 5deb20ac50a1aeb4dd5ff2e506c22d1674222c21f08ae97105c9552ae979e90ddc42b8526f2c3dcacfeebc45c7b2e6b6b4254ae2cf335263bf3ddf2ad9b8ec76
   languageName: node
   linkType: hard
 
@@ -36412,9 +36497,11 @@ __metadata:
   linkType: hard
 
 "solidity-ast@npm:^0.4.15":
-  version: 0.4.49
-  resolution: "solidity-ast@npm:0.4.49"
-  checksum: f5b0354ddfa882346cf12d33f79c6123796a07637b248ceb9cfeec9f81540e270407f6fca660cf75666e1ba1866270319ab3fbe54b01491dbd35adffd1405243
+  version: 0.4.52
+  resolution: "solidity-ast@npm:0.4.52"
+  dependencies:
+    array.prototype.findlast: ^1.2.2
+  checksum: 8302faaa9a510b6d9e0d64681bbfb113103035fab1680637b2455f2201fe4e3fa0db5e640bb32222013117df2cb6f770fce705e7e5ff170c9c061c27cea1dd27
   languageName: node
   linkType: hard
 
@@ -38737,6 +38824,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typed-array-buffer@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "typed-array-buffer@npm:1.0.0"
+  dependencies:
+    call-bind: ^1.0.2
+    get-intrinsic: ^1.2.1
+    is-typed-array: ^1.1.10
+  checksum: 3e0281c79b2a40cd97fe715db803884301993f4e8c18e8d79d75fd18f796e8cd203310fec8c7fdb5e6c09bedf0af4f6ab8b75eb3d3a85da69328f28a80456bd3
+  languageName: node
+  linkType: hard
+
+"typed-array-byte-length@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "typed-array-byte-length@npm:1.0.0"
+  dependencies:
+    call-bind: ^1.0.2
+    for-each: ^0.3.3
+    has-proto: ^1.0.1
+    is-typed-array: ^1.1.10
+  checksum: b03db16458322b263d87a702ff25388293f1356326c8a678d7515767ef563ef80e1e67ce648b821ec13178dd628eb2afdc19f97001ceae7a31acf674c849af94
+  languageName: node
+  linkType: hard
+
+"typed-array-byte-offset@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "typed-array-byte-offset@npm:1.0.0"
+  dependencies:
+    available-typed-arrays: ^1.0.5
+    call-bind: ^1.0.2
+    for-each: ^0.3.3
+    has-proto: ^1.0.1
+    is-typed-array: ^1.1.10
+  checksum: 04f6f02d0e9a948a95fbfe0d5a70b002191fae0b8fe0fe3130a9b2336f043daf7a3dda56a31333c35a067a97e13f539949ab261ca0f3692c41603a46a94e960b
+  languageName: node
+  linkType: hard
+
 "typed-array-length@npm:^1.0.4":
   version: 1.0.4
   resolution: "typed-array-length@npm:1.0.4"
@@ -40953,16 +41076,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webrtc-adapter@npm:^7.2.1":
-  version: 7.7.1
-  resolution: "webrtc-adapter@npm:7.7.1"
-  dependencies:
-    rtcpeerconnection-shim: ^1.2.15
-    sdp: ^2.12.0
-  checksum: 16534a721794bf375753b031e538f5c1ce84df3a272085069bbce7fa1b085e5a2d33b92096256a6fdacdf6f9e30f8543e2478a293ccf5a3849bc7143b10b38d3
-  languageName: node
-  linkType: hard
-
 "websocket-driver@npm:>=0.5.1, websocket-driver@npm:^0.7.4":
   version: 0.7.4
   resolution: "websocket-driver@npm:0.7.4"
@@ -41149,6 +41262,19 @@ __metadata:
   version: 1.1.0
   resolution: "which-pm-runs@npm:1.1.0"
   checksum: 39a56ee50886fb33ec710e3b36dc9fe3d0096cac44850d9ca0c6186c4cb824d6c8125f013e0562e7c94744e1e8e4a6ab695592cdb12555777c7a4368143d822c
+  languageName: node
+  linkType: hard
+
+"which-typed-array@npm:^1.1.10":
+  version: 1.1.11
+  resolution: "which-typed-array@npm:1.1.11"
+  dependencies:
+    available-typed-arrays: ^1.0.5
+    call-bind: ^1.0.2
+    for-each: ^0.3.3
+    gopd: ^1.0.1
+    has-tostringtag: ^1.0.0
+  checksum: 711ffc8ef891ca6597b19539075ec3e08bb9b4c2ca1f78887e3c07a977ab91ac1421940505a197758fb5939aa9524976d0a5bbcac34d07ed6faa75cedbb17206
   languageName: node
   linkType: hard
 

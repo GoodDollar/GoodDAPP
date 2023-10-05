@@ -1,6 +1,7 @@
 // libraries
 import React, { memo, useContext, useEffect, useRef, useState } from 'react'
 import { assign, first, isBoolean, pick } from 'lodash'
+import { usePostHog } from 'posthog-react-native'
 
 // components
 
@@ -9,7 +10,7 @@ import Splash, { animationDuration, shouldAnimateSplash } from './components/spl
 // hooks
 import useUpdateDialog from './components/appUpdate/useUpdateDialog'
 import useBrowserSupport from './components/browserSupport/hooks/useBrowserSupport'
-import UnsupportedBrowser from './components/browserSupport/components/UnsupportedBrowser'
+import { UnsupportedWebview } from './components/browserSupport/components/UnsupportedBrowser'
 
 // utils
 import { delay } from './lib/utils/async'
@@ -18,7 +19,7 @@ import DeepLinking from './lib/utils/deepLinking'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/js-logger'
-import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
+import { APP_OPEN, fireEvent, initAnalytics, setPostHog } from './lib/analytics/analytics'
 import { GlobalTogglesContext } from './lib/contexts/togglesContext'
 import { handleLinks } from './lib/utils/linking'
 import useServiceWorker from './lib/hooks/useServiceWorker'
@@ -62,7 +63,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   const Router = isLoggedIn ? AppRouter : SignupRouter
 
   return (
-    <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedIn}>
+    <InternetConnection fallback={DisconnectedSplash} isLoggedIn={isLoggedIn}>
       <Router />
     </InternetConnection>
   )
@@ -70,6 +71,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 
 const RouterWrapper = () => {
   const initRef = useRef()
+  const posthog = usePostHog()
 
   const { isLoggedInRouter } = useContext(GlobalTogglesContext)
 
@@ -79,9 +81,15 @@ const RouterWrapper = () => {
 
   let [supported, checkBrowser] = useBrowserSupport({
     checkOnMounted: false,
-    unsupportedPopup: UnsupportedBrowser,
+    unsupportedPopup: UnsupportedWebview,
     onCheck: () => !isWebView,
   })
+
+  useEffect(() => {
+    if (posthog) {
+      setPostHog(posthog)
+    }
+  }, [posthog])
 
   useEffect(() => {
     const tags = { isLoggedIn: isLoggedInRouter }
@@ -114,6 +122,7 @@ const RouterWrapper = () => {
     const check = async () => {
       // once user is logged in check if their browser is supported and show warning if not
       const didCheck = await AsyncStorage.getItem(BROWSER_CHECKED)
+
       if (!didCheck && !isDeltaApp && isLoggedInRouter && supported === false) {
         checkBrowser()
         AsyncStorage.setItem(BROWSER_CHECKED, true)

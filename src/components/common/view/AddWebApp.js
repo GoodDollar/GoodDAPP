@@ -101,12 +101,12 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
     <View style={styles.explanationDialogContainer}>
       <Trans>
         <Text fontSize={14} style={styles.explanationDialogText}>
-          {'Add this web-app to your iPhone:'}
+          {t`Add this web-app to your iPhone:`}
         </Text>
         <Text fontSize={14} style={styles.explanationDialogText}>
-          {'tap'} <Icon name="ios-share" size={20} /> {'then '}
+          {t`tap`} <Icon name="ios-share" size={20} /> {t`then `}
           <Text fontSize={14} style={[styles.explanationDialogText, styles.explanationDialogTextBold]}>
-            {'“Add to home screen"'}
+            {t`“Add to home screen"`}
           </Text>
         </Text>
       </Trans>
@@ -118,8 +118,8 @@ const AddWebApp = () => {
   const { showDialog } = useDialog()
   const { installPrompt, setInstallPrompt, addWebApp, setAddWebApp } = useContext(GlobalTogglesContext)
 
-  const showExplanationDialog = () => {
-    showDialog({
+  const showExplanationDialog = async () => {
+    await showDialog({
       content: <ExplanationDialog />,
       showButtons: false,
       showAtBottom: true,
@@ -181,7 +181,7 @@ const AddWebApp = () => {
   const showInitialDialog = async isReminder => {
     const skipCount = await AsyncStorage.getItem('GD_AddWebAppSkipCount')
 
-    showDialog({
+    await showDialog({
       content: <InitialDialog showDesc={!isReminder} />,
       onDismiss: () => {
         fireEvent(ADDTOHOME_LATER, { skipCount })
@@ -238,7 +238,7 @@ const AddWebApp = () => {
     }
 
     if (installPrompt || (!iOSAdded && isMobileSafari)) {
-      showInitialDialog()
+      await showInitialDialog()
     }
   }
 

@@ -17,6 +17,8 @@ export class ThreadDB {
 
   databaseID: string
 
+  wallet: any
+
   get Feed(): Collection {
     return this.db.collection('Feed')
   }
@@ -29,7 +31,7 @@ export class ThreadDB {
     return this.db.collection('Profiles')
   }
 
-  constructor(privateKey: TextileCrypto.PrivateKey) {
+  constructor(privateKey: TextileCrypto.PrivateKey, wallet: any) {
     const databaseID = privateKey.public.toString()
 
     const db = new Database(
@@ -49,7 +51,7 @@ export class ThreadDB {
       },
     )
 
-    assign(this, { db, privateKey, databaseID })
+    assign(this, { db, privateKey, databaseID, wallet })
   }
 
   async init() {

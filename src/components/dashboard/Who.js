@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView } from 'react-native'
 import { noop } from 'lodash'
+import { t } from '@lingui/macro'
 
 import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -20,7 +21,7 @@ export type AmountProps = {
 
 const getError = value => {
   if (!value) {
-    return 'Name is mandatory'
+    return t`Name is mandatory`
   }
 
   return null
@@ -44,15 +45,6 @@ const Who = (props: AmountProps) => {
   }, [contact, state.value])
 
   const handlePressQR = useCallback(() => push('SendByQR'), [push])
-
-  // const handlePressSendToAddress = useOnPress(
-  //   () =>
-  //     push('SendToAddress', {
-  //       nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
-  //       action: ACTION_SEND_TO_ADDRESS,
-  //     }),
-  //   [push],
-  // )
 
   const next = useCallback(() => {
     if (state.isValid || contact) {
@@ -82,7 +74,6 @@ const Who = (props: AmountProps) => {
         <Wrapper>
           <TopBar push={screenProps.push} hideProfile={!isReceive}>
             {!isReceive && <ScanQRButton onPress={handlePressQR} />}
-            {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
           </TopBar>
           <Section grow>
             <WhoContent

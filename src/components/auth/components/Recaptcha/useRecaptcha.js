@@ -48,10 +48,10 @@ const useRecaptcha = options => {
     showErrorDialog('', '', {
       title: t`CAPTCHA test failed`,
       message: t`Please try again.`,
-      onDismiss: () => {
+      onDismiss: reason => {
         onFailed()
 
-        if (relaunchOnFailed) {
+        if (relaunchOnFailed && reason !== 'closed') {
           launchCaptcha()
         }
       },

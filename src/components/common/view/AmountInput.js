@@ -18,7 +18,15 @@ type AmountInputProps = {
   maxLength?: number,
 }
 
-const AmountInput = ({ amount, handleAmountChange, styles, error, title, maxLength }: AmountInputProps) => {
+const AmountInput = ({
+  amount,
+  handleAmountChange,
+  styles,
+  error,
+  title,
+  maxLength,
+  unit = 'G$',
+}: AmountInputProps) => {
   const [caretPosition, setCaretPosition] = useState({ start: 0, end: 0 })
 
   useEffect(() => {
@@ -46,6 +54,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title, maxLeng
             onSelectionChange={setCaretPosition}
             error={error}
             maxLength={maxLength}
+            unit={unit}
           />
         </TouchableWithoutFeedback>
       </View>
@@ -55,6 +64,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title, maxLeng
         onPress={handleAmountChange}
         caretPosition={caretPosition}
         updateCaretPosition={setCaretPosition}
+        unit={unit}
       />
     </View>
   )

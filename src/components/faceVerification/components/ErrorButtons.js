@@ -10,7 +10,7 @@ import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
 
 const { fvTypeformUrl } = Config
-  
+
 const ErrorButtons = ({ styles, screenProps, navigation, onRetry, reachedMax }) => {
   const onContactSupport = useCallback(() => openLink(fvTypeformUrl), [])
 

@@ -199,8 +199,9 @@ export const ExternalLink: React.FC<{
     label?: string
     withIcon?: boolean
     withDefaultStyles?: boolean
+    customStyles?: any
     children?: React.ReactNode
-}> = ({ url, dataAttr, label, withDefaultStyles, withIcon, children }) => {
+}> = ({ url, dataAttr, label, withDefaultStyles, customStyles, withIcon, children }) => {
     const sendData = useSendAnalyticsData()
     const textColor = useColorModeValue('goodGrey.700', 'goodGrey.300')
 
@@ -219,6 +220,7 @@ export const ExternalLink: React.FC<{
             px={2}
             borderRadius="12px"
             color={textColor}
+            {...customStyles}
         >
             {({ isPressed }) => (
                 <a

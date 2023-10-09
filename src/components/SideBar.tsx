@@ -23,6 +23,14 @@ const SocialsLink: React.FC<{ network: string; logo: string; url: string }> = ({
     </a>
 )
 
+const externalPrivacyStyles = {
+    paddingTop: '4px',
+    fontSize: 14,
+    paddingBottom: '1px',
+    backgroundColor: 'transparent',
+    color: '#8499BB',
+}
+
 export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; closeSidebar?: any }): JSX.Element {
     const [theme, setTheme] = useApplicationTheme()
     const { i18n } = useLingui()
@@ -244,7 +252,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                         ))}
                 </ScrollView>
 
-                <div className="flex flex-col justify-center h-20 gap-3 mt-2.5">
+                <div className="flex flex-col justify-center gap-3 mt-2.5">
                     <div className="flex flex-row h-6 gap-10">
                         <div className="flex items-center justify-center">
                             <svg
@@ -286,6 +294,22 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                             <SocialsLink network="telegram" logo={TelegramLogo} url="https://t.me/GoodDollarX" />
                             <SocialsLink network="discord" logo={DiscordLogo} url="https://discord.gg/RKVHwdQtme" />
                         </HStack>
+                    </Box>
+                    <Box mt="2">
+                        <ExternalLink
+                            label="Privacy Policy"
+                            url="https://www.gooddollar.org/privacy-policy"
+                            dataAttr="privacy"
+                            withDefaultStyles={true}
+                            customStyles={externalPrivacyStyles}
+                        />
+                        <ExternalLink
+                            label="Terms and Conditions"
+                            url="https://www.gooddollar.org/terms-of-use"
+                            dataAttr="terms"
+                            withDefaultStyles={true}
+                            customStyles={externalPrivacyStyles}
+                        />
                     </Box>
                 </div>
             </Box>

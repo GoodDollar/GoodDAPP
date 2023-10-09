@@ -2817,7 +2817,7 @@ msgstr ""
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:142
+#: src/components/SideBar.tsx:150
 msgid "Docs"
 msgstr "ドキュメント"
 
@@ -2829,7 +2829,7 @@ msgstr "読み込みに失敗しました"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:135
+#: src/components/SideBar.tsx:143
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2862,7 +2862,7 @@ msgstr ""
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:149
+#: src/components/SideBar.tsx:157
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3318,11 +3318,11 @@ msgstr ""
 msgid "Waiting For Confirmation"
 msgstr ""
 
-#: src/components/SideBar.tsx:128
+#: src/components/SideBar.tsx:136
 msgid "Wallet"
 msgstr "財布"
 
-#: src/components/SideBar.tsx:218
+#: src/components/SideBar.tsx:226
 msgid "Wallet balance"
 msgstr ""
 

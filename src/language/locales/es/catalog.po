@@ -2833,7 +2833,7 @@ msgstr "Descripción de depósito"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:142
+#: src/components/SideBar.tsx:150
 msgid "Docs"
 msgstr ""
 
@@ -2845,7 +2845,7 @@ msgstr "falló al cargar"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:135
+#: src/components/SideBar.tsx:143
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2878,7 +2878,7 @@ msgstr "Ir a la cartera"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:149
+#: src/components/SideBar.tsx:157
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3334,11 +3334,11 @@ msgstr "Esperando confirmación"
 msgid "Waiting For Confirmation"
 msgstr "Esperando confirmación"
 
-#: src/components/SideBar.tsx:128
+#: src/components/SideBar.tsx:136
 msgid "Wallet"
 msgstr "Cartera"
 
-#: src/components/SideBar.tsx:218
+#: src/components/SideBar.tsx:226
 msgid "Wallet balance"
 msgstr "Balance de billetera"
 

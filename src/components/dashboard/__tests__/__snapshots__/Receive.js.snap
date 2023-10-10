@@ -315,7 +315,7 @@ exports[`Receive matches snapshot 1`] = `
               "borderTopStyle": "solid",
               "marginLeft": "0px",
               "marginRight": "0px",
-              "marginTop": "0px",
+              "marginTop": "5px",
               "minHeight": "44px",
               "minWidth": "64px",
               "paddingBottom": "0px",

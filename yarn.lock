@@ -4361,7 +4361,7 @@ __metadata:
     react-native-v8: ">=0.65.2-patch.0 <0.66.0"
     react-native-vector-icons: ^6.6.0
     react-native-version-check: ^3.4.3
-    react-native-wallet-chat: 0.2.2
+    react-native-wallet-chat: ^0.2.7
     react-native-web: ^0.17.5
     react-native-web-linear-gradient: ^1.0.5
     react-native-web-lottie: ^1.2.0
@@ -7024,7 +7024,7 @@ __metadata:
 "@superfluid-finance/metadata@git+https://github.com/superfluid-finance/metadata.git":
   version: 1.1.2
   resolution: "@superfluid-finance/metadata@https://github.com/superfluid-finance/metadata.git#commit=97f0e579c618fbfde8284fa729a480336e9cf611"
-  checksum: 450f11cd50cd5374d0e967ffbf8dd28e8b15edc3d2bf5d0436171c1113d1c4748931d791b059dee329a83f6172b91510f91a92af014c058029d4384b98f2f1c5
+  checksum: 3c3d23702cab8ddd7e628ded4e192eaf68e0be5d460d20409b4f873e2104cfa05a9ff84d1b63db21407404eb506d9e21e8d390bb383cba9f56b9c50813890a62
   languageName: node
   linkType: hard
 
@@ -33475,9 +33475,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-wallet-chat@npm:0.2.2":
-  version: 0.2.2
-  resolution: "react-native-wallet-chat@npm:0.2.2"
+"react-native-wallet-chat@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "react-native-wallet-chat@npm:0.2.7"
   dependencies:
     "@stablelib/random": ^1.0.2
     classnames: ^2.3.2
@@ -33487,7 +33487,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 4dc742f6afcc4bb1df674e02f630aafebbb02f8a209cc6bf70d6ac0cb2ae81db784cc6cf18674f6614c033aa98e9cd49d9fcf1d4f8670575b318f60a4c0080b1
+  checksum: 4b2ea61efd4fbce5cc7f78d76349b0ca5c7be8e72e8a37b3eb53a490de2169542620b3c2652de1a4372a2cfc1594d1f476b5398f9b9912c9655533cc445231a2
   languageName: node
   linkType: hard
 

@@ -4,7 +4,7 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
-
+import { useFeatureFlag } from 'posthog-react-native'
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -13,11 +13,13 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
-import { decimalsToFixed, toMask } from '../../lib/wallet/utils'
+import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 import {
   GoodWalletContext,
+  TokenContext,
+  useFixedDecimals,
   useFormatG$,
   useSwitchNetwork,
   useUserStorage,
@@ -56,6 +58,9 @@ import { IconButton, Text } from '../../components/common'
 import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
 import Config from '../../config/config'
+import { FeedItemType } from '../../lib/userStorage/FeedStorage'
+import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
+import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialog'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -79,11 +84,13 @@ import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 import Settings from './Settings'
 
 const log = logger.child({ from: 'Dashboard' })
+const { isDeltaApp } = Config
 
 // prettier-ignore
 const [FaceVerification, FaceVerificationIntro, FaceVerificationError] = withNavigationOptions({
   navigationBarHidden: false,
   title: 'Face Verification',
+  navigationBar: FVNavigationBar,
 })(
   lazyScreens(
     () => import('../faceVerification'),
@@ -215,6 +222,67 @@ const BalanceAndSwitch = ({
   )
 }
 
+const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalance }) => {
+  const { native, token, balance: tokenBalance } = useContext(TokenContext)
+  const [price, showPrice] = useGoodDollarPrice()
+  const formatFixed = useFixedDecimals(token)
+  const isUBI = supportsG$UBI(network)
+
+  // show aggregated balance on FUSE/CELO, delta only
+  const balance = isDeltaApp && (native || !isUBI) ? tokenBalance : totalBalance
+
+  const balanceFormatter = useCallback(
+    amount => (isDeltaApp && native ? formatFixed(amount) : formatWithAbbreviations(amount, 2)),
+    [native, formatFixed],
+  )
+
+  const calculateFontSize = useMemo(
+    () => ({
+      fontSize: balance ? normalizeByLength(balance, 42, 10) : 42,
+    }),
+    [balance],
+  )
+
+  const calculateUSDWorthOfBalance = useMemo(
+    () => (showPrice && (!isDeltaApp || !native) ? formatWithFixedValueDigits(price * Number(balance)) : null),
+    [showPrice, price, balance, native],
+  )
+
+  if (isDeltaApp && !native && !supportsG$(network)) {
+    return null
+  }
+
+  return (
+    <Animated.View style={styles.totalBalance}>
+      {headerLarge && (!isDeltaApp || isUBI) && (
+        <Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={12} style={styles.totalBalanceText}>
+          {` MY TOTAL BALANCE `}
+        </Text>
+      )}
+      <View style={styles.balanceUsdRow}>
+        <BigGoodDollar
+          testID="amount_value"
+          number={balance}
+          formatter={balanceFormatter}
+          unit={isDeltaApp && native ? token : null}
+          bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
+          bigNumberUnitStyles={styles.bigNumberUnitStyles}
+          bigNumberProps={{
+            numberOfLines: 1,
+          }}
+          style={styles.bigGoodDollar}
+        />
+      </View>
+      {/* TODO: get ETH/GETH/FUSE/CELO price and calculate native tokens worth, may not needed for demo */}
+      {headerLarge && (!isDeltaApp || !native) && (
+        <Text style={styles.gdPrice}>
+          ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
+        </Text>
+      )}
+    </Animated.View>
+  )
+}
+
 const Dashboard = props => {
   const feedRef = useRef([])
   const resizeSubscriptionRef = useRef()
@@ -233,7 +301,7 @@ const Dashboard = props => {
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
-  const { totalBalance: balance, fuseBalance, celoBalance, dailyUBI } = useWalletData()
+  const { totalBalance: balance, fuseBalance, celoBalance, dailyUBI, isCitizen } = useWalletData()
   const entitlement = Number(dailyUBI)
   const { toDecimals } = useFormatG$()
   const { avatar, fullName } = useProfile()
@@ -244,10 +312,18 @@ const Dashboard = props => {
   const userStorage = useUserStorage()
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
-  const [price, showPrice] = useGoodDollarPrice()
+  const { onGiveUp } = useGiveUpDialog(navigation, 'cancelled')
+
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeEnabled } = Config
   const { goodWallet, web3Provider } = useContext(GoodWalletContext)
+  
+  // const walletChatEnabled = useFeatureFlag('wallet-chat')
+  const isBridgeActive = useFeatureFlag('micro-bridge')
+
+  const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
+  const bridgeEnabled = ubiEnabled && isBridgeActive
+  
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
 
@@ -310,14 +386,6 @@ const Dashboard = props => {
     setHeaderContentWidth(newHeaderContentWidth)
     setAvatarCenteredPosition(newAvatarCenteredPosition)
   }, [setHeaderContentWidth, setAvatarCenteredPosition])
-
-  const balanceFormatter = useCallback(
-    amount => {
-      const inDecimals = amount
-      return formatWithAbbreviations(inDecimals, 2)
-    },
-    [headerLarge, toDecimals],
-  )
 
   const listFooterComponent = <Separator color="transparent" width={50} />
 
@@ -434,8 +502,16 @@ const Dashboard = props => {
     }
   }, [appState, feedLoaded])
 
+  useEffect(async () => {
+    const hasStartedFV = await AsyncStorage.getItem('hasStartedFV')
+
+    if (hasStartedFV && isCitizen) {
+      onGiveUp()
+    }
+  }, [isCitizen])
+
   const animateClaim = useCallback(() => {
-    if (!entitlement) {
+    if (!entitlement || !supportsG$UBI(currentNetwork)) {
       return
     }
 
@@ -456,7 +532,7 @@ const Dashboard = props => {
         }),
       ]).start(resolve),
     )
-  }, [entitlement])
+  }, [entitlement, currentNetwork])
 
   const animateItems = useCallback(async () => {
     await animateClaim()
@@ -688,7 +764,7 @@ const Dashboard = props => {
         data: { link },
       } = receipt
 
-      if (type !== 'news' || !link) {
+      if (type !== FeedItemType.EVENT_TYPE_NEWS || !link) {
         showEventModal(horizontal ? receipt : null)
         setDialogBlur(horizontal)
         return
@@ -770,18 +846,6 @@ const Dashboard = props => {
   //   [],
   // )
 
-  const calculateFontSize = useMemo(
-    () => ({
-      fontSize: normalizeByLength(balance, 42, 10),
-    }),
-    [balance, toDecimals],
-  )
-
-  const calculateUSDWorthOfBalance = useMemo(
-    () => (showPrice ? formatWithFixedValueDigits(price * Number(balance)) : null),
-    [showPrice, price, balance, toDecimals],
-  )
-
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Animated.View style={[styles.topInfo, topInfoAnimStyles]}>
@@ -853,7 +917,7 @@ const Dashboard = props => {
                 )}
               </Animated.View>
             </Animated.View>
-            {headerLarge && (
+            {headerLarge && (!isDeltaApp || supportsG$(currentNetwork)) && (
               <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
                 <View style={styles.multiBalance}>
                   <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
@@ -883,12 +947,16 @@ const Dashboard = props => {
                   >
                     {t`Send`}
                   </PushButton>
-                  <ClaimButton
-                    screenProps={screenProps}
-                    amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
-                    animated
-                    animatedScale={claimScale}
-                  />
+                  {ubiEnabled ? (
+                    <ClaimButton
+                      screenProps={screenProps}
+                      amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
+                      animated
+                      animatedScale={claimScale}
+                    />
+                  ) : (
+                    <View style={styles.buttonSpacer} />
+                  )}
                   <PushButton
                     icon="receive"
                     iconSize={20}
@@ -1107,7 +1175,9 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberUnitStyles: {
+    display: 'flex',
     alignSelf: 'stretch',
+    alignItems: 'center',
   },
   bigNumberStyles: {
     fontWeight: '700',
@@ -1168,6 +1238,10 @@ const getStylesFromProps = ({ theme }) => ({
   profileIconContainer: {
     width: "100%"
   },
+  profileIconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   multiBalance: {
     display: 'flex',
     flexDirection: 'row',
@@ -1178,15 +1252,16 @@ const getStylesFromProps = ({ theme }) => ({
     height: 54,
     justifyContent: 'center',
   },
+  buttonSpacer: {
+    width: theme.sizes.defaultQuadruple,
+  },
 })
 
-Dashboard.navigationOptions = ({ navigation, screenProps }) => {
-  return {
-    navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />,
-    title: 'Wallet',
-    disableScroll: true,
-  }
-}
+Dashboard.navigationOptions = ({ navigation, screenProps }) => ({
+  navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />,
+  title: 'Wallet',
+  disableScroll: true,
+})
 
 const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)
 

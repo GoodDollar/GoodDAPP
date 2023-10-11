@@ -48,13 +48,14 @@ const CustomAvatar = ({
   }, [size])
 
   const imgSource = useMemo(() => (dataUrl ? getBase64Source(dataUrl) : null), [dataUrl])
+  const isNativeStyles = isGDLogo ? undefined : styles.avatarContainer
 
   return (
     <TouchableOpacity
       activeOpacity={1}
       disabled={!onPress}
       onPress={_onPress}
-      style={[styles.avatarContainer, calculatedStyles.container, style]}
+      style={[isNativeStyles, calculatedStyles.container, style]}
       underlayColor="#fff"
     >
       {isGDLogo ? (

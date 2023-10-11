@@ -88,7 +88,7 @@ const InvitedUser = ({ address, status }) => {
   )
 }
 
-export const ShareInviteButton = ({ share, altCopy, styles }) => (
+export const ShareInviteButton = ({ share, altCopy, styles, eventType = 'share' }) => (
   <ShareButton
     style={[styles, { minWidth: 70, height: 32, minHeight: 32 }]}
     color={theme.colors.primary}
@@ -96,7 +96,7 @@ export const ShareInviteButton = ({ share, altCopy, styles }) => (
     share={share}
     iconColor={'white'}
     actionText={altCopy ? altCopy : isSharingAvailable ? 'share' : 'copy'}
-    onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'native' : 'copy' })}
+    onPressed={() => fireEvent(INVITE_SHARE, { method: isSharingAvailable ? 'native' : 'copy', type: eventType })}
     withoutDone
   />
 )
@@ -158,7 +158,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   const onUnableToCollect = useCallback(async () => {
     const isCitizen = await goodWallet.isCitizen()
 
-    showDialog({
+    await showDialog({
       image: <InfoIcon />,
       title: isCitizen ? t`Your inviter is not verified yet` : t`Claim your first G$s`,
       message: isCitizen
@@ -185,7 +185,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   }, [navigateTo, showDialog, goodWallet])
 
   const onSubmit = useCallback(async () => {
-    showDialog({
+    await showDialog({
       image: <LoadingIcon />,
       loading: true,
       message: t`Please wait

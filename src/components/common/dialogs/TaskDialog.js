@@ -5,6 +5,7 @@ import { t } from '@lingui/macro'
 import { useTaskList } from '../../dashboard/Tasks/hooks/useTasks'
 import { Section, Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
+import { isMobileWeb as isMobile } from '../../../lib/utils/platform'
 
 const dialogStyles = ({ theme }) => ({
   subTitleContainer: {
@@ -50,14 +51,14 @@ const dialogStyles = ({ theme }) => ({
     ...Platform.select({
       web: {
         top: -15,
-        left: 80,
+        left: isMobile ? 65 : 90,
         height: 10,
         padding: 16,
         width: 150,
       },
       native: {
         top: -20,
-        left: 75,
+        left: 80,
         height: 30,
         width: 120,
         paddingLeft: 10,
@@ -103,8 +104,7 @@ const TaskDialog = ({ styles, theme }) => {
     <View>
       <View style={styles.subTitleContainer}>
         <Text color={theme.colors.darkGray} style={styles.subtitle}>
-          {t`Did you know you can earn more 
-          GoodDollars by completing tasks?`}
+          {t`Did you know you can earn more GoodDollars by completing tasks?`}
         </Text>
       </View>
       <Section style={styles.taskContainer}>

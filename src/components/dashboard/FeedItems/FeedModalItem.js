@@ -4,6 +4,8 @@ import { TouchableOpacity, View } from 'react-native'
 import { get, isNil } from 'lodash'
 import { t } from '@lingui/macro'
 import { ChatWithOwner } from 'react-native-wallet-chat'
+
+// import { useFeatureFlag } from 'posthog-react-native'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -33,6 +35,8 @@ const FeedModalItem = (props: FeedEventProps) => {
   const buttonPress = useCallback(() => onPress(item.id), [item, onPress])
   const { avatar: selfAvatar, email } = useProfile()
 
+  // const walletChatEnabled = useFeatureFlag('wallet-chat')
+
   const itemType = item.displayType || item.type
 
   const eventSettings = getEventSettingsByType(theme, itemType)
@@ -43,6 +47,8 @@ const FeedModalItem = (props: FeedEventProps) => {
   const sellerWebsite = get(item, 'data.sellerWebsite', '')
   const chainId = item.chainId || '122'
   const ownerAddress = item?.data?.endpoint?.address
+
+  // const ownerAddress = item?.data?.endpoint?.address
 
   return (
     <ModalWrapper
@@ -78,6 +84,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                 )}
                 <BigGoodDollar
                   number={get(item, 'data.amount', 0)}
+                  unit={get(item, 'data.asset', undefined)}
                   chainId={chainId}
                   color={mainColor}
                   bigNumberProps={{ fontSize: 24, lineHeight: 30 }}

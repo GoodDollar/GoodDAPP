@@ -29,14 +29,14 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../lib/analytics/analytics'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 import useFaceTecSDK from '../hooks/useFaceTecSDK'
-import { BlockingUnsupportedBrowser } from '../../browserSupport/components/UnsupportedBrowser'
+import { UnsupportedWebview } from '../../browserSupport/components/UnsupportedBrowser'
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 
 // assets
 import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
 import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
 import useProfile from '../../../lib/userStorage/useProfile'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
-
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const WalletDeletedPopupText = ({ styles }) => (
@@ -144,7 +144,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     onUnsupported: () => {
       requestCameraPermissions({ ignoreMountedState: true }) // we let the user try anyways. we add ignoreMOuntedState because when showing the unsupportedbrowser popup it unmounts
     },
-    unsupportedPopup: BlockingUnsupportedBrowser,
+    unsupportedPopup: UnsupportedWebview,
     onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
 
@@ -165,6 +165,8 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
   useEffect(() => {
     log.debug({ enrollmentIdentifier, userName, isFVFlow, isFVFlowReady })
+
+    AsyncStorage.setItem('hasStartedFV', 'true')
 
     if (enrollmentIdentifier && (!isFVFlow || isFVFlowReady)) {
       fireEvent(FV_INTRO)

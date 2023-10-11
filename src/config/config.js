@@ -29,11 +29,11 @@ export const fuseNetwork = {
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
   explorerAPI: 'https://explorer.fuse.io',
+  defaultPublicRpc: 'https://rpc.fuse.io/',
   explorerName: 'fusescan',
   network_id: 122,
-  gasPrice:10, //in gwei
-  g$Decimals:2,
-  defaultPublicRpc: 'https://rpc.fuse.io/',
+  gasPrice: 10, // in gwei
+  g$Decimals: 2,
 }
 
 const ethereum = {
@@ -46,6 +46,22 @@ const ethereum = {
     explorerName: 'etherscan',
     gasPrice: 1,
   },
+  '3': {
+    network_id: 3,
+    httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://ropsten.etherscan.io',
+    explorerAPI: 'https://ropsten.etherscan.io',
+    explorerName: 'etherscan',
+  },
+  '5': {
+    network_id: 5,
+    httpWeb3provider: `https://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://goerli.etherscan.io',
+    explorerAPI: 'https://goerli.etherscan.io',
+    explorerName: 'etherscan',
+  },
 
   // kovan/ropsten should/could be removed, 
   // but dev contracts in goodprotocol could still request the networks
@@ -54,13 +70,6 @@ const ethereum = {
     httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://kovan.etherscan.io',
-    explorerName: 'etherscan',
-  },
-  '3': {
-    network_id: 3,
-    httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://ropsten.etherscan.io',
     explorerName: 'etherscan',
   },
   '121': {
@@ -201,7 +210,7 @@ const Config = {
   ceramicIndex: env.REACT_APP_CERAMIC_INDEX,
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
-  ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600),
+  ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600) * 1000,
   ceramicSyncTimeout: env.REACT_APP_CERAMIC_SYNC_TIMEOUT || 5000,
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
@@ -213,9 +222,12 @@ const Config = {
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
   isDeltaApp,
-  bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED !== 'false',
+  showAllChainsEth: isDeltaApp && env.REACT_APP_FORCE_ALL_CHAINS_ETH === 'true',
   posthogApiKey: env.REACT_APP_POSTHOG_KEY,
+  tatumApiUrl: env.REACT_APP_TATUM_API_URL || 'https://api.tatum.io/v3',
   posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
+  fvTypeformUrl: 'https://gooddollar.typeform.com/to/Prgnwkrz',
+  gasFeeNotionUrl: 'https://www.notion.so/gooddollar/Why-does-it-say-I-m-Out-of-Gas-d92e5e20b6144dfbb12979e266e72959'
 }
 
 global.config = Config

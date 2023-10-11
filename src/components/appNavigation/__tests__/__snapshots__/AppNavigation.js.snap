@@ -194,7 +194,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     }
                   >
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                       data-testid="avatar-anim-styles"
                       style={
                         Object {
@@ -270,7 +270,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     className="css-text-901oao r-color-1mtiv16 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-marginBottom-p1pxzi r-marginTop-knv0ih r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                   >
-                    MY TOTAL BALANCE
+                     MY TOTAL BALANCE 
                   </div>
                   <div
                     className="css-view-1dbjc4n r-width-13qz1uu"
@@ -286,7 +286,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         0.0
                       </div>
                       <div
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1pz39u2 r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1pz39u2 r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                       >
                         <div
                           className="css-text-901oao r-color-181bzza r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -414,40 +414,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "width": "40%",
                       }
                     }
-                  >
-                    <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flexDirection-18u37iz r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                      onClick={[Function]}
-                      onContextMenu={[Function]}
-                      onKeyDown={[Function]}
-                      style={
-                        Object {
-                          "WebkitTransitionDuration": "0s",
-                          "transitionDuration": "0s",
-                        }
-                      }
-                      tabIndex="0"
-                    >
-                      <div
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-xoduu5 r-justifyContent-1777fci"
-                        style={Object {}}
-                      >
-                        <span
-                          className="css-text-901oao css-textHasAncestor-16my406 r-fontWeight-1it3c9n"
-                          style={
-                            Object {
-                              "color": "rgba(0,174,255,1.00)",
-                              "fontFamily": "gooddollar",
-                              "fontSize": "30px",
-                              "fontStyle": "normal",
-                            }
-                          }
-                        >
-                          
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  />
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-b7g440 r-borderRadius-1f0042m r-color-vaa0vc r-display-6koalj r-flexDirection-eqz5dr r-fontFamily-6jnb14 r-fontWeight-vw2c0b r-justifyContent-1777fci r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
                     style={

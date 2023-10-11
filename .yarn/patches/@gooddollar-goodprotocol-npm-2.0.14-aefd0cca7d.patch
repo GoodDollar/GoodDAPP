@@ -1,0 +1,49 @@
+diff --git a/package.json b/package.json
+index 32ffa522e902a8d16f89bdc9369265e35d9e07c6..4f8915032b119c4c6643752240ef8fc99c6cc01f 100644
+--- a/package.json
++++ b/package.json
+@@ -3,7 +3,7 @@
+   "version": "2.0.14",
+   "description": "GoodDollar Protocol",
+   "engines": {
+-    "node": "18.x"
++    "node": ">=16.x"
+   },
+   "main": "dist/test-sdk/index.js",
+   "scripts": {
+@@ -93,7 +93,7 @@
+     "@nomiclabs/hardhat-ethers": "^2.2.1",
+     "@nomiclabs/hardhat-etherscan": "^3.1.0",
+     "@nomiclabs/hardhat-waffle": "^2.0.3",
+-    "@swc/core": "^1.2.196",
++    "@swc/core": "1.3.82",
+     "@swc/helpers": "^0.3.16",
+     "@typechain/ethers-v5": "^8.0.2",
+     "@types/mocha": "*",
+@@ -133,5 +133,11 @@
+     "typechain": "^6.0.2",
+     "typescript": "*"
+   },
+-  "packageManager": "yarn@3.6.0"
++  "packageManager": "yarn@3.6.0",
++  "resolutions": { 
++    "@swc/core": "1.3.82" 
++  },
++  "overrides": { 
++    "@swc/core": "1.3.82" 
++  }
+ }
+diff --git a/releases/deployment.json b/releases/deployment.json
+index 701c0acfba43087a044a4cf75eb91ff84a48ad5f..7412f5910a445d42f3eaae0858e6837fd9db4157 100644
+--- a/releases/deployment.json
++++ b/releases/deployment.json
+@@ -212,6 +212,9 @@
+         "BancorFormula": "0x57b2c85934Ef1A891eC9b9945f3fdbcf1104c302",
+         "FeeFormula": "0x416B5A5e12235De6838D62Fd053e7Ce59E944426"
+     },
++    "development-mainnet": {
++        "networkId": 1
++    },
+     "staging-mainnet": {
+         "NameService": "0xC87FAb8A8CDD346079ca6177e47408Ba18066104",
+         "GReputation": "0xD50604E530fF36B2747aE8574b37B21B9f779d37",

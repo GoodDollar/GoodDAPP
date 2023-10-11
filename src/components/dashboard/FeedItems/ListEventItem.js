@@ -16,10 +16,10 @@ import { Icon, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
-import CeloIcon from '../../../assets/logos/celo.svg'
-import FuseIcon from '../../../assets/logos/fuse.svg'
 import Config from '../../../config/config'
 import { openLink } from '../../../lib/utils/linking'
+import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
+import { NetworkLogo } from '../../../lib/constants/network'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -27,6 +27,7 @@ import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
 // import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
+
 const log = logger.child({ from: 'ListEventItem' })
 
 const InviteItem = ({ item, theme }) => (
@@ -80,7 +81,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} isBig={hasPicture} />
 
       <View style={styles.newsContent}>
-        {picture && <Image source={{ uri: picture }} style={styles.feedPicture} />}
+        {hasPicture && <Image source={{ uri: picture }} style={styles.feedPicture} />}
 
         <View style={styles.innerRow}>
           <View grow style={styles.mainContents}>
@@ -126,21 +127,17 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
 export const NetworkIcon = ({ chainId = 122, txHash }) => {
   const networkExplorerUrl = Config.ethereum[chainId]?.explorer
   const isTx = txHash.startsWith('0x')
+  const Icon = NetworkLogo[chainId]
+
   const goToTxDetails = useCallback(() => {
-    networkExplorerUrl ? openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank') : noop()
+    if (!networkExplorerUrl) {
+      return
+    }
+
+    openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
   }, [chainId, txHash])
 
-  let Icon
-  switch (chainId) {
-    case 42220:
-      Icon = CeloIcon
-      break
-    default:
-    case 122:
-      Icon = FuseIcon
-      break
-  }
-  return isTx ? (
+  return isTx && Icon ? (
     <TouchableOpacity onPress={goToTxDetails}>
       <Icon height={20} width={20} />
     </TouchableOpacity>
@@ -155,6 +152,8 @@ export const NetworkIcon = ({ chainId = 122, txHash }) => {
 const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
+
+  // const walletChatEnabled = useFeatureFlag('wallet-chat')
   const mainColor = eventSettings.color
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
@@ -162,10 +161,12 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
   const ownerAddress = feed?.data?.endpoint?.address;
+  const txHash = feed.data.receiptHash || feed.id
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
+
   if (itemType === 'invite') {
     return (
       <View style={[styles.rowContent, { backgroundColor: theme.colors.green }]}>
@@ -175,7 +176,8 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
       </View>
     )
   }
-  if (itemType === 'news') {
+
+  if (itemType === FeedItemType.EVENT_TYPE_NEWS) {
     return <NewsItem item={feed} eventSettings={eventSettings} styles={styles} />
   }
 
@@ -184,8 +186,8 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
       <FeedListItemLeftBorder style={styles.rowContentBorder} color={eventSettings.color} />
       <View style={styles.innerRow}>
         <View style={styles.emptySpace}>
-          <View style={{ height: 20 }}>
-            <NetworkIcon chainId={feed.chainId} txHash={feed.data.receiptHash || feed.id} />
+          <View style={{ height: 20, width: 20 }}>
+            <NetworkIcon txHash={txHash} chainId={chainId} />
           </View>
           <Avatar size={normalize(34)} imageSize={normalize(36)} style={styles.avatarBottom} source={avatar} />
         </View>
@@ -202,11 +204,12 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                   </Text>
                 )}
                 <BigGoodDollar
-                  number={get(feed, 'data.amount', 0)}
-                  chainId={chainId}
                   color={mainColor}
-                  bigNumberProps={{ fontSize: 20, lineHeight: 22 }}
+                  chainId={chainId}
+                  number={get(feed, 'data.amount', 0)}
+                  unit={get(feed, 'data.asset', undefined)}
                   bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberProps={{ fontSize: 20, lineHeight: 22 }}
                   bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
                 />
               </React.Fragment>
@@ -256,7 +259,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                     }
                   />
                 </TouchableOpacity>
-              )}
+              )} 
               <EventIcon
                 style={styles.typeIcon}
                 animStyle={styles.typeAnimatedIcon}
@@ -387,7 +390,8 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   avatarBottom: {
-    alignSelf: 'flex-start',
+    // alignSelf: 'flex-start',
+    margin: 'auto',
   },
   mainContents: {
     flexGrow: 1,

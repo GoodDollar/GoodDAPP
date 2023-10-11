@@ -46,15 +46,6 @@ const Who = (props: AmountProps) => {
 
   const handlePressQR = useCallback(() => push('SendByQR'), [push])
 
-  // const handlePressSendToAddress = useOnPress(
-  //   () =>
-  //     push('SendToAddress', {
-  //       nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
-  //       action: ACTION_SEND_TO_ADDRESS,
-  //     }),
-  //   [push],
-  // )
-
   const next = useCallback(() => {
     if (state.isValid || contact) {
       const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
@@ -83,7 +74,6 @@ const Who = (props: AmountProps) => {
         <Wrapper>
           <TopBar push={screenProps.push} hideProfile={!isReceive}>
             {!isReceive && <ScanQRButton onPress={handlePressQR} />}
-            {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
           </TopBar>
           <Section grow>
             <WhoContent

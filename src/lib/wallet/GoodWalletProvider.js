@@ -1,9 +1,11 @@
 // @flow
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { noop } from 'lodash'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { first, last, noop, trimEnd } from 'lodash'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
 import { Goerli, Mainnet } from '@usedapp/core'
+import { View } from 'react-native'
+import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
 
 import Config from '../../config/config'
@@ -15,12 +17,15 @@ import getDB from '../realmdb/RealmDB'
 import usePropsRefs from '../hooks/usePropsRefs'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
 import api from '../API/api'
-import { getNetworkName, NETWORK_ID } from '../constants/network'
+import { getNetworkName, type NETWORK } from '../constants/network'
 import { useDialog } from '../dialog/useDialog'
+import Section from '../../components/common/layout/Section'
+import Text from '../../components/common/view/Text'
 import { setChainId } from '../analytics/analytics'
+import { withStyles } from '../styles'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
-type NETWORK = $Keys<typeof NETWORK_ID>
+import { decimalsToFixed, getTokensList, isNativeToken, supportedNetworks, supportsG$, supportsG$UBI } from './utils'
 
 /** CELO TODO:
  * 1. lastblock - done
@@ -63,6 +68,13 @@ export const GoodWalletContext = React.createContext({
   web3Provider: undefined
 })
 
+export const TokenContext = React.createContext({
+  token: 'G$',
+  native: false,
+  balance: '0',
+  setToken(token) {},
+})
+
 /**
  *
  * @param {boolean} disableLoginAndWatch - used in tests to disable server interaction
@@ -81,43 +93,62 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const updateWalletData = useCallback(
     async goodWallet => {
-      const { tokenContract, UBIContract, identityContract, account } = goodWallet
+      const { tokenContract, UBIContract, identityContract, account, networkId, multicallFuse } = goodWallet
+      const calls = []
 
-      const calls = [
-        {
+      if (supportsG$(networkId) && tokenContract) {
+        calls.push({
           balance: tokenContract.methods.balanceOf(account),
-        },
-        {
-          ubi: UBIContract.methods.checkEntitlement(account),
-        },
-        {
-          isCitizen: identityContract.methods.isWhitelisted(account),
-        },
-      ]
+        })
+      }
+
+      if (supportsG$UBI(networkId)) {
+        if (UBIContract) {
+          calls.push({
+            ubi: UBIContract.methods.checkEntitlement(account),
+          })
+        }
+
+        if (identityContract) {
+          calls.push({
+            isCitizen: identityContract.methods.isWhitelisted(account),
+          })
+        }
+      }
+
+      // eslint-disable-next-line require-await
+      const onFallback = async () => [[{}]]
 
       // entitelment is separate because it depends on msg.sender
-      const [[{ balance }, { ubi }, { isCitizen }]] = await goodWallet.multicallFuse.all([calls])
+      const [[{ balance = 0 }, ...results]] = await (calls.length
+        ? multicallFuse.all([calls]).catch(onFallback)
+        : onFallback())
+      const { ubi = 0 } = first(results) || {}
+      const { isCitizen = false } = last(results) || {}
 
       let totalBalance = balance
-      let fuseBalance = 0,
-        celoBalance = 0
+      let fuseBalance = 0
+      let celoBalance = 0
+
       if (fusewallet && celowallet) {
         ;[fuseBalance = '0', celoBalance = '0'] = await Promise.all([fusewallet?.balanceOf(), celowallet?.balanceOf()])
+
         fuseBalance = Number(fusewallet.toDecimals(fuseBalance))
         celoBalance = Number(celowallet.toDecimals(celoBalance))
         totalBalance = (fuseBalance + celoBalance).toFixed(2)
       }
-      log.debug('updateWalletData', {
+
+      const walletData = {
         balance,
         totalBalance,
         fuseBalance: fuseBalance.toFixed(2),
         celoBalance: celoBalance.toFixed(2),
-      })
+      }
 
-      setBalance({ balance, totalBalance, fuseBalance: fuseBalance.toFixed(2), celoBalance: celoBalance.toFixed(2) })
-
-      setDailyUBI(ubi)
+      log.debug('updateWalletData', { walletData })
+      setBalance(walletData)
       setIsCitizen(isCitizen)
+      setDailyUBI(ubi)
     },
     [setBalance, setDailyUBI, setIsCitizen, fusewallet, celowallet],
   )
@@ -271,30 +302,25 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     [goodWallet, userStorage, isLoggedInJWT, doLogin],
   )
 
-  const getContractsNetwork = (network: 'fuse' | 'celo') => {
-    network = network.toLowerCase()
+  const getContractsNetwork = (network: NETWORK) => {
+    const net = network.toLowerCase()
     const env = Config.network.split('-')[0]
 
-    let contractsNetwork
     switch (env) {
       default:
       case 'fuse':
       case 'development':
-        contractsNetwork = network === 'fuse' ? 'fuse' : `development-${network}`
-        break
+        return net === 'fuse' ? 'fuse' : `development-${net}`
       case 'staging':
-        contractsNetwork = network === 'fuse' ? 'staging' : `${env}-${network}`
-        break
+        return net === 'fuse' ? 'staging' : `${env}-${net}`
       case 'production':
-        contractsNetwork = network === 'fuse' ? 'production' : `${env}-${network}`
-        break
+        return net === 'fuse' ? 'production' : `${env}-${net}`
     }
-    return contractsNetwork
   }
 
   const switchNetwork = useCallback(
-    async (network: NETWORK) => {
-      network = network.toUpperCase()
+    async (switchToNetwork: NETWORK) => {
+      const network = switchToNetwork.toUpperCase()
       let contractsNetwork = getContractsNetwork(network)
 
       try {
@@ -343,6 +369,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   // disable goodweb3provider for tests
   const Provider = Config.env === 'test' ? React.Fragment : GoodWeb3Provider
+
   const props =
     Config.env === 'test'
       ? {}
@@ -355,16 +382,69 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
             readOnlyChainId: undefined,
             readOnlyUrls: {
               1: 'https://rpc.ankr.com/eth',
+              5: 'https://rpc.ankr.com/eth_goerli',
               122: 'https://rpc.fuse.io',
               42220: 'https://forno.celo.org',
             },
           },
         }
+
   return (
     <GoodWalletContext.Provider value={contextValue}>
-      <Provider {...props}>{children}</Provider>
+      <TokenProvider wallet={goodWallet} walletData={balance}>
+        <Provider {...props}>{children}</Provider>
+      </TokenProvider>
     </GoodWalletContext.Provider>
   )
+}
+
+const TokenProvider = ({ children, wallet, walletData }) => {
+  const { networkId } = wallet ?? {}
+  const [balance, setBalance] = useState(() => walletData.balance)
+  const [tokenData, setTokenData] = useState(() => ({ token: 'G$', native: false }))
+
+  const setToken = useCallback(
+    token =>
+      setTokenData({
+        token,
+        native: isNativeToken(token),
+      }),
+    [setTokenData, networkId],
+  )
+
+  useEffect(() => {
+    setToken(first(getTokensList(networkId)))
+  }, [networkId])
+
+  useEffect(() => {
+    if (!tokenData.native) {
+      setBalance(walletData?.balance)
+      return
+    }
+
+    if (!wallet) {
+      return
+    }
+
+    const { account } = wallet
+
+    const updateNativeBalance = async () => {
+      log.debug('updateNativeBalance: fetching')
+
+      try {
+        const nativeBalance = await wallet.balanceOfNative()
+
+        log.debug('updateNativeBalance: success', { nativeBalance, account })
+        setBalance(nativeBalance)
+      } catch (e) {
+        log.warn('updateNativeBalance: Failed to fetch', e.message, e, { account })
+      }
+    }
+
+    updateNativeBalance()
+  }, [wallet, walletData, tokenData, setBalance])
+
+  return <TokenContext.Provider value={{ ...tokenData, balance, setToken }}>{children}</TokenContext.Provider>
 }
 
 export const useWallet = () => {
@@ -377,6 +457,7 @@ export const useUserStorage = (): UserStorage => {
 
   return userStorage
 }
+
 export const useWalletData = () => {
   const { dailyUBI, balance, totalBalance, celoBalance, fuseBalance, isCitizen, goodWallet } = useContext(
     GoodWalletContext,
@@ -399,24 +480,79 @@ export const useSwitchNetwork = () => {
   return { switchNetwork, currentNetwork: getNetworkName(goodWallet.networkId) }
 }
 
-export const useSwitchNetworkModal = (toNetwork?: NETWORK, onDismiss = noop) => {
-  toNetwork = toNetwork.toUpperCase()
+const PopupSwitch = withStyles(({ theme }) => ({
+  optionsRowWrapper: {
+    padding: 0,
+  },
+  optionsRowContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderStyle: 'solid',
+    borderBottomColor: theme.colors.lightGray,
+    borderBottomWidth: 1,
+    padding: theme.paddings.mainContainerPadding,
+  },
+  growTwo: {
+    flexGrow: 2,
+  },
+  optionsRowTitle: {
+    alignItems: 'center',
+    paddingRight: theme.sizes.default,
+  },
+}))(({ value, values, onChange, styles, theme }) => {
+  const [selectedValue, setSelected] = useState(value)
+
+  const handleSelect = useCallback(
+    selectedValue => {
+      setSelected(selectedValue)
+      onChange(selectedValue)
+    },
+    [setSelected, onChange],
+  )
+
+  return (
+    <Section.Stack justifyContent="flex-start" style={styles.optionsRowWrapper}>
+      <RadioButton.Group onValueChange={handleSelect} value={selectedValue}>
+        {values.map(item => (
+          <View style={styles.optionsRowContainer} key={item}>
+            <View style={styles.optionsRowTitle}>
+              <RadioButton value={item} uncheckedColor={theme.colors.gray} color={theme.colors.primary} />
+            </View>
+            <Text style={styles.growTwo} textAlign="left" color="gray" fontWeight="medium">
+              {item}
+            </Text>
+          </View>
+        ))}
+      </RadioButton.Group>
+    </Section.Stack>
+  )
+})
+
+export const useSwitchNetworkModal = (switchToNetwork?: NETWORK, onDismiss = noop) => {
+  const { isDeltaApp } = Config
   const { showDialog, hideDialog } = useDialog()
   const { currentNetwork, switchNetwork } = useSwitchNetwork()
+  const toNetwork = switchToNetwork?.toUpperCase()
+  const defaultSwitchTo = isDeltaApp ? currentNetwork : currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
 
-  useEffect(() => {
-    const switchTo = toNetwork ?? currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
+  const showModal = useCallback(
+    (toNetwork = null) => {
+      let switchTo = toNetwork ?? defaultSwitchTo
+      const showSwitch = isDeltaApp && !toNetwork
 
-    if (switchTo !== currentNetwork) {
       showDialog({
-        title: t`To continue please switch chains`,
+        title: showSwitch ? t`Select chain` : t`To continue please switch chains`,
         visible: true,
         type: 'info',
         isMinHeight: true,
         onDismiss,
+        content: showSwitch ? (
+          <PopupSwitch values={supportedNetworks} value={switchTo} onChange={value => (switchTo = value)} />
+        ) : null,
         buttons: [
           {
-            text: t`Switch to ${switchTo.toUpperCase()}`,
+            text: showSwitch ? t`Switch chain` : t`Switch to ${switchTo.toUpperCase()}`,
             onPress: async () => {
               await switchNetwork(switchTo)
               hideDialog()
@@ -424,22 +560,77 @@ export const useSwitchNetworkModal = (toNetwork?: NETWORK, onDismiss = noop) => 
           },
         ],
       })
+    },
+    [showDialog, onDismiss, hideDialog, switchNetwork, defaultSwitchTo],
+  )
+
+  const selectNetwork = useCallback(() => showModal(), [showModal])
+
+  useEffect(() => {
+    if (toNetwork && toNetwork !== currentNetwork) {
+      showModal(toNetwork)
     }
   }, [toNetwork, currentNetwork])
+
+  return toNetwork ? null : selectNetwork
 }
 
-export const useFormatG$ = () => {
-  const wallet = useWallet()
+export const useSwitchTokenModal = (onDismiss = noop) => {
+  const { showDialog, hideDialog } = useDialog()
+  const { networkId } = useWallet()
+  const { token, setToken } = useContext(TokenContext)
+  const tokens = useMemo(() => getTokensList(networkId), [networkId])
 
-  //using args so functions do not lose "this" context
+  return useCallback(() => {
+    let switchTo = token
+
+    showDialog({
+      title: 'Select token',
+      visible: true,
+      type: 'info',
+      isMinHeight: true,
+      onDismiss,
+      content: <PopupSwitch values={tokens} value={switchTo} onChange={value => (switchTo = value)} />,
+      buttons: [
+        {
+          text: 'Select token',
+          onPress: () => {
+            setToken(switchTo)
+            hideDialog()
+          },
+        },
+      ],
+    })
+  }, [showDialog, onDismiss, hideDialog, token, tokens])
+}
+
+export const useFixedDecimals = (token = 'G$', chainId = null) => {
+  const { toDecimals } = useFormatToken(token)
+  const asDecimals = number => toDecimals(number, chainId)
+
+  const format = isNativeToken(token)
+    ? number => trimEnd(decimalsToFixed(asDecimals(number), 4), '0')
+    : number => decimalsToFixed(asDecimals(number))
+
+  return number => format(number) || '0.0'
+}
+
+export const useFormatToken = (token = 'G$') => {
+  const wallet = useWallet()
+  const isNative = isNativeToken(token)
+
+  // using args so functions do not lose "this" context
   return {
-    toDecimals: (...args) => wallet?.toDecimals(...args),
-    fromDecimals: (...args) => wallet?.fromDecimals(...args),
+    toDecimals: (wei, chainId = null) => wallet?.toDecimals(wei, isNative ? token : chainId),
+    fromDecimals: (amount, chainId = null) => wallet?.fromDecimals(amount, isNative ? token : chainId),
   }
 }
+
+export const useFormatG$ = () => useFormatToken()
 
 export const usePropSuffix = () => {
   const { goodWallet } = useContext(GoodWalletContext)
   const propSuffix = goodWallet.networkId === 122 ? '' : `_${goodWallet.networkId}`
+
   return propSuffix
 }

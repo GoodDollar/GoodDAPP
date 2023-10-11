@@ -1,5 +1,5 @@
 // @flow
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 import { noop } from 'lodash'
 import { t } from '@lingui/macro'
 
@@ -8,6 +8,7 @@ import { type DialogProps } from '../../components/common/dialogs/CustomDialog'
 // import pino from '../logger/js-logger'
 import { ERROR_DIALOG, fireEvent } from '../analytics/analytics'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
+import { makePromiseWrapper } from '../utils/async'
 import { DialogContext, type DialogData } from './dialogContext'
 
 // const log = pino.child({ from: 'dialogs' })
@@ -24,11 +25,26 @@ export const useDialog = () => {
   const { dialogData, setDialog = noop } = useContext(DialogContext)
   const { setDialogBlur } = useContext(GlobalTogglesContext)
   const isDialogShown = !!dialogData.visible
+  const whenClosedRef = useRef()
+
+  const onHidden = useCallback(() => {
+    whenClosedRef.current.resolve()
+    whenClosedRef.current = null
+  }, [])
 
   const showDialog = useCallback(
     (data: DialogData) => {
+      const whenClosed = makePromiseWrapper()
+
+      if (whenClosedRef.current) {
+        onHidden()
+      }
+
       setDialogBlur(true)
       setDialog({ ...data, visible: true })
+
+      whenClosedRef.current = whenClosed
+      return whenClosed.promise
     },
     [setDialog, setDialogBlur],
   )
@@ -42,7 +58,7 @@ export const useDialog = () => {
   )
 
   const showErrorDialog = useCallback(
-    (humanError: string, error: Error | ResponseError, dialogProps?: DialogData) => {
+    async (humanError: string, error: Error | ResponseError, dialogProps?: DialogData) => {
       let message = ''
 
       if (error == null && humanError && typeof humanError !== 'string') {
@@ -71,7 +87,7 @@ export const useDialog = () => {
       fireEvent(ERROR_DIALOG, { humanError, message })
       message = humanError ? humanError + '\n' + message : message
 
-      showDialog({
+      await showDialog({
         visible: true,
         title: t`Ooops ...`,
         message,
@@ -81,6 +97,12 @@ export const useDialog = () => {
     },
     [showDialog],
   )
+
+  useEffect(() => {
+    if (!isDialogShown && whenClosedRef.current) {
+      onHidden()
+    }
+  }, [isDialogShown, onHidden])
 
   return {
     isDialogShown, // TODO:fix this

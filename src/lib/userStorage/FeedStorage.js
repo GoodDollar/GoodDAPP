@@ -8,7 +8,7 @@ import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
-import { FEED_UPDATED, fireEvent } from '../analytics/analytics'
+import { fireEvent, REWARD_RECEIVED } from '../analytics/analytics'
 import { type UserStorage } from './UserStorageClass'
 import { FeedCategories } from './FeedCategory'
 import type { FeedFilter } from './UserStorage'
@@ -43,6 +43,9 @@ export const FeedItemType = {
   EVENT_TYPE_MINT: 'mint',
   EVENT_TYPE_RECEIVE: 'receive',
   EVENT_TYPE_SENDBRIDGE: 'sendbridge',
+  EVENT_TYPE_SENDNATIVE: 'sendnative',
+  EVENT_TYPE_RECEIVENATIVE: 'receivenative',
+  EVENT_TYPE_NEWS: 'news',
 }
 
 export const TxTypeToEventType = {
@@ -93,10 +96,12 @@ export const getEventDirection = (feedEvent, reverse = false) => {
     FeedItemType.EVENT_TYPE_SENDDIRECT,
     FeedItemType.EVENT_TYPE_SEND,
     FeedItemType.EVENT_TYPE_SENDBRIDGE,
+    FeedItemType.EVENT_TYPE_SENDNATIVE,
   ]
   const receiveCases = [
     FeedItemType.EVENT_TYPE_CLAIM,
     FeedItemType.EVENT_TYPE_RECEIVE,
+    FeedItemType.EVENT_TYPE_RECEIVENATIVE,
     FeedItemType.EVENT_TYPE_WITHDRAW,
     FeedItemType.EVENT_TYPE_BONUS,
   ]
@@ -515,10 +520,13 @@ export class FeedStorage {
         await this.updateFeedEvent(updatedFeedEvent)
 
         // calling it here make sure it will be fired only once when receipt for event is processed
-        fireEvent(FEED_UPDATED, {
-          eventType: updatedFeedEvent.type,
-          value: updatedFeedEvent.data?.receiptEvent?.value,
-        })
+        if (updatedFeedEvent.type === FeedItemType.EVENT_TYPE_BONUS) {
+          fireEvent(REWARD_RECEIVED, {
+            eventType: updatedFeedEvent.type,
+            value: updatedFeedEvent.data?.receiptEvent?.value,
+            eventSource: updatedFeedEvent.data?.receiptEvent?.eventSource,
+          })
+        }
       }
 
       log.debug('handleReceiptUpdate done, returning updatedFeedEvent', receipt.transactionHash, { updatedFeedEvent })
@@ -668,6 +676,36 @@ export class FeedStorage {
     }
   }
 
+  async enqueueNativeTX(_event: FeedEvent): Promise<> {
+    const { PENDING } = TxStatus
+    const { networkId, account: address } = this.wallet
+    const { Feed } = this.db
+
+    const date = new Date().toISOString()
+    const { id, data } = _event
+    const { to, amount } = data
+
+    await Feed.save({
+      ..._event,
+      _id: id,
+      date,
+      createdDate: date,
+      receiptReceived: false,
+      status: PENDING,
+      otplStatus: PENDING,
+      chainId: networkId,
+      data: {
+        ...data,
+        receiptEvent: {
+          to,
+          amount,
+          txHash: id,
+          eventSource: address,
+        },
+      },
+    })
+  }
+
   /**
    * Add or Update feed event
    *
@@ -689,12 +727,31 @@ export class FeedStorage {
     return eventAck
   }
 
+  async updateNativeTx(event: FeedEvent): Promise<FeedEvent> {
+    log.debug('updateNativeTx:', event.id, { event })
+
+    try {
+      await this.writeNativeTx(event)
+    } catch (e) {
+      log.error('updateNativeTx failed byId:', e.message, e, {
+        event,
+      })
+    }
+  }
+
   async writeFeedEvent(event): Promise<FeedEvent> {
     await this.ready //wait before accessing feedIds cache
 
     await this.storage.write(event)
 
     // this.emitUpdate({ event })
+  }
+
+  async writeNativeTx(event): Promise<FeedEvent> {
+    const { Feed } = this.db
+
+    await this.ready //wait before accessing feedIds cache
+    await Feed.save(event)
   }
 
   /**
@@ -716,6 +773,17 @@ export class FeedStorage {
     }
 
     log.warn('getFeedItemByTransactionHash: feed item not found', { id: transactionHash })
+  }
+
+  async getNativeTxByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    const { Feed } = this.db
+    const nativeTX = await Feed.findById(transactionHash)
+
+    if (!nativeTX) {
+      log.warn('getNativeTxByTransactionHash: tx not found', { id: transactionHash })
+    }
+
+    return nativeTX
   }
 
   /**
@@ -756,6 +824,25 @@ export class FeedStorage {
       })
   }
 
+  async updateNativeEventStatus(eventId: string, status: string): Promise<FeedEvent> {
+    let nativeTX
+
+    try {
+      nativeTX = await this.getNativeTxByTransactionHash(eventId)
+
+      if (!nativeTX) {
+        return
+      }
+
+      await this.writeNativeTx({ ...nativeTX, status, otplStatus: status })
+      return nativeTX
+    } catch (e) {
+      log.error('updateNativeEventStatus failed byId:', e.message, e, {
+        nativeTX,
+      })
+    }
+  }
+
   /**
    * Sets the event's status
    * @param {string} eventId
@@ -786,14 +873,22 @@ export class FeedStorage {
       return
     }
 
-    // const release = await this.feedMutex.lock()
-
     try {
-      await this.updateEventStatus(txHash, 'error')
+      await this.updateEventStatus(txHash, TxStatus.ERROR)
     } catch (e) {
       log.error('Failed to set error status for feed event', e.message, e)
-    } finally {
-      // release()
+    }
+  }
+
+  async markNativeTXWithError(txHash: string): Promise<void> {
+    if (!txHash) {
+      return
+    }
+
+    try {
+      await this.updateNativeEventStatus(txHash, TxStatus.ERROR)
+    } catch (e) {
+      log.error('Failed to set error status for native tx', e.message, e)
     }
   }
 
@@ -815,7 +910,7 @@ export class FeedStorage {
         const { id } = item
         log.debug('getFeedPage got item', { id: item.id, item })
 
-        if (!item.receiptReceived && id.startsWith('0x') && item.type !== 'news') {
+        if (!item.receiptReceived && id.startsWith('0x') && item.type !== FeedItemType.EVENT_TYPE_NEWS) {
           const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             log.warn('getFeedPage no receipt found for id:', e.message, e, { id })
           })

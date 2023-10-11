@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "2.23.0",
+  "version": "2.25.0",
   "engines": {
     "node": ">=16.x <17",
     "npm": "8.x"
@@ -77,8 +77,8 @@
     "@expo/react-native-action-sheet": "^3.9.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
     "@gooddollar/goodcontracts": "^2.6.2",
-    "@gooddollar/goodprotocol": "latest",
-    "@gooddollar/react-native-facetec": "^1.0.38",
+    "@gooddollar/goodprotocol": "^2.0.13",
+    "@gooddollar/react-native-facetec": "^1.0.40",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/web3sdk-v2": "^0.1.91",
     "@hcaptcha/react-hcaptcha": "^1.6.0",
@@ -108,8 +108,8 @@
     "@usedapp/core": "1.2.6",
     "@walletconnect/client": "1.8.0",
     "@walletconnect/react-native-compat": "^2.2.1",
-    "@walletconnect/utils": "^2.2.1",
-    "@walletconnect/web3wallet": "^1.7.5",
+    "@walletconnect/utils": "^2.10.1",
+    "@walletconnect/web3wallet": "^1.9.1",
     "@web3-onboard/react": "^2.7.2",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
@@ -342,6 +342,7 @@
     "react-hot-loader": "^4.13.0",
     "react-native-codegen": "^0.0.7",
     "react-test-renderer": "^17.0.2",
+    "requestidlecallback": "^0.3.0",
     "resolve": "1.8.1",
     "sass-loader": "^9.0.3",
     "scoop": "0.0.2",
@@ -367,7 +368,8 @@
     "web3-core-method": "patch:web3-core-method@npm:1.6.0#.yarn/patches/web3-core-method-npm-1.6.0-39b7ee99f4.patch",
     "bignumber.js": "9.1.1",
     "lottie-react-native": "patch:lottie-react-native@npm:5.1.5#.yarn/patches/lottie-react-native-npm-5.1.5-384eb12f33.patch",
-    "@usedapp/core": "patch:@usedapp/core@npm:1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch"
+    "@usedapp/core": "patch:@usedapp/core@npm:1.2.6#.yarn/patches/@usedapp-core-npm-1.2.6-8dbe982e03.patch",
+    "@gooddollar/goodprotocol": "patch:@gooddollar/goodprotocol@npm%3A2.0.14#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.14-aefd0cca7d.patch"
   },
   "browserslist": [
     ">0.2%",

@@ -13,6 +13,7 @@ import useCountdown from '../../../../lib/hooks/useCountdown'
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import useFVRedirect from '../hooks/useFVRedirect'
 
+import AsyncStorage from '../../../../lib/utils/asyncStorage'
 import API from '../../../../lib/API'
 import { delay, withTimeout } from '../../../../lib/utils/async'
 
@@ -98,6 +99,7 @@ const FVFlowSuccess = ({ styles, screenProps, navigation }) => {
       Please try again later`
 
       if (isWhitelisted || !error) {
+        AsyncStorage.removeItem('hasStartedFV')
         return onDismiss()
       }
 

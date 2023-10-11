@@ -111,6 +111,7 @@ const getKeyByValue = (object, value) => {
 const DropDownRowComponent = props => {
   const { containerStyles, textStyles, children } = props
   const { children: countryCode } = children.props
+  const countryLabel = languageCustomLabels[countryCode] ?? 'Device Default'
 
   return (
     <TouchableOpacity {...containerStyles} onPress={props.onPress}>
@@ -126,8 +127,7 @@ const DropDownRowComponent = props => {
             code={countryCode}
           />
         )}
-
-        <Text {...textStyles}> {languageCustomLabels[countryCode]}</Text>
+        <Text {...textStyles}> {countryLabel}</Text>
       </>
     </TouchableOpacity>
   )
@@ -292,7 +292,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                 <View style={styles.languageInputContainer}>
                   <ModalDropdown
                     defaultValue={languageCustomLabels[countryCode] ?? t`Select a language...`}
-                    options={['', ...supportedCountryCodes]}
+                    options={[isWeb ? '' : 'DD', ...supportedCountryCodes]} // empty string breaks on native
                     alignOptionsToRight={true}
                     saveScrollPosition={false}
                     showsVerticalScrollIndicator={true}
@@ -433,7 +433,14 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: theme.sizes.defaultQuadruple,
     },
     flagContainer: {
-      width: 55,
+      ...Platform.select({
+        web: {
+          width: 55,
+        },
+        native: {
+          width: 40,
+        },
+      }),
       height: 45,
     },
     selectLanguageContainer: {

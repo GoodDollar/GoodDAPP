@@ -1,18 +1,23 @@
 // @flow
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
-import { BN, toBN } from 'web3-utils'
 import { t } from '@lingui/macro'
 import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 import logger from '../../lib/logger/js-logger'
 import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { useSwitchNetwork, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
-import { decimalsToFixed } from '../../lib/wallet/utils'
+import {
+  TokenContext,
+  useFixedDecimals,
+  useFormatToken,
+  useSwitchNetwork,
+  useWallet,
+} from '../../lib/wallet/GoodWalletProvider'
 import { isIOS } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import Config from '../../config/config'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -36,6 +41,8 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
+const { isDeltaApp } = Config
+
 const log = logger.child({ from: 'Amount' })
 
 const Amount = (props: AmountProps) => {
@@ -46,10 +53,13 @@ const Amount = (props: AmountProps) => {
   const { isBridge = false } = params
   const { amount = 0, ...restState } = screenState || {}
   const goodWallet = useWallet()
-  const { balance } = useWalletData()
   const { currentNetwork } = useSwitchNetwork()
   const { bridgeLimits } = useGetBridgeData(goodWallet.networkId, goodWallet.account)
   const { minAmount } = bridgeLimits || { minAmount: 0 }
+  const { native, token, balance } = useContext(TokenContext)
+  const { toDecimals, fromDecimals } = useFormatToken(token)
+  const formatFixed = useFixedDecimals(token)
+  const isNativeFlow = isDeltaApp && native
 
   const bridgeState = isBridge
     ? {
@@ -58,13 +68,11 @@ const Amount = (props: AmountProps) => {
       }
     : {}
 
-  const [GDAmount, setGDAmount] = useState(() =>
-    toBN(amount).gt(0) ? decimalsToFixed(goodWallet.toDecimals(amount)) : '',
-  )
-  const [loading, setLoading] = useState(() => toBN(amount).lte(0))
+  const [GDAmount, setGDAmount] = useState(() => (amount ? formatFixed(amount) : ''))
+  const [loading, setLoading] = useState(() => !amount)
   const [error, setError] = useState()
 
-  const GDAmountInWei = useMemo(() => GDAmount && goodWallet.fromDecimals(GDAmount), [GDAmount])
+  const GDAmountInWei = useMemo(() => GDAmount && fromDecimals(GDAmount), [GDAmount])
 
   const isReceive = params && params.action === ACTION_RECEIVE
 
@@ -75,26 +83,23 @@ const Amount = (props: AmountProps) => {
       return true
     }
 
-    log.info('canContiniue?', { weiAmount, params })
+    log.info('canContiniue?', { weiAmount, balance, params })
 
     try {
-      const fee = await goodWallet.calculateTxFee(weiAmount)
-      const amount = new BN(weiAmount)
-      const amountWithFee = amount.add(fee)
-      const canSend = amountWithFee.lte(new BN(balance))
-
       if (isBridge) {
-        const min = parseFloat(goodWallet.toDecimals(minAmount))
+        const min = parseFloat(toDecimals(minAmount))
         const canBridge = parseInt(GDAmount) >= min
 
         if (!canBridge) {
-          setError(t`Sorry, minimum amount to bridge is ${min} G$'s`)
+          setError(t`Sorry, minimum amount to bridge is ${min} ${token}'s`)
           return canBridge
         }
       }
 
+      const canSend = await (isNativeFlow ? goodWallet.canSendNative(weiAmount) : goodWallet.canSend(weiAmount))
+
       if (!canSend) {
-        setError(t`Sorry, you don't have enough G$s`)
+        setError(t`Sorry, you don't have enough ${token}s`)
       }
 
       return canSend
@@ -118,26 +123,27 @@ const Amount = (props: AmountProps) => {
 
   const handleAmountChange = (value: string) => {
     setGDAmount(value)
-    setLoading(value <= 0)
+    setLoading(!value)
     setError('')
   }
 
-  const showScanQR = !isReceive && !params?.counterPartyDisplayName //not in receive flow and also QR wasnt displayed on Who screen
+  const showScanQR = !isReceive && !params?.counterPartyDisplayName // ot in receive flow and also QR wasnt displayed on Who screen
+
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper withGradient={true}>
         <TopBar push={screenProps.push} isBridge={isBridge} network={currentNetwork}>
-          {showScanQR && !isBridge && <ScanQRButton onPress={handlePressQR} />}
-          {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
+          {showScanQR && !isBridge && !isNativeFlow && <ScanQRButton onPress={handlePressQR} />}
         </TopBar>
         <Section grow style={styles.buttonsContainer}>
           <Section.Stack grow justifyContent="flex-start">
             <AmountInput
               maxLength={20}
-              amount={GDAmount === '0' ? '' : GDAmount}
+              amount={GDAmount}
               handleAmountChange={handleAmountChange}
               error={error}
               title={t`How much?`}
+              unit={token}
             />
           </Section.Stack>
           <Section.Row>
@@ -153,6 +159,8 @@ const Amount = (props: AmountProps) => {
                     ? ['SendLinkSummary', 'Home']
                     : isReceive
                     ? ['Reason', 'ReceiveSummary', 'TransactionConfirmation']
+                    : isNativeFlow
+                    ? ['SendToAddress', 'SendLinkSummary']
                     : ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
                 }
                 canContinue={handleContinue}

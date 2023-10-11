@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { t } from '@lingui/macro'
 
 import Text from '../../common/view/Text'
-import { CustomButton, Section, Wrapper } from '../../common'
+import { Section } from '../../common'
 
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMobileOnly } from '../../../lib/utils/platform'
@@ -31,60 +31,38 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry, exception }) =>
   }, [])
 
   return (
-    <Wrapper>
-      <View style={styles.topContainer}>
-        <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="regular" textTransform="none" color="red">
-            <Section.Title fontWeight="bold" textTransform="none" color="red">
-              {displayTitle && displayTitle}
-            </Section.Title>
-            {displayTitle ? `,\n` : ''}
-            {t`Please turn your camera 
+    <Section style={styles.descriptionContainer} justifyContent="space-evenly">
+      <Section.Title fontWeight="regular" textTransform="none" color="red">
+        <Section.Title fontWeight="bold" textTransform="none" color="red">
+          {displayTitle}
+        </Section.Title>
+        {displayTitle ? `,\n` : ''}
+        {t`Please turn your camera 
             to portrait mode`}
-          </Section.Title>
-          <Section style={styles.errorSection}>
-            <View style={styles.descriptionWrapper}>
-              <Text>
-                <Text fontSize={18} lineHeight={25}>
-                  {t`It’s a nice landscape, but we need 
+      </Section.Title>
+      <Section style={styles.errorSection}>
+        <View style={styles.descriptionWrapper}>
+          <Text>
+            <Text fontSize={18} lineHeight={25}>
+              {t`It’s a nice landscape, but we need 
                   to see your face `}
-                </Text>
-                <Text fontWeight="bold" fontSize={18} lineHeight={25}>
-                  {t`only in portrait 
+            </Text>
+            <Text fontWeight="bold" fontSize={18} lineHeight={25}>
+              {t`only in portrait 
                   mode.`}
-                </Text>
-              </Text>
-            </View>
-          </Section>
-          <View style={[styles.errorImage, { height: svgHeight }]}>
-            <FVErrorLandscapeSVG />
-          </View>
-        </Section>
-        <View style={styles.action}>
-          <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
+            </Text>
+          </Text>
         </View>
+      </Section>
+      <View style={[styles.errorImage, { height: svgHeight }]}>
+        <FVErrorLandscapeSVG />
       </View>
-    </Wrapper>
+    </Section>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
   return {
-    topContainer: {
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-      display: 'flex',
-      backgroundColor: theme.colors.surface,
-      height: '100%',
-      flex: 1,
-      flexGrow: 1,
-      flexShrink: 0,
-      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
-      paddingRight: getDesignRelativeWidth(theme.sizes.default),
-      paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
-      borderRadius: 5,
-    },
     errorImage: {
       marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
       marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
@@ -98,9 +76,6 @@ const getStylesFromProps = ({ theme }) => {
       paddingLeft: getDesignRelativeWidth(theme.sizes.default),
       paddingRight: getDesignRelativeWidth(theme.sizes.default),
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
-      width: '100%',
-    },
-    action: {
       width: '100%',
     },
     errorSection: {

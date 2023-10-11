@@ -142,7 +142,7 @@ exports[`Amount matches snapshot 1`] = `
                     onKeyDown={[Function]}
                     onSelect={[Function]}
                     onTouchStart={[Function]}
-                    placeholder="0 G$"
+                    placeholder="0 DEVELOP"
                     readOnly={false}
                     spellCheck={true}
                     type="text"
@@ -462,7 +462,7 @@ exports[`Amount matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlex": 2,
-                  "backgroundColor": "rgba(0,175,255,1.00)",
+                  "backgroundColor": "rgba(23,53,102,0.40)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
@@ -479,7 +479,6 @@ exports[`Amount matches snapshot 1`] = `
                   "borderTopRightRadius": "50px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
-                  "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                   "flex": 2,
                   "marginLeft": "0px",
                   "minHeight": "44px",
@@ -493,7 +492,8 @@ exports[`Amount matches snapshot 1`] = `
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                aria-disabled={true}
+                className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
                 onClick={[Function]}
                 onContextMenu={[Function]}
                 onKeyDown={[Function]}
@@ -510,7 +510,7 @@ exports[`Amount matches snapshot 1`] = `
                     "msGridRowAlign": "stretch",
                   }
                 }
-                tabIndex="0"
+                tabIndex="-1"
               >
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"

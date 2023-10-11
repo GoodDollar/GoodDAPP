@@ -10,20 +10,19 @@ import logger from '../../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'InternetConnection' })
 
-const InternetConnection = props => {
+const InternetConnection = ({ isLoggedIn, showSplash, fallback: NoConnectionFallback, children }) => {
   const { hideDialog, showDialog } = useDialog()
-  const { isLoggedIn } = props
   const isConnection = useConnection()
   const isAPIConnection = useAPIConnection(!isLoggedIn) // only ping server and block usage for new users if server is down.
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
 
   const showWaiting = useCallback(
-    message => {
+    async message => {
       setShowDisconnect(true)
 
       if (!isLoggedIn) {
-        showDialog({
+        await showDialog({
           title: t`Waiting for network`,
           image: <LoadingIcon />,
           message,
@@ -93,9 +92,7 @@ const InternetConnection = props => {
     showDisconnect,
   ])
 
-  return showDisconnect && props.showSplash && props.onDisconnect && props.isLoggedIn
-    ? props.onDisconnect()
-    : props.children
+  return showDisconnect && showSplash && isLoggedIn && NoConnectionFallback ? <NoConnectionFallback /> : <>{children}</>
 }
 
 export default InternetConnection

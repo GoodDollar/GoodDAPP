@@ -1,4 +1,5 @@
 import { FeedCategories } from '../userStorage/FeedCategory'
+import { FeedItemType } from '../userStorage/FeedStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 export class FeedSource {
@@ -25,7 +26,7 @@ export class FeedSource {
 }
 
 export const makeCategoryMatcher = category => ({ type }) => {
-  const isNews = 'news' === type
+  const isNews = FeedItemType.EVENT_TYPE_NEWS === type
 
   switch (category) {
     case FeedCategories.News:

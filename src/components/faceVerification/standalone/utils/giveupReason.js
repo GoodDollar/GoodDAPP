@@ -1,38 +1,24 @@
 import { t } from '@lingui/macro'
 
-export const GiveUpReason = new class {
-  CameraIssue = 'camera'
+export const GiveUpCancelled = {
+  NoScan: t`I don't want my face scanned for privacy concerns`,
+  NoTime: t`I don't have time for this`,
+  NoComprendo: t`I don't understand what I'm doing`,
+  TechIssues: t`My camera isn't working 
+  or I have other technical problems`,
+  FirstTime: t`I'm just checking what GoodDollar is`,
+  NoTrust: t`I don't trust this project`,
+  OvalIssue: t`I'm not able to put my face in the circle`,
+  Other: t`Something else 
+  (Contact Support)`,
+}
 
-  OvalIssue = 'oval'
-
-  TwinIssue = 'twin'
-
-  TryAgainIssue = 'tryAgain'
-
-  get reasons() {
-    const { CameraIssue, OvalIssue, TwinIssue, TryAgainIssue } = this
-
-    return [CameraIssue, OvalIssue, TwinIssue, TryAgainIssue]
-  }
-
-  get reasonsList() {
-    return this.reasons.map(reason => ({ reason, text: this.getReasonText(reason) }))
-  }
-
-  getReasonText(reason) {
-    const { CameraIssue, OvalIssue, TwinIssue, TryAgainIssue } = this
-
-    switch (reason) {
-      case CameraIssue:
-        return t`Camera issues`
-      case OvalIssue:
-        return t`Unable to put my face in the Oval`
-      case TwinIssue:
-        return t`It says I have a twin`
-      case TryAgainIssue:
-        return t`It keeps asking me to try again`
-      default:
-        throw new Error('Unknown / invalid reason specified')
-    }
-  }
-}()
+export const GiveUpFailed = {
+  MaybeDupe: t`I think I have another account I forgot about`,
+  TwinIssue: t`It keeps saying I have a twin but have never registered before`,
+  OvalIssue: t`I'm not able to put my face in the circle`,
+  NoClearPic: t`It says it needs a clearer video selfie`,
+  DeviceIssue: t`It says I need to switch to another device`,
+  Other: t`Something else 
+  (Contact Support)`,
+}

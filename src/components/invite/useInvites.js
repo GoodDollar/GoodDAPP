@@ -5,6 +5,7 @@ import { usePostHog } from 'posthog-react-native'
 
 import { useFormatG$, usePropSuffix, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
+import { isMobileWeb as isMobile, isMobileNative } from '../../lib/utils/platform'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
 import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
@@ -17,9 +18,9 @@ import SuccessIcon from '../common/modal/SuccessIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { useUserProperty } from '../../lib/userStorage/useProfile'
 import mustache from '../../lib/utils/mustache'
-import { isWeb } from '../../lib/utils/platform'
 
 import createABTesting from '../../lib/hooks/useABTesting'
+
 const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const log = logger.child({ from: 'useInvites' })
@@ -160,7 +161,7 @@ export const useInviteBonus = () => {
         return false
       }
 
-      showDialog({
+      await showDialog({
         image: <LoadingIcon />,
         loading: true,
         message: t`Please wait` + '\n' + t`This might take a few seconds...`,
@@ -175,7 +176,7 @@ export const useInviteBonus = () => {
 
       log.debug(`useInviteBonus: invite bonty collected`)
 
-      showDialog({
+      await showDialog({
         title: t`Reward Collected!`,
         image: <SuccessIcon />,
         buttons: [
@@ -205,7 +206,7 @@ export const useCollectBounty = () => {
       message: t`Collecting invite bonus for ${canCollect} invited friends`,
     }
     try {
-      showDialog({
+      await showDialog({
         ...labels,
         loading: true,
       })
@@ -220,7 +221,7 @@ export const useCollectBounty = () => {
       userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
       await checkBounties() //after collectinng check how much left to collect
-      showDialog({
+      await showDialog({
         ...labels,
         loading: false,
       })
@@ -354,8 +355,9 @@ export const useInviteCopy = () => {
   const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
 
   return {
-    copy: t`Invite a friend to earn ${bounty} G$ after they${isWeb ? '\n' : ' '}claim. They will also earn a ${bounty /
-      2} G$ bonus.`,
+    copy: t`Invite a friend to earn ${bounty} G$ after they ${
+      !isMobileNative && !isMobile ? '\n' : ''
+    } claim. They will also earn a ${isMobile ? '\n' : ''} ${bounty / 2} G$ bonus.`,
   }
 }
 

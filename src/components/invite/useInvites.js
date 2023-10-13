@@ -194,7 +194,7 @@ export const useInviteBonus = () => {
 }
 
 export const useCollectBounty = () => {
-  const { showDialog, showErrorDialog } = useDialog()
+  const { hideDialog, showDialog, showErrorDialog } = useDialog()
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
   const goodWallet = useWallet()
@@ -212,6 +212,7 @@ export const useCollectBounty = () => {
       })
 
       log.debug('useCollectBounty calling collectInviteBounties', { canCollect })
+
       const collected = await goodWallet.collectInviteBounties()
       if (!collected) {
         return
@@ -220,12 +221,14 @@ export const useCollectBounty = () => {
       fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
       userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
+
       await checkBounties() //after collectinng check how much left to collect
       await showDialog({
         ...labels,
         loading: false,
       })
     } catch (e) {
+      hideDialog()
       const { message } = e
       const uiMessage = decorate(e, ExceptionCode.E15)
 
@@ -235,7 +238,7 @@ export const useCollectBounty = () => {
         dialogShown: true,
       })
 
-      showErrorDialog(t`Failed collecting invite bounty.`, uiMessage)
+      await showErrorDialog(t`Failed collecting invite bounty.`, uiMessage)
     }
   }
 

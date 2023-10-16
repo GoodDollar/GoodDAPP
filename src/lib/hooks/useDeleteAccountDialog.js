@@ -15,7 +15,7 @@ export default showErrorDialog => {
   const userStorage = useUserStorage()
   return useCallback(async () => {
     const deleteHandler = async () => {
-      await showErrorDialog('', '', {
+      showErrorDialog('', '', {
         title: t`ARE YOU SURE?`,
         content: <DeleteAccountDialog icon="loading" />,
         showButtons: false,

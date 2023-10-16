@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Linking, Platform, Pressable, TouchableOpacity, View, Image } from 'react-native'
-import { get, noop } from 'lodash'
+import { get } from 'lodash'
 import { t } from '@lingui/macro'
 import { ChatWithOwner } from 'react-native-wallet-chat'
 import { isMobile } from '../../../lib/utils/platform'
@@ -153,7 +153,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
 
-  // const walletChatEnabled = useFeatureFlag('wallet-chat')
+  const walletChatEnabled = useFeatureFlag('wallet-chat')
   const mainColor = eventSettings.color
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
@@ -162,6 +162,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const chainId = feed.chainId || '122'
   const ownerAddress = feed?.data?.endpoint?.address;
   const txHash = feed.data.receiptHash || feed.id
+  const isRegTx = /(send|receive)(?!.*bridge)/
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -242,7 +243,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               )}
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              {!eventSettings.withoutAmount && ownerAddress.length > 0 && (
+              {walletChatEnabled && isRegTx.test(itemType) && !eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
                 <TouchableOpacity>
                   <ChatWithOwner
                     ownerAddress={ownerAddress}

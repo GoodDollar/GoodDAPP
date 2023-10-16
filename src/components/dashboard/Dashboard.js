@@ -315,24 +315,20 @@ const Dashboard = props => {
   const { onGiveUp } = useGiveUpDialog(navigation, 'cancelled')
 
   const { currentNetwork } = useSwitchNetwork()
-  const { bridgeEnabled } = Config
-  const { goodWallet, web3Provider } = useContext(GoodWalletContext)
   
-  // const walletChatEnabled = useFeatureFlag('wallet-chat')
+  const walletChatEnabled = useFeatureFlag('wallet-chat')
   const isBridgeActive = useFeatureFlag('micro-bridge')
-
+  
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && isBridgeActive
   
+  const { goodWallet, web3Provider } = useContext(GoodWalletContext)
+
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
 
   const sendReceiveMinimzedYAnimValue = new Animated.Value(0)
   const sendReceiveOutputRange = headerLarge ? [0, 500] : [100, 0]
-
-  // const profileAnimStyles = {
-  //   alignItems: 'flex-start',
-  // }
 
   const fullNameAnimateStyles = {
     opacity: headerFullNameOpacityAnimValue,
@@ -865,6 +861,7 @@ const Dashboard = props => {
                       />
                     </TouchableOpacity>
                   </Animated.View>
+                  {walletChatEnabled &&  (
                     <WalletChatWidget
                       connectedWallet={
                         web3Provider
@@ -872,11 +869,12 @@ const Dashboard = props => {
                               walletName: 'GoodWalletV2',
                               account: goodWallet.account,
                               chainId: goodWallet.networkId,
-                              provider: web3Provider, //goodWallet.wallet.currentProvider
+                              provider: web3Provider,
                             }
                           : undefined
                       }
                     />
+                  )}
                 </Animated.View>
                 {headerLarge && (
                   <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>

@@ -1088,7 +1088,7 @@ const getStylesFromProps = ({ theme }) => ({
       web: '50%',
       default: 150 / 2,
     }),
-    marginTop: '2px',
+    marginTop: 2,
   },
   buttonsRow: {
     alignItems: 'center',

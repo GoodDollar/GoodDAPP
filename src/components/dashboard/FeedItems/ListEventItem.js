@@ -27,6 +27,7 @@ import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
 // import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
+import { isTransferTx } from '../../../lib/wallet/utils'
 
 const log = logger.child({ from: 'ListEventItem' })
 
@@ -162,7 +163,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const chainId = feed.chainId || '122'
   const ownerAddress = feed?.data?.endpoint?.address;
   const txHash = feed.data.receiptHash || feed.id
-  const isRegTx = /(send|receive)(?!.*bridge)/
+  const isTransfer = isTransferTx(itemType)
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -243,7 +244,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               )}
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              {walletChatEnabled && isRegTx.test(itemType) && !eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
+              {walletChatEnabled && isTransfer && !eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
                 <TouchableOpacity>
                   <ChatWithOwner
                     ownerAddress={ownerAddress}

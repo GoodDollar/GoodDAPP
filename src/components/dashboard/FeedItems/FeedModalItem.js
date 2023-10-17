@@ -24,6 +24,7 @@ import EventIcon from './EventIcon'
 import FeedbackModalItem from './FeedbackModalItem'
 import SendModalItemWithError from './SendModalItemWithError'
 import { NetworkIcon } from './ListEventItem'
+import { isTransferTx } from '../../../lib/wallet/utils'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -47,7 +48,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const sellerWebsite = get(item, 'data.sellerWebsite', '')
   const chainId = item.chainId || '122'
   const ownerAddress = item?.data?.endpoint?.address
-  const isRegTx = /(send|receive)(?!.*bridge)/
+  const isTransfer = isTransferTx(itemType)
 
   return (
     <ModalWrapper
@@ -123,7 +124,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                 ]}
               >
                  {walletChatEnabled &&
-                  isRegTx.test(itemType) &&
+                  isTransfer &&
                   !eventSettings.withoutAmount &&
                   ownerAddress.length > 0 && (
                     <TouchableOpacity>

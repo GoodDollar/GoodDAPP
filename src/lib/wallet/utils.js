@@ -261,3 +261,5 @@ export const safeCall = async (method, defaultValue = {}) => {
 
   return result || defaultValue
 }
+
+export const isTransferTx = (txType: string) => /(send|receive)(?!.*bridge)/.test(txType)

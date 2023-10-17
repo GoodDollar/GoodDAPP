@@ -1,12 +1,9 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
+import { Linking, Platform, Pressable, TouchableOpacity, View, Image } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
-
-// import { ChatWithOwner } from 'react-native-wallet-chat'
-// import { useFeatureFlag } from 'posthog-react-native'
-
+import { ChatWithOwner } from 'react-native-wallet-chat'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -15,7 +12,7 @@ import { getScreenWidth } from '../../../lib/utils/orientation'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import { Icon, Image, Section, SvgXml, Text } from '../../common'
+import { Icon, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
@@ -29,6 +26,8 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
+// import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
+import { isTransferTx } from '../../../lib/wallet/utils'
 
 const log = logger.child({ from: 'ListEventItem' })
 
@@ -155,16 +154,16 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
 
-  // const walletChatEnabled = useFeatureFlag('wallet-chat')
+  const walletChatEnabled = useFeatureFlag('wallet-chat')
   const mainColor = eventSettings.color
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
+  const ownerAddress = feed?.data?.endpoint?.address;
   const txHash = feed.data.receiptHash || feed.id
-
-  // const ownerAddress = feed?.data?.endpoint?.address
+  const isTransfer = isTransferTx(itemType)
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -245,7 +244,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               )}
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              {/* {!eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
+              {walletChatEnabled && isTransfer && !eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
                 <TouchableOpacity>
                   <ChatWithOwner
                     ownerAddress={ownerAddress}
@@ -262,7 +261,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
                     }
                   />
                 </TouchableOpacity>
-              )} */}
+              )} 
               <EventIcon
                 style={styles.typeIcon}
                 animStyle={styles.typeAnimatedIcon}

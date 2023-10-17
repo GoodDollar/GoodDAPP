@@ -315,13 +315,14 @@ const Dashboard = props => {
   const { onGiveUp } = useGiveUpDialog(navigation, 'cancelled')
 
   const { currentNetwork } = useSwitchNetwork()
-  
+
   const walletChatEnabled = useFeatureFlag('wallet-chat')
+
   const isBridgeActive = useFeatureFlag('micro-bridge')
-  
+
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && isBridgeActive
-  
+
   const { goodWallet, web3Provider } = useContext(GoodWalletContext)
 
   useInviteCode(true) // register user to invites contract if he has invite code
@@ -590,7 +591,7 @@ const Dashboard = props => {
       // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
-          toValue: 42,
+          toValue: 40,
           duration: timing,
           easing: easingOut,
           useNativeDriver: false,
@@ -642,7 +643,7 @@ const Dashboard = props => {
       // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
-          toValue: 42,
+          toValue: 40,
           duration: timing,
           easing: easingIn,
           useNativeDriver: false,
@@ -861,7 +862,7 @@ const Dashboard = props => {
                       />
                     </TouchableOpacity>
                   </Animated.View>
-                  {walletChatEnabled &&  (
+                  {walletChatEnabled && (
                     <WalletChatWidget
                       connectedWallet={
                         web3Provider
@@ -884,36 +885,13 @@ const Dashboard = props => {
                   </Animated.View>
                 )}
               </View>
-              <Animated.View style={styles.totalBalance}>
-                {headerLarge && (
-                  <Text
-                    color="gray100Percent"
-                    fontFamily={theme.fonts.default}
-                    fontSize={12}
-                    style={styles.totalBalanceText}
-                  >
-                    {t`MY TOTAL BALANCE `}
-                  </Text>
-                )}
-                <View style={styles.balanceUsdRow}>
-                  <BigGoodDollar
-                    testID="amount_value"
-                    number={balance}
-                    formatter={balanceFormatter}
-                    bigNumberStyles={[styles.bigNumberStyles, calculateFontSize]}
-                    bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                    bigNumberProps={{
-                      numberOfLines: 1,
-                    }}
-                    style={styles.bigGoodDollar}
-                  />
-                </View>
-                {headerLarge && (
-                  <Text style={styles.gdPrice}>
-                    ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
-                  </Text>
-                )}
-              </Animated.View>
+              <TotalBalance
+                headerLarge={headerLarge}
+                theme={theme}
+                styles={styles}
+                network={currentNetwork}
+                balance={balance}
+              />
             </Animated.View>
             {headerLarge && (!isDeltaApp || supportsG$(currentNetwork)) && (
               <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
@@ -1110,6 +1088,7 @@ const getStylesFromProps = ({ theme }) => ({
       web: '50%',
       default: 150 / 2,
     }),
+    marginTop: '2px',
   },
   buttonsRow: {
     alignItems: 'center',
@@ -1220,23 +1199,21 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    width: "100%",
+    width: '100%',
   },
   profileContainer: {
     paddingTop: 0,
     paddingBottom: 0,
     alignItems: 'center',
-    width: Platform.OS === "web" ? "20%" : "25%",
+    width: Platform.OS === 'web' ? '20%' : '25%',
   },
   profileAndWalletChat: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
   },
   profileIconContainer: {
-    width: "100%"
-  },
-  profileIconContainer: {
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

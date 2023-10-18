@@ -5,7 +5,7 @@ import { get, isNil } from 'lodash'
 import { t } from '@lingui/macro'
 import { ChatWithOwner } from 'react-native-wallet-chat'
 
-// import { useFeatureFlag } from 'posthog-react-native'
+import { useFeatureFlag } from 'posthog-react-native'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -17,6 +17,7 @@ import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { Icon } from '../../common'
+import { isTransferTx } from '../../../lib/wallet/utils'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty, { EventSelfParty } from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
@@ -24,7 +25,6 @@ import EventIcon from './EventIcon'
 import FeedbackModalItem from './FeedbackModalItem'
 import SendModalItemWithError from './SendModalItemWithError'
 import { NetworkIcon } from './ListEventItem'
-import { isTransferTx } from '../../../lib/wallet/utils'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -123,27 +123,24 @@ const FeedModalItem = (props: FeedEventProps) => {
                   { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginRight: 15 },
                 ]}
               >
-                 {walletChatEnabled &&
-                  isTransfer &&
-                  !eventSettings.withoutAmount &&
-                  ownerAddress.length > 0 && (
-                    <TouchableOpacity>
-                      <ChatWithOwner
-                        ownerAddress={ownerAddress}
-                        render={
-                          <Icon
-                            style={{
-                              marginRight: 10,
-                              marginTop: 5,
-                            }}
-                            name="chat"
-                            size={25}
-                            color="gray80Percent"
-                          />
-                        }
-                      />
-                    </TouchableOpacity>
-                  )}
+                {walletChatEnabled && isTransfer && !eventSettings.withoutAmount && ownerAddress.length > 0 && (
+                  <TouchableOpacity>
+                    <ChatWithOwner
+                      ownerAddress={ownerAddress}
+                      render={
+                        <Icon
+                          style={{
+                            marginRight: 10,
+                            marginTop: 5,
+                          }}
+                          name="chat"
+                          size={25}
+                          color="gray80Percent"
+                        />
+                      }
+                    />
+                  </TouchableOpacity>
+                )}
                 <EventIcon type={itemType} showAnim={!topImageExists} />
               </View>
             </View>

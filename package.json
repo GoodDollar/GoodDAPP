@@ -24,7 +24,7 @@
     "test:setup": "./scripts/blockchainTestSetup.sh",
     "test:web-watch": "npm run link && node scripts/test.js --watch --config \"./config/web.jest.config.js\"",
     "test:web": "REACT_APP_ENV=test react-app-rewired test --forceExit",
-    "test:local": "REACT_APP_ENV=test npm run lingui:compile && npm run test:web",
+    "test:local": "npm run ganache && REACT_APP_ENV=test npm run lingui:compile && npm run test:web",
     "test:native": "npm run test:ios && npm run test:android",
     "test:ios": "npm run animation:assets && ENVFILE=.env.test detox build -c ios.sim.debug && detox test -c ios.sim.debug",
     "test:android": "npm run animation:assets && ENVFILE=.env.test detox build -c android.emu.debug && detox test -c android.emu.debug",

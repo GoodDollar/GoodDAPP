@@ -1,9 +1,11 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Linking, Platform, Pressable, TouchableOpacity, View, Image } from 'react-native'
+import { Image, Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
 import { ChatWithOwner } from 'react-native-wallet-chat'
+import { useFeatureFlag } from 'posthog-react-native'
+
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -20,6 +22,7 @@ import Config from '../../../config/config'
 import { openLink } from '../../../lib/utils/linking'
 import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
 import { NetworkLogo } from '../../../lib/constants/network'
+import { isTransferTx } from '../../../lib/wallet/utils'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -161,7 +164,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
-  const ownerAddress = feed?.data?.endpoint?.address;
+  const ownerAddress = feed?.data?.endpoint?.address
   const txHash = feed.data.receiptHash || feed.id
   const isTransfer = isTransferTx(itemType)
 
@@ -244,24 +247,28 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               )}
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              {walletChatEnabled && isTransfer && !eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
-                <TouchableOpacity>
-                  <ChatWithOwner
-                    ownerAddress={ownerAddress}
-                    render={
-                      <Icon
-                        style={{
-                          marginRight: 10,
-                          marginTop: 5,
-                        }}
-                        name="chat"
-                        size={25}
-                        color="gray80Percent"
-                      />
-                    }
-                  />
-                </TouchableOpacity>
-              )} 
+              {walletChatEnabled &&
+                isTransfer &&
+                !eventSettings.withoutAmount &&
+                ownerAddress.length > 0 &&
+                walletChatEnabled && (
+                  <TouchableOpacity>
+                    <ChatWithOwner
+                      ownerAddress={ownerAddress}
+                      render={
+                        <Icon
+                          style={{
+                            marginRight: 10,
+                            marginTop: 5,
+                          }}
+                          name="chat"
+                          size={25}
+                          color="gray80Percent"
+                        />
+                      }
+                    />
+                  </TouchableOpacity>
+                )}
               <EventIcon
                 style={styles.typeIcon}
                 animStyle={styles.typeAnimatedIcon}

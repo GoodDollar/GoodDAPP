@@ -50,7 +50,7 @@ export class MultipleHttpProvider extends HttpProvider {
     }
 
     const onFailed = error => {
-      log.warn('Failed with last error', error.message, error, payload.id)
+      log.error('Failed with last error', error.message, error, payload.id)
       callback(error, null)
     }
 

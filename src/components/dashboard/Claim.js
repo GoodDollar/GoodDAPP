@@ -18,7 +18,7 @@ import TaskDialog from '../common/dialogs/TaskDialog'
 import API from '../../lib/API'
 
 import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
-import { decimalsToFixed } from '../../lib/wallet/utils'
+import { decimalsToFixed, isDuplicateTxError } from '../../lib/wallet/utils'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
@@ -383,7 +383,7 @@ const Claim = props => {
     } catch (exception) {
       const { message } = exception
 
-      const isAlreadySent = message.search('same nonce|same hash|AlreadyKnown') >= 0
+      const isAlreadySent = isDuplicateTxError(message)
 
       if (!txHash || !isAlreadySent) {
         throw exception

@@ -6,9 +6,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 import { useFeatureFlag } from 'posthog-react-native'
 import { t } from '@lingui/macro'
-
-// import { WalletChatWidget } from 'react-native-wallet-chat'
-
+import { WalletChatWidget } from 'react-native-wallet-chat'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -19,6 +17,7 @@ import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wa
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
 import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 import {
+  GoodWalletContext,
   TokenContext,
   useFixedDecimals,
   useFormatG$,
@@ -317,23 +316,20 @@ const Dashboard = props => {
 
   const { currentNetwork } = useSwitchNetwork()
 
-  // const walletChatEnabled = useFeatureFlag('wallet-chat')
+  const walletChatEnabled = useFeatureFlag('wallet-chat')
+
   const isBridgeActive = useFeatureFlag('micro-bridge')
 
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && isBridgeActive
 
-  // const { goodWallet, web3Provider } = useContext(GoodWalletContext)
+  const { goodWallet, web3Provider } = useContext(GoodWalletContext)
 
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
 
   const sendReceiveMinimzedYAnimValue = new Animated.Value(0)
   const sendReceiveOutputRange = headerLarge ? [0, 500] : [100, 0]
-
-  const profileAnimStyles = {
-    alignItems: 'flex-start',
-  }
 
   const fullNameAnimateStyles = {
     opacity: headerFullNameOpacityAnimValue,
@@ -595,7 +591,7 @@ const Dashboard = props => {
       // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
-          toValue: 42,
+          toValue: 40,
           duration: timing,
           easing: easingOut,
           useNativeDriver: false,
@@ -647,7 +643,7 @@ const Dashboard = props => {
       // useNativeDriver is always false because native doesnt support animating height
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
-          toValue: 42,
+          toValue: 40,
           duration: timing,
           easing: easingIn,
           useNativeDriver: false,
@@ -853,8 +849,8 @@ const Dashboard = props => {
         <Animated.View style={styles.topHeader}>
           <Section.Stack alignItems="center" style={styles.balanceContainer}>
             <Animated.View style={styles.balanceTop}>
-              <Section style={styles.profileContainer}>
-                <Animated.View style={profileAnimStyles}>
+              <View style={styles.profileContainer}>
+                <Animated.View style={styles.profileAndWalletChat}>
                   <Animated.View testID="avatar-anim-styles" style={[styles.profileIconContainer, avatarAnimStyles]}>
                     <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
                       <Avatar
@@ -865,30 +861,30 @@ const Dashboard = props => {
                         plain
                       />
                     </TouchableOpacity>
-                    {/* {walletChatEnabled && (
-                      <WalletChatWidget
-                        connectedWallet={
-                          web3Provider
-                            ? {
-                                walletName: 'GoodWalletV2',
-                                account: goodWallet.account,
-                                chainId: goodWallet.networkId,
-                                provider: web3Provider, //goodWallet.wallet.currentProvider
-                              }
-                            : undefined
-                        }
-                      />
-                    )} */}
                   </Animated.View>
-                  {headerLarge && (
-                    <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
-                      <Section.Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={12}>
-                        {fullName || ' '}
-                      </Section.Text>
-                    </Animated.View>
+                  {walletChatEnabled && (
+                    <WalletChatWidget
+                      connectedWallet={
+                        web3Provider
+                          ? {
+                              walletName: 'GoodWalletV2',
+                              account: goodWallet.account,
+                              chainId: goodWallet.networkId,
+                              provider: web3Provider,
+                            }
+                          : undefined
+                      }
+                    />
                   )}
                 </Animated.View>
-              </Section>
+                {headerLarge && (
+                  <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
+                    <Section.Text color="gray100Percent" fontFamily={theme.fonts.default} fontSize={12}>
+                      {fullName || ' '}
+                    </Section.Text>
+                  </Animated.View>
+                )}
+              </View>
               <TotalBalance
                 headerLarge={headerLarge}
                 theme={theme}
@@ -1018,13 +1014,13 @@ const getStylesFromProps = ({ theme }) => ({
   headerFullName: {
     justifyContent: 'center',
     alignItems: 'center',
+    right: 15,
     zIndex: -1,
     marginTop: 8,
     marginBottom: 8,
   },
   dashboardWrapper: {
     backgroundColor: theme.colors.secondaryGray,
-    flexGrow: 1,
     padding: 0,
     ...Platform.select({
       web: { overflowY: 'hidden' },
@@ -1092,6 +1088,7 @@ const getStylesFromProps = ({ theme }) => ({
       web: '50%',
       default: 150 / 2,
     }),
+    marginTop: 2,
   },
   buttonsRow: {
     alignItems: 'center',
@@ -1199,17 +1196,24 @@ const getStylesFromProps = ({ theme }) => ({
   },
   balanceTop: {
     display: 'flex',
-    width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
+    width: '100%',
   },
   profileContainer: {
     paddingTop: 0,
     paddingBottom: 0,
     alignItems: 'center',
+    width: Platform.OS === 'web' ? '20%' : '25%',
+  },
+  profileAndWalletChat: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
   },
   profileIconContainer: {
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

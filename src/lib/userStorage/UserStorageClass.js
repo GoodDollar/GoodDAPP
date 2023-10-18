@@ -818,7 +818,7 @@ export class UserStorage {
       sponsoredLink,
       sponsoredLogo,
     } = data
-    const { address, initiator, initiatorType, value, displayName, message, avatar, asset } = this._extractData(event)
+    const { address, asset, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
     const displayType = this._extractDisplayType(event)

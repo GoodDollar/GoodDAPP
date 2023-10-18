@@ -1,11 +1,10 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
+import { Image, Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
-
-// import { ChatWithOwner } from 'react-native-wallet-chat'
-// import { useFeatureFlag } from 'posthog-react-native'
+import { ChatWithOwner } from 'react-native-wallet-chat'
+import { useFeatureFlag } from 'posthog-react-native'
 
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
@@ -15,7 +14,7 @@ import { getScreenWidth } from '../../../lib/utils/orientation'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import { Icon, Image, Section, SvgXml, Text } from '../../common'
+import { Icon, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
@@ -23,6 +22,7 @@ import Config from '../../../config/config'
 import { openLink } from '../../../lib/utils/linking'
 import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
 import { NetworkLogo } from '../../../lib/constants/network'
+import { isTransferTx } from '../../../lib/wallet/utils'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -155,16 +155,16 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
 
-  // const walletChatEnabled = useFeatureFlag('wallet-chat')
+  const walletChatEnabled = useFeatureFlag('wallet-chat')
   const mainColor = eventSettings.color
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
+  const ownerAddress = feed?.data?.endpoint?.address
   const txHash = feed.data.receiptHash || feed.id
-
-  // const ownerAddress = feed?.data?.endpoint?.address
+  const isTransfer = isTransferTx(itemType)
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -245,24 +245,28 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               )}
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              {/* {!eventSettings.withoutAmount && ownerAddress.length > 0 && walletChatEnabled && (
-                <TouchableOpacity>
-                  <ChatWithOwner
-                    ownerAddress={ownerAddress}
-                    render={
-                      <Icon
-                        style={{
-                          marginRight: 10,
-                          marginTop: 5,
-                        }}
-                        name="chat"
-                        size={25}
-                        color="gray80Percent"
-                      />
-                    }
-                  />
-                </TouchableOpacity>
-              )} */}
+              {walletChatEnabled &&
+                isTransfer &&
+                !eventSettings.withoutAmount &&
+                ownerAddress.length > 0 &&
+                walletChatEnabled && (
+                  <TouchableOpacity>
+                    <ChatWithOwner
+                      ownerAddress={ownerAddress}
+                      render={
+                        <Icon
+                          style={{
+                            marginRight: 10,
+                            marginTop: 5,
+                          }}
+                          name="chat"
+                          size={25}
+                          color="gray80Percent"
+                        />
+                      }
+                    />
+                  </TouchableOpacity>
+                )}
               <EventIcon
                 style={styles.typeIcon}
                 animStyle={styles.typeAnimatedIcon}

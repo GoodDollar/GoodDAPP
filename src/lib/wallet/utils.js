@@ -263,3 +263,11 @@ export const safeCall = async (method, defaultValue = {}) => {
 }
 
 export const isTransferTx = (txType: string) => /(send|receive)(?!.*bridge)/.test(txType)
+
+export const isDuplicateTxError = message => {
+  return (
+    message
+      .toLowerCase()
+      .search('same nonce|same hash|alreadyknown|already known|feetoolow|nonce is too low|underpriced') >= 0
+  )
+}

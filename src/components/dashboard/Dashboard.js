@@ -319,7 +319,7 @@ const Dashboard = props => {
   const walletChatEnabled = useFeatureFlag('wallet-chat')
 
   const isBridgeActive = useFeatureFlag('micro-bridge')
-  
+
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && isBridgeActive
   const { goodWallet, web3Provider } = useContext(GoodWalletContext)

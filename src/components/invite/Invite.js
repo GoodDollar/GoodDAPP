@@ -283,8 +283,8 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   )
 }
 
-const InvitesBox = React.memo(({ invitees, refresh, styles }) => {
-  const [, bountiesCollected] = useCollectBounty()
+const InvitesBox = React.memo(({ navigateTo, invitees, refresh, styles }) => {
+  const [, bountiesCollected] = useCollectBounty(navigateTo)
 
   // const { pending = [], approved = [] } = groupBy(invitees, 'status')
   useEffect(() => {
@@ -436,7 +436,7 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo, st
     </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
     <Section.Stack>
-      <InvitesBox invitees={invitees} refresh={refresh} styles={styles} />
+      <InvitesBox navigateTo={navigateTo} invitees={invitees} refresh={refresh} styles={styles} />
     </Section.Stack>
   </View>
 )

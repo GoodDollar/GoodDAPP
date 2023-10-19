@@ -139,7 +139,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
           })
         }
 
-        await showDialog({
+        showDialog({
           onDismiss: screenProps.goToRoot,
           title: t`Processing Payment Link...`,
           image: <LoadingIcon />,
@@ -225,6 +225,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
             break
         }
       } catch (exception) {
+        hideDialog()
         const { message } = exception
         let uiMessage = decorate(exception, ExceptionCode.E4)
 

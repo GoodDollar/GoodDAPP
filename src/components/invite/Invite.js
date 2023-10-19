@@ -185,7 +185,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   }, [navigateTo, showDialog, goodWallet])
 
   const onSubmit = useCallback(async () => {
-    await showDialog({
+    showDialog({
       image: <LoadingIcon />,
       loading: true,
       message: t`Please wait

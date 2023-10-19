@@ -160,7 +160,7 @@ export const useInviteBonus = () => {
         return false
       }
 
-      await showDialog({
+      showDialog({
         image: <LoadingIcon />,
         loading: true,
         message: t`Please wait` + '\n' + t`This might take a few seconds...`,
@@ -205,7 +205,7 @@ export const useCollectBounty = navigateTo => {
       message: t`Collecting invite bonus for ${canCollect} invited friends`,
     }
     try {
-      await showDialog({
+      showDialog({
         ...labels,
         loading: true,
       })
@@ -222,7 +222,7 @@ export const useCollectBounty = navigateTo => {
       setCollected(true)
 
       await checkBounties() //after collectinng check how much left to collect
-      await showDialog({
+      showDialog({
         ...labels,
         loading: false,
       })

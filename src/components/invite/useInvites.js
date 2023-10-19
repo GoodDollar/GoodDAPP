@@ -161,7 +161,7 @@ export const useInviteBonus = () => {
         return false
       }
 
-      await showDialog({
+      showDialog({
         image: <LoadingIcon />,
         loading: true,
         message: t`Please wait` + '\n' + t`This might take a few seconds...`,
@@ -194,7 +194,7 @@ export const useInviteBonus = () => {
 }
 
 export const useCollectBounty = () => {
-  const { showDialog, showErrorDialog } = useDialog()
+  const { hideDialog, showDialog, showErrorDialog } = useDialog()
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
   const goodWallet = useWallet()
@@ -206,7 +206,7 @@ export const useCollectBounty = () => {
       message: t`Collecting invite bonus for ${canCollect} invited friends`,
     }
     try {
-      await showDialog({
+      showDialog({
         ...labels,
         loading: true,
       })
@@ -221,11 +221,12 @@ export const useCollectBounty = () => {
       userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
       await checkBounties() //after collectinng check how much left to collect
-      await showDialog({
+      showDialog({
         ...labels,
         loading: false,
       })
     } catch (e) {
+      hideDialog()
       const { message } = e
       const uiMessage = decorate(e, ExceptionCode.E15)
 

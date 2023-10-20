@@ -1,19 +1,21 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+import { useFaucet } from '@gooddollar/web3sdk-v2'
+import { useDispatch } from 'react-redux'
+import { parse } from 'qs'
+import isEqual from 'lodash/isEqual'
+import { isMobile } from 'react-device-detect'
+import classNames from 'classnames'
+
 import { AppBar, Popups } from '../components'
 import Web3ReactManager from '../components/Web3ReactManager'
 import Routes from '../routes'
-import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../state'
 import { updateUserDarkMode } from '../state/user/actions'
-import { parse } from 'qs'
-import isEqual from 'lodash/isEqual'
 import SideBar from '../components/SideBar'
-import styled from 'styled-components'
-import { useFaucet } from '@gooddollar/web3sdk-v2'
 import TransactionUpdater from '../state/transactions/updater'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
-import { isMobile } from 'react-device-detect'
 import WalletChat from '../components/WalletChat'
 import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
 
@@ -36,7 +38,7 @@ export const Beta = styled.div`
 const Wrapper = styled.div<{ isSimpleApp?: boolean }>`
     @media ${({ theme }) => theme.media.sm} {
         overflow-y: hidden;
-        max-height: 580px;
+        max-height: 650px;
     }
     @media ${({ theme }) => theme.media.md} {
         padding-bottom: ${(props) => (props.isSimpleApp ? '0px' : '75px')};
@@ -55,9 +57,9 @@ const MainBody = styled.div<{ $page?: string }>`
 `
 
 const AppWrap = styled.div`
-    height: 100vh;
-    @supports (height: 100svh) {
-        height: 100svh; // should handle viewport on safari better
+    height: 90vh;
+    @supports (height: 90svh) {
+        height: 90svh; // should handle viewport on safari better
     }
 `
 
@@ -124,30 +126,40 @@ function App(): JSX.Element {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const isSimpleApp = useIsSimpleApp()
 
+    const isFV = pathname.startsWith('/goodid')
+    const isClaim = pathname.startsWith('/claim')
+    const isDash = pathname.startsWith('/dashboard')
+
+    const mainBodyClasses = classNames(
+        'z-0 flex flex-col items-center flex-grow h-full pt-4 pb-4 overflow-x-hidden overflow-y-auto sm:pt-8',
+        {
+            'flex-start': isFV,
+            'justify-between': !isFV,
+            'xl:pt-0 px-2': isClaim,
+            'md:pt-10 px-4': !isClaim,
+        }
+    )
+
+    // TODO: Remove styling on this container and handle on each page separately
+    const routerContainerClasses = classNames('flex flex-col flex-glow w-full', {
+        'md:auto': isDash,
+        'md:h-screen:': !isDash,
+        'transform sm:scale-75 xl:scale-100 items-start sm:-ml-96 sm:-mt-24 xl:mt-0 xl:ml-0 md:justify-start': isClaim,
+        'justify-start items-center': !isClaim,
+        'flex-col-reverse md:justify-end justify-end': isFV,
+        'md:justify-center': !isFV,
+    })
+
     return (
         <Suspense fallback={null}>
             <AppWrap className="flex flex-col overflow-hidden">
                 <AppBar />
                 <Wrapper isSimpleApp className="flex flex-grow overflow-hidden">
                     {!isMobile && <SideBar />}
-                    <MainBody
-                        ref={bodyRef}
-                        className={`z-0 flex flex-col items-center flex-grow h-full px-4 pt-4 pb-4 overflow-x-hidden overflow-y-auto sm:pt-8 md:pt-10
-                        ${location.pathname === '/goodid' ? 'flex-start' : 'justify-between'}`}
-                        $page={location.pathname}
-                    >
+                    <MainBody ref={bodyRef} className={mainBodyClasses} $page={location.pathname}>
                         <Popups />
                         <Web3ReactManager>
-                            <div
-                                className={`flex flex-col flex-glow w-full justify-start items-center
-                             ${location.pathname === '/dashboard' ? 'md:auto' : 'md:h-screen'}
-                             ${location.pathname === '/claim' && 'transform sm:scale-75 xl:scale-100'}
-                             ${
-                                 location.pathname === '/goodid'
-                                     ? 'flex-col-reverse md:justify-end justify-end'
-                                     : 'md:justify-center'
-                             }`}
-                            >
+                            <div className={routerContainerClasses}>
                                 <Routes />
                                 <TransactionUpdater />
                             </div>

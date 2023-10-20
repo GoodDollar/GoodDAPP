@@ -1,19 +1,27 @@
-import React, { memo, useState, useEffect, useCallback } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { ArrowButton, ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
 import { useHistory } from 'react-router-dom'
 import { Text, useBreakpointValue, Box, View } from 'native-base'
-import { ClaimBalance } from './ClaimBalance'
-import { useClaim, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 import { useConnectWallet } from '@web3-onboard/react'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import FirstTimer from 'assets/images/claim/firstimer.png'
-import HowWorks from 'assets/images/claim/howitworks.png'
-import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
+import { isMobile } from 'react-device-detect'
+import { NewsFeedProvider, useClaim, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 import { QueryParams } from '@usedapp/core'
 import { noop } from 'lodash'
+
+import { ClaimBalance } from './ClaimBalance'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+
+import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
+import { getNetworkEnv } from 'utils/env'
+import { feedConfig, NewsFeedWidget } from '../../../components/NewsFeed'
+
+import BillyHappy from 'assets/images/claim/billysmile.png'
+import BillyGrin from 'assets/images/claim/billygrin.png'
+import BillyConfused from 'assets/images/claim/billyconfused.png'
+import classNames from 'classnames'
 
 const Claim = memo(() => {
     const { i18n } = useLingui()
@@ -29,6 +37,9 @@ const Claim = memo(() => {
     const sendData = useSendAnalyticsData()
     const isSimpleApp = useIsSimpleApp()
     const history = useHistory()
+
+    const networkEnv = getNetworkEnv()
+    const isProd = networkEnv.includes('production')
 
     // there are three possible scenarios
     // 1. claim amount is 0, meaning user has claimed that day
@@ -111,7 +122,7 @@ const Claim = memo(() => {
 
     const mainView = useBreakpointValue({
         base: {
-            gap: '32px',
+            gap: '40px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -121,9 +132,34 @@ const Claim = memo(() => {
             mb: 2,
         },
         lg: {
-            gap: claimed ? '58px' : '32px',
+            // gap: claimed ? '58px' : '32px',
             flexDirection: 'row',
             justifyContent: 'justify-evenly',
+        },
+    })
+
+    const claimView = useBreakpointValue({
+        base: {
+            display: 'flex',
+            alignItems: 'center',
+            paddingTop: '2.5rem',
+            width: '100%',
+        },
+        lg: {
+            width: '90%',
+            alignItems: 'center',
+            paddingTop: '2rem',
+        },
+    })
+
+    const newsFeedView = useBreakpointValue({
+        base: {
+            width: '100%',
+            marginTop: '16px',
+        },
+        lg: {
+            width: '50%',
+            marginTop: '16px',
         },
     })
 
@@ -134,6 +170,8 @@ const Claim = memo(() => {
             width: '369px',
         },
     })
+
+    console.log('isMobile -->', { isMobile })
 
     const mockedCards: Array<IClaimCard> = [
         {
@@ -148,20 +186,36 @@ const Claim = memo(() => {
                         text: 'Free money, no catch, all thanks to technology.',
                         color: 'goodGrey.500',
                     },
-                },
-                {
                     description: {
                         text: 'Learn more about how the GoodDollar protocol works here.',
                         color: 'goodGrey.500',
                     },
-                },
-                {
-                    imgSrc: HowWorks,
+                    ...(isMobile && { imgSrc: BillyConfused }),
                 },
             ],
             externalLink: 'https://www.notion.so/gooddollar/GoodDollar-Protocol-2cc5c26cf09d40469e4570ad1d983914',
             bgColor: 'goodWhite.100',
             hide: claimed,
+        },
+        {
+            id: 'already-claimed',
+            title: {
+                text: `Use your G$. 🙂`,
+                color: 'white',
+            },
+            content: [
+                {
+                    description: {
+                        text: `After claiming your G$, use it to support your community, buy products and services, support causes you care about, vote in the GoodDAO, and more. 
+                      
+Learn how here`,
+                        color: 'white',
+                    },
+                    ...(isMobile && { imgSrc: BillyHappy }),
+                },
+            ],
+            externalLink: 'https://www.notion.so/gooddollar/Use-G-8639553aa7214590a70afec91a7d9e73',
+            bgColor: 'primary',
         },
         {
             id: 'how-to-collect',
@@ -175,112 +229,107 @@ const Claim = memo(() => {
                         text: 'First time here?',
                         color: 'goodGrey.500',
                     },
-                },
-                {
                     description: {
                         text: 'Anyone in the world can collect G$. Create a wallet to get started.',
                         color: 'goodGrey.500',
                     },
-                },
-                {
-                    imgSrc: FirstTimer,
+                    ...(isMobile && { imgSrc: BillyGrin }),
                 },
             ],
             externalLink: 'https://www.notion.so/Get-G-873391f31aee4a18ab5ad7fb7467acb3',
             bgColor: 'goodWhite.100',
             hide: claimed,
         },
-        {
-            id: 'already-claimed',
-            title: {
-                text: `Use 
-your G$. 🙂`,
-                color: 'white',
-            },
-            content: [
-                {
-                    description: {
-                        text: `After claiming your G$, use it to support your community, buy products and services, support causes you care about, vote in the GoodDAO, and more. Learn how here`,
-                        color: 'white',
-                    },
-                },
-            ],
-            externalLink: 'https://www.notion.so/gooddollar/Use-G-8639553aa7214590a70afec91a7d9e73',
-            bgColor: 'primary',
-        },
     ]
 
-    return (
-        <>
-            <View style={mainView}>
-                <div className="flex flex-col items-center text-center lg:w-5/12">
-                    <Box style={balanceContainer}>
-                        {claimed ? (
-                            <ClaimBalance refresh={refreshRate} />
-                        ) : (
-                            <>
-                                <Title fontFamily="heading" fontSize="2xl" fontWeight="extrabold" pb="2">
-                                    {i18n._(t`Collect G$`)}
-                                </Title>
+    const carrouselClasses = classNames('lg:self-start lg:flex lg:flex-col ', {
+        'w-full': isMobile,
+        'lg:w-full': claimed,
+        'lg:w-3/5': !claimed,
+    })
 
+    return (
+        <NewsFeedProvider {...(isProd ? { feedFilter: feedConfig.production.feedFilter } : { env: 'qa' })}>
+            <>
+                <View style={mainView}>
+                    <View style={claimView}>
+                        <div className="flex flex-col items-center text-center lg:w-1/2">
+                            <Box style={balanceContainer}>
+                                {claimed ? (
+                                    <ClaimBalance refresh={refreshRate} />
+                                ) : (
+                                    <>
+                                        <Title fontFamily="heading" fontSize="2xl" fontWeight="extrabold" pb="2">
+                                            {i18n._(t`Collect G$`)}
+                                        </Title>
+
+                                        <Text
+                                            w="340px"
+                                            fontFamily="subheading"
+                                            fontWeight="normal"
+                                            color="goodGrey.500"
+                                            fontSize="sm"
+                                        >
+                                            {i18n._(
+                                                t`GoodDollar creates free money as a public good, G$ tokens, which you can collect daily.`
+                                            )}
+                                        </Text>
+                                    </>
+                                )}
+                                <ClaimButton
+                                    firstName="Test"
+                                    method="redirect"
+                                    claim={handleClaim}
+                                    claimed={claimed}
+                                    claiming={state?.status === 'Mining' || state?.status === 'Success'} // we check for both to prevent a pre-mature closing of finalization modal
+                                    handleConnect={handleConnect}
+                                    chainId={chainId}
+                                    onEvent={handleEvents}
+                                />
+                            </Box>
+                        </div>
+                        {isSimpleApp && claimed && (
+                            <View>
+                                <ArrowButton
+                                    borderWidth="1"
+                                    borderColor="borderBlue"
+                                    px="6px"
+                                    w="220px"
+                                    mb="4"
+                                    text={`Exchange G$ <> cUSD`}
+                                    onPress={navigateToSwap}
+                                    innerText={{
+                                        fontSize: 'sm',
+                                    }}
+                                    textInteraction={{ hover: { color: 'white' } }}
+                                />
                                 <Text
-                                    w="340px"
-                                    fontFamily="subheading"
-                                    fontWeight="normal"
-                                    color="goodGrey.500"
-                                    fontSize="sm"
+                                    alignSelf={'center'}
+                                    justifyItems={'center'}
+                                    alignContent={'center'}
+                                    justifyContent={'center'}
                                 >
-                                    {i18n._(
-                                        t`GoodDollar creates free money as a public good, G$ tokens, which you can collect daily.`
-                                    )}
+                                    OR
                                 </Text>
-                            </>
+                            </View>
                         )}
-                        <ClaimButton
-                            firstName="Test"
-                            method="redirect"
-                            claim={handleClaim}
-                            claimed={claimed}
-                            claiming={state?.status === 'Mining' || state?.status === 'Success'} // we check for both to prevent a pre-mature closing of finalization modal
-                            handleConnect={handleConnect}
-                            chainId={chainId}
-                            onEvent={handleEvents}
-                        />
-                    </Box>
-                </div>
-                {isSimpleApp && claimed && (
-                    <View>
-                        <ArrowButton
-                            borderWidth="1"
-                            borderColor="borderBlue"
-                            px="6px"
-                            w="220px"
-                            mb="4"
-                            text={`Exchange G$ <> cUSD`}
-                            onPress={navigateToSwap}
-                            innerText={{
-                                fontSize: 'sm',
+                        <div
+                            className={carrouselClasses}
+                            style={{
+                                flexGrow: '1',
+                                alignSelf: 'flex-start',
+                                marginLeft: !isMobile ? '15%' : 0,
                             }}
-                            textInteraction={{ hover: { color: 'white' } }}
-                        />
-                        <Text
-                            alignSelf={'center'}
-                            justifyItems={'center'}
-                            alignContent={'center'}
-                            justifyContent={'center'}
                         >
-                            OR
-                        </Text>
+                            <ClaimCarousel cards={mockedCards} claimed={claimed} isMobile={isMobile} />
+                        </div>
                     </View>
-                )}
-                <div
-                    className={`w-4/5 lg:flex lg:flex-col ${claimed ? 'lg:w-full' : 'lg:w-3/5'}`}
-                    style={{ flexGrow: '1' }}
-                >
-                    <ClaimCarousel cards={mockedCards} claimed={claimed} />
-                </div>
-            </View>
-        </>
+                    <View style={newsFeedView}>
+                        <NewsFeedWidget />
+                    </View>
+                </View>
+            </>
+        </NewsFeedProvider>
     )
 })
 

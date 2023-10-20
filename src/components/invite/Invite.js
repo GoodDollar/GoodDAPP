@@ -137,7 +137,7 @@ export const ShareBox = ({ level, styles }) => {
   )
 }
 
-const InputCodeBox = ({ navigateTo, styles }) => {
+const InputCodeBox = ({ screenProps, styles }) => {
   const ownInviteCode = useInviteCode()
   const registerForInvites = useRegisterForInvites()
   const { hideDialog, showDialog } = useDialog()
@@ -147,6 +147,7 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   const propSuffix = usePropSuffix()
   const [inviteCodeUsed] = useUserProperty(`inviterInviteCodeUsed${propSuffix}`)
   const [code, setCode] = useState(userStorage.userProperties.get(`inviterInviteCode${propSuffix}`) || '')
+  const { navigateTo } = screenProps
 
   // if code wasnt a url it will not have any query params and will then use code as default
   const extractedCode = useMemo(() => get(createUrlObject(code), 'params.inviteCode', code), [code])
@@ -283,8 +284,8 @@ const InputCodeBox = ({ navigateTo, styles }) => {
   )
 }
 
-const InvitesBox = React.memo(({ navigateTo, invitees, refresh, styles }) => {
-  const [, bountiesCollected] = useCollectBounty(navigateTo)
+const InvitesBox = React.memo(({ screenProps, invitees, refresh, styles }) => {
+  const [, bountiesCollected] = useCollectBounty(screenProps)
 
   // const { pending = [], approved = [] } = groupBy(invitees, 'status')
   useEffect(() => {
@@ -420,11 +421,11 @@ const InvitesHowTO = () => {
   )
 }
 
-const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo, styles }) => (
+const InvitesData = ({ invitees, refresh, level, totalEarned = 0, screenProps, styles }) => (
   <View style={{ width: '100%' }}>
     <Divider size={getDesignRelativeHeight(theme.paddings.defaultMargin * 3, false)} />
     <Section.Stack>
-      <InputCodeBox navigateTo={navigateTo} styles={styles} />
+      <InputCodeBox screenProps={screenProps} styles={styles} />
     </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
     <Section.Stack>
@@ -436,7 +437,7 @@ const InvitesData = ({ invitees, refresh, level, totalEarned = 0, navigateTo, st
     </Section.Stack>
     <Divider size={theme.paddings.defaultMargin * 1.5} />
     <Section.Stack>
-      <InvitesBox navigateTo={navigateTo} invitees={invitees} refresh={refresh} styles={styles} />
+      <InvitesBox screenProps={screenProps} invitees={invitees} refresh={refresh} styles={styles} />
     </Section.Stack>
   </View>
 )
@@ -513,7 +514,7 @@ const Invite = ({ screenProps, styles }) => {
         {t`How Do I Invite People?`}
       </CustomButton>
       {showHowTo && <InvitesHowTO />}
-      <InvitesData {...{ invitees, refresh, level, totalEarned, navigateTo: screenProps.navigateTo, styles }} />
+      <InvitesData {...{ invitees, refresh, level, totalEarned, screenProps, styles }} />
     </Wrapper>
   )
 }

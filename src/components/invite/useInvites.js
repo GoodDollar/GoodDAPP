@@ -192,13 +192,15 @@ export const useInviteBonus = () => {
   return [collected, getCanCollect, collectInviteBounty]
 }
 
-export const useCollectBounty = navigateTo => {
+export const useCollectBounty = screenProps => {
   const { hideDialog, showDialog, showErrorDialog } = useDialog()
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const propSuffix = usePropSuffix()
+  const { navigateTo } = screenProps
+
   const collect = async () => {
     const labels = {
       title: t`Collecting Bonus`,

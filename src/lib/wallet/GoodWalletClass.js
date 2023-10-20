@@ -1256,7 +1256,7 @@ export class GoodWallet {
     // we need around 400k gas to collect 1 bounty, so that's the minimum
     if (gas < 400000) {
       log.error('collectInvites low gas:', '', '', { gas, nativeBalance })
-      return false
+      throw new Error('There is not enough gas to collect bounty.')
     }
     const res = await this.sendTransaction(tx, {}, { gas })
     return res

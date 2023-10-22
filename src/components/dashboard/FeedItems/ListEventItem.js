@@ -29,8 +29,6 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EmptyEventFeed from './EmptyEventFeed'
 import FeedListItemLeftBorder from './FeedListItemLeftBorder'
-// import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
-import { isTransferTx } from '../../../lib/wallet/utils'
 
 const log = logger.child({ from: 'ListEventItem' })
 

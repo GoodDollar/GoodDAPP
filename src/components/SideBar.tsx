@@ -217,7 +217,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
             justifyContent="space-between"
             style={containerStyles}
         >
-            <Box display="flex" justifyContent="center" flexDirection="column" px="6" py="4" bg={bgContainer}>
+            <Box display="flex" h="100%" justifyContent="center" flexDirection="column" px="6" py="4" bg={bgContainer}>
                 {account && (
                     <Box px={4} pt={2} bg={bgWalletBalance} borderRadius="12px">
                         <div className="flex items-center gap-2">

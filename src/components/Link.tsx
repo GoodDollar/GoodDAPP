@@ -43,18 +43,23 @@ export const SideBarMenuItem = ({ children, onPress, textColor }) => (
     </Pressable>
 )
 
-export function NavLink<S = H.LocationState>({
+interface NavLinkProps extends React.PropsWithoutRef<ReactRouterNavLinkProps>, React.RefAttributes<HTMLAnchorElement> {
+    onPress?: typeof noop
+    isNavBar?: boolean
+}
+
+export function NavLink({
     href = '#',
     children,
     className = 'pt-2 pr-2 w-52 rounded-xl line xl:pr-3 whitespace-nowrap',
+    isNavBar = false,
     onPress,
     ...rest
-}: React.PropsWithoutRef<ReactRouterNavLinkProps<S>> &
-    React.RefAttributes<HTMLAnchorElement> & { onPress: typeof noop }): JSX.Element {
+}: NavLinkProps): JSX.Element {
     const textColor = useColorModeValue('goodGrey.700', 'goodGrey.300')
 
     return (
-        <ReactRouterNavLink href={href} className={className} activeClassName="active" {...rest}>
+        <ReactRouterNavLink href={href} className={!isNavBar ? className : ''} activeClassName="active" {...rest}>
             <SideBarMenuItem onPress={onPress} textColor={textColor}>
                 {children}
             </SideBarMenuItem>

@@ -18,12 +18,13 @@ import ThemeProvider, { TwTheme } from './theme'
 import LanguageProvider from 'language'
 import { createGlobalStyle } from 'styled-components'
 import { Web3ContextProvider } from './hooks/useWeb3'
-import { theme, NativeBaseProvider } from '@gooddollar/good-design'
+import { NativeBaseProvider } from '@gooddollar/good-design'
 import { analyticsConfig, appInfo } from 'hooks/useSendAnalyticsData'
 import { HttpsProvider } from 'utils/HttpsProvider'
 import { registerServiceWorker } from './serviceWorker'
 import { OnboardProviderWrapper } from 'components/BlockNativeOnboard'
 import { SimpleAppProvider } from 'state/simpleapp/simpleapp'
+import { nbTheme } from './theme/nbtheme'
 
 if (window.ethereum) {
     window.ethereum.autoRefreshOnNetworkChange = false
@@ -83,7 +84,7 @@ ReactDOM.render(
                                     <ApplicationUpdater />
                                     <MulticallUpdater />
                                     <ThemeProvider>
-                                        <NativeBaseProvider theme={theme}>
+                                        <NativeBaseProvider theme={nbTheme}>
                                             <GlobalStyle />
                                             <Router>
                                                 <SimpleAppProvider>

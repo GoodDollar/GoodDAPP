@@ -38,7 +38,6 @@ export const Beta = styled.div`
 const Wrapper = styled.div<{ isSimpleApp?: boolean }>`
     @media ${({ theme }) => theme.media.sm} {
         overflow-y: hidden;
-        max-height: 650px;
     }
     @media ${({ theme }) => theme.media.md} {
         padding-bottom: ${(props) => (props.isSimpleApp ? '0px' : '75px')};
@@ -57,9 +56,28 @@ const MainBody = styled.div<{ $page?: string }>`
 `
 
 const AppWrap = styled.div`
-    height: 90vh;
-    @supports (height: 90svh) {
-        height: 90svh; // should handle viewport on safari better
+    height: 92vh; // should handle viewport on Safari better
+    @media screen and (max-width: 361px) {
+        height: 93vh;
+    }
+    @media screen and (min-width: 376px) {
+        height: 94vh;
+    }
+    @media screen and (min-width: 650px) {
+        height: 100vh;
+    }
+
+    @supports (height: 100svh) {
+        height: 92svh; // should handle viewport on safari better
+        @media screen and (max-width: 361px) {
+            height: 93svh;
+        }
+        @media screen and (min-width: 376px) {
+            height: 94svh;
+        }
+        @media screen and (min-width: 650px) {
+            height: 100svh;
+        }
     }
 `
 

@@ -164,7 +164,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         if (transactionHash) {
           fireEvent(WITHDRAW)
 
-          await showDialog({
+          showDialog({
             onDismiss: screenProps.goToRoot,
             title: t`Payment Link Processed Successfully`,
             image: <SuccessIcon />,

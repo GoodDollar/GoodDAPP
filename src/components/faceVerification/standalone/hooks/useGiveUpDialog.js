@@ -47,6 +47,8 @@ const useGiveUpDialog = (navigation, type) => {
       content: <GiveUpDialog onReasonChosen={onReasonChosen} type={type} />,
       isMinHeight: false,
       showButtons: false,
+      showCloseButtons: false,
+
       onDismiss: onReasonChosen,
     })
   }, [showDialog, onReasonChosen])

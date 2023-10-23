@@ -175,7 +175,7 @@ export const useInviteBonus = () => {
 
       log.debug(`useInviteBonus: invite bonty collected`)
 
-      await showDialog({
+      showDialog({
         title: t`Reward Collected!`,
         image: <SuccessIcon />,
         buttons: [

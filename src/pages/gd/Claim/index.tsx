@@ -1,8 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { ArrowButton, ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
-import { useHistory } from 'react-router-dom'
+import { ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
 import { Text, useBreakpointValue, Box, View } from 'native-base'
 import { useConnectWallet } from '@web3-onboard/react'
 import { isMobile } from 'react-device-detect'
@@ -36,7 +35,6 @@ const Claim = memo(() => {
     const network = SupportedV2Networks[chainId]
     const sendData = useSendAnalyticsData()
     const isSimpleApp = useIsSimpleApp()
-    const history = useHistory()
 
     const networkEnv = getNetworkEnv()
     const isProd = networkEnv.includes('production')
@@ -115,10 +113,6 @@ const Claim = memo(() => {
 
         return !!state.length
     }, [connect])
-
-    const navigateToSwap = useCallback(() => {
-        history.push('/swap')
-    }, [history])
 
     const mainView = useBreakpointValue({
         base: {
@@ -286,41 +280,19 @@ Learn how here`,
                                 />
                             </Box>
                         </div>
-                        {isSimpleApp && claimed && (
-                            <View>
-                                <ArrowButton
-                                    borderWidth="1"
-                                    borderColor="borderBlue"
-                                    px="6px"
-                                    w="220px"
-                                    mb="4"
-                                    text={`Exchange G$ <> cUSD`}
-                                    onPress={navigateToSwap}
-                                    innerText={{
-                                        fontSize: 'sm',
+                        {(isSimpleApp && !claimed) ||
+                            (!isSimpleApp && (
+                                <div
+                                    className={carrouselClasses}
+                                    style={{
+                                        flexGrow: '1',
+                                        alignSelf: 'flex-start',
+                                        marginLeft: !isMobile ? '15%' : 0,
                                     }}
-                                    textInteraction={{ hover: { color: 'white' } }}
-                                />
-                                <Text
-                                    alignSelf={'center'}
-                                    justifyItems={'center'}
-                                    alignContent={'center'}
-                                    justifyContent={'center'}
                                 >
-                                    OR
-                                </Text>
-                            </View>
-                        )}
-                        <div
-                            className={carrouselClasses}
-                            style={{
-                                flexGrow: '1',
-                                alignSelf: 'flex-start',
-                                marginLeft: !isMobile ? '15%' : 0,
-                            }}
-                        >
-                            <ClaimCarousel cards={mockedCards} claimed={claimed} isMobile={isMobile} />
-                        </div>
+                                    <ClaimCarousel cards={mockedCards} claimed={claimed} isMobile={isMobile} />
+                                </div>
+                            ))}
                     </View>
                     <View style={newsFeedView}>
                         <NewsFeedWidget />

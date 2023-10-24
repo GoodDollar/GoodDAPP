@@ -21,7 +21,6 @@ import { Text, useBreakpointValue, ITextProps, Pressable } from 'native-base'
 import { useWalletModalToggle } from '../state/application/hooks'
 import { OnboardConnectButton } from './BlockNativeOnboard'
 import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
-import { NavBar } from './StyledMenu/Navbar'
 import classNames from 'classnames'
 
 const AppBarWrapper = styled.header`
@@ -273,7 +272,8 @@ function AppBar(): JSX.Element {
                             </div>
 
                             <div className={mainMenuContainer}>
-                                {!isSimpleApp ? <Web3Bar /> : isMobile ? <NavBar /> : null}
+                                {!isSimpleApp ? <Web3Bar /> : null}
+                                {/* // : isMobile ? <NavBar /> : null} <-- enable for opera when swap is ready */}
                             </div>
                         </div>
                     </TopBar>

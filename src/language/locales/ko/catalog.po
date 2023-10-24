@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/AppBar.tsx:204
+#: src/components/AppBar.tsx:244
 #: src/components/Savings/SavingsCard/index.tsx:48
 msgid ""
 msgstr ""
@@ -2974,7 +2974,7 @@ msgstr ""
 msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
 msgstr "이런! 알 수없는 오류가 발생했습니다. 페이지를 새로 고침하거나 다른 브라우저 또는 기기에서 방문하세요."
 
-#: src/components/AppBar.tsx:226
+#: src/components/AppBar.tsx:265
 msgid "Open main menu"
 msgstr "메인 메뉴 열기"
 

@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/AppBar.tsx:204
+#: src/components/AppBar.tsx:244
 #: src/components/Savings/SavingsCard/index.tsx:48
 msgid ""
 msgstr ""
@@ -3011,7 +3011,7 @@ msgstr "על ה"
 msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
 msgstr "אופס! אירעה שגיאה לא ידועה. נא לרענן את הדף, או לבקר בדפדפן או במכשיר אחר"
 
-#: src/components/AppBar.tsx:226
+#: src/components/AppBar.tsx:265
 msgid "Open main menu"
 msgstr "פתח תפריט ראשי"
 

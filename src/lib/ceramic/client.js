@@ -21,6 +21,10 @@ export const getCeramicClient = once(() => new CeramicClient(ceramicNodeURL))
 export const serializeDocument = (document: any) => {
   const { id, content } = document
 
+  if (content?.tags?.[0]?.slug === 'publishDapp') {
+    return
+  }
+
   return {
     ...content,
     id: String(id),

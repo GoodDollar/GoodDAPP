@@ -248,9 +248,14 @@ export const useWalletConnectSession = () => {
       const isV2 = connector === cachedV2Connector
       const session = connector.session
       const metadata = payload?.params?.[0]?.peerMeta || payload?.params?.proposer?.metadata
+      const { requiredNamespaces, optionalNamespaces } = payload?.params
       let requestedChainIdV1 = Number(payload?.params?.[0]?.chainId)
       let requestedChainIdV2 = Number(
-        (payload?.params?.requiredNamespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
+        (
+          requiredNamespaces?.eip155?.chains?.[0] ||
+          optionalNamespaces?.eip155?.chains?.[0] ||
+          `:${wallet.networkId}`
+        ).split(':')[1],
       )
       log.debug('WC2Events&Sessions -- handleSessionRequest', { isV2, payload, session, metadata })
       let requestedChainId = requestedChainIdV1 || requestedChainIdV2 || Number(wallet.networkId)

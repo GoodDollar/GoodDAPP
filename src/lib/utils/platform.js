@@ -83,15 +83,16 @@ const iosSupportedWeb =
 export const isWebView = Platform.select({
   default: () => false,
   web: () => {
-    const { ReactNativeWebView, navigator } = window
+    const { ReactNativeWebView, navigator, ethereum } = window
     const { userAgent, standalone } = navigator
 
     const isUserAgentWV = isUAWebView(userAgent)
     const isReactNativeWV = !!ReactNativeWebView
     const isIOSWV = isUserAgentWV || (!standalone && !isSafariWeb)
     const isAndroidWV = isUserAgentWV
+    const isMinipay = !!ethereum?.isMiniPay //allow opera minipay as compatible webview
 
-    return isReactNativeWV || (isIOSWeb ? isIOSWV : isAndroidWV)
+    return !isMinipay && (isReactNativeWV || (isIOSWeb ? isIOSWV : isAndroidWV))
   },
 })()
 

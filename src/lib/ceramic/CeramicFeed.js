@@ -27,6 +27,11 @@ class CeramicFeed {
 
   async getPost(postId: string) {
     const post = await Post.find(postId)
+
+    if (post?.content?.tags?.[0]?.slug === 'publishDapp') {
+      return
+    }
+
     const serialized = serializeDocument(post)
 
     log.debug('get ceramic post', { serialized })

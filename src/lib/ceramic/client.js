@@ -32,7 +32,7 @@ export const serializeDocument = (document: any) => {
 }
 
 export const serializeCollection = (documents: any[]) => {
-  return documents.map(serializeDocument)
+  return documents.map(serializeDocument).filter(document => document !== undefined)
 }
 
 export class CeramicModel {

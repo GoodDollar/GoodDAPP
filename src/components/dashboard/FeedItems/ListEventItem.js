@@ -454,7 +454,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   feedPicture: {
     width: '100%',
-    height: 'auto',
+    height: 190,
   },
   claimingCardFeedText: {},
   mainInfo: {

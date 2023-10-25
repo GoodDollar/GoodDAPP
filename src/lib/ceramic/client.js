@@ -22,7 +22,7 @@ export const serializeDocument = (document: any) => {
   const { id, content } = document
   const tags = content?.tags || []
 
-  if (tags.some(tag => tag.slug === 'publishDapp')) {
+  if (!tags.length === 0 && !tags.find(tag => 'publishWallet')) {
     return
   }
 

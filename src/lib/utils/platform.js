@@ -92,7 +92,11 @@ export const isWebView = Platform.select({
     const isAndroidWV = isUserAgentWV
     const isMinipay = !!ethereum?.isMiniPay //allow opera minipay as compatible webview
 
-    return !isMinipay && (isReactNativeWV || (isIOSWeb ? isIOSWV : isAndroidWV))
+    if (isMinipay) {
+      return false
+    }
+
+    return isReactNativeWV || (isIOSWeb ? isIOSWV : isAndroidWV)
   },
 })()
 

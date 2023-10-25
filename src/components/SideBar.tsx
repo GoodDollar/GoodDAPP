@@ -53,7 +53,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
             transition: 'all 1s ease',
             display: 'grid',
             paddingBottom: 0,
-            height: '590px',
+            height: 'calc(100vh - 69px)',
             gap: '1px',
             // paddingLeft: '18px',
         },

@@ -37,7 +37,7 @@ const Claim = memo(() => {
     const isSimpleApp = useIsSimpleApp()
 
     const networkEnv = getNetworkEnv()
-    const isProd = networkEnv.includes('production')
+    const prodOrQa = /\b(production|staging)\b/.test(networkEnv)
 
     // there are three possible scenarios
     // 1. claim amount is 0, meaning user has claimed that day
@@ -241,7 +241,7 @@ Learn how here`,
     })
 
     return (
-        <NewsFeedProvider {...(isProd ? { feedFilter: feedConfig.production.feedFilter } : { env: 'qa' })}>
+        <NewsFeedProvider {...(prodOrQa ? { feedFilter: feedConfig.production.feedFilter } : { env: 'qa' })}>
             <>
                 <View style={mainView}>
                     <View style={claimView}>

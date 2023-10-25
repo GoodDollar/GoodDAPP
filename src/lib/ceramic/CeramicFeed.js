@@ -28,11 +28,10 @@ class CeramicFeed {
   async getPost(postId: string) {
     const post = await Post.find(postId)
 
-    if (post?.content?.tags?.[0]?.slug === 'publishDapp') {
+    const serialized = serializeDocument(post)
+    if (!serialized) {
       return
     }
-
-    const serialized = serializeDocument(post)
 
     log.debug('get ceramic post', { serialized })
     return this._loadPostPictures(serialized)

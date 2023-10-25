@@ -2833,7 +2833,7 @@ msgstr "Tổng quan về tiền gửi."
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:150
+#: src/components/SideBar.tsx:160
 msgid "Docs"
 msgstr ""
 
@@ -2845,7 +2845,7 @@ msgstr "không tải được"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:143
+#: src/components/SideBar.tsx:153
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2878,7 +2878,7 @@ msgstr "Đi đến danh mục đầu tư"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:157
+#: src/components/SideBar.tsx:167
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3334,11 +3334,11 @@ msgstr "Chờ đợi sự xác nhận"
 msgid "Waiting For Confirmation"
 msgstr "Chờ đợi sự xác nhận"
 
-#: src/components/SideBar.tsx:136
+#: src/components/SideBar.tsx:146
 msgid "Wallet"
 msgstr "Ví tiền"
 
-#: src/components/SideBar.tsx:226
+#: src/components/SideBar.tsx:236
 msgid "Wallet balance"
 msgstr "Ví thăng bằng"
 

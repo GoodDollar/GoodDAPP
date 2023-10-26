@@ -52,8 +52,13 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
     const bgContainer = useColorModeValue('goodWhite.100', '#151A30')
     const bgWalletBalance = useColorModeValue('white', '#1a1f38')
     const textColor = useColorModeValue('goodGrey.700', 'goodGrey.300')
-    const osName = getDevice().os.name
-    const viewPort = osName === 'iOS' ? '98vh' : '100vh'
+
+    const { browser, os } = getDevice()
+    const isiOS = os.name === 'iOS'
+    const isChrome = browser.name === 'Chrome'
+
+    const viewPort = isiOS ? '98vh' : '100vh'
+    const browserViewPort = isChrome && isiOS ? '160px' : '130px'
 
     const containerStyles = useBreakpointValue({
         base: {
@@ -63,7 +68,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
             transition: 'all 1s ease',
             display: 'grid',
             paddingBottom: 0,
-            height: `calc(${viewPort} - 130px)`,
+            height: `calc(${viewPort} - ${browserViewPort})`,
             gap: '1px',
             // paddingLeft: '18px',
         },

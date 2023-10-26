@@ -1,27 +1,30 @@
 import { Fraction } from '@uniswap/sdk-core'
 import React, { useState, useCallback } from 'react'
-import { ReactComponent as LogoPrimary } from '../assets/svg/logo_primary_2023.svg'
-import { ReactComponent as LogoWhite } from '../assets/svg/logo_white_2023.svg'
+import { useLingui } from '@lingui/react'
+import styled from 'styled-components'
+import { t } from '@lingui/macro'
+import { g$Price } from '@gooddollar/web3sdk'
+import { isMobile } from 'react-device-detect'
+import classNames from 'classnames'
+import { Text, useBreakpointValue, ITextProps, Pressable } from 'native-base'
+
 import { useActiveWeb3React } from '../hooks/useActiveWeb3React'
 import Web3Network from './Web3Network'
 import Web3Status from './Web3Status'
-import { useLingui } from '@lingui/react'
-import styled from 'styled-components'
+import { useWalletModalToggle } from '../state/application/hooks'
+import SideBar from './SideBar'
+import { NavBar } from './StyledMenu/Navbar'
+import usePromise from '../hooks/usePromise'
+import NetworkModal from './NetworkModal'
+import AppNotice from './AppNotice'
+import { OnboardConnectButton } from './BlockNativeOnboard'
+import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
+
+import { ReactComponent as LogoPrimary } from '../assets/svg/logo_primary_2023.svg'
+import { ReactComponent as LogoWhite } from '../assets/svg/logo_white_2023.svg'
 import { useApplicationTheme } from '../state/application/hooks'
 import { ReactComponent as Burger } from '../assets/images/burger.svg'
 import { ReactComponent as X } from '../assets/images/x.svg'
-import { t } from '@lingui/macro'
-import SideBar from './SideBar'
-import usePromise from '../hooks/usePromise'
-import { g$Price } from '@gooddollar/web3sdk'
-import NetworkModal from './NetworkModal'
-import AppNotice from './AppNotice'
-import { isMobile } from 'react-device-detect'
-import { Text, useBreakpointValue, ITextProps, Pressable } from 'native-base'
-import { useWalletModalToggle } from '../state/application/hooks'
-import { OnboardConnectButton } from './BlockNativeOnboard'
-import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
-import classNames from 'classnames'
 
 const AppBarWrapper = styled.header`
     background: ${({ theme }) => theme.color.secondaryBg};
@@ -236,6 +239,9 @@ function AppBar(): JSX.Element {
         }
     )
 
+    const { ethereum } = window
+    const isMinipay = ethereum?.isMiniPay
+
     return (
         <AppBarWrapper
             className="relative z-10 flex flex-row justify-between w-screen flex-nowrap background"
@@ -257,22 +263,24 @@ function AppBar(): JSX.Element {
                         </div>
 
                         <div className="flex flex-row items-end h-10 space-x-2">
-                            <div className="flex flex-row items-center space-x-2">
-                                <button
-                                    onClick={toggleSideBar}
-                                    className="inline-flex items-center justify-center rounded-md mobile-menu-button focus:outline-none"
-                                >
-                                    <span className="sr-only">{i18n._(t`Open main menu`)}</span>
-                                    {sidebarOpen ? (
-                                        <X title="Close" className="block w-6 h-6" aria-hidden="true" />
-                                    ) : (
-                                        <Burger title="Burger" className="block w-6 h-6" aria-hidden="true" />
-                                    )}
-                                </button>
-                            </div>
+                            {!isMinipay && (
+                                <div className="flex flex-row items-center space-x-2">
+                                    <button
+                                        onClick={toggleSideBar}
+                                        className="inline-flex items-center justify-center rounded-md mobile-menu-button focus:outline-none"
+                                    >
+                                        <span className="sr-only">{i18n._(t`Open main menu`)}</span>
+                                        {sidebarOpen ? (
+                                            <X title="Close" className="block w-6 h-6" aria-hidden="true" />
+                                        ) : (
+                                            <Burger title="Burger" className="block w-6 h-6" aria-hidden="true" />
+                                        )}
+                                    </button>
+                                </div>
+                            )}
 
                             <div className={mainMenuContainer}>
-                                {!isSimpleApp ? <Web3Bar /> : null}
+                                {!isSimpleApp ? <Web3Bar /> : !isMinipay && isMobile ? <NavBar /> : null}
                                 {/* // : isMobile ? <NavBar /> : null} <-- enable for opera when swap is ready */}
                             </div>
                         </div>

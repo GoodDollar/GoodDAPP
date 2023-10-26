@@ -4894,9 +4894,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@gooddollar/good-design@npm:0.1.4"
+"@gooddollar/good-design@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "@gooddollar/good-design@npm:0.1.5"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -4915,7 +4915,7 @@ __metadata:
     react: 17.0.2
     react-dom: 17.0.2
     react-helmet: ^6.1.0
-    react-inlinesvg: ^4.0.5
+    react-inlinesvg: 2.3.0
     react-native: 0.70.4
     react-native-mask-input: ^1.2.2
     react-native-safe-area-context: ^3.3.2
@@ -4926,7 +4926,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: c91859953d0a8a50d438a1494d9837296d588906072a14b620a31b45fdd5ed9fadbf8939298c8a8acc8b77517151b963d20afedabcfb244845e77d4492e2e8d4
+  checksum: 6f4ea55865202b9b5fc6be5455320d0240a08d319303664cf47a9880da4b49185f9aeb8f9ea3c254f558fc4c76baa5f9750f6ca11bbce0e17d3d483f220627c4
   languageName: node
   linkType: hard
 
@@ -4977,7 +4977,7 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.1.4
+    "@gooddollar/good-design": ^0.1.5
     "@gooddollar/goodprotocol": ^2.0.3
     "@gooddollar/web3sdk": ^0.1.25
     "@gooddollar/web3sdk-v2": ^0.2.3
@@ -22602,7 +22602,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exenv@npm:^1.2.0":
+"exenv@npm:^1.2.0, exenv@npm:^1.2.2":
   version: 1.2.2
   resolution: "exenv@npm:1.2.2"
   checksum: a894f3b60ab8419e0b6eec99c690a009c8276b4c90655ccaf7d28faba2de3a6b93b3d92210f9dc5efd36058d44f04098f6bbccef99859151104bfd49939904dc
@@ -34690,7 +34690,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-from-dom@npm:^0.6.2":
+"react-from-dom@npm:^0.6.0":
   version: 0.6.2
   resolution: "react-from-dom@npm:0.6.2"
   peerDependencies:
@@ -34793,14 +34793,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-inlinesvg@npm:^4.0.5":
-  version: 4.0.6
-  resolution: "react-inlinesvg@npm:4.0.6"
+"react-inlinesvg@npm:2.3.0":
+  version: 2.3.0
+  resolution: "react-inlinesvg@npm:2.3.0"
   dependencies:
-    react-from-dom: ^0.6.2
+    exenv: ^1.2.2
+    react-from-dom: ^0.6.0
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 9a445a22e13fc3c1f6cd95d277b4289e31f12350f439f3fadb0a86ca372fc8b9c41262edd52e18c47ec20e06fd0bbbb5bc279a7cd3473398e64f31ebdc2405dd
+    react: ^16.8.0 || ^17.0.0
+  checksum: ea43f6ec069ae6ef5be65fe587bf3fbaae0668124ddf7ec7b4f569cd4b6a32654897065019611d3a068e69275727f5918b9218d1b3f368f2a8d5198aaaf93a17
   languageName: node
   linkType: hard
 

@@ -2829,7 +2829,7 @@ msgstr "סקירה פיקדון"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:160
+#: src/components/SideBar.tsx:165
 msgid "Docs"
 msgstr "מסמכים"
 
@@ -2841,7 +2841,7 @@ msgstr "נכשלה בטעינה"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:153
+#: src/components/SideBar.tsx:158
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2874,7 +2874,7 @@ msgstr "עבור אל תיק הפורפוליו"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:167
+#: src/components/SideBar.tsx:172
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3330,11 +3330,11 @@ msgstr "מחכה לאישור"
 msgid "Waiting For Confirmation"
 msgstr "מחכה לאישור"
 
-#: src/components/SideBar.tsx:146
+#: src/components/SideBar.tsx:151
 msgid "Wallet"
 msgstr "ארנק"
 
-#: src/components/SideBar.tsx:236
+#: src/components/SideBar.tsx:241
 msgid "Wallet balance"
 msgstr "מאזן ארנק"
 

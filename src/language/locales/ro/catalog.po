@@ -2833,7 +2833,7 @@ msgstr "Depozit Privire de ansamblu"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:160
+#: src/components/SideBar.tsx:165
 msgid "Docs"
 msgstr "Documente"
 
@@ -2845,7 +2845,7 @@ msgstr "incarcarea a esuat"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:153
+#: src/components/SideBar.tsx:158
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2878,7 +2878,7 @@ msgstr "Du-te la portofoliu."
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:167
+#: src/components/SideBar.tsx:172
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3334,11 +3334,11 @@ msgstr "Așteptați confirmarea"
 msgid "Waiting For Confirmation"
 msgstr "Așteptați confirmarea"
 
-#: src/components/SideBar.tsx:146
+#: src/components/SideBar.tsx:151
 msgid "Wallet"
 msgstr "Portofel"
 
-#: src/components/SideBar.tsx:236
+#: src/components/SideBar.tsx:241
 msgid "Wallet balance"
 msgstr "Balanța portofelului"
 

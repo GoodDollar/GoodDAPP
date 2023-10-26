@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/AppBar.tsx:244
+#: src/components/AppBar.tsx:250
 #: src/components/Savings/SavingsCard/index.tsx:48
 msgid ""
 msgstr ""
@@ -2519,7 +2519,7 @@ msgstr ""
 msgid "Oops! An unknown error occurred. Please refresh the page, or visit from another browser or device"
 msgstr "Ups! Ocorreu um erro desconhecido. Atualize a página ou visite de outro navegador ou dispositivo"
 
-#: src/components/AppBar.tsx:265
+#: src/components/AppBar.tsx:272
 msgid "Open main menu"
 msgstr "Abra o menu principal"
 

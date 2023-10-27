@@ -487,6 +487,33 @@ export class APIService {
     return this.sharedClient.post(url, payload, options)
   }
 
+  async getOTPLStatus(sender, paymentId, otpAddress) {
+    const otplLogs = await this.sharedClient.get('/api', {
+      params: {
+        module: 'logs',
+        action: 'getLogs',
+
+        // fromBlock: null,
+        // // toBlock: 15074139,
+        address: otpAddress,
+      },
+      baseURL: Config.ethereum['42220'].explorerAPI,
+    })
+
+    const bytes32Sender = `0x${sender
+      .toLowerCase()
+      .slice(2)
+      .padStart(64, '0')}`
+    const bytes32Id = `0x${paymentId.slice(2).padStart(64, '0')}`
+
+    const isWithdrawn = otplLogs.result.some(
+      topics => topics.topics[1] === bytes32Sender && topics.topics[3] === bytes32Id,
+    )
+
+    log.debug('APIExplorer -- otplstatus -->', { otplLogs, isWithdrawn, bytes32Sender })
+    return isWithdrawn
+  }
+
   /**
    * @private
    */

@@ -572,6 +572,11 @@ export class GoodWallet {
     return events
   }
 
+  async syncOTPLStatus(sender, paymentId, otpAddress) {
+    const status = await API.getOTPLStatus(sender, paymentId, otpAddress)
+    return status
+  }
+
   async pollOTPLEvents(toBlock, from = null) {
     const fromBlock = from || this.lastEventsBlock
     const contract = this.oneTimePaymentsContract

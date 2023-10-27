@@ -772,7 +772,7 @@ export class UserStorage {
     logger.debug('formatEvent: incoming event', event.id, { event })
 
     const { feedStorage } = this
-    const { data, type, txType } = event
+    const { data, type } = event
     const { counterPartyFullName, counterPartySmallAvatar } = data
 
     const counterPartyNativeEvents = [FeedItemType.EVENT_TYPE_SENDNATIVE, FeedItemType.EVENT_TYPE_RECEIVENATIVE]
@@ -795,18 +795,6 @@ export class UserStorage {
         if (counterPartyNativeEvents.includes(type)) {
           feedStorage.updateNativeTx(event)
         } else {
-          feedStorage.updateFeedEvent(event)
-        }
-      }
-
-      if (txType === 'TX_OTPL_DEPOSIT' && event.otplStatus === 'pending' && event.data.hashedCode) {
-        const paymentId = event.data.hashedCode
-        const { counterPartyAddress: otpAddress } = counterPartyData
-
-        const otplWithdrawn = await this.wallet.syncOTPLStatus(this.wallet.account, paymentId, otpAddress)
-
-        if (otplWithdrawn) {
-          event.otplStatus = 'completed'
           feedStorage.updateFeedEvent(event)
         }
       }

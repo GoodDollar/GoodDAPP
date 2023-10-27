@@ -487,31 +487,39 @@ export class APIService {
     return this.sharedClient.post(url, payload, options)
   }
 
-  async getOTPLStatus(sender, paymentId, otpAddress) {
+  async getOTPLEvents(sender, chainId, otpAddress, from) {
+    // if (chainId === NETWORK_ID.FUSE) {
+
+    // } else {
+    const explorer = Config.ethereum[chainId].explorerAPI
+    log.info('polltest -- getOTPLEvents -->', { sender, chainId, otpAddress, from, explorer })
     const otplLogs = await this.sharedClient.get('/api', {
       params: {
         module: 'logs',
         action: 'getLogs',
+        fromBlock: from - 10000,
 
-        // fromBlock: null,
-        // // toBlock: 15074139,
+        // offset: 1000, // cannot find records?
+        page: 1,
         address: otpAddress,
       },
-      baseURL: Config.ethereum['42220'].explorerAPI,
+      baseURL: Config.ethereum[chainId].explorerAPI,
     })
 
-    const bytes32Sender = `0x${sender
-      .toLowerCase()
-      .slice(2)
-      .padStart(64, '0')}`
-    const bytes32Id = `0x${paymentId.slice(2).padStart(64, '0')}`
+    try {
+      const otpWithdrawn = otplLogs.result
+        .filter(({ topics: event }) => {
+          const paymentId = event[3] ?? undefined
+          log.info('polltest', { paymentId, event })
+          return paymentId !== undefined
+        })
+        .map(({ topics }) => topics[3].replace(/^0x0+/, '0x'))
 
-    const isWithdrawn = otplLogs.result.some(
-      topics => topics.topics[1] === bytes32Sender && topics.topics[3] === bytes32Id,
-    )
-
-    log.debug('APIExplorer -- otplstatus -->', { otplLogs, isWithdrawn, bytes32Sender })
-    return isWithdrawn
+      return otpWithdrawn
+    } catch (e) {
+      log.info('polltest -- failed -->', { e })
+      return []
+    }
   }
 
   /**

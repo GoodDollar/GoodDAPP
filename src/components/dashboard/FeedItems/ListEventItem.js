@@ -248,7 +248,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               {walletChatEnabled &&
                 isTransfer &&
                 !eventSettings.withoutAmount &&
-                ownerAddress.length > 0 &&
+                ownerAddress?.length > 0 &&
                 walletChatEnabled && (
                   <TouchableOpacity>
                     <ChatWithOwner

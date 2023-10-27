@@ -440,18 +440,35 @@ export class GoodWallet {
 
   async syncTxFromExplorer(startBlock) {
     let results = []
-    const { tokenContract, account, networkId } = this
+    const { account, networkId, tokenContract, oneTimePaymentsContract } = this
     const { _address: tokenAddress } = tokenContract || {}
+    const { _address: otpAddress } = oneTimePaymentsContract || {}
+    log.info('polltest - syncTxFromExplorer', { startBlock, tokenAddress, account, networkId, otpAddress })
 
+    // this is both send/receive events
+    // missing otplEvents
+
+    const txResolve = []
     if (tokenAddress) {
-      results = await API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
-        results.map(result => ({ ...result, transactionHash: result.hash })),
+      results = txResolve.push(
+        API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
+          results.map(result => ({ ...result, transactionHash: result.hash })),
+        ),
       )
 
       const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
       const chunks = chunk(results, 10)
 
-      await Promise.all(chunks.map(c => limit(() => this._notifyEvents(c, startBlock))))
+      await Promise.all([chunks.map(c => limit(() => this._notifyEvents(c, startBlock)))])
+    }
+
+    if (otpAddress) {
+      const otplPaymentIds = await API.getOTPLEvents(account, networkId, otpAddress, startBlock).then(results => {})
+      log.info('polltest -->', { otplPaymentIds })
+
+      // todo: update events from pending > complete based on payment ids
+      // const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
+      // const chunks = chunk(results, 10)
     }
 
     const lastBlock = Number(last(results)?.blockNumber)
@@ -468,7 +485,7 @@ export class GoodWallet {
     const startBlock = Math.min(fromBlock, lastBlock)
     const steps = range(startBlock, lastBlock, POKT_MAX_EVENTSBLOCKS)
 
-    log.debug('Start sync tx from blockchain', {
+    log.debug('polltest - Start sync tx from blockchain', {
       steps,
       startBlock,
       lastBlock,
@@ -572,14 +589,11 @@ export class GoodWallet {
     return events
   }
 
-  async syncOTPLStatus(sender, paymentId, otpAddress) {
-    const status = await API.getOTPLStatus(sender, paymentId, otpAddress)
-    return status
-  }
-
   async pollOTPLEvents(toBlock, from = null) {
     const fromBlock = from || this.lastEventsBlock
     const contract = this.oneTimePaymentsContract
+
+    log.info('pollingeventstest -->', { toBlock, from, fromBlock, contract })
 
     let fromEventsFilter = pickBy(
       {

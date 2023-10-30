@@ -217,7 +217,7 @@
     "@lingui/react": "^4.0.0",
     "@types/react-text-mask": "^5.4.8",
     "@types/text-mask-addons": "^3.8.1",
-    "@uniswap/sdk-core": "^4.0.6",
+    "@uniswap/sdk-core": "^4.0.9",
     "@uniswap/widgets": "^2.53.0",
     "@usedapp/core": "^1.2.6",
     "@web3-onboard/coinbase": "^2.2.4",

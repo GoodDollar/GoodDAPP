@@ -5033,7 +5033,7 @@ __metadata:
     "@uniswap/liquidity-staker": ^1.0.2
     "@uniswap/merkle-distributor": 1.0.1
     "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^4.0.6
+    "@uniswap/sdk-core": ^4.0.9
     "@uniswap/token-lists": ^1.0.0-beta.19
     "@uniswap/v2-core": 1.0.0
     "@uniswap/v2-periphery": ^1.1.0-beta.0
@@ -12832,6 +12832,20 @@ __metadata:
     tiny-invariant: ^1.1.0
     toformat: ^2.0.0
   checksum: 0dd876d117c2d359a09047fafb5e80e8312b4db2cb0078a968d0ebbdb0a294558e8a0ea13678b113a9c2026f7c394193eb56650a250fd0c52ec51680c8aed3bc
+  languageName: node
+  linkType: hard
+
+"@uniswap/sdk-core@npm:^4.0.9":
+  version: 4.0.9
+  resolution: "@uniswap/sdk-core@npm:4.0.9"
+  dependencies:
+    "@ethersproject/address": ^5.0.2
+    big.js: ^5.2.2
+    decimal.js-light: ^2.5.0
+    jsbi: ^3.1.4
+    tiny-invariant: ^1.1.0
+    toformat: ^2.0.0
+  checksum: f4ed31d995ddd04579061ecc9d613c88da400c50a8be820142fb7cce958532b828ec1992d0c0a5115f839a3cd5e4722cbd853578fa0a28a46aabbd60c3a54ef7
   languageName: node
   linkType: hard
 

@@ -13,7 +13,6 @@ import { ClaimBalance } from './ClaimBalance'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
-import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
 import { getNetworkEnv } from 'utils/env'
 import { feedConfig, NewsFeedWidget } from '../../../components/NewsFeed'
 
@@ -34,7 +33,6 @@ const Claim = memo(() => {
     const { chainId } = useActiveWeb3React()
     const network = SupportedV2Networks[chainId]
     const sendData = useSendAnalyticsData()
-    const isSimpleApp = useIsSimpleApp()
 
     const networkEnv = getNetworkEnv()
     const prodOrQa = /\b(production|staging)\b/.test(networkEnv)
@@ -280,19 +278,16 @@ Learn how here`,
                                 />
                             </Box>
                         </div>
-                        {(isSimpleApp && !claimed) ||
-                            (!isSimpleApp && (
-                                <div
-                                    className={carrouselClasses}
-                                    style={{
-                                        flexGrow: '1',
-                                        alignSelf: 'flex-start',
-                                        marginLeft: !isMobile ? '15%' : 0,
-                                    }}
-                                >
-                                    <ClaimCarousel cards={mockedCards} claimed={claimed} isMobile={isMobile} />
-                                </div>
-                            ))}
+                        <div
+                            className={carrouselClasses}
+                            style={{
+                                flexGrow: '1',
+                                alignSelf: 'flex-start',
+                                marginLeft: !isMobile ? '15%' : 0,
+                            }}
+                        >
+                            <ClaimCarousel cards={mockedCards} claimed={claimed} isMobile={isMobile} />
+                        </div>
                     </View>
                     <View style={newsFeedView}>
                         <NewsFeedWidget />

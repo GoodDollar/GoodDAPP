@@ -126,8 +126,8 @@ const getStylesFromProps = ({ theme }) => ({
 })
 
 TransactionConfirmation.navigationOptions = props => ({
-  ...navigationOptions(props),
   backButtonHidden: true,
+  ...navigationOptions(props),
 })
 
 export default withStyles(getStylesFromProps)(TransactionConfirmation)

@@ -169,8 +169,8 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
 }
 
 SendQRSummary.navigationOptions = props => ({
-  ...navigationOptions(props),
   title: SEND_TITLE,
+  ...navigationOptions(props),
 })
 
 SendQRSummary.shouldNavigateToComponent = props => {

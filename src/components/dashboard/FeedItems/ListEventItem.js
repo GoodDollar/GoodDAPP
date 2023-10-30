@@ -454,7 +454,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   feedPicture: {
     width: '100%',
-    height: 'auto',
+    paddingBottom: '56.25%', // 16:9 aspect ratio
   },
   claimingCardFeedText: {},
   mainInfo: {

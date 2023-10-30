@@ -10,7 +10,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '
 import { withStyles } from '../../../lib/styles'
 import SwitchToAnotherDeviceSVG from '../../../assets/FRSwitchToAnotherDevice.svg'
 
-const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav, isFVFlow }) => (
+const SwitchToAnotherDevice = ({ styles, displayTitle }) => (
   <Section style={styles.descriptionContainer} justifyContent="space-between">
     <Section.Title fontWeight="medium" textTransform="none" color="red">
       {displayTitle}

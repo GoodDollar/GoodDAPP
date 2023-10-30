@@ -274,10 +274,11 @@ export const fromDecimals = (amount, chainOrToken = null) => {
   const float = parseFloat(amount).toFixed(decimals)
 
   return parseUnits(float, decimals).toString()
+}
 
 export const isTransferTx = (txType: string) => /(send|receive)(?!.*bridge)/.test(txType)
 
-export const isDuplicateTxError = message => 
-    message
-      .toLowerCase()
-      .search('same nonce|same hash|alreadyknown|already known|feetoolow|nonce is too low|underpriced') >= 0
+export const isDuplicateTxError = message =>
+  message
+    .toLowerCase()
+    .search('same nonce|same hash|alreadyknown|already known|feetoolow|nonce is too low|underpriced') >= 0

@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { first, last, noop, trimEnd } from 'lodash'
+import { assign, first, last, noop, trimEnd } from 'lodash'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
 import { Goerli, Mainnet } from '@usedapp/core'
@@ -155,16 +155,24 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const updateWalletListeners = useCallback(
     goodWallet => {
-      const lastBlock = userStorage.userProperties.get('lastBlock_' + goodWallet.networkId)
+      const { networkId, account } = goodWallet
+      const lastBlock = userStorage.userProperties.get('lastBlock_' + networkId)
 
       log.debug('updateWalletListeners', { lastBlock })
 
       goodWallet.watchEvents(lastBlock ? parseInt(lastBlock) : undefined, toBlock =>
-        userStorage.userProperties.set('lastBlock_' + goodWallet.networkId, parseInt(toBlock)),
+        userStorage.userProperties.set('lastBlock_' + networkId, parseInt(toBlock)),
       )
 
-      goodWallet.balanceChanged(() => updateWalletData(goodWallet))
+      // set/update wallet data/interface for the native txs feed
+      assign(db, {
+        account,
+        onBalanceChanged() {
+          goodWallet.notifyBalanceChanged()
+        },
+      })
 
+      goodWallet.balanceChanged(() => updateWalletData(goodWallet))
       setChainId(goodWallet.networkId)
     },
     [userStorage],
@@ -606,7 +614,8 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
 
 export const useFixedDecimals = (token = 'G$', chainId = null) => {
   const { toDecimals } = useFormatToken(token)
-  const asDecimals = number => toDecimals(number, chainId)
+  const isFloat = number => Number(number) % 1 > 0
+  const asDecimals = number => (isFloat(number) ? number : toDecimals(number, chainId))
 
   const format = isNativeToken(token)
     ? number => trimEnd(decimalsToFixed(asDecimals(number), 4), '0')

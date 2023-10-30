@@ -6,7 +6,7 @@ import web3Utils from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import { Core } from '@walletconnect/core'
 import { Web3Wallet } from '@walletconnect/web3wallet'
-import { parseUri, getSdkError } from '@walletconnect/utils'
+import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/utils'
 
 import Web3 from 'web3'
 import { bindAll, first, last, maxBy, defaults, sortBy, sample } from 'lodash'
@@ -248,9 +248,14 @@ export const useWalletConnectSession = () => {
       const isV2 = connector === cachedV2Connector
       const session = connector.session
       const metadata = payload?.params?.[0]?.peerMeta || payload?.params?.proposer?.metadata
+      const { requiredNamespaces, optionalNamespaces } = payload?.params
       let requestedChainIdV1 = Number(payload?.params?.[0]?.chainId)
       let requestedChainIdV2 = Number(
-        (payload?.params?.requiredNamespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
+        (
+          requiredNamespaces?.eip155?.chains?.[0] ||
+          optionalNamespaces?.eip155?.chains?.[0] ||
+          `:${wallet.networkId}`
+        ).split(':')[1],
       )
       log.debug('WC2Events&Sessions -- handleSessionRequest', { isV2, payload, session, metadata })
       let requestedChainId = requestedChainIdV1 || requestedChainIdV2 || Number(wallet.networkId)
@@ -280,16 +285,16 @@ export const useWalletConnectSession = () => {
         onApprove: async () => {
           if (isV2) {
             log.debug('v2 approveSession', { payload, isV2 })
-            const eip155Chains = payload?.params?.requiredNamespaces?.eip155?.chains
+            const eip155Chains = payload?.params?.requiredNamespaces?.eip155?.chains ?? []
             const optionaleip155Chains = payload?.params?.optionalNamespaces?.eip155?.chains
 
             if (optionaleip155Chains) {
               eip155Chains.push(...optionaleip155Chains)
             }
 
-            const response = {
-              id: payload.id,
-              namespaces: {
+            const approvedNameSpaces = buildApprovedNamespaces({
+              proposal: payload?.params,
+              supportedNamespaces: {
                 eip155: {
                   chains: eip155Chains,
                   accounts: eip155Chains.map(c => `${c}:${wallet.account}`),
@@ -308,6 +313,11 @@ export const useWalletConnectSession = () => {
                   events: ['accountsChanged', 'chainChanged'],
                 },
               },
+            })
+
+            const response = {
+              id: payload.id,
+              namespaces: approvedNameSpaces,
             }
             const sessionv2 = await cachedV2Connector.approveSession(response)
             log.debug('v2 approveSession result:', sessionv2, { response, isV2 })

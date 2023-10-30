@@ -614,7 +614,8 @@ export const useSwitchTokenModal = (onDismiss = noop) => {
 
 export const useFixedDecimals = (token = 'G$', chainId = null) => {
   const { toDecimals } = useFormatToken(token)
-  const asDecimals = number => toDecimals(number, chainId)
+  const isFloat = number => Number(number) % 1 > 0
+  const asDecimals = number => (isFloat(number) ? number : toDecimals(number, chainId))
 
   const format = isNativeToken(token)
     ? number => trimEnd(decimalsToFixed(asDecimals(number), 4), '0')

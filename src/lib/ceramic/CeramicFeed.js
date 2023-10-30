@@ -27,7 +27,11 @@ class CeramicFeed {
 
   async getPost(postId: string) {
     const post = await Post.find(postId)
+
     const serialized = serializeDocument(post)
+    if (!serialized) {
+      return
+    }
 
     log.debug('get ceramic post', { serialized })
     return this._loadPostPictures(serialized)

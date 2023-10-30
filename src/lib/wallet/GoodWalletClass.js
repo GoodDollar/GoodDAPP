@@ -438,38 +438,47 @@ export class GoodWallet {
     )
   }
 
+  async processEvents(eventsPromise, startBlock) {
+    const events = await eventsPromise
+    const chunks = chunk(events, 10)
+    const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
+    await Promise.all(chunks.map(c => limit(() => this._notifyEvents(c, startBlock))))
+  }
+
   async syncTxFromExplorer(startBlock) {
-    let results = []
     const { account, networkId, tokenContract, oneTimePaymentsContract } = this
     const { _address: tokenAddress } = tokenContract || {}
     const { _address: otpAddress } = oneTimePaymentsContract || {}
-    log.info('polltest - syncTxFromExplorer', { startBlock, tokenAddress, account, networkId, otpAddress })
 
     // this is both send/receive events
-    // missing otplEvents
-
-    const txResolve = []
-    if (tokenAddress) {
-      results = txResolve.push(
-        API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
+    let results = []
+    let otpResults = []
+    const tokenPromise = tokenAddress
+      ? API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
           results.map(result => ({ ...result, transactionHash: result.hash })),
-        ),
-      )
+        )
+      : Promise.resolve()
 
-      const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
-      const chunks = chunk(results, 10)
+    const withdrawHash = '0x39ca68a9f5d8038e871ef25a6622a56579cda4a6eedf63813574d23652e94048'
+    const cancelHash = '0xb1f6a8f6b8fb527cfeec0df589160bc2a92ff715097117cb250e823c7106bc2f'
 
-      await Promise.all([chunks.map(c => limit(() => this._notifyEvents(c, startBlock)))])
-    }
+    const otpPromise = otpAddress
+      ? Promise.all([
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, withdrawHash).then(results =>
+            results.map(result => ({ ...result, transactionHash: result.hash })),
+          ),
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, cancelHash).then(results =>
+            results.map(result => ({ ...result, transactionHash: result.hash })),
+          ),
+        ])
+      : Promise.resolve()
 
-    if (otpAddress) {
-      const otplPaymentIds = await API.getOTPLEvents(account, networkId, otpAddress, startBlock).then(results => {})
-      log.info('polltest -->', { otplPaymentIds })
+    ;[results, otpResults] = await Promise.all([tokenPromise, otpPromise])
 
-      // todo: update events from pending > complete based on payment ids
-      // const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
-      // const chunks = chunk(results, 10)
-    }
+    await Promise.all([
+      results.length > 0 ? this.processEvents(results, startBlock) : undefined,
+      otpResults.length > 0 ? this.processEvents(otpResults, startBlock) : undefined,
+    ])
 
     const lastBlock = Number(last(results)?.blockNumber)
 

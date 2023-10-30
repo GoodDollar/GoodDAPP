@@ -487,39 +487,43 @@ export class APIService {
     return this.sharedClient.post(url, payload, options)
   }
 
-  async getOTPLEvents(sender, chainId, otpAddress, from) {
-    // if (chainId === NETWORK_ID.FUSE) {
-
-    // } else {
+  async getOTPLEvents(sender, chainId, address, from, eventHash) {
+    // todo: below is based on celoapi, needs to handle endpoint for fuse/eth
+    const txs = []
     const explorer = Config.ethereum[chainId].explorerAPI
-    log.info('polltest -- getOTPLEvents -->', { sender, chainId, otpAddress, from, explorer })
-    const otplLogs = await this.sharedClient.get('/api', {
-      params: {
-        module: 'logs',
-        action: 'getLogs',
-        fromBlock: from - 10000,
 
-        // offset: 1000, // cannot find records?
-        page: 1,
-        address: otpAddress,
-      },
-      baseURL: Config.ethereum[chainId].explorerAPI,
-    })
+    const sender32 = `0x${sender
+      .toLowerCase()
+      .slice(2)
+      .padStart(64, '0')}`
 
-    try {
-      const otpWithdrawn = otplLogs.result
-        .filter(({ topics: event }) => {
-          const paymentId = event[3] ?? undefined
-          log.info('polltest', { paymentId, event })
-          return paymentId !== undefined
-        })
-        .map(({ topics }) => topics[3].replace(/^0x0+/, '0x'))
-
-      return otpWithdrawn
-    } catch (e) {
-      log.info('polltest -- failed -->', { e })
-      return []
+    const params = {
+      module: 'logs',
+      action: 'getLogs',
+      address,
+      sort: 'asc',
+      page: 1,
+      offset: 10000,
+      topic0: eventHash,
+      topic1: sender32,
     }
+
+    for (;;) {
+      // eslint-disable-next-line no-await-in-loop
+      const { result: events } = await this.sharedClient.get('/api', {
+        params,
+        baseURL: explorer,
+      })
+
+      params.page += 1
+
+      if (events.length < params.offset) {
+        // default page size by explorer.fuse.io
+        break
+      }
+    }
+
+    return txs
   }
 
   /**

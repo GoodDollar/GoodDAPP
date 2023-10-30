@@ -15,7 +15,6 @@ import FaucetABI from '@gooddollar/goodprotocol/artifacts/abis/Faucet.min.json'
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
-import { formatUnits, parseUnits } from '@ethersproject/units'
 
 import abiDecoder from 'abi-decoder'
 import {
@@ -54,10 +53,11 @@ import { delay, retry } from '../utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 import {
+  fromDecimals,
   getTxLogArgs,
-  isNativeToken,
   NULL_ADDRESS,
   safeCall,
+  toDecimals,
   WITHDRAW_STATUS_COMPLETE,
   WITHDRAW_STATUS_PENDING,
   WITHDRAW_STATUS_UNKNOWN,
@@ -1382,16 +1382,11 @@ export class GoodWallet {
   }
 
   toDecimals(wei, chainOrToken = null) {
-    const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken ?? this.networkId].g$Decimals
-
-    return formatUnits(String(wei || '0'), decimals)
+    return toDecimals(wei, chainOrToken ?? this.networkId)
   }
 
   fromDecimals(amount, chainOrToken = null) {
-    const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken ?? this.networkId].g$Decimals
-    const float = parseFloat(amount).toFixed(decimals)
-
-    return parseUnits(float, decimals).toString()
+    return fromDecimals(amount, chainOrToken ?? this.networkId)
   }
 
   async getUserInviteBounty() {

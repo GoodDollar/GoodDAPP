@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { Platform, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { t } from '@lingui/macro'
-
+import { isEmpty } from 'lodash'
 import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 
 import { BackButton, useScreenState } from '../../appNavigation/stackNavigation'
@@ -36,6 +36,7 @@ const SummaryGeneric = ({
 }) => {
   const { push } = screenProps
 
+  const { optionalFields = [] } = vendorInfo || {}
   const [screenState] = useScreenState(screenProps)
 
   const { isBridge, network } = screenState
@@ -133,9 +134,11 @@ const SummaryGeneric = ({
     if (!vendorInfo || !isSend) {
       return false
     }
+    const isNotValidName = optionalFields.includes('fullName') === false && isEmpty(name)
+    const isNotValidEmail = optionalFields.includes('email') === false && isEmpty(email)
 
-    return !name || name.trim() === '' || !email || email.trim() === ''
-  }, [name, email, vendorInfo])
+    return isNotValidEmail || isNotValidName
+  }, [name, email, vendorInfo, optionalFields])
 
   const vendorInfoText = !!vendorInfo && (
     <Section.Stack style={{ alignItems: 'center' }}>
@@ -256,7 +259,7 @@ const SummaryGeneric = ({
                     iconSize={22}
                     placeholder="Name"
                     value={name}
-                    required={true}
+                    required={optionalFields.includes('fullName') ? false : true}
                   />
                 </Section.Row>
                 <Section.Row>
@@ -267,6 +270,7 @@ const SummaryGeneric = ({
                     iconSize={22}
                     placeholder="E-Mail"
                     value={email}
+                    required={optionalFields.includes('email') ? false : true}
                   />
                 </Section.Row>
                 <Section.Text color="gray80Percent" fontSize={13} letterSpacing={0.07}>

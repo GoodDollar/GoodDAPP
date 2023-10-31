@@ -5,7 +5,7 @@ import { ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-
 import { Text, useBreakpointValue, Box, View } from 'native-base'
 import { useConnectWallet } from '@web3-onboard/react'
 import { isMobile } from 'react-device-detect'
-import { NewsFeedProvider, useClaim, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
+import { useClaim, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
 import { QueryParams } from '@usedapp/core'
 import { noop } from 'lodash'
 
@@ -13,8 +13,7 @@ import { ClaimBalance } from './ClaimBalance'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
-import { getNetworkEnv } from 'utils/env'
-import { feedConfig, NewsFeedWidget } from '../../../components/NewsFeed'
+import { NewsFeedWidget } from '../../../components/NewsFeed'
 
 import BillyHappy from 'assets/images/claim/billysmile.png'
 import BillyGrin from 'assets/images/claim/billygrin.png'
@@ -33,9 +32,6 @@ const Claim = memo(() => {
     const { chainId } = useActiveWeb3React()
     const network = SupportedV2Networks[chainId]
     const sendData = useSendAnalyticsData()
-
-    const networkEnv = getNetworkEnv()
-    const prodOrQa = /\b(production|staging)\b/.test(networkEnv)
 
     // there are three possible scenarios
     // 1. claim amount is 0, meaning user has claimed that day
@@ -239,62 +235,60 @@ Learn how here`,
     })
 
     return (
-        <NewsFeedProvider {...(prodOrQa ? { feedFilter: feedConfig.production.feedFilter } : { env: 'qa' })}>
-            <>
-                <View style={mainView}>
-                    <View style={claimView}>
-                        <div className="flex flex-col items-center text-center lg:w-1/2">
-                            <Box style={balanceContainer}>
-                                {claimed ? (
-                                    <ClaimBalance refresh={refreshRate} />
-                                ) : (
-                                    <>
-                                        <Title fontFamily="heading" fontSize="2xl" fontWeight="extrabold" pb="2">
-                                            {i18n._(t`Collect G$`)}
-                                        </Title>
+        <>
+            <View style={mainView}>
+                <View style={claimView}>
+                    <div className="flex flex-col items-center text-center lg:w-1/2">
+                        <Box style={balanceContainer}>
+                            {claimed ? (
+                                <ClaimBalance refresh={refreshRate} />
+                            ) : (
+                                <>
+                                    <Title fontFamily="heading" fontSize="2xl" fontWeight="extrabold" pb="2">
+                                        {i18n._(t`Collect G$`)}
+                                    </Title>
 
-                                        <Text
-                                            w="340px"
-                                            fontFamily="subheading"
-                                            fontWeight="normal"
-                                            color="goodGrey.500"
-                                            fontSize="sm"
-                                        >
-                                            {i18n._(
-                                                t`GoodDollar creates free money as a public good, G$ tokens, which you can collect daily.`
-                                            )}
-                                        </Text>
-                                    </>
-                                )}
-                                <ClaimButton
-                                    firstName="Test"
-                                    method="redirect"
-                                    claim={handleClaim}
-                                    claimed={claimed}
-                                    claiming={state?.status === 'Mining' || state?.status === 'Success'} // we check for both to prevent a pre-mature closing of finalization modal
-                                    handleConnect={handleConnect}
-                                    chainId={chainId}
-                                    onEvent={handleEvents}
-                                />
-                            </Box>
-                        </div>
-                        <div
-                            className={carrouselClasses}
-                            style={{
-                                flexGrow: '1',
-                                alignSelf: 'flex-start',
-                                marginLeft: !isMobile ? '15%' : 0,
-                            }}
-                        >
-                            <ClaimCarousel cards={mockedCards} claimed={claimed} isMobile={isMobile} />
-                        </div>
-                    </View>
-                    <View style={newsFeedView}>
-                        <NewsFeedWidget />
-                    </View>
+                                    <Text
+                                        w="340px"
+                                        fontFamily="subheading"
+                                        fontWeight="normal"
+                                        color="goodGrey.500"
+                                        fontSize="sm"
+                                    >
+                                        {i18n._(
+                                            t`GoodDollar creates free money as a public good, G$ tokens, which you can collect daily.`
+                                        )}
+                                    </Text>
+                                </>
+                            )}
+                            <ClaimButton
+                                firstName="Test"
+                                method="redirect"
+                                claim={handleClaim}
+                                claimed={claimed}
+                                claiming={state?.status === 'Mining' || state?.status === 'Success'} // we check for both to prevent a pre-mature closing of finalization modal
+                                handleConnect={handleConnect}
+                                chainId={chainId}
+                                onEvent={handleEvents}
+                            />
+                        </Box>
+                    </div>
+                    <div
+                        className={carrouselClasses}
+                        style={{
+                            flexGrow: '1',
+                            alignSelf: 'flex-start',
+                            marginLeft: !isMobile ? '15%' : 0,
+                        }}
+                    >
+                        <ClaimCarousel cards={mockedCards} claimed={claimed} isMobile={isMobile} />
+                    </div>
                 </View>
-            </>
-        </NewsFeedProvider>
+                <View style={newsFeedView}>
+                    <NewsFeedWidget />
+                </View>
+            </View>
+        </>
     )
 })
 

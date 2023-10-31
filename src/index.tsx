@@ -8,9 +8,13 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter as Router } from 'react-router-dom'
 import { AnalyticsProvider } from '@gooddollar/web3sdk-v2'
+import { NewsFeedProvider } from '@gooddollar/web3sdk-v2'
+
 import Blocklist from './components/Blocklist'
 import App from './pages/App'
 import store from './state'
+import { feedConfig } from 'components/NewsFeed'
+import { getNetworkEnv } from 'utils/env'
 import ApplicationUpdater from './state/application/updater'
 import MulticallUpdater from './state/multicall/updater'
 import UserUpdater from './state/user/updater'
@@ -71,33 +75,38 @@ const enableHttpsRedirect = String(process.env.REACT_APP_ENABLE_HTTPS_REDIRECT) 
 const enableServiceWorker =
     window.location.hostname !== 'localhost' && String(process.env.REACT_APP_ENABLE_SERVICE_WORKER) === '1'
 
+const networkEnv = getNetworkEnv()
+const prodOrQa = /\b(production|staging)\b/.test(networkEnv)
+
 ReactDOM.render(
     <StrictMode>
         <HttpsProvider enabled={enableHttpsRedirect}>
             <Provider store={store}>
-                <OnboardProviderWrapper>
-                    <Web3ContextProvider>
-                        <LanguageProvider>
-                            <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
-                                <Blocklist>
-                                    <UserUpdater />
-                                    <ApplicationUpdater />
-                                    <MulticallUpdater />
-                                    <ThemeProvider>
-                                        <NativeBaseProvider theme={nbTheme}>
-                                            <GlobalStyle />
-                                            <Router>
-                                                <SimpleAppProvider>
-                                                    <App />
-                                                </SimpleAppProvider>
-                                            </Router>
-                                        </NativeBaseProvider>
-                                    </ThemeProvider>
-                                </Blocklist>
-                            </AnalyticsProvider>
-                        </LanguageProvider>
-                    </Web3ContextProvider>
-                </OnboardProviderWrapper>
+                <NewsFeedProvider {...(prodOrQa ? { feedFilter: feedConfig.production.feedFilter } : { env: 'qa' })}>
+                    <OnboardProviderWrapper>
+                        <Web3ContextProvider>
+                            <LanguageProvider>
+                                <AnalyticsProvider config={analyticsConfig} appProps={appInfo}>
+                                    <Blocklist>
+                                        <UserUpdater />
+                                        <ApplicationUpdater />
+                                        <MulticallUpdater />
+                                        <ThemeProvider>
+                                            <NativeBaseProvider theme={nbTheme}>
+                                                <GlobalStyle />
+                                                <Router>
+                                                    <SimpleAppProvider>
+                                                        <App />
+                                                    </SimpleAppProvider>
+                                                </Router>
+                                            </NativeBaseProvider>
+                                        </ThemeProvider>
+                                    </Blocklist>
+                                </AnalyticsProvider>
+                            </LanguageProvider>
+                        </Web3ContextProvider>
+                    </OnboardProviderWrapper>
+                </NewsFeedProvider>
             </Provider>
         </HttpsProvider>
     </StrictMode>,

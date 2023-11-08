@@ -501,7 +501,7 @@ export class APIService {
       module: 'logs',
       action: 'getLogs',
       address,
-      sort: 'asc',
+      sort: 'desc',
       page: 1,
       offset: 10000,
       topic0: eventHash,

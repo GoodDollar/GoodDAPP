@@ -8,8 +8,12 @@ import { openLink } from '../../../lib/utils/linking'
 import { isWeb } from '../../../lib/utils/platform'
 import { POST_CLAIM_CTA } from '../../../lib/analytics/constants'
 
-const HALOFI_URL = 'https://app.halofi.me/#/challenges?tokensymbol=gd'
-const goToHalofi = () => openLink(HALOFI_URL, '_blank')
+const HALOFI_URL =
+  'https://www.notion.so/gooddollar/New-HaloFi-savings-challenge-Use-your-G-holdings-to-earn-more-G-358132696c4a4134b95f3da21274de39?pvs=4'
+const goToHalofi = () => {
+  fireEvent(POST_CLAIM_CTA, { type: 'task' })
+  openLink(HALOFI_URL, '_blank')
+}
 
 const HalofiButton = () => {
   const actionText = t`Start Earning Rewards`
@@ -23,7 +27,6 @@ const HalofiButton = () => {
       textStyle={{ fontSize: 14, color: theme.colors.white }}
       onPress={goToHalofi}
       textColor={theme.colors.white}
-      onPressed={() => fireEvent(POST_CLAIM_CTA, { type: 'task' })}
       withoutDone
     >
       {actionText}

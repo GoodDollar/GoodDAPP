@@ -465,10 +465,10 @@ export class GoodWallet {
     const otpPromise = otpAddress
       ? Promise.all([
           API.getOTPLEvents(account, networkId, otpAddress, startBlock, withdrawHash).then(results =>
-            results.map(result => ({ ...result, transactionHash: result.hash })),
+            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
           ),
           API.getOTPLEvents(account, networkId, otpAddress, startBlock, cancelHash).then(results =>
-            results.map(result => ({ ...result, transactionHash: result.hash })),
+            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
           ),
         ])
       : Promise.resolve()
@@ -477,7 +477,7 @@ export class GoodWallet {
 
     await Promise.all([
       results.length > 0 ? this.processEvents(results, startBlock) : undefined,
-      otpResults.length > 0 ? this.processEvents(otpResults, startBlock) : undefined,
+      otpResults.length > 0 ? otpResults.map(results => this.processEvents(results, startBlock)) : undefined,
     ])
 
     const lastBlock = Number(last(results)?.blockNumber)

@@ -516,6 +516,7 @@ export class APIService {
       })
 
       params.page += 1
+      txs.push(...events)
 
       if (events.length < params.offset) {
         // default page size by explorer.fuse.io

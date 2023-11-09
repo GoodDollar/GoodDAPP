@@ -363,7 +363,9 @@ export class GoodWallet {
         }
 
         const startBlock = this.lastEventsBlock
-        const lastBlock = await this.syncTxFromExplorer(startBlock).catch(e => {
+        const currentBlock = await this.getBlockNumber()
+
+        const lastBlock = await this.syncTxFromExplorer(startBlock, currentBlock).catch(e => {
           log.error('syncTxFromExplorer failed', e.message, e, {
             networkId: this.networkId,
             startBlock,
@@ -438,21 +440,47 @@ export class GoodWallet {
     )
   }
 
-  async syncTxFromExplorer(startBlock) {
-    let results = []
-    const { tokenContract, account, networkId } = this
+  async processEvents(eventsPromise, startBlock) {
+    const events = await eventsPromise
+    const chunks = chunk(events, 10)
+    const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
+    await Promise.all(chunks.map(c => limit(() => this._notifyEvents(c, startBlock))))
+  }
+
+  async syncTxFromExplorer(startBlock, currentBlock) {
+    const { account, networkId, tokenContract, oneTimePaymentsContract } = this
     const { _address: tokenAddress } = tokenContract || {}
+    const { _address: otpAddress } = oneTimePaymentsContract || {}
 
-    if (tokenAddress) {
-      results = await API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
-        results.map(result => ({ ...result, transactionHash: result.hash })),
-      )
+    // this is both send/receive events
+    let results = []
+    let otpResults = []
+    const tokenPromise = tokenAddress
+      ? API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
+          results.map(result => ({ ...result, transactionHash: result.hash })),
+        )
+      : Promise.resolve()
 
-      const limit = pRateLimit({ concurrency: 2, interval: 1000, rate: 1 })
-      const chunks = chunk(results, 10)
+    const withdrawHash = '0x39ca68a9f5d8038e871ef25a6622a56579cda4a6eedf63813574d23652e94048'
+    const cancelHash = '0xb1f6a8f6b8fb527cfeec0df589160bc2a92ff715097117cb250e823c7106bc2f'
 
-      await Promise.all(chunks.map(c => limit(() => this._notifyEvents(c, startBlock))))
-    }
+    const otpPromise = otpAddress
+      ? Promise.all([
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash).then(results =>
+            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
+          ),
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash).then(results =>
+            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
+          ),
+        ])
+      : Promise.resolve()
+
+    ;[results, otpResults] = await Promise.all([tokenPromise, otpPromise])
+
+    await Promise.all([
+      results.length > 0 ? this.processEvents(results, startBlock) : undefined,
+      otpResults.length > 0 ? flatten(results => this.processEvents(results, startBlock)) : undefined,
+    ])
 
     const lastBlock = Number(last(results)?.blockNumber)
 

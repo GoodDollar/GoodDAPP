@@ -4450,9 +4450,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/goodprotocol@npm:2.0.14":
-  version: 2.0.14
-  resolution: "@gooddollar/goodprotocol@npm:2.0.14"
+"@gooddollar/goodprotocol@npm:^2.0.19, @gooddollar/goodprotocol@npm:^2.0.3, @gooddollar/goodprotocol@npm:^2.0.4":
+  version: 2.0.19
+  resolution: "@gooddollar/goodprotocol@npm:2.0.19"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
@@ -4468,29 +4468,7 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: 266d2f32ecf8d9f391fcefe90ea99fee66b1ee978c36db3a221da47d41f0a3152db54855a240f466d5e29c26406eb873250d6d40cbdd4d5247c40f400c18a606
-  languageName: node
-  linkType: hard
-
-"@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.14#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.14-aefd0cca7d.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
-  version: 2.0.14
-  resolution: "@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.14#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.14-aefd0cca7d.patch::version=2.0.14&hash=1a7a65&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
-  dependencies:
-    "@gooddollar/goodcontracts": ^2.6.6
-    "@jsier/retrier": ^1.2.4
-    "@openzeppelin/contracts": ^4.8.0
-    "@openzeppelin/contracts-upgradeable": ^4.8.0
-    "@openzeppelin/hardhat-upgrades": ^1.22.1
-    "@superfluid-finance/ethereum-contracts": ^1.8.1
-    "@superfluid-finance/sdk-core": ^0.5.8
-    "@typechain/hardhat": ^6.1.5
-    async-promise-pool: ^1.0.4
-    openzeppelin-solidity: ^4.3.2
-    patch-package: latest
-    press-any-key: ^0.1.1
-    truffle-plugin-verify: ^0.6.1
-    truffle-source-verify: ^0.0.6
-  checksum: 5f28138d93fc20ba6bd1a973568d8105729b382ef4afb61594e792deeba03a41a6326599453e302a0c8ca2a174af0ad686d9e57e4789f590fceb1dbdbc3788a7
+  checksum: 59d36d88b49822fab7c14cf85b30bebff6315b1a3108738e8a90305dc0c366291b9c868a30e39fbcf2e8f0a7b0d9868abc6a74e818a0061edfc2f0123ff16d5b
   languageName: node
   linkType: hard
 

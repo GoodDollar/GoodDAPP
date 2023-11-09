@@ -46,7 +46,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false, chi
       ) : null}
       {children}
       {title && !showLogo ? <Appbar.Content title={title} titleStyle={styles.titleStyle} /> : null}
-      {showBackButton && <Appbar.Action color="white" />}
+      {showBackButton && <Appbar.Action color="white" style={{ width: 90 }} />}
       {showBackToWallet && (
         <IconButton
           name="wallet"
@@ -85,7 +85,7 @@ const getStylesFromProps = ({ theme }) => ({
   walletButton: {
     position: 'absolute',
     right: 15,
-    width: 33,
+    width: 90,
   },
   logoWrapper: {
     flex: 1,

@@ -479,7 +479,7 @@ export class GoodWallet {
 
     await Promise.all([
       results.length > 0 ? this.processEvents(results, startBlock) : undefined,
-      otpResults.length > 0 ? otpResults.map(results => this.processEvents(results, startBlock)) : undefined,
+      otpResults.length > 0 ? flatten(results => this.processEvents(results, startBlock)) : undefined,
     ])
 
     const lastBlock = Number(last(results)?.blockNumber)
@@ -496,7 +496,7 @@ export class GoodWallet {
     const startBlock = Math.min(fromBlock, lastBlock)
     const steps = range(startBlock, lastBlock, POKT_MAX_EVENTSBLOCKS)
 
-    log.debug('polltest - Start sync tx from blockchain', {
+    log.debug('Start sync tx from blockchain', {
       steps,
       startBlock,
       lastBlock,
@@ -603,8 +603,6 @@ export class GoodWallet {
   async pollOTPLEvents(toBlock, from = null) {
     const fromBlock = from || this.lastEventsBlock
     const contract = this.oneTimePaymentsContract
-
-    log.info('pollingeventstest -->', { toBlock, from, fromBlock, contract })
 
     let fromEventsFilter = pickBy(
       {

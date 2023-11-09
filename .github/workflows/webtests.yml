@@ -111,7 +111,7 @@ jobs:
           python-version: '3.7.x'
 
       - name: Install dependencies
-        run: yarn
+        run: yarn --immutable
 
       - uses: actions/cache@v2
         id: contractsCache

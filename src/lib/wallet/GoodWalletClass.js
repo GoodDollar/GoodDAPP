@@ -363,7 +363,9 @@ export class GoodWallet {
         }
 
         const startBlock = this.lastEventsBlock
-        const lastBlock = await this.syncTxFromExplorer(startBlock).catch(e => {
+        const currentBlock = await this.getBlockNumber()
+
+        const lastBlock = await this.syncTxFromExplorer(startBlock, currentBlock).catch(e => {
           log.error('syncTxFromExplorer failed', e.message, e, {
             networkId: this.networkId,
             startBlock,
@@ -445,7 +447,7 @@ export class GoodWallet {
     await Promise.all(chunks.map(c => limit(() => this._notifyEvents(c, startBlock))))
   }
 
-  async syncTxFromExplorer(startBlock) {
+  async syncTxFromExplorer(startBlock, currentBlock) {
     const { account, networkId, tokenContract, oneTimePaymentsContract } = this
     const { _address: tokenAddress } = tokenContract || {}
     const { _address: otpAddress } = oneTimePaymentsContract || {}
@@ -464,10 +466,10 @@ export class GoodWallet {
 
     const otpPromise = otpAddress
       ? Promise.all([
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, withdrawHash).then(results =>
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash).then(results =>
             results.map(result => ({ ...result, transactionHash: result.transactionHash })),
           ),
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, cancelHash).then(results =>
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash).then(results =>
             results.map(result => ({ ...result, transactionHash: result.transactionHash })),
           ),
         ])

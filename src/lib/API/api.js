@@ -487,8 +487,7 @@ export class APIService {
     return this.sharedClient.post(url, payload, options)
   }
 
-  async getOTPLEvents(sender, chainId, address, from, eventHash) {
-    // todo: below is based on celoapi, needs to handle endpoint for fuse/eth
+  async getOTPLEvents(sender, chainId, address, from, currentBlock, eventHash) {
     const txs = []
     const explorer = Config.ethereum[chainId].explorerAPI
 
@@ -506,6 +505,11 @@ export class APIService {
       offset: 10000,
       topic0: eventHash,
       topic1: sender32,
+
+      // required for fuse explorer, optional for celoscan
+      topic0_1_opr: 'and',
+      fromBlock: from,
+      toBlock: currentBlock,
     }
 
     for (;;) {

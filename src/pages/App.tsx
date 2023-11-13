@@ -55,7 +55,16 @@ const MainBody = styled.div<{ $page?: string }>`
     background-color: ${({ theme }) => theme.color.bgBody};
 `
 
-const AppWrap = styled.div`
+const AppWrap = styled.div<{ $isMiniPay?: boolean }>`
+    ${({ $isMiniPay }) =>
+        $isMiniPay
+            ? `
+            height: 100vh;
+            @supports (height: 100svh) {
+                height: 100svh;
+            }
+          `
+            : `
     height: 92vh; // should handle viewport on Safari better
     @media screen and (max-width: 361px) {
         height: 93vh;
@@ -79,6 +88,7 @@ const AppWrap = styled.div`
             height: 100svh;
         }
     }
+    `}
 `
 
 function App(): JSX.Element {
@@ -92,6 +102,8 @@ function App(): JSX.Element {
     const dispatch = useDispatch<AppDispatch>()
     const [preservedSource, setPreservedSource] = useState('')
     const sendData = useSendAnalyticsData()
+
+    const isMinipay = window?.ethereum?.isMiniPay
 
     void useFaucet()
 
@@ -170,7 +182,7 @@ function App(): JSX.Element {
 
     return (
         <Suspense fallback={null}>
-            <AppWrap className="flex flex-col overflow-hidden">
+            <AppWrap className="flex flex-col overflow-hidden" $isMiniPay={isMinipay}>
                 <AppBar />
                 <Wrapper isSimpleApp className="flex flex-grow overflow-hidden">
                     {!isMobile && <SideBar />}

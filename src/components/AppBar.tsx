@@ -139,7 +139,7 @@ const TopBar = styled.div<{ $mobile: boolean }>`
         $mobile &&
         `
     background-color: transparent;
-    height: 40px;
+    height: 40px; 
     align-items: flex-end;
     padding-left: 16px;
     padding-right: 16px;
@@ -279,10 +279,12 @@ function AppBar(): JSX.Element {
                                 </div>
                             )}
 
-                            <div className={mainMenuContainer}>
-                                {!isSimpleApp ? <Web3Bar /> : !isMinipay && isMobile ? <NavBar /> : null}
-                                {/* // : isMobile ? <NavBar /> : null} <-- enable for opera when swap is ready */}
-                            </div>
+                            {!isMinipay && (
+                                <div className={mainMenuContainer}>
+                                    {!isSimpleApp ? <Web3Bar /> : isMobile ? <NavBar /> : null}
+                                    {/* // : isMobile ? <NavBar /> : null} <-- enable for opera when swap is ready */}
+                                </div>
+                            )}
                         </div>
                     </TopBar>
                     <div className="px-4 pb-2 lg:hidden">

@@ -479,7 +479,7 @@ export class GoodWallet {
 
     await Promise.all([
       results.length > 0 ? this.processEvents(results, startBlock) : undefined,
-      otpResults.length > 0 ? flatten(results => this.processEvents(results, startBlock)) : undefined,
+      otpResults.length > 0 ? this.processEvents(flatten(otpResults), startBlock) : undefined,
     ])
 
     const lastBlock = Number(last(results)?.blockNumber)

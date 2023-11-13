@@ -34,6 +34,7 @@ describe('Dashboard', () => {
 
     // eslint-disable-next-line require-await
     await renderer.act(async () => (component = renderer.create(<WebRouter />)))
-    expect(component.toJSON()).toMatchSnapshot()
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

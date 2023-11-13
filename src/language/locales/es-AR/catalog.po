@@ -2670,9 +2670,17 @@ msgstr "Equilibrio"
 msgid "Blocked address"
 msgstr "Dirección bloqueada"
 
+#: src/pages/gd/BuyGD/index.tsx:95
+msgid "Buy G$"
+msgstr ""
+
 #: src/components/AccountDetails/index.tsx:268
 msgid "Change"
 msgstr "Cambio"
+
+#: src/pages/gd/BuyGD/index.tsx:119
+msgid "Choose the currency you want to use and buy cUSD. Your cUSD is then automatically converted into G$."
+msgstr ""
 
 #: src/components/ClaimRewards/index.tsx:80
 msgid "Claim All"
@@ -3121,6 +3129,10 @@ msgstr ""
 msgid "Success!"
 msgstr "¡Éxito!"
 
+#: src/pages/gd/BuyGD/index.tsx:107
+msgid "Support global financial inclusion and contribute to social impact by purchasing GoodDollars (G$)."
+msgstr ""
+
 #: src/pages/gd/Swap/SwapCore/index.tsx:424
 msgid "Swap"
 msgstr "Intercambio"
@@ -3179,6 +3191,10 @@ msgstr ""
 
 #: src/components/Savings/SavingsCard/index.tsx:68
 msgid "The total of your deposits which accumulates the rewards."
+msgstr ""
+
+#: src/pages/gd/BuyGD/index.tsx:152
+msgid "The widget in this page is a third-party service provided by Onramper. Please note that the verification of your transaction by Onramper may take up to 24 hours to complete. Following verification, it may take up to 3 business days for GoodDollars to be available in your wallet. In the event that the process takes longer, after receiving a confirmation email from your payment provider, please return to this screen to check the status of your transaction."
 msgstr ""
 
 #: src/pages/gd/Stake/index.tsx:86
@@ -3320,7 +3336,7 @@ msgstr "Esperando confirmación"
 msgid "Wallet"
 msgstr "Cartera"
 
-#: src/components/SideBar.tsx:241
+#: src/components/SideBar.tsx:246
 msgid "Wallet balance"
 msgstr "Balance de billetera"
 
@@ -3332,6 +3348,10 @@ msgstr ""
 #: src/pages/gd/Swap/SwapDescriptions/index.tsx:29
 msgid "What's an exit contribution?"
 msgstr "¿Qué es una contribución de salida?"
+
+#: src/pages/gd/BuyGD/index.tsx:148
+msgid "Why haven't my funds arrived yet?"
+msgstr ""
 
 #: src/components/PortfolioTableRow/index.tsx:67
 #: src/components/Withdraw/index.tsx:140

@@ -2667,9 +2667,17 @@ msgstr "余额"
 msgid "Blocked address"
 msgstr "被封锁的地址"
 
+#: src/pages/gd/BuyGD/index.tsx:95
+msgid "Buy G$"
+msgstr ""
+
 #: src/components/AccountDetails/index.tsx:268
 msgid "Change"
 msgstr "改变"
+
+#: src/pages/gd/BuyGD/index.tsx:119
+msgid "Choose the currency you want to use and buy cUSD. Your cUSD is then automatically converted into G$."
+msgstr ""
 
 #: src/components/ClaimRewards/index.tsx:80
 msgid "Claim All"
@@ -3118,6 +3126,10 @@ msgstr "从1.0开始，您的乘数将增加到2.0，在一个月的绑定到信
 msgid "Success!"
 msgstr "成功！"
 
+#: src/pages/gd/BuyGD/index.tsx:107
+msgid "Support global financial inclusion and contribute to social impact by purchasing GoodDollars (G$)."
+msgstr ""
+
 #: src/pages/gd/Swap/SwapCore/index.tsx:424
 msgid "Swap"
 msgstr "兑换"
@@ -3176,6 +3188,10 @@ msgstr ""
 
 #: src/components/Savings/SavingsCard/index.tsx:68
 msgid "The total of your deposits which accumulates the rewards."
+msgstr ""
+
+#: src/pages/gd/BuyGD/index.tsx:152
+msgid "The widget in this page is a third-party service provided by Onramper. Please note that the verification of your transaction by Onramper may take up to 24 hours to complete. Following verification, it may take up to 3 business days for GoodDollars to be available in your wallet. In the event that the process takes longer, after receiving a confirmation email from your payment provider, please return to this screen to check the status of your transaction."
 msgstr ""
 
 #: src/pages/gd/Stake/index.tsx:86
@@ -3317,7 +3333,7 @@ msgstr "等待确认中"
 msgid "Wallet"
 msgstr "钱包"
 
-#: src/components/SideBar.tsx:241
+#: src/components/SideBar.tsx:246
 msgid "Wallet balance"
 msgstr "钱包平衡"
 
@@ -3329,6 +3345,10 @@ msgstr ""
 #: src/pages/gd/Swap/SwapDescriptions/index.tsx:29
 msgid "What's an exit contribution?"
 msgstr "退出贡献是什么？"
+
+#: src/pages/gd/BuyGD/index.tsx:148
+msgid "Why haven't my funds arrived yet?"
+msgstr ""
 
 #: src/components/PortfolioTableRow/index.tsx:67
 #: src/components/Withdraw/index.tsx:140

@@ -13,6 +13,7 @@ const MicroBridge = lazy(() => import('./pages/gd/MicroBridge'))
 const Claim = lazy(() => import('./pages/gd/Claim'))
 const Bridge = lazy(() => import('./pages/gd/Bridge'))
 const GoodId = lazy(() => import('./pages/gd/GoodId'))
+const BuyGd = lazy(() => import('./pages/gd/BuyGD'))
 
 function Routes(): JSX.Element {
     const { chainId } = useActiveWeb3React()
@@ -25,6 +26,7 @@ function Routes(): JSX.Element {
                 <Route exact strict path="/stakes" component={Stakes} />
                 <Route exact strict path="/portfolio" component={Portfolio} />
                 <Route exact strict path="/goodid" component={GoodId} />
+                <Route exact strict path="/buy" component={BuyGd} />
                 {process.env.REACT_APP_CELO_PHASE_3 && <Route exact strict path="/bridge" component={Bridge} />}
                 <Route exact strict path="/claim" component={Claim} />
                 {process.env.REACT_APP_CELO_PHASE_3 && (

@@ -67,7 +67,7 @@ https://github.com/tailwindlabs/tailwindcss/discussions/7496
 https://tailwindcss.com/docs/adding-custom-styles#adding-base-styles
 */
 @layer base {
-  [type='checkbox'] {
+  [type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
     appearance: unset;
     padding: unset;
     -webkit-print-color-adjust: unset;
@@ -84,6 +84,8 @@ https://tailwindcss.com/docs/adding-custom-styles#adding-base-styles
     background-color: unset;
     border-color: unset;
     border-width: unset;
+    border: none;
+    font-size: 24px;
   }
   [type='checkbox']:checked {
     background-image: none

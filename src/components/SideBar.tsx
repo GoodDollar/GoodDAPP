@@ -221,6 +221,11 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                 text: 'Dashboard',
                 show: true,
             },
+            {
+                route: '/buy',
+                text: 'Buy G$',
+                show: true,
+            },
         ],
         [isWhitelisted]
     )

@@ -43,7 +43,15 @@ export default defineConfig({
         //     // e.g. use TypeScript check
         //     typescript: true,
         // }),
-        nodePolyfills({ protocolImports: true, exclude: ['constants'] }),
+        nodePolyfills({
+            protocolImports: true,
+            exclude: ['constants'],
+            globals: {
+                Buffer: true,
+                global: true,
+                process: true,
+            },
+        }),
         react({
             babel: {
                 plugins: ['macros'],
@@ -57,20 +65,27 @@ export default defineConfig({
         alias: {
             'react-native': 'react-native-web',
             'react-native-svg': 'react-native-svg-web',
+            'react-native-webview': 'react-native-web-webview',
             jsbi: path.resolve(__dirname, '.', 'node_modules', 'jsbi', 'dist', 'jsbi-cjs.js'), // https://github.com/Uniswap/sdk-core/issues/20#issuecomment-1559863408
         },
         dedupe: ['react', 'ethers', 'react-dom', 'native-base'],
     },
-    define: {
-        'process.env': process.env,
-    },
     build: {
         commonjsOptions: {
-            transformMixedEsModules: true,
-            include: [/kima/, /solana/, /node_modules/, /resize-observer/], // handle kima require undefined in production build, observer global inherits
+            transformMixedEsModules: true, //handle deps that use "require" and "module.exports"
         },
     },
     optimizeDeps: {
-        include: ['@kimafinance/kima-transaction-widget', '@solana/web3.js', '@juggle/resize-observer'], // handle kima require undefined in production build
+        esbuildOptions: {
+            loader: {
+                '.html': 'text', // allow import or require of html files
+            },
+        },
+        include: [
+            '@kimafinance/kima-transaction-widget',
+            '@solana/web3.js',
+            '@juggle/resize-observer',
+            'readable-stream',
+        ], // handle kima require undefined in production build
     },
 })

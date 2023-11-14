@@ -818,9 +818,17 @@ export class UserStorage {
       sponsoredLink,
       sponsoredLogo,
     } = data
-    const { address, asset, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
-
-    const isBridge = typeof address === 'string' && this.wallet.getBridgeAddresses().includes(address.toLowerCase())
+    const {
+      address,
+      asset,
+      initiator,
+      initiatorType,
+      value,
+      displayName,
+      message,
+      avatar,
+      isBridge,
+    } = this._extractData(event)
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
     const displayType = this._extractDisplayType(event)
@@ -886,6 +894,7 @@ export class UserStorage {
       counterPartySmallAvatar,
       amount,
       asset,
+      isBridge = false,
     },
   }) {
     const fromNative =
@@ -941,6 +950,8 @@ export class UserStorage {
       customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromNativeAddress || 'Unknown'
 
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
+
+    data.isBridge = isBridge ?? this.wallet.getBridgeAddresses().includes((data.address || '').toLowerCase())
 
     logger.debug('formatEvent: parsed data', {
       id,

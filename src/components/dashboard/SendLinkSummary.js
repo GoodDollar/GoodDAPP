@@ -367,6 +367,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           reason: t`Bridged G$`,
           counterPartyFullName: t`Bridge`,
           amount,
+          isBridge: true,
         },
       }
 

@@ -38,13 +38,7 @@ const FeedListItem = React.memo((props: FeedListItemProps) => {
   const { feedLoadAnimShown } = useContext(GlobalTogglesContext)
   const disableAnimForTests = Config.env === 'test'
   const { theme, item, handleFeedSelection, styles } = props
-  const {
-    id,
-    type,
-    displayType,
-    action,
-    data: { link },
-  } = item
+  const { id, type, displayType, action, data: { link } = {} } = item
 
   const itemType = displayType || type
   const isItemEmpty = itemType === 'empty'

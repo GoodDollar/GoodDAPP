@@ -820,7 +820,7 @@ export class UserStorage {
     } = data
     const { address, asset, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
 
-    const isBridge = this.wallet.getBridgeAddresses().includes(address.toLowerCase())
+    const isBridge = typeof address === 'string' && this.wallet.getBridgeAddresses().includes(address.toLowerCase())
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
     const displayType = this._extractDisplayType(event)

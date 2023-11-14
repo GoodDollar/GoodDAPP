@@ -951,8 +951,7 @@ export class UserStorage {
 
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
 
-    data.isBridge =
-      isBridge ?? (typeof address == 'string' && this.wallet.getBridgeAddresses().includes(data.address.toLowerCase()))
+    data.isBridge = isBridge ?? this.wallet.getBridgeAddresses().includes(data.address?.toLowerCase())
 
     logger.debug('formatEvent: parsed data', {
       id,

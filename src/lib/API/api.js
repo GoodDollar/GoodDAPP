@@ -487,6 +487,50 @@ export class APIService {
     return this.sharedClient.post(url, payload, options)
   }
 
+  async getOTPLEvents(sender, chainId, address, from, currentBlock, eventHash) {
+    const txs = []
+    const explorer = Config.ethereum[chainId].explorerAPI
+
+    const sender32 = `0x${sender
+      .toLowerCase()
+      .slice(2)
+      .padStart(64, '0')}`
+
+    const params = {
+      module: 'logs',
+      action: 'getLogs',
+      address,
+      sort: 'desc',
+      page: 1,
+      offset: 10000,
+      topic0: eventHash,
+      topic1: sender32,
+
+      // required for fuse explorer, optional for celoscan
+      topic0_1_opr: 'and',
+      fromBlock: from,
+      toBlock: currentBlock,
+    }
+
+    for (;;) {
+      // eslint-disable-next-line no-await-in-loop
+      const { result: events } = await this.sharedClient.get('/api', {
+        params,
+        baseURL: explorer,
+      })
+
+      params.page += 1
+      txs.push(...events)
+
+      if (events.length < params.offset) {
+        // default page size by explorer.fuse.io
+        break
+      }
+    }
+
+    return txs
+  }
+
   /**
    * @private
    */

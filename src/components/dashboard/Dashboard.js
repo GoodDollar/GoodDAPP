@@ -850,31 +850,33 @@ const Dashboard = props => {
             <Animated.View style={styles.balanceTop}>
               <View style={styles.profileContainer}>
                 <Animated.View style={styles.profileAndWalletChat}>
-                  <Animated.View testID="avatar-anim-styles" style={[styles.profileIconContainer, avatarAnimStyles]}>
-                    <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
-                      <Avatar
-                        source={avatar}
-                        style={styles.avatar}
-                        imageStyle={styles.avatar}
-                        unknownStyle={styles.avatar}
-                        plain
+                  <Animated.View style={styles.avatarContainerWrapper}>
+                    <Animated.View testID="avatar-anim-styles" style={[styles.profileIconContainer, avatarAnimStyles]}>
+                      <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
+                        <Avatar
+                          source={avatar}
+                          style={styles.avatar}
+                          imageStyle={styles.avatar}
+                          unknownStyle={styles.avatar}
+                          plain
+                        />
+                      </TouchableOpacity>
+                    </Animated.View>
+                    {walletChatEnabled && (
+                      <WalletChatWidget
+                        connectedWallet={
+                          web3Provider
+                            ? {
+                                walletName: 'GoodWalletV2',
+                                account: goodWallet.account,
+                                chainId: goodWallet.networkId,
+                                provider: web3Provider,
+                              }
+                            : undefined
+                        }
                       />
-                    </TouchableOpacity>
+                    )}
                   </Animated.View>
-                  {walletChatEnabled && (
-                    <WalletChatWidget
-                      connectedWallet={
-                        web3Provider
-                          ? {
-                              walletName: 'GoodWalletV2',
-                              account: goodWallet.account,
-                              chainId: goodWallet.networkId,
-                              provider: web3Provider,
-                            }
-                          : undefined
-                      }
-                    />
-                  )}
                 </Animated.View>
                 {headerLarge && (
                   <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
@@ -1210,6 +1212,13 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
+  },
+  avatarContainerWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   profileIconContainer: {
     width: '100%',

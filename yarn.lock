@@ -4402,7 +4402,7 @@ __metadata:
     react-native-v8: ">=0.65.2-patch.0 <0.66.0"
     react-native-vector-icons: ^6.6.0
     react-native-version-check: ^3.4.3
-    react-native-wallet-chat: 0.2.9
+    react-native-wallet-chat: 0.2.14
     react-native-web: ^0.17.5
     react-native-web-linear-gradient: ^1.0.5
     react-native-web-lottie: ^1.2.0
@@ -33873,9 +33873,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-wallet-chat@npm:0.2.9":
-  version: 0.2.9
-  resolution: "react-native-wallet-chat@npm:0.2.9"
+"react-native-wallet-chat@npm:0.2.14":
+  version: 0.2.14
+  resolution: "react-native-wallet-chat@npm:0.2.14"
   dependencies:
     "@stablelib/random": ^1.0.2
     classnames: ^2.3.2
@@ -33885,7 +33885,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: f39e717fd8958d952105a4ebff0cbfd4796b6a57b8f6657f91910a79d6e07ee384163f1c502ccfb67af63c32206ad6935f65aac2eb1b235a8647e7e3e9bfe58c
+  checksum: 7a1047fd4c21cf5193220e3f5f808f69ce36558ffac836aef4310723394086e08033044766a7e9c5bf66a9af08196ad16123d7a3d8fbc5c8f5f10939ab0a0349
   languageName: node
   linkType: hard
 

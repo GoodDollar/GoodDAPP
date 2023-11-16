@@ -60,7 +60,6 @@ const FeedList = ({
   listHeaderComponent,
   listFooterComponent,
   headerLarge,
-  isScrolling,
   windowSize,
 }: FeedListProps) => {
   const { showErrorDialog } = useDialog()

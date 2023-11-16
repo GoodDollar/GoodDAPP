@@ -163,8 +163,10 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
   const ownerAddress = feed?.data?.endpoint?.address
-  const txHash = feed.data.receiptHash || feed.id
-  const isTransfer = isTransferTx(itemType)
+  const isBridge = feed?.data?.endpoint?.isBridge
+  const txHash = feed.data?.receiptHash || feed.id
+
+  const isTransfer = !isBridge && isTransferTx(itemType)
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />

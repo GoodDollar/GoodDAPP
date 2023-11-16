@@ -82,13 +82,9 @@ const FeedList = ({
     }
   }, [])
 
-  const handleHideButton = useCallback(() => {
-    setShowButton(false)
-  })
+  const handleHideButton = () => setShowButton(false)
 
-  const handleShowButton = useCallback(() => {
-    setShowButton(true)
-  })
+  const handleShowButton = () => setShowButton(true)
   const renderItemComponent = useCallback(
     ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
     [handleItemSelection],

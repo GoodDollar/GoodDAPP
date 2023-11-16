@@ -313,6 +313,7 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const { onGiveUp } = useGiveUpDialog(navigation, 'cancelled')
+  const staticScrollbarOffset = useRef(0)
 
   const { currentNetwork } = useSwitchNetwork()
 
@@ -350,7 +351,7 @@ const Dashboard = props => {
 
   const sendReceiveAnimStyles = {
     width: '100%',
-    marginTop: headerLarge ? 5 : 0,
+    marginTop: 5,
     transform: [
       {
         translateY: sendReceiveMinimzedYAnimValue.interpolate({
@@ -825,7 +826,17 @@ const Dashboard = props => {
       const scrollPosition = nativeEvent.contentOffset.y
       const { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough } = scrollData
       const scrollPositionISH = scrollPosition + scrollPositionGap
-      setHeaderLarge(!isFeedSizeEnough || scrollPositionISH < minScrollRequiredISH)
+
+      // because enlarging the feed changes the scroll position (minus), we cannot use this directly for headerLarge
+      // as during slow-scrolling the statement could (depending on platform) jump in-out of being true
+      // why we rely here on a more static ref value
+      if (scrollPositionISH > minScrollRequiredISH) {
+        staticScrollbarOffset.current = 1
+      } else if (scrollPosition < 50) {
+        staticScrollbarOffset.current = 0
+      }
+
+      setHeaderLarge(!isFeedSizeEnough || staticScrollbarOffset.current < 1)
     },
     [scrollData, setHeaderLarge],
   )

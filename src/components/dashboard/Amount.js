@@ -27,7 +27,13 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import Config from '../../config/config'
 import { theme } from '../theme/styles'
-import { ACTION_BRIDGE, ACTION_RECEIVE, ACTION_SEND, navigationOptions } from './utils/sendReceiveFlow'
+import {
+  ACTION_BRIDGE,
+  ACTION_RECEIVE,
+  ACTION_SEND,
+  ACTION_SEND_TO_ADDRESS,
+  navigationOptions,
+} from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
@@ -70,6 +76,7 @@ const NextPageButton = ({ action, cbContinue, loading, values, ...props }) => {
       canContinue={cbContinue}
       disabled={loading}
       values={values}
+      action={action}
       {...props}
     />
   )
@@ -207,6 +214,7 @@ const Amount = (props: AmountProps) => {
       return false
     }
 
+    setScreenState({ action: ACTION_SEND_TO_ADDRESS })
     return true
   }
 
@@ -298,10 +306,16 @@ const Amount = (props: AmountProps) => {
                 </Section.Row>
                 <Section.Stack grow={3} style={styles.nextButtonContainer}>
                   <NextPageButton
-                    action={isNativeFlow ? 'isNative' : params.action}
+                    action={isNativeFlow ? 'isNative' : sendViaAddress ? ACTION_SEND_TO_ADDRESS : params.action}
                     cbContinue={handleContinue}
                     loading={loading}
-                    values={{ ...params, ...restState, amount: GDAmountInWei, ...bridgeState }}
+                    values={{
+                      amount: GDAmountInWei,
+                      address: address,
+                      ...params,
+                      ...restState,
+                      ...bridgeState,
+                    }}
                     {...props}
                   />
                 </Section.Stack>

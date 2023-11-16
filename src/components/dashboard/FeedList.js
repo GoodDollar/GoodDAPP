@@ -214,6 +214,11 @@ const FeedList = ({
     }
   }, [setShowBounce, userStorage])
 
+  const handleMomentum = useCallback((event: any) => {
+    _onScrollEnd(event)
+    handleShowButton()
+  })
+
   return displayContent ? (
     <>
       <AnimatedSwipeableFlatList
@@ -232,7 +237,7 @@ const FeedList = ({
         numColumns={1}
         onEndReached={onEndReached}
         onEndReachedThreshold={onEndReachedThreshold}
-        onMomentumScrollEnd={_onScrollEnd && handleShowButton}
+        onMomentumScrollEnd={handleMomentum}
         refreshing={false}
         renderItem={renderItemComponent}
         ListHeaderComponent={listHeaderComponent}

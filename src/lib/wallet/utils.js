@@ -276,7 +276,7 @@ export const fromDecimals = (amount, chainOrToken = null) => {
   return parseUnits(float, decimals).toString()
 }
 
-export const isTransferTx = (txType: string) => /(send|receive)(?!.*bridge|pending)/.test(txType)
+export const isTransferTx = (txType: string) => /(send|receive|withdraw)(?!.*bridge|pending)/.test(txType)
 
 export const isDuplicateTxError = message =>
   message

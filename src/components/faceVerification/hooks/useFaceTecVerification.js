@@ -52,7 +52,7 @@ export default (options = null) => {
   // Wrapped to useCallback for encapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
-    log.debug('startVerification', { fvSigner, chainId })
+    log.debug('startVerification', { enrollmentIdentifier, fvSigner, chainId })
 
     // destructuring accessors keeping theirs names the
     // same like in the props for avoid code modifications

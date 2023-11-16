@@ -21,6 +21,7 @@ const InputText = ({
   adornmentStyle,
   adornmentColor,
   adornmentDisabled = false,
+  iconAlignment = 'right',
   showError = true,
   error,
   styles,
@@ -76,15 +77,20 @@ const InputText = ({
   return (
     <View style={[styles.view, containerStyle]}>
       <View style={styles.view}>
+        {showAdornment && error !== '' && iconAlignment === 'left' && (
+          <TouchableOpacity style={[styles.adornment, adornmentStyle]} disabled={adornmentDisabled} onPress={_onPress}>
+            <Icon size={normalize(adornmentSize)} color={adornmentColor || inputColor} name={adornment} />
+          </TouchableOpacity>
+        )}
         <TextInput
           {...props}
           ref={getRef}
-          style={[styles.input, { borderBottomColor: inputColor, color: inputColor }, style]}
+          style={[styles.input, { borderBottomColor: error ? 'red' : inputColor, color: inputColor }, style]}
           placeholderTextColor={placeholderTextColor || theme.colors.gray50Percent}
           onTouchStart={onTouchStart}
           onBlur={onBlurHandler}
         />
-        {showAdornment && error !== '' && (
+        {showAdornment && error !== '' && iconAlignment === 'right' && (
           <TouchableOpacity style={[styles.adornment, adornmentStyle]} disabled={adornmentDisabled} onPress={_onPress}>
             <Icon size={normalize(adornmentSize)} color={adornmentColor || inputColor} name={adornment} />
           </TouchableOpacity>

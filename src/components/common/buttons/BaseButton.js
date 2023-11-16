@@ -24,6 +24,7 @@ const Button = ({
   children,
   uppercase = true,
   accessibilityLabel,
+  noElevation = false,
   onPress = noop,
   style,
   theme,
@@ -126,7 +127,7 @@ const Button = ({
     borderBottomRightRadius: style ? StyleSheet.flatten(style).borderBottomRightRadius ?? undefined : undefined,
   }
   const textStyle = { color: textColor, ...font }
-  const elevation = disabled || mode !== 'contained' ? 0 : elevationAnim
+  const elevation = disabled || mode !== 'contained' || noElevation ? 0 : elevationAnim
 
   const isChildrenString = typeof children === 'string'
   const fullSizeStyle = { flex: 1, alignSelf: 'stretch' }

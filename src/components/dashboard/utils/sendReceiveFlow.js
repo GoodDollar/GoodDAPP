@@ -31,6 +31,7 @@ export const navigationOptions = ({ navigation }) => {
 export const RECEIVE_TITLE = t`Receive`
 export const SEND_TITLE = t`Send`
 export const BRIDGE_TITLE = t`Bridge`
+export const ACTION_BRIDGE = 'Bridge'
 export const ACTION_RECEIVE = 'Receive'
 export const ACTION_SEND = 'Send'
 export const ACTION_SEND_TO_ADDRESS = 'SendToAddress'

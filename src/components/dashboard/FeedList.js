@@ -60,6 +60,7 @@ const FeedList = ({
   listHeaderComponent,
   listFooterComponent,
   headerLarge,
+  isScrolling,
   windowSize,
 }: FeedListProps) => {
   const { showErrorDialog } = useDialog()
@@ -70,13 +71,9 @@ const FeedList = ({
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const feeds = useFeeds(data)
+  const [showButton, setShowButton] = useState(true)
 
   const handleItemSelection = handleFeedSelection
-
-  // shouldnt be required with latest react-native-web
-  // const onScrollStart = useCallback(() => setAbleItemSelection(false), [setAbleItemSelection])
-
-  // const onScrollEnd = useCallback(() => setAbleItemSelection(true), [setAbleItemSelection])
 
   const scrollToTop = useCallback(() => {
     const list = get(flRef, 'current._flatListRef', {})
@@ -86,6 +83,13 @@ const FeedList = ({
     }
   }, [])
 
+  const handleHideButton = useCallback(() => {
+    setShowButton(false)
+  })
+
+  const handleShowButton = useCallback(() => {
+    setShowButton(true)
+  })
   const renderItemComponent = useCallback(
     ({ item, index }) => <Item item={item} handleFeedSelection={handleItemSelection} index={index} />,
     [handleItemSelection],
@@ -229,18 +233,19 @@ const FeedList = ({
         numColumns={1}
         onEndReached={onEndReached}
         onEndReachedThreshold={onEndReachedThreshold}
-        onMomentumScrollEnd={_onScrollEnd}
+        onMomentumScrollEnd={_onScrollEnd && handleShowButton}
         refreshing={false}
         renderItem={renderItemComponent}
         ListHeaderComponent={listHeaderComponent}
         ListFooterComponent={listFooterComponent}
         renderQuickActions={renderQuickActions}
         viewabilityConfig={VIEWABILITY_CONFIG}
+        onScrollBeginDrag={handleHideButton}
         onScroll={onScroll}
         ref={flRef}
         windowSize={windowSize}
       />
-      <ScrollToTopButton onPress={scrollToTop} show={headerLarge} />
+      {showButton && <ScrollToTopButton onPress={scrollToTop} show={headerLarge} />}
     </>
   ) : null
 }

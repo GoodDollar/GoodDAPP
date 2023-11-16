@@ -827,16 +827,7 @@ const Dashboard = props => {
       const { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough } = scrollData
       const scrollPositionISH = scrollPosition + scrollPositionGap
 
-      // because enlarging the feed changes the scroll position (minus), we cannot use this directly for headerLarge
-      // as during slow-scrolling the statement could (depending on platform) jump in-out of being true
-      // why we rely here on a more static ref value
-      if (scrollPositionISH > minScrollRequiredISH) {
-        staticScrollbarOffset.current = 1
-      } else if (scrollPosition < 50) {
-        staticScrollbarOffset.current = 0
-      }
-
-      setHeaderLarge(!isFeedSizeEnough || staticScrollbarOffset.current < 1)
+      setHeaderLarge(!isFeedSizeEnough || scrollPositionISH > minScrollRequiredISH)
     },
     [scrollData, setHeaderLarge],
   )

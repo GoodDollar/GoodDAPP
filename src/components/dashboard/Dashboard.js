@@ -313,7 +313,6 @@ const Dashboard = props => {
   const [activeTab, setActiveTab] = useState(FeedCategories.All)
   const [getCurrentTab] = usePropsRefs([activeTab])
   const { onGiveUp } = useGiveUpDialog(navigation, 'cancelled')
-  const staticScrollbarOffset = useRef(0)
 
   const { currentNetwork } = useSwitchNetwork()
 

@@ -825,7 +825,7 @@ const Dashboard = props => {
       const { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough } = scrollData
       const scrollPositionISH = scrollPosition + scrollPositionGap
 
-      setHeaderLarge(!isFeedSizeEnough || scrollPositionISH > minScrollRequiredISH)
+      setHeaderLarge(!isFeedSizeEnough || scrollPositionISH < minScrollRequiredISH)
     },
     [scrollData, setHeaderLarge],
   )
@@ -833,7 +833,7 @@ const Dashboard = props => {
   const handleScroll = useCallback(
     ({ ...args }) => {
       dispatchScrollEvent()
-      handleScrollEnd(args)
+      Platform.OS === 'web' && handleScrollEnd(args)
     },
     [dispatchScrollEvent, handleScrollEnd],
   )

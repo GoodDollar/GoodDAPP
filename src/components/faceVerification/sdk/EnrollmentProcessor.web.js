@@ -259,7 +259,11 @@ export class EnrollmentProcessor {
 
     try {
       // trying to retrieve session ID from Zoom server
-      const sessionId = await api.issueSessionToken()
+      const sessionId = await api.issueSessionToken().catch(({ message }) => {
+        throw new Error(
+          `Session could not be started due to an unexpected issue during the network request: ${message}`,
+        )
+      })
 
       // if we've got session ID - starting enrollment session
       new FaceTecSession(this, sessionId)

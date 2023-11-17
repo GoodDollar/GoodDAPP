@@ -6,7 +6,7 @@ import web3Utils from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import { Core } from '@walletconnect/core'
 import { Web3Wallet } from '@walletconnect/web3wallet'
-import { parseUri, getSdkError } from '@walletconnect/utils'
+import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/utils'
 
 import Web3 from 'web3'
 import { bindAll, first, last, maxBy, defaults, sortBy, sample } from 'lodash'
@@ -248,9 +248,14 @@ export const useWalletConnectSession = () => {
       const isV2 = connector === cachedV2Connector
       const session = connector.session
       const metadata = payload?.params?.[0]?.peerMeta || payload?.params?.proposer?.metadata
+      const { requiredNamespaces, optionalNamespaces } = payload?.params
       let requestedChainIdV1 = Number(payload?.params?.[0]?.chainId)
       let requestedChainIdV2 = Number(
-        (payload?.params?.requiredNamespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
+        (
+          requiredNamespaces?.eip155?.chains?.[0] ||
+          optionalNamespaces?.eip155?.chains?.[0] ||
+          `:${wallet.networkId}`
+        ).split(':')[1],
       )
       log.debug('WC2Events&Sessions -- handleSessionRequest', { isV2, payload, session, metadata })
       let requestedChainId = requestedChainIdV1 || requestedChainIdV2 || Number(wallet.networkId)
@@ -279,10 +284,17 @@ export const useWalletConnectSession = () => {
         modalType: 'connect',
         onApprove: async () => {
           if (isV2) {
-            const eip155Chains = payload?.params?.requiredNamespaces?.eip155?.chains
-            const response = {
-              id: payload.id,
-              namespaces: {
+            log.debug('v2 approveSession', { payload, isV2 })
+            const eip155Chains = payload?.params?.requiredNamespaces?.eip155?.chains ?? []
+            const optionaleip155Chains = payload?.params?.optionalNamespaces?.eip155?.chains
+
+            if (optionaleip155Chains) {
+              eip155Chains.push(...optionaleip155Chains)
+            }
+
+            const approvedNameSpaces = buildApprovedNamespaces({
+              proposal: payload?.params,
+              supportedNamespaces: {
                 eip155: {
                   chains: eip155Chains,
                   accounts: eip155Chains.map(c => `${c}:${wallet.account}`),
@@ -291,6 +303,7 @@ export const useWalletConnectSession = () => {
                     'eth_signTransaction',
                     'eth_sign',
                     'personal_sign',
+                    'eth_call',
                     'eth_signTypedData',
                     'eth_signTypedData_v4',
                     'wallet_addEthereumChain',
@@ -300,6 +313,11 @@ export const useWalletConnectSession = () => {
                   events: ['accountsChanged', 'chainChanged'],
                 },
               },
+            })
+
+            const response = {
+              id: payload.id,
+              namespaces: approvedNameSpaces,
             }
             const sessionv2 = await cachedV2Connector.approveSession(response)
             log.debug('v2 approveSession result:', sessionv2, { response, isV2 })
@@ -368,6 +386,23 @@ export const useWalletConnectSession = () => {
     [wallet, showApprove, approveRequest, rejectRequest],
   )
 
+  const handleEthCallRequest = useCallback(
+    async (payload, connector) => {
+      const { method, params } = getMethodAndParams(payload)
+      const v2meta = getV2Meta(payload)
+      const requestedChainId = Number(v2meta?.chainId || connector.session?.chainId)
+      //handle v2 per request chain
+      const chainDetails = v2meta?.chainId || !chain ? chains.find(_ => Number(_.chainId) === requestedChainId) : chain
+      log.info('handleEthCallRequest', { method, params, requestedChainId, connector, chainDetails })
+
+      const web3 = await getWeb3(chainDetails)
+      const result = await web3.eth.call(params[0], params[1] || 'latest')
+
+      approveRequest(connector, payload.id, payload.topic, result)
+    },
+    [chain, chains],
+  )
+
   const handleTxRequest = useCallback(
     async (message, payload, connector) => {
       const { method, params } = getMethodAndParams(payload)
@@ -399,7 +434,7 @@ export const useWalletConnectSession = () => {
           message.maxFeePerGas = 5e9
           break
         default: {
-          const gasPrice = await web3.eth.getGasPrice()
+          const gasPrice = await wallet.fetchGasPrice()
           let gasField = message.maxFeePerGas ? 'maxFeePerGas' : 'gasPrice'
           if (message[gasField]) {
             message[gasField] = web3Utils.toBN(message[gasField]).gt(web3Utils.toBN(gasPrice))
@@ -641,6 +676,10 @@ export const useWalletConnectSession = () => {
           return handleSignRequest(message, payload, connector)
         }
 
+        if ('eth_call' === method) {
+          return handleEthCallRequest(payload, connector)
+        }
+
         if (['eth_signTransaction', 'eth_sendTransaction'].includes(method)) {
           const transaction = params?.[0] ?? null
 
@@ -784,7 +823,7 @@ export const useWalletConnectSession = () => {
 
   const cancelTx = useCallback(async () => {
     const web3 = await getWeb3(chain)
-    const minGasPrice = await web3.eth.getGasPrice()
+    const minGasPrice = await wallet.fetchGasPrice()
     const { params } = maxBy(chainPendingTxs, _ => Number(_.params?.gasPrice || _.params?.maxFeePerGas))
     const gasPrice = Math.max(Number(minGasPrice), Number(params.gasPrice || params.maxFeePerGas) * 1.1).toFixed(0)
     return sendTx(
@@ -822,13 +861,22 @@ export const useWalletConnectSession = () => {
       handleCallRequest(cachedV2Connector, event)
     })
     cachedV2Connector.on('session_ping', event => log.debug('WC2Events&Sessions -- v2 incoming session_ping:', event))
-    cachedV2Connector.on('session_update', event =>
-      log.debug('WC2Events&Sessions -- v2 incoming session_update:', event),
-    )
     cachedV2Connector.on('session_event', event => log.debug('WC2Events&Sessions -- v2 incoming session_event:', event))
     cachedV2Connector.on('session_delete', event => {
       log.debug('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })
       handleSessionDisconnect(cachedV2Connector, event)
+    })
+
+    cachedV2Connector.on('session_expire', ({ topic }) => {
+      log.debug('WC2Events&Sessions -- session expire:', { cachedV2Connector, topic })
+      cachedV2Connector.extend({ topic }).catch(e => {
+        log.debug('Wc2Events&Sessions -- session extend failed:', e.message, e, { cachedV2Connector, topic })
+        cachedV2Connector.disconnectSession({ topic, reason: 'Failed to extend session' })
+      })
+    })
+
+    cachedV2Connector.on('session_update', ({ topic, params }) => {
+      log.info('Wc2Events&Sessions -- session update received -->', { topic, params })
     })
 
     if (!v2session) {

@@ -11,8 +11,11 @@ import OopsSVG from '../../assets/oops.svg'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
 import useAppState from '../../lib/hooks/useAppState'
+import Config from '../../config/config'
+import { openLink } from '../../lib/utils/linking'
 
 const log = logger.child({ from: 'OutOfGasError' })
+const { gasFeeNotionUrl } = Config
 
 const OutOfGasError = props => {
   const { styles, theme } = props
@@ -23,7 +26,6 @@ Don’t worry, we’ll take care of you.`
   const ERROR_BOLD = t`We're giving it to you for FREE, FOREVER.`
   const TITLE = t`Ooops,
   You're out of gas...`
-  const ERROR_CHEAT = `Something went wrong try again later`
   if (isValid) {
     props.screenProps.pop({ isValid })
   }
@@ -36,7 +38,7 @@ Don’t worry, we’ll take care of you.`
 
   const gotoDb = useCallback(() => screenProps.navigateTo('Home'), [screenProps])
 
-  const gotoSupport = useCallback(() => screenProps.navigateTo('Support'), [screenProps])
+  const gotoLearnMore = useCallback(() => openLink(gasFeeNotionUrl), [screenProps])
 
   useEffect(() => {
     callTopWallet()
@@ -76,15 +78,9 @@ Don’t worry, we’ll take care of you.`
           <View style={styles.image}>
             <OopsSVG />
           </View>
-          <Section style={styles.mainSection}>
-            <Separator style={styles.separator} width={2} />
-            {isCheatError ? (
-              <Text style={styles.description} fontSize={13} fontWeight={'bold'} color={theme.colors.primary}>
-                <Text fontWeight={'regular'} color={theme.colors.primary}>
-                  {ERROR_CHEAT}
-                </Text>
-              </Text>
-            ) : (
+          {!isCheatError && (
+            <Section style={styles.mainSection}>
+              <Separator style={styles.separator} width={2} />
               <Text style={styles.description} fontSize={13} fontWeight={'bold'} color={theme.colors.primary}>
                 <Text fontWeight={'regular'} fontSize={13} color={theme.colors.primary}>
                   {ERROR}
@@ -94,16 +90,16 @@ Don’t worry, we’ll take care of you.`
                   {ERROR_BOLD}
                 </Text>
               </Text>
-            )}
-            <Separator style={styles.separator} width={2} />
-          </Section>
+              <Separator style={styles.separator} width={2} />
+            </Section>
+          )}
         </Section>
         <Section>
           {isCheatError ? (
-            <CustomButton onPress={gotoSupport}>{'Contact support'}</CustomButton>
+            <CustomButton onPress={gotoLearnMore}>{t`Learn about gas`}</CustomButton>
           ) : (
             <AwaitButton isLoading={isLoading} onPress={gotoDb}>
-              {"You're good to go"}
+              {t`You’re good to go`}
             </AwaitButton>
           )}
         </Section>

@@ -1,7 +1,7 @@
 // @flow
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
-
+import { toUtf8String } from '@ethersproject/strings'
 export class JsonRpcProviderWithSigner extends JsonRpcProvider {
   constructor(jsonRpcProvider, privateKey: string) {
     super()
@@ -18,7 +18,6 @@ export class JsonRpcProviderWithSigner extends JsonRpcProvider {
   async send(method: string, params: []): Promise<any> {
     const { jsonRpcProvider, signer } = this
     const [transaction, data] = params || []
-
     switch (method) {
       case 'eth_sendTransaction': {
         const signedTransaction = await this.send('eth_signTransaction', [transaction])
@@ -35,9 +34,16 @@ export class JsonRpcProviderWithSigner extends JsonRpcProvider {
 
         return signer.signTransaction({ ...txData, nonce, gasLimit: gas || gasLimit })
       }
-      case 'personal_sign':
+      case 'personal_sign': {
+        const [message] = params || []
+        const orgMessage = toUtf8String(message)
+        return signer.signMessage(orgMessage)
+      }
       case 'eth_sign': {
-        return signer.signMessage(data)
+        const [, message] = params || []
+        const orgMessage = toUtf8String(message)
+
+        return signer._signingKey().signDigest(orgMessage)
       }
       case 'eth_accounts': {
         return [signer.address]

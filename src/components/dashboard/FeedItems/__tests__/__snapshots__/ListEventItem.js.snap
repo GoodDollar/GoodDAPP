@@ -21,6 +21,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           style={
             Object {
               "height": "20px",
+              "width": "20px",
             }
           }
         >
@@ -37,7 +38,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             }
             tabIndex="0"
           >
-            <fuse.svg
+            <fuse-logo-new.svg
               height={20}
               width={20}
             />
@@ -45,7 +46,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         </div>
         <div
           aria-disabled={true}
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-k200y r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-height-1w2pmg r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-height-1w2pmg r-justifyContent-1777fci r-margin-ywje51 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
           onClick={[Function]}
           onContextMenu={[Function]}
           onKeyDown={[Function]}
@@ -130,7 +131,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             +
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz"
           >
             <div
               className="css-text-901oao r-color-1c423w1 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -193,8 +194,12 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
-          />
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+          >
+            <div
+              className="css-view-1dbjc4n"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -223,6 +228,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
           style={
             Object {
               "height": "20px",
+              "width": "20px",
             }
           }
         >
@@ -239,7 +245,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             }
             tabIndex="0"
           >
-            <fuse.svg
+            <fuse-logo-new.svg
               height={20}
               width={20}
             />
@@ -247,7 +253,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
         </div>
         <div
           aria-disabled={true}
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-k200y r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-height-1w2pmg r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-height-1w2pmg r-justifyContent-1777fci r-margin-ywje51 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
           onClick={[Function]}
           onContextMenu={[Function]}
           onKeyDown={[Function]}
@@ -332,7 +338,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             -
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz"
           >
             <div
               className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -395,8 +401,12 @@ exports[`ListEventItem send matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
-          />
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+          >
+            <div
+              className="css-view-1dbjc4n"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -425,6 +435,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           style={
             Object {
               "height": "20px",
+              "width": "20px",
             }
           }
         >
@@ -441,7 +452,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             }
             tabIndex="0"
           >
-            <fuse.svg
+            <fuse-logo-new.svg
               height={20}
               width={20}
             />
@@ -449,7 +460,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         </div>
         <div
           aria-disabled={true}
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-k200y r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-height-1w2pmg r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-qt01xk r-borderColor-y68mpx r-borderWidth-rs99b7 r-height-1w2pmg r-justifyContent-1777fci r-margin-ywje51 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
           onClick={[Function]}
           onContextMenu={[Function]}
           onKeyDown={[Function]}
@@ -534,7 +545,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             +
           </div>
           <div
-            className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz"
           >
             <div
               className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -597,8 +608,12 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
-          />
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+          >
+            <div
+              className="css-view-1dbjc4n"
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import useCountdown from '../../../../lib/hooks/useCountdown'
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import useFVRedirect from '../hooks/useFVRedirect'
 
+import AsyncStorage from '../../../../lib/utils/asyncStorage'
 import API from '../../../../lib/API'
 import { delay, withTimeout } from '../../../../lib/utils/async'
 
@@ -93,9 +94,12 @@ const FVFlowSuccess = ({ styles, screenProps, navigation }) => {
       const { current: error } = lastErrorRef
       const onDismiss = () => fvRedirect(isWhitelisted)
 
-      const errorMessage = t`You have not being whitelisted.` + `\n\n` + t`Please try again later`
+      const errorMessage = t`You have not being whitelisted. 
+      
+      Please try again later`
 
       if (isWhitelisted || !error) {
+        AsyncStorage.removeItem('hasStartedFV')
         return onDismiss()
       }
 
@@ -118,13 +122,10 @@ const FVFlowSuccess = ({ styles, screenProps, navigation }) => {
           <View style={styles.descriptionContainer}>
             <View style={styles.descriptionWrapper}>
               <WaitForCompleted
-                text={
-                  t`Your address is being whitelisted across all chains.` +
-                  `\n` +
-                  t`Please wait.` +
-                  `\n\n` +
-                  t`You'll be redirected when it's complete.`
-                }
+                text={t`Your address is being whitelisted across all chains.
+                  Please wait.
+                  
+                  You'll be redirected when it's complete.`}
                 counter={counter}
               />
             </View>

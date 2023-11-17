@@ -40,6 +40,8 @@ export class VendorMetadata {
 
   static DATA_SHORT = 'd'
 
+  static OPTIONAL_FIELDS_SHORT = 'opt'
+
   constructor(callbackUrl: URL, invoiceId: string, website: URL, vendorName: string) {
     this.callbackUrl = callbackUrl
     this.invoiceId = invoiceId
@@ -59,8 +61,9 @@ export class VendorMetadata {
     response[VendorMetadata.WEBSITE_SHORT] = this.website
     response[VendorMetadata.VENDOR_SHORT] = this.vendorName
     response[VendorMetadata.DATA_SHORT] = this.data
+    response[VendorMetadata.OPTIONAL_FIELDS_SHORT] = this.optionalFields
 
-    return response
+    return pickBy(response, _ => _ != null)
   }
 
   /**
@@ -76,6 +79,7 @@ export class VendorMetadata {
       website: concise[VendorMetadata.WEBSITE_SHORT],
       vendorName: concise[VendorMetadata.VENDOR_SHORT],
       data: concise[VendorMetadata.DATA_SHORT],
+      optionalFields: concise[VendorMetadata.OPTIONAL_FIELDS_SHORT],
     }
   }
 }

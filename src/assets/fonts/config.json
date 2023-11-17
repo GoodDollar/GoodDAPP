@@ -1243,6 +1243,18 @@
       "css": "link-ext",
       "code": 61582,
       "src": "fontawesome"
+    },
+    {
+      "uid": "a8ed7903f8f548da5a8084e1773f0bbb",
+      "css": "chat-1",
+      "code": 61501,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "21f6a88daf13c62e5a70f5ef6ad9e23f",
+      "css": "chat",
+      "code": 59456,
+      "src": "websymbols"
     }
   ]
 }

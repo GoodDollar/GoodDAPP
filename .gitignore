@@ -107,3 +107,7 @@ service-worker.js
 .yalc.lock
 .vercel
 .vscode/settings.json
+*.development
+.env_old
+.env_lewis
+.env.development

@@ -1,5 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 import AuthProgressBar from '../../auth/components/AuthProgressBar'
 import { withStyles } from '../../../lib/styles'
@@ -21,7 +22,7 @@ const WalletPreparing = ({ theme, styles, activeStep = 1 }) => (
         fontWeight="bold"
         textTransform="uppercase"
       >
-        Preparing the wallet
+        {t`Preparing the wallet`}
       </Text>
       <Text
         color={'darkIndigo'}
@@ -32,7 +33,8 @@ const WalletPreparing = ({ theme, styles, activeStep = 1 }) => (
         fontWeight="bold"
         style={{ marginTop: getDesignRelativeHeight(15) }}
       >
-        {`We're Preparing\nYour Wallet`}
+        {t`We're Preparing 
+        Your Wallet`}
       </Text>
       <Text
         color={'darkIndigo'}
@@ -42,7 +44,7 @@ const WalletPreparing = ({ theme, styles, activeStep = 1 }) => (
         fontFamily="Roboto"
         style={{ marginTop: getDesignRelativeHeight(14) }}
       >
-        It might take a few seconds
+        {t`It might take a few seconds`}
       </Text>
       <View style={styles.illustration}>
         <RocketShip />

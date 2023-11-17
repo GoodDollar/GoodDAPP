@@ -1,11 +1,11 @@
 // @flow
 import React, { useCallback } from 'react'
 import { get } from 'lodash'
+import { t } from '@lingui/macro'
 import logger from '../../lib/logger/js-logger'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import EmailConfirmation from '../signup/EmailConfirmation'
 import SmsForm from '../signup/SmsForm'
-import useRecaptcha from '../auth/components/Recaptcha/useRecaptcha'
 
 const log = logger.child({ from: 'Verify Edit Code' })
 
@@ -39,8 +39,6 @@ const VerifyEditCode = props => {
     content,
   })
 
-  const { isValidRecaptcha, Captcha } = useRecaptcha({ enabled: field === 'phone' })
-
   const handleSubmit = useCallback(async () => {
     const privacy = await userStorage.getFieldPrivacy(fieldToSave)
     await userStorage.setProfileField(fieldToSave, content, privacy)
@@ -49,24 +47,20 @@ const VerifyEditCode = props => {
   }, [fieldToSave, content, navigateTo, pop, userStorage])
 
   return (
-    <Captcha>
-      {isValidRecaptcha && (
-        <RenderComponent
-          screenProps={{
-            retryFunctionName: retryFunctionName,
-            doneCallback: handleSubmit,
-            data: {
-              [fieldToSave]: content,
-            },
-          }}
-        />
-      )}
-    </Captcha>
+    <RenderComponent
+      screenProps={{
+        retryFunctionName: retryFunctionName,
+        doneCallback: handleSubmit,
+        data: {
+          [fieldToSave]: content,
+        },
+      }}
+    />
   )
 }
 
 VerifyEditCode.navigationOptions = {
-  title: 'Edit Profile',
+  title: t`Edit Profile`,
 }
 
 export default VerifyEditCode

@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { groupBy, keyBy, noop } from 'lodash'
+import { get, groupBy, keyBy, noop } from 'lodash'
 import { t } from '@lingui/macro'
+import { usePostHog } from 'posthog-react-native'
+
 import { useFormatG$, usePropSuffix, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
+import { isMobileWeb as isMobile, isMobileNative } from '../../lib/utils/platform'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
-import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
+import { generateShareObject } from '../../lib/share'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { INVITE_CODE } from '../../lib/constants/localStorage'
 import { decimalsToFixed } from '../../lib/wallet/utils'
@@ -14,6 +17,10 @@ import SuccessIcon from '../common/modal/SuccessIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { useUserProperty } from '../../lib/userStorage/useProfile'
 import mustache from '../../lib/utils/mustache'
+
+import createABTesting from '../../lib/hooks/useABTesting'
+
+const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
 const log = logger.child({ from: 'useInvites' })
 
@@ -185,17 +192,19 @@ export const useInviteBonus = () => {
   return [collected, getCanCollect, collectInviteBounty]
 }
 
-export const useCollectBounty = () => {
-  const { showDialog, showErrorDialog } = useDialog()
+export const useCollectBounty = screenProps => {
+  const { hideDialog, showDialog, showErrorDialog } = useDialog()
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const propSuffix = usePropSuffix()
+  const { navigateTo } = screenProps
+
   const collect = async () => {
     const labels = {
       title: t`Collecting Bonus`,
-      message: mustache(t`Collecting invite bonus for {canCollect} invited friends`, { canCollect }),
+      message: t`Collecting invite bonus for ${canCollect} invited friends`,
     }
     try {
       showDialog({
@@ -204,6 +213,7 @@ export const useCollectBounty = () => {
       })
 
       log.debug('useCollectBounty calling collectInviteBounties', { canCollect })
+
       const collected = await goodWallet.collectInviteBounties()
       if (!collected) {
         return
@@ -212,14 +222,15 @@ export const useCollectBounty = () => {
       fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
       userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
+
       await checkBounties() //after collectinng check how much left to collect
       showDialog({
         ...labels,
         loading: false,
       })
     } catch (e) {
+      hideDialog()
       const { message } = e
-      const uiMessage = decorate(e, ExceptionCode.E15)
 
       log.error('failed collecting invite bounty', message, e, {
         inviter: goodWallet.account,
@@ -227,7 +238,7 @@ export const useCollectBounty = () => {
         dialogShown: true,
       })
 
-      showErrorDialog(t`Failed collecting invite bounty.`, uiMessage)
+      navigateTo('OutOfGasError')
     }
   }
 
@@ -339,4 +350,53 @@ export const useInviteScreenOpened = () => {
   }, [])
 
   return { wasOpened, trackOpened }
+}
+
+export const useInviteCopy = () => {
+  const [, , level] = useInvited()
+  const { toDecimals } = useFormatG$()
+  const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
+
+  return {
+    copy: t`Invite a friend to earn ${bounty} G$ after they ${
+      !isMobileNative && !isMobile ? '\n' : ''
+    } claim. They will also earn a ${isMobile ? '\n' : ''} ${bounty / 2} G$ bonus.`,
+  }
+}
+
+export const useInviteShare = level => {
+  const posthog = usePostHog()
+  const abTestOptions = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('share-link') : []), [posthog])
+  const abTestOption = useOption(abTestOptions) || {}
+  const { shareTitle } = abTestOption
+  const { toDecimals } = useFormatG$()
+
+  const bounty = useMemo(() => (level?.bounty ? decimalsToFixed(toDecimals(level.bounty)) : ''), [level])
+
+  const abTestMessage = useMemo(() => {
+    const { shareMessage: value } = abTestOption || {}
+
+    if (value) {
+      const reward = bounty / 2
+
+      return mustache(value, { bounty, reward })
+    }
+  }, [abTestOption, bounty])
+
+  const inviteCode = useInviteCode()
+  const shareUrl = useMemo(
+    () =>
+      inviteCode && abTestOption
+        ? `${Config.invitesUrl}?inviteCode=${inviteCode}&utm_campaign=${abTestOption.id || 'default'}`
+        : '',
+    [inviteCode, abTestOption],
+  )
+
+  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
+    shareTitle,
+    shareUrl,
+    abTestMessage,
+  ])
+
+  return { share, shareUrl, shareTitle, bounty }
 }

@@ -28,7 +28,7 @@ const useRefund = () => {
   const wallet = useWallet()
 
   const [claimAddress, tokenAddress] = useMemo(() => {
-    const getAddress = contract => wallet[contract]._address
+    const getAddress = contract => wallet[contract]?._address
 
     if (!wallet) {
       return []
@@ -52,7 +52,7 @@ const useRefund = () => {
       const { filter, fromBlock } = filters
       const { from, to } = mapValues(filter, toLower)
       const contractAddress = toLower(contract)
-      const result = await API.getTokenTXs(contractAddress, from, fromBlock)
+      const result = await API.getTokenTxs(contractAddress, from, 122, fromBlock)
 
       // filter & map in a single iteration
       const amounts = result.reduce((values, txData) => {
@@ -104,7 +104,7 @@ const useRefund = () => {
       userProperties.setLocal(REFUNDED_FLAG, true)
     }
 
-    if (!enableRefund || !userProperties || !wallet) {
+    if (!enableRefund || !userProperties || !wallet || !claimAddress || !tokenAddress) {
       log.debug('Check send receive skipping', {
         enableRefund,
         wallet: !!wallet,

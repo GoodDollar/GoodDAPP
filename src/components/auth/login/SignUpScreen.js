@@ -37,7 +37,8 @@ const SignupText = ({ screenProps }) => {
     <>
       <Trans>
         <Text fontSize={12} color="gray80Percent">
-          By signing up and entering, you are accepting our{' \n'}
+          {t`By signing up and entering, you are accepting our`}
+          {`\n`}
           <Text
             fontSize={12}
             color="gray80Percent"
@@ -45,9 +46,9 @@ const SignupText = ({ screenProps }) => {
             textDecorationLine="underline"
             onPress={handleNavigateTermsOfUse}
           >
-            Terms of Use{' '}
+            {t`Terms of Use`}{' '}
           </Text>
-          and{' '}
+          {t`and`}{' '}
           <Text
             fontSize={12}
             color="gray80Percent"
@@ -55,7 +56,7 @@ const SignupText = ({ screenProps }) => {
             textDecorationLine="underline"
             onPress={handleNavigatePrivacyPolicy}
           >
-            Privacy Policy
+            {t`Privacy Policy`}
           </Text>
         </Text>
       </Trans>
@@ -113,9 +114,10 @@ const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, 
                 fontFamily="Roboto"
                 style={{ marginTop: getDesignRelativeHeight(5) }}
               >
-                <Trans>
-                  Begin receiving real crypto, totally for\n free, and without having to risk any\n money to start.
-                </Trans>
+                <Text>
+                  {t`Begin receiving real crypto, totally for free, 
+                  and without having to risk any money to start.`}
+                </Text>
               </Text>
             </Section.Stack>
             <Section.Stack style={styles.bottomContainer}>

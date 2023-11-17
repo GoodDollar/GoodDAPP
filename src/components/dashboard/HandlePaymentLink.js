@@ -22,7 +22,6 @@ import { delay } from '../../lib/utils/async'
 import { useSwitchNetwork, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { useHandlePaymentRequest } from '../../lib/hooks/useHandlePaymentRequest'
 import { getNetworkName } from '../../lib/constants/network'
-import mustache from '../../lib/utils/mustache'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const log = logger.child({ from: 'HandlePaymentLink' })
@@ -119,13 +118,13 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
 
       try {
         if (paymentParams.networkId && paymentParams.networkId !== goodWallet.networkId) {
+          const targetNetwork = getNetworkName(paymentParams.networkId)
+          const currentNetwork = getNetworkName(goodWallet.networkId)
+
           return showDialog({
             onDismiss: screenProps.goToRoot,
             image: <InfoIcon />,
-            title: mustache(t`Payment was created on network {target} you are on {current}`, {
-              target: getNetworkName(paymentParams.networkId),
-              current: getNetworkName(goodWallet.networkId),
-            }),
+            title: t`Payment was created on network ${targetNetwork} you are on ${currentNetwork}`,
             buttons: [
               {
                 text: t`Cancel`,
@@ -133,7 +132,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
                 mode: 'text',
               },
               {
-                text: mustache(t`Switch to {network}`, { network: getNetworkName(paymentParams.networkId) }),
+                text: t`Switch to ${targetNetwork}`,
                 onPress: () => switchAndWithdraw(getNetworkName(paymentParams.networkId)),
               },
             ],
@@ -226,6 +225,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
             break
         }
       } catch (exception) {
+        hideDialog()
         const { message } = exception
         let uiMessage = decorate(exception, ExceptionCode.E4)
 

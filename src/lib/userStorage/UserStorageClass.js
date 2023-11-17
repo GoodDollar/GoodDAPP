@@ -21,6 +21,7 @@ import mustache from '../utils/mustache'
 import { ThreadDB } from '../textile/ThreadDB'
 import uuid from '../utils/uuid'
 import type { DB } from '../realmdb/RealmDB'
+import { truncateMiddle } from '../utils/string'
 import { type StandardFeed } from './StandardFeed'
 import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
@@ -659,7 +660,7 @@ export class UserStorage {
     if (
       id.startsWith('0x') === false ||
       get(prevFeedEvent, 'data.receiptData', receiptReceived) ||
-      prevFeedEvent.type === 'news'
+      prevFeedEvent.type === FeedItemType.EVENT_TYPE_NEWS
     ) {
       return standardPrevFeedEvent
     }
@@ -774,7 +775,10 @@ export class UserStorage {
     const { data, type } = event
     const { counterPartyFullName, counterPartySmallAvatar } = data
 
+    const counterPartyNativeEvents = [FeedItemType.EVENT_TYPE_SENDNATIVE, FeedItemType.EVENT_TYPE_RECEIVENATIVE]
+
     const counterPartyEvents = [
+      ...counterPartyNativeEvents,
       FeedItemType.EVENT_TYPE_SENDDIRECT,
       FeedItemType.EVENT_TYPE_SEND,
       FeedItemType.EVENT_TYPE_WITHDRAW,
@@ -787,13 +791,17 @@ export class UserStorage {
 
       if (!isEqual(counterPartyData, pick(data, keys(counterPartyData)))) {
         assign(data, counterPartyData)
-        feedStorage.updateFeedEvent(event)
+
+        if (counterPartyNativeEvents.includes(type)) {
+          feedStorage.updateNativeTx(event)
+        } else {
+          feedStorage.updateFeedEvent(event)
+        }
       }
     }
 
     const { date, id, status, createdDate, animationExecuted, action, chainId } = event
     const {
-      sender,
       preReasonText,
       reason,
       code: withdrawCode,
@@ -810,7 +818,17 @@ export class UserStorage {
       sponsoredLink,
       sponsoredLogo,
     } = data
-    const { address, initiator, initiatorType, value, displayName, message, avatar } = this._extractData(event)
+    const {
+      address,
+      asset,
+      initiator,
+      initiatorType,
+      value,
+      displayName,
+      message,
+      avatar,
+      isBridge,
+    } = this._extractData(event)
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
     const displayType = this._extractDisplayType(event)
@@ -832,11 +850,13 @@ export class UserStorage {
       animationExecuted,
       action,
       data: {
+        asset,
         receiptHash: get(event, 'data.receiptEvent.txHash'),
         endpoint: {
-          address: sender,
+          address,
           displayName,
           avatar,
+          isBridge,
         },
         amount: value,
         senderEmail,
@@ -865,21 +885,40 @@ export class UserStorage {
     type,
     id,
     status,
-    data: { receiptEvent, from = '', to = '', customName = '', counterPartyFullName, counterPartySmallAvatar, amount },
+    data: {
+      receiptEvent,
+      from = '',
+      to = '',
+      customName = '',
+      counterPartyFullName,
+      counterPartySmallAvatar,
+      amount,
+      asset,
+      isBridge = false,
+    },
   }) {
+    const fromNative =
+      type === FeedItemType.EVENT_TYPE_RECEIVENATIVE
+        ? t`Receive ${asset}`
+        : type === FeedItemType.EVENT_TYPE_SENDNATIVE
+        ? t`Send ${asset}`
+        : ''
+
     const data = {
       address: '',
       initiator: '',
       initiatorType: '',
       value: '',
       displayName: '',
-      message: '',
+      message: fromNative,
+      asset,
     }
 
     if (
       type === FeedItemType.EVENT_TYPE_SEND ||
       type === FeedItemType.EVENT_TYPE_SENDDIRECT ||
-      type === FeedItemType.EVENT_TYPE_SENDBRIDGE
+      type === FeedItemType.EVENT_TYPE_SENDBRIDGE ||
+      type === FeedItemType.EVENT_TYPE_SENDNATIVE
     ) {
       data.address = isAddress(to) ? to : receiptEvent && receiptEvent.to
       data.initiator = to
@@ -905,9 +944,14 @@ export class UserStorage {
       'GoodDollar'
 
     const fromEmailMobile = data.initiatorType && data.initiator
+    const fromNativeAddress = fromNative ? truncateMiddle(data.address, 29) : ''
 
-    data.displayName = customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || 'Unknown'
+    data.displayName =
+      customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromNativeAddress || 'Unknown'
+
     data.avatar = status === 'error' || fromGD ? -1 : counterPartySmallAvatar
+
+    data.isBridge = isBridge ?? this.wallet.getBridgeAddresses().includes(data.address?.toLowerCase())
 
     logger.debug('formatEvent: parsed data', {
       id,
@@ -929,6 +973,7 @@ export class UserStorage {
       case FeedItemType.EVENT_TYPE_BONUS:
       case FeedItemType.EVENT_TYPE_SEND:
       case FeedItemType.EVENT_TYPE_SENDDIRECT:
+      case FeedItemType.EVENT_TYPE_SENDNATIVE:
       case FeedItemType.EVENT_TYPE_SENDBRIDGE: {
         const type = FeedItemType.EVENT_TYPE_SENDDIRECT === event.type ? FeedItemType.EVENT_TYPE_SEND : event.type
 
@@ -952,6 +997,11 @@ export class UserStorage {
   // eslint-disable-next-line require-await
   async enqueueTX(_event: FeedEvent): Promise<> {
     return this.feedStorage.enqueueTX(_event)
+  }
+
+  // eslint-disable-next-line require-await
+  async enqueueNativeTX(_event: FeedEvent): Promise<> {
+    return this.feedStorage.enqueueNativeTX(_event)
   }
 
   /**
@@ -995,6 +1045,11 @@ export class UserStorage {
   // eslint-disable-next-line require-await
   async markWithErrorEvent(txHash: string): Promise<void> {
     return this.feedStorage.markWithErrorEvent(txHash)
+  }
+
+  // eslint-disable-next-line require-await
+  async markNativeTXWithError(txHash: string): Promise<void> {
+    return this.feedStorage.markNativeTXWithError(txHash)
   }
 
   /**

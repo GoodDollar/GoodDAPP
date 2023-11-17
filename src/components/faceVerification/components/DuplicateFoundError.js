@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 import Text from '../../common/view/Text'
-import { CustomButton, Section, Wrapper } from '../../common'
+import { Section } from '../../common'
 
 import { isMobileOnly } from '../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
@@ -12,8 +13,6 @@ import FVErrorTwinSVG from '../../../assets/FaceVerification/FVErrorTwin.svg'
 import { fireEvent, FV_DUPLICATEERROR } from '../../../lib/analytics/analytics'
 
 const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) => {
-  const onContactSupport = useCallback(() => nav.navigateTo('Support'), [nav])
-
   useEffect(() => {
     if (!exception) {
       return
@@ -23,63 +22,42 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
   }, [])
 
   return (
-    <Wrapper>
-      <View style={styles.topContainer}>
-        <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="regular" textTransform="none" color="red">
-            {displayTitle && (
-              <Section.Title fontWeight="bold" textTransform="none" color="red">
-                {displayTitle}
-              </Section.Title>
-            )}
-            {(displayTitle ? `,\n` : '') + 'Unfortunately we found \nyour twin...'}
+    <Section style={styles.descriptionContainer} justifyContent="space-evenly">
+      <Section.Title fontWeight="regular" textTransform="none" color="red">
+        {displayTitle && (
+          <Section.Title fontWeight="bold" textTransform="none" color="red">
+            {displayTitle}
           </Section.Title>
-          <Section style={styles.errorSection}>
-            <View style={styles.descriptionWrapper}>
-              <Text>
-                <Text fontSize={18} lineHeight={25} fontWeight="bold">
-                  {'You can open ONLY ONE account \nper person. '}
-                </Text>
-                <Text fontSize={18} lineHeight={25}>
-                  {'If this is your only active \naccount - please contact our support'}
-                </Text>
-              </Text>
-            </View>
-          </Section>
-          <Section.Row justifyContent="space-evenly">
-            <View style={styles.errorImage}>
-              <FVErrorTwinSVG />
-            </View>
-          </Section.Row>
-        </Section>
-        <View style={styles.action}>
-          <CustomButton onPress={onContactSupport} mode="outlined" style={styles.actionsSpace}>
-            CONTACT SUPPORT
-          </CustomButton>
-          <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
+        )}
+        {(displayTitle ? `,\n` : '') +
+          t`Unfortunately we found 
+            your twin...`}
+      </Section.Title>
+      <Section style={styles.errorSection}>
+        <View style={styles.descriptionWrapper}>
+          <Text>
+            <Text fontSize={18} lineHeight={25} fontWeight="bold">
+              {t`You can open ONLY ONE account 
+                  per person. `}
+            </Text>
+            <Text fontSize={18} lineHeight={25}>
+              {t`If this is your only active 
+                  account - please contact our support`}
+            </Text>
+          </Text>
         </View>
-      </View>
-    </Wrapper>
+      </Section>
+      <Section.Row justifyContent="space-evenly">
+        <View style={styles.errorImage}>
+          <FVErrorTwinSVG />
+        </View>
+      </Section.Row>
+    </Section>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
   return {
-    topContainer: {
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-      display: 'flex',
-      backgroundColor: theme.colors.surface,
-      height: '100%',
-      flex: 1,
-      flexGrow: 1,
-      flexShrink: 0,
-      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
-      paddingRight: getDesignRelativeWidth(theme.sizes.default),
-      paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
-      borderRadius: 5,
-    },
     errorImage: {
       marginTop: isMobileOnly ? getDesignRelativeHeight(15) : 0,
       marginBottom: isMobileOnly ? getDesignRelativeHeight(20) : 0,
@@ -98,9 +76,6 @@ const getStylesFromProps = ({ theme }) => {
       paddingLeft: getDesignRelativeWidth(theme.sizes.default),
       paddingRight: getDesignRelativeWidth(theme.sizes.default),
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
-      width: '100%',
-    },
-    action: {
       width: '100%',
     },
     actionsSpace: {

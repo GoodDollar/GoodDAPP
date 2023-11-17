@@ -16,7 +16,7 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
-import { SEND_TITLE } from './utils/sendReceiveFlow'
+import { navigationOptions, SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
@@ -147,7 +147,8 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
       <Section grow>
         <Section.Title>Summary</Section.Title>
         <Section.Row justifyContent="center">
-          <Section.Text color="gray80Percent">{t`* the transaction may take\na few seconds to complete`}</Section.Text>
+          <Section.Text color="gray80Percent">{t`* the transaction may take
+          a few seconds to complete`}</Section.Text>
         </Section.Row>
         <SummaryTable counterPartyDisplayName={profile.fullName || to} amount={amount} reason={reason} />
         <Section.Row>
@@ -167,9 +168,10 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   )
 }
 
-SendQRSummary.navigationOptions = {
+SendQRSummary.navigationOptions = props => ({
   title: SEND_TITLE,
-}
+  ...navigationOptions(props),
+})
 
 SendQRSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps

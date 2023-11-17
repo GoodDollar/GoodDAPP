@@ -123,7 +123,7 @@ Array [
                                   Invalid date
                                 </div>
                                 <div
-                                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+                                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz"
                                 >
                                   <div
                                     className="css-text-901oao r-color-1281ybr r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -193,7 +193,12 @@ Array [
                                   </div>
                                 </div>
                                 <div
-                                  className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
+                                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1r8g8re r-justifyContent-1777fci r-marginLeft-1jj8364 r-width-1acpoxo"
+                                  style={
+                                    Object {
+                                      "marginRight": "15px",
+                                    }
+                                  }
                                 >
                                   <div
                                     className="css-text-901oao r-color-1281ybr r-fontWeight-1it3c9n r-marginRight-1knfw1x"
@@ -505,7 +510,7 @@ Array [
                                     }
                                     tabIndex="0"
                                   >
-                                    <fuse.svg
+                                    <fuse-logo-new.svg
                                       height={20}
                                       width={20}
                                     />
@@ -524,7 +529,7 @@ Array [
                                   +
                                 </div>
                                 <div
-                                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+                                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz"
                                 >
                                   <div
                                     className="css-text-901oao r-color-qjtdzx r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -644,7 +649,12 @@ Array [
                                   </div>
                                 </div>
                                 <div
-                                  className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
+                                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1r8g8re r-justifyContent-1777fci r-marginLeft-1jj8364 r-width-1acpoxo"
+                                  style={
+                                    Object {
+                                      "marginRight": "15px",
+                                    }
+                                  }
                                 >
                                   <div
                                     className="css-view-1dbjc4n"
@@ -957,7 +967,7 @@ Array [
                                     }
                                     tabIndex="0"
                                   >
-                                    <fuse.svg
+                                    <fuse-logo-new.svg
                                       height={20}
                                       width={20}
                                     />
@@ -976,7 +986,7 @@ Array [
                                   -
                                 </div>
                                 <div
-                                  className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz"
+                                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz"
                                 >
                                   <div
                                     className="css-text-901oao r-color-11zaip3 r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-1d4mawv r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1096,7 +1106,12 @@ Array [
                                   </div>
                                 </div>
                                 <div
-                                  className="css-view-1dbjc4n r-height-1r8g8re r-marginLeft-1jj8364 r-width-1acpoxo"
+                                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1r8g8re r-justifyContent-1777fci r-marginLeft-1jj8364 r-width-1acpoxo"
+                                  style={
+                                    Object {
+                                      "marginRight": "15px",
+                                    }
+                                  }
                                 >
                                   <div
                                     className="css-view-1dbjc4n"

@@ -1,6 +1,7 @@
 // libraries
 import React from 'react'
 import { View } from 'react-native'
+import { t } from '@lingui/macro'
 
 // components
 import Text from '../../../common/view/Text'
@@ -16,33 +17,37 @@ import withStyles from '../theme/withStyles'
 const DOCS_URL = 'https://doc.gooddollar/sdk/identity'
 const openDocs = () => openLink(DOCS_URL, '_blank')
 
-const FVFlowError = ({ styles }) => (
-  <Wrapper>
-    <Section style={styles.topContainer} grow>
-      <View style={styles.mainContent}>
-        <View style={styles.descriptionContainer}>
-          <View style={styles.descriptionWrapper}>
-            <Text style={styles.text}>Login information is missing, for instructions please visit: </Text>
-            <Text
-              color={'primary'}
-              fontSize={getDesignRelativeHeight(16)}
-              lineHeight={getDesignRelativeHeight(16)}
-              letterSpacing={0.26}
-              fontFamily="Roboto"
-              fontWeight="bold"
-              textDecorationLine="underline"
-              onPress={openDocs}
-            >{`${DOCS_URL}`}</Text>
+const FVFlowError = ({ styles }) => {
+  const reasonCopy = t`Login information is missing, for instructions please visit:`
+
+  return (
+    <Wrapper>
+      <Section style={styles.topContainer} grow>
+        <View style={styles.mainContent}>
+          <View style={styles.descriptionContainer}>
+            <View style={styles.descriptionWrapper}>
+              <Text style={styles.text}>{reasonCopy}</Text>
+              <Text
+                color={'primary'}
+                fontSize={getDesignRelativeHeight(16)}
+                lineHeight={getDesignRelativeHeight(16)}
+                letterSpacing={0.26}
+                fontFamily="Roboto"
+                fontWeight="bold"
+                textDecorationLine="underline"
+                onPress={openDocs}
+              >{`${DOCS_URL}`}</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.action}>
-        <CustomButton style={styles.actionsSpace} onPress={exitApp}>
-          CLOSE
-        </CustomButton>
-      </View>
-    </Section>
-  </Wrapper>
-)
+        <View style={styles.action}>
+          <CustomButton style={styles.actionsSpace} onPress={exitApp}>
+            {t`CLOSE`}
+          </CustomButton>
+        </View>
+      </Section>
+    </Wrapper>
+  )
+}
 
 export default withStyles(FVFlowError)

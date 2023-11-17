@@ -1,5 +1,5 @@
 // @flow
-import { first, isPlainObject, once } from 'lodash'
+import { assign, filter, first, isPlainObject, noop, once } from 'lodash'
 import * as Realm from 'realm-web'
 import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
@@ -20,6 +20,7 @@ import { retry } from '../utils/async'
 import NewsSource from './feedSource/NewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
+import NativeTxsSource from './feedSource/NativeTxsSource'
 
 // when 'failed to fetch' increase delay before next try for 1.5x times
 const _retryMiddleware = (exception, options, defaultOptions) => {
@@ -64,10 +65,22 @@ class RealmDB implements DB, ProfileDB {
 
   isReady: boolean = false
 
+  account: string
+
+  onBalanceChanged = noop
+
   dbEvents = new EventEmitter()
 
   sources = [
     TransactionsSource,
+    ...(Config.isDeltaApp
+      ? [
+          {
+            source: NativeTxsSource,
+            pollInterval: Config.web3Polling,
+          },
+        ]
+      : []),
     {
       // poll ceramic feed once per some time interval
       source: NewsSource,
@@ -93,8 +106,7 @@ class RealmDB implements DB, ProfileDB {
     try {
       const { privateKey, Feed } = db
 
-      this.privateKey = privateKey
-      this.db = db
+      assign(this, { db, privateKey })
 
       Feed.table.hook('creating', (id, event) => this._notifyChange({ id, event }))
       Feed.table.hook('updating', (modify, id, event) => this._notifyChange({ modify, id, event }))
@@ -224,17 +236,14 @@ class RealmDB implements DB, ProfileDB {
 
   _createSyncSources = sources =>
     sources.map(config => {
-      let { source, syncInterval } = config
-
-      if (!isPlainObject(config)) {
-        source = config
-        syncInterval = false
-      }
+      let { source = config, syncInterval = false, pollInterval = false } = isPlainObject(config) ? config : {}
+      const isPolling = pollInterval !== false
 
       return {
         mutex: new Mutex(),
         source: source.create(this, log),
-        interval: syncInterval * 1000, // convert to ms
+        polling: isPolling,
+        interval: isPolling ? pollInterval : syncInterval,
       }
     })
 
@@ -243,28 +252,31 @@ class RealmDB implements DB, ProfileDB {
    * used in Appswitch to sync with remote when user comes back to app
    */
   async _syncFromRemote() {
+    const { sources, _exclusiveSync } = this
+    const startPolling = source => setInterval(() => _exclusiveSync(source), source.interval)
+
+    await Promise.all(sources.map(_exclusiveSync))
+    filter(sources, { polling: true }).forEach(startPolling)
+  }
+
+  _exclusiveSync = async ({ source, mutex, interval, polling }) => {
+    let release
     const { _syncWithSource } = this
 
-    await Promise.all(
-      this.sources.map(async ({ source, mutex, interval }) => {
-        let release
+    if (mutex.isLocked()) {
+      log.warn('_syncFromRemote: mutex locked, skipping')
+      return
+    }
 
-        if (mutex.isLocked()) {
-          log.warn('_syncFromRemote: mutex locked, skipping')
-          return
-        }
+    try {
+      release = await mutex.lock()
+      log.debug('_syncFromRemote: mutex locked')
+    } catch (e) {
+      log.warn('_syncFromRemote: failed obtain mutex lock, skipping', e.message, e)
+      return
+    }
 
-        try {
-          release = await mutex.lock()
-          log.debug('_syncFromRemote: mutex locked')
-        } catch (e) {
-          log.warn('_syncFromRemote: failed obtain mutex lock, skipping', e.message, e)
-          return
-        }
-
-        await _syncWithSource(source, release, interval)
-      }),
-    )
+    await _syncWithSource(source, release, polling ? false : interval)
   }
 
   /** @private */

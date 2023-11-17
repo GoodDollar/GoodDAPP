@@ -1,12 +1,14 @@
 import { t } from '@lingui/macro'
-import React, { useCallback } from 'react'
-import { View } from 'react-native'
+import { shuffle } from 'lodash'
+import React, { useCallback, useMemo } from 'react'
+import { Platform, View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
+
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import { withStyles } from '../../../../lib/styles'
 import { Section, Text } from '../../../common'
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
-import { GiveUpReason } from '../utils/giveupReason'
+import { GiveUpCancelled, GiveUpFailed } from '../utils/giveupReason'
 
 const OptionsRow = ({ styles, theme, reason, text }) => (
   <View style={styles.optionsRowContainer}>
@@ -19,7 +21,7 @@ const OptionsRow = ({ styles, theme, reason, text }) => (
   </View>
 )
 
-const GiveUpDialog = ({ styles, theme, onReasonChosen }) => {
+const GiveUpDialog = ({ styles, theme, onReasonChosen, type }) => {
   const { hideDialog } = useDialog()
 
   const onSelected = useCallback(
@@ -30,11 +32,16 @@ const GiveUpDialog = ({ styles, theme, onReasonChosen }) => {
     [hideDialog, onReasonChosen],
   )
 
+  const title = type === 'cancelled' ? t`Why didn't you complete the GoodDollar verification?` : t`What happened?`
+  const GiveUpReason = type === 'cancelled' ? GiveUpCancelled : GiveUpFailed
+
+  const shuffledReasons = useMemo(() => shuffle(Object.entries(GiveUpReason)), [])
+
   return (
-    <ExplanationDialog title={t`What happened?`}>
+    <ExplanationDialog title={title}>
       <Section.Stack justifyContent="flex-start" style={styles.optionsRowWrapper}>
         <RadioButton.Group onValueChange={onSelected}>
-          {GiveUpReason.reasonsList.map(({ reason, text }) => (
+          {shuffledReasons.map(([reason, text]) => (
             <OptionsRow key={reason} {...{ reason, text, theme, styles }} />
           ))}
         </RadioButton.Group>
@@ -52,10 +59,14 @@ const getStylesFromProps = ({ theme }) => ({
     borderBottomColor: theme.colors.lightGray,
     borderBottomWidth: 1,
     padding: theme.paddings.mainContainerPadding,
-    paddingLeft: theme.sizes.defaultQuadruple,
   },
   growTwo: {
     flexGrow: 2,
+    ...Platform.select({
+      native: {
+        maxWidth: 220,
+      },
+    }),
   },
   optionsRowTitle: {
     width: '15%',

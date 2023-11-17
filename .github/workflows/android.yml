@@ -70,11 +70,11 @@ jobs:
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
           FORMATTED_VERSION=${BUILD_VERSION%.*}.x
-          APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.${{ env.ENV }}) 
+          APPCENTER_TOKEN=`node -pe "require('dotenv').parse(require('fs').readFileSync('.env.${{ env.ENV }}')).APPCENTER_ANDROID_TOKEN"`
           echo Code push release target version ${FORMATTED_VERSION}
           yarn lingui:compile
           yarn animation:assets
-          npx appcenter codepush release-react --token ${APPCENTER_TOKEN} -a ${{ env.APPCENTER_NAME }} -d Production  -t ${FORMATTED_VERSION}
+          npx appcenter codepush release-react --token ${APPCENTER_TOKEN} -a ${{ env.APPCENTER_NAME }} -d Production -t ${FORMATTED_VERSION}
 
   build:
     name: Build
@@ -143,15 +143,15 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           env_name="${{ env.ENV }}"
-          if [[ "${{ github.ref_name }}" == "master" ]]; then
+          if [[ $env_name == "development" ]]; then
            vercel_env_name="development"
            vercel pull --yes --environment=$vercel_env_name --token=${{ secrets.VERCEL_TOKEN }}
-          elif [[ "${{ github.ref_name }}" == "next" ]]; then
+          elif [[ $env_name == "prod" ]]; then
            vercel_env_name="production"
            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           else 
             vercel_env_name="preview"
-            vercel pull --yes --environment=$vercel_env_name --git-branch=${{ github.ref_name }} --token=${{ secrets.VERCEL_TOKEN }}
+            vercel pull --yes --environment=$vercel_env_name --git-branch=$env_name --token=${{ secrets.VERCEL_TOKEN }}
           fi
           cat .vercel/.env.$vercel_env_name.local >> .env.$env_name
           echo $env_name

@@ -4,6 +4,7 @@ import { Platform, View } from 'react-native'
 import moment from 'moment'
 import { assign, noop } from 'lodash'
 import { t, Trans } from '@lingui/macro'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 
@@ -13,10 +14,11 @@ import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodW
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
+import TaskDialog from '../common/dialogs/TaskDialog'
 import API from '../../lib/API'
 
 import { formatWithAbbreviations, formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
-import { decimalsToFixed } from '../../lib/wallet/utils'
+import { decimalsToFixed, isDuplicateTxError } from '../../lib/wallet/utils'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
@@ -381,7 +383,7 @@ const Claim = props => {
     } catch (exception) {
       const { message } = exception
 
-      const isAlreadySent = message.search('same nonce|same hash|AlreadyKnown') >= 0
+      const isAlreadySent = isDuplicateTxError(message)
 
       if (!txHash || !isAlreadySent) {
         throw exception
@@ -442,7 +444,8 @@ const Claim = props => {
       image: <LoadingAnimation />,
       message: t`please wait while processing...` + `\n`,
       buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
-      title: t`YOUR MONEY` + `\n` + t`IS ON ITS WAY...`,
+      title: t`YOUR MONEY 
+      IS ON ITS WAY...`,
       showCloseButtons: false,
     })
 
@@ -485,20 +488,19 @@ const Claim = props => {
         // reset dailyUBI so statistics are shown after successful claim
         setDailyUbi(0)
 
-        showDialog({
+        await showDialog({
           image: <LoadingAnimation success speed={2} />,
-          buttons: [{ text: t`Yay!` }],
-          message: t`You've claimed your daily G$` + `\n` + t`see you tomorrow.`,
-          title: t`CHA-CHING!`,
+          content: <TaskDialog />,
+          buttons: [
+            {
+              text: t`Skip`,
+              style: { backgroundColor: mainTheme.colors.gray80Percent },
+            },
+          ],
+          title: t`You've claimed today`,
+          titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
           onDismiss: noop,
         })
-
-        // collect invite bonuses
-        const didCollect = await collectInviteBounty()
-
-        if (didCollect) {
-          fireEvent(INVITE_BOUNTY, { from: 'invitee' })
-        }
       })
 
       return true
@@ -519,8 +521,22 @@ const Claim = props => {
     userStorage,
   ])
 
+  const handleInviteBounty = useCallback(async () => {
+    try {
+      // collect invite bonuses
+      const didCollect = await collectInviteBounty()
+
+      if (didCollect) {
+        fireEvent(INVITE_BOUNTY, { from: 'invitee' })
+      }
+    } catch (e) {
+      log.error('collect invite bounty failed', e.message, e)
+    }
+  }, [])
+
   const handleClaim = useCallback(async () => {
     const claimed = await onClaim()
+    await handleInviteBounty()
 
     if (!userProperties || isWeb || !claimed) {
       return
@@ -833,7 +849,7 @@ const getStylesFromProps = ({ theme }) => {
 }
 
 Claim.navigationOptions = {
-  title: 'Claim',
+  title: t`Claim`,
 }
 
 export default withStyles(getStylesFromProps)(Claim)

@@ -21,30 +21,46 @@ const ipfsGateways = env.REACT_APP_IPFS_GATEWAYS || 'https://{cid}.ipfs.nftstora
 const alchemyKey = env.REACT_APP_ALCHEMY_KEY
 const network = env.REACT_APP_NETWORK || 'development-celo'
 const { networkId } = contractsAddress[network]
-const fuseRpc = env.REACT_APP_WEB3_RPC
-const celoRpc = env.REACT_APP_WEB3_RPC_CELO
+const fuseRpc = env.REACT_APP_WEB3_RPC || "https://rpc.fuse.io"
+const celoRpc = env.REACT_APP_WEB3_RPC_CELO || "https://forno.celo.org"
 
 export const fuseNetwork = {
-  httpWeb3provider: `${fuseRpc ? `${fuseRpc},` : ''}https://rpc.fuse.io`,
+  httpWeb3provider: fuseRpc,
   websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
   explorer: 'https://explorer.fuse.io',
   explorerAPI: 'https://explorer.fuse.io',
+  defaultPublicRpc: 'https://rpc.fuse.io/',
   explorerName: 'fusescan',
   network_id: 122,
-  gasPrice:10, //in gwei
-  g$Decimals:2,
-  defaultPublicRpc: 'https://rpc.fuse.io/',
+  gasPrice: 10, // in gwei
+  g$Decimals: 2,
 }
 
 const ethereum = {
   '1': {
     network_id: 1,
-    httpWeb3provider: `https://rpc.ankr.com/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    httpWeb3provider: `https://1rpc.io/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
     explorerAPI: 'https://api.etherscan.io',
     explorerName: 'etherscan',
     gasPrice: 1,
+  },
+  '3': {
+    network_id: 3,
+    httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://ropsten.etherscan.io',
+    explorerAPI: 'https://ropsten.etherscan.io',
+    explorerName: 'etherscan',
+  },
+  '5': {
+    network_id: 5,
+    httpWeb3provider: `https://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://goerli.etherscan.io',
+    explorerAPI: 'https://goerli.etherscan.io',
+    explorerName: 'etherscan',
   },
 
   // kovan/ropsten should/could be removed, 
@@ -54,13 +70,6 @@ const ethereum = {
     httpWeb3provider: `https://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-kovan.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://kovan.etherscan.io',
-    explorerName: 'etherscan',
-  },
-  '3': {
-    network_id: 3,
-    httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://ropsten.etherscan.io',
     explorerName: 'etherscan',
   },
   '121': {
@@ -79,7 +88,7 @@ const ethereum = {
     websocketWeb3Provider: 'ws://localhost:8545/ws',
   },
   '42220': {
-    httpWeb3provider:  `${celoRpc ? `${celoRpc},` : ''}https://forno.celo.org`,
+    httpWeb3provider: celoRpc,
     explorer: 'https://celoscan.io',
     explorerAPI: 'https://api.celoscan.io',
     explorerName: 'celoscan',
@@ -144,7 +153,6 @@ const Config = {
   auth0SMSClientId: env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false', // true by default
-  invitesUrl: env.REACT_APP_INVITES_URL || publicUrl,
   suggestMobileApp: env.REACT_APP_SUGGEST_MOBILE_APP !== 'false',
   suggestMobileAppUpdate: env.REACT_APP_SUGGEST_MOBILE_APP_UPDATE === 'true',
   suggestCodePushUpdate: env.REACT_APP_SUGGEST_CODE_PUSH_UPDATE !== 'false',
@@ -159,15 +167,16 @@ const Config = {
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
   mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
-  httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'next',
+  httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'random',
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
   feedItemTtl: moment.duration(env.REACT_APP_FEEDITEM_TTL || '24:00:00').as('milliseconds'), // default for 1 day
   safariMobileKeyboardGuidedSize: env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
-  receiveUrl: env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
+  receiveUrl: (env.REACT_APP_RECEIVE_URL || publicUrl) + "/open",
+  sendUrl: (env.REACT_APP_SEND_URL || publicUrl) + "/open",
+  invitesUrl: (env.REACT_APP_INVITES_URL || publicUrl) + "/open",
   enableShortUrl: env.REACT_APP_ENABLE_SHORTURL === 'true',
-  sendUrl: env.REACT_APP_SEND_URL || `${publicUrl}`,
   displayStartClaimingCardTime: env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
   sentryDSN: env.REACT_APP_SENTRY_DSN,
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
@@ -201,7 +210,7 @@ const Config = {
   ceramicIndex: env.REACT_APP_CERAMIC_INDEX,
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),
-  ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600),
+  ceramicPollInterval: parseInt(env.REACT_APP_CERAMIC_POLL_INTERVAL || 3600) * 1000,
   ceramicSyncTimeout: env.REACT_APP_CERAMIC_SYNC_TIMEOUT || 5000,
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
@@ -213,9 +222,12 @@ const Config = {
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
   isDeltaApp,
-  bridgeEnabled: env.REACT_APP_BRIDGE_ENABLED !== 'false',
+  showAllChainsEth: isDeltaApp && env.REACT_APP_FORCE_ALL_CHAINS_ETH === 'true',
   posthogApiKey: env.REACT_APP_POSTHOG_KEY,
-  posthogHost: isWeb ? publicUrl+"/ingest" : "https://app.posthog.com",
+  tatumApiUrl: env.REACT_APP_TATUM_API_URL || 'https://api.tatum.io/v3',
+  posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
+  fvTypeformUrl: 'https://gooddollar.typeform.com/to/Prgnwkrz',
+  gasFeeNotionUrl: 'https://www.notion.so/gooddollar/Why-does-it-say-I-m-Out-of-Gas-d92e5e20b6144dfbb12979e266e72959'
 }
 
 global.config = Config

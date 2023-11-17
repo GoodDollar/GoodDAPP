@@ -110,7 +110,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             "borderTopLeftRadius": "18px",
             "borderTopRightRadius": "18px",
             "height": "36px",
-            "width": "36px",
+            "width": "90px",
           }
         }
         tabIndex="-1"
@@ -578,7 +578,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                RPC Address
+                DEVELOP RPC Address
               </div>
               <div
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"

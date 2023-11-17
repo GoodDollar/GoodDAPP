@@ -2,6 +2,8 @@
 
 import React, { useContext, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
+import { t } from '@lingui/macro'
+
 import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import { enhanceArgentinaCountryCode } from '../../lib/utils/phoneNumber'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -114,7 +116,9 @@ const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) =
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
               <Section.Title color="darkGray" fontSize={22} fontWeight="medium" textTransform="none">
-                {`${getFirstWord(fullName)},\nenter your phone number\nso we could verify you`}
+                {t`${getFirstWord(fullName)},
+                enter your phone number 
+                so we could verify you`}
               </Section.Title>
             </Section.Row>
             <Section.Stack justifyContent="center" style={styles.column}>
@@ -146,7 +150,7 @@ const PhoneForm = ({ screenProps, navigation, styles, theme }: PhoneFormProps) =
           >
             {/*change fontSize only for small screen (iPhone5 , etc.)*/}
             <Section.Text fontSize={isMobileKeyboardShown && getScreenHeight() <= 480 ? 13 : 14} color="gray80Percent">
-              A verification code will be sent to this number
+              {t`A verification code will be sent to this number`}
             </Section.Text>
           </Section.Row>
         </Section>

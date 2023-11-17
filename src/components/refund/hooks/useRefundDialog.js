@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
+import { t } from '@lingui/macro'
+
 import { useDialog } from '../../../lib/dialog/useDialog'
 import RefundDialog from '../components/RefundDialog'
 import { ACTION_SEND_TO_ADDRESS } from '../../dashboard/utils/sendReceiveFlow'
@@ -34,7 +36,7 @@ const useRefundDialog = screenProps => {
       isMinHeight: true,
       buttons: [
         {
-          text: 'Return funds',
+          text: t`Return funds`,
           textStyle: { fontWeight: '500' },
           style: { width: '100%' },
           onPress: onRefund,

@@ -10,6 +10,8 @@ import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 import { throttleAdapter } from '../utils/axios'
+import { delay } from '../utils/async'
+import { NETWORK_ID } from '../constants/network'
 import { log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
 import type { Credentials, UserRecord } from './utils'
@@ -361,27 +363,30 @@ export class APIService {
     return this.sharedClient.post(url, responseObject)
   }
 
-  async getTokenTXs(token, address, fromBlock = null, chainId = 122) {
-    const params = {
-      address,
-      sort: 'asc',
-      module: 'account',
-      action: 'tokentx',
-      contractaddress: token,
+  // eslint-disable-next-line require-await
+  async getTokenTxs(token, address, chainId, fromBlock = null, allPages = true) {
+    if (chainId === NETWORK_ID.FUSE) {
+      const explorerQuery = { action: 'tokentx', contractaddress: token }
+
+      return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages)
     }
 
-    if (fromBlock) {
-      params.startblock = fromBlock
+    const tatumQuery = { tokenAddress: token, transactionTypes: 'fungible' }
+
+    return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
+  }
+
+  // eslint-disable-next-line require-await
+  async getNativeTxs(address, chainId, fromBlock = null, allPages = true) {
+    if (chainId === NETWORK_ID.FUSE) {
+      const explorerQuery = { action: 'txlist' }
+
+      return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages)
     }
 
-    const networkExplorerUrl = Config.ethereum[chainId]?.explorerAPI
+    const tatumQuery = { transactionTypes: 'native' }
 
-    const { result } = await this.sharedClient.get('/api', {
-      params,
-      baseURL: networkExplorerUrl,
-    })
-
-    return result
+    return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
   }
 
   async getChains(): AxiosPromise<any> {
@@ -480,6 +485,133 @@ export class APIService {
     const url = '/' + encodeURIComponent(subgraph)
 
     return this.sharedClient.post(url, payload, options)
+  }
+
+  async getOTPLEvents(sender, chainId, address, from, currentBlock, eventHash) {
+    const txs = []
+    const explorer = Config.ethereum[chainId].explorerAPI
+
+    const sender32 = `0x${sender
+      .toLowerCase()
+      .slice(2)
+      .padStart(64, '0')}`
+
+    const params = {
+      module: 'logs',
+      action: 'getLogs',
+      address,
+      sort: 'desc',
+      page: 1,
+      offset: 10000,
+      topic0: eventHash,
+      topic1: sender32,
+
+      // required for fuse explorer, optional for celoscan
+      topic0_1_opr: 'and',
+      fromBlock: from,
+      toBlock: currentBlock,
+    }
+
+    for (;;) {
+      // eslint-disable-next-line no-await-in-loop
+      const { result: events } = await this.sharedClient.get('/api', {
+        params,
+        baseURL: explorer,
+      })
+
+      params.page += 1
+      txs.push(...events)
+
+      if (events.length < params.offset) {
+        // default page size by explorer.fuse.io
+        break
+      }
+    }
+
+    return txs
+  }
+
+  /**
+   * @private
+   */
+  async getTatumTxs(address, chainId, query = {}, from = null, allPages = true): Promise<any[]> {
+    const url = '/data/transactions'
+    const { CELO, MAINNET, GOERLI } = NETWORK_ID
+
+    let chain
+    const txs = []
+
+    switch (chainId) {
+      case MAINNET:
+        chain = 'ethereum'
+        break
+      case GOERLI:
+        chain = 'ethereum-goerli'
+        break
+      case CELO:
+        chain = 'celo'
+        break
+
+      // FUSE not supported on Tatum
+      default:
+        throw new Error('Chain not supported')
+    }
+
+    const pageSize = 50 // default page size by Tatum
+    const params = { ...query, chain, addresses: address, offset: 0 }
+    const options = { baseURL: Config.tatumApiUrl, params }
+
+    if (from) {
+      params.blockFrom = from
+    }
+
+    for (;;) {
+      const { result } = await this.sharedClient // eslint-disable-line no-await-in-loop
+        .get(url, options)
+
+      params.offset += 1
+      const chunk = result.filter(({ transactionSubtype }) => transactionSubtype !== 'zero-transfer')
+      txs.push(...chunk)
+
+      if (allPages === false || result.length < pageSize) {
+        break
+      }
+      // eslint-disable-next-line no-await-in-loop
+      await delay(500) // wait 500ms before next call to prevent rate limits
+    }
+
+    return txs
+  }
+
+  async getExplorerTxs(address, chainId, query, from = null, allPages = true) {
+    const txs = []
+    const url = '/api'
+    const networkExplorerUrl = Config.ethereum[chainId]?.explorerAPI
+
+    const params = { ...query, module: 'account', address, sort: 'asc', page: 1, offset: 10000 }
+    const options = { baseURL: networkExplorerUrl, params }
+
+    if (from) {
+      params.start_block = from
+      params.startblock = from //etherscan
+    }
+
+    for (;;) {
+      const { result } = await this.sharedClient // eslint-disable-line no-await-in-loop
+        .get(url, options)
+
+      const chunk = result.filter(({ value }) => value !== '0')
+
+      params.page += 1
+      txs.push(...chunk)
+
+      if (allPages === false || result.length < params.offset) {
+        // default page size by explorer.fuse.io
+        break
+      }
+    }
+
+    return txs
   }
 }
 

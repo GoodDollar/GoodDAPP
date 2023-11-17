@@ -322,7 +322,6 @@ const Dashboard = props => {
 
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && isBridgeActive
-
   const { goodWallet, web3Provider } = useContext(GoodWalletContext)
 
   useInviteCode(true) // register user to invites contract if he has invite code
@@ -1206,7 +1205,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
     paddingBottom: 0,
     alignItems: 'center',
-    width: Platform.OS === 'web' ? '20%' : '25%',
+    width: Platform.OS === 'web' ? '20%' : '30%',
   },
   profileAndWalletChat: {
     flexDirection: 'row',

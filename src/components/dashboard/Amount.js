@@ -95,7 +95,7 @@ export const AddressDetails = ({ address, cb, error, setAddress, screenProps }) 
     navigate: screenProps.navigate,
   })
   const handlePastePress = useCallback(requestClipboardPermissions)
-  const icon = error || address === '' ? 'paste' : 'success'
+  const icon = error || address === '' ? 'paste2' : 'success'
   const adornmentColor = error ? theme.colors.red : address !== '' ? theme.colors.primary : undefined
 
   return (
@@ -115,13 +115,15 @@ export const AddressDetails = ({ address, cb, error, setAddress, screenProps }) 
             <InputWithAdornment
               showAdornment={true}
               adornment={icon}
-              adornmentSize={icon === 'paste' ? 32 : 14}
+              adornmentSize={icon === 'paste2' ? 24 : 14}
               adornmentAction={handlePastePress}
               adornmentStyle={{
-                ...(icon === 'success' && { top: 0 }),
+                top: icon === 'paste2' ? 3 : 8,
                 left: 8,
                 bottom: 0,
                 width: 16,
+                marginTop: 0,
+                paddingTop: 0,
               }}
               adornmentColor={adornmentColor}
               iconAlignment="left"
@@ -129,7 +131,7 @@ export const AddressDetails = ({ address, cb, error, setAddress, screenProps }) 
               value={address}
               error={error}
               placeholder="Enter Wallet Address: 0x1234..."
-              style={{ borderBottomWidth: error ? 1 : 0, textAlign: 'left' }}
+              style={{ borderBottomWidth: error ? 1 : 0, textAlign: 'left', paddingLeft: 40 }}
             />
           </View>
         </View>

@@ -315,7 +315,7 @@ const Amount = (props: AmountProps) => {
                 </Section.Row>
                 <Section.Stack grow={3} style={styles.nextButtonContainer}>
                   <NextPageButton
-                    action={isNativeFlow ? 'isNative' : sendViaAddress ? ACTION_SEND_TO_ADDRESS : params.action}
+                    action={isNativeFlow ? 'isNative' : params.action}
                     cbContinue={handleContinue}
                     loading={loading}
                     values={{

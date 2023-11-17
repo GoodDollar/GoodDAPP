@@ -344,7 +344,7 @@ exports[`Amount matches snapshot 1`] = `
                         }
                       }
                     >
-                      
+                      
                     </div>
                   </div>
                 </div>
@@ -513,12 +513,16 @@ exports[`Amount matches snapshot 1`] = `
                 tabIndex="-1"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
                   style={
                     Object {
                       "WebkitAlignSelf": "stretch",
+                      "WebkitBoxPack": "start",
+                      "WebkitJustifyContent": "flex-start",
                       "alignSelf": "stretch",
+                      "justifyContent": "flex-start",
                       "msFlexItemAlign": "stretch",
+                      "msFlexPack": "start",
                       "msGridRowAlign": "stretch",
                     }
                   }

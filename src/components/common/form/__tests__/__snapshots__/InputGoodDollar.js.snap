@@ -59,7 +59,7 @@ exports[`InputGoodDollar matches snapshot 2`] = `
         spellCheck={true}
         style={
           Object {
-            "borderBottomColor": "rgba(250,108,119,1.00)",
+            "borderBottomColor": "rgba(255,0,0,1.00)",
             "color": "rgba(250,108,119,1.00)",
           }
         }

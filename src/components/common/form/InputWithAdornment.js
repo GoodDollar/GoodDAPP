@@ -77,7 +77,7 @@ const InputText = ({
   return (
     <View style={[styles.view, containerStyle]}>
       <View style={styles.view}>
-        {showAdornment && error !== '' && iconAlignment === 'left' && (
+        {showAdornment && iconAlignment === 'left' && (
           <TouchableOpacity style={[styles.adornment, adornmentStyle]} disabled={adornmentDisabled} onPress={_onPress}>
             <Icon size={normalize(adornmentSize)} color={adornmentColor || inputColor} name={adornment} />
           </TouchableOpacity>

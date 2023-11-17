@@ -85,6 +85,7 @@ const NextPageButton = ({ action, cbContinue, loading, values, ...props }) => {
 export const AddressDetails = ({ address, cb, error, setAddress, screenProps }) => {
   const pasteUri = useClipboardPaste(data => {
     setAddress(data)
+    cb(data)
   })
 
   // check clipboard permission an show dialog is not allowed
@@ -94,6 +95,8 @@ export const AddressDetails = ({ address, cb, error, setAddress, screenProps }) 
     navigate: screenProps.navigate,
   })
   const handlePastePress = useCallback(requestClipboardPermissions)
+  const icon = error || address === '' ? 'paste' : 'success'
+  const adornmentColor = error ? theme.colors.red : address !== '' ? theme.colors.primary : undefined
 
   return (
     <View style={{ marginTop: 8 }}>
@@ -106,16 +109,21 @@ export const AddressDetails = ({ address, cb, error, setAddress, screenProps }) 
               paddingLeft: 8,
               paddingRight: 8,
               paddingTop: 12,
-              paddingBottom: 12,
               borderColor: error ? 'red' : theme.colors.primary,
             }}
           >
             <InputWithAdornment
               showAdornment={true}
-              adornment={'paste'}
-              adornmentSize={32}
+              adornment={icon}
+              adornmentSize={icon === 'paste' ? 32 : 14}
               adornmentAction={handlePastePress}
-              adornmentStyle={{ bottom: 0, left: 8, width: 16 }}
+              adornmentStyle={{
+                ...(icon === 'success' && { top: 0 }),
+                left: 8,
+                bottom: 0,
+                width: 16,
+              }}
+              adornmentColor={adornmentColor}
               iconAlignment="left"
               onChangeText={cb}
               value={address}
@@ -187,6 +195,7 @@ const Amount = (props: AmountProps) => {
       }
 
       let canSend = await (isNativeFlow ? goodWallet.canSendNative(weiAmount) : goodWallet.canSend(weiAmount))
+
       if (!canSend) {
         setError(t`Sorry, you don't have enough ${token}s`)
         return canSend
@@ -205,17 +214,17 @@ const Amount = (props: AmountProps) => {
   }
 
   const handleSendViaAddress = input => {
-    setAddressError('')
+    setAddressError()
     setAddress(input)
     const isEth = /^0x[a-fA-F0-9]{40}$/
     const isEthAddress = isEth.test(input)
     if (!isEthAddress) {
       setAddressError(t`Sorry, this is not a valid address.`)
-      return false
+      return isEthAddress
     }
 
     setScreenState({ action: ACTION_SEND_TO_ADDRESS })
-    return true
+    return isEthAddress
   }
 
   const handleContinue = async () => {

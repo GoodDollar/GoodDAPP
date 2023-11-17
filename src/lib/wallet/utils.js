@@ -3,6 +3,7 @@
 import { MaskService } from 'react-native-masked-text'
 import { assign, isString, map, noop, pick, values, zipObject } from 'lodash'
 import { decode, isMNID } from 'mnid'
+import { formatUnits, parseUnits } from '@ethersproject/units'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { getNetworkName, type NETWORK, NETWORK_ID } from '../constants/network'
@@ -262,12 +263,22 @@ export const safeCall = async (method, defaultValue = {}) => {
   return result || defaultValue
 }
 
-export const isTransferTx = (txType: string) => /(send|receive)(?!.*bridge)/.test(txType)
+export const toDecimals = (wei, chainOrToken) => {
+  const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken].g$Decimals
 
-export const isDuplicateTxError = message => {
-  return (
-    message
-      .toLowerCase()
-      .search('same nonce|same hash|alreadyknown|already known|feetoolow|nonce is too low|underpriced') >= 0
-  )
+  return formatUnits(String(wei || '0'), decimals)
 }
+
+export const fromDecimals = (amount, chainOrToken = null) => {
+  const decimals = isNativeToken(chainOrToken) ? 18 : Config.ethereum[chainOrToken].g$Decimals
+  const float = parseFloat(amount).toFixed(decimals)
+
+  return parseUnits(float, decimals).toString()
+}
+
+export const isTransferTx = (txType: string) => /(send|receive|withdraw)(?!.*bridge|pending)/.test(txType)
+
+export const isDuplicateTxError = message =>
+  message
+    .toLowerCase()
+    .search('same nonce|same hash|alreadyknown|already known|feetoolow|nonce is too low|underpriced') >= 0

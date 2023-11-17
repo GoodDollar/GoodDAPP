@@ -12,7 +12,7 @@ import { fireEvent, SEND_CONFIRMATION_SHARE } from '../../lib/analytics/analytic
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
 import useCachedScreenState from '../../lib/hooks/useCachedScreenState'
 import { isSharingAvailable } from '../../lib/share'
-import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
+import { ACTION_SEND, navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -125,13 +125,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-TransactionConfirmation.navigationOptions = ({ navigation }) => {
-  const action = navigation.getParam(PARAM_ACTION)
-
-  return {
-    title: action === ACTION_RECEIVE ? RECEIVE_TITLE : SEND_TITLE,
-    backButtonHidden: true,
-  }
-}
+TransactionConfirmation.navigationOptions = props => ({
+  backButtonHidden: true,
+  ...navigationOptions(props),
+})
 
 export default withStyles(getStylesFromProps)(TransactionConfirmation)

@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useMemo } from 'react'
 import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
 
-import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../lib/logger/js-logger'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 
@@ -11,7 +11,6 @@ import useFaceTecSDK from '../hooks/useFaceTecSDK'
 import useFaceTecVerification from '../hooks/useFaceTecVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 import useEnrollmentIdentifier from '../hooks/useEnrollmentIdentifier'
-
 import { MAX_ATTEMPTS_ALLOWED } from '../sdk/FaceTecSDK.constants'
 
 import {
@@ -32,6 +31,7 @@ const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps, navigation }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
+  const userStorage = useUserStorage()
   const { isFVFlow } = useContext(FVFlowContext)
   const { faceIdentifier: enrollmentIdentifier, chainId, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
 
@@ -134,6 +134,11 @@ const FaceVerification = ({ screenProps, navigation }) => {
         screenProps.navigateTo('FVFlowSuccess')
         return
       }
+
+      if (userStorage?.userProperties) {
+        userStorage.userProperties.set('fv2', true)
+      }
+
       screenProps.navigateTo('Claim', { isValid: true })
     },
     [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow],

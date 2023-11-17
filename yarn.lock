@@ -4184,7 +4184,7 @@ __metadata:
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
-    "@gooddollar/goodprotocol": ^2.0.13
+    "@gooddollar/goodprotocol": ^2.0.21
     "@gooddollar/react-native-facetec": ^1.0.40
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.1.91
@@ -4402,7 +4402,7 @@ __metadata:
     react-native-v8: ">=0.65.2-patch.0 <0.66.0"
     react-native-vector-icons: ^6.6.0
     react-native-version-check: ^3.4.3
-    react-native-wallet-chat: ^0.2.7
+    react-native-wallet-chat: ^0.2.17
     react-native-web: ^0.17.5
     react-native-web-linear-gradient: ^1.0.5
     react-native-web-lottie: ^1.2.0
@@ -4450,9 +4450,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/goodprotocol@npm:2.0.14":
-  version: 2.0.14
-  resolution: "@gooddollar/goodprotocol@npm:2.0.14"
+"@gooddollar/goodprotocol@npm:^2.0.21":
+  version: 2.0.21
+  resolution: "@gooddollar/goodprotocol@npm:2.0.21"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
@@ -4468,13 +4468,13 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: 266d2f32ecf8d9f391fcefe90ea99fee66b1ee978c36db3a221da47d41f0a3152db54855a240f466d5e29c26406eb873250d6d40cbdd4d5247c40f400c18a606
+  checksum: 8c74daadc1786dd66effb370e6b98dc3d8938df6d4f0177aa79523244683da3f80961a6f8124add85e0adced4d2ec58d05d1466cb6b129932e3f6af77a6ad1b7
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.14#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.14-aefd0cca7d.patch::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
-  version: 2.0.14
-  resolution: "@gooddollar/goodprotocol@patch:@gooddollar/goodprotocol@npm%3A2.0.14#./.yarn/patches/@gooddollar-goodprotocol-npm-2.0.14-aefd0cca7d.patch::version=2.0.14&hash=1a7a65&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+"@gooddollar/goodprotocol@npm:^2.0.3, @gooddollar/goodprotocol@npm:^2.0.4":
+  version: 2.0.19
+  resolution: "@gooddollar/goodprotocol@npm:2.0.19"
   dependencies:
     "@gooddollar/goodcontracts": ^2.6.6
     "@jsier/retrier": ^1.2.4
@@ -4490,7 +4490,7 @@ __metadata:
     press-any-key: ^0.1.1
     truffle-plugin-verify: ^0.6.1
     truffle-source-verify: ^0.0.6
-  checksum: 5f28138d93fc20ba6bd1a973568d8105729b382ef4afb61594e792deeba03a41a6326599453e302a0c8ca2a174af0ad686d9e57e4789f590fceb1dbdbc3788a7
+  checksum: 59d36d88b49822fab7c14cf85b30bebff6315b1a3108738e8a90305dc0c366291b9c868a30e39fbcf2e8f0a7b0d9868abc6a74e818a0061edfc2f0123ff16d5b
   languageName: node
   linkType: hard
 
@@ -33895,9 +33895,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-wallet-chat@npm:^0.2.7":
-  version: 0.2.7
-  resolution: "react-native-wallet-chat@npm:0.2.7"
+"react-native-wallet-chat@npm:^0.2.17":
+  version: 0.2.17
+  resolution: "react-native-wallet-chat@npm:0.2.17"
   dependencies:
     "@stablelib/random": ^1.0.2
     classnames: ^2.3.2
@@ -33907,7 +33907,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 4b2ea61efd4fbce5cc7f78d76349b0ca5c7be8e72e8a37b3eb53a490de2169542620b3c2652de1a4372a2cfc1594d1f476b5398f9b9912c9655533cc445231a2
+  checksum: a2eeae95ff4d94a356f3e9aacc85e3dd892d84e3bce8c3cc1861f6d62273889494878642e4c5c451af011ca5bf0e509b1df5380043e0091ee70e47eb8243ab82
   languageName: node
   linkType: hard
 

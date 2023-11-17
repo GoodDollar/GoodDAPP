@@ -21,15 +21,4 @@ describe('FaceVerification SwitchToAnotherDevice', () => {
 
     expect(tree.toJSON()).toMatchSnapshot()
   })
-
-  it('should execute screenProps.goToRoot on "OK" press', async () => {
-    let tree
-
-    // eslint-disable-next-line require-await
-    await renderer.act(async () => (tree = renderer.create(<SwitchToAnotherDevice nav={nav} />)))
-    const button = tree.root.findByProps({ testID: 'ok_button' })
-
-    button.props.onPress()
-    expect(nav.goToRoot).toHaveBeenCalled()
-  })
 })

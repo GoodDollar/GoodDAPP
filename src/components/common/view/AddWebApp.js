@@ -118,8 +118,8 @@ const AddWebApp = () => {
   const { showDialog } = useDialog()
   const { installPrompt, setInstallPrompt, addWebApp, setAddWebApp } = useContext(GlobalTogglesContext)
 
-  const showExplanationDialog = async () => {
-    await showDialog({
+  const showExplanationDialog = () => {
+    showDialog({
       content: <ExplanationDialog />,
       showButtons: false,
       showAtBottom: true,
@@ -181,7 +181,7 @@ const AddWebApp = () => {
   const showInitialDialog = async isReminder => {
     const skipCount = await AsyncStorage.getItem('GD_AddWebAppSkipCount')
 
-    await showDialog({
+    showDialog({
       content: <InitialDialog showDesc={!isReminder} />,
       onDismiss: () => {
         fireEvent(ADDTOHOME_LATER, { skipCount })
@@ -238,7 +238,7 @@ const AddWebApp = () => {
     }
 
     if (installPrompt || (!iOSAdded && isMobileSafari)) {
-      await showInitialDialog()
+      showInitialDialog()
     }
   }
 

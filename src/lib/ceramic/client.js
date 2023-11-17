@@ -20,6 +20,11 @@ export const getCeramicClient = once(() => new CeramicClient(ceramicNodeURL))
 
 export const serializeDocument = (document: any) => {
   const { id, content } = document
+  const tags = content?.tags || []
+
+  if (!tags.length === 0 && !tags.find(tag => tag.slug === 'publishWallet')) {
+    return
+  }
 
   return {
     ...content,
@@ -28,7 +33,7 @@ export const serializeDocument = (document: any) => {
 }
 
 export const serializeCollection = (documents: any[]) => {
-  return documents.map(serializeDocument)
+  return documents.map(serializeDocument).filter(document => document !== undefined)
 }
 
 export class CeramicModel {

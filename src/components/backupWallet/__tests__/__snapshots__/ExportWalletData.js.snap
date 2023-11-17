@@ -110,7 +110,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             "borderTopLeftRadius": "18px",
             "borderTopRightRadius": "18px",
             "height": "36px",
-            "width": "36px",
+            "width": "90px",
           }
         }
         tabIndex="-1"

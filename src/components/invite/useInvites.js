@@ -8,7 +8,6 @@ import logger from '../../lib/logger/js-logger'
 import { isMobileWeb as isMobile, isMobileNative } from '../../lib/utils/platform'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { fireEvent, INVITE_BOUNTY, INVITE_JOIN } from '../../lib/analytics/analytics'
-import { decorate, ExceptionCode } from '../../lib/exceptions/utils'
 import { generateShareObject } from '../../lib/share'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { INVITE_CODE } from '../../lib/constants/localStorage'
@@ -176,7 +175,7 @@ export const useInviteBonus = () => {
 
       log.debug(`useInviteBonus: invite bonty collected`)
 
-      await showDialog({
+      showDialog({
         title: t`Reward Collected!`,
         image: <SuccessIcon />,
         buttons: [
@@ -193,13 +192,15 @@ export const useInviteBonus = () => {
   return [collected, getCanCollect, collectInviteBounty]
 }
 
-export const useCollectBounty = () => {
+export const useCollectBounty = screenProps => {
   const { hideDialog, showDialog, showErrorDialog } = useDialog()
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const propSuffix = usePropSuffix()
+  const { navigateTo } = screenProps
+
   const collect = async () => {
     const labels = {
       title: t`Collecting Bonus`,
@@ -212,6 +213,7 @@ export const useCollectBounty = () => {
       })
 
       log.debug('useCollectBounty calling collectInviteBounties', { canCollect })
+
       const collected = await goodWallet.collectInviteBounties()
       if (!collected) {
         return
@@ -220,6 +222,7 @@ export const useCollectBounty = () => {
       fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
       userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
+
       await checkBounties() //after collectinng check how much left to collect
       showDialog({
         ...labels,
@@ -228,7 +231,6 @@ export const useCollectBounty = () => {
     } catch (e) {
       hideDialog()
       const { message } = e
-      const uiMessage = decorate(e, ExceptionCode.E15)
 
       log.error('failed collecting invite bounty', message, e, {
         inviter: goodWallet.account,
@@ -236,7 +238,7 @@ export const useCollectBounty = () => {
         dialogShown: true,
       })
 
-      showErrorDialog(t`Failed collecting invite bounty.`, uiMessage)
+      navigateTo('OutOfGasError')
     }
   }
 

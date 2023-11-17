@@ -164,7 +164,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         if (transactionHash) {
           fireEvent(WITHDRAW)
 
-          await showDialog({
+          showDialog({
             onDismiss: screenProps.goToRoot,
             title: t`Payment Link Processed Successfully`,
             image: <SuccessIcon />,
@@ -190,7 +190,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               category: ExceptionCategory.Human,
               dialogShown: true,
             })
-            await showErrorDialog(withdrawnOrSendError, undefined, { onDismiss: screenProps.goToRoot })
+            showErrorDialog(withdrawnOrSendError, undefined, { onDismiss: screenProps.goToRoot })
             break
           case WITHDRAW_STATUS_UNKNOWN:
             for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
@@ -212,7 +212,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
               dialogShown: true,
             })
 
-            await showErrorDialog(
+            showErrorDialog(
               t`Could not find payment details.
             Check your link or try again later.`,
               undefined,
@@ -234,7 +234,7 @@ const HandlePaymentLink = (props: HandlePaymentLinkProps) => {
         }
 
         log.error('withdraw failed:', message, exception, { dialogShown: true })
-        await showErrorDialog(uiMessage, undefined, { onDismiss: screenProps.goToRoot })
+        showErrorDialog(uiMessage, undefined, { onDismiss: screenProps.goToRoot })
       } finally {
         navigation.setParams({ paymentCode: undefined })
       }

@@ -111,7 +111,7 @@ jobs:
           python-version: '3.7.x'
 
       - name: Install dependencies
-        run: yarn
+        run: yarn --immutable
 
       - uses: actions/cache@v2
         id: contractsCache
@@ -130,6 +130,8 @@ jobs:
         run: yarn run ganache
 
       - name: run tests and code coverage
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
           cat node_modules/@gooddollar/goodcontracts/releases/deployment.json
           echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs yarn coverage

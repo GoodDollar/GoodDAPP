@@ -6,6 +6,7 @@ import { useInviteCopy, useInviteShare } from '../../../invite/useInvites'
 import { ShareInviteButton } from '../../../invite/Invite'
 import { isSharingAvailable } from '../../../../lib/share'
 import { isWeb } from '../../../../lib/utils/platform'
+import HalofiButton from '../../../common/buttons/HalofiButton'
 
 export const useTaskList = () => {
   const { copy: inviteCopy } = useInviteCopy()
@@ -26,6 +27,13 @@ export const useTaskList = () => {
           styles={{ ...(!isWeb && { width: 250 }) }}
         />
       ),
+      isActive: false,
+    },
+    {
+      id: 'halofi',
+      title: t`Invite friends`,
+      description: t`Save your G$ and earn rewards with GoodDollar saving challenges with HaloFi`,
+      actionButton: <HalofiButton />,
       isActive: true,
     },
   ]

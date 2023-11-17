@@ -163,8 +163,10 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
   const ownerAddress = feed?.data?.endpoint?.address
-  const txHash = feed.data.receiptHash || feed.id
-  const isTransfer = isTransferTx(itemType)
+  const isBridge = feed?.data?.endpoint?.isBridge
+  const txHash = feed.data?.receiptHash || feed.id
+
+  const isTransfer = !isBridge && isTransferTx(itemType)
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -248,7 +250,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               {walletChatEnabled &&
                 isTransfer &&
                 !eventSettings.withoutAmount &&
-                ownerAddress.length > 0 &&
+                ownerAddress?.length > 0 &&
                 walletChatEnabled && (
                   <TouchableOpacity>
                     <ChatWithOwner
@@ -454,7 +456,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   feedPicture: {
     width: '100%',
-    height: 'auto',
+    paddingBottom: '56.25%', // 16:9 aspect ratio
   },
   claimingCardFeedText: {},
   mainInfo: {

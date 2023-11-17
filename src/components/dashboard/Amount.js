@@ -64,7 +64,7 @@ const NextPageButton = ({ action, cbContinue, loading, values, ...props }) => {
   const routeMap = {
     [ACTION_BRIDGE]: ['SendLinkSummary', 'Home'],
     [ACTION_RECEIVE]: ['Reason', 'ReceiveSummary', 'TransactionConfirmation'],
-    isNativeFlow: ['SendToAddress', 'SendLinkSummary'],
+    isNative: ['SendLinkSummary'],
   }
 
   const nextRoute = routeMap[action] || ['Reason', 'SendLinkSummary', 'TransactionConfirmation']
@@ -155,6 +155,7 @@ const Amount = (props: AmountProps) => {
   const formatFixed = useFixedDecimals(token)
 
   const isNativeFlow = isDeltaApp && native
+
   const isReceive = params && params.action === ACTION_RECEIVE
   const isSend = params && params.action === ACTION_SEND
   const isBridge = params && params.action === ACTION_BRIDGE
@@ -272,13 +273,16 @@ const Amount = (props: AmountProps) => {
           {isSend && (
             <Section.Stack style={{ marginBottom: 16 }}>
               <CustomButton
-                icon={sendViaAddress ? 'success' : undefined}
+                icon={sendViaAddress || isNativeFlow ? 'success' : undefined}
                 iconAlignment="left"
                 iconColor={theme.colors.primary}
                 contentStyle={{ justifyContent: 'flex-start' }}
                 style={{ marginBottom: 8 }}
-                color={sendViaAddress ? theme.colors.white : theme.colors.primary}
-                textStyle={{ fontSize: 16, color: sendViaAddress ? theme.colors.primary : theme.colors.white }}
+                color={sendViaAddress || isNativeFlow ? theme.colors.white : theme.colors.primary}
+                textStyle={{
+                  fontSize: 16,
+                  color: sendViaAddress || isNativeFlow ? theme.colors.primary : theme.colors.white,
+                }}
                 onPress={handleRequestAddress}
                 mode={'contained'}
                 withoutDone
@@ -286,7 +290,7 @@ const Amount = (props: AmountProps) => {
               >
                 SEND VIA ADDRESS
               </CustomButton>
-              {!sendViaAddress ? (
+              {!sendViaAddress && !isNativeFlow ? (
                 <NextPageButton
                   action={'Send'}
                   label="SEND VIA LINK"
@@ -307,31 +311,30 @@ const Amount = (props: AmountProps) => {
             </Section.Stack>
           )}
 
-          {!isSend ||
-            (isSend && sendViaAddress && (
-              <Section.Row>
-                <Section.Row grow={1} justifyContent="flex-start">
-                  <BackButton mode="text" screenProps={screenProps}>
-                    {t`Cancel`}
-                  </BackButton>
-                </Section.Row>
-                <Section.Stack grow={3} style={styles.nextButtonContainer}>
-                  <NextPageButton
-                    action={isNativeFlow ? 'isNative' : params.action}
-                    cbContinue={handleContinue}
-                    loading={loading}
-                    values={{
-                      amount: GDAmountInWei,
-                      address: address,
-                      ...params,
-                      ...restState,
-                      ...bridgeState,
-                    }}
-                    {...props}
-                  />
-                </Section.Stack>
+          {((isSend && sendViaAddress) || !isSend || isNativeFlow) && (
+            <Section.Row>
+              <Section.Row grow={1} justifyContent="flex-start">
+                <BackButton mode="text" screenProps={screenProps}>
+                  {t`Cancel`}
+                </BackButton>
               </Section.Row>
-            ))}
+              <Section.Stack grow={3} style={styles.nextButtonContainer}>
+                <NextPageButton
+                  action={isNativeFlow ? 'isNative' : params.action}
+                  cbContinue={handleContinue}
+                  loading={loading}
+                  values={{
+                    amount: GDAmountInWei,
+                    address: address,
+                    ...params,
+                    ...restState,
+                    ...bridgeState,
+                  }}
+                  {...props}
+                />
+              </Section.Stack>
+            </Section.Row>
+          )}
         </Section>
       </Wrapper>
     </KeyboardAvoidingView>

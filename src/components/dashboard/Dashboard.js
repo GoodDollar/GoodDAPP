@@ -29,7 +29,7 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
-import { useNativeDriverForAnimation } from '../../lib/utils/platform'
+import { isWeb, useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
@@ -833,7 +833,10 @@ const Dashboard = props => {
   const handleScroll = useCallback(
     ({ ...args }) => {
       dispatchScrollEvent()
-      Platform.OS === 'web' && handleScrollEnd(args)
+
+      if (isWeb) {
+        handleScrollEnd(args)
+      }
     },
     [dispatchScrollEvent, handleScrollEnd],
   )

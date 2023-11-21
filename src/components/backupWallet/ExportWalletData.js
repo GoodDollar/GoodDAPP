@@ -100,6 +100,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           enableIndicateAction
           enableSideMode
         />
+        <Divider />
         <BorderedBox
           styles={styles}
           theme={theme}
@@ -114,7 +115,6 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           truncateContent
           enableSideMode
         />
-        <Divider />
         <Divider />
         <BorderedBox
           styles={styles}

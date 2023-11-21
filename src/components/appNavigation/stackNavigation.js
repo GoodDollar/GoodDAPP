@@ -464,6 +464,7 @@ export const NextButton = ({
   label,
   canContinue,
   loading,
+  ...props
 }: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
   return (
@@ -476,6 +477,7 @@ export const NextButton = ({
       style={Platform.OS === 'web' && { flex: 2 }}
       canContinue={canContinue}
       loading={loading}
+      {...props}
     >
       {label || 'Next'}
     </PushButton>

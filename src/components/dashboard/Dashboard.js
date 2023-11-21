@@ -805,7 +805,7 @@ const Dashboard = props => {
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
   const goToBridge = useCallback(() => {
-    screenProps.push('Amount', { isBridge: true })
+    screenProps.push('Amount', { action: 'Bridge' })
   }, [screenProps])
 
   const dispatchScrollEvent = useDebouncedCallback(() => fireEvent(SCROLL_FEED), 250)

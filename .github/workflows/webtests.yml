@@ -30,7 +30,7 @@ jobs:
     if: "github.event_name == 'workflow_dispatch'"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
       - uses: actions/checkout@v2
@@ -101,6 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "wallet chunk id $WALLET_CHUNK chunk ${{ matrix.chunk }}"
+      - run: corepack enable
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
@@ -131,7 +132,7 @@ jobs:
 
       - name: run tests and code coverage
         env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
+          NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
           cat node_modules/@gooddollar/goodcontracts/releases/deployment.json
           echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs yarn coverage

@@ -1,10 +1,11 @@
 // @flow
 import React, { useCallback, useContext, useMemo, useState } from 'react'
-import { KeyboardAvoidingView, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { useGetBridgeData } from '@gooddollar/web3sdk-v2'
 
-import InputWithAdornment from '../common/form/InputWithAdornment'
+import InputWithAddons from '../common/form/InputWithAddons'
+
 import logger from '../../lib/logger/js-logger'
 import { AmountInput, CustomButton, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -82,7 +83,7 @@ const NextPageButton = ({ action, cbContinue, loading, values, ...props }) => {
   )
 }
 
-export const AddressDetails = ({ address, cb, error, setAddress, screenProps }) => {
+export const AddressDetails = ({ address, cb, error, handlePressQR, setAddress, screenProps }) => {
   const pasteUri = useClipboardPaste(data => {
     setAddress(data)
     cb(data)
@@ -112,12 +113,12 @@ export const AddressDetails = ({ address, cb, error, setAddress, screenProps }) 
               borderColor: error ? 'red' : theme.colors.primary,
             }}
           >
-            <InputWithAdornment
-              showAdornment={true}
-              adornment={icon}
-              adornmentSize={icon === 'paste2' ? 24 : 14}
-              adornmentAction={handlePastePress}
-              adornmentStyle={{
+            <InputWithAddons
+              prefixIcon={icon}
+              prefixDisabled={false}
+              prefixIconSize={icon === 'paste2' ? 24 : 14}
+              onPrefixClick={handlePastePress}
+              prefixStyle={{
                 top: icon === 'paste2' ? 3 : 8,
                 left: 8,
                 bottom: 0,
@@ -125,8 +126,23 @@ export const AddressDetails = ({ address, cb, error, setAddress, screenProps }) 
                 marginTop: 0,
                 paddingTop: 0,
               }}
-              adornmentColor={adornmentColor}
-              iconAlignment="left"
+              prefixColor={adornmentColor}
+              // eslint-disable-next-line lines-around-comment
+              // suffixIcon="qrcode" // TODO: enable later after fixing qr code flow
+              suffixDisabled={false}
+              suffixColor={theme.colors.white}
+              suffixStyle={{
+                backgroundColor: theme.colors.darkBlue,
+                borderRadius: Platform.select({
+                  default: 21,
+                  web: '50%',
+                }),
+                paddingTop: 4,
+                padding: 4,
+                bottom: 0,
+              }}
+              onSuffixClick={handlePressQR}
+              suffixIconSize={22}
               onChangeText={cb}
               value={address}
               error={error}
@@ -204,7 +220,7 @@ const Amount = (props: AmountProps) => {
         return canSend
       }
 
-      if (sendViaAddress) {
+      if (sendViaAddress || isNativeFlow) {
         canSend = handleSendViaAddress(address)
       }
 
@@ -278,6 +294,7 @@ const Amount = (props: AmountProps) => {
                 iconColor={theme.colors.primary}
                 contentStyle={{ justifyContent: 'flex-start' }}
                 style={{ marginBottom: 8 }}
+                disabled={loading && !isNativeFlow}
                 color={sendViaAddress || isNativeFlow ? theme.colors.white : theme.colors.primary}
                 textStyle={{
                   fontSize: 16,
@@ -296,13 +313,14 @@ const Amount = (props: AmountProps) => {
                   label="SEND VIA LINK"
                   cbContinue={handleContinue}
                   loading={loading}
-                  values={{ ...params, ...restState, amount: GDAmountInWei, ...bridgeState }}
+                  values={{ amount: GDAmountInWei, ...params, ...restState, ...bridgeState }}
                   {...props}
                 />
               ) : (
                 <AddressDetails
                   address={address}
                   cb={handleSendViaAddress}
+                  handlePressQR={handlePressQR}
                   setAddress={setAddress}
                   screenProps={screenProps}
                   error={addressError}

@@ -334,6 +334,7 @@
   "Sorry, Something unexpected happened, please try again.": "На жаль, сталося щось несподіване. Будь ласка, спробуйте ще раз.",
   "Sorry, minimum amount to bridge is {min} {token}'s": "Sorry, minimum amount to bridge is {min} {token}'s",
   "Sorry, something unexpected happened, please try again.\nError: {codeString}": "Sorry, something unexpected happened, please try again.\nError: {codeString}",
+  "Sorry, this is not a valid address.": "Sorry, this is not a valid address.",
   "Sorry, you don't have enough {token}s": "Sorry, you don't have enough {token}s",
   "Sponsored by": "За підтримки",
   "Start Claiming G$ Daily": "Почати клеймування G$ Daily",

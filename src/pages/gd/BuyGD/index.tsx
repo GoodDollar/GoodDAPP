@@ -126,7 +126,11 @@ const BuyGd = memo(() => {
                 </Text>
                 {/* todo: width on mobile should be more responsive */}
                 <Box style={onrampWrapper}>
-                    <GdOnramperWidget isTesting={!isProd} onEvents={handleEvents} />
+                    <GdOnramperWidget
+                        isTesting={!isProd}
+                        onEvents={handleEvents}
+                        apiKey={process.env.REACT_APP_ONRAMPER_KEY}
+                    />
                 </Box>
             </CentreBox>
             <CentreBox w="100%" justifyContent="flex-start" style={rightContainer}>

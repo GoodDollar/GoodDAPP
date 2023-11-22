@@ -2715,7 +2715,7 @@ msgstr ""
 msgid "The total of your deposits which accumulates the rewards."
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:156
+#: src/pages/gd/BuyGD/index.tsx:160
 msgid "The widget in this page is a third-party service provided by Onramper. Please note that the verification of your transaction by Onramper may take up to 24 hours to complete. Following verification, it may take up to 3 business days for GoodDollars to be available in your wallet. In the event that the process takes longer, after receiving a confirmation email from your payment provider, please return to this screen to check the status of your transaction."
 msgstr ""
 
@@ -2871,7 +2871,7 @@ msgstr ""
 msgid "What's an exit contribution?"
 msgstr "Wat is 'n uittree-bydrae?"
 
-#: src/pages/gd/BuyGD/index.tsx:152
+#: src/pages/gd/BuyGD/index.tsx:156
 msgid "Why haven't my funds arrived yet?"
 msgstr ""
 

@@ -4,12 +4,16 @@ import { t } from '@lingui/macro'
 import { CentreBox, Converter, GdOnramperWidget, SlideDownTab, Title } from '@gooddollar/good-design'
 import { Box, Text, useBreakpointValue } from 'native-base'
 import { g$Price } from '@gooddollar/web3sdk'
+import { useGetEnvChainId } from '@gooddollar/web3sdk-v2'
 
 import usePromise from 'hooks/usePromise'
 import useSendAnalyticsData from 'hooks/useSendAnalyticsData'
 
 const BuyGd = memo(() => {
     const sendData = useSendAnalyticsData()
+
+    const { connectedEnv } = useGetEnvChainId(42220)
+    const isProd = connectedEnv.includes('production')
 
     const handleEvents = useCallback(
         (event: string, data?: any, error?: string) => {
@@ -122,7 +126,7 @@ const BuyGd = memo(() => {
                 </Text>
                 {/* todo: width on mobile should be more responsive */}
                 <Box style={onrampWrapper}>
-                    <GdOnramperWidget isTesting={true} onEvents={handleEvents} />
+                    <GdOnramperWidget isTesting={!isProd} onEvents={handleEvents} />
                 </Box>
             </CentreBox>
             <CentreBox w="100%" justifyContent="flex-start" style={rightContainer}>

@@ -10,6 +10,7 @@ import {
 } from '@gooddollar/web3sdk-v2'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useLocation } from 'react-router-dom'
 
 import WalletBalance from 'components/WalletBalance'
 import { ReactComponent as WalletBalanceIcon } from '../assets/images/walletBalanceIcon.svg'
@@ -48,6 +49,8 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
     const [G$, GOOD, GDX] = useG$Tokens()
     const [imported, setImported] = useState<boolean>(false)
     const { isWhitelisted } = useClaim()
+    const { pathname } = useLocation()
+    const isBuyGd = pathname.startsWith('/buy')
 
     const bgContainer = useColorModeValue('goodWhite.100', '#151A30')
     const bgWalletBalance = useColorModeValue('white', '#1a1f38')
@@ -224,10 +227,10 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
             {
                 route: '/buy',
                 text: 'Buy G$',
-                show: true,
+                show: isBuyGd, // todo: use post-hog feature flag
             },
         ],
-        [isWhitelisted]
+        [isWhitelisted, pathname]
     )
 
     return (

@@ -345,7 +345,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
 const getStylesFromProps = ({ theme }) => ({
   buttonsView: {
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',

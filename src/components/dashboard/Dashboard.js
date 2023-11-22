@@ -29,7 +29,7 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 import { PushButton } from '../appNavigation/PushButton'
-import { useNativeDriverForAnimation } from '../../lib/utils/platform'
+import { isWeb, useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
@@ -349,7 +349,7 @@ const Dashboard = props => {
 
   const sendReceiveAnimStyles = {
     width: '100%',
-    marginTop: headerLarge ? 5 : 0,
+    marginTop: 5,
     transform: [
       {
         translateY: sendReceiveMinimzedYAnimValue.interpolate({
@@ -824,6 +824,7 @@ const Dashboard = props => {
       const scrollPosition = nativeEvent.contentOffset.y
       const { minScrollRequiredISH, scrollPositionGap, isFeedSizeEnough } = scrollData
       const scrollPositionISH = scrollPosition + scrollPositionGap
+
       setHeaderLarge(!isFeedSizeEnough || scrollPositionISH < minScrollRequiredISH)
     },
     [scrollData, setHeaderLarge],
@@ -832,7 +833,10 @@ const Dashboard = props => {
   const handleScroll = useCallback(
     ({ ...args }) => {
       dispatchScrollEvent()
-      handleScrollEnd(args)
+
+      if (isWeb) {
+        handleScrollEnd(args)
+      }
     },
     [dispatchScrollEvent, handleScrollEnd],
   )

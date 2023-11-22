@@ -2684,7 +2684,7 @@ msgstr "יתרה"
 msgid "Blocked address"
 msgstr "כתובת חסומה"
 
-#: src/pages/gd/BuyGD/index.tsx:95
+#: src/pages/gd/BuyGD/index.tsx:99
 msgid "Buy G$"
 msgstr ""
 
@@ -2692,7 +2692,7 @@ msgstr ""
 msgid "Change"
 msgstr "שינוי"
 
-#: src/pages/gd/BuyGD/index.tsx:119
+#: src/pages/gd/BuyGD/index.tsx:123
 msgid "Choose the currency you want to use and buy cUSD. Your cUSD is then automatically converted into G$."
 msgstr ""
 
@@ -2837,7 +2837,7 @@ msgstr "סקירה פיקדון"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:165
+#: src/components/SideBar.tsx:168
 msgid "Docs"
 msgstr "מסמכים"
 
@@ -2849,7 +2849,7 @@ msgstr "נכשלה בטעינה"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:158
+#: src/components/SideBar.tsx:161
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2882,7 +2882,7 @@ msgstr "עבור אל תיק הפורפוליו"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:172
+#: src/components/SideBar.tsx:175
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3143,7 +3143,7 @@ msgstr "החל מ 1.0, מכפיל שלך יגדל ל 2.0 לאחר חודש אח�
 msgid "Success!"
 msgstr "הַצלָחָה!"
 
-#: src/pages/gd/BuyGD/index.tsx:107
+#: src/pages/gd/BuyGD/index.tsx:111
 msgid "Support global financial inclusion and contribute to social impact by purchasing GoodDollars (G$)."
 msgstr ""
 
@@ -3207,7 +3207,7 @@ msgstr ""
 msgid "The total of your deposits which accumulates the rewards."
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:152
+#: src/pages/gd/BuyGD/index.tsx:156
 msgid "The widget in this page is a third-party service provided by Onramper. Please note that the verification of your transaction by Onramper may take up to 24 hours to complete. Following verification, it may take up to 3 business days for GoodDollars to be available in your wallet. In the event that the process takes longer, after receiving a confirmation email from your payment provider, please return to this screen to check the status of your transaction."
 msgstr ""
 
@@ -3346,11 +3346,11 @@ msgstr "מחכה לאישור"
 msgid "Waiting For Confirmation"
 msgstr "מחכה לאישור"
 
-#: src/components/SideBar.tsx:151
+#: src/components/SideBar.tsx:154
 msgid "Wallet"
 msgstr "ארנק"
 
-#: src/components/SideBar.tsx:246
+#: src/components/SideBar.tsx:249
 msgid "Wallet balance"
 msgstr "מאזן ארנק"
 
@@ -3363,7 +3363,7 @@ msgstr ""
 msgid "What's an exit contribution?"
 msgstr "מהי תרומת יציאה?"
 
-#: src/pages/gd/BuyGD/index.tsx:148
+#: src/pages/gd/BuyGD/index.tsx:152
 msgid "Why haven't my funds arrived yet?"
 msgstr ""
 

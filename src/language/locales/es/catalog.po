@@ -2688,7 +2688,7 @@ msgstr "Equilibrio"
 msgid "Blocked address"
 msgstr "Dirección bloqueada"
 
-#: src/pages/gd/BuyGD/index.tsx:95
+#: src/pages/gd/BuyGD/index.tsx:99
 msgid "Buy G$"
 msgstr ""
 
@@ -2696,7 +2696,7 @@ msgstr ""
 msgid "Change"
 msgstr "Cambio"
 
-#: src/pages/gd/BuyGD/index.tsx:119
+#: src/pages/gd/BuyGD/index.tsx:123
 msgid "Choose the currency you want to use and buy cUSD. Your cUSD is then automatically converted into G$."
 msgstr ""
 
@@ -2841,7 +2841,7 @@ msgstr "Descripción de depósito"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:165
+#: src/components/SideBar.tsx:168
 msgid "Docs"
 msgstr ""
 
@@ -2853,7 +2853,7 @@ msgstr "falló al cargar"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:158
+#: src/components/SideBar.tsx:161
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2886,7 +2886,7 @@ msgstr "Ir a la cartera"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:172
+#: src/components/SideBar.tsx:175
 msgid "Good Airdrop"
 msgstr ""
 
@@ -3147,7 +3147,7 @@ msgstr "A partir de 1.0, su multiplicador aumentará a 2.0 después de un mes de
 msgid "Success!"
 msgstr "¡Éxito!"
 
-#: src/pages/gd/BuyGD/index.tsx:107
+#: src/pages/gd/BuyGD/index.tsx:111
 msgid "Support global financial inclusion and contribute to social impact by purchasing GoodDollars (G$)."
 msgstr ""
 
@@ -3211,7 +3211,7 @@ msgstr ""
 msgid "The total of your deposits which accumulates the rewards."
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:152
+#: src/pages/gd/BuyGD/index.tsx:156
 msgid "The widget in this page is a third-party service provided by Onramper. Please note that the verification of your transaction by Onramper may take up to 24 hours to complete. Following verification, it may take up to 3 business days for GoodDollars to be available in your wallet. In the event that the process takes longer, after receiving a confirmation email from your payment provider, please return to this screen to check the status of your transaction."
 msgstr ""
 
@@ -3350,11 +3350,11 @@ msgstr "Esperando confirmación"
 msgid "Waiting For Confirmation"
 msgstr "Esperando confirmación"
 
-#: src/components/SideBar.tsx:151
+#: src/components/SideBar.tsx:154
 msgid "Wallet"
 msgstr "Cartera"
 
-#: src/components/SideBar.tsx:246
+#: src/components/SideBar.tsx:249
 msgid "Wallet balance"
 msgstr "Balance de billetera"
 
@@ -3367,7 +3367,7 @@ msgstr ""
 msgid "What's an exit contribution?"
 msgstr "¿Qué es una contribución de salida?"
 
-#: src/pages/gd/BuyGD/index.tsx:148
+#: src/pages/gd/BuyGD/index.tsx:152
 msgid "Why haven't my funds arrived yet?"
 msgstr ""
 

@@ -126,7 +126,7 @@ jobs:
           ref: ${{ env.TARGET_BRANCH }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: 'yarn'
       - uses: actions/setup-python@v4
         with:

@@ -334,6 +334,7 @@
   "Sorry, Something unexpected happened, please try again.": "Lo sentimos, ha ocurrido algo inesperado. Por favor, inténtelo de nuevo.",
   "Sorry, minimum amount to bridge is {min} {token}'s": "Sorry, minimum amount to bridge is {min} {token}'s",
   "Sorry, something unexpected happened, please try again.\nError: {codeString}": "Sorry, something unexpected happened, please try again.\nError: {codeString}",
+  "Sorry, this is not a valid address.": "Sorry, this is not a valid address.",
   "Sorry, you don't have enough {token}s": "Sorry, you don't have enough {token}s",
   "Sponsored by": "Patrocinado por",
   "Start Claiming G$ Daily": "Empezar a reclamar G$ diariamente",

@@ -72,7 +72,6 @@ const NextPageButton = ({ action, cbContinue, loading, values, ...props }) => {
 
   return (
     <NextButton
-      contentStyle={{ justifyContent: 'flex-start' }}
       nextRoutes={nextRoute}
       canContinue={cbContinue}
       disabled={loading}
@@ -315,6 +314,7 @@ const Amount = (props: AmountProps) => {
                     cbContinue={handleContinue}
                     loading={loading}
                     values={{ amount: GDAmountInWei, ...params, ...restState, ...bridgeState }}
+                    contentStyle={{ justifyContent: 'flex-start' }}
                     {...props}
                   />
                 ) : (
@@ -339,6 +339,7 @@ const Amount = (props: AmountProps) => {
                 </Section.Row>
                 <Section.Stack grow={3} style={styles.nextButtonContainer}>
                   <NextPageButton
+                    contentStyle={{ justifyContent: 'center' }}
                     action={isNativeFlow ? 'isNative' : params.action}
                     cbContinue={handleContinue}
                     loading={loading}

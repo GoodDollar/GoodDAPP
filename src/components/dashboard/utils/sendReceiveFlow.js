@@ -17,8 +17,7 @@ const NavBar = ({ title, goBack, isBridge }) => {
 export const navigationOptions = ({ navigation }) => {
   const { routeName } = navigation.state
   const action = navigation.getParam(PARAM_ACTION)
-
-  const isBridge = navigation.getParam('isBridge')
+  const isBridge = action === ACTION_BRIDGE
   const isReceive = action === ACTION_RECEIVE || ['Receive', 'ReceiveToAddress'].includes(routeName)
 
   return {

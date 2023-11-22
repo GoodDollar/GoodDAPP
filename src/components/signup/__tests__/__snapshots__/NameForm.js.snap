@@ -117,6 +117,33 @@ exports[`NameForm matches snapshot 1`] = `
                       type="text"
                       value="Kevin Bardi"
                     />
+                    <div
+                      className="css-view-1dbjc4n r-bottom-1ebgqk7 r-cursor-1loqt21 r-paddingTop-tskmnb r-position-u8s1d r-right-3mc0re r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-zIndex-184en5c"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <div
+                        className="css-text-901oao r-color-13sdq65 r-fontWeight-1it3c9n"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontFamily": "gooddollar",
+                            "fontSize": "16px",
+                            "fontStyle": "normal",
+                          }
+                        }
+                      >
+                        
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -333,6 +360,32 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                       type="text"
                       value=""
                     />
+                    <div
+                      className="css-view-1dbjc4n r-bottom-1ebgqk7 r-cursor-1loqt21 r-paddingTop-tskmnb r-position-u8s1d r-right-3mc0re r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-zIndex-184en5c"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <div
+                        className="css-text-901oao r-color-13sdq65 r-fontSize-ubezar r-fontWeight-1it3c9n"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontFamily": "gooddollar",
+                            "fontStyle": "normal",
+                          }
+                        }
+                      >
+                        
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div

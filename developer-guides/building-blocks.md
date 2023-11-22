@@ -18,7 +18,7 @@ This components includes components to visualize and input G\$, buttons, and pro
 
 Pre requirement:
 
-A. has to be svg-icon, in 24x24 (can be bigger/smaller ofcourse, but works best with square format) 
+A. has to be svg-icon, in 24x24 (can be bigger/smaller ofcourse, but works best with square format)
 
 B. it does not support all svg features and might not show correctly.. see: [importing svg to fontello](https://github.com/fontello/fontello/wiki/How-to-use-custom-images#importing-svg-images)
 
@@ -41,6 +41,9 @@ B. it does not support all svg features and might not show correctly.. see: [imp
    8E. in config.json change name to "gooddollar"
 
    8F. copy over the index.css + config.json + fonts to the fonts folder on gooddapp and replace existing files
+
+Note: for web it works after updating files. Make sure to run the android build locally so that the ttf for that build
+gets updated as well
 
 Then all you have to is use our [Icon](https://github.com/GoodDollar/GoodDAPP/tree/master/src/components/common/view/Icon/)
 

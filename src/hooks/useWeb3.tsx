@@ -24,13 +24,13 @@ type NetworkSettings = {
 export function useNetwork(): NetworkSettings {
     const [currentNetwork, rpcs] = useMemo(
         () => [
-            process.env.REACT_APP_NETWORK || 'fuse',
+            import.meta.env.REACT_APP_NETWORK || 'fuse',
             {
                 MAINNET_RPC:
-                    process.env.REACT_APP_MAINNET_RPC ||
+                    import.meta.env.REACT_APP_MAINNET_RPC ||
                     (ethers.getDefaultProvider('mainnet') as any).providerConfigs[0].provider.connection.url,
-                FUSE_RPC: process.env.REACT_APP_FUSE_RPC || 'https://rpc.fuse.io',
-                CELO_RPC: process.env.REACT_APP_CELO_RPC || 'https://forno.celo.org',
+                FUSE_RPC: import.meta.env.REACT_APP_FUSE_RPC || 'https://rpc.fuse.io',
+                CELO_RPC: import.meta.env.REACT_APP_CELO_RPC || 'https://forno.celo.org',
                 KOVAN_RPC: undefined,
                 ROPSTEN_RPC: undefined,
             },

@@ -212,12 +212,12 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
             {
                 route: '/bridge',
                 text: 'Bridge',
-                show: process.env.REACT_APP_CELO_PHASE_3,
+                show: import.meta.env.REACT_APP_CELO_PHASE_3,
             },
             {
                 route: '/microbridge',
                 text: 'Micro Bridge',
-                show: process.env.REACT_APP_CELO_PHASE_3,
+                show: import.meta.env.REACT_APP_CELO_PHASE_3,
             },
             {
                 route: '/dashboard',

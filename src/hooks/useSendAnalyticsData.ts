@@ -6,9 +6,9 @@ import { useCallback } from 'react'
 import { getEnv, osVersion } from 'utils/env'
 import { version } from '../../package.json'
 
-const indicativeKey = process.env.REACT_APP_INDICATIVE_KEY
-const posthogKey = process.env.REACT_APP_POSTHOG_KEY
-const mixpanelKey = process.env.REACT_APP_MIXPANEL_KEY
+const indicativeKey = import.meta.env.REACT_APP_INDICATIVE_KEY
+const posthogKey = import.meta.env.REACT_APP_POSTHOG_KEY
+const mixpanelKey = import.meta.env.REACT_APP_MIXPANEL_KEY
 
 export const analyticsConfig: IAnalyticsConfig = {
     google: { enabled: true },

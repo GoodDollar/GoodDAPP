@@ -10,7 +10,7 @@ export interface IOSVersionInfo {
 }
 
 export function getNetworkEnv(defaultValue = 'development-celo'): string {
-    return process.env.REACT_APP_NETWORK || defaultValue
+    return import.meta.env.REACT_APP_NETWORK || defaultValue
 }
 
 export function getEnv(defaultValue = 'development'): string {

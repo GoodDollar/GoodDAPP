@@ -226,6 +226,7 @@
         "@web3-onboard/walletconnect": "^2.4.7",
         "@web3-onboard/walletlink": "^2.1.7",
         "amplitude-js": "^8.21.2",
+        "dotenv": "^16.3.1",
         "ethers": "^5.7.2",
         "mobile-device-detect": "^0.4.3",
         "native-base": "3.4.11",

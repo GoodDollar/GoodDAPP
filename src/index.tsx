@@ -71,9 +71,9 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const enableHttpsRedirect = String(process.env.REACT_APP_ENABLE_HTTPS_REDIRECT) === '1'
+const enableHttpsRedirect = String(import.meta.env.REACT_APP_ENABLE_HTTPS_REDIRECT) === '1'
 const enableServiceWorker =
-    window.location.hostname !== 'localhost' && String(process.env.REACT_APP_ENABLE_SERVICE_WORKER) === '1'
+    window.location.hostname !== 'localhost' && String(import.meta.env.REACT_APP_ENABLE_SERVICE_WORKER) === '1'
 
 const networkEnv = getNetworkEnv()
 const prodOrQa = /\b(production|staging)\b/.test(networkEnv)
@@ -114,7 +114,7 @@ ReactDOM.render(
 )
 
 console.log('service worker options', {
-    REACT_APP_ENABLE_SERVICE_WORKER: process.env.REACT_APP_ENABLE_SERVICE_WORKER,
+    REACT_APP_ENABLE_SERVICE_WORKER: import.meta.env.REACT_APP_ENABLE_SERVICE_WORKER,
     enableServiceWorker,
 })
 

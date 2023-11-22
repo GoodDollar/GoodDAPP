@@ -129,7 +129,7 @@ const BuyGd = memo(() => {
                     <GdOnramperWidget
                         isTesting={!isProd}
                         onEvents={handleEvents}
-                        apiKey={process.env.REACT_APP_ONRAMPER_KEY}
+                        apiKey={import.meta.env.REACT_APP_ONRAMPER_KEY}
                     />
                 </Box>
             </CentreBox>

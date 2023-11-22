@@ -72,7 +72,7 @@ export default function NetworkModal(): JSX.Element | null {
     const networkLabel: string | null = error ? null : (NETWORK_LABEL as any)[chainId]
     const network = getEnv()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const prodNetworks = process.env.REACT_APP_CELO_PHASE_1
+    const prodNetworks = import.meta.env.REACT_APP_CELO_PHASE_1
         ? [AdditionalChainId.CELO, ChainId.MAINNET, AdditionalChainId.FUSE]
         : [ChainId.MAINNET, AdditionalChainId.FUSE]
 

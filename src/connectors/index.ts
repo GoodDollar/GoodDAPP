@@ -29,20 +29,21 @@ export const connectOptions = {
             id: '0xa4ec',
             token: 'CELO',
             label: 'Celo',
-            rpcUrl: process.env.REACT_APP_CELO_RPC ?? 'https://rpc.ankr.com/celo',
+            rpcUrl: import.meta.env.REACT_APP_CELO_RPC ?? 'https://rpc.ankr.com/celo',
         },
         {
             id: '0x1',
             token: 'ETH',
             label: 'Ethereum Mainnet',
             rpcUrl:
-                process.env.REACT_APP_MAINNET_RPC ?? 'https://mainnet.infura.io/v3/586298cc4e26485d9a6f9c4a5f555a22',
+                import.meta.env.REACT_APP_MAINNET_RPC ??
+                'https://mainnet.infura.io/v3/586298cc4e26485d9a6f9c4a5f555a22',
         },
         {
             id: '0x7a',
             token: 'FUSE',
             label: 'Fuse Network',
-            rpcUrl: process.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io',
+            rpcUrl: import.meta.env.REACT_APP_FUSE_RPC ?? 'https://rpc.fuse.io',
         },
     ],
     appMetadata: {

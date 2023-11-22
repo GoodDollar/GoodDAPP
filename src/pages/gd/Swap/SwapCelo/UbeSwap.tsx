@@ -25,7 +25,7 @@ export const UbeSwap = (): JSX.Element => {
         if (account && library) {
             setAccountInfo({
                 account: account,
-                explorerUrl: process.env.REACT_APP_CELO_RPC ?? 'https://forno.celo.org',
+                explorerUrl: import.meta.env.REACT_APP_CELO_RPC ?? 'https://forno.celo.org',
                 chainId: 42220,
                 provider: library,
             })

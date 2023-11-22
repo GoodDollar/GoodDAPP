@@ -122,7 +122,7 @@ export const AddressDetails = ({ address, cb, error, handlePressQR, setAddress, 
                 top: icon === 'paste2' ? 3 : 8,
                 left: 8,
                 bottom: 0,
-                width: 16,
+                width: 24,
                 marginTop: 0,
                 paddingTop: 0,
               }}
@@ -286,73 +286,75 @@ const Amount = (props: AmountProps) => {
               unit={token}
             />
           </Section.Stack>
-          {isSend && (
-            <Section.Stack style={{ marginBottom: 16 }}>
-              <CustomButton
-                icon={sendViaAddress || isNativeFlow ? 'success' : undefined}
-                iconAlignment="left"
-                iconColor={theme.colors.primary}
-                contentStyle={{ justifyContent: 'flex-start' }}
-                style={{ marginBottom: 8 }}
-                disabled={loading && !isNativeFlow}
-                color={sendViaAddress || isNativeFlow ? theme.colors.white : theme.colors.primary}
-                textStyle={{
-                  fontSize: 16,
-                  color: sendViaAddress || isNativeFlow ? theme.colors.primary : theme.colors.white,
-                }}
-                onPress={handleRequestAddress}
-                mode={'contained'}
-                withoutDone
-                noElevation
-              >
-                SEND VIA ADDRESS
-              </CustomButton>
-              {!sendViaAddress && !isNativeFlow ? (
-                <NextPageButton
-                  action={'Send'}
-                  label="SEND VIA LINK"
-                  cbContinue={handleContinue}
-                  loading={loading}
-                  values={{ amount: GDAmountInWei, ...params, ...restState, ...bridgeState }}
-                  {...props}
-                />
-              ) : (
-                <AddressDetails
-                  address={address}
-                  cb={handleSendViaAddress}
-                  handlePressQR={handlePressQR}
-                  setAddress={setAddress}
-                  screenProps={screenProps}
-                  error={addressError}
-                />
-              )}
-            </Section.Stack>
-          )}
-
-          {((isSend && sendViaAddress) || !isSend || isNativeFlow) && (
-            <Section.Row>
-              <Section.Row grow={1} justifyContent="flex-start">
-                <BackButton mode="text" screenProps={screenProps}>
-                  {t`Cancel`}
-                </BackButton>
-              </Section.Row>
-              <Section.Stack grow={3} style={styles.nextButtonContainer}>
-                <NextPageButton
-                  action={isNativeFlow ? 'isNative' : params.action}
-                  cbContinue={handleContinue}
-                  loading={loading}
-                  values={{
-                    amount: GDAmountInWei,
-                    address: address,
-                    ...params,
-                    ...restState,
-                    ...bridgeState,
+          <Section.Row style={{ flexDirection: 'column', width: '100%', backgroundColor: theme.colors.surface }}>
+            {isSend && (
+              <Section.Stack style={{ marginBottom: 16, width: '100%' }}>
+                <CustomButton
+                  icon={sendViaAddress || isNativeFlow ? 'success' : undefined}
+                  iconAlignment="left"
+                  iconColor={theme.colors.primary}
+                  contentStyle={{ justifyContent: 'flex-start' }}
+                  style={{ marginBottom: 8 }}
+                  disabled={loading && !isNativeFlow}
+                  color={sendViaAddress || isNativeFlow ? theme.colors.white : theme.colors.primary}
+                  textStyle={{
+                    fontSize: 16,
+                    color: sendViaAddress || isNativeFlow ? theme.colors.primary : theme.colors.white,
                   }}
-                  {...props}
-                />
+                  onPress={handleRequestAddress}
+                  mode={'contained'}
+                  withoutDone
+                  noElevation
+                >
+                  SEND VIA ADDRESS
+                </CustomButton>
+                {!sendViaAddress && !isNativeFlow ? (
+                  <NextPageButton
+                    action={'Send'}
+                    label="SEND VIA LINK"
+                    cbContinue={handleContinue}
+                    loading={loading}
+                    values={{ amount: GDAmountInWei, ...params, ...restState, ...bridgeState }}
+                    {...props}
+                  />
+                ) : (
+                  <AddressDetails
+                    address={address}
+                    cb={handleSendViaAddress}
+                    handlePressQR={handlePressQR}
+                    setAddress={setAddress}
+                    screenProps={screenProps}
+                    error={addressError}
+                  />
+                )}
               </Section.Stack>
-            </Section.Row>
-          )}
+            )}
+
+            {((isSend && sendViaAddress) || !isSend || isNativeFlow) && (
+              <Section.Row style={{ width: '100%' }}>
+                <Section.Row grow={1} justifyContent="flex-start">
+                  <BackButton mode="text" screenProps={screenProps}>
+                    {t`Cancel`}
+                  </BackButton>
+                </Section.Row>
+                <Section.Stack grow={3} style={styles.nextButtonContainer}>
+                  <NextPageButton
+                    action={isNativeFlow ? 'isNative' : params.action}
+                    cbContinue={handleContinue}
+                    loading={loading}
+                    values={{
+                      amount: GDAmountInWei,
+                      address: address,
+                      ...params,
+                      ...restState,
+                      ...bridgeState,
+                    }}
+                    {...props}
+                  />
+                </Section.Stack>
+              </Section.Row>
+            )}
+          </Section.Row>
         </Section>
       </Wrapper>
     </KeyboardAvoidingView>

@@ -68,7 +68,6 @@ jobs:
                   cat $dotenv_name >> .env
                   echo "setting environment from secrets file: $secret_name"
                   echo "${{ secrets.SHARED_ENV }}" >> .env
-                  echo "${{ secrets.REACT_APP_ONRAMPER_KEY }}" >> .env
                   echo "${{ secrets[env.SECRET_NAME] }}" >> .env
                   echo "copying settings to GITHUB_ENV"
                   cat .env >> $GITHUB_ENV

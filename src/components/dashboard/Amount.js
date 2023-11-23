@@ -344,10 +344,10 @@ const Amount = (props: AmountProps) => {
                     cbContinue={handleContinue}
                     loading={loading}
                     values={{
-                      amount: GDAmountInWei,
                       address: address,
                       ...params,
                       ...restState,
+                      amount: GDAmountInWei,
                       ...bridgeState,
                     }}
                     {...props}

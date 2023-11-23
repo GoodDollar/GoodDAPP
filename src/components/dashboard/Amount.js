@@ -310,7 +310,7 @@ const Amount = (props: AmountProps) => {
                 {!sendViaAddress && !isNativeFlow ? (
                   <NextPageButton
                     action={'Send'}
-                    label="SEND VIA LINK"
+                    label={t`SEND VIA LINK`}
                     cbContinue={handleContinue}
                     loading={loading}
                     values={{ amount: GDAmountInWei, ...params, ...restState, ...bridgeState }}

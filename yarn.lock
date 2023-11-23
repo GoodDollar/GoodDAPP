@@ -5056,27 +5056,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodprotocol@npm:1.0.30-beta.3":
-  version: 1.0.30-beta.3
-  resolution: "@gooddollar/goodprotocol@npm:1.0.30-beta.3"
-  dependencies:
-    "@gooddollar/goodcontracts": ^2.6.6
-    "@jsier/retrier": ^1.2.4
-    "@openzeppelin/contracts": ^4.8.0
-    "@openzeppelin/contracts-upgradeable": ^4.8.0
-    "@superfluid-finance/ethereum-contracts": ^1.4.3
-    "@superfluid-finance/sdk-core": ^0.5.8
-    "@typechain/hardhat": ^6.1.2
-    async-promise-pool: ^1.0.4
-    openzeppelin-solidity: ^4.3.2
-    patch-package: latest
-    press-any-key: ^0.1.1
-    truffle-plugin-verify: ^0.6.1
-    truffle-source-verify: ^0.0.6
-  checksum: 8f1f31c2d30d36e1c747dba53d6d0c8edb71d76795bdf694f15713cc8e6a2c9bd8598070c284f2ddb1e34e1749f8ff1772f88021763cd6abc859ef818da2c691
-  languageName: node
-  linkType: hard
-
 "@gooddollar/goodprotocol@npm:^2.0.22":
   version: 2.0.22
   resolution: "@gooddollar/goodprotocol@npm:2.0.22"
@@ -5117,7 +5096,7 @@ __metadata:
     "@fullhuman/postcss-purgecss": ^4.0.3
     "@gooddollar/good-design": ^0.1.20
     "@gooddollar/goodprotocol": ^2.0.22
-    "@gooddollar/web3sdk": ^0.1.25
+    "@gooddollar/web3sdk": ^0.1.26
     "@gooddollar/web3sdk-v2": ^0.2.8
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
@@ -5349,18 +5328,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk@npm:^0.1.25":
-  version: 0.1.25
-  resolution: "@gooddollar/web3sdk@npm:0.1.25"
+"@gooddollar/web3sdk@npm:^0.1.26":
+  version: 0.1.26
+  resolution: "@gooddollar/web3sdk@npm:0.1.26"
   dependencies:
     "@apollo/client": ^3.2.0
-    "@gooddollar/goodprotocol": 1.0.30-beta.3
+    "@gooddollar/goodprotocol": ^2.0.22
     "@sushiswap/sdk": 5.0.0-canary.7
     "@uniswap/sdk": ^3.0.3
     "@uniswap/token-lists": ^1.0.0-beta.28
     "@uniswap/v2-periphery": ^1.1.0-beta.0
     "@uniswap/v2-sdk": ^3.0.0
     bignumber.js: ^9.0.0
+    decimal.js: ^10.4.3
     ethers: ^5.6.4
     jsbi: ^3.1.5
     lodash: 4.17.21
@@ -5372,7 +5352,7 @@ __metadata:
     web3-eth: 1.8.2
     web3-eth-contract: 1.8.2
     web3-utils: 1.8.2
-  checksum: 3487b8e91be162f4ad5fd425cf097faf6cbea72b562c53def3dfc2b608e6c69f038ecd1509c9990c2f65020f23b052210fef00bef97e3c8d1e95ec0f6aa0c6d4
+  checksum: 5a275e8bcb5ea6dd684325087e2e9911b60aa67a586a860e31bb264a07728cdd108d2e1d558bc6955d7fa0a084c33a69b711fe40c8168faca2cc001980052e90
   languageName: node
   linkType: hard
 
@@ -6953,13 +6933,6 @@ __metadata:
   version: 4.7.3
   resolution: "@openzeppelin/contracts@npm:4.7.3"
   checksum: 18382fcacf7cfd652f5dd0e70c08f08ea74eaa8ff11e9f9850639ada70198ae01a3f9493d89a52d724f2db394e9616bf6258017804612ba273167cf657fbb073
-  languageName: node
-  linkType: hard
-
-"@openzeppelin/contracts@npm:4.8.2":
-  version: 4.8.2
-  resolution: "@openzeppelin/contracts@npm:4.8.2"
-  checksum: 1d362f0b9c880549cb82544e23fb70270fbbbe24a69e10bd5aa07649fd82347686173998ae484defafdc473d04004d519f839e3cd3d3e7733d0895b950622243
   languageName: node
   linkType: hard
 
@@ -10620,21 +10593,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@superfluid-finance/ethereum-contracts@npm:^1.4.3":
-  version: 1.7.1
-  resolution: "@superfluid-finance/ethereum-contracts@npm:1.7.1"
-  dependencies:
-    "@decentral.ee/web3-helpers": 0.5.3
-    "@openzeppelin/contracts": 4.8.2
-    "@superfluid-finance/js-sdk": 0.6.3
-    "@truffle/contract": 4.6.18
-    ethereumjs-tx: 2.1.2
-    ethereumjs-util: 7.1.5
-    stack-trace: 0.0.10
-  checksum: f0475a6f749c9dcf2788d03113fb3cf29866b6a006a3d56d62271f1ff0a3831644ba0f0b03521fe78006fdb092b671baaf5d4752f7f2c5a3ef077d1e00cf0a9b
-  languageName: node
-  linkType: hard
-
 "@superfluid-finance/ethereum-contracts@npm:^1.8.1":
   version: 1.8.1
   resolution: "@superfluid-finance/ethereum-contracts@npm:1.8.1"
@@ -11425,7 +11383,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/blockchain-utils@npm:^0.1.4, @truffle/blockchain-utils@npm:^0.1.7, @truffle/blockchain-utils@npm:^0.1.8":
+"@truffle/blockchain-utils@npm:^0.1.4, @truffle/blockchain-utils@npm:^0.1.8":
   version: 0.1.8
   resolution: "@truffle/blockchain-utils@npm:0.1.8"
   checksum: 094070d27d68ab63f4fe1bdc61917089f6a5a8ba6e1f92330b0684c38410aea907a3781aaada26d0c283cef7b32812ae690e89a696c98ede0624d86f3d993b5e
@@ -11528,7 +11486,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/contract-schema@npm:^3.3.1, @truffle/contract-schema@npm:^3.4.13, @truffle/contract-schema@npm:^3.4.14, @truffle/contract-schema@npm:^3.4.9":
+"@truffle/contract-schema@npm:^3.3.1, @truffle/contract-schema@npm:^3.4.14, @truffle/contract-schema@npm:^3.4.9":
   version: 3.4.14
   resolution: "@truffle/contract-schema@npm:3.4.14"
   dependencies:
@@ -11577,28 +11535,6 @@ __metadata:
     web3-eth-abi: 1.7.4
     web3-utils: 1.7.4
   checksum: f5d0ec3ca1909304578d915c6210ec12aba733be819cb1c597778b576c5cd7c91c90e1c4ae13604d74e20b9bde454c8e68f08f0e42693c55ed8bd9236abb63b9
-  languageName: node
-  linkType: hard
-
-"@truffle/contract@npm:4.6.18":
-  version: 4.6.18
-  resolution: "@truffle/contract@npm:4.6.18"
-  dependencies:
-    "@ensdomains/ensjs": ^2.1.0
-    "@truffle/blockchain-utils": ^0.1.7
-    "@truffle/contract-schema": ^3.4.13
-    "@truffle/debug-utils": ^6.0.47
-    "@truffle/error": ^0.2.0
-    "@truffle/interface-adapter": ^0.5.31
-    bignumber.js: ^7.2.1
-    debug: ^4.3.1
-    ethers: ^4.0.32
-    web3: 1.8.2
-    web3-core-helpers: 1.8.2
-    web3-core-promievent: 1.8.2
-    web3-eth-abi: 1.8.2
-    web3-utils: 1.8.2
-  checksum: 730e2817c2492ee8ae66381ebf2e3559d312bc346e6c5dd27af4b3240dc566a6375f7ab3d7a38fb953b52c67cb3d0376c445e1257dd6173f700cd56c4c5358b1
   languageName: node
   linkType: hard
 
@@ -11670,7 +11606,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/debug-utils@npm:^6.0.33, @truffle/debug-utils@npm:^6.0.47, @truffle/debug-utils@npm:^6.0.54":
+"@truffle/debug-utils@npm:^6.0.33, @truffle/debug-utils@npm:^6.0.54":
   version: 6.0.54
   resolution: "@truffle/debug-utils@npm:6.0.54"
   dependencies:
@@ -11705,7 +11641,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/error@npm:^0.2.0, @truffle/error@npm:^0.2.1":
+"@truffle/error@npm:^0.2.1":
   version: 0.2.1
   resolution: "@truffle/error@npm:0.2.1"
   checksum: 2a7967786fc30aac4b18522f64295511358e952759314c766e5722fc21b3561b0a9177d0346ebca83e9c8d454950aa48b4efe6dffef7b9219ba2d2f1b09de0e8
@@ -11739,7 +11675,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@truffle/interface-adapter@npm:^0.5.21, @truffle/interface-adapter@npm:^0.5.31, @truffle/interface-adapter@npm:^0.5.34, @truffle/interface-adapter@npm:^0.5.35":
+"@truffle/interface-adapter@npm:^0.5.21, @truffle/interface-adapter@npm:^0.5.34, @truffle/interface-adapter@npm:^0.5.35":
   version: 0.5.35
   resolution: "@truffle/interface-adapter@npm:0.5.35"
   dependencies:
@@ -11884,7 +11820,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typechain/hardhat@npm:^6.1.2, @typechain/hardhat@npm:^6.1.5":
+"@typechain/hardhat@npm:^6.1.5":
   version: 6.1.6
   resolution: "@typechain/hardhat@npm:6.1.6"
   dependencies:
@@ -20437,7 +20373,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decimal.js@npm:^10.2.1, decimal.js@npm:^10.3.1":
+"decimal.js@npm:^10.2.1, decimal.js@npm:^10.3.1, decimal.js@npm:^10.4.3":
   version: 10.4.3
   resolution: "decimal.js@npm:10.4.3"
   checksum: 796404dcfa9d1dbfdc48870229d57f788b48c21c603c3f6554a1c17c10195fc1024de338b0cf9e1efe0c7c167eeb18f04548979bcc5fdfabebb7cc0ae3287bae

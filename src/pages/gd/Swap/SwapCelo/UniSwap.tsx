@@ -33,7 +33,7 @@ import { useIsSimpleApp } from 'state/simpleapp/simpleapp'
 
 const jsonRpcUrlMap = {
     122: ['https://rpc.fuse.io', 'https://fuse-rpc.gateway.pokt.network'],
-    42220: ['https://rpc.ankr.com/celo', 'https://forno.celo.org', 'https://celo-rpc.gateway.pokt.network'],
+    42220: ['https://rpc.ankr.com/celo', 'https://celo-rpc.gateway.pokt.network'],
 }
 
 export const UniSwap = (): JSX.Element => {

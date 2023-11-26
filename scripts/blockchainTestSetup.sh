@@ -4,16 +4,11 @@ pushd /tmp/goodprotocol
 export CI=false
 export MNEMONIC='test test test test test test test test test test test junk'
 export ADMIN_MNEMONIC='test test test test test test test test test test test junk'
-yarn set version berry
+yarn set version 3.6.0
 echo "nodeLinker: node-modules" >> .yarnrc.yml
-echo "running yarn..."
-yarn --immutable
-ls -la node_modules
+yarn
 npx patch-package
 yarn runNode &
-echo "sleeping 15 sec for node start..."
-sleep 15
-echo "deploying test..."
 yarn deployTest
 echo "minimizing..."
 yarn minimize

@@ -16,10 +16,11 @@ exports[`Dashboard matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1jb27wt r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy r-zIndex-417010"
+        className="css-view-1dbjc4n r-backgroundColor-1jb27wt r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
         style={
           Object {
             "boxShadow": "0px 3px 4px rgba(0,0,0,0.24)",
+            "zIndex": 0,
           }
         }
       >
@@ -178,18 +179,10 @@ exports[`Dashboard matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
               >
                 <div
-                  className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-paddingBottom-1mdbw0j r-paddingTop-wk8lta r-width-1j6l8hp"
                 >
                   <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "WebkitAlignItems": "flex-start",
-                        "WebkitBoxAlign": "start",
-                        "alignItems": "flex-start",
-                        "msFlexAlign": "start",
-                      }
-                    }
+                    className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
                   >
                     <div
                       className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
@@ -216,7 +209,7 @@ exports[`Dashboard matches snapshot 1`] = `
                       >
                         <div
                           aria-disabled={true}
-                          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-1yadl64 r-height-1pi2tsx r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-13qz1uu"
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-y68mpx r-borderRadius-ieixw r-borderWidth-1yadl64 r-height-1pi2tsx r-justifyContent-1777fci r-marginTop-1bymd8e r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-13qz1uu"
                           onClick={[Function]}
                           onContextMenu={[Function]}
                           onKeyDown={[Function]}
@@ -229,100 +222,30 @@ exports[`Dashboard matches snapshot 1`] = `
                           tabIndex="-1"
                         >
                           <div
-                            className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-ieixw r-borderWidth-1yadl64 r-height-1pi2tsx r-width-13qz1uu"
+                            className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-ieixw r-borderWidth-1yadl64 r-height-1pi2tsx r-marginTop-1bymd8e r-width-13qz1uu"
                           >
                             <unknownProfile.svg />
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="css-view-1dbjc4n"
-                      >
-                        <div
-                          className="css-view-1dbjc4n r-boxShadow-oye7ye r-height-h3s6tt r-marginTop-19qrga8 r-position-bnwqim"
-                        >
-                          <div
-                            className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                            onClick={[Function]}
-                            onContextMenu={[Function]}
-                            onKeyDown={[Function]}
-                            style={
-                              Object {
-                                "WebkitTransitionDuration": "0s",
-                                "transitionDuration": "0s",
-                              }
-                            }
-                            tabIndex="0"
-                          >
-                            <div
-                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-height-1pi2tsx r-justifyContent-1777fci r-marginLeft-i5ea98 r-opacity-6dt33c r-position-u8s1d r-transform-1bd4ige r-width-13qz1uu"
-                            >
-                              <div
-                                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-position-u8s1d r-right-zchlnj r-top-ipm5af r-zIndex-417010"
-                                style={
-                                  Object {
-                                    "backgroundColor": "rgba(0,0,0,1.00)",
-                                    "borderBottomLeftRadius": "20px",
-                                    "borderBottomRightRadius": "20px",
-                                    "borderTopLeftRadius": "20px",
-                                    "borderTopRightRadius": "20px",
-                                    "height": "40px",
-                                    "width": "40px",
-                                  }
-                                }
-                              >
-                                <div
-                                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
-                                  style={
-                                    Object {
-                                      "backgroundImage": "url(\\"https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png\\")",
-                                    }
-                                  }
-                                  suppressHydrationWarning={true}
-                                />
-                                <img
-                                  alt=""
-                                  className="css-accessibilityImage-9pa8cd"
-                                  draggable={false}
-                                  src="https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png"
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-height-1pi2tsx r-justifyContent-1777fci r-marginLeft-i5ea98 r-opacity-orgf3d r-position-u8s1d r-transform-1uie1fx r-width-13qz1uu"
-                            >
-                              <svg
-                                focusable="false"
-                                height="25"
-                                viewBox="0 0 16 14"
-                                width="28"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clipRule="evenodd"
-                                  d="M.116 4.884l1.768-1.768L8 9.232l6.116-6.116 1.768 1.768L8 12.768.116 4.884z"
-                                  fillRule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                    <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginTop-knv0ih r-opacity-6dt33c r-zIndex-1wyyakw"
-                      style={
-                        Object {
-                          "marginBottom": "8px",
-                        }
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginTop-knv0ih"
+                    style={
+                      Object {
+                        "marginBottom": "8px",
+                        "opacity": 1,
+                        "right": "15px",
+                        "zIndex": -1,
                       }
+                    }
+                  >
+                    <div
+                      className="css-text-901oao r-color-1mtiv16 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
                     >
-                      <div
-                        className="css-text-901oao r-color-1mtiv16 r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
-                      >
-                         
-                      </div>
+                       
                     </div>
                   </div>
                 </div>
@@ -483,40 +406,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         "width": "40%",
                       }
                     }
-                  >
-                    <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flexDirection-18u37iz r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                      onClick={[Function]}
-                      onContextMenu={[Function]}
-                      onKeyDown={[Function]}
-                      style={
-                        Object {
-                          "WebkitTransitionDuration": "0s",
-                          "transitionDuration": "0s",
-                        }
-                      }
-                      tabIndex="0"
-                    >
-                      <div
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-xoduu5 r-justifyContent-1777fci"
-                        style={Object {}}
-                      >
-                        <span
-                          className="css-text-901oao css-textHasAncestor-16my406 r-fontWeight-1it3c9n"
-                          style={
-                            Object {
-                              "color": "rgba(0,174,255,1.00)",
-                              "fontFamily": "gooddollar",
-                              "fontSize": "30px",
-                              "fontStyle": "normal",
-                            }
-                          }
-                        >
-                          
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  />
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-b7g440 r-borderRadius-1f0042m r-color-vaa0vc r-display-6koalj r-flexDirection-eqz5dr r-fontFamily-6jnb14 r-fontWeight-vw2c0b r-justifyContent-1777fci r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
                     style={
@@ -660,7 +550,7 @@ exports[`Dashboard matches snapshot 1`] = `
                                   }
                                 }
                               >
-                                
+                                
                               </div>
                               <div
                                 className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-marginRight-88pszg r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
@@ -817,7 +707,7 @@ exports[`Dashboard matches snapshot 1`] = `
                                   }
                                 }
                               >
-                                
+                                
                               </div>
                             </div>
                           </div>
@@ -1500,7 +1390,12 @@ exports[`Dashboard matches snapshot 1`] = `
           className="css-view-1dbjc4n r-bottom-x89ehc r-height-1lh3azm r-position-u8s1d r-right-zchlnj r-width-1q42mak r-zIndex-1sg8ghl"
         >
           <div
-            className="css-view-1dbjc4n r-opacity-orgf3d"
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "opacity": 0,
+              }
+            }
           >
             <div
               className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
@@ -1628,7 +1523,7 @@ exports[`Dashboard matches snapshot 1`] = `
                 }
               }
             >
-              
+              
             </div>
           </div>
           <div

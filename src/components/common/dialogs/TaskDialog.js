@@ -5,7 +5,6 @@ import { t } from '@lingui/macro'
 import { useTaskList } from '../../dashboard/Tasks/hooks/useTasks'
 import { Section, Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
-import { isMobileWeb as isMobile } from '../../../lib/utils/platform'
 
 const dialogStyles = ({ theme }) => ({
   subTitleContainer: {
@@ -51,10 +50,15 @@ const dialogStyles = ({ theme }) => ({
     ...Platform.select({
       web: {
         top: -15,
-        left: isMobile ? 65 : 90,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        marginLeft: 'auto',
+        marginRight: 'auto',
         height: 10,
         padding: 16,
         width: 150,
+        position: 'absolute',
       },
       native: {
         top: -20,
@@ -112,12 +116,14 @@ const TaskDialog = ({ styles, theme }) => {
           <Section.Text style={styles.headerText}>{t`Next task`}</Section.Text>
         </Section.Row>
 
-        {tasks.map(task => (
-          <Section.Row key={task.id} style={styles.taskBody}>
-            <Section.Text style={styles.taskDesc}>{task.description}</Section.Text>
-            <Section.Text style={styles.taskAction}>{task.actionButton}</Section.Text>
-          </Section.Row>
-        ))}
+        {tasks
+          .filter(task => task.isActive)
+          .map(task => (
+            <Section.Row key={task.id} style={styles.taskBody}>
+              <Section.Text style={styles.taskDesc}>{task.description}</Section.Text>
+              <Section.Text style={styles.taskAction}>{task.actionButton}</Section.Text>
+            </Section.Row>
+          ))}
       </Section>
     </View>
   )

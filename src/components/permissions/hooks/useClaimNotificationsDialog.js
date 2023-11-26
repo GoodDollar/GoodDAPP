@@ -7,7 +7,7 @@ const useClaimNotificationsDialog = () => {
   const { showDialog } = useDialog()
 
   const askForClaimNotifications = useCallback(
-    async (onConfirm, onDismiss) => {
+    (onConfirm, onDismiss) => {
       const onDialogResult = result => {
         onDismiss()
 
@@ -16,7 +16,7 @@ const useClaimNotificationsDialog = () => {
         }
       }
 
-      await showDialog({
+      showDialog({
         isMinHeight: false,
         showButtons: false,
         onDismiss,

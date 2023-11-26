@@ -101,6 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "wallet chunk id $WALLET_CHUNK chunk ${{ matrix.chunk }}"
+      - run: corepack enable
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
@@ -132,6 +133,8 @@ jobs:
         run: yarn run ganache
 
       - name: run tests and code coverage
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
           cat node_modules/@gooddollar/goodcontracts/releases/deployment.json
           echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs yarn coverage

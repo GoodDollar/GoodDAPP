@@ -212,8 +212,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 reason,
                 category,
                 amount,
-                senderEmail: vendorFields.email,
-                senderName: vendorFields.name,
+                senderEmail: vendorFields?.email,
+                senderName: vendorFields?.name,
                 invoiceId: vendorInfo?.invoiceId,
                 sellerWebsite: vendorInfo?.website,
                 sellerName: vendorInfo?.vendorName,
@@ -367,6 +367,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           reason: t`Bridged G$`,
           counterPartyFullName: t`Bridge`,
           amount,
+          isBridge: true,
         },
       }
 

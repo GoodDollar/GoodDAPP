@@ -266,7 +266,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     const {
       title,
-      isBridge,
       navigationBar: NavigationBar,
       navigationBarHidden,
       backButtonHidden,
@@ -317,13 +316,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
                   title={pageTitle}
                   goBack={backButtonHidden ? undefined : this.pop}
                 />
-                {isBridge && (
-                  <NavBar
-                    backToWallet={backToWallet}
-                    goBack={backButtonHidden ? undefined : this.pop}
-                    title={pageTitle}
-                  />
-                )}
               </>
             ) : (
               <NavBar backToWallet={backToWallet} goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
@@ -472,6 +464,7 @@ export const NextButton = ({
   label,
   canContinue,
   loading,
+  ...props
 }: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
   return (
@@ -484,6 +477,7 @@ export const NextButton = ({
       style={Platform.OS === 'web' && { flex: 2 }}
       canContinue={canContinue}
       loading={loading}
+      {...props}
     >
       {label || 'Next'}
     </PushButton>

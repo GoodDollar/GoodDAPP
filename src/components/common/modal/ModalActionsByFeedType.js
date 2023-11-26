@@ -57,12 +57,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   }
 
   const handleCancelFailed = useCallback(
-    async (exception, code, category = null) => {
+    (exception, code, category = null) => {
       const { message } = exception
 
       decorate(exception, code)
       userStorage.updateOTPLEventStatus(item.id, 'pending')
-      await showErrorDialog(t`The payment could not be canceled at this time. Please try again.`, code)
+      showErrorDialog(t`The payment could not be canceled at this time. Please try again.`, code)
       log.error('cancel payment failed', message, exception, pickBy({ dialogShown: true, code, category }))
     },
     [item, setCancellingPayment, showErrorDialog, userStorage],
@@ -78,7 +78,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
     if (!canCancel) {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
-      await showErrorDialog(t`The transaction is still pending, it can't be cancelled right now`)
+      showErrorDialog(t`The transaction is still pending, it can't be cancelled right now`)
       return
     }
 
@@ -345,7 +345,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
 const getStylesFromProps = ({ theme }) => ({
   buttonsView: {
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',

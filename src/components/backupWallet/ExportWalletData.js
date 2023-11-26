@@ -90,6 +90,20 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
         <BorderedBox
           styles={styles}
           theme={theme}
+          title={t`My Wallet Address`}
+          content={publicKey}
+          imageSize={checkmarkIconSize}
+          image={Checkmark}
+          copyButtonText={t`Copy address`}
+          showCopyIcon={false}
+          truncateContent
+          enableIndicateAction
+          enableSideMode
+        />
+        <Divider />
+        <BorderedBox
+          styles={styles}
+          theme={theme}
           title={t`My Private Key`}
           content={fullPrivateKey}
           imageSize={checkmarkIconSize}
@@ -99,20 +113,6 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           showCopyIcon={false}
           enableIndicateAction
           truncateContent
-          enableSideMode
-        />
-        <Divider />
-        <BorderedBox
-          styles={styles}
-          theme={theme}
-          title={t`My Wallet Address`}
-          content={publicKey}
-          imageSize={checkmarkIconSize}
-          image={Checkmark}
-          copyButtonText={t`Copy address`}
-          showCopyIcon={false}
-          truncateContent
-          enableIndicateAction
           enableSideMode
         />
         <Divider />

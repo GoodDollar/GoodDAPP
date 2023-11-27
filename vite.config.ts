@@ -26,9 +26,7 @@ if (process.env.HTTPS === 'true') {
     https = false
 }
 export default defineConfig(({ command, mode }) => {
-    // Load env file based on `mode` in the current working directory.
-    // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
-    const env = loadEnv(mode, process.cwd(), '')
+    process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
     return {
         envPrefix: 'REACT_APP_',
         server: {
@@ -80,7 +78,8 @@ export default defineConfig(({ command, mode }) => {
             },
         },
         define: {
-            __APP_ENV__: JSON.stringify(env.APP_ENV),
+            'process.browser': true,
+            'process.env': process.env,
         },
         optimizeDeps: {
             esbuildOptions: {

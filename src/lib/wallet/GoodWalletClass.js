@@ -349,9 +349,7 @@ export class GoodWallet {
     this.isPollEvents = active
     if (!active) {
       this.pollEventsCurrentPromise && (await this.pollEventsCurrentPromise)
-      this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
       this.pollEventsCurrentPromise = null
-      this.pollEventsTimeout = null
     }
   }
 
@@ -395,6 +393,9 @@ export class GoodWallet {
 
   // eslint-disable-next-line require-await
   async watchEvents(startFrom, lastBlockCallback) {
+    this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
+    this.pollEventsTimeout = null
+
     const { account } = this
     let fromBlock = startFrom
 

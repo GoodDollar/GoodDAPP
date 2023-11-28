@@ -47,7 +47,7 @@ export default defineConfig(({ command, mode }) => {
             // }),
             nodePolyfills({
                 protocolImports: true,
-                exclude: ['constants'],
+                exclude: ['constants', 'crypto'],
                 globals: {
                     Buffer: true,
                     global: true,

@@ -944,7 +944,7 @@ export class UserStorage {
       'GoodDollar'
 
     const fromEmailMobile = data.initiatorType && data.initiator
-    const fromNativeAddress = fromNative ? truncateMiddle(data.address, 29) : ''
+    const fromNativeAddress = truncateMiddle(data.address, 29)
 
     data.displayName =
       customName || counterPartyFullName || fromEmailMobile || fromGDUbi || fromGD || fromNativeAddress || 'Unknown'

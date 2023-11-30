@@ -478,11 +478,11 @@ export class APIService {
 
     const res = Array.isArray(result) ? result[0] : result
 
-    if (res.Proxy === '1') {
+    if (res?.Proxy === '1') {
       return this.getContractName(res.Implementation, chainId, explorer)
     }
 
-    return res.ContractName
+    return res?.ContractName
   }
 
   // eslint-disable-next-line require-await

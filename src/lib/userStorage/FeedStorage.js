@@ -9,6 +9,7 @@ import delUndefValNested from '../utils/delUndefValNested'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import { fireEvent, REWARD_RECEIVED } from '../analytics/analytics'
+import API from '../../lib/API'
 import { type UserStorage } from './UserStorageClass'
 import { FeedCategories } from './FeedCategory'
 import type { FeedFilter } from './UserStorage'
@@ -548,6 +549,12 @@ export class FeedStorage {
 
     if (!addressField || !address) {
       return {}
+    }
+
+    const isContract = await this.wallet.wallet.eth.getCode(address)
+
+    if (isContract !== '0x') {
+      feedEvent.data.counterPartyFullName = await API.getContractName(address, 42220)
     }
 
     let profile = await this._readProfileCache(address)

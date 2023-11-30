@@ -466,6 +466,7 @@ export class APIService {
       default:
         break
     }
+
     if (!explorer) {
       return undefined
     }
@@ -475,7 +476,13 @@ export class APIService {
       baseURL: explorer,
     })
 
-    return result?.ContractName
+    const res = Array.isArray(result) ? result[0] : result
+
+    if (res.Proxy === '1') {
+      return this.getContractName(res.Implementation, chainId, explorer)
+    }
+
+    return res.ContractName
   }
 
   // eslint-disable-next-line require-await

@@ -134,20 +134,21 @@ const Claim = memo(() => {
             width: '100%',
         },
         lg: {
-            width: '90%',
+            width: '65%',
             alignItems: 'center',
             paddingTop: '2rem',
+            paddingRight: 32,
         },
     })
 
     const newsFeedView = useBreakpointValue({
         base: {
             width: '100%',
-            marginTop: '16px',
+            marginTop: 16,
         },
         lg: {
             width: '50%',
-            marginTop: '16px',
+            marginTop: 16,
         },
     })
 
@@ -278,7 +279,7 @@ Learn how here`,
                         style={{
                             flexGrow: '1',
                             alignSelf: 'flex-start',
-                            marginLeft: !isMobile ? '15%' : 0,
+                            marginLeft: !isMobile ? '10%' : 0,
                         }}
                     >
                         <ClaimCarousel cards={mockedCards} claimed={claimed} isMobile={isMobile} />

@@ -9,6 +9,7 @@ import { TokenContext, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
+import AddressRow from '../common/view/AddressRow'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
@@ -71,6 +72,9 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
             {t`Let someone scan your wallet address`}
           </Section.Text>
           <QRCode value={isNativeFlow ? account : share.url} size={150} />
+        </Section.Stack>
+        <Section.Stack alignItems="center" justifyContent="center" style={styles.addressRow}>
+          <AddressRow title="Wallet" address={account} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center" style={styles.orText}>
           <Section.Text fontSize={14}>- OR -</Section.Text>
@@ -135,6 +139,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   space: {
     height: theme.sizes.defaultDouble,
+  },
+  addressRow: {
+    marginTop: 24,
   },
   orText: {
     marginVertical: 20,

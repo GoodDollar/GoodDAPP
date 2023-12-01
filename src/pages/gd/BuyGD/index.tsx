@@ -134,14 +134,14 @@ const BuyGd = memo(() => {
                 </Box>
             </CentreBox>
             <CentreBox w="100%" justifyContent="flex-start" style={rightContainer}>
-                <Box w="100%" mb={6} style={sideTabs}>
+                <Box w="100%" mb={2} style={sideTabs}>
                     {G$Price && (
                         <SlideDownTab tabTitle="G$ Calculator">
                             <Converter gdPrice={G$Price} />
                         </SlideDownTab>
                     )}
                 </Box>
-                <Box w="100%" mb={6} style={sideTabs}>
+                <Box w="100%" mb={2} style={sideTabs}>
                     <SlideDownTab tabTitle="FAQ">
                         <Text
                             textAlign="center"

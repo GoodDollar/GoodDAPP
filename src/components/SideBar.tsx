@@ -25,6 +25,7 @@ import LanguageSwitch from './LanguageSwitch'
 import { NavLink } from './Link'
 import usePromise from '../hooks/usePromise'
 import { ExternalLink } from 'theme'
+import { SubMenuItems } from './StyledMenu/SubMenu'
 
 const SocialsLink: React.FC<{ network: string; logo: string; url: string }> = ({ network, logo, url }) => (
     <a href={url} target="_blank" className="flex items-center space-x-2" rel="noreferrer">
@@ -147,20 +148,6 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
             closeSidebar()
         }
     }
-
-    const renderSubMenuItems = (items: any, styles?: any) =>
-        items
-            .filter((ext) => ext.show)
-            .map(({ label, url, dataAttr, withIcon }) => (
-                <ExternalLink
-                    key={label}
-                    label={label}
-                    url={url}
-                    dataAttr={dataAttr}
-                    withIcon={withIcon}
-                    customStyles={styles}
-                />
-            ))
 
     const externalLinks = useMemo(
         () => [
@@ -330,7 +317,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
 
                     {externalLinks.map((subMenu) =>
                         subMenu.subMenuTitle === 'Regular' ? (
-                            renderSubMenuItems(subMenu.items)
+                            <SubMenuItems items={subMenu.items} />
                         ) : (
                             <SlideDownTab
                                 key={subMenu.subMenuTitle}
@@ -342,7 +329,10 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                                 }}
                                 arrowSmall
                             >
-                                {renderSubMenuItems(subMenu.items, { alignItems: 'flex-start', paddingLeft: 4 })}
+                                <SubMenuItems
+                                    items={subMenu.items}
+                                    styles={{ alignItems: 'flex-start', paddingLeft: 4 }}
+                                />
                             </SlideDownTab>
                         )
                     )}

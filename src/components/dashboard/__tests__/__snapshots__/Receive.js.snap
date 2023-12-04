@@ -117,12 +117,14 @@ exports[`Receive matches snapshot 1`] = `
                     "gray80Percent": "#A3A3A3",
                     "grayBox": "#E5E5E5",
                     "green": "#00C3AE",
+                    "lessDarkGray": "#A5AEC0",
                     "lightBlue": "#8499BB",
                     "lightGdBlue": "#00AEFF",
                     "lightGray": "#EEE",
                     "lightGreen": "#00BBA5",
                     "lighterGray": "#A3A3A3",
                     "lighterGreen": "#04C899",
+                    "lightestGray": "#F9F9F9",
                     "notification": "#f50057",
                     "onBackground": "#000000",
                     "onSurface": "#000000",
@@ -207,6 +209,107 @@ exports[`Receive matches snapshot 1`] = `
         </div>
       </div>
       <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginTop-11c0sde"
+      >
+        <div
+          className="css-view-1dbjc4n r-backgroundColor-gbtiil r-borderRadius-1f0042m r-display-6koalj r-flexDirection-18u37iz r-gap-1cmwbt1 r-justifyContent-1wtj0ep r-marginBottom-1ifxtd0 r-padding-edyy15 r-width-13qz1uu"
+        >
+          <div
+            className="css-view-1dbjc4n"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "WebkitTransitionDuration": "0s",
+                  "backgroundColor": "rgba(165,174,192,1.00)",
+                  "transitionDuration": "0s",
+                }
+              }
+              tabIndex="0"
+            >
+              <div
+                className="css-text-901oao r-fontWeight-1it3c9n"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "fontFamily": "gooddollar",
+                    "fontSize": "24px",
+                    "fontStyle": "normal",
+                  }
+                }
+              >
+                
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-flexDirection-eqz5dr r-width-gmdvlt"
+          >
+            <div
+              className="css-text-901oao r-fontSize-ubezar"
+              dir="auto"
+              style={
+                Object {
+                  "height": "21px",
+                  "textAlign": "left",
+                }
+              }
+            >
+              My Wallet Address
+            </div>
+            <div
+              className="css-text-901oao r-fontSize-1b43r93"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(163,163,163,1.00)",
+                  "textAlign": "left",
+                }
+              }
+            >
+              0x5dfFc16...fc39EE35F
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
+                }
+              }
+              tabIndex="0"
+            >
+              <div
+                className="css-text-901oao r-fontWeight-1it3c9n"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "fontFamily": "gooddollar",
+                    "fontSize": "24px",
+                    "fontStyle": "normal",
+                  }
+                }
+              >
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1777fci r-marginVertical-7e3msg"
       >
         <div
@@ -223,10 +326,9 @@ exports[`Receive matches snapshot 1`] = `
           className="css-view-1dbjc4n r-height-10ptun7"
         />
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1jb27wt r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
           style={
             Object {
-              "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
               "borderBottomStyle": "solid",

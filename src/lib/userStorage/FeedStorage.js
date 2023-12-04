@@ -542,6 +542,7 @@ export class FeedStorage {
 
   async getCounterParty(feedEvent) {
     const addressField = getEventDirection(feedEvent)
+    const chainId = feedEvent.chainId ?? this.wallet.networkId
 
     log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
@@ -554,7 +555,7 @@ export class FeedStorage {
     const isContract = await this.wallet.wallet.eth.getCode(address)
 
     if (isContract !== '0x') {
-      feedEvent.data.counterPartyFullName = await API.getContractName(address, 42220)
+      feedEvent.data.counterPartyFullName = await API.getContractName(address, chainId)
     }
 
     let profile = await this._readProfileCache(address)

@@ -2754,7 +2754,7 @@ msgstr "清除所有"
 msgid "Close"
 msgstr "關閉"
 
-#: src/pages/gd/Claim/index.tsx:248
+#: src/pages/gd/Claim/index.tsx:249
 msgid "Collect G$"
 msgstr ""
 
@@ -2805,6 +2805,14 @@ msgstr "複製地址"
 msgid "Current Rate"
 msgstr "當前利率"
 
+#: src/components/SideBar.tsx:185
+msgid "Dapps"
+msgstr ""
+
+#: src/components/SideBar.tsx:223
+msgid "Dashboard"
+msgstr ""
+
 #: src/components/Savings/SavingsCard/index.tsx:67
 #: src/pages/gd/Stake/StakeDeposit/index.tsx:371
 msgid "DEPOSIT"
@@ -2824,9 +2832,13 @@ msgstr "存款概述"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:168
+#: src/components/SideBar.tsx:230
 msgid "Docs"
 msgstr "文档"
+
+#: src/components/SideBar.tsx:171
+msgid "Donate"
+msgstr ""
 
 #: src/components/Gas/index.tsx:12
 msgid "failed to load"
@@ -2836,7 +2848,7 @@ msgstr "加載失敗"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:161
+#: src/components/SideBar.tsx:204
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2869,7 +2881,7 @@ msgstr "去投資組合"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:175
+#: src/components/SideBar.tsx:237
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2885,13 +2897,17 @@ msgstr ""
 msgid "GoodDollar"
 msgstr ""
 
-#: src/pages/gd/Claim/index.tsx:259
+#: src/pages/gd/Claim/index.tsx:260
 msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
 msgstr ""
 
 #: src/pages/gd/Stake/index.tsx:463
 #: src/pages/gd/Stake/index.tsx:467
 msgid "GoodStakes"
+msgstr ""
+
+#: src/components/SideBar.tsx:216
+msgid "GoodWallet"
 msgstr ""
 
 #: src/pages/gd/Portfolio/index.tsx:333
@@ -3074,6 +3090,10 @@ msgstr "路徑"
 msgid "Routing through these tokens resulted in the best price for your trade."
 msgstr "路由經過這些代幣將給您的交易帶來最好的價格。"
 
+#: src/components/SideBar.tsx:178
+msgid "Save G$"
+msgstr ""
+
 #: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:36
 #: src/pages/gd/Stake/Savings/index.tsx:151
 msgid "Savings"
@@ -3095,6 +3115,10 @@ msgstr "可容忍滑點"
 
 #: src/pages/gd/Stake/index.tsx:77
 msgid "Social APY"
+msgstr ""
+
+#: src/components/SideBar.tsx:197
+msgid "Squid Router"
 msgstr ""
 
 #: src/pages/gd/Stake/index.tsx:215
@@ -3334,10 +3358,10 @@ msgid "Waiting For Confirmation"
 msgstr "等待確認中"
 
 #: src/components/SideBar.tsx:154
-msgid "Wallet"
-msgstr "錢包"
+#~ msgid "Wallet"
+#~ msgstr "錢包"
 
-#: src/components/SideBar.tsx:249
+#: src/components/SideBar.tsx:309
 msgid "Wallet balance"
 msgstr "錢包平衡"
 

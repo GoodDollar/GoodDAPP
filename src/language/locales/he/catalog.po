@@ -2767,7 +2767,7 @@ msgstr "נקה את כל"
 msgid "Close"
 msgstr "סגור"
 
-#: src/pages/gd/Claim/index.tsx:248
+#: src/pages/gd/Claim/index.tsx:249
 msgid "Collect G$"
 msgstr ""
 
@@ -2818,6 +2818,14 @@ msgstr "העתקת העתקה"
 msgid "Current Rate"
 msgstr "שער הנוכחי"
 
+#: src/components/SideBar.tsx:185
+msgid "Dapps"
+msgstr ""
+
+#: src/components/SideBar.tsx:223
+msgid "Dashboard"
+msgstr ""
+
 #: src/components/Savings/SavingsCard/index.tsx:67
 #: src/pages/gd/Stake/StakeDeposit/index.tsx:371
 msgid "DEPOSIT"
@@ -2837,9 +2845,13 @@ msgstr "סקירה פיקדון"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:168
+#: src/components/SideBar.tsx:230
 msgid "Docs"
 msgstr "מסמכים"
+
+#: src/components/SideBar.tsx:171
+msgid "Donate"
+msgstr ""
 
 #: src/components/Gas/index.tsx:12
 msgid "failed to load"
@@ -2849,7 +2861,7 @@ msgstr "נכשלה בטעינה"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:161
+#: src/components/SideBar.tsx:204
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2882,7 +2894,7 @@ msgstr "עבור אל תיק הפורפוליו"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:175
+#: src/components/SideBar.tsx:237
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2898,13 +2910,17 @@ msgstr ""
 msgid "GoodDollar"
 msgstr ""
 
-#: src/pages/gd/Claim/index.tsx:259
+#: src/pages/gd/Claim/index.tsx:260
 msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
 msgstr ""
 
 #: src/pages/gd/Stake/index.tsx:463
 #: src/pages/gd/Stake/index.tsx:467
 msgid "GoodStakes"
+msgstr ""
+
+#: src/components/SideBar.tsx:216
+msgid "GoodWallet"
 msgstr ""
 
 #: src/pages/gd/Portfolio/index.tsx:333
@@ -3087,6 +3103,10 @@ msgstr "מסלול"
 msgid "Routing through these tokens resulted in the best price for your trade."
 msgstr "ניתוב באמצעות אסימונים אלה הביא את המחיר הטוב ביותר עבור הסחר שלך."
 
+#: src/components/SideBar.tsx:178
+msgid "Save G$"
+msgstr ""
+
 #: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:36
 #: src/pages/gd/Stake/Savings/index.tsx:151
 msgid "Savings"
@@ -3108,6 +3128,10 @@ msgstr "תנודת מחיר מקובלת"
 
 #: src/pages/gd/Stake/index.tsx:77
 msgid "Social APY"
+msgstr ""
+
+#: src/components/SideBar.tsx:197
+msgid "Squid Router"
 msgstr ""
 
 #: src/pages/gd/Stake/index.tsx:215
@@ -3347,10 +3371,10 @@ msgid "Waiting For Confirmation"
 msgstr "מחכה לאישור"
 
 #: src/components/SideBar.tsx:154
-msgid "Wallet"
-msgstr "ארנק"
+#~ msgid "Wallet"
+#~ msgstr "ארנק"
 
-#: src/components/SideBar.tsx:249
+#: src/components/SideBar.tsx:309
 msgid "Wallet balance"
 msgstr "מאזן ארנק"
 

@@ -2771,7 +2771,7 @@ msgstr "Alles löschen"
 msgid "Close"
 msgstr "Nah dran"
 
-#: src/pages/gd/Claim/index.tsx:248
+#: src/pages/gd/Claim/index.tsx:249
 msgid "Collect G$"
 msgstr ""
 
@@ -2822,6 +2822,14 @@ msgstr "Adresse kopieren."
 msgid "Current Rate"
 msgstr "Tageskurs"
 
+#: src/components/SideBar.tsx:185
+msgid "Dapps"
+msgstr ""
+
+#: src/components/SideBar.tsx:223
+msgid "Dashboard"
+msgstr ""
+
 #: src/components/Savings/SavingsCard/index.tsx:67
 #: src/pages/gd/Stake/StakeDeposit/index.tsx:371
 msgid "DEPOSIT"
@@ -2841,8 +2849,12 @@ msgstr "Übersicht einleiten."
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:168
+#: src/components/SideBar.tsx:230
 msgid "Docs"
+msgstr ""
+
+#: src/components/SideBar.tsx:171
+msgid "Donate"
 msgstr ""
 
 #: src/components/Gas/index.tsx:12
@@ -2853,7 +2865,7 @@ msgstr "Laden fehlgeschlagen"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:161
+#: src/components/SideBar.tsx:204
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2886,7 +2898,7 @@ msgstr "Gehe zum Portfolio."
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:175
+#: src/components/SideBar.tsx:237
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2902,13 +2914,17 @@ msgstr ""
 msgid "GoodDollar"
 msgstr ""
 
-#: src/pages/gd/Claim/index.tsx:259
+#: src/pages/gd/Claim/index.tsx:260
 msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
 msgstr ""
 
 #: src/pages/gd/Stake/index.tsx:463
 #: src/pages/gd/Stake/index.tsx:467
 msgid "GoodStakes"
+msgstr ""
+
+#: src/components/SideBar.tsx:216
+msgid "GoodWallet"
 msgstr ""
 
 #: src/pages/gd/Portfolio/index.tsx:333
@@ -3091,6 +3107,10 @@ msgstr ""
 msgid "Routing through these tokens resulted in the best price for your trade."
 msgstr "Das Weiterleiten durch diese Token ergab den besten Preis für Ihren Handel."
 
+#: src/components/SideBar.tsx:178
+msgid "Save G$"
+msgstr ""
+
 #: src/components/Savings/SavingsCard/SavingsCardRow/index.tsx:36
 #: src/pages/gd/Stake/Savings/index.tsx:151
 msgid "Savings"
@@ -3112,6 +3132,10 @@ msgstr "Schlupftoleranz"
 
 #: src/pages/gd/Stake/index.tsx:77
 msgid "Social APY"
+msgstr ""
+
+#: src/components/SideBar.tsx:197
+msgid "Squid Router"
 msgstr ""
 
 #: src/pages/gd/Stake/index.tsx:215
@@ -3351,10 +3375,10 @@ msgid "Waiting For Confirmation"
 msgstr "Auf Bestätigung warten"
 
 #: src/components/SideBar.tsx:154
-msgid "Wallet"
-msgstr "Brieftasche"
+#~ msgid "Wallet"
+#~ msgstr "Brieftasche"
 
-#: src/components/SideBar.tsx:249
+#: src/components/SideBar.tsx:309
 msgid "Wallet balance"
 msgstr "Geldbörsenbetrag"
 

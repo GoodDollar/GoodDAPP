@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'gooddollar';
-  src: url('./gooddollar.eot?54578204');
-  src: url('./gooddollar.eot?54578204#iefix') format('embedded-opentype'),
-       url('./gooddollar.woff2?54578204') format('woff2'),
-       url('./gooddollar.woff?54578204') format('woff'),
-       url('./gooddollar.ttf?54578204') format('truetype'),
-       url('./gooddollar.svg?54578204#gooddollar') format('svg');
+  src: url('./gooddollar.eot?2433140');
+  src: url('./gooddollar.eot?2433140#iefix') format('embedded-opentype'),
+       url('./gooddollar.woff2?2433140') format('woff2'),
+       url('./gooddollar.woff?2433140') format('woff'),
+       url('./gooddollar.ttf?2433140') format('truetype'),
+       url('./gooddollar.svg?2433140#gooddollar') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'gooddollar';
-    src: url('../font/gooddollar.svg?54578204#gooddollar') format('svg');
+    src: url('../font/gooddollar.svg?2433140#gooddollar') format('svg');
   }
 }
 */
@@ -123,6 +123,7 @@
 .icon-statistics:before { content: '\e842'; } /* '' */
 .icon-link-ext-1:before { content: '\e843'; } /* '' */
 .icon-paste2:before { content: '\e844'; } /* '' */
+.icon-wallet_alt-1:before { content: '\e845'; } /* '' */
 .icon-vote:before { content: '\e848'; } /* '' */
 .icon-donate:before { content: '\e849'; } /* '' */
 .icon-rewards-alt:before { content: '\e84a'; } /* '' */

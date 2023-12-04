@@ -25,7 +25,7 @@ const ProfileAvatar = withStyles(() => ({
   return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
 })
 
-const AddressesRow = ({ title, address = undefined, styles }) => {
+const IdentifiersRow = ({ title, address = undefined, styles }) => {
   const [performed, setPerformed] = useState(false)
 
   const _onCopied = useCallback(() => {
@@ -34,12 +34,6 @@ const AddressesRow = ({ title, address = undefined, styles }) => {
   }, [setPerformed])
 
   const copyToClipboard = useClipboardCopy(address, _onCopied)
-
-  const handleCopy = useCallback(() => {
-    copyToClipboard()
-  }, [copyToClipboard])
-
-  const headerCopy = title === 'Wallet' ? t`My Wallet Address` : t`My Face Record ID`
 
   const truncAddress = truncateMiddle(address, 22)
 
@@ -56,11 +50,13 @@ const AddressesRow = ({ title, address = undefined, styles }) => {
       )}
 
       <View style={styles.addressRow}>
-        <Text style={{ textAlign: 'left', fontSize: 16, height: 21 }}>{headerCopy}</Text>
+        <Text style={{ textAlign: 'left', fontSize: 16, height: 21 }}>
+          {title === 'Wallet' ? t`My Wallet Address` : t`My Face Record ID`}
+        </Text>
         <Text style={{ textAlign: 'left', fontSize: 14, color: theme.colors.lighterGray }}>{truncAddress}</Text>
       </View>
       <RoundIconButton
-        onPress={handleCopy}
+        onPress={copyToClipboard}
         iconSize={performed ? 16 : 24}
         iconName={performed ? 'success' : 'copy'}
         style={styles.iconContainer}
@@ -110,5 +106,5 @@ const getStyleFromProps = ({ theme }) => ({
   },
 })
 
-const AddressRow = withStyles(getStyleFromProps)(AddressesRow)
-export default AddressRow
+const IdentifierRow = withStyles(getStyleFromProps)(IdentifiersRow)
+export default IdentifierRow

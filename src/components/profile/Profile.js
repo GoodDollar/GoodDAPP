@@ -13,7 +13,7 @@ import RoundIconButton from '../common/buttons/RoundIconButton'
 import { usePublicProfile } from '../../lib/userStorage/useProfile'
 import { theme } from '../theme/styles'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
-import AddressRow from '../common/view/AddressRow'
+import IdentifierRow from '../common/view/AddressRow'
 
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -62,10 +62,10 @@ const ProfileWrapper = ({ screenProps, styles }) => {
 
         <Section grow justifyContent="flex-end" style={{ marginBottom: 16, width: '100%', padding: 0, margin: 0 }}>
           <Section.Row style={{ width: '100%' }}>
-            <AddressRow title="Wallet" address={goodWallet.account} />
+            <IdentifierRow title="Wallet" address={goodWallet.account} />
           </Section.Row>
           <Section.Row>
-            <AddressRow title="FaceId" address={faceRecordId} />
+            <IdentifierRow title="FaceId" address={faceRecordId} />
           </Section.Row>
         </Section>
       </Section>

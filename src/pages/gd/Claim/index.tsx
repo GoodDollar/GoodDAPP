@@ -134,7 +134,7 @@ const Claim = memo(() => {
             width: '100%',
         },
         lg: {
-            width: '65%',
+            width: '70%',
             alignItems: 'center',
             paddingTop: '2rem',
             paddingRight: 32,

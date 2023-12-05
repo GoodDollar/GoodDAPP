@@ -482,7 +482,7 @@ export const useWalletConnectSession = () => {
             if (method === 'eth_signTransaction') {
               const result = await wallet.signTransaction(message)
               log.info('tx sign success:', { result })
-              approveRequest(connector, payload.id, payload.topic, result)
+              approveRequest(connector, payload.id, payload.topic, result.rawTransaction)
             }
 
             if (method === 'eth_sendTransaction') {

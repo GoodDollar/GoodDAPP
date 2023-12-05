@@ -477,9 +477,10 @@ export class APIService {
     })
 
     const res = Array.isArray(result) ? result[0] : result
+    const impl = chainId === 42220 ? res?.Implementation : res?.ImplementationAddress
 
-    if (res?.Proxy === '1') {
-      return this.getContractName(res.Implementation, chainId, explorer)
+    if (res?.Proxy === '1' || res?.IsProxy === 'true') {
+      return this.getContractName(impl, chainId, explorer)
     }
 
     return res?.ContractName

@@ -171,7 +171,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "minWidth": "10px",
+                    "minWidth": "15px",
                   }
                 }
               >
@@ -378,7 +378,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "minWidth": "10px",
+                    "minWidth": "15px",
                   }
                 }
               >
@@ -585,7 +585,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "minWidth": "10px",
+                    "minWidth": "15px",
                   }
                 }
               >

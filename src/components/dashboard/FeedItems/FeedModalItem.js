@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import { get, isNil } from 'lodash'
 import { t } from '@lingui/macro'
 import { ChatWithOwner } from 'react-native-wallet-chat'
@@ -113,7 +113,11 @@ const FeedModalItem = (props: FeedEventProps) => {
               <Avatar source={avatar} size={34} imageSize={36} style={styles.avatar} />
               {item.data && item.data.endpoint && (
                 <View style={{ flex: 1, alignItems: 'flex-start', flexDirection: 'column' }}>
-                  <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
+                  <EventCounterParty
+                    style={[styles.feedItem, styles.eventCounterParty]}
+                    textStyle={styles.feedItemText}
+                    feedItem={item}
+                  />
                   {!eventSettings.withoutAvatar && !!sellerWebsite && <EventInfoText>{sellerWebsite}</EventInfoText>}
                 </View>
               )}
@@ -225,6 +229,16 @@ const getStylesFromProps = ({ theme }) => {
     feedItemText: {
       fontSize: 22,
       lineHeight: 22,
+    },
+    eventCounterParty: {
+      ...Platform.select({
+        web: {
+          width: 280,
+        },
+        native: {
+          width: 190,
+        },
+      }),
     },
     bigNumberStyles: {
       marginRight: theme.sizes.defaultHalf,

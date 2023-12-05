@@ -60,7 +60,7 @@ export const routeAndPathForCode = async (
         vendorInfo,
         counterPartyDisplayName,
         action: ACTION_SEND_TO_ADDRESS,
-        type: screen === 'sendByQR' ? 'QR' : 'receive',
+        type: screen === 'sendByQR' ? 'qrcode' : 'receive',
       }
       const nextRoutes = ['SendLinkSummary']
       return {

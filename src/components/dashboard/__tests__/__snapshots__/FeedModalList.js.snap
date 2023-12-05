@@ -630,11 +630,16 @@ Array [
                                   className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                                 >
                                   <div
-                                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t"
+                                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
                                   >
                                     <div
-                                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-minWidth-t66pp7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                                       dir="auto"
+                                      style={
+                                        Object {
+                                          "minWidth": "15px",
+                                        }
+                                      }
                                     >
                                       From
                                       :
@@ -709,8 +714,13 @@ Array [
                                     className="css-view-1dbjc4n r-flexDirection-18u37iz"
                                   >
                                     <div
-                                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-minWidth-t66pp7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                                       dir="auto"
+                                      style={
+                                        Object {
+                                          "minWidth": "15px",
+                                        }
+                                      }
                                     >
                                       To
                                       :
@@ -1087,11 +1097,16 @@ Array [
                                   className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                                 >
                                   <div
-                                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t"
+                                    className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
                                   >
                                     <div
-                                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-minWidth-t66pp7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                                       dir="auto"
+                                      style={
+                                        Object {
+                                          "minWidth": "15px",
+                                        }
+                                      }
                                     >
                                       To
                                       :
@@ -1166,8 +1181,13 @@ Array [
                                     className="css-view-1dbjc4n r-flexDirection-18u37iz"
                                   >
                                     <div
-                                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-minWidth-t66pp7 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                                       dir="auto"
+                                      style={
+                                        Object {
+                                          "minWidth": "15px",
+                                        }
+                                      }
                                     >
                                       From
                                       :

@@ -224,7 +224,7 @@ exports[`Profile matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-marginBottom-p1pxzi r-padding-nsbfu8 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-marginBottom-p1pxzi r-padding-nsbfu8 r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingVertical-1yzf0co"
             >
               <div
                 className="css-view-1dbjc4n r-height-1ewlvqg r-width-13qz1uu"
@@ -399,10 +399,8 @@ exports[`Profile matches snapshot 1`] = `
                     "WebkitJustifyContent": "flex-end",
                     "justifyContent": "flex-end",
                     "msFlexPack": "end",
-                    "paddingBottom": "0px",
                     "paddingLeft": "0px",
                     "paddingRight": "0px",
-                    "paddingTop": "0px",
                   }
                 }
               >
@@ -416,14 +414,13 @@ exports[`Profile matches snapshot 1`] = `
                       className="css-view-1dbjc4n"
                     >
                       <div
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1b66slb r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
                         onClick={[Function]}
                         onContextMenu={[Function]}
                         onKeyDown={[Function]}
                         style={
                           Object {
                             "WebkitTransitionDuration": "0s",
-                            "backgroundColor": "rgba(165,174,192,1.00)",
                             "transitionDuration": "0s",
                           }
                         }
@@ -516,7 +513,7 @@ exports[`Profile matches snapshot 1`] = `
                   >
                     <div
                       aria-disabled={true}
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-y68mpx r-borderRadius-10jnvle r-borderWidth-1yadl64 r-height-ur6pnr r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1b66slb r-borderColor-y68mpx r-borderRadius-10jnvle r-borderWidth-1yadl64 r-height-ur6pnr r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
                       onClick={[Function]}
                       onContextMenu={[Function]}
                       onKeyDown={[Function]}
@@ -531,7 +528,7 @@ exports[`Profile matches snapshot 1`] = `
                       <div
                         className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-ur6pnr r-width-1mhb1uw"
                       >
-                        <unknownProfile.svg />
+                        <unknownProfileDark.svg />
                       </div>
                     </div>
                     <div
@@ -624,7 +621,7 @@ exports[`Profile matches snapshot 1`] = `
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-11mg6pl r-borderRadius-17gur6a r-borderWidth-1d6rzhh r-height-1w2pmg r-justifyContent-1777fci r-width-1h2t8mc"
                     >
-                      <unknownProfile.svg />
+                      <unknownProfileDark.svg />
                     </div>
                   </div>
                 </div>

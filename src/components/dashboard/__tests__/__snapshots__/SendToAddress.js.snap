@@ -48,7 +48,7 @@ exports[`SendToAddress matches snapshot 1`] = `
               }
             }
           >
-            <unknownProfile.svg />
+            <unknownProfileDark.svg />
           </div>
         </div>
       </div>

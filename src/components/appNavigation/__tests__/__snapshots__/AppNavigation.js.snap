@@ -225,7 +225,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           <div
                             className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-ieixw r-borderWidth-1yadl64 r-height-1pi2tsx r-marginTop-1bymd8e r-width-13qz1uu"
                           >
-                            <unknownProfile.svg />
+                            <unknownProfileDark.svg />
                           </div>
                         </div>
                       </div>

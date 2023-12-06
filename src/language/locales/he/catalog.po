@@ -2684,7 +2684,7 @@ msgstr "יתרה"
 msgid "Blocked address"
 msgstr "כתובת חסומה"
 
-#: src/pages/gd/BuyGD/index.tsx:99
+#: src/pages/gd/BuyGD/index.tsx:100
 msgid "Buy G$"
 msgstr ""
 
@@ -2692,7 +2692,7 @@ msgstr ""
 msgid "Change"
 msgstr "שינוי"
 
-#: src/pages/gd/BuyGD/index.tsx:123
+#: src/pages/gd/BuyGD/index.tsx:124
 msgid "Choose the currency you want to use and buy cUSD. Your cUSD is then automatically converted into G$."
 msgstr ""
 
@@ -2767,7 +2767,7 @@ msgstr "נקה את כל"
 msgid "Close"
 msgstr "סגור"
 
-#: src/pages/gd/Claim/index.tsx:249
+#: src/pages/gd/Claim/index.tsx:267
 msgid "Collect G$"
 msgstr ""
 
@@ -2818,11 +2818,11 @@ msgstr "העתקת העתקה"
 msgid "Current Rate"
 msgstr "שער הנוכחי"
 
-#: src/components/SideBar.tsx:185
+#: src/components/SideBar.tsx:172
 msgid "Dapps"
 msgstr ""
 
-#: src/components/SideBar.tsx:223
+#: src/components/SideBar.tsx:210
 msgid "Dashboard"
 msgstr ""
 
@@ -2845,11 +2845,11 @@ msgstr "סקירה פיקדון"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:230
+#: src/components/SideBar.tsx:217
 msgid "Docs"
 msgstr "מסמכים"
 
-#: src/components/SideBar.tsx:171
+#: src/components/SideBar.tsx:158
 msgid "Donate"
 msgstr ""
 
@@ -2861,7 +2861,7 @@ msgstr "נכשלה בטעינה"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:204
+#: src/components/SideBar.tsx:191
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2894,7 +2894,7 @@ msgstr "עבור אל תיק הפורפוליו"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:237
+#: src/components/SideBar.tsx:224
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2910,7 +2910,7 @@ msgstr ""
 msgid "GoodDollar"
 msgstr ""
 
-#: src/pages/gd/Claim/index.tsx:260
+#: src/pages/gd/Claim/index.tsx:278
 msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
 msgstr ""
 
@@ -2919,7 +2919,7 @@ msgstr ""
 msgid "GoodStakes"
 msgstr ""
 
-#: src/components/SideBar.tsx:216
+#: src/components/SideBar.tsx:203
 msgid "GoodWallet"
 msgstr ""
 
@@ -3103,7 +3103,7 @@ msgstr "מסלול"
 msgid "Routing through these tokens resulted in the best price for your trade."
 msgstr "ניתוב באמצעות אסימונים אלה הביא את המחיר הטוב ביותר עבור הסחר שלך."
 
-#: src/components/SideBar.tsx:178
+#: src/components/SideBar.tsx:165
 msgid "Save G$"
 msgstr ""
 
@@ -3130,7 +3130,7 @@ msgstr "תנודת מחיר מקובלת"
 msgid "Social APY"
 msgstr ""
 
-#: src/components/SideBar.tsx:197
+#: src/components/SideBar.tsx:184
 msgid "Squid Router"
 msgstr ""
 
@@ -3167,7 +3167,7 @@ msgstr "החל מ 1.0, מכפיל שלך יגדל ל 2.0 לאחר חודש אח�
 msgid "Success!"
 msgstr "הַצלָחָה!"
 
-#: src/pages/gd/BuyGD/index.tsx:111
+#: src/pages/gd/BuyGD/index.tsx:112
 msgid "Support global financial inclusion and contribute to social impact by purchasing GoodDollars (G$)."
 msgstr ""
 
@@ -3231,7 +3231,7 @@ msgstr ""
 msgid "The total of your deposits which accumulates the rewards."
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:160
+#: src/pages/gd/BuyGD/index.tsx:167
 msgid "The widget in this page is a third-party service provided by Onramper. Please note that the verification of your transaction by Onramper may take up to 24 hours to complete. Following verification, it may take up to 3 business days for GoodDollars to be available in your wallet. In the event that the process takes longer, after receiving a confirmation email from your payment provider, please return to this screen to check the status of your transaction."
 msgstr ""
 
@@ -3374,7 +3374,7 @@ msgstr "מחכה לאישור"
 #~ msgid "Wallet"
 #~ msgstr "ארנק"
 
-#: src/components/SideBar.tsx:309
+#: src/components/SideBar.tsx:296
 msgid "Wallet balance"
 msgstr "מאזן ארנק"
 
@@ -3387,7 +3387,7 @@ msgstr ""
 msgid "What's an exit contribution?"
 msgstr "מהי תרומת יציאה?"
 
-#: src/pages/gd/BuyGD/index.tsx:156
+#: src/pages/gd/BuyGD/index.tsx:163
 msgid "Why haven't my funds arrived yet?"
 msgstr ""
 

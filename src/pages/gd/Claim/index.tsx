@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
-import { Text, useBreakpointValue, Box, View } from 'native-base'
+import { CentreBox, ClaimButton, ClaimCarousel, IClaimCard, Title } from '@gooddollar/good-design'
+import { Text, useBreakpointValue, Box } from 'native-base'
 import { useConnectWallet } from '@web3-onboard/react'
 import { isMobile } from 'react-device-detect'
 import { useClaim, SupportedV2Networks } from '@gooddollar/web3sdk-v2'
@@ -18,7 +18,6 @@ import { NewsFeedWidget } from '../../../components/NewsFeed'
 import BillyHappy from 'assets/images/claim/billysmile.png'
 import BillyGrin from 'assets/images/claim/billygrin.png'
 import BillyConfused from 'assets/images/claim/billyconfused.png'
-import classNames from 'classnames'
 
 const Claim = memo(() => {
     const { i18n } = useLingui()
@@ -110,7 +109,7 @@ const Claim = memo(() => {
 
     const mainView = useBreakpointValue({
         base: {
-            gap: '40px',
+            gap: 48,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -120,7 +119,6 @@ const Claim = memo(() => {
             mb: 2,
         },
         lg: {
-            // gap: claimed ? '58px' : '32px',
             flexDirection: 'row',
             justifyContent: 'justify-evenly',
         },
@@ -134,10 +132,35 @@ const Claim = memo(() => {
             width: '100%',
         },
         lg: {
-            width: '70%',
+            paddingRight: 24,
+            paddingLeft: 63,
             alignItems: 'center',
-            paddingTop: '2rem',
-            paddingRight: 32,
+            flexGrow: 1,
+        },
+    })
+
+    const carrouselStyles = useBreakpointValue({
+        base: {
+            width: '100%',
+            alignSelf: 'flex-start',
+            marginLeft: 0,
+            flexGrow: 1,
+        },
+        lg: {
+            flex: 1,
+            flexDirection: 'column',
+            width: claimed ? '100%' : '75%',
+            flexGrow: 1,
+            alignSelf: 'flex-start',
+            justifyContent: 'flex-start',
+        },
+        '2xl': {
+            flex: 1,
+            flexDirection: 'column',
+            width: claimed ? '100%' : '75%',
+            flexGrow: 1,
+            alignSelf: 'flex-end',
+            justifyContent: 'flex-start',
         },
     })
 
@@ -147,8 +170,8 @@ const Claim = memo(() => {
             marginTop: 16,
         },
         lg: {
-            width: '50%',
-            marginTop: 16,
+            paddingLeft: 24,
+            width: 375,
         },
     })
 
@@ -229,16 +252,10 @@ Learn how here`,
         },
     ]
 
-    const carrouselClasses = classNames('lg:self-start lg:flex lg:flex-col ', {
-        'w-full': isMobile,
-        'lg:w-full': claimed,
-        'lg:w-3/5': !claimed,
-    })
-
     return (
         <>
-            <View style={mainView}>
-                <View style={claimView}>
+            <Box w="100%" mb="8" style={mainView}>
+                <CentreBox style={claimView}>
                     <div className="flex flex-col items-center text-center lg:w-1/2">
                         <Box style={balanceContainer}>
                             {claimed ? (
@@ -274,21 +291,14 @@ Learn how here`,
                             />
                         </Box>
                     </div>
-                    <div
-                        className={carrouselClasses}
-                        style={{
-                            flexGrow: '1',
-                            alignSelf: 'flex-start',
-                            marginLeft: !isMobile ? '10%' : 0,
-                        }}
-                    >
+                    <CentreBox style={carrouselStyles}>
                         <ClaimCarousel cards={mockedCards} claimed={claimed} isMobile={isMobile} />
-                    </div>
-                </View>
-                <View style={newsFeedView}>
+                    </CentreBox>
+                </CentreBox>
+                <CentreBox style={newsFeedView}>
                     <NewsFeedWidget />
-                </View>
-            </View>
+                </CentreBox>
+            </Box>
         </>
     )
 })

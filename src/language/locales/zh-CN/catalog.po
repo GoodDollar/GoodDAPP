@@ -2667,7 +2667,7 @@ msgstr "余额"
 msgid "Blocked address"
 msgstr "被封锁的地址"
 
-#: src/pages/gd/BuyGD/index.tsx:99
+#: src/pages/gd/BuyGD/index.tsx:100
 msgid "Buy G$"
 msgstr ""
 
@@ -2675,7 +2675,7 @@ msgstr ""
 msgid "Change"
 msgstr "改变"
 
-#: src/pages/gd/BuyGD/index.tsx:123
+#: src/pages/gd/BuyGD/index.tsx:124
 msgid "Choose the currency you want to use and buy cUSD. Your cUSD is then automatically converted into G$."
 msgstr ""
 
@@ -2750,7 +2750,7 @@ msgstr "清除所有"
 msgid "Close"
 msgstr "关闭"
 
-#: src/pages/gd/Claim/index.tsx:249
+#: src/pages/gd/Claim/index.tsx:267
 msgid "Collect G$"
 msgstr ""
 
@@ -2801,11 +2801,11 @@ msgstr "复制地址"
 msgid "Current Rate"
 msgstr "当前利率"
 
-#: src/components/SideBar.tsx:185
+#: src/components/SideBar.tsx:172
 msgid "Dapps"
 msgstr ""
 
-#: src/components/SideBar.tsx:223
+#: src/components/SideBar.tsx:210
 msgid "Dashboard"
 msgstr ""
 
@@ -2828,11 +2828,11 @@ msgstr "存款概述"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:230
+#: src/components/SideBar.tsx:217
 msgid "Docs"
 msgstr "文档"
 
-#: src/components/SideBar.tsx:171
+#: src/components/SideBar.tsx:158
 msgid "Donate"
 msgstr ""
 
@@ -2844,7 +2844,7 @@ msgstr "加载失败"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:204
+#: src/components/SideBar.tsx:191
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2877,7 +2877,7 @@ msgstr "去投资组合"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:237
+#: src/components/SideBar.tsx:224
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2893,7 +2893,7 @@ msgstr ""
 msgid "GoodDollar"
 msgstr ""
 
-#: src/pages/gd/Claim/index.tsx:260
+#: src/pages/gd/Claim/index.tsx:278
 msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
 msgstr ""
 
@@ -2902,7 +2902,7 @@ msgstr ""
 msgid "GoodStakes"
 msgstr ""
 
-#: src/components/SideBar.tsx:216
+#: src/components/SideBar.tsx:203
 msgid "GoodWallet"
 msgstr ""
 
@@ -3086,7 +3086,7 @@ msgstr "路径"
 msgid "Routing through these tokens resulted in the best price for your trade."
 msgstr "路由经过这些代币将给您的交易带来最好的价格。"
 
-#: src/components/SideBar.tsx:178
+#: src/components/SideBar.tsx:165
 msgid "Save G$"
 msgstr ""
 
@@ -3113,7 +3113,7 @@ msgstr "可容忍滑点"
 msgid "Social APY"
 msgstr ""
 
-#: src/components/SideBar.tsx:197
+#: src/components/SideBar.tsx:184
 msgid "Squid Router"
 msgstr ""
 
@@ -3150,7 +3150,7 @@ msgstr "从1.0开始，您的乘数将增加到2.0，在一个月的绑定到信
 msgid "Success!"
 msgstr "成功！"
 
-#: src/pages/gd/BuyGD/index.tsx:111
+#: src/pages/gd/BuyGD/index.tsx:112
 msgid "Support global financial inclusion and contribute to social impact by purchasing GoodDollars (G$)."
 msgstr ""
 
@@ -3214,7 +3214,7 @@ msgstr ""
 msgid "The total of your deposits which accumulates the rewards."
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:160
+#: src/pages/gd/BuyGD/index.tsx:167
 msgid "The widget in this page is a third-party service provided by Onramper. Please note that the verification of your transaction by Onramper may take up to 24 hours to complete. Following verification, it may take up to 3 business days for GoodDollars to be available in your wallet. In the event that the process takes longer, after receiving a confirmation email from your payment provider, please return to this screen to check the status of your transaction."
 msgstr ""
 
@@ -3357,7 +3357,7 @@ msgstr "等待确认中"
 #~ msgid "Wallet"
 #~ msgstr "钱包"
 
-#: src/components/SideBar.tsx:309
+#: src/components/SideBar.tsx:296
 msgid "Wallet balance"
 msgstr "钱包平衡"
 
@@ -3370,7 +3370,7 @@ msgstr ""
 msgid "What's an exit contribution?"
 msgstr "退出贡献是什么？"
 
-#: src/pages/gd/BuyGD/index.tsx:156
+#: src/pages/gd/BuyGD/index.tsx:163
 msgid "Why haven't my funds arrived yet?"
 msgstr ""
 

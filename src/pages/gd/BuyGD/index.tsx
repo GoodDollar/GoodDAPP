@@ -32,7 +32,7 @@ const BuyGd = memo(() => {
 
     const mainView = useBreakpointValue({
         base: {
-            gap: 40,
+            gap: 48,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -49,18 +49,19 @@ const BuyGd = memo(() => {
 
     const leftContainer = useBreakpointValue({
         lg: {
-            paddingRight: 40,
+            paddingRight: 24,
             paddingLeft: 63,
             alignItems: 'stretch',
             borderRightWidth: 1,
+            flexGrow: 1,
         },
     })
 
     const rightContainer = useBreakpointValue({
         lg: {
-            paddingLeft: 40,
+            paddingLeft: 24,
             paddingTop: 60,
-            w: '60%',
+            width: 375,
         },
     })
 
@@ -136,13 +137,19 @@ const BuyGd = memo(() => {
             <CentreBox w="100%" justifyContent="flex-start" style={rightContainer}>
                 <Box w="100%" mb={2} style={sideTabs}>
                     {G$Price && (
-                        <SlideDownTab tabTitle="G$ Calculator">
+                        <SlideDownTab
+                            tabTitle="G$ Calculator"
+                            viewInteraction={{ hover: { backgroundColor: 'primary:alpha.10', borderRadius: 6 } }}
+                        >
                             <Converter gdPrice={G$Price} />
                         </SlideDownTab>
                     )}
                 </Box>
                 <Box w="100%" mb={2} style={sideTabs}>
-                    <SlideDownTab tabTitle="FAQ">
+                    <SlideDownTab
+                        tabTitle="FAQ"
+                        viewInteraction={{ hover: { backgroundColor: 'primary:alpha.10', borderRadius: 6 } }}
+                    >
                         <Text
                             textAlign="center"
                             w={350}

@@ -182,7 +182,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                 items: [
                     {
                         label: i18n._(t`Squid Router`),
-                        url: 'https://app.voltage.finance/index.html#/bridge',
+                        url: 'https://v2.app.squidrouter.com/',
                         dataAttr: 'squid',
                         withIcon: true,
                         show: true,
@@ -322,9 +322,11 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
                             <SlideDownTab
                                 key={subMenu.subMenuTitle}
                                 tabTitle={subMenu.subMenuTitle}
+                                viewInteraction={{ hover: { backgroundColor: 'primary:alpha.10', borderRadius: 6 } }}
                                 styles={{
-                                    button: { borderRadius: 12, backgroundColor: '#00AEFF' },
-                                    container: { marginTop: 8 },
+                                    button: {
+                                        borderRadius: 12,
+                                    },
                                     content: { alignItems: 'flex-start', paddingLeft: 4 },
                                 }}
                                 arrowSmall

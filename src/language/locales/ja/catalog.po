@@ -2672,7 +2672,7 @@ msgstr "残高"
 msgid "Blocked address"
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:99
+#: src/pages/gd/BuyGD/index.tsx:100
 msgid "Buy G$"
 msgstr ""
 
@@ -2680,7 +2680,7 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:123
+#: src/pages/gd/BuyGD/index.tsx:124
 msgid "Choose the currency you want to use and buy cUSD. Your cUSD is then automatically converted into G$."
 msgstr ""
 
@@ -2755,7 +2755,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/pages/gd/Claim/index.tsx:249
+#: src/pages/gd/Claim/index.tsx:267
 msgid "Collect G$"
 msgstr ""
 
@@ -2806,11 +2806,11 @@ msgstr ""
 msgid "Current Rate"
 msgstr ""
 
-#: src/components/SideBar.tsx:185
+#: src/components/SideBar.tsx:172
 msgid "Dapps"
 msgstr ""
 
-#: src/components/SideBar.tsx:223
+#: src/components/SideBar.tsx:210
 msgid "Dashboard"
 msgstr ""
 
@@ -2833,11 +2833,11 @@ msgstr ""
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:230
+#: src/components/SideBar.tsx:217
 msgid "Docs"
 msgstr "ドキュメント"
 
-#: src/components/SideBar.tsx:171
+#: src/components/SideBar.tsx:158
 msgid "Donate"
 msgstr ""
 
@@ -2849,7 +2849,7 @@ msgstr "読み込みに失敗しました"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:204
+#: src/components/SideBar.tsx:191
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2882,7 +2882,7 @@ msgstr ""
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:237
+#: src/components/SideBar.tsx:224
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2898,7 +2898,7 @@ msgstr ""
 msgid "GoodDollar"
 msgstr ""
 
-#: src/pages/gd/Claim/index.tsx:260
+#: src/pages/gd/Claim/index.tsx:278
 msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
 msgstr ""
 
@@ -2907,7 +2907,7 @@ msgstr ""
 msgid "GoodStakes"
 msgstr ""
 
-#: src/components/SideBar.tsx:216
+#: src/components/SideBar.tsx:203
 msgid "GoodWallet"
 msgstr ""
 
@@ -3091,7 +3091,7 @@ msgstr "ルート"
 msgid "Routing through these tokens resulted in the best price for your trade."
 msgstr "これらのトークンを介してルーティングすると、取引に最適な価格が得られました。"
 
-#: src/components/SideBar.tsx:178
+#: src/components/SideBar.tsx:165
 msgid "Save G$"
 msgstr ""
 
@@ -3118,7 +3118,7 @@ msgstr "スリッページ許容値"
 msgid "Social APY"
 msgstr ""
 
-#: src/components/SideBar.tsx:197
+#: src/components/SideBar.tsx:184
 msgid "Squid Router"
 msgstr ""
 
@@ -3155,7 +3155,7 @@ msgstr ""
 msgid "Success!"
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:111
+#: src/pages/gd/BuyGD/index.tsx:112
 msgid "Support global financial inclusion and contribute to social impact by purchasing GoodDollars (G$)."
 msgstr ""
 
@@ -3219,7 +3219,7 @@ msgstr ""
 msgid "The total of your deposits which accumulates the rewards."
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:160
+#: src/pages/gd/BuyGD/index.tsx:167
 msgid "The widget in this page is a third-party service provided by Onramper. Please note that the verification of your transaction by Onramper may take up to 24 hours to complete. Following verification, it may take up to 3 business days for GoodDollars to be available in your wallet. In the event that the process takes longer, after receiving a confirmation email from your payment provider, please return to this screen to check the status of your transaction."
 msgstr ""
 
@@ -3362,7 +3362,7 @@ msgstr ""
 #~ msgid "Wallet"
 #~ msgstr "財布"
 
-#: src/components/SideBar.tsx:309
+#: src/components/SideBar.tsx:296
 msgid "Wallet balance"
 msgstr ""
 
@@ -3375,7 +3375,7 @@ msgstr ""
 msgid "What's an exit contribution?"
 msgstr ""
 
-#: src/pages/gd/BuyGD/index.tsx:156
+#: src/pages/gd/BuyGD/index.tsx:163
 msgid "Why haven't my funds arrived yet?"
 msgstr ""
 

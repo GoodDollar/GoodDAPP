@@ -158,15 +158,18 @@ function App(): JSX.Element {
 
     const isFV = pathname.startsWith('/goodid')
     const isClaim = pathname.startsWith('/claim')
+    const isBuy = pathname.startsWith('/buy')
     const isDash = pathname.startsWith('/dashboard')
+
+    const isTwoColumns = isBuy || isClaim
 
     const mainBodyClasses = classNames(
         'z-0 flex flex-col items-center flex-grow h-full pt-4 pb-4 overflow-x-hidden overflow-y-auto sm:pt-8',
         {
             'flex-start': isFV,
             'justify-between': !isFV,
-            'xl:pt-0 px-2': isClaim,
-            'md:pt-10 px-4': !isClaim,
+            'xl:pr-8 xl:pt-10 xl:pl-12 xl:pb-0 px-2': isTwoColumns,
+            'md:pt-10 px-4': !isTwoColumns,
         }
     )
 
@@ -174,7 +177,6 @@ function App(): JSX.Element {
     const routerContainerClasses = classNames('flex flex-col flex-glow w-full', {
         'md:auto': isDash,
         'md:h-screen:': !isDash,
-        'transform sm:scale-75 xl:scale-100 items-start sm:-ml-96 sm:-mt-24 xl:mt-0 xl:ml-0 md:justify-start': isClaim,
         'justify-start items-center': !isClaim,
         'flex-col-reverse md:justify-end justify-end': isFV,
         'md:justify-center': !isFV,

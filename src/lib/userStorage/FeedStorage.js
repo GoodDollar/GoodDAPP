@@ -553,8 +553,9 @@ export class FeedStorage {
     }
 
     const isContract = await this.wallet.wallet.eth.getCode(address)
+    const isBridge = [TxType.TX_BRIDGE_IN, TxType.TX_BRIDGE_OUT].includes(feedEvent.txType)
 
-    if (isContract !== '0x') {
+    if (isContract !== '0x' && !isBridge) {
       feedEvent.data.counterPartyFullName = await API.getContractName(address, chainId)
     }
 

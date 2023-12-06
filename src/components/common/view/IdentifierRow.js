@@ -17,7 +17,7 @@ const copiedActionTimeout = 2000 // time during which the copy success message i
 const ProfileAvatar = withStyles(() => ({
   avatar: {
     borderWidth: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: theme.colors.lessDarkGray,
   },
 }))(({ styles, style }) => {
   const { smallAvatar: avatar } = useProfile()

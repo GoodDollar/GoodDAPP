@@ -13,7 +13,7 @@ import RoundIconButton from '../common/buttons/RoundIconButton'
 import { usePublicProfile } from '../../lib/userStorage/useProfile'
 import { theme } from '../theme/styles'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
-import IdentifierRow from '../common/view/AddressRow'
+import IdentifierRow from '../common/view/IdentifierRow'
 
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -60,7 +60,11 @@ const ProfileWrapper = ({ screenProps, styles }) => {
         <View style={styles.emptySpace} />
         <ProfileDataTable profile={profile} showCustomFlag />
 
-        <Section grow justifyContent="flex-end" style={{ marginBottom: 16, width: '100%', padding: 0, margin: 0 }}>
+        <Section
+          grow
+          justifyContent="flex-end"
+          style={{ marginBottom: 16, width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}
+        >
           <Section.Row style={{ width: '100%' }}>
             <IdentifierRow title="Wallet" address={goodWallet.account} />
           </Section.Row>
@@ -103,6 +107,8 @@ const getStylesFromProps = ({ theme }) => {
     section: {
       flexGrow: 1,
       padding: theme.sizes.defaultDouble,
+      paddingLeft: 8,
+      paddingRight: 8,
       marginBottom: theme.paddings.bottomPadding,
     },
     iconRightContainer: {

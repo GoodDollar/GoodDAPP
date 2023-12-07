@@ -149,7 +149,7 @@ const Claim = memo(() => {
         lg: {
             flex: 1,
             flexDirection: 'column',
-            width: claimed ? '100%' : '75%',
+            width: '100%',
             flexGrow: 1,
             alignSelf: 'flex-start',
             justifyContent: 'flex-start',
@@ -157,7 +157,7 @@ const Claim = memo(() => {
         '2xl': {
             flex: 1,
             flexDirection: 'column',
-            width: claimed ? '100%' : '75%',
+            width: '100%',
             flexGrow: 1,
             alignSelf: 'flex-end',
             justifyContent: 'flex-start',

@@ -2754,7 +2754,7 @@ msgstr "清除所有"
 msgid "Close"
 msgstr "關閉"
 
-#: src/pages/gd/Claim/index.tsx:266
+#: src/pages/gd/Claim/index.tsx:267
 msgid "Collect G$"
 msgstr ""
 
@@ -2897,7 +2897,7 @@ msgstr ""
 msgid "GoodDollar"
 msgstr ""
 
-#: src/pages/gd/Claim/index.tsx:277
+#: src/pages/gd/Claim/index.tsx:278
 msgid "GoodDollar creates free money as a public good, G$ tokens, which you can collect daily."
 msgstr ""
 

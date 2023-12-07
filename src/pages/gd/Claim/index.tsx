@@ -172,6 +172,7 @@ const Claim = memo(() => {
         lg: {
             paddingLeft: 24,
             width: 375,
+            justifyContent: 'flex-start',
         },
     })
 

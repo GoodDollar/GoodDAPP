@@ -179,6 +179,7 @@ const Config = {
   enableShortUrl: env.REACT_APP_ENABLE_SHORTURL === 'true',
   displayStartClaimingCardTime: env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
   sentryDSN: env.REACT_APP_SENTRY_DSN,
+  sentryReplaySampleRate: Number(env.REACT_APP_SENTRY_REPLAY_SAMPLE_RATE || 1.0),
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',

@@ -33,13 +33,25 @@ export class AnalyticsClass {
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.get('analytics')
-    const options = pick(Config, 'sentryDSN', 'amplitudeKey', 'mixpanelKey', 'version', 'env')
+    const options = pick(Config, 'sentryDSN', 'sentryReplaySampleRate', 'amplitudeKey', 'mixpanelKey', 'version', 'env')
 
     assign(this, options, { logger, apisFactory, rootApi, loggerApi })
   }
 
   initAnalytics = async (tags = {}) => {
-    const { apis, apisFactory, sentryDSN, amplitudeKey, mixpanelKey, version, network, logger, env, loggerApi } = this
+    const {
+      apis,
+      apisFactory,
+      sentryDSN,
+      sentryReplaySampleRate,
+      amplitudeKey,
+      mixpanelKey,
+      version,
+      network,
+      logger,
+      env,
+      loggerApi,
+    } = this
 
     const apisDetected = apisFactory()
     let { amplitude, sentry, googleAnalytics, mixpanel } = apisDetected
@@ -128,7 +140,12 @@ export class AnalyticsClass {
       }
 
       if (isWeb) {
-        sentryOptions.release = `${version}+${env}`
+        assign(sentryOptions, {
+          release: `${version}+${env}`,
+          replaysSessionSampleRate: sentryReplaySampleRate,
+          replaysOnErrorSampleRate: 1.0,
+          integrations: [new sentry.Replay()],
+        })
       }
 
       logger.info('initializing Sentry:', { sentryOptions, sentryScope })

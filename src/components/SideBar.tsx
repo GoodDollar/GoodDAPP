@@ -52,6 +52,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
     const [imported, setImported] = useState<boolean>(false)
     const { isWhitelisted } = useClaim()
     const { pathname } = useLocation()
+    const isBuyGd = pathname.startsWith('/buy')
 
     const bgContainer = useColorModeValue('goodWhite.100', '#151A30')
     const bgWalletBalance = useColorModeValue('white', '#1a1f38')
@@ -238,7 +239,7 @@ export default function SideBar({ mobile, closeSidebar }: { mobile?: boolean; cl
             {
                 route: '/buy',
                 text: 'Buy G$',
-                show: true, // todo: add post-hog feature flags for pages
+                show: isBuyGd, // todo: add post-hog feature flags for pages
             },
             {
                 route: '/claim',

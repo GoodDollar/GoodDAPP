@@ -11,7 +11,6 @@ import useSendAnalyticsData from '../../hooks/useSendAnalyticsData'
 
 import { connectOptions, torus } from 'connectors'
 import { getNetworkEnv } from 'utils/env'
-import { useSelectedChain } from 'state/application/hooks'
 
 /**
  * Just a button to trigger the onboard connect modal.
@@ -79,13 +78,12 @@ export const OnboardConnectButton: FC = () => {
 
 // wrapper so we can pass the selected chain
 export const OnboardProviderWrapper = ({ children }) => {
-    const { selectedChain } = useSelectedChain()
     const network = getNetworkEnv()
     return (
         <OnboardProvider
             options={connectOptions}
             wallets={{ custom: [torus] }}
-            wc2Options={{ requiredChains: [selectedChain] }}
+            // wc2Options={{ requiredChains: [selectedChain] }} // advised not to use this option. ref: https://docs.walletconnect.com/advanced/migration-from-v1.x/namespaces#technical-implementation-guide-for-apps
             gdEnv={network}
         >
             {children}

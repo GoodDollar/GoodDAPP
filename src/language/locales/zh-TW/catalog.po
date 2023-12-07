@@ -2805,11 +2805,11 @@ msgstr "複製地址"
 msgid "Current Rate"
 msgstr "當前利率"
 
-#: src/components/SideBar.tsx:172
+#: src/components/SideBar.tsx:173
 msgid "Dapps"
 msgstr ""
 
-#: src/components/SideBar.tsx:210
+#: src/components/SideBar.tsx:211
 msgid "Dashboard"
 msgstr ""
 
@@ -2832,11 +2832,11 @@ msgstr "存款概述"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:217
+#: src/components/SideBar.tsx:218
 msgid "Docs"
 msgstr "文档"
 
-#: src/components/SideBar.tsx:158
+#: src/components/SideBar.tsx:159
 msgid "Donate"
 msgstr ""
 
@@ -2848,7 +2848,7 @@ msgstr "加載失敗"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:191
+#: src/components/SideBar.tsx:192
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2881,7 +2881,7 @@ msgstr "去投資組合"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:224
+#: src/components/SideBar.tsx:225
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2906,7 +2906,7 @@ msgstr ""
 msgid "GoodStakes"
 msgstr ""
 
-#: src/components/SideBar.tsx:203
+#: src/components/SideBar.tsx:204
 msgid "GoodWallet"
 msgstr ""
 
@@ -3090,7 +3090,7 @@ msgstr "路徑"
 msgid "Routing through these tokens resulted in the best price for your trade."
 msgstr "路由經過這些代幣將給您的交易帶來最好的價格。"
 
-#: src/components/SideBar.tsx:165
+#: src/components/SideBar.tsx:166
 msgid "Save G$"
 msgstr ""
 
@@ -3117,7 +3117,7 @@ msgstr "可容忍滑點"
 msgid "Social APY"
 msgstr ""
 
-#: src/components/SideBar.tsx:184
+#: src/components/SideBar.tsx:185
 msgid "Squid Router"
 msgstr ""
 
@@ -3361,7 +3361,7 @@ msgstr "等待確認中"
 #~ msgid "Wallet"
 #~ msgstr "錢包"
 
-#: src/components/SideBar.tsx:296
+#: src/components/SideBar.tsx:297
 msgid "Wallet balance"
 msgstr "錢包平衡"
 

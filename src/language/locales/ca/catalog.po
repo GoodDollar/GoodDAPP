@@ -2326,11 +2326,11 @@ msgstr ""
 msgid "Current Rate"
 msgstr ""
 
-#: src/components/SideBar.tsx:172
+#: src/components/SideBar.tsx:173
 msgid "Dapps"
 msgstr ""
 
-#: src/components/SideBar.tsx:210
+#: src/components/SideBar.tsx:211
 msgid "Dashboard"
 msgstr ""
 
@@ -2353,11 +2353,11 @@ msgstr ""
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:217
+#: src/components/SideBar.tsx:218
 msgid "Docs"
 msgstr ""
 
-#: src/components/SideBar.tsx:158
+#: src/components/SideBar.tsx:159
 msgid "Donate"
 msgstr ""
 
@@ -2369,7 +2369,7 @@ msgstr ""
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:191
+#: src/components/SideBar.tsx:192
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2402,7 +2402,7 @@ msgstr ""
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:224
+#: src/components/SideBar.tsx:225
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2427,7 +2427,7 @@ msgstr ""
 msgid "GoodStakes"
 msgstr ""
 
-#: src/components/SideBar.tsx:203
+#: src/components/SideBar.tsx:204
 msgid "GoodWallet"
 msgstr ""
 
@@ -2611,7 +2611,7 @@ msgstr ""
 msgid "Routing through these tokens resulted in the best price for your trade."
 msgstr ""
 
-#: src/components/SideBar.tsx:165
+#: src/components/SideBar.tsx:166
 msgid "Save G$"
 msgstr ""
 
@@ -2638,7 +2638,7 @@ msgstr ""
 msgid "Social APY"
 msgstr ""
 
-#: src/components/SideBar.tsx:184
+#: src/components/SideBar.tsx:185
 msgid "Squid Router"
 msgstr ""
 
@@ -2882,7 +2882,7 @@ msgstr ""
 #~ msgid "Wallet"
 #~ msgstr ""
 
-#: src/components/SideBar.tsx:296
+#: src/components/SideBar.tsx:297
 msgid "Wallet balance"
 msgstr ""
 

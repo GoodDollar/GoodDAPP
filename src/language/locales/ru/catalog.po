@@ -2826,11 +2826,11 @@ msgstr "Копировать адрес"
 msgid "Current Rate"
 msgstr "Текущая скорость"
 
-#: src/components/SideBar.tsx:172
+#: src/components/SideBar.tsx:173
 msgid "Dapps"
 msgstr ""
 
-#: src/components/SideBar.tsx:210
+#: src/components/SideBar.tsx:211
 msgid "Dashboard"
 msgstr ""
 
@@ -2853,11 +2853,11 @@ msgstr "Обзор депозита"
 msgid "Disconnect"
 msgstr ""
 
-#: src/components/SideBar.tsx:217
+#: src/components/SideBar.tsx:218
 msgid "Docs"
 msgstr "Документы"
 
-#: src/components/SideBar.tsx:158
+#: src/components/SideBar.tsx:159
 msgid "Donate"
 msgstr ""
 
@@ -2869,7 +2869,7 @@ msgstr "ошибка загрузки"
 msgid "Fixed Apy"
 msgstr ""
 
-#: src/components/SideBar.tsx:191
+#: src/components/SideBar.tsx:192
 msgid "Fuse Bridge"
 msgstr ""
 
@@ -2902,7 +2902,7 @@ msgstr "Перейти к портфолио"
 msgid "GOOD"
 msgstr ""
 
-#: src/components/SideBar.tsx:224
+#: src/components/SideBar.tsx:225
 msgid "Good Airdrop"
 msgstr ""
 
@@ -2927,7 +2927,7 @@ msgstr ""
 msgid "GoodStakes"
 msgstr ""
 
-#: src/components/SideBar.tsx:203
+#: src/components/SideBar.tsx:204
 msgid "GoodWallet"
 msgstr ""
 
@@ -3111,7 +3111,7 @@ msgstr "Маршрут"
 msgid "Routing through these tokens resulted in the best price for your trade."
 msgstr "Маршрутизация через эти токены привела к лучшей цене для вашей сделки."
 
-#: src/components/SideBar.tsx:165
+#: src/components/SideBar.tsx:166
 msgid "Save G$"
 msgstr ""
 
@@ -3138,7 +3138,7 @@ msgstr "Допуск по проскальзыванию"
 msgid "Social APY"
 msgstr ""
 
-#: src/components/SideBar.tsx:184
+#: src/components/SideBar.tsx:185
 msgid "Squid Router"
 msgstr ""
 
@@ -3382,7 +3382,7 @@ msgstr "Ожидание подтверждения"
 #~ msgid "Wallet"
 #~ msgstr "Кошелек"
 
-#: src/components/SideBar.tsx:296
+#: src/components/SideBar.tsx:297
 msgid "Wallet balance"
 msgstr "Баланс кошелька"
 

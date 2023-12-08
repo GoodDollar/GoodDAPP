@@ -13870,9 +13870,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wagmi/connectors@npm:3.1.6":
-  version: 3.1.6
-  resolution: "@wagmi/connectors@npm:3.1.6"
+"@wagmi/connectors@npm:3.1.8":
+  version: 3.1.8
+  resolution: "@wagmi/connectors@npm:3.1.8"
   dependencies:
     "@coinbase/wallet-sdk": ^3.6.6
     "@ledgerhq/connect-kit-loader": ^1.1.0
@@ -13890,15 +13890,15 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: de16578c6f13a81a5e75d2b1ffc7d2ca0bf391fc7e3cec3e6ba45645059b5b414b142c162c39ca3e255c0e97bdb0c0eae00f11442e51c1bce63e546c0bf71089
+  checksum: 527caabf54d33ef4d19aedf03c629089d419ef589958f9b31788ddfcda78c0bf30162c1024875a00e57d28cd96d8845fffc3572f52847ca5502a669cb467fc97
   languageName: node
   linkType: hard
 
-"@wagmi/core@npm:1.4.8":
-  version: 1.4.8
-  resolution: "@wagmi/core@npm:1.4.8"
+"@wagmi/core@npm:1.4.10":
+  version: 1.4.10
+  resolution: "@wagmi/core@npm:1.4.10"
   dependencies:
-    "@wagmi/connectors": 3.1.6
+    "@wagmi/connectors": 3.1.8
     abitype: 0.8.7
     eventemitter3: ^4.0.7
     zustand: ^4.3.1
@@ -13908,7 +13908,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 2113b45664ce3027c3f0b840d52499c3f855826071596e8df9da1700fefb3769d65bc91d516286acd2f61da6acbcb560fcfb0db5847aaea2e47a25baff287e27
+  checksum: b2bde48d38cf8cd31b1361c313901844b7bec010613423e72364103f77bbc6db5741f17f2ddcbf9e40d3c8347dc202b949bdeee5dee779d82de13563078bbf86
   languageName: node
   linkType: hard
 
@@ -42839,13 +42839,13 @@ __metadata:
   linkType: hard
 
 "wagmi@npm:^1.3.8":
-  version: 1.4.8
-  resolution: "wagmi@npm:1.4.8"
+  version: 1.4.10
+  resolution: "wagmi@npm:1.4.10"
   dependencies:
     "@tanstack/query-sync-storage-persister": ^4.27.1
     "@tanstack/react-query": ^4.28.0
     "@tanstack/react-query-persist-client": ^4.28.0
-    "@wagmi/core": 1.4.8
+    "@wagmi/core": 1.4.10
     abitype: 0.8.7
     use-sync-external-store: ^1.2.0
   peerDependencies:
@@ -42855,7 +42855,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 409cdc9f8f75f6c46d1687299ba6198886f30f0ee046b479c90476592f115bfffac99d57e44f75e2e53e4dd7f791b8dee8dd1fd5efb3dfae136e3c014eda9cee
+  checksum: 8ac20e2bded1b77fc29cdd67c043897da87f4b5f7bc1bb12ae73177c61fd00ea99f19c9b91b826dbe4e15b5fd47d883e592f780151b17c934846afc5785e0582
   languageName: node
   linkType: hard
 

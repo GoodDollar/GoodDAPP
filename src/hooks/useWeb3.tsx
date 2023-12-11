@@ -5,7 +5,7 @@ import { ExternalProvider } from '@ethersproject/providers'
 import { Goerli, Mainnet } from '@usedapp/core'
 import { ChainId } from '@sushiswap/sdk'
 import { DAO_NETWORK, GdSdkContext, useEnvWeb3 } from '@gooddollar/web3sdk'
-import { AsyncStorage, Celo, Fuse, SupportedV2Networks, Web3Provider } from '@gooddollar/web3sdk-v2'
+import { AsyncStorage, Celo, Fuse, Web3Provider } from '@gooddollar/web3sdk-v2'
 
 import useActiveWeb3React from './useActiveWeb3React'
 import { getEnv } from 'utils/env'
@@ -57,11 +57,10 @@ export function Web3ContextProvider({ children }: { children: ReactNode | ReactN
         [eipProvider]
     )
 
-    if (webprovider && SupportedV2Networks[chainId]) {
+    if (webprovider) {
         webprovider.send = async (method: string, params: any) => {
-            if (method === 'eth_sendTransaction') {
-                const gasPrice = chainId === (42220 as ChainId) ? 5e9 : 10e9
-                params[0].gasPrice = BigNumber.from(gasPrice).toHexString()
+            if (chainId === (42220 as ChainId) && method === 'eth_sendTransaction') {
+                params[0].gasPrice = BigNumber.from(5e9).toHexString()
             }
             return webprovider.jsonRpcFetchFunc(method, params)
         }

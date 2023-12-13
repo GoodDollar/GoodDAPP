@@ -33,6 +33,7 @@ export const TxType = {
   TX_UKNOWN: 'TX_UNKNOWN',
   TX_BRIDGE_IN: 'TX_BRIDGE_IN',
   TX_BRIDGE_OUT: 'TX_BRIDGE_OUT',
+  TX_BUYGD: 'TX_BUYGD',
 }
 
 export const FeedItemType = {
@@ -224,6 +225,8 @@ export class FeedStorage {
             this.wallet.getRewardsAddresses().includes(_from(e)) &&
             this.walletAddress.toLowerCase() === _to(e),
         )
+      case TxType.TX_BUYGD:
+        return receipt.logs.find(e => e.name === 'Bought')
       default:
         return {}
     }
@@ -280,6 +283,10 @@ export class FeedStorage {
 
     if (eventsName.UBIClaimed) {
       return TxType.TX_CLAIM
+    }
+
+    if (eventsName.Bought) {
+      return TxType.TX_BUYGD
     }
 
     if (eventsName.Transfer) {
@@ -497,6 +504,10 @@ export class FeedStorage {
           set(updatedFeedEvent, 'data.reason', t`Minted G$`)
           set(updatedFeedEvent, 'data.counterPartyFullName', t`Rewards`)
           break
+        case TxType.TX_BUYGD:
+          set(updatedFeedEvent, 'data.reason', t`Bought G$`)
+          set(updatedFeedEvent, 'data.counterPartyFullName', t`BuyGD`)
+          break
         default:
           break
       }
@@ -553,9 +564,9 @@ export class FeedStorage {
     }
 
     const isContract = await this.wallet.wallet.eth.getCode(address)
-    const isBridge = [TxType.TX_BRIDGE_IN, TxType.TX_BRIDGE_OUT].includes(feedEvent.txType)
+    const isBridgeOrBuy = [TxType.TX_BRIDGE_IN, TxType.TX_BRIDGE_OUT, TxType.TX_BUYGD].includes(feedEvent.txType)
 
-    if (isContract !== '0x' && !isBridge) {
+    if (isContract !== '0x' && !isBridgeOrBuy) {
       feedEvent.data.counterPartyFullName = await API.getContractName(address, chainId)
     }
 

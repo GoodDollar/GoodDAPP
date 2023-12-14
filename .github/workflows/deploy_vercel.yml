@@ -1,5 +1,4 @@
 # .github/workflows/deploy_vercel.yml
-
 name: DeployProd
 on:
     push:
@@ -8,7 +7,7 @@ on:
     workflow_dispatch:
         inputs:
             release:
-                description: 'release type'
+                description: 'release type (prod release only)'
                 required: true
                 default: 'production'
             targetbranch:
@@ -20,6 +19,31 @@ env:
     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
     VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 jobs:
+    release:
+        name: Release
+        if: "github.event_name == 'workflow_dispatch' && github.event.inputs.release == 'production'"
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+            - uses: actions/checkout@v3
+              with:
+                  persist-credentials: false
+                  fetch-depth: 0
+            - name: setup git
+              run: |
+                  git config --local user.email "techadmin@gooddollar.org"
+                  git config --local user.name "Techadmin"
+                  npm install -g auto-changelog
+
+            - name: update version prod
+              run: |
+                  npm version minor -m "chore: release prod version %s [skip build]"
+                  git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodProtocolUI staging:${{ github.event.inputs.targetbranch }} --force --follow-tags
+                  git checkout master
+                  git merge staging
+                  git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodProtocolUI master --follow-tags
     deploy:
         runs-on: ubuntu-latest
         steps:

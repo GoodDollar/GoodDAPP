@@ -8,10 +8,44 @@ on:
         branches:
             - master
     workflow_dispatch:
+        inputs:
+            release:
+                description: 'release type (qa release only)'
+                required: true
+                default: 'qa'
+            targetbranch:
+                description: 'target deployment branch'
+                required: true
+                default: 'staging'
 env:
     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
     VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 jobs:
+    release:
+        name: Release
+        if: "github.event_name == 'workflow_dispatch' && github.event.inputs.release == 'qa'"
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+            - uses: actions/checkout@v3
+              with:
+                  persist-credentials: false
+                  fetch-depth: 0
+            - name: setup git
+              run: |
+                  git config --local user.email "techadmin@gooddollar.org"
+                  git config --local user.name "Techadmin"
+                  npm install -g auto-changelog
+
+            - name: update version qa
+              run: |
+                  npm version minor -m "chore: release qa version %s [skip build]"
+                  git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master:${{ github.event.inputs.targetbranch }} --force --follow-tags
+                  git checkout master
+                  git merge staging
+                  git push https://${{ secrets.GIT_AUTH }}@github.com/GoodDollar/GoodDAPP master --follow-tags
     preview:
         runs-on: ubuntu-latest
         environment:

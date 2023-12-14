@@ -1,5 +1,6 @@
 # .github/workflows/deploy_vercel.yml
-name: Deploy Web - Production
+
+name: DeployProd
 on:
     push:
         branches:

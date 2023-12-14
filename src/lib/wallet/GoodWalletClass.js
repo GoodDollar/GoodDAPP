@@ -13,7 +13,7 @@ import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases
 import InvitesABI from '@gooddollar/goodprotocol/artifacts/abis/InvitesV2.min.json'
 import FaucetABI from '@gooddollar/goodprotocol/artifacts/abis/Faucet.min.json'
 
-// import BuyGDCloneABI from '@gooddollar/goodprotocol/artifacts/abis/BuyGDClone.min.json'
+import BuyGDCloneABI from '@gooddollar/goodprotocol/artifacts/abis/BuyGDClone.min.json'
 
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
@@ -303,7 +303,7 @@ export class GoodWallet {
         this.GOODContract = addContract(GOODToken, 'GReputation')
 
         // BuyGDClone Contract
-        // this.BuyGDClone = addContract(BuyGDCloneABI, 'BuyGDFactoryV2')
+        this.BuyGDClone = addContract(BuyGDCloneABI, 'BuyGDFactoryV2')
 
         // debug print contracts addresses
         {

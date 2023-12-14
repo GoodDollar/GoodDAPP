@@ -1,0 +1,37 @@
+# .github/workflows/preview.yml
+name: preview
+on:
+    push:
+        branches: [master, staging]
+    pull_request:
+        types: [opened, synchronize, edited, ready_for_review]
+        branches:
+            - master
+    workflow_dispatch:
+env:
+    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+jobs:
+    preview:
+        runs-on: ubuntu-latest
+        environment:
+            name: preview
+            url: ${{ steps.deploy.outputs.url }}
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+                  cache: yarn
+            - run: yarn install --immutable
+            - name: Set Vercel environment
+              run: |
+                  if [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+                    echo "VERCEL_ENV=preview" >> $GITHUB_ENV
+                  else
+                    echo "VERCEL_ENV=development" >> $GITHUB_ENV
+                  fi
+            - run: yarn vercel pull --yes --environment=${{ env.VERCEL_ENV }} --token=${{ secrets.VERCEL_TOKEN }}
+            - run: yarn vercel build --token=${{ secrets.VERCEL_TOKEN }}
+            - id: deploy
+              run: echo "::set-output name=url::$(yarn vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"

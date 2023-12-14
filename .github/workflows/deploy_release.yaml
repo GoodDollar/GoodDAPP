@@ -3,9 +3,7 @@ name: Deploy Release New
 on:
     push:
         branches:
-            - master
-            - production
-            - staging
+            - master2
     workflow_dispatch:
 
 jobs:

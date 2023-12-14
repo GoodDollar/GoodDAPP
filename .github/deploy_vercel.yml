@@ -1,0 +1,33 @@
+# .github/workflows/deploy_vercel.yml
+name: Deploy Web - Production
+on:
+    push:
+        branches:
+            - production
+    workflow_dispatch:
+        inputs:
+            release:
+                description: 'release type'
+                required: true
+                default: 'production'
+            targetbranch:
+                description: 'target deployment branch'
+                required: true
+                default: 'production'
+
+env:
+    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+                  cache: yarn
+            - run: yarn install --immutable
+            - run: yarn vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+            - run: yarn vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+            - run: yarn vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}

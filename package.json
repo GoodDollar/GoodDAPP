@@ -167,6 +167,7 @@
         "tailwindcss": "^3.3.2",
         "tailwindcss-border-gradient-radius": "^2.0.0",
         "use-count-up": "^2.2.5",
+        "vercel": "^32.7.2",
         "vite": "^4.3.5",
         "vite-compatible-readable-stream": "^3.6.1",
         "vite-plugin-checker": "^0.6.0",

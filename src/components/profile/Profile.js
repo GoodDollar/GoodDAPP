@@ -66,7 +66,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
           style={{ marginBottom: 16, width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}
         >
           <Section.Row style={{ width: '100%' }}>
-            <IdentifierRow title="Wallet" address={goodWallet.account} />
+            <IdentifierRow title="Wallet" eventSource="myprofile" address={goodWallet.account} />
           </Section.Row>
           <Section.Row>
             <IdentifierRow title="FaceId" address={faceRecordId} />

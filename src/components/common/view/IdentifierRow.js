@@ -3,13 +3,13 @@ import { Platform, Text, View } from 'react-native'
 import { t } from '@lingui/macro'
 
 import RoundIconButton from '../buttons/RoundIconButton'
+import { COPY_ADDRESS, fireEvent } from '../../../lib/analytics/analytics'
 import { useClipboardCopy } from '../../../lib/hooks/useClipboard'
 import { truncateMiddle } from '../../../lib/utils/string'
 import { withStyles } from '../../../lib/styles'
 import { theme } from '../../theme/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-
 import Avatar from './Avatar'
 
 const copiedActionTimeout = 2000 // time during which the copy success message is displayed
@@ -25,11 +25,16 @@ const ProfileAvatar = withStyles(() => ({
   return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
 })
 
-const IdentifiersRow = ({ title, address = undefined, styles }) => {
+const IdentifiersRow = ({ title, eventSource, address = undefined, styles }) => {
   const [performed, setPerformed] = useState(false)
 
   const _onCopied = useCallback(() => {
     setPerformed(true)
+
+    if (eventSource) {
+      fireEvent(COPY_ADDRESS, { source: eventSource })
+    }
+
     setTimeout(() => setPerformed(false), copiedActionTimeout)
   }, [setPerformed])
 

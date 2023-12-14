@@ -4901,9 +4901,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:^0.1.30":
-  version: 0.1.30
-  resolution: "@gooddollar/good-design@npm:0.1.30"
+"@gooddollar/good-design@npm:^0.1.31":
+  version: 0.1.31
+  resolution: "@gooddollar/good-design@npm:0.1.31"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -4917,7 +4917,7 @@ __metadata:
     metro-react-native-babel-preset: ^0.72.0
     moment: ^2.29.4
     moment-duration-format: ^2.3.2
-    native-base: 3.4.11
+    native-base: ^3.4.28
     prop-types: ^15.8.1
     react: 17.0.2
     react-dom: 17.0.2
@@ -4935,7 +4935,7 @@ __metadata:
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     require-from-string: ^2.0.2
-  checksum: 7760cb45ac26d721dea248230f8c2652d8bbeddf6a3afb38d96d8431ac2f60a48dd9446c88fd83967e4ed8eba6347d84114a05cc7a0832097d3948c7be4469de
+  checksum: 43ddd320ba5178232c098f8d9933abfa6c935da0622c7f9ccf7aa6cf5d1abc5b314aa6e53483049a0edcee4695cd06542bf9426ebc4ecefc0cf5f408e63faf3e
   languageName: node
   linkType: hard
 
@@ -4987,10 +4987,10 @@ __metadata:
     "@ethersproject/experimental": ^5.0.1
     "@fontsource/dm-sans": ^4.2.2
     "@fullhuman/postcss-purgecss": ^4.0.3
-    "@gooddollar/good-design": ^0.1.30
+    "@gooddollar/good-design": ^0.1.31
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/web3sdk": ^0.1.26
-    "@gooddollar/web3sdk-v2": ^0.2.10
+    "@gooddollar/web3sdk-v2": ^0.2.11
     "@headlessui/react": 1.5.0
     "@hot-loader/react-dom": ^17.0.1
     "@kimafinance/kima-transaction-widget": ^1.1.42-beta.1
@@ -5171,9 +5171,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gooddollar/web3sdk-v2@npm:^0.2.10":
-  version: 0.2.10
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.10"
+"@gooddollar/web3sdk-v2@npm:^0.2.11":
+  version: 0.2.11
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.11"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -5219,7 +5219,7 @@ __metadata:
     "@react-native-async-storage/async-storage": 1.17.10
     react-native: "*"
     react-native-web: "*"
-  checksum: b1c880502cf387f1974e0565fcdd6d71bcf26ae79b72b1ca61265ba36be0b1e2e891b2073a3e1cc074c0f7a3ee64b32fdf8ce3f59709eea0e0216b2ce6ed7f37
+  checksum: 0219325ed46162ce31a975acd2737a15891a77ac249adcc33a1edc1cbf4f14f76951ea580e599258430d01d28e346010461b3a656a7154f9a1d1b95695b52780
   languageName: node
   linkType: hard
 
@@ -7765,6 +7765,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-aria/checkbox@npm:^0.2.3":
+  version: 0.2.7
+  resolution: "@react-native-aria/checkbox@npm:0.2.7"
+  dependencies:
+    "@react-aria/checkbox": ^3.2.1
+    "@react-aria/utils": ^3.6.0
+    "@react-native-aria/toggle": ^0.2.6
+    "@react-native-aria/utils": ^0.2.10
+    "@react-stately/toggle": ^3.2.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 4d7b2013c6b2cfb23c3355e3a1c90301a347ea786572ad344f3707eb70d096484a5a7d730a360449bf5211ebf81fe44eb9516e0131dd3b96f68ec78c79a96ec1
+  languageName: node
+  linkType: hard
+
 "@react-native-aria/combobox@npm:^0.2.4-alpha.0":
   version: 0.2.4-alpha.1
   resolution: "@react-native-aria/combobox@npm:0.2.4-alpha.1"
@@ -7846,6 +7862,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-aria/overlays@npm:^0.3.3":
+  version: 0.3.10
+  resolution: "@react-native-aria/overlays@npm:0.3.10"
+  dependencies:
+    "@react-aria/interactions": ^3.3.2
+    "@react-aria/overlays": ^3.7.0
+    "@react-native-aria/utils": ^0.2.10
+    "@react-stately/overlays": ^3.1.1
+    "@react-types/overlays": ^3.4.0
+    dom-helpers: ^5.0.0
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+  checksum: 108d402452d848c52f5824a3d3e12b2d55a27f2beee7dc9c3f00a384457d3584052d7ca9f57235c34575ba62d13c20a10f384dfd0da7ed4eedab9afe172237b1
+  languageName: node
+  linkType: hard
+
 "@react-native-aria/radio@npm:^0.2.4":
   version: 0.2.5
   resolution: "@react-native-aria/radio@npm:0.2.5"
@@ -7912,6 +7946,36 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 531850759a9448920f7c580670a11cfd3bb6530f6882192c851f372f2b529c2c53e8efad618d0da0873d5585dc720e29566c1d723f1236654d1be2d251689d54
+  languageName: node
+  linkType: hard
+
+"@react-native-aria/toggle@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "@react-native-aria/toggle@npm:0.2.6"
+  dependencies:
+    "@react-aria/focus": ^3.2.3
+    "@react-aria/utils": ^3.6.0
+    "@react-native-aria/interactions": ^0.2.11
+    "@react-native-aria/utils": ^0.2.10
+    "@react-stately/toggle": ^3.2.1
+    "@react-types/checkbox": ^3.2.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: cf3e8cc7fea81a60c3f40b1ac39a674962c5d8baee12115f84ad72c002bc308de82e9f2412f5760c9ca7c5358c6d69179c5eed38f8233e6a5cb7f02f8650096a
+  languageName: node
+  linkType: hard
+
+"@react-native-aria/utils@npm:^0.2.10":
+  version: 0.2.10
+  resolution: "@react-native-aria/utils@npm:0.2.10"
+  dependencies:
+    "@react-aria/ssr": ^3.0.1
+    "@react-aria/utils": ^3.3.0
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: c872f31bc40136e590970bdc76bbc9d96d59fa5c406e385e9413871173f24c9a7f3688fbe57f152f36394c3f939b9b1bec85bd3b434b4b0d1af882cd297239e8
   languageName: node
   linkType: hard
 
@@ -26601,7 +26665,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inline-style-prefixer@npm:^6.0.0":
+"inline-style-prefixer@npm:^6.0.0, inline-style-prefixer@npm:^6.0.1":
   version: 6.0.4
   resolution: "inline-style-prefixer@npm:6.0.4"
   dependencies:
@@ -29830,6 +29894,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.uniqueid@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "lodash.uniqueid@npm:4.0.1"
+  checksum: f8a66b34c2a8df74aeab22a018c9247c96346dc449506278e6f651030166b74959a4f8e6fae60d392a4c00a40758677547b6e969e4cb6893d8fcd1cb0d2b4ba1
+  languageName: node
+  linkType: hard
+
 "lodash@npm:4.17.21, lodash@npm:>=3.5 <5, lodash@npm:^4.17.11, lodash@npm:^4.17.12, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.5, lodash@npm:^4.7.0":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
@@ -31882,6 +31953,57 @@ __metadata:
     react-native-safe-area-context: "*"
     react-native-svg: "*"
   checksum: 8c4c0390919bee9d64ab5e1a7115966fa7751ce02a6886228c8956c036197c676b33685393c96cb60f171704751bf2d8e8a4fcbf0d664b75d57ee2381427b0ec
+  languageName: node
+  linkType: hard
+
+"native-base@npm:^3.4.28":
+  version: 3.4.28
+  resolution: "native-base@npm:3.4.28"
+  dependencies:
+    "@react-aria/visually-hidden": ^3.2.1
+    "@react-native-aria/button": ^0.2.4
+    "@react-native-aria/checkbox": ^0.2.3
+    "@react-native-aria/combobox": ^0.2.4-alpha.0
+    "@react-native-aria/focus": ^0.2.6
+    "@react-native-aria/interactions": ^0.2.2
+    "@react-native-aria/listbox": ^0.2.4-alpha.3
+    "@react-native-aria/overlays": ^0.3.3
+    "@react-native-aria/radio": ^0.2.4
+    "@react-native-aria/slider": ^0.2.5-alpha.1
+    "@react-native-aria/tabs": ^0.2.7
+    "@react-native-aria/utils": ^0.2.8
+    "@react-stately/checkbox": 3.0.3
+    "@react-stately/collections": 3.3.0
+    "@react-stately/combobox": 3.0.0-alpha.1
+    "@react-stately/radio": 3.2.1
+    "@react-stately/slider": 3.0.1
+    "@react-stately/tabs": 3.0.0-alpha.1
+    "@react-stately/toggle": 3.2.1
+    inline-style-prefixer: ^6.0.1
+    lodash.clonedeep: ^4.5.0
+    lodash.get: ^4.4.2
+    lodash.has: ^4.5.2
+    lodash.isempty: ^4.4.0
+    lodash.isequal: ^4.5.0
+    lodash.isnil: ^4.0.0
+    lodash.merge: ^4.6.2
+    lodash.mergewith: ^4.6.2
+    lodash.omit: ^4.5.0
+    lodash.omitby: ^4.6.0
+    lodash.pick: ^4.4.0
+    lodash.uniqueid: ^4.0.1
+    stable-hash: ^0.0.2
+    tinycolor2: ^1.4.2
+    use-sync-external-store: ^1.2.0
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-native": "*"
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+    react-native-safe-area-context: "*"
+    react-native-svg: "*"
+  checksum: 68d3b2c56c23b2bc25296162dfbd586530df6bc3a3e0a577ab383cdfc014e4e436604edb5aa33312055226c375e170ca942e686d43b23372d075dd7aa613fa8d
   languageName: node
   linkType: hard
 

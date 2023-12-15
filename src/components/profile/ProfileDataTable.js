@@ -1,9 +1,10 @@
 import React, { Fragment, useCallback, useMemo } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { t } from '@lingui/macro'
+
 import useCountryFlag from '../../lib/hooks/useCountryFlag'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
@@ -85,7 +86,7 @@ const ProfileDataTable = ({
   }, [verifyEdit, mobile, storedProfile.mobile])
 
   // username handlers
-  const onUserNameChange = useCallback(username => onChange(profile.update({ username })), [onChange, profile])
+  const onUserNameChange = useCallback(fullName => onChange(profile.update({ fullName })), [onChange, profile])
 
   // phone handlers
   const onPhoneInputFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
@@ -117,6 +118,12 @@ const ProfileDataTable = ({
   return (
     <Section.Row alignItems="center" grow={1}>
       <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
+        <Section.Row style={[styles.disclaimer, { opacity: 0.8 }]}>
+          <Text style={{ fontFamily: 'Roboto', fontSize: 14 }}>
+            <Text style={{ fontWeight: 'bold' }}>{t`Note:`} </Text>
+            {t`Changing your information here will not change how you log in to your wallet.`}
+          </Text>
+        </Section.Row>
         <Section.Row>
           <InputRounded
             disabled={!editable}
@@ -125,8 +132,7 @@ const ProfileDataTable = ({
             iconColor={theme.colors.primary}
             iconSize={22}
             onChange={onUserNameChange}
-            placeholder={t`Choose a Username`}
-            value={profile.username}
+            value={profile.fullName}
           />
         </Section.Row>
         <Section.Row>
@@ -246,6 +252,17 @@ const getStylesFromProps = ({ theme, errors }) => {
     },
     disabledPhoneContainer: {
       paddingLeft: 10,
+    },
+    disclaimer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      paddingTop: 40,
+      paddingBottom: 40,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      paddingLeft: 8,
+      paddingRight: 8,
     },
   }
 }

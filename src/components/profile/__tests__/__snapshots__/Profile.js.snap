@@ -244,6 +244,32 @@ exports[`Profile matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                   >
                     <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginLeft-1jj8364 r-marginRight-lchren r-paddingBottom-1uwte3a r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-1ur9v65 r-width-13qz1uu"
+                      style={
+                        Object {
+                          "opacity": 0.8,
+                        }
+                      }
+                    >
+                      <div
+                        className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-1b43r93"
+                        dir="auto"
+                      >
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          style={
+                            Object {
+                              "fontWeight": "bold",
+                            }
+                          }
+                        >
+                          Note:
+                           
+                        </span>
+                        Changing your information here will not change how you log in to your wallet.
+                      </div>
+                    </div>
+                    <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                     >
                       <div
@@ -264,7 +290,6 @@ exports[`Profile matches snapshot 1`] = `
                             onFocus={[Function]}
                             onKeyDown={[Function]}
                             onSelect={[Function]}
-                            placeholder="Choose a Username"
                             readOnly={true}
                             spellCheck={true}
                             type="text"
@@ -414,7 +439,7 @@ exports[`Profile matches snapshot 1`] = `
                       className="css-view-1dbjc4n"
                     >
                       <div
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1b66slb r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1b66slb r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1gnwdna"
                         onClick={[Function]}
                         onContextMenu={[Function]}
                         onKeyDown={[Function]}
@@ -472,34 +497,38 @@ exports[`Profile matches snapshot 1`] = `
                       </div>
                     </div>
                     <div
-                      className="css-view-1dbjc4n"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-width-1gnwdna"
                     >
                       <div
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
-                        onClick={[Function]}
-                        onContextMenu={[Function]}
-                        onKeyDown={[Function]}
-                        style={
-                          Object {
-                            "WebkitTransitionDuration": "0s",
-                            "transitionDuration": "0s",
-                          }
-                        }
-                        tabIndex="0"
+                        className="css-view-1dbjc4n"
                       >
                         <div
-                          className="css-text-901oao r-color-jwli3a"
-                          dir="auto"
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onKeyDown={[Function]}
                           style={
                             Object {
-                              "fontFamily": "gooddollar",
-                              "fontSize": "24px",
-                              "fontStyle": "normal",
-                              "fontWeight": "normal",
+                              "WebkitTransitionDuration": "0s",
+                              "transitionDuration": "0s",
                             }
                           }
+                          tabIndex="0"
                         >
-                          
+                          <div
+                            className="css-text-901oao r-color-jwli3a"
+                            dir="auto"
+                            style={
+                              Object {
+                                "fontFamily": "gooddollar",
+                                "fontSize": "24px",
+                                "fontStyle": "normal",
+                                "fontWeight": "normal",
+                              }
+                            }
+                          >
+                            
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -561,10 +590,54 @@ exports[`Profile matches snapshot 1`] = `
                       </div>
                     </div>
                     <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-width-1gnwdna"
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onKeyDown={[Function]}
+                          style={
+                            Object {
+                              "WebkitTransitionDuration": "0s",
+                              "transitionDuration": "0s",
+                            }
+                          }
+                          tabIndex="0"
+                        >
+                          <div
+                            className="css-text-901oao r-color-jwli3a"
+                            dir="auto"
+                            style={
+                              Object {
+                                "fontFamily": "gooddollar",
+                                "fontSize": "24px",
+                                "fontStyle": "normal",
+                                "fontWeight": "normal",
+                              }
+                            }
+                          >
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-backgroundColor-gbtiil r-borderRadius-1f0042m r-display-6koalj r-flexDirection-18u37iz r-gap-1cmwbt1 r-justifyContent-1wtj0ep r-marginBottom-1ifxtd0 r-padding-edyy15 r-width-13qz1uu"
+                  >
+                    <div
                       className="css-view-1dbjc4n"
                     >
                       <div
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1b66slb r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1gnwdna"
                         onClick={[Function]}
                         onContextMenu={[Function]}
                         onKeyDown={[Function]}
@@ -588,10 +661,40 @@ exports[`Profile matches snapshot 1`] = `
                             }
                           }
                         >
-                          
+                          
                         </div>
                       </div>
                     </div>
+                    <div
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr r-width-gmdvlt"
+                    >
+                      <div
+                        className="css-text-901oao"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontSize": "16px",
+                            "height": "21px",
+                            "textAlign": "left",
+                          }
+                        }
+                      >
+                        Login Method
+                      </div>
+                      <div
+                        className="css-text-901oao r-fontSize-1b43r93"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(163,163,163,1.00)",
+                            "textAlign": "left",
+                          }
+                        }
+                      />
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-width-1gnwdna"
+                    />
                   </div>
                 </div>
               </div>

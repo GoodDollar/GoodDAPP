@@ -14,6 +14,12 @@ import Avatar from './Avatar'
 
 const copiedActionTimeout = 2000 // time during which the copy success message is displayed
 
+const RowTitles = {
+  Wallet: t`My Wallet Address`,
+  FaceId: t`My Face Record ID`,
+  LoginM: t`Login Method`,
+}
+
 const ProfileAvatar = withStyles(() => ({
   avatar: {
     borderWidth: 0,
@@ -25,7 +31,7 @@ const ProfileAvatar = withStyles(() => ({
   return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
 })
 
-const IdentifiersRow = ({ title, eventSource, address = undefined, styles }) => {
+const IdentifiersRow = ({ title, eventSource, text, address, styles, withCopy = false }) => {
   const [performed, setPerformed] = useState(false)
 
   const _onCopied = useCallback(() => {
@@ -40,7 +46,7 @@ const IdentifiersRow = ({ title, eventSource, address = undefined, styles }) => 
 
   const copyToClipboard = useClipboardCopy(address, _onCopied)
 
-  const truncAddress = truncateMiddle(address, 22)
+  const truncAddress = address ? truncateMiddle(address, 22) : text
 
   return (
     <View style={styles.addressRowContainer}>
@@ -50,37 +56,47 @@ const IdentifiersRow = ({ title, eventSource, address = undefined, styles }) => 
           iconName="wallet_alt-1"
           style={[styles.iconContainer, { backgroundColor: theme.colors.lessDarkGray }]}
         />
-      ) : (
+      ) : title === 'FaceId' ? (
         <ProfileAvatar style={{ width: 42, height: 42 }} />
+      ) : (
+        <RoundIconButton
+          iconSize={24}
+          iconName="faceicon"
+          style={[styles.iconContainer, { backgroundColor: theme.colors.lessDarkGray }]}
+        />
       )}
 
       <View style={styles.addressRow}>
-        <Text style={{ textAlign: 'left', fontSize: 16, height: 21 }}>
-          {title === 'Wallet' ? t`My Wallet Address` : t`My Face Record ID`}
-        </Text>
+        <Text style={{ textAlign: 'left', fontSize: 16, height: 21 }}>{RowTitles[title] || title}</Text>
         <Text style={{ textAlign: 'left', fontSize: 14, color: theme.colors.lighterGray }}>{truncAddress}</Text>
       </View>
-      <RoundIconButton
-        onPress={copyToClipboard}
-        iconSize={performed ? 16 : 24}
-        iconName={performed ? 'success' : 'copy'}
-        style={styles.iconContainer}
-      />
+      <View style={styles.iconContainer}>
+        {withCopy && (
+          <RoundIconButton
+            onPress={copyToClipboard}
+            iconSize={performed ? 16 : 24}
+            iconName={performed ? 'success' : 'copy'}
+            style={styles.icon}
+          />
+        )}
+      </View>
     </View>
   )
 }
 
 const getStyleFromProps = ({ theme }) => ({
   iconContainer: {
-    height: 42,
-    width: 42,
-    backgroundColor: theme.colors.primary,
+    height: 43,
+    width: 43,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: getDesignRelativeHeight(4, false),
+  },
+  icon: {
     marginRight: 'auto',
     marginLeft: 'auto',
+    backgroundColor: theme.colors.primary,
   },
   addressRowContainer: {
     display: 'flex',

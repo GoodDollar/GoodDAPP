@@ -472,7 +472,7 @@ const Invite = ({ screenProps, styles }) => {
   }
 
   return (
-    <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray}>
+    <Wrapper style={styles.pageBackground} backgroundColor={theme.colors.lightGray} withMaxHeight={false}>
       <Section.Stack style={styles.headLine}>
         <Section.Text
           letterSpacing={0.14}
@@ -534,10 +534,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexBasis: 1,
     paddingBottom: 50,
     height: '100%',
-    minHeight: Platform.select({
-      web: 788,
-      android: 1150,
-    }),
+    minHeight: 788,
   },
   linkBoxStyle: {
     backgroundColor: theme.colors.white,

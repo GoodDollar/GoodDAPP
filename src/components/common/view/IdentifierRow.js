@@ -31,7 +31,7 @@ const ProfileAvatar = withStyles(() => ({
   return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
 })
 
-const IdentifiersRow = ({ title, eventSource, text = undefined, address = undefined, styles, withCopy = false }) => {
+const IdentifiersRow = ({ title, eventSource, text, address, styles, withCopy = false }) => {
   const [performed, setPerformed] = useState(false)
 
   const _onCopied = useCallback(() => {

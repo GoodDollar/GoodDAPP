@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from 'react-native'
-import { concat, noop, uniqBy } from 'lodash'
+import { concat, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 import { useFeatureFlag } from 'posthog-react-native'
@@ -13,14 +13,15 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import usePropsRefs from '../../lib/hooks/usePropsRefs'
 import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
-import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
+import { supportsG$, supportsG$UBI } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
-import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
+import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED } from '../../lib/analytics/analytics'
 import {
   GoodWalletContext,
   TokenContext,
   useFixedDecimals,
-  useFormatG$,
+
+  // useFormatG$,
   useSwitchNetwork,
   useUserStorage,
   useWalletData,
@@ -28,11 +29,13 @@ import {
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
-import { PushButton } from '../appNavigation/PushButton'
+
+// import { PushButton } from '../appNavigation/PushButton'
 import { isWeb, useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
-import ClaimButton from '../common/buttons/ClaimButton'
+
+// import ClaimButton from '../common/buttons/ClaimButton'
 import TabButton from '../common/buttons/TabButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
@@ -42,7 +45,7 @@ import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
-import { theme as _theme, theme } from '../theme/styles'
+import { theme as _theme } from '../theme/styles'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Invite from '../invite/Invite'
 import Avatar from '../common/view/Avatar'
@@ -54,8 +57,9 @@ import { FeedCategories } from '../../lib/userStorage/FeedCategory'
 import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
 import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
-import { IconButton, Text } from '../../components/common'
-import GreenCircle from '../../assets/ellipse46.svg'
+import { Text } from '../../components/common'
+
+// import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
 import Config from '../../config/config'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
@@ -138,89 +142,89 @@ const FeedTab = ({ setActiveTab, getFeedPage, activeTab, tab }) => {
   )
 }
 
-const BridgeButton = ({ onPress }: { onPress: any }) => (
-  <IconButton
-    name="bridge"
-    onPress={onPress}
-    size={30}
-    bgColor="none"
-    disabled={false}
-    circle={false}
-    color={theme.colors.lightGdBlue}
-  />
-)
+// const BridgeButton = ({ onPress }: { onPress: any }) => (
+//   <IconButton
+//     name="bridge"
+//     onPress={onPress}
+//     size={30}
+//     bgColor="none"
+//     disabled={false}
+//     circle={false}
+//     color={theme.colors.lightGdBlue}
+//   />
+// )
 
-const balanceStyles = {
-  multiBalanceItem: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 14,
-    color: theme.colors.secondary,
-    fontWeight: 'bold',
-    width: Platform.select({
-      web: '46%',
-    }),
-    backgroundColor: theme.colors.secondaryGray,
-    padding: 0,
-    margin: 0,
-    fontFamily: 'Roboto Slab',
-  },
-  switchButton: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
-  networkName: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: 55,
-  },
-}
+// const balanceStyles = {
+//   multiBalanceItem: {
+//     display: 'flex',
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     fontSize: 14,
+//     color: theme.colors.secondary,
+//     fontWeight: 'bold',
+//     width: Platform.select({
+//       web: '46%',
+//     }),
+//     backgroundColor: theme.colors.secondaryGray,
+//     padding: 0,
+//     margin: 0,
+//     fontFamily: 'Roboto Slab',
+//   },
+//   switchButton: {
+//     display: 'flex',
+//     alignItems: 'center',
+//     flexDirection: 'column',
+//   },
+//   networkName: {
+//     display: 'flex',
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     width: 55,
+//   },
+// }
 
-const BalanceAndSwitch = ({
-  color,
-  textStyles,
-  networkName,
-  balance,
-}: {
-  styles: any,
-  color: string,
-  textStyles: any,
-  networkName: string,
-  balance: any,
-}) => {
-  const { currentNetwork, switchNetwork } = useSwitchNetwork()
-  const altNetwork = currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
-  const networkNameUp = networkName.toUpperCase()
-  const isCurrent = currentNetwork === networkNameUp
-  const toggle = () => {
-    fireEvent(SWITCH_NETWORK, { type: 'balance' })
-    switchNetwork(altNetwork)
-  }
-  const formattedBalance = formatWithAbbreviations(balance, 2)
+// const BalanceAndSwitch = ({
+//   color,
+//   textStyles,
+//   networkName,
+//   balance,
+// }: {
+//   styles: any,
+//   color: string,
+//   textStyles: any,
+//   networkName: string,
+//   balance: any,
+// }) => {
+//   const { currentNetwork, switchNetwork } = useSwitchNetwork()
+//   const altNetwork = currentNetwork === 'FUSE' ? 'CELO' : 'FUSE'
+//   const networkNameUp = networkName.toUpperCase()
+//   const isCurrent = currentNetwork === networkNameUp
+//   const toggle = () => {
+//     fireEvent(SWITCH_NETWORK, { type: 'balance' })
+//     switchNetwork(altNetwork)
+//   }
+//   const formattedBalance = formatWithAbbreviations(balance, 2)
 
-  return (
-    <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? 1 : 0.5 }]}>
-      <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>
-        <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
-          {formattedBalance}
-        </Text>
-        <View style={balanceStyles.networkName}>
-          <View style={[balanceStyles.activeIcon, { display: !networkName || isCurrent ? 'flex' : 'none' }]}>
-            <GreenCircle />
-          </View>
-          <Text fontSize={12} color={theme.colors.darkGray} fontWeight="normal" fontFamily={theme.fonts.slab}>
-            {networkName} G$
-          </Text>
-        </View>
-      </TouchableOpacity>
-    </Section>
-  )
-}
+//   return (
+//     <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? 1 : 0.5 }]}>
+//       <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>
+//         <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
+//           {formattedBalance}
+//         </Text>
+//         <View style={balanceStyles.networkName}>
+//           <View style={[balanceStyles.activeIcon, { display: !networkName || isCurrent ? 'flex' : 'none' }]}>
+//             <GreenCircle />
+//           </View>
+//           <Text fontSize={12} color={theme.colors.darkGray} fontWeight="normal" fontFamily={theme.fonts.slab}>
+//             {networkName} G$
+//           </Text>
+//         </View>
+//       </TouchableOpacity>
+//     </Section>
+//   )
+// }
 
 const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalance }) => {
   const { native, token, balance: tokenBalance } = useContext(TokenContext)
@@ -301,9 +305,10 @@ const Dashboard = props => {
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const [itemModal, setItemModal] = useState()
-  const { totalBalance: balance, fuseBalance, celoBalance, dailyUBI, isCitizen } = useWalletData()
+  const { totalBalance: balance, dailyUBI, isCitizen } = useWalletData()
   const entitlement = Number(dailyUBI)
-  const { toDecimals } = useFormatG$()
+
+  // const { toDecimals } = useFormatG$()
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
@@ -318,10 +323,10 @@ const Dashboard = props => {
 
   const walletChatEnabled = useFeatureFlag('wallet-chat')
 
-  const isBridgeActive = useFeatureFlag('micro-bridge')
+  // const isBridgeActive = useFeatureFlag('micro-bridge')
 
-  const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
-  const bridgeEnabled = ubiEnabled && isBridgeActive
+  // const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
+  // const bridgeEnabled = ubiEnabled && isBridgeActive
   const { goodWallet, web3Provider } = useContext(GoodWalletContext)
 
   useInviteCode(true) // register user to invites contract if he has invite code
@@ -339,13 +344,13 @@ const Dashboard = props => {
     width: headerAvatarAnimValue,
   }
 
-  const multiBalanceAnimStyles = {
-    marginTop: Platform.select({
-      android: 0,
-    }),
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  }
+  // const multiBalanceAnimStyles = {
+  //   marginTop: Platform.select({
+  //     android: 0,
+  //   }),
+  //   borderTopLeftRadius: 10,
+  //   borderTopRightRadius: 10,
+  // }
 
   const sendReceiveAnimStyles = {
     width: '100%',
@@ -367,12 +372,12 @@ const Dashboard = props => {
     }),
   }
 
-  const gdPriceAnimStyles = {
-    marginTop: Platform.select({
-      web: 0,
-      android: 20,
-    }),
-  }
+  // const gdPriceAnimStyles = {
+  //   marginTop: Platform.select({
+  //     web: 0,
+  //     android: 20,
+  //   }),
+  // }
 
   const calculateHeaderLayoutSizes = useCallback(() => {
     const newScreenWidth = getMaxDeviceWidth()
@@ -484,13 +489,13 @@ const Dashboard = props => {
 
   const claimAnimValue = useRef(new Animated.Value(1)).current
 
-  const claimScale = useRef({
-    transform: [
-      {
-        scale: claimAnimValue,
-      },
-    ],
-  }).current
+  // const claimScale = useRef({
+  //   transform: [
+  //     {
+  //       scale: claimAnimValue,
+  //     },
+  //   ],
+  // }).current
 
   useEffect(() => {
     if (feedLoaded && appState === 'active') {
@@ -804,9 +809,9 @@ const Dashboard = props => {
 
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
-  const goToBridge = useCallback(() => {
-    screenProps.push('Amount', { action: 'Bridge' })
-  }, [screenProps])
+  // const goToBridge = useCallback(() => {
+  //   screenProps.push('Amount', { action: 'Bridge' })
+  // }, [screenProps])
 
   const dispatchScrollEvent = useDebouncedCallback(() => fireEvent(SCROLL_FEED), 250)
 
@@ -896,7 +901,12 @@ const Dashboard = props => {
                 balance={balance}
               />
             </Animated.View>
-            {headerLarge && (!isDeltaApp || supportsG$(currentNetwork)) && (
+            <View style={{ marginTop: 10, padding: 10, backgroundColor: 'red' }}>
+              <Text style={{ color: 'white' }}>
+                There has been a security breach. The app will be disabled until further notice
+              </Text>
+            </View>
+            {/* {headerLarge && (!isDeltaApp || supportsG$(currentNetwork)) && (
               <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
                 <View style={styles.multiBalance}>
                   <BalanceAndSwitch balance={fuseBalance} networkName="Fuse" />
@@ -906,10 +916,10 @@ const Dashboard = props => {
                   <BalanceAndSwitch balance={celoBalance} networkName="Celo" />
                 </View>
               </Animated.View>
-            )}
+            )} */}
             <Animated.View style={sendReceiveAnimStyles}>
               <Section style={[styles.txButtons]}>
-                <Section.Row style={styles.buttonsRow}>
+                {/* <Section.Row style={styles.buttonsRow}>
                   <PushButton
                     icon="send"
                     iconAlignment="left"
@@ -949,7 +959,7 @@ const Dashboard = props => {
                   >
                     {t`Receive`}
                   </PushButton>
-                </Section.Row>
+                </Section.Row> */}
               </Section>
             </Animated.View>
           </Section.Stack>

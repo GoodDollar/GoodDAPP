@@ -7,7 +7,7 @@ import { WalletChatProvider } from 'react-native-wallet-chat'
 import { SimpleStoreDialog } from '../components/common/dialogs/CustomDialog'
 import LoadingIndicator from '../components/common/view/LoadingIndicator'
 
-import RouterSelector from '../RouterSelector'
+// import RouterSelector from '../RouterSelector'
 
 import { isMobile } from '../lib/utils/platform'
 import logger from '../lib/logger/js-logger'
@@ -37,7 +37,7 @@ export const App = () => {
           <AppContext>
             <SimpleStoreDialog />
             <LoadingIndicator />
-            <RouterSelector />
+            {/* <RouterSelector /> */}
           </AppContext>
         </WalletChatProvider>
       </AppWrapper>

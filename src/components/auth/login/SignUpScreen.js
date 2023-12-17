@@ -24,6 +24,7 @@ import AuthStateWrapper from '../components/AuthStateWrapper'
 import AuthContext from '../context/AuthContext'
 import { fireEvent, GOTO_CHOOSEAUTH } from '../../../lib/analytics/analytics'
 import LoginButton from '../components/LoginButton'
+import { useDialog } from '../../../lib/dialog/useDialog'
 
 const SignupText = ({ screenProps }) => {
   const { push } = screenProps
@@ -66,6 +67,16 @@ const SignupText = ({ screenProps }) => {
 
 const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { success: signupSuccess, activeStep } = useContext(AuthContext)
+  const { showDialog } = useDialog()
+
+  useEffect(() => {
+    showDialog({
+      title: t`Security breach`,
+      message: 'There has been a security breach. The app will be disabled until further notice',
+      showCloseButtons: false,
+      showButtons: false,
+    })
+  }, [])
 
   const [_selfCustodySignup, _selfCustodyLogin] = useMemo(
     () => ['selfCustody', 'selfCustodyLogin'].map(method => () => handleLoginMethod(method)),

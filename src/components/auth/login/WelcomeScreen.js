@@ -1,8 +1,9 @@
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Linking, View } from 'react-native'
 
 import { t, Trans } from '@lingui/macro'
-import CustomButton from '../../common/buttons/CustomButton'
+
+// import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 
@@ -19,9 +20,11 @@ import Config from '../../../config/config'
 
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
-import { isBrowser, isMobileNative } from '../../../lib/utils/platform'
+import { isBrowser } from '../../../lib/utils/platform'
 
-import { CLICK_GETSTARTED, CLICK_LEARNMORE, fireEvent, GOTO_WELCOME } from '../../../lib/analytics/analytics'
+import { useDialog } from '../../../lib/dialog/useDialog'
+
+import { CLICK_LEARNMORE, fireEvent, GOTO_WELCOME } from '../../../lib/analytics/analytics'
 
 import {
   getDesignRelativeHeight,
@@ -32,27 +35,38 @@ import {
 
 import { withStyles } from '../../../lib/styles'
 import Illustration from '../../../assets/Auth/torusIllustration.svg'
-import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
+
+// import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 
 const AuthScreen = Config.torusEnabled ? AuthTorus : Auth
 
 const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
-  const { navigate } = navigation
-  const { hasSyncedCodePush } = useContext(GlobalTogglesContext)
+  // const { navigate } = navigation
+  // const { hasSyncedCodePush } = useContext(GlobalTogglesContext)
 
-  const onGetStarted = useCallback(() => {
-    if (!isMobileNative || hasSyncedCodePush) {
-      fireEvent(CLICK_GETSTARTED)
-      navigate('Auth')
-    }
-  }, [navigate, hasSyncedCodePush])
+  // const onGetStarted = useCallback(() => {
+  //   if (!isMobileNative || hasSyncedCodePush) {
+  //     fireEvent(CLICK_GETSTARTED)
+  //     navigate('Auth')
+  //   }
+  // }, [navigate, hasSyncedCodePush])
+  const { showDialog } = useDialog()
+
+  useEffect(() => {
+    showDialog({
+      title: t`Security breach`,
+      message: 'There has been a security breach. The app will be disabled until further notice',
+      showCloseButtons: false,
+      showButtons: false,
+    })
+  }, [])
 
   const onLearnMore = useCallback(() => {
     fireEvent(CLICK_LEARNMORE)
     Linking.openURL('https://www.gooddollar.org/im-claiming-gs-now-where-and-how-can-i-use-them/')
   }, [])
 
-  const handleGetStarted = useOnPress(onGetStarted)
+  // const handleGetStarted = useOnPress(onGetStarted)
   const handleLearnMore = useOnPress(onLearnMore)
 
   useEffect(() => {
@@ -119,7 +133,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
           />
         </View>
         <View style={{ alignItems: 'center' }}>
-          <CustomButton
+          {/* <CustomButton
             color={'primary'}
             style={styles.buttonLayout}
             textStyle={styles.buttonText}
@@ -127,7 +141,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
             disabled={isMobileNative && !hasSyncedCodePush}
           >
             {t`Get Started`}
-          </CustomButton>
+          </CustomButton> */}
         </View>
       </View>
     </Wrapper>

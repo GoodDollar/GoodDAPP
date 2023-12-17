@@ -8,8 +8,9 @@ import normalize from '../../../lib/utils/normalizeText'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import CustomButton from '../buttons/CustomButton'
 import ErrorAnimation from '../../common/animations/Error'
-import SuccessIcon from '../modal/SuccessIcon'
-import LoadingIcon from '../modal/LoadingIcon'
+
+// import SuccessIcon from '../modal/SuccessIcon'
+// import LoadingIcon from '../modal/LoadingIcon'
 import { InfoIcon } from '../modal/InfoIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
@@ -83,7 +84,8 @@ const CustomDialog = ({
       defaultImage = <InfoIcon />
       break
     default:
-      defaultImage = loading ? <LoadingIcon /> : <SuccessIcon />
+      // defaultImage = loading ? <LoadingIcon /> : <SuccessIcon />
+      defaultImage = <ErrorAnimation />
       break
   }
 

@@ -180,7 +180,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   )
 
   const initWalletAndStorage = useCallback(
-    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER') => {
+    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER', logMethod) => {
       try {
         const fusewallet = new GoodWallet({
           mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
@@ -239,7 +239,18 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         global.userStorage = storage
         global.wallet = wallet
-        setWalletAndStorage({ goodWallet: wallet, userStorage: storage, celowallet, fusewallet, web3Provider })
+
+        if (logMethod) {
+          await storage.userProperties.safeSet('logMethod', logMethod)
+        }
+
+        setWalletAndStorage({
+          goodWallet: wallet,
+          userStorage: storage,
+          celowallet,
+          fusewallet,
+          web3Provider,
+        })
         log.info('initWalletAndStorage done', { web3Provider })
         return [wallet, storage]
       } catch (e) {

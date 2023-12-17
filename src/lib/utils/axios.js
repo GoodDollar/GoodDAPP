@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios, { getAdapter } from 'axios'
 import { isPlainObject, throttle as throttleCallTo } from 'lodash'
 
-const { adapter } = axios.defaults
+const { adapter: defaultAdaptersList } = axios.defaults
 
 export const throttleAdapter = (throttleInverval, throttleOptions = {}) => {
   const throttled = {
@@ -13,6 +13,7 @@ export const throttleAdapter = (throttleInverval, throttleOptions = {}) => {
 
   // eslint-disable-next-line require-await
   return async config => {
+    const defaultAdapter = getAdapter(defaultAdaptersList)
     const { url, method, throttle } = config
     const throttledCalls = throttled[method]
 
@@ -20,7 +21,7 @@ export const throttleAdapter = (throttleInverval, throttleOptions = {}) => {
     let callOptions = throttleOptions
 
     if (false === throttle) {
-      return adapter(config)
+      return defaultAdapter(config)
     }
 
     if (isPlainObject(throttle)) {
@@ -34,7 +35,7 @@ export const throttleAdapter = (throttleInverval, throttleOptions = {}) => {
     }
 
     if (!(url in throttledCalls)) {
-      throttledCalls[url] = throttleCallTo(adapter, callInterval, callOptions)
+      throttledCalls[url] = throttleCallTo(defaultAdapter, callInterval, callOptions)
     }
 
     return throttledCalls[url](config)

@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "2.28.0",
+  "version": "2.29.1-0",
   "engines": {
     "node": ">=16.x <17",
     "npm": "8.x"
@@ -77,7 +77,7 @@
     "@expo/react-native-action-sheet": "^3.9.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
     "@gooddollar/goodcontracts": "^2.6.2",
-    "@gooddollar/goodprotocol": "^2.0.21",
+    "@gooddollar/goodprotocol": "^2.0.24",
     "@gooddollar/react-native-facetec": "^1.0.41",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/web3sdk-v2": "^0.1.91",
@@ -95,7 +95,7 @@
     "@react-native-firebase/app": "^12.8.0",
     "@react-navigation/core": "^3.5.1",
     "@react-navigation/web": "^1.0.0-alpha.9",
-    "@sentry/browser": "^6.14.1",
+    "@sentry/browser": "^7.86.0",
     "@sentry/react-native": "^3.2.3",
     "@snapshot-labs/snapshot.js": "^0.4.25",
     "@textile/crypto": "^4.1.1",
@@ -117,7 +117,7 @@
     "amplitude-js": "^8.8.0",
     "asyncstorage-down": "^4.2.0",
     "await-mutex": "1.0.1",
-    "axios": "^0",
+    "axios": "^1",
     "base-64": "^1.0.0",
     "bip39-light": "^1.0.7",
     "browserify-zlib": "^0.1.4",

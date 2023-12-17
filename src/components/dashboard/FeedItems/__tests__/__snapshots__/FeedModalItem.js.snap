@@ -591,7 +591,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         }
                       }
                     >
-                      <unknownProfile.svg />
+                      <unknownProfileDark.svg />
                     </div>
                   </div>
                   <div
@@ -1034,7 +1034,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         }
                       }
                     >
-                      <unknownProfile.svg />
+                      <unknownProfileDark.svg />
                     </div>
                   </div>
                   <div
@@ -1490,7 +1490,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         }
                       }
                     >
-                      <unknownProfile.svg />
+                      <unknownProfileDark.svg />
                     </div>
                   </div>
                   <div
@@ -1946,7 +1946,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         }
                       }
                     >
-                      <unknownProfile.svg />
+                      <unknownProfileDark.svg />
                     </div>
                   </div>
                   <div

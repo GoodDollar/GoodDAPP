@@ -10,12 +10,12 @@ const Wrapper = props => {
 
   const growStyle = { flexGrow: isMobileSafariKeyboardShown ? 0 : 1 }
 
-  const { withGradient, backgroundColor, children, style, styles, ...rest } = props
+  const { withGradient, backgroundColor, children, style, styles, withMaxHeight = true, ...rest } = props
 
   let Container
 
   const containerProps = {
-    style: [styles.container, growStyle, style],
+    style: [styles.container, growStyle, style, !withMaxHeight && styles.noMaxHeight],
     dataSet: { name: 'viewWrapper' },
     ...rest,
   }
@@ -58,6 +58,9 @@ const getStylesFromProps = ({ theme }) => {
       padding: theme.paddings.mainContainerPadding,
       width: '100%',
       position: 'relative',
+    },
+    noMaxHeight: {
+      maxHeight: '100%',
     },
   }
 

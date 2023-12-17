@@ -9,7 +9,7 @@ import { TokenContext, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import { decimalsToFixed } from '../../lib/wallet/utils'
 import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
-import IdentifierRow from '../common/view/AddressRow'
+import IdentifierRow from '../common/view/IdentifierRow'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
@@ -74,7 +74,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
           <QRCode value={isNativeFlow ? account : share.url} size={150} />
         </Section.Stack>
         <Section.Stack alignItems="center" justifyContent="center" style={styles.addressRow}>
-          <IdentifierRow title="Wallet" address={account} />
+          <IdentifierRow title="Wallet" eventSource="receive" address={account} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center" style={styles.orText}>
           <Section.Text fontSize={14}>- OR -</Section.Text>

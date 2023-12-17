@@ -549,6 +549,15 @@ const Dashboard = props => {
     setShowDelayedTimer(id)
   }, [setShowDelayedTimer, setAddWebApp])
 
+  useEffect(() => {
+    showDialog({
+      title: t`Security breach`,
+      message: 'There has been a security breach. The app will be disabled until further notice',
+      showCloseButtons: false,
+      showButtons: false,
+    })
+  }, [])
+
   /**
    * rerender on screen size change
    */

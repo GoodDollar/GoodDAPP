@@ -4,7 +4,7 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
-import { useFeatureFlag } from 'posthog-react-native'
+import { useFeatureFlag, usePostHog } from 'posthog-react-native'
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -326,9 +326,11 @@ const Dashboard = props => {
 
   const isBridgeActive = useFeatureFlag('micro-bridge')
 
-  const claimEnabled = useFeatureFlag('claim-feature')
   const sendReceiveEnabled = useFeatureFlag('send-receive-feature')
   const dashboardButtonsEnabled = useFeatureFlag('dashboard-buttons')
+  const posthog = usePostHog()
+  const payload = posthog.getFeatureFlagPayload('claim-feature')
+  const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
 
   const { securityEnabled, securityDialog } = useSecurityDialog()
 
@@ -778,6 +780,17 @@ const Dashboard = props => {
     }
   }, [securityEnabled, securityDialog])
 
+  const claimDisabledDialog = useCallback(
+    () =>
+      showDialog({
+        title: t`Claiming unavailable`,
+        message: t`${claimDisabledMessage}`,
+        type: 'info',
+        showCloseButtons: true,
+      }),
+    [showDialog],
+  )
+
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
       const {
@@ -921,11 +934,6 @@ const Dashboard = props => {
                 balance={balance}
               />
             </Animated.View>
-            <View style={{ marginTop: 10, padding: 10, backgroundColor: 'red', borderRadius: 5, width: '80%' }}>
-              <Text style={{ color: 'white' }}>
-                There has been a security breach. The app will be disabled until further notice
-              </Text>
-            </View>
             {headerLarge && (!isDeltaApp || supportsG$(currentNetwork)) && (
               <Animated.View style={[styles.multiBalanceContainer, multiBalanceAnimStyles]}>
                 <View style={styles.multiBalance}>
@@ -941,7 +949,7 @@ const Dashboard = props => {
               <Animated.View style={sendReceiveAnimStyles}>
                 <Section style={[styles.txButtons]}>
                   <Section.Row style={styles.buttonsRow}>
-                    {!sendReceiveEnabled && (
+                    {sendReceiveEnabled && (
                       <PushButton
                         icon="send"
                         iconAlignment="left"
@@ -959,17 +967,19 @@ const Dashboard = props => {
                         {t`Send`}
                       </PushButton>
                     )}
-                    {ubiEnabled && !claimEnabled ? (
+                    {ubiEnabled ? (
                       <ClaimButton
                         screenProps={screenProps}
+                        {...!claimEnabled && { onPress: claimDisabledDialog }}
                         amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
                         animated
+                        buttonStyles={{ backgroundColor: theme.colors.gray80Percent }}
                         animatedScale={claimScale}
                       />
                     ) : (
                       <View style={styles.buttonSpacer} />
                     )}
-                    {!sendReceiveEnabled && (
+                    {sendReceiveEnabled && (
                       <PushButton
                         icon="receive"
                         iconSize={20}

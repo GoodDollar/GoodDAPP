@@ -10,14 +10,15 @@ export const useSecurityDialog = () => {
   const { enabled, dialogTitle, dialogText, withButtons } = payload || {}
   const { showDialog } = useDialog()
 
-  const securityDialog = useCallback(() => {
-    showDialog({
-      title: t`${dialogTitle}`,
-      message: t`${dialogText}`,
-      showCloseButtons: withButtons,
-      showButtons: withButtons,
-    })
-  }, [showDialog])
+  const securityDialog = useCallback(
+    () =>
+      showDialog({
+        title: t`${dialogTitle}`,
+        message: t`${dialogText}`,
+        showCloseButtons: withButtons,
+        showButtons: withButtons,
+      })[showDialog],
+  )
 
   return { securityEnabled: enabled, securityDialog }
 }

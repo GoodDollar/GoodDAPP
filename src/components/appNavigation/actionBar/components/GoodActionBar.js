@@ -1,24 +1,24 @@
 import React from 'react'
 import { View } from 'react-native'
 
-// import useOnPress from '../../../../lib/hooks/useOnPress'
+import useOnPress from '../../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../../lib/styles'
 import { isIOSNative } from '../../../../lib/utils/platform'
 
-// import RewardButton from './RewardButton'
-// import ActionButton from './ActionButton'
+import RewardButton from './RewardButton'
+import ActionButton from './ActionButton'
 
 const GoodActionBar = ({ styles, navigation }) => {
-  // const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
+  const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
 
   return (
     <>
       <View style={styles.actionBar}>
-        {/* <RewardButton onPress={goToRewards} style={styles.actionItem} /> */}
-        {/* <ActionButton action="donate" /> */}
-        {/* <ActionButton action="learn" /> */}
-        {/* <ActionButton action="gooddapp" /> */}
-        {/* <ActionButton action="vote" /> */}
+        <RewardButton onPress={goToRewards} style={styles.actionItem} />
+        <ActionButton action="donate" />
+        <ActionButton action="learn" />
+        <ActionButton action="gooddapp" />
+        <ActionButton action="vote" />
       </View>
     </>
   )

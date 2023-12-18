@@ -784,7 +784,7 @@ const Dashboard = props => {
     () =>
       showDialog({
         title: t`Claiming unavailable`,
-        message: t`${claimDisabledMessage}`,
+        message: claimDisabledMessage,
         type: 'info',
         showCloseButtons: true,
       }),

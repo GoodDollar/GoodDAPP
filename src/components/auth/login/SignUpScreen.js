@@ -9,6 +9,7 @@ import NavBar from '../../appNavigation/NavBar'
 import AuthProgressBar from '../components/AuthProgressBar'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
+import { useSecurityDialog } from '../../security/securityDialog'
 
 import Section from '../../common/layout/Section'
 import CustomButton from '../../common/buttons/CustomButton'
@@ -24,7 +25,6 @@ import AuthStateWrapper from '../components/AuthStateWrapper'
 import AuthContext from '../context/AuthContext'
 import { fireEvent, GOTO_CHOOSEAUTH } from '../../../lib/analytics/analytics'
 import LoginButton from '../components/LoginButton'
-import { useDialog } from '../../../lib/dialog/useDialog'
 
 const SignupText = ({ screenProps }) => {
   const { push } = screenProps
@@ -67,16 +67,13 @@ const SignupText = ({ screenProps }) => {
 
 const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { success: signupSuccess, activeStep } = useContext(AuthContext)
-  const { showDialog } = useDialog()
+  const { securityEnabled, securityDialog } = useSecurityDialog()
 
   useEffect(() => {
-    showDialog({
-      title: t`Security breach`,
-      message: 'There has been a security breach. The app will be disabled until further notice',
-      showCloseButtons: false,
-      showButtons: false,
-    })
-  }, [])
+    if (securityEnabled) {
+      securityDialog()
+    }
+  }, [securityEnabled, securityDialog])
 
   const [_selfCustodySignup, _selfCustodyLogin] = useMemo(
     () => ['selfCustody', 'selfCustodyLogin'].map(method => () => handleLoginMethod(method)),

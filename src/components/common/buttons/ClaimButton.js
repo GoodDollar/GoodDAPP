@@ -61,7 +61,7 @@ const ClaimButton = withStyles(getStylesFromProps)(
         screenProps={screenProps}
         style={[styles.claimButton, isPending ? styles.inQueue : undefined, style]}
         contentStyle={styles.removeMargin}
-        onPress={onPress}
+        {...onPress && { onPress: onPress }}
       >
         {isPending ? t`Queue` : t`Claim`}
       </PushButton>

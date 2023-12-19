@@ -4221,7 +4221,7 @@ __metadata:
     "@toruslabs/customauth-react-native-sdk": ^4.0.1
     "@tradle/react-native-http": ^2.0.1
     "@usedapp/core": 1.2.6
-    "@walletconnect/client": 1.8.0
+    "@walletconnect/client": ^1.8.0
     "@walletconnect/react-native-compat": ^2.2.1
     "@walletconnect/utils": ^2.10.1
     "@walletconnect/web3wallet": ^1.9.1
@@ -9351,7 +9351,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/client@npm:1.8.0, @walletconnect/client@npm:^1.8.0":
+"@walletconnect/client@npm:^1.8.0":
   version: 1.8.0
   resolution: "@walletconnect/client@npm:1.8.0"
   dependencies:

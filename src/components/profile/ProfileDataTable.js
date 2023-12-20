@@ -51,6 +51,7 @@ const ProfileDataTable = ({
   screenProps,
   setLockSubmit = noop,
   showCustomFlag,
+  withDisclaimer = false,
 }) => {
   const { mobile } = profile || {}
   const phoneMeta = useMemo(() => (showCustomFlag && mobile ? parsePhoneNumberFromString(mobile) : null), [
@@ -116,14 +117,16 @@ const ProfileDataTable = ({
   }, [setLockSubmit, verifyEmail, errors])
 
   return (
-    <Section.Row alignItems="center" grow={1}>
+    <Section.Row alignItems={withDisclaimer ? 'flex-start' : 'center'} grow={1}>
       <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
-        <Section.Row style={[styles.disclaimer, { opacity: 0.8 }]}>
-          <Text style={{ fontFamily: 'Roboto', fontSize: 14 }}>
-            <Text style={{ fontWeight: 'bold' }}>{t`Note:`} </Text>
-            {t`Changing your information here will not change how you log in to your wallet.`}
-          </Text>
-        </Section.Row>
+        {withDisclaimer && (
+          <Section.Row style={[styles.disclaimer, { opacity: 0.8 }]}>
+            <Text style={{ fontFamily: 'Roboto', fontSize: 14 }}>
+              <Text style={{ fontWeight: 'bold' }}>{t`Note:`} </Text>
+              {t`Changing your information here will not change how you log in to your wallet.`}
+            </Text>
+          </Section.Row>
+        )}
         <Section.Row>
           <InputRounded
             disabled={!editable}

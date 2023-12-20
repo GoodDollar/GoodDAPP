@@ -156,6 +156,7 @@ const EditProfile = ({ screenProps, styles }) => {
           storedProfile={storedProfile}
           setLockSubmit={setLockSubmit}
           screenProps={screenProps}
+          withDisclaimer
         />
       </Section>
       <View style={styles.userDataWrapper}>

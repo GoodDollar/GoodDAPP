@@ -51,13 +51,15 @@ import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
 
+// import { usePostHog } from 'posthog-react-native'
+
 type ClaimProps = DashboardProps
 
 const log = logger.child({ from: 'Claim' })
 // eslint-disable-next-line require-await
 const _retry = async asyncFn => retry(asyncFn, 1, Config.blockchainTimeout)
 
-const LoadingAnimation = ({ success, speed = 3 }) => (
+export const LoadingAnimation = ({ success, speed = 3 }) => (
   <View style={{ alignItems: 'center' }}>
     <SpinnerCheckMark
       successSpeed={speed}
@@ -227,6 +229,10 @@ const Claim = props => {
   const { appState } = useAppState()
   const userStorage = useUserStorage()
   const { userProperties } = userStorage || {}
+
+  // const posthog = usePostHog()
+  // const payload = posthog?.getFeatureFlagPayload('next-tasks')
+  // const { showButtons } = payload || {}
 
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(decimalsEntitlement)) || 0)
   const { isValid } = screenState
@@ -491,15 +497,10 @@ const Claim = props => {
         await showDialog({
           image: <LoadingAnimation success speed={2} />,
           content: <TaskDialog />,
-          buttons: [
-            {
-              text: t`Skip`,
-              style: { backgroundColor: mainTheme.colors.gray80Percent },
-            },
-          ],
-          title: t`You've claimed today`,
+          title: t`You've claimed today!`,
           titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
           onDismiss: noop,
+          showButtons: false, // todo: add flow to manage this for the active task(s)
         })
       })
 

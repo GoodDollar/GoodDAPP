@@ -73,9 +73,11 @@ const ProfileWrapper = ({ screenProps, styles }) => {
           <Section.Row>
             <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
           </Section.Row>
-          <Section.Row>
-            <IdentifierRow title="LoginM" text={logMethod} />
-          </Section.Row>
+          {logMethod && (
+            <Section.Row>
+              <IdentifierRow title="LoginM" text={logMethod} />
+            </Section.Row>
+          )}
         </Section>
       </Section>
       <View style={styles.userDataWrapper}>

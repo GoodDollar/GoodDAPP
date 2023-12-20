@@ -7,7 +7,11 @@ import { GoodWalletProvider } from '../lib/wallet/GoodWalletProvider'
 import Config from '../config/config'
 
 const AppContext = ({ children }) => (
-  <PostHogProvider apiKey={Config.posthogApiKey} options={{ host: Config.posthogHost }} autocapture={false}>
+  <PostHogProvider
+    apiKey={Config.posthogApiKey}
+    options={{ host: Config.posthogHost, preloadFeatureFlags: true }}
+    autocapture={false}
+  >
     <GlobalTogglesContextProvider>
       <DialogContextProvider>
         <GoodWalletProvider>{children}</GoodWalletProvider>

@@ -4,7 +4,7 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
-import { useFeatureFlag, usePostHog } from 'posthog-react-native'
+import { useFeatureFlag } from 'posthog-react-native'
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -29,6 +29,7 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
 
+import { usePosthogClient } from '../../lib/hooks/usePosthogClient'
 import { PushButton } from '../appNavigation/PushButton'
 import { isWeb, useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
@@ -328,8 +329,8 @@ const Dashboard = props => {
 
   const sendReceiveEnabled = useFeatureFlag('send-receive-feature')
   const dashboardButtonsEnabled = useFeatureFlag('dashboard-buttons')
-  const posthog = usePostHog()
-  const payload = posthog.getFeatureFlagPayload('claim-feature')
+  const posthog = usePosthogClient()
+  const payload = posthog?.getFeatureFlagPayload('claim-feature')
   const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
 
   const { securityEnabled, securityDialog } = useSecurityDialog()

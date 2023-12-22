@@ -1,8 +1,7 @@
 import React from 'react'
 import { Platform, View } from 'react-native'
-import { t } from '@lingui/macro'
 
-import { useTaskList } from '../../dashboard/Tasks/hooks/useTasks'
+import TaskButton from '../../common/buttons/TaskButton'
 import { Section, Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 
@@ -12,7 +11,7 @@ const dialogStyles = ({ theme }) => ({
   },
   subtitle: {
     textAlign: 'center',
-    marginBottom: 25,
+    marginTop: 16,
   },
   taskContainer: {
     marginBottom: 30,
@@ -101,30 +100,33 @@ const dialogStyles = ({ theme }) => ({
   },
 })
 
-const TaskDialog = ({ styles, theme }) => {
-  const { tasks } = useTaskList()
+const TaskDialog = ({ styles, theme, posthog }) => {
+  const payload = posthog?.getFeatureFlagPayload('next-tasks')
+  const { tasks } = payload || {}
 
   return (
     <View>
-      <View style={styles.subTitleContainer}>
-        <Text color={theme.colors.darkGray} style={styles.subtitle}>
-          {t`Did you know you can earn more GoodDollars by completing tasks?`}
-        </Text>
-      </View>
-      <Section style={styles.taskContainer}>
-        <Section.Row style={styles.taskHeader}>
-          <Section.Text style={styles.headerText}>{t`Next task`}</Section.Text>
-        </Section.Row>
-
-        {tasks
-          .filter(task => task.isActive)
-          .map(task => (
-            <Section.Row key={task.id} style={styles.taskBody}>
-              <Section.Text style={styles.taskDesc}>{task.description}</Section.Text>
-              <Section.Text style={styles.taskAction}>{task.actionButton}</Section.Text>
-            </Section.Row>
-          ))}
-      </Section>
+      {tasks
+        ?.filter(task => task.enabled)
+        .map(task => (
+          <>
+            {task.taskHeader && (
+              <View style={styles.subTitleContainer}>
+                <Text color={theme.colors.darkGray} style={styles.subtitle}>
+                  {task.taskHeader}
+                </Text>
+              </View>
+            )}
+            <Section style={styles.taskContainer}>
+              <Section.Row key={task.tag} style={styles.taskBody}>
+                <Section.Text style={styles.taskDesc}>{task.description}</Section.Text>
+                <Section.Text style={styles.taskAction}>
+                  <TaskButton buttonText={task.buttonText} url={task.url} eventTag={task.tag} styles={styles} />
+                </Section.Text>
+              </Section.Row>
+            </Section>
+          </>
+        ))}
     </View>
   )
 }

@@ -31825,6 +31825,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"posthog-react-native@npm:^2.4.0":
+  version: 2.9.2
+  resolution: "posthog-react-native@npm:2.9.2"
+  peerDependencies:
+    "@react-native-async-storage/async-storage": ">=1.0.0"
+    "@react-navigation/native": ">= 5.0.10"
+    expo-application: ">= 4.0.0"
+    expo-device: ">= 4.0.0"
+    expo-file-system: ">= 13.0.0"
+    expo-localization: ">= 11.0.0"
+    react-native-device-info: ">= 10.0.0"
+    react-native-navigation: ">=6.0.0"
+  peerDependenciesMeta:
+    "@react-native-async-storage/async-storage":
+      optional: true
+    "@react-navigation/native":
+      optional: true
+    expo-application:
+      optional: true
+    expo-device:
+      optional: true
+    expo-file-system:
+      optional: true
+    expo-localization:
+      optional: true
+    react-native-device-info:
+      optional: true
+    react-native-navigation:
+      optional: true
+  checksum: fd00e4fe44d9bcd0f5777763faf28cbc94ab7dd8684e58946597d789ab0e22e44eca18815bc5800402b1456b6ac8594d2f7f25d4713470359a789afe185f2420
+  languageName: node
+  linkType: hard
+
 "pouchdb-abstract-mapreduce@npm:7.3.1":
   version: 7.3.1
   resolution: "pouchdb-abstract-mapreduce@npm:7.3.1"

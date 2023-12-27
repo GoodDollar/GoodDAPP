@@ -108,7 +108,7 @@ const getStylesFromProps = ({ theme }) => {
 
   return {
     emptySpace: {
-      height: 75,
+      height: 115,
       width: '100%',
     },
     section: {

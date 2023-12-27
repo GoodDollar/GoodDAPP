@@ -218,7 +218,7 @@ exports[`Receive matches snapshot 1`] = `
             className="css-view-1dbjc4n"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1gnwdna"
               onClick={[Function]}
               onContextMenu={[Function]}
               onKeyDown={[Function]}
@@ -276,37 +276,8 @@ exports[`Receive matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
-          >
-            <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onKeyDown={[Function]}
-              style={
-                Object {
-                  "WebkitTransitionDuration": "0s",
-                  "transitionDuration": "0s",
-                }
-              }
-              tabIndex="0"
-            >
-              <div
-                className="css-text-901oao r-fontWeight-1it3c9n"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "gooddollar",
-                    "fontSize": "24px",
-                    "fontStyle": "normal",
-                  }
-                }
-              >
-                
-              </div>
-            </div>
-          </div>
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-width-1gnwdna"
+          />
         </div>
       </div>
       <div
@@ -326,9 +297,10 @@ exports[`Receive matches snapshot 1`] = `
           className="css-view-1dbjc4n r-height-10ptun7"
         />
         <div
-          className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1jb27wt r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
+          className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
           style={
             Object {
+              "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
               "borderBottomStyle": "solid",

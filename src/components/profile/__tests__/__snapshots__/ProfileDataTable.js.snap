@@ -27,38 +27,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
         className="css-view-1dbjc4n"
       >
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginLeft-1jj8364 r-marginRight-lchren r-paddingBottom-1uwte3a r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-1ur9v65 r-width-13qz1uu"
-          style={
-            Object {
-              "opacity": 0.8,
-            }
-          }
-        >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-              }
-            }
-          >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              style={
-                Object {
-                  "fontWeight": "bold",
-                }
-              }
-            >
-              Note:
-               
-            </span>
-            Changing your information here will not change how you log in to your wallet.
-          </div>
-        </div>
-        <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >
           <div
@@ -227,32 +195,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
       <div
         className="css-view-1dbjc4n"
       >
-        <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginLeft-1jj8364 r-marginRight-lchren r-paddingBottom-1uwte3a r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-1ur9v65 r-width-13qz1uu"
-          style={
-            Object {
-              "opacity": 0.8,
-            }
-          }
-        >
-          <div
-            className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-1b43r93"
-            dir="auto"
-          >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              style={
-                Object {
-                  "fontWeight": "bold",
-                }
-              }
-            >
-              Note:
-               
-            </span>
-            Changing your information here will not change how you log in to your wallet.
-          </div>
-        </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >
@@ -1981,32 +1923,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
       <div
         className="css-view-1dbjc4n"
       >
-        <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-marginLeft-1jj8364 r-marginRight-lchren r-paddingBottom-1uwte3a r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingTop-1ur9v65 r-width-13qz1uu"
-          style={
-            Object {
-              "opacity": 0.8,
-            }
-          }
-        >
-          <div
-            className="css-text-901oao r-fontFamily-vnw8o6 r-fontSize-1b43r93"
-            dir="auto"
-          >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              style={
-                Object {
-                  "fontWeight": "bold",
-                }
-              }
-            >
-              Note:
-               
-            </span>
-            Changing your information here will not change how you log in to your wallet.
-          </div>
-        </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >

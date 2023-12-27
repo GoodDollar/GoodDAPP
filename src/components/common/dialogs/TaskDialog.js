@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Platform, View } from 'react-native'
 
+import { usePosthogClient } from '../../../lib/hooks/usePosthogClient'
 import TaskButton from '../../common/buttons/TaskButton'
 import { Section, Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 
 const dialogStyles = ({ theme }) => ({
   subTitleContainer: {
+    marginTop: 16,
     marginBottom: theme.sizes.defaultDouble,
   },
   subtitle: {
     textAlign: 'center',
-    marginTop: 16,
   },
   taskContainer: {
     marginBottom: 30,
@@ -26,6 +27,7 @@ const dialogStyles = ({ theme }) => ({
     ...Platform.select({
       web: {
         maxWidth: 'fit-content',
+        minWidth: '90%',
         paddingTop: 60,
         boxShadow: theme.shadows.shadow2,
       },
@@ -100,8 +102,9 @@ const dialogStyles = ({ theme }) => ({
   },
 })
 
-const TaskDialog = ({ styles, theme, posthog }) => {
-  const payload = posthog?.getFeatureFlagPayload('next-tasks')
+const TaskDialog = ({ styles, theme }) => {
+  const posthog = usePosthogClient()
+  const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('next-tasks') : []), [posthog])
   const { tasks } = payload || {}
 
   return (
@@ -110,13 +113,13 @@ const TaskDialog = ({ styles, theme, posthog }) => {
         ?.filter(task => task.enabled)
         .map(task => (
           <>
-            {task.taskHeader && (
-              <View style={styles.subTitleContainer}>
+            <View style={styles.subTitleContainer}>
+              {task.taskHeader && (
                 <Text color={theme.colors.darkGray} style={styles.subtitle}>
                   {task.taskHeader}
                 </Text>
-              </View>
-            )}
+              )}
+            </View>
             <Section style={styles.taskContainer}>
               <Section.Row key={task.tag} style={styles.taskBody}>
                 <Section.Text style={styles.taskDesc}>{task.description}</Section.Text>

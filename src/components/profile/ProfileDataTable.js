@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useMemo } from 'react'
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
@@ -14,46 +14,11 @@ import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
 import API from '../../lib/API'
 import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
+import VerifyButton from './VerifyButton'
 
 const defaultErrors = {}
 const defaultStoredProfile = {}
 const defaultProfile = {}
-
-const VerifyButton = ({ cb, enabled, mode, styles }) => {
-  if (!enabled) {
-    return null
-  }
-
-  return (
-    <TouchableOpacity
-      onPress={cb}
-      style={
-        (styles.animatedSaveButton,
-        {
-          backgroundColor: '#006d9f',
-          color: '#fff',
-          marginVertical: 0,
-          display: 'flex',
-          justifyContent: 'flex-end',
-          position: 'absolute',
-          transitionDuration: '0s',
-          padding: 11,
-          borderRadius: 30,
-          width: 70,
-          marginRight: 20,
-          paddingLeft: 11,
-          paddingRight: 11,
-          paddingTop: 6,
-          paddingBottom: 6,
-          right: mode === 'phone' ? -26 : -15,
-          textAlign: 'center',
-        })
-      }
-    >
-      <Text style={{ color: 'white' }}> Verify </Text>
-    </TouchableOpacity>
-  )
-}
 
 export const CountryFlag = withStyles(
   () => ({

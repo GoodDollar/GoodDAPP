@@ -122,7 +122,7 @@ exports[`SigninInfo matches snapshot 1`] = `
               "borderTopLeftRadius": "18px",
               "borderTopRightRadius": "18px",
               "height": "36px",
-              "width": "90px",
+              "width": "40px",
             }
           }
           tabIndex="-1"

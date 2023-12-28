@@ -1,10 +1,14 @@
 import React, { useMemo } from 'react'
 import { Platform, View } from 'react-native'
+import { usePostHog } from 'posthog-react-native'
 
 import { usePosthogClient } from '../../../lib/hooks/usePosthogClient'
 import TaskButton from '../../common/buttons/TaskButton'
 import { Section, Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
+import logger from '../../../lib/logger/js-logger'
+
+const log = logger.child({ from: 'Dashboard' })
 
 const dialogStyles = ({ theme }) => ({
   subTitleContainer: {
@@ -104,8 +108,12 @@ const dialogStyles = ({ theme }) => ({
 
 const TaskDialog = ({ styles, theme }) => {
   const posthog = usePosthogClient()
+  const posthogReg = usePostHog()
   const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('next-tasks') : []), [posthog])
+  const payloadReg = useMemo(() => (posthogReg ? posthogReg.getFeatureFlagPayload('next-tasks') : []), [posthogReg])
   const { tasks } = payload || {}
+
+  log.info('posthogtesting -->', { posthog, posthogReg, payloadReg, payload })
 
   return (
     <View>

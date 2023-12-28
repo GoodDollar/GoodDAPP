@@ -47,53 +47,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 onFocus={[Function]}
                 onKeyDown={[Function]}
                 onSelect={[Function]}
-                readOnly={true}
-                spellCheck={true}
-                type="text"
-              />
-              <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
-              >
-                <div
-                  className="css-text-901oao"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(0,175,255,1.00)",
-                      "fontFamily": "gooddollar",
-                      "fontSize": "22px",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
-                    }
-                  }
-                >
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
-        >
-          <div
-            className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
-          >
-            <div
-              className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
-            >
-              <input
-                autoCapitalize="sentences"
-                autoComplete="on"
-                autoCorrect="on"
-                className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
-                dir="auto"
-                disabled={true}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onSelect={[Function]}
                 placeholder="Add your Mobile"
                 readOnly={true}
                 spellCheck={true}
@@ -199,59 +152,14 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >
           <div
-            className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
-          >
-            <div
-              className="css-view-1dbjc4n r-borderColor-1lz4bg0 r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-marginVertical-1p6iasa r-paddingHorizontal-1dye5f7 r-paddingVertical-rjfia r-position-bnwqim"
-            >
-              <input
-                autoCapitalize="sentences"
-                autoComplete="on"
-                autoCorrect="on"
-                className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-1w50u8q r-placeholderTextColor-1xktb6b"
-                dir="auto"
-                disabled={false}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onSelect={[Function]}
-                readOnly={false}
-                spellCheck={true}
-                type="text"
-              />
-              <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-1yvhtrz r-zIndex-184en5c"
-              >
-                <div
-                  className="css-text-901oao"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(0,175,255,1.00)",
-                      "fontFamily": "gooddollar",
-                      "fontSize": "22px",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
-                    }
-                  }
-                >
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
-        >
-          <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginVertical-1p6iasa r-position-bnwqim"
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-position-bnwqim"
               style={
                 Object {
+                  "marginBottom": "4px",
+                  "marginTop": "4px",
                   "paddingBottom": "6px",
                   "paddingLeft": "10px",
                   "paddingRight": "10px",
@@ -1923,53 +1831,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
       <div
         className="css-view-1dbjc4n"
       >
-        <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
-        >
-          <div
-            className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
-          >
-            <div
-              className="css-view-1dbjc4n r-borderColor-1lz4bg0 r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-marginVertical-1p6iasa r-paddingHorizontal-1dye5f7 r-paddingVertical-rjfia r-position-bnwqim"
-            >
-              <input
-                autoCapitalize="sentences"
-                autoComplete="on"
-                autoCorrect="on"
-                className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-1w50u8q r-placeholderTextColor-1xktb6b"
-                dir="auto"
-                disabled={false}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onSelect={[Function]}
-                readOnly={false}
-                spellCheck={true}
-                type="text"
-              />
-              <div
-                className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-1yvhtrz r-zIndex-184en5c"
-              >
-                <div
-                  className="css-text-901oao"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(0,175,255,1.00)",
-                      "fontFamily": "gooddollar",
-                      "fontSize": "22px",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
-                    }
-                  }
-                >
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
         >

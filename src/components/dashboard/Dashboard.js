@@ -66,8 +66,6 @@ import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
 import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialog'
 import { useSecurityDialog } from '../security/securityDialog'
-import TaskDialog from '../common/dialogs/TaskDialog'
-import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -228,17 +226,6 @@ const BalanceAndSwitch = ({
     </Section>
   )
 }
-
-export const LoadingAnimation = ({ success, speed = 3 }) => (
-  <View style={{ alignItems: 'center' }}>
-    <SpinnerCheckMark
-      successSpeed={speed}
-      success={success}
-      width={145}
-      marginTop={Platform.select({ web: undefined, default: 5 })}
-    />
-  </View>
-)
 
 const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalance }) => {
   const { native, token, balance: tokenBalance } = useContext(TokenContext)
@@ -857,17 +844,7 @@ const Dashboard = props => {
   const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
   const goToBridge = useCallback(() => {
-    // screenProps.push('Amount', { action: 'Bridge' })
-
-    // Just a test for posthog not loaded/found in nested component
-    showDialog({
-      image: <LoadingAnimation success speed={2} />,
-      content: <TaskDialog />,
-      title: t`You've claimed today!`,
-      titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
-      onDismiss: noop,
-      showButtons: false, // todo: add flow to manage this for the active task(s)
-    })
+    screenProps.push('Amount', { action: 'Bridge' })
   }, [screenProps])
 
   const dispatchScrollEvent = useDebouncedCallback(() => fireEvent(SCROLL_FEED), 250)

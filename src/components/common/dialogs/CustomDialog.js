@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import { isString } from 'lodash'
 
+import { PostHogProvider } from 'posthog-react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import CustomButton from '../buttons/CustomButton'
@@ -19,6 +20,7 @@ import Section from '../layout/Section'
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import { DialogContext } from '../../../lib/dialog/dialogContext'
 import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
+import Config from '../../../config/config'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -135,11 +137,13 @@ const CustomDialog = ({
               // https://github.com/callstack/react-native-paper/blob/main/src/components/Portal/Portal.tsx#L54
               // otherwise useContext(GlobalTogglesContext) will return undefined for
               // any custom dialog component (e.g. ExplanationDialog and other ones)
-              <GlobalTogglesContext.Provider value={globalToggleState}>
-                <GoodWalletContext.Provider value={goodWalletState}>
-                  <DialogContext.Provider value={dialogState}>{content}</DialogContext.Provider>
-                </GoodWalletContext.Provider>
-              </GlobalTogglesContext.Provider>
+              <PostHogProvider apiKey={Config.posthogApiKey} options={{ host: Config.posthogHost }} autocapture={false}>
+                <GlobalTogglesContext.Provider value={globalToggleState}>
+                  <GoodWalletContext.Provider value={goodWalletState}>
+                    <DialogContext.Provider value={dialogState}>{content}</DialogContext.Provider>
+                  </GoodWalletContext.Provider>
+                </GlobalTogglesContext.Provider>
+              </PostHogProvider>
             ) : (
               <>
                 {children}

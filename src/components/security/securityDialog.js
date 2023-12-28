@@ -1,11 +1,11 @@
 import { useCallback, useMemo } from 'react'
 import { t } from '@lingui/macro'
+import { usePostHog } from 'posthog-react-native'
 
-import { usePosthogClient } from '../../lib/hooks/usePosthogClient'
 import { useDialog } from '../../lib/dialog/useDialog'
 
 export const useSecurityDialog = () => {
-  const posthog = usePosthogClient()
+  const posthog = usePostHog()
   const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('security-dialog') : [posthog]))
 
   const { enabled, dialogTitle, dialogText, withButtons } = payload || {}

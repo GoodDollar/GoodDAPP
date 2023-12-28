@@ -21,20 +21,21 @@ import { CountryFlag } from '../profile/ProfileDataTable'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
+import { useNotificationsOptions } from '../../lib/notifications/hooks/useNotifications'
+import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import { useDialog } from '../../lib/dialog/useDialog'
 
 // utils
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
-import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
+import { CLICK_DELETE_WALLET, fireEvent, LOGOUT, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
 
 // assets
 import OptionsRow from '../profile/OptionsRow'
 import Config from '../../config/config'
 import { isWeb } from '../../lib/utils/platform'
-import { useNotificationsOptions } from '../../lib/notifications/hooks/useNotifications'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -139,6 +140,9 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   const { setLanguage, language: languageCode } = useContext(LanguageContext)
   const [countryCode, setCountryCode] = useState(getKeyByValue(countryCodeToLocale, languageCode))
 
+  const { showErrorDialog } = useDialog()
+  const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
+
   const handleLanguageChange = useCallback(
     async code => {
       setCountryCode(code)
@@ -228,6 +232,11 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
     switchOption(true)
     onWentFromClaimProcessedRef.current = true
   }, [switchOption, wentFrom])
+
+  const handleDeleteAccount = useCallback(() => {
+    fireEvent(CLICK_DELETE_WALLET)
+    showDeleteAccountDialog()
+  }, [showErrorDialog, showDeleteAccountDialog])
 
   return (
     <Wrapper style={styles.mainWrapper} withGradient={false}>
@@ -346,6 +355,14 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                 </View>
               </Section.Row>
             </Section.Stack>
+          </Section.Row>
+          <Section.Row justifyContent="center">
+            <TouchableOpacity onPress={handleDeleteAccount} style={styles.deleteAccountButton}>
+              <Icon name="trash" size={16} color={theme.colors.red} />
+              <Text color={theme.colors.red} style={{ marginLeft: 16 }}>
+                Delete Account
+              </Text>
+            </TouchableOpacity>
           </Section.Row>
         </Section.Stack>
       </Section>
@@ -473,6 +490,11 @@ const getStylesFromProps = ({ theme }) => {
     },
     dropDownContainer: {
       flexDirection: 'row-reverse',
+    },
+    deleteAccountButton: {
+      justifyContent: 'center',
+      marginTop: 100,
+      flexDirection: 'row',
     },
   }
 }

@@ -4,8 +4,8 @@ import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
 
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { withStyles } from '../../lib/styles'
-
-import { Icon } from '../common'
+import { ActionButton, Icon } from '../common'
+import { socials } from '../appNavigation/actionBar/hooks/useActionLink'
 import useOnPress from '../../lib/hooks/useOnPress'
 import SideMenuItem from './SideMenuItem'
 
@@ -14,7 +14,7 @@ type SideMenuPanelProps = {
 }
 
 const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
-  const { slideToggle, topItems, bottomItems } = useSideMenu({
+  const { slideToggle, topItems } = useSideMenu({
     navigation,
     theme,
   })
@@ -29,8 +29,8 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
       <View style={styles.listContainer}>
         {topItems.map(item => !item.hidden && <SideMenuItem key={item.name} {...item} />)}
         <View style={styles.alignBottom}>
-          {bottomItems.map(item => (
-            <SideMenuItem key={item.name} {...item} />
+          {Object.entries(socials).map(([key, { icon }]) => (
+            <ActionButton isSocial image={icon} action={key} key={key} />
           ))}
         </View>
       </View>
@@ -68,6 +68,18 @@ const sideMenuPanelStyles = ({ theme }) => ({
   },
   alignBottom: {
     marginTop: 'auto',
+    marginBottom: 32,
+    ...Platform.select({
+      web: {
+        width: 250,
+      },
+      android: {
+        width: 350,
+      },
+    }),
+    flexDirection: 'row',
+    flexWrap: 'wrap-reverse',
+    justifyContent: 'center',
   },
 })
 

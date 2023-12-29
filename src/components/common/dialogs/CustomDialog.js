@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import { isString } from 'lodash'
 
-import { PostHogProvider } from 'posthog-react-native'
+import { PostHogProvider, usePostHog } from 'posthog-react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import CustomButton from '../buttons/CustomButton'
@@ -90,6 +90,8 @@ const CustomDialog = ({
       break
   }
 
+  const posthog = usePostHog()
+
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
   const color = theme.colors[textColor]
@@ -137,13 +139,25 @@ const CustomDialog = ({
               // https://github.com/callstack/react-native-paper/blob/main/src/components/Portal/Portal.tsx#L54
               // otherwise useContext(GlobalTogglesContext) will return undefined for
               // any custom dialog component (e.g. ExplanationDialog and other ones)
-              <PostHogProvider apiKey={Config.posthogApiKey} options={{ host: Config.posthogHost }} autocapture={false}>
+              !posthog ? (
+                <PostHogProvider
+                  apiKey={Config.posthogApiKey}
+                  options={{ host: Config.posthogHost }}
+                  autocapture={false}
+                >
+                  <GlobalTogglesContext.Provider value={globalToggleState}>
+                    <GoodWalletContext.Provider value={goodWalletState}>
+                      <DialogContext.Provider value={dialogState}>{content}</DialogContext.Provider>
+                    </GoodWalletContext.Provider>
+                  </GlobalTogglesContext.Provider>
+                </PostHogProvider>
+              ) : (
                 <GlobalTogglesContext.Provider value={globalToggleState}>
                   <GoodWalletContext.Provider value={goodWalletState}>
                     <DialogContext.Provider value={dialogState}>{content}</DialogContext.Provider>
                   </GoodWalletContext.Provider>
                 </GlobalTogglesContext.Provider>
-              </PostHogProvider>
+              )
             ) : (
               <>
                 {children}

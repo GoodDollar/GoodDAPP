@@ -29,7 +29,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { withStyles } from '../../lib/styles'
-import { CLICK_DELETE_WALLET, fireEvent, LOGOUT, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
+import { CLICK_DELETE_WALLET, fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, isSmallDevice } from '../../lib/utils/sizes'
 
 // assets

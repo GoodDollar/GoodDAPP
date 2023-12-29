@@ -43,45 +43,45 @@ const addExtraProps = (value, key) => ({
 
 export const socials = mapValues(
   {
+    gdw: {
+      icon: GdWebIcon,
+      url: 'https://ubi.gd/3RpmmLf',
+      event: GOTO_GDWEB,
+    },
+    tg: {
+      icon: TgIcon,
+      url: 'https://ubi.gd/3GF6f78',
+      event: GOTO_TG,
+    },
     x: {
       icon: XIcon,
       url: 'https://ubi.gd/twitter',
       event: GOTO_X,
-    },
-    tg: {
-      icon: TgIcon,
-      url: 'https://t.me/GoodDollarX',
-      event: GOTO_TG,
     },
     dsc: {
       icon: DiscourseIcon,
       url: 'https://ubi.gd/3RQFtiN',
       event: GOTO_DISCOURSE,
     },
+    inst: {
+      icon: InstaIcon,
+      url: 'https://ubi.gd/3RHJAxx',
+      event: GOTO_INSTA,
+    },
     dis: {
       icon: DiscordIcon,
-      url: 'https://discord.com/invite/H3seC734',
+      url: 'https://ubi.gd/48wdaLR',
       event: GOTO_DISCORD,
-    },
-    fb: {
-      icon: FacebookIcon,
-      url: 'https://ubi.gd/48fL3At',
-      event: GOTO_FB,
     },
     med: {
       icon: MediumIcon,
       url: 'https://ubi.gd/3tm8GVT',
       event: GOTO_MEDIUM,
     },
-    gdw: {
-      icon: GdWebIcon,
-      url: 'https://ubi.gd/3RpmmLf',
-      event: GOTO_GDWEB,
-    },
-    inst: {
-      icon: InstaIcon,
-      url: 'https://ubi.gd/3RHJAxx',
-      event: GOTO_INSTA,
+    fb: {
+      icon: FacebookIcon,
+      url: 'https://ubi.gd/48fL3At',
+      event: GOTO_FB,
     },
     link: {
       icon: LinkedinIcon,

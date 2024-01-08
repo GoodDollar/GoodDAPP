@@ -27,11 +27,11 @@ const { learnUrl, useGdUrl, donateUrl, voteUrl, goodSwapUrl } = Config
 const addExtraProps = (value, key) => ({
   ...value,
   wasClickedProp: `${key}Clicked`,
-  icon: value.icon || key,
+  icon: value.icon ?? key,
 })
 
 // list for action links which use alternative image icons
-export const imageExternals = mapValues(
+export const externals = mapValues(
   {
     gdw: {
       url: 'https://ubi.gd/3RpmmLf',
@@ -69,14 +69,6 @@ export const imageExternals = mapValues(
       url: 'https://ubi.gd/linkedin',
       event: GOTO_LINKIN,
     },
-  },
-  addExtraProps,
-)
-
-// list for action links with a corresponding fontello icon
-// key == fontello icon name
-const fontelloExternals = mapValues(
-  {
     learn: {
       url: learnUrl,
       event: GOTO_LEARN,
@@ -104,7 +96,7 @@ const fontelloExternals = mapValues(
 export default linkId => {
   const userStorage = useUserStorage()
   const { userProperties } = userStorage
-  const { icon, wasClickedProp, url, event } = fontelloExternals[linkId] ?? imageExternals[linkId]
+  const { icon, wasClickedProp, url, event } = externals[linkId]
 
   const goToExternal = useCallback(() => openLink(url), [url])
   const [wasClicked, setWasClicked] = useState(() => userProperties.get(wasClickedProp))

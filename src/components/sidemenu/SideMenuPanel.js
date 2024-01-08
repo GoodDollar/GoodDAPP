@@ -21,33 +21,15 @@ import LinkedinLogo from '../../assets/logos/socials/linkedin.png'
 import SideMenuItem from './SideMenuItem'
 
 export const socialIcons = {
-  gdw: {
-    logo: GdWebLogo,
-  },
-  tg: {
-    logo: TgLogo,
-  },
-  x: {
-    logo: XLogo,
-  },
-  dsc: {
-    logo: DiscourseLogo,
-  },
-  inst: {
-    logo: InstaLogo,
-  },
-  dis: {
-    logo: DiscordLogo,
-  },
-  med: {
-    logo: MediumLogo,
-  },
-  fb: {
-    logo: FacebookLogo,
-  },
-  link: {
-    logo: LinkedinLogo,
-  },
+  gdw: GdWebLogo,
+  tg: TgLogo,
+  x: XLogo,
+  dsc: DiscourseLogo,
+  inst: InstaLogo,
+  dis: DiscordLogo,
+  med: MediumLogo,
+  fb: FacebookLogo,
+  link: logo: LinkedinLogo,
 }
 
 type SideMenuPanelProps = {
@@ -70,7 +52,7 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
       <View style={styles.listContainer}>
         {topItems.map(item => !item.hidden && <SideMenuItem key={item.name} {...item} />)}
         <View style={styles.alignBottom}>
-          {Object.entries(socialIcons).map(([key, { logo }]) => (
+          {Object.entries(socialIcons).map(([key, logo]) => (
             <ActionButton action={key} key={key} image={logo} />
           ))}
         </View>

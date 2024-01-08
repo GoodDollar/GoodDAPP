@@ -4,12 +4,12 @@ import { StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import { isString } from 'lodash'
 
-import { PostHogProvider } from 'posthog-react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import CustomButton from '../buttons/CustomButton'
 import ErrorAnimation from '../../common/animations/Error'
 
+import { CustomPostHogProvider } from '../../../lib/contexts/CustomPosthogProvider'
 import SuccessIcon from '../modal/SuccessIcon'
 import LoadingIcon from '../modal/LoadingIcon'
 import { InfoIcon } from '../modal/InfoIcon'
@@ -137,13 +137,17 @@ const CustomDialog = ({
               // https://github.com/callstack/react-native-paper/blob/main/src/components/Portal/Portal.tsx#L54
               // otherwise useContext(GlobalTogglesContext) will return undefined for
               // any custom dialog component (e.g. ExplanationDialog and other ones)
-              <PostHogProvider apiKey={Config.posthogApiKey} options={{ host: Config.posthogHost }} autocapture={false}>
+              <CustomPostHogProvider
+                apiKey={Config.posthogApiKey}
+                options={{ host: Config.posthogHost }}
+                autocapture={false}
+              >
                 <GlobalTogglesContext.Provider value={globalToggleState}>
                   <GoodWalletContext.Provider value={goodWalletState}>
                     <DialogContext.Provider value={dialogState}>{content}</DialogContext.Provider>
                   </GoodWalletContext.Provider>
                 </GlobalTogglesContext.Provider>
-              </PostHogProvider>
+              </CustomPostHogProvider>
             ) : (
               <>
                 {children}

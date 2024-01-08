@@ -44,6 +44,10 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
 
   const onPressClose = useOnPress(slideToggle)
 
+  const socialItems = Object.entries(socialIcons)
+  const firstRowItems = socialItems.slice(0, 4)
+  const secondRowItems = socialItems.slice(4)
+
   return (
     <ScrollView contentContainerStyle={styles.scrollableContainer}>
       <TouchableOpacity style={styles.closeIconRow} onPress={onPressClose} testID="close_burger_button">
@@ -51,10 +55,17 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
       </TouchableOpacity>
       <View style={styles.listContainer}>
         {topItems.map(item => !item.hidden && <SideMenuItem key={item.name} {...item} />)}
-        <View style={styles.alignBottom}>
-          {Object.entries(socialIcons).map(([key, logo]) => (
-            <ActionButton action={key} key={key} image={logo} />
-          ))}
+        <View style={styles.iconsContainer}>
+          <View style={styles.alignBottom}>
+            {firstRowItems.map(([key, logo]) => (
+              <ActionButton action={key} key={key} image={logo} />
+            ))}
+          </View>
+          <View style={styles.alignBottom}>
+            {secondRowItems.map(([key, logo]) => (
+              <ActionButton action={key} key={key} image={logo} />
+            ))}
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -90,19 +101,28 @@ const sideMenuPanelStyles = ({ theme }) => ({
     marginHorizontal: theme.sizes.defaultDouble,
   },
   alignBottom: {
-    marginTop: 'auto',
-    marginBottom: 32,
     ...Platform.select({
       web: {
-        width: 250,
+        width: '100%',
+        gap: 10,
       },
       android: {
-        width: 350,
+        width: 250,
       },
     }),
     flexDirection: 'row',
-    flexWrap: 'wrap-reverse',
+    justifyContent: 'space-between',
+  },
+  iconsContainer: {
+    marginTop: 'auto',
     justifyContent: 'center',
+    alignItems: 'center',
+    ...Platform.select({
+      web: {
+        width: '100%',
+      },
+    }),
+    marginBottom: 32,
   },
 })
 

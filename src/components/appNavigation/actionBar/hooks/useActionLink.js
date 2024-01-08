@@ -30,7 +30,6 @@ const addExtraProps = (value, key) => ({
   icon: value.icon ?? key,
 })
 
-// list for action links which use alternative image icons
 export const externals = mapValues(
   {
     gdw: {

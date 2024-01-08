@@ -29,7 +29,7 @@ export const socialIcons = {
   dis: DiscordLogo,
   med: MediumLogo,
   fb: FacebookLogo,
-  link: logo: LinkedinLogo,
+  link: LinkedinLogo,
 }
 
 type SideMenuPanelProps = {

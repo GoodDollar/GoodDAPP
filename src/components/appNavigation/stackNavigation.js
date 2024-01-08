@@ -295,7 +295,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
         {isMenuOn && (
           <View style={[styles.sideMenuContainer, styles.menuOpenStyle]} ref={this.wrapperRef}>
             <SideMenu
-              menuPosition="right"
+              menuPosition={isWeb ? 'right' : 'center'}
               isOpen={true}
               disableGestures={true}
               onChange={this.setMenu}
@@ -366,6 +366,12 @@ const styles = StyleSheet.create({
     display: 'none',
   },
   safeArea: {
+    ...Platform.select({
+      android: {
+        width: getScreenWidth(),
+      },
+    }),
+    backgroundColor: 'white',
     padding: 0,
     paddingHorizontal: 0,
     paddingVertical: 0,

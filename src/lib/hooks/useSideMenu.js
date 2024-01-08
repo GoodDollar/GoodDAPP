@@ -5,7 +5,6 @@ import AsyncStorage from '../utils/asyncStorage'
 import { restart } from '../utils/system'
 
 // hooks
-import { useDialog } from '../../lib/dialog/useDialog'
 import { useUserStorage } from '../wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 
@@ -15,19 +14,16 @@ import { openLink } from '../utils/linking'
 import Config from '../../config/config'
 
 // constants
-import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
+import { fireEvent, LOGOUT } from '../../lib/analytics/analytics'
 import { GlobalTogglesContext } from '../../lib/contexts/togglesContext'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 
-import useDeleteAccountDialog from './useDeleteAccountDialog'
 const log = logger.child({ from: 'useSideMenu' })
 
 const { dashboardUrl, supportUrl } = Config
 
 export default (props = {}) => {
   const { navigation } = props
-  const { showErrorDialog } = useDialog()
-  const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const userStorage = useUserStorage()
 
   const { isMenuOn, setMenu, installPrompt, setAddWebApp } = useContext(GlobalTogglesContext)
@@ -37,22 +33,6 @@ export default (props = {}) => {
   const isSelfCustody = useMemo(
     () => userStorage?.userProperties.get('regMethod') === REGISTRATION_METHOD_SELF_CUSTODY,
     [userStorage],
-  )
-
-  const bottomItems = useMemo(
-    () => [
-      {
-        icon: 'trash',
-        name: 'Delete Account',
-        color: 'red',
-        action: () => {
-          fireEvent(CLICK_DELETE_WALLET)
-          showDeleteAccountDialog()
-          slideOut()
-        },
-      },
-    ],
-    [slideOut, showDeleteAccountDialog],
   )
 
   const topItems = useMemo(() => {
@@ -194,6 +174,5 @@ export default (props = {}) => {
     slideOut,
     slideToggle,
     topItems,
-    bottomItems,
   }
 }

@@ -7,7 +7,7 @@ const { posthogApiKey, posthogHost } = Config
 const posthogOpts = { host: posthogHost }
 
 export const CustomPostHogProvider = ({ children }) => {
-  if (!usePostHog()) {
+  if (usePostHog()) {
     return (
       <PostHogProvider apiKey={posthogApiKey} options={posthogOpts} autocapture={false}>
         {children}

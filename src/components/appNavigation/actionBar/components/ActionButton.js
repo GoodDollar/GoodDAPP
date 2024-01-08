@@ -12,8 +12,8 @@ type ActionButtonProps = {
   action: string,
 }
 
-const ActionButton = ({ styles, action, size = 48, image, isSocial }: ActionButtonProps) => {
-  const { actionIcon, trackClicked, goToExternal } = useActionLink(action, isSocial)
+const ActionButton = ({ styles, action, size = 48, image }: ActionButtonProps) => {
+  const { actionIcon, trackClicked, goToExternal } = useActionLink(action)
 
   const onPress = useOnPress(() => {
     trackClicked()
@@ -43,7 +43,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   icons: {
     width: 24,
-    height: 24,
+    height: 25,
     minWidth: '15%',
     ...Platform.select({
       web: {

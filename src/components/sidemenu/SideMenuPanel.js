@@ -5,9 +5,50 @@ import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 import { withStyles } from '../../lib/styles'
 import { ActionButton, Icon } from '../common'
-import { socials } from '../appNavigation/actionBar/hooks/useActionLink'
 import useOnPress from '../../lib/hooks/useOnPress'
+
+//assets
+import DiscordLogo from '../../assets/logos/socials/discord.png'
+import DiscourseLogo from '../../assets/logos/socials/discourse.png'
+import XLogo from '../../assets/logos/socials/Twitter-X.png'
+import TgLogo from '../../assets/logos/socials/telegram.png'
+import FacebookLogo from '../../assets/logos/socials/facebook.png'
+import MediumLogo from '../../assets/logos/socials/medium.png'
+import GdWebLogo from '../../assets/logos/socials/GdLogo.png'
+import InstaLogo from '../../assets/logos/socials/instagram.png'
+import LinkedinLogo from '../../assets/logos/socials/linkedin.png'
+
 import SideMenuItem from './SideMenuItem'
+
+export const socialIcons = {
+  gdw: {
+    logo: GdWebLogo,
+  },
+  tg: {
+    logo: TgLogo,
+  },
+  x: {
+    logo: XLogo,
+  },
+  dsc: {
+    logo: DiscourseLogo,
+  },
+  inst: {
+    logo: InstaLogo,
+  },
+  dis: {
+    logo: DiscordLogo,
+  },
+  med: {
+    logo: MediumLogo,
+  },
+  fb: {
+    logo: FacebookLogo,
+  },
+  link: {
+    logo: LinkedinLogo,
+  },
+}
 
 type SideMenuPanelProps = {
   navigation: any,
@@ -29,8 +70,8 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
       <View style={styles.listContainer}>
         {topItems.map(item => !item.hidden && <SideMenuItem key={item.name} {...item} />)}
         <View style={styles.alignBottom}>
-          {Object.entries(socials).map(([key, { icon }]) => (
-            <ActionButton isSocial image={icon} action={key} key={key} />
+          {Object.entries(socialIcons).map(([key, { logo }]) => (
+            <ActionButton action={key} key={key} image={logo} />
           ))}
         </View>
       </View>

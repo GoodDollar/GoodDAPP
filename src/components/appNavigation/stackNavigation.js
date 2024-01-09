@@ -7,7 +7,7 @@ import { isEqualWith, isFunction, isNumber } from 'lodash'
 
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/orientation'
-import { isWeb } from '../../lib/utils/platform'
+import { isMobile, isWeb } from '../../lib/utils/platform'
 import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/js-logger'
@@ -289,16 +289,18 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     const Component = this.getComponent(descriptor, screenProps)
     const pageTitle = title || activeKey
+    const screenWidth = getScreenWidth()
 
     return (
       <React.Fragment>
         {isMenuOn && (
           <View style={[styles.sideMenuContainer, styles.menuOpenStyle]} ref={this.wrapperRef}>
             <SideMenu
-              menuPosition={isWeb ? 'right' : 'center'}
+              menuPosition="right"
               isOpen={true}
               disableGestures={true}
               onChange={this.setMenu}
+              {...(isMobile ? { openMenuOffset: screenWidth } : {})}
               menu={
                 <SafeAreaView style={styles.safeArea}>
                   <SideMenuPanel navigation={navigation} />

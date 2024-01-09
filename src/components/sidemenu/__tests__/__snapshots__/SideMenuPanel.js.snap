@@ -400,402 +400,410 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-flexDirection-18u37iz r-flexWrap-pxynpr r-justifyContent-1777fci r-marginBottom-zd98yo r-marginTop-1t01tom r-width-sgscqh"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginBottom-zd98yo r-marginTop-1t01tom r-width-13qz1uu"
         >
           <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
+            className="css-view-1dbjc4n r-flexDirection-18u37iz r-gap-uaa2di r-justifyContent-1wtj0ep r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
-                  "height": "25px",
-                  "marginBottom": "10px",
-                  "marginLeft": "10px",
-                  "marginRight": "10px",
-                  "marginTop": "10px",
-                  "minWidth": "15%",
-                  "width": "24px",
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
                 }
               }
+              tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
                 style={
                   Object {
-                    "backgroundImage": "url(\\"GdLogo.png\\")",
+                    "height": "25px",
+                    "marginBottom": "10px",
+                    "marginLeft": "10px",
+                    "marginRight": "10px",
+                    "marginTop": "10px",
+                    "minWidth": "15%",
+                    "width": "24px",
                   }
                 }
-                suppressHydrationWarning={true}
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="GdLogo.png"
-              />
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                  style={
+                    Object {
+                      "backgroundImage": "url(\\"GdLogo.png\\")",
+                    }
+                  }
+                  suppressHydrationWarning={true}
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="GdLogo.png"
+                />
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
+                }
+              }
+              tabIndex="0"
+            >
+              <div
+                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+                style={
+                  Object {
+                    "height": "25px",
+                    "marginBottom": "10px",
+                    "marginLeft": "10px",
+                    "marginRight": "10px",
+                    "marginTop": "10px",
+                    "minWidth": "15%",
+                    "width": "24px",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                  style={
+                    Object {
+                      "backgroundImage": "url(\\"telegram.png\\")",
+                    }
+                  }
+                  suppressHydrationWarning={true}
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="telegram.png"
+                />
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
+                }
+              }
+              tabIndex="0"
+            >
+              <div
+                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+                style={
+                  Object {
+                    "height": "25px",
+                    "marginBottom": "10px",
+                    "marginLeft": "10px",
+                    "marginRight": "10px",
+                    "marginTop": "10px",
+                    "minWidth": "15%",
+                    "width": "24px",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                  style={
+                    Object {
+                      "backgroundImage": "url(\\"Twitter-X.png\\")",
+                    }
+                  }
+                  suppressHydrationWarning={true}
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="Twitter-X.png"
+                />
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
+                }
+              }
+              tabIndex="0"
+            >
+              <div
+                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+                style={
+                  Object {
+                    "height": "25px",
+                    "marginBottom": "10px",
+                    "marginLeft": "10px",
+                    "marginRight": "10px",
+                    "marginTop": "10px",
+                    "minWidth": "15%",
+                    "width": "24px",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                  style={
+                    Object {
+                      "backgroundImage": "url(\\"discourse.png\\")",
+                    }
+                  }
+                  suppressHydrationWarning={true}
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="discourse.png"
+                />
+              </div>
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
+            className="css-view-1dbjc4n r-flexDirection-18u37iz r-gap-uaa2di r-justifyContent-1wtj0ep r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
-                  "height": "25px",
-                  "marginBottom": "10px",
-                  "marginLeft": "10px",
-                  "marginRight": "10px",
-                  "marginTop": "10px",
-                  "minWidth": "15%",
-                  "width": "24px",
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
                 }
               }
+              tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
                 style={
                   Object {
-                    "backgroundImage": "url(\\"telegram.png\\")",
+                    "height": "25px",
+                    "marginBottom": "10px",
+                    "marginLeft": "10px",
+                    "marginRight": "10px",
+                    "marginTop": "10px",
+                    "minWidth": "15%",
+                    "width": "24px",
                   }
                 }
-                suppressHydrationWarning={true}
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="telegram.png"
-              />
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                  style={
+                    Object {
+                      "backgroundImage": "url(\\"instagram.png\\")",
+                    }
+                  }
+                  suppressHydrationWarning={true}
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="instagram.png"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
-          >
             <div
-              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
-                  "height": "25px",
-                  "marginBottom": "10px",
-                  "marginLeft": "10px",
-                  "marginRight": "10px",
-                  "marginTop": "10px",
-                  "minWidth": "15%",
-                  "width": "24px",
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
                 }
               }
+              tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
                 style={
                   Object {
-                    "backgroundImage": "url(\\"Twitter-X.png\\")",
+                    "height": "25px",
+                    "marginBottom": "10px",
+                    "marginLeft": "10px",
+                    "marginRight": "10px",
+                    "marginTop": "10px",
+                    "minWidth": "15%",
+                    "width": "24px",
                   }
                 }
-                suppressHydrationWarning={true}
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="Twitter-X.png"
-              />
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                  style={
+                    Object {
+                      "backgroundImage": "url(\\"discord.png\\")",
+                    }
+                  }
+                  suppressHydrationWarning={true}
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="discord.png"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
-          >
             <div
-              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
-                  "height": "25px",
-                  "marginBottom": "10px",
-                  "marginLeft": "10px",
-                  "marginRight": "10px",
-                  "marginTop": "10px",
-                  "minWidth": "15%",
-                  "width": "24px",
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
                 }
               }
+              tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
                 style={
                   Object {
-                    "backgroundImage": "url(\\"discourse.png\\")",
+                    "height": "25px",
+                    "marginBottom": "10px",
+                    "marginLeft": "10px",
+                    "marginRight": "10px",
+                    "marginTop": "10px",
+                    "minWidth": "15%",
+                    "width": "24px",
                   }
                 }
-                suppressHydrationWarning={true}
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="discourse.png"
-              />
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                  style={
+                    Object {
+                      "backgroundImage": "url(\\"medium.png\\")",
+                    }
+                  }
+                  suppressHydrationWarning={true}
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="medium.png"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
-          >
             <div
-              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
-                  "height": "25px",
-                  "marginBottom": "10px",
-                  "marginLeft": "10px",
-                  "marginRight": "10px",
-                  "marginTop": "10px",
-                  "minWidth": "15%",
-                  "width": "24px",
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
                 }
               }
+              tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
                 style={
                   Object {
-                    "backgroundImage": "url(\\"instagram.png\\")",
+                    "height": "25px",
+                    "marginBottom": "10px",
+                    "marginLeft": "10px",
+                    "marginRight": "10px",
+                    "marginTop": "10px",
+                    "minWidth": "15%",
+                    "width": "24px",
                   }
                 }
-                suppressHydrationWarning={true}
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="instagram.png"
-              />
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                  style={
+                    Object {
+                      "backgroundImage": "url(\\"facebook.png\\")",
+                    }
+                  }
+                  suppressHydrationWarning={true}
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="facebook.png"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
-          >
             <div
-              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
-                  "height": "25px",
-                  "marginBottom": "10px",
-                  "marginLeft": "10px",
-                  "marginRight": "10px",
-                  "marginTop": "10px",
-                  "minWidth": "15%",
-                  "width": "24px",
+                  "WebkitTransitionDuration": "0s",
+                  "transitionDuration": "0s",
                 }
               }
+              tabIndex="0"
             >
               <div
-                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
                 style={
                   Object {
-                    "backgroundImage": "url(\\"discord.png\\")",
+                    "height": "25px",
+                    "marginBottom": "10px",
+                    "marginLeft": "10px",
+                    "marginRight": "10px",
+                    "marginTop": "10px",
+                    "minWidth": "15%",
+                    "width": "24px",
                   }
                 }
-                suppressHydrationWarning={true}
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="discord.png"
-              />
-            </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
-          >
-            <div
-              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
-              style={
-                Object {
-                  "height": "25px",
-                  "marginBottom": "10px",
-                  "marginLeft": "10px",
-                  "marginRight": "10px",
-                  "marginTop": "10px",
-                  "minWidth": "15%",
-                  "width": "24px",
-                }
-              }
-            >
-              <div
-                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
-                style={
-                  Object {
-                    "backgroundImage": "url(\\"medium.png\\")",
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                  style={
+                    Object {
+                      "backgroundImage": "url(\\"linkedin.png\\")",
+                    }
                   }
-                }
-                suppressHydrationWarning={true}
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="medium.png"
-              />
-            </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
-          >
-            <div
-              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
-              style={
-                Object {
-                  "height": "25px",
-                  "marginBottom": "10px",
-                  "marginLeft": "10px",
-                  "marginRight": "10px",
-                  "marginTop": "10px",
-                  "minWidth": "15%",
-                  "width": "24px",
-                }
-              }
-            >
-              <div
-                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
-                style={
-                  Object {
-                    "backgroundImage": "url(\\"facebook.png\\")",
-                  }
-                }
-                suppressHydrationWarning={true}
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="facebook.png"
-              />
-            </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n r-cursor-1loqt21 r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "WebkitTransitionDuration": "0s",
-                "transitionDuration": "0s",
-              }
-            }
-            tabIndex="0"
-          >
-            <div
-              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
-              style={
-                Object {
-                  "height": "25px",
-                  "marginBottom": "10px",
-                  "marginLeft": "10px",
-                  "marginRight": "10px",
-                  "marginTop": "10px",
-                  "minWidth": "15%",
-                  "width": "24px",
-                }
-              }
-            >
-              <div
-                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
-                style={
-                  Object {
-                    "backgroundImage": "url(\\"linkedin.png\\")",
-                  }
-                }
-                suppressHydrationWarning={true}
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="linkedin.png"
-              />
+                  suppressHydrationWarning={true}
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="linkedin.png"
+                />
+              </div>
             </div>
           </div>
         </div>

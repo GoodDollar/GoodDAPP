@@ -24,6 +24,7 @@ import Config from '../../../config/config'
 import { generateSendShareObject, generateShareLink, isSharingAvailable } from '../../../lib/share'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { decimalsToFixed } from '../../../lib/wallet/utils'
+import { truncateMiddle } from '../../../lib/utils/string'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -320,17 +321,19 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <Section.Row style={[styles.buttonsView, isTx && styles.linkButtonView]}>
           {isTx && (
             <Section.Stack style={styles.txHashWrapper}>
-              <Section.Text fontSize={11} textDecorationLine="underline" onPress={goToTxDetails} textAlign="left">
-                {`Transaction Details`}
+              <Section.Text fontSize={11} textAlign="left">
+                {`TX Details:`}
               </Section.Text>
               <Section.Text
-                fontSize={11}
+                fontSize={16}
                 numberOfLines={1}
+                textDecorationLine="underline"
+                onPress={goToTxDetails}
                 ellipsizeMode="middle"
                 style={styles.txHash}
                 textAlign="left"
               >
-                {txHash}
+                {truncateMiddle(txHash, 11)}
               </Section.Text>
             </Section.Stack>
           )}

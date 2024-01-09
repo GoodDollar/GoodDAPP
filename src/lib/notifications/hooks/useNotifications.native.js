@@ -16,7 +16,7 @@ const { notificationTime, notificationSchedule } = Config
 let bridge = null
 
 const NOTIFICATION = {
-  title: "It's that time of the day 💸 💙",
+  title: "It's claim time! 💙",
   message: 'Claim your free GoodDollars now. It takes 10 seconds.',
 }
 

@@ -13,7 +13,18 @@ import ErrorText from './ErrorText'
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const InputRounded = ({ styles, containerStyle, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
+const InputRounded = ({
+  styles,
+  containerStyle,
+  theme,
+  icon,
+  iconSize,
+  iconColor,
+  error,
+  onChange,
+  customIcon,
+  ...inputProps
+}) => {
   const handleChange = useCallback(
     value => {
       onChange(value)
@@ -36,13 +47,17 @@ const InputRounded = ({ styles, containerStyle, theme, icon, iconSize, iconColor
           editable={!inputProps.disabled}
           {...inputProps}
         />
-        <View style={styles.suffixIcon}>
-          <Icon
-            color={error ? theme.colors.red : iconColor || theme.colors.gray50Percent}
-            name={icon}
-            size={iconSize}
-          />
-        </View>
+        {customIcon?.props.enabled ? (
+          <View style={styles.customSuffixIcon}>{customIcon}</View>
+        ) : (
+          <View style={styles.suffixIcon}>
+            <Icon
+              color={error ? theme.colors.red : iconColor || theme.colors.gray50Percent}
+              name={icon}
+              size={iconSize}
+            />
+          </View>
+        )}
       </View>
       {!inputProps.disabled && !!error && <ErrorText error={error} style={styles.errorMargin} />}
     </View>
@@ -111,6 +126,17 @@ const getStylesFromProps = ({ theme, disabled }) => {
       position: 'absolute',
       right: 0,
       width: defaultInputContainer.paddingHorizontal,
+      zIndex: 1,
+      top: disabled ? 1 : 0,
+    },
+    customSuffixIcon: {
+      alignItems: 'center',
+      display: 'flex',
+      height: '100%',
+      justifyContent: 'center',
+      position: 'absolute',
+      right: 0,
+      width: 50,
       zIndex: 1,
       top: disabled ? 1 : 0,
     },

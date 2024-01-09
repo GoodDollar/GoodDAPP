@@ -2,17 +2,18 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { t } from '@lingui/macro'
+
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, Wrapper } from '../common'
+
 import UserAvatar from '../common/view/UserAvatar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import RoundIconButton from '../common/buttons/RoundIconButton'
-import useProfile, { usePublicProfile } from '../../lib/userStorage/useProfile'
+import { usePublicProfile } from '../../lib/userStorage/useProfile'
 import { theme } from '../theme/styles'
-import BorderedBox from '../common/view/BorderedBox'
-import Avatar from '../common/view/Avatar'
-import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
+import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import IdentifierRow from '../common/view/IdentifierRow'
 
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -22,21 +23,13 @@ import VerifyEditCode from './VerifyEditCode'
 
 const avatarSize = getDesignRelativeWidth(136)
 
-const ProfileAvatar = withStyles(() => ({
-  avatar: {
-    borderWidth: 0,
-    backgroundColor: 'transparent',
-  },
-}))(({ styles, style }) => {
-  const { smallAvatar: avatar } = useProfile()
-
-  return <Avatar source={avatar} style={[styles.avatar, style]} imageStyle={style} unknownStyle={style} plain />
-})
-
 const ProfileWrapper = ({ screenProps, styles }) => {
   const profile = usePublicProfile()
   const userStorage = useUserStorage()
+  const goodWallet = useWallet()
   const [faceRecordId, setRecordId] = useState()
+
+  const logMethod = userStorage?.userProperties.get('logMethod')
 
   const { fullName } = profile
 
@@ -69,15 +62,22 @@ const ProfileWrapper = ({ screenProps, styles }) => {
         <View style={styles.emptySpace} />
         <ProfileDataTable profile={profile} showCustomFlag />
 
-        <Section grow justifyContent="flex-end" style={{ marginBottom: 16 }}>
-          <BorderedBox
-            image={ProfileAvatar}
-            title="My Face Record ID"
-            content={faceRecordId}
-            truncateContent
-            copyButtonText="Copy ID"
-            enableIndicateAction
-          />
+        <Section
+          grow
+          justifyContent="flex-end"
+          style={{ marginBottom: 16, width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}
+        >
+          <Section.Row style={{ width: '100%' }}>
+            <IdentifierRow title="Wallet" eventSource="myprofile" address={goodWallet.account} withCopy />
+          </Section.Row>
+          <Section.Row>
+            <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
+          </Section.Row>
+          {logMethod && (
+            <Section.Row>
+              <IdentifierRow title="LoginM" text={logMethod} />
+            </Section.Row>
+          )}
         </Section>
       </Section>
       <View style={styles.userDataWrapper}>
@@ -105,14 +105,17 @@ ProfileWrapper.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => {
   const halfAvatarSize = avatarSize / 2
+
   return {
     emptySpace: {
-      height: 75,
+      height: 115,
       width: '100%',
     },
     section: {
       flexGrow: 1,
       padding: theme.sizes.defaultDouble,
+      paddingLeft: 8,
+      paddingRight: 8,
       marginBottom: theme.paddings.bottomPadding,
     },
     iconRightContainer: {
@@ -146,6 +149,7 @@ const getStylesFromProps = ({ theme }) => {
       position: 'relative',
       zIndex: 1,
       height: avatarSize / 2,
+      margin: 0,
     },
     userName: {
       marginTop: theme.sizes.default,

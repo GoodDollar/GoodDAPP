@@ -9,6 +9,7 @@ import NavBar from '../../appNavigation/NavBar'
 import AuthProgressBar from '../components/AuthProgressBar'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
+import { useSecurityDialog } from '../../security/securityDialog'
 
 import Section from '../../common/layout/Section'
 import CustomButton from '../../common/buttons/CustomButton'
@@ -66,6 +67,13 @@ const SignupText = ({ screenProps }) => {
 
 const SignupScreen = ({ screenProps, styles, handleLoginMethod, sdkInitialized, goBack }) => {
   const { success: signupSuccess, activeStep } = useContext(AuthContext)
+  const { securityEnabled, securityDialog } = useSecurityDialog()
+
+  useEffect(() => {
+    if (securityEnabled) {
+      securityDialog()
+    }
+  }, [securityEnabled, securityDialog])
 
   const [_selfCustodySignup, _selfCustodyLogin] = useMemo(
     () => ['selfCustody', 'selfCustodyLogin'].map(method => () => handleLoginMethod(method)),

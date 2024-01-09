@@ -297,7 +297,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         // trying to update profile 2 times, if failed anyway - re-throwing exception
         await retry(async () => {
-          const userProps = { regMethod, inviterInviteCode: inviteCode }
+          const userProps = { regMethod, inviterInviteCode: inviteCode, logMethod: torusProvider }
 
           log.debug('set reg method and invite code', { userProps })
 

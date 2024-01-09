@@ -21,6 +21,7 @@ import { getNetworkName } from '../../lib/constants/network'
 // assets
 import Checkmark from '../../assets/checkmark.svg'
 import { useDialog } from '../../lib/dialog/useDialog'
+import { COPY_ADDRESS, COPY_PRIVATE_KEY, fireEvent } from '../../lib/analytics/analytics'
 import ExportWarningPopup from './ExportWarningPopup'
 
 // localization
@@ -61,6 +62,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
       const onCancel = () => resultCallback(false)
 
       const onConfirm = () => {
+        fireEvent(COPY_PRIVATE_KEY, { source: 'exportWallet' })
         hideDialog()
         resultCallback(true)
       }
@@ -96,6 +98,8 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
           image={Checkmark}
           copyButtonText={t`Copy address`}
           showCopyIcon={false}
+          onCopied={() => fireEvent(COPY_ADDRESS, { source: 'exportWallet' })}
+          eventSource="exportWallet"
           truncateContent
           enableIndicateAction
           enableSideMode

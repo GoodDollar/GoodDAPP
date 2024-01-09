@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { Linking, View } from 'react-native'
-
 import { t, Trans } from '@lingui/macro'
+
+import { useSecurityDialog } from '../../security/securityDialog'
 import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
@@ -38,7 +39,9 @@ const AuthScreen = Config.torusEnabled ? AuthTorus : Auth
 
 const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
   const { navigate } = navigation
+
   const { hasSyncedCodePush } = useContext(GlobalTogglesContext)
+  const { securityEnabled, securityDialog } = useSecurityDialog()
 
   const onGetStarted = useCallback(() => {
     if (!isMobileNative || hasSyncedCodePush) {
@@ -46,6 +49,12 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
       navigate('Auth')
     }
   }, [navigate, hasSyncedCodePush])
+
+  useEffect(() => {
+    if (securityEnabled) {
+      securityDialog()
+    }
+  }, [securityEnabled, securityDialog])
 
   const onLearnMore = useCallback(() => {
     fireEvent(CLICK_LEARNMORE)

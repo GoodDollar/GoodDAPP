@@ -1,17 +1,20 @@
 import React, { Fragment, useCallback, useMemo } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { t } from '@lingui/macro'
+
 import useCountryFlag from '../../lib/hooks/useCountryFlag'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
 import API from '../../lib/API'
 import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
+import VerifyButton from './VerifyButton'
 
 const defaultErrors = {}
 const defaultStoredProfile = {}
@@ -48,8 +51,10 @@ const ProfileDataTable = ({
   theme,
   styles,
   screenProps,
-  setLockSubmit = noop,
+  setSaveMode = noop,
+  saveMode,
   showCustomFlag,
+  editMode = false,
 }) => {
   const { mobile } = profile || {}
   const phoneMeta = useMemo(() => (showCustomFlag && mobile ? parsePhoneNumberFromString(mobile) : null), [
@@ -85,50 +90,73 @@ const ProfileDataTable = ({
   }, [verifyEdit, mobile, storedProfile.mobile])
 
   // username handlers
-  const onUserNameChange = useCallback(username => onChange(profile.update({ username })), [onChange, profile])
+  const onUserNameChange = useCallback(
+    fullName => {
+      onChange(profile.update({ fullName }), 'name')
+      setSaveMode(prev => ({ ...prev, name: true }))
+    },
+    [onChange, profile],
+  )
 
   // phone handlers
-  const onPhoneInputFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
-  const onPhoneInputChange = useCallback(value => onChange(profile.update({ mobile: value })), [onChange, profile])
-  const onPhoneInputBlur = useCallback(() => {
+  const onPhoneInputChange = useCallback(
+    value => {
+      onChange(profile.update({ mobile: value }), 'mobile')
+      setSaveMode(prev => ({ ...prev, phone: true }))
+    },
+    [setSaveMode, profile],
+  )
+  const onVerifyPhone = useCallback(() => {
     const { errors: _errors } = profile.validate()
     const isValid = !_errors.mobile
-
-    setLockSubmit(!isValid)
 
     if (isValid && mobile) {
       verifyPhone()
     }
-  }, [setLockSubmit, verifyPhone, errors, onChange, profile])
+  }, [verifyPhone, errors, onChange, profile])
   const phoneInputStyles = useMemo(() => StyleSheet.flatten(styles.phoneInput), [styles.phoneInput])
 
   // email handlers
-  const onEmailFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
-  const onEmailChange = useCallback(email => onChange(profile.update({ email })), [onChange, profile])
-  const onEmailBlur = useCallback(() => {
+  const onEmailChange = useCallback(
+    email => {
+      onChange(profile.update({ email }), 'email')
+      setSaveMode(prev => ({ ...prev, email: true }))
+    },
+    [setSaveMode, profile],
+  )
+
+  const onVerifyEmail = useCallback(() => {
     const { errors: _errors } = profile.validate()
 
     if (!_errors.email) {
-      setLockSubmit(false)
       verifyEmail()
     }
-  }, [setLockSubmit, verifyEmail, errors])
+  }, [verifyEmail, errors])
 
   return (
-    <Section.Row alignItems="center" grow={1}>
+    <Section.Row alignItems={editMode ? 'flex-start' : 'center'} grow={1}>
       <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
-        <Section.Row>
-          <InputRounded
-            disabled={!editable}
-            error={errors.username}
-            icon="username"
-            iconColor={theme.colors.primary}
-            iconSize={22}
-            onChange={onUserNameChange}
-            placeholder={t`Choose a Username`}
-            value={profile.username}
-          />
-        </Section.Row>
+        {editMode && (
+          <Section.Row style={[styles.disclaimer, { opacity: 0.8 }]}>
+            <Text style={{ fontFamily: 'Roboto', fontSize: 14 }}>
+              <Text style={{ fontWeight: 'bold' }}>{t`Note:`} </Text>
+              {t`Changing your information here will not change how you log in to your wallet.`}
+            </Text>
+          </Section.Row>
+        )}
+        {editMode && (
+          <Section.Row>
+            <InputRounded
+              disabled={!editable}
+              error={errors.username}
+              icon="username"
+              iconColor={theme.colors.primary}
+              iconSize={22}
+              onChange={onUserNameChange}
+              value={profile.fullName}
+            />
+          </Section.Row>
+        )}
         <Section.Row>
           {editable ? (
             <Section.Stack grow>
@@ -136,21 +164,25 @@ const ProfileDataTable = ({
                 <PhoneInput
                   error={!!errors.mobile}
                   id="signup_phone"
-                  onFocus={onPhoneInputFocus}
                   onChange={onPhoneInputChange}
-                  onBlur={onPhoneInputBlur}
                   placeholder="Enter phone number"
                   value={mobile}
                   textStyle={{ color: errors.mobile && theme.colors.red }}
                 />
-                <Section.Row style={styles.suffixIcon}>
-                  <Icon
-                    color={errors.mobile ? theme.colors.red : theme.colors.primary}
-                    name="phone"
-                    size={28}
-                    style={styles.phoneIcon}
-                  />
-                </Section.Row>
+                {saveMode?.phone ? (
+                  <Section.Row styles={styles.customSuffixIcon}>
+                    <VerifyButton enabled={true} mode="phone" cb={onVerifyPhone} styles={styles.animatedSaveButton} />
+                  </Section.Row>
+                ) : (
+                  <Section.Row style={styles.suffixIcon}>
+                    <Icon
+                      color={errors.mobile ? theme.colors.red : theme.colors.primary}
+                      name="phone"
+                      size={28}
+                      style={styles.phoneIcon}
+                    />
+                  </Section.Row>
+                )}
               </Section.Row>
               <ErrorText error={errors.mobile} style={styles.errorMargin} />
             </Section.Stack>
@@ -181,11 +213,17 @@ const ProfileDataTable = ({
             icon="envelope"
             iconColor={theme.colors.primary}
             iconSize={20}
-            onFocus={onEmailFocus}
             onChange={onEmailChange}
-            onBlur={onEmailBlur}
             placeholder="Add your Email"
             value={profile.email ?? ''}
+            customIcon={
+              <VerifyButton
+                enabled={saveMode?.email}
+                mode="email"
+                cb={onVerifyEmail}
+                styles={styles.animatedSaveButton}
+              />
+            }
           />
         </Section.Row>
       </KeyboardAwareScrollView>
@@ -246,6 +284,37 @@ const getStylesFromProps = ({ theme, errors }) => {
     },
     disabledPhoneContainer: {
       paddingLeft: 10,
+    },
+    disclaimer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      paddingTop: 40,
+      paddingBottom: 40,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      paddingLeft: 8,
+      paddingRight: 8,
+    },
+    animatedSaveButton: {
+      position: 'absolute',
+      width: getDesignRelativeWidth(110),
+      height: 50,
+      top: getDesignRelativeHeight(18),
+      right: -10,
+      marginVertical: 0,
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+    customSuffixIcon: {
+      alignItems: 'center',
+      display: 'flex',
+      height: '100%',
+      justifyContent: 'center',
+      position: 'absolute',
+      right: 0,
+      width: 50,
+      zIndex: 1,
     },
   }
 }

@@ -12,6 +12,9 @@ import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTim
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
 import InvitesABI from '@gooddollar/goodprotocol/artifacts/abis/InvitesV2.min.json'
 import FaucetABI from '@gooddollar/goodprotocol/artifacts/abis/Faucet.min.json'
+
+import BuyGDCloneABI from '@gooddollar/goodprotocol/artifacts/abis/BuyGDClone.min.json'
+
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
@@ -299,6 +302,9 @@ export class GoodWallet {
         // GOOD Contract
         this.GOODContract = addContract(GOODToken, 'GReputation')
 
+        // BuyGDClone Contract
+        this.BuyGDClone = addContract(BuyGDCloneABI, 'BuyGDFactoryV2')
+
         // debug print contracts addresses
         {
           const { network, networkId } = this
@@ -349,9 +355,7 @@ export class GoodWallet {
     this.isPollEvents = active
     if (!active) {
       this.pollEventsCurrentPromise && (await this.pollEventsCurrentPromise)
-      this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
       this.pollEventsCurrentPromise = null
-      this.pollEventsTimeout = null
     }
   }
 
@@ -395,6 +399,9 @@ export class GoodWallet {
 
   // eslint-disable-next-line require-await
   async watchEvents(startFrom, lastBlockCallback) {
+    this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
+    this.pollEventsTimeout = null
+
     const { account } = this
     let fromBlock = startFrom
 
@@ -478,8 +485,8 @@ export class GoodWallet {
     ;[results, otpResults] = await Promise.all([tokenPromise, otpPromise])
 
     await Promise.all([
-      results.length > 0 ? this.processEvents(results, startBlock) : undefined,
-      otpResults.length > 0 ? this.processEvents(flatten(otpResults), startBlock) : undefined,
+      results?.length > 0 ? this.processEvents(results, startBlock) : undefined,
+      otpResults?.length > 0 ? this.processEvents(flatten(otpResults), startBlock) : undefined,
     ])
 
     const lastBlock = Number(last(results)?.blockNumber)

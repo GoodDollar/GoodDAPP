@@ -40,34 +40,37 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {}, onStatusChange = noop }) => {
-  const isPending = false
-  const canContinue = () => true
+const ClaimButton = withStyles(getStylesFromProps)(
+  ({ screenProps, styles, style = {}, onStatusChange = noop, onPress }) => {
+    const isPending = false
+    const canContinue = () => true
 
-  // if there's no status the first time then get it
-  // otherwise just return true.
-  // in case we already have status then button is disabled if pending so its ok to return true here.
-  // const canContinue = useMemo(() => (queueStatus ? constant(true) : handleClaim), [handleClaim, queueStatus])
+    // if there's no status the first time then get it
+    // otherwise just return true.
+    // in case we already have status then button is disabled if pending so its ok to return true here.
+    // const canContinue = useMemo(() => (queueStatus ? constant(true) : handleClaim), [handleClaim, queueStatus])
 
-  // useEffect(() => void onStatusChange(queueStatus), [status])
+    // useEffect(() => void onStatusChange(queueStatus), [status])
 
-  return (
-    <PushButton
-      disabled={isPending}
-      canContinue={canContinue}
-      routeName="Claim"
-      testID="claim_button"
-      screenProps={screenProps}
-      style={[styles.claimButton, isPending ? styles.inQueue : undefined, style]}
-      contentStyle={styles.removeMargin}
-    >
-      {isPending ? t`Queue` : t`Claim`}
-    </PushButton>
-  )
-})
+    return (
+      <PushButton
+        disabled={isPending}
+        canContinue={canContinue}
+        routeName="Claim"
+        testID="claim_button"
+        screenProps={screenProps}
+        style={[styles.claimButton, isPending ? styles.inQueue : undefined, style]}
+        contentStyle={styles.removeMargin}
+        {...onPress && { onPress: onPress }}
+      >
+        {isPending ? t`Queue` : t`Claim`}
+      </PushButton>
+    )
+  },
+)
 
-const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
-  const button = <ClaimButton screenProps={screenProps} />
+const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale, buttonStyles, onPress }) => {
+  const button = <ClaimButton screenProps={screenProps} style={buttonStyles} onPress={onPress} />
 
   return (
     <View style={styles.wrapper}>

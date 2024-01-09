@@ -67,7 +67,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
             }
           }
         >
-          <unknownProfile.svg />
+          <unknownProfileDark.svg />
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@ exports[`TopBar matches snapshot without balance 1`] = `
             }
           }
         >
-          <unknownProfile.svg />
+          <unknownProfileDark.svg />
         </div>
       </div>
     </div>

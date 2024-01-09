@@ -265,6 +265,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
       const [goodWallet] = await initWalletAndStorage(
         web3Provider ? web3Provider : torusUser.privateKey,
         web3Provider ? provider.toUpperCase() : 'SEED',
+        provider?.charAt(0).toUpperCase() + provider.slice(1),
       )
 
       const existsResult = await checkExisting(provider, torusUser, {

@@ -21,7 +21,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "minWidth": "10px",
+          "minWidth": "15px",
         }
       }
     >
@@ -60,7 +60,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "minWidth": "10px",
+          "minWidth": "15px",
         }
       }
     >
@@ -99,7 +99,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "minWidth": "10px",
+          "minWidth": "15px",
         }
       }
     >

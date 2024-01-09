@@ -122,7 +122,7 @@ exports[`Profile matches snapshot 1`] = `
               "borderTopLeftRadius": "18px",
               "borderTopRightRadius": "18px",
               "height": "36px",
-              "width": "90px",
+              "width": "40px",
             }
           }
           tabIndex="-1"
@@ -174,7 +174,7 @@ exports[`Profile matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-height-1w2pmg r-justifyContent-1777fci r-position-bnwqim r-zIndex-184en5c"
+              className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-height-1w2pmg r-justifyContent-1777fci r-margin-crgep1 r-position-bnwqim r-zIndex-184en5c"
               style={
                 Object {
                   "WebkitAlignItems": "flex-start",
@@ -224,10 +224,10 @@ exports[`Profile matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-marginBottom-p1pxzi r-padding-nsbfu8 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+              className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-marginBottom-p1pxzi r-padding-nsbfu8 r-paddingHorizontal-1e081e0 r-paddingLeft-1m04atk r-paddingRight-1pyaxff r-paddingVertical-1yzf0co"
             >
               <div
-                className="css-view-1dbjc4n r-height-1ewlvqg r-width-13qz1uu"
+                className="css-view-1dbjc4n r-height-1bwz4lv r-width-13qz1uu"
               />
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
@@ -243,54 +243,6 @@ exports[`Profile matches snapshot 1`] = `
                   <div
                     className="css-view-1dbjc4n"
                   >
-                    <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
-                    >
-                      <div
-                        className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0"
-                      >
-                        <div
-                          className="css-view-1dbjc4n r-borderBottomColor-oucylx r-borderLeftColor-855088 r-borderRadius-1fuqb1j r-borderRightColor-114ovsg r-borderTopColor-18grtmt r-borderTopLeftRadius-ou6ah9 r-borderTopRightRadius-t12b5v r-borderWidth-rs99b7 r-marginBottom-zl2h9q r-marginTop-1bymd8e r-paddingBottom-l4nmg1 r-paddingHorizontal-1dye5f7 r-paddingTop-vmopo1 r-paddingVertical-rjfia r-position-bnwqim"
-                        >
-                          <input
-                            autoCapitalize="sentences"
-                            autoComplete="on"
-                            autoCorrect="on"
-                            className="css-textinput-11aywtz r-backgroundColor-1niwhzg r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-16dba41 r-justifyContent-1777fci r-paddingVertical-23eiwj r-placeholderTextColor-1xktb6b"
-                            dir="auto"
-                            disabled={true}
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            onFocus={[Function]}
-                            onKeyDown={[Function]}
-                            onSelect={[Function]}
-                            placeholder="Choose a Username"
-                            readOnly={true}
-                            spellCheck={true}
-                            type="text"
-                          />
-                          <div
-                            className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
-                          >
-                            <div
-                              className="css-text-901oao"
-                              dir="auto"
-                              style={
-                                Object {
-                                  "color": "rgba(0,175,255,1.00)",
-                                  "fontFamily": "gooddollar",
-                                  "fontSize": "22px",
-                                  "fontStyle": "normal",
-                                  "fontWeight": "normal",
-                                }
-                              }
-                            >
-                              
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                     >
@@ -392,32 +344,29 @@ exports[`Profile matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+                className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-margin-crgep1 r-marginBottom-1ifxtd0 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-width-13qz1uu"
                 style={
                   Object {
                     "WebkitBoxPack": "end",
                     "WebkitJustifyContent": "flex-end",
                     "justifyContent": "flex-end",
-                    "marginBottom": "16px",
                     "msFlexPack": "end",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
                   }
                 }
               >
                 <div
-                  className="css-view-1dbjc4n"
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
                 >
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-e397lv r-borderRadius-1f0042m r-borderStyle-1phboty r-borderWidth-rs99b7 r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-padding-t60dpp r-position-bnwqim"
+                    className="css-view-1dbjc4n r-backgroundColor-gbtiil r-borderRadius-1f0042m r-display-6koalj r-flexDirection-18u37iz r-gap-1cmwbt1 r-justifyContent-1wtj0ep r-marginBottom-1ifxtd0 r-padding-edyy15 r-width-13qz1uu"
                   >
                     <div
-                      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc"
-                    />
-                    <div
-                      className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-17gur6a r-height-1w2pmg r-position-u8s1d r-top-ipm5af r-width-1h2t8mc r-zIndex-184en5c"
+                      className="css-view-1dbjc4n"
                     >
                       <div
-                        aria-disabled={true}
-                        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-y68mpx r-borderRadius-17gur6a r-borderWidth-1yadl64 r-height-1w2pmg r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1b66slb r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1gnwdna"
                         onClick={[Function]}
                         onContextMenu={[Function]}
                         onKeyDown={[Function]}
@@ -427,46 +376,61 @@ exports[`Profile matches snapshot 1`] = `
                             "transitionDuration": "0s",
                           }
                         }
-                        tabIndex="-1"
+                        tabIndex="0"
                       >
                         <div
-                          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-17gur6a r-height-1w2pmg r-width-1h2t8mc"
+                          className="css-text-901oao r-color-jwli3a"
+                          dir="auto"
+                          style={
+                            Object {
+                              "fontFamily": "gooddollar",
+                              "fontSize": "24px",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            }
+                          }
                         >
-                          <unknownProfile.svg />
+                          
                         </div>
                       </div>
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr r-width-gmdvlt"
                     >
                       <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao"
                         dir="auto"
+                        style={
+                          Object {
+                            "fontSize": "16px",
+                            "height": "21px",
+                            "textAlign": "left",
+                          }
+                        }
                       >
-                        My Face Record ID
+                        My Wallet Address
                       </div>
                       <div
-                        className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                        className="css-text-901oao r-fontSize-1b43r93"
                         dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(163,163,163,1.00)",
+                            "textAlign": "left",
+                          }
+                        }
                       >
-                        c26741e42BcAF...e1BA28EaE21cF
+                        0x5dfFc16...fc39EE35F
                       </div>
                     </div>
                     <div
-                      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-height-1w2pmg r-position-u8s1d r-width-1h2t8mc"
-                    />
-                  </div>
-                  <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-maxHeight-46g5hj r-position-u8s1d r-width-13qz1uu"
-                  >
-                    <div
-                      className="css-view-1dbjc4n r-height-1w2pmg r-width-1h2t8mc"
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-width-1gnwdna"
                     >
                       <div
                         className="css-view-1dbjc4n"
                       >
                         <div
-                          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-17gur6a r-cursor-1loqt21 r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-maxHeight-46g5hj r-minWidth-bcqeeo r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1h2t8mc"
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
                           onClick={[Function]}
                           onContextMenu={[Function]}
                           onKeyDown={[Function]}
@@ -479,13 +443,14 @@ exports[`Profile matches snapshot 1`] = `
                           tabIndex="0"
                         >
                           <div
-                            className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+                            className="css-text-901oao r-color-jwli3a"
                             dir="auto"
                             style={
                               Object {
                                 "fontFamily": "gooddollar",
-                                "fontSize": "22px",
+                                "fontSize": "24px",
                                 "fontStyle": "normal",
+                                "fontWeight": "normal",
                               }
                             }
                           >
@@ -493,11 +458,98 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-backgroundColor-gbtiil r-borderRadius-1f0042m r-display-6koalj r-flexDirection-18u37iz r-gap-1cmwbt1 r-justifyContent-1wtj0ep r-marginBottom-1ifxtd0 r-padding-edyy15 r-width-13qz1uu"
+                  >
+                    <div
+                      aria-disabled={true}
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1b66slb r-borderColor-y68mpx r-borderRadius-10jnvle r-borderWidth-1yadl64 r-height-ur6pnr r-justifyContent-1777fci r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        Object {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="-1"
+                    >
                       <div
-                        className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-majxgm r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                        dir="auto"
+                        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-ur6pnr r-width-1mhb1uw"
                       >
-                        Copy ID
+                        <unknownProfileDark.svg />
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr r-width-gmdvlt"
+                    >
+                      <div
+                        className="css-text-901oao"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontSize": "16px",
+                            "height": "21px",
+                            "textAlign": "left",
+                          }
+                        }
+                      >
+                        My Face Record ID
+                      </div>
+                      <div
+                        className="css-text-901oao r-fontSize-1b43r93"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(163,163,163,1.00)",
+                            "textAlign": "left",
+                          }
+                        }
+                      >
+                        c26741e42...28EaE21cF
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1mdbics r-justifyContent-1777fci r-marginBottom-p1pxzi r-width-1gnwdna"
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-10jnvle r-cursor-1loqt21 r-display-6koalj r-height-ur6pnr r-justifyContent-1777fci r-marginLeft-1jj8364 r-marginRight-lchren r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1mhb1uw"
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onKeyDown={[Function]}
+                          style={
+                            Object {
+                              "WebkitTransitionDuration": "0s",
+                              "transitionDuration": "0s",
+                            }
+                          }
+                          tabIndex="0"
+                        >
+                          <div
+                            className="css-text-901oao r-color-jwli3a"
+                            dir="auto"
+                            style={
+                              Object {
+                                "fontFamily": "gooddollar",
+                                "fontSize": "24px",
+                                "fontStyle": "normal",
+                                "fontWeight": "normal",
+                              }
+                            }
+                          >
+                            
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -529,7 +581,7 @@ exports[`Profile matches snapshot 1`] = `
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderColor-11mg6pl r-borderRadius-17gur6a r-borderWidth-1d6rzhh r-height-1w2pmg r-justifyContent-1777fci r-width-1h2t8mc"
                     >
-                      <unknownProfile.svg />
+                      <unknownProfileDark.svg />
                     </div>
                   </div>
                 </div>

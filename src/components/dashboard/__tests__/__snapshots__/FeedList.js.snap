@@ -710,7 +710,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "minWidth": "10px",
+                            "minWidth": "15px",
                           }
                         }
                       >
@@ -922,7 +922,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "minWidth": "10px",
+                            "minWidth": "15px",
                           }
                         }
                       >

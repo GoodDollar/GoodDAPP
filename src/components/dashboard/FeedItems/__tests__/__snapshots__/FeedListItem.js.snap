@@ -178,7 +178,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
-                      "minWidth": "10px",
+                      "minWidth": "15px",
                     }
                   }
                 >
@@ -393,7 +393,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
-                      "minWidth": "10px",
+                      "minWidth": "15px",
                     }
                   }
                 >

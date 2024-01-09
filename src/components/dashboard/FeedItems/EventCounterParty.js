@@ -27,7 +27,7 @@ const EventContent = ({
     {!!direction && (
       <Text
         style={{
-          minWidth: 10,
+          minWidth: 15,
         }}
         textTransform={isCapitalized && 'capitalize'}
         fontSize={10}

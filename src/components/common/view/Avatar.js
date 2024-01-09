@@ -9,7 +9,7 @@ import useAvatar from '../../../lib/hooks/useAvatar'
 import { getBase64Source, isGoodDollarImage } from '../../../lib/utils/image'
 import { withStyles } from '../../../lib/styles'
 
-import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
+import UnknownProfileSVG from '../../../assets/unknownProfileDark.svg'
 import GoodDollarLogo from '../../../assets/Feed/favicon-96x96.svg'
 
 /**

@@ -43,7 +43,7 @@ export default new class {
     // to check notifications permissions we should use separate method
     if (Permissions.Notifications === permission) {
       result = await new Promise(resolve => PushNotification.checkPermissions(status => resolve(_toResult(status))))
-    } else if (platformPermissions) {
+    } else if (platformPermission) {
       // if platform permissions was set - calling api
       result = await api.check(platformPermission)
     }

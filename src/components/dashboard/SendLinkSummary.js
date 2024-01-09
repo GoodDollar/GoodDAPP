@@ -224,7 +224,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
             userStorage.enqueueTX(transactionEvent)
 
-            fireEvent(SEND_DONE, { type: get(screenState, 'params.type', contact ? 'contact' : 'Address') }) //type can be QR, receive, contact, contactsms
+            fireEvent(SEND_DONE, { type: get(screenState, 'type', contact ? 'contact' : 'address') }) //type can be qrCode, receive, contact, contactsms
 
             showDialog({
               visible: true,

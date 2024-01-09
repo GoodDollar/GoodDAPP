@@ -9,6 +9,7 @@ import delUndefValNested from '../utils/delUndefValNested'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import { fireEvent, REWARD_RECEIVED } from '../analytics/analytics'
+import API from '../../lib/API'
 import { type UserStorage } from './UserStorageClass'
 import { FeedCategories } from './FeedCategory'
 import type { FeedFilter } from './UserStorage'
@@ -32,6 +33,7 @@ export const TxType = {
   TX_UKNOWN: 'TX_UNKNOWN',
   TX_BRIDGE_IN: 'TX_BRIDGE_IN',
   TX_BRIDGE_OUT: 'TX_BRIDGE_OUT',
+  TX_BUYGD: 'TX_BUYGD',
 }
 
 export const FeedItemType = {
@@ -223,6 +225,8 @@ export class FeedStorage {
             this.wallet.getRewardsAddresses().includes(_from(e)) &&
             this.walletAddress.toLowerCase() === _to(e),
         )
+      case TxType.TX_BUYGD:
+        return receipt.logs.find(e => e.name === 'Bought')
       default:
         return {}
     }
@@ -279,6 +283,10 @@ export class FeedStorage {
 
     if (eventsName.UBIClaimed) {
       return TxType.TX_CLAIM
+    }
+
+    if (eventsName.Bought) {
+      return TxType.TX_BUYGD
     }
 
     if (eventsName.Transfer) {
@@ -496,6 +504,10 @@ export class FeedStorage {
           set(updatedFeedEvent, 'data.reason', t`Minted G$`)
           set(updatedFeedEvent, 'data.counterPartyFullName', t`Rewards`)
           break
+        case TxType.TX_BUYGD:
+          set(updatedFeedEvent, 'data.reason', t`Bought G$`)
+          set(updatedFeedEvent, 'data.counterPartyFullName', t`BuyGD`)
+          break
         default:
           break
       }
@@ -541,6 +553,7 @@ export class FeedStorage {
 
   async getCounterParty(feedEvent) {
     const addressField = getEventDirection(feedEvent)
+    const chainId = feedEvent.chainId ?? this.wallet.networkId
 
     log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
@@ -548,6 +561,13 @@ export class FeedStorage {
 
     if (!addressField || !address) {
       return {}
+    }
+
+    const isContract = await this.wallet.wallet.eth.getCode(address)
+    const isBridgeOrBuy = [TxType.TX_BRIDGE_IN, TxType.TX_BRIDGE_OUT, TxType.TX_BUYGD].includes(feedEvent.txType)
+
+    if (isContract !== '0x' && !isBridgeOrBuy) {
+      feedEvent.data.counterPartyFullName = await API.getContractName(address, chainId)
     }
 
     let profile = await this._readProfileCache(address)

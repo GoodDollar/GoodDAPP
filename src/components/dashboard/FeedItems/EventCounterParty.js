@@ -5,10 +5,8 @@ import { theme } from '../../theme/styles'
 import { Text } from '../../common'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
-import { openLink } from '../../../lib/utils/linking'
 import { getEventDirection } from '../../../lib/userStorage/FeedStorage'
-
-import Config from '../../../config/config'
+import goToExplorer from '../utils/goToExplorer'
 
 const EventContent = ({
   style,
@@ -25,9 +23,8 @@ const EventContent = ({
 }) => {
   let [name = '', displayAddress = ''] = description?.split(' ') ?? []
 
-  const goToExplorer = useCallback(() => {
-    const networkExplorerUrl = Config.ethereum[chain]?.explorer
-    openLink(`${networkExplorerUrl}/address/${encodeURIComponent(endpointAddress)}`, '_blank')
+  const viewInExplorer = useCallback(() => {
+    goToExplorer(endpointAddress, chain, 'address')
   }, [endpointAddress])
 
   return (
@@ -72,7 +69,7 @@ const EventContent = ({
           textAlign={'left'}
           lineHeight={lineHeight}
           style={[textStyle, { fontSize: 16 }]}
-          onPress={goToExplorer}
+          onPress={viewInExplorer}
           textDecorationLine="underline"
           color={theme.colors.lightBlue}
         >

@@ -14,17 +14,16 @@ import logger from '../../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/exceptions/utils'
 import normalize from '../../../lib/utils/normalizeText'
 import { useUserStorage, useWallet } from '../../../lib/wallet/GoodWalletProvider'
-import { openLink } from '../../../lib/utils/linking'
 import { withStyles } from '../../../lib/styles'
 import Section from '../../common/layout/Section'
 
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
-import Config from '../../../config/config'
 
 import { generateSendShareObject, generateShareLink, isSharingAvailable } from '../../../lib/share'
 import useProfile from '../../../lib/userStorage/useProfile'
 import { decimalsToFixed } from '../../../lib/wallet/utils'
 import { truncateMiddle } from '../../../lib/utils/string'
+import goToExplorer from '../../dashboard/utils/goToExplorer'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -173,9 +172,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     if (!isTx) {
       return
     }
-    const networkExplorerUrl = Config.ethereum[item.chainId || 122]?.explorer
 
-    openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
+    goToExplorer(txHash, item?.chainId, 'tx')
   }, [txHash, isTx])
 
   useEffect(() => {

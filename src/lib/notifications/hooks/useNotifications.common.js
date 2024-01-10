@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import usePermissions from '../../../components/permissions/hooks/usePermissions'
 import { Permissions } from '../../../components/permissions/types'
 import { NotificationsAPI } from '../api/NotificationsApi'
+import { fireEvent, NOTIFICATIONS_ENABLED } from '../../analytics/analytics'
 
 export const getCategory = notification => {
   const { payload } = notification || {}
@@ -30,6 +31,7 @@ export const useNotificationsStateSwitch = (storeProp, updateState, options = {}
   const enabled = useMemo(() => !!storeProp, [storeProp])
   const _onAllowed = useCallback(() => {
     updateState(true)
+    fireEvent(NOTIFICATIONS_ENABLED)
   }, [updateState])
 
   const [allowed, requestPermission] = usePermissions(Permissions.Notifications, {

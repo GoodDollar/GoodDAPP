@@ -952,7 +952,7 @@ export class UserStorage {
     const counterPartyAddress = data.address || receiptEvent?.from || receiptEvent?.to
 
     if (!isAddress(data.displayName) && !data.displayName.startsWith('0x')) {
-      const address = receiptEvent.name === 'UBIClaimed' ? receiptEvent.eventSource : counterPartyAddress
+      const address = receiptEvent?.name === 'UBIClaimed' ? receiptEvent.eventSource : counterPartyAddress
       const addressTruncated = truncateMiddle(address, 11)
       const displayName = data.displayName.length < 16 ? data.displayName : data.displayName.substring(0, 15) + '...'
       data.displayName = displayName + ` (` + addressTruncated + ')'

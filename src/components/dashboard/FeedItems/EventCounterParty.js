@@ -58,8 +58,7 @@ const EventContent = ({
           fontWeight="medium"
           textAlign={'left'}
           lineHeight={lineHeight}
-          style={textStyle}
-          fontSize={16}
+          style={[textStyle, ...(isModal ? [{ fontSize: 16 }] : [])]}
         >
           {isModal ? name : description}
         </Text>
@@ -72,11 +71,10 @@ const EventContent = ({
           fontWeight="medium"
           textAlign={'left'}
           lineHeight={lineHeight}
-          style={textStyle}
+          style={[textStyle, ...(isModal ? [{ fontSize: 16 }] : [])]}
           onPress={goToExplorer}
           textDecorationLine="underline"
           color={theme.colors.lightBlue}
-          fontSize={16}
         >
           {displayAddress}
         </Text>
@@ -137,7 +135,7 @@ const EventCounterParty = ({
       isCapitalized={isCapitalized}
       lineHeight={lineHeight}
       textStyle={textStyle}
-      isModal
+      isModal={isModal}
     />
   )
 }

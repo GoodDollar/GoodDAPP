@@ -117,6 +117,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                     style={[styles.feedItem, styles.eventCounterParty]}
                     textStyle={styles.feedItemText}
                     feedItem={item}
+                    isModal={true}
                   />
                   {!eventSettings.withoutAvatar && !!sellerWebsite && <EventInfoText>{sellerWebsite}</EventInfoText>}
                 </View>

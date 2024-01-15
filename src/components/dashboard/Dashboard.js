@@ -945,11 +945,11 @@ const Dashboard = props => {
                 </View>
               </Animated.View>
             )}
-            {dashboardButtonsEnabled && (
+            {dashboardButtonsEnabled !== false && (
               <Animated.View style={sendReceiveAnimStyles}>
                 <Section style={[styles.txButtons]}>
                   <Section.Row style={styles.buttonsRow}>
-                    {sendReceiveEnabled && (
+                    {sendReceiveEnabled !== false && (
                       <PushButton
                         icon="send"
                         iconAlignment="left"
@@ -970,7 +970,7 @@ const Dashboard = props => {
                     {ubiEnabled ? (
                       <ClaimButton
                         screenProps={screenProps}
-                        {...!claimEnabled && {
+                        {...claimEnabled === false && {
                           onPress: claimDisabledDialog,
                           buttonStyles: { backgroundColor: theme.colors.gray80Percent },
                         }}
@@ -981,7 +981,7 @@ const Dashboard = props => {
                     ) : (
                       <View style={styles.buttonSpacer} />
                     )}
-                    {sendReceiveEnabled && (
+                    {!sendReceiveEnabled === false && (
                       <PushButton
                         icon="receive"
                         iconSize={20}

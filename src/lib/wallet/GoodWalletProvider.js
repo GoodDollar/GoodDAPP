@@ -9,7 +9,6 @@ import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
 
 import Config from '../../config/config'
-import { default as envVar } from '../../config/env'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
 import { UserStorage } from '../userStorage/UserStorageClass'
@@ -180,7 +179,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   )
 
   const initWalletAndStorage = useCallback(
-    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER') => {
+    async (seedOrWeb3, type: 'SEED' | 'METAMASK' | 'WALLETCONNECT' | 'OTHER', logMethod) => {
       try {
         const fusewallet = new GoodWallet({
           mnemonic: type === 'SEED' ? seedOrWeb3 : undefined,
@@ -239,7 +238,18 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         global.userStorage = storage
         global.wallet = wallet
-        setWalletAndStorage({ goodWallet: wallet, userStorage: storage, celowallet, fusewallet, web3Provider })
+
+        if (logMethod) {
+          await storage.userProperties.safeSet('logMethod', logMethod)
+        }
+
+        setWalletAndStorage({
+          goodWallet: wallet,
+          userStorage: storage,
+          celowallet,
+          fusewallet,
+          web3Provider,
+        })
         log.info('initWalletAndStorage done', { web3Provider })
         return [wallet, storage]
       } catch (e) {
@@ -393,7 +403,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
               1: 'https://rpc.ankr.com/eth',
               5: 'https://rpc.ankr.com/eth_goerli',
               122: 'https://rpc.fuse.io',
-              42220: envVar.REACT_APP_WEB3_RPC_CELO || 'https://forno.celo.org',
+              42220: 'https://forno.celo.org',
             },
           },
         }

@@ -46,7 +46,7 @@ const NavBar = ({ title, styles, goBack, backToWallet = false, logo = false, chi
       ) : null}
       {children}
       {title && !showLogo ? <Appbar.Content title={title} titleStyle={styles.titleStyle} /> : null}
-      {showBackButton && <Appbar.Action color="white" style={{ width: 90 }} />}
+      {showBackButton && <Appbar.Action color="white" style={{ width: title === 'Bridge G$' ? 90 : 40 }} />}
       {showBackToWallet && (
         <IconButton
           name="wallet"

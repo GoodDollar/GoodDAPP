@@ -7,7 +7,7 @@ import { isEqualWith, isFunction, isNumber } from 'lodash'
 
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/orientation'
-import { isWeb } from '../../lib/utils/platform'
+import { isMobile, isWeb } from '../../lib/utils/platform'
 import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/js-logger'
@@ -289,6 +289,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     const Component = this.getComponent(descriptor, screenProps)
     const pageTitle = title || activeKey
+    const screenWidth = getScreenWidth()
 
     return (
       <React.Fragment>
@@ -299,6 +300,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
               isOpen={true}
               disableGestures={true}
               onChange={this.setMenu}
+              {...(isMobile ? { openMenuOffset: screenWidth } : {})}
               menu={
                 <SafeAreaView style={styles.safeArea}>
                   <SideMenuPanel navigation={navigation} />
@@ -366,6 +368,12 @@ const styles = StyleSheet.create({
     display: 'none',
   },
   safeArea: {
+    ...Platform.select({
+      android: {
+        width: getScreenWidth(),
+      },
+    }),
+    backgroundColor: 'white',
     padding: 0,
     paddingHorizontal: 0,
     paddingVertical: 0,

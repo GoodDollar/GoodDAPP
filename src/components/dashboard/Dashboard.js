@@ -4,7 +4,7 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
-import { useFeatureFlag } from 'posthog-react-native'
+import { useFeatureFlag, usePostHog } from 'posthog-react-native'
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -28,10 +28,12 @@ import {
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useAppState from '../../lib/hooks/useAppState'
 import useGoodDollarPrice from '../reserve/useGoodDollarPrice'
+
 import { PushButton } from '../appNavigation/PushButton'
 import { isWeb, useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
+
 import ClaimButton from '../common/buttons/ClaimButton'
 import TabButton from '../common/buttons/TabButton'
 import Section from '../common/layout/Section'
@@ -55,12 +57,14 @@ import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
 import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
 import { IconButton, Text } from '../../components/common'
+
 import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
 import Config from '../../config/config'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
 import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialog'
+import { useSecurityDialog } from '../security/securityDialog'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -227,6 +231,7 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
   const [price, showPrice] = useGoodDollarPrice()
   const formatFixed = useFixedDecimals(token)
   const isUBI = supportsG$UBI(network)
+  const showUsdBalance = useFeatureFlag('show-usd-balance')
 
   // show aggregated balance on FUSE/CELO, delta only
   const balance = isDeltaApp && (native || !isUBI) ? tokenBalance : totalBalance
@@ -274,7 +279,7 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
         />
       </View>
       {/* TODO: get ETH/GETH/FUSE/CELO price and calculate native tokens worth, may not needed for demo */}
-      {headerLarge && (!isDeltaApp || !native) && (
+      {headerLarge && (!isDeltaApp || !native) && showUsdBalance && (
         <Text style={styles.gdPrice}>
           ≈ {calculateUSDWorthOfBalance} USD <GoodDollarPriceInfo />
         </Text>
@@ -303,6 +308,7 @@ const Dashboard = props => {
   const [itemModal, setItemModal] = useState()
   const { totalBalance: balance, fuseBalance, celoBalance, dailyUBI, isCitizen } = useWalletData()
   const entitlement = Number(dailyUBI)
+
   const { toDecimals } = useFormatG$()
   const { avatar, fullName } = useProfile()
   const [feeds, setFeeds] = useState([])
@@ -320,8 +326,17 @@ const Dashboard = props => {
 
   const isBridgeActive = useFeatureFlag('micro-bridge')
 
+  const sendReceiveEnabled = useFeatureFlag('send-receive-feature')
+  const dashboardButtonsEnabled = useFeatureFlag('dashboard-buttons')
+  const posthog = usePostHog()
+  const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('claim-feature') : []), [posthog])
+  const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
+
+  const { securityEnabled, securityDialog } = useSecurityDialog()
+
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && isBridgeActive
+
   const { goodWallet, web3Provider } = useContext(GoodWalletContext)
 
   useInviteCode(true) // register user to invites contract if he has invite code
@@ -722,6 +737,12 @@ const Dashboard = props => {
     }
   }, [isDialogShown, isLoadingIndicator, itemModal])
 
+  useEffect(() => {
+    if (securityEnabled) {
+      securityDialog()
+    }
+  }, [securityEnabled, securityDialog])
+
   const showEventModal = useCallback(
     currentFeed => {
       setItemModal(currentFeed)
@@ -752,6 +773,23 @@ const Dashboard = props => {
       getFeedPage(true)
     }
   }, [currentNetwork])
+
+  useEffect(() => {
+    if (securityEnabled) {
+      securityDialog()
+    }
+  }, [securityEnabled, securityDialog])
+
+  const claimDisabledDialog = useCallback(
+    () =>
+      showDialog({
+        title: t`Claiming unavailable`,
+        message: claimDisabledMessage,
+        type: 'info',
+        showCloseButtons: true,
+      }),
+    [showDialog],
+  )
 
   const handleFeedSelection = useCallback(
     (receipt, horizontal) => {
@@ -907,51 +945,61 @@ const Dashboard = props => {
                 </View>
               </Animated.View>
             )}
-            <Animated.View style={sendReceiveAnimStyles}>
-              <Section style={[styles.txButtons]}>
-                <Section.Row style={styles.buttonsRow}>
-                  <PushButton
-                    icon="send"
-                    iconAlignment="left"
-                    routeName="Amount"
-                    iconSize={20}
-                    screenProps={screenProps}
-                    style={[styles.leftButton, styles.sendReceiveButton]}
-                    contentStyle={styles.leftButtonContent}
-                    textStyle={styles.leftButtonText}
-                    params={{
-                      action: 'Send',
-                    }}
-                    compact
-                  >
-                    {t`Send`}
-                  </PushButton>
-                  {ubiEnabled ? (
-                    <ClaimButton
-                      screenProps={screenProps}
-                      amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
-                      animated
-                      animatedScale={claimScale}
-                    />
-                  ) : (
-                    <View style={styles.buttonSpacer} />
-                  )}
-                  <PushButton
-                    icon="receive"
-                    iconSize={20}
-                    iconAlignment="right"
-                    routeName={'Receive'}
-                    screenProps={screenProps}
-                    style={[styles.rightButton, styles.sendReceiveButton]}
-                    contentStyle={styles.rightButtonContent}
-                    textStyle={styles.rightButtonText}
-                    compact
-                  >
-                    {t`Receive`}
-                  </PushButton>
-                </Section.Row>
-              </Section>
-            </Animated.View>
+            {dashboardButtonsEnabled && (
+              <Animated.View style={sendReceiveAnimStyles}>
+                <Section style={[styles.txButtons]}>
+                  <Section.Row style={styles.buttonsRow}>
+                    {sendReceiveEnabled && (
+                      <PushButton
+                        icon="send"
+                        iconAlignment="left"
+                        routeName="Amount"
+                        iconSize={20}
+                        screenProps={screenProps}
+                        style={[styles.leftButton, styles.sendReceiveButton]}
+                        contentStyle={styles.leftButtonContent}
+                        textStyle={styles.leftButtonText}
+                        params={{
+                          action: 'Send',
+                        }}
+                        compact
+                      >
+                        {t`Send`}
+                      </PushButton>
+                    )}
+                    {ubiEnabled ? (
+                      <ClaimButton
+                        screenProps={screenProps}
+                        {...!claimEnabled && {
+                          onPress: claimDisabledDialog,
+                          buttonStyles: { backgroundColor: theme.colors.gray80Percent },
+                        }}
+                        amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
+                        animated
+                        animatedScale={claimScale}
+                      />
+                    ) : (
+                      <View style={styles.buttonSpacer} />
+                    )}
+                    {sendReceiveEnabled && (
+                      <PushButton
+                        icon="receive"
+                        iconSize={20}
+                        iconAlignment="right"
+                        routeName={'Receive'}
+                        screenProps={screenProps}
+                        style={[styles.rightButton, styles.sendReceiveButton]}
+                        contentStyle={styles.rightButtonContent}
+                        textStyle={styles.rightButtonText}
+                        compact
+                      >
+                        {t`Receive`}
+                      </PushButton>
+                    )}
+                  </Section.Row>
+                </Section>
+              </Animated.View>
+            )}
           </Section.Stack>
         </Animated.View>
       </Animated.View>

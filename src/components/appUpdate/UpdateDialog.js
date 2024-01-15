@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import { t } from '@lingui/macro'
 import { RegularDialog } from '../common/dialogs/ServiceWorkerUpdatedDialog'
 import { useDialog } from '../../lib/dialog/useDialog'
+
 import { theme } from '../theme/styles'
 
 export default () => {
@@ -22,7 +23,7 @@ export default () => {
 
     updateDialogRef.current = (onUpdateCallback, onOpenUrl) =>
       showDialogRef.current({
-        showCloseButtons: true,
+        showCloseButtons: false,
         content: <RegularDialog />,
         buttons: [
           {

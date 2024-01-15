@@ -10,7 +10,6 @@ import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
 import UserAvatar from '../common/view/UserAvatar'
 import SaveButton from '../common/animations/SaveButton/SaveButton'
-import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import RoundIconButton from '../common/buttons/RoundIconButton'
@@ -29,53 +28,59 @@ const EditProfile = ({ screenProps, styles }) => {
   const [isValid, setIsValid] = useState(true)
   const [isPristine, setIsPristine] = useState(true)
   const [errors, setErrors] = useState({})
-  const [lockSubmit, setLockSubmit] = useState(false)
+  const [saveMode, setSaveMode] = useState({ phone: false, email: false, name: false })
   const { showErrorDialog } = useDialog()
   const { push, pop } = screenProps
 
   const onProfileSaved = useCallback(() => pop(), [pop])
   const handleEditAvatar = useCallback(() => push(`ViewAvatar`), [push])
 
-  // eslint-disable-next-line require-await
-  const validate = useCallback(async () => {
-    if (!profile || !profile.validate) {
-      return false
-    }
+  const validate = useCallback(
+    // eslint-disable-next-line require-await
+    async fieldChanged => {
+      if (!profile || !profile.validate) {
+        return false
+      }
 
-    try {
-      const pristine = isEqualWith(storedProfile, profile, (x, y) => {
-        if (typeof x === 'function') {
-          return true
-        }
+      try {
+        const pristine = isEqualWith(storedProfile, profile, (x, y) => {
+          if (typeof x === 'function') {
+            return true
+          }
 
-        if (['string', 'number'].includes(typeof x)) {
-          return y && x.toString() === y.toString()
-        }
+          if (['string', 'number'].includes(typeof x)) {
+            return y && x.toString() === y.toString()
+          }
 
-        return undefined
-      })
+          return undefined
+        })
 
-      const { isValid, errors } = profile.validate()
-      const valid = isValid
+        const { isValid, errors } = profile.validate()
+        const valid = isValid
 
-      setErrors(errors)
-      setIsValid(valid)
-      setIsPristine(pristine)
+        setErrors(errors)
+        setIsValid(valid)
+        setIsPristine(pristine)
 
-      return valid
-    } catch (e) {
-      log.warn('validate profile failed', e.message, e)
-      return false
-    }
-  }, [profile, setIsPristine, setErrors, setIsValid])
+        setSaveMode(prev => ({ ...prev, [fieldChanged]: valid && !pristine }))
+
+        return valid
+      } catch (e) {
+        log.warn('validate profile failed', e.message, e)
+        return false
+      }
+    },
+    [profile, setIsPristine, setErrors, setIsValid],
+  )
 
   const handleProfileChange = useCallback(
-    newProfile => {
+    (newProfile, fieldChanged) => {
       if (saving) {
         return
       }
 
       setProfile(newProfile)
+      validate(fieldChanged)
     },
     [setProfile, saving],
   )
@@ -135,9 +140,7 @@ const EditProfile = ({ screenProps, styles }) => {
   return (
     <Wrapper>
       <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
-        {lockSubmit || isPristine || !isValid ? (
-          <SaveButtonDisabled style={styles.animatedSaveButton} />
-        ) : (
+        {saveMode.name && !isPristine && isValid && (
           <SaveButton
             loading={saving}
             onPress={handleSaveButton}
@@ -154,8 +157,10 @@ const EditProfile = ({ screenProps, styles }) => {
           errors={errors}
           profile={profile}
           storedProfile={storedProfile}
-          setLockSubmit={setLockSubmit}
+          setSaveMode={setSaveMode}
+          saveMode={saveMode}
           screenProps={screenProps}
+          editMode
         />
       </Section>
       <View style={styles.userDataWrapper}>

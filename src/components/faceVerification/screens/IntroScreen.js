@@ -1,9 +1,10 @@
 // libraries
 import React, { useCallback, useContext, useEffect, useMemo } from 'react'
 import { Platform, View } from 'react-native'
+import { t } from '@lingui/macro'
+import useFVRedirect from '../standalone/hooks/useFVRedirect'
 
 // components
-import { t } from '@lingui/macro'
 import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../common'
 import WaitForCompleted from '../components/WaitForCompleted'
@@ -98,7 +99,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
   const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const { goToRoot, navigateTo, push } = screenProps
-
+  const fvRedirect = useFVRedirect()
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
   const userName = useMemo(() => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''), [
     isFVFlow,
@@ -117,7 +118,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
         }
 
         const dialogData = showQueueDialog(WalletDeletedPopupText, true, {
-          onDismiss: goToRoot,
+          onDismiss: isFVFlow ? fvRedirect(false, 'Wait 24 hours') : goToRoot,
           imageSource: Wait24HourSVG,
         })
 

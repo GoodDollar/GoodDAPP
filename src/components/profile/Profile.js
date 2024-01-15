@@ -29,6 +29,8 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const goodWallet = useWallet()
   const [faceRecordId, setRecordId] = useState()
 
+  const logMethod = userStorage?.userProperties.get('logMethod')
+
   const { fullName } = profile
 
   const handleAvatarPress = useCallback(() => screenProps.push(`ViewAvatar`), [screenProps])
@@ -66,11 +68,16 @@ const ProfileWrapper = ({ screenProps, styles }) => {
           style={{ marginBottom: 16, width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}
         >
           <Section.Row style={{ width: '100%' }}>
-            <IdentifierRow title="Wallet" eventSource="myprofile" address={goodWallet.account} />
+            <IdentifierRow title="Wallet" eventSource="myprofile" address={goodWallet.account} withCopy />
           </Section.Row>
           <Section.Row>
-            <IdentifierRow title="FaceId" address={faceRecordId} />
+            <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
           </Section.Row>
+          {logMethod && (
+            <Section.Row>
+              <IdentifierRow title="LoginM" text={logMethod} />
+            </Section.Row>
+          )}
         </Section>
       </Section>
       <View style={styles.userDataWrapper}>
@@ -101,7 +108,7 @@ const getStylesFromProps = ({ theme }) => {
 
   return {
     emptySpace: {
-      height: 75,
+      height: 115,
       width: '100%',
     },
     section: {

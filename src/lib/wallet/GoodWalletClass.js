@@ -217,9 +217,13 @@ export class GoodWallet {
     const mainnetNetworkId = get(ContractsAddress, this.mainnetNetwork + '.networkId', 122)
     const { httpWeb3provider: endpoints } = Config.ethereum[mainnetNetworkId]
 
-    this.web3Mainnet = new Web3(
-      new MultipleHttpProvider(uniq(endpoints.split(',')).map(provider => ({ provider, options: {} })), {}),
-    )
+    const mainnetEndpoints = uniq(endpoints.split(',')).map(provider => ({ provider, options: {} }))
+    const mainnetProviderOpts = {
+      strategy: Config.httpProviderStrategy,
+      retries: Config.httpProviderRetries,
+    }
+
+    this.web3Mainnet = new Web3(new MultipleHttpProvider(mainnetEndpoints, mainnetProviderOpts))
 
     const network = this.config.network
     const networkId = get(ContractsAddress, network + '.networkId', 122)

@@ -2,7 +2,7 @@
 
 import Web3 from 'web3'
 import { assign, has, shuffle } from 'lodash'
-import { fallback, makePromiseWrapper } from '../utils/async'
+import { fallback, makePromiseWrapper, retry } from '../utils/async'
 import logger from '../logger/js-logger'
 
 const { providers } = Web3
@@ -13,7 +13,7 @@ const connectionErrorRe = /connection (error|timeout)|invalid json rpc/i
 export class MultipleHttpProvider extends HttpProvider {
   constructor(endpoints, config) {
     const [{ provider, options }] = endpoints // init with first endpoint config
-    const { strategy = 'random' } = config || {} // or 'random'
+    const { strategy = 'random', retries = 1 } = config || {} // or 'random'
 
     log.debug('Setting default endpoint', { provider, config })
     super(provider, options)
@@ -22,11 +22,12 @@ export class MultipleHttpProvider extends HttpProvider {
     assign(this, {
       endpoints,
       strategy,
+      retries,
     })
   }
 
   send(payload, callback) {
-    const { endpoints, strategy } = this
+    const { endpoints, strategy, retries } = this
 
     // shuffle peers if random strategy chosen
     const peers = strategy === 'random' ? shuffle(endpoints) : endpoints
@@ -67,9 +68,14 @@ export class MultipleHttpProvider extends HttpProvider {
 
     log.trace('send: exec over peers', { peers, strategy, calls })
 
-    fallback(calls, onFallback)
-      .then(onSuccess)
-      .catch(onFailed)
+    retry(
+      () =>
+        fallback(calls, onFallback)
+          .then(onSuccess)
+          .catch(onFailed),
+      retries,
+      0,
+    )
   }
 
   /**

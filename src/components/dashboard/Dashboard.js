@@ -4,7 +4,7 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
-import { useFeatureFlag, usePostHog } from 'posthog-react-native'
+import { useFeatureFlag } from 'posthog-react-native'
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -65,6 +65,7 @@ import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
 import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialog'
 import { useSecurityDialog } from '../security/securityDialog'
+import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -328,8 +329,8 @@ const Dashboard = props => {
 
   const sendReceiveEnabled = useFeatureFlag('send-receive-feature')
   const dashboardButtonsEnabled = useFeatureFlag('dashboard-buttons')
-  const posthog = usePostHog()
-  const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('claim-feature') : []), [posthog])
+  const payload = useFlagWithPayload('claim-feature')
+
   const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
 
   const { securityEnabled, securityDialog } = useSecurityDialog()

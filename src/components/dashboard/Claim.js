@@ -5,7 +5,6 @@ import moment from 'moment'
 import { assign, noop } from 'lodash'
 import { t, Trans } from '@lingui/macro'
 
-import { usePostHog } from 'posthog-react-native'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 
@@ -48,6 +47,7 @@ import useTimer from '../../lib/hooks/useTimer'
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
 import useClaimNotificationsDialog from '../permissions/hooks/useClaimNotificationsDialog'
+import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -231,10 +231,6 @@ const Claim = props => {
   const userStorage = useUserStorage()
   const { userProperties } = userStorage || {}
 
-  // const posthog = usePostHog()
-  // const payload = posthog?.getFeatureFlagPayload('next-tasks')
-  // const { showButtons } = payload || {}
-
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(decimalsEntitlement)) || 0)
   const { isValid } = screenState
 
@@ -258,9 +254,8 @@ const Claim = props => {
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
-  const posthog = usePostHog()
-  const taskPayload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('next-tasks') : []), [posthog])
-  const { tasks } = taskPayload || {}
+  const payload = useFlagWithPayload('next-task')
+  const { tasks } = payload
 
   // format number of people who did claim today
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])

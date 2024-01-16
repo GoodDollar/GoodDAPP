@@ -4,11 +4,11 @@ import Web3 from 'web3'
 import { assign, has, shuffle } from 'lodash'
 import { fallback, makePromiseWrapper, retry } from '../utils/async'
 import logger from '../logger/js-logger'
+import { isConnectionError } from './utils'
 
 const { providers } = Web3
 const { HttpProvider } = providers
 const log = logger.child({ from: 'MultipleHttpProvider' })
-const connectionErrorRe = /connection (error|timeout)|invalid json rpc/i
 
 export class MultipleHttpProvider extends HttpProvider {
   constructor(endpoints, config) {
@@ -51,7 +51,10 @@ export class MultipleHttpProvider extends HttpProvider {
     }
 
     const onFailed = error => {
-      log.error('Failed with last error', error.message, error, payload.id)
+      if (!isConnectionError(error)) {
+        log.error('Failed with last error', error.message, error, payload.id)
+      }
+
       callback(error, null)
     }
 
@@ -60,9 +63,12 @@ export class MultipleHttpProvider extends HttpProvider {
       const { message, code } = error
 
       // retry on network error or if rpc responded with error (error.error)
-      const willFallback = !!(code || error.error || !message || connectionErrorRe.test(message))
+      const willFallback = !!(code || error.error || !message || isConnectionError(message))
 
-      log.warn('send: got error', { message, error, willFallback })
+      if (!willFallback) {
+        log.warn('send: got error', { message, error, willFallback })
+      }
+
       return willFallback
     }
 

@@ -48,7 +48,6 @@ import { signTypedData } from '@metamask/eth-sig-util'
 import Mutex from 'await-mutex'
 import { pRateLimit } from 'p-ratelimit'
 import Config from '../../config/config'
-import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
 import { tryJson } from '../utils/string'
 import API from '../API'
@@ -58,6 +57,8 @@ import WalletFactory from './WalletFactory'
 import {
   fromDecimals,
   getTxLogArgs,
+  log,
+  logError,
   NULL_ADDRESS,
   safeCall,
   toDecimals,
@@ -76,8 +77,6 @@ export const retryCall = async asyncFn => retry(asyncFn, 3, 1000)
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 40000
 const FIXED_SEND_GAS = 21000
-
-const log = logger.child({ from: 'GoodWalletV2' })
 
 type EventLog = {
   event: string,
@@ -374,7 +373,7 @@ export class GoodWallet {
         const currentBlock = await this.getBlockNumber()
 
         const lastBlock = await this.syncTxFromExplorer(startBlock, currentBlock).catch(e => {
-          log.error('syncTxFromExplorer failed', e.message, e, {
+          logError('syncTxFromExplorer failed', e, {
             networkId: this.networkId,
             startBlock,
           })
@@ -443,7 +442,7 @@ export class GoodWallet {
     return Promise.all(
       uniqEvents.map(event =>
         this._notifyReceipt(event.transactionHash).catch(err =>
-          log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
+          logError('_notifyEvents event get/send receipt failed:', err, {
             category: ExceptionCategory.Blockhain,
           }),
         ),
@@ -545,7 +544,7 @@ export class GoodWallet {
 
       return lastBlock
     } catch (e) {
-      log.error('syncTxWithBlockchain failed', e.message, e, { startBlock, lastBlock, networkId: this.networkId })
+      logError('syncTxWithBlockchain failed', e, { startBlock, lastBlock, networkId: this.networkId })
     }
   }
 
@@ -741,9 +740,7 @@ export class GoodWallet {
           .then(parseInt),
       )
     } catch (exception) {
-      const { message } = exception
-
-      log.error('checkEntitlement failed', message, exception)
+      logError('checkEntitlement failed', exception)
       return 0
     }
   }
@@ -903,9 +900,7 @@ export class GoodWallet {
 
       return balanceValue
     } catch (exception) {
-      const { message } = exception
-
-      log.error('BalanceOf failed', message, exception)
+      logError('BalanceOf failed', exception)
       return toBN(0)
     }
   }
@@ -988,9 +983,7 @@ export class GoodWallet {
     try {
       return retryCall(() => this.identityContract.methods.isWhitelisted(address).call())
     } catch (exception) {
-      const { message } = exception
-
-      log.error('isVerified failed', message, exception)
+      logError('isVerified failed', exception)
       return false
     }
   }
@@ -1073,9 +1066,7 @@ export class GoodWallet {
 
       return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
-      const { message } = exception
-
-      log.error('canSend failed', message, exception)
+      logError('canSend failed', exception)
     }
     return false
   }
@@ -1095,9 +1086,7 @@ export class GoodWallet {
 
       return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
-      const { message } = exception
-
-      log.error('canSendNative failed', message, exception)
+      logError('canSendNative failed', exception)
     }
     return false
   }
@@ -1179,9 +1168,7 @@ export class GoodWallet {
     try {
       return retryCall(() => this.oneTimePaymentsContract.methods.hasPayment(link).call())
     } catch (exception) {
-      const { message } = exception
-
-      log.error('isPaymentLinkAvailable failed', message, exception)
+      logError('isPaymentLinkAvailable failed', exception)
       return false
     }
   }
@@ -1343,7 +1330,7 @@ export class GoodWallet {
 
       return registered !== NULL_ADDRESS
     } catch (e) {
-      log.error('isInviterCodeValid failed:', e.message, e)
+      logError('isInviterCodeValid failed:', e)
       return false
     }
   }
@@ -1354,7 +1341,7 @@ export class GoodWallet {
 
       return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
     } catch (e) {
-      log.error('hasJoinedInvites failed:', e.message, e)
+      logError('hasJoinedInvites failed:', e)
       return [false, null, null]
     }
   }
@@ -1407,7 +1394,7 @@ export class GoodWallet {
         log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })
 
         await this.sendTransaction(tx).catch(e => {
-          log.error('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
+          logError('joinInvites failed:', e, { inviter, myCode, codeLength, registered })
           throw e
         })
       }
@@ -1472,7 +1459,7 @@ export class GoodWallet {
         gasPrice = networkGasPrice.toString()
       }
     } catch (e) {
-      log.error('failed to retrieve gas price from network', e.message, e, { category: ExceptionCategory.Blockhain })
+      logError('failed to retrieve gas price from network', e, { category: ExceptionCategory.Blockhain })
     }
 
     return gasPrice
@@ -1571,7 +1558,7 @@ export class GoodWallet {
         })
           .then(_ => true)
           .catch(e => {
-            log.error('verifyHasGas faucet failed', e.message, e)
+            logError('verifyHasGas faucet failed', e)
             return false
           })
 
@@ -1606,7 +1593,7 @@ export class GoodWallet {
         ok: data.ok && nativeBalance > minWei,
       }
     } catch (e) {
-      log.error('verifyHasGas failed:', e.message, e, { minWei })
+      logError('verifyHasGas failed:', e, { minWei })
 
       return {
         ok: false,
@@ -1753,7 +1740,7 @@ export class GoodWallet {
           onConfirmation(confirmation)
         })
         .on('error', exception => {
-          log.error('sendNativeTransaction error:', exception.message, exception, {
+          logError('sendNativeTransaction error:', exception, {
             tx: txData,
             category: ExceptionCategory.Blockhain,
           })

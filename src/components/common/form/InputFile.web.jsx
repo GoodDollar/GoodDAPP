@@ -1,6 +1,5 @@
 // libraries
 import React, { useRef } from 'react'
-import FileAPI from 'promisify-file-reader'
 
 // hooks
 import useOnPress from '../../../lib/hooks/useOnPress'
@@ -10,6 +9,7 @@ import logger from '../../../lib/logger/js-logger'
 import { constrainImage } from '../../../lib/utils/image/constrain'
 import { createImage } from '../../../lib/utils/image/browser'
 import { MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/image'
+import { readAsDataURL } from '../../../lib/utils/filereader'
 
 const log = logger.child({ from: 'InputFile' })
 
@@ -19,7 +19,7 @@ const InputFile = ({ Component, onChange }) => {
   // need to prevent default event - useOnPress does it
   const handleInputChange = useOnPress(async () => {
     const [file] = inputRef.current.files
-    const imageSource = await FileAPI.readAsDataURL(file)
+    const imageSource = await readAsDataURL(file)
     const image = await createImage(imageSource)
 
     log.debug('Uploaded file to use as avatar', { file, image })

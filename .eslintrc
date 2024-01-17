@@ -6,24 +6,32 @@
     "plugin:import/recommended",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
-    "prettier"
+    "prettier",
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+    },
+  },
+  "overrides": [
+    {
+      "files": ["*.jsx", "*.js"],
+    },
   ],
   "plugins": ["flowtype", "import", "prettier", "react", "react-hooks"],
   "settings": {
     "react": {
       "pragma": "React",
       "version": "detect",
-      "flowVersion": "0.89"
+      "flowVersion": "0.89",
     },
     "import/resolver": {
       "node": {
         "paths": ["src"],
-        "extensions": [".js", ".android.js", ".ios.js", ".web.js", ".native.js"]
-      }
+        "extensions": [".jsx", ".web.jsx", ".js", ".android.js", ".ios.js", ".web.js", ".native.js"],
+      },
     },
-    "import/ignore": [
-      "node_modules/react-native/index\\.js$"
-    ]
+    "import/ignore": ["node_modules/react-native/index\\.js$"],
   },
   "rules": {
     "prettier/prettier": "warn",
@@ -41,21 +49,21 @@
     "import/order": [
       "warn",
       {
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]
-      }
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+      },
     ],
     "sort-imports": [
       "warn",
       {
         "ignoreCase": true,
-        "ignoreDeclarationSort": true
-      }
+        "ignoreDeclarationSort": true,
+      },
     ],
     "no-console": [
       "warn",
       {
-        "allow": ["info"]
-      }
+        "allow": ["info"],
+      },
     ],
     "no-await-in-loop": "warn",
     "curly": "warn",
@@ -64,8 +72,8 @@
     "no-implicit-coercion": [
       "warn",
       {
-        "boolean": false
-      }
+        "boolean": false,
+      },
     ],
     "no-return-await": "warn",
     "no-useless-catch": "warn",
@@ -73,23 +81,23 @@
     "array-bracket-newline": [
       "warn",
       {
-        "multiline": true
-      }
+        "multiline": true,
+      },
     ],
     "block-spacing": "warn",
     "brace-style": [
       "warn",
       "1tbs",
       {
-        "allowSingleLine": true
-      }
+        "allowSingleLine": true,
+      },
     ],
     "camelcase": [
       "warn",
       {
         "ignoreDestructuring": true,
-        "properties": "never"
-      }
+        "properties": "never",
+      },
     ],
     "comma-dangle": ["warn", "only-multiline"],
     "comma-spacing": "warn",
@@ -109,11 +117,11 @@
         "allowBlockEnd": false,
         "allowObjectEnd": false,
         "allowArrayEnd": false,
-        "allowClassEnd": false
-      }
+        "allowClassEnd": false,
+      },
     ],
     "no-negated-condition": "off",
     "space-before-function-paren": "off",
-    "require-atomic-updates": "off"
-  }
+    "require-atomic-updates": "off",
+  },
 }

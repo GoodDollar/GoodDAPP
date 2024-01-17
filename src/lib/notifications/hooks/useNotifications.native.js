@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { Notifications } from 'react-native-notifications'
 // eslint-disable-next-line import/default
-import PushNotification from 'react-native-push-notification'
+import * as PushNotification from 'react-native-push-notification'
 
 import { invokeMap, noop } from 'lodash'
 import { EventEmitter } from 'eventemitter3'

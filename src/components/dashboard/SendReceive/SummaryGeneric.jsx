@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from '@mtourj/react-native-keyboard-aware-scroll-view'
 import { t } from '@lingui/macro'
 import { isEmpty } from 'lodash'
 import { useGetBridgeData } from '@gooddollar/web3sdk-v2'

@@ -1,4 +1,3 @@
-import FileAPI from 'promisify-file-reader'
 import { get, sortBy } from 'lodash'
 import axios from 'axios'
 import Config from '../../config/config'
@@ -7,6 +6,7 @@ import logger from '../../lib/logger/js-logger'
 import { fallback } from '../utils/async'
 import { withTemporaryFile } from '../utils/fs'
 import { normalizeDataUrl } from '../utils/base64'
+import * as FileAPI from '../utils/filereader'
 import { toV1 } from './utils'
 
 class IpfsStorage {

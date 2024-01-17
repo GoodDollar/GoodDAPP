@@ -1,1 +1,1 @@
-export default process.env
+export default {...process.env, ...import.meta.env}

@@ -1,7 +1,7 @@
 // @flow
 import { assign, filter, first, isPlainObject, noop, once } from 'lodash'
 import * as Realm from 'realm-web'
-import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
+import { PrivateKey } from '@textile/crypto' // eslint-disable-line import/default
 import EventEmitter from 'eventemitter3'
 import Mutex from 'await-mutex'
 import { JWT } from '../constants/localStorage'
@@ -61,7 +61,7 @@ class RealmDB implements DB, ProfileDB {
 
   db: ThreadDB
 
-  privateKey: TextileCrypto.PrivateKey
+  privateKey: PrivateKey
 
   isReady: boolean = false
 

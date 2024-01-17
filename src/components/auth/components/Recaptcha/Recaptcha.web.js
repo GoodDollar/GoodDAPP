@@ -1,1 +1,2 @@
-export default from './HCaptchaWeb'
+import X from './HCaptchaWeb'
+export default X

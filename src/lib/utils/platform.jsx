@@ -17,7 +17,7 @@ import {
   isTablet,
 } from 'mobile-device-detect'
 
-import { getSystemName, getSystemVersion, isEmulator as isEmulatedDevice } from 'react-native-device-info'
+import { getSystemName, getSystemVersion, isEmulator as isEmulatedDevice } from './deviceInfo'
 
 import isWebApp from './isWebApp'
 

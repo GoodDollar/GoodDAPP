@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { url as waves } from '../../../assets/wave50.svg'
+import waves from '../../../assets/wave50.svg'
 
 export default ({ children }) => {
   return (

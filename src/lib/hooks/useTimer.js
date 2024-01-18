@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import moment from 'moment'
-import 'moment-duration-format'
+import setupDurationFormat from 'moment-duration-format'
 
 import useInterval from './useInterval'
+
+setupDurationFormat(moment)
 
 const getTimerState = targetTime => {
   const duration = moment.duration(moment(targetTime).diff(moment()))

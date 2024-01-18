@@ -1,0 +1,13 @@
+diff --git a/CardFlip.js b/CardFlip.js
+index 70f268322bdda93b660aa32ddd65d31cc0edf1c0..8b12a1117f8f8ed3e4d443f76d7fcc6a3b81d118 100644
+--- a/CardFlip.js
++++ b/CardFlip.js
+@@ -4,7 +4,7 @@ import { polyfill } from 'react-lifecycles-compat';
+ 
+ import { Platform, StyleSheet, Animated } from "react-native";
+ 
+-class CardFlip extends Component<Props> {
++class CardFlip extends Component {
+   constructor(props) {
+     super(props);
+     this.state = {

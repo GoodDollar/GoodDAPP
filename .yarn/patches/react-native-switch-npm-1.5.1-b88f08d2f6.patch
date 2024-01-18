@@ -1,0 +1,14 @@
+diff --git a/lib/Switch.js b/lib/Switch.js
+index e11575f2fc2f2ddea793bbcfd8d44c0a91c652af..6b552f8bc88447cbb0171ed52ade017a3b08d38e 100644
+--- a/lib/Switch.js
++++ b/lib/Switch.js
+@@ -5,8 +5,7 @@ import {
+   StyleSheet,
+   Animated,
+   PanResponder,
+-  TouchableWithoutFeedback,
+-  ViewPropTypes
++  TouchableWithoutFeedback
+ } from "react-native";
+ import PropTypes from "prop-types";
+ 

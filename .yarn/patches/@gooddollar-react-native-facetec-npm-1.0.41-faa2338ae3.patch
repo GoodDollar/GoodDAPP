@@ -1,0 +1,9 @@
+diff --git a/web/index.js b/web/index.js
+index 2915d353342c685c469c46b8c7d8095f195ae816..516e281b1acbaa7e073947219222b934ab6ae4a4 100644
+--- a/web/index.js
++++ b/web/index.js
+@@ -1,3 +1,3 @@
+-import FaceTec from './sdk/FaceTecSDK'
++import * as FaceTec from './sdk/FaceTecSDK'
+ 
+ export default FaceTec

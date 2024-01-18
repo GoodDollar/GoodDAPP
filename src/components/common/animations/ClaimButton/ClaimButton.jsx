@@ -6,8 +6,8 @@ import { t } from '@lingui/macro'
 import AnimationBase from '../Base'
 import { weiToMask } from '../../../../lib/wallet/utils'
 import { getAnimationData } from '../../../../lib/utils/lottie'
-
-const { animationData } = getAnimationData('ClaimButton', require('./data'))
+import data from './data'
+const { animationData } = getAnimationData('ClaimButton', data)
 
 class ClaimButton extends AnimationBase {
   state = {

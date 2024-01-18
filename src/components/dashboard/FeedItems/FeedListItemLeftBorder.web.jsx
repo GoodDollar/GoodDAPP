@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import wavePattern from '../../../assets/feedListItemPattern.svg'
+import wavePattern from '../../../assets/feedListItemPattern.svg?url'
 
 const FeedListItemLeftBorder = ({ styles, style }) => {
   return <View style={[styles.leftBorder, style]} />

@@ -5,8 +5,9 @@ import { isMobileNative } from '../../../../lib/utils/platform'
 
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+import data from './data'
 
-const { animationData, imageAssetsFolder } = getAnimationData('Logo', require('./data'))
+const { animationData, imageAssetsFolder } = getAnimationData('Logo', data)
 
 const styles = {
   android: {
@@ -25,9 +26,9 @@ class Logo extends AnimationBase {
     if (this.props.animation) {
       this.anim.play()
     } else {
+      //show static frame
       if (isMobileNative) {
-        const lastFrame = Number(animationData.op) - 1
-        this.anim.play(lastFrame, 5200)
+        this.anim.play(5199, 5200)
       } else {
         this.anim.goToAndStop(5200)
       }

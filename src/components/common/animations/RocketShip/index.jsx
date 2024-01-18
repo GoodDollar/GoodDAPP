@@ -6,8 +6,9 @@ import AnimationBase from '../Base'
 import { getScreenHeight } from '../../../../lib/utils/orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 import { isMobileNative } from '../../../../lib/utils/platform'
+import data from './data'
 
-const { animationData, imageAssetsFolder } = getAnimationData('RocketShip', require('./data'))
+const { animationData, imageAssetsFolder } = getAnimationData('RocketShip', data)
 
 const cycleStart = 29
 const cycleEnd = 195

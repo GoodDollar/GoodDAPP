@@ -4,8 +4,9 @@ import Lottie from 'lottie-react-native'
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
+import data from './data'
 
-const { animationData, imageAssetsFolder } = getAnimationData('Send', require('./data'))
+const { animationData, imageAssetsFolder } = getAnimationData('Send', data)
 
 class Send extends AnimationBase {
   render() {

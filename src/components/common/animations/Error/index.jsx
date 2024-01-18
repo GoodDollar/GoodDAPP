@@ -6,8 +6,8 @@ import { getAnimationData } from '../../../../lib/utils/lottie'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { isMobileNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
-
-const { animationData, imageAssetsFolder } = getAnimationData('Error', require('./data'))
+import data from './data'
+const { animationData, imageAssetsFolder } = getAnimationData('Error', data)
 
 class Error extends AnimationBase {
   render() {

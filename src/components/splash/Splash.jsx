@@ -8,7 +8,6 @@ import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
-import GoodWalletSvg from '../../assets/goodWalletSplash.svg'
 
 // utils
 import Config from '../../config/config'
@@ -71,7 +70,6 @@ const Splash = ({ animation, isLoggedIn }) => {
               style={isMobileNative ? styles.mobileAnimation : styles.animation}
             />
             <Section style={styles.gwLogoContainer}>
-              <GoodWalletSvg />
               <Section.Text fontSize={16} color="white" fontWeight="medium">
                 V{version}
               </Section.Text>

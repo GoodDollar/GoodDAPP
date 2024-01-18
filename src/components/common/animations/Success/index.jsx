@@ -5,7 +5,9 @@ import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
-const { animationData, imageAssetsFolder } = getAnimationData('Success', require('./data'))
+import data from './data'
+
+const { animationData, imageAssetsFolder } = getAnimationData('Success', data)
 class Success extends AnimationBase {
   render() {
     const { styles } = this.props

@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useMemo } from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from '@mtourj/react-native-keyboard-aware-scroll-view'
 import { get, noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { t } from '@lingui/macro'
@@ -57,10 +57,10 @@ const ProfileDataTable = ({
   editMode = false,
 }) => {
   const { mobile } = profile || {}
-  const phoneMeta = useMemo(() => (showCustomFlag && mobile ? parsePhoneNumberFromString(mobile) : null), [
-    showCustomFlag,
-    mobile,
-  ])
+  const phoneMeta = useMemo(
+    () => (showCustomFlag && mobile ? parsePhoneNumberFromString(mobile) : null),
+    [showCustomFlag, mobile],
+  )
   const { country: countryCode = null } = phoneMeta || {}
 
   const verifyEdit = useCallback(

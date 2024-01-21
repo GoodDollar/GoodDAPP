@@ -411,6 +411,7 @@
         ]
       }
     ],
+    "compileNamespace": "es",
     "format": "minimal",
     "sourceLocale": "en",
     "locales": [

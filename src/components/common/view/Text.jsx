@@ -59,7 +59,7 @@ const relatedLineSpacing = fontSize =>
     24: 30,
     36: 30,
     42: 30,
-  }[fontSize] || fontSize * LINE_HEIGHT_FACTOR)
+  })[fontSize] || fontSize * LINE_HEIGHT_FACTOR
 
 const getStylesFromProps = ({
   theme,

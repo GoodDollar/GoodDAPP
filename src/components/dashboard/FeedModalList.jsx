@@ -54,10 +54,10 @@ const FeedModalList = ({
   // get feeds without invites and news
   const feeds = useFeeds(data, { invites: false, category: FeedCategories.Transactions })
 
-  const selectedFeedIndex = useMemo(() => (selectedFeed ? feeds.findIndex(item => item.id === selectedFeed.id) : -1), [
-    feeds,
-    selectedFeed,
-  ])
+  const selectedFeedIndex = useMemo(
+    () => (selectedFeed ? feeds.findIndex(item => item.id === selectedFeed.id) : -1),
+    [feeds, selectedFeed],
+  )
 
   /**
    * hack to fix https://github.com/necolas/react-native-web/issues/2030

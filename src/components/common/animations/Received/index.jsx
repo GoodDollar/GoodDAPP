@@ -6,7 +6,7 @@ import { getAnimationData } from '../../../../lib/utils/lottie'
 import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 import data from './data'
 
-const { animationData, imageAssetsFolder } = getAnimationData('Received',data)
+const { animationData, imageAssetsFolder } = getAnimationData('Received', data)
 
 class Received extends AnimationBase {
   render() {

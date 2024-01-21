@@ -50,29 +50,34 @@ const mapPropsToStyles = ({ theme, compact }) => ({
   },
 })
 
-const TextContent = withStyles(mapPropsToStyles)(
-  ({ children, color, dark, uppercase, styles, textStyle }: TextContentProps) => {
-    if (typeof children === 'string') {
-      // if set to dark, then text will be white.
-      // if 'color' is specified, use the color for the text
-      // if not, then button will be using 'primary' color
-      const textColor = (dark && 'white') || color || 'primary'
+const TextContent = withStyles(mapPropsToStyles)(({
+  children,
+  color,
+  dark,
+  uppercase,
+  styles,
+  textStyle,
+}: TextContentProps) => {
+  if (typeof children === 'string') {
+    // if set to dark, then text will be white.
+    // if 'color' is specified, use the color for the text
+    // if not, then button will be using 'primary' color
+    const textColor = (dark && 'white') || color || 'primary'
 
-      return (
-        <Text
-          color={textColor}
-          fontWeight="medium"
-          textTransform={uppercase ? 'uppercase' : 'none'}
-          style={[styles.buttonText, textStyle]}
-        >
-          {children}
-        </Text>
-      )
-    }
+    return (
+      <Text
+        color={textColor}
+        fontWeight="medium"
+        textTransform={uppercase ? 'uppercase' : 'none'}
+        style={[styles.buttonText, textStyle]}
+      >
+        {children}
+      </Text>
+    )
+  }
 
-    return children
-  },
-)
+  return children
+})
 
 /**
  * Custom button based on react-native-paper

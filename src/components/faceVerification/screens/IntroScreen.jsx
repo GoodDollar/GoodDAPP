@@ -100,11 +100,10 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { goToRoot, navigateTo, push } = screenProps
 
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
-  const userName = useMemo(() => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''), [
-    isFVFlow,
-    firstName,
-    fullName,
-  ])
+  const userName = useMemo(
+    () => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''),
+    [isFVFlow, firstName, fullName],
+  )
 
   const [disposing, checkDisposalState] = useDisposingState(
     {

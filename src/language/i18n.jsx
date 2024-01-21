@@ -16,7 +16,7 @@ const log = logger.child({ from: 'I18n' })
 export const locales = localesCodes
 export const defaultLocale = sourceLocale
 
-const I18n = new class {
+const I18n = new (class {
   constructor(i18n, options) {
     assign(this, { i18n, ...options })
 
@@ -123,7 +123,7 @@ const I18n = new class {
       }),
     )
   }
-}(i18n, { locales, defaultLocale, localeFiles })
+})(i18n, { locales, defaultLocale, localeFiles })
 
 export const LanguageContext = React.createContext({
   // eslint-disable-next-line require-await

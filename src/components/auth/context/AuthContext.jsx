@@ -26,10 +26,10 @@ export const AuthContextProvider = ({ children }) => {
   const [existingState, setExistingState] = useState(null)
   const [torusOptions, setTorusOptions] = useState(null)
 
-  const [success, alreadySignedUp] = useMemo(() => [successState, existingState].map(Boolean), [
-    successState,
-    existingState,
-  ])
+  const [success, alreadySignedUp] = useMemo(
+    () => [successState, existingState].map(Boolean),
+    [successState, existingState],
+  )
 
   const [signedUpWithProvider, signedUpDecisionCallback, signedUpOptions] = useMemo(
     () => ['withProvider', 'onDecision', 'options'].map(prop => get(existingState, prop, null)),

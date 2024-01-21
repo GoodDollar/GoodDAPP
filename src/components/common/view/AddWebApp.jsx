@@ -133,9 +133,7 @@ const AddWebApp = () => {
     const skipCount = await AsyncStorage.getItem('GD_AddWebAppSkipCount')
     const newSkipCount = Number(skipCount) || 0
     const nextCheckInDays = Math.pow(2, newSkipCount)
-    const nextCheckDate = moment()
-      .add(nextCheckInDays, 'days')
-      .toDate()
+    const nextCheckDate = moment().add(nextCheckInDays, 'days').toDate()
 
     await Promise.all([
       AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount + 1),

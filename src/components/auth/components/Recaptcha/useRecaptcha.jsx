@@ -9,8 +9,13 @@ import Recaptcha from '.'
 const log = logger.child({ from: 'useRecaptcha' })
 
 const useRecaptcha = options => {
-  const { onSuccess = noop, onFailed = noop, autoLaunch = true, relaunchOnFailed = true, enabled = true } =
-    options || {}
+  const {
+    onSuccess = noop,
+    onFailed = noop,
+    autoLaunch = true,
+    relaunchOnFailed = true,
+    enabled = true,
+  } = options || {}
 
   const reCaptchaRef = useRef()
   const { showErrorDialog } = useDialog()

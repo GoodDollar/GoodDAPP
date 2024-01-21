@@ -102,7 +102,7 @@ export const getImageByType = (type, styles = {}) =>
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
-  }[type] || null)
+  })[type] || null
 
 const TopImage = ({ type, styles }) => {
   const image = getImageByType(type, styles)

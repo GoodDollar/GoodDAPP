@@ -100,15 +100,27 @@ const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const torusUserFromProps =
     get(navigation, 'state.params.torusUser') ||
-    get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
+    get(
+      navigation.state.routes.find(route => get(route, 'params.torusUser')),
+      'params.torusUser',
+      {},
+    )
 
   const _regMethod =
     get(navigation, 'state.params.regMethod') ||
-    get(navigation.state.routes.find(route => get(route, 'params.regMethod')), 'params.regMethod', undefined)
+    get(
+      navigation.state.routes.find(route => get(route, 'params.regMethod')),
+      'params.regMethod',
+      undefined,
+    )
 
   const _torusProvider =
     get(navigation, 'state.params.torusProvider') ||
-    get(navigation.state.routes.find(route => get(route, 'params.torusProvider')), 'params.torusProvider', undefined)
+    get(
+      navigation.state.routes.find(route => get(route, 'params.torusProvider')),
+      'params.torusProvider',
+      undefined,
+    )
 
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
@@ -144,9 +156,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [loading, setLoading] = useState(false)
   const { hideDialog, showErrorDialog } = useDialog()
 
-  const { success: signupSuccess, setWalletPreparing, setSuccessfull, activeStep, setActiveStep } = useContext(
-    AuthContext,
-  )
+  const {
+    success: signupSuccess,
+    setWalletPreparing,
+    setSuccessfull,
+    activeStep,
+    setActiveStep,
+  } = useContext(AuthContext)
   const addSignupContact = useRef(false)
 
   const navigateWithFocus = useCallback(

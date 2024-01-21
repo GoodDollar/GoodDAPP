@@ -478,9 +478,8 @@ export const useUserStorage = (): UserStorage => {
 }
 
 export const useWalletData = () => {
-  const { dailyUBI, balance, totalBalance, celoBalance, fuseBalance, isCitizen, goodWallet } = useContext(
-    GoodWalletContext,
-  )
+  const { dailyUBI, balance, totalBalance, celoBalance, fuseBalance, isCitizen, goodWallet } =
+    useContext(GoodWalletContext)
 
   return {
     dailyUBI,

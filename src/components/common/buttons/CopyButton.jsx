@@ -28,10 +28,10 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
 
   const onPressHandler = useClipboardCopy(toCopy, onCopiedHandler)
 
-  const transitionToState = useCallback(() => setCopyState(onPressDone ? DONE : NOT_COPIED), [
-    setCopyState,
-    onPressDone,
-  ])
+  const transitionToState = useCallback(
+    () => setCopyState(onPressDone ? DONE : NOT_COPIED),
+    [setCopyState, onPressDone],
+  )
 
   useEffect(() => {
     if (copyState === COPIED && !withoutDone) {

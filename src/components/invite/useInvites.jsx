@@ -392,11 +392,10 @@ export const useInviteShare = level => {
     [inviteCode, abTestOption],
   )
 
-  const share = useMemo(() => generateShareObject(shareTitle, abTestMessage, shareUrl), [
-    shareTitle,
-    shareUrl,
-    abTestMessage,
-  ])
+  const share = useMemo(
+    () => generateShareObject(shareTitle, abTestMessage, shareUrl),
+    [shareTitle, shareUrl, abTestMessage],
+  )
 
   return { share, shareUrl, shareTitle, bounty }
 }

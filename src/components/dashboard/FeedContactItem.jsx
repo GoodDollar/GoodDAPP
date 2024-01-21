@@ -10,11 +10,10 @@ import useOnPress from '../../lib/hooks/useOnPress'
 const FeedContactItem = ({ contact, selectContact, horizontalMode, styles, index }) => {
   const [phoneNumber] = map(contact.phoneNumbers, 'number')
   const fullName = contact.familyName ? `${contact.givenName} ${contact.familyName}` : contact.givenName
-  const handleContact = useOnPress(() => selectContact({ fullName, phoneNumber }), [
-    fullName,
-    phoneNumber,
-    selectContact,
-  ])
+  const handleContact = useOnPress(
+    () => selectContact({ fullName, phoneNumber }),
+    [fullName, phoneNumber, selectContact],
+  )
 
   return (
     <TouchableOpacity onPress={handleContact}>

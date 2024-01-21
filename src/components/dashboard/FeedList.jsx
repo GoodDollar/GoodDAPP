@@ -201,12 +201,7 @@ const FeedList = ({
     setDisplayContent(true)
 
     if (_showBounce) {
-      userProperties.setLocal(
-        'showQuickActionHint',
-        moment()
-          .add(24, 'hours')
-          .format(),
-      )
+      userProperties.setLocal('showQuickActionHint', moment().add(24, 'hours').format())
     }
   }, [setShowBounce, userStorage])
 

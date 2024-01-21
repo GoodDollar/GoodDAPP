@@ -15,14 +15,14 @@ const InputText = ({
   return (
     <InputWithAddons
       {...props}
-      {...showAdornment && {
+      {...(showAdornment && {
         suffixIcon: adornment,
         suffixDisabled: false,
         suffixIconSize: adornmentSize,
         suffixStyle: adornmentStyle,
         suffixColor: adornmentColor,
         onSuffixClick: adornmentAction,
-      }}
+      })}
     />
   )
 }

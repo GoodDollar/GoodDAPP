@@ -970,10 +970,10 @@ const Dashboard = props => {
                     {ubiEnabled ? (
                       <ClaimButton
                         screenProps={screenProps}
-                        {...!claimEnabled && {
+                        {...(!claimEnabled && {
                           onPress: claimDisabledDialog,
                           buttonStyles: { backgroundColor: theme.colors.gray80Percent },
-                        }}
+                        })}
                         amount={toMask(decimalsToFixed(toDecimals(entitlement)), { showUnits: true })}
                         animated
                         animatedScale={claimScale}

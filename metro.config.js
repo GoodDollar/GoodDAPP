@@ -13,7 +13,7 @@ module.exports = (async () => {
     resolver: { sourceExts, assetExts },
   } = await getDefaultConfig()
 
-  const defaultSourceExts = [...sourceExts, 'svg', 'mjs', 'cjs']
+  const defaultSourceExts = [...sourceExts, 'svg', 'mjs', 'cjs','jsx']
 
   return {
     resolver: {

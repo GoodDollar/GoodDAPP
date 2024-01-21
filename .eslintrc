@@ -28,7 +28,18 @@
     "import/resolver": {
       "node": {
         "paths": ["src"],
-        "extensions": [".jsx", ".web.jsx", ".js", ".android.js", ".ios.js", ".web.js", ".native.js"],
+        "extensions": [
+          ".jsx",
+          ".web.jsx",
+          ".js",
+          ".android.js",
+          ".ios.js",
+          ".web.js",
+          ".native.js",
+          ".svg",
+          ".native.jsx",
+          ".json",
+        ],
       },
     },
     "import/ignore": ["node_modules/react-native/index\\.js$"],
@@ -41,7 +52,7 @@
     "react-hooks/exhaustive-deps": "off",
     "import/no-cycle": "warn",
     "import/named": "warn",
-    "import/no-unresolved": "warn",
+    "import/no-unresolved": ["warn", { "ignore": ["\\.svg", "data$"] }],
     "import/first": "warn",
     "import/no-duplicates": "warn",
     "import/no-anonymous-default-export": "off",

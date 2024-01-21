@@ -6,18 +6,18 @@
     "npm": "9.x"
   },
   "scripts": {
-    "web": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider\" react-app-rewired  start",
+    "web": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider\" vite",
     "android": "npm run lingui:compile && export ENVFILE=.env;npm run copy:gdfont && npm run animation:assets && react-native run-android",
     "ios": "npm run lingui:compile && export ENVFILE=.env;npm run animation:assets && react-native run-ios",
     "start:native": "react-native start",
-    "start": "serve -s -l $PORT build",
+    "preview": "vite build && vite preview --port 3000",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
     "analyze": "webpack-bundle-analyzer 'build/stats.json'",
     "start:local": "npm link @gooddollar/goodcontracts && npm start",
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm run start:native -- --reset-cache",
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
-    "build": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider --max_old_space_size=4096\" react-app-rewired build",
+    "build": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider --max_old_space_size=4096\" vite build",
     "animation:assets": "node ./animationAssets.js",
     "copy:gdfont": "cp src/assets/fonts/*.ttf android/app/src/main/assets/fonts/",
     "test": "npm run lingui:compile && npm run test:web && npm run test:native",
@@ -156,9 +156,8 @@
     "numeral": "^2.0.6",
     "p-ratelimit": "^1.0.1",
     "path-browserify": "0.0.0",
-    "posthog-react-native": "2.8.1",
+    "posthog-react-native": "^2.10.1",
     "process": "^0.11.10",
-    "promisify-file-reader": "^4.1.0",
     "punycode": "^1.4.1",
     "qrcode.react": "^0.9.3",
     "qs": "^6.8.0",
@@ -172,7 +171,7 @@
     "react-helmet": "^6.1.0",
     "react-inlinesvg": "^2.3.0",
     "react-meta-tags": "^1.0.1",
-    "react-native": "^0.71.11",
+    "react-native": "0.65",
     "react-native-animatable": "^1.4.0",
     "react-native-camera": "^3.42.0",
     "react-native-card-flip": "^1.0.7",
@@ -263,6 +262,9 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/eslint-parser": "^7.23.3",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-private-methods": "^7.18.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-syntax-flow": "^7.23.3",
     "@babel/plugin-transform-modules-commonjs": "^7.23.3",
     "@babel/preset-env": "^7.20.0",
@@ -280,15 +282,20 @@
     "@types/jest": "^29.2.1",
     "@types/moment-duration-format": "^2",
     "@types/qs": "^6",
-    "@types/react": "^18.2.12",
-    "@types/react-dom": "^18.2.5",
-    "@types/react-native": "^0.72.2",
-    "@types/react-test-renderer": "^18.0.0",
+    "@types/react": "17",
+    "@types/react-dom": "17",
+    "@types/react-native": "^0.65.2",
+    "@types/react-test-renderer": "17",
     "@vitejs/plugin-react": "^4.2.1",
     "appcenter-cli": "2.*",
     "auto-changelog": "^1.16.2",
     "babel-jest": "^29.2.1",
+    "babel-plugin-import": "^1.13.8",
+    "babel-plugin-import-graphql": "^2.8.1",
+    "babel-plugin-lodash": "^3.3.4",
+    "babel-plugin-macros": "^3.1.0",
     "babel-plugin-syntax-hermes-parser": "^0.18.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "bundlesize": "^0.18.0",
     "coveralls": "^3.0.3",
     "deprecated-react-native-prop-types": "^5.0.0",
@@ -317,7 +324,10 @@
     "jest-resolve": "^27.2.4",
     "jetifier": "^1.6.5",
     "lint-staged": "^8.1.6",
-    "metro-react-native-babel-preset": "0.73.9",
+    "metro": "0.67",
+    "metro-babel-register": "0.67",
+    "metro-react-native-babel-preset": "0.67",
+    "metro-react-native-babel-transformer": "0.67",
     "node-pre-gyp": "^0.14.0",
     "node-xml-lite": "0.0.7",
     "pn": "^1.1.0",
@@ -325,7 +335,7 @@
     "promise.any": "^2.0.2",
     "react-app-polyfill": "^2.0.0",
     "react-native-codegen": "^0.0.7",
-    "react-test-renderer": "18.2.0",
+    "react-test-renderer": "17",
     "requestidlecallback": "^0.3.0",
     "resolve": "1.8.1",
     "scoop": "0.0.2",
@@ -333,7 +343,7 @@
     "svg2png": "^4.1.1",
     "typechain": "^8.1.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.11",
+    "vite": "4",
     "vite-plugin-dynamic-import": "^1.5.0",
     "vite-plugin-graphql-loader": "^2.0.0",
     "vite-plugin-node-polyfills": "^0.16.0",
@@ -344,7 +354,13 @@
     "lottie-react-native": {}
   },
   "resolutions": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "metro": "0.67.0",
+    "metro-cache": "0.67.0",
+    "metro-config": "0.67.0",
     "hoist-non-react-statics": "^3.3.0",
+    "react-native": "patch:react-native@npm:0.65.2#.yarn/patches/react-native-npm-0.65.2-326cd156c0.patch",
     "@react-native-community/toolbar-android": "patch:@react-native-community/toolbar-android@npm:0.2.1#.yarn/patches/@react-native-community-toolbar-android-npm-0.2.1-3adb606246.patch",
     "jest-environment-jsdom": "patch:jest-environment-jsdom@npm:26.6.2#.yarn/patches/jest-environment-jsdom-npm-26.6.2-defa486869.patch",
     "react-native-gesture-handler": "patch:react-native-gesture-handler@npm:1.10.3#.yarn/patches/react-native-gesture-handler-npm-1.10.3-be0b33cc52.patch",
@@ -356,25 +372,20 @@
     "@gooddollar/react-native-facetec@^1.0.41": "patch:@gooddollar/react-native-facetec@npm%3A1.0.41#./.yarn/patches/@gooddollar-react-native-facetec-npm-1.0.41-faa2338ae3.patch",
     "react-native-switch@^1.5.1": "patch:react-native-switch@npm%3A1.5.1#./.yarn/patches/react-native-switch-npm-1.5.1-b88f08d2f6.patch",
     "react-native-card-flip@^1.0.7": "patch:react-native-card-flip@npm%3A1.0.7#./.yarn/patches/react-native-card-flip-npm-1.0.7-64320a3ab5.patch",
-    "react-native-modal-dropdown@^1.0.2": "patch:react-native-modal-dropdown@npm%3A1.0.2#./.yarn/patches/react-native-modal-dropdown-npm-1.0.2-1bfc5979be.patch"
+    "react-native-modal-dropdown@^1.0.2": "patch:react-native-modal-dropdown@npm%3A1.0.2#./.yarn/patches/react-native-modal-dropdown-npm-1.0.2-1bfc5979be.patch",
+    "posthog-react-native": "2.10.1"
   },
   "comments": {
     "a": "check removed patches",
     "b": "check removed linters"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "src/**/*.js": [
+    "src/**/*{.js,.jsx}": [
       "eslint --fix --max-warnings=0",
       "git add"
     ]
@@ -400,7 +411,6 @@
         ]
       }
     ],
-    "compileNamespace": "es",
     "format": "minimal",
     "sourceLocale": "en",
     "locales": [

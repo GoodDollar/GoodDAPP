@@ -1,8 +1,5 @@
 import { assign, get, isString } from 'lodash'
-
-import FaceTec from '@gooddollar/react-native-facetec/web'
 import logger from '../../../lib/logger/js-logger'
-
 import { parseVerificationOptions } from '../utils/options'
 import {
   DynamicModeCustomization,
@@ -13,7 +10,7 @@ import {
 } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
-
+import FaceTec from './FaceTecCore'
 export const {
   // SDK initialization status codes enum
   FaceTecSDKStatus,
@@ -26,7 +23,7 @@ export const {
 } = FaceTec.FaceTecSDK
 
 // sdk class
-export const FaceTecSDK = new class {
+export const FaceTecSDK = new (class {
   constructor(sdk, logger) {
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory(`${FACETEC_PUBLIC_PATH}/resources`)
@@ -197,7 +194,7 @@ export const FaceTecSDK = new class {
     const { open: originalOpen } = http
     const faceTecUrlMatch = 'facetec.com/api'
 
-    http.open = function(method, url, ...rest) {
+    http.open = function (method, url, ...rest) {
       if ((url || '').toLowerCase().includes(faceTecUrlMatch)) {
         const onReadyStateChange = () => {
           const { readyState, status, response, responseType } = this
@@ -254,4 +251,4 @@ export const FaceTecSDK = new class {
     exception.code = sdkStatus
     this.throwException(exception)
   }
-}(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))
+})(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))

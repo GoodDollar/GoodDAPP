@@ -27,10 +27,11 @@ class Logo extends AnimationBase {
       this.anim.play()
     } else {
       //show static frame
+      const lastFrame = Number(animationData.op) - 1
       if (isMobileNative) {
-        this.anim.play(5199, 5200)
+        this.anim.play(lastFrame - 1, lastFrame)
       } else {
-        this.anim.goToAndStop(5200)
+        this.anim.goToAndStop(lastFrame, true)
       }
     }
   }

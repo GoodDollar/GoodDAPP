@@ -9,7 +9,7 @@ import * as esbuild from 'esbuild'
 import fs from 'fs'
 import { flowPlugin, esbuildFlowPlugin } from '@bunchtogether/vite-plugin-flow'
 
-const extensions = ['.web.tsx', '.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.jsx', '.js', '.css', '.json', '.mjs']
+const extensions = ['.web.tsx', '.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.jsx', '.mjs', '.js', '.json']
 
 const jsxTransform = (matchers: RegExp[]) => ({
   name: 'js-in-jsx',
@@ -42,11 +42,19 @@ export default defineConfig({
     }),
     dynamicImports(),
     nodePolyfills({
-      globals: {
-        Buffer: true,
-        global: true,
-        process: true,
-      },
+      include: [
+        'buffer',
+        'crypto',
+        '_stream_duplex',
+        '_stream_readable',
+        'stream',
+        'http',
+        'https',
+        '_stream_writable',
+        '_stream_passthrough',
+        '_stream_transform',
+      ],
+      globals: { process: true, Buffer: true, global: true },
     }),
     graphqlLoader(),
   ],
@@ -63,19 +71,23 @@ export default defineConfig({
     dedupe: ['react', 'ethers', 'react-dom', 'native-base'],
   },
   build: {
+    manifest: true,
+    outDir: 'build',
     commonjsOptions: {
-      extensions,
+      extensions: ['.js', '.jsx', '.web.js', '.web.jsx'],
+      ignore: id => id.includes('es5-ext/global') || id.includes('expo-'), //required to make importing of missing packages to fail
       include: [/node_modules/],
-      exclude: [],
+      exclude: [/FaceTecSDK.web.js/], // required so it will be loaded as umd module in global
       transformMixedEsModules: true, //handle deps that use "require" and "module.exports"
     },
     rollupOptions: {
-      plugins: [jsxTransform([/react-native-/])],
+      plugins: [jsxTransform([/react-native-.*\.jsx?$/])], //for some reason react-native packages are not being transpiled even with esbuild jsx settings
     },
   },
   optimizeDeps: {
+    exclude: [],
     esbuildOptions: {
-      plugins: [esbuildFlowPlugin(/\.(flow|jsx?)$/, () => 'jsx')],
+      plugins: [esbuildFlowPlugin(/\.(flow|jsx?)$/, () => 'jsx')], //default to jsx loader
       resolveExtensions: extensions,
       loader: {
         '.html': 'text', // allow import or require of html files

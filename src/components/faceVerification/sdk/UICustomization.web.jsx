@@ -2,11 +2,10 @@ import hexToRgba from 'hex-to-rgba'
 import { Colors } from 'react-native-paper'
 import { assignIn, get, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
-import FaceTec from '@gooddollar/react-native-facetec/web'
-
 import { resultFacescanUploadMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import { isLargeDevice } from '../../../lib/utils/sizes'
 import { theme } from '../../theme/styles'
+import FaceTec from './FaceTecCore'
 import './UICustomization.css'
 
 export const FACETEC_PUBLIC_PATH = '/facetec'

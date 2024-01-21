@@ -1,7 +1,7 @@
 import { assign, first, get, isFinite, isNumber } from 'lodash'
 
-import FaceTec from '@gooddollar/react-native-facetec/web'
 import api from '../api/FaceVerificationApi'
+import FaceTec from './FaceTecCore'
 import { UITextStrings } from './UICustomization'
 import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage, unexpectedErrorMessage } from './FaceTecSDK.constants'
 

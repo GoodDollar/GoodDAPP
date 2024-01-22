@@ -87,7 +87,7 @@ account.data.txt
 # Localization build files
 src/language/locales/index.js
 src/language/locales/*/*.js
-
+src/language/locales/*/*.mjs
 # Bundle artifact
 *.jsbundle
 

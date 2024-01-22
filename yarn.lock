@@ -5329,6 +5329,7 @@ __metadata:
     vite: 4
     vite-plugin-dynamic-import: ^1.5.0
     vite-plugin-node-polyfills: ^0.16.0
+    vite-plugin-static-copy: ^1.0.0
     vite-plugin-svgr: ^4.2.0
     vite-svg-loader: ^5.1.0
     vm-browserify: ^1.1.2
@@ -16769,7 +16770,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:3.5.3, chokidar@npm:^3.4.1":
+"chokidar@npm:3.5.3, chokidar@npm:^3.4.1, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -22321,7 +22322,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.12":
+"fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.12":
   version: 3.3.2
   resolution: "fast-glob@npm:3.3.2"
   dependencies:
@@ -23100,6 +23101,17 @@ __metadata:
     jsonfile: ^2.1.0
     klaw: ^1.0.0
   checksum: 9d3642621f42c810e9a32e6ecf97f6f827fdffb001316504d2102d87b4505b8bda1197d43e38e5b1db1faa240b022380b489a0e378b739e1cadef0df9aad4b5f
+  languageName: node
+  linkType: hard
+
+"fs-extra@npm:^11.1.0":
+  version: 11.2.0
+  resolution: "fs-extra@npm:11.2.0"
+  dependencies:
+    graceful-fs: ^4.2.0
+    jsonfile: ^6.0.1
+    universalify: ^2.0.0
+  checksum: b12e42fa40ba47104202f57b8480dd098aa931c2724565e5e70779ab87605665594e76ee5fb00545f772ab9ace167fe06d2ab009c416dc8c842c5ae6df7aa7e8
   languageName: node
   linkType: hard
 
@@ -43667,6 +43679,20 @@ __metadata:
   peerDependencies:
     vite: ^2.0.0 || ^3.0.0 || ^4.0.0
   checksum: c4b3767e29a7c95efccde7d8adeac7963fb9b30677d88e348eda1c1d407c0d821d58c9ea651cb5db0aa010c93fd1971d8b671fea2417edd15a707861be772861
+  languageName: node
+  linkType: hard
+
+"vite-plugin-static-copy@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "vite-plugin-static-copy@npm:1.0.0"
+  dependencies:
+    chokidar: ^3.5.3
+    fast-glob: ^3.2.11
+    fs-extra: ^11.1.0
+    picocolors: ^1.0.0
+  peerDependencies:
+    vite: ^5.0.0
+  checksum: 93fd2167e356b50d1d29f7f8809bb63ef078437f9e13bdaa2fedb1fde73b7488d87ccf1a8115c7616f94327ccbd9188c074a23c18d1264e513aa6f1eb9e10ce9
   languageName: node
   linkType: hard
 

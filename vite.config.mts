@@ -6,6 +6,7 @@ import * as path from 'path'
 import svgLoader from 'vite-plugin-svgr'
 import * as esbuild from 'esbuild'
 import fs from 'fs'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { flowPlugin, esbuildFlowPlugin } from '@bunchtogether/vite-plugin-flow'
 
 const extensions = ['.web.tsx', '.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.jsx', '.mjs', '.js', '.json']
@@ -30,7 +31,18 @@ export default defineConfig({
     // https://github.com/bevacqua/dragula/issues/602#issuecomment-1296313369
     global: 'globalThis',
   },
+  // new CopyPlugin(['images', 'resources'].map(from => {
+  //   const context = 'node_modules/@gooddollar/react-native-facetec/web/sdk'
+
+  //   return { context, from, to: 'facetec/' + from }
+  // })),
   plugins: [
+    viteStaticCopy({
+      targets: [
+        { src: 'node_modules/@gooddollar/react-native-facetec/web/sdk/images', dest: 'facetec' },
+        { src: 'node_modules/@gooddollar/react-native-facetec/web/sdk/resources', dest: 'facetec' },
+      ],
+    }),
     svgLoader({ include: '**/*.svg', exclude: ['**/*.svg?url'] }),
     flowPlugin(),
     react({

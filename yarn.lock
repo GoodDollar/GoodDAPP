@@ -5328,7 +5328,6 @@ __metadata:
     validator: ^13.7.0
     vite: 4
     vite-plugin-dynamic-import: ^1.5.0
-    vite-plugin-graphql-loader: ^2.0.0
     vite-plugin-node-polyfills: ^0.16.0
     vite-plugin-svgr: ^4.2.0
     vite-svg-loader: ^5.1.0
@@ -24060,7 +24059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^16.6.0, graphql@npm:^16.8.1":
+"graphql@npm:^16.8.1":
   version: 16.8.1
   resolution: "graphql@npm:16.8.1"
   checksum: 8d304b7b6f708c8c5cc164b06e92467dfe36aff6d4f2cf31dd19c4c2905a0e7b89edac4b7e225871131fd24e21460836b369de0c06532644d15b461d55b1ccc0
@@ -43654,16 +43653,6 @@ __metadata:
     fast-glob: ^3.2.12
     magic-string: ^0.30.1
   checksum: 68efd897daa0c72a9f9d3481095dd3f7ec9a822be5a15eef60413734a4c894c5bbd1c1762f02daeef5df59cef212c9f1e7e056315e2a7780816ccafe5c74da6e
-  languageName: node
-  linkType: hard
-
-"vite-plugin-graphql-loader@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "vite-plugin-graphql-loader@npm:2.0.0"
-  dependencies:
-    graphql: ^16.6.0
-    graphql-tag: ^2.12.6
-  checksum: 2037fcd646de5918a8900f8e9b202204db76fd9370c3787e11a528850b009aace9c2b0cbc42cbed565a7af6fe68f9f380e238a64b447ddb729e9cb6e08006fea
   languageName: node
   linkType: hard
 

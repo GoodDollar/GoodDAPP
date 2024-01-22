@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import dynamicImports from 'vite-plugin-dynamic-import'
 import * as path from 'path'
-import graphqlLoader from 'vite-plugin-graphql-loader'
 import svgLoader from 'vite-plugin-svgr'
 import * as esbuild from 'esbuild'
 import fs from 'fs'
@@ -56,7 +55,6 @@ export default defineConfig({
       ],
       globals: { process: true, Buffer: true, global: true },
     }),
-    graphqlLoader(),
   ],
   resolve: {
     extensions,

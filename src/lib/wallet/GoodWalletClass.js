@@ -66,8 +66,8 @@ import {
   WITHDRAW_STATUS_UNKNOWN,
 } from './utils'
 
-import pricesQuery from './queries/reservePrices.gql'
-import interestQuery from './queries/interestReceived.gql'
+import pricesQuery from './queries/reservePrices.gql?raw'
+import interestQuery from './queries/interestReceived.gql?raw'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 // eslint-disable-next-line require-await
@@ -218,7 +218,10 @@ export class GoodWallet {
     const { httpWeb3provider: endpoints } = Config.ethereum[mainnetNetworkId]
 
     this.web3Mainnet = new Web3(
-      new MultipleHttpProvider(uniq(endpoints.split(',')).map(provider => ({ provider, options: {} })), {}),
+      new MultipleHttpProvider(
+        uniq(endpoints.split(',')).map(provider => ({ provider, options: {} })),
+        {},
+      ),
     )
 
     const network = this.config.network
@@ -730,12 +733,7 @@ export class GoodWallet {
 
   async checkEntitlement(): Promise<number> {
     try {
-      return await retryCall(() =>
-        this.UBIContract.methods
-          .checkEntitlement()
-          .call()
-          .then(parseInt),
-      )
+      return await retryCall(() => this.UBIContract.methods.checkEntitlement().call().then(parseInt))
     } catch (exception) {
       const { message } = exception
 
@@ -1190,9 +1188,11 @@ export class GoodWallet {
   async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
     try {
       const hashedCode = this.getWithdrawLink(otlCode)
-      const { paymentAmount, hasPayment, paymentSender: sender } = await retryCall(() =>
-        this.oneTimePaymentsContract.methods.payments(hashedCode).call(),
-      )
+      const {
+        paymentAmount,
+        hasPayment,
+        paymentSender: sender,
+      } = await retryCall(() => this.oneTimePaymentsContract.methods.payments(hashedCode).call())
       const amount = toBN(paymentAmount)
       let status = WITHDRAW_STATUS_UNKNOWN
 

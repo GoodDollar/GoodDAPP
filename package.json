@@ -345,7 +345,6 @@
     "typescript": "^5.3.3",
     "vite": "4",
     "vite-plugin-dynamic-import": "^1.5.0",
-    "vite-plugin-graphql-loader": "^2.0.0",
     "vite-plugin-node-polyfills": "^0.16.0",
     "vite-plugin-svgr": "^4.2.0",
     "web-encoding": "^1.1.5"

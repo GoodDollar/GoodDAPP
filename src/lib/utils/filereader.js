@@ -1,14 +1,24 @@
-export const readAsDataURL = (file, encoding) =>
+// @flow
+
+const readFile = (file, format: 'text' | 'dataurl', encoding = 'UTF-8') =>
   new Promise((resolve, reject) => {
-    const fileReader = new FileReader()
-    fileReader.onload = () => resolve(fileReader.result)
-    fileReader.onerror = () => reject(fileReader.error)
-    fileReader.readAsDataURL(file, encoding)
+    const reader = new FileReader()
+
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = () => reject(reader.error)
+
+    switch (format) {
+      case 'text':
+        reader.readAsText(file, encoding)
+        break
+      case 'dataurl':
+        reader.readAsDataURL(file)
+        break
+      default:
+        throw new Error('Invalid format specified')
+    }
   })
-export const readAsText = (file, encoding) =>
-  new Promise((resolve, reject) => {
-    const fileReader = new FileReader()
-    fileReader.onload = () => resolve(fileReader.result)
-    fileReader.onerror = () => reject(fileReader.error)
-    fileReader.readAsText(file, encoding)
-  })
+
+export const readAsDataURL = file => readFile(file, 'dataurl')
+
+export const readAsText = (file, encoding = 'UTF-8') => readFile(file, 'text', encoding)

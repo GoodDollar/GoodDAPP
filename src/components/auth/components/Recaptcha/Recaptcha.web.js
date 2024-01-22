@@ -1,2 +1,3 @@
-import X from './HCaptchaWeb'
-export default X
+import Recaptcha from './HCaptchaWeb'
+
+export default Recaptcha

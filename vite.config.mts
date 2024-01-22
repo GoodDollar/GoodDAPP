@@ -85,7 +85,11 @@ export default defineConfig({
     outDir: 'build',
     commonjsOptions: {
       extensions: ['.js', '.jsx', '.web.js', '.web.jsx'],
-      ignore: id => id.includes('es5-ext/global') || id.includes('expo-') || id.includes('@react-navigation/native'), //required to make importing of missing packages to fail. fixes posthog issues
+      ignore: id =>
+        id.includes('es5-ext/global') ||
+        id.includes('expo-') ||
+        id.includes('@react-navigation/native') ||
+        id.includes('react-native-navigation'), //required to make importing of missing packages to fail. fixes posthog issues
       include: [/node_modules/],
       exclude: [/FaceTecSDK.web.js/], // required so it will be loaded as umd module in global
       transformMixedEsModules: true, //handle deps that use "require" and "module.exports"

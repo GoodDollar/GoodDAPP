@@ -26,6 +26,7 @@ module.exports = function(api) {
     "env": {
       "test": {
         "plugins": [
+          "babel-plugin-transform-vite-meta-env",
           "dynamic-import-node"
         ]
       }

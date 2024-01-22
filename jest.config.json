@@ -1,0 +1,59 @@
+{
+    "testEnvironment": "@happy-dom/jest-environment",
+    "moduleFileExtensions": [
+        "js",
+        "web.js",
+        "web.jsx",
+        "mjs",
+        "cjs",
+        "jsx",
+        "ts",
+        "tsx",
+        "json",
+        "node"
+    ],
+    "transform": {
+        "^.+\\.jsx?$": "babel-jest",
+        "^.+\\.mjs$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+        "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk",
+        "<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter|@gooddollar/react-native-facetec|@ceramicnetwork|@web3-onboard|axios|uuid|esm-browser|web3|lodash|use-debounce)"
+    ],
+    "setupFiles": [
+        "<rootDir>/config/initTest.js"
+    ],
+    "globals": {
+        "TZ": "UTC",
+        "__DEV__": true
+    },
+    "testPathIgnorePatterns": [
+        "/__tests__/__util__/",
+        "/__tests__/__suites__/",
+        "/__tests__/__mocks__/",
+        "<rootDir>/src/index.js",
+        "<rootDir>/src/init.js",
+        "<rootDir>/src/serviceWorker.js",
+        "<rootDir>/src/.*/.*(android|ios|native).js",
+        "/node_modules/"
+    ],
+    "coveragePathIgnorePatterns": [
+        "/__tests__/__util__/",
+        "/__tests__/__suites__/",
+        "<rootDir>/src/index.js",
+        "<rootDir>/src/init.js",
+        "<rootDir>/src/serviceWorker.js",
+        "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk",
+        "<rootDir>/src/.*/.*(android|ios|native).js",
+        "/node_modules/"
+    ],
+    "moduleNameMapper": {
+        "\\.(css|jpg|png|svg|gql)(\\?.*)?$": "<rootDir>/empty-module.js",
+        "^react-native$": "react-native-web",
+        "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js",
+        "lottie-react-native": "react-native-web-lottie",
+        "^react-native-linear-gradient$": "react-native-web-linear-gradient"
+    },
+    "resolver": "jest-pnp-resolver",
+    "testURL": "http: //localhost"
+}

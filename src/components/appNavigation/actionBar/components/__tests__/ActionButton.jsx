@@ -32,7 +32,7 @@ describe('ActionButton', () => {
     let component
 
     // eslint-disable-next-line require-await
-    await renderer.act(async () => (component = renderer.create(<ActionButton />)))
+    await renderer.act(async () => (component = renderer.create(<ActionButton action={'learn'} />)))
     const tree = component.toJSON()
     expect(spy).toHaveBeenCalled()
     expect(tree).toMatchSnapshot()

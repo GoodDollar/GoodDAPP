@@ -386,12 +386,12 @@ export class GoodWallet {
         return true
       }
 
-      const runRes = Promise.race([run(), delay(5000, false)])
+      const runRes = Promise.race([run(), delay(10000, false)])
 
       this.pollEventsCurrentPromise = runRes
 
       if ((await runRes) === false) {
-        throw new Error('pollEvents not completed after 5 seconds')
+        throw new Error('pollEvents not completed after 10 seconds')
       }
     } catch (e) {
       log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })

@@ -463,7 +463,7 @@ export class AnalyticsClass {
         debouncedFireEvent(ERROR_LOG, eventPayload)
       }
 
-      if (!isSentryEnabled || isRunningTests) {
+      if (!isSentryEnabled || isRunningTests || !filteredNetworkErrors.includes(eMsg)) {
         return
       }
 

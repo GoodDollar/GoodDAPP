@@ -5,6 +5,9 @@ import Crypto from 'crypto'
 import dns from 'dns'
 import { TextEncoder, TextDecoder } from 'util'
 import '../src/lib/shim'
+import dotenv from 'dotenv'
+
+dotenv.config({ path: './.env.test' })
 
 dns.setDefaultResultOrder('ipv4first') //required for resolving correctly localhost
 jest.setTimeout(30000)

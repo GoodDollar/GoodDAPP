@@ -21,8 +21,6 @@ jest.mock('react-native-vector-icons/lib/NativeRNVectorIcons', () => {
   return {}
 })
 
-jest.mock('@react-native-community/netinfo/lib/commonjs/internal/nativeInterface',() => ({}))
-
 if (typeof Promise.any !== 'function') {
   any.shim()
 }

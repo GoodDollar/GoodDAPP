@@ -14,7 +14,8 @@
     ],
     "transform": {
         "^.+\\.jsx?$": "babel-jest",
-        "^.+\\.mjs$": "babel-jest"
+        "^.+\\.mjs$": "babel-jest",
+        "\\.(css|jpg|png|gql|svg)(\\?.*)?$": "<rootDir>/scripts/fileTransform.js"
     },
     "transformIgnorePatterns": [
         "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk",
@@ -49,7 +50,7 @@
         "/node_modules/"
     ],
     "moduleNameMapper": {
-        "\\.(css|jpg|png|svg|gql)(\\?.*)?$": "<rootDir>/empty-module.js",
+        "\\.(css|jpg|png|gql|svg)(\\?.*)$": "identity-obj-proxy",
         "^react-native$": "react-native-web",
         "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js",
         "lottie-react-native": "react-native-web-lottie",

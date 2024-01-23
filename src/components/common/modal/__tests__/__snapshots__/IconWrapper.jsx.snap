@@ -11,10 +11,10 @@ exports[`IconWrapper matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-ieixw r-borderWidth-1d6rzhh r-display-6koalj r-flexDirection-18u37iz r-height-37igu r-justifyContent-1777fci r-width-19554kt"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-userSelect-lrvibr"
         dir="auto"
         style={
-          Object {
+          {
             "color": "rgba(0,175,255,1.00)",
             "fontFamily": "gooddollar",
             "fontSize": "30px",

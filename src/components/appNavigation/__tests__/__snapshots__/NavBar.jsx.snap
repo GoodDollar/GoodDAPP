@@ -4,7 +4,7 @@ exports[`NavBar matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
-    Object {
+    {
       "WebkitAlignItems": "center",
       "WebkitBoxAlign": "center",
       "WebkitBoxDirection": "normal",

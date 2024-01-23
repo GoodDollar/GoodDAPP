@@ -7,7 +7,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
   <div
     className="css-view-1dbjc4n r-alignItems-1awozwy"
     style={
-      Object {
+      {
         "WebkitTransform": "scale(1)",
         "height": "140px",
         "transform": "scale(1)",
@@ -18,7 +18,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
       style={
-        Object {
+        {
           "WebkitTransform": "perspective(800px) rotateX(0deg)",
           "bottom": "0px",
           "left": "0px",
@@ -34,7 +34,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(248,175,64,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
             "borderBottomLeftRadius": "70px",
@@ -75,7 +75,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "borderBottomLeftRadius": "70px",
@@ -91,7 +91,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",
@@ -176,7 +176,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
       style={
-        Object {
+        {
           "WebkitTransform": "perspective(-800px) rotateX(-180deg)",
           "bottom": "0px",
           "left": "0px",
@@ -192,7 +192,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(0,195,174,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
             "borderBottomLeftRadius": "70px",
@@ -233,7 +233,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "borderBottomLeftRadius": "70px",
@@ -249,7 +249,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",
@@ -285,7 +285,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
                       className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                     >
-                      1
+                      0.00
                     </div>
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
@@ -322,7 +322,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
   <div
     className="css-view-1dbjc4n r-alignItems-1awozwy"
     style={
-      Object {
+      {
         "WebkitTransform": "scale(1)",
         "height": "140px",
         "transform": "scale(1)",
@@ -333,7 +333,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
       style={
-        Object {
+        {
           "WebkitTransform": "perspective(800px) rotateY(0deg)",
           "bottom": "0px",
           "left": "0px",
@@ -349,7 +349,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(248,175,64,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
             "borderBottomLeftRadius": "70px",
@@ -390,7 +390,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "borderBottomLeftRadius": "70px",
@@ -406,7 +406,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",
@@ -491,7 +491,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
       style={
-        Object {
+        {
           "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
           "bottom": "0px",
           "left": "0px",
@@ -507,7 +507,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(248,175,64,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
             "borderBottomLeftRadius": "70px",
@@ -548,7 +548,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "borderBottomLeftRadius": "70px",
@@ -564,7 +564,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",
@@ -657,7 +657,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
   <div
     className="css-view-1dbjc4n r-alignItems-1awozwy"
     style={
-      Object {
+      {
         "WebkitTransform": "scale(1)",
         "height": "140px",
         "transform": "scale(1)",
@@ -668,7 +668,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
       style={
-        Object {
+        {
           "WebkitTransform": "perspective(800px) rotateY(0deg)",
           "bottom": "0px",
           "left": "0px",
@@ -684,7 +684,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(248,175,64,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
             "borderBottomLeftRadius": "70px",
@@ -725,7 +725,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "borderBottomLeftRadius": "70px",
@@ -741,7 +741,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",
@@ -826,7 +826,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
     <div
       className="css-view-1dbjc4n r-flex-13awgt0"
       style={
-        Object {
+        {
           "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
           "bottom": "0px",
           "left": "0px",
@@ -842,7 +842,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(0,195,174,1.00)",
             "borderBottomColor": "rgba(255,255,255,1.00)",
             "borderBottomLeftRadius": "70px",
@@ -883,7 +883,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "borderBottomLeftRadius": "70px",
@@ -899,7 +899,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",

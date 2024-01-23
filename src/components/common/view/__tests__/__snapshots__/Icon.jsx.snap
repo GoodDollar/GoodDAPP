@@ -2,10 +2,10 @@
 
 exports[`Icon matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao r-userSelect-lrvibr"
   dir="auto"
   style={
-    Object {
+    {
       "color": "rgba(98,0,238,1.00)",
       "fontFamily": "gooddollar",
       "fontSize": "16px",

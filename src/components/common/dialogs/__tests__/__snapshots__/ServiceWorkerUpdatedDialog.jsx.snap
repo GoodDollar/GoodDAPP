@@ -16,7 +16,7 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-width-13qz1uu"
           style={
-            Object {
+            {
               "WebkitBoxPack": "end",
               "WebkitJustifyContent": "flex-end",
               "height": "100px",
@@ -29,7 +29,7 @@ exports[`ServiceWorkerUpdatedDialog NewReleaseDialog matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "marginBottom": "0px",
                 "width": "100%",
               }

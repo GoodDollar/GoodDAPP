@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EmailConfirmation matches snapshot 1`] = `
-Array [
+[
   <div
     className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
   >
@@ -15,7 +15,7 @@ Array [
           className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
           data-name="viewWrapper"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(0,0,0,0.00)",
             }
           }
@@ -26,7 +26,7 @@ Array [
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
               style={
-                Object {
+                {
                   "WebkitBoxPack": "space-evenly",
                   "WebkitJustifyContent": "space-evenly",
                   "justifyContent": "space-evenly",
@@ -37,7 +37,7 @@ Array [
               <div
                 className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
                 style={
-                  Object {
+                  {
                     "WebkitBoxPack": "start",
                     "WebkitJustifyContent": "flex-start",
                     "justifyContent": "flex-start",
@@ -48,7 +48,7 @@ Array [
                 <div
                   className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr"
                   style={
-                    Object {
+                    {
                       "WebkitBoxPack": "start",
                       "WebkitJustifyContent": "flex-start",
                       "justifyContent": "flex-start",
@@ -60,7 +60,7 @@ Array [
                     className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-1rt434i r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                     style={
-                      Object {
+                      {
                         "marginBottom": "0px",
                       }
                     }
@@ -70,7 +70,7 @@ Array [
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr"
                     style={
-                      Object {
+                      {
                         "WebkitBoxPack": "center",
                         "WebkitJustifyContent": "center",
                         "justifyContent": "center",
@@ -82,7 +82,7 @@ Array [
                       className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
-                        Object {
+                        {
                           "marginBottom": "0px",
                           "marginTop": "0px",
                         }
@@ -94,7 +94,7 @@ Array [
                       className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
-                        Object {
+                        {
                           "marginBottom": "0px",
                           "marginTop": "0px",
                         }
@@ -107,7 +107,7 @@ to your e-mail.
                   <div
                     className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-marginBottom-1ifxtd0 r-marginTop-1mnahxq"
                     style={
-                      Object {
+                      {
                         "WebkitBoxPack": "center",
                         "WebkitJustifyContent": "center",
                         "justifyContent": "center",
@@ -267,7 +267,7 @@ to your e-mail.
                       className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                       dir="auto"
                       style={
-                        Object {
+                        {
                           "marginTop": "12px",
                         }
                       }
@@ -279,7 +279,7 @@ to your e-mail.
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-zd98yo r-marginTop-1v1z2uz"
                   style={
-                    Object {
+                    {
                       "WebkitBoxPack": "center",
                       "WebkitJustifyContent": "center",
                       "justifyContent": "center",
@@ -310,7 +310,7 @@ to your e-mail.
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
               style={
-                Object {
+                {
                   "WebkitBoxPack": "end",
                   "WebkitJustifyContent": "flex-end",
                   "justifyContent": "flex-end",

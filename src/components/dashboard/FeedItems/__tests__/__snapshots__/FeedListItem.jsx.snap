@@ -15,7 +15,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1xfd6ze r-flex-13awgt0 r-justifyContent-1777fci r-overflow-1udh08x r-paddingLeft-1m04atk"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-tvqc6p r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-backgroundSize-2gj1kk r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
+        className="css-view-1dbjc4n r-backgroundColor-tvqc6p r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-backgroundSize-2gj1kk r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
       />
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci r-maxHeight-pm9dpa r-padding-edyy15 r-width-13qz1uu"
@@ -26,7 +26,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "height": "20px",
                 "width": "20px",
               }
@@ -38,7 +38,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -58,7 +58,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "borderBottomLeftRadius": "0px",
                 "borderBottomRightRadius": "0px",
@@ -72,7 +72,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
               style={
-                Object {
+                {
                   "borderBottomLeftRadius": "-1px",
                   "borderBottomRightRadius": "-1px",
                   "borderTopLeftRadius": "-1px",
@@ -85,7 +85,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
                 style={
-                  Object {
+                  {
                     "borderBottomLeftRadius": "-1px",
                     "borderBottomRightRadius": "-1px",
                     "borderTopLeftRadius": "-1px",
@@ -98,8 +98,8 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 <div
                   className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
                   style={
-                    Object {
-                      "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                    {
+                      "backgroundImage": "url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=")",
                     }
                   }
                   suppressHydrationWarning={true}
@@ -120,7 +120,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1wbh5a2 r-justifyContent-1wtj0ep r-paddingBottom-1inuy60"
             style={
-              Object {
+              {
                 "borderBottomColor": "rgba(250,108,119,1.00)",
               }
             }
@@ -177,7 +177,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "minWidth": "15px",
                     }
                   }
@@ -230,7 +230,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1xfd6ze r-flex-13awgt0 r-justifyContent-1777fci r-overflow-1udh08x r-paddingLeft-1m04atk"
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1u0cb7k r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-backgroundSize-2gj1kk r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
+        className="css-view-1dbjc4n r-backgroundColor-1u0cb7k r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-backgroundSize-2gj1kk r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
       />
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox r-justifyContent-1777fci r-maxHeight-pm9dpa r-padding-edyy15 r-width-13qz1uu"
@@ -241,7 +241,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "height": "20px",
                 "width": "20px",
               }
@@ -253,7 +253,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -273,7 +273,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "borderBottomLeftRadius": "0px",
                 "borderBottomRightRadius": "0px",
@@ -287,7 +287,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
               style={
-                Object {
+                {
                   "borderBottomLeftRadius": "-1px",
                   "borderBottomRightRadius": "-1px",
                   "borderTopLeftRadius": "-1px",
@@ -300,7 +300,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
                 style={
-                  Object {
+                  {
                     "borderBottomLeftRadius": "-1px",
                     "borderBottomRightRadius": "-1px",
                     "borderTopLeftRadius": "-1px",
@@ -313,8 +313,8 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 <div
                   className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
                   style={
-                    Object {
-                      "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                    {
+                      "backgroundImage": "url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=")",
                     }
                   }
                   suppressHydrationWarning={true}
@@ -335,7 +335,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-flexShrink-1wbh5a2 r-justifyContent-1wtj0ep r-paddingBottom-1inuy60"
             style={
-              Object {
+              {
                 "borderBottomColor": "rgba(0,195,174,1.00)",
               }
             }
@@ -392,7 +392,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "minWidth": "15px",
                     }
                   }

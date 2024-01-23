@@ -7,7 +7,7 @@ exports[`ModalOverlay matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n"
     style={
-      Object {
+      {
         "WebkitAlignSelf": "flex-start",
         "alignSelf": "flex-start",
         "backgroundColor": "rgba(0,0,0,0.00)",
@@ -20,7 +20,7 @@ exports[`ModalOverlay matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n"
       style={
-        Object {
+        {
           "WebkitAlignSelf": "center",
           "WebkitBoxFlex": 1,
           "WebkitFlexGrow": 1,

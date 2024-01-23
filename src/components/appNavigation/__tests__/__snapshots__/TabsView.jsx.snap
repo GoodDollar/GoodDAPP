@@ -7,7 +7,7 @@ exports[`TabsView matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
     style={
-      Object {
+      {
         "backgroundColor": "rgba(0,175,255,1.00)",
         "boxShadow": "0px 3px 4px rgba(0,0,0,0.24)",
         "zIndex": 0,
@@ -17,7 +17,7 @@ exports[`TabsView matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz"
       style={
-        Object {
+        {
           "WebkitBoxPack": "justify",
           "WebkitJustifyContent": "space-between",
           "backgroundColor": "rgba(0,175,255,1.00)",
@@ -40,7 +40,7 @@ exports[`TabsView matches snapshot 1`] = `
           onContextMenu={[Function]}
           onKeyDown={[Function]}
           style={
-            Object {
+            {
               "WebkitTransitionDuration": "0s",
               "transitionDuration": "0s",
             }
@@ -53,7 +53,7 @@ exports[`TabsView matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "marginLeft": "8px",
                 "transitionDuration": "0s",
@@ -64,16 +64,16 @@ exports[`TabsView matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(0,0,0,0.00)",
                 }
               }
             >
               <div
-                className="css-text-901oao"
+                className="css-text-901oao r-userSelect-lrvibr"
                 dir="auto"
                 style={
-                  Object {
+                  {
                     "color": "rgba(255,255,255,1.00)",
                     "fontFamily": "gooddollar",
                     "fontSize": "16px",
@@ -89,7 +89,7 @@ exports[`TabsView matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "marginLeft": "4px",
                 "marginRight": "4px",
               }
@@ -101,14 +101,14 @@ exports[`TabsView matches snapshot 1`] = `
             className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-b88u0q r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
           >
-            DEVELOP
+            CELO
           </div>
         </div>
       </div>
       <div
         className="css-view-1dbjc4n"
         style={
-          Object {
+          {
             "marginLeft": "-50px",
             "width": "100px",
           }
@@ -122,7 +122,7 @@ exports[`TabsView matches snapshot 1`] = `
         onContextMenu={[Function]}
         onKeyDown={[Function]}
         style={
-          Object {
+          {
             "WebkitAlignItems": "flex-end",
             "WebkitBoxAlign": "end",
             "WebkitTransitionDuration": "0s",
@@ -135,10 +135,10 @@ exports[`TabsView matches snapshot 1`] = `
         tabIndex="0"
       >
         <div
-          className="css-text-901oao r-color-jwli3a"
+          className="css-text-901oao r-color-jwli3a r-userSelect-lrvibr"
           dir="auto"
           style={
-            Object {
+            {
               "fontFamily": "gooddollar",
               "fontSize": "20px",
               "fontStyle": "normal",

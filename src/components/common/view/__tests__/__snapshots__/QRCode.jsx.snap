@@ -13,23 +13,23 @@ exports[`QRCode matches snapshot 1`] = `
       <canvas
         height={128}
         style={
-          Object {
+          {
             "height": 128,
             "width": 128,
           }
         }
         theme={
-          Object {
-            "animation": Object {
+          {
+            "animation": {
               "scale": 1,
             },
-            "backdrop": Object {
+            "backdrop": {
               "backgroundColor": "rgba(255, 0, 0, 0.8)",
             },
-            "borders": Object {
+            "borders": {
               "defaultBorderColor": "#c9c8c9",
             },
-            "colors": Object {
+            "colors": {
               "accent": "#03dac4",
               "backdrop": "rgba(0, 0, 0, 0.5)",
               "background": "#f6f6f6",
@@ -72,37 +72,37 @@ exports[`QRCode matches snapshot 1`] = `
               "white": "#ffffff",
             },
             "dark": false,
-            "feedItems": Object {
+            "feedItems": {
               "borderRadius": 8,
               "height": 0,
               "itemBackgroundColor": "#fff",
             },
-            "fontStyle": Object {
+            "fontStyle": {
               "color": "#555",
               "fontSize": 0,
               "textAlign": "center",
             },
-            "fonts": Object {
+            "fonts": {
               "default": "Roboto",
-              "light": Object {
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "light": {
+                "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                 "fontWeight": "300",
               },
-              "medium": Object {
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": {
+                "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                 "fontWeight": "500",
               },
-              "regular": Object {
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": {
+                "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                 "fontWeight": "400",
               },
               "slab": "Roboto Slab",
-              "thin": Object {
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "thin": {
+                "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                 "fontWeight": "100",
               },
             },
-            "modals": Object {
+            "modals": {
               "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
@@ -113,16 +113,16 @@ exports[`QRCode matches snapshot 1`] = `
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 65,
             },
-            "paddings": Object {
+            "paddings": {
               "bottomPadding": 0,
               "defaultMargin": 8,
               "mainContainerPadding": 8,
             },
             "roundness": 4,
-            "shadows": Object {
+            "shadows": {
               "shadow2": "0px 1px 2.2200000286102295px 0px rgba(0, 0, 0, 0.22)",
             },
-            "sizes": Object {
+            "sizes": {
               "borderRadius": 5,
               "default": 8,
               "defaultDouble": 16,
@@ -155,23 +155,23 @@ exports[`QRCode matches snapshot 2`] = `
       <canvas
         height={128}
         style={
-          Object {
+          {
             "height": 128,
             "width": 128,
           }
         }
         theme={
-          Object {
-            "animation": Object {
+          {
+            "animation": {
               "scale": 1,
             },
-            "backdrop": Object {
+            "backdrop": {
               "backgroundColor": "rgba(255, 0, 0, 0.8)",
             },
-            "borders": Object {
+            "borders": {
               "defaultBorderColor": "#c9c8c9",
             },
-            "colors": Object {
+            "colors": {
               "accent": "#03dac4",
               "backdrop": "rgba(0, 0, 0, 0.5)",
               "background": "#f6f6f6",
@@ -214,37 +214,37 @@ exports[`QRCode matches snapshot 2`] = `
               "white": "#ffffff",
             },
             "dark": false,
-            "feedItems": Object {
+            "feedItems": {
               "borderRadius": 8,
               "height": 0,
               "itemBackgroundColor": "#fff",
             },
-            "fontStyle": Object {
+            "fontStyle": {
               "color": "#555",
               "fontSize": 0,
               "textAlign": "center",
             },
-            "fonts": Object {
+            "fonts": {
               "default": "Roboto",
-              "light": Object {
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "light": {
+                "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                 "fontWeight": "300",
               },
-              "medium": Object {
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": {
+                "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                 "fontWeight": "500",
               },
-              "regular": Object {
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": {
+                "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                 "fontWeight": "400",
               },
               "slab": "Roboto Slab",
-              "thin": Object {
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "thin": {
+                "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                 "fontWeight": "100",
               },
             },
-            "modals": Object {
+            "modals": {
               "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
@@ -255,16 +255,16 @@ exports[`QRCode matches snapshot 2`] = `
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 65,
             },
-            "paddings": Object {
+            "paddings": {
               "bottomPadding": 0,
               "defaultMargin": 8,
               "mainContainerPadding": 8,
             },
             "roundness": 4,
-            "shadows": Object {
+            "shadows": {
               "shadow2": "0px 1px 2.2200000286102295px 0px rgba(0, 0, 0, 0.22)",
             },
-            "sizes": Object {
+            "sizes": {
               "borderRadius": 5,
               "default": 8,
               "defaultDouble": 16,

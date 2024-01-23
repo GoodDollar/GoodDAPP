@@ -10,7 +10,7 @@ exports[`AppNavigation matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-bottom-1p0dtai r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-left-1d2f490 r-overflow-1udh08x r-position-u8s1d r-right-zchlnj r-top-ipm5af"
       style={
-        Object {
+        {
           "minHeight": "480px",
         }
       }
@@ -18,7 +18,7 @@ exports[`AppNavigation matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n r-backgroundColor-1jb27wt r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
         style={
-          Object {
+          {
             "boxShadow": "0px 3px 4px rgba(0,0,0,0.24)",
             "zIndex": 0,
           }
@@ -27,7 +27,7 @@ exports[`AppNavigation matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-overflow-1udh08x"
           style={
-            Object {
+            {
               "height": "56px",
               "paddingLeft": "4px",
               "paddingRight": "4px",
@@ -43,7 +43,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -56,7 +56,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                 onContextMenu={[Function]}
                 onKeyDown={[Function]}
                 style={
-                  Object {
+                  {
                     "WebkitTransitionDuration": "0s",
                     "marginLeft": "8px",
                     "transitionDuration": "0s",
@@ -68,10 +68,10 @@ exports[`AppNavigation matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-justifyContent-1777fci"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-901oao r-userSelect-lrvibr"
                     dir="auto"
                     style={
-                      Object {
+                      {
                         "color": "rgba(255,255,255,1.00)",
                         "fontFamily": "gooddollar",
                         "fontSize": "16px",
@@ -87,7 +87,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n"
                 style={
-                  Object {
+                  {
                     "marginLeft": "4px",
                     "marginRight": "4px",
                   }
@@ -99,14 +99,14 @@ exports[`AppNavigation matches snapshot 1`] = `
                 className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-b88u0q r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                DEVELOP
+                CELO
               </div>
             </div>
           </div>
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "marginLeft": "-50px",
                 "width": "100px",
               }
@@ -120,7 +120,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "transitionDuration": "0s",
                 "width": "37px",
@@ -129,10 +129,10 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a"
+              className="css-text-901oao r-color-jwli3a r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "fontFamily": "gooddollar",
                   "fontSize": "20px",
                   "fontStyle": "normal",
@@ -153,7 +153,7 @@ exports[`AppNavigation matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-paddingLeft-1m04atk r-paddingTop-tskmnb r-position-bnwqim"
           style={
-            Object {
+            {
               "borderBottomLeftRadius": "12px",
               "borderBottomRightRadius": "12px",
               "borderTopLeftRadius": "12px",
@@ -189,7 +189,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                       data-testid="avatar-anim-styles"
                       style={
-                        Object {
+                        {
                           "height": "42px",
                           "width": "42px",
                         }
@@ -201,7 +201,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         onContextMenu={[Function]}
                         onKeyDown={[Function]}
                         style={
-                          Object {
+                          {
                             "WebkitTransitionDuration": "0s",
                             "transitionDuration": "0s",
                           }
@@ -215,7 +215,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           onContextMenu={[Function]}
                           onKeyDown={[Function]}
                           style={
-                            Object {
+                            {
                               "WebkitTransitionDuration": "0s",
                               "transitionDuration": "0s",
                             }
@@ -234,7 +234,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginTop-knv0ih"
                     style={
-                      Object {
+                      {
                         "marginBottom": "8px",
                         "opacity": 1,
                         "right": "15px",
@@ -253,7 +253,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                 <div
                   className="css-view-1dbjc4n r-alignItems-obd0qt r-backgroundColor-1niwhzg r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-17s6mgv r-padding-t60dpp r-textAlign-1ff274t"
                   style={
-                    Object {
+                    {
                       "marginRight": "5px",
                       "width": "170px",
                     }
@@ -301,7 +301,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-b7g440 r-flexDirection-eqz5dr r-justifyContent-1777fci r-width-13qz1uu"
                 style={
-                  Object {
+                  {
                     "borderBottomLeftRadius": "10px",
                     "borderBottomRightRadius": "10px",
                     "borderTopLeftRadius": "10px",
@@ -315,7 +315,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-b7g440 r-borderRadius-1f0042m r-color-vaa0vc r-display-6koalj r-flexDirection-eqz5dr r-fontFamily-6jnb14 r-fontWeight-vw2c0b r-justifyContent-1777fci r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
                     style={
-                      Object {
+                      {
                         "fontSize": "14px",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
@@ -332,7 +332,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                       onContextMenu={[Function]}
                       onKeyDown={[Function]}
                       style={
-                        Object {
+                        {
                           "WebkitTransitionDuration": "0s",
                           "transitionDuration": "0s",
                         }
@@ -348,7 +348,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                       <div
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                         style={
-                          Object {
+                          {
                             "width": "55px",
                           }
                         }
@@ -356,7 +356,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         <div
                           className="css-view-1dbjc4n"
                           style={
-                            Object {
+                            {
                               "display": "none",
                             }
                           }
@@ -377,7 +377,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     className="css-text-901oao r-alignItems-1awozwy r-color-vaa0vc r-display-6koalj r-fontFamily-vnw8o6 r-fontWeight-vw2c0b r-justifyContent-1777fci r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                     dir="auto"
                     style={
-                      Object {
+                      {
                         "fontSize": "20px",
                         "marginTop": "0px",
                         "width": "40%",
@@ -387,13 +387,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-b7g440 r-borderRadius-1f0042m r-color-vaa0vc r-display-6koalj r-flexDirection-eqz5dr r-fontFamily-6jnb14 r-fontWeight-vw2c0b r-justifyContent-1777fci r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
                     style={
-                      Object {
+                      {
                         "fontSize": "14px",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
                         "marginTop": "0px",
-                        "opacity": 0.5,
+                        "opacity": 1,
                         "width": "46%",
                       }
                     }
@@ -404,7 +404,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                       onContextMenu={[Function]}
                       onKeyDown={[Function]}
                       style={
-                        Object {
+                        {
                           "WebkitTransitionDuration": "0s",
                           "transitionDuration": "0s",
                         }
@@ -420,18 +420,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                       <div
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                         style={
-                          Object {
+                          {
                             "width": "55px",
                           }
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n"
-                          style={
-                            Object {
-                              "display": "none",
-                            }
-                          }
+                          className="css-view-1dbjc4n r-display-6koalj"
                         >
                           <ellipse46.svg />
                         </div>
@@ -453,7 +448,7 @@ exports[`AppNavigation matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-borderRadius-1f0042m r-marginHorizontal-1ybube5 r-paddingVertical-1yzf0co"
           style={
-            Object {
+            {
               "paddingBottom": "6px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -467,7 +462,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderWidth-1yadl64 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(238,240,249,1.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "5px",
@@ -499,7 +494,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                 onKeyDown={[Function]}
                 role="button"
                 style={
-                  Object {
+                  {
                     "borderBottomLeftRadius": "5px",
                     "borderBottomRightRadius": "0px",
                     "borderTopLeftRadius": "5px",
@@ -527,7 +522,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-14lw9ot r-borderWidth-1yadl64 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
               style={
-                Object {
+                {
                   "WebkitFlex": 2.5,
                   "borderBottomColor": "rgba(233,236,255,1.00)",
                   "borderBottomLeftRadius": "0px",
@@ -562,7 +557,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                 onKeyDown={[Function]}
                 role="button"
                 style={
-                  Object {
+                  {
                     "borderBottomLeftRadius": "0px",
                     "borderBottomRightRadius": "0px",
                     "borderTopLeftRadius": "0px",
@@ -590,7 +585,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-14lw9ot r-borderWidth-1yadl64 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
               style={
-                Object {
+                {
                   "borderBottomColor": "rgba(233,236,255,1.00)",
                   "borderBottomLeftRadius": "0px",
                   "borderBottomRightRadius": "5px",
@@ -622,7 +617,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                 onKeyDown={[Function]}
                 role="button"
                 style={
-                  Object {
+                  {
                     "borderBottomLeftRadius": "0px",
                     "borderBottomRightRadius": "5px",
                     "borderTopLeftRadius": "0px",
@@ -657,7 +652,7 @@ exports[`AppNavigation matches snapshot 1`] = `
           onTouchStart={[Function]}
           onWheel={[Function]}
           style={
-            Object {
+            {
               "height": "1px",
             }
           }
@@ -680,9 +675,9 @@ exports[`AppNavigation matches snapshot 1`] = `
                     <div
                       className="css-view-1dbjc4n r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
                       style={
-                        Object {
+                        {
                           "backgroundColor": "rgba(238,238,238,1.00)",
-                          "backgroundImage": "url(feedListItemPattern.svg)",
+                          "backgroundImage": "url()",
                         }
                       }
                     />
@@ -692,7 +687,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                       <div
                         className="css-view-1dbjc4n r-alignSelf-173mn98 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
                         style={
-                          Object {
+                          {
                             "WebkitAlignItems": "flex-start",
                             "WebkitBoxAlign": "start",
                             "alignItems": "flex-start",
@@ -703,7 +698,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         <div
                           className="css-view-1dbjc4n"
                           style={
-                            Object {
+                            {
                               "backgroundColor": "rgba(238,238,238,1.00)",
                               "borderBottomLeftRadius": "17px",
                               "borderBottomRightRadius": "17px",
@@ -724,7 +719,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           <div
                             className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
                             style={
-                              Object {
+                              {
                                 "WebkitAlignItems": "flex-start",
                                 "WebkitBoxAlign": "start",
                                 "alignItems": "flex-start",
@@ -735,7 +730,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                             <div
                               className="css-view-1dbjc4n"
                               style={
-                                Object {
+                                {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
                                   "width": "74px",
@@ -750,7 +745,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           <div
                             className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
                             style={
-                              Object {
+                              {
                                 "WebkitAlignItems": "flex-start",
                                 "WebkitBoxAlign": "start",
                                 "alignItems": "flex-start",
@@ -764,7 +759,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                               <div
                                 className="css-view-1dbjc4n"
                                 style={
-                                  Object {
+                                  {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "18px",
                                     "width": "120px",
@@ -778,7 +773,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                               <div
                                 className="css-view-1dbjc4n r-marginTop-14gqq1x"
                                 style={
-                                  Object {
+                                  {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
                                     "width": "74px",
@@ -793,7 +788,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                             <div
                               className="css-view-1dbjc4n"
                               style={
-                                Object {
+                                {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "borderBottomLeftRadius": "17px",
                                   "borderBottomRightRadius": "17px",
@@ -823,9 +818,9 @@ exports[`AppNavigation matches snapshot 1`] = `
                     <div
                       className="css-view-1dbjc4n r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
                       style={
-                        Object {
+                        {
                           "backgroundColor": "rgba(238,238,238,1.00)",
-                          "backgroundImage": "url(feedListItemPattern.svg)",
+                          "backgroundImage": "url()",
                         }
                       }
                     />
@@ -835,7 +830,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                       <div
                         className="css-view-1dbjc4n r-alignSelf-173mn98 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
                         style={
-                          Object {
+                          {
                             "WebkitAlignItems": "flex-start",
                             "WebkitBoxAlign": "start",
                             "alignItems": "flex-start",
@@ -846,7 +841,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         <div
                           className="css-view-1dbjc4n"
                           style={
-                            Object {
+                            {
                               "backgroundColor": "rgba(238,238,238,1.00)",
                               "borderBottomLeftRadius": "17px",
                               "borderBottomRightRadius": "17px",
@@ -867,7 +862,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           <div
                             className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
                             style={
-                              Object {
+                              {
                                 "WebkitAlignItems": "flex-start",
                                 "WebkitBoxAlign": "start",
                                 "alignItems": "flex-start",
@@ -878,7 +873,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                             <div
                               className="css-view-1dbjc4n"
                               style={
-                                Object {
+                                {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
                                   "width": "74px",
@@ -893,7 +888,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           <div
                             className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
                             style={
-                              Object {
+                              {
                                 "WebkitAlignItems": "flex-start",
                                 "WebkitBoxAlign": "start",
                                 "alignItems": "flex-start",
@@ -907,7 +902,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                               <div
                                 className="css-view-1dbjc4n"
                                 style={
-                                  Object {
+                                  {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "18px",
                                     "width": "120px",
@@ -921,7 +916,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                               <div
                                 className="css-view-1dbjc4n r-marginTop-14gqq1x"
                                 style={
-                                  Object {
+                                  {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
                                     "width": "74px",
@@ -936,7 +931,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                             <div
                               className="css-view-1dbjc4n"
                               style={
-                                Object {
+                                {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "borderBottomLeftRadius": "17px",
                                   "borderBottomRightRadius": "17px",
@@ -966,9 +961,9 @@ exports[`AppNavigation matches snapshot 1`] = `
                     <div
                       className="css-view-1dbjc4n r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-5soawk"
                       style={
-                        Object {
+                        {
                           "backgroundColor": "rgba(238,238,238,1.00)",
-                          "backgroundImage": "url(feedListItemPattern.svg)",
+                          "backgroundImage": "url()",
                         }
                       }
                     />
@@ -978,7 +973,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                       <div
                         className="css-view-1dbjc4n r-alignSelf-173mn98 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
                         style={
-                          Object {
+                          {
                             "WebkitAlignItems": "flex-start",
                             "WebkitBoxAlign": "start",
                             "alignItems": "flex-start",
@@ -989,7 +984,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         <div
                           className="css-view-1dbjc4n"
                           style={
-                            Object {
+                            {
                               "backgroundColor": "rgba(238,238,238,1.00)",
                               "borderBottomLeftRadius": "17px",
                               "borderBottomRightRadius": "17px",
@@ -1010,7 +1005,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           <div
                             className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
                             style={
-                              Object {
+                              {
                                 "WebkitAlignItems": "flex-start",
                                 "WebkitBoxAlign": "start",
                                 "alignItems": "flex-start",
@@ -1021,7 +1016,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                             <div
                               className="css-view-1dbjc4n"
                               style={
-                                Object {
+                                {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
                                   "width": "74px",
@@ -1036,7 +1031,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           <div
                             className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep"
                             style={
-                              Object {
+                              {
                                 "WebkitAlignItems": "flex-start",
                                 "WebkitBoxAlign": "start",
                                 "alignItems": "flex-start",
@@ -1050,7 +1045,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                               <div
                                 className="css-view-1dbjc4n"
                                 style={
-                                  Object {
+                                  {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "18px",
                                     "width": "120px",
@@ -1064,7 +1059,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                               <div
                                 className="css-view-1dbjc4n r-marginTop-14gqq1x"
                                 style={
-                                  Object {
+                                  {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
                                     "width": "74px",
@@ -1079,7 +1074,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                             <div
                               className="css-view-1dbjc4n"
                               style={
-                                Object {
+                                {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "borderBottomLeftRadius": "17px",
                                   "borderBottomRightRadius": "17px",
@@ -1104,7 +1099,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
                 style={
-                  Object {
+                  {
                     "borderBottomLeftRadius": "25px",
                     "borderBottomRightRadius": "25px",
                     "borderTopLeftRadius": "25px",
@@ -1122,7 +1117,7 @@ exports[`AppNavigation matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "opacity": 0,
               }
             }
@@ -1133,7 +1128,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -1154,7 +1149,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "transitionDuration": "0s",
               }
@@ -1162,10 +1157,10 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "fontFamily": "gooddollar",
                   "fontSize": "48px",
                   "fontStyle": "normal",
@@ -1181,7 +1176,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "transitionDuration": "0s",
               }
@@ -1189,10 +1184,10 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "fontFamily": "gooddollar",
                   "fontSize": "48px",
                   "fontStyle": "normal",
@@ -1208,7 +1203,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "transitionDuration": "0s",
               }
@@ -1216,10 +1211,10 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "fontFamily": "gooddollar",
                   "fontSize": "48px",
                   "fontStyle": "normal",
@@ -1235,7 +1230,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "transitionDuration": "0s",
               }
@@ -1243,10 +1238,10 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "fontFamily": "gooddollar",
                   "fontSize": "48px",
                   "fontStyle": "normal",
@@ -1262,7 +1257,7 @@ exports[`AppNavigation matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "transitionDuration": "0s",
               }
@@ -1270,10 +1265,10 @@ exports[`AppNavigation matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n"
+              className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "fontFamily": "gooddollar",
                   "fontSize": "48px",
                   "fontStyle": "normal",

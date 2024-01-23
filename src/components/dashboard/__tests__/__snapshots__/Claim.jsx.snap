@@ -11,7 +11,7 @@ exports[`Claim matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n"
       style={
-        Object {
+        {
           "backgroundColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50%",
           "borderBottomRightRadius": "50%",
@@ -42,7 +42,7 @@ More G$'s Coming Soon
         <div
           className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
           style={
-            Object {
+            {
               "borderBottomLeftRadius": "10px",
               "borderBottomRightRadius": "10px",
               "borderTopLeftRadius": "10px",
@@ -52,9 +52,9 @@ More G$'s Coming Soon
           }
         >
           <div
-            className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+            className="css-view-1dbjc4n r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(12,38,61,1.00)",
               }
             }
@@ -62,7 +62,7 @@ More G$'s Coming Soon
           <div
             className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-paddingBottom-1mi0q7o r-paddingTop-m611by"
             style={
-              Object {
+              {
                 "borderBottomRightRadius": "10px",
                 "borderTopRightRadius": "10px",
                 "paddingLeft": "12px",
@@ -87,7 +87,7 @@ More G$'s Coming Soon
         <div
           className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-position-bnwqim r-width-13qz1uu"
           style={
-            Object {
+            {
               "borderBottomLeftRadius": "10px",
               "borderBottomRightRadius": "10px",
               "borderTopLeftRadius": "10px",
@@ -98,9 +98,9 @@ More G$'s Coming Soon
           }
         >
           <div
-            className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+            className="css-view-1dbjc4n r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(12,38,61,1.00)",
               }
             }
@@ -108,7 +108,7 @@ More G$'s Coming Soon
           <div
             className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-paddingBottom-1mi0q7o r-paddingTop-m611by"
             style={
-              Object {
+              {
                 "borderBottomRightRadius": "10px",
                 "borderTopRightRadius": "10px",
                 "paddingLeft": "12px",
@@ -219,7 +219,7 @@ More G$'s Coming Soon
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy"
           style={
-            Object {
+            {
               "WebkitTransform": "scale(1)",
               "height": "140px",
               "transform": "scale(1)",
@@ -230,7 +230,7 @@ More G$'s Coming Soon
           <div
             className="css-view-1dbjc4n r-flex-13awgt0 r-zIndex-184en5c"
             style={
-              Object {
+              {
                 "WebkitTransform": "perspective(800px) rotateY(0deg)",
                 "bottom": "0px",
                 "left": "0px",
@@ -245,7 +245,7 @@ More G$'s Coming Soon
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-padding-t60dpp"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(248,175,64,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
                   "borderBottomLeftRadius": "70px",
@@ -281,7 +281,7 @@ More G$'s Coming Soon
                 onKeyDown={[Function]}
                 role="button"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "borderBottomLeftRadius": "70px",
@@ -297,7 +297,7 @@ More G$'s Coming Soon
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                   style={
-                    Object {
+                    {
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",
@@ -388,7 +388,7 @@ More G$'s Coming Soon
           <div
             className="css-view-1dbjc4n r-flex-13awgt0"
             style={
-              Object {
+              {
                 "WebkitTransform": "perspective(-800px) rotateY(-180deg)",
                 "bottom": "0px",
                 "left": "0px",
@@ -404,7 +404,7 @@ More G$'s Coming Soon
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-padding-t60dpp"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(0,195,174,1.00)",
                   "borderBottomColor": "rgba(255,255,255,1.00)",
                   "borderBottomLeftRadius": "70px",
@@ -440,7 +440,7 @@ More G$'s Coming Soon
                 onKeyDown={[Function]}
                 role="button"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "borderBottomLeftRadius": "70px",
@@ -456,7 +456,7 @@ More G$'s Coming Soon
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                   style={
-                    Object {
+                    {
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",
@@ -557,7 +557,7 @@ More G$'s Coming Soon
           className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
           dir="auto"
           style={
-            Object {
+            {
               "letterSpacing": "0.1px",
               "marginBottom": "4px",
             }
@@ -569,7 +569,7 @@ More G$'s Coming Soon
       <div
         className="css-view-1dbjc4n"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "1px",
             "borderBottomRightRadius": "1px",
@@ -589,7 +589,7 @@ More G$'s Coming Soon
             className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
             dir="auto"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(229,229,229,1.00)",
                 "borderBottomLeftRadius": "5px",
                 "borderBottomRightRadius": "5px",
@@ -608,7 +608,7 @@ claimers
           <div
             className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1h0z5md"
             style={
-              Object {
+              {
                 "WebkitAlignItems": "baseline",
                 "WebkitBoxAlign": "baseline",
                 "alignItems": "baseline",
@@ -620,7 +620,7 @@ claimers
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitFlex": 0,
                   "flex": 0,
                   "marginRight": "4px",
@@ -636,7 +636,7 @@ claimers
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitFlex": 0,
                   "flex": 0,
                   "msFlex": "0 1 0%",
@@ -653,7 +653,7 @@ claimers
             className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
             dir="auto"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(229,229,229,1.00)",
                 "borderBottomLeftRadius": "5px",
                 "borderBottomRightRadius": "5px",
@@ -672,7 +672,7 @@ Distribution
           <div
             className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1h0z5md"
             style={
-              Object {
+              {
                 "WebkitAlignItems": "baseline",
                 "WebkitBoxAlign": "baseline",
                 "alignItems": "baseline",
@@ -684,7 +684,7 @@ Distribution
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitFlex": 0,
                   "flex": 0,
                   "marginRight": "4px",
@@ -700,7 +700,7 @@ Distribution
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitFlex": 0,
                   "flex": 0,
                   "msFlex": "0 1 0%",
@@ -723,7 +723,7 @@ Distribution
             className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
             dir="auto"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(229,229,229,1.00)",
                 "borderBottomLeftRadius": "5px",
                 "borderBottomRightRadius": "5px",
@@ -742,7 +742,7 @@ staked
           <div
             className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1h0z5md"
             style={
-              Object {
+              {
                 "WebkitAlignItems": "baseline",
                 "WebkitBoxAlign": "baseline",
                 "alignItems": "baseline",
@@ -754,7 +754,7 @@ staked
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitFlex": 0,
                   "flex": 0,
                   "marginRight": "4px",
@@ -770,7 +770,7 @@ staked
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitFlex": 0,
                   "flex": 0,
                   "msFlex": "0 1 0%",
@@ -789,7 +789,7 @@ staked
             className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
             dir="auto"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(229,229,229,1.00)",
                 "borderBottomLeftRadius": "5px",
                 "borderBottomRightRadius": "5px",
@@ -808,7 +808,7 @@ Collected
           <div
             className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1h0z5md"
             style={
-              Object {
+              {
                 "WebkitAlignItems": "baseline",
                 "WebkitBoxAlign": "baseline",
                 "alignItems": "baseline",
@@ -820,7 +820,7 @@ Collected
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-tsynxw"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitFlex": 0,
                   "flex": 0,
                   "marginRight": "4px",
@@ -836,7 +836,7 @@ Collected
               className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-a023e6 r-fontWeight-b88u0q r-letterSpacing-oxtfae r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitFlex": 0,
                   "flex": 0,
                   "msFlex": "0 1 0%",

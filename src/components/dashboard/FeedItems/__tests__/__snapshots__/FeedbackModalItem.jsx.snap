@@ -17,7 +17,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-eqz5dr r-justifyContent-1h0z5md r-marginBottom-le4sbl r-paddingBottom-11rk87y r-paddingTop-fd4yh7"
     style={
-      Object {
+      {
         "borderBottomColor": "rgba(0,175,255,1.00)",
         "borderLeftColor": "rgba(0,175,255,1.00)",
         "borderRightColor": "rgba(0,175,255,1.00)",
@@ -34,7 +34,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -78,7 +78,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -94,7 +94,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -121,7 +121,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -165,7 +165,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -181,7 +181,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -208,7 +208,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -252,7 +252,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -268,7 +268,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -295,7 +295,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -339,7 +339,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -355,7 +355,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -382,7 +382,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -426,7 +426,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -442,7 +442,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -469,7 +469,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -513,7 +513,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -529,7 +529,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -560,7 +560,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -604,7 +604,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -620,7 +620,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -647,7 +647,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -691,7 +691,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -707,7 +707,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -734,7 +734,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -778,7 +778,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -794,7 +794,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -821,7 +821,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -865,7 +865,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -881,7 +881,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -908,7 +908,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "alignItems": "stretch",
@@ -952,7 +952,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50%",
@@ -968,7 +968,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -997,7 +997,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
         style={
-          Object {
+          {
             "marginRight": "auto",
           }
         }
@@ -1008,7 +1008,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
         style={
-          Object {
+          {
             "marginLeft": "auto",
           }
         }
@@ -1023,7 +1023,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       style={
-        Object {
+        {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
           "alignItems": "stretch",
@@ -1065,7 +1065,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         onKeyDown={[Function]}
         role="button"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
@@ -1081,7 +1081,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",

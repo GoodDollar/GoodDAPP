@@ -37,7 +37,7 @@ exports[`Section matches snapshot with properties 1`] = `
     <div
       className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
       style={
-        Object {
+        {
           "WebkitBoxFlex": 1,
           "WebkitFlexGrow": 1,
           "flexGrow": 1,
@@ -55,7 +55,7 @@ exports[`Section matches snapshot with properties 1`] = `
     <div
       className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
       style={
-        Object {
+        {
           "WebkitAlignItems": "flex-end",
           "WebkitBoxAlign": "end",
           "alignItems": "flex-end",

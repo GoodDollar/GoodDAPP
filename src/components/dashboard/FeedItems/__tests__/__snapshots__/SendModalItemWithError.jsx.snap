@@ -25,10 +25,10 @@ please try again.
       className="css-view-1dbjc4n r-borderColor-1bakgjs r-borderRadius-ieixw r-borderWidth-1d6rzhh r-display-6koalj r-flexDirection-18u37iz r-flexGrow-18kxxzh r-flexShrink-1q142lx r-justifyContent-1777fci r-marginTop-1wzrnnt r-padding-494qqr"
     >
       <div
-        className="css-text-901oao r-color-11zaip3 r-fontWeight-1it3c9n"
+        className="css-text-901oao r-color-11zaip3 r-fontWeight-1it3c9n r-userSelect-lrvibr"
         dir="auto"
         style={
-          Object {
+          {
             "fontFamily": "gooddollar",
             "fontSize": "24px",
             "fontStyle": "normal",
@@ -42,7 +42,7 @@ please try again.
   <div
     className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1777fci"
     style={
-      Object {
+      {
         "WebkitBoxFlex": 1,
         "WebkitFlexGrow": 1,
         "flexGrow": 1,
@@ -82,7 +82,7 @@ please try again.
           className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
-          0.04
+          0.00
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
@@ -115,7 +115,7 @@ please try again.
         className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginLeft-1n0xq6e r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
         style={
-          Object {
+          {
             "WebkitLineClamp": 2,
           }
         }
@@ -147,7 +147,7 @@ please try again.
     <div
       className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci"
       style={
-        Object {
+        {
           "backgroundColor": "rgba(0,175,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50px",
@@ -182,7 +182,7 @@ please try again.
         onKeyDown={[Function]}
         role="button"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
@@ -198,7 +198,7 @@ please try again.
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",

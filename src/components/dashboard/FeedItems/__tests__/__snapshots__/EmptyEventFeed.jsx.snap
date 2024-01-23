@@ -10,7 +10,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-alignSelf-173mn98 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
       style={
-        Object {
+        {
           "WebkitAlignItems": "flex-start",
           "WebkitBoxAlign": "start",
           "alignItems": "flex-start",
@@ -21,7 +21,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(238,238,238,1.00)",
             "borderBottomLeftRadius": "17px",
             "borderBottomRightRadius": "17px",
@@ -36,7 +36,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-13hce6t"
       style={
-        Object {
+        {
           "WebkitBoxFlex": 1,
           "WebkitFlexGrow": 1,
           "flexGrow": 1,
@@ -50,7 +50,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
           style={
-            Object {
+            {
               "WebkitAlignItems": "flex-start",
               "WebkitBoxAlign": "start",
               "alignItems": "flex-start",
@@ -61,7 +61,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(238,238,238,1.00)",
                 "height": "10px",
                 "width": "74px",
@@ -76,7 +76,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
           style={
-            Object {
+            {
               "WebkitAlignItems": "flex-start",
               "WebkitBoxAlign": "start",
               "WebkitBoxFlex": 1,
@@ -94,7 +94,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(238,238,238,1.00)",
                   "height": "18px",
                   "width": "120px",
@@ -108,7 +108,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-marginTop-14gqq1x"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(238,238,238,1.00)",
                   "height": "10px",
                   "width": "74px",
@@ -120,7 +120,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
           style={
-            Object {
+            {
               "WebkitAlignItems": "flex-end",
               "WebkitBoxAlign": "end",
               "alignItems": "flex-end",
@@ -131,7 +131,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(238,238,238,1.00)",
                 "borderBottomLeftRadius": "17px",
                 "borderBottomRightRadius": "17px",

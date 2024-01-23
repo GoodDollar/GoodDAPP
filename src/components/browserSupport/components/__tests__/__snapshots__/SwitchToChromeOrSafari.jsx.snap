@@ -13,7 +13,7 @@ exports[`SwitchToChromeOrSafari matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-marginBottom-1peese0 r-width-13qz1uu"
         style={
-          Object {
+          {
             "marginTop": "0px",
           }
         }

@@ -8,7 +8,7 @@ exports[`Reason matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
-      Object {
+      {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
       }
     }
@@ -29,7 +29,7 @@ Transaction For?
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "paddingTop": "19px",
             }
           }
@@ -43,7 +43,7 @@ Transaction For?
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -53,7 +53,7 @@ Transaction For?
               <div
                 className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
                 style={
-                  Object {
+                  {
                     "borderBottomWidth": "0px",
                     "borderLeftWidth": "0px",
                     "borderRightWidth": "0px",
@@ -71,7 +71,7 @@ Transaction For?
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "center",
                           "alignSelf": "center",
                           "msFlexItemAlign": "center",
@@ -92,7 +92,7 @@ Transaction For?
                         className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa r-width-13qz1uu"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "paddingTop": "8px",
                           }
                         }
@@ -114,7 +114,7 @@ Transaction For?
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -124,7 +124,7 @@ Transaction For?
               <div
                 className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
                 style={
-                  Object {
+                  {
                     "borderBottomWidth": "0px",
                     "borderLeftWidth": "0px",
                     "borderRightWidth": "0px",
@@ -142,7 +142,7 @@ Transaction For?
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "center",
                           "alignSelf": "center",
                           "msFlexItemAlign": "center",
@@ -163,7 +163,7 @@ Transaction For?
                         className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa r-width-13qz1uu"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "paddingTop": "8px",
                           }
                         }
@@ -186,7 +186,7 @@ Engagement
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -196,7 +196,7 @@ Engagement
               <div
                 className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
                 style={
-                  Object {
+                  {
                     "borderBottomWidth": "0px",
                     "borderLeftWidth": "0px",
                     "borderRightWidth": "0px",
@@ -214,7 +214,7 @@ Engagement
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "center",
                           "alignSelf": "center",
                           "msFlexItemAlign": "center",
@@ -235,7 +235,7 @@ Engagement
                         className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa r-width-13qz1uu"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "paddingTop": "8px",
                           }
                         }
@@ -252,7 +252,7 @@ Engagement
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "paddingTop": "8px",
             }
           }
@@ -266,7 +266,7 @@ Engagement
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -276,7 +276,7 @@ Engagement
               <div
                 className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
                 style={
-                  Object {
+                  {
                     "borderBottomWidth": "0px",
                     "borderLeftWidth": "0px",
                     "borderRightWidth": "0px",
@@ -294,7 +294,7 @@ Engagement
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "center",
                           "alignSelf": "center",
                           "msFlexItemAlign": "center",
@@ -315,7 +315,7 @@ Engagement
                         className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa r-width-13qz1uu"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "paddingTop": "8px",
                           }
                         }
@@ -338,7 +338,7 @@ Consultation
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -348,7 +348,7 @@ Consultation
               <div
                 className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
                 style={
-                  Object {
+                  {
                     "borderBottomWidth": "0px",
                     "borderLeftWidth": "0px",
                     "borderRightWidth": "0px",
@@ -366,7 +366,7 @@ Consultation
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "center",
                           "alignSelf": "center",
                           "msFlexItemAlign": "center",
@@ -387,7 +387,7 @@ Consultation
                         className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa r-width-13qz1uu"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "paddingTop": "8px",
                           }
                         }
@@ -409,7 +409,7 @@ Consultation
               onContextMenu={[Function]}
               onKeyDown={[Function]}
               style={
-                Object {
+                {
                   "WebkitTransitionDuration": "0s",
                   "transitionDuration": "0s",
                 }
@@ -419,7 +419,7 @@ Consultation
               <div
                 className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-17xuhkx r-borderRadius-1f0042m r-borderStyle-1phboty r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-46g5hj r-maxWidth-x3gwly r-minHeight-ifefl9 r-minWidth-bcqeeo r-position-bnwqim r-width-13qz1uu"
                 style={
-                  Object {
+                  {
                     "borderBottomWidth": "0px",
                     "borderLeftWidth": "0px",
                     "borderRightWidth": "0px",
@@ -437,7 +437,7 @@ Consultation
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "center",
                           "alignSelf": "center",
                           "msFlexItemAlign": "center",
@@ -458,7 +458,7 @@ Consultation
                         className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa r-width-13qz1uu"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "paddingTop": "8px",
                           }
                         }
@@ -509,7 +509,7 @@ Consultation
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(0,0,0,0.00)",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
@@ -538,7 +538,7 @@ Consultation
               onKeyDown={[Function]}
               role="button"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
@@ -554,7 +554,7 @@ Consultation
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
@@ -583,7 +583,7 @@ Consultation
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-minWidth-bcqeeo"
           style={
-            Object {
+            {
               "WebkitBoxFlex": 3,
               "WebkitFlexGrow": 3,
               "flexGrow": 3,
@@ -594,7 +594,7 @@ Consultation
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi"
             style={
-              Object {
+              {
                 "WebkitFlex": 2,
                 "backgroundColor": "rgba(23,53,102,0.40)",
                 "borderBottomLeftRadius": "50px",
@@ -627,7 +627,7 @@ Consultation
               onKeyDown={[Function]}
               role="button"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
@@ -643,7 +643,7 @@ Consultation
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",

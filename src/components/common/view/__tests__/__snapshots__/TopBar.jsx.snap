@@ -44,7 +44,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
         onContextMenu={[Function]}
         onKeyDown={[Function]}
         style={
-          Object {
+          {
             "WebkitTransitionDuration": "0s",
             "borderBottomLeftRadius": "21px",
             "borderBottomRightRadius": "21px",
@@ -60,7 +60,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
         <div
           className="css-view-1dbjc4n"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(0,0,0,0.00)",
               "height": "42px",
               "width": "42px",
@@ -91,7 +91,7 @@ exports[`TopBar matches snapshot without balance 1`] = `
         onContextMenu={[Function]}
         onKeyDown={[Function]}
         style={
-          Object {
+          {
             "WebkitTransitionDuration": "0s",
             "borderBottomLeftRadius": "21px",
             "borderBottomRightRadius": "21px",
@@ -107,7 +107,7 @@ exports[`TopBar matches snapshot without balance 1`] = `
         <div
           className="css-view-1dbjc4n"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(0,0,0,0.00)",
               "height": "42px",
               "width": "42px",

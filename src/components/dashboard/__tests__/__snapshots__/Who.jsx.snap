@@ -11,7 +11,7 @@ exports[`Who matches snapshot 1`] = `
       className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
       data-name="viewWrapper"
       style={
-        Object {
+        {
           "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
         }
       }
@@ -56,7 +56,7 @@ exports[`Who matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "transitionDuration": "0s",
               }
@@ -70,10 +70,10 @@ exports[`Who matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1uqle4r r-borderRadius-ieixw r-display-6koalj r-height-1g7fiml r-justifyContent-1777fci r-marginBottom-d0pm55 r-width-199wky7"
               >
                 <div
-                  className="css-text-901oao r-fontWeight-1it3c9n"
+                  className="css-text-901oao r-fontWeight-1it3c9n r-userSelect-lrvibr"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "color": "rgba(255,255,255,1.00)",
                       "fontFamily": "gooddollar",
                       "fontSize": "22px",
@@ -100,7 +100,7 @@ exports[`Who matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-1w2pmg r-minHeight-ifefl9"
           style={
-            Object {
+            {
               "WebkitBoxPack": "justify",
               "WebkitJustifyContent": "space-around",
               "justifyContent": "space-around",
@@ -148,7 +148,7 @@ exports[`Who matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-flexGrow-16y2uox"
             style={
-              Object {
+              {
                 "WebkitBoxPack": "start",
                 "WebkitJustifyContent": "flex-start",
                 "justifyContent": "flex-start",
@@ -159,7 +159,7 @@ exports[`Who matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginRight-61z16t"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(0,0,0,0.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "50px",
@@ -196,7 +196,7 @@ exports[`Who matches snapshot 1`] = `
                 onKeyDown={[Function]}
                 role="button"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "borderBottomLeftRadius": "50px",
@@ -212,7 +212,7 @@ exports[`Who matches snapshot 1`] = `
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                   style={
-                    Object {
+                    {
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",
@@ -241,7 +241,7 @@ exports[`Who matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
             style={
-              Object {
+              {
                 "WebkitBoxFlex": 3,
                 "WebkitFlexGrow": 3,
                 "flexGrow": 3,
@@ -252,7 +252,7 @@ exports[`Who matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginRight-61z16t"
               style={
-                Object {
+                {
                   "WebkitFlex": 2,
                   "backgroundColor": "rgba(23,53,102,0.40)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -293,7 +293,7 @@ exports[`Who matches snapshot 1`] = `
                 onKeyDown={[Function]}
                 role="button"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "borderBottomLeftRadius": "50px",
@@ -309,7 +309,7 @@ exports[`Who matches snapshot 1`] = `
                 <div
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                   style={
-                    Object {
+                    {
                       "WebkitAlignSelf": "stretch",
                       "alignSelf": "stretch",
                       "msFlexItemAlign": "stretch",

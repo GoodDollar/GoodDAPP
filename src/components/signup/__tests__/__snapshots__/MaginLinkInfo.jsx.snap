@@ -11,7 +11,7 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
       className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-nsbfu8 r-position-bnwqim r-width-13qz1uu"
       data-name="viewWrapper"
       style={
-        Object {
+        {
           "backgroundColor": "rgba(0,0,0,0.00)",
         }
       }
@@ -22,7 +22,7 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
           style={
-            Object {
+            {
               "WebkitBoxPack": "space-evenly",
               "WebkitJustifyContent": "space-evenly",
               "justifyContent": "space-evenly",
@@ -33,7 +33,7 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
             style={
-              Object {
+              {
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
                 "justifyContent": "center",
@@ -60,7 +60,7 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
             style={
-              Object {
+              {
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
                 "justifyContent": "center",
@@ -94,7 +94,7 @@ using your
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
             style={
-              Object {
+              {
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
                 "justifyContent": "center",
@@ -128,7 +128,7 @@ using your
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
           style={
-            Object {
+            {
               "WebkitBoxPack": "end",
               "WebkitJustifyContent": "flex-end",
               "justifyContent": "flex-end",
@@ -139,7 +139,7 @@ using your
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-padding-t60dpp"
             style={
-              Object {
+              {
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
@@ -180,7 +180,7 @@ using your
               onKeyDown={[Function]}
               role="button"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
@@ -196,7 +196,7 @@ using your
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",

@@ -8,7 +8,7 @@ exports[`BackupWallet matches snapshot 1`] = `
     className="css-view-1dbjc4n r-backgroundColor-1b3fm86 r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
-      Object {
+      {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
       }
     }
@@ -16,7 +16,7 @@ exports[`BackupWallet matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-17gur6a r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
       style={
-        Object {
+        {
           "WebkitBoxFlex": 5,
           "WebkitFlexGrow": 5,
           "flexGrow": 5,
@@ -405,7 +405,7 @@ exports[`BackupWallet matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
@@ -439,7 +439,7 @@ exports[`BackupWallet matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50px",
@@ -455,7 +455,7 @@ exports[`BackupWallet matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -483,7 +483,7 @@ exports[`BackupWallet matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
@@ -517,7 +517,7 @@ exports[`BackupWallet matches snapshot 1`] = `
             onKeyDown={[Function]}
             role="button"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "borderBottomLeftRadius": "50px",
@@ -533,7 +533,7 @@ exports[`BackupWallet matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "msFlexItemAlign": "stretch",
@@ -562,7 +562,7 @@ exports[`BackupWallet matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1oszu61 r-backgroundColor-1jb27wt r-borderColor-17xuhkx r-display-6koalj r-justifyContent-1777fci"
         style={
-          Object {
+          {
             "borderBottomLeftRadius": "50px",
             "borderBottomRightRadius": "50px",
             "borderBottomStyle": "solid",
@@ -596,7 +596,7 @@ exports[`BackupWallet matches snapshot 1`] = `
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "borderBottomLeftRadius": "50px",
@@ -612,7 +612,7 @@ exports[`BackupWallet matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",

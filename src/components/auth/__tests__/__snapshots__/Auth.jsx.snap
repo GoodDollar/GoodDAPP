@@ -10,7 +10,7 @@ exports[`Auth matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-bottom-1p0dtai r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-left-1d2f490 r-overflow-1udh08x r-position-u8s1d r-right-zchlnj r-top-ipm5af"
       style={
-        Object {
+        {
           "minHeight": "480px",
         }
       }
@@ -33,7 +33,7 @@ exports[`Auth matches snapshot 1`] = `
               className="css-view-1dbjc4n r-display-6koalj r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-paddingHorizontal-mk0yit r-paddingVertical-rjfia r-position-bnwqim r-width-13qz1uu"
               data-name="viewWrapper"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(255,255,255,1.00)",
                 }
               }
@@ -52,7 +52,7 @@ GoodDollar Wallet
                 <div
                   className="css-view-1dbjc4n"
                   style={
-                    Object {
+                    {
                       "width": "100%",
                     }
                   }
@@ -84,7 +84,7 @@ GoodDollar Wallet
                   className="css-view-1dbjc4n r-display-6koalj r-padding-t60dpp"
                   data-testid="firstButton"
                   style={
-                    Object {
+                    {
                       "WebkitAlignItems": "stretch",
                       "WebkitBoxAlign": "stretch",
                       "WebkitBoxPack": "center",
@@ -129,7 +129,7 @@ GoodDollar Wallet
                     onKeyDown={[Function]}
                     role="button"
                     style={
-                      Object {
+                      {
                         "WebkitAlignSelf": "stretch",
                         "alignSelf": "stretch",
                         "borderBottomLeftRadius": "50px",
@@ -145,7 +145,7 @@ GoodDollar Wallet
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "stretch",
                           "alignSelf": "stretch",
                           "msFlexItemAlign": "stretch",
@@ -174,7 +174,7 @@ GoodDollar Wallet
                   className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-padding-t60dpp"
                   data-testid="signInButton"
                   style={
-                    Object {
+                    {
                       "WebkitAlignItems": "stretch",
                       "WebkitBoxAlign": "stretch",
                       "alignItems": "stretch",
@@ -212,7 +212,7 @@ GoodDollar Wallet
                     onKeyDown={[Function]}
                     role="button"
                     style={
-                      Object {
+                      {
                         "WebkitAlignSelf": "stretch",
                         "alignSelf": "stretch",
                         "borderBottomLeftRadius": "50px",
@@ -228,7 +228,7 @@ GoodDollar Wallet
                     <div
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "stretch",
                           "alignSelf": "stretch",
                           "msFlexItemAlign": "stretch",

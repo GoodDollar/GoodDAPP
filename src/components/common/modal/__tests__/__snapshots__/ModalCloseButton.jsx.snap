@@ -10,7 +10,7 @@ exports[`ModalCloseButton matches snapshot 1`] = `
     onContextMenu={[Function]}
     onKeyDown={[Function]}
     style={
-      Object {
+      {
         "WebkitTransitionDuration": "0s",
         "transitionDuration": "0s",
       }
@@ -36,7 +36,7 @@ exports[`ModalCloseButton matches snapshot with properties 1`] = `
     onContextMenu={[Function]}
     onKeyDown={[Function]}
     style={
-      Object {
+      {
         "WebkitTransitionDuration": "0s",
         "transitionDuration": "0s",
       }

@@ -44,7 +44,7 @@ exports[`BorderedBox matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              Object {
+              {
                 "WebkitTransitionDuration": "0s",
                 "transitionDuration": "0s",
               }
@@ -52,10 +52,10 @@ exports[`BorderedBox matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-fontWeight-1it3c9n"
+              className="css-text-901oao r-fontWeight-1it3c9n r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "gooddollar",
                   "fontSize": "22px",

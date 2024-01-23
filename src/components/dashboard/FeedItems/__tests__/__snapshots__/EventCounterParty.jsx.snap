@@ -7,7 +7,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n"
     style={
-      Object {
+      {
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "horizontal",
         "WebkitFlexDirection": "row",
@@ -20,7 +20,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
       dir="auto"
       style={
-        Object {
+        {
           "minWidth": "15px",
         }
       }
@@ -46,7 +46,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n"
     style={
-      Object {
+      {
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "horizontal",
         "WebkitFlexDirection": "row",
@@ -59,7 +59,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
       dir="auto"
       style={
-        Object {
+        {
           "minWidth": "15px",
         }
       }
@@ -85,7 +85,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n"
     style={
-      Object {
+      {
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "horizontal",
         "WebkitFlexDirection": "row",
@@ -98,7 +98,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
       dir="auto"
       style={
-        Object {
+        {
           "minWidth": "15px",
         }
       }

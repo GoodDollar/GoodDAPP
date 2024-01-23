@@ -10,7 +10,7 @@ exports[`Profile matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-bottom-1p0dtai r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-left-1d2f490 r-overflow-1udh08x r-position-u8s1d r-right-zchlnj r-top-ipm5af"
       style={
-        Object {
+        {
           "minHeight": "480px",
         }
       }
@@ -18,7 +18,7 @@ exports[`Profile matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n"
         style={
-          Object {
+          {
             "WebkitAlignItems": "center",
             "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "normal",
@@ -49,7 +49,7 @@ exports[`Profile matches snapshot 1`] = `
           onContextMenu={[Function]}
           onKeyDown={[Function]}
           style={
-            Object {
+            {
               "WebkitTransitionDuration": "0s",
               "transitionDuration": "0s",
             }
@@ -59,16 +59,16 @@ exports[`Profile matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(0,0,0,0.00)",
               }
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "gooddollar",
                   "fontSize": "22px",
@@ -88,7 +88,7 @@ exports[`Profile matches snapshot 1`] = `
           onContextMenu={[Function]}
           onKeyDown={[Function]}
           style={
-            Object {
+            {
               "marginLeft": "8px",
             }
           }
@@ -99,8 +99,8 @@ exports[`Profile matches snapshot 1`] = `
             dir="auto"
             role="heading"
             style={
-              Object {
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              {
+                "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
               }
             }
             tabIndex="0"
@@ -116,7 +116,7 @@ exports[`Profile matches snapshot 1`] = `
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "borderBottomLeftRadius": "18px",
               "borderBottomRightRadius": "18px",
               "borderTopLeftRadius": "18px",
@@ -133,7 +133,7 @@ exports[`Profile matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
               style={
-                Object {
+                {
                   "height": "24px",
                   "width": "24px",
                 }
@@ -142,7 +142,7 @@ exports[`Profile matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
                 style={
-                  Object {
+                  {
                     "WebkitTransform": "rotate(0deg)",
                     "opacity": 1,
                     "transform": "rotate(0deg)",
@@ -168,7 +168,7 @@ exports[`Profile matches snapshot 1`] = `
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
             data-name="viewWrapper"
             style={
-              Object {
+              {
                 "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
               }
             }
@@ -176,7 +176,7 @@ exports[`Profile matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-height-1w2pmg r-justifyContent-1777fci r-margin-crgep1 r-position-bnwqim r-zIndex-184en5c"
               style={
-                Object {
+                {
                   "WebkitAlignItems": "flex-start",
                   "WebkitBoxAlign": "start",
                   "alignItems": "flex-start",
@@ -193,7 +193,7 @@ exports[`Profile matches snapshot 1`] = `
                   onContextMenu={[Function]}
                   onKeyDown={[Function]}
                   style={
-                    Object {
+                    {
                       "WebkitTransitionDuration": "0s",
                       "transitionDuration": "0s",
                     }
@@ -201,10 +201,10 @@ exports[`Profile matches snapshot 1`] = `
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao r-color-jwli3a"
+                    className="css-text-901oao r-color-jwli3a r-userSelect-lrvibr"
                     dir="auto"
                     style={
-                      Object {
+                      {
                         "fontFamily": "gooddollar",
                         "fontSize": "25px",
                         "fontStyle": "normal",
@@ -274,10 +274,10 @@ exports[`Profile matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
                           >
                             <div
-                              className="css-text-901oao"
+                              className="css-text-901oao r-userSelect-lrvibr"
                               dir="auto"
                               style={
-                                Object {
+                                {
                                   "color": "rgba(0,175,255,1.00)",
                                   "fontFamily": "gooddollar",
                                   "fontSize": "28px",
@@ -323,10 +323,10 @@ exports[`Profile matches snapshot 1`] = `
                             className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
                           >
                             <div
-                              className="css-text-901oao r-fontSize-adyw6z"
+                              className="css-text-901oao r-fontSize-adyw6z r-userSelect-lrvibr"
                               dir="auto"
                               style={
-                                Object {
+                                {
                                   "color": "rgba(0,175,255,1.00)",
                                   "fontFamily": "gooddollar",
                                   "fontStyle": "normal",
@@ -346,7 +346,7 @@ exports[`Profile matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-margin-crgep1 r-marginBottom-1ifxtd0 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-width-13qz1uu"
                 style={
-                  Object {
+                  {
                     "WebkitBoxPack": "end",
                     "WebkitJustifyContent": "flex-end",
                     "justifyContent": "flex-end",
@@ -371,7 +371,7 @@ exports[`Profile matches snapshot 1`] = `
                         onContextMenu={[Function]}
                         onKeyDown={[Function]}
                         style={
-                          Object {
+                          {
                             "WebkitTransitionDuration": "0s",
                             "transitionDuration": "0s",
                           }
@@ -379,10 +379,10 @@ exports[`Profile matches snapshot 1`] = `
                         tabIndex="0"
                       >
                         <div
-                          className="css-text-901oao r-color-jwli3a"
+                          className="css-text-901oao r-color-jwli3a r-userSelect-lrvibr"
                           dir="auto"
                           style={
-                            Object {
+                            {
                               "fontFamily": "gooddollar",
                               "fontSize": "24px",
                               "fontStyle": "normal",
@@ -401,7 +401,7 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-text-901oao"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "fontSize": "16px",
                             "height": "21px",
                             "textAlign": "left",
@@ -414,13 +414,13 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-text-901oao r-fontSize-1b43r93"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "color": "rgba(163,163,163,1.00)",
                             "textAlign": "left",
                           }
                         }
                       >
-                        0x5dfFc16...fc39EE35F
+                        0x711E566...76ad199FF
                       </div>
                     </div>
                     <div
@@ -435,7 +435,7 @@ exports[`Profile matches snapshot 1`] = `
                           onContextMenu={[Function]}
                           onKeyDown={[Function]}
                           style={
-                            Object {
+                            {
                               "WebkitTransitionDuration": "0s",
                               "transitionDuration": "0s",
                             }
@@ -443,10 +443,10 @@ exports[`Profile matches snapshot 1`] = `
                           tabIndex="0"
                         >
                           <div
-                            className="css-text-901oao r-color-jwli3a"
+                            className="css-text-901oao r-color-jwli3a r-userSelect-lrvibr"
                             dir="auto"
                             style={
-                              Object {
+                              {
                                 "fontFamily": "gooddollar",
                                 "fontSize": "24px",
                                 "fontStyle": "normal",
@@ -474,7 +474,7 @@ exports[`Profile matches snapshot 1`] = `
                       onContextMenu={[Function]}
                       onKeyDown={[Function]}
                       style={
-                        Object {
+                        {
                           "WebkitTransitionDuration": "0s",
                           "transitionDuration": "0s",
                         }
@@ -494,7 +494,7 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-text-901oao"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "fontSize": "16px",
                             "height": "21px",
                             "textAlign": "left",
@@ -507,13 +507,13 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-text-901oao r-fontSize-1b43r93"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "color": "rgba(163,163,163,1.00)",
                             "textAlign": "left",
                           }
                         }
                       >
-                        c26741e42...28EaE21cF
+                        391d2177e...79ce811ad
                       </div>
                     </div>
                     <div
@@ -528,7 +528,7 @@ exports[`Profile matches snapshot 1`] = `
                           onContextMenu={[Function]}
                           onKeyDown={[Function]}
                           style={
-                            Object {
+                            {
                               "WebkitTransitionDuration": "0s",
                               "transitionDuration": "0s",
                             }
@@ -536,10 +536,10 @@ exports[`Profile matches snapshot 1`] = `
                           tabIndex="0"
                         >
                           <div
-                            className="css-text-901oao r-color-jwli3a"
+                            className="css-text-901oao r-color-jwli3a r-userSelect-lrvibr"
                             dir="auto"
                             style={
-                              Object {
+                              {
                                 "fontFamily": "gooddollar",
                                 "fontSize": "24px",
                                 "fontStyle": "normal",
@@ -571,7 +571,7 @@ exports[`Profile matches snapshot 1`] = `
                     onContextMenu={[Function]}
                     onKeyDown={[Function]}
                     style={
-                      Object {
+                      {
                         "WebkitTransitionDuration": "0s",
                         "transitionDuration": "0s",
                       }

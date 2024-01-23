@@ -17,7 +17,7 @@ exports[`SignUp - signUpWrapper matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
           style={
-            Object {
+            {
               "WebkitBoxPack": "space-evenly",
               "WebkitJustifyContent": "space-evenly",
               "justifyContent": "space-evenly",
@@ -28,7 +28,7 @@ exports[`SignUp - signUpWrapper matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
           style={
-            Object {
+            {
               "WebkitBoxPack": "end",
               "WebkitJustifyContent": "flex-end",
               "justifyContent": "flex-end",
@@ -39,7 +39,7 @@ exports[`SignUp - signUpWrapper matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(23,53,102,0.40)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -76,7 +76,7 @@ exports[`SignUp - signUpWrapper matches snapshot 1`] = `
               onKeyDown={[Function]}
               role="button"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
@@ -92,7 +92,7 @@ exports[`SignUp - signUpWrapper matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",

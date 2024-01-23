@@ -7,7 +7,7 @@ exports[`FaceVerification DuplicateFoundError matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co r-width-13qz1uu"
     style={
-      Object {
+      {
         "WebkitBoxPack": "space-evenly",
         "WebkitJustifyContent": "space-evenly",
         "justifyContent": "space-evenly",
@@ -25,7 +25,7 @@ we couldn't confirm your identity...
     <div
       className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
       style={
-        Object {
+        {
           "WebkitBoxPack": "space-evenly",
           "WebkitJustifyContent": "space-evenly",
           "justifyContent": "space-evenly",
@@ -39,7 +39,7 @@ we couldn't confirm your identity...
         <div
           className="css-view-1dbjc4n"
           style={
-            Object {
+            {
               "height": "100%",
             }
           }
@@ -51,7 +51,7 @@ we couldn't confirm your identity...
         <div
           className="css-view-1dbjc4n"
           style={
-            Object {
+            {
               "height": "100%",
             }
           }
@@ -64,7 +64,7 @@ we couldn't confirm your identity...
       <div
         className="css-view-1dbjc4n"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "1px",
             "borderBottomRightRadius": "1px",
@@ -96,7 +96,7 @@ please contact our support
       <div
         className="css-view-1dbjc4n"
         style={
-          Object {
+          {
             "backgroundColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "1px",
             "borderBottomRightRadius": "1px",

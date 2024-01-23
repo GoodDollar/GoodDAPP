@@ -10,7 +10,7 @@ exports[`SideMenuItem matches snapshot 1`] = `
     onContextMenu={[Function]}
     onKeyDown={[Function]}
     style={
-      Object {
+      {
         "WebkitTransitionDuration": "0s",
         "transitionDuration": "0s",
       }
@@ -21,10 +21,10 @@ exports[`SideMenuItem matches snapshot 1`] = `
       className="css-view-1dbjc4n r-alignItems-1habvwh r-display-6koalj r-justifyContent-1777fci r-marginLeft-1jkjb r-marginRight-acz6fz r-width-q1j0wu"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-userSelect-lrvibr"
         dir="auto"
         style={
-          Object {
+          {
             "color": "rgba(0,175,255,1.00)",
             "fontFamily": "gooddollar",
             "fontSize": "23px",

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FeedModalList Horizontal rendering With empty data matches snapshot 1`] = `
-Array [
+[
   <div
     className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
   />,
@@ -31,7 +31,7 @@ Array [
               <div
                 className="css-view-1dbjc4n"
                 style={
-                  Object {
+                  {
                     "width": "0px",
                   }
                 }
@@ -50,7 +50,7 @@ Array [
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
                           "height": "0px",
@@ -61,7 +61,7 @@ Array [
                       <div
                         className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
                         style={
-                          Object {
+                          {
                             "WebkitAlignSelf": "center",
                             "alignSelf": "center",
                             "marginBottom": "0px",
@@ -78,7 +78,7 @@ Array [
                           className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
                         >
                           <div
-                            className="css-view-1dbjc4n r-backgroundColor-l26x2w r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+                            className="css-view-1dbjc4n r-backgroundColor-l26x2w r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
                           />
                           <div
                             className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
@@ -89,7 +89,7 @@ Array [
                               onContextMenu={[Function]}
                               onKeyDown={[Function]}
                               style={
-                                Object {
+                                {
                                   "WebkitTransitionDuration": "0s",
                                   "transitionDuration": "0s",
                                 }
@@ -112,7 +112,7 @@ Array [
                                   className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                                   dir="auto"
                                   style={
-                                    Object {
+                                    {
                                       "WebkitAlignSelf": "center",
                                       "alignSelf": "center",
                                       "msFlexItemAlign": "center",
@@ -152,7 +152,7 @@ Array [
                               <div
                                 className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                                 style={
-                                  Object {
+                                  {
                                     "borderBottomColor": "rgba(238,238,238,1.00)",
                                     "borderLeftColor": "rgba(238,238,238,1.00)",
                                     "borderRightColor": "rgba(238,238,238,1.00)",
@@ -167,7 +167,7 @@ Array [
                                   onContextMenu={[Function]}
                                   onKeyDown={[Function]}
                                   style={
-                                    Object {
+                                    {
                                       "WebkitTransitionDuration": "0s",
                                       "borderBottomLeftRadius": "17px",
                                       "borderBottomRightRadius": "17px",
@@ -183,7 +183,7 @@ Array [
                                   <div
                                     className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
                                     style={
-                                      Object {
+                                      {
                                         "height": "34px",
                                         "width": "34px",
                                       }
@@ -195,16 +195,16 @@ Array [
                                 <div
                                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1r8g8re r-justifyContent-1777fci r-marginLeft-1jj8364 r-width-1acpoxo"
                                   style={
-                                    Object {
+                                    {
                                       "marginRight": "15px",
                                     }
                                   }
                                 >
                                   <div
-                                    className="css-text-901oao r-color-1281ybr r-fontWeight-1it3c9n r-marginRight-1knfw1x"
+                                    className="css-text-901oao r-color-1281ybr r-fontWeight-1it3c9n r-marginRight-1knfw1x r-userSelect-lrvibr"
                                     dir="auto"
                                     style={
-                                      Object {
+                                      {
                                         "fontFamily": "gooddollar",
                                         "fontSize": "34px",
                                         "fontStyle": "normal",
@@ -218,7 +218,7 @@ Array [
                               <div
                                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                                 style={
-                                  Object {
+                                  {
                                     "borderBottomWidth": "0px",
                                     "borderTopWidth": "0px",
                                   }
@@ -231,7 +231,7 @@ Array [
                                   onContextMenu={[Function]}
                                   onKeyDown={[Function]}
                                   style={
-                                    Object {
+                                    {
                                       "WebkitTransitionDuration": "0s",
                                       "borderBottomLeftRadius": "17px",
                                       "borderBottomRightRadius": "17px",
@@ -247,7 +247,7 @@ Array [
                                   <div
                                     className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
                                     style={
-                                      Object {
+                                      {
                                         "height": "34px",
                                         "width": "34px",
                                       }
@@ -273,7 +273,7 @@ Array [
                                 <div
                                   className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
                                   style={
-                                    Object {
+                                    {
                                       "WebkitAlignItems": "stretch",
                                       "WebkitBoxAlign": "stretch",
                                       "alignItems": "stretch",
@@ -314,7 +314,7 @@ Array [
                                     onKeyDown={[Function]}
                                     role="button"
                                     style={
-                                      Object {
+                                      {
                                         "WebkitAlignSelf": "stretch",
                                         "alignSelf": "stretch",
                                         "borderBottomLeftRadius": "50px",
@@ -330,7 +330,7 @@ Array [
                                     <div
                                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                                       style={
-                                        Object {
+                                        {
                                           "WebkitAlignSelf": "stretch",
                                           "alignSelf": "stretch",
                                           "msFlexItemAlign": "stretch",
@@ -374,7 +374,7 @@ Array [
 `;
 
 exports[`FeedModalList Horizontal rendering With feed data matches snapshot 1`] = `
-Array [
+[
   <div
     className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
   />,
@@ -404,7 +404,7 @@ Array [
               <div
                 className="css-view-1dbjc4n"
                 style={
-                  Object {
+                  {
                     "width": "0px",
                   }
                 }
@@ -423,7 +423,7 @@ Array [
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
                           "height": "0px",
@@ -434,7 +434,7 @@ Array [
                       <div
                         className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
                         style={
-                          Object {
+                          {
                             "marginBottom": "0px",
                             "marginTop": "0px",
                             "maxWidth": "475px",
@@ -447,9 +447,9 @@ Array [
                           className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
                         >
                           <div
-                            className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-1ifxtd0 r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+                            className="css-view-1dbjc4n r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-1ifxtd0 r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
                             style={
-                              Object {
+                              {
                                 "backgroundColor": "rgba(0,195,174,1.00)",
                               }
                             }
@@ -463,7 +463,7 @@ Array [
                               onContextMenu={[Function]}
                               onKeyDown={[Function]}
                               style={
-                                Object {
+                                {
                                   "WebkitTransitionDuration": "0s",
                                   "transitionDuration": "0s",
                                 }
@@ -485,7 +485,7 @@ Array [
                                 <div
                                   className="css-view-1dbjc4n"
                                   style={
-                                    Object {
+                                    {
                                       "height": "0px",
                                     }
                                   }
@@ -503,7 +503,7 @@ Array [
                                     onContextMenu={[Function]}
                                     onKeyDown={[Function]}
                                     style={
-                                      Object {
+                                      {
                                         "WebkitTransitionDuration": "0s",
                                         "transitionDuration": "0s",
                                       }
@@ -558,7 +558,7 @@ Array [
                               <div
                                 className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                                 style={
-                                  Object {
+                                  {
                                     "borderBottomColor": "rgba(0,195,174,1.00)",
                                     "borderLeftColor": "rgba(0,195,174,1.00)",
                                     "borderRightColor": "rgba(0,195,174,1.00)",
@@ -573,7 +573,7 @@ Array [
                                   onContextMenu={[Function]}
                                   onKeyDown={[Function]}
                                   style={
-                                    Object {
+                                    {
                                       "WebkitTransitionDuration": "0s",
                                       "borderBottomLeftRadius": "17px",
                                       "borderBottomRightRadius": "17px",
@@ -589,7 +589,7 @@ Array [
                                   <div
                                     className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                                     style={
-                                      Object {
+                                      {
                                         "borderBottomLeftRadius": "18px",
                                         "borderBottomRightRadius": "18px",
                                         "borderTopLeftRadius": "18px",
@@ -600,7 +600,7 @@ Array [
                                     <div
                                       className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-height-1r8g8re r-overflow-1udh08x r-width-1acpoxo r-zIndex-417010"
                                       style={
-                                        Object {
+                                        {
                                           "borderBottomLeftRadius": "18px",
                                           "borderBottomRightRadius": "18px",
                                           "borderTopLeftRadius": "18px",
@@ -611,8 +611,8 @@ Array [
                                       <div
                                         className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
                                         style={
-                                          Object {
-                                            "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                                          {
+                                            "backgroundImage": "url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=")",
                                           }
                                         }
                                         suppressHydrationWarning={true}
@@ -636,7 +636,7 @@ Array [
                                       className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                                       dir="auto"
                                       style={
-                                        Object {
+                                        {
                                           "minWidth": "15px",
                                         }
                                       }
@@ -656,7 +656,7 @@ Array [
                                 <div
                                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1r8g8re r-justifyContent-1777fci r-marginLeft-1jj8364 r-width-1acpoxo"
                                   style={
-                                    Object {
+                                    {
                                       "marginRight": "15px",
                                     }
                                   }
@@ -669,7 +669,7 @@ Array [
                               <div
                                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                                 style={
-                                  Object {
+                                  {
                                     "borderBottomWidth": "0px",
                                     "borderTopWidth": "0px",
                                   }
@@ -682,7 +682,7 @@ Array [
                                   onContextMenu={[Function]}
                                   onKeyDown={[Function]}
                                   style={
-                                    Object {
+                                    {
                                       "WebkitTransitionDuration": "0s",
                                       "borderBottomLeftRadius": "17px",
                                       "borderBottomRightRadius": "17px",
@@ -698,7 +698,7 @@ Array [
                                   <div
                                     className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
                                     style={
-                                      Object {
+                                      {
                                         "height": "34px",
                                         "width": "34px",
                                       }
@@ -717,7 +717,7 @@ Array [
                                       className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                                       dir="auto"
                                       style={
-                                        Object {
+                                        {
                                           "minWidth": "15px",
                                         }
                                       }
@@ -770,7 +770,7 @@ Array [
                                 <div
                                   className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
                                   style={
-                                    Object {
+                                    {
                                       "backgroundColor": "rgba(0,175,255,1.00)",
                                       "borderBottomColor": "rgba(0,175,255,1.00)",
                                       "borderBottomLeftRadius": "50px",
@@ -807,7 +807,7 @@ Array [
                                     onKeyDown={[Function]}
                                     role="button"
                                     style={
-                                      Object {
+                                      {
                                         "WebkitAlignSelf": "stretch",
                                         "alignSelf": "stretch",
                                         "borderBottomLeftRadius": "50px",
@@ -823,7 +823,7 @@ Array [
                                     <div
                                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                                       style={
-                                        Object {
+                                        {
                                           "WebkitAlignSelf": "stretch",
                                           "alignSelf": "stretch",
                                           "msFlexItemAlign": "stretch",
@@ -871,7 +871,7 @@ Array [
               <div
                 className="css-view-1dbjc4n"
                 style={
-                  Object {
+                  {
                     "width": "0px",
                   }
                 }
@@ -890,7 +890,7 @@ Array [
                     <div
                       className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-width-13qz1uu"
                       style={
-                        Object {
+                        {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
                           "height": "0px",
@@ -901,7 +901,7 @@ Array [
                       <div
                         className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
                         style={
-                          Object {
+                          {
                             "marginBottom": "0px",
                             "marginTop": "0px",
                             "maxWidth": "475px",
@@ -914,9 +914,9 @@ Array [
                           className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-flexGrow-16y2uox r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
                         >
                           <div
-                            className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+                            className="css-view-1dbjc4n r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
                             style={
-                              Object {
+                              {
                                 "backgroundColor": "rgba(250,108,119,1.00)",
                               }
                             }
@@ -930,7 +930,7 @@ Array [
                               onContextMenu={[Function]}
                               onKeyDown={[Function]}
                               style={
-                                Object {
+                                {
                                   "WebkitTransitionDuration": "0s",
                                   "transitionDuration": "0s",
                                 }
@@ -951,7 +951,7 @@ Array [
                               >
                                 <send.svg
                                   style={
-                                    Object {
+                                    {
                                       "height": 0,
                                       "width": 0,
                                     }
@@ -970,7 +970,7 @@ Array [
                                     onContextMenu={[Function]}
                                     onKeyDown={[Function]}
                                     style={
-                                      Object {
+                                      {
                                         "WebkitTransitionDuration": "0s",
                                         "transitionDuration": "0s",
                                       }
@@ -1025,7 +1025,7 @@ Array [
                               <div
                                 className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomWidth-wgabs5 r-borderTopWidth-1jxfwug r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                                 style={
-                                  Object {
+                                  {
                                     "borderBottomColor": "rgba(250,108,119,1.00)",
                                     "borderLeftColor": "rgba(250,108,119,1.00)",
                                     "borderRightColor": "rgba(250,108,119,1.00)",
@@ -1040,7 +1040,7 @@ Array [
                                   onContextMenu={[Function]}
                                   onKeyDown={[Function]}
                                   style={
-                                    Object {
+                                    {
                                       "WebkitTransitionDuration": "0s",
                                       "borderBottomLeftRadius": "17px",
                                       "borderBottomRightRadius": "17px",
@@ -1056,7 +1056,7 @@ Array [
                                   <div
                                     className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-height-1r8g8re r-width-1acpoxo"
                                     style={
-                                      Object {
+                                      {
                                         "borderBottomLeftRadius": "18px",
                                         "borderBottomRightRadius": "18px",
                                         "borderTopLeftRadius": "18px",
@@ -1067,7 +1067,7 @@ Array [
                                     <div
                                       className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-height-1r8g8re r-overflow-1udh08x r-width-1acpoxo r-zIndex-417010"
                                       style={
-                                        Object {
+                                        {
                                           "borderBottomLeftRadius": "18px",
                                           "borderBottomRightRadius": "18px",
                                           "borderTopLeftRadius": "18px",
@@ -1078,8 +1078,8 @@ Array [
                                       <div
                                         className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
                                         style={
-                                          Object {
-                                            "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                                          {
+                                            "backgroundImage": "url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=")",
                                           }
                                         }
                                         suppressHydrationWarning={true}
@@ -1103,7 +1103,7 @@ Array [
                                       className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                                       dir="auto"
                                       style={
-                                        Object {
+                                        {
                                           "minWidth": "15px",
                                         }
                                       }
@@ -1123,7 +1123,7 @@ Array [
                                 <div
                                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1r8g8re r-justifyContent-1777fci r-marginLeft-1jj8364 r-width-1acpoxo"
                                   style={
-                                    Object {
+                                    {
                                       "marginRight": "15px",
                                     }
                                   }
@@ -1136,7 +1136,7 @@ Array [
                               <div
                                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1h0z5md r-paddingBottom-i03k3n r-paddingTop-5t7p9m"
                                 style={
-                                  Object {
+                                  {
                                     "borderBottomWidth": "0px",
                                     "borderTopWidth": "0px",
                                   }
@@ -1149,7 +1149,7 @@ Array [
                                   onContextMenu={[Function]}
                                   onKeyDown={[Function]}
                                   style={
-                                    Object {
+                                    {
                                       "WebkitTransitionDuration": "0s",
                                       "borderBottomLeftRadius": "17px",
                                       "borderBottomRightRadius": "17px",
@@ -1165,7 +1165,7 @@ Array [
                                   <div
                                     className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
                                     style={
-                                      Object {
+                                      {
                                         "height": "34px",
                                         "width": "34px",
                                       }
@@ -1184,7 +1184,7 @@ Array [
                                       className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
                                       dir="auto"
                                       style={
-                                        Object {
+                                        {
                                           "minWidth": "15px",
                                         }
                                       }
@@ -1237,7 +1237,7 @@ Array [
                                 <div
                                   className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-padding-t60dpp"
                                   style={
-                                    Object {
+                                    {
                                       "backgroundColor": "rgba(0,175,255,1.00)",
                                       "borderBottomColor": "rgba(0,175,255,1.00)",
                                       "borderBottomLeftRadius": "50px",
@@ -1274,7 +1274,7 @@ Array [
                                     onKeyDown={[Function]}
                                     role="button"
                                     style={
-                                      Object {
+                                      {
                                         "WebkitAlignSelf": "stretch",
                                         "alignSelf": "stretch",
                                         "borderBottomLeftRadius": "50px",
@@ -1290,7 +1290,7 @@ Array [
                                     <div
                                       className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                                       style={
-                                        Object {
+                                        {
                                           "WebkitAlignSelf": "stretch",
                                           "alignSelf": "stretch",
                                           "msFlexItemAlign": "stretch",

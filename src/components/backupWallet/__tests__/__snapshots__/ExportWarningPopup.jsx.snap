@@ -13,7 +13,7 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-marginBottom-1peese0 r-width-13qz1uu"
         style={
-          Object {
+          {
             "marginTop": "0px",
           }
         }
@@ -22,10 +22,10 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
           className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-transform-1aeo46e"
         >
           <div
-            className="css-text-901oao r-color-1q5uqvh r-fontWeight-1it3c9n"
+            className="css-text-901oao r-color-1q5uqvh r-fontWeight-1it3c9n r-userSelect-lrvibr"
             dir="auto"
             style={
-              Object {
+              {
                 "fontFamily": "gooddollar",
                 "fontSize": "100px",
                 "fontStyle": "normal",
@@ -58,7 +58,7 @@ network address for G$ tokens only.
       <div
         className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
         style={
-          Object {
+          {
             "WebkitAlignItems": "stretch",
             "WebkitBoxAlign": "stretch",
             "alignItems": "stretch",
@@ -101,7 +101,7 @@ network address for G$ tokens only.
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "borderBottomLeftRadius": "50px",
@@ -117,7 +117,7 @@ network address for G$ tokens only.
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",

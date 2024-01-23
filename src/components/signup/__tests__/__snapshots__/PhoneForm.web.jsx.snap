@@ -18,7 +18,7 @@ exports[`PhoneForm matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
           style={
-            Object {
+            {
               "WebkitBoxPack": "space-evenly",
               "WebkitJustifyContent": "space-evenly",
               "justifyContent": "space-evenly",
@@ -29,7 +29,7 @@ exports[`PhoneForm matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flexGrow-16y2uox r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
             style={
-              Object {
+              {
                 "WebkitBoxPack": "start",
                 "WebkitJustifyContent": "flex-start",
                 "justifyContent": "flex-start",
@@ -40,7 +40,7 @@ exports[`PhoneForm matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-1w2pmg r-minHeight-ifefl9"
               style={
-                Object {
+                {
                   "WebkitBoxPack": "start",
                   "WebkitJustifyContent": "flex-start",
                   "justifyContent": "flex-start",
@@ -1646,7 +1646,7 @@ so we could verify you
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
           style={
-            Object {
+            {
               "WebkitBoxPack": "end",
               "WebkitJustifyContent": "flex-end",
               "justifyContent": "flex-end",
@@ -1657,7 +1657,7 @@ so we could verify you
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-padding-t60dpp"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(23,53,102,0.40)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -1694,7 +1694,7 @@ so we could verify you
               onKeyDown={[Function]}
               role="button"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
@@ -1710,7 +1710,7 @@ so we could verify you
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
@@ -1730,7 +1730,7 @@ so we could verify you
                       <div
                         className="css-view-1dbjc4n"
                         style={
-                          Object {
+                          {
                             "height": "23px",
                             "opacity": 1,
                             "width": "23px",
@@ -1740,7 +1740,7 @@ so we could verify you
                         <div
                           className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
                           style={
-                            Object {
+                            {
                               "bottom": "0px",
                               "left": "0px",
                               "position": "absolute",
@@ -1752,7 +1752,7 @@ so we could verify you
                           <div
                             className="css-view-1dbjc4n"
                             style={
-                              Object {
+                              {
                                 "WebkitTransform": "rotate(45deg)",
                                 "height": "23px",
                                 "transform": "rotate(45deg)",
@@ -1763,7 +1763,7 @@ so we could verify you
                             <div
                               className="css-view-1dbjc4n r-overflow-1udh08x"
                               style={
-                                Object {
+                                {
                                   "height": "11.5px",
                                   "width": "23px",
                                 }
@@ -1772,7 +1772,7 @@ so we could verify you
                               <div
                                 className="css-view-1dbjc4n"
                                 style={
-                                  Object {
+                                  {
                                     "WebkitTransform": "translateY(0px) rotate(-165deg)",
                                     "height": "23px",
                                     "transform": "translateY(0px) rotate(-165deg)",
@@ -1783,7 +1783,7 @@ so we could verify you
                                 <div
                                   className="css-view-1dbjc4n r-overflow-1udh08x"
                                   style={
-                                    Object {
+                                    {
                                       "height": "11.5px",
                                       "width": "23px",
                                     }
@@ -1792,7 +1792,7 @@ so we could verify you
                                   <div
                                     className="css-view-1dbjc4n"
                                     style={
-                                      Object {
+                                      {
                                         "borderBottomColor": "rgba(255,255,255,1.00)",
                                         "borderBottomLeftRadius": "11.5px",
                                         "borderBottomRightRadius": "11.5px",
@@ -1818,7 +1818,7 @@ so we could verify you
                         <div
                           className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
                           style={
-                            Object {
+                            {
                               "bottom": "0px",
                               "left": "0px",
                               "position": "absolute",
@@ -1830,7 +1830,7 @@ so we could verify you
                           <div
                             className="css-view-1dbjc4n"
                             style={
-                              Object {
+                              {
                                 "WebkitTransform": "rotate(45deg)",
                                 "height": "23px",
                                 "transform": "rotate(45deg)",
@@ -1841,7 +1841,7 @@ so we could verify you
                             <div
                               className="css-view-1dbjc4n r-overflow-1udh08x"
                               style={
-                                Object {
+                                {
                                   "height": "11.5px",
                                   "top": "11.5px",
                                   "width": "23px",
@@ -1851,7 +1851,7 @@ so we could verify you
                               <div
                                 className="css-view-1dbjc4n"
                                 style={
-                                  Object {
+                                  {
                                     "WebkitTransform": "translateY(-11.5px) rotate(345deg)",
                                     "height": "23px",
                                     "transform": "translateY(-11.5px) rotate(345deg)",
@@ -1862,7 +1862,7 @@ so we could verify you
                                 <div
                                   className="css-view-1dbjc4n r-overflow-1udh08x"
                                   style={
-                                    Object {
+                                    {
                                       "height": "11.5px",
                                       "width": "23px",
                                     }
@@ -1871,7 +1871,7 @@ so we could verify you
                                   <div
                                     className="css-view-1dbjc4n"
                                     style={
-                                      Object {
+                                      {
                                         "borderBottomColor": "rgba(255,255,255,1.00)",
                                         "borderBottomLeftRadius": "11.5px",
                                         "borderBottomRightRadius": "11.5px",

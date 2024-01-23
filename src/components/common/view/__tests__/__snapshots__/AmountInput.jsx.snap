@@ -223,10 +223,10 @@ exports[`AmountInput matches snapshot 1`] = `
             className="css-view-1dbjc4n r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-cursor-1loqt21 r-height-1g7fiml r-justifyContent-1777fci r-width-1aockid"
           >
             <div
-              className="css-text-901oao r-color-cddv6f r-textAlign-q4m81j"
+              className="css-text-901oao r-color-cddv6f r-textAlign-q4m81j r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "fontFamily": "gooddollar",
                   "fontSize": "18px",
                   "fontStyle": "normal",

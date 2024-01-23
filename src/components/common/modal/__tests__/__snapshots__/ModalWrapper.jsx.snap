@@ -18,7 +18,7 @@ exports[`ModalWrapper matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n r-width-13qz1uu"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
@@ -30,7 +30,7 @@ exports[`ModalWrapper matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "center",
               "alignSelf": "center",
               "marginBottom": "0px",
@@ -47,9 +47,9 @@ exports[`ModalWrapper matches snapshot 1`] = `
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+              className="css-view-1dbjc4n r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(238,238,238,1.00)",
                 }
               }
@@ -89,7 +89,7 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
       <div
         className="css-view-1dbjc4n r-width-13qz1uu"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
@@ -101,7 +101,7 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
         <div
           className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1q142lx r-width-13qz1uu"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "center",
               "alignSelf": "center",
               "marginBottom": "0px",
@@ -118,9 +118,9 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
             className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-maxHeight-1qalap5 r-minHeight-1pexjug r-position-bnwqim r-width-13qz1uu"
           >
             <div
-              className="css-view-1dbjc4n r-backgroundImage-o7i658 r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-1ifxtd0 r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+              className="css-view-1dbjc4n r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-marginBottom-1ifxtd0 r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
               style={
-                Object {
+                {
                   "backgroundColor": "rgba(238,238,238,1.00)",
                 }
               }

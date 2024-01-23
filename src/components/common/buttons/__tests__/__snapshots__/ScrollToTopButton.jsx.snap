@@ -10,7 +10,7 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
     <div
       className="css-view-1dbjc4n"
       style={
-        Object {
+        {
           "opacity": 1,
         }
       }
@@ -21,7 +21,7 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
         onContextMenu={[Function]}
         onKeyDown={[Function]}
         style={
-          Object {
+          {
             "WebkitTransitionDuration": "0s",
             "transitionDuration": "0s",
           }

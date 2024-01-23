@@ -7,7 +7,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
     style={
-      Object {
+      {
         "WebkitBoxFlex": 1,
         "WebkitFlexGrow": 1,
         "flexGrow": 1,
@@ -57,10 +57,10 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
               >
                 <div
-                  className="css-text-901oao"
+                  className="css-text-901oao r-userSelect-lrvibr"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
                       "fontSize": "28px",
@@ -106,10 +106,10 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-1jy2w8o r-width-1yvhtrz r-zIndex-184en5c"
               >
                 <div
-                  className="css-text-901oao"
+                  className="css-text-901oao r-userSelect-lrvibr"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
                       "fontSize": "20px",
@@ -157,7 +157,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-position-bnwqim"
               style={
-                Object {
+                {
                   "marginBottom": "4px",
                   "marginTop": "4px",
                   "paddingBottom": "6px",
@@ -1728,7 +1728,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   onKeyDown={[Function]}
                   placeholder="Enter phone number"
                   textStyle={
-                    Object {
+                    {
                       "color": undefined,
                     }
                   }
@@ -1740,10 +1740,10 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1777fci r-position-u8s1d r-right-1gg5ah6 r-width-1yvhtrz r-zIndex-184en5c"
               >
                 <div
-                  className="css-text-901oao r-paddingTop-wk8lta"
+                  className="css-text-901oao r-paddingTop-wk8lta r-userSelect-lrvibr"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
                       "fontSize": "28px",
@@ -1789,10 +1789,10 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-1yvhtrz r-zIndex-184en5c"
               >
                 <div
-                  className="css-text-901oao"
+                  className="css-text-901oao r-userSelect-lrvibr"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
                       "fontSize": "20px",
@@ -1840,7 +1840,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1awozwy r-borderRadius-1fuqb1j r-borderWidth-rs99b7 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginVertical-1p6iasa r-position-bnwqim"
               style={
-                Object {
+                {
                   "borderBottomColor": "rgba(250,108,119,1.00)",
                   "borderLeftColor": "rgba(250,108,119,1.00)",
                   "borderRightColor": "rgba(250,108,119,1.00)",
@@ -3414,7 +3414,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   onKeyDown={[Function]}
                   placeholder="Enter phone number"
                   textStyle={
-                    Object {
+                    {
                       "color": "#FA6C77",
                     }
                   }
@@ -3426,10 +3426,10 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1777fci r-position-u8s1d r-right-1gg5ah6 r-width-1yvhtrz r-zIndex-184en5c"
               >
                 <div
-                  className="css-text-901oao r-paddingTop-wk8lta"
+                  className="css-text-901oao r-paddingTop-wk8lta r-userSelect-lrvibr"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "color": "rgba(250,108,119,1.00)",
                       "fontFamily": "gooddollar",
                       "fontSize": "28px",
@@ -3446,11 +3446,11 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               className="css-text-901oao r-fontSize-1b43r93 r-fontWeight-16dba41 r-paddingTop-wk8lta"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitTransform": "translateY(0px)",
                   "color": "rgba(208,55,55,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                   "height": "18px",
                   "marginBottom": "8px",
                   "marginTop": "8px",
@@ -3499,10 +3499,10 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-1yvhtrz r-zIndex-184en5c"
               >
                 <div
-                  className="css-text-901oao r-color-11zaip3"
+                  className="css-text-901oao r-color-11zaip3 r-userSelect-lrvibr"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "fontFamily": "gooddollar",
                       "fontSize": "20px",
                       "fontStyle": "normal",
@@ -3518,11 +3518,11 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               className="css-text-901oao r-fontSize-1b43r93 r-fontWeight-16dba41 r-paddingTop-wk8lta"
               dir="auto"
               style={
-                Object {
+                {
                   "WebkitTransform": "translateY(0px)",
                   "color": "rgba(208,55,55,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif",
                   "height": "18px",
                   "marginBottom": "8px",
                   "marginTop": "12px",

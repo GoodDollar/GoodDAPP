@@ -17,7 +17,7 @@ exports[`EmailForm matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox"
           style={
-            Object {
+            {
               "WebkitBoxPack": "space-evenly",
               "WebkitJustifyContent": "space-evenly",
               "justifyContent": "space-evenly",
@@ -28,7 +28,7 @@ exports[`EmailForm matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flexGrow-16y2uox r-marginVertical-1r5su4o r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
             style={
-              Object {
+              {
                 "WebkitBoxPack": "start",
                 "WebkitJustifyContent": "flex-start",
                 "justifyContent": "flex-start",
@@ -39,7 +39,7 @@ exports[`EmailForm matches snapshot 1`] = `
             <div
               className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-height-1w2pmg r-minHeight-ifefl9 r-paddingBottom-1l7z4oj"
               style={
-                Object {
+                {
                   "WebkitBoxPack": "start",
                   "WebkitJustifyContent": "flex-start",
                   "justifyContent": "flex-start",
@@ -51,7 +51,7 @@ exports[`EmailForm matches snapshot 1`] = `
                 className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-letterSpacing-1rt434i r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                 dir="auto"
                 style={
-                  Object {
+                  {
                     "marginBottom": "0px",
                   }
                 }
@@ -61,7 +61,7 @@ exports[`EmailForm matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr"
                 style={
-                  Object {
+                  {
                     "WebkitBoxPack": "center",
                     "WebkitJustifyContent": "center",
                     "justifyContent": "center",
@@ -73,7 +73,7 @@ exports[`EmailForm matches snapshot 1`] = `
                   className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-16dba41 r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "marginBottom": "0px",
                       "marginTop": "0px",
                     }
@@ -85,7 +85,7 @@ exports[`EmailForm matches snapshot 1`] = `
                   className="css-text-901oao r-color-x96u7p r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                   style={
-                    Object {
+                    {
                       "marginBottom": "0px",
                       "marginTop": "0px",
                     }
@@ -97,7 +97,7 @@ exports[`EmailForm matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-marginVertical-r0h9e2"
                 style={
-                  Object {
+                  {
                     "WebkitBoxPack": "center",
                     "WebkitJustifyContent": "center",
                     "justifyContent": "center",
@@ -135,7 +135,7 @@ exports[`EmailForm matches snapshot 1`] = `
                       onContextMenu={[Function]}
                       onKeyDown={[Function]}
                       style={
-                        Object {
+                        {
                           "WebkitTransitionDuration": "0s",
                           "transitionDuration": "0s",
                         }
@@ -143,10 +143,10 @@ exports[`EmailForm matches snapshot 1`] = `
                       tabIndex="0"
                     >
                       <div
-                        className="css-text-901oao r-color-13sdq65 r-fontWeight-1it3c9n"
+                        className="css-text-901oao r-color-13sdq65 r-fontWeight-1it3c9n r-userSelect-lrvibr"
                         dir="auto"
                         style={
-                          Object {
+                          {
                             "fontFamily": "gooddollar",
                             "fontSize": "16px",
                             "fontStyle": "normal",
@@ -171,7 +171,7 @@ exports[`EmailForm matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
           style={
-            Object {
+            {
               "WebkitBoxPack": "end",
               "WebkitJustifyContent": "flex-end",
               "justifyContent": "flex-end",
@@ -182,7 +182,7 @@ exports[`EmailForm matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-flex-13awgt0 r-padding-t60dpp"
             style={
-              Object {
+              {
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(23,53,102,0.40)",
@@ -223,7 +223,7 @@ exports[`EmailForm matches snapshot 1`] = `
               onKeyDown={[Function]}
               role="button"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
@@ -239,7 +239,7 @@ exports[`EmailForm matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",

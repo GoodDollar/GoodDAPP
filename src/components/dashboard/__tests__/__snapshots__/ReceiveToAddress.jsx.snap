@@ -8,7 +8,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
-      Object {
+      {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
       }
     }
@@ -16,7 +16,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-height-yivrw8 r-justifyContent-1777fci r-marginBottom-5oul0u r-paddingBottom-xd6kpl r-paddingHorizontal-1e081e0 r-paddingRight-1pyaxff r-paddingTop-tskmnb r-paddingVertical-1yzf0co"
       style={
-        Object {
+        {
           "paddingLeft": "8px",
         }
       }
@@ -33,7 +33,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           onContextMenu={[Function]}
           onKeyDown={[Function]}
           style={
-            Object {
+            {
               "WebkitTransitionDuration": "0s",
               "borderBottomLeftRadius": "28px",
               "borderBottomRightRadius": "28px",
@@ -49,7 +49,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(0,0,0,0.00)",
                 "height": "56px",
                 "width": "56px",
@@ -91,7 +91,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             readOnly={true}
             spellCheck={true}
             type="text"
-            value="0x5dfFc16F54af52F98AD57cFC72261B8fc39EE35F"
+            value="0x711E5668F235341DBcaf8191e909c1176ad199FF"
           />
         </div>
       </div>
@@ -122,7 +122,7 @@ with others
       <div
         className="css-view-1dbjc4n r-borderColor-17xuhkx r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginRight-61z16t r-marginTop-1mnahxq"
         style={
-          Object {
+          {
             "WebkitAlignItems": "stretch",
             "WebkitBoxAlign": "stretch",
             "alignItems": "stretch",
@@ -154,7 +154,7 @@ with others
           onKeyDown={[Function]}
           role="button"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "borderBottomLeftRadius": "50px",
@@ -170,7 +170,7 @@ with others
           <div
             className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
             style={
-              Object {
+              {
                 "WebkitAlignSelf": "stretch",
                 "alignSelf": "stretch",
                 "msFlexItemAlign": "stretch",

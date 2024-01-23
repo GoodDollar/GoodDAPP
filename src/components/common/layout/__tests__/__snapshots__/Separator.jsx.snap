@@ -7,7 +7,7 @@ exports[`Separator matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n"
     style={
-      Object {
+      {
         "backgroundColor": "rgba(0,175,255,1.00)",
         "borderBottomLeftRadius": "0.5px",
         "borderBottomRightRadius": "0.5px",
@@ -27,7 +27,7 @@ exports[`Separator matches snapshot with properties 1`] = `
   <div
     className="css-view-1dbjc4n"
     style={
-      Object {
+      {
         "backgroundColor": "rgba(255,255,255,1.00)",
         "borderBottomLeftRadius": "1.5px",
         "borderBottomRightRadius": "1.5px",

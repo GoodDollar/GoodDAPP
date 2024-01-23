@@ -10,7 +10,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
     onContextMenu={[Function]}
     onKeyDown={[Function]}
     style={
-      Object {
+      {
         "WebkitTransitionDuration": "0s",
         "transitionDuration": "0s",
       }
@@ -20,7 +20,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
       style={
-        Object {
+        {
           "backgroundColor": "rgba(0,0,0,0.32)",
           "borderBottomLeftRadius": "16px",
           "borderBottomRightRadius": "16px",
@@ -32,10 +32,10 @@ exports[`IconButton disabled matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao r-fontWeight-1it3c9n"
+        className="css-text-901oao r-fontWeight-1it3c9n r-userSelect-lrvibr"
         dir="auto"
         style={
-          Object {
+          {
             "color": "rgba(12,38,61,1.00)",
             "fontFamily": "gooddollar",
             "fontSize": "16px",
@@ -66,7 +66,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
     onContextMenu={[Function]}
     onKeyDown={[Function]}
     style={
-      Object {
+      {
         "WebkitTransitionDuration": "0s",
         "transitionDuration": "0s",
       }
@@ -76,7 +76,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
       style={
-        Object {
+        {
           "backgroundColor": "rgba(40,44,52,1.00)",
           "borderBottomLeftRadius": "16px",
           "borderBottomRightRadius": "16px",
@@ -88,10 +88,10 @@ exports[`IconButton enabled matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-userSelect-lrvibr"
         dir="auto"
         style={
-          Object {
+          {
             "color": "rgba(12,38,61,1.00)",
             "fontFamily": "gooddollar",
             "fontSize": "16px",

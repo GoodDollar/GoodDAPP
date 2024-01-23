@@ -7,7 +7,7 @@ exports[`SummaryTable matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr"
     style={
-      Object {
+      {
         "WebkitBoxFlex": 1,
         "WebkitBoxPack": "center",
         "WebkitFlexGrow": 1,
@@ -22,7 +22,7 @@ exports[`SummaryTable matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-paddingBottom-iphfwy"
       style={
-        Object {
+        {
           "marginTop": "16px",
         }
       }
@@ -43,7 +43,7 @@ exports[`SummaryTable matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-paddingBottom-iphfwy"
       style={
-        Object {
+        {
           "marginTop": "16px",
         }
       }
@@ -61,7 +61,7 @@ exports[`SummaryTable matches snapshot 1`] = `
           className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
-          0.20
+          0.00
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
@@ -84,7 +84,7 @@ exports[`SummaryTable matches snapshot 1`] = `
     <div
       className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-paddingBottom-iphfwy"
       style={
-        Object {
+        {
           "marginTop": "16px",
         }
       }
@@ -99,7 +99,7 @@ exports[`SummaryTable matches snapshot 1`] = `
         className="css-text-901oao css-textMultiLine-cens5h r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginLeft-1n0xq6e r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
         dir="auto"
         style={
-          Object {
+          {
             "WebkitLineClamp": 2,
           }
         }
@@ -118,7 +118,7 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
   <div
     className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr"
     style={
-      Object {
+      {
         "WebkitBoxFlex": 1,
         "WebkitBoxPack": "center",
         "WebkitFlexGrow": 1,
@@ -133,7 +133,7 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
     <div
       className="css-view-1dbjc4n r-alignItems-obd0qt r-borderBottomColor-c7jyll r-borderBottomWidth-qklmqi r-borderStyle-1phboty r-flexDirection-18u37iz r-height-eu3ka r-justifyContent-1wtj0ep r-paddingBottom-iphfwy"
       style={
-        Object {
+        {
           "marginTop": "16px",
         }
       }
@@ -151,7 +151,7 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
           className="css-text-901oao r-color-1q5uqvh r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginRight-a5pmau r-textAlign-1ff274t r-textDecorationLine-13wfysu r-textTransform-3twk1y"
           dir="auto"
         >
-          0.20
+          0.00
         </div>
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"

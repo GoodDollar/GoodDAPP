@@ -11,7 +11,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
       style={
-        Object {
+        {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
           "alignItems": "stretch",
@@ -54,7 +54,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
         onKeyDown={[Function]}
         role="button"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
@@ -70,7 +70,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",
@@ -110,7 +110,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
       style={
-        Object {
+        {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
           "alignItems": "stretch",
@@ -152,7 +152,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
         onKeyDown={[Function]}
         role="button"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
@@ -168,7 +168,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",
@@ -208,7 +208,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
       style={
-        Object {
+        {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
           "alignItems": "stretch",
@@ -251,7 +251,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
         onKeyDown={[Function]}
         role="button"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
@@ -267,7 +267,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",
@@ -307,7 +307,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
       className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
       data-testid="save_button"
       style={
-        Object {
+        {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
           "alignItems": "stretch",
@@ -350,7 +350,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
         onKeyDown={[Function]}
         role="button"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "borderBottomLeftRadius": "50px",
@@ -366,7 +366,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
           style={
-            Object {
+            {
               "WebkitAlignSelf": "stretch",
               "alignSelf": "stretch",
               "msFlexItemAlign": "stretch",

@@ -8,7 +8,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
     className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
-      Object {
+      {
         "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
       }
     }
@@ -53,7 +53,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           onContextMenu={[Function]}
           onKeyDown={[Function]}
           style={
-            Object {
+            {
               "WebkitTransitionDuration": "0s",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
@@ -69,7 +69,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(0,0,0,0.00)",
                 "height": "42px",
                 "width": "42px",
@@ -94,10 +94,10 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-tvqc6p r-borderRadius-ieixw r-display-6koalj r-height-1w2pmg r-justifyContent-1777fci r-marginBottom-egdndh r-marginTop-1mnahxq r-position-bnwqim r-width-1h2t8mc"
           >
             <div
-              className="css-text-901oao r-fontSize-hiw28u r-fontWeight-1it3c9n"
+              className="css-text-901oao r-fontSize-hiw28u r-fontWeight-1it3c9n r-userSelect-lrvibr"
               dir="auto"
               style={
-                Object {
+                {
                   "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "gooddollar",
                   "fontStyle": "normal",
@@ -170,7 +170,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(0,0,0,0.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -206,7 +206,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               onKeyDown={[Function]}
               role="button"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
@@ -222,7 +222,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",
@@ -251,7 +251,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
         <div
           className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-minWidth-bcqeeo"
           style={
-            Object {
+            {
               "WebkitBoxFlex": 3,
               "WebkitFlexGrow": 3,
               "flexGrow": 3,
@@ -262,7 +262,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           <div
             className="css-view-1dbjc4n r-alignItems-1oszu61 r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq"
             style={
-              Object {
+              {
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -299,7 +299,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               onKeyDown={[Function]}
               role="button"
               style={
-                Object {
+                {
                   "WebkitAlignSelf": "stretch",
                   "alignSelf": "stretch",
                   "borderBottomLeftRadius": "50px",
@@ -315,7 +315,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
-                  Object {
+                  {
                     "WebkitAlignSelf": "stretch",
                     "alignSelf": "stretch",
                     "msFlexItemAlign": "stretch",

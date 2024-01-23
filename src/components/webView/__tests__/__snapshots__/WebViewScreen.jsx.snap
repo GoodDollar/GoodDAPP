@@ -9,7 +9,7 @@ exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
   seamless={true}
   src="https://www.gooddollar.org/privacy-policy/?gd-frame=1"
   style={
-    Object {
+    {
       "height": 0,
     }
   }
@@ -27,7 +27,7 @@ exports[`WebViewScreen Instances TermsOFUse matches snapshot 1`] = `
   seamless={true}
   src="https://www.gooddollar.org/terms-conditions/?gd-frame=1"
   style={
-    Object {
+    {
       "height": 0,
     }
   }

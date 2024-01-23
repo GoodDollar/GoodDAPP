@@ -1,0 +1,12 @@
+diff --git a/build/index.js b/build/index.js
+index 2e6c16c33c2f588cf8d6a5717ac776bb8908bd0d..da8511efd5d72bbffdb359aea87cc8dee00ecc14 100644
+--- a/build/index.js
++++ b/build/index.js
+@@ -95,6 +95,7 @@ class JSDOMEnvironment {
+ 
+     // TODO: remove this ASAP, but it currently causes tests to run really slow
+     global.Buffer = Buffer;
++    global.Uint8Array = Uint8Array; 
+ 
+     // Report uncaught errors.
+     this.errorEventListener = event => {

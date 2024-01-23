@@ -50,7 +50,7 @@
         "/node_modules/"
     ],
     "moduleNameMapper": {
-        "\\.(css|jpg|png|gql|svg)(\\?.*)$": "identity-obj-proxy",
+        "\\.(css|jpg|png|gql|svg)(\\?.*)$": "<rootDir>/empty-module.js",
         "^react-native$": "react-native-web",
         "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js",
         "lottie-react-native": "react-native-web-lottie",

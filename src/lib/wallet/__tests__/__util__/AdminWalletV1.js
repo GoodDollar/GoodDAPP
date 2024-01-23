@@ -71,7 +71,7 @@ export class Wallet {
   }
 
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {
-    const provider = conf.ethNetwork.httpWeb3provider + conf.infuraKey
+    const provider = conf.ethNetwork.httpWeb3provider + (conf.infuraKey || '')
     const web3Provider = new Web3.providers.HttpProvider(provider)
     log.debug({ conf, web3Provider, provider })
     return web3Provider

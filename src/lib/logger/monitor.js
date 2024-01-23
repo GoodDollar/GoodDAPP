@@ -18,6 +18,12 @@ export const addLoggerMonitor = logger => {
     let exception = reason
     const label = 'Unhandled promise rejection'
 
+    // dont log/report. We don't use ENS and this comes from some 3rd party dependency
+    // was logged 1m+ events in 30 days (non-issue)
+    if (isError(reason) && reason.message.includes('ENS is not supported on network')) {
+      return
+    }
+
     if (isError(reason)) {
       message = reason.message
     } else {

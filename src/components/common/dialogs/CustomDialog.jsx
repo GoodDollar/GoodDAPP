@@ -9,7 +9,6 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 import CustomButton from '../buttons/CustomButton'
 import ErrorAnimation from '../../common/animations/Error'
 
-import { CustomPostHogProvider } from '../../../lib/contexts/CustomPosthogProvider'
 import SuccessIcon from '../modal/SuccessIcon'
 import LoadingIcon from '../modal/LoadingIcon'
 import { InfoIcon } from '../modal/InfoIcon'
@@ -20,7 +19,6 @@ import Section from '../layout/Section'
 import { GlobalTogglesContext } from '../../../lib/contexts/togglesContext'
 import { DialogContext } from '../../../lib/dialog/dialogContext'
 import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
-import Config from '../../../config/config'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -137,17 +135,11 @@ const CustomDialog = ({
               // https://github.com/callstack/react-native-paper/blob/main/src/components/Portal/Portal.tsx#L54
               // otherwise useContext(GlobalTogglesContext) will return undefined for
               // any custom dialog component (e.g. ExplanationDialog and other ones)
-              <CustomPostHogProvider
-                apiKey={Config.posthogApiKey}
-                options={{ host: Config.posthogHost }}
-                autocapture={false}
-              >
-                <GlobalTogglesContext.Provider value={globalToggleState}>
-                  <GoodWalletContext.Provider value={goodWalletState}>
-                    <DialogContext.Provider value={dialogState}>{content}</DialogContext.Provider>
-                  </GoodWalletContext.Provider>
-                </GlobalTogglesContext.Provider>
-              </CustomPostHogProvider>
+              <GlobalTogglesContext.Provider value={globalToggleState}>
+                <GoodWalletContext.Provider value={goodWalletState}>
+                  <DialogContext.Provider value={dialogState}>{content}</DialogContext.Provider>
+                </GoodWalletContext.Provider>
+              </GlobalTogglesContext.Provider>
             ) : (
               <>
                 {children}

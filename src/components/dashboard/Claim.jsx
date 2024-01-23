@@ -5,6 +5,7 @@ import moment from 'moment'
 import { assign, noop } from 'lodash'
 import { t, Trans } from '@lingui/macro'
 
+import { usePostHog } from 'posthog-react-native'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 
@@ -257,6 +258,10 @@ const Claim = props => {
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
+  const posthog = usePostHog()
+  const taskPayload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('next-tasks') : []), [posthog])
+  const { tasks } = taskPayload || {}
+
   // format number of people who did claim today
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
 
@@ -496,7 +501,7 @@ const Claim = props => {
 
         await showDialog({
           image: <LoadingAnimation success speed={2} />,
-          content: <TaskDialog />,
+          content: <TaskDialog tasks={tasks} />,
           title: t`You've claimed today!`,
           titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
           onDismiss: noop,

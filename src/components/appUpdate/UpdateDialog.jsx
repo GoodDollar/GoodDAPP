@@ -4,7 +4,7 @@ import { t } from '@lingui/macro'
 import { RegularDialog } from '../common/dialogs/ServiceWorkerUpdatedDialog'
 import { useDialog } from '../../lib/dialog/useDialog'
 
-// import { theme } from '../theme/styles'
+import { theme } from '../theme/styles'
 
 export default () => {
   const { showDialog } = useDialog()
@@ -26,12 +26,12 @@ export default () => {
         showCloseButtons: false,
         content: <RegularDialog />,
         buttons: [
-          // {
-          //   text: t`MAYBE LATER`,
-          //   onPress: dismiss => dismiss(),
-          //   style: { backgroundColor: 'none' },
-          //   textStyle: { color: theme.colors.gray80Percent },
-          // },
+          {
+            text: t`MAYBE LATER`,
+            onPress: dismiss => dismiss(),
+            style: { backgroundColor: 'none' },
+            textStyle: { color: theme.colors.gray80Percent },
+          },
           {
             text: t`UPDATE NOW`,
             onPress: onUpdateCallback,

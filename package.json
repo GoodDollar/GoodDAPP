@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "2.31.0",
+  "version": "2.32.0",
   "engines": {
     "node": "18.x",
     "npm": "9.x"
@@ -376,11 +376,8 @@
     "react-native-modal-dropdown@^1.0.2": "patch:react-native-modal-dropdown@npm%3A1.0.2#./.yarn/patches/react-native-modal-dropdown-npm-1.0.2-1bfc5979be.patch",
     "posthog-react-native": "2.10.1",
     "jest-environment-jsdom@^29.7.0": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
-    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch"
-  },
-  "comments": {
-    "a": "check removed patches",
-    "b": "check removed linters"
+    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
+    "follow-redirects": "1.15.4"
   },
   "husky": {
     "hooks": {

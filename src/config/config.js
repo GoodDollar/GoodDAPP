@@ -168,6 +168,7 @@ const Config = {
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
   mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
   httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'random',
+  httpProviderRetries: Number(env.REACT_APP_WEB3_RPC_RETRIES || 1),
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',

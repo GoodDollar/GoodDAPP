@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Platform, View } from 'react-native'
-import { usePostHog } from 'posthog-react-native'
 
 import TaskButton from '../../common/buttons/TaskButton'
 import { Section, Text } from '../../common'
@@ -102,11 +101,7 @@ const dialogStyles = ({ theme }) => ({
   },
 })
 
-const TaskDialog = ({ styles, theme }) => {
-  const posthog = usePostHog()
-  const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('next-tasks') : []), [posthog])
-  const { tasks } = payload || {}
-
+const TaskDialog = ({ styles, theme, tasks }) => {
   return (
     <View>
       {tasks

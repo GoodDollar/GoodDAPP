@@ -440,7 +440,7 @@ exports[`Settings matches snapshot 1`] = `
             onContextMenu={[Function]}
             onKeyDown={[Function]}
             style={
-              {
+              Object {
                 "WebkitTransitionDuration": "0s",
                 "transitionDuration": "0s",
               }
@@ -448,10 +448,10 @@ exports[`Settings matches snapshot 1`] = `
             tabIndex="0"
           >
             <div
-              className="css-text-901oao r-fontSize-ubezar r-fontWeight-1it3c9n r-userSelect-lrvibr"
+              className="css-text-901oao r-fontSize-ubezar r-fontWeight-1it3c9n"
               dir="auto"
               style={
-                {
+                Object {
                   "color": "rgba(250,108,119,1.00)",
                   "fontFamily": "gooddollar",
                   "fontStyle": "normal",
@@ -464,7 +464,7 @@ exports[`Settings matches snapshot 1`] = `
               className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
               dir="auto"
               style={
-                {
+                Object {
                   "marginLeft": "16px",
                 }
               }

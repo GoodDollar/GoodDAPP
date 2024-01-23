@@ -18,11 +18,10 @@ import { Icon, Section, SvgXml, Text } from '../../common'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
-import Config from '../../../config/config'
-import { openLink } from '../../../lib/utils/linking'
 import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
 import { NetworkLogo } from '../../../lib/constants/network'
 import { isTransferTx } from '../../../lib/wallet/utils'
+import goToExplorer from '../utils/goToExplorer'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -127,16 +126,11 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
 }
 
 export const NetworkIcon = ({ chainId = 122, txHash }) => {
-  const networkExplorerUrl = Config.ethereum[chainId]?.explorer
   const isTx = txHash.startsWith('0x')
   const Icon = NetworkLogo[chainId]
 
   const goToTxDetails = useCallback(() => {
-    if (!networkExplorerUrl) {
-      return
-    }
-
-    openLink(`${networkExplorerUrl}/tx/${encodeURIComponent(txHash)}`, '_blank')
+    goToExplorer(txHash, chainId, 'tx')
   }, [chainId, txHash])
 
   return isTx && Icon ? (

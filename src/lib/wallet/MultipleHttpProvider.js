@@ -2,18 +2,18 @@
 
 import Web3 from 'web3'
 import { assign, has, shuffle } from 'lodash'
-import { fallback, makePromiseWrapper } from '../utils/async'
+import { fallback, makePromiseWrapper, retry } from '../utils/async'
 import logger from '../logger/js-logger'
+import { isConnectionError } from './utils'
 
 const { providers } = Web3
 const { HttpProvider } = providers
 const log = logger.child({ from: 'MultipleHttpProvider' })
-const connectionErrorRe = /connection (error|timeout)|invalid json rpc/i
 
 export class MultipleHttpProvider extends HttpProvider {
   constructor(endpoints, config) {
     const [{ provider, options }] = endpoints // init with first endpoint config
-    const { strategy = 'random' } = config || {} // or 'random'
+    const { strategy = 'random', retries = 1 } = config || {} // or 'random'
 
     log.debug('Setting default endpoint', { provider, config })
     super(provider, options)
@@ -22,11 +22,12 @@ export class MultipleHttpProvider extends HttpProvider {
     assign(this, {
       endpoints,
       strategy,
+      retries,
     })
   }
 
   send(payload, callback) {
-    const { endpoints, strategy } = this
+    const { endpoints, strategy, retries } = this
 
     // shuffle peers if random strategy chosen
     const peers = strategy === 'random' ? shuffle(endpoints) : endpoints
@@ -50,7 +51,10 @@ export class MultipleHttpProvider extends HttpProvider {
     }
 
     const onFailed = error => {
-      log.error('Failed with last error', error.message, error, payload.id)
+      if (!isConnectionError(error)) {
+        log.error('Failed with last error', error.message, error, payload.id)
+      }
+
       callback(error, null)
     }
 
@@ -59,17 +63,18 @@ export class MultipleHttpProvider extends HttpProvider {
       const { message, code } = error
 
       // retry on network error or if rpc responded with error (error.error)
-      const willFallback = !!(code || error.error || !message || connectionErrorRe.test(message))
+      const willFallback = !!(code || error.error || !message || isConnectionError(message))
 
-      log.warn('send: got error', { message, error, willFallback })
+      if (!willFallback) {
+        log.warn('send: got error', { message, error, willFallback })
+      }
+
       return willFallback
     }
 
     log.trace('send: exec over peers', { peers, strategy, calls })
 
-    fallback(calls, onFallback)
-      .then(onSuccess)
-      .catch(onFailed)
+    retry(() => fallback(calls, onFallback).then(onSuccess).catch(onFailed), retries, 0)
   }
 
   /**

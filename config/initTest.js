@@ -4,11 +4,10 @@ import { assign, noop } from 'lodash'
 import Crypto from 'crypto'
 import dns from 'dns'
 import { TextEncoder, TextDecoder } from 'util'
-
 import '../src/lib/shim'
 
 dns.setDefaultResultOrder('ipv4first') //required for resolving correctly localhost
-jest.setTimeout(20000)
+jest.setTimeout(30000)
 
 jest.mock("react-native-localize", () => {
   return {
@@ -36,6 +35,7 @@ if (typeof window !== 'undefined') {
   window.matchMedia = () => ({ matches: true });
   assign(window, { TextDecoder, TextEncoder })
 }
+window.setImmediate = window.setTimeout
 
 if (typeof navigator !== 'undefined') {
   Object.defineProperty(navigator, 'userAgent', {

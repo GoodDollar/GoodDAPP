@@ -7,7 +7,7 @@ exports[`NextButton matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
     style={
-      Object {
+      {
         "WebkitAlignItems": "stretch",
         "WebkitBoxAlign": "stretch",
         "WebkitFlex": 2,
@@ -53,7 +53,7 @@ exports[`NextButton matches snapshot 1`] = `
       onKeyDown={[Function]}
       role="button"
       style={
-        Object {
+        {
           "WebkitAlignSelf": "stretch",
           "alignSelf": "stretch",
           "borderBottomLeftRadius": "50px",
@@ -69,7 +69,7 @@ exports[`NextButton matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "msFlexItemAlign": "stretch",
@@ -104,7 +104,7 @@ exports[`PushButton matches snapshot 1`] = `
   <div
     className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci"
     style={
-      Object {
+      {
         "WebkitAlignItems": "stretch",
         "WebkitBoxAlign": "stretch",
         "alignItems": "stretch",
@@ -147,7 +147,7 @@ exports[`PushButton matches snapshot 1`] = `
       onKeyDown={[Function]}
       role="button"
       style={
-        Object {
+        {
           "WebkitAlignSelf": "stretch",
           "alignSelf": "stretch",
           "borderBottomLeftRadius": "50px",
@@ -163,7 +163,7 @@ exports[`PushButton matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
         style={
-          Object {
+          {
             "WebkitAlignSelf": "stretch",
             "alignSelf": "stretch",
             "msFlexItemAlign": "stretch",

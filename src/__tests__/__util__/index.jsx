@@ -38,6 +38,16 @@ export const withSimpleStateProvider = Component => props => (
   </GlobalTogglesContextProvider>
 )
 
+export const withSimpleThemeProvider = (Component, theme = defaultTheme) => {
+  return props => (
+    <PaperProvider theme={theme}>
+      <StoresWrapper>
+        <Component {...props} />
+      </StoresWrapper>
+    </PaperProvider>
+  )
+}
+
 export const withThemeProvider = (Component, theme = defaultTheme) => {
   const C = withUserStorage(Component)
   return props => (

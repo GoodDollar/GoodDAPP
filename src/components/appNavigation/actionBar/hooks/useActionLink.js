@@ -98,7 +98,7 @@ export default linkId => {
   const { icon, wasClickedProp, url, event } = externals[linkId]
 
   const goToExternal = useCallback(() => openLink(url), [url])
-  const [wasClicked, setWasClicked] = useState(() => userProperties.get(wasClickedProp))
+  const [wasClicked, setWasClicked] = useState(() => userProperties?.get(wasClickedProp))
 
   const trackClicked = useCallback(() => {
     fireEvent(event, {

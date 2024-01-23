@@ -10,7 +10,7 @@ exports[`ActionButton matches snapshot 1`] = `
     onContextMenu={[Function]}
     onKeyDown={[Function]}
     style={
-      Object {
+      {
         "WebkitTransitionDuration": "0s",
         "transitionDuration": "0s",
       }
@@ -18,10 +18,10 @@ exports[`ActionButton matches snapshot 1`] = `
     tabIndex="0"
   >
     <div
-      className="css-text-901oao"
+      className="css-text-901oao r-userSelect-lrvibr"
       dir="auto"
       style={
-        Object {
+        {
           "color": "rgba(255,255,255,1.00)",
           "fontFamily": "gooddollar",
           "fontSize": "48px",

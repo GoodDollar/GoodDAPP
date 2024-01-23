@@ -1,5 +1,5 @@
 {
-    "testEnvironment": "@happy-dom/jest-environment",
+    "testEnvironment": "jsdom",
     "moduleFileExtensions": [
         "js",
         "web.js",
@@ -18,9 +18,10 @@
     },
     "transformIgnorePatterns": [
         "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk",
-        "<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter|@gooddollar/react-native-facetec|@ceramicnetwork|@web3-onboard|axios|uuid|esm-browser|web3|lodash|use-debounce)"
+        "<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter|@gooddollar/react-native-facetec|@ceramicnetwork|@web3-onboard|axios|uuid|esm-browser|web3|lodash|use-debounce|@usedapp/core|@gooddollar/web3sdk-v2|preact|)"
     ],
     "setupFiles": [
+        "react-app-polyfill/jsdom",
         "<rootDir>/config/initTest.js"
     ],
     "globals": {
@@ -54,6 +55,7 @@
         "lottie-react-native": "react-native-web-lottie",
         "^react-native-linear-gradient$": "react-native-web-linear-gradient"
     },
-    "resolver": "jest-pnp-resolver",
-    "testURL": "http: //localhost"
+    "testEnvironmentOptions": {
+        "url": "http://localhost"
+    }
 }

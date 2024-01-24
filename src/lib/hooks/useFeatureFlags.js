@@ -63,23 +63,47 @@ const defaultFlagsWithPayload = {
 
 let alreadyHasErrorHandler = false
 
-export const useFeatureFlagOrDefault = (featureFlag, onlyFlag) => {
+export const useFeatureFlagOrDefault = featureFlag => {
   const posthog = usePostHog()
 
   useEffect(() => {
-    if (posthog && !alreadyHasErrorHandler) {
-      posthog.on('error', e => log.error('posthog fetch error', e.message))
+    if (!posthog) {
+      log.error('PostHog failed to initialize')
+      return
+    }
+
+    if (!alreadyHasErrorHandler) {
+      posthog.on('error', e => {
+        log.error('PostHog fetch error', e.message)
+      })
+
       alreadyHasErrorHandler = true
     }
   }, [posthog])
 
-  const payload = useMemo(() => {
-    if (!posthog) {
-      log.error('posthog failed to initialize')
-      return onlyFlag ? undefined : []
-    }
-    return onlyFlag ? posthog.getFeatureFlag(featureFlag) : posthog.getFeatureFlagsPayload(featureFlag)
-  }, [posthog, featureFlag, onlyFlag])
+  const isEnabled = posthog ? posthog.getFeatureFlag(featureFlag) : undefined
+  return isEnabled || defaultFeatureFlags[featureFlag]
+}
 
-  return payload ?? (onlyFlag ? defaultFeatureFlags[featureFlag] : defaultFlagsWithPayload[featureFlag])
+export const useFlagWithPayload = featureFlag => {
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    if (!posthog) {
+      log.error('posthog failed to initalize')
+      return
+    }
+
+    if (posthog && !alreadyHasErrorHandler) {
+      posthog.on('error', e => {
+        log.error('posthog fetch error', e.message)
+      })
+
+      alreadyHasErrorHandler = true
+    }
+  }, [posthog])
+
+  const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload(featureFlag) : []), [posthog, featureFlag])
+
+  return payload || defaultFlagsWithPayload[featureFlag]
 }

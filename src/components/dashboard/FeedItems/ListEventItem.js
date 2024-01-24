@@ -149,7 +149,7 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
 
-  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat', true)
+  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat')
   const mainColor = eventSettings.color
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'

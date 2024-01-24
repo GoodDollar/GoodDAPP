@@ -35,7 +35,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const buttonPress = useCallback(() => onPress(item.id), [item, onPress])
   const { avatar: selfAvatar, email } = useProfile()
 
-  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat', true)
+  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat')
 
   const itemType = item.displayType || item.type
 

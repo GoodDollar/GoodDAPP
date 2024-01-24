@@ -64,7 +64,7 @@ import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
 import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialog'
 import { useSecurityDialog } from '../security/securityDialog'
-import { useFeatureFlagOrDefault } from '../../lib/hooks/useFeatureFlags'
+import { useFeatureFlagOrDefault, useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -231,7 +231,7 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
   const [price, showPrice] = useGoodDollarPrice()
   const formatFixed = useFixedDecimals(token)
   const isUBI = supportsG$UBI(network)
-  const showUsdBalance = useFeatureFlagOrDefault('show-usd-balance', true)
+  const showUsdBalance = useFeatureFlagOrDefault('show-usd-balance')
 
   // show aggregated balance on FUSE/CELO, delta only
   const balance = isDeltaApp && (native || !isUBI) ? tokenBalance : totalBalance
@@ -322,13 +322,13 @@ const Dashboard = props => {
 
   const { currentNetwork } = useSwitchNetwork()
 
-  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat', true)
+  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat')
 
-  const isBridgeActive = useFeatureFlagOrDefault('micro-bridge', true)
+  const isBridgeActive = useFeatureFlagOrDefault('micro-bridge')
 
-  const sendReceiveEnabled = useFeatureFlagOrDefault('send-receive-feature', true)
-  const dashboardButtonsEnabled = useFeatureFlagOrDefault('dashboard-buttons', true)
-  const payload = useFeatureFlagOrDefault('claim-feature')
+  const sendReceiveEnabled = useFeatureFlagOrDefault('send-receive-feature')
+  const dashboardButtonsEnabled = useFeatureFlagOrDefault('dashboard-buttons')
+  const payload = useFlagWithPayload('claim-feature')
 
   const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
 

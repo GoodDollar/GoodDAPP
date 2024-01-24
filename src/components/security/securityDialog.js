@@ -2,10 +2,10 @@ import { useCallback } from 'react'
 import { t } from '@lingui/macro'
 
 import { useDialog } from '../../lib/dialog/useDialog'
-import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
+import { useFeatureFlagOrDefault } from '../../lib/hooks/useFeatureFlags'
 
 export const useSecurityDialog = () => {
-  const payload = useFlagWithPayload('security-dialog')
+  const payload = useFeatureFlagOrDefault('security-dialog')
 
   const { enabled, dialogTitle, dialogText, withButtons } = payload || {}
   const { showDialog } = useDialog()

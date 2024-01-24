@@ -47,7 +47,7 @@ import useTimer from '../../lib/hooks/useTimer'
 import useInterval from '../../lib/hooks/useInterval'
 import { useInviteBonus } from '../invite/useInvites'
 import useClaimNotificationsDialog from '../permissions/hooks/useClaimNotificationsDialog'
-import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
+import { useFeatureFlagOrDefault } from '../../lib/hooks/useFeatureFlags'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -254,7 +254,7 @@ const Claim = props => {
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
-  const payload = useFlagWithPayload('next-task')
+  const payload = useFeatureFlagOrDefault('next-task')
   const { tasks } = payload
 
   // format number of people who did claim today

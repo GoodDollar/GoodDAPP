@@ -1,8 +1,11 @@
-import { useMemo } from 'react'
-import { useFeatureFlag, usePostHog } from 'posthog-react-native'
+import { useEffect, useMemo } from 'react'
+import { usePostHog } from 'posthog-react-native'
+import logger from '../../lib/logger/js-logger'
+
+const log = logger.child({ from: 'useFeatureFlags' })
 
 const defaultFeatureFlags = {
-  'show-usd-balance': true,
+  'show-usd-balance': false,
   'wallet-chat': true,
   'micro-bridge': true,
   'send-receive-feature': true,
@@ -58,13 +61,25 @@ const defaultFlagsWithPayload = {
   },
 }
 
-export const useFeatureFlagOrDefault = featureFlag => {
-  const isEnabled = useFeatureFlag()
-  return isEnabled || defaultFeatureFlags[featureFlag]
-}
+let alreadyHasErrorHandler = false
 
-export const useFlagWithPayload = featureFlag => {
+export const useFeatureFlagOrDefault = (featureFlag, onlyFlag) => {
   const posthog = usePostHog()
-  const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload(featureFlag) : []), [posthog])
-  return payload || defaultFlagsWithPayload[featureFlag]
+
+  useEffect(() => {
+    if (posthog && !alreadyHasErrorHandler) {
+      posthog.on('error', e => log.error('posthog fetch error', e.message))
+      alreadyHasErrorHandler = true
+    }
+  }, [posthog])
+
+  const payload = useMemo(() => {
+    if (!posthog) {
+      log.error('posthog failed to initialize')
+      return onlyFlag ? undefined : []
+    }
+    return onlyFlag ? posthog.getFeatureFlag(featureFlag) : posthog.getFeatureFlagsPayload(featureFlag)
+  }, [posthog, featureFlag, onlyFlag])
+
+  return payload ?? (onlyFlag ? defaultFeatureFlags[featureFlag] : defaultFlagsWithPayload[featureFlag])
 }

@@ -4,7 +4,6 @@ import { Animated, Dimensions, Easing, Platform, TouchableOpacity, View } from '
 import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
-import { useFeatureFlag } from 'posthog-react-native'
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -65,7 +64,7 @@ import { FeedItemType } from '../../lib/userStorage/FeedStorage'
 import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
 import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialog'
 import { useSecurityDialog } from '../security/securityDialog'
-import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
+import { useFeatureFlagOrDefault } from '../../lib/hooks/useFeatureFlags'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -232,7 +231,7 @@ const TotalBalance = ({ styles, theme, headerLarge, network, balance: totalBalan
   const [price, showPrice] = useGoodDollarPrice()
   const formatFixed = useFixedDecimals(token)
   const isUBI = supportsG$UBI(network)
-  const showUsdBalance = useFeatureFlag('show-usd-balance')
+  const showUsdBalance = useFeatureFlagOrDefault('show-usd-balance', true)
 
   // show aggregated balance on FUSE/CELO, delta only
   const balance = isDeltaApp && (native || !isUBI) ? tokenBalance : totalBalance
@@ -323,20 +322,20 @@ const Dashboard = props => {
 
   const { currentNetwork } = useSwitchNetwork()
 
-  const walletChatEnabled = useFeatureFlag('wallet-chat')
+  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat', true)
 
-  const isBridgeActive = useFeatureFlag('micro-bridge')
+  const isBridgeActive = useFeatureFlagOrDefault('micro-bridge', true)
 
-  const sendReceiveEnabled = useFeatureFlag('send-receive-feature')
-  const dashboardButtonsEnabled = useFeatureFlag('dashboard-buttons')
-  const payload = useFlagWithPayload('claim-feature')
+  const sendReceiveEnabled = useFeatureFlagOrDefault('send-receive-feature', true)
+  const dashboardButtonsEnabled = useFeatureFlagOrDefault('dashboard-buttons', true)
+  const payload = useFeatureFlagOrDefault('claim-feature')
 
   const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
 
   const { securityEnabled, securityDialog } = useSecurityDialog()
 
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
-  const bridgeEnabled = ubiEnabled && isBridgeActive
+  const bridgeEnabled = ubiEnabled && isBridgeActive !== false
 
   const { goodWallet, web3Provider } = useContext(GoodWalletContext)
 
@@ -982,7 +981,7 @@ const Dashboard = props => {
                     ) : (
                       <View style={styles.buttonSpacer} />
                     )}
-                    {!sendReceiveEnabled === false && (
+                    {sendReceiveEnabled !== false && (
                       <PushButton
                         icon="receive"
                         iconSize={20}

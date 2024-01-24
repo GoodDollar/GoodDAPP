@@ -18,7 +18,7 @@ import { useUserProperty } from '../../lib/userStorage/useProfile'
 import mustache from '../../lib/utils/mustache'
 
 import createABTesting from '../../lib/hooks/useABTesting'
-import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
+import { useFeatureFlagOrDefault } from '../../lib/hooks/useFeatureFlags'
 
 const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
@@ -365,7 +365,7 @@ export const useInviteCopy = () => {
 }
 
 export const useInviteShare = level => {
-  const abTestOptions = useFlagWithPayload('share-link')
+  const abTestOptions = useFeatureFlagOrDefault('share-link')
   const abTestOption = useOption(abTestOptions) || {}
   const { shareTitle } = abTestOption
   const { toDecimals } = useFormatG$()

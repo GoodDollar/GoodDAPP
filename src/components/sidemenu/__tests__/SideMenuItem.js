@@ -11,7 +11,7 @@ describe('SideMenuItem', () => {
 
     await renderer.act(
       // eslint-disable-next-line require-await
-      async () => (component = renderer.create(<SideMenuItemWithTheme icon="person" name="Profile" />)),
+      async () => (component = renderer.create(<SideMenuItemWithTheme icon="profile" name="Profile" />)),
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

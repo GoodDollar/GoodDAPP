@@ -150,7 +150,7 @@ exports[`NameForm matches snapshot 1`] = `
                   className="css-text-901oao r-color-13sdq65 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
-                  This can't be changed later.
+                  This is what people will see when you send or receive transactions. You can change it at any time in your Profile.
                 </div>
               </div>
             </div>
@@ -392,7 +392,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                   className="css-text-901oao r-color-13sdq65 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-letterSpacing-i0j7gm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                   dir="auto"
                 >
-                  This can't be changed later.
+                  This is what people will see when you send or receive transactions. You can change it at any time in your Profile.
                 </div>
               </div>
             </div>

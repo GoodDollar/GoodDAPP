@@ -61,7 +61,9 @@ const defaultFlagsWithPayload = {
   },
 }
 
-let alreadyHasErrorHandler = false
+const addLogger = once(posthog => posthog.on('error', e => {
+ log.error('PostHog fetch error', e.message)
+}))
 
 export const useFeatureFlagOrDefault = featureFlag => {
   const posthog = usePostHog()
@@ -72,17 +74,11 @@ export const useFeatureFlagOrDefault = featureFlag => {
       return
     }
 
-    if (!alreadyHasErrorHandler) {
-      posthog.on('error', e => {
-        log.error('PostHog fetch error', e.message)
-      })
-
-      alreadyHasErrorHandler = true
+    addLogger(posthog)
     }
   }, [posthog])
 
-  const isEnabled = posthog ? posthog.getFeatureFlag(featureFlag) : undefined
-  return isEnabled || defaultFeatureFlags[featureFlag]
+  return useMemo(() => posthog?.getFeatureFlag(featureFlag) ?? defaultFeatureFlags[featureFlag], [posthog, featureFlag])
 }
 
 export const useFlagWithPayload = featureFlag => {
@@ -103,7 +99,5 @@ export const useFlagWithPayload = featureFlag => {
     }
   }, [posthog])
 
-  const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload(featureFlag) : []), [posthog, featureFlag])
-
-  return payload || defaultFlagsWithPayload[featureFlag]
+ return useMemo(() => (posthog?.getFeatureFlagPayload(featureFlag) ?? defaultFlagsWithPayload[featureFlag]), [posthog, featureFlag])
 }

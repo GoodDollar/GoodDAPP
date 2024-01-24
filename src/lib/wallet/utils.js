@@ -7,12 +7,13 @@ import { formatUnits, parseUnits } from '@ethersproject/units'
 import { ExceptionCategory } from '../exceptions/utils'
 import type { TransactionEvent } from '../../userStorage/UserStorageClass'
 import { getNetworkName, type NETWORK, NETWORK_ID } from '../constants/network'
-import pino from '../logger/js-logger'
+import logger from '../logger/js-logger'
 import { retry } from '../utils/async'
 import Config from '../../config/config'
 
+export const log = logger.child({ from: 'GoodWalletV2' })
+
 const DECIMALS = 2
-const log = pino.child({ from: 'withdraw' })
 const ethAddressRegex = /(\w+)?:?(0x[a-fA-F0-9]{40})/
 const { env, showAllChainsEth } = Config
 
@@ -168,6 +169,8 @@ export const getTxLogArgs = tx => {
   }
 }
 
+const wdLog = logger.child({ from: 'withdraw' })
+
 /**
  * Execute withdraw from a transaction hash, and handle dialogs with process information using Undux
  *
@@ -187,7 +190,7 @@ export const executeWithdraw = async (
     const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)
     let response = { status }
 
-    log.info('executeWithdraw', { code, reason, category, amount, sender, status, hashedCode })
+    wdLog.info('executeWithdraw', { code, reason, category, amount, sender, status, hashedCode })
 
     if (sender.toLowerCase() === goodWallet.account.toLowerCase()) {
       throw new Error("You can't withdraw your own payment link.")
@@ -245,9 +248,9 @@ export const executeWithdraw = async (
     ]
 
     if (isOwnLinkIssue) {
-      log.warn(...logArgs)
+      wdLog.warn(...logArgs)
     } else {
-      log.error(...logArgs)
+      wdLog.error(...logArgs)
     }
 
     throw e
@@ -279,5 +282,13 @@ export const fromDecimals = (amount, chainOrToken = null) => {
 export const isTransferTx = (txType: string) => /(send|receive|withdraw)(?!.*bridge|pending)/.test(txType)
 
 export const isDuplicateTxError = message =>
-  message.toLowerCase().search('same nonce|same hash|alreadyknown|already known|feetoolow|nonce too low|underpriced') >=
-  0
+  message.toLowerCase().search(/(sames*(nonce|hash)|alreadys*known|(fee|nonce)s*toos*low|underpriced)/i) >= 0
+
+export const isConnectionError = error =>
+  /connection (error|timeout)|invalid json rpc/i.test(error instanceof Error ? error.message : error || '')
+
+export const logError = (label, error, data = undefined) => {
+  if (!isConnectionError) {
+    log.error(label, error.message, error, data)
+  }
+}

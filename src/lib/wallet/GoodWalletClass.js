@@ -444,6 +444,7 @@ export class GoodWallet {
         this._notifyReceipt(event.transactionHash).catch(err =>
           logError('_notifyEvents event get/send receipt failed:', err, {
             category: ExceptionCategory.Blockhain,
+            hash: event.transactionHash,
           }),
         ),
       ),

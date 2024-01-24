@@ -98,7 +98,7 @@ exports[`Dashboard matches snapshot 1`] = `
                 className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-b88u0q r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                CELO
+                DEVELOP
               </div>
             </div>
           </div>
@@ -392,7 +392,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         "marginLeft": "0px",
                         "marginRight": "0px",
                         "marginTop": "0px",
-                        "opacity": 1,
+                        "opacity": 0.5,
                         "width": "46%",
                       }
                     }
@@ -425,7 +425,12 @@ exports[`Dashboard matches snapshot 1`] = `
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n r-display-6koalj"
+                          className="css-view-1dbjc4n"
+                          style={
+                            {
+                              "display": "none",
+                            }
+                          }
                         >
                           <ellipse46.svg />
                         </div>
@@ -727,12 +732,11 @@ exports[`Dashboard matches snapshot 1`] = `
                             }
                           >
                             <div
-                              className="css-view-1dbjc4n"
+                              className="css-view-1dbjc4n r-width-1q42mak"
                               style={
                                 {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
-                                  "width": "74px",
                                 }
                               }
                             />
@@ -770,12 +774,11 @@ exports[`Dashboard matches snapshot 1`] = `
                               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                             >
                               <div
-                                className="css-view-1dbjc4n r-marginTop-14gqq1x"
+                                className="css-view-1dbjc4n r-marginTop-14gqq1x r-width-1q42mak"
                                 style={
                                   {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
-                                    "width": "74px",
                                   }
                                 }
                               />
@@ -870,12 +873,11 @@ exports[`Dashboard matches snapshot 1`] = `
                             }
                           >
                             <div
-                              className="css-view-1dbjc4n"
+                              className="css-view-1dbjc4n r-width-1q42mak"
                               style={
                                 {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
-                                  "width": "74px",
                                 }
                               }
                             />
@@ -913,12 +915,11 @@ exports[`Dashboard matches snapshot 1`] = `
                               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                             >
                               <div
-                                className="css-view-1dbjc4n r-marginTop-14gqq1x"
+                                className="css-view-1dbjc4n r-marginTop-14gqq1x r-width-1q42mak"
                                 style={
                                   {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
-                                    "width": "74px",
                                   }
                                 }
                               />
@@ -1013,12 +1014,11 @@ exports[`Dashboard matches snapshot 1`] = `
                             }
                           >
                             <div
-                              className="css-view-1dbjc4n"
+                              className="css-view-1dbjc4n r-width-1q42mak"
                               style={
                                 {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
-                                  "width": "74px",
                                 }
                               }
                             />
@@ -1056,12 +1056,11 @@ exports[`Dashboard matches snapshot 1`] = `
                               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                             >
                               <div
-                                className="css-view-1dbjc4n r-marginTop-14gqq1x"
+                                className="css-view-1dbjc4n r-marginTop-14gqq1x r-width-1q42mak"
                                 style={
                                   {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
-                                    "width": "74px",
                                   }
                                 }
                               />

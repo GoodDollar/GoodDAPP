@@ -260,7 +260,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                0x711E5668F23...9c1176ad199FF
+                0x5dfFc16F54a...61B8fc39EE35F
               </div>
             </div>
             <div
@@ -422,7 +422,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                0x78c4d2c312e...95775dd175ead
+                0xc30e7cbfa08...e4868056fe573
               </div>
             </div>
             <div
@@ -578,13 +578,13 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-p1pxzi r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                CELO RPC Address
+                DEVELOP RPC Address
               </div>
               <div
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                https://forno.celo.org/
+                https://rpc.fuse.io/
               </div>
             </div>
             <div
@@ -746,7 +746,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
                 className="css-text-901oao r-color-vaa0vc r-fontFamily-vnw8o6 r-fontSize-n6v787 r-fontWeight-1it3c9n r-letterSpacing-rdxj0b r-lineHeight-w20frr r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                42220
+                4447
               </div>
             </div>
             <div

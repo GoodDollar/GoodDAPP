@@ -99,7 +99,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                 className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-b88u0q r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                 dir="auto"
               >
-                CELO
+                DEVELOP
               </div>
             </div>
           </div>
@@ -393,7 +393,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "marginLeft": "0px",
                         "marginRight": "0px",
                         "marginTop": "0px",
-                        "opacity": 1,
+                        "opacity": 0.5,
                         "width": "46%",
                       }
                     }
@@ -426,7 +426,12 @@ exports[`AppNavigation matches snapshot 1`] = `
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n r-display-6koalj"
+                          className="css-view-1dbjc4n"
+                          style={
+                            {
+                              "display": "none",
+                            }
+                          }
                         >
                           <ellipse46.svg />
                         </div>

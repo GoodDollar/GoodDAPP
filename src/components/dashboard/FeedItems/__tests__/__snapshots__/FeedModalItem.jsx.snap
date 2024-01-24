@@ -149,13 +149,17 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
+                        className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t"
                       >
-                        Misao Matimbo
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        >
+                          Misao Matimbo
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -173,12 +177,16 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-flexDirection-18u37iz"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                      />
+                        className="css-view-1dbjc4n r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        />
+                      </div>
                     </div>
                     <div
                       className="css-text-901oao css-textOneLine-1hf3ou5 r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -203,17 +211,17 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      TX Details:
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                       dir="auto"
                       onClick={[Function]}
                     >
-                      Transaction Details
-                    </div>
-                    <div
-                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
-                    >
-                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                      0x98...9f77
                     </div>
                   </div>
                   <div
@@ -519,13 +527,17 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
+                        className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
                       >
-                        Misao Matimbo
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        >
+                          Misao
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -598,12 +610,16 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-flexDirection-18u37iz"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                      />
+                        className="css-view-1dbjc4n r-flexDirection-18u37iz"
+                      >
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        />
+                      </div>
                     </div>
                     <div
                       className="css-text-901oao css-textOneLine-1hf3ou5 r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -628,17 +644,17 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      TX Details:
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                       dir="auto"
                       onClick={[Function]}
                     >
-                      Transaction Details
-                    </div>
-                    <div
-                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
-                    >
-                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                      0x98...9f77
                     </div>
                   </div>
                   <div
@@ -960,26 +976,30 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                        style={
-                          {
-                            "minWidth": "15px",
+                        className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
+                      >
+                        <div
+                          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                          style={
+                            {
+                              "minWidth": "15px",
+                            }
                           }
-                        }
-                      >
-                        To
-                        :
-                         
-                      </div>
-                      <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                      >
-                        Misao Matimbo
+                        >
+                          To
+                          :
+                           
+                        </div>
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        >
+                          Misao
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1041,25 +1061,29 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-flexDirection-18u37iz"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                        style={
-                          {
-                            "minWidth": "15px",
-                          }
-                        }
+                        className="css-view-1dbjc4n r-flexDirection-18u37iz"
                       >
-                        From
-                        :
-                         
+                        <div
+                          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                          style={
+                            {
+                              "minWidth": "15px",
+                            }
+                          }
+                        >
+                          From
+                          :
+                           
+                        </div>
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        />
                       </div>
-                      <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                      />
                     </div>
                     <div
                       className="css-text-901oao css-textOneLine-1hf3ou5 r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1084,17 +1108,17 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      TX Details:
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                       dir="auto"
                       onClick={[Function]}
                     >
-                      Transaction Details
-                    </div>
-                    <div
-                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
-                    >
-                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                      0x98...9f77
                     </div>
                   </div>
                   <div
@@ -1416,26 +1440,30 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                        style={
-                          {
-                            "minWidth": "15px",
+                        className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
+                      >
+                        <div
+                          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                          style={
+                            {
+                              "minWidth": "15px",
+                            }
                           }
-                        }
-                      >
-                        To
-                        :
-                         
-                      </div>
-                      <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                      >
-                        Misao Matimbo
+                        >
+                          To
+                          :
+                           
+                        </div>
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        >
+                          Misao
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1497,25 +1525,29 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-flexDirection-18u37iz"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                        style={
-                          {
-                            "minWidth": "15px",
-                          }
-                        }
+                        className="css-view-1dbjc4n r-flexDirection-18u37iz"
                       >
-                        From
-                        :
-                         
+                        <div
+                          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                          style={
+                            {
+                              "minWidth": "15px",
+                            }
+                          }
+                        >
+                          From
+                          :
+                           
+                        </div>
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        />
                       </div>
-                      <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                      />
                     </div>
                     <div
                       className="css-text-901oao css-textOneLine-1hf3ou5 r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1540,17 +1572,17 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      TX Details:
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                       dir="auto"
                       onClick={[Function]}
                     >
-                      Transaction Details
-                    </div>
-                    <div
-                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
-                    >
-                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                      0x98...9f77
                     </div>
                   </div>
                   <div
@@ -1872,26 +1904,30 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                        style={
-                          {
-                            "minWidth": "15px",
+                        className="css-view-1dbjc4n r-alignItems-1d09ksm r-display-6koalj r-flexDirection-18u37iz r-height-16l9doz r-marginRight-lchren r-paddingRight-1hvjb8t r-width-1sxiqef"
+                      >
+                        <div
+                          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                          style={
+                            {
+                              "minWidth": "15px",
+                            }
                           }
-                        }
-                      >
-                        From
-                        :
-                         
-                      </div>
-                      <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-evnaw r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                      >
-                        Misao Matimbo
+                        >
+                          From
+                          :
+                           
+                        </div>
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        >
+                          Misao
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1953,25 +1989,29 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flexDirection-eqz5dr"
                   >
                     <div
-                      className="css-view-1dbjc4n r-flexDirection-18u37iz"
+                      className="css-view-1dbjc4n r-flexDirection-eqz5dr"
                     >
                       <div
-                        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                        style={
-                          {
-                            "minWidth": "15px",
-                          }
-                        }
+                        className="css-view-1dbjc4n r-flexDirection-18u37iz"
                       >
-                        To
-                        :
-                         
+                        <div
+                          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-1f529hi r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                          style={
+                            {
+                              "minWidth": "15px",
+                            }
+                          }
+                        >
+                          To
+                          :
+                           
+                        </div>
+                        <div
+                          className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
+                          dir="auto"
+                        />
                       </div>
-                      <div
-                        className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-1ozqkpa"
-                        dir="auto"
-                      />
                     </div>
                     <div
                       className="css-text-901oao css-textOneLine-1hf3ou5 r-color-11t4n93 r-flexShrink-1q142lx r-fontFamily-vnw8o6 r-fontSize-10x49cs r-fontWeight-1it3c9n r-lineHeight-qvk6io r-paddingBottom-1mdbw0j r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
@@ -1996,17 +2036,17 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1habvwh r-flex-13awgt0 r-flexDirection-eqz5dr r-justifyContent-1777fci"
                   >
                     <div
-                      className="css-text-901oao r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
+                      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                      dir="auto"
+                    >
+                      TX Details:
+                    </div>
+                    <div
+                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
                       dir="auto"
                       onClick={[Function]}
                     >
-                      Transaction Details
-                    </div>
-                    <div
-                      className="css-text-901oao css-textOneLine-1hf3ou5 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-1gkfh8e r-fontWeight-1it3c9n r-lineHeight-1b6yf8j r-maxWidth-x1dlf0 r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-                      dir="auto"
-                    >
-                      0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77
+                      0x98...9f77
                     </div>
                   </div>
                   <div

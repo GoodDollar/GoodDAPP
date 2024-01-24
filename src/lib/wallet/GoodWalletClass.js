@@ -377,6 +377,7 @@ export class GoodWallet {
             networkId: this.networkId,
             startBlock,
           })
+
           return this.syncTxWithBlockchain(startBlock)
         })
         this.lastEventsBlock = lastBlock
@@ -733,12 +734,7 @@ export class GoodWallet {
 
   async checkEntitlement(): Promise<number> {
     try {
-      return await retryCall(() =>
-        this.UBIContract.methods
-          .checkEntitlement()
-          .call()
-          .then(parseInt),
-      )
+      return await retryCall(() => this.UBIContract.methods.checkEntitlement().call().then(parseInt))
     } catch (exception) {
       logError('checkEntitlement failed', exception)
       return 0
@@ -1181,9 +1177,11 @@ export class GoodWallet {
   async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
     try {
       const hashedCode = this.getWithdrawLink(otlCode)
-      const { paymentAmount, hasPayment, paymentSender: sender } = await retryCall(() =>
-        this.oneTimePaymentsContract.methods.payments(hashedCode).call(),
-      )
+      const {
+        paymentAmount,
+        hasPayment,
+        paymentSender: sender,
+      } = await retryCall(() => this.oneTimePaymentsContract.methods.payments(hashedCode).call())
       const amount = toBN(paymentAmount)
       let status = WITHDRAW_STATUS_UNKNOWN
 

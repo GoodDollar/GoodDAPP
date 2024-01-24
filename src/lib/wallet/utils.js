@@ -282,9 +282,7 @@ export const fromDecimals = (amount, chainOrToken = null) => {
 export const isTransferTx = (txType: string) => /(send|receive|withdraw)(?!.*bridge|pending)/.test(txType)
 
 export const isDuplicateTxError = message =>
-  message
-    .toLowerCase()
-    .search('same nonce|same hash|alreadyknown|already known|feetoolow|nonce is too low|underpriced') >= 0
+  message.toLowerCase().search(/(sames*(nonce|hash)|alreadys*known|(fee|nonce)s*toos*low|underpriced)/i) >= 0
 
 export const isConnectionError = error =>
   /connection (error|timeout)|invalid json rpc/i.test(error instanceof Error ? error.message : error || '')

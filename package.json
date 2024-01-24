@@ -377,7 +377,8 @@
     "posthog-react-native": "2.10.1",
     "jest-environment-jsdom@^29.7.0": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
     "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
-    "follow-redirects": "1.15.4"
+    "follow-redirects": "1.15.4",
+    "sqlite3": "^5.0.1"
   },
   "husky": {
     "hooks": {

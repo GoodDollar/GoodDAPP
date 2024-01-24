@@ -139,7 +139,7 @@ class NameForm extends React.Component<Props, State> {
                   letterSpacing={0.14}
                   fontFamily="Roboto"
                 >
-                  {t`This can't be changed later.`}
+                  {t`This is what people will see when you send or receive transactions. You can change it at any time in your Profile.`}
                 </Text>
               ) : null}
             </Section.Stack>

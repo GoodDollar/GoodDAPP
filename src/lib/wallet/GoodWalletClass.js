@@ -377,6 +377,7 @@ export class GoodWallet {
             networkId: this.networkId,
             startBlock,
           })
+
           return this.syncTxWithBlockchain(startBlock)
         })
         this.lastEventsBlock = lastBlock

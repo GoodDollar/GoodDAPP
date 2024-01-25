@@ -468,7 +468,7 @@ export class GoodWallet {
     let otpResults = []
     const tokenPromise = tokenAddress
       ? API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
-          results.map(result => ({ ...result, transactionHash: result.hash })),
+          results.map(result => ({ ...result, transactionHash: result.transactionHash || result.hash })),
         )
       : Promise.resolve()
 
@@ -477,12 +477,8 @@ export class GoodWallet {
 
     const otpPromise = otpAddress
       ? Promise.all([
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash).then(results =>
-            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
-          ),
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash).then(results =>
-            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
-          ),
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash),
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash),
         ])
       : Promise.resolve()
 
@@ -734,12 +730,7 @@ export class GoodWallet {
 
   async checkEntitlement(): Promise<number> {
     try {
-      return await retryCall(() =>
-        this.UBIContract.methods
-          .checkEntitlement()
-          .call()
-          .then(parseInt),
-      )
+      return await retryCall(() => this.UBIContract.methods.checkEntitlement().call().then(parseInt))
     } catch (exception) {
       logError('checkEntitlement failed', exception)
       return 0
@@ -1182,9 +1173,11 @@ export class GoodWallet {
   async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
     try {
       const hashedCode = this.getWithdrawLink(otlCode)
-      const { paymentAmount, hasPayment, paymentSender: sender } = await retryCall(() =>
-        this.oneTimePaymentsContract.methods.payments(hashedCode).call(),
-      )
+      const {
+        paymentAmount,
+        hasPayment,
+        paymentSender: sender,
+      } = await retryCall(() => this.oneTimePaymentsContract.methods.payments(hashedCode).call())
       const amount = toBN(paymentAmount)
       let status = WITHDRAW_STATUS_UNKNOWN
 

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { get, groupBy, keyBy, noop } from 'lodash'
 import { t } from '@lingui/macro'
-import { usePostHog } from 'posthog-react-native'
 
 import { useFormatG$, usePropSuffix, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
@@ -19,6 +18,7 @@ import { useUserProperty } from '../../lib/userStorage/useProfile'
 import mustache from '../../lib/utils/mustache'
 
 import createABTesting from '../../lib/hooks/useABTesting'
+import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
 
 const { useOption } = createABTesting('INVITE_CAMPAIGNS')
 
@@ -365,8 +365,7 @@ export const useInviteCopy = () => {
 }
 
 export const useInviteShare = level => {
-  const posthog = usePostHog()
-  const abTestOptions = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('share-link') : []), [posthog])
+  const abTestOptions = useFlagWithPayload('share-link')
   const abTestOption = useOption(abTestOptions) || {}
   const { shareTitle } = abTestOption
   const { toDecimals } = useFormatG$()

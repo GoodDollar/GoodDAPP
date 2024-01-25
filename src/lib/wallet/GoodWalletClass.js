@@ -72,7 +72,7 @@ import interestQuery from './queries/interestReceived.gql'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 // eslint-disable-next-line require-await
-export const retryCall = async asyncFn => retry(asyncFn, 3, 1000)
+export const retryCall = async (asyncFn, retries = 3, delay = 1000) => retry(asyncFn, retries, delay)
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 40000
@@ -445,6 +445,7 @@ export class GoodWallet {
         this._notifyReceipt(event.transactionHash).catch(err =>
           logError('_notifyEvents event get/send receipt failed:', err, {
             category: ExceptionCategory.Blockhain,
+            event: event,
           }),
         ),
       ),
@@ -667,7 +668,7 @@ export class GoodWallet {
    */
   async getReceiptWithLogs(transactionHash: string) {
     const chainId = this.networkId
-    const transactionReceipt = await retryCall(() => this.wallet.eth.getTransactionReceipt(transactionHash))
+    const transactionReceipt = await retryCall(() => this.wallet.eth.getTransactionReceipt(transactionHash), 3, 3000)
 
     if (!transactionReceipt) {
       return null
@@ -730,7 +731,12 @@ export class GoodWallet {
 
   async checkEntitlement(): Promise<number> {
     try {
-      return await retryCall(() => this.UBIContract.methods.checkEntitlement().call().then(parseInt))
+      return await retryCall(() =>
+        this.UBIContract.methods
+          .checkEntitlement()
+          .call()
+          .then(parseInt),
+      )
     } catch (exception) {
       logError('checkEntitlement failed', exception)
       return 0
@@ -1173,11 +1179,9 @@ export class GoodWallet {
   async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
     try {
       const hashedCode = this.getWithdrawLink(otlCode)
-      const {
-        paymentAmount,
-        hasPayment,
-        paymentSender: sender,
-      } = await retryCall(() => this.oneTimePaymentsContract.methods.payments(hashedCode).call())
+      const { paymentAmount, hasPayment, paymentSender: sender } = await retryCall(() =>
+        this.oneTimePaymentsContract.methods.payments(hashedCode).call(),
+      )
       const amount = toBN(paymentAmount)
       let status = WITHDRAW_STATUS_UNKNOWN
 

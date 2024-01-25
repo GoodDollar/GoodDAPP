@@ -1,5 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { usePostHog } from 'posthog-react-native'
+import { once } from 'lodash'
+
 import logger from '../../lib/logger/js-logger'
 
 const log = logger.child({ from: 'useFeatureFlags' })
@@ -61,9 +63,11 @@ const defaultFlagsWithPayload = {
   },
 }
 
-const addLogger = once(posthog => posthog.on('error', e => {
- log.error('PostHog fetch error', e.message)
-}))
+const addLogger = once(posthog =>
+  posthog.on('error', e => {
+    log.error('PostHog fetch error', e.message)
+  }),
+)
 
 export const useFeatureFlagOrDefault = featureFlag => {
   const posthog = usePostHog()
@@ -75,7 +79,6 @@ export const useFeatureFlagOrDefault = featureFlag => {
     }
 
     addLogger(posthog)
-    }
   }, [posthog])
 
   return useMemo(() => posthog?.getFeatureFlag(featureFlag) ?? defaultFeatureFlags[featureFlag], [posthog, featureFlag])
@@ -90,14 +93,11 @@ export const useFlagWithPayload = featureFlag => {
       return
     }
 
-    if (posthog && !alreadyHasErrorHandler) {
-      posthog.on('error', e => {
-        log.error('posthog fetch error', e.message)
-      })
-
-      alreadyHasErrorHandler = true
-    }
+    addLogger(posthog)
   }, [posthog])
 
- return useMemo(() => (posthog?.getFeatureFlagPayload(featureFlag) ?? defaultFlagsWithPayload[featureFlag]), [posthog, featureFlag])
+  return useMemo(() => posthog?.getFeatureFlagPayload(featureFlag) ?? defaultFlagsWithPayload[featureFlag], [
+    posthog,
+    featureFlag,
+  ])
 }

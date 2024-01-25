@@ -127,7 +127,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                   { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginRight: 15 },
                 ]}
               >
-                {walletChatEnabled && isTransfer && !eventSettings.withoutAmount && ownerAddress.length > 0 && (
+                {walletChatEnabled && isTransfer && !eventSettings.withoutAmount && ownerAddress?.length > 0 && (
                   <TouchableOpacity>
                     <ChatWithOwner
                       ownerAddress={ownerAddress}

@@ -96,7 +96,7 @@ export const useInviteCode = (registerOnlyInvited = false) => {
     // fix accidental selfinvite
     if (code === inviterInviteCode) {
       userStorage.userProperties.set(`inviterInviteCode${propSuffix}`, undefined)
-      AsyncStorage.setItem(INVITE_CODE, undefined)
+      AsyncStorage.removeItem(INVITE_CODE)
     }
 
     return code

@@ -73,11 +73,6 @@ export const useFeatureFlagOrDefault = featureFlag => {
   const posthog = usePostHog()
 
   useEffect(() => {
-    if (!posthog) {
-      log.error('PostHog failed to initialize')
-      return
-    }
-
     addLogger(posthog)
   }, [posthog])
 
@@ -88,11 +83,6 @@ export const useFlagWithPayload = featureFlag => {
   const posthog = usePostHog()
 
   useEffect(() => {
-    if (!posthog) {
-      log.error('posthog failed to initalize')
-      return
-    }
-
     addLogger(posthog)
   }, [posthog])
 

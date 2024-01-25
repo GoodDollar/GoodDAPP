@@ -72,9 +72,7 @@ import interestQuery from './queries/interestReceived.gql'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 // eslint-disable-next-line require-await
-export const retryCall = async (asyncFn, retries = 3, delay = 1000) => {
-  return retry(asyncFn, retries, delay)
-}
+export const retryCall = async (asyncFn, retries = 3, delay = 1000) => retry(asyncFn, retries, delay)
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 40000

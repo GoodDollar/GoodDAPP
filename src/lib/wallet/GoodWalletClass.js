@@ -72,7 +72,9 @@ import interestQuery from './queries/interestReceived.gql'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 // eslint-disable-next-line require-await
-export const retryCall = async asyncFn => retry(asyncFn, 3, 1000)
+export const retryCall = async (asyncFn, retries = 3, delay = 1000) => {
+  return retry(asyncFn, retries, delay)
+}
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 40000
@@ -445,7 +447,7 @@ export class GoodWallet {
         this._notifyReceipt(event.transactionHash).catch(err =>
           logError('_notifyEvents event get/send receipt failed:', err, {
             category: ExceptionCategory.Blockhain,
-            hash: event.transactionHash,
+            event: event,
           }),
         ),
       ),
@@ -672,7 +674,7 @@ export class GoodWallet {
    */
   async getReceiptWithLogs(transactionHash: string) {
     const chainId = this.networkId
-    const transactionReceipt = await retryCall(() => this.wallet.eth.getTransactionReceipt(transactionHash))
+    const transactionReceipt = await retryCall(() => this.wallet.eth.getTransactionReceipt(transactionHash), 3, 3000)
 
     if (!transactionReceipt) {
       return null

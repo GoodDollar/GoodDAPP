@@ -377,6 +377,7 @@ export class GoodWallet {
             networkId: this.networkId,
             startBlock,
           })
+
           return this.syncTxWithBlockchain(startBlock)
         })
         this.lastEventsBlock = lastBlock
@@ -467,7 +468,7 @@ export class GoodWallet {
     let otpResults = []
     const tokenPromise = tokenAddress
       ? API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
-          results.map(result => ({ ...result, transactionHash: result.hash })),
+          results.map(result => ({ ...result, transactionHash: result.transactionHash || result.hash })),
         )
       : Promise.resolve()
 
@@ -476,12 +477,8 @@ export class GoodWallet {
 
     const otpPromise = otpAddress
       ? Promise.all([
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash).then(results =>
-            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
-          ),
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash).then(results =>
-            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
-          ),
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash),
+          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash),
         ])
       : Promise.resolve()
 

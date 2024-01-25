@@ -4,8 +4,7 @@ import { Platform, TouchableOpacity, View } from 'react-native'
 import { get, isNil } from 'lodash'
 import { t } from '@lingui/macro'
 import { ChatWithOwner } from 'react-native-wallet-chat'
-
-import { useFeatureFlag } from 'posthog-react-native'
+import { useFeatureFlagOrDefault } from '../../../lib/hooks/useFeatureFlags'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -36,7 +35,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const buttonPress = useCallback(() => onPress(item.id), [item, onPress])
   const { avatar: selfAvatar, email } = useProfile()
 
-  const walletChatEnabled = useFeatureFlag('wallet-chat')
+  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat')
 
   const itemType = item.displayType || item.type
 

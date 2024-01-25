@@ -1,12 +1,11 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { t } from '@lingui/macro'
-import { usePostHog } from 'posthog-react-native'
 
 import { useDialog } from '../../lib/dialog/useDialog'
+import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
 
 export const useSecurityDialog = () => {
-  const posthog = usePostHog()
-  const payload = useMemo(() => (posthog ? posthog.getFeatureFlagPayload('security-dialog') : [posthog]))
+  const payload = useFlagWithPayload('security-dialog')
 
   const { enabled, dialogTitle, dialogText, withButtons } = payload || {}
   const { showDialog } = useDialog()
@@ -21,5 +20,5 @@ export const useSecurityDialog = () => {
       })[showDialog],
   )
 
-  return { securityEnabled: enabled, securityDialog, posthog }
+  return { securityEnabled: enabled, securityDialog }
 }

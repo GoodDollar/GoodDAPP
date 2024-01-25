@@ -285,7 +285,7 @@ export const isDuplicateTxError = message =>
   message.toLowerCase().search(/(sames*(nonce|hash)|alreadys*known|(fee|nonce)s*toos*low|underpriced)/i) >= 0
 
 export const isConnectionError = error =>
-  /connection (error|timeout)|invalid json rpc/i.test(error instanceof Error ? error.message : error || '')
+  /(connection|network) (error|timeout)|invalid json rpc/i.test(error instanceof Error ? error.message : error || '')
 
 export const logError = (label, error, data = undefined) => {
   if (!isConnectionError) {

@@ -446,7 +446,7 @@ export class GoodWallet {
       uniqEvents.map(event =>
         this._notifyReceipt(event.transactionHash).catch(err =>
           logError('_notifyEvents event get/send receipt failed:', err, {
-            category: ExceptionCategory.Blockhain,
+            category: ExceptionCategory.Blockchain,
             event: event,
           }),
         ),

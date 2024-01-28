@@ -164,6 +164,7 @@ export default defineConfig({
           // reduce main chunk size so sourcemaps for sentry doesnt OOM
           web3: ['web3'],
           ethers: ['ethers'],
+          threaddb: ['@textile/threaddb', '@textile/threads-client', '@textile/threads-id'],
         },
       },
       plugins: [jsxTransform([/react-native-.*\.jsx?$/])], //for some reason react-native packages are not being transpiled even with esbuild jsx settings

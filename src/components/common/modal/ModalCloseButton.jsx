@@ -3,8 +3,8 @@ import React from 'react'
 import { Platform, TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import useOnPress from '../../../lib/hooks/useOnPress'
+import Icon from '../../common/view/Icon'
 import { mediumZIndex } from './styles'
-import CloseSVG from './img/close.svg'
 
 const ModalCloseButton = (props: any) => {
   const { styles, onClose } = props
@@ -12,26 +12,41 @@ const ModalCloseButton = (props: any) => {
 
   return (
     <TouchableOpacity style={styles.modalCloseImageContainer} onPress={onPress}>
-      <View style={styles.modalCloseImage}>
-        <CloseSVG />
+      <View style={styles.modalIconWrapper}>
+        <View style={styles.modalCloseImage}>
+          <Icon name="close" color="lighterGray" size={20} style={{ margin: 'auto' }} />
+        </View>
       </View>
     </TouchableOpacity>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  modalIconWrapper: {
+    position: 'relative',
+    backgroundColor: theme.colors.white,
+    borderRadius: 18,
+    width: 36,
+    height: 36,
+    marginLeft: 'auto',
+    marginRight: -(37 / 2),
+  },
   modalCloseImage: {
     position: 'relative',
+    backgroundColor: theme.colors.lightGray,
+    borderRadius: 15,
+    width: 30,
+    height: 30,
+    marginLeft: 3,
+    marginTop: 3,
   },
   modalCloseImageContainer: {
     position: 'absolute',
     zIndex: mediumZIndex,
     top: -20,
     right: 0,
-    width: 37,
-    height: 37,
-    marginLeft: 'auto',
-    marginRight: -(37 / 2),
+    width: 36,
+    height: 36,
     ...(Platform.select({
       // required for Android
       android: { elevation: 25 },

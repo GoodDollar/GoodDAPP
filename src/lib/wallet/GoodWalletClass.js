@@ -43,7 +43,7 @@ import {
 } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
-import * as TextileCrypto from '@textile/crypto'
+import { PrivateKey } from '@textile/crypto'
 import { signTypedData } from '@metamask/eth-sig-util'
 import Mutex from 'await-mutex'
 import { pRateLimit } from 'p-ratelimit'
@@ -960,10 +960,10 @@ export class GoodWallet {
   }
 
   // eslint-disable-next-line require-await
-  getEd25519Key(accountType: AccountUsage): TextileCrypto.PrivateKey {
+  getEd25519Key(accountType: AccountUsage): PrivateKey {
     const pkeySeed = this.accounts[this.getAccountForType(accountType)].privateKey.slice(2)
     const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-    return TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
+    return PrivateKey.fromRawEd25519Seed(seed)
   }
 
   /**

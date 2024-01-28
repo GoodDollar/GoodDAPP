@@ -10,6 +10,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { flowPlugin, esbuildFlowPlugin } from '@bunchtogether/vite-plugin-flow'
 import { VitePWA } from 'vite-plugin-pwa'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import { analyzer } from 'vite-bundle-analyzer'
 
 import { version } from './package.json'
 const extensions = ['.web.tsx', '.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.jsx', '.mjs', '.js', '.json']
@@ -132,6 +133,7 @@ export default defineConfig({
     //     // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
     //     authToken: process.env.SENTRY_AUTH_TOKEN,
     //   }),
+    // analyzer(),
   ],
   resolve: {
     extensions,
@@ -143,11 +145,10 @@ export default defineConfig({
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
       jsbi: path.resolve(__dirname, '..', 'node_modules', 'jsbi', 'dist', 'jsbi-cjs.js'),
     },
-    dedupe: ['react', 'ethers', 'react-dom', 'native-base'],
+    dedupe: ['react', 'ethers', 'react-dom', 'native-base', 'bn.js'],
   },
   build: {
-    // sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
-    sourcemap: false,
+    sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
     manifest: true,
     outDir: 'build',
     commonjsOptions: {

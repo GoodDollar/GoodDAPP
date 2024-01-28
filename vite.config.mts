@@ -9,8 +9,13 @@ import fs from 'fs'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { flowPlugin, esbuildFlowPlugin } from '@bunchtogether/vite-plugin-flow'
 import { VitePWA } from 'vite-plugin-pwa'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 
+import { version } from './package.json'
 const extensions = ['.web.tsx', '.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.jsx', '.mjs', '.js', '.json']
+
+console.log('sentry env:', process.env.REACT_APP_ENV)
+const sentryEnv = process.env.REACT_APP_ENV || 'development'
 
 const jsxTransform = (matchers: RegExp[]) => ({
   name: 'js-in-jsx',
@@ -113,6 +118,20 @@ export default defineConfig({
       ],
       globals: { process: true, Buffer: true, global: true },
     }),
+    sentryVitePlugin({
+      debug: false,
+      telemetry: false,
+      release: {
+        name: `${version}+${sentryEnv}`,
+        deploy: {
+          env: sentryEnv,
+        },
+      },
+      org: 'gooddollar',
+      project: 'gooddapp',
+      // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }),
   ],
   resolve: {
     extensions,
@@ -127,6 +146,7 @@ export default defineConfig({
     dedupe: ['react', 'ethers', 'react-dom', 'native-base'],
   },
   build: {
+    sourcemap: !!process.env.SENTRY_AUTH_TOKEN, //required for sentry
     manifest: true,
     outDir: 'build',
     commonjsOptions: {

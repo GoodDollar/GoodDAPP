@@ -5432,7 +5432,7 @@ __metadata:
     lodash: ^4.17.21
     lottie-ios: ^3.4.0
     lottie-react-native: ^5
-    lottie-react-web: ^2.2.2
+    lottie-web: ^5.12.2
     metro: 0.67
     metro-babel-register: 0.67
     metro-react-native-babel-preset: 0.67
@@ -24339,7 +24339,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"global@npm:^4.4.0, global@npm:~4.4.0":
+"global@npm:~4.4.0":
   version: 4.4.0
   resolution: "global@npm:4.4.0"
   dependencies:
@@ -30103,13 +30103,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lottie-api@npm:^1.0.2":
-  version: 1.0.3
-  resolution: "lottie-api@npm:1.0.3"
-  checksum: d0a69f9f97a80d8f48af13416119c525257e5f0ebbab96c2cb233131c0cf84cd6c25a9b0fedcc6fdb5ef6d974287a04bd6fc9d531d5904a0a191cc10c356dc72
-  languageName: node
-  linkType: hard
-
 "lottie-ios@npm:^3.4.0":
   version: 3.4.0
   resolution: "lottie-ios@npm:3.4.0"
@@ -30153,24 +30146,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lottie-react-web@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "lottie-react-web@npm:2.2.2"
-  dependencies:
-    babel-runtime: ^6.26.0
-    global: ^4.4.0
-    lottie-api: ^1.0.2
-    lottie-web: ^5.6.1
-  peerDependencies:
-    react: ^0.14.7 || ^15.0.0 || ^16.0.0
-  checksum: 95e52e7388da438b60a20bd30cebe3d74d27a71bf5269337bc5ec9bb02f5bb9273e96885eb54119dc6a7e14b77fbcedf4a580bb3a20e4f5e4647900b20a2fd6e
-  languageName: node
-  linkType: hard
-
-"lottie-web@npm:^5.6.1, lottie-web@npm:^5.7.1":
-  version: 5.8.1
-  resolution: "lottie-web@npm:5.8.1"
-  checksum: 48c19ea7863310150dc9e46855b0f85179f3768ac0c0cf4f3ffb18944819079d3046c31ca04f2748291f3c413a855329a12ce9c3faae056a1a869776b6ed12a9
+"lottie-web@npm:5.12.2":
+  version: 5.12.2
+  resolution: "lottie-web@npm:5.12.2"
+  checksum: af5bc3bc405fd760de8b17a36158d5a8c3e8c586c711d0c63681ddf056b65bc6b54ea36b1fcad782fb02dbe12e696a40e0ba72daf41b8f10ab5b5d1113793636
   languageName: node
   linkType: hard
 

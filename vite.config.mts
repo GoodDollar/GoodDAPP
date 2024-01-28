@@ -8,6 +8,7 @@ import * as esbuild from 'esbuild'
 import fs from 'fs'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { flowPlugin, esbuildFlowPlugin } from '@bunchtogether/vite-plugin-flow'
+import { VitePWA } from 'vite-plugin-pwa'
 
 const extensions = ['.web.tsx', '.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.jsx', '.mjs', '.js', '.json']
 
@@ -37,6 +38,51 @@ export default defineConfig({
   //   return { context, from, to: 'facetec/' + from }
   // })),
   plugins: [
+    VitePWA({
+      injectRegister: null,
+      workbox: {
+        skipWaiting: false,
+        clientsClaim: true,
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,gif}'],
+        navigateFallbackDenylist: [
+          // Exclude URLs starting with /_, as they're likely an API call
+          new RegExp('^/_'),
+          // Exclude URLs containing a dot, as they're likely a resource in
+          // public/ and not a SPA route
+          new RegExp('/[^/]+\\.[^/]+$'),
+        ],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'google-fonts-stylesheets',
+              cacheableResponse: {
+                statuses: [200],
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-webfonts',
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+                maxEntries: 30,
+              },
+            },
+          },
+        ],
+      },
+      devOptions: {
+        enabled: true,
+        /* other options */
+      },
+    }),
     viteStaticCopy({
       targets: [
         { src: 'node_modules/@gooddollar/react-native-facetec/web/sdk/images', dest: 'facetec' },
@@ -85,13 +131,8 @@ export default defineConfig({
     outDir: 'build',
     commonjsOptions: {
       extensions: ['.js', '.jsx', '.web.js', '.web.jsx'],
-      ignore: id =>
-        id.includes('es5-ext/global') ||
-        id.includes('expo-') ||
-        id.includes('@react-navigation/native') ||
-        id.includes('react-native-navigation'), //required to make importing of missing packages to fail. fixes posthog issues
+      ignore: id => id.includes('es5-ext/global'), //required to make importing of missing packages to fail.
       include: [/node_modules/],
-      exclude: [/FaceTecSDK.web.js/], // required so it will be loaded as umd module in global
       transformMixedEsModules: true, //handle deps that use "require" and "module.exports"
     },
     rollupOptions: {

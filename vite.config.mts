@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import dynamicImports from 'vite-plugin-dynamic-import'
@@ -146,7 +146,7 @@ export default defineConfig({
     dedupe: ['react', 'ethers', 'react-dom', 'native-base'],
   },
   build: {
-    sourcemap: !!process.env.SENTRY_AUTH_TOKEN, //required for sentry
+    sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
     manifest: true,
     outDir: 'build',
     commonjsOptions: {
@@ -156,6 +156,13 @@ export default defineConfig({
       transformMixedEsModules: true, //handle deps that use "require" and "module.exports"
     },
     rollupOptions: {
+      output: {
+        manualChunks: {
+          // reduce main chunk size so sourcemaps for sentry doesnt OOM
+          web3: ['web3'],
+          ethers: ['ethers'],
+        },
+      },
       plugins: [jsxTransform([/react-native-.*\.jsx?$/])], //for some reason react-native packages are not being transpiled even with esbuild jsx settings
     },
   },

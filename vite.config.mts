@@ -118,21 +118,21 @@ export default defineConfig({
       ],
       globals: { process: true, Buffer: true, global: true },
     }),
-    sentryVitePlugin({
-      debug: false,
-      telemetry: false,
-      release: {
-        name: `${version}+${sentryEnv}`,
-        deploy: {
-          env: sentryEnv,
-        },
-      },
-      org: 'gooddollar',
-      project: 'gooddapp',
-      // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-    }),
-  ],
+  //   sentryVitePlugin({
+  //     debug: false,
+  //     telemetry: false,
+  //     release: {
+  //       name: `${version}+${sentryEnv}`,
+  //       deploy: {
+  //         env: sentryEnv,
+  //       },
+  //     },
+  //     org: 'gooddollar',
+  //     project: 'gooddapp',
+  //     // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+  //     authToken: process.env.SENTRY_AUTH_TOKEN,
+  //   }),
+  // ],
   resolve: {
     extensions,
     alias: {

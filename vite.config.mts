@@ -146,7 +146,8 @@ export default defineConfig({
     dedupe: ['react', 'ethers', 'react-dom', 'native-base'],
   },
   build: {
-    sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
+    // sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
+    sourcemap: false,
     manifest: true,
     outDir: 'build',
     commonjsOptions: {

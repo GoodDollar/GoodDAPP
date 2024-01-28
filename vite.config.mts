@@ -119,20 +119,20 @@ export default defineConfig({
       ],
       globals: { process: true, Buffer: true, global: true },
     }),
-    //   sentryVitePlugin({
-    //     debug: false,
-    //     telemetry: false,
-    //     release: {
-    //       name: `${version}+${sentryEnv}`,
-    //       deploy: {
-    //         env: sentryEnv,
-    //       },
-    //     },
-    //     org: 'gooddollar',
-    //     project: 'gooddapp',
-    //     // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-    //     authToken: process.env.SENTRY_AUTH_TOKEN,
-    //   }),
+    sentryVitePlugin({
+      debug: false,
+      telemetry: false,
+      release: {
+        name: `${version}+${sentryEnv}`,
+        deploy: {
+          env: sentryEnv,
+        },
+      },
+      org: 'gooddollar',
+      project: 'gooddapp',
+      // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }),
     // analyzer(),
   ],
   resolve: {
@@ -148,7 +148,8 @@ export default defineConfig({
     dedupe: ['react', 'ethers', 'react-dom', 'native-base', 'bn.js'],
   },
   build: {
-    sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
+    // sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
+    sourcemap: true,
     manifest: true,
     outDir: 'build',
     commonjsOptions: {

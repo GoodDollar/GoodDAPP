@@ -148,13 +148,16 @@ export default defineConfig({
     dedupe: ['react', 'ethers', 'react-dom', 'native-base', 'bn.js'],
   },
   build: {
-    // sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
-    sourcemap: true,
+    sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
     manifest: true,
     outDir: 'build',
     commonjsOptions: {
       extensions: ['.js', '.jsx', '.web.js', '.web.jsx'],
-      ignore: id => id.includes('es5-ext/global'), //required to make importing of missing packages to fail.
+      ignore: id =>
+        id.includes('es5-ext/global') ||
+        id.includes('expo-') ||
+        id.includes('@react-navigation/native') ||
+        id.includes('react-native-navigation'), //required to make importing of missing packages to fail. fixes posthog issues
       include: [/node_modules/],
       transformMixedEsModules: true, //handle deps that use "require" and "module.exports"
     },

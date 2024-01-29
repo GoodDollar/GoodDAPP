@@ -499,7 +499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.1":
+"@babel/core@npm:^7.11.1, @babel/core@npm:^7.23.7":
   version: 7.23.9
   resolution: "@babel/core@npm:7.23.9"
   dependencies:
@@ -3194,7 +3194,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.11.0":
+"@babel/preset-env@npm:^7.11.0, @babel/preset-env@npm:^7.23.8":
   version: 7.23.9
   resolution: "@babel/preset-env@npm:7.23.9"
   dependencies:
@@ -5325,6 +5325,7 @@ __metadata:
     "@types/react-native": ^0.65.2
     "@types/react-test-renderer": 17
     "@usedapp/core": 1.2.6
+    "@vitejs/plugin-legacy": ^5.3.0
     "@vitejs/plugin-react": ^4.2.1
     "@vue/compiler-sfc": ^3.4.14
     "@walletconnect/client": ^1.8.0
@@ -11241,6 +11242,25 @@ __metadata:
   bin:
     usedapp-generate-hooks: bin/usedapp-generate-hooks.js
   checksum: 1bcf4273b10c69b2449e63e19e169cdb5109f685b1ccad314c7eccd4434a2c029567586e2dc1c96d52f31d76f105cdec37d7b2cd13cd5d7fa63c143644fa1844
+  languageName: node
+  linkType: hard
+
+"@vitejs/plugin-legacy@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "@vitejs/plugin-legacy@npm:5.3.0"
+  dependencies:
+    "@babel/core": ^7.23.7
+    "@babel/preset-env": ^7.23.8
+    browserslist: ^4.22.2
+    core-js: ^3.35.0
+    esbuild-plugin-browserslist: ^0.10.0
+    magic-string: ^0.30.5
+    regenerator-runtime: ^0.14.1
+    systemjs: ^6.14.3
+  peerDependencies:
+    terser: ^5.4.0
+    vite: ^5.0.0
+  checksum: d82401e12998cd8da921efe9229946527bf9e4caa849df115b21cd8b3b17f4b033f114d0504c9a8cfa6a76b85c50a54d6ebd4bce8a1dfbbddda355d889955671
   languageName: node
   linkType: hard
 
@@ -18405,7 +18425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.19.2":
+"core-js@npm:^3.19.2, core-js@npm:^3.35.0":
   version: 3.35.1
   resolution: "core-js@npm:3.35.1"
   checksum: e246af6b634be3763ffe3ce6ac4601b4dc5b928006fb6c95e5d08ecd82a2413bf36f00ffe178b89c9a8e94000288933a78a9881b2c9498e6cf312b031013b952
@@ -21038,6 +21058,19 @@ __metadata:
     es6-iterator: ^2.0.3
     es6-symbol: ^3.1.1
   checksum: 19ca15f46d50948ce78c2da5f21fb5b1ef45addd4fe17b5df952ff1f2a3d6ce4781249bc73b90995257264be2a98b2ec749bb2aba0c14b5776a1154178f9c927
+  languageName: node
+  linkType: hard
+
+"esbuild-plugin-browserslist@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "esbuild-plugin-browserslist@npm:0.10.0"
+  dependencies:
+    debug: ^4.3.4
+    zod: ^3.21.4
+  peerDependencies:
+    browserslist: ^4.21.8
+    esbuild: ~0.19.2
+  checksum: 56a3ecce446e7600179c047ac9866bdb787119e3fe3d38708a412b3694db9691f6134f66e8ebed73c57bbad266716c68a7f8a9ebb3470e8e5b1b4edce996c27c
   languageName: node
   linkType: hard
 
@@ -38367,7 +38400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.14.0":
+"regenerator-runtime@npm:^0.14.0, regenerator-runtime@npm:^0.14.1":
   version: 0.14.1
   resolution: "regenerator-runtime@npm:0.14.1"
   checksum: 9f57c93277b5585d3c83b0cf76be47b473ae8c6d9142a46ce8b0291a04bb2cf902059f0f8445dcabb3fb7378e5fe4bb4ea1e008876343d42e46d3b484534ce38
@@ -41887,6 +41920,13 @@ __metadata:
   dependencies:
     acorn-node: ^1.2.0
   checksum: c1c3f048fed1948865fda5e79e11b02addb32da323c9c9fb214d3a933f9fda668e55c848f7c4082514ea4f1cf3dcfab0c7b9c762bfad1306271753c0fcc4b14f
+  languageName: node
+  linkType: hard
+
+"systemjs@npm:^6.14.3":
+  version: 6.14.3
+  resolution: "systemjs@npm:6.14.3"
+  checksum: 887044d6e74e1af209de5f8e41f94d17c76665336474b4ea5038dac33d324be9d1190e720a5efb63599e26432984d3916d1650d6d446f4913774c6e1167dae10
   languageName: node
   linkType: hard
 
@@ -47356,5 +47396,12 @@ __metadata:
     synchronous-promise: ^2.0.6
     toposort: ^2.0.2
   checksum: a95be1512759145b068bc9c3171b0f71121cce128d96c8e33f6dbf43f4f7a6aa43bcd2b0d70e3699333e1dbb59dbcfb19a66eec70443138115bf6a3c10ebea90
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.21.4":
+  version: 3.22.4
+  resolution: "zod@npm:3.22.4"
+  checksum: 80bfd7f8039b24fddeb0718a2ec7c02aa9856e4838d6aa4864335a047b6b37a3273b191ef335bf0b2002e5c514ef261ffcda5a589fb084a48c336ffc4cdbab7f
   languageName: node
   linkType: hard

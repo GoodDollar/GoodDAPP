@@ -1,16 +1,16 @@
-import { defineConfig, splitVendorChunkPlugin } from 'vite'
+import fs from 'fs'
+import * as path from 'path'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import dynamicImports from 'vite-plugin-dynamic-import'
-import * as path from 'path'
 import svgLoader from 'vite-plugin-svgr'
+import legacy from '@vitejs/plugin-legacy'
 import * as esbuild from 'esbuild'
-import fs from 'fs'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
-import { flowPlugin, esbuildFlowPlugin } from '@bunchtogether/vite-plugin-flow'
+import { esbuildFlowPlugin, flowPlugin } from '@bunchtogether/vite-plugin-flow'
 import { VitePWA } from 'vite-plugin-pwa'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
-import { analyzer } from 'vite-bundle-analyzer'
 
 import { version } from './package.json'
 const extensions = ['.web.tsx', '.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.jsx', '.mjs', '.js', '.json']
@@ -34,10 +34,7 @@ export default defineConfig({
     port: 3000,
   },
   envPrefix: ['REACT_APP_'],
-  define: {
-    // https://github.com/bevacqua/dragula/issues/602#issuecomment-1296313369
-    global: 'globalThis',
-  },
+
   // new CopyPlugin(['images', 'resources'].map(from => {
   //   const context = 'node_modules/@gooddollar/react-native-facetec/web/sdk'
 
@@ -53,6 +50,7 @@ export default defineConfig({
         navigateFallbackDenylist: [
           // Exclude URLs starting with /_, as they're likely an API call
           new RegExp('^/_'),
+
           // Exclude URLs containing a dot, as they're likely a resource in
           // public/ and not a SPA route
           new RegExp('/[^/]+\\.[^/]+$'),
@@ -88,6 +86,12 @@ export default defineConfig({
         enabled: true,
         /* other options */
       },
+    }),
+
+    //https://github.com/vitejs/vite/discussions/7915
+    legacy({
+      renderLegacyChunks: false,
+      modernPolyfills: ['es/global-this'],
     }),
     viteStaticCopy({
       targets: [
@@ -130,9 +134,11 @@ export default defineConfig({
       },
       org: 'gooddollar',
       project: 'gooddapp',
+
       // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
       authToken: process.env.SENTRY_AUTH_TOKEN,
     }),
+
     // analyzer(),
   ],
   resolve: {

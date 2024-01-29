@@ -67,8 +67,8 @@ import {
   WITHDRAW_STATUS_UNKNOWN,
 } from './utils'
 
-import pricesQuery from './queries/reservePrices.gql?raw'
-import interestQuery from './queries/interestReceived.gql?raw'
+import { query as pricesQuery } from './queries/reservePrices'
+import { query as interestQuery } from './queries/interestReceived'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 // eslint-disable-next-line require-await

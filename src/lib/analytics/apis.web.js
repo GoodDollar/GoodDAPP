@@ -34,32 +34,32 @@ const MixpanelAPI = {
 class GoogleWrapper {
   // eslint-disable-next-line require-await
   async identify(userId) {
-    const { dataLayer } = window
+    const { gtag } = window
 
-    dataLayer.push({ user_id: userId })
+    gtag('set', { user_id: userId })
   }
 
   // eslint-disable-next-line require-await
   async setUserProperties(params = {}) {
-    const { dataLayer } = window
+    const { gtag } = window
 
     // set vars by one according data layer docs
-    forOwn(params, (value, key) => dataLayer.push({ [key]: value }))
+    forOwn(params, (value, key) => gtag('set', { [key]: value }))
   }
 
   logEvent(event: string, data: any = {}) {
-    const { dataLayer } = window
+    const { gtag } = window
 
-    dataLayer.push({ event, ...data })
+    gtag('event', event, data)
   }
 }
 
 export default () => {
-  const { dataLayer } = window
+  const { gtag } = window
 
   return pickBy({
     sentry: SentryWeb,
-    googleAnalytics: dataLayer ? new GoogleWrapper() : null,
+    googleAnalytics: gtag ? new GoogleWrapper() : null,
     amplitude: amplitude.getInstance(),
     mixpanel: MixpanelAPI,
   })

@@ -4,8 +4,6 @@ import amplitude from 'amplitude-js'
 import { forOwn, pickBy } from 'lodash'
 import Mixpanel from 'mixpanel-browser'
 
-import Config from '../../config/config'
-
 const MixpanelAPI = {
   // eslint-disable-next-line require-await
   async init(...params) {
@@ -34,40 +32,34 @@ const MixpanelAPI = {
 }
 
 class GoogleWrapper {
-  constructor(trackingId) {
-    this.trackingId = trackingId
+  // eslint-disable-next-line require-await
+  async identify(userId) {
+    const { gtag } = window
 
-    const dataLayer = window.dataLayer || []
-
-    this.gtag = function gtag() {
-      dataLayer.push(arguments)
-    }
-
-    this.gtag('js', new Date())
-    this.gtag('config', this.trackingId)
-  }
-
-  identify(userId) {
-    this.gtag('set', { user_id: userId })
+    gtag('set', { user_id: userId })
   }
 
   // eslint-disable-next-line require-await
   async setUserProperties(params = {}) {
+    const { gtag } = window
+
     // set vars by one according data layer docs
-    forOwn(params, (value, key) => this.gtag({ [key]: value }))
+    forOwn(params, (value, key) => gtag('set', { [key]: value }))
   }
 
-  logEvent(eventName, eventData = {}) {
-    this.gtag('event', eventName, eventData)
+  logEvent(event: string, data: any = {}) {
+    const { gtag } = window
+
+    gtag('event', event, data)
   }
 }
 
 export default () => {
-  const { dataLayer } = window
+  const { gtag } = window
 
   return pickBy({
     sentry: SentryWeb,
-    googleAnalytics: dataLayer ? new GoogleWrapper(Config.gtagId) : null,
+    googleAnalytics: gtag ? new GoogleWrapper() : null,
     amplitude: amplitude.getInstance(),
     mixpanel: MixpanelAPI,
   })

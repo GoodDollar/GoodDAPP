@@ -3,8 +3,7 @@
 import Web3 from 'web3'
 import { assign, has, shuffle } from 'lodash'
 import { fallback, makePromiseWrapper, retry } from '../utils/async'
-import logger from '../logger/js-logger'
-import { isConnectionError } from './utils'
+import logger, { isConnectionError } from '../logger/js-logger'
 
 const { providers } = Web3
 const { HttpProvider } = providers
@@ -74,14 +73,7 @@ export class MultipleHttpProvider extends HttpProvider {
 
     log.trace('send: exec over peers', { peers, strategy, calls })
 
-    retry(
-      () =>
-        fallback(calls, onFallback)
-          .then(onSuccess)
-          .catch(onFailed),
-      retries,
-      0,
-    )
+    retry(() => fallback(calls, onFallback).then(onSuccess).catch(onFailed), retries, 0)
   }
 
   /**
@@ -90,21 +82,23 @@ export class MultipleHttpProvider extends HttpProvider {
    * */
   // eslint-disable-next-line require-await
   async _sendRequest(payload) {
-    const { promise, callback: pcallback } = makePromiseWrapper()
+    const { promise, callback } = makePromiseWrapper()
+
     const checkRpcError = (error, response) => {
       //regular network error
       if (error) {
-        return pcallback(error)
+        return callback(error)
       }
 
       //rpc responded with error or no result
       if (response.error || has(response, 'result') === false) {
-        return pcallback(response)
+        return callback(response)
       }
 
       //response ok
-      return pcallback(null, response)
+      return callback(null, response)
     }
+
     super.send(payload, checkRpcError)
     return promise
   }

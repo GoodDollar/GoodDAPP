@@ -11,8 +11,6 @@ import logger from '../logger/js-logger'
 import { retry } from '../utils/async'
 import Config from '../../config/config'
 
-export const log = logger.child({ from: 'GoodWalletV2' })
-
 const DECIMALS = 2
 const ethAddressRegex = /(\w+)?:?(0x[a-fA-F0-9]{40})/
 const { env, showAllChainsEth } = Config
@@ -283,12 +281,3 @@ export const isTransferTx = (txType: string) => /(send|receive|withdraw)(?!.*bri
 
 export const isDuplicateTxError = message =>
   message.toLowerCase().search(/(sames*(nonce|hash)|alreadys*known|(fee|nonce)s*toos*low|underpriced)/i) >= 0
-
-export const isConnectionError = error =>
-  /((connection|network) (error|timeout)|invalid json rpc)/i.test(error instanceof Error ? error.message : error || '')
-
-export const logError = (label, error, data = undefined) => {
-  if (!isConnectionError(error)) {
-    log.error(label, error.message, error, data)
-  }
-}

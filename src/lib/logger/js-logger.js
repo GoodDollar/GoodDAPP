@@ -1,9 +1,21 @@
 import Logger from 'js-logger'
 import EventEmitter from 'eventemitter3'
-import { assign, noop } from 'lodash'
+import { assign, isError, isString, noop, toArray } from 'lodash'
 
 import Config from '../../config/config'
 import { addLoggerMonitor } from './monitor'
+
+const connectionErrorRegex = /((connection|network) (error|timeout)|invalid json rpc)/i
+
+export const isConnectionError = error => {
+  const isException = isError(error)
+
+  if (!isException && !isString(error)) {
+    return false
+  }
+
+  return connectionErrorRegex.test(isException ? error.message : error || '')
+}
 
 const emitter = new EventEmitter()
 const logLevel = Logger[Config.logLevel.toUpperCase()]
@@ -19,6 +31,21 @@ const formatter = (messages, context) => {
   }
 
   emitter.emit(level.name, ...messages)
+}
+
+const addLogException = logger => {
+  const { error } = logger
+
+  return assign(logger, {
+    exception: error,
+    error: function () {
+      if (toArray(arguments).some(isConnectionError)) {
+        return
+      }
+
+      error.apply(this, arguments)
+    },
+  })
 }
 
 // by default log all, will print on console only if log level enabled
@@ -45,11 +72,12 @@ assign(Logger, {
   on: emitter.on.bind(emitter),
 
   // adding .child method to keep pino's interface
-  child: ({ from }) => Logger.get(from),
+  child: ({ from }) => addLogException(Logger.get(from)),
 })
 
 // add logging of unhandled promise rejections and uncaught exceptions
 addLoggerMonitor(Logger)
+addLogException(Logger)
 global.logger = Logger
 
 export default Logger

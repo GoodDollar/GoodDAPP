@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { assign, isError, isObject, isPlainObject, isString } from 'lodash'
 
-import logger from '../logger/js-logger'
+import logger, { isConnectionError } from '../logger/js-logger'
 
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
@@ -27,6 +27,25 @@ export type UserRecord = NameRecord &
 
 export const log = logger.child({ from: 'API' })
 export const defaultErrorMessage = 'Unexpected error happened during api call'
+
+const hostsBeenLogged = new Map()
+
+export const logNetworkError = exception => {
+  const { config, message } = exception
+  const { url, baseURL } = config || {}
+  const remoteUrl = baseURL || url
+
+  if (isConnectionError(exception) && remoteUrl) {
+    const { protocol, host } = new URL(remoteUrl)
+
+    if (hostsBeenLogged.has(host)) {
+      return
+    }
+
+    hostsBeenLogged.set(host, true)
+    log.exception('Connection error:', message, exception, { url: `${protocol}//${host}` })
+  }
+}
 
 export const getErrorMessage = apiError => {
   let errorMessage
@@ -102,6 +121,8 @@ export const responseErrorHandler = error => {
   const { message, response } = exception
   const { data } = response || {}
 
+  logNetworkError(exception)
   log.warn('axios response error', message, exception)
+
   throw data || exception
 }

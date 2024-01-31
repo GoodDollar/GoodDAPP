@@ -254,7 +254,8 @@ const Claim = props => {
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
-  const payload = useFlagWithPayload('next-task')
+  const payload = useFlagWithPayload('next-tasks')
+
   const { tasks } = payload
 
   // format number of people who did claim today

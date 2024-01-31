@@ -14,11 +14,11 @@ const nodeLibs = require('node-libs-react-native')
  * solving issues with latest ceramic
  */
 const packageExports = {
-  // "varintes": "",
-  // "multihashes-sync": "",
-  // "cartonne": "",
-  // "codeco": "",
-  // "multiformats": "./node_modules/multiformats/cjs/src/",
+  "varintes": "",
+  "multihashes-sync": "",
+  "cartonne": "",
+  "codeco": "",
+  "multiformats": "./node_modules/multiformats/cjs/src/",
 }
 
 module.exports = (async () => {
@@ -71,13 +71,14 @@ module.exports = (async () => {
       assetExts: assetExts.filter(ext => ext !== 'svg'),
 
       sourceExts: process.env.TEST_REACT_NATIVE ? ['e2e.js'].concat(defaultSourceExts) : defaultSourceExts,
+
     },
     transformer: {
       babelTransformerPath: require.resolve('react-native-svg-transformer'),
       getTransformOptions: async () => ({
         transform: {
           experimentalImportSupport: false,
-          inlineRequires: false,
+          inlineRequires: true,
         },
       }),
     },

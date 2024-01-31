@@ -3,7 +3,7 @@ module.exports = function(api) {
 
   return {
     presets: [
-      'module:metro-react-native-babel-preset',
+      ['module:metro-react-native-babel-preset',{unstable_disableES6Transforms: true}],
       [
         '@babel/preset-env',
         {

@@ -81,7 +81,7 @@
     "@gooddollar/goodprotocol": "^2.0.24",
     "@gooddollar/react-native-facetec": "^1.0.42",
     "@gooddollar/react-native-side-menu": "^2.0.2",
-    "@gooddollar/web3sdk-v2": "^0.1.91",
+    "@gooddollar/web3sdk-v2": "^0.2.14",
     "@hcaptcha/react-hcaptcha": "^1.6.0",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
     "@lingui/react": "^3.13.0",
@@ -360,6 +360,8 @@
     "lottie-react-native": {}
   },
   "resolutions": {
+    "@ipld/dag-cbor": "7.0.3",
+    "uint8arrays": "^3.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "metro": "0.80.5",

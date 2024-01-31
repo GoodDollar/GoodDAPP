@@ -252,7 +252,6 @@
     "uuid": "^8.3.2",
     "v8-android-jit-nointl": "^9.93.0",
     "validator": "^13.7.0",
-    "vite-svg-loader": "^5.1.0",
     "vm-browserify": "^1.1.2",
     "web3": "^1.7.5",
     "web3-core-method": "1.6.0",
@@ -387,7 +386,8 @@
     "react-native-card-flip@^1.0.7": "patch:react-native-card-flip@npm%3A1.0.7#./.yarn/patches/react-native-card-flip-npm-1.0.7-64320a3ab5.patch",
     "react-native-modal-dropdown@^1.0.2": "patch:react-native-modal-dropdown@npm%3A1.0.2#./.yarn/patches/react-native-modal-dropdown-npm-1.0.2-1bfc5979be.patch",
     "jest-environment-jsdom@^29.7.0": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
-    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch"
+    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
+    "vite-plugin-svgr@^4.2.0": "patch:vite-plugin-svgr@npm%3A4.2.0#./.yarn/patches/vite-plugin-svgr-npm-4.2.0-e0c6a7a1f0.patch"
   },
   "husky": {
     "hooks": {

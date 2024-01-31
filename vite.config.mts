@@ -99,7 +99,10 @@ export default defineConfig({
         { src: 'node_modules/@gooddollar/react-native-facetec/web/sdk/resources', dest: 'facetec' },
       ],
     }),
-    svgLoader({ include: '**/*.svg', exclude: ['**/*.svg?url'] }),
+    svgLoader({
+      include: '**/*.svg',
+      exclude: ['**/*.svg?url'],
+    }),
     flowPlugin(),
     react({
       babel: {

@@ -15,7 +15,7 @@ const defaultFeatureFlags = {
 }
 
 const defaultFlagsWithPayload = {
-  'next-task': {
+  'next-tasks': {
     tasks: [
       {
         enabled: false,

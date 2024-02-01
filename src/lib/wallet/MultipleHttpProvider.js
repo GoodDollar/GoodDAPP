@@ -93,21 +93,21 @@ export class MultipleHttpProvider extends HttpProvider {
    * */
   // eslint-disable-next-line require-await
   async _sendRequest(payload) {
-    const { promise, callback } = makePromiseWrapper()
+    const { promise, callback: pcallback } = makePromiseWrapper()
 
     const checkRpcError = (error, response) => {
       //regular network error
       if (error) {
-        return callback(error)
+        return pcallback(error)
       }
 
       //rpc responded with error or no result
       if (response.error || has(response, 'result') === false) {
-        return callback(response)
+        return pcallback(response)
       }
 
       //response ok
-      return callback(null, response)
+      return pcallback(null, response)
     }
 
     super.send(payload, checkRpcError)

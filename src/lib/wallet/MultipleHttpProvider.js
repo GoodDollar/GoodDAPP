@@ -48,6 +48,7 @@ export class MultipleHttpProvider extends HttpProvider {
       } catch (exception) {
         if (isConnectionError(exception) && !loggedProviders.has(provider)) {
           loggedProviders.set(provider, true)
+          // log.exception bypass network error filtering
           log.exception('HTTP Provider failed to send:', exception.message, exception, { provider })
         }
 

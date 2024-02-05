@@ -3,8 +3,7 @@
 import Web3 from 'web3'
 import { assign, has, shuffle } from 'lodash'
 import { fallback, makePromiseWrapper, retry } from '../utils/async'
-import logger from '../logger/js-logger'
-import { isConnectionError } from './utils'
+import logger, { isConnectionError } from '../logger/js-logger'
 
 const { providers } = Web3
 const { HttpProvider } = providers
@@ -19,7 +18,9 @@ export class MultipleHttpProvider extends HttpProvider {
     super(provider, options)
 
     log.debug('Initialized', { endpoints, strategy })
+
     assign(this, {
+      loggedProviders: new Map(),
       endpoints,
       strategy,
       retries,
@@ -27,7 +28,7 @@ export class MultipleHttpProvider extends HttpProvider {
   }
 
   send(payload, callback) {
-    const { endpoints, strategy, retries } = this
+    const { endpoints, strategy, retries, loggedProviders } = this
 
     // shuffle peers if random strategy chosen
     const peers = strategy === 'random' ? shuffle(endpoints) : endpoints
@@ -41,8 +42,18 @@ export class MultipleHttpProvider extends HttpProvider {
       // see node_modules/web3-providers-http/src/index.js
       HttpProvider.call(this, provider, options)
 
-      log.trace('Sending request to peer', { payload })
-      return this._sendRequest(payload)
+      try {
+        log.trace('Sending request to peer', { payload })
+        return await this._sendRequest(payload)
+      } catch (exception) {
+        if (isConnectionError(exception) && !loggedProviders.has(provider)) {
+          loggedProviders.set(provider, true)
+          // log.exception bypass network error filtering
+          log.exception('HTTP Provider failed to send:', exception.message, exception, { provider })
+        }
+
+        throw exception
+      }
     })
 
     const onSuccess = result => {
@@ -74,14 +85,7 @@ export class MultipleHttpProvider extends HttpProvider {
 
     log.trace('send: exec over peers', { peers, strategy, calls })
 
-    retry(
-      () =>
-        fallback(calls, onFallback)
-          .then(onSuccess)
-          .catch(onFailed),
-      retries,
-      0,
-    )
+    retry(() => fallback(calls, onFallback).then(onSuccess).catch(onFailed), retries, 0)
   }
 
   /**
@@ -91,6 +95,7 @@ export class MultipleHttpProvider extends HttpProvider {
   // eslint-disable-next-line require-await
   async _sendRequest(payload) {
     const { promise, callback: pcallback } = makePromiseWrapper()
+
     const checkRpcError = (error, response) => {
       //regular network error
       if (error) {
@@ -105,6 +110,7 @@ export class MultipleHttpProvider extends HttpProvider {
       //response ok
       return pcallback(null, response)
     }
+
     super.send(payload, checkRpcError)
     return promise
   }

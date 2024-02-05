@@ -53,12 +53,11 @@ import { tryJson } from '../utils/string'
 import API from '../API'
 import { delay, retry } from '../utils/async'
 import { generateShareLink } from '../share'
+import logger from '../logger/js-logger'
 import WalletFactory from './WalletFactory'
 import {
   fromDecimals,
   getTxLogArgs,
-  log,
-  logError,
   NULL_ADDRESS,
   safeCall,
   toDecimals,
@@ -70,6 +69,8 @@ import {
 import pricesQuery from './queries/reservePrices.gql'
 import interestQuery from './queries/interestReceived.gql'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
+
+const log = logger.child({ from: 'GoodWalletV2' })
 
 // eslint-disable-next-line require-await
 export const retryCall = async (asyncFn, retries = 3, delay = 1000) => retry(asyncFn, retries, delay)
@@ -373,7 +374,7 @@ export class GoodWallet {
         const currentBlock = await this.getBlockNumber()
 
         const lastBlock = await this.syncTxFromExplorer(startBlock, currentBlock).catch(e => {
-          logError('syncTxFromExplorer failed', e, {
+          log.error('syncTxFromExplorer failed', e.message, e, {
             networkId: this.networkId,
             startBlock,
           })
@@ -443,7 +444,7 @@ export class GoodWallet {
     return Promise.all(
       uniqEvents.map(event =>
         this._notifyReceipt(event.transactionHash).catch(err =>
-          logError('_notifyEvents event get/send receipt failed:', err, {
+          log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
             category: ExceptionCategory.Blockhain,
             event: event,
           }),
@@ -542,7 +543,7 @@ export class GoodWallet {
 
       return lastBlock
     } catch (e) {
-      logError('syncTxWithBlockchain failed', e, { startBlock, lastBlock, networkId: this.networkId })
+      log.error('syncTxWithBlockchain failed', e.message, e, { startBlock, lastBlock, networkId: this.networkId })
     }
   }
 
@@ -731,14 +732,9 @@ export class GoodWallet {
 
   async checkEntitlement(): Promise<number> {
     try {
-      return await retryCall(() =>
-        this.UBIContract.methods
-          .checkEntitlement()
-          .call()
-          .then(parseInt),
-      )
+      return await retryCall(() => this.UBIContract.methods.checkEntitlement().call().then(parseInt))
     } catch (exception) {
-      logError('checkEntitlement failed', exception)
+      log.error('checkEntitlement failed', exception.message, exception)
       return 0
     }
   }
@@ -898,7 +894,7 @@ export class GoodWallet {
 
       return balanceValue
     } catch (exception) {
-      logError('BalanceOf failed', exception)
+      log.error('BalanceOf failed', exception.message, exception)
       return toBN(0)
     }
   }
@@ -981,7 +977,7 @@ export class GoodWallet {
     try {
       return retryCall(() => this.identityContract.methods.isWhitelisted(address).call())
     } catch (exception) {
-      logError('isVerified failed', exception)
+      log.error('isVerified failed', exception.message, exception)
       return false
     }
   }
@@ -1064,7 +1060,7 @@ export class GoodWallet {
 
       return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
-      logError('canSend failed', exception)
+      log.error('canSend failed', exception.message, exception)
     }
     return false
   }
@@ -1084,7 +1080,7 @@ export class GoodWallet {
 
       return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
-      logError('canSendNative failed', exception)
+      log.error('canSendNative failed', exception.message, exception)
     }
     return false
   }
@@ -1166,7 +1162,7 @@ export class GoodWallet {
     try {
       return retryCall(() => this.oneTimePaymentsContract.methods.hasPayment(link).call())
     } catch (exception) {
-      logError('isPaymentLinkAvailable failed', exception)
+      log.error('isPaymentLinkAvailable failed', exception.message, exception)
       return false
     }
   }
@@ -1179,9 +1175,11 @@ export class GoodWallet {
   async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
     try {
       const hashedCode = this.getWithdrawLink(otlCode)
-      const { paymentAmount, hasPayment, paymentSender: sender } = await retryCall(() =>
-        this.oneTimePaymentsContract.methods.payments(hashedCode).call(),
-      )
+      const {
+        paymentAmount,
+        hasPayment,
+        paymentSender: sender,
+      } = await retryCall(() => this.oneTimePaymentsContract.methods.payments(hashedCode).call())
       const amount = toBN(paymentAmount)
       let status = WITHDRAW_STATUS_UNKNOWN
 
@@ -1328,7 +1326,7 @@ export class GoodWallet {
 
       return registered !== NULL_ADDRESS
     } catch (e) {
-      logError('isInviterCodeValid failed:', e)
+      log.error('isInviterCodeValid failed:', e.message, e)
       return false
     }
   }
@@ -1339,7 +1337,7 @@ export class GoodWallet {
 
       return [parseInt(user.joinedAt) > 0, user.invitedBy, user.inviteCode]
     } catch (e) {
-      logError('hasJoinedInvites failed:', e)
+      log.error('hasJoinedInvites failed:', e.message, e)
       return [false, null, null]
     }
   }
@@ -1392,7 +1390,7 @@ export class GoodWallet {
         log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })
 
         await this.sendTransaction(tx).catch(e => {
-          logError('joinInvites failed:', e, { inviter, myCode, codeLength, registered })
+          log.error('joinInvites failed:', e.message, e, { inviter, myCode, codeLength, registered })
           throw e
         })
       }
@@ -1457,7 +1455,7 @@ export class GoodWallet {
         gasPrice = networkGasPrice.toString()
       }
     } catch (e) {
-      logError('failed to retrieve gas price from network', e, { category: ExceptionCategory.Blockhain })
+      log.error('failed to retrieve gas price from network', e.message, e, { category: ExceptionCategory.Blockhain })
     }
 
     return gasPrice
@@ -1556,7 +1554,7 @@ export class GoodWallet {
         })
           .then(_ => true)
           .catch(e => {
-            logError('verifyHasGas faucet failed', e)
+            log.error('verifyHasGas faucet failed', e.message, e)
             return false
           })
 
@@ -1591,7 +1589,7 @@ export class GoodWallet {
         ok: data.ok && nativeBalance > minWei,
       }
     } catch (e) {
-      logError('verifyHasGas failed:', e, { minWei })
+      log.error('verifyHasGas failed:', e.message, e, { minWei })
 
       return {
         ok: false,
@@ -1738,7 +1736,7 @@ export class GoodWallet {
           onConfirmation(confirmation)
         })
         .on('error', exception => {
-          logError('sendNativeTransaction error:', exception, {
+          log.error('sendNativeTransaction error:', exception.message, exception, {
             tx: txData,
             category: ExceptionCategory.Blockhain,
           })

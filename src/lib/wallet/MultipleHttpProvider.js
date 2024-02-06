@@ -48,6 +48,8 @@ export class MultipleHttpProvider extends HttpProvider {
       } catch (exception) {
         if (isConnectionError(exception) && !loggedProviders.has(provider)) {
           loggedProviders.set(provider, true)
+
+          // log.exception bypass network error filtering
           log.exception('HTTP Provider failed to send:', exception.message, exception, { provider })
         }
 
@@ -84,7 +86,14 @@ export class MultipleHttpProvider extends HttpProvider {
 
     log.trace('send: exec over peers', { peers, strategy, calls })
 
-    retry(() => fallback(calls, onFallback).then(onSuccess).catch(onFailed), retries, 0)
+    retry(
+      () =>
+        fallback(calls, onFallback)
+          .then(onSuccess)
+          .catch(onFailed),
+      retries,
+      0,
+    )
   }
 
   /**
@@ -93,21 +102,21 @@ export class MultipleHttpProvider extends HttpProvider {
    * */
   // eslint-disable-next-line require-await
   async _sendRequest(payload) {
-    const { promise, callback } = makePromiseWrapper()
+    const { promise, callback: pcallback } = makePromiseWrapper()
 
     const checkRpcError = (error, response) => {
       //regular network error
       if (error) {
-        return callback(error)
+        return pcallback(error)
       }
 
       //rpc responded with error or no result
       if (response.error || has(response, 'result') === false) {
-        return callback(response)
+        return pcallback(response)
       }
 
       //response ok
-      return callback(null, response)
+      return pcallback(null, response)
     }
 
     super.send(payload, checkRpcError)

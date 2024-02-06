@@ -112,3 +112,4 @@ service-worker.js
 .env_old
 .env_lewis
 .env.development
+.env.development.local

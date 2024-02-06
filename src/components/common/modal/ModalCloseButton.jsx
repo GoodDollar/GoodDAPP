@@ -39,6 +39,9 @@ const getStylesFromProps = ({ theme }) => ({
     height: 30,
     marginLeft: 3,
     marginTop: 3,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalCloseImageContainer: {
     position: 'absolute',

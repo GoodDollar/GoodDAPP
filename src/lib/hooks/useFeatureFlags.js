@@ -15,7 +15,7 @@ const defaultFeatureFlags = {
 }
 
 const defaultFlagsWithPayload = {
-  'next-task': {
+  'next-tasks': {
     tasks: [
       {
         enabled: false,
@@ -73,6 +73,9 @@ export const useFeatureFlagOrDefault = featureFlag => {
   const posthog = usePostHog()
 
   useEffect(() => {
+    if (!posthog) {
+      return
+    }
     addLogger(posthog)
   }, [posthog])
 
@@ -83,6 +86,9 @@ export const useFlagWithPayload = featureFlag => {
   const posthog = usePostHog()
 
   useEffect(() => {
+    if (!posthog) {
+      return
+    }
     addLogger(posthog)
   }, [posthog])
 

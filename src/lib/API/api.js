@@ -12,7 +12,7 @@ import AsyncStorage from '../utils/asyncStorage'
 import { throttleAdapter } from '../utils/axios'
 import { delay } from '../utils/async'
 import { NETWORK_ID } from '../constants/network'
-import { log, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
+import { log, logNetworkError, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
 import type { Credentials, UserRecord } from './utils'
 
@@ -31,7 +31,13 @@ export class APIService {
   constructor(jwt = null) {
     const shared = axios.create()
 
-    shared.interceptors.response.use(({ data }) => data)
+    shared.interceptors.response.use(
+      ({ data }) => data,
+      error => {
+        logNetworkError(error)
+        throw error
+      },
+    )
 
     this.sharedClient = shared
     this.init(jwt)
@@ -499,10 +505,7 @@ export class APIService {
     const txs = []
     const explorer = Config.ethereum[chainId].explorerAPI
 
-    const sender32 = `0x${sender
-      .toLowerCase()
-      .slice(2)
-      .padStart(64, '0')}`
+    const sender32 = `0x${sender.toLowerCase().slice(2).padStart(64, '0')}`
 
     const params = {
       module: 'logs',

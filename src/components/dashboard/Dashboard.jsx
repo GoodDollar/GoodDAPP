@@ -181,7 +181,7 @@ const balanceStyles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: 55,
+    width: 35,
   },
 }
 
@@ -211,14 +211,14 @@ const BalanceAndSwitch = ({
     <Section style={[balanceStyles.multiBalanceItem, { opacity: isCurrent ? 1 : 0.5 }]}>
       <TouchableOpacity onPress={isCurrent ? noop : toggle} style={balanceStyles.switchButton}>
         <Text fontSize={16} fontWeight="bold" fontFamily={theme.fonts.slab}>
-          {formattedBalance}
+          {formattedBalance} G$
         </Text>
         <View style={balanceStyles.networkName}>
           <View style={[balanceStyles.activeIcon, { display: !networkName || isCurrent ? 'flex' : 'none' }]}>
             <GreenCircle />
           </View>
           <Text fontSize={12} color={theme.colors.darkGray} fontWeight="normal" fontFamily={theme.fonts.slab}>
-            {networkName} G$
+            {networkName}
           </Text>
         </View>
       </TouchableOpacity>

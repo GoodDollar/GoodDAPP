@@ -3,7 +3,7 @@ module.exports = function(api) {
 
   return {
     presets: [
-      ['module:metro-react-native-babel-preset',{unstable_disableES6Transforms: true}],
+      ['module:metro-react-native-babel-preset', {unstable_disableES6Transforms: true}],
       [
         '@babel/preset-env',
         {
@@ -25,6 +25,7 @@ module.exports = function(api) {
     ],
     "env": {
       "test": {
+        "presets": [["@babel/preset-env",{"exclude": ["transform-exponentiation-operator"]}]],
         "plugins": [
           "babel-plugin-transform-vite-meta-env",
           "dynamic-import-node"

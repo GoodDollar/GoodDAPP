@@ -15,7 +15,7 @@
     "transform": {
         "^.+\\.jsx?$": "babel-jest",
         "^.+\\.mjs$": "babel-jest",
-        "\\.(css|jpg|png|gql|svg)(\\?.*)?$": "<rootDir>/scripts/fileTransform.js"
+        "\\.(css|jpg|png|gql|svg|webp)(\\?.*)?$": "<rootDir>/scripts/fileTransform.js"
     },
     "transformIgnorePatterns": [
         "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk",
@@ -50,11 +50,22 @@
         "/node_modules/"
     ],
     "moduleNameMapper": {
-        "\\.(css|jpg|png|gql|svg)(\\?.*)$": "<rootDir>/empty-module.js",
+        "\\.(css|jpg|png|gql|svg|webp)(\\?.*)$": "<rootDir>/empty-module.js",
         "^react-native$": "react-native-web",
         "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js",
         "lottie-react-native": "react-native-web-lottie",
-        "^react-native-linear-gradient$": "react-native-web-linear-gradient"
+        "^react-native-linear-gradient$": "react-native-web-linear-gradient",
+        "^multiformats$": "<rootDir>/node_modules/multiformats/cjs/src/index.js",
+        "^multiformats/(.*)/(.*)": "<rootDir>/node_modules/multiformats/cjs/src/$1/$2.js",
+        "^multiformats/(.*)": "<rootDir>/node_modules/multiformats/cjs/src/$1.js",
+        "^mapmoize$": "<rootDir>/node_modules/mapmoize/dist/index.js",
+        "^codeco$": "<rootDir>/node_modules/codeco/dist/index.js",
+        "^codeco/(.*)": "<rootDir>/node_modules/codeco/dist/$1.js",
+        "^varintes/encoding-length": "<rootDir>/node_modules/varintes/dist/encoding-length.js",
+        "^varintes/(.*)": "<rootDir>/node_modules/varintes/dist/$1.js",
+        "^multihashes-sync/(.*)": "<rootDir>/node_modules/multihashes-sync/dist/$1.js",
+        "^cartonne$": "<rootDir>/node_modules/cartonne/dist/index.js",
+        "^dag-jose$": "<rootDir>/node_modules/dag-jose/lib/index.js"
     },
     "testEnvironmentOptions": {
         "url": "http://localhost"

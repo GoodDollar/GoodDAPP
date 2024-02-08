@@ -419,12 +419,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                         dir="auto"
                       >
                         0.0
+                         G$
                       </div>
                       <div
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                         style={
                           Object {
-                            "width": "55px",
+                            "width": "35px",
                           }
                         }
                       >
@@ -443,7 +444,6 @@ exports[`AppNavigation matches snapshot 1`] = `
                           dir="auto"
                         >
                           Fuse
-                           G$
                         </div>
                       </div>
                     </div>
@@ -524,12 +524,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                         dir="auto"
                       >
                         0.0
+                         G$
                       </div>
                       <div
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                         style={
                           Object {
-                            "width": "55px",
+                            "width": "35px",
                           }
                         }
                       >
@@ -548,7 +549,6 @@ exports[`AppNavigation matches snapshot 1`] = `
                           dir="auto"
                         >
                           Celo
-                           G$
                         </div>
                       </div>
                     </div>

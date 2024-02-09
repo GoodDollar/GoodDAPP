@@ -1,5 +1,8 @@
 {
     "testEnvironment": "jsdom",
+    "roots": [
+        "<rootDir>/src/"
+    ],
     "moduleFileExtensions": [
         "js",
         "web.js",
@@ -36,8 +39,7 @@
         "<rootDir>/src/index.js",
         "<rootDir>/src/init.js",
         "<rootDir>/src/serviceWorker.js",
-        "<rootDir>/src/.*/.*(android|ios|native).js",
-        "/node_modules/"
+        "<rootDir>/src/.*/.*(android|ios|native).js"
     ],
     "coveragePathIgnorePatterns": [
         "/__tests__/__util__/",
@@ -46,8 +48,7 @@
         "<rootDir>/src/init.js",
         "<rootDir>/src/serviceWorker.js",
         "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk",
-        "<rootDir>/src/.*/.*(android|ios|native).js",
-        "/node_modules/"
+        "<rootDir>/src/.*/.*(android|ios|native).js"
     ],
     "moduleNameMapper": {
         "\\.(css|jpg|png|gql|svg|webp)(\\?.*)$": "<rootDir>/empty-module.js",

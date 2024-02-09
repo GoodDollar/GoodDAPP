@@ -16,11 +16,10 @@ exports[`Dashboard matches snapshot 1`] = `
       }
     >
       <div
-        className="css-view-1dbjc4n r-backgroundColor-1jb27wt r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy"
+        className="css-view-1dbjc4n r-backgroundColor-1jb27wt r-paddingBottom-97e31f r-paddingLeft-bv2aro r-paddingRight-hxflta r-paddingTop-10xqauy r-zIndex-417010"
         style={
           {
             "boxShadow": "0px 3px 4px rgba(0,0,0,0.24)",
-            "zIndex": 0,
           }
         }
       >
@@ -229,15 +228,91 @@ exports[`Dashboard matches snapshot 1`] = `
                         </div>
                       </div>
                     </div>
+                    <div
+                      className="css-view-1dbjc4n"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-justifyContent-1777fci r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                        onClick={[Function]}
+                        onContextMenu={[Function]}
+                        onKeyDown={[Function]}
+                        style={
+                          {
+                            "WebkitTransitionDuration": "0s",
+                            "borderBottomLeftRadius": "21px",
+                            "borderBottomRightRadius": "21px",
+                            "borderTopLeftRadius": "21px",
+                            "borderTopRightRadius": "21px",
+                            "height": "42px",
+                            "transitionDuration": "0s",
+                            "width": "42px",
+                          }
+                        }
+                        tabIndex="0"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-height-h3s6tt r-marginTop-19qrga8 r-position-bnwqim"
+                        >
+                          <div
+                            className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-flex-13awgt0 r-height-1pi2tsx r-justifyContent-1777fci r-opacity-6dt33c r-position-bnwqim r-touchAction-1otgn73 r-transform-1bd4ige r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-13qz1uu"
+                            onClick={[Function]}
+                            onContextMenu={[Function]}
+                            onKeyDown={[Function]}
+                            style={
+                              {
+                                "WebkitTransitionDuration": "0s",
+                                "transitionDuration": "0s",
+                              }
+                            }
+                            tabIndex="0"
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-height-1pi2tsx r-justifyContent-1777fci r-opacity-6dt33c r-position-bnwqim r-transform-1bd4ige r-width-13qz1uu"
+                            >
+                              <div
+                                className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-right-zchlnj r-top-ipm5af r-zIndex-417010"
+                                style={
+                                  {
+                                    "borderBottomLeftRadius": "20px",
+                                    "borderBottomRightRadius": "20px",
+                                    "borderTopLeftRadius": "20px",
+                                    "borderTopRightRadius": "20px",
+                                    "height": "40px",
+                                    "width": "40px",
+                                  }
+                                }
+                              >
+                                <div
+                                  className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                                  style={
+                                    {
+                                      "backgroundImage": "url("https://walletchat-pfp-storage.sgp1.digitaloceanspaces.com/wc_logo.png")",
+                                    }
+                                  }
+                                  suppressHydrationWarning={true}
+                                />
+                                <img
+                                  alt=""
+                                  className="css-accessibilityImage-9pa8cd"
+                                  draggable={false}
+                                  src="https://walletchat-pfp-storage.sgp1.digitaloceanspaces.com/wc_logo.png"
+                                />
+                              </div>
+                            </div>
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-height-1pi2tsx r-justifyContent-1777fci r-opacity-orgf3d r-position-u8s1d r-transform-1uie1fx r-width-13qz1uu"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginTop-knv0ih"
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginTop-knv0ih r-opacity-6dt33c r-zIndex-1wyyakw"
                     style={
                       {
                         "marginBottom": "8px",
-                        "opacity": 1,
                         "right": "15px",
-                        "zIndex": -1,
                       }
                     }
                   >
@@ -343,12 +418,13 @@ exports[`Dashboard matches snapshot 1`] = `
                         dir="auto"
                       >
                         0.0
+                         G$
                       </div>
                       <div
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                         style={
                           {
-                            "width": "55px",
+                            "width": "35px",
                           }
                         }
                       >
@@ -367,7 +443,6 @@ exports[`Dashboard matches snapshot 1`] = `
                           dir="auto"
                         >
                           Fuse
-                           G$
                         </div>
                       </div>
                     </div>
@@ -382,7 +457,40 @@ exports[`Dashboard matches snapshot 1`] = `
                         "width": "40%",
                       }
                     }
-                  />
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-cursor-1loqt21 r-display-6koalj r-flexDirection-18u37iz r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
+                      onClick={[Function]}
+                      onContextMenu={[Function]}
+                      onKeyDown={[Function]}
+                      style={
+                        {
+                          "WebkitTransitionDuration": "0s",
+                          "transitionDuration": "0s",
+                        }
+                      }
+                      tabIndex="0"
+                    >
+                      <div
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-display-xoduu5 r-justifyContent-1777fci"
+                        style={{}}
+                      >
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406 r-fontWeight-1it3c9n r-userSelect-lrvibr"
+                          style={
+                            {
+                              "color": "rgba(0,174,255,1.00)",
+                              "fontFamily": "gooddollar",
+                              "fontSize": "30px",
+                              "fontStyle": "normal",
+                            }
+                          }
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                   <div
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-b7g440 r-borderRadius-1f0042m r-color-vaa0vc r-display-6koalj r-flexDirection-eqz5dr r-fontFamily-6jnb14 r-fontWeight-vw2c0b r-justifyContent-1777fci r-padding-t60dpp r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
                     style={
@@ -415,12 +523,13 @@ exports[`Dashboard matches snapshot 1`] = `
                         dir="auto"
                       >
                         0.0
+                         G$
                       </div>
                       <div
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                         style={
                           {
-                            "width": "55px",
+                            "width": "35px",
                           }
                         }
                       >
@@ -439,7 +548,253 @@ exports[`Dashboard matches snapshot 1`] = `
                           dir="auto"
                         >
                           Celo
-                           G$
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="css-view-1dbjc4n r-width-13qz1uu"
+                style={
+                  {
+                    "WebkitTransform": "translateY(0px)",
+                    "marginTop": "5px",
+                    "transform": "translateY(0px)",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingTop-wk8lta r-paddingVertical-1yzf0co r-width-13qz1uu"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-height-1k9zyfm r-justifyContent-1wtj0ep r-marginBottom-p1pxzi r-marginTop-1cvj4g8"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderWidth-1yadl64 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
+                      style={
+                        {
+                          "backgroundColor": "rgba(0,195,174,1.00)",
+                          "borderBottomColor": "rgba(0,175,255,1.00)",
+                          "borderBottomLeftRadius": "50px",
+                          "borderBottomRightRadius": "50px",
+                          "borderBottomStyle": "solid",
+                          "borderLeftColor": "rgba(0,175,255,1.00)",
+                          "borderLeftStyle": "solid",
+                          "borderRightColor": "rgba(0,175,255,1.00)",
+                          "borderRightStyle": "solid",
+                          "borderTopColor": "rgba(0,175,255,1.00)",
+                          "borderTopLeftRadius": "50px",
+                          "borderTopRightRadius": "50px",
+                          "borderTopStyle": "solid",
+                          "height": "44px",
+                          "marginLeft": "0px",
+                          "marginRight": "-12px",
+                          "marginTop": "0px",
+                          "minHeight": "44px",
+                          "minWidth": "auto",
+                          "paddingLeft": "0px",
+                          "paddingRight": "0px",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-cursor-18t94o4 css-view-1dbjc4n r-alignSelf-1pz39u2 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                        onClick={[Function]}
+                        onContextMenu={[Function]}
+                        onKeyDown={[Function]}
+                        role="button"
+                        style={
+                          {
+                            "borderBottomLeftRadius": "50px",
+                            "borderBottomRightRadius": "50px",
+                            "borderTopLeftRadius": "50px",
+                            "borderTopRightRadius": "50px",
+                          }
+                        }
+                        tabIndex="0"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1pz39u2 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                        >
+                          <div
+                            className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                            >
+                              <div
+                                className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n r-marginRight-88pszg r-userSelect-lrvibr"
+                                dir="auto"
+                                style={
+                                  {
+                                    "fontFamily": "gooddollar",
+                                    "fontSize": "20px",
+                                    "fontStyle": "normal",
+                                  }
+                                }
+                              >
+                                
+                              </div>
+                              <div
+                                className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-marginRight-88pszg r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                                dir="auto"
+                              >
+                                Send
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-zIndex-184en5c"
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          {
+                            "WebkitTransform": "scale(1)",
+                            "height": "72px",
+                            "transform": "scale(1)",
+                            "width": "72px",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1jb27wt r-borderRadius-ieixw r-display-6koalj r-height-1pi2tsx r-justifyContent-1777fci r-marginBottom-p1pxzi r-position-u8s1d r-width-13qz1uu"
+                          data-testid="claim_button"
+                          style={
+                            {
+                              "borderBottomColor": "rgba(255,255,255,1.00)",
+                              "borderBottomStyle": "solid",
+                              "borderBottomWidth": "3px",
+                              "borderLeftColor": "rgba(255,255,255,1.00)",
+                              "borderLeftStyle": "solid",
+                              "borderLeftWidth": "3px",
+                              "borderRightColor": "rgba(255,255,255,1.00)",
+                              "borderRightStyle": "solid",
+                              "borderRightWidth": "3px",
+                              "borderTopColor": "rgba(255,255,255,1.00)",
+                              "borderTopStyle": "solid",
+                              "borderTopWidth": "3px",
+                              "marginLeft": "0px",
+                              "marginRight": "0px",
+                              "marginTop": "0px",
+                              "minHeight": "44px",
+                              "minWidth": "64px",
+                              "paddingBottom": "3px",
+                              "paddingLeft": "0px",
+                              "paddingRight": "0px",
+                              "paddingTop": "3px",
+                              "zIndex": 99,
+                            }
+                          }
+                        >
+                          <div
+                            className="css-cursor-18t94o4 css-view-1dbjc4n r-alignSelf-1pz39u2 r-borderRadius-ieixw r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                            onClick={[Function]}
+                            onContextMenu={[Function]}
+                            onKeyDown={[Function]}
+                            role="button"
+                            tabIndex="0"
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1pz39u2 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci r-marginHorizontal-6cv0rn"
+                            >
+                              <div
+                                className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                              >
+                                <div
+                                  className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                                >
+                                  <div
+                                    className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                                    dir="auto"
+                                  >
+                                    Claim
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1oszu61 r-borderWidth-1yadl64 r-display-6koalj r-flex-13awgt0 r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp"
+                      style={
+                        {
+                          "backgroundColor": "rgba(0,195,174,1.00)",
+                          "borderBottomColor": "rgba(0,175,255,1.00)",
+                          "borderBottomLeftRadius": "50px",
+                          "borderBottomRightRadius": "50px",
+                          "borderBottomStyle": "solid",
+                          "borderLeftColor": "rgba(0,175,255,1.00)",
+                          "borderLeftStyle": "solid",
+                          "borderRightColor": "rgba(0,175,255,1.00)",
+                          "borderRightStyle": "solid",
+                          "borderTopColor": "rgba(0,175,255,1.00)",
+                          "borderTopLeftRadius": "50px",
+                          "borderTopRightRadius": "50px",
+                          "borderTopStyle": "solid",
+                          "height": "44px",
+                          "marginLeft": "-12px",
+                          "marginRight": "0px",
+                          "marginTop": "0px",
+                          "minHeight": "44px",
+                          "minWidth": "auto",
+                          "paddingLeft": "0px",
+                          "paddingRight": "0px",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-cursor-18t94o4 css-view-1dbjc4n r-alignSelf-1pz39u2 r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+                        onClick={[Function]}
+                        onContextMenu={[Function]}
+                        onKeyDown={[Function]}
+                        role="button"
+                        style={
+                          {
+                            "borderBottomLeftRadius": "50px",
+                            "borderBottomRightRadius": "50px",
+                            "borderTopLeftRadius": "50px",
+                            "borderTopRightRadius": "50px",
+                          }
+                        }
+                        tabIndex="0"
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1oszu61 r-alignSelf-1pz39u2 r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                        >
+                          <div
+                            className="css-view-1dbjc4n r-marginHorizontal-1ybube5 r-marginVertical-712mwr"
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                            >
+                              <div
+                                className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-marginLeft-1ow6zhx r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                                dir="auto"
+                              >
+                                Receive
+                              </div>
+                              <div
+                                className="css-text-901oao r-color-jwli3a r-fontWeight-1it3c9n r-marginLeft-1ow6zhx r-userSelect-lrvibr"
+                                dir="auto"
+                                style={
+                                  {
+                                    "fontFamily": "gooddollar",
+                                    "fontSize": "20px",
+                                    "fontStyle": "normal",
+                                  }
+                                }
+                              >
+                                
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -732,11 +1087,12 @@ exports[`Dashboard matches snapshot 1`] = `
                             }
                           >
                             <div
-                              className="css-view-1dbjc4n r-width-1q42mak"
+                              className="css-view-1dbjc4n"
                               style={
                                 {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
+                                  "width": "74px",
                                 }
                               }
                             />
@@ -774,11 +1130,12 @@ exports[`Dashboard matches snapshot 1`] = `
                               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                             >
                               <div
-                                className="css-view-1dbjc4n r-marginTop-14gqq1x r-width-1q42mak"
+                                className="css-view-1dbjc4n r-marginTop-14gqq1x"
                                 style={
                                   {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
+                                    "width": "74px",
                                   }
                                 }
                               />
@@ -873,11 +1230,12 @@ exports[`Dashboard matches snapshot 1`] = `
                             }
                           >
                             <div
-                              className="css-view-1dbjc4n r-width-1q42mak"
+                              className="css-view-1dbjc4n"
                               style={
                                 {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
+                                  "width": "74px",
                                 }
                               }
                             />
@@ -915,11 +1273,12 @@ exports[`Dashboard matches snapshot 1`] = `
                               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                             >
                               <div
-                                className="css-view-1dbjc4n r-marginTop-14gqq1x r-width-1q42mak"
+                                className="css-view-1dbjc4n r-marginTop-14gqq1x"
                                 style={
                                   {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
+                                    "width": "74px",
                                   }
                                 }
                               />
@@ -1014,11 +1373,12 @@ exports[`Dashboard matches snapshot 1`] = `
                             }
                           >
                             <div
-                              className="css-view-1dbjc4n r-width-1q42mak"
+                              className="css-view-1dbjc4n"
                               style={
                                 {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
                                   "height": "10px",
+                                  "width": "74px",
                                 }
                               }
                             />
@@ -1056,11 +1416,12 @@ exports[`Dashboard matches snapshot 1`] = `
                               className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                             >
                               <div
-                                className="css-view-1dbjc4n r-marginTop-14gqq1x r-width-1q42mak"
+                                className="css-view-1dbjc4n r-marginTop-14gqq1x"
                                 style={
                                   {
                                     "backgroundColor": "rgba(238,238,238,1.00)",
                                     "height": "10px",
+                                    "width": "74px",
                                   }
                                 }
                               />
@@ -1113,12 +1474,7 @@ exports[`Dashboard matches snapshot 1`] = `
           className="css-view-1dbjc4n r-bottom-x89ehc r-height-1lh3azm r-position-u8s1d r-right-zchlnj r-width-1q42mak r-zIndex-1sg8ghl"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              {
-                "opacity": 0,
-              }
-            }
+            className="css-view-1dbjc4n r-opacity-orgf3d"
           >
             <div
               className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"

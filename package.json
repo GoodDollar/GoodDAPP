@@ -17,7 +17,7 @@
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm run start:native -- --reset-cache",
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
-    "build": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider --max_old_space_size=7300\" vite build",
+    "build": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider --max_old_space_size=7000\" vite build",
     "build-12": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider --max_old_space_size=12000\" vite build",
     "animation:assets": "node ./animationAssets.js",
     "copy:gdfont": "cp src/assets/fonts/*.ttf android/app/src/main/assets/fonts/",

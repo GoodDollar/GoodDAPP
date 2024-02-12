@@ -179,6 +179,7 @@ export default defineConfig({
           web3: ['web3', 'web3-core', 'web3-eth', 'web3-utils'],
           ethers: ['ethers', 'ethereumjs-tx', 'ethereumjs-util', 'ethereumjs-account', 'ethereumjs-wallet'],
           threaddb: ['@textile/threaddb', '@textile/threads-client', '@textile/threads-id'],
+          lottie: ['lottie-web'],
           ceramic: [
             '@ceramicnetwork/http-client',
             '@ceramicnetwork/stream-tile',

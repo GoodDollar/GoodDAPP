@@ -15,7 +15,6 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { version } from './package.json'
 const extensions = ['.web.tsx', '.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.jsx', '.mjs', '.js', '.json']
 
-console.log('sentry env:', process.env.REACT_APP_ENV)
 const sentryEnv = process.env.REACT_APP_ENV || 'development'
 
 const jsxTransform = (matchers: RegExp[]) => ({
@@ -84,6 +83,7 @@ export default defineConfig({
       },
       devOptions: {
         enabled: true,
+
         /* other options */
       },
     }),
@@ -172,12 +172,38 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
+        // manualChunks: id => {
+        //   if (id.search(/\/(web3|ethers|ethereumjs)/)) {
+        //     console.log(id)
+        //     return 'web3'
+        //   }
+        //   if (id.includes('@textile')) {
+        //     console.log(id)
+        //     return 'threaddb'
+        //   }
+        //   if (id.includes('@ceramicnetwork')) {
+        //     console.log(id)
+        //     return 'ceramic'
+        //   }
+        //   if (id.includes('torus') || id.includes('web3auth')) {
+        //     console.log(id)
+        //     return 'torus'
+        //   }
+        //   return 'vendor'
+        // },
+
         manualChunks: {
           // reduce main chunk size so sourcemaps for sentry doesnt OOM
-          web3: ['web3'],
+          web3: ['web3', 'web3-core', 'web3-eth', 'web3-utils'],
           ethers: ['ethers'],
           threaddb: ['@textile/threaddb', '@textile/threads-client', '@textile/threads-id'],
-          ceramic: ['@ceramicnetwork/http-client', '@ceramicnetwork/stream-tile'],
+          ceramic: [
+            '@ceramicnetwork/http-client',
+            '@ceramicnetwork/stream-tile',
+            '@ceramicnetwork/stream-model',
+            '@ceramicnetwork/common',
+            '@ceramicnetwork/codecs',
+          ],
         },
       },
       plugins: [jsxTransform([/react-native-.*\.jsx?$/])], //for some reason react-native packages are not being transpiled even with esbuild jsx settings

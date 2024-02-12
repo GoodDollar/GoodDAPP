@@ -157,7 +157,7 @@ export default defineConfig({
     dedupe: ['react', 'ethers', 'react-dom', 'native-base', 'bn.js'],
   },
   build: {
-    sourcemap: !!process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
+    sourcemap: process.env.SENTRY_AUTH_TOKEN ? 'hidden' : false, //required for sentry
     manifest: true,
     outDir: 'build',
     commonjsOptions: {
@@ -177,6 +177,7 @@ export default defineConfig({
           web3: ['web3'],
           ethers: ['ethers'],
           threaddb: ['@textile/threaddb', '@textile/threads-client', '@textile/threads-id'],
+          ceramic: ['@ceramicnetwork/http-client', '@ceramicnetwork/stream-tile'],
         },
       },
       plugins: [jsxTransform([/react-native-.*\.jsx?$/])], //for some reason react-native packages are not being transpiled even with esbuild jsx settings

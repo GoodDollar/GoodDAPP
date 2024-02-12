@@ -189,6 +189,7 @@ export default defineConfig({
             'lit',
             '@orbisclub/orbis-sdk',
           ],
+          sentry: ['@sentry/browser','@sentry/replay'],
         },
       },
       plugins: [jsxTransform([/react-native-.*\.jsx?$/])], //for some reason react-native packages are not being transpiled even with esbuild jsx settings

@@ -11,6 +11,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { esbuildFlowPlugin, flowPlugin } from '@bunchtogether/vite-plugin-flow'
 import { VitePWA } from 'vite-plugin-pwa'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import { analyzer } from 'vite-bundle-analyzer'
 
 import { version } from './package.json'
 const extensions = ['.web.tsx', '.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.jsx', '.mjs', '.js', '.json']
@@ -142,7 +143,7 @@ export default defineConfig({
       authToken: process.env.SENTRY_AUTH_TOKEN,
     }),
 
-    // analyzer(),
+    !process.env.CI && analyzer({ analyzerMode: 'static' }),
   ],
   resolve: {
     extensions,
@@ -152,7 +153,7 @@ export default defineConfig({
       'react-native-svg': 'react-native-svg-web',
       'react-native-webview': 'react-native-web-webview',
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
-      jsbi: path.resolve(__dirname, '..', 'node_modules', 'jsbi', 'dist', 'jsbi-cjs.js'),
+      '@lit-protocol/sdk-browser': path.resolve(__dirname, 'src', 'litmock.js'), //lit isn't actually used, but is large, so we remove it
     },
     dedupe: ['react', 'ethers', 'react-dom', 'native-base', 'bn.js'],
   },
@@ -172,30 +173,10 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        // manualChunks: id => {
-        //   if (id.search(/\/(web3|ethers|ethereumjs)/)) {
-        //     console.log(id)
-        //     return 'web3'
-        //   }
-        //   if (id.includes('@textile')) {
-        //     console.log(id)
-        //     return 'threaddb'
-        //   }
-        //   if (id.includes('@ceramicnetwork')) {
-        //     console.log(id)
-        //     return 'ceramic'
-        //   }
-        //   if (id.includes('torus') || id.includes('web3auth')) {
-        //     console.log(id)
-        //     return 'torus'
-        //   }
-        //   return 'vendor'
-        // },
-
         manualChunks: {
-          // reduce main chunk size so sourcemaps for sentry doesnt OOM
+          // reduce main chunk size so sourcemaps enabled doesnt OOM
           web3: ['web3', 'web3-core', 'web3-eth', 'web3-utils'],
-          ethers: ['ethers'],
+          ethers: ['ethers', 'ethereumjs-tx', 'ethereumjs-util', 'ethereumjs-account', 'ethereumjs-wallet'],
           threaddb: ['@textile/threaddb', '@textile/threads-client', '@textile/threads-id'],
           ceramic: [
             '@ceramicnetwork/http-client',
@@ -203,6 +184,8 @@ export default defineConfig({
             '@ceramicnetwork/stream-model',
             '@ceramicnetwork/common',
             '@ceramicnetwork/codecs',
+            'lit',
+            '@orbisclub/orbis-sdk',
           ],
         },
       },

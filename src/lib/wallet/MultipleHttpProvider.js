@@ -4,10 +4,13 @@ import Web3 from 'web3'
 import { assign, has, shuffle } from 'lodash'
 import { fallback, makePromiseWrapper, retry } from '../utils/async'
 import logger, { isConnectionError } from '../logger/js-logger'
+import { isDuplicateTxError } from './utils'
 
 const { providers } = Web3
 const { HttpProvider } = providers
 const log = logger.child({ from: 'MultipleHttpProvider' })
+
+const isTxError = message => isDuplicateTxError(message) || message.search(/reverted|gas/i)
 
 export class MultipleHttpProvider extends HttpProvider {
   constructor(endpoints, config) {
@@ -52,6 +55,9 @@ export class MultipleHttpProvider extends HttpProvider {
           // log.exception bypass network error filtering
           log.exception('HTTP Provider failed to send:', exception.message, exception, { provider })
         }
+        else {
+          log.warn('HTTP Provider failed to send:', exception.message, exception, { provider })
+        }
 
         throw exception
       }
@@ -63,8 +69,10 @@ export class MultipleHttpProvider extends HttpProvider {
     }
 
     const onFailed = error => {
-      if (!isConnectionError(error)) {
-        log.error('Failed with last error', error.message, error, payload.id)
+      if (!isTxError(error.message) && !isConnectionError(error)) {
+        log.error('Failed with last unknown error', error.message, error)
+      } else {
+        log.warn('Failed with last error', error.message, error, payload.id)
       }
 
       callback(error, null)
@@ -74,8 +82,8 @@ export class MultipleHttpProvider extends HttpProvider {
     const onFallback = error => {
       const { message, code } = error
 
-      // retry on network error or if rpc responded with error (error.error)
-      const willFallback = !!(code || error.error || !message || isConnectionError(message))
+      // retry if not tx issue and network error or if rpc responded with error (error.error)
+      const willFallback = !isTxError(message) && !!(code || error.error || !message || isConnectionError(message))
 
       if (!willFallback) {
         log.warn('send: got error', { message, error, willFallback })
@@ -86,14 +94,9 @@ export class MultipleHttpProvider extends HttpProvider {
 
     log.trace('send: exec over peers', { peers, strategy, calls })
 
-    retry(
-      () =>
-        fallback(calls, onFallback)
-          .then(onSuccess)
-          .catch(onFailed),
-      retries,
-      0,
-    )
+    retry(() => fallback(calls, onFallback), retries, 0)
+      .then(onSuccess)
+      .catch(onFailed)
   }
 
   /**

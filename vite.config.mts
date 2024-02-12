@@ -175,6 +175,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           // reduce main chunk size so sourcemaps enabled doesnt OOM
+          lodash: ['lodash'],
           web3: ['web3', 'web3-core', 'web3-eth', 'web3-utils'],
           ethers: ['ethers', 'ethereumjs-tx', 'ethereumjs-util', 'ethereumjs-account', 'ethereumjs-wallet'],
           threaddb: ['@textile/threaddb', '@textile/threads-client', '@textile/threads-id'],

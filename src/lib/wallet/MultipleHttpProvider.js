@@ -55,6 +55,9 @@ export class MultipleHttpProvider extends HttpProvider {
           // log.exception bypass network error filtering
           log.exception('HTTP Provider failed to send:', exception.message, exception, { provider })
         }
+        else {
+          log.warn('HTTP Provider failed to send:', exception.message, exception, { provider })
+        }
 
         throw exception
       }
@@ -66,8 +69,8 @@ export class MultipleHttpProvider extends HttpProvider {
     }
 
     const onFailed = error => {
-      if (!isTxError(exception.message) && !isConnectionError(exception)) {
-        log.error('Failed with last unknown error', exception.message, exception, { provider })
+      if (!isTxError(error.message) && !isConnectionError(error)) {
+        log.error('Failed with last unknown error', error.message, error)
       } else {
         log.warn('Failed with last error', error.message, error, payload.id)
       }

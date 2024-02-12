@@ -1,24 +1,8 @@
 import { assign, first, get, isFinite, isNumber } from 'lodash'
 
-import FaceTec from '@gooddollar/react-native-facetec/web'
 import api from '../api/FaceVerificationApi'
 import { UITextStrings } from './UICustomization'
 import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage, unexpectedErrorMessage } from './FaceTecSDK.constants'
-
-const {
-  // Zoom verification session incapsulation
-  FaceTecSession,
-
-  // Zoom session status codes enum
-  FaceTecSessionStatus,
-
-  // Helper function, returns full description
-  // for session status specified
-  getFriendlyDescriptionForFaceTecSessionStatus,
-
-  // Helper class, allows to customize Zoom UI
-  FaceTecCustomization,
-} = FaceTec.FaceTecSDK
 
 // enrollment processor class
 // former startVerification from the useFaceTecVerification hook simply translated to the class
@@ -44,6 +28,11 @@ export class EnrollmentProcessor {
   constructor(subscriber, options = null) {
     const { maxRetries = MAX_RETRIES_ALLOWED } = options || {}
 
+    //hack for vite on production is imports it to global space
+    this.FaceTecSDK = import('@gooddollar/react-native-facetec/web/sdk/FaceTecSDK.web.js').then(
+      _ => _.FaceTecSDK || global.FaceTecSDK,
+    )
+
     assign(this, { subscriber, maxRetries })
   }
 
@@ -60,7 +49,9 @@ export class EnrollmentProcessor {
   /**
    * Helper method for handle session completion
    */
-  onFaceTecSDKCompletelyDone() {
+  async onFaceTecSDKCompletelyDone() {
+    const FaceTecSDK = await this.FaceTecSDK
+    const { FaceTecSessionStatus, getFriendlyDescriptionForFaceTecSessionStatus } = FaceTecSDK
     const { subscriber, isSuccess, lastMessage, lastResult } = this
     const { status } = lastResult || {}
     let latestMessage = lastMessage
@@ -82,6 +73,9 @@ export class EnrollmentProcessor {
    * Helper method that calls verification http API on server
    */
   async sendEnrollmentRequest() {
+    const FaceTecSDK = await this.FaceTecSDK
+    const { FaceTecCustomization } = FaceTecSDK
+
     // reading current session state vars
     const { lastResult, resultCallback, enrollmentIdentifier, v1Identifier, chainId } = this
 
@@ -223,8 +217,10 @@ export class EnrollmentProcessor {
    * @see FaceTecSDK.ZoomFaceMapProcessor
    * @private
    */
-  processSessionResultWhileFaceTecSDKWaits(sessionResult, faceScanResultCallback) {
+  async processSessionResultWhileFaceTecSDKWaits(sessionResult, faceScanResultCallback) {
     const { subscriber } = this
+    const FaceTecSDK = await this.FaceTecSDK
+    const { FaceTecSessionStatus } = FaceTecSDK
 
     // updating session state variables
     this.lastResult = sessionResult
@@ -256,7 +252,8 @@ export class EnrollmentProcessor {
    */
   async _startEnrollmentSession() {
     const { subscriber } = this
-
+    const FaceTecSDK = await this.FaceTecSDK
+    const { FaceTecSession } = FaceTecSDK
     try {
       // trying to retrieve session ID from Zoom server
       const sessionId = await api.issueSessionToken().catch(({ message }) => {

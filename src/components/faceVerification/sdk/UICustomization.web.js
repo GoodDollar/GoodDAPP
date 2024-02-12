@@ -2,8 +2,6 @@ import hexToRgba from 'hex-to-rgba'
 import { Colors } from 'react-native-paper'
 import { assignIn, get, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
-import FaceTec from '@gooddollar/react-native-facetec/web'
-
 import { resultFacescanUploadMessage, resultSuccessMessage } from '../sdk/FaceTecSDK.constants'
 import { isLargeDevice } from '../../../lib/utils/sizes'
 import { theme } from '../../theme/styles'
@@ -11,17 +9,6 @@ import './UICustomization.css'
 
 export const FACETEC_PUBLIC_PATH = '/facetec'
 export const FACETEC_NS = 'FaceTec'
-
-const { FaceTecSDK } = FaceTec
-const { FaceTecCustomization, FaceTecCancelButtonLocation } = FaceTecSDK
-
-// there's bug in SDK - FaceTecVocalGuidanceMode isn't exported
-// added fallback to polyfill it
-const FaceTecVocalGuidanceMode = get(FaceTecSDK, 'FaceTecVocalGuidanceMode', {
-  MINIMAL_VOCAL_GUIDANCE: 0,
-  FULL_VOCAL_GUIDANCE: 1,
-  NO_VOCAL_GUIDANCE: 2,
-})
 
 const FaceTecShadow = (box, color, alpha) => `${box.map(FaceTecSize).join(' ')} ${FaceTecColor(color, alpha)}`
 const FaceTecImage = filename => `${FACETEC_PUBLIC_PATH}/images/${FACETEC_NS}_${filename}`
@@ -76,8 +63,16 @@ export const UITextStrings = {
   },
 }
 
-export const createBasicUICustomization = () => {
-  const customization = new FaceTecCustomization()
+const createBasicUICustomization = FaceTecSDK => {
+  const customization = new FaceTecSDK.FaceTecCustomization()
+
+  // there's bug in SDK - FaceTecVocalGuidanceMode isn't exported
+  // added fallback to polyfill it
+  const FaceTecVocalGuidanceMode = get(FaceTecSDK, 'FaceTecVocalGuidanceMode', {
+    MINIMAL_VOCAL_GUIDANCE: 0,
+    FULL_VOCAL_GUIDANCE: 1,
+    NO_VOCAL_GUIDANCE: 2,
+  })
 
   const {
     cancelButtonCustomization,
@@ -121,7 +116,7 @@ export const createBasicUICustomization = () => {
 
   // setting custom location & image of cancel button
   assignIn(cancelButtonCustomization, {
-    location: FaceTecCancelButtonLocation.TopRight,
+    location: FaceTecSDK.FaceTecCancelButtonLocation.TopRight,
     customImage: FaceTecImage('cancel.svg'),
   })
 
@@ -209,10 +204,10 @@ export const createBasicUICustomization = () => {
   return customization
 }
 
-export const UICustomization = createBasicUICustomization()
+export const UICustomization = FaceTecSDK => createBasicUICustomization(FaceTecSDK)
 
-export const LowLightModeCustomization = (() => {
-  const customization = createBasicUICustomization()
+export const LowLightModeCustomization = FaceTecSDK => {
+  const customization = createBasicUICustomization(FaceTecSDK)
   const { guidanceCustomization } = customization
 
   assignIn(guidanceCustomization, {
@@ -221,10 +216,10 @@ export const LowLightModeCustomization = (() => {
   })
 
   return customization
-})()
+}
 
-export const DynamicModeCustomization = (() => {
-  const customization = createBasicUICustomization()
+export const DynamicModeCustomization = FaceTecSDK => {
+  const customization = createBasicUICustomization(FaceTecSDK)
   const { guidanceCustomization, cancelButtonCustomization } = customization
 
   assignIn(cancelButtonCustomization, {
@@ -237,4 +232,4 @@ export const DynamicModeCustomization = (() => {
   })
 
   return customization
-})()
+}

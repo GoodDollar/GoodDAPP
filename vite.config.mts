@@ -98,6 +98,7 @@ export default defineConfig({
       targets: [
         { src: 'node_modules/@gooddollar/react-native-facetec/web/sdk/images', dest: 'facetec' },
         { src: 'node_modules/@gooddollar/react-native-facetec/web/sdk/resources', dest: 'facetec' },
+        { src: 'node_modules/@gooddollar/react-native-facetec/web/sdk/FaceTecSDK.web.js', dest: 'facetec' },
       ],
     }),
     svgLoader({
@@ -189,7 +190,7 @@ export default defineConfig({
             'lit',
             '@orbisclub/orbis-sdk',
           ],
-          sentry: ['@sentry/browser','@sentry/replay'],
+          sentry: ['@sentry/browser', '@sentry/replay'],
         },
       },
       plugins: [jsxTransform([/react-native-.*\.jsx?$/])], //for some reason react-native packages are not being transpiled even with esbuild jsx settings

@@ -9,10 +9,7 @@ import Config from '../config/config'
 const AppContext = ({ children }) => (
   <PostHogProvider
     apiKey={Config.posthogApiKey}
-    options={{
-      host: Config.posthogHost,
-      preloadFeatureFlags: true,
-    }}
+    options={{ host: Config.posthogHost, preloadFeatureFlags: true, sendFeatureFlagEvent: false }}
     autocapture={false}
   >
     <GlobalTogglesContextProvider>

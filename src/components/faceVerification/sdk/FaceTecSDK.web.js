@@ -35,7 +35,7 @@ export const FaceTecSDK = new (class {
     this.FaceTecSDKStatus = FaceTecSDKStatus
     this.FaceTecSessionStatus = FaceTecSessionStatus
 
-    logger.debug('imported FaceTecSDK', sdk, global.FaceTecSDK)
+    logger.debug('imported FaceTecSDK', global.FaceTecSDK)
 
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory(`${FACETEC_PUBLIC_PATH}/resources`)

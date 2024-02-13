@@ -1,8 +1,10 @@
 import { assign, first, get, isFinite, isNumber } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
+
 import { UITextStrings } from './UICustomization'
 import { MAX_RETRIES_ALLOWED, resultFacescanProcessingMessage, unexpectedErrorMessage } from './FaceTecSDK.constants'
+import { importSDK } from './FaceTecCore'
 
 // enrollment processor class
 // former startVerification from the useFaceTecVerification hook simply translated to the class
@@ -29,9 +31,7 @@ export class EnrollmentProcessor {
     const { maxRetries = MAX_RETRIES_ALLOWED } = options || {}
 
     //hack for vite on production is imports it to global space
-    this.FaceTecSDK = import('@gooddollar/react-native-facetec/web/sdk/FaceTecSDK.web.js').then(
-      _ => _.FaceTecSDK || global.FaceTecSDK,
-    )
+    this.FaceTecSDK = importSDK().then(_ => global.FaceTecSDK)
 
     assign(this, { subscriber, maxRetries })
   }

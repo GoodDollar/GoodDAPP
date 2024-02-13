@@ -12,6 +12,7 @@ import {
 } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
+import { importSDK } from './FaceTecCore'
 
 // sdk class
 export const FaceTecSDK = new (class {
@@ -21,10 +22,10 @@ export const FaceTecSDK = new (class {
 
   // eslint-disable-next-line require-await
   async initialize(licenseKey, encryptionKey = null, licenseText = null) {
+    await importSDK()
+
     // hack for vite, on production it imports UMD in global space
-    this.sdk = await import('@gooddollar/react-native-facetec/web/sdk/FaceTecSDK.web.js').then(
-      _ => _.FaceTecSDK || global.FaceTecSDK,
-    )
+    this.sdk = global.FaceTecSDK
 
     const { sdk, logger } = this
     const { FaceTecSDKStatus, FaceTecSessionStatus } = sdk

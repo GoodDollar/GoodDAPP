@@ -10,7 +10,7 @@ const { providers } = Web3
 const { HttpProvider } = providers
 const log = logger.child({ from: 'MultipleHttpProvider' })
 
-const isTxError = message => isDuplicateTxError(message) || message.search(/reverted|gas/i)
+const isTxError = message => isDuplicateTxError(message) || message?.search(/reverted|gas/i)
 
 export class MultipleHttpProvider extends HttpProvider {
   constructor(endpoints, config) {
@@ -54,8 +54,7 @@ export class MultipleHttpProvider extends HttpProvider {
 
           // log.exception bypass network error filtering
           log.exception('HTTP Provider failed to send:', exception.message, exception, { provider })
-        }
-        else {
+        } else {
           log.warn('HTTP Provider failed to send:', exception.message, exception, { provider })
         }
 

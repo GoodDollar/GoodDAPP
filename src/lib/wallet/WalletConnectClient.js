@@ -195,53 +195,26 @@ export const useWalletConnectSession = () => {
     [wallet],
   )
 
-  const rejectRequest = useCallback(async (connector, id, topic, error) => {
-    const isV2 = connector === cachedV2Connector
-    if (isV2) {
-      connector.respondSessionRequest({
-        topic,
-        response: { id, jsonrpc: '2.0', error: error || getSdkError('USER_REJECTED').message },
-      })
-    } else {
-      connector.rejectRequest({ id, error: error || getSdkError('USER_REJECTED').message })
-    }
-  }, [])
-
-  const approveRequest = useCallback(async (connector, id, topic, result) => {
-    const isV2 = connector === cachedV2Connector
-    if (isV2) {
-      connector.respondSessionRequest({
-        topic,
-        response: { id, jsonrpc: '2.0', result },
-      })
-    } else {
-      connector.approveRequest({ id, result })
-    }
-  }, [])
-
-  const getV2Meta = payload => {
-    const {
-      topic,
-      params: { chainId },
-    } = payload
-    const sessionv2 = cachedV2Connector.getActiveSessions()[topic]
-    let requestedChainIdV2 = Number(
-      (chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
-    )
-    if (sessionv2) {
-      return {
-        ...sessionv2.peer.metadata,
-        topic,
-        chainId: requestedChainIdV2,
+  const setV2Session = useCallback(
+    (sessionv2, event) => {
+      let requestedChainIdV2 = Number(
+        (event?.params?.chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
+      )
+      log.info('settingv2session', { sessionv2, requestedChainIdV2, chain })
+      if (sessionv2) {
+        log.debug('setting v2 session and active connector', { sessionv2, cachedV2Connector, requestedChainIdV2 })
+        setConnector(cachedV2Connector)
+        setSession({
+          ...sessionv2.peer.metadata,
+          topic: sessionv2.topic,
+          chainId: requestedChainIdV2,
+        })
+        setChain(chains.find(_ => _.chainId === requestedChainIdV2))
+        AsyncStorage.setItem('walletconnect_requestedChain_v2', requestedChainIdV2)
       }
-    }
-    return
-  }
-
-  const getMethodAndParams = payload => {
-    const { method, params } = payload?.params?.request || payload
-    return { method, params }
-  }
+    },
+    [setSession, setConnector, wallet, chain, chains],
+  )
 
   const handleSessionRequest = useCallback(
     (connector, payload) => {
@@ -345,6 +318,136 @@ export const useWalletConnectSession = () => {
     },
     [showApprove, wallet, chains, setConnector, setV2Session],
   )
+
+  const connect = useCallback(
+    async (uriOrSession, chainId) => {
+      if (wallet) {
+        const session = typeof uriOrSession === 'string' ? undefined : uriOrSession
+        const uri = typeof uriOrSession === 'string' ? uriOrSession : undefined
+
+        const { version = null } = (uri && parseUri(uri)) || {}
+        log.debug('got uri:', { uri, session, wallet, version })
+        if (session || version === 1) {
+          let connector = new WalletConnect({
+            // Required
+            uri,
+            session,
+
+            // Required
+            clientMeta: metadata,
+          })
+          initializeV1(connector)
+          log.debug('got uri created connection:', { uri, session, wallet, connector })
+          if (session && connector.pending && !connector.connected) {
+            log.debug('calling handlesession from connect...')
+            handleSessionRequest(connector, { params: [{ chainId }] })
+          }
+          setConnector(connector)
+          cachedConnector = connector
+
+          return connector
+        } else if (isInitialized && version == 2) {
+          try {
+            const pairResult = await cachedV2Connector.core.pairing.pair({ uri })
+            log.debug('v2 paired:', { uri, pairResult })
+            setConnector(cachedV2Connector)
+          } catch (e) {
+            if (e.message.includes('Pairing already exists')) {
+              showErrorDialog(`Failed to connect. Please try again with a new QR Code.`)
+              log.debug('v2 pairing failed: ', {
+                message: e.message,
+                e,
+                cachedV2Connector,
+                uri,
+                connect: cachedV2Connector.connect,
+              })
+            }
+          }
+        }
+      }
+    },
+    [
+      wallet,
+      activeConnector,
+      handleSessionRequest,
+      isInitialized,
+    ],
+  )
+
+  const reconnectV1 = useCallback(async () => {
+    log.debug('reconnect V1:', { activeConnector, isInitialized, cachedV2Connector })
+
+    const session = await AsyncStorage.getItem('walletconnect')
+    const chainId = await AsyncStorage.getItem('walletconnect_requestedChain')
+
+    log.debug('reconnecting v1:', { session, chainId })
+    if (session && !activeConnector) {
+      return connect(
+        session,
+        session.chainId,
+      )
+    }
+  }, [activeConnector, connect])
+
+  const reconnectV2 = useCallback(async () => {
+    log.debug('reconnect v2:', { isInitialized, cachedV2Connector })
+
+    if (isInitialized) {
+      // handle v2
+      const sessions = cachedV2Connector.getActiveSessions()
+      const sessionv2 = last(Object.values(sessions))
+      log.debug('reconnecting v2:', { sessions, sessionv2 })
+      setV2Session(sessionv2)
+    }
+  }, [isInitialized, setV2Session])
+
+  const rejectRequest = useCallback(async (connector, id, topic, error) => {
+    const isV2 = connector === cachedV2Connector
+    if (isV2) {
+      connector.respondSessionRequest({
+        topic,
+        response: { id, jsonrpc: '2.0', error: error || getSdkError('USER_REJECTED').message },
+      })
+    } else {
+      connector.rejectRequest({ id, error: error || getSdkError('USER_REJECTED').message })
+    }
+  }, [])
+
+  const approveRequest = useCallback(async (connector, id, topic, result) => {
+    const isV2 = connector === cachedV2Connector
+    if (isV2) {
+      connector.respondSessionRequest({
+        topic,
+        response: { id, jsonrpc: '2.0', result },
+      })
+    } else {
+      connector.approveRequest({ id, result })
+    }
+  }, [])
+
+  const getV2Meta = payload => {
+    const {
+      topic,
+      params: { chainId },
+    } = payload
+    const sessionv2 = cachedV2Connector.getActiveSessions()[topic]
+    let requestedChainIdV2 = Number(
+      (chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
+    )
+    if (sessionv2) {
+      return {
+        ...sessionv2.peer.metadata,
+        topic,
+        chainId: requestedChainIdV2,
+      }
+    }
+    return
+  }
+
+  const getMethodAndParams = payload => {
+    const { method, params } = payload?.params?.request || payload
+    return { method, params }
+  }
 
   const handleSignRequest = useCallback(
     (message, payload, connector) => {
@@ -723,67 +826,6 @@ export const useWalletConnectSession = () => {
     ],
   )
 
-  const connect = useCallback(
-    async (uriOrSession, chainId) => {
-      if (wallet) {
-        const session = typeof uriOrSession === 'string' ? undefined : uriOrSession
-        const uri = typeof uriOrSession === 'string' ? uriOrSession : undefined
-
-        const { version = null } = (uri && parseUri(uri)) || {}
-        log.debug('got uri:', { uri, session, wallet, version })
-        if (session || version === 1) {
-          let connector = new WalletConnect({
-            // Required
-            uri,
-            session,
-
-            // Required
-            clientMeta: metadata,
-          })
-          initializeV1(connector)
-          log.debug('got uri created connection:', { uri, session, wallet, connector })
-          if (session && connector.pending && !connector.connected) {
-            log.debug('calling handlesession from connect...')
-            handleSessionRequest(connector, { params: [{ chainId }] })
-          }
-          setConnector(connector)
-          cachedConnector = connector
-
-          return connector
-        } else if (isInitialized && version == 2) {
-          try {
-            const pairResult = await cachedV2Connector.core.pairing.pair({ uri })
-            log.debug('v2 paired:', { uri, pairResult })
-            setConnector(cachedV2Connector)
-          } catch (e) {
-            if (e.message.includes('Pairing already exists')) {
-              showErrorDialog(`Failed to connect. Please try again with a new QR Code.`)
-              log.debug('v2 pairing failed: ', {
-                message: e.message,
-                e,
-                cachedV2Connector,
-                uri,
-                connect: cachedV2Connector.connect,
-              })
-            }
-          }
-        }
-      }
-    },
-    [
-      wallet,
-      activeConnector,
-      handleSessionDisconnect,
-      handleSessionRequest,
-      handleSignRequest,
-      handleTxRequest,
-      handleSwitchChainRequest,
-      handleUnsupportedRequest,
-      handleScanRequest,
-      isInitialized,
-    ],
-  )
-
   const sendTx = useCallback(
     async (params, payload, web3, chainDetails, connector) => {
       const nonce = await web3.eth.getTransactionCount(wallet.account)
@@ -948,53 +990,6 @@ export const useWalletConnectSession = () => {
       handleSessionDisconnect(activeConnector)
     }
   }, [activeConnector, handleSessionDisconnect])
-
-  const setV2Session = useCallback(
-    (sessionv2, event) => {
-      let requestedChainIdV2 = Number(
-        (event?.params?.chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
-      )
-      log.info('settingv2session', { sessionv2, requestedChainIdV2, chain })
-      if (sessionv2) {
-        log.debug('setting v2 session and active connector', { sessionv2, cachedV2Connector, requestedChainIdV2 })
-        setConnector(cachedV2Connector)
-        setSession({
-          ...sessionv2.peer.metadata,
-          topic: sessionv2.topic,
-          chainId: requestedChainIdV2,
-        })
-        setChain(chains.find(_ => _.chainId === requestedChainIdV2))
-        AsyncStorage.setItem('walletconnect_requestedChain_v2', requestedChainIdV2)
-      }
-    },
-    [setSession, setConnector, wallet, chain, chains],
-  )
-  const reconnectV1 = useCallback(async () => {
-    log.debug('reconnect V1:', { activeConnector, isInitialized, cachedV2Connector })
-
-    const session = await AsyncStorage.getItem('walletconnect')
-    const chainId = await AsyncStorage.getItem('walletconnect_requestedChain')
-
-    log.debug('reconnecting v1:', { session, chainId })
-    if (session && !activeConnector) {
-      return connect(
-        session,
-        session.chainId,
-      )
-    }
-  }, [activeConnector, connect])
-
-  const reconnectV2 = useCallback(async () => {
-    log.debug('reconnect v2:', { isInitialized, cachedV2Connector })
-
-    if (isInitialized) {
-      // handle v2
-      const sessions = cachedV2Connector.getActiveSessions()
-      const sessionv2 = last(Object.values(sessions))
-      log.debug('reconnecting v2:', { sessions, sessionv2 })
-      setV2Session(sessionv2)
-    }
-  }, [isInitialized, setV2Session])
 
   const loadPendingTxs = async () => {
     const txKeys = (await AsyncStorage.getAllKeys()).filter(_ => _.startsWith('GD_WALLETCONNECT_PENDING_'))

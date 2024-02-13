@@ -6,6 +6,7 @@ import dns from 'dns'
 import { TextEncoder, TextDecoder } from 'util'
 import '../src/lib/shim'
 import dotenv from 'dotenv'
+import FaceTecSDK from '@gooddollar/react-native-facetec/web/sdk/FaceTecSDK.web'
 
 dotenv.config({ path: './.env.test' })
 
@@ -37,7 +38,7 @@ if (typeof window !== 'undefined') {
 
   window.crypto = Crypto.webcrypto
   window.matchMedia = () => ({ matches: true });
-  assign(window, { TextDecoder, TextEncoder })
+  assign(window, { TextDecoder, TextEncoder, FaceTecSDK: FaceTecSDK.FaceTecSDK })
 }
 window.setImmediate = window.setTimeout
 

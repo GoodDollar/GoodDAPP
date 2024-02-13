@@ -35,7 +35,11 @@ const App = () => {
     <PaperProvider theme={theme}>
       <AppWrapper {...wrapperProps}>
         <Fragment>
-          <PostHogProvider apiKey={Config.posthogApiKey} options={{ host: Config.posthogHost }} autocapture={false}>
+          <PostHogProvider
+            apiKey={Config.posthogApiKey}
+            options={{ host: Config.posthogHost, sendFeatureFlagEvent: false }}
+            autocapture={false}
+          >
             <GlobalTogglesContextProvider>
               <DialogContextProvider>
                 <SimpleStoreDialog />

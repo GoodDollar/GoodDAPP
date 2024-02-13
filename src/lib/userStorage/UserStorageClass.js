@@ -919,7 +919,7 @@ export class UserStorage {
 
     data.value = get(receiptEvent, 'value') || get(receiptEvent, 'amount') || amount
 
-    const fromGDUbi = this.wallet.getUBIAddresses().includes((data.address || '').toLowerCase()) && 'GoodDollar UBI'
+    const fromGDUbi = this.wallet.getUBIAddresses().includes(data.address?.toLowerCase() || '') && 'GoodDollar UBI'
 
     const fromGD =
       (type === FeedItemType.EVENT_TYPE_BONUS ||

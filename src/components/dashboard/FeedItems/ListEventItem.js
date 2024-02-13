@@ -126,7 +126,7 @@ const NewsItem: React.FC = ({ item, eventSettings, styles }) => {
 }
 
 export const NetworkIcon = ({ chainId = 122, txHash }) => {
-  const isTx = txHash.startsWith('0x')
+  const isTx = txHash?.startsWith('0x')
   const Icon = NetworkLogo[chainId]
 
   const goToTxDetails = useCallback(() => {

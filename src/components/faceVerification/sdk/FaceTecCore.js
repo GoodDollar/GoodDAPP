@@ -1,2 +1,19 @@
 // this is a hack for vite.
-export default { FaceTecSDK: global.FaceTecSDK } // FaceTecSDK is included as js script in index.html
+const injectScript = src => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = src
+    script.addEventListener('load', resolve)
+    script.addEventListener('error', e => reject(e.error))
+    document.head.appendChild(script)
+  })
+}
+
+let injected = false
+export const importSDK = async () => {
+  if (injected) {
+    return
+  }
+  await injectScript('/facetec/FaceTecSDK.web.js')
+  injected = true
+}

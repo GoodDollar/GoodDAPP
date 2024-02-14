@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios'
-import { find } from 'lodash'
+import { find, isArray } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import Config, { fuseNetwork } from '../../config/config'
@@ -505,7 +505,10 @@ export class APIService {
     const txs = []
     const explorer = Config.ethereum[chainId].explorerAPI
 
-    const sender32 = `0x${sender.toLowerCase().slice(2).padStart(64, '0')}`
+    const sender32 = `0x${sender
+      .toLowerCase()
+      .slice(2)
+      .padStart(64, '0')}`
 
     const params = {
       module: 'logs',
@@ -529,6 +532,10 @@ export class APIService {
         params,
         baseURL: explorer,
       })
+
+      if (!isArray(events)) {
+        return
+      }
 
       params.page += 1
       txs.push(...events)

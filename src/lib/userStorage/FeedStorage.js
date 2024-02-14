@@ -564,9 +564,15 @@ export class FeedStorage {
     }
 
     const isContract = await this.wallet.wallet.eth.getCode(address)
+
+    // because of a possible bug when handleReceipt creates the feed-item for receiving a bridge transaction,
+    // bridge check might not be done correctly causing a unneccessary check for contract name
+    // so we do it here again
+    const isBridgeReceive = this.wallet.getBridgeAddresses().includes(feedEvent.data.receiptEvent.from.toLowerCase())
+
     const isBridgeOrBuy = [TxType.TX_BRIDGE_IN, TxType.TX_BRIDGE_OUT, TxType.TX_BUYGD].includes(feedEvent.txType)
 
-    if (isContract !== '0x' && !isBridgeOrBuy) {
+    if (isContract !== '0x' && !isBridgeOrBuy && !isBridgeReceive) {
       feedEvent.data.counterPartyFullName = await API.getContractName(address, chainId)
     }
 

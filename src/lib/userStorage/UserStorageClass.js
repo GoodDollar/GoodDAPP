@@ -773,7 +773,7 @@ export class UserStorage {
 
     const { feedStorage } = this
     const { data, type } = event
-    const { counterPartyFullName, counterPartySmallAvatar } = data
+    const { counterPartyFullName } = data
 
     const counterPartyNativeEvents = [FeedItemType.EVENT_TYPE_SENDNATIVE, FeedItemType.EVENT_TYPE_RECEIVENATIVE]
 
@@ -786,7 +786,7 @@ export class UserStorage {
       FeedItemType.EVENT_TYPE_SENDBRIDGE,
     ]
 
-    if (counterPartyEvents.includes(type) && (!counterPartyFullName || !counterPartySmallAvatar)) {
+    if (counterPartyEvents.includes(type) && !counterPartyFullName) {
       const counterPartyData = await feedStorage.getCounterParty(event)
 
       if (!isEqual(counterPartyData, pick(data, keys(counterPartyData)))) {

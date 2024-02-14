@@ -4446,6 +4446,7 @@ __metadata:
     webpack-bundle-analyzer: ^4.5.0
     webpack-manifest-plugin: ^2.2.0
     websocket: ^1.0.31
+    windows-locale: ^1.1.3
     workbox-webpack-plugin: ^6.5.4
   languageName: unknown
   linkType: soft
@@ -41956,6 +41957,13 @@ __metadata:
   bin:
     window-size: cli.js
   checksum: a85e2acf156cfa194301294809867bdadd8a48ee5d972d9fa8e3e1b3420a1d0201b13ac8eb0348a0d14bbf2c3316565b6a749749c2384c5d286caf8a064c4f90
+  languageName: node
+  linkType: hard
+
+"windows-locale@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "windows-locale@npm:1.1.3"
+  checksum: c3c4a3887212d94442bf3d3c205b54ade1fbbf352ba83f7d32de6cceea8f14d3605ce16b88d9f4735448c0d9e1c7dd2db2afcaa04bc0da545a265aca832f1d57
   languageName: node
   linkType: hard
 

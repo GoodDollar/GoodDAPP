@@ -568,7 +568,7 @@ export class FeedStorage {
     // because of a possible bug when handleReceipt creates the feed-item for receiving a bridge transaction,
     // bridge check might not be done correctly causing a unneccessary check for contract name
     // so we do it here again
-    const isBridgeReceive = this.wallet.getBridgeAddresses().includes(feedEvent.data.receiptEvent.from.toLowerCase())
+    const isBridgeReceive = this.wallet.getBridgeAddresses().includes(feedEvent.data.receiptEvent.from?.toLowerCase())
 
     const isBridgeOrBuy = [TxType.TX_BRIDGE_IN, TxType.TX_BRIDGE_OUT, TxType.TX_BUYGD].includes(feedEvent.txType)
 

@@ -449,6 +449,11 @@ export class APIService {
       params,
       baseURL: explorer,
     })
+
+    if (!isArray(result)) {
+      throw new Error('Failed to fetch contract ABI')
+    }
+
     return result
   }
 

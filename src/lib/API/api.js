@@ -533,12 +533,11 @@ export class APIService {
         baseURL: explorer,
       })
 
-      if (!isArray(events)) {
-        return
-      }
-
       params.page += 1
-      txs.push(...events)
+
+      if (isArray(events)) {
+        txs.push(...events)
+      }
 
       if (events.length < params.offset) {
         // default page size by explorer.fuse.io

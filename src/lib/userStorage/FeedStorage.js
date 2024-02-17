@@ -6,6 +6,7 @@ import { t } from '@lingui/macro'
 
 import * as TextileCrypto from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
+import { retry } from '../utils/async'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import { fireEvent, REWARD_RECEIVED } from '../analytics/analytics'
@@ -517,7 +518,7 @@ export class FeedStorage {
       })
 
       const [counterPartyData, txData] = await Promise.all([
-        this.getCounterParty(updatedFeedEvent),
+        retry(() => this.getCounterParty(updatedFeedEvent), 3, 1000),
         this.getFromOutbox(updatedFeedEvent),
       ])
 

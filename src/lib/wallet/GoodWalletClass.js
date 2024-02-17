@@ -477,19 +477,30 @@ export class GoodWallet {
     const withdrawHash = '0x39ca68a9f5d8038e871ef25a6622a56579cda4a6eedf63813574d23652e94048'
     const cancelHash = '0xb1f6a8f6b8fb527cfeec0df589160bc2a92ff715097117cb250e823c7106bc2f'
 
-    const otpPromise = otpAddress
-      ? Promise.all([
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash),
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash),
-        ])
-      : Promise.resolve()
+    try {
+      const otpPromise = otpAddress
+        ? Promise.all([
+            API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash),
+            API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash),
+          ])
+        : Promise.resolve()
 
-    ;[results, otpResults] = await Promise.all([tokenPromise, otpPromise])
+      ;[results, otpResults] = await Promise.all([tokenPromise, otpPromise])
 
-    await Promise.all([
-      results?.length > 0 ? this.processEvents(results, startBlock) : undefined,
-      otpResults?.length > 0 ? this.processEvents(flatten(otpResults), startBlock) : undefined,
-    ])
+      await Promise.all([
+        results?.length > 0 ? this.processEvents(results, startBlock) : undefined,
+        otpResults?.length > 0 ? this.processEvents(flatten(otpResults), startBlock) : undefined,
+      ])
+    } catch (error) {
+      // if data exists, means an error was catched through the isArray safe-guard.
+      // so we log the error and let the sync finish to update lastBlock (potentially fetched some pages)
+      // if no data it is an unexpected exception so we let the outer catch handle it
+      if (error.data) {
+        log.error('syncTxFromExplorer failed', error.message, error.data)
+      } else {
+        throw new Error(error)
+      }
+    }
 
     const lastBlock = Number(last(results)?.blockNumber)
 
@@ -732,7 +743,12 @@ export class GoodWallet {
 
   async checkEntitlement(): Promise<number> {
     try {
-      return await retryCall(() => this.UBIContract.methods.checkEntitlement().call().then(parseInt))
+      return await retryCall(() =>
+        this.UBIContract.methods
+          .checkEntitlement()
+          .call()
+          .then(parseInt),
+      )
     } catch (exception) {
       log.error('checkEntitlement failed', exception.message, exception)
       return 0
@@ -1175,11 +1191,9 @@ export class GoodWallet {
   async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
     try {
       const hashedCode = this.getWithdrawLink(otlCode)
-      const {
-        paymentAmount,
-        hasPayment,
-        paymentSender: sender,
-      } = await retryCall(() => this.oneTimePaymentsContract.methods.payments(hashedCode).call())
+      const { paymentAmount, hasPayment, paymentSender: sender } = await retryCall(() =>
+        this.oneTimePaymentsContract.methods.payments(hashedCode).call(),
+      )
       const amount = toBN(paymentAmount)
       let status = WITHDRAW_STATUS_UNKNOWN
 

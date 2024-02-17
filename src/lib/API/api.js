@@ -4,6 +4,8 @@ import axios from 'axios'
 import { find, isArray } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
+import { padLeft } from 'web3-utils'
+
 import Config, { fuseNetwork } from '../../config/config'
 
 import { JWT } from '../constants/localStorage'
@@ -510,10 +512,7 @@ export class APIService {
     const txs = []
     const explorer = Config.ethereum[chainId].explorerAPI
 
-    const sender32 = `0x${sender
-      .toLowerCase()
-      .slice(2)
-      .padStart(64, '0')}`
+    const sender32 = padLeft(sender, 64)
 
     const params = {
       module: 'logs',

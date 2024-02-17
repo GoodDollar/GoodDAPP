@@ -750,7 +750,7 @@ export class UserStorage {
   // eslint-disable-next-line require-await
   async formatEvent(event: FeedEvent) {
     try {
-      return this._formatEvent(event)
+      return await this._formatEvent(event)
     } catch (e) {
       logger.error('formatEvent: failed formatting event:', e.message, e, { event })
 
@@ -768,7 +768,8 @@ export class UserStorage {
     )
   }
 
-  _formatEvent = memoize(event => {
+  // eslint-disable-next-line require-await
+  _formatEvent = memoize(async event => {
     logger.debug('formatEvent: incoming event', event.id, { event })
 
     const { data, type } = event

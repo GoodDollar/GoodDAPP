@@ -465,44 +465,27 @@ export class GoodWallet {
     const { _address: tokenAddress } = tokenContract || {}
     const { _address: otpAddress } = oneTimePaymentsContract || {}
 
-    // this is both send/receive events
-    let results = []
-    let otpResults = []
-    const tokenPromise = tokenAddress
-      ? API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
-          results.map(result => ({ ...result, transactionHash: result.transactionHash || result.hash })),
-        )
-      : Promise.resolve()
+    let withdrawEvents = []
+    let cancelEvents = []
+    let txEvents = []
 
     const withdrawHash = '0x39ca68a9f5d8038e871ef25a6622a56579cda4a6eedf63813574d23652e94048'
     const cancelHash = '0xb1f6a8f6b8fb527cfeec0df589160bc2a92ff715097117cb250e823c7106bc2f'
 
-    try {
-      const otpPromise = otpAddress
-        ? Promise.all([
-            API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash),
-            API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash),
-          ])
-        : Promise.resolve()
+    const getOTPL = hash => API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, hash)
 
-      ;[results, otpResults] = await Promise.all([tokenPromise, otpPromise])
+    txEvents = await API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
+      results.map(result => ({ ...result, transactionHash: result.transactionHash || result.hash })),
+    )
 
-      await Promise.all([
-        results?.length > 0 ? this.processEvents(results, startBlock) : undefined,
-        otpResults?.length > 0 ? this.processEvents(flatten(otpResults), startBlock) : undefined,
-      ])
-    } catch (error) {
-      // if data exists, means an error was catched through the isArray safe-guard.
-      // so we log the error and let the sync finish to update lastBlock (potentially fetched some pages)
-      // if no data it is an unexpected exception so we let the outer catch handle it
-      if (error.data) {
-        log.error('syncTxFromExplorer failed', error.message, error.data)
-      } else {
-        throw new Error(error)
-      }
+    if (otpAddress) {
+      withdrawEvents = await getOTPL(withdrawHash)
+      cancelEvents = await getOTPL(cancelHash)
     }
 
-    const lastBlock = Number(last(results)?.blockNumber)
+    await this.processEvents([...txEvents, ...withdrawEvents, ...cancelEvents])
+
+    const lastBlock = Number(last(txEvents)?.blockNumber)
 
     return lastBlock ? lastBlock + 1 : startBlock
   }

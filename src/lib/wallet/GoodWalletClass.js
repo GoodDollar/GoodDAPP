@@ -485,7 +485,13 @@ export class GoodWallet {
 
     await this.processEvents([...txEvents, ...withdrawEvents, ...cancelEvents])
 
-    const lastBlock = Number(last(txEvents)?.blockNumber)
+    const lastBlockNumbers = [
+      last(txEvents)?.blockNumber,
+      last(withdrawEvents)?.blockNumber,
+      last(cancelEvents)?.blockNumber,
+    ].filter(blockNumber => !!blockNumber)
+
+    const lastBlock = lastBlockNumbers.length > 0 ? Math.max(...lastBlockNumbers) : undefined
 
     return lastBlock ? lastBlock + 1 : startBlock
   }

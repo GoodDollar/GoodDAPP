@@ -453,9 +453,8 @@ export class APIService {
     })
 
     if (!isArray(result)) {
-      throw Object.assign(new Error('Failed to fetch contract ABI'), {
-        data: { result, params, chainId },
-      })
+      log.warn('Failed to fetch contract ABI', { result, params, chainId })
+      throw new Error('Failed to fetch contract ABI')
     }
 
     return result
@@ -541,13 +540,12 @@ export class APIService {
 
       params.page += 1
 
-      if (isArray(events)) {
-        txs.push(...events)
-      } else {
-        throw Object.assign(new Error('Failed to fetch OTP events from explorer'), {
-          data: { events, params, chainId },
-        })
+      if (!isArray(events)) {
+        log.warn('Failed to fetch OTP events from explorer', { events, params, chainId })
+        throw new Error('Failed to fetch OTP events from explorer')
       }
+
+      txs.push(...events)
 
       if (events.length < params.offset) {
         // default page size by explorer.fuse.io
@@ -631,13 +629,12 @@ export class APIService {
 
       params.page += 1
 
-      if (isArray(result)) {
-        txs.push(...chunk)
-      } else {
-        throw Object.assign(new Error('Failed to fetch transactions from explorer'), {
-          data: { result, params, chainId },
-        })
+      if (!isArray(result)) {
+        log.warn('Failed to fetch transactions from explorer', { result, params, chainId })
+        throw new Error('Failed to fetch transactions from explorer')
       }
+
+      txs.push(...chunk)
 
       if (allPages === false || result.length < params.offset) {
         // default page size by explorer.fuse.io

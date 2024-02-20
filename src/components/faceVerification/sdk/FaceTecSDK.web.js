@@ -10,21 +10,31 @@ import {
 } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
-import FaceTec from './FaceTecCore'
-export const {
-  // SDK initialization status codes enum
-  FaceTecSDKStatus,
-
-  // Zoom session status codes enum
-  FaceTecSessionStatus,
-
-  // Class which encapsulates all Zoom's customization options
-  FaceTecCustomization,
-} = FaceTec.FaceTecSDK
+import { importSDK } from './FaceTecCore'
 
 // sdk class
 export const FaceTecSDK = new (class {
-  constructor(sdk, logger) {
+  constructor(logger) {
+    this.logger = logger
+  }
+
+  // eslint-disable-next-line require-await
+  async initialize(licenseKey, encryptionKey = null, licenseText = null) {
+    await importSDK()
+
+    // hack for vite, on production it imports UMD in global space
+    this.sdk = global.FaceTecSDK
+
+    const { sdk, logger } = this
+    const { FaceTecSDKStatus, FaceTecSessionStatus } = sdk
+    const { Initialized, NeverInitialized, NetworkIssues, DeviceInLandscapeMode } = FaceTecSDKStatus
+
+    // these variables are used in other places instead of exporting them
+    this.FaceTecSDKStatus = FaceTecSDKStatus
+    this.FaceTecSessionStatus = FaceTecSessionStatus
+
+    logger.debug('imported FaceTecSDK', global.FaceTecSDK)
+
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory(`${FACETEC_PUBLIC_PATH}/resources`)
 
@@ -32,18 +42,9 @@ export const FaceTecSDK = new (class {
     sdk.setImagesDirectory(`${FACETEC_PUBLIC_PATH}/images`)
 
     // customize UI
-    sdk.setCustomization(UICustomization)
-    sdk.setLowLightCustomization(LowLightModeCustomization)
-    sdk.setDynamicDimmingCustomization(DynamicModeCustomization)
-
-    this.sdk = sdk
-    this.logger = logger
-  }
-
-  // eslint-disable-next-line require-await
-  async initialize(licenseKey, encryptionKey = null, licenseText = null) {
-    const { sdk, logger } = this
-    const { Initialized, NeverInitialized, NetworkIssues, DeviceInLandscapeMode } = FaceTecSDKStatus
+    sdk.setCustomization(UICustomization(sdk))
+    sdk.setLowLightCustomization(LowLightModeCustomization(sdk))
+    sdk.setDynamicDimmingCustomization(DynamicModeCustomization(sdk))
 
     const sdkStatus = sdk.getStatus()
 
@@ -84,6 +85,8 @@ export const FaceTecSDK = new (class {
    */
   async initializationAttempt(licenseKey, encryptionKey, license) {
     const { sdk, logger } = this
+    const { FaceTecSDKStatus } = sdk
+
     const { NeverInitialized, KeyExpiredOrInvalid } = FaceTecSDKStatus
 
     logger.debug('FaceTec SDK initialization attempt', { licenseKey, encryptionKey, license })
@@ -251,4 +254,4 @@ export const FaceTecSDK = new (class {
     exception.code = sdkStatus
     this.throwException(exception)
   }
-})(FaceTec.FaceTecSDK, logger.child({ from: 'FaceTecSDK.web' }))
+})(logger.child({ from: 'FaceTecSDK.web' }))

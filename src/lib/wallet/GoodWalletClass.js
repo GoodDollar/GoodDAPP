@@ -17,7 +17,7 @@ import BuyGDCloneABI from '@gooddollar/goodprotocol/artifacts/abis/BuyGDClone.mi
 
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
-import { BN, toBN } from 'web3-utils'
+import { BN, hexToNumber, toBN } from 'web3-utils'
 
 import abiDecoder from 'abi-decoder'
 import {
@@ -487,8 +487,8 @@ export class GoodWallet {
 
     const lastBlockNumbers = [
       last(txEvents)?.blockNumber,
-      last(withdrawEvents)?.blockNumber,
-      last(cancelEvents)?.blockNumber,
+      hexToNumber(last(withdrawEvents)?.blockNumber),
+      hexToNumber(last(cancelEvents)?.blockNumber),
     ].filter(blockNumber => !!blockNumber)
 
     const lastBlock = lastBlockNumbers.length > 0 ? Math.max(...lastBlockNumbers) : undefined

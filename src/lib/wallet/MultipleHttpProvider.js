@@ -52,8 +52,11 @@ export class MultipleHttpProvider extends HttpProvider {
         if (isConnectionError(exception) && !loggedProviders.has(provider)) {
           loggedProviders.set(provider, true)
 
+          const { message: originalMessage } = exception
+          exception.message = 'Failed to connect RPC'
+
           // log.exception bypass network error filtering
-          log.exception('HTTP Provider failed to send:', exception.message, exception, { provider })
+          log.exception('HTTP Provider failed to send:', exception.message, exception, { provider, originalMessage })
         } else {
           log.warn('HTTP Provider failed to send:', exception.message, exception, { provider })
         }

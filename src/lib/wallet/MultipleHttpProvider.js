@@ -3,7 +3,7 @@
 import Web3 from 'web3'
 import { assign, has, shuffle } from 'lodash'
 import { fallback, makePromiseWrapper, retry } from '../utils/async'
-import logger, { isConnectionError } from '../logger/js-logger'
+import logger, { isConnectionError, isRateLimitError } from '../logger/js-logger'
 import { isDuplicateTxError } from './utils'
 
 const { providers } = Web3
@@ -31,12 +31,11 @@ export class MultipleHttpProvider extends HttpProvider {
   }
 
   send(payload, callback) {
-    const { endpoints, strategy, retries, loggedProviders } = this
-
-    const filteredEndpoints = endpoints.filter(({ provider }) => !loggedProviders.has(provider))
+    const { endpoints, strategy, retries } = this
+    const { loggedProviders } = MultipleHttpProvider
 
     // shuffle peers if random strategy chosen
-    const peers = strategy === 'random' ? shuffle(filteredEndpoints) : filteredEndpoints
+    const peers = strategy === 'random' ? shuffle(endpoints) : endpoints
 
     // eslint-disable-next-line require-await
     const calls = peers.map(({ provider, options }) => async () => {
@@ -59,6 +58,9 @@ export class MultipleHttpProvider extends HttpProvider {
 
           // log.exception bypass network error filtering
           log.exception('HTTP Provider failed to send:', exception.message, exception, { provider, originalMessage })
+        } else if (isRateLimitError(exception.error?.message)) {
+          endpoints.splice(endpoints.indexOf(provider), 1)
+          setTimeout(() => endpoints.push(provider), 60000)
         } else {
           log.warn('HTTP Provider failed to send:', exception.message, exception, { provider })
         }

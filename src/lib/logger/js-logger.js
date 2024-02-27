@@ -6,6 +6,7 @@ import Config from '../../config/config'
 import { addLoggerMonitor } from './monitor'
 
 const connectionErrorRegex = /((connection|network) (error|timeout)|invalid json rpc|too many requests)/i
+const rateLimitErrorRegex = /too many requests/i
 
 export const isConnectionError = error => {
   const isException = isError(error)
@@ -15,6 +16,10 @@ export const isConnectionError = error => {
   }
 
   return connectionErrorRegex.test(isException ? error.message : error || '')
+}
+
+export const isRateLimitError = errorMessage => {
+  return rateLimitErrorRegex.test(errorMessage ?? '')
 }
 
 const emitter = new EventEmitter()

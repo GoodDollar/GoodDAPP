@@ -33,8 +33,10 @@ export class MultipleHttpProvider extends HttpProvider {
   send(payload, callback) {
     const { endpoints, strategy, retries, loggedProviders } = this
 
+    const filteredEndpoints = endpoints.filter(({ provider }) => !loggedProviders.has(provider))
+
     // shuffle peers if random strategy chosen
-    const peers = strategy === 'random' ? shuffle(endpoints) : endpoints
+    const peers = strategy === 'random' ? shuffle(filteredEndpoints) : filteredEndpoints
 
     // eslint-disable-next-line require-await
     const calls = peers.map(({ provider, options }) => async () => {

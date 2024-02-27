@@ -5,7 +5,7 @@ import { assign, isError, isString, noop, toArray } from 'lodash'
 import Config from '../../config/config'
 import { addLoggerMonitor } from './monitor'
 
-const connectionErrorRegex = /((connection|network) (error|timeout)|invalid json rpc)/i
+const connectionErrorRegex = /((connection|network) (error|timeout)|invalid json rpc|too many requests)/i
 
 export const isConnectionError = error => {
   const isException = isError(error)
@@ -38,7 +38,7 @@ const addLogException = logger => {
 
   return assign(logger, {
     exception: error,
-    error: function () {
+    error: function() {
       if (toArray(arguments).some(isConnectionError)) {
         return
       }

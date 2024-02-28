@@ -3,7 +3,7 @@
 import Web3 from 'web3'
 import { assign, has, shuffle } from 'lodash'
 import { fallback, makePromiseWrapper, retry } from '../utils/async'
-import logger, { isConnectionError } from '../logger/js-logger'
+import logger, { isConnectionError, isRateLimitError } from '../logger/js-logger'
 import { isDuplicateTxError } from './utils'
 
 const { providers } = Web3
@@ -13,6 +13,8 @@ const log = logger.child({ from: 'MultipleHttpProvider' })
 const isTxError = message => isDuplicateTxError(message) || message?.search(/reverted|gas/i)
 
 export class MultipleHttpProvider extends HttpProvider {
+  static loggedProviders = new Map()
+
   constructor(endpoints, config) {
     const [{ provider, options }] = endpoints // init with first endpoint config
     const { strategy = 'random', retries = 1 } = config || {} // or 'random'
@@ -23,7 +25,6 @@ export class MultipleHttpProvider extends HttpProvider {
     log.debug('Initialized', { endpoints, strategy })
 
     assign(this, {
-      loggedProviders: new Map(),
       endpoints,
       strategy,
       retries,
@@ -31,13 +32,16 @@ export class MultipleHttpProvider extends HttpProvider {
   }
 
   send(payload, callback) {
-    const { endpoints, strategy, retries, loggedProviders } = this
+    const { endpoints, strategy, retries } = this
+    const { loggedProviders } = MultipleHttpProvider
 
     // shuffle peers if random strategy chosen
     const peers = strategy === 'random' ? shuffle(endpoints) : endpoints
 
     // eslint-disable-next-line require-await
-    const calls = peers.map(({ provider, options }) => async () => {
+    const calls = peers.map(item => async () => {
+      const { provider, options } = item
+
       log.trace('Picked up peer', { provider, options }, payload.id)
 
       // calling ctor as fn with this context, to re-apply ALL settings
@@ -52,8 +56,14 @@ export class MultipleHttpProvider extends HttpProvider {
         if (isConnectionError(exception) && !loggedProviders.has(provider)) {
           loggedProviders.set(provider, true)
 
+          const { message: originalMessage } = exception
+          exception.message = 'Failed to connect RPC'
+
           // log.exception bypass network error filtering
-          log.exception('HTTP Provider failed to send:', exception.message, exception, { provider })
+          log.exception('HTTP Provider failed to send:', exception.message, exception, { provider, originalMessage })
+        } else if (isRateLimitError(exception)) {
+          endpoints.splice(endpoints.indexOf(item, 1))
+          setTimeout(() => endpoints.push(item), 60000)
         } else {
           log.warn('HTTP Provider failed to send:', exception.message, exception, { provider })
         }

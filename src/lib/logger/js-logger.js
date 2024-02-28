@@ -18,8 +18,14 @@ export const isConnectionError = error => {
   return connectionErrorRegex.test(isException ? error.message : error || '')
 }
 
-export const isRateLimitError = errorMessage => {
-  return rateLimitErrorRegex.test(errorMessage ?? '')
+export const isRateLimitError = reasonThrown => {
+  const isException = isError(reasonThrown)
+
+  if (!isException && !isString(reasonThrown) && !('error' in reasonThrown)) {
+    return false
+  }
+  
+  return rateLimitErrorRegex.test(isException ? reasonThrown.message : reasonThrown.error?.message ?? reasonThrown)
 }
 
 const emitter = new EventEmitter()

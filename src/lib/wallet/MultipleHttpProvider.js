@@ -59,8 +59,9 @@ export class MultipleHttpProvider extends HttpProvider {
           // log.exception bypass network error filtering
           log.exception('HTTP Provider failed to send:', exception.message, exception, { provider, originalMessage })
         } else if (isRateLimitError(exception.error?.message)) {
-          endpoints.splice(endpoints.indexOf(provider), 1)
-          setTimeout(() => endpoints.push(provider), 60000)
+          const failedProvider = endpoints.filter(item => item.provider === provider)
+          endpoints.splice(endpoints.indexOf(failedProvider[0]), 1)
+          setTimeout(() => endpoints.push(failedProvider), 60000)
         } else {
           log.warn('HTTP Provider failed to send:', exception.message, exception, { provider })
         }

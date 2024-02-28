@@ -38,7 +38,9 @@ export class MultipleHttpProvider extends HttpProvider {
     const peers = strategy === 'random' ? shuffle(endpoints) : endpoints
 
     // eslint-disable-next-line require-await
-    const calls = peers.map(({ provider, options }) => async () => {
+    const calls = peers.map(item => async () => {
+      const { provider, options } = item
+      
       log.trace('Picked up peer', { provider, options }, payload.id)
 
       // calling ctor as fn with this context, to re-apply ALL settings
@@ -58,10 +60,9 @@ export class MultipleHttpProvider extends HttpProvider {
 
           // log.exception bypass network error filtering
           log.exception('HTTP Provider failed to send:', exception.message, exception, { provider, originalMessage })
-        } else if (isRateLimitError(exception.error?.message)) {
-          const failedProvider = endpoints.filter(item => item.provider === provider)
-          endpoints.splice(endpoints.indexOf(failedProvider[0]), 1)
-          setTimeout(() => endpoints.push(failedProvider), 60000)
+        } else if (isRateLimitError(exception)) {
+          endpoints.splice(endpoints.indexOf(item, 1)
+          setTimeout(() => endpoints.push(item), 60000)
         } else {
           log.warn('HTTP Provider failed to send:', exception.message, exception, { provider })
         }

@@ -6,6 +6,7 @@ import { t } from '@lingui/macro'
 
 import { PublicKey } from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
+import { retry } from '../utils/async'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import { fireEvent, REWARD_RECEIVED } from '../analytics/analytics'
@@ -517,7 +518,7 @@ export class FeedStorage {
       })
 
       const [counterPartyData, txData] = await Promise.all([
-        this.getCounterParty(updatedFeedEvent),
+        retry(() => this.getCounterParty(updatedFeedEvent), 3, 1000),
         this.getFromOutbox(updatedFeedEvent),
       ])
 
@@ -564,6 +565,7 @@ export class FeedStorage {
     }
 
     const isContract = await this.wallet.wallet.eth.getCode(address)
+
     const isBridgeOrBuy = [TxType.TX_BRIDGE_IN, TxType.TX_BRIDGE_OUT, TxType.TX_BUYGD].includes(feedEvent.txType)
 
     if (isContract !== '0x' && !isBridgeOrBuy) {

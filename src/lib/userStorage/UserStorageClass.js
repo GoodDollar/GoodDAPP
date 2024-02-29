@@ -1,6 +1,6 @@
 //@flow
 
-import { assign, get, invokeMap, isEqual, keys, memoize, pick } from 'lodash'
+import { assign, get, invokeMap, memoize } from 'lodash'
 import { isAddress } from 'web3-utils'
 import moment from 'moment'
 
@@ -763,37 +763,11 @@ export class UserStorage {
     )
   }
 
+  // eslint-disable-next-line require-await
   _formatEvent = memoize(async event => {
     logger.debug('formatEvent: incoming event', event.id, { event })
 
-    const { feedStorage } = this
     const { data, type } = event
-    const { counterPartyFullName, counterPartySmallAvatar } = data
-
-    const counterPartyNativeEvents = [FeedItemType.EVENT_TYPE_SENDNATIVE, FeedItemType.EVENT_TYPE_RECEIVENATIVE]
-
-    const counterPartyEvents = [
-      ...counterPartyNativeEvents,
-      FeedItemType.EVENT_TYPE_SENDDIRECT,
-      FeedItemType.EVENT_TYPE_SEND,
-      FeedItemType.EVENT_TYPE_WITHDRAW,
-      FeedItemType.EVENT_TYPE_RECEIVE,
-      FeedItemType.EVENT_TYPE_SENDBRIDGE,
-    ]
-
-    if (counterPartyEvents.includes(type) && (!counterPartyFullName || !counterPartySmallAvatar)) {
-      const counterPartyData = await feedStorage.getCounterParty(event)
-
-      if (!isEqual(counterPartyData, pick(data, keys(counterPartyData)))) {
-        assign(data, counterPartyData)
-
-        if (counterPartyNativeEvents.includes(type)) {
-          feedStorage.updateNativeTx(event)
-        } else {
-          feedStorage.updateFeedEvent(event)
-        }
-      }
-    }
 
     const { date, id, status, createdDate, animationExecuted, action, chainId } = event
     const {

@@ -318,11 +318,11 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                     buttonAndRightComponentContainerStyle={styles.dropDownContainer}
                     style={styles.modalDropDown}
                     renderRightComponent={() =>
-                      countryCode && (
+                      countryCode ? (
                         <View style={styles.flagContainer}>
                           <CountryFlag code={countryCode} />
                         </View>
-                      )
+                      ) : null
                     }
                     renderButtonProps={{ style: styles.renderButtonProps }}
                     renderRowProps={{

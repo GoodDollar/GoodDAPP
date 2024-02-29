@@ -1,9 +1,11 @@
 // @flow
 
 import axios from 'axios'
-import { find } from 'lodash'
+import { find, isArray } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
+import { padLeft } from 'web3-utils'
+
 import Config, { fuseNetwork } from '../../config/config'
 
 import { JWT } from '../constants/localStorage'
@@ -449,6 +451,12 @@ export class APIService {
       params,
       baseURL: explorer,
     })
+
+    if (!isArray(result)) {
+      log.warn('Failed to fetch contract ABI', { result, params, chainId })
+      throw new Error('Failed to fetch contract ABI')
+    }
+
     return result
   }
 
@@ -505,7 +513,7 @@ export class APIService {
     const txs = []
     const explorer = Config.ethereum[chainId].explorerAPI
 
-    const sender32 = `0x${sender.toLowerCase().slice(2).padStart(64, '0')}`
+    const sender32 = padLeft(sender, 64)
 
     const params = {
       module: 'logs',
@@ -531,6 +539,12 @@ export class APIService {
       })
 
       params.page += 1
+
+      if (!isArray(events)) {
+        log.warn('Failed to fetch OTP events from explorer', { events, params, chainId })
+        throw new Error('Failed to fetch OTP events from explorer')
+      }
+
       txs.push(...events)
 
       if (events.length < params.offset) {
@@ -614,6 +628,12 @@ export class APIService {
       const chunk = result.filter(({ value }) => value !== '0')
 
       params.page += 1
+
+      if (!isArray(result)) {
+        log.warn('Failed to fetch transactions from explorer', { result, params, chainId })
+        throw new Error('Failed to fetch transactions from explorer')
+      }
+
       txs.push(...chunk)
 
       if (allPages === false || result.length < params.offset) {

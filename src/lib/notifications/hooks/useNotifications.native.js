@@ -10,7 +10,6 @@ import Config from '../../../config/config'
 import { NotificationsAPI } from '../api/NotificationsApi'
 import { CHANNEL_ID, NotificationsCategories } from '../constants'
 import { useLocalProperty } from '../../userStorage/useProfile'
-import { fireEvent, NOTIFICATION_SENT } from '../../analytics/analytics'
 import { getCategory, useNotificationsStateSwitch } from './useNotifications.common'
 const { notificationTime, notificationSchedule } = Config
 let bridge = null
@@ -86,7 +85,6 @@ export const useNotifications = (onOpened = noop, onReceived = noop) => {
       onReceived(notification, getCategory(notification))
 
       // should call completion otherwise notifications won't receive in background
-      fireEvent(NOTIFICATION_SENT)
       completion({ alert: true, sound: true, badge: false })
     },
     [onReceived],

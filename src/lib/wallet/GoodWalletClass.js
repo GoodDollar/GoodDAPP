@@ -17,7 +17,7 @@ import BuyGDCloneABI from '@gooddollar/goodprotocol/artifacts/abis/BuyGDClone.mi
 
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
-import { BN, toBN } from 'web3-utils'
+import { BN, hexToNumber, toBN } from 'web3-utils'
 
 import abiDecoder from 'abi-decoder'
 import {
@@ -465,33 +465,33 @@ export class GoodWallet {
     const { _address: tokenAddress } = tokenContract || {}
     const { _address: otpAddress } = oneTimePaymentsContract || {}
 
-    // this is both send/receive events
-    let results = []
-    let otpResults = []
-    const tokenPromise = tokenAddress
-      ? API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
-          results.map(result => ({ ...result, transactionHash: result.transactionHash || result.hash })),
-        )
-      : Promise.resolve()
+    let withdrawEvents = []
+    let cancelEvents = []
+    let txEvents = []
 
     const withdrawHash = '0x39ca68a9f5d8038e871ef25a6622a56579cda4a6eedf63813574d23652e94048'
     const cancelHash = '0xb1f6a8f6b8fb527cfeec0df589160bc2a92ff715097117cb250e823c7106bc2f'
 
-    const otpPromise = otpAddress
-      ? Promise.all([
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash),
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash),
-        ])
-      : Promise.resolve()
+    const getOTPL = hash => API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, hash)
 
-    ;[results, otpResults] = await Promise.all([tokenPromise, otpPromise])
+    txEvents = await API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
+      results.map(result => ({ ...result, transactionHash: result.transactionHash || result.hash })),
+    )
 
-    await Promise.all([
-      results?.length > 0 ? this.processEvents(results, startBlock) : undefined,
-      otpResults?.length > 0 ? this.processEvents(flatten(otpResults), startBlock) : undefined,
-    ])
+    if (otpAddress) {
+      withdrawEvents = await getOTPL(withdrawHash)
+      cancelEvents = await getOTPL(cancelHash)
+    }
 
-    const lastBlock = Number(last(results)?.blockNumber)
+    await this.processEvents([...txEvents, ...withdrawEvents, ...cancelEvents])
+
+    const lastBlockNumbers = [
+      last(txEvents)?.blockNumber,
+      hexToNumber(last(withdrawEvents)?.blockNumber),
+      hexToNumber(last(cancelEvents)?.blockNumber),
+    ].filter(blockNumber => !!blockNumber)
+
+    const lastBlock = lastBlockNumbers.length > 0 ? Math.max(...lastBlockNumbers) : undefined
 
     return lastBlock ? lastBlock + 1 : startBlock
   }

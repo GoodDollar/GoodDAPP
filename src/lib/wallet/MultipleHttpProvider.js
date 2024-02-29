@@ -10,7 +10,7 @@ const { providers } = Web3
 const { HttpProvider } = providers
 const log = logger.child({ from: 'MultipleHttpProvider' })
 
-const isTxError = message => isDuplicateTxError(message) || message?.search(/reverted|gas/i)
+const isTxError = message => isDuplicateTxError(message) || message?.search(/reverted|gas/i) >= 0
 
 export class MultipleHttpProvider extends HttpProvider {
   static loggedProviders = new Map()
@@ -57,7 +57,7 @@ export class MultipleHttpProvider extends HttpProvider {
           loggedProviders.set(provider, true)
 
           const { message: originalMessage } = exception
-          const errorMessage = 'Failed to connect RPC'
+          const errorMessage = 'Failed to connect RPC' // so in analytics all errors are grouped under same message
 
           // log.exception bypass network error filtering
           log.exception('HTTP Provider failed to send:', errorMessage, exception, { provider, originalMessage })
@@ -91,11 +91,14 @@ export class MultipleHttpProvider extends HttpProvider {
     const onFallback = error => {
       const { message, code } = error
 
+      const txError = isTxError(message)
+      const conError = isConnectionError(message)
+
       // retry if not tx issue and network error or if rpc responded with error (error.error)
-      const willFallback = !isTxError(message) && !!(code || error.error || !message || isConnectionError(message))
+      const willFallback = !txError && !!(code || error.error || !message || conError)
 
       if (!willFallback) {
-        log.warn('send: got error', { message, error, willFallback })
+        log.warn('send: got error without fallback', { message, error, willFallback, txError, conError })
       }
 
       return willFallback

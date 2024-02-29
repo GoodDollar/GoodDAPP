@@ -156,7 +156,7 @@
     "p-ratelimit": "^1.0.1",
     "path-browserify": "0.0.0",
     "pnp-webpack-plugin": "^1.6.4",
-    "posthog-react-native": "2.8.1",
+    "posthog-react-native": "^2.11.6",
     "process": "^0.11.10",
     "promisify-file-reader": "^4.1.0",
     "punycode": "^1.4.1",

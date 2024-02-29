@@ -302,7 +302,7 @@ const InvitesBox = React.memo(({ screenProps, invitees, refresh, styles }) => {
           color={'secondary'}
           style={{ marginTop: theme.paddings.defaultMargin, marginBottom: theme.paddings.defaultMargin * 2 }}
         >
-          {t`* Remind them to claim G$’s so you could earn your reward`}
+          {t`* If pending, remind them to claim their UBI so that you can receive your G$ reward.`}
         </Section.Text>
         {invitees.map((data, i) => (
           <Section.Stack key={i}>

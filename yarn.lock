@@ -4327,7 +4327,7 @@ __metadata:
     pn: ^1.1.0
     pnp-webpack-plugin: ^1.6.4
     postcss-loader: ^4.0.4
-    posthog-react-native: 2.8.1
+    posthog-react-native: ^2.11.6
     prettier: ~1.16.4
     process: ^0.11.10
     progress-bar-webpack-plugin: ^2.1.0
@@ -31714,9 +31714,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-react-native@npm:2.8.1":
-  version: 2.8.1
-  resolution: "posthog-react-native@npm:2.8.1"
+"posthog-react-native@npm:^2.11.6":
+  version: 2.11.6
+  resolution: "posthog-react-native@npm:2.11.6"
   peerDependencies:
     "@react-native-async-storage/async-storage": ">=1.0.0"
     "@react-navigation/native": ">= 5.0.10"
@@ -31743,7 +31743,7 @@ __metadata:
       optional: true
     react-native-navigation:
       optional: true
-  checksum: 52e77fc5ec79496043b47875b96c06ae5654c44b1c4b358bfbee2cce157b78b1e284f559d7a192120be555d8d4c5bb4e2cf0aeb4674b3cd2c998723ed10b7304
+  checksum: 43fb5ee6e1d4a1cbb01df2970f5744fa5540393ebb2b943d1fd63ad3eed9b4ea04b0e2d53153eb201020ae8bd561dc3538964dc9fe734177630d84173ed43b36
   languageName: node
   linkType: hard
 

@@ -280,4 +280,4 @@ export const fromDecimals = (amount, chainOrToken = null) => {
 export const isTransferTx = (txType: string) => /(send|receive|withdraw)(?!.*bridge|pending)/.test(txType)
 
 export const isDuplicateTxError = message =>
-  message?.toLowerCase().search(/(sames*(nonce|hash)|alreadys*known|(fee|nonce)s*toos*low|underpriced)/i) >= 0
+  message?.toLowerCase().search(/(same\s*(nonce|hash)|already\s*known|(fee|nonce)\s*too\s*low|underpriced)/i) >= 0

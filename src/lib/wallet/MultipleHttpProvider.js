@@ -57,10 +57,10 @@ export class MultipleHttpProvider extends HttpProvider {
           loggedProviders.set(provider, true)
 
           const { message: originalMessage } = exception
-          exception.message = 'Failed to connect RPC'
+          const errorMessage = 'Failed to connect RPC'
 
           // log.exception bypass network error filtering
-          log.exception('HTTP Provider failed to send:', exception.message, exception, { provider, originalMessage })
+          log.exception('HTTP Provider failed to send:', errorMessage, exception, { provider, originalMessage })
         } else if (isRateLimitError(exception)) {
           endpoints.splice(endpoints.indexOf(item, 1))
           setTimeout(() => endpoints.push(item), 60000)

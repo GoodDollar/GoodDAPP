@@ -5,7 +5,8 @@ import { assign, isError, isString, noop, toArray } from 'lodash'
 import Config from '../../config/config'
 import { addLoggerMonitor } from './monitor'
 
-const connectionErrorRegex = /((connection|network) (error|timeout)|invalid json rpc)/i
+const connectionErrorRegex = /((connection|network) (error|timeout)|invalid json rpc|too many requests)/i
+const rateLimitErrorRegex = /too many requests|Failed to validate quota usage/i
 
 export const isConnectionError = error => {
   const isException = isError(error)
@@ -15,6 +16,16 @@ export const isConnectionError = error => {
   }
 
   return connectionErrorRegex.test(isException ? error.message : error || '')
+}
+
+export const isRateLimitError = reasonThrown => {
+  const isException = isError(reasonThrown)
+
+  if (!isException && !isString(reasonThrown) && !('error' in reasonThrown)) {
+    return false
+  }
+
+  return rateLimitErrorRegex.test(isException ? reasonThrown.message : reasonThrown.error?.message ?? reasonThrown)
 }
 
 const emitter = new EventEmitter()
@@ -38,7 +49,7 @@ const addLogException = logger => {
 
   return assign(logger, {
     exception: error,
-    error: function () {
+    error: function() {
       if (toArray(arguments).some(isConnectionError)) {
         return
       }

@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import moment from 'moment'
-import 'moment-duration-format'
+import setupDurationFormat from 'moment-duration-format'
 
 import useInterval from './useInterval'
 
+setupDurationFormat(moment)
+
 const getTimerState = targetTime => {
   const duration = moment.duration(moment(targetTime).diff(moment()))
-  const isReachedZero = targetTime !== undefined && duration.asSeconds() <= 0
-  const countdown = isReachedZero ? '00:00:00' : duration.format('HH:mm:ss', { trim: false })
+  const isReachedZero = targetTime !== undefined && duration.asMilliseconds() <= 0
+  const countdown = isReachedZero || !targetTime ? '00:00:00' : duration.format('HH:mm:ss', { trim: false })
 
   return [countdown, isReachedZero]
 }

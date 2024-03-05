@@ -92,8 +92,8 @@ export const useFlagWithPayload = featureFlag => {
     addLogger(posthog)
   }, [posthog])
 
-  return useMemo(() => posthog?.getFeatureFlagPayload(featureFlag) ?? defaultFlagsWithPayload[featureFlag], [
-    posthog,
-    featureFlag,
-  ])
+  return useMemo(
+    () => posthog?.getFeatureFlagPayload(featureFlag) ?? defaultFlagsWithPayload[featureFlag],
+    [posthog, featureFlag],
+  )
 }

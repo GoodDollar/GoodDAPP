@@ -1,6 +1,6 @@
 // @flow
 import { Collection, Database } from '@textile/threaddb'
-import * as TextileCrypto from '@textile/crypto'
+import { PrivateKey } from '@textile/crypto'
 
 import { assign } from 'lodash'
 import logger from '../logger/js-logger'
@@ -13,7 +13,7 @@ const log = logger.child({ from: 'RealmDB' })
 export class ThreadDB {
   db: Database
 
-  privateKey: TextileCrypto.PrivateKey
+  privateKey: PrivateKey
 
   databaseID: string
 
@@ -29,7 +29,7 @@ export class ThreadDB {
     return this.db.collection('Profiles')
   }
 
-  constructor(privateKey: TextileCrypto.PrivateKey) {
+  constructor(privateKey: PrivateKey) {
     const databaseID = privateKey.public.toString()
 
     const db = new Database(

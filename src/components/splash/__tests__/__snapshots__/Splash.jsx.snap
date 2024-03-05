@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Splash matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-46g5hj r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
+    style={
+      {
+        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-flex-13awgt0 r-justifyContent-1777fci r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co r-position-bnwqim"
+    >
+      <div
+        className="css-view-1dbjc4n r-backgroundImage-1sc67rb r-height-1pi2tsx r-opacity-1oec5bt r-position-u8s1d r-width-13qz1uu"
+      />
+      <div
+        className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-justifyContent-1777fci r-overflow-1udh08x"
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            {
+              "width": "100%",
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-borderRadius-1f0042m r-display-6koalj r-justifyContent-1777fci r-marginTop-1x0uki6 r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+        >
+          <goodWalletSplash.svg />
+          <div
+            className="css-text-901oao r-color-jwli3a r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            dir="auto"
+          >
+            V
+            1.0
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

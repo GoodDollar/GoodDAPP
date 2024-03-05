@@ -32,8 +32,8 @@ jobs:
     steps:
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
-      - uses: actions/checkout@v2
+          node-version: 18
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -67,15 +67,15 @@ jobs:
       wallet-chunk-id: ${{ steps['set-test-chunk-ids'].outputs['wallet-chunk-id'] }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: set-test-chunks
         name: Set Chunks
-        run: echo "::set-output name=test-chunks::$(find ./src -path \*/__tests__/*.js | sort | jq -R -s -c 'split("\n")[:-1] | map(select(contains("__util") == false))' | jq -cM '[_nwise(length / 10 | floor)]')"
+        run: echo "test-chunks=$(find ./src -path \*/__tests__/*.js* | sort | jq -R -s -c 'split("\n")[:-1] | map(select(contains("__util") == false))' | jq -cM '[_nwise(length / 10 | floor)]')" >> $GITHUB_OUTPUT
       - id: set-test-chunk-ids
         name: Set Chunk IDs
         run: |
-          echo "::set-output name=test-chunk-ids::$(echo $CHUNKS | jq -cM 'to_entries | map(.key)')"
-          echo "::set-output name=wallet-chunk-id::$(echo $CHUNKS | jq -cM 'to_entries | map(select(.value | .[] | index("GoodWallet"))) | unique | first | .key')"
+          echo "test-chunk-ids=$(echo $CHUNKS | jq -cM 'to_entries | map(.key)')" >> $GITHUB_OUTPUT
+          echo "wallet-chunk-id=$(echo $CHUNKS | jq -cM 'to_entries | map(select(.value | .[] | index("GoodWallet"))) | unique | first | .key')" >> $GITHUB_OUTPUT
         env:
           CHUNKS: ${{ steps['set-test-chunks'].outputs['test-chunks'] }}
 
@@ -102,10 +102,10 @@ jobs:
     steps:
       - run: echo "wallet chunk id $WALLET_CHUNK chunk ${{ matrix.chunk }}"
       - run: corepack enable
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'yarn'
       - uses: actions/setup-python@v4
         with:
@@ -114,17 +114,19 @@ jobs:
       - name: Install dependencies
         run: yarn --immutable
 
-      - uses: actions/cache@v2
-        id: contractsCache
-        if: matrix.chunk == env.WALLET_CHUNK
-        name: cache goodcontracts
-        with:
-          path: /tmp/goodprotocol
-          key: ${{ hashFiles('node_modules/@gooddollar/goodprotocol/yarn.lock') }}
+      # - uses: actions/cache@v3
+      #   id: contractsCache
+      #   if: matrix.chunk == env.WALLET_CHUNK
+      #   name: cache goodcontracts
+      #   with:
+      #     path: /tmp/goodprotocol
+      #     key: ${{ hashFiles('node_modules/@gooddollar/goodprotocol/yarn.lock') }}
 
       - name: install goodcontracts
         if: matrix.chunk == env.WALLET_CHUNK
-        run: ./scripts/blockchainTestSetup.sh
+        run: |
+          npm i -g yarn
+          yarn test:setup
 
       - name: run local node so providers dont crash in tests
         if: matrix.chunk != env.WALLET_CHUNK
@@ -134,7 +136,7 @@ jobs:
         env:
           NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
-          cat node_modules/@gooddollar/goodcontracts/releases/deployment.json
+          echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text'
           echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs yarn coverage
 
       - name: Coveralls
@@ -153,3 +155,15 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+
+    # This allows us to have a branch protection rule for tests and deploys with matrix
+  deploy-status:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Successful deploy
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: exit 0
+      - name: Failing deploy
+        if: ${{ contains(needs.*.result, 'failure') }}
+        run: exit 1

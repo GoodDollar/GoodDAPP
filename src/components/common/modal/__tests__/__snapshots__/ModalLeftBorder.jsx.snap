@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalLeftBorder matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+    style={
+      {
+        "backgroundColor": "rgba(163,163,163,1.00)",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`ModalLeftBorder matches snapshot with properties 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-backgroundImage-1sc67rb r-backgroundRepeat-1w25a1u r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-flexGrow-16y2uox r-flexShrink-1q142lx r-maxWidth-1akpm2g r-minWidth-t66pp7 r-position-bnwqim r-zIndex-pezta"
+    style={
+      {
+        "backgroundColor": "rgba(163,163,163,1.00)",
+      }
+    }
+  />
+</div>
+`;

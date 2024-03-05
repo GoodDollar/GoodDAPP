@@ -4,7 +4,7 @@ import EventEmitter from 'eventemitter3'
 import moment from 'moment'
 import { t } from '@lingui/macro'
 
-import * as TextileCrypto from '@textile/crypto'
+import { PublicKey } from '@textile/crypto'
 import delUndefValNested from '../utils/delUndefValNested'
 import { retry } from '../utils/async'
 import Config from '../../config/config'
@@ -962,7 +962,7 @@ export class FeedStorage {
     let recipientPubkey = await this.userStorage.getUserProfilePublickey(event.data.to) //remove ~prefix
 
     if (recipientPubkey) {
-      const pubKey = TextileCrypto.PublicKey.fromString(recipientPubkey)
+      const pubKey = PublicKey.fromString(recipientPubkey)
 
       const data = pick(event.data, [
         'reason',

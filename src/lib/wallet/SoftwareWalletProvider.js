@@ -148,7 +148,10 @@ class SoftwareWalletProvider {
             const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
 
             options = {
-              headers: [{ name: 'User-Agent', value: userAgentString }, { name: 'Origin', value: publicUrl }],
+              headers: [
+                { name: 'User-Agent', value: userAgentString },
+                { name: 'Origin', value: publicUrl },
+              ],
             }
           }
           break

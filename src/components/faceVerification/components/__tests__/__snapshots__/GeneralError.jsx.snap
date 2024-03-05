@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FaceVerification GeneralError matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co r-width-13qz1uu"
+    style={
+      {
+        "WebkitBoxPack": "space-evenly",
+        "WebkitJustifyContent": "space-evenly",
+        "justifyContent": "space-evenly",
+        "msFlexPack": "space-evenly",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      dir="auto"
+    >
+      <span
+        className="css-text-901oao css-textHasAncestor-16my406 r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      />
+      Something went wrong 
+on our side...
+    </div>
+    <div
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
+    >
+      <div
+        className="css-view-1dbjc4n r-paddingBottom-1mdbw0j r-paddingTop-wk8lta"
+      >
+        <div
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          You see, it's not that easy to 
+capture your beauty :)
+        </div>
+        <div
+          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          So, let’s give it another shot...
+        </div>
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-height-1w2pmg r-marginBottom-p1pxzi r-marginLeft-1jj8364 r-marginRight-lchren r-marginTop-1mnahxq r-width-13qz1uu"
+    >
+      <FVErrorGeneral.svg />
+    </div>
+  </div>
+</div>
+`;

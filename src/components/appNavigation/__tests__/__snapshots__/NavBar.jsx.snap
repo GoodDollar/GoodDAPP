@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavBar matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    {
+      "WebkitAlignItems": "center",
+      "WebkitBoxAlign": "center",
+      "WebkitBoxDirection": "normal",
+      "WebkitBoxFlex": 0,
+      "WebkitBoxOrient": "horizontal",
+      "WebkitFlexDirection": "row",
+      "WebkitFlexGrow": 0,
+      "WebkitFlexShrink": 0,
+      "alignItems": "center",
+      "backgroundColor": "rgba(98,0,238,1.00)",
+      "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
+      "flexDirection": "row",
+      "flexGrow": 0,
+      "flexShrink": 0,
+      "height": "0px",
+      "msFlexAlign": "center",
+      "msFlexDirection": "row",
+      "msFlexNegative": 0,
+      "msFlexPositive": 0,
+      "paddingLeft": "4px",
+      "paddingRight": "4px",
+    }
+  }
+/>
+`;

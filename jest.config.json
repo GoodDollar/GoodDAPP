@@ -1,0 +1,75 @@
+{
+    "testEnvironment": "jsdom",
+    "roots": [
+        "<rootDir>/src/"
+    ],
+    "moduleFileExtensions": [
+        "js",
+        "web.js",
+        "web.jsx",
+        "mjs",
+        "cjs",
+        "jsx",
+        "ts",
+        "tsx",
+        "json",
+        "node"
+    ],
+    "transform": {
+        "^.+\\.jsx?$": "babel-jest",
+        "^.+\\.mjs$": "babel-jest",
+        "\\.(css|jpg|png|gql|svg|webp)(\\?.*)?$": "<rootDir>/scripts/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+        "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk",
+        "<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter|@gooddollar/react-native-facetec|@ceramicnetwork|@web3-onboard|axios|uuid|esm-browser|web3|lodash|use-debounce|@usedapp/core|@gooddollar/web3sdk-v2|preact|)"
+    ],
+    "setupFiles": [
+        "react-app-polyfill/jsdom",
+        "<rootDir>/config/initTest.js"
+    ],
+    "globals": {
+        "TZ": "UTC",
+        "__DEV__": true
+    },
+    "testPathIgnorePatterns": [
+        "/__tests__/__util__/",
+        "/__tests__/__suites__/",
+        "/__tests__/__mocks__/",
+        "<rootDir>/src/index.js",
+        "<rootDir>/src/init.js",
+        "<rootDir>/src/serviceWorker.js",
+        "<rootDir>/src/.*/.*(android|ios|native).js"
+    ],
+    "coveragePathIgnorePatterns": [
+        "/__tests__/__util__/",
+        "/__tests__/__suites__/",
+        "<rootDir>/src/index.js",
+        "<rootDir>/src/init.js",
+        "<rootDir>/src/serviceWorker.js",
+        "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk",
+        "<rootDir>/src/.*/.*(android|ios|native).js"
+    ],
+    "moduleNameMapper": {
+        "\\.(css|jpg|png|gql|svg|webp)(\\?.*)$": "<rootDir>/empty-module.js",
+        "^react-native$": "react-native-web",
+        "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js",
+        "lottie-react-native": "react-native-web-lottie",
+        "^react-native-linear-gradient$": "react-native-web-linear-gradient",
+        "^multiformats$": "<rootDir>/node_modules/multiformats/cjs/src/index.js",
+        "^multiformats/(.*)/(.*)": "<rootDir>/node_modules/multiformats/cjs/src/$1/$2.js",
+        "^multiformats/(.*)": "<rootDir>/node_modules/multiformats/cjs/src/$1.js",
+        "^mapmoize$": "<rootDir>/node_modules/mapmoize/dist/index.js",
+        "^codeco$": "<rootDir>/node_modules/codeco/dist/index.js",
+        "^codeco/(.*)": "<rootDir>/node_modules/codeco/dist/$1.js",
+        "^varintes/encoding-length": "<rootDir>/node_modules/varintes/dist/encoding-length.js",
+        "^varintes/(.*)": "<rootDir>/node_modules/varintes/dist/$1.js",
+        "^multihashes-sync/(.*)": "<rootDir>/node_modules/multihashes-sync/dist/$1.js",
+        "^cartonne$": "<rootDir>/node_modules/cartonne/dist/index.js",
+        "^dag-jose$": "<rootDir>/node_modules/dag-jose/lib/index.js",
+        "^cborg$": "<rootDir>/node_modules/cborg/cjs/cborg.js"
+    },
+    "testEnvironmentOptions": {
+        "url": "http://localhost"
+    }
+}

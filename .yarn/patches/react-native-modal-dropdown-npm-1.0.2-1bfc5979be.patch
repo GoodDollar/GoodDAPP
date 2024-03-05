@@ -1,0 +1,9 @@
+diff --git a/index.js b/index.js
+index 2246cb1b6bdf8e3d3368b3d2dfa0b1924c799635..b711e03f55e747b2a0bb3a9cc8627b565aa1a523 100644
+--- a/index.js
++++ b/index.js
+@@ -4,4 +4,3 @@
+ 
+ import ModalDropdown from './components/ModalDropdown';
+ export default ModalDropdown;
+-module.exports = ModalDropdown;

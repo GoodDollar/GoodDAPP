@@ -129,7 +129,7 @@ export default (options = null) => {
         // the following code is needed to categorize exceptions
         // then we could display specific error messages
         // corresponding to the kind of issue (camera, orientation, duplicate etc)
-        const kindOfTheIssue = kindOfSessionIssue(exception)
+        const kindOfTheIssue = kindOfSessionIssue(exception, FaceTecSDK.FaceTecSessionStatus)
 
         if (kindOfTheIssue) {
           name = kindOfTheIssue

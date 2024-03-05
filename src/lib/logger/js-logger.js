@@ -49,7 +49,7 @@ const addLogException = logger => {
 
   return assign(logger, {
     exception: error,
-    error: function() {
+    error: function () {
       if (toArray(arguments).some(isConnectionError)) {
         return
       }

@@ -58,8 +58,9 @@ export default () => {
       // statusCode = 2 The app had an optional update which the end user chose to ignore. (This is only applicable when the updateDialog is used)
       // statusCode = 1 - The update has been installed and will be run either immediately after the syncStatusChangedCallback function returns or the next time the app resumes/restarts, depending on the InstallMode specified in SyncOptions.
       // statusCode = 4 - There is an ongoing sync operation running which prevents the current call from being executed.
-
-      if (suggestCodePushUpdate && !hasNewVersion) {
+      if (!suggestCodePushUpdate) {
+        setHasSyncedCodePush(true)
+      } else if (suggestCodePushUpdate && !hasNewVersion) {
         await codePush
           .sync(
             {

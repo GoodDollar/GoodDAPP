@@ -12,7 +12,7 @@
 // opt-in, read http://bit.ly/CRA-PWA
 
 import logger from './lib/logger/js-logger'
-
+import Config from './config/config'
 const log = logger.child({ from: 'serviceWorker.js' })
 
 
@@ -24,13 +24,13 @@ const isLocalhost = Boolean(
   window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
 )
 
-log.info('SW isLocalhost :', { isLocalhost })
+log.info('SW isLocalhost :', { isLocalhost }, Config.publicUrl)
 
 export function register(config) {
   if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
-    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href)
-    log.info('SW publicUrl :', { publicUrl })
+    const publicUrl = new URL(Config.publicUrl, window.location.href)
+    log.info('SW publicUrl :', { publicUrl, env: Config.publicUrl, window: window.location.href  })
 
     if (publicUrl.origin !== window.location.origin) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
@@ -40,10 +40,11 @@ export function register(config) {
     }
 
     window.addEventListener('load', () => {
-      const swUrl =
-        process.env.NODE_ENV === 'production'
-          ? `${process.env.PUBLIC_URL}/service-worker.js`
-          : `${process.env.PUBLIC_URL}/sw-dev.js`
+      log.info("onload")
+      const swUrl = 
+      import.meta.env.MODE === 'production'
+          ? `${Config.publicUrl}/sw.js`
+          : `${Config.publicUrl}/dev-sw.js?dev-sw`
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -124,6 +125,7 @@ function checkValidServiceWorker(swUrl, config) {
       // Ensure service worker exists, and that we really are getting a JS file.
       const contentType = response.headers.get('content-type')
       if (response.status === 404 || (contentType != null && contentType.indexOf('javascript') === -1)) {
+        log.warn("checkValidServiceWorker: invalid service worker response")
         // No service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then(registration => {
           registration.unregister().then(() => {
@@ -131,6 +133,7 @@ function checkValidServiceWorker(swUrl, config) {
           })
         })
       } else {
+        log.info("checkValidServiceWorker: registering...")
         // Service worker found. Proceed as normal.
         registerValidSW(swUrl, config)
       }

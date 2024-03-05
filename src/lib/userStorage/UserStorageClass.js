@@ -26,7 +26,7 @@ import { type StandardFeed } from './StandardFeed'
 import { type UserModel } from './UserModel'
 import UserProperties from './UserProperties'
 import { UserProfileStorage } from './UserProfileStorage'
-import { FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
+import { type FeedEvent, FeedItemType, FeedStorage, TxStatus } from './FeedStorage'
 import createAssetStorage, { type UserAssetStorage } from './UserAssetStorage'
 import { prepareInviteCard } from './utlis'
 import type { FeedCategory } from './FeedCategory'
@@ -36,7 +36,8 @@ const logger = pino.child({ from: 'UserStorage' })
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
-const FV_IDENTIFIER_MSG2 = mustache(`Sign this message to request verifying your account {account} and to create your own secret unique identifier for your anonymized record.
+const FV_IDENTIFIER_MSG2 =
+  mustache(`Sign this message to request verifying your account {account} and to create your own secret unique identifier for your anonymized record.
 You can use this identifier in the future to delete this anonymized record.
 WARNING: do not sign this message unless you trust the website/application requesting this signature.`)
 
@@ -390,9 +391,7 @@ export class UserStorage {
    */
   createMagicLink(username: String, password: String): String {
     let magicLink = `${username}+${password}`
-    magicLink = Buffer.from(magicLink)
-      .toString('base64')
-      .replace(/=+$/, '')
+    magicLink = Buffer.from(magicLink).toString('base64').replace(/=+$/, '')
 
     return magicLink
   }
@@ -442,11 +441,7 @@ export class UserStorage {
       const secondInviteCard = await this.feedStorage.hasFeedItem(INVITE_REMINDER_ID)
 
       const shouldAddSecondCard =
-        firstInviteCard &&
-        !secondInviteCard &&
-        moment(firstInviteCard.date)
-          .add(2, 'weeks')
-          .isBefore(moment())
+        firstInviteCard && !secondInviteCard && moment(firstInviteCard.date).add(2, 'weeks').isBefore(moment())
 
       if (!firstInviteCard || shouldAddSecondCard) {
         const inviteCard = await prepareInviteCard(
@@ -792,17 +787,8 @@ export class UserStorage {
       sponsoredLink,
       sponsoredLogo,
     } = data
-    const {
-      address,
-      asset,
-      initiator,
-      initiatorType,
-      value,
-      displayName,
-      message,
-      avatar,
-      isBridge,
-    } = this._extractData(event)
+    const { address, asset, initiator, initiatorType, value, displayName, message, avatar, isBridge } =
+      this._extractData(event)
 
     // displayType is used by FeedItem and ModalItem to decide on colors/icons etc of tx feed card
     const displayType = this._extractDisplayType(event)
@@ -875,8 +861,8 @@ export class UserStorage {
       type === FeedItemType.EVENT_TYPE_RECEIVENATIVE
         ? t`Receive ${asset}`
         : type === FeedItemType.EVENT_TYPE_SENDNATIVE
-        ? t`Send ${asset}`
-        : ''
+          ? t`Send ${asset}`
+          : ''
 
     const data = {
       address: '',
@@ -1105,7 +1091,10 @@ export class UserStorage {
 
       if (get(deleteAccountResult, 'data.ok', false)) {
         deleteResults = await Promise.all([
-          _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
+          _trackStatus(
+            retry(() => wallet.deleteAccount(), 1, 500),
+            'wallet',
+          ),
           _trackStatus(this.database.deleteAccount()),
           _trackStatus(this.deleteProfile(), 'profile'),
           _trackStatus(userProperties.reset(), 'userprops'),

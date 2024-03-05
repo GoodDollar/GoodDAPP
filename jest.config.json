@@ -66,7 +66,8 @@
         "^varintes/(.*)": "<rootDir>/node_modules/varintes/dist/$1.js",
         "^multihashes-sync/(.*)": "<rootDir>/node_modules/multihashes-sync/dist/$1.js",
         "^cartonne$": "<rootDir>/node_modules/cartonne/dist/index.js",
-        "^dag-jose$": "<rootDir>/node_modules/dag-jose/lib/index.js"
+        "^dag-jose$": "<rootDir>/node_modules/dag-jose/lib/index.js",
+        "^cborg$": "<rootDir>/node_modules/cborg/cjs/cborg.js"
     },
     "testEnvironmentOptions": {
         "url": "http://localhost"

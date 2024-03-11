@@ -403,7 +403,9 @@ exports[`Settings matches snapshot 1`] = `
                         className="css-view-1dbjc4n r-height-tmtnm0 r-width-1tfmumk"
                       >
                         <svg
+                          height="32"
                           viewBox="0 0 513 342"
+                          width="32"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path

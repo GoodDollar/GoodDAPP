@@ -121,7 +121,6 @@
     "asyncstorage-down": "^4.2.0",
     "await-mutex": "1.0.1",
     "axios": "^1",
-    "babel-plugin-inline-import": "^3.0.0",
     "base-64": "^1.0.0",
     "bip39-light": "^1.0.7",
     "browserify-zlib": "^0.1.4",

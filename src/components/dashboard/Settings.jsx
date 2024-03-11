@@ -15,15 +15,15 @@ import { Switch } from 'react-native-switch'
 
 import { useDebounce } from 'use-debounce'
 import Wrapper from '../common/layout/Wrapper'
-import { Icon, Section, Text } from '../common'
+import { Icon, Section, SvgXml, Text } from '../common'
 import { LanguageContext } from '../../language/i18n'
-import { CountryFlag } from '../profile/ProfileDataTable'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
 import { useNotificationsOptions } from '../../lib/notifications/hooks/useNotifications'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import { useDialog } from '../../lib/dialog/useDialog'
+import useCountryFlag from '../../lib/hooks/useCountryFlag'
 
 // utils
 import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
@@ -110,24 +110,14 @@ const getKeyByValue = (object, value) => {
 }
 
 const DropDownRowComponent = props => {
-  const { containerStyles, textStyles, children } = props
+  const { containerStyles, textStyles, countryFlag, children } = props
   const { children: countryCode } = children.props
   const countryLabel = languageCustomLabels[countryCode] ?? 'Device Default'
 
   return (
     <TouchableOpacity {...containerStyles} onPress={props.onPress}>
       <>
-        {countryCode && (
-          <CountryFlag
-            styles={{
-              flag: {
-                width: 24,
-                height: 24,
-              },
-            }}
-            code={countryCode}
-          />
-        )}
+        {countryFlag ? <SvgXml src={countryFlag} width="24" height="24" /> : null}
         <Text {...textStyles}> {countryLabel}</Text>
       </>
     </TouchableOpacity>
@@ -139,6 +129,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
   const userStorage = useUserStorage()
   const { setLanguage, language: languageCode } = useContext(LanguageContext)
   const [countryCode, setCountryCode] = useState(getKeyByValue(countryCodeToLocale, languageCode))
+  const countryFlag = useCountryFlag(countryCode)
 
   const { showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
@@ -320,12 +311,13 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                     renderRightComponent={() =>
                       countryCode ? (
                         <View style={styles.flagContainer}>
-                          <CountryFlag code={countryCode} />
+                          <SvgXml src={countryFlag} width="32" height="32" />
                         </View>
                       ) : null
                     }
                     renderButtonProps={{ style: styles.renderButtonProps }}
                     renderRowProps={{
+                      countryFlag: countryFlag,
                       containerStyles: {
                         style: {
                           border: 'none',
@@ -454,7 +446,10 @@ const getStylesFromProps = ({ theme }) => {
         web: {
           width: 55,
         },
-        native: {
+        default: {
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
           width: 40,
         },
       }),

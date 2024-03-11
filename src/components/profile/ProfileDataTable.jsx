@@ -13,34 +13,13 @@ import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
 import API from '../../lib/API'
+import { SvgXml } from '../common'
 import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
 import VerifyButton from './VerifyButton'
 
 const defaultErrors = {}
 const defaultStoredProfile = {}
 const defaultProfile = {}
-
-export const CountryFlag = withStyles(
-  () => ({
-    flag: {
-      width: 30,
-      height: 30,
-    },
-  }),
-  false,
-)(({ styles, code }) => {
-  if (!code) {
-    return null
-  }
-
-  const Flag = useCountryFlag(code)
-
-  if (!Flag) {
-    return null
-  }
-
-  return Flag
-})
 
 const ProfileDataTable = ({
   profile = defaultProfile,
@@ -62,6 +41,7 @@ const ProfileDataTable = ({
     [showCustomFlag, mobile],
   )
   const { country: countryCode = null } = phoneMeta || {}
+  const countryFlag = useCountryFlag(countryCode)
 
   const verifyEdit = useCallback(
     (field, content) => {
@@ -188,9 +168,9 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {countryCode && (
+              {countryFlag && (
                 <View style={styles.flagContainer}>
-                  <CountryFlag code={countryCode} />
+                  <SvgXml src={countryFlag} width={30} height={30} />
                 </View>
               )}
               <InputRounded
@@ -270,6 +250,7 @@ const getStylesFromProps = ({ theme, errors }) => {
       paddingBottom: 6,
     },
     flagContainer: {
+      display: 'flex',
       height: 24,
       width: 24,
       justifyContent: 'center',
@@ -279,7 +260,7 @@ const getStylesFromProps = ({ theme, errors }) => {
       borderColor: theme.colors.lightGray,
       ...Platform.select({
         web: { borderRadius: '50%', borderStyle: 'solid' },
-        default: { borderRadius: 24 / 2 },
+        default: { borderRadius: 24 / 2, paddingTop: 5 },
       }),
     },
     disabledPhoneContainer: {

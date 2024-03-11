@@ -2,6 +2,7 @@
 // @flow
 import { useMemo } from 'react'
 import flags from 'react-phone-number-input/flags'
+import ReactDOMServer from 'react-dom/server'
 
 const getCountryFlag = countryCode => {
   const code = countryCode.toUpperCase()
@@ -38,11 +39,14 @@ export const getCountryCodeForFlag = country => {
 
 export default countryCode =>
   useMemo(() => {
-    if (countryCode === undefined) {
+    if (!countryCode) {
       return
     }
 
     const code = getCountryCodeForFlag(countryCode)
+    const flag = getCountryFlag(code)
 
-    return getCountryFlag(code)
+    // ref: https://github.com/software-mansion/react-native-svg/blob/main/USAGE.md#serialize
+    const svgFlag = flag ? ReactDOMServer.renderToStaticMarkup(flag) : null
+    return svgFlag
   }, [countryCode])

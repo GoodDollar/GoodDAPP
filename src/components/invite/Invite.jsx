@@ -219,25 +219,9 @@ const InputCodeBox = ({ screenProps, styles }) => {
     }
 
     if (!inviteCodeUsed) {
-      log.debug('updating disabled state: invite code used')
-      log.debug('updating disabled state: ', { isValidCode })
+      log.debug('updating disabled state: invite code used', { isValidCode })
 
       setDisabled(!isValidCode)
-
-      if (isValidCode) {
-        log.debug('updating disabled state: code is valid')
-
-        goodWallet
-          .isInviterCodeValid(extractedCode)
-          .catch(e => {
-            log.error('failed to check is inviter valid:', e.message, e)
-            return false
-          })
-          .then(isValidInviter => {
-            log.debug('updating disabled state:', { isValidInviter })
-            setDisabled(!isValidInviter)
-          })
-      }
 
       return
     }

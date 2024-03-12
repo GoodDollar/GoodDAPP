@@ -1321,7 +1321,7 @@ export class GoodWallet {
 
   async isInviterCodeValid(inviterCode) {
     try {
-      const byteCode = this.wallet.utils.fromUtf8(inviterCode)
+      const byteCode = inviterCode.startsWith('0x') ? inviterCode : this.wallet.utils.fromUtf8(inviterCode)
       const registered = await retryCall(() => this.invitesContract.methods.codeToUser(byteCode).call())
 
       return registered !== NULL_ADDRESS

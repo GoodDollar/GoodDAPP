@@ -39,12 +39,12 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
     }
   }, [setState, onPress, onPressDone, doneDelay])
 
-  const backgroundColor = theme.colors.darkBlue
+  const backgroundColor = styles.backgroundColor
 
   return (
     <View style={styles.wrapper}>
       {state === DONE ? (
-        <TouchableOpacity cursor="inherit" style={[styles.iconButton, { backgroundColor }]}>
+        <TouchableOpacity cursor="inherit" style={[styles.iconButton, { top: 10, right: 10 }]}>
           <Icon size={16} name="success" color={theme.colors.surface} />
         </TouchableOpacity>
       ) : (
@@ -101,6 +101,7 @@ const getStylesFromProps = ({ theme }) => ({
     height: 42,
     justifyContent: 'center',
     width: 42,
+    backgroundColor: '#006d9f',
   },
 })
 

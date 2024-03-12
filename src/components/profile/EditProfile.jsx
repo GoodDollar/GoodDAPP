@@ -7,11 +7,10 @@ import { useUserStorage } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { useDialog } from '../../lib/dialog/useDialog'
 import { withStyles } from '../../lib/styles'
-import { Section, Wrapper } from '../common'
+import { SaveButton, Section, Wrapper } from '../common'
 import UserAvatar from '../common/view/UserAvatar'
-import SaveButton from '../common/animations/SaveButton/SaveButton'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import RoundIconButton from '../common/buttons/RoundIconButton'
 import useProfile from '../../lib/userStorage/useProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -144,8 +143,9 @@ const EditProfile = ({ screenProps, styles }) => {
           <SaveButton
             loading={saving}
             onPress={handleSaveButton}
-            onFinish={onProfileSaved}
-            style={styles.animatedSaveButton}
+            onPressDone={onProfileSaved}
+            style={styles.saveButton}
+            styles={{ iconButton: styles.saveButton }}
           />
         )}
       </Section.Row>
@@ -208,15 +208,16 @@ const getStylesFromProps = ({ theme }) => {
       zIndex: 1,
       height: avatarSize / 2,
     },
-    animatedSaveButton: {
+    saveButton: {
       position: 'absolute',
-      width: getDesignRelativeWidth(110),
-      height: 50,
-      top: getDesignRelativeHeight(18),
-      right: -10,
+      width: getDesignRelativeWidth(55),
+      height: 44,
+      top: 10,
+      right: 10,
       marginVertical: 0,
       display: 'flex',
       justifyContent: 'flex-end',
+      backgroundColor: '#006d9f',
     },
     userDataWrapper: {
       position: 'absolute',

@@ -168,6 +168,7 @@ export const useInviteBonus = () => {
             },
           ],
         })
+        setCollected(true)
         return true
       }
 

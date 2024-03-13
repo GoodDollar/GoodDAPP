@@ -1292,6 +1292,19 @@ export class GoodWallet {
       return {}
     }
 
+    const invitee = invitees[0]
+
+    // if all conditions are met during the join of an invitee the invite bounty is already collected
+    // so we need to verify if that happened
+    const alreadyCollected = await methods
+      .users(invitee)
+      .call()
+      .then(user => user.bountyPaid)
+
+    if (alreadyCollected) {
+      return { alreadyCollected: true }
+    }
+
     const calls = invitees.reduce(
       (calls, addr) => ({
         ...calls,
@@ -1321,7 +1334,7 @@ export class GoodWallet {
 
   async isInviterCodeValid(inviterCode) {
     try {
-      const byteCode = this.wallet.utils.fromUtf8(inviterCode)
+      const byteCode = inviterCode.startsWith('0x') ? inviterCode : this.wallet.utils.fromUtf8(inviterCode)
       const registered = await retryCall(() => this.invitesContract.methods.codeToUser(byteCode).call())
 
       return registered !== NULL_ADDRESS
@@ -1360,15 +1373,9 @@ export class GoodWallet {
       // check under which account invitecode is registered, maybe we have a collission
       const registered = !hasJoined && (await retryCall(() => this.invitesContract.methods.codeToUser(myCode).call()))
       const inviterCode = inviter && this.wallet.utils.fromUtf8(inviter)
-      const inviterRegistered =
-        inviter &&
-        (await retryCall(() => this.invitesContract.methods.codeToUser(inviterCode).call()).then(
-          r => r !== NULL_ADDRESS,
-        ))
 
       log.debug('joinInvites:', {
         inviter,
-        inviterRegistered,
         registered,
         myCode,
         codeLength,
@@ -1384,7 +1391,8 @@ export class GoodWallet {
       }
 
       // not registered or not marked inviter
-      if (!hasJoined || (inviterRegistered && invitedBy === NULL_ADDRESS)) {
+      // NOTE: removed not registered for campaign codes with NULL_ADDRESS
+      if (!hasJoined || invitedBy === NULL_ADDRESS) {
         const tx = this.invitesContract.methods.join(myCode, inviter ? inviterCode : '0x0'.padEnd(66, 0))
 
         log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })

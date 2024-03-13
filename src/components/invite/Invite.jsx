@@ -193,7 +193,7 @@ const InputCodeBox = ({ screenProps, styles }) => {
       This might take a few seconds`,
       showButtons: false,
       title: t`Collecting Invite Reward`,
-      showCloseButtons: false,
+      showCloseButtons: true,
       onDismiss: noop,
     })
 
@@ -204,8 +204,6 @@ const InputCodeBox = ({ screenProps, styles }) => {
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
-    } finally {
-      hideDialog()
     }
   }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, registerForInvites])
 
@@ -219,32 +217,16 @@ const InputCodeBox = ({ screenProps, styles }) => {
     }
 
     if (!inviteCodeUsed) {
-      log.debug('updating disabled state: invite code used')
-      log.debug('updating disabled state: ', { isValidCode })
+      log.debug('updating disabled state: invite code used', { isValidCode })
 
       setDisabled(!isValidCode)
-
-      if (isValidCode) {
-        log.debug('updating disabled state: code is valid')
-
-        goodWallet
-          .isInviterCodeValid(extractedCode)
-          .catch(e => {
-            log.error('failed to check is inviter valid:', e.message, e)
-            return false
-          })
-          .then(isValidInviter => {
-            log.debug('updating disabled state:', { isValidInviter })
-            setDisabled(!isValidInviter)
-          })
-      }
 
       return
     }
 
     log.debug('updating disabled state: invite code NOT used')
 
-    getCanCollect().then(canCollect => {
+    getCanCollect().then(({ canCollect }) => {
       log.debug('updating disabled state:', { canCollect })
       setDisabled(!canCollect)
     })

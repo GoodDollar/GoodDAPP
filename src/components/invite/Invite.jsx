@@ -193,7 +193,7 @@ const InputCodeBox = ({ screenProps, styles }) => {
       This might take a few seconds`,
       showButtons: false,
       title: t`Collecting Invite Reward`,
-      showCloseButtons: false,
+      showCloseButtons: true,
       onDismiss: noop,
     })
 
@@ -204,8 +204,6 @@ const InputCodeBox = ({ screenProps, styles }) => {
       await collectInviteBounty(onUnableToCollect)
     } catch (e) {
       log.warn('collectInviteBounty failed', e.message, e)
-    } finally {
-      hideDialog()
     }
   }, [extractedCode, showDialog, hideDialog, onUnableToCollect, collectInviteBounty, registerForInvites])
 
@@ -228,7 +226,7 @@ const InputCodeBox = ({ screenProps, styles }) => {
 
     log.debug('updating disabled state: invite code NOT used')
 
-    getCanCollect().then(canCollect => {
+    getCanCollect().then(({ canCollect }) => {
       log.debug('updating disabled state:', { canCollect })
       setDisabled(!canCollect)
     })

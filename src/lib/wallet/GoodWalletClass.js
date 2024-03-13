@@ -1292,6 +1292,19 @@ export class GoodWallet {
       return {}
     }
 
+    const invitee = invitees[0]
+
+    // if all conditions are met during the join of an invitee the invite bounty is already collected
+    // so we need to verify if that happened
+    const alreadyCollected = await methods
+      .users(invitee)
+      .call()
+      .then(user => user.bountyPaid)
+
+    if (alreadyCollected) {
+      return { alreadyCollected: true }
+    }
+
     const calls = invitees.reduce(
       (calls, addr) => ({
         ...calls,

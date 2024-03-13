@@ -137,7 +137,7 @@ export const useInviteBonus = () => {
       const { account } = goodWallet
       const statuses = await goodWallet.canCollectBountyFor([account])
 
-      return statuses[account]
+      return statuses.alreadyCollected === true ? statuses.alreadyCollected : statuses[account]
     } catch (e) {
       log.error('useInviteBonus: failed to get canCollect:', e.message, e)
       return false

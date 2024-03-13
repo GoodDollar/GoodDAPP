@@ -25,6 +25,7 @@ import {
 
 import { tryUntil } from '../../../lib/utils/async'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 
 const log = logger.child({ from: 'FaceVerification' })
 
@@ -129,6 +130,7 @@ const FaceVerification = ({ screenProps, navigation }) => {
 
       // 2. returning success to the caller
       fireEvent(FV_SUCCESS_ZOOM)
+      AsyncStorage.removeItem('hasStartedFV')
 
       if (isFVFlow) {
         screenProps.navigateTo('FVFlowSuccess')

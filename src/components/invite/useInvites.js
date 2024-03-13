@@ -137,7 +137,10 @@ export const useInviteBonus = () => {
       const { account } = goodWallet
       const statuses = await goodWallet.canCollectBountyFor([account])
 
-      return statuses[account]
+      return {
+        alreadyCollected: statuses.alreadyCollected,
+        canCollect: statuses[account],
+      }
     } catch (e) {
       log.error('useInviteBonus: failed to get canCollect:', e.message, e)
       return false
@@ -151,9 +154,22 @@ export const useInviteBonus = () => {
         return false
       }
 
-      const canCollect = await getCanCollect()
+      const { alreadyCollected, canCollect } = await getCanCollect()
 
-      log.debug(`useInviteBonus: got canCollect:`, { canCollect })
+      log.debug(`useInviteBonus: got canCollect:`, { canCollect, alreadyCollected })
+
+      if (alreadyCollected) {
+        showDialog({
+          title: t`Reward Collected!`,
+          image: <SuccessIcon />,
+          buttons: [
+            {
+              text: t`YAY!`,
+            },
+          ],
+        })
+        return true
+      }
 
       if (!canCollect) {
         onUnableToCollect()
@@ -166,7 +182,7 @@ export const useInviteBonus = () => {
         message: t`Please wait` + '\n' + t`This might take a few seconds...`,
         showButtons: false,
         title: t`Collecting Invite Reward`,
-        showCloseButtons: false,
+        showCloseButtons: true,
         onDismiss: noop,
       })
 

@@ -25,12 +25,10 @@ const useProfileHook = (fields, allowRefresh = false, display = false) => {
     [userStorage],
   )
 
-  const refreshProfile = useCallback(() => setProfile(getProfile(fields, display)), [
-    fields,
-    display,
-    setProfile,
-    getProfile,
-  ])
+  const refreshProfile = useCallback(
+    () => setProfile(getProfile(fields, display)),
+    [fields, display, setProfile, getProfile],
+  )
 
   // auto refresh provide each time fields and private changes
   // also initializes profile on mount

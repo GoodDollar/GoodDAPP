@@ -130,7 +130,7 @@ export const useInviteBonus = () => {
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const propSuffix = usePropSuffix()
-  const [collected, setCollected] = useUserProperty(collectedProp + propSuffix)
+  const [collected] = useUserProperty(collectedProp + propSuffix)
 
   const getCanCollect = useCallback(async () => {
     try {
@@ -156,9 +156,10 @@ export const useInviteBonus = () => {
 
       const { alreadyCollected, canCollect } = await getCanCollect()
 
-      log.debug(`useInviteBonus: got canCollect:`, { canCollect, alreadyCollected })
+      log.debug(`useInviteBonus: got canCollect:`, { canCollect, alreadyCollected, collected })
 
       if (alreadyCollected) {
+        userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
         showDialog({
           title: t`Reward Collected!`,
           image: <SuccessIcon />,
@@ -168,7 +169,6 @@ export const useInviteBonus = () => {
             },
           ],
         })
-        setCollected(true)
         return true
       }
 
@@ -188,7 +188,7 @@ export const useInviteBonus = () => {
       })
 
       await goodWallet.collectInviteBounty()
-      setCollected(true)
+      userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
 
       log.debug(`useInviteBonus: invite bonty collected`)
 

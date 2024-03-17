@@ -34,7 +34,6 @@ import {
   CLAIM_SUCCESS,
   fireEvent,
   fireGoogleAnalyticsEvent,
-  INVITE_BOUNTY,
 } from '../../lib/analytics/analytics'
 
 import Config from '../../config/config'
@@ -526,11 +525,7 @@ const Claim = props => {
   const handleInviteBounty = useCallback(async () => {
     try {
       // collect invite bonuses
-      const didCollect = await collectInviteBounty()
-
-      if (didCollect) {
-        fireEvent(INVITE_BOUNTY, { from: 'invitee' })
-      }
+      await collectInviteBounty()
     } catch (e) {
       log.error('collect invite bounty failed', e.message, e)
     }

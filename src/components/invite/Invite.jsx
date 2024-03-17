@@ -159,7 +159,7 @@ const InputCodeBox = ({ screenProps, styles }) => {
   const onUnableToCollect = useCallback(async () => {
     const isCitizen = await goodWallet.isCitizen()
 
-    showDialog({
+    return showDialog({
       image: <InfoIcon />,
       title: isCitizen ? t`Your inviter is not verified yet` : t`Claim your first G$s`,
       message: isCitizen
@@ -212,24 +212,33 @@ const InputCodeBox = ({ screenProps, styles }) => {
     log.debug('updating disabled state:', { extractedCode, isValidCode, ownInviteCode, inviteCodeUsed })
 
     if (collected) {
-      log.debug('not updating disabled state: bounty collected')
+      log.debug('updating disabled state: bounty collected')
+      setDisabled(true)
       return
     }
 
     if (!inviteCodeUsed) {
       log.debug('updating disabled state: invite code used', { isValidCode })
 
-      setDisabled(!isValidCode)
+      if (isValidCode) {
+        log.debug('updating disabled state: code is valid')
+
+        goodWallet
+          .isInviterCodeValid(extractedCode)
+          .catch(e => {
+            log.error('failed to check is inviter valid:', e.message, e)
+            return false
+          })
+          .then(isValidInviter => {
+            log.debug('updating disabled state:', { isValidInviter })
+            setDisabled(!isValidInviter)
+          })
+      } else {
+        setDisabled(true)
+      }
 
       return
     }
-
-    log.debug('updating disabled state: invite code NOT used')
-
-    getCanCollect().then(({ canCollect }) => {
-      log.debug('updating disabled state:', { canCollect })
-      setDisabled(!canCollect)
-    })
   }, [extractedCode, isValidCode, inviteCodeUsed, collected, setDisabled, getCanCollect, goodWallet])
 
   if (collected) {

@@ -31,6 +31,7 @@ export const useRegisterForInvites = () => {
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
   const propSuffix = usePropSuffix()
+  const [, setCollected] = useUserProperty(collectedProp + propSuffix)
 
   const registerForInvites = useCallback(
     async inviterInviteCode => {
@@ -49,6 +50,11 @@ export const useRegisterForInvites = () => {
 
       try {
         const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
+        if (await goodWallet.isBountyClaimed()) {
+          log.debug('bounty claimed on registeration...')
+          fireEvent(INVITE_BOUNTY, { from: 'invitee' })
+          setCollected(true)
+        }
 
         log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
         userProperties.safeSet(codeProp, inviteCode)
@@ -173,8 +179,7 @@ export const useInviteBonus = () => {
       }
 
       if (!canCollect) {
-        onUnableToCollect()
-        return false
+        return onUnableToCollect()
       }
 
       showDialog({
@@ -188,11 +193,12 @@ export const useInviteBonus = () => {
       })
 
       await goodWallet.collectInviteBounty()
+      fireEvent(INVITE_BOUNTY, { from: 'invitee' })
       setCollected(true)
 
       log.debug(`useInviteBonus: invite bonty collected`)
 
-      showDialog({
+      return showDialog({
         title: t`Reward Collected!`,
         image: <SuccessIcon />,
         buttons: [
@@ -201,7 +207,6 @@ export const useInviteBonus = () => {
           },
         ],
       })
-      return true
     },
     [showDialog, collected, goodWallet, userStorage, propSuffix],
   )
@@ -214,8 +219,6 @@ export const useCollectBounty = screenProps => {
   const [canCollect, setCanCollect] = useState(undefined)
   const [collected, setCollected] = useState(undefined)
   const goodWallet = useWallet()
-  const userStorage = useUserStorage()
-  const propSuffix = usePropSuffix()
   const { navigateTo } = screenProps
 
   const collect = async () => {
@@ -237,7 +240,6 @@ export const useCollectBounty = screenProps => {
       }
       setCanCollect(0)
       fireEvent(INVITE_BOUNTY, { from: 'inviter', numCollected: canCollect })
-      userStorage.userProperties.safeSet(collectedProp + propSuffix, true)
       setCollected(true)
 
       await checkBounties() //after collectinng check how much left to collect

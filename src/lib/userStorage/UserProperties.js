@@ -59,7 +59,7 @@ export default class UserProperties {
       const localProps = await AsyncStorage.getItem('localProps')
 
       this.local = assign({}, localProps)
-      this.throttlePersist = throttle(() => this.persist(), 60000, { leading: true })
+      this.throttlePersist = throttle(() => this.persist(), 5000, { leading: true, trailing: true })
 
       log.debug('found local settings:', { props, localProps, local: this.local })
 

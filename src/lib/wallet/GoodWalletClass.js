@@ -1319,6 +1319,21 @@ export class GoodWallet {
     return result
   }
 
+  async isBountyClaimed() {
+    const invitee = this.account
+
+    // if all conditions are met during the join of an invitee the invite bounty is already collected
+    // so we need to verify if that happened
+    const alreadyCollected = await retryCall(() =>
+      this.invitesContract.methods
+        .users(invitee)
+        .call()
+        .then(user => user.bountyPaid),
+    )
+
+    return alreadyCollected
+  }
+
   async collectInviteBounty(invitee) {
     try {
       const bountyFor = invitee || this.account

@@ -31,7 +31,6 @@ export const useRegisterForInvites = () => {
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
   const propSuffix = usePropSuffix()
-  const [, setCollected] = useUserProperty(collectedProp + propSuffix)
 
   const registerForInvites = useCallback(
     async inviterInviteCode => {
@@ -50,11 +49,6 @@ export const useRegisterForInvites = () => {
 
       try {
         const inviteCode = await goodWallet.joinInvites(inviterInviteCode)
-        if (await goodWallet.isBountyClaimed()) {
-          log.debug('bounty claimed on registeration...')
-          fireEvent(INVITE_BOUNTY, { from: 'invitee' })
-          setCollected(true)
-        }
 
         log.debug('joined invites contract:', { inviteCode, inviterInviteCode })
         userProperties.safeSet(codeProp, inviteCode)
@@ -144,7 +138,7 @@ export const useInviteBonus = () => {
       const statuses = await goodWallet.canCollectBountyFor([account])
 
       return {
-        alreadyCollected: statuses.alreadyCollected,
+        alreadyCollected: await goodWallet.isBountyClaimed(),
         canCollect: statuses[account],
       }
     } catch (e) {
@@ -160,39 +154,29 @@ export const useInviteBonus = () => {
         return false
       }
 
+      // alreadyCollected means user already got the bounty when he called "joinInvites", so we will just show him a modal that the reward was claimed
       const { alreadyCollected, canCollect } = await getCanCollect()
 
       log.debug(`useInviteBonus: got canCollect:`, { canCollect, alreadyCollected })
-
-      if (alreadyCollected) {
-        showDialog({
-          title: t`Reward Collected!`,
-          image: <SuccessIcon />,
-          buttons: [
-            {
-              text: t`YAY!`,
-            },
-          ],
-        })
-        setCollected(true)
-        return true
-      }
 
       if (!canCollect) {
         return onUnableToCollect()
       }
 
-      showDialog({
-        image: <LoadingIcon />,
-        loading: true,
-        message: t`Please wait` + '\n' + t`This might take a few seconds...`,
-        showButtons: false,
-        title: t`Collecting Invite Reward`,
-        showCloseButtons: true,
-        onDismiss: noop,
-      })
+      if (!alreadyCollected) {
+        showDialog({
+          image: <LoadingIcon />,
+          loading: true,
+          message: t`Please wait` + '\n' + t`This might take a few seconds...`,
+          showButtons: false,
+          title: t`Collecting Invite Reward`,
+          showCloseButtons: true,
+          onDismiss: noop,
+        })
 
-      await goodWallet.collectInviteBounty()
+        await goodWallet.collectInviteBounty()
+      }
+
       fireEvent(INVITE_BOUNTY, { from: 'invitee' })
       setCollected(true)
 

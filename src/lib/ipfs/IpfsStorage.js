@@ -1,8 +1,7 @@
 import { get, sortBy } from 'lodash'
-import axios from 'axios'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
-
+import { isMobileNative } from '../utils/platform'
 import { fallback } from '../utils/async'
 import { withTemporaryFile } from '../utils/fs'
 import { normalizeDataUrl } from '../utils/base64'
@@ -13,29 +12,45 @@ class IpfsStorage {
   constructor(httpFactory, config, logger) {
     const { ipfsGateways, ipfsUploadGateway } = config
 
-    this.client = httpFactory.create({
-      withCredentials: true,
-      maxContentLength: 'Infinity',
-      maxBodyLength: 'Infinity',
-      baseURL: ipfsUploadGateway,
-    })
-
+    this.ipfsUploadGateway = ipfsUploadGateway
     this.logger = logger
-    this.client.get = url => httpFactory.get(url, { responseType: 'blob' })
     this.gateways = ipfsGateways.map((urlFactory, index) => ({ urlFactory, index, failed: 0 }))
   }
 
+  _post(formData) {
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    }
+    if (isMobileNative) {
+      headers.origin = 'wallet.gooddollar.org'
+    }
+
+    return fetch(this.ipfsUploadGateway, {
+      method: 'POST',
+      body: formData,
+      headers,
+    }).then(_ => _.json())
+  }
+
+  _get(url) {
+    const headers = {}
+    if (isMobileNative) {
+      headers.origin = 'wallet.gooddollar.org'
+    }
+    return fetch(url).then(_ => _.blob())
+  }
+
   async store(dataUrl) {
-    const { client } = this
     const form = new FormData()
 
     // eslint-disable-next-line require-await
-    const { data } = await withTemporaryFile(dataUrl, async file => {
+    const { cid } = await withTemporaryFile(dataUrl, async file => {
       form.append('file', file)
-      return client.post('/', form)
+      return this._post(form)
     })
 
-    return toV1(data.cid)
+    return toV1(cid)
   }
 
   async load(cid, withMetadata = false) {
@@ -43,6 +58,7 @@ class IpfsStorage {
     const mime = get(headers, 'content-type')
     const binary = !mime.startsWith('text/')
     const format = binary ? 'DataURL' : 'Text'
+    // eslint-disable-next-line import/namespace
     const rawData = await FileAPI[`readAs${format}`](data)
     const dataUrl = binary ? normalizeDataUrl(rawData, mime) : rawData
 
@@ -75,12 +91,12 @@ class IpfsStorage {
 
   _requestGateway = async (cid, v1, gateway) => {
     const { urlFactory } = gateway
-    const { client, logger } = this
+    const { logger } = this
     const url = urlFactory({ cid: v1 })
 
     try {
       // try gateway
-      const response = await client.get(url)
+      const response = await this._get(url)
 
       // reset failing attempts counter on success
       gateway.failed = 0
@@ -97,4 +113,4 @@ class IpfsStorage {
   }
 }
 
-export default new IpfsStorage(axios, Config, logger.child({ from: 'IpfsStorage' }))
+export default new IpfsStorage(Config, logger.child({ from: 'IpfsStorage' }))

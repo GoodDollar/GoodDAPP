@@ -9,7 +9,7 @@ import * as FileAPI from '../utils/filereader'
 import { toV1 } from './utils'
 
 class IpfsStorage {
-  constructor(httpFactory, config, logger) {
+  constructor(config, logger) {
     const { ipfsGateways, ipfsUploadGateway } = config
 
     this.ipfsUploadGateway = ipfsUploadGateway

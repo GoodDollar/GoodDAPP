@@ -1,10 +1,4 @@
-import { useEffect, useMemo } from 'react'
-import { usePostHog } from 'posthog-react-native'
-import { once } from 'lodash'
-
-import logger from '../../lib/logger/js-logger'
-
-const log = logger.child({ from: 'useFeatureFlags' })
+import { useFeatureFlag, useFeatureFlagWithPayload } from 'posthog-react-native'
 
 const defaultFeatureFlags = {
   'show-usd-balance': false,
@@ -63,37 +57,12 @@ const defaultFlagsWithPayload = {
   },
 }
 
-const addLogger = once(posthog =>
-  posthog.on('error', e => {
-    log.error('PostHog fetch error', e.message)
-  }),
-)
-
 export const useFeatureFlagOrDefault = featureFlag => {
-  const posthog = usePostHog()
-
-  useEffect(() => {
-    if (!posthog) {
-      return
-    }
-    addLogger(posthog)
-  }, [posthog])
-
-  return useMemo(() => posthog?.getFeatureFlag(featureFlag) ?? defaultFeatureFlags[featureFlag], [posthog, featureFlag])
+  const payload = useFeatureFlag(featureFlag)
+  return payload ?? defaultFeatureFlags[featureFlag]
 }
 
 export const useFlagWithPayload = featureFlag => {
-  const posthog = usePostHog()
-
-  useEffect(() => {
-    if (!posthog) {
-      return
-    }
-    addLogger(posthog)
-  }, [posthog])
-
-  return useMemo(
-    () => posthog?.getFeatureFlagPayload(featureFlag) ?? defaultFlagsWithPayload[featureFlag],
-    [posthog, featureFlag],
-  )
+  const payload = useFeatureFlagWithPayload(featureFlag)
+  return payload ?? defaultFlagsWithPayload[featureFlag]
 }

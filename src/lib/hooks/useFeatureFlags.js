@@ -58,11 +58,11 @@ const defaultFlagsWithPayload = {
 }
 
 export const useFeatureFlagOrDefault = featureFlag => {
-  const payload = useFeatureFlag(featureFlag)
-  return payload ?? defaultFeatureFlags[featureFlag]
+  const isEnabled = useFeatureFlag(featureFlag)
+  return isEnabled ?? defaultFeatureFlags[featureFlag]
 }
 
 export const useFlagWithPayload = featureFlag => {
-  const payload = useFeatureFlagWithPayload(featureFlag)
+  const [, payload] = useFeatureFlagWithPayload(featureFlag)
   return payload ?? defaultFlagsWithPayload[featureFlag]
 }

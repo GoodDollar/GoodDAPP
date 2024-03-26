@@ -114,7 +114,6 @@ const ExplanationDialog = ({
 const mapStylesToProps = ({ theme }) => ({
   container: {
     display: 'flex',
-    flex: 0,
     justifyContent: 'space-around',
     maxHeight: '100%',
     marginTop: 'auto',

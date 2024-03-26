@@ -110,14 +110,15 @@ const getKeyByValue = (object, value) => {
 }
 
 const DropDownRowComponent = props => {
-  const { containerStyles, textStyles, countryFlag, children } = props
+  const { containerStyles, textStyles, children } = props
   const { children: countryCode } = children.props
   const countryLabel = languageCustomLabels[countryCode] ?? 'Device Default'
+  const countryFlag = useCountryFlag(countryCode)
 
   return (
     <TouchableOpacity {...containerStyles} onPress={props.onPress}>
       <>
-        {countryFlag ? <SvgXml src={countryFlag} width="24" height="24" /> : null}
+        {countryFlag ? <SvgXml src={countryFlag} width="48" height="48" /> : null}
         <Text {...textStyles}> {countryLabel}</Text>
       </>
     </TouchableOpacity>
@@ -337,7 +338,7 @@ const Settings = ({ screenProps, styles, theme, navigation }) => {
                           paddingBottom: 10,
                           ...Platform.select({
                             web: {
-                              width: '200%',
+                              width: '100%',
                             },
                           }),
                         },
@@ -445,6 +446,8 @@ const getStylesFromProps = ({ theme }) => {
       ...Platform.select({
         web: {
           width: 55,
+          justifyContent: 'center',
+          alignItems: 'center',
         },
         default: {
           display: 'flex',

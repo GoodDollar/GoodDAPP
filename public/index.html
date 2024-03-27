@@ -7,15 +7,14 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GTAG_ID%"></script>
     <script>
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
-      }
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments)};  
       gtag('js', new Date())
-
+      
       gtag('config', '%REACT_APP_GTAG_ID%')
     </script>
     <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta
       name="viewport"
       content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no, maximum-scale=1"

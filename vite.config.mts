@@ -173,6 +173,7 @@ export default defineConfig({
       transformMixedEsModules: true, //handle deps that use "require" and "module.exports"
     },
     rollupOptions: {
+      input: process.env.REACT_APP_BUILD_TARGET === 'FV' ? './src/index.fv.jsx' : './src/index.jsx',
       output: {
         manualChunks: {
           // reduce main chunk size so sourcemaps enabled doesnt OOM

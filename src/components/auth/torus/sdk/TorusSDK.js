@@ -161,7 +161,7 @@ class TorusSDK {
 
     try {
       const response = await promise
-      const { error } = response
+      const { error } = response || {}
 
       if (error) {
         throw new Error(error)

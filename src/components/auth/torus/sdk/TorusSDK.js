@@ -57,14 +57,14 @@ class TorusSDK {
   }
 
   async getRedirectResult() {
-    const { torus, _fetchStatusCode } = this
-    const { result } = await torus.getRedirectResult().catch(_fetchStatusCode)
+    const { torus, _wrapCall } = this
+    const { result } = await _wrapCall(torus.getRedirectResult())
 
     return this.fetchTorusUser(result)
   }
 
   async triggerLogin(verifier, customLogger = null) {
-    const { logger, strategies, _fetchStatusCode } = this
+    const { logger, strategies, _wrapCall } = this
     const log = customLogger || logger
     let withVerifier = verifier
 
@@ -75,7 +75,7 @@ class TorusSDK {
     }
 
     const strategy = strategies[withVerifier]
-    const response = await strategy.triggerLogin().catch(_fetchStatusCode)
+    const response = await _wrapCall(strategy.triggerLogin())
 
     // no response in case of redirect flow
     if (!this.popupMode) {
@@ -155,21 +155,33 @@ class TorusSDK {
   }
 
   /** @private */
-  _fetchStatusCode(exception) {
-    const { message } = exception
+  _wrapCall = promise =>
+    promise
+      .then(response => {
+        const { error } = response
 
-    values(TorusStatusCode).some(code => {
-      const matches = message.includes(code)
+        if (error) {
+          throw new Error(error)
+        }
 
-      if (matches) {
-        exception.name = code
-      }
+        return response
+      })
+      .catch(exception => {
+        const { message } = exception
 
-      return matches
-    })
+        values(TorusStatusCode).some(code => {
+          const matches = message.includes(code)
 
-    throw exception
-  }
+          if (matches) {
+            exception.name = code
+          }
+
+          return matches
+        })
+
+        this.logger.warn('torusSDK call failed', message, exception)
+        throw exception
+      })
 }
 
 export default TorusSDK

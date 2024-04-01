@@ -48,7 +48,7 @@ class TorusSDK {
     this.config = config
     this.logger = logger
 
-    bindAll(this, '_fetchStatusCode')
+    bindAll(this, '_wrapCall')
   }
 
   // eslint-disable-next-line require-await
@@ -56,9 +56,9 @@ class TorusSDK {
     return this.torus.init({ skipInit: !this.popupMode })
   }
 
-  async getRedirectResult() {
+  async getRedirectResult(customLogger = null) {
     const { torus, _wrapCall } = this
-    const { result } = await _wrapCall(torus.getRedirectResult())
+    const { result } = await _wrapCall(torus.getRedirectResult(), customLogger)
 
     return this.fetchTorusUser(result)
   }
@@ -75,7 +75,7 @@ class TorusSDK {
     }
 
     const strategy = strategies[withVerifier]
-    const response = await _wrapCall(strategy.triggerLogin())
+    const response = await _wrapCall(strategy.triggerLogin(), customLogger)
 
     // no response in case of redirect flow
     if (!this.popupMode) {
@@ -155,33 +155,36 @@ class TorusSDK {
   }
 
   /** @private */
-  _wrapCall = promise =>
-    promise
-      .then(response => {
-        const { error } = response
+  async _wrapCall(promise, customLogger = null) {
+    const { logger } = this
+    const log = customLogger || logger
 
-        if (error) {
-          throw new Error(error)
+    try {
+      const response = await promise
+      const { error } = response
+
+      if (error) {
+        throw new Error(error)
+      }
+
+      return response
+    } catch (exception) {
+      const { message } = exception
+
+      values(TorusStatusCode).some(code => {
+        const matches = message.includes(code)
+
+        if (matches) {
+          exception.name = code
         }
 
-        return response
+        return matches
       })
-      .catch(exception => {
-        const { message } = exception
 
-        values(TorusStatusCode).some(code => {
-          const matches = message.includes(code)
-
-          if (matches) {
-            exception.name = code
-          }
-
-          return matches
-        })
-
-        this.logger.warn('torusSDK call failed', message, exception)
-        throw exception
-      })
+      log.warn('torusSDK call failed', message, exception)
+      throw exception
+    }
+  }
 }
 
 export default TorusSDK

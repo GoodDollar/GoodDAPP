@@ -5,7 +5,7 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-display-6koalj r-flex-1d9yedq r-justifyContent-a2tzq0 r-marginBottom-1qahzrx r-marginTop-1t01tom r-maxHeight-46g5hj"
+    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-a2tzq0 r-marginBottom-1qahzrx r-marginTop-1t01tom r-maxHeight-46g5hj"
   >
     <div
       className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-justifyContent-1777fci"

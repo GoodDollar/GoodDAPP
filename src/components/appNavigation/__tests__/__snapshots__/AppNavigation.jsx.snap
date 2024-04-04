@@ -419,13 +419,12 @@ exports[`AppNavigation matches snapshot 1`] = `
                         dir="auto"
                       >
                         0.0
-                         G$
                       </div>
                       <div
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                         style={
                           {
-                            "width": "35px",
+                            "width": "55px",
                           }
                         }
                       >
@@ -443,6 +442,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                           dir="auto"
                         >
+                          G$ 
                           Fuse
                         </div>
                       </div>
@@ -524,13 +524,12 @@ exports[`AppNavigation matches snapshot 1`] = `
                         dir="auto"
                       >
                         0.0
-                         G$
                       </div>
                       <div
                         className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
                         style={
                           {
-                            "width": "35px",
+                            "width": "55px",
                           }
                         }
                       >
@@ -548,6 +547,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-1enofrn r-fontWeight-1it3c9n r-lineHeight-1cwl3u0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
                           dir="auto"
                         >
+                          G$ 
                           Celo
                         </div>
                       </div>

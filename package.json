@@ -24,7 +24,7 @@
     "test": "npm run lingui:compile && npm run test:web",
     "test:setup": "./scripts/blockchainTestSetup.sh",
     "test:web-watch": "npm run link && node scripts/test.js --watch --config \"./config/web.jest.config.js\"",
-    "test:web": "NODE_OPTIONS=\"--openssl-legacy-provider\" REACT_APP_ENV=test jest --forceExit",
+    "test:web": "NODE_OPTIONS=\"--openssl-legacy-provider\" REACT_APP_ENV=test jest",
     "test:local": "npm run ganache && REACT_APP_ENV=test npm run lingui:compile && npm run test:web",
     "test:native": "npm run test:ios && npm run test:android",
     "test:ios": "npm run animation:assets && ENVFILE=.env.test detox build -c ios.sim.debug && detox test -c ios.sim.debug",

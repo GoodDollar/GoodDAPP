@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { assign, first, last, noop, trimEnd } from 'lodash'
 import { Web3Provider } from '@ethersproject/providers'
 import { Celo, Fuse, Web3Provider as GoodWeb3Provider } from '@gooddollar/web3sdk-v2'
-import { Goerli, Mainnet } from '@usedapp/core'
+import { Mainnet } from '@usedapp/core'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
@@ -397,7 +397,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
           env,
           config: {
             pollingInterval: 15000,
-            networks: [Goerli, Mainnet, Fuse, Celo],
+            networks: [Mainnet, Fuse, Celo],
             readOnlyChainId: undefined,
             readOnlyUrls: {
               1: 'https://rpc.ankr.com/eth',

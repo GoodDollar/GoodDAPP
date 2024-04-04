@@ -39,7 +39,7 @@ export const fuseNetwork = {
 const ethereum = {
   '1': {
     network_id: 1,
-    httpWeb3provider: `https://1rpc.io/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    httpWeb3provider: `https://1rpc.io/eth,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
     explorerAPI: 'https://api.etherscan.io',
@@ -47,12 +47,13 @@ const ethereum = {
     gasPrice: 1,
   },
   '3': {
-    network_id: 3,
-    httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://ropsten.etherscan.io',
-    explorerAPI: 'https://ropsten.etherscan.io',
+    network_id: 1,
+    httpWeb3provider: `https://1rpc.io/eth,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://etherscan.io',
+    explorerAPI: 'https://api.etherscan.io',
     explorerName: 'etherscan',
+    gasPrice: 1,
   },
   '5': {
     network_id: 5,
@@ -181,6 +182,7 @@ const Config = {
   displayStartClaimingCardTime: env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
   sentryDSN: env.REACT_APP_SENTRY_DSN,
   sentryReplaySampleRate: Number(env.REACT_APP_SENTRY_REPLAY_SAMPLE_RATE || 1.0),
+  sentryReplayEnabled: env.REACT_APP_SENTRY_REPLAY_ENABLED === 'true',
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',

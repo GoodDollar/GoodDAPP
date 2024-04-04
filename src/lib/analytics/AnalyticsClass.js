@@ -33,7 +33,16 @@ export class AnalyticsClass {
 
   constructor(apisFactory, rootApi, Config, loggerApi) {
     const logger = loggerApi.get('analytics')
-    const options = pick(Config, 'sentryDSN', 'sentryReplaySampleRate', 'amplitudeKey', 'mixpanelKey', 'version', 'env')
+    const options = pick(
+      Config,
+      'sentryDSN',
+      'sentryReplaySampleRate',
+      'amplitudeKey',
+      'mixpanelKey',
+      'version',
+      'env',
+      'sentryReplayEnabled',
+    )
 
     assign(this, options, { logger, apisFactory, rootApi, loggerApi })
   }
@@ -44,6 +53,7 @@ export class AnalyticsClass {
       apisFactory,
       sentryDSN,
       sentryReplaySampleRate,
+      sentryReplayEnabled,
       amplitudeKey,
       mixpanelKey,
       version,
@@ -131,6 +141,7 @@ export class AnalyticsClass {
       const sentryOptions = {
         dsn: sentryDSN,
         environment: env,
+        release: `${version}+${env}`,
       }
 
       const sentryScope = {
@@ -139,9 +150,8 @@ export class AnalyticsClass {
         ...(tags || {}),
       }
 
-      if (isWeb) {
+      if (isWeb && sentryReplayEnabled) {
         assign(sentryOptions, {
-          release: `${version}+${env}`,
           replaysSessionSampleRate: sentryReplaySampleRate,
           replaysOnErrorSampleRate: 1.0,
           integrations: [new sentry.Replay()],

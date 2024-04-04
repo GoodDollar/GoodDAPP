@@ -56,10 +56,10 @@ class IpfsStorage {
   async load(cid, withMetadata = false) {
     const { data, headers } = await this._loopkupGateways(cid)
     const mime = get(headers, 'content-type')
-    const binary = !mime.startsWith('text/')
+    const binary = mime && !mime.startsWith('text/')
     const format = binary ? 'DataURL' : 'Text'
     // eslint-disable-next-line import/namespace
-    const rawData = await FileAPI[`readAs${format}`](data)
+    const rawData = data && (await FileAPI[`readAs${format}`](data))
     const dataUrl = binary ? normalizeDataUrl(rawData, mime) : rawData
 
     if (withMetadata) {

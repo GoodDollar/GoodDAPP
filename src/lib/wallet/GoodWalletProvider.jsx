@@ -401,7 +401,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
             readOnlyChainId: undefined,
             readOnlyUrls: {
               1: 'https://rpc.ankr.com/eth',
-              5: 'https://rpc.ankr.com/eth_goerli',
               122: 'https://rpc.fuse.io',
               42220: 'https://forno.celo.org',
             },

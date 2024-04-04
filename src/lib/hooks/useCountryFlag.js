@@ -6,7 +6,7 @@ import ReactDOMServer from 'react-dom/server'
 
 const getCountryFlag = countryCode => {
   const code = countryCode.toUpperCase()
-  return flags[code]({})
+  return flags[code]?.({})
 }
 
 export const getCountryCodeForFlag = country => {

@@ -35,9 +35,10 @@ class TorusSDK {
   }
 
   constructor(config, options, logger) {
-    const { env, torusNetwork, torusUxMode = 'popup' } = config
+    const { env, torusWeb3AuthClientId, torusNetwork, torusUxMode = 'popup' } = config
 
     const torusOptions = defaults({}, options, {
+      web3AuthClientId: torusWeb3AuthClientId,
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
       uxMode: torusUxMode,
@@ -97,11 +98,16 @@ class TorusSDK {
 
     let torusUser = response
     let { userInfo, ...otherResponse } = torusUser
+    const { finalKeyData } = otherResponse
 
     if (userInfo) {
       // aggregate login returns an array with user info
       userInfo = first(userInfo) || userInfo
       torusUser = { ...otherResponse, ...userInfo }
+    }
+
+    if (finalKeyData && finalKeyData.privKey) {
+      torusUser.privateKey = finalKeyData.privKey
     }
 
     let { name, email, privateKey = '' } = torusUser

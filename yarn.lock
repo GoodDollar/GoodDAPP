@@ -12891,7 +12891,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/core@npm:^2.21.2, @web3-onboard/core@npm:^2.21.4":
+"@web3-onboard/core@npm:^2.21.2":
   version: 2.21.4
   resolution: "@web3-onboard/core@npm:2.21.4"
   dependencies:
@@ -12909,6 +12909,27 @@ __metadata:
     svelte: ^3.49.0
     svelte-i18n: ^3.3.13
   checksum: ed6070b5efa6a0e4efbfba6b2703aacd7aee68a6b6f69a4ea4cb96987fdd868e9d6ab67d22dfdce349a113fbdb41725798bba2e3b86860d9e0344e89cb425263
+  languageName: node
+  linkType: hard
+
+"@web3-onboard/core@npm:^2.21.3":
+  version: 2.21.3
+  resolution: "@web3-onboard/core@npm:2.21.3"
+  dependencies:
+    "@web3-onboard/common": ^2.3.4
+    bignumber.js: ^9.0.0
+    bnc-sdk: ^4.6.7
+    bowser: ^2.11.0
+    ethers: 5.5.3
+    eventemitter3: ^4.0.7
+    joi: 17.9.1
+    lodash.merge: ^4.6.2
+    lodash.partition: ^4.6.0
+    nanoid: ^4.0.0
+    rxjs: ^7.5.5
+    svelte: ^3.49.0
+    svelte-i18n: ^3.3.13
+  checksum: c313a703a91eaeee83a031cab59e51169eef9d43df427d52df325ea6401999f19bc28edd5a390b75d813199dcbee8e24430199a9576261034e0cbf7276d7b83a
   languageName: node
   linkType: hard
 
@@ -12937,15 +12958,15 @@ __metadata:
   linkType: hard
 
 "@web3-onboard/react@npm:^2.8.13":
-  version: 2.8.15
-  resolution: "@web3-onboard/react@npm:2.8.15"
+  version: 2.8.14
+  resolution: "@web3-onboard/react@npm:2.8.14"
   dependencies:
     "@web3-onboard/common": ^2.3.3
-    "@web3-onboard/core": ^2.21.4
+    "@web3-onboard/core": ^2.21.3
     use-sync-external-store: 1.0.0
   peerDependencies:
     react: ">=16.8"
-  checksum: 309031da8ac6c4143dc844bb26c02c501b022710f106f0c1399921fa2c606d3d2432c3fcf913e68daba15bb67eb6c5ad2c032a181eafd0d64accd296250f55c8
+  checksum: a5e456642a0a379665c8cef2543a5b87cc03e4de172829f0e34eb511d4c306aabd554fb5c2d502b8489f0f0504c913067d34113d3ace3ef1cf9828ce16cc4c80
   languageName: node
   linkType: hard
 

@@ -400,7 +400,7 @@ exports[`Settings matches snapshot 1`] = `
                         English-US
                       </div>
                       <div
-                        className="css-view-1dbjc4n r-height-tmtnm0 r-width-1tfmumk"
+                        className="css-view-1dbjc4n r-alignItems-1awozwy r-height-tmtnm0 r-justifyContent-1777fci r-width-1tfmumk"
                       >
                         <svg
                           height="32"

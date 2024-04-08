@@ -11269,7 +11269,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17, @types/react@npm:^17":
+"@types/react@npm:17":
+  version: 17.0.80
+  resolution: "@types/react@npm:17.0.80"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": ^0.16
+    csstype: ^3.0.2
+  checksum: 1c27bfc42305d77ef0da55f8f6d4c4a3471aa02b294fcf29ea0f2cfb0bf02892e5a0a3bc7559fa4a5ba50697b2e31076cb5aa5987f69cfc2e880f6426edb8bdf
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^17":
   version: 17.0.75
   resolution: "@types/react@npm:17.0.75"
   dependencies:
@@ -11322,6 +11333,13 @@ __metadata:
   version: 0.16.2
   resolution: "@types/scheduler@npm:0.16.2"
   checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
+  languageName: node
+  linkType: hard
+
+"@types/scheduler@npm:^0.16":
+  version: 0.16.8
+  resolution: "@types/scheduler@npm:0.16.8"
+  checksum: 6c091b096daa490093bf30dd7947cd28e5b2cd612ec93448432b33f724b162587fed9309a0acc104d97b69b1d49a0f3fc755a62282054d62975d53d7fd13472d
   languageName: node
   linkType: hard
 
@@ -12969,10 +12987,10 @@ __metadata:
   linkType: hard
 
 "@web3-onboard/core@npm:^2.21.2":
-  version: 2.21.2
-  resolution: "@web3-onboard/core@npm:2.21.2"
+  version: 2.21.4
+  resolution: "@web3-onboard/core@npm:2.21.4"
   dependencies:
-    "@web3-onboard/common": ^2.3.3
+    "@web3-onboard/common": ^2.3.4
     bignumber.js: ^9.0.0
     bnc-sdk: ^4.6.7
     bowser: ^2.11.0
@@ -12985,7 +13003,7 @@ __metadata:
     rxjs: ^7.5.5
     svelte: ^3.49.0
     svelte-i18n: ^3.3.13
-  checksum: 13fa0df0c5c8b84cd65e363c2f48f1cd2bcb95217ce570faf87d0e6752add80365fc5554cfb706c375124fcd1e10a0e7321b297f330064574ffb8ac80d16d490
+  checksum: ed6070b5efa6a0e4efbfba6b2703aacd7aee68a6b6f69a4ea4cb96987fdd868e9d6ab67d22dfdce349a113fbdb41725798bba2e3b86860d9e0344e89cb425263
   languageName: node
   linkType: hard
 
@@ -13010,14 +13028,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/injected-wallets@npm:^2.10.11":
-  version: 2.10.13
-  resolution: "@web3-onboard/injected-wallets@npm:2.10.13"
+"@web3-onboard/injected-wallets@npm:2.10.11":
+  version: 2.10.11
+  resolution: "@web3-onboard/injected-wallets@npm:2.10.11"
   dependencies:
     "@web3-onboard/common": ^2.3.3
     joi: 17.9.1
     lodash.uniqby: ^4.7.0
-  checksum: f583b3cfad856ac65703b556ac27f8e863e555c2fbfbd148ea2dc50b315e6bae8994905087ffa71202f90c1f07dbd2f748f86c6edabf53da5fac8c00a6e4e767
+  checksum: 8e8a5ff125d4e73d09b3b1020331afbc0032e14bb4054fa2ae5754ad1f4ae9cc80d6f17c4a1e50d92b0cef4593a747d46680a152d06e7a257a54444f8d85fe48
   languageName: node
   linkType: hard
 
@@ -44563,22 +44581,22 @@ __metadata:
   linkType: hard
 
 "typescript@npm:^5.3.3":
-  version: 5.3.3
-  resolution: "typescript@npm:5.3.3"
+  version: 5.4.4
+  resolution: "typescript@npm:5.4.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 2007ccb6e51bbbf6fde0a78099efe04dc1c3dfbdff04ca3b6a8bc717991862b39fd6126c0c3ebf2d2d98ac5e960bcaa873826bb2bb241f14277034148f41f6a2
+  checksum: a7b54515d2adfc75c8d14188af0216b6b9ae3c192c9732797c24b1d14608eac1c83be7b1c65ce6f4ced0f2c40583f11b495fe1ba3d982afadbcc523517d183c8
   languageName: node
   linkType: hard
 
 "typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
-  version: 5.3.3
-  resolution: "typescript@patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=14eedb"
+  version: 5.4.4
+  resolution: "typescript@patch:typescript@npm%3A5.4.4#~builtin<compat/typescript>::version=5.4.4&hash=14eedb"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f61375590b3162599f0f0d5b8737877ac0a7bc52761dbb585d67e7b8753a3a4c42d9a554c4cc929f591ffcf3a2b0602f65ae3ce74714fd5652623a816862b610
+  checksum: 34e8fe6b892736204c6c72ae9e3027fb37f23e34cf748340712101cbe9c55527c379c4d275c407e5c66ff73eca56c7425b1fb4ac5b23dc7a62413cf6a8af98e8
   languageName: node
   linkType: hard
 

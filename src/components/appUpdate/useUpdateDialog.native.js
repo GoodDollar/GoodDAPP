@@ -74,6 +74,7 @@ export default () => {
           )
           .catch(e => {
             log.warn('Hot code push sync error', e.message, e)
+            setHasSyncedCodePush(true)
           })
       }
     }

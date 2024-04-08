@@ -1,4 +1,4 @@
-import { get, sortBy } from 'lodash'
+import { sortBy } from 'lodash'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import { isMobileNative } from '../utils/platform'
@@ -38,7 +38,15 @@ class IpfsStorage {
     if (isMobileNative) {
       headers.origin = 'wallet.gooddollar.org'
     }
-    return fetch(url).then(_ => _.blob())
+    return fetch(url).then(async _ => {
+      let blob = await _.blob()
+
+      // fix for RN missing content type in blob
+      if (isMobileNative) {
+        blob = new Blob([blob], { type: _.headers.get('content-type') })
+      }
+      return blob
+    })
   }
 
   async store(dataUrl) {
@@ -54,12 +62,12 @@ class IpfsStorage {
   }
 
   async load(cid, withMetadata = false) {
-    const { data, headers } = await this._loopkupGateways(cid)
-    const mime = get(headers, 'content-type')
+    const blob = await this._loopkupGateways(cid)
+    const mime = blob?.type
     const binary = mime && !mime.startsWith('text/')
     const format = binary ? 'DataURL' : 'Text'
     // eslint-disable-next-line import/namespace
-    const rawData = data && (await FileAPI[`readAs${format}`](data))
+    const rawData = blob && (await FileAPI[`readAs${format}`](blob))
     const dataUrl = binary ? normalizeDataUrl(rawData, mime) : rawData
 
     if (withMetadata) {

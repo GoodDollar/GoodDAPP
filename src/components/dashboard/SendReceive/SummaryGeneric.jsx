@@ -318,7 +318,11 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    gap: 30,
+    ...Platform.select({
+      web: {
+        gap: 30,
+      },
+    }),
     marginBottom: theme.paddings.bottomPadding,
   },
   sendIconWrapper: {

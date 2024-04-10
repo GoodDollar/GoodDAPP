@@ -4758,7 +4758,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/abi@npm:5.7.0, @ethersproject/abi@npm:^5.0.1, @ethersproject/abi@npm:^5.5.0, @ethersproject/abi@npm:^5.6.3, @ethersproject/abi@npm:^5.6.4, @ethersproject/abi@npm:^5.7.0":
+"@ethersproject/abi@npm:5.7.0, @ethersproject/abi@npm:^5.5.0, @ethersproject/abi@npm:^5.6.3, @ethersproject/abi@npm:^5.6.4, @ethersproject/abi@npm:^5.7.0":
   version: 5.7.0
   resolution: "@ethersproject/abi@npm:5.7.0"
   dependencies:
@@ -5776,7 +5776,7 @@ __metadata:
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.42
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": ^0.2.20
+    "@gooddollar/web3sdk-v2": ^0.2.21
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -5825,7 +5825,6 @@ __metadata:
     "@walletconnect/react-native-compat": ^2.2.1
     "@walletconnect/utils": ^2.10.1
     "@walletconnect/web3wallet": 1.10.2
-    "@web3-onboard/react": ^2.7.2
     FormData: ^0.10.1
     abi-decoder: ^1.2.0
     abortcontroller-polyfill: ^1.7.3
@@ -6080,9 +6079,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:^0.2.20":
-  version: 0.2.20
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.20"
+"@gooddollar/web3sdk-v2@npm:^0.2.21":
+  version: 0.2.21
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.21"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -6113,6 +6112,7 @@ __metadata:
     "@web3modal/react": ^2.6.2
     base-64: ^1.0.0
     dexie: ^3.2.4
+    ethers: 5.7.2
     eventemitter3: ^4.0.7
     mixpanel-browser: ^2.45.0
     mixpanel-react-native: ^2.1.0
@@ -6128,7 +6128,7 @@ __metadata:
     "@react-native-async-storage/async-storage": 1.17.10
     react-native: "*"
     react-native-web: "*"
-  checksum: 1ea0793c3d6c43f60e422885ca9abbf933e339d8bba556620e1fe82374d0946e6efbce4de48e3bcc2eff5b6804f1c251ec4e4bbf68e65189229689a474ae6607
+  checksum: 26d590e73ef48718df56160854ed6dc2a1d46e12d1fcc9c1d2f478d691ff177eae276ff6a6866765197da35000cb0fe814eb3eb014a4fc80cf222318c96798e6
   languageName: node
   linkType: hard
 
@@ -11765,19 +11765,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unstoppabledomains/resolution@npm:^8.0":
-  version: 8.5.0
-  resolution: "@unstoppabledomains/resolution@npm:8.5.0"
-  dependencies:
-    "@ethersproject/abi": ^5.0.1
-    bn.js: ^4.4.0
-    cross-fetch: ^3.1.4
-    crypto-js: ^4.1.1
-    elliptic: ^6.5.4
-  checksum: 3deaae15c0ff9699a30306a5c2a4ff09a5fc9bd9f2c4e9ab22621e85bad7109cff5bfe8bebe2f334cf7b76e602e25b9af659a4d5f5dab44738b41a0b60d8d608
-  languageName: node
-  linkType: hard
-
 "@usedapp/core@npm:1.2.6":
   version: 1.2.6
   resolution: "@usedapp/core@npm:1.2.6"
@@ -12931,17 +12918,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/common@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "@web3-onboard/common@npm:2.3.1"
-  dependencies:
-    bignumber.js: ^9.1.0
-    ethers: 5.5.4
-    joi: 17.9.1
-  checksum: b1bc69d51cbe3d181e58fea33cf763edbfaaa46afff7bac41f7ccf964bdb1dcc9f5c08c732a9163dea05509bc07eaf16f39c0dc52784a41b67a01b632ef11c03
-  languageName: node
-  linkType: hard
-
 "@web3-onboard/common@npm:^2.3.3":
   version: 2.3.3
   resolution: "@web3-onboard/common@npm:2.3.3"
@@ -12961,28 +12937,6 @@ __metadata:
     ethers: 5.5.4
     joi: 17.9.1
   checksum: 10ce1a82c9e9830b07269bcda171219c385d2d493e9cbeb4bcd1f28d3c43629d418314e944419d4d1c26e387b8f23917ea18294a1f846ad69e302a749d78bafb
-  languageName: node
-  linkType: hard
-
-"@web3-onboard/core@npm:^2.16.2":
-  version: 2.16.2
-  resolution: "@web3-onboard/core@npm:2.16.2"
-  dependencies:
-    "@unstoppabledomains/resolution": ^8.0
-    "@web3-onboard/common": ^2.3.1
-    bignumber.js: ^9.0.0
-    bnc-sdk: ^4.6.7
-    bowser: ^2.11.0
-    ethers: 5.5.3
-    eventemitter3: ^4.0.7
-    joi: 17.9.1
-    lodash.merge: ^4.6.2
-    lodash.partition: ^4.6.0
-    nanoid: ^4.0.0
-    rxjs: ^7.5.5
-    svelte: ^3.49.0
-    svelte-i18n: ^3.3.13
-  checksum: cfb8085a92a79825feff9a2ac30feef89cceca8a2b5c749b5aa0e032d3caf2bdfc4d1b6c3b4bf84f76708706b1755f9362807bad09c916a0578d012662c39e13
   languageName: node
   linkType: hard
 
@@ -13036,19 +12990,6 @@ __metadata:
     joi: 17.9.1
     lodash.uniqby: ^4.7.0
   checksum: 8e8a5ff125d4e73d09b3b1020331afbc0032e14bb4054fa2ae5754ad1f4ae9cc80d6f17c4a1e50d92b0cef4593a747d46680a152d06e7a257a54444f8d85fe48
-  languageName: node
-  linkType: hard
-
-"@web3-onboard/react@npm:^2.7.2":
-  version: 2.7.2
-  resolution: "@web3-onboard/react@npm:2.7.2"
-  dependencies:
-    "@web3-onboard/common": ^2.3.1
-    "@web3-onboard/core": ^2.16.2
-    use-sync-external-store: 1.0.0
-  peerDependencies:
-    react: ">=16.8"
-  checksum: b0fcd42a586396559d05c97f4e6c772356c1a3c88d94b3db923dbbd77a75e2efa5221967f7390b2a44257bafe7b8fa1a1141602f3f13b2bf604c2fb1f0d32cc7
   languageName: node
   linkType: hard
 
@@ -19703,13 +19644,6 @@ __metadata:
   version: 3.3.0
   resolution: "crypto-js@npm:3.3.0"
   checksum: 193923143a4784b2f974366068d96fe8280168fd3fef2bfea9551a5c3e32096f5a8fa49ff4eeb5bd0b9716d325618d38cfbe6125e359a4ef488fbca93e600824
-  languageName: node
-  linkType: hard
-
-"crypto-js@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "crypto-js@npm:4.1.1"
-  checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
   languageName: node
   linkType: hard
 

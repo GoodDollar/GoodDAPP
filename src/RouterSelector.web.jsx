@@ -82,7 +82,7 @@ const RouterWrapper = () => {
   let [supported, checkBrowser] = useBrowserSupport({
     checkOnMounted: false,
     unsupportedPopup: UnsupportedWebview,
-    onCheck: () => !isWebView,
+    onCheck: () => !isWebView || isDeltaApp,
   })
 
   useEffect(() => {

@@ -22,12 +22,23 @@ export const FVFlowContext = createContext({
   cbu: null,
   isWebView: false,
   unsupportedCopyUrl: null,
+  isDelta: false,
 })
 
 const FVFlowProvider = props => {
   const unsupportedCopyUrl = DeepLinking.link
 
-  const { sig, nonce, fvsig: faceIdentifier, rdu, cbu, firstName, account, chain } = useRef(DeepLinking.params).current
+  const {
+    sig,
+    nonce,
+    fvsig: faceIdentifier,
+    rdu,
+    cbu,
+    firstName,
+    account,
+    chain,
+    isDelta,
+  } = useRef(DeepLinking.params).current
   const { jwt, error } = useFVFlow(sig, nonce, faceIdentifier, account)
 
   useEffect(() => {
@@ -52,6 +63,7 @@ const FVFlowProvider = props => {
         cbu,
         isWebView,
         unsupportedCopyUrl,
+        isDelta,
       }}
     >
       {props.children}

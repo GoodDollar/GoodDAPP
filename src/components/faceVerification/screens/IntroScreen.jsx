@@ -97,7 +97,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { fullName } = useProfile()
   const { showDialog } = useDialog()
 
-  const { firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
+  const { isDelta, firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
@@ -145,7 +145,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       requestCameraPermissions({ ignoreMountedState: true }) // we let the user try anyways. we add ignoreMOuntedState because when showing the unsupportedbrowser popup it unmounts
     },
     unsupportedPopup: UnsupportedWebview,
-    onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
+    onCheck: () => !isDelta || (!isWebView && (!isIOSWeb || iosSupportedWeb)),
   })
 
   const handleVerifyClick = useCallback(async () => {

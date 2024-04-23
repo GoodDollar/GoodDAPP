@@ -145,7 +145,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       requestCameraPermissions({ ignoreMountedState: true }) // we let the user try anyways. we add ignoreMOuntedState because when showing the unsupportedbrowser popup it unmounts
     },
     unsupportedPopup: UnsupportedWebview,
-    onCheck: () => (!isWebView && (!isIOSWeb || iosSupportedWeb)) || Config.isDeltaApp,
+    onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
 
   const handleVerifyClick = useCallback(async () => {

@@ -17,8 +17,6 @@ import {
   isTablet,
 } from 'mobile-device-detect'
 
-import Config from '../../'
-
 import { getSystemName, getSystemVersion, isEmulator as isEmulatedDevice } from './deviceInfo'
 
 import isWebApp from './isWebApp'
@@ -93,9 +91,8 @@ export const isWebView = Platform.select({
     const isIOSWV = isUserAgentWV || (!standalone && !isSafariWeb)
     const isAndroidWV = isUserAgentWV
     const isMinipay = !!ethereum?.isMiniPay //allow opera minipay as compatible webview
-    const isDelta = Config.isDeltaApp // allow delta as compatible webview
 
-    if (isMinipay || isDelta) {
+    if (isMinipay) {
       return false
     }
 

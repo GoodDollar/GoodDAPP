@@ -116,7 +116,7 @@ const notifyOpts = {
   })(),
 }
 
-const torusNetwork = env.REACT_APP_TORUS_NETWORK || 'testnet'
+const torusNetwork = env.REACT_APP_TORUS_NETWORK || 'sapphire_devnet'
 const isDeltaApp = env.REACT_APP_DELTA === 'true'
 
 const Config = {

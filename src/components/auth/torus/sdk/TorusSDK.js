@@ -42,6 +42,7 @@ class TorusSDK {
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
       uxMode: torusUxMode,
+      networkUrl: torusNetwork === 'testnet' ? 'https://eth-goerli.public.blastapi.io' : undefined,
     })
 
     this.torus = new Torus(config, torusOptions)

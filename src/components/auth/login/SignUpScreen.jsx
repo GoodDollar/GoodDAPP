@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useMemo } from 'react'
 import { Platform, View } from 'react-native'
 
-import { t, Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
@@ -36,31 +36,30 @@ const SignupText = ({ screenProps }) => {
 
   return (
     <>
-      <Trans>
-        <Text fontSize={12} color="gray80Percent">
-          {t`By signing up and entering, you are accepting our`}
-          {`\n`}
-          <Text
-            fontSize={12}
-            color="gray80Percent"
-            fontWeight="bold"
-            textDecorationLine="underline"
-            onPress={handleNavigateTermsOfUse}
-          >
-            {t`Terms of Use`}{' '}
-          </Text>
-          {t`and`}{' '}
-          <Text
-            fontSize={12}
-            color="gray80Percent"
-            fontWeight="bold"
-            textDecorationLine="underline"
-            onPress={handleNavigatePrivacyPolicy}
-          >
-            {t`Privacy Policy`}
-          </Text>
+      {/* <Trans> */}
+      <Text fontSize={12} color="gray80Percent">
+        {t`By signing up and entering, you are accepting our `}
+        <Text
+          fontSize={12}
+          color="gray80Percent"
+          fontWeight="bold"
+          textDecorationLine="underline"
+          onPress={handleNavigateTermsOfUse}
+        >
+          {t`Terms of Use`}{' '}
         </Text>
-      </Trans>
+        {t`and`}{' '}
+        <Text
+          fontSize={12}
+          color="gray80Percent"
+          fontWeight="bold"
+          textDecorationLine="underline"
+          onPress={handleNavigatePrivacyPolicy}
+        >
+          {t`Privacy Policy`}
+        </Text>
+      </Text>
+      {/* </Trans> */}
     </>
   )
 }

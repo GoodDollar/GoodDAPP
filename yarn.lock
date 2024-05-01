@@ -5774,7 +5774,7 @@ __metadata:
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
-    "@gooddollar/react-native-facetec": ^1.0.43
+    "@gooddollar/react-native-facetec": ^1.0.44
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.2.21
     "@hcaptcha/react-hcaptcha": ^1.6.0
@@ -6060,13 +6060,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:^1.0.43":
-  version: 1.0.43
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.43"
+"@gooddollar/react-native-facetec@npm:^1.0.44":
+  version: 1.0.44
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.44"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: 32ee65b48dbc46e7b94b26385c98f79f8846cc0250fcc42d47924c9502d359c7bc4177b8164b387ce15b3f59b978afc08eb81c9cb1e56bbc5555f4e09ca31026
+  checksum: 56ec8a5b96a0fc2877841fb84afa8cf9ad88674992b8c1cba38567844289776b4bb2a06419fc7ef53b642ce2f30547b73e85b93bb39c8a06aabbeafddd7ebadf
   languageName: node
   linkType: hard
 

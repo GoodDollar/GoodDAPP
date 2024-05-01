@@ -38,7 +38,7 @@ const SignupText = ({ screenProps }) => {
     <>
       {/* <Trans> */}
       <Text fontSize={12} color="gray80Percent">
-        {t`By signing up and entering, you are accepting our `}
+        {t`By signing up and entering, you are accepting our `}{' '}
         <Text
           fontSize={12}
           color="gray80Percent"
@@ -46,7 +46,7 @@ const SignupText = ({ screenProps }) => {
           textDecorationLine="underline"
           onPress={handleNavigateTermsOfUse}
         >
-          {t` Terms of Use`}{' '}
+          {t`Terms of Use`}{' '}
         </Text>
         {t`and`}{' '}
         <Text

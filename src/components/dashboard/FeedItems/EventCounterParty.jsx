@@ -113,10 +113,10 @@ const EventCounterParty = ({
 
   let displayText = itemSubtitle && subtitle ? itemSubtitle : selectDisplaySource
 
-  const endpointAddress =
-    displayText === 'GoodDollar (0x6B...7C5f)'
-      ? goodWallet.UBIContract._address
-      : get(feedItem, 'data.endpoint.address')
+  const ubiDisplayRegex = /GoodDollar \(0x..\.{3}....\)/
+  const endpointAddress = displayText.match(ubiDisplayRegex)
+    ? goodWallet.UBIContract._address
+    : get(feedItem, 'data.endpoint.address')
 
   let hasSubtitle = get(feedItem, 'data.readMore') !== false
 

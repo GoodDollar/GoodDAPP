@@ -46,7 +46,7 @@ const SignupText = ({ screenProps }) => {
           textDecorationLine="underline"
           onPress={handleNavigateTermsOfUse}
         >
-          {t`Terms of Use`}{' '}
+          {t` Terms of Use`}{' '}
         </Text>
         {t`and`}{' '}
         <Text

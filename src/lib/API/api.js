@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios'
-import { find, isArray } from 'lodash'
+import { find, isArray, shuffle } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { padLeft } from 'web3-utils'
@@ -12,7 +12,7 @@ import { JWT } from '../constants/localStorage'
 import AsyncStorage from '../utils/asyncStorage'
 
 import { throttleAdapter } from '../utils/axios'
-import { delay } from '../utils/async'
+import { delay, fallback } from '../utils/async'
 import { NETWORK_ID } from '../constants/network'
 import { log, logNetworkError, requestErrorHandler, responseErrorHandler, responseHandler } from './utils'
 
@@ -447,15 +447,21 @@ export class APIService {
       address,
     }
 
-    const { result } = await this.sharedClient.get('/api', {
-      params,
-      baseURL: explorer,
+    const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
+      const { result } = await this.sharedClient.get('/api', {
+        params,
+        baseURL,
+      })
+
+      if (!isArray(result)) {
+        log.warn('Failed to fetch contract ABI', { result, params, chainId, baseURL })
+        throw new Error('Failed to fetch contract ABI')
+      }
+
+      return result
     })
 
-    if (!isArray(result)) {
-      log.warn('Failed to fetch contract ABI', { result, params, chainId })
-      throw new Error('Failed to fetch contract ABI')
-    }
+    const result = await fallback(apis)
 
     return result
   }
@@ -485,12 +491,27 @@ export class APIService {
       return undefined
     }
 
-    const { result } = await this.sharedClient.get('/api', {
-      params,
-      baseURL: explorer,
+    const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
+      const { result } = await this.sharedClient.get('/api', {
+        params,
+        baseURL,
+      })
+
+      if (!isArray(result)) {
+        log.warn('Failed to fetch contract source', { result, params, chainId, baseURL })
+        throw new Error('Failed to fetch contract source')
+      }
+
+      return result[0]
     })
 
-    const res = Array.isArray(result) ? result[0] : result
+    const res = await fallback(apis)
+
+    // const { result } = await this.sharedClient.get('/api', {
+    //   params,
+    //   baseURL: explorer,
+    // })
+
     const impl = chainId === 42220 ? res?.Implementation : res?.ImplementationAddress
 
     if (res?.Proxy === '1' || res?.IsProxy === 'true') {
@@ -532,18 +553,29 @@ export class APIService {
     }
 
     for (;;) {
-      // eslint-disable-next-line no-await-in-loop
-      const { result: events } = await this.sharedClient.get('/api', {
-        params,
-        baseURL: explorer,
+      const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
+        const { result: events } = await this.sharedClient.get('/api', {
+          params,
+          baseURL,
+        })
+
+        if (!isArray(events)) {
+          log.warn('Failed to fetch OTP events from explorer', { events, params, chainId, baseURL })
+          throw new Error('Failed to fetch OTP events from explorer')
+        }
+
+        return events
       })
 
-      params.page += 1
+      // eslint-disable-next-line no-await-in-loop
+      const events = await fallback(apis)
 
-      if (!isArray(events)) {
-        log.warn('Failed to fetch OTP events from explorer', { events, params, chainId })
-        throw new Error('Failed to fetch OTP events from explorer')
-      }
+      // const { result: events } = await this.sharedClient.get('/api', {
+      //   params,
+      //   baseURL: explorer,
+      // })
+
+      params.page += 1
 
       txs.push(...events)
 
@@ -611,10 +643,9 @@ export class APIService {
   async getExplorerTxs(address, chainId, query, from = null, allPages = true) {
     const txs = []
     const url = '/api'
-    const networkExplorerUrl = Config.ethereum[chainId]?.explorerAPI
+    const explorer = Config.ethereum[chainId]?.explorerAPI
 
     const params = { ...query, module: 'account', address, sort: 'asc', page: 1, offset: 10000 }
-    const options = { baseURL: networkExplorerUrl, params }
 
     if (from) {
       params.start_block = from
@@ -622,17 +653,23 @@ export class APIService {
     }
 
     for (;;) {
-      const { result } = await this.sharedClient // eslint-disable-line no-await-in-loop
-        .get(url, options)
+      const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
+        const options = { baseURL, params }
+
+        const { result } = await this.sharedClient.get(url, options)
+        if (!isArray(result)) {
+          log.warn('Failed to fetch transactions from explorer', { result, params, chainId, baseURL })
+          throw new Error('Failed to fetch transactions from explorer')
+        }
+        return result
+      })
+
+      // eslint-disable-next-line no-await-in-loop
+      const result = await fallback(apis)
 
       const chunk = result.filter(({ value }) => value !== '0')
 
       params.page += 1
-
-      if (!isArray(result)) {
-        log.warn('Failed to fetch transactions from explorer', { result, params, chainId })
-        throw new Error('Failed to fetch transactions from explorer')
-      }
 
       txs.push(...chunk)
 

@@ -65,6 +65,7 @@ import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
 import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialog'
 import { useSecurityDialog } from '../security/securityDialog'
 import { useFeatureFlagOrDefault, useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
+import { GoodIdOnboard } from '../goodid/GoodIdOnboard'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -86,7 +87,6 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 import Settings from './Settings'
-
 const log = logger.child({ from: 'Dashboard' })
 const { isDeltaApp } = Config
 
@@ -1025,7 +1025,6 @@ const Dashboard = props => {
           ))}
         </Section.Row>
       </Section>
-
       <FeedList
         data={feedRef.current}
         handleFeedSelection={handleFeedSelection}
@@ -1295,6 +1294,7 @@ export default createStackNavigator({
   Home: WrappedDashboard,
   Delete: WrappedDashboard,
   Claim,
+  GoodIdOnboard,
   Receive,
   Who: {
     screen: Who,

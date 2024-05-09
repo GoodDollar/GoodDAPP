@@ -61,7 +61,7 @@ const ClaimButton = withStyles(getStylesFromProps)(({
     <PushButton
       disabled={isPending}
       canContinue={canContinue}
-      routeName="Claim"
+      routeName="GoodIdOnboard"
       testID="claim_button"
       screenProps={screenProps}
       style={[styles.claimButton, isPending ? styles.inQueue : undefined, style]}

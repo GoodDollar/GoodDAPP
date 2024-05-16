@@ -69,7 +69,6 @@ export default class UserProperties {
       } else {
         // otherwise sync withs storage in background
         this._syncProps(props)
-        this._syncFromRemote()
       }
 
       return this.data

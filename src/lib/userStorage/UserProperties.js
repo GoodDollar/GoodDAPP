@@ -1,15 +1,17 @@
 // @flow
-import { assign, clone, forIn, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
+import { assign, clone, forIn, isPlainObject, isString, noop, throttle } from 'lodash'
+import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
 import shallowEqual from 'fbjs/lib/shallowEqual'
 
 import AsyncStorage from '../utils/asyncStorage'
-import { retry } from '../utils/async'
+import { retry, withMutex } from '../utils/async'
 
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import pino from '../logger/js-logger'
 
 const log = pino.child({ from: 'UserProperties' })
+const mutex = new Mutex()
 
 /**
  * Keep user local and persisted flags/properties
@@ -61,16 +63,16 @@ export default class UserProperties {
       this.local = assign({}, localProps)
       this.throttlePersist = throttle(() => this.persist(), 5000, { leading: true, trailing: true })
 
-      log.debug('found local settings:', { props, localProps, local: this.local })
-
-      // if not props then block
-      if (isNil(props)) {
-        await this._syncFromRemote()
-      } else {
-        // otherwise sync withs storage in background
-        this._syncProps(props)
+      // Sync with local properties in this.ready only if they are set during app startup/sign-in,
+      // and remote properties synchronization is still in progress.
+      // In such cases, wait for remote sync to complete before syncing local properties.
+      // Otherwise, we only want to syncFromRemote during initialization.
+      if (mutex.isLocked()) {
+        await withMutex(mutex, () => this._syncProps(props))
+        return this.data
       }
 
+      await withMutex(mutex, () => this._syncFromRemote())
       return this.data
     })()
   }
@@ -89,6 +91,7 @@ export default class UserProperties {
 
       log.debug('got remote props:', { props })
       this._syncProps(props)
+      this.persist()
     } catch (e) {
       log.error('error getting remote props', e.message, e)
     }

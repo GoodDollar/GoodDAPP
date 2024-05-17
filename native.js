@@ -7,15 +7,16 @@ import 'react-native-gesture-handler'
 import env from './src/config/env'
 import App from './src/mainApp/AppHolder'
 import { name as appName } from './app.json'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import './src/lib/utils/deepLinking'
 import withHotCodePush from './src/lib/hoc/withHotCodePush'
 
 const DeApp = withHotCodePush(() => (
-  <>
+  <SafeAreaProvider>
     <WebviewCrypto />
     <App />
-  </>
+  </SafeAreaProvider>
 ))
 
 console.disableYellowBox = !!env.TEST_REACT_NATIVE

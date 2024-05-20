@@ -57,22 +57,13 @@ export default class UserProperties {
     this.data = assign({}, defaultProperties)
 
     this.ready = (async () => {
-      const props = await AsyncStorage.getItem('props')
       const localProps = await AsyncStorage.getItem('localProps')
 
       this.local = assign({}, localProps)
       this.throttlePersist = throttle(() => this.persist(), 5000, { leading: true, trailing: true })
 
-      // Sync with local properties in this.ready only if they are set during app startup/sign-in,
-      // and remote properties synchronization is still in progress.
-      // In such cases, wait for remote sync to complete before syncing local properties.
-      // Otherwise, we only want to syncFromRemote during initialization.
-      if (mutex.isLocked()) {
-        await withMutex(mutex, () => this._syncProps(props))
-        return this.data
-      }
-
       await withMutex(mutex, () => this._syncFromRemote())
+
       return this.data
     })()
   }
@@ -91,7 +82,6 @@ export default class UserProperties {
 
       log.debug('got remote props:', { props })
       this._syncProps(props)
-      this.persist()
     } catch (e) {
       log.error('error getting remote props', e.message, e)
     }

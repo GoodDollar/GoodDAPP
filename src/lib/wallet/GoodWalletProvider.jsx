@@ -222,7 +222,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
           await doLogin(wallet, storage, false)
         }
 
-        if (isLoggedInRouter) {
+        if (isLoggedInRouter || seedOrWeb3) {
           await storage.initRegistered()
 
           if (loginAndWatch) {

@@ -5,7 +5,7 @@
   "* the transaction may take\na few seconds to complete": "* the transaction may take\na few seconds to complete",
   "* works from any device": "* works from any device",
   "0 - NO WAY!": "안 돼요!",
-  "10 - FOR SURE!": "10 - FOR SURE!",
+  "10 - FOR SURE!": "10 - 물론이죠!",
   "12-word pass phrase:": "12-word pass phrase:",
   "<0>Claim cycle restart every day</0><1>at {claimCycleTime}</1>": "<0>Claim cycle restart every day</0><1>at {claimCycleTime}</1>",
   "<0>tALREADY REGISTERED?<1>{0}</1></0>": "<0>tALREADY REGISTERED?<1>{0}</1></0>",

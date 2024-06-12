@@ -1,6 +1,7 @@
 // @flow
 import React, { useContext } from 'react'
 import { Platform, View } from 'react-native'
+// eslint-disable-next-line import/no-named-as-default
 import LinearGradient from 'react-native-linear-gradient'
 import { isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'

@@ -1,0 +1,7 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "l10n_master": false
+    }
+  }
+}

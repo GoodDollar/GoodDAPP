@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorIcon matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-18u37iz r-justifyContent-1777fci r-marginVertical-1r5su4o"
+  >
+    <div
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-borderColor-1bakgjs r-borderRadius-ieixw r-borderWidth-1d6rzhh r-display-6koalj r-flexDirection-18u37iz r-height-37igu r-justifyContent-1777fci r-width-19554kt"
+    >
+      <div
+        className="css-text-901oao r-userSelect-lrvibr"
+        dir="auto"
+        style={
+          {
+            "color": "rgba(250,108,119,1.00)",
+            "fontFamily": "gooddollar",
+            "fontSize": "30px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        
+      </div>
+    </div>
+  </div>
+</div>
+`;

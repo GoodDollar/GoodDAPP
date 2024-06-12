@@ -5,6 +5,7 @@ import isWebApp from '../utils/isWebApp'
 import { isMobile } from '../utils/platform'
 import { resetLastSplash } from '../../components/splash/Splash'
 import { GlobalTogglesContext } from '../contexts/togglesContext'
+import * as serviceWorker from '../../serviceWorker'
 
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
@@ -15,8 +16,6 @@ const useServiceWorker = () => {
 
   useEffect(() => {
     if (!isMobile && setInstallPrompt && setServiceWorkerUpdated) {
-      const serviceWorker = require('../../serviceWorker')
-
       const onUpdate = reg => {
         setServiceWorkerUpdated(reg)
         navigator.serviceWorker.addEventListener('controllerchange', async () => {

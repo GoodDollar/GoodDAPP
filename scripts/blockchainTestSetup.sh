@@ -10,6 +10,7 @@ yarn
 npx patch-package
 yarn runNode &
 yarn deployTest
+echo "minimizing..."
 yarn minimize
 popd
 cp -R /tmp/goodprotocol/artifacts node_modules/@gooddollar/goodprotocol/

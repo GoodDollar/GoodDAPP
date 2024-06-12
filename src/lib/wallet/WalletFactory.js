@@ -8,16 +8,18 @@ export type WalletConfig = {
   httpWeb3provider: string,
   httpProviderStrategy: string,
   websocketWeb3Provider: string,
+  httpProviderRetries: number,
   web3Transport: string,
 }
 
 export default class WalletFactory {
   static create(walletConf: WalletConfig): Promise<Web3> {
-    const { httpProviderStrategy, networkId, ethereum } = Config
+    const { httpProviderStrategy, httpProviderRetries, networkId, ethereum } = Config
     const { network_id: netId, ...conf } = walletConf
 
     const provider: SoftwareWalletProvider = new SoftwareWalletProvider({
       ...ethereum[netId || networkId],
+      httpProviderRetries,
       httpProviderStrategy,
       ...conf,
     })

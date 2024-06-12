@@ -5,6 +5,7 @@ import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 import { hideRedBoxIfNonCritical } from '../utils/redBox'
 
 import FaceTecGlobalState from '../sdk/FaceTecGlobalState'
+import { FaceTecSDK } from '../sdk/FaceTecSDK'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
 
 import usePropsRefs from '../../../lib/hooks/usePropsRefs'
@@ -95,7 +96,7 @@ export default (config = {}) => {
       // corresponding to the kind of issue (camera, orientation etc)
       let { name } = exception
 
-      name = kindOfSDKIssue(exception) || name
+      name = kindOfSDKIssue(exception, FaceTecSDK.FaceTecSDKStatus) || name
       assign(exception, { type: ExceptionType.SDK, name })
 
       // handling initialization exceptions

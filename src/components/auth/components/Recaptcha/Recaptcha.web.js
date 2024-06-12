@@ -1,1 +1,3 @@
-export default from './HCaptchaWeb'
+import Recaptcha from './HCaptchaWeb'
+
+export default Recaptcha

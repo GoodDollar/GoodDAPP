@@ -5,6 +5,7 @@
 # Xcode
 #
 build/
+dist/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -86,7 +87,7 @@ account.data.txt
 # Localization build files
 src/language/locales/index.js
 src/language/locales/*/*.js
-
+src/language/locales/*/*.mjs
 # Bundle artifact
 *.jsbundle
 
@@ -111,3 +112,5 @@ service-worker.js
 .env_old
 .env_lewis
 .env.development
+.env.development.local
+dev-dist

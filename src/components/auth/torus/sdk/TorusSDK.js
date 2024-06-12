@@ -35,12 +35,14 @@ class TorusSDK {
   }
 
   constructor(config, options, logger) {
-    const { env, torusNetwork, torusUxMode = 'popup' } = config
+    const { env, torusWeb3AuthClientId, torusNetwork, torusUxMode = 'popup' } = config
 
     const torusOptions = defaults({}, options, {
+      web3AuthClientId: torusWeb3AuthClientId,
       network: torusNetwork, // details for test net
       enableLogging: env === 'development',
       uxMode: torusUxMode,
+      networkUrl: torusNetwork === 'testnet' ? 'https://eth-goerli.public.blastapi.io' : undefined,
     })
 
     this.torus = new Torus(config, torusOptions)
@@ -48,7 +50,7 @@ class TorusSDK {
     this.config = config
     this.logger = logger
 
-    bindAll(this, '_fetchStatusCode')
+    bindAll(this, '_wrapCall')
   }
 
   // eslint-disable-next-line require-await
@@ -56,15 +58,15 @@ class TorusSDK {
     return this.torus.init({ skipInit: !this.popupMode })
   }
 
-  async getRedirectResult() {
-    const { torus, _fetchStatusCode } = this
-    const { result } = await torus.getRedirectResult().catch(_fetchStatusCode)
+  async getRedirectResult(customLogger = null) {
+    const { torus, _wrapCall } = this
+    const { result } = await _wrapCall(torus.getRedirectResult(), customLogger)
 
     return this.fetchTorusUser(result)
   }
 
   async triggerLogin(verifier, customLogger = null) {
-    const { logger, strategies, _fetchStatusCode } = this
+    const { logger, strategies, _wrapCall } = this
     const log = customLogger || logger
     let withVerifier = verifier
 
@@ -75,7 +77,7 @@ class TorusSDK {
     }
 
     const strategy = strategies[withVerifier]
-    const response = await strategy.triggerLogin().catch(_fetchStatusCode)
+    const response = await _wrapCall(strategy.triggerLogin(), customLogger)
 
     // no response in case of redirect flow
     if (!this.popupMode) {
@@ -97,11 +99,16 @@ class TorusSDK {
 
     let torusUser = response
     let { userInfo, ...otherResponse } = torusUser
+    const { finalKeyData } = otherResponse
 
     if (userInfo) {
       // aggregate login returns an array with user info
       userInfo = first(userInfo) || userInfo
       torusUser = { ...otherResponse, ...userInfo }
+    }
+
+    if (finalKeyData && finalKeyData.privKey) {
+      torusUser.privateKey = finalKeyData.privKey
     }
 
     let { name, email, privateKey = '' } = torusUser
@@ -155,20 +162,35 @@ class TorusSDK {
   }
 
   /** @private */
-  _fetchStatusCode(exception) {
-    const { message } = exception
+  async _wrapCall(promise, customLogger = null) {
+    const { logger } = this
+    const log = customLogger || logger
 
-    values(TorusStatusCode).some(code => {
-      const matches = message.includes(code)
+    try {
+      const response = await promise
+      const { error } = response || {}
 
-      if (matches) {
-        exception.name = code
+      if (error) {
+        throw new Error(error)
       }
 
-      return matches
-    })
+      return response
+    } catch (exception) {
+      const { message } = exception
 
-    throw exception
+      values(TorusStatusCode).some(code => {
+        const matches = message.includes(code)
+
+        if (matches) {
+          exception.name = code
+        }
+
+        return matches
+      })
+
+      log.warn('torusSDK call failed', message, exception)
+      throw exception
+    }
   }
 }
 

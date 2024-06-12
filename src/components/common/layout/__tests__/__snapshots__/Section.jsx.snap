@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Section matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+  >
+    <div
+      className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+      dir="auto"
+    >
+      GoodDollar is a good economy, each day you can collect your part in the economy
+    </div>
+    <div
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+    >
+      <div
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        dir="auto"
+      >
+        TODAY'S DAILY INCOME 
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Section matches snapshot with properties 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+  >
+    <div
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+      style={
+        {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexGrow": 1,
+          "flexGrow": 1,
+          "msFlexPositive": 1,
+        }
+      }
+    >
+      <div
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        dir="auto"
+      >
+        Second text
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+      style={
+        {
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
+          "alignItems": "flex-end",
+          "msFlexAlign": "end",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+        dir="auto"
+      >
+        TODAY'S DAILY INCOME 
+      </div>
+    </div>
+  </div>
+</div>
+`;

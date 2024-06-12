@@ -12,9 +12,12 @@ import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTim
 import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
 import InvitesABI from '@gooddollar/goodprotocol/artifacts/abis/InvitesV2.min.json'
 import FaucetABI from '@gooddollar/goodprotocol/artifacts/abis/Faucet.min.json'
+
+import BuyGDCloneABI from '@gooddollar/goodprotocol/artifacts/abis/BuyGDClone.min.json'
+
 import { MultiCall } from 'eth-multicall'
 import Web3 from 'web3'
-import { BN, toBN } from 'web3-utils'
+import { BN, hexToNumber, toBN } from 'web3-utils'
 
 import abiDecoder from 'abi-decoder'
 import {
@@ -40,17 +43,17 @@ import {
 } from 'lodash'
 import moment from 'moment'
 import bs58 from 'bs58'
-import * as TextileCrypto from '@textile/crypto'
+import { PrivateKey } from '@textile/crypto'
 import { signTypedData } from '@metamask/eth-sig-util'
 import Mutex from 'await-mutex'
 import { pRateLimit } from 'p-ratelimit'
 import Config from '../../config/config'
-import logger from '../logger/js-logger'
 import { ExceptionCategory } from '../exceptions/utils'
 import { tryJson } from '../utils/string'
 import API from '../API'
 import { delay, retry } from '../utils/async'
 import { generateShareLink } from '../share'
+import logger from '../logger/js-logger'
 import WalletFactory from './WalletFactory'
 import {
   fromDecimals,
@@ -63,18 +66,18 @@ import {
   WITHDRAW_STATUS_UNKNOWN,
 } from './utils'
 
-import pricesQuery from './queries/reservePrices.gql'
-import interestQuery from './queries/interestReceived.gql'
+import { query as pricesQuery } from './queries/reservePrices'
+import { query as interestQuery } from './queries/interestReceived'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
+const log = logger.child({ from: 'GoodWalletV2' })
+
 // eslint-disable-next-line require-await
-export const retryCall = async asyncFn => retry(asyncFn, 3, 1000)
+export const retryCall = async (asyncFn, retries = 3, delay = 1000) => retry(asyncFn, retries, delay)
 
 const ZERO = new BN('0')
 const POKT_MAX_EVENTSBLOCKS = 40000
 const FIXED_SEND_GAS = 21000
-
-const log = logger.child({ from: 'GoodWalletV2' })
 
 type EventLog = {
   event: string,
@@ -214,9 +217,13 @@ export class GoodWallet {
     const mainnetNetworkId = get(ContractsAddress, this.mainnetNetwork + '.networkId', 122)
     const { httpWeb3provider: endpoints } = Config.ethereum[mainnetNetworkId]
 
-    this.web3Mainnet = new Web3(
-      new MultipleHttpProvider(uniq(endpoints.split(',')).map(provider => ({ provider, options: {} })), {}),
-    )
+    const mainnetEndpoints = uniq(endpoints.split(',')).map(provider => ({ provider, options: {} }))
+    const mainnetProviderOpts = {
+      strategy: Config.httpProviderStrategy,
+      retries: Config.httpProviderRetries,
+    }
+
+    this.web3Mainnet = new Web3(new MultipleHttpProvider(mainnetEndpoints, mainnetProviderOpts))
 
     const network = this.config.network
     const networkId = get(ContractsAddress, network + '.networkId', 122)
@@ -299,6 +306,9 @@ export class GoodWallet {
         // GOOD Contract
         this.GOODContract = addContract(GOODToken, 'GReputation')
 
+        // BuyGDClone Contract
+        this.BuyGDClone = addContract(BuyGDCloneABI, 'BuyGDFactoryV2')
+
         // debug print contracts addresses
         {
           const { network, networkId } = this
@@ -349,9 +359,7 @@ export class GoodWallet {
     this.isPollEvents = active
     if (!active) {
       this.pollEventsCurrentPromise && (await this.pollEventsCurrentPromise)
-      this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
       this.pollEventsCurrentPromise = null
-      this.pollEventsTimeout = null
     }
   }
 
@@ -370,6 +378,7 @@ export class GoodWallet {
             networkId: this.networkId,
             startBlock,
           })
+
           return this.syncTxWithBlockchain(startBlock)
         })
         this.lastEventsBlock = lastBlock
@@ -395,6 +404,9 @@ export class GoodWallet {
 
   // eslint-disable-next-line require-await
   async watchEvents(startFrom, lastBlockCallback) {
+    this.pollEventsTimeout && clearTimeout(this.pollEventsTimeout)
+    this.pollEventsTimeout = null
+
     const { account } = this
     let fromBlock = startFrom
 
@@ -434,6 +446,7 @@ export class GoodWallet {
         this._notifyReceipt(event.transactionHash).catch(err =>
           log.error('_notifyEvents event get/send receipt failed:', err.message, err, {
             category: ExceptionCategory.Blockhain,
+            event: event,
           }),
         ),
       ),
@@ -452,37 +465,33 @@ export class GoodWallet {
     const { _address: tokenAddress } = tokenContract || {}
     const { _address: otpAddress } = oneTimePaymentsContract || {}
 
-    // this is both send/receive events
-    let results = []
-    let otpResults = []
-    const tokenPromise = tokenAddress
-      ? API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
-          results.map(result => ({ ...result, transactionHash: result.hash })),
-        )
-      : Promise.resolve()
+    let withdrawEvents = []
+    let cancelEvents = []
+    let txEvents = []
 
     const withdrawHash = '0x39ca68a9f5d8038e871ef25a6622a56579cda4a6eedf63813574d23652e94048'
     const cancelHash = '0xb1f6a8f6b8fb527cfeec0df589160bc2a92ff715097117cb250e823c7106bc2f'
 
-    const otpPromise = otpAddress
-      ? Promise.all([
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, withdrawHash).then(results =>
-            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
-          ),
-          API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, cancelHash).then(results =>
-            results.map(result => ({ ...result, transactionHash: result.transactionHash })),
-          ),
-        ])
-      : Promise.resolve()
+    const getOTPL = hash => API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, hash)
 
-    ;[results, otpResults] = await Promise.all([tokenPromise, otpPromise])
+    txEvents = await API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
+      results.map(result => ({ ...result, transactionHash: result.transactionHash || result.hash })),
+    )
 
-    await Promise.all([
-      results.length > 0 ? this.processEvents(results, startBlock) : undefined,
-      otpResults.length > 0 ? this.processEvents(flatten(otpResults), startBlock) : undefined,
-    ])
+    if (otpAddress) {
+      withdrawEvents = await getOTPL(withdrawHash)
+      cancelEvents = await getOTPL(cancelHash)
+    }
 
-    const lastBlock = Number(last(results)?.blockNumber)
+    await this.processEvents([...txEvents, ...withdrawEvents, ...cancelEvents])
+
+    const lastBlockNumbers = [
+      last(txEvents)?.blockNumber,
+      hexToNumber(last(withdrawEvents)?.blockNumber),
+      hexToNumber(last(cancelEvents)?.blockNumber),
+    ].filter(blockNumber => !!blockNumber)
+
+    const lastBlock = lastBlockNumbers.length > 0 ? Math.max(...lastBlockNumbers) : undefined
 
     return lastBlock ? lastBlock + 1 : startBlock
   }
@@ -660,7 +669,7 @@ export class GoodWallet {
    */
   async getReceiptWithLogs(transactionHash: string) {
     const chainId = this.networkId
-    const transactionReceipt = await retryCall(() => this.wallet.eth.getTransactionReceipt(transactionHash))
+    const transactionReceipt = await retryCall(() => this.wallet.eth.getTransactionReceipt(transactionHash), 3, 3000)
 
     if (!transactionReceipt) {
       return null
@@ -723,16 +732,9 @@ export class GoodWallet {
 
   async checkEntitlement(): Promise<number> {
     try {
-      return await retryCall(() =>
-        this.UBIContract.methods
-          .checkEntitlement()
-          .call()
-          .then(parseInt),
-      )
+      return await retryCall(() => this.UBIContract.methods.checkEntitlement().call().then(parseInt))
     } catch (exception) {
-      const { message } = exception
-
-      log.error('checkEntitlement failed', message, exception)
+      log.error('checkEntitlement failed', exception.message, exception)
       return 0
     }
   }
@@ -892,9 +894,7 @@ export class GoodWallet {
 
       return balanceValue
     } catch (exception) {
-      const { message } = exception
-
-      log.error('BalanceOf failed', message, exception)
+      log.error('BalanceOf failed', exception.message, exception)
       return toBN(0)
     }
   }
@@ -962,10 +962,10 @@ export class GoodWallet {
   }
 
   // eslint-disable-next-line require-await
-  getEd25519Key(accountType: AccountUsage): TextileCrypto.PrivateKey {
+  getEd25519Key(accountType: AccountUsage): PrivateKey {
     const pkeySeed = this.accounts[this.getAccountForType(accountType)].privateKey.slice(2)
     const seed = Uint8Array.from(Buffer.from(pkeySeed, 'hex'))
-    return TextileCrypto.PrivateKey.fromRawEd25519Seed(seed)
+    return PrivateKey.fromRawEd25519Seed(seed)
   }
 
   /**
@@ -977,9 +977,7 @@ export class GoodWallet {
     try {
       return retryCall(() => this.identityContract.methods.isWhitelisted(address).call())
     } catch (exception) {
-      const { message } = exception
-
-      log.error('isVerified failed', message, exception)
+      log.error('isVerified failed', exception.message, exception)
       return false
     }
   }
@@ -1062,9 +1060,7 @@ export class GoodWallet {
 
       return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
-      const { message } = exception
-
-      log.error('canSend failed', message, exception)
+      log.error('canSend failed', exception.message, exception)
     }
     return false
   }
@@ -1084,9 +1080,7 @@ export class GoodWallet {
 
       return amountWithFee.lte(new BN(String(balance)))
     } catch (exception) {
-      const { message } = exception
-
-      log.error('canSendNative failed', message, exception)
+      log.error('canSendNative failed', exception.message, exception)
     }
     return false
   }
@@ -1168,9 +1162,7 @@ export class GoodWallet {
     try {
       return retryCall(() => this.oneTimePaymentsContract.methods.hasPayment(link).call())
     } catch (exception) {
-      const { message } = exception
-
-      log.error('isPaymentLinkAvailable failed', message, exception)
+      log.error('isPaymentLinkAvailable failed', exception.message, exception)
       return false
     }
   }
@@ -1183,9 +1175,11 @@ export class GoodWallet {
   async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
     try {
       const hashedCode = this.getWithdrawLink(otlCode)
-      const { paymentAmount, hasPayment, paymentSender: sender } = await retryCall(() =>
-        this.oneTimePaymentsContract.methods.payments(hashedCode).call(),
-      )
+      const {
+        paymentAmount,
+        hasPayment,
+        paymentSender: sender,
+      } = await retryCall(() => this.oneTimePaymentsContract.methods.payments(hashedCode).call())
       const amount = toBN(paymentAmount)
       let status = WITHDRAW_STATUS_UNKNOWN
 
@@ -1312,6 +1306,21 @@ export class GoodWallet {
     return result
   }
 
+  async isBountyClaimed() {
+    const invitee = this.account
+
+    // if all conditions are met during the join of an invitee the invite bounty is already collected
+    // so we need to verify if that happened
+    const alreadyCollected = await retryCall(() =>
+      this.invitesContract.methods
+        .users(invitee)
+        .call()
+        .then(user => user.bountyPaid),
+    )
+
+    return alreadyCollected
+  }
+
   async collectInviteBounty(invitee) {
     try {
       const bountyFor = invitee || this.account
@@ -1327,7 +1336,7 @@ export class GoodWallet {
 
   async isInviterCodeValid(inviterCode) {
     try {
-      const byteCode = this.wallet.utils.fromUtf8(inviterCode)
+      const byteCode = inviterCode.startsWith('0x') ? inviterCode : this.wallet.utils.fromUtf8(inviterCode)
       const registered = await retryCall(() => this.invitesContract.methods.codeToUser(byteCode).call())
 
       return registered !== NULL_ADDRESS
@@ -1366,15 +1375,9 @@ export class GoodWallet {
       // check under which account invitecode is registered, maybe we have a collission
       const registered = !hasJoined && (await retryCall(() => this.invitesContract.methods.codeToUser(myCode).call()))
       const inviterCode = inviter && this.wallet.utils.fromUtf8(inviter)
-      const inviterRegistered =
-        inviter &&
-        (await retryCall(() => this.invitesContract.methods.codeToUser(inviterCode).call()).then(
-          r => r !== NULL_ADDRESS,
-        ))
 
       log.debug('joinInvites:', {
         inviter,
-        inviterRegistered,
         registered,
         myCode,
         codeLength,
@@ -1390,7 +1393,8 @@ export class GoodWallet {
       }
 
       // not registered or not marked inviter
-      if (!hasJoined || (inviterRegistered && invitedBy === NULL_ADDRESS)) {
+      // NOTE: removed not registered for campaign codes with NULL_ADDRESS
+      if (!hasJoined || invitedBy === NULL_ADDRESS) {
         const tx = this.invitesContract.methods.join(myCode, inviter ? inviterCode : '0x0'.padEnd(66, 0))
 
         log.debug('joinInvites registering:', { inviter, myCode, inviteCode, hasJoined, codeLength, registered })

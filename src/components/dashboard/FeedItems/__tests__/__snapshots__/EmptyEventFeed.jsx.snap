@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackModalItem matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-padding-tuq35u r-width-13qz1uu"
+  >
+    <div
+      className="css-view-1dbjc4n r-alignSelf-173mn98 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+      style={
+        {
+          "WebkitAlignItems": "flex-start",
+          "WebkitBoxAlign": "start",
+          "alignItems": "flex-start",
+          "msFlexAlign": "start",
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          {
+            "backgroundColor": "rgba(238,238,238,1.00)",
+            "borderBottomLeftRadius": "17px",
+            "borderBottomRightRadius": "17px",
+            "borderTopLeftRadius": "17px",
+            "borderTopRightRadius": "17px",
+            "height": "34px",
+            "width": "34px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="css-view-1dbjc4n r-alignItems-1oszu61 r-flexDirection-eqz5dr r-justifyContent-1wtj0ep r-marginLeft-13hce6t"
+      style={
+        {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexGrow": 1,
+          "flexGrow": 1,
+          "msFlexPositive": 1,
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-borderBottomColor-1fn3lry r-borderBottomStyle-rull8r r-borderBottomWidth-wgabs5 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-15zivkp r-paddingBottom-iphfwy"
+      >
+        <div
+          className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+          style={
+            {
+              "WebkitAlignItems": "flex-start",
+              "WebkitBoxAlign": "start",
+              "alignItems": "flex-start",
+              "msFlexAlign": "start",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              {
+                "backgroundColor": "rgba(238,238,238,1.00)",
+                "height": "10px",
+                "width": "74px",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+      >
+        <div
+          className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+          style={
+            {
+              "WebkitAlignItems": "flex-start",
+              "WebkitBoxAlign": "start",
+              "WebkitBoxFlex": 1,
+              "WebkitFlexGrow": 1,
+              "alignItems": "flex-start",
+              "flexGrow": 1,
+              "msFlexAlign": "start",
+              "msFlexPositive": 1,
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                {
+                  "backgroundColor": "rgba(238,238,238,1.00)",
+                  "height": "18px",
+                  "width": "120px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+          >
+            <div
+              className="css-view-1dbjc4n r-marginTop-14gqq1x"
+              style={
+                {
+                  "backgroundColor": "rgba(238,238,238,1.00)",
+                  "height": "10px",
+                  "width": "74px",
+                }
+              }
+            />
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-flexDirection-eqz5dr r-justifyContent-1wtj0ep"
+          style={
+            {
+              "WebkitAlignItems": "flex-end",
+              "WebkitBoxAlign": "end",
+              "alignItems": "flex-end",
+              "msFlexAlign": "end",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              {
+                "backgroundColor": "rgba(238,238,238,1.00)",
+                "borderBottomLeftRadius": "17px",
+                "borderBottomRightRadius": "17px",
+                "borderTopLeftRadius": "17px",
+                "borderTopRightRadius": "17px",
+                "height": "34px",
+                "width": "34px",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

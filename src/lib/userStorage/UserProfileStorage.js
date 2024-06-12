@@ -1,5 +1,5 @@
 // @flow
-import TextileCrypto from '@textile/crypto' // eslint-disable-line import/default
+import { PrivateKey } from '@textile/crypto' // eslint-disable-line import/default
 import isEmail from '../validators/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 
@@ -60,7 +60,7 @@ export class UserProfileStorage implements ProfileStorage {
   // unecrypted profile field values
   profile: Profile = {}
 
-  constructor(wallet: GoodWallet, profiledb: ProfileDB, privateKey: TextileCrypto.PrivateKey) {
+  constructor(wallet: GoodWallet, profiledb: ProfileDB, privateKey: PrivateKey) {
     this.wallet = wallet
     this.profiledb = profiledb
     this.privateKey = privateKey

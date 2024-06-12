@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FaceVerification DuplicateFoundError matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co r-width-13qz1uu"
+    style={
+      {
+        "WebkitBoxPack": "space-evenly",
+        "WebkitJustifyContent": "space-evenly",
+        "justifyContent": "space-evenly",
+        "msFlexPack": "space-evenly",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-majxgm r-lineHeight-qvk6io r-marginVertical-c8eef1 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      dir="auto"
+    >
+      Unfortunately,
+we couldn't confirm your identity...
+    </div>
+    <div
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+      style={
+        {
+          "WebkitBoxPack": "space-evenly",
+          "WebkitJustifyContent": "space-evenly",
+          "justifyContent": "space-evenly",
+          "msFlexPack": "space-evenly",
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-maxHeight-wwnmln r-width-1h2t8mc"
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            {
+              "height": "100%",
+            }
+          }
+        />
+      </div>
+      <div
+        className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginLeft-11wrixw r-marginRight-61z16t r-marginTop-1mnahxq r-maxHeight-wwnmln r-width-1h2t8mc"
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            {
+              "height": "100%",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
+    >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          {
+            "backgroundColor": "rgba(0,175,255,1.00)",
+            "borderBottomLeftRadius": "1px",
+            "borderBottomRightRadius": "1px",
+            "borderTopLeftRadius": "1px",
+            "borderTopRightRadius": "1px",
+            "height": "2px",
+          }
+        }
+      />
+      <div
+        className="css-view-1dbjc4n r-paddingBottom-1mdbw0j r-paddingTop-wk8lta"
+      >
+        <div
+          className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          Your face doesn't match the snapshot 
+from the previous verification
+        </div>
+        <div
+          className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          dir="auto"
+        >
+          You could pass verification only by yourself 
+If you're sure this is your account 
+please contact our support
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          {
+            "backgroundColor": "rgba(0,175,255,1.00)",
+            "borderBottomLeftRadius": "1px",
+            "borderBottomRightRadius": "1px",
+            "borderTopLeftRadius": "1px",
+            "borderTopRightRadius": "1px",
+            "height": "2px",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

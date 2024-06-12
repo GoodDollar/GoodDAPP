@@ -39,27 +39,27 @@ export const fuseNetwork = {
 const ethereum = {
   '1': {
     network_id: 1,
-    httpWeb3provider: `https://1rpc.io/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    httpWeb3provider: `https://1rpc.io/eth,https://eth-pokt.nodies.app,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://etherscan.io',
+    explorerAPI: 'https://api.etherscan.io',
+    explorerName: 'etherscan',
+  },
+  '3': {
+    network_id: 1,
+    httpWeb3provider: `https://1rpc.io/eth,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
     explorerAPI: 'https://api.etherscan.io',
     explorerName: 'etherscan',
     gasPrice: 1,
   },
-  '3': {
-    network_id: 3,
-    httpWeb3provider: `https://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    websocketWeb3Provider: `wss://eth-ropsten.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://ropsten.etherscan.io',
-    explorerAPI: 'https://ropsten.etherscan.io',
-    explorerName: 'etherscan',
-  },
   '5': {
-    network_id: 5,
-    httpWeb3provider: `https://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
-    websocketWeb3Provider: `wss://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
-    explorer: 'https://goerli.etherscan.io',
-    explorerAPI: 'https://goerli.etherscan.io',
+    network_id: 1,
+    httpWeb3provider: `https://1rpc.io/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    explorer: 'https://etherscan.io',
+    explorerAPI: 'https://api.etherscan.io',
     explorerName: 'etherscan',
   },
 
@@ -90,7 +90,7 @@ const ethereum = {
   '42220': {
     httpWeb3provider: celoRpc,
     explorer: 'https://celoscan.io',
-    explorerAPI: 'https://api.celoscan.io',
+    explorerAPI: 'https://api.celoscan.io,https://explorer.celo.org/mainnet',
     explorerName: 'celoscan',
     network_id: 42220,
     startBlock: 18000000,    
@@ -168,6 +168,7 @@ const Config = {
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
   mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
   httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'random',
+  httpProviderRetries: Number(env.REACT_APP_WEB3_RPC_RETRIES || 1),
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
@@ -179,6 +180,8 @@ const Config = {
   enableShortUrl: env.REACT_APP_ENABLE_SHORTURL === 'true',
   displayStartClaimingCardTime: env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
   sentryDSN: env.REACT_APP_SENTRY_DSN,
+  sentryReplaySampleRate: Number(env.REACT_APP_SENTRY_REPLAY_SAMPLE_RATE || 1.0),
+  sentryReplayEnabled: env.REACT_APP_SENTRY_REPLAY_ENABLED === 'true',
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   poweredByUrl: env.REACT_APP_POWERED_BY_URL || 'https://vercel.com/?utm_source=gooddollar&utm_campaign=oss',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
@@ -190,6 +193,7 @@ const Config = {
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
   torusUxMode: isWeb ? env.REACT_APP_TORUS_UXMODE || 'redirect' : 'popup',
   torusRedirectUrl: isDeltaApp ? env.REACT_APP_TORUS_REDIRECT_URL || publicUrl : publicUrl, // REACT_APP_TORUS_REDIRECT_URL avalable for Delta ONLY
+  torusWeb3AuthClientId: env.REACT_APP_TORUS_WEB3AUTH_CLIENT_ID,
   abTestPercentage: env.REACT_APP_AB_TEST_PERCENTAGE || 0.5,
   smsRateLimit: env.REACT_APP_SMS_RATE_LIMIT || 60 * 1000, // rate limit for sms code verification resend
   recaptchaSiteKey: env.REACT_APP_RECAPTCHA_SITE_KEY,
@@ -227,7 +231,7 @@ const Config = {
   tatumApiUrl: env.REACT_APP_TATUM_API_URL || 'https://api.tatum.io/v3',
   posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
   fvTypeformUrl: 'https://gooddollar.typeform.com/to/Prgnwkrz',
-  gasFeeNotionUrl: 'https://www.notion.so/gooddollar/Why-does-it-say-I-m-Out-of-Gas-d92e5e20b6144dfbb12979e266e72959'
+  gasFeeNotionUrl: 'https://www.notion.so/gooddollar/Why-does-it-say-I-m-Out-of-Gas-d92e5e20b6144dfbb12979e266e72959',
 }
 
 global.config = Config

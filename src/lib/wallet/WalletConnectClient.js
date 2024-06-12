@@ -166,6 +166,27 @@ export const useWalletConnectSession = () => {
   const { showErrorDialog } = useDialog()
   const chains = useChainsList()
 
+  const setV2Session = useCallback(
+    (sessionv2, event) => {
+      let requestedChainIdV2 = Number(
+        (event?.params?.chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
+      )
+      log.info('settingv2session', { sessionv2, requestedChainIdV2, chain })
+      if (sessionv2) {
+        log.debug('setting v2 session and active connector', { sessionv2, cachedV2Connector, requestedChainIdV2 })
+        setConnector(cachedV2Connector)
+        setSession({
+          ...sessionv2.peer.metadata,
+          topic: sessionv2.topic,
+          chainId: requestedChainIdV2,
+        })
+        setChain(chains.find(_ => _.chainId === requestedChainIdV2))
+        AsyncStorage.setItem('walletconnect_requestedChain_v2', requestedChainIdV2)
+      }
+    },
+    [setSession, setConnector, wallet, chain, chains],
+  )
+
   const decodeTx = useCallback(
     async (tx, explorer, web3, chainId) => {
       log.info('decodetx:', { tx, explorer, chainId })
@@ -242,6 +263,18 @@ export const useWalletConnectSession = () => {
     const { method, params } = payload?.params?.request || payload
     return { method, params }
   }
+
+  const reconnectV2 = useCallback(async () => {
+    log.debug('reconnect v2:', { isInitialized, cachedV2Connector })
+
+    if (isInitialized) {
+      // handle v2
+      const sessions = cachedV2Connector.getActiveSessions()
+      const sessionv2 = last(Object.values(sessions))
+      log.debug('reconnecting v2:', { sessions, sessionv2 })
+      setV2Session(sessionv2)
+    }
+  }, [isInitialized, setV2Session])
 
   const handleSessionRequest = useCallback(
     (connector, payload) => {
@@ -482,7 +515,7 @@ export const useWalletConnectSession = () => {
             if (method === 'eth_signTransaction') {
               const result = await wallet.signTransaction(message)
               log.info('tx sign success:', { result })
-              approveRequest(connector, payload.id, payload.topic, result)
+              approveRequest(connector, payload.id, payload.topic, result.rawTransaction)
             }
 
             if (method === 'eth_sendTransaction') {
@@ -770,19 +803,29 @@ export const useWalletConnectSession = () => {
         }
       }
     },
-    [
-      wallet,
-      activeConnector,
-      handleSessionDisconnect,
-      handleSessionRequest,
-      handleSignRequest,
-      handleTxRequest,
-      handleSwitchChainRequest,
-      handleUnsupportedRequest,
-      handleScanRequest,
-      isInitialized,
-    ],
+    [wallet, handleSessionRequest, isInitialized],
   )
+
+  const disconnect = useCallback(() => {
+    if (activeConnector) {
+      handleSessionDisconnect(activeConnector)
+    }
+  }, [activeConnector, handleSessionDisconnect])
+
+  const reconnectV1 = useCallback(async () => {
+    log.debug('reconnect V1:', { activeConnector, isInitialized, cachedV2Connector })
+
+    const session = await AsyncStorage.getItem('walletconnect')
+    const chainId = await AsyncStorage.getItem('walletconnect_requestedChain')
+
+    log.debug('reconnecting v1:', { session, chainId })
+    if (session && !activeConnector) {
+      return connect(
+        session,
+        session.chainId,
+      )
+    }
+  }, [activeConnector, connect])
 
   const sendTx = useCallback(
     async (params, payload, web3, chainDetails, connector) => {
@@ -834,6 +877,62 @@ export const useWalletConnectSession = () => {
       activeConnector,
     )
   }, [sendTx, chain, activeConnector, chainPendingTxs])
+
+  //v1 connector initialize
+  const initializeV1 = connector => {
+    log.debug('subscribing to v1 connector', { connector })
+
+    const unsubscribe = () => {
+      connector.off('disconnect')
+      connector.off('call_request')
+      connector.off('session_request')
+    }
+
+    // since connector is cached it could an already existing one, so we clear the subscriptions
+    unsubscribe()
+
+    // Subscribe to session requests
+    connector.on('session_request', (error, payload) => {
+      log.debug('session_request:', { payload, error })
+      if (error) {
+        throw error
+      }
+
+      handleSessionRequest(connector, payload)
+    })
+
+    // Subscribe to call requests
+    connector.on('call_request', (error, payload) => {
+      const { method, params } = payload
+      log.debug('call_request:', { payload, error, method, params })
+
+      if (error) {
+        throw error
+      }
+
+      setConnector(connector)
+      handleCallRequest(connector, payload)
+    })
+
+    connector.on('disconnect', (error, payload) => {
+      log.debug('disconnect:', { payload, error })
+
+      if (error) {
+        throw error
+      }
+
+      handleSessionDisconnect(connector)
+    })
+
+    // DO NOT STOP SUBSCRIPTIONS ON UNMOUNT, so user sees incoming requests even when in other screens
+    // return unsubscrube
+  }
+
+  const loadPendingTxs = async () => {
+    const txKeys = (await AsyncStorage.getAllKeys()).filter(_ => _.startsWith('GD_WALLETCONNECT_PENDING_'))
+    const txs = (await AsyncStorage.multiGet(txKeys)).map(_ => _[1])
+    setPending(txs)
+  }
 
   // initialize v2 connector effect
   useEffect(() => {
@@ -892,115 +991,6 @@ export const useWalletConnectSession = () => {
     handleSessionRequest,
     handleSessionDisconnect,
   ])
-
-  //v1 connector initialize
-  const initializeV1 = connector => {
-    log.debug('subscribing to v1 connector', { connector })
-
-    const unsubscribe = () => {
-      connector.off('disconnect')
-      connector.off('call_request')
-      connector.off('session_request')
-    }
-
-    // since connector is cached it could an already existing one, so we clear the subscriptions
-    unsubscribe()
-
-    // Subscribe to session requests
-    connector.on('session_request', (error, payload) => {
-      log.debug('session_request:', { payload, error })
-      if (error) {
-        throw error
-      }
-
-      handleSessionRequest(connector, payload)
-    })
-
-    // Subscribe to call requests
-    connector.on('call_request', (error, payload) => {
-      const { method, params } = payload
-      log.debug('call_request:', { payload, error, method, params })
-
-      if (error) {
-        throw error
-      }
-
-      setConnector(connector)
-      handleCallRequest(connector, payload)
-    })
-
-    connector.on('disconnect', (error, payload) => {
-      log.debug('disconnect:', { payload, error })
-
-      if (error) {
-        throw error
-      }
-
-      handleSessionDisconnect(connector)
-    })
-
-    // DO NOT STOP SUBSCRIPTIONS ON UNMOUNT, so user sees incoming requests even when in other screens
-    // return unsubscrube
-  }
-
-  const disconnect = useCallback(() => {
-    if (activeConnector) {
-      handleSessionDisconnect(activeConnector)
-    }
-  }, [activeConnector, handleSessionDisconnect])
-
-  const setV2Session = useCallback(
-    (sessionv2, event) => {
-      let requestedChainIdV2 = Number(
-        (event?.params?.chainId || sessionv2?.namespaces?.eip155?.chains?.[0] || `:${wallet.networkId}`).split(':')[1],
-      )
-      log.info('settingv2session', { sessionv2, requestedChainIdV2, chain })
-      if (sessionv2) {
-        log.debug('setting v2 session and active connector', { sessionv2, cachedV2Connector, requestedChainIdV2 })
-        setConnector(cachedV2Connector)
-        setSession({
-          ...sessionv2.peer.metadata,
-          topic: sessionv2.topic,
-          chainId: requestedChainIdV2,
-        })
-        setChain(chains.find(_ => _.chainId === requestedChainIdV2))
-        AsyncStorage.setItem('walletconnect_requestedChain_v2', requestedChainIdV2)
-      }
-    },
-    [setSession, setConnector, wallet, chain, chains],
-  )
-  const reconnectV1 = useCallback(async () => {
-    log.debug('reconnect V1:', { activeConnector, isInitialized, cachedV2Connector })
-
-    const session = await AsyncStorage.getItem('walletconnect')
-    const chainId = await AsyncStorage.getItem('walletconnect_requestedChain')
-
-    log.debug('reconnecting v1:', { session, chainId })
-    if (session && !activeConnector) {
-      return connect(
-        session,
-        session.chainId,
-      )
-    }
-  }, [activeConnector, connect])
-
-  const reconnectV2 = useCallback(async () => {
-    log.debug('reconnect v2:', { isInitialized, cachedV2Connector })
-
-    if (isInitialized) {
-      // handle v2
-      const sessions = cachedV2Connector.getActiveSessions()
-      const sessionv2 = last(Object.values(sessions))
-      log.debug('reconnecting v2:', { sessions, sessionv2 })
-      setV2Session(sessionv2)
-    }
-  }, [isInitialized, setV2Session])
-
-  const loadPendingTxs = async () => {
-    const txKeys = (await AsyncStorage.getAllKeys()).filter(_ => _.startsWith('GD_WALLETCONNECT_PENDING_'))
-    const txs = (await AsyncStorage.multiGet(txKeys)).map(_ => _[1])
-    setPending(txs)
-  }
 
   useEffect(() => {
     loadPendingTxs()

@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalCloseButton matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1r8g8re r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1acpoxo r-zIndex-pezta"
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onKeyDown={[Function]}
+    style={
+      {
+        "WebkitTransitionDuration": "0s",
+        "transitionDuration": "0s",
+      }
+    }
+    tabIndex="0"
+  >
+    <div
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-6ncur5 r-height-1r8g8re r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-bnwqim r-width-1acpoxo"
+    >
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderRadius-1ylenci r-display-6koalj r-height-1g7fiml r-justifyContent-1777fci r-marginLeft-193dp3 r-marginTop-19qrga8 r-position-bnwqim r-width-199wky7"
+      >
+        <div
+          className="css-text-901oao r-userSelect-lrvibr"
+          dir="auto"
+          style={
+            {
+              "color": "rgba(163,163,163,1.00)",
+              "fontFamily": "gooddollar",
+              "fontSize": "20px",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+              "marginBottom": "auto",
+              "marginLeft": "auto",
+              "marginRight": "auto",
+              "marginTop": "auto",
+            }
+          }
+        >
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalCloseButton matches snapshot with properties 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1r8g8re r-position-u8s1d r-right-zchlnj r-top-1nd9uzx r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-1acpoxo r-zIndex-pezta"
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onKeyDown={[Function]}
+    style={
+      {
+        "WebkitTransitionDuration": "0s",
+        "transitionDuration": "0s",
+      }
+    }
+    tabIndex="0"
+  >
+    <div
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-6ncur5 r-height-1r8g8re r-marginLeft-1jj8364 r-marginRight-1bbvk3j r-position-bnwqim r-width-1acpoxo"
+    >
+      <div
+        className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-l26x2w r-borderRadius-1ylenci r-display-6koalj r-height-1g7fiml r-justifyContent-1777fci r-marginLeft-193dp3 r-marginTop-19qrga8 r-position-bnwqim r-width-199wky7"
+      >
+        <div
+          className="css-text-901oao r-userSelect-lrvibr"
+          dir="auto"
+          style={
+            {
+              "color": "rgba(163,163,163,1.00)",
+              "fontFamily": "gooddollar",
+              "fontSize": "20px",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+              "marginBottom": "auto",
+              "marginLeft": "auto",
+              "marginRight": "auto",
+              "marginTop": "auto",
+            }
+          }
+        >
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

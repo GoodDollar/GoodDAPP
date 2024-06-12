@@ -130,8 +130,8 @@ class SoftwareWalletProvider {
   /** @private */
   _createHttpProvider() {
     const { infuraKey, publicUrl } = Config
-    const { httpWeb3provider, httpProviderStrategy } = this.conf
-    const config = { strategy: httpProviderStrategy }
+    const { httpWeb3provider, httpProviderStrategy, httpProviderRetries } = this.conf
+    const config = { strategy: httpProviderStrategy, retries: httpProviderRetries }
 
     // parsing multiple rpc urls
     const endpoints = uniq(httpWeb3provider.split(',')).map(endpoint => {
@@ -148,7 +148,10 @@ class SoftwareWalletProvider {
             const userAgentString = `Mozilla/5.0 GoodDollar Wallet`
 
             options = {
-              headers: [{ name: 'User-Agent', value: userAgentString }, { name: 'Origin', value: publicUrl }],
+              headers: [
+                { name: 'User-Agent', value: userAgentString },
+                { name: 'Origin', value: publicUrl },
+              ],
             }
           }
           break

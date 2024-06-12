@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SwitchToChromeOrSafari matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-display-6koalj r-justifyContent-a2tzq0 r-marginBottom-1qahzrx r-marginTop-1t01tom r-maxHeight-pm9dpa"
+  >
+    <div
+      className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-justifyContent-1777fci"
+    >
+      <div
+        className="css-view-1dbjc4n r-alignSelf-1kihuf0 r-marginBottom-1peese0 r-width-13qz1uu"
+        style={
+          {
+            "marginTop": "0px",
+          }
+        }
+      >
+        <UnsuportedBrowser.svg />
+      </div>
+    </div>
+    <div
+      className="css-text-901oao r-color-cddv6f r-fontFamily-6jnb14 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginBottom-1peese0 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+      dir="auto"
+    >
+      For best user 
+experience switch to
+Chrome or Safari browsers
+    </div>
+  </div>
+</div>
+`;

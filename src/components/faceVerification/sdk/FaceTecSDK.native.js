@@ -1,7 +1,7 @@
 // @flow
 import { assign, noop, over } from 'lodash'
 
-import { FaceTecUxEvent, sdk } from '@gooddollar/react-native-facetec'
+import { FaceTecSDKStatus, FaceTecSessionStatus, FaceTecUxEvent, sdk } from '@gooddollar/react-native-facetec'
 
 import api from '../../../lib/API'
 import Config from '../../../config/config'
@@ -9,14 +9,12 @@ import logger from '../../../lib/logger/js-logger'
 
 import { MAX_RETRIES_ALLOWED } from './FaceTecSDK.constants'
 
-export { FaceTecSDKStatus, FaceTecSessionStatus } from '@gooddollar/react-native-facetec'
-
 // sdk class
-export const FaceTecSDK = new class {
+export const FaceTecSDK = new (class {
   constructor(Config, sdk, logger) {
     const { serverUrl, faceVerificationRequestTimeout } = Config
 
-    assign(this, { sdk, logger, serverUrl })
+    assign(this, { sdk, logger, serverUrl, FaceTecSDKStatus, FaceTecSessionStatus })
     this.requestTimeout = faceVerificationRequestTimeout
   }
 
@@ -41,8 +39,12 @@ export const FaceTecSDK = new class {
     const { sdk, logger, requestTimeout } = this
     // eslint-disable-next-line no-undef
     const { UI_READY, CAPTURE_DONE, FV_RETRY } = FaceTecUxEvent
-    const { onUIReady = noop, onCaptureDone = noop, onRetry = noop, maxRetries = MAX_RETRIES_ALLOWED } =
-      sessionOptions || {}
+    const {
+      onUIReady = noop,
+      onCaptureDone = noop,
+      onRetry = noop,
+      maxRetries = MAX_RETRIES_ALLOWED,
+    } = sessionOptions || {}
 
     // addListener calls returns unsubscibe functions we're storing in this array
     const subscriptions = [
@@ -65,4 +67,4 @@ export const FaceTecSDK = new class {
       over(subscriptions)()
     }
   }
-}(Config, sdk, logger.child({ from: 'FaceTecSDK.native' }))
+})(Config, sdk, logger.child({ from: 'FaceTecSDK.native' }))

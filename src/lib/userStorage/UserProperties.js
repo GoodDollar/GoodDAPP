@@ -1,15 +1,17 @@
 // @flow
-import { assign, clone, forIn, isNil, isPlainObject, isString, noop, throttle } from 'lodash'
+import { assign, clone, forIn, isPlainObject, isString, noop, throttle } from 'lodash'
+import Mutex from 'await-mutex'
 import EventEmitter from 'eventemitter3'
 import shallowEqual from 'fbjs/lib/shallowEqual'
 
 import AsyncStorage from '../utils/asyncStorage'
-import { retry } from '../utils/async'
+import { retry, withMutex } from '../utils/async'
 
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import pino from '../logger/js-logger'
 
 const log = pino.child({ from: 'UserProperties' })
+const mutex = new Mutex()
 
 /**
  * Keep user local and persisted flags/properties
@@ -55,22 +57,12 @@ export default class UserProperties {
     this.data = assign({}, defaultProperties)
 
     this.ready = (async () => {
-      const props = await AsyncStorage.getItem('props')
       const localProps = await AsyncStorage.getItem('localProps')
 
       this.local = assign({}, localProps)
-      this.throttlePersist = throttle(() => this.persist(), 60000, { leading: true })
+      this.throttlePersist = throttle(() => this.persist(), 5000, { leading: true, trailing: true })
 
-      log.debug('found local settings:', { props, localProps, local: this.local })
-
-      // if not props then block
-      if (isNil(props)) {
-        await this._syncFromRemote()
-      } else {
-        // otherwise sync withs storage in background
-        this._syncProps(props)
-        this._syncFromRemote()
-      }
+      await withMutex(mutex, () => this._syncFromRemote())
 
       return this.data
     })()

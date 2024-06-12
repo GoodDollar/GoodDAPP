@@ -10,7 +10,7 @@ import PushNotification from 'react-native-push-notification'
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
 import { isAndroidNative } from '../../../lib/utils/platform'
 
-export default new class {
+export default new (class {
   // permissions enum to platform permissions map
   platformPermissions = {
     [Permissions.Clipboard]: null, // accessing clipboard doesn't requires permissions on native
@@ -43,7 +43,7 @@ export default new class {
     // to check notifications permissions we should use separate method
     if (Permissions.Notifications === permission) {
       result = await new Promise(resolve => PushNotification.checkPermissions(status => resolve(_toResult(status))))
-    } else if (platformPermissions) {
+    } else if (platformPermission) {
       // if platform permissions was set - calling api
       result = await api.check(platformPermission)
     }
@@ -93,4 +93,4 @@ export default new class {
 
     return isAndroidNative || status.authorizationStatus === 1 ? RESULTS.BLOCKED : RESULTS.DENIED
   }
-}({ request, check })
+})({ request, check })

@@ -3,7 +3,7 @@ import { GoodWallet } from '../GoodWalletClass'
 
 const goodWallet = new GoodWallet({
   web3Transport: Config.web3TransportProvider,
-  network: 'dapptest',
+  network: 'fuse',
 })
 
 beforeAll(() => {

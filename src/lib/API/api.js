@@ -525,9 +525,8 @@ export class APIService {
   async graphQuery(query): AxiosPromise<any> {
     const payload = { query }
     const options = { baseURL: Config.graphQlUrl }
-    const url = '/'
 
-    return this.sharedClient.post(url, payload, options)
+    return this.sharedClient.post('', payload, options)
   }
 
   async getOTPLEvents(sender, chainId, address, from, currentBlock, eventHash) {

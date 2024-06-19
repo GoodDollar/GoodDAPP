@@ -6,6 +6,8 @@ import { find, isArray, shuffle } from 'lodash'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { padLeft } from 'web3-utils'
 
+import moment from 'moment'
+import { ethers } from 'ethers'
 import Config, { fuseNetwork } from '../../config/config'
 
 import { JWT } from '../constants/localStorage'
@@ -679,6 +681,71 @@ export class APIService {
     }
 
     return txs
+  }
+
+  async getAltClaim(account, chainId, lastBlock) {
+    if (!lastBlock) {
+      return
+    }
+    const explorer = Config.ethereum[chainId]?.explorerAPI
+    const sender32 = ethers.utils.hexZeroPad(account, 32)
+    const claimHash = '0x89ed24731df6b066e4c5186901fffdba18cd9a10f07494aff900bdee260d1304'
+
+    const now = moment().utc()
+    let today12UTC = moment().utc().set({ hour: 12, minute: 0, second: 0, millisecond: 0 })
+
+    if (now.isBefore(today12UTC)) {
+      today12UTC = today12UTC.subtract(1, 'day')
+    }
+
+    const timestamp12UTC = today12UTC.unix()
+
+    for (;;) {
+      const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
+        const paramsBlockNo = {
+          module: 'block',
+          action: 'getblocknobytime',
+          timestamp: timestamp12UTC,
+          closest: 'before',
+        }
+
+        const blockNoOptions = { baseURL, params: paramsBlockNo }
+        const { result: blockNoStart } = await this.sharedClient.get('/api', blockNoOptions)
+
+        // return []
+        if (!blockNoStart) {
+          return false
+        }
+
+        const params = {
+          module: 'logs',
+          action: 'getLogs',
+          page: '1',
+          offset: '31',
+          topic0: claimHash,
+          topic1: sender32,
+
+          // below are required for fuse explorer, optional for <chain>scan.io
+          // blocknumber = fuse/blockscout, else we expect a <chain>scan.io aligned response
+          fromBlock: blockNoStart.blockNumber ?? blockNoStart,
+          toBlock: lastBlock,
+          topic0_1_opr: 'and',
+        }
+        const options = { baseURL, params }
+
+        const { result } = await this.sharedClient.get('/api', options)
+        if (!isArray(result)) {
+          log.warn('Failed to verify today`s claim transactions', { result, params, chainId, baseURL })
+          throw new Error('Failed to verify today`s claim transactions')
+        }
+        return result
+      })
+
+      // eslint-disable-next-line no-await-in-loop
+      const result = await fallback(apis)
+
+      return isArray(result) && result?.length > 0
+    }
   }
 }
 

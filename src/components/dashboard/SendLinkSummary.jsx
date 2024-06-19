@@ -5,6 +5,7 @@ import { get } from 'lodash'
 import { text } from 'react-native-communications'
 import { t } from '@lingui/macro'
 import { useBridge } from '@gooddollar/web3sdk-v2'
+import { usePostHog } from 'posthog-react-native'
 import { fireEvent, SEND_DONE } from '../../lib/analytics/analytics'
 import { type TransactionEvent } from '../../lib/userStorage/UserStorageClass'
 import { FeedItemType } from '../../lib/userStorage/FeedStorage'
@@ -44,6 +45,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { showDialog, hideDialog, showErrorDialog } = useDialog()
 
   const { sendBridgeRequest, bridgeRequestStatus } = useBridge()
+  const posthog = usePostHog()
 
   const [shared, setShared] = useState(false)
   const [link, setLink] = useState('')
@@ -224,6 +226,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
             userStorage.enqueueTX(transactionEvent)
 
+            posthog.capture('used_sendviaddress')
+
             fireEvent(SEND_DONE, { type: get(screenState, 'type', contact ? 'contact' : 'address') }) //type can be qrCode, receive, contact, contactsms
 
             showDialog({
@@ -341,6 +345,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     async (amount: string) => {
       logger.debug('sendViaBridge', { amount, network })
       try {
+        posthog.capture('used_bridge')
         await new Promise((res, rej) => {
           bridgePromiseRef.current = { res, rej }
           sendBridgeRequest(amount, network.toLowerCase())
@@ -350,7 +355,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         showErrorDialog(t`Could not complete bridge transaction. Please try again.`, '', { onDismiss: goToRoot })
       }
     },
-    [amount],
+    [amount, posthog],
   )
 
   useEffect(() => {

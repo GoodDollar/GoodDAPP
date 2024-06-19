@@ -7,6 +7,7 @@ import { Mainnet } from '@usedapp/core'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
+import { usePostHog } from 'posthog-react-native'
 
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
@@ -63,6 +64,7 @@ export const GoodWalletContext = React.createContext({
   login: undefined,
   isLoggedInJWT: undefined,
   dailyUBI: undefined,
+  dailyAltUBI: undefined,
   isCitizen: false,
   switchNetwork: undefined,
   web3Provider: undefined,
@@ -86,8 +88,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [isLoggedInJWT, setLoggedInJWT] = useState()
   const [balance, setBalance] = useState({ totalBalance: '0', balance: '0', fuseBalance: '0', celoBalance: '0' })
   const [dailyUBI, setDailyUBI] = useState('0')
+  const [captureClaim, setCaptureClaim] = useState(undefined)
   const [isCitizen, setIsCitizen] = useState()
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
+  const posthog = usePostHog()
 
   const db = getDB()
 
@@ -101,6 +105,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
           balance: tokenContract.methods.balanceOf(account),
         })
       }
+
+      const altWallet = networkId === 122 ? celowallet : fusewallet
+      const altLastBlock = await altWallet.getBlockNumber()
+      let hasClaimedAlt = false
 
       if (supportsG$UBI(networkId)) {
         if (UBIContract) {
@@ -145,12 +153,20 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         celoBalance: celoBalance.toFixed(2),
       }
 
+      if (altLastBlock) {
+        hasClaimedAlt = await api.getAltClaim(account, altWallet.networkId, altLastBlock)
+        if (hasClaimedAlt && ubi === '0' && !captureClaim) {
+          posthog.capture('claimed_both')
+          setCaptureClaim(true)
+        }
+      }
+
       log.debug('updateWalletData', { walletData })
       setBalance(walletData)
       setIsCitizen(isCitizen)
       setDailyUBI(ubi)
     },
-    [setBalance, setDailyUBI, setIsCitizen, fusewallet, celowallet],
+    [setBalance, setDailyUBI, setIsCitizen, fusewallet, celowallet, posthog, captureClaim],
   )
 
   const updateWalletListeners = useCallback(
@@ -203,6 +219,11 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         })
 
         await wallet.ready
+
+        posthog?.register({
+          account: wallet.account,
+          $process_person_profile: false,
+        })
 
         let web3Provider = seedOrWeb3
 
@@ -258,7 +279,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       }
     },
-    [setWalletAndStorage, isLoggedInRouter],
+    [setWalletAndStorage, isLoggedInRouter, posthog],
   )
 
   // react to initial set of wallet in initWalletAndStorage
@@ -482,6 +503,7 @@ export const useWalletData = () => {
 
   return {
     dailyUBI,
+    dailyAltUBI: 0,
     balance,
     totalBalance,
     celoBalance,

@@ -114,3 +114,4 @@ service-worker.js
 .env.development
 .env.development.local
 dev-dist
+.continueignore

@@ -58,7 +58,7 @@ const WelcomeScreen = ({ theme, styles, screenProps, navigation }) => {
 
   const onLearnMore = useCallback(() => {
     fireEvent(CLICK_LEARNMORE)
-    Linking.openURL('https://www.gooddollar.org/im-claiming-gs-now-where-and-how-can-i-use-them/')
+    Linking.openURL('https://docs.gooddollar.org/frequently-asked-questions/using-gooddollar')
   }, [])
 
   const handleGetStarted = useOnPress(onGetStarted)

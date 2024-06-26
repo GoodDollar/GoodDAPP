@@ -27,7 +27,7 @@ class AppNavigation extends React.Component {
 }
 
 describe('Dashboard', () => {
-  xit('matches snapshot', async () => {
+  it('matches snapshot', async () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
 
     let component

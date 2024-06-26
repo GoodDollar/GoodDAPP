@@ -6651,9 +6651,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.1.47-beta.c7ba600":
-  version: 0.1.47-beta.c7ba600
-  resolution: "@gooddollar/good-design@npm:0.1.47-beta.c7ba600"
+"@gooddollar/good-design@npm:0.1.47-beta.bd19fe1":
+  version: 0.1.47-beta.bd19fe1
+  resolution: "@gooddollar/good-design@npm:0.1.47-beta.bd19fe1"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6661,6 +6661,7 @@ __metadata:
     "@lingui/macro": ^3.14.0
     "@lingui/react": ^3.14.0
     "@magiklabs/react-sdk": ^1.0.8
+    "@react-native-clipboard/clipboard": ^1.14.1
     "@uniswap/sdk-core": ^3.1.0
     buffer: ^6.0.3
     country-data: ^0.0.31
@@ -6684,13 +6685,14 @@ __metadata:
     react-native-svg-uri: ^1.2.3
     react-native-svg-web: ^1.0.9
     react-native-web: 0.17.7
+    react-native-web-clipboard: ^0.1.1
     react-native-web-webview: ^1.0.2
     react-native-webview: ^13.2.2
     react-number-format: ^5.1.1
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: 637813fa79a95d19d14964f20d59f8edee4e9c38a3e168819acaa064efca9b726b8b10e653ecdd960e7e4b9a216ee2b13b5381a29335d1339f1f38ccf35500ce
+  checksum: 8c131de13a2b4e6f782ad2ce11dffd28acecfe44d54e22efb79fdc0514146188d5201e09090d85efc8a8eb6289765cb742ae69d7f2a2e0af2c47763793489f5e
   languageName: node
   linkType: hard
 
@@ -6729,12 +6731,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.1.47-beta.c7ba600
+    "@gooddollar/good-design": 0.1.47-beta.bd19fe1
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.44
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.2.22-beta.5c155ca
+    "@gooddollar/web3sdk-v2": 0.2.22-beta.bd19fe1
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7038,9 +7040,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.2.22-beta.5c155ca":
-  version: 0.2.22-beta.5c155ca
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.22-beta.5c155ca"
+"@gooddollar/web3sdk-v2@npm:0.2.22-beta.bd19fe1":
+  version: 0.2.22-beta.bd19fe1
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.22-beta.bd19fe1"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7073,6 +7075,7 @@ __metadata:
     "@web3modal/react": ^2.6.2
     base-64: ^1.0.0
     dexie: ^3.2.4
+    dexie-react-hooks: ^1.1.7
     ethers: 5.7.2
     eventemitter3: ^4.0.7
     mixpanel-browser: ^2.45.0
@@ -7089,7 +7092,7 @@ __metadata:
     "@react-native-async-storage/async-storage": 1.17.10
     react-native: "*"
     react-native-web: "*"
-  checksum: 17530acfde8b8cbbfc8cc1102c34b2377511baf00097f84dcb96f578902f20bb66160c54872a5d730bb24e95caee37f44234d93e160904327b1bee1cb7507738
+  checksum: 5ff5a762fb3a1158eb64f2a097c77d93f1ff084a263e84e586f322ce0c5958d8430c2ac31cc073d426b621ae8c2d6bd95be5bd8a905afe3c75d5274fdceec330
   languageName: node
   linkType: hard
 
@@ -9456,6 +9459,18 @@ __metadata:
   peerDependencies:
     react-native: ^0.0.0-0 || 0.60 - 0.72 || 1000.0.0
   checksum: 58c8497fafdd4d112c4a70b0976783abdc6fa487f0cffca196901efd146fc838dee0cf498fdc4ef67a4634ba4ca97d60fec5a24720aea1d46f1999b0ba8b249b
+  languageName: node
+  linkType: hard
+
+"@react-native-clipboard/clipboard@npm:^1.14.1":
+  version: 1.14.1
+  resolution: "@react-native-clipboard/clipboard@npm:1.14.1"
+  peerDependencies:
+    react: 16.9.0 || 16.11.0 || 16.13.1 || 17.0.1 || 17.0.2 || 18.0.0 || 18.1.0 || 18.2.0
+    react-native: ^0.61.5 || ^0.62.3 || ^0.63.2 || ^0.64.2 || ^0.65.0 || ^0.66.0 || ^0.67.0 || ^0.68.0 || ^0.69.0 || ^0.70.0 || ^0.71.0 || ^0.72.0 || ^0.73.0
+    react-native-macos: ^0.61.0 || ^0.62.0 || ^0.63.0 || ^0.64.0 || ^0.65.0 || ^0.66.0 || ^0.67.0 || ^0.68.0 || ^0.69.0 || ^0.70.0 || ^0.71.0 || ^0.72.0 || ^0.73.0
+    react-native-windows: ^0.61.0 || ^0.62.0 || ^0.63.0 || ^0.64.0 || ^0.65.0 || ^0.66.0 || ^0.67.0 || ^0.68.0 || ^0.69.0 || ^0.70.0 || ^0.71.0 || ^0.72.0 || ^0.73.0
+  checksum: 005ce2bee4d6e30b2a6b11be0d0ee169ab108d24f2a9b518b0ba8e5b96616c6dfb089c28644c1b5e3c1b9aa786c92cbf781e525223f56ab8589da1df79cae31f
   languageName: node
   linkType: hard
 
@@ -23787,6 +23802,17 @@ __metadata:
   peerDependencies:
     dexie: ">= 1.3"
   checksum: 00a816ead3824fd1b8015bae493fe46fdcfeed72cf5c5284127618bf910c96be69fc1269c71264766652725aa6bf912bd94c55e702a55e538b79b81dae072d4e
+  languageName: node
+  linkType: hard
+
+"dexie-react-hooks@npm:^1.1.7":
+  version: 1.1.7
+  resolution: "dexie-react-hooks@npm:1.1.7"
+  peerDependencies:
+    "@types/react": ">=16"
+    dexie: ^3.2 || ^4.0.1-alpha
+    react: ">=16"
+  checksum: d1133546ab8d345a8e10d38d272eaa1efa3a34e7bdefacd2acc2419f30e52ea02ab29b19d8911755fbda5882e59d132ba5c3cb840dd4430d3cbca15ef5ea610e
   languageName: node
   linkType: hard
 
@@ -42145,6 +42171,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 1c81ce7f22e2fa7c390fd70758eb05d9d6890197a4f117357235ea0b1fa62664c8fee02dd60983e07bfcaa32e1ab0f5bfc767d6b46fd90c44c2d08176fdf4b22
+  languageName: node
+  linkType: hard
+
+"react-native-web-clipboard@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "react-native-web-clipboard@npm:0.1.1"
+  peerDependencies:
+    react: ">=16"
+    react-native-web: ">=0.17.x"
+  checksum: 8cc4ca561ef86304797b0542559638293606b4d9c7fce24343d0caefd44619269a1368937f8361f69d94284c3145a558f6039891fd84b917c4d2b21b314a3b63
   languageName: node
   linkType: hard
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import { View } from 'react-native'
-import { OnboardScreen } from '@gooddollar/good-design'
+import { OnboardController } from '@gooddollar/good-design'
 import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
@@ -21,7 +21,7 @@ const GoodIdOnboardImpl = ({ screenProps, styles }) => {
 
   return (
     <View style={styles.wrapper}>
-      <OnboardScreen account={goodWallet.account} onFV={navigateToFV} onSkip={onSkip} />
+      <OnboardController account={goodWallet.account} onFV={navigateToFV} onSkip={onSkip} />
     </View>
   )
 }

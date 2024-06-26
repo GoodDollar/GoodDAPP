@@ -1,7 +1,8 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
-import { View } from 'react-native'
+import React, { useCallback } from 'react'
+import { Text as NText, View } from 'react-native'
 import { t } from '@lingui/macro'
+import { GoodIdDetails } from '@gooddollar/good-design'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, Wrapper } from '../common'
@@ -27,7 +28,8 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const profile = usePublicProfile()
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
-  const [faceRecordId, setRecordId] = useState()
+
+  // const [faceRecordId, setRecordId] = useState()
 
   const logMethod = userStorage?.userProperties.get('logMethod')
 
@@ -36,15 +38,6 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const handleAvatarPress = useCallback(() => screenProps.push(`ViewAvatar`), [screenProps])
 
   const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
-
-  useEffect(() => {
-    if (userStorage) {
-      const isFV2 = userStorage.userProperties.get('fv2')
-      userStorage.getFaceIdentifiers().then(_ => {
-        setRecordId(isFV2 ? _.v2Identifier.slice(0, 42) : _.v1Identifier)
-      })
-    }
-  }, [userStorage])
 
   return (
     <Wrapper>
@@ -62,23 +55,38 @@ const ProfileWrapper = ({ screenProps, styles }) => {
         <View style={styles.emptySpace} />
         <ProfileDataTable profile={profile} showCustomFlag />
 
-        <Section
-          grow
-          justifyContent="flex-end"
-          style={{ marginBottom: 16, width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}
-        >
-          <Section.Row style={{ width: '100%' }}>
-            <IdentifierRow title="Wallet" eventSource="myprofile" address={goodWallet.account} withCopy />
-          </Section.Row>
-          <Section.Row>
-            <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
-          </Section.Row>
+        <Section grow justifyContent="flex-end" style={{ width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}>
           {logMethod && (
             <Section.Row>
               <IdentifierRow title="LoginM" text={logMethod} />
             </Section.Row>
           )}
         </Section>
+
+        <View padding="0">
+          <View padding="0">
+            <NText
+              style={{
+                backgroundColor: '#00AEFF20',
+                color: '#00AEFF',
+                fontFamily: 'Montserrat',
+                fontWeight: 700,
+                fontSize: 24,
+                paddingTop: 16,
+                paddingBottom: 16,
+                paddingLeft: 8,
+                paddingRight: 8,
+                width: '100%',
+                textAlign: 'center',
+                marginBottom: 24,
+              }}
+            >
+              {' '}
+              GoodID{' '}
+            </NText>
+            <GoodIdDetails account={goodWallet.account} />
+          </View>
+        </View>
       </Section>
       <View style={styles.userDataWrapper}>
         <UserAvatar

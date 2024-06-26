@@ -8,13 +8,15 @@ const exportDefault = component => module => ({ default: module[component] })
 
 export const noopAsync = async () => true
 
-export const nodeize = functionWithCallback => (...args) => {
-  const callback = last(args)
-  const newArgs = args.slice(0, -1)
+export const nodeize =
+  functionWithCallback =>
+  (...args) => {
+    const callback = last(args)
+    const newArgs = args.slice(0, -1)
 
-  newArgs.push(result => callback(undefined, result))
-  return functionWithCallback(...newArgs)
-}
+    newArgs.push(result => callback(undefined, result))
+    return functionWithCallback(...newArgs)
+  }
 
 export const lazyExport = (dynamicImport, ...exportComponents) => {
   const [hocFn, ...rest] = exportComponents
@@ -133,4 +135,13 @@ export const makePromiseWrapper = () => {
   }
 
   return { promise, resolve, reject, callback }
+}
+
+export const withMutex = async (mutex, action) => {
+  const release = await mutex.lock()
+  try {
+    await action()
+  } finally {
+    release()
+  }
 }

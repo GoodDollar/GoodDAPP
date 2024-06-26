@@ -21,7 +21,7 @@ const GoodIdOnboardImpl = ({ screenProps, styles }) => {
 
   return (
     <View style={styles.wrapper}>
-      <OnboardController account={goodWallet.account} onFV={navigateToFV} onSkip={onSkip} />
+      <OnboardController account={goodWallet.account} withNavBar={false} onFV={navigateToFV} onSkip={onSkip} />
     </View>
   )
 }

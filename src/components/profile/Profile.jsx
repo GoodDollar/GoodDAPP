@@ -15,7 +15,6 @@ import { theme } from '../theme/styles'
 import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import IdentifierRow from '../common/view/IdentifierRow'
 
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
 import ViewAvatar from './ViewOrUploadAvatar'
@@ -37,18 +36,6 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const handleAvatarPress = useCallback(() => screenProps.push(`ViewAvatar`), [screenProps])
 
   const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
-
-  useEffect(() => {
-    if (userStorage) {
-      ;(async () => {
-        const localLogMethod = await AsyncStorage.getItem('logMethod')
-        if (localLogMethod) {
-          await userStorage.userProperties.safeSet('logMethod', localLogMethod)
-          await AsyncStorage.removeItem('logMethod')
-        }
-      })()
-    }
-  }, [logMethod, userStorage])
 
   useEffect(() => {
     if (userStorage) {

@@ -9,6 +9,7 @@ import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
 import { usePostHog } from 'posthog-react-native'
 
+import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -261,7 +262,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         global.wallet = wallet
 
         if (logMethod) {
-          await storage.userProperties.safeSet('logMethod', logMethod)
+          await AsyncStorage.setItem('logMethod', logMethod)
         }
 
         setWalletAndStorage({

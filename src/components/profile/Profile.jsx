@@ -40,7 +40,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
 
   return (
-    <Wrapper>
+    <Wrapper withMaxHeight={false}>
       <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
         <RoundIconButton
           label={'Edit'}
@@ -84,7 +84,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
               {' '}
               GoodID{' '}
             </NText>
-            <GoodIdDetails account={goodWallet.account} />
+            <GoodIdDetails account={goodWallet.account} isVerified={goodWallet.isVerified} />
           </View>
         </View>
       </Section>

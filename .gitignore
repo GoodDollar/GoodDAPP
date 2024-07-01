@@ -115,3 +115,4 @@ service-worker.js
 .env.development.local
 dev-dist
 .continueignore
+.yalc

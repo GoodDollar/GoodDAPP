@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { noop } from 'lodash'
 
 import { t } from '@lingui/macro'
@@ -73,35 +73,47 @@ const mapStylesToProps = ({ theme }) => ({
   },
 })
 
-const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => (
-  <ExplanationDialog
-    {...dialogProps}
-    title={t`Special Offer: Try the new GoodWallet`}
-    titleStyle={styles.title}
-    containerStyle={styles.container}
-    resizeMode={false}
-  >
-    <View style={styles.innerContainer}>
-      <View style={styles.imageContainer}>
-        <Image source={WelcomeBilly} resizeMode={'contain'} style={styles.image} />
-      </View>
+const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
+  const [dontShowAgain, setDontShow] = useState(false)
 
-      <Text style={styles.rewardText}>{`Welcome Reward After First Claim`}</Text>
-      <View style={styles.rewardContainer}>
-        <Text style={styles.rewardAmountText}>{`200`}</Text>
-        <Text style={styles.rewardAmountCurrency}>{`G$`}</Text>
+  // useEffect(() => {
+  //   // migration_invited event
+  // }, [])
+
+  return (
+    <ExplanationDialog
+      {...dialogProps}
+      title={t`Special Offer: Try the new GoodWallet`}
+      titleStyle={styles.title}
+      containerStyle={styles.container}
+      resizeMode={false}
+    >
+      <View style={styles.innerContainer}>
+        <View style={styles.imageContainer}>
+          <Image source={WelcomeBilly} resizeMode={'contain'} style={styles.image} />
+        </View>
+
+        <Text style={styles.rewardText}>{`Welcome Reward After First Claim`}</Text>
+        <View style={styles.rewardContainer}>
+          <Text style={[styles.rewardAmountText, { fontWeight: 'bold' }]}>{`200`}</Text>
+          <Text style={styles.rewardAmountCurrency}>{`G$`}</Text>
+        </View>
+        <Text style={styles.descriptionText}>
+          {`Test out the new GoodWallet! For a limited time, you are eligible for `} <b>200 G$</b>{' '}
+          {`bonus once you’ve made your first claim in the new GoodWallet. \n\nMake sure you use the same login method you use here! Not sure your login method? You can see it in your Profile. `}
+        </Text>
       </View>
-      <Text
-        style={styles.descriptionText}
-      >{`Test out the new GoodWallet! For a limited time, you are eligible for a 200 G$ bonus once you’ve made your first claim in the new GoodWallet.`}</Text>
-    </View>
-    <View>
-      {/* todo: find simplest checkbox solution for react-native */}
-      {/* <input type="checkbox" /> */}
-      {/* <button> Continue </button> */}
-      <WalletV2Continue buttonText="CONTINUE" />
-    </View>
-  </ExplanationDialog>
-)
+      <View marginTop={40} marginBottom="24">
+        <label style={{ marginBottom: 24, display: 'flex', alignItems: 'center' }}>
+          <input type="checkbox" onClick={() => setDontShow(prev => !prev)} style={{ width: 24, height: 24 }} />
+          <Text style={[styles.descriptionText, { paddingLeft: 8, userSelect: 'none' }]}>
+            Dont show this offer again
+          </Text>
+        </label>
+        <WalletV2Continue buttonText="CONTINUE" dontShowAgain={dontShowAgain} onDismiss={onDismiss} />
+      </View>
+    </ExplanationDialog>
+  )
+}
 
 export default withStyles(mapStylesToProps)(WelcomeOffer)

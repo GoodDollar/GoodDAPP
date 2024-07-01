@@ -89,7 +89,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [isLoggedInJWT, setLoggedInJWT] = useState()
   const [balance, setBalance] = useState({ totalBalance: '0', balance: '0', fuseBalance: '0', celoBalance: '0' })
   const [dailyUBI, setDailyUBI] = useState('0')
-  const [captureClaim, setCaptureClaim] = useState(undefined)
   const [isCitizen, setIsCitizen] = useState()
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
   const posthog = usePostHog()
@@ -106,10 +105,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
           balance: tokenContract.methods.balanceOf(account),
         })
       }
-
-      const altWallet = networkId === 122 ? celowallet : fusewallet
-      const altLastBlock = await altWallet.getBlockNumber()
-      let hasClaimedAlt = false
 
       if (supportsG$UBI(networkId)) {
         if (UBIContract) {
@@ -154,20 +149,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         celoBalance: celoBalance.toFixed(2),
       }
 
-      if (altLastBlock) {
-        hasClaimedAlt = await api.getAltClaim(account, altWallet.networkId, altLastBlock)
-        if (hasClaimedAlt && ubi === '0' && !captureClaim) {
-          posthog.capture('claimed_both')
-          setCaptureClaim(true)
-        }
-      }
-
       log.debug('updateWalletData', { walletData })
       setBalance(walletData)
       setIsCitizen(isCitizen)
       setDailyUBI(ubi)
     },
-    [setBalance, setDailyUBI, setIsCitizen, fusewallet, celowallet, posthog, captureClaim],
+    [setBalance, setDailyUBI, setIsCitizen, fusewallet, celowallet],
   )
 
   const updateWalletListeners = useCallback(
@@ -223,7 +210,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         posthog?.register({
           account: wallet.account,
-          $process_person_profile: false,
+          $process_person_profile: true,
         })
 
         let web3Provider = seedOrWeb3

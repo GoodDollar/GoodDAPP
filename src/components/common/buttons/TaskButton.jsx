@@ -6,6 +6,7 @@ import { theme } from '../../theme/styles'
 import { openLink } from '../../../lib/utils/linking'
 import { isWeb } from '../../../lib/utils/platform'
 import { POST_CLAIM_CTA } from '../../../lib/analytics/constants'
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 
 const TaskButton = ({ buttonText, url, eventTag }) => {
   const goToTask = () => {
@@ -29,10 +30,19 @@ const TaskButton = ({ buttonText, url, eventTag }) => {
   )
 }
 
-export const WalletV2Continue = ({ buttonText }) => {
-  const goToWalletV2 = () => {
+export const WalletV2Continue = ({ buttonText, dontShowAgain, onDismiss }) => {
+  const goToWalletV2 = async () => {
     // fireEvent()
-    openLink('https://good-wallet-v2.vercel.app/en', '_blank')
+    if (dontShowAgain) {
+      //migration_denied event
+      await AsyncStorage.setItem('dontShowWelcomeOffer', 'true')
+      onDismiss()
+      return
+    }
+
+    // migration_accept event
+    openLink('https://good-wallet-v2.vercel.app/en/promo', '_blank')
+    onDismiss()
   }
 
   return (

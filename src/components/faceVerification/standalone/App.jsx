@@ -39,7 +39,6 @@ const App = () => {
             apiKey={Config.posthogApiKey}
             options={{ host: Config.posthogHost, sendFeatureFlagEvent: false }}
             autocapture={false}
-            person_profiles="identified_only"
           >
             <GlobalTogglesContextProvider>
               <DialogContextProvider>

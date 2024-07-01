@@ -4,7 +4,6 @@ import { Platform, TextInput, View } from 'react-native'
 import { get, isNaN, isNil, noop } from 'lodash'
 import { t } from '@lingui/macro'
 
-import { usePostHog } from 'posthog-react-native'
 import { CustomButton, Icon, Section, ShareButton, Text, Wrapper } from '../common'
 import Avatar from '../common/view/Avatar'
 import { WavesBox } from '../common/view/WavesBox'
@@ -443,7 +442,6 @@ const Invite = ({ screenProps, styles }) => {
   const [invitees, refresh, level, inviteState] = useInvited()
   const userStorage = useUserStorage()
   const propSuffix = usePropSuffix()
-  const posthog = usePostHog()
 
   const totalEarned = parseInt(get(inviteState, 'totalEarned', undefined))
   const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
@@ -459,12 +457,6 @@ const Invite = ({ screenProps, styles }) => {
       userStorage.userProperties.safeSet(`lastInviteState${propSuffix}`, inviteState)
     }
   }, [inviteState, propSuffix])
-
-  useEffect(() => {
-    if (!isNaN(totalEarned) && totalEarned > 0) {
-      posthog.capture('has_invited')
-    }
-  }, [totalEarned, posthog])
 
   if (isNil(bounty) || isNaN(bounty) || isNaN(totalEarned)) {
     return null

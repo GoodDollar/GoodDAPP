@@ -11,7 +11,6 @@ const AppContext = ({ children }) => (
     apiKey={Config.posthogApiKey}
     options={{ host: Config.posthogHost, preloadFeatureFlags: true, sendFeatureFlagEvent: false }}
     autocapture={false}
-    person_profiles="identified_only"
   >
     <GlobalTogglesContextProvider>
       <DialogContextProvider>

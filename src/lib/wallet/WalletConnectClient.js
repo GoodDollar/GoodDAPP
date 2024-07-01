@@ -7,7 +7,6 @@ import abiDecoder from 'abi-decoder'
 import { Core } from '@walletconnect/core'
 import { Web3Wallet } from '@walletconnect/web3wallet'
 import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/utils'
-import { usePostHog } from 'posthog-react-native'
 import Web3 from 'web3'
 import { bindAll, first, last, maxBy, defaults, sortBy, sample } from 'lodash'
 
@@ -164,7 +163,6 @@ export const useWalletConnectSession = () => {
   const [chain, setChain] = useState()
   const [pendingTxs, setPending] = useState([])
   const [chainPendingTxs, setChainPendingTxs] = useState([])
-  const posthog = usePostHog()
 
   const wallet = useWallet()
   const { show: showApprove, isDialogShown } = useSessionApproveModal()
@@ -233,21 +231,17 @@ export const useWalletConnectSession = () => {
     }
   }, [])
 
-  const approveRequest = useCallback(
-    async (connector, id, topic, result) => {
-      const isV2 = connector === cachedV2Connector
-      posthog.capture('has_walletconnect')
-      if (isV2) {
-        connector.respondSessionRequest({
-          topic,
-          response: { id, jsonrpc: '2.0', result },
-        })
-      } else {
-        connector.approveRequest({ id, result })
-      }
-    },
-    [posthog],
-  )
+  const approveRequest = useCallback(async (connector, id, topic, result) => {
+    const isV2 = connector === cachedV2Connector
+    if (isV2) {
+      connector.respondSessionRequest({
+        topic,
+        response: { id, jsonrpc: '2.0', result },
+      })
+    } else {
+      connector.approveRequest({ id, result })
+    }
+  }, [])
 
   const getV2Meta = payload => {
     const {

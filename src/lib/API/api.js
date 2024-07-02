@@ -721,7 +721,7 @@ export class APIService {
           module: 'logs',
           action: 'getLogs',
           page: '1',
-          offset: '31',
+          offset: '10000',
           topic0: claimHash,
           topic1: sender32,
 

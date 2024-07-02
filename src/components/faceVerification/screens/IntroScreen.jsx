@@ -117,7 +117,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
         }
 
         const dialogData = showQueueDialog(WalletDeletedPopupText, true, {
-          onDismiss: isFVFlow ? fvRedirect(false, 'Wait 24 hours') : goToRoot,
+          onDismiss: isFVFlow ? () => fvRedirect(false, 'Wait 24 hours') : goToRoot,
           imageSource: Wait24HourSVG,
         })
 

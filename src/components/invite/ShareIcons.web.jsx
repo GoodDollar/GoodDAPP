@@ -89,9 +89,9 @@ export default ({ shareUrl }) => {
             beforeOnClick={() => {
               onShare(props.service)
             }}
-          >
-            <IconButton {...props} name={name} circle={36} />
-          </Component>
+            style={{ width: 32, height: 32, backgroundColor: 'transparent', position: 'absolute', zIndex: 100 }}
+          />
+          <IconButton {...props} style={{ zIndex: 10 }} name={name} circle={36} />
         </Section.Stack>
       ))}
     </Section.Row>

@@ -103,7 +103,7 @@ export default defineConfig({
     }),
     svgLoader({
       include: '**/*.svg',
-      exclude: ['**/*.svg?url'],
+      exclude: ['**/*.svg?url', '**/good-design/**/*.svg'],
     }),
     flowPlugin(),
     react({

@@ -96,7 +96,10 @@ const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
         </View>
         <Text style={styles.descriptionText}>
           {t`Test out the new GoodWallet! For a limited time, you are eligible for `} <b>200 G$</b>{' '}
-          {t`bonus once you’ve made your first claim in the new GoodWallet. \n\nMake sure you use the same login method you use here! Not sure your login method? You can see it in your Profile. `}
+          {t`bonus once you’ve made your first claim in the new GoodWallet. 
+
+Make sure you use the same login method you use here! 
+Not sure about your login method? You can see it in your Profile. `}
         </Text>
       </View>
       <View marginTop={40} marginBottom="24">

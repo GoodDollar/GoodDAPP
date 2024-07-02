@@ -6,6 +6,8 @@ import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 import { t } from '@lingui/macro'
 import { WalletChatWidget } from 'react-native-wallet-chat'
+import moment from 'moment'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -14,7 +16,7 @@ import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
-import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
+import { fireEvent, GOTO_TAB_FEED, MIGRATION_INVITED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
 import {
   GoodWalletContext,
   TokenContext,
@@ -56,6 +58,7 @@ import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
 import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
 import { IconButton, Text } from '../../components/common'
+import { retry } from '../../lib/utils/async'
 
 import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
@@ -333,7 +336,7 @@ const Dashboard = props => {
   const payload = useFlagWithPayload('claim-feature')
 
   const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
-  const { supportedCountries, enabled: welcomeOfferActive } = showWelcomeOffer || {}
+  const { supportedCountries, enabled: welcomeOfferActive, promoUrl, offerAmount } = showWelcomeOffer || {}
 
   const { securityEnabled, securityDialog } = useSecurityDialog()
 
@@ -524,25 +527,34 @@ const Dashboard = props => {
     }
   }, [isCitizen])
 
+  const dismissOffer = useCallback(async () => {
+    const today = moment().format('YYYY-MM-DD')
+    await AsyncStorage.setItem('shownOfferToday', today)
+    hideDialog()
+  }, [hideDialog])
+
   useEffect(async () => {
     const dontShowAgain = await AsyncStorage.getItem('dontShowWelcomeOffer')
-    if (!dontShowAgain) {
+    const shownOfferToday = await AsyncStorage.getItem('shownOfferToday')
+    const today = moment().format('YYYY-MM-DD')
+
+    if (dontShowAgain || shownOfferToday === today) {
       return
     }
 
-    const country = await fetch('https://get.geojs.io/v1/ip/country.json')
+    const country = await retry(fetch('https://get.geojs.io/v1/ip/country.json'), 3, 2000)
       .then(_ => _.json())
       .then(_ => _.country)
 
     const isEligible = supportedCountries.split(',').includes(country)
 
     if (isWeb && welcomeOfferActive && isEligible) {
-      fireEvent('migration_invited')
+      fireEvent(MIGRATION_INVITED)
 
       showDialog({
-        content: <WelcomeOffer onDismiss={hideDialog} />,
+        content: <WelcomeOffer onDismiss={dismissOffer} promoUrl={promoUrl} offerAmount={offerAmount} />,
         titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
-        onDismiss: hideDialog,
+        onDismiss: dismissOffer,
         showButtons: false,
       })
     }

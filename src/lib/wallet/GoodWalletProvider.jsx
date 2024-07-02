@@ -208,11 +208,6 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
         await wallet.ready
 
-        posthog?.register({
-          account: wallet.account,
-          $process_person_profile: true,
-        })
-
         let web3Provider = seedOrWeb3
 
         // create a web3provider compatible wallet, so can be compatible with @gooddollar/web3sdk-v2 and @gooddollar/good-design

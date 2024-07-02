@@ -5,7 +5,7 @@ import { fireEvent } from '../../../lib/analytics/analytics'
 import { theme } from '../../theme/styles'
 import { openLink } from '../../../lib/utils/linking'
 import { isWeb } from '../../../lib/utils/platform'
-import { POST_CLAIM_CTA } from '../../../lib/analytics/constants'
+import { MIGRATION_ACCEPTED, MIGRATION_DENIED, POST_CLAIM_CTA } from '../../../lib/analytics/constants'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 
 const TaskButton = ({ buttonText, url, eventTag }) => {
@@ -30,17 +30,17 @@ const TaskButton = ({ buttonText, url, eventTag }) => {
   )
 }
 
-export const WalletV2Continue = ({ buttonText, dontShowAgain, onDismiss }) => {
+export const WalletV2Continue = ({ buttonText, dontShowAgain, onDismiss, promoUrl }) => {
   const goToWalletV2 = async () => {
     try {
       if (dontShowAgain) {
-        fireEvent('migration_denied')
+        fireEvent(MIGRATION_DENIED)
         await AsyncStorage.setItem('dontShowWelcomeOffer', true)
         return
       }
 
-      fireEvent('migration_accepted')
-      openLink('https://good-wallet-v2.vercel.app/en/promo', '_blank')
+      fireEvent(MIGRATION_ACCEPTED)
+      openLink(promoUrl, '_blank')
     } finally {
       onDismiss()
     }

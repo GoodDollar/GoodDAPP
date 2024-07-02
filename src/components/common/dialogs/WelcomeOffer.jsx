@@ -95,7 +95,8 @@ const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
           <Text style={styles.rewardAmountCurrency}>{`G$`}</Text>
         </View>
         <Text style={styles.descriptionText}>
-          {t`Test out the new GoodWallet! For a limited time, you are eligible for `} <b>200 G$</b>{' '}
+          {t`Test out the new GoodWallet! For a limited time, you are eligible for `}{' '}
+          <b>{dialogProps.offerAmount} G$</b>{' '}
           {t`bonus once you’ve made your first claim in the new GoodWallet. 
 
 Make sure you use the same login method you use here! 
@@ -109,7 +110,12 @@ Not sure about your login method? You can see it in your Profile. `}
             {t`Dont show this offer again`}
           </Text>
         </label>
-        <WalletV2Continue buttonText={t`CONTINUE`} dontShowAgain={dontShowAgain} onDismiss={onDismiss} />
+        <WalletV2Continue
+          buttonText={t`CONTINUE`}
+          dontShowAgain={dontShowAgain}
+          onDismiss={onDismiss}
+          promoUrl={dialogProps.promoUrl}
+        />
       </View>
     </ExplanationDialog>
   )

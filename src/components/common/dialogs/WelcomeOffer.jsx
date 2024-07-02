@@ -76,10 +76,6 @@ const mapStylesToProps = ({ theme }) => ({
 const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
   const [dontShowAgain, setDontShow] = useState(false)
 
-  // useEffect(() => {
-  //   // migration_invited event
-  // }, [])
-
   return (
     <ExplanationDialog
       {...dialogProps}

@@ -83,6 +83,7 @@ import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
+import WelcomeOffer from './../../components/common/dialogs/WelcomeOffer'
 
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 import Settings from './Settings'
@@ -301,7 +302,7 @@ const Dashboard = props => {
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const [topInfoHeight] = useState(new Animated.Value(240))
   const [balanceTopAnimValue] = useState(new Animated.Value(0))
-  const { isDialogShown, showDialog, showErrorDialog } = useDialog()
+  const { hideDialog, isDialogShown, showDialog, showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
@@ -328,9 +329,11 @@ const Dashboard = props => {
 
   const sendReceiveEnabled = useFeatureFlagOrDefault('send-receive-feature')
   const dashboardButtonsEnabled = useFeatureFlagOrDefault('dashboard-buttons')
+  const showWelcomeOffer = useFlagWithPayload('show-welcome-offer')
   const payload = useFlagWithPayload('claim-feature')
 
   const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
+  const { supportedCountries, enabled: welcomeOfferActive } = showWelcomeOffer || {}
 
   const { securityEnabled, securityDialog } = useSecurityDialog()
 
@@ -520,6 +523,30 @@ const Dashboard = props => {
       onGiveUp()
     }
   }, [isCitizen])
+
+  useEffect(async () => {
+    const dontShowAgain = await AsyncStorage.getItem('dontShowWelcomeOffer')
+    if (!dontShowAgain) {
+      return
+    }
+
+    const country = await fetch('https://get.geojs.io/v1/ip/country.json')
+      .then(_ => _.json())
+      .then(_ => _.country)
+
+    const isEligible = supportedCountries.split(',').includes(country)
+
+    if (isWeb && welcomeOfferActive && isEligible) {
+      fireEvent('migration_invited')
+
+      showDialog({
+        content: <WelcomeOffer onDismiss={hideDialog} />,
+        titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
+        onDismiss: hideDialog,
+        showButtons: false,
+      })
+    }
+  }, [welcomeOfferActive])
 
   const animateClaim = useCallback(() => {
     if (!entitlement || !supportsG$UBI(currentNetwork)) {

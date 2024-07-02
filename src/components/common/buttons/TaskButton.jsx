@@ -32,17 +32,18 @@ const TaskButton = ({ buttonText, url, eventTag }) => {
 
 export const WalletV2Continue = ({ buttonText, dontShowAgain, onDismiss }) => {
   const goToWalletV2 = async () => {
-    // fireEvent()
-    if (dontShowAgain) {
-      //migration_denied event
-      await AsyncStorage.setItem('dontShowWelcomeOffer', 'true')
-      onDismiss()
-      return
-    }
+    try {
+      if (dontShowAgain) {
+        fireEvent('migration_denied')
+        await AsyncStorage.setItem('dontShowWelcomeOffer', true)
+        return
+      }
 
-    // migration_accept event
-    openLink('https://good-wallet-v2.vercel.app/en/promo', '_blank')
-    onDismiss()
+      fireEvent('migration_accepted')
+      openLink('https://good-wallet-v2.vercel.app/en/promo', '_blank')
+    } finally {
+      onDismiss()
+    }
   }
 
   return (

@@ -6651,9 +6651,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.1.47-beta.bd19fe1":
-  version: 0.1.47-beta.bd19fe1
-  resolution: "@gooddollar/good-design@npm:0.1.47-beta.bd19fe1"
+"@gooddollar/good-design@npm:0.1.47-beta.36c24955":
+  version: 0.1.47-beta.36c24955
+  resolution: "@gooddollar/good-design@npm:0.1.47-beta.36c24955"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6692,7 +6692,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: 8c131de13a2b4e6f782ad2ce11dffd28acecfe44d54e22efb79fdc0514146188d5201e09090d85efc8a8eb6289765cb742ae69d7f2a2e0af2c47763793489f5e
+  checksum: 9adb49f8455be16db996d454bc437d633d8021e14048050631822c740f57aa0930d2cae270495ba27872f9b0c1e5714a86525c7620c87356b779b73483b892a5
   languageName: node
   linkType: hard
 
@@ -6731,12 +6731,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.1.47-beta.bd19fe1
+    "@gooddollar/good-design": 0.1.47-beta.36c24955
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.44
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.2.22-beta.bd19fe1
+    "@gooddollar/web3sdk-v2": 0.2.22-beta.36c24955
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -6868,6 +6868,7 @@ __metadata:
     moment: ^2.29.4
     moment-duration-format: ^2.3.2
     multiformats: ^9.6.4
+    native-base: 3.4.28
     node-libs-react-native: ^1.2.1
     node-pre-gyp: ^0.14.0
     node-xml-lite: 0.0.7
@@ -7040,9 +7041,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.2.22-beta.bd19fe1":
-  version: 0.2.22-beta.bd19fe1
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.22-beta.bd19fe1"
+"@gooddollar/web3sdk-v2@npm:0.2.22-beta.36c24955":
+  version: 0.2.22-beta.36c24955
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.22-beta.36c24955"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7092,7 +7093,7 @@ __metadata:
     "@react-native-async-storage/async-storage": 1.17.10
     react-native: "*"
     react-native-web: "*"
-  checksum: 5ff5a762fb3a1158eb64f2a097c77d93f1ff084a263e84e586f322ce0c5958d8430c2ac31cc073d426b621ae8c2d6bd95be5bd8a905afe3c75d5274fdceec330
+  checksum: 7b5e2976748a10a1254b754e8c00b4f6cbc0d9f6f9098948f3a43837a535cef159a14aba6f50d7ff4892e495f34232ccefb59a8844c4595ed943ebfac8b2e65b
   languageName: node
   linkType: hard
 
@@ -36814,7 +36815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"native-base@npm:^3.4.28":
+"native-base@npm:3.4.28, native-base@npm:^3.4.28":
   version: 3.4.28
   resolution: "native-base@npm:3.4.28"
   dependencies:

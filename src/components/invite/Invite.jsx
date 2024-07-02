@@ -443,7 +443,7 @@ const Invite = ({ screenProps, styles }) => {
   const userStorage = useUserStorage()
   const propSuffix = usePropSuffix()
 
-  const totalEarned = parseInt(get(inviteState, 'totalEarned', 0))
+  const totalEarned = parseInt(get(inviteState, 'totalEarned', undefined))
   const bounty = decimalsToFixed(toDecimals(get(level, 'bounty', 0)))
 
   const toggleHowTo = () => {
@@ -458,7 +458,7 @@ const Invite = ({ screenProps, styles }) => {
     }
   }, [inviteState, propSuffix])
 
-  if (isNil(bounty) || isNaN(bounty)) {
+  if (isNil(bounty) || isNaN(bounty) || isNaN(totalEarned)) {
     return null
   }
 

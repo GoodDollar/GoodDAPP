@@ -7,6 +7,7 @@ import { Mainnet } from '@usedapp/core'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
+import { usePostHog } from 'posthog-react-native'
 
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
@@ -64,6 +65,7 @@ export const GoodWalletContext = React.createContext({
   login: undefined,
   isLoggedInJWT: undefined,
   dailyUBI: undefined,
+  dailyAltUBI: undefined,
   isCitizen: false,
   switchNetwork: undefined,
   web3Provider: undefined,
@@ -89,6 +91,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [dailyUBI, setDailyUBI] = useState('0')
   const [isCitizen, setIsCitizen] = useState()
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
+  const posthog = usePostHog()
 
   const db = getDB()
 
@@ -259,7 +262,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       }
     },
-    [setWalletAndStorage, isLoggedInRouter],
+    [setWalletAndStorage, isLoggedInRouter, posthog],
   )
 
   // react to initial set of wallet in initWalletAndStorage
@@ -483,6 +486,7 @@ export const useWalletData = () => {
 
   return {
     dailyUBI,
+    dailyAltUBI: 0,
     balance,
     totalBalance,
     celoBalance,

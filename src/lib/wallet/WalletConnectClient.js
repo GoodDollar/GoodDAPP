@@ -7,9 +7,9 @@ import abiDecoder from 'abi-decoder'
 import { Core } from '@walletconnect/core'
 import { Web3Wallet } from '@walletconnect/web3wallet'
 import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/utils'
-
 import Web3 from 'web3'
 import { bindAll, first, last, maxBy, defaults, sortBy, sample } from 'lodash'
+
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
@@ -86,7 +86,10 @@ export const useChainsList = () => {
       const mainnets = data.filter(
         _ => _.name.toLowerCase().includes('test') === false && highlights.includes(_.chainId) === false,
       )
-      const main = sortBy(data.filter(_ => highlights.includes(_.chainId)), _ => highlights.indexOf(_.chainId))
+      const main = sortBy(
+        data.filter(_ => highlights.includes(_.chainId)),
+        _ => highlights.indexOf(_.chainId),
+      )
       const final = main.concat(sortBy(mainnets, 'name'), sortBy(testnets, 'name'))
       setChains(final)
     })
@@ -820,10 +823,7 @@ export const useWalletConnectSession = () => {
 
     log.debug('reconnecting v1:', { session, chainId })
     if (session && !activeConnector) {
-      return connect(
-        session,
-        session.chainId,
-      )
+      return connect(session, session.chainId)
     }
   }, [activeConnector, connect])
 

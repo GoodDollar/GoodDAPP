@@ -398,14 +398,28 @@ export class GoodWallet {
         const startBlock = this.lastEventsBlock
         const currentBlock = await this.getBlockNumber()
 
-        const lastBlock = await this.syncTxFromExplorer(startBlock, currentBlock).catch(e => {
-          log.error('syncTxFromExplorer failed', e.message, e, {
-            networkId: this.networkId,
-            startBlock,
+        const lastBlock = await this.syncTxFromExplorer(startBlock, currentBlock)
+          .catch(e => {
+            // we only log error if also the fallback syncTxWithBlockchain fail
+            log.warn('syncTxFromExplorer failed', e.message, e, {
+              networkId: this.networkId,
+              startBlock,
+            })
+
+            return this.syncTxWithBlockchain(startBlock)
+          })
+          .catch(e => {
+            log.error('syncTx failed both explorer and rpc', e.message, e, {
+              startBlock,
+              lastBlock,
+              networkId: this.networkId,
+            })
           })
 
-          return this.syncTxWithBlockchain(startBlock)
-        })
+        if (!lastBlock) {
+          log.info('pollEvents failed:', { startBlock, lastBlock })
+          return
+        }
         this.lastEventsBlock = lastBlock
         lastBlockCallback(lastBlock)
 
@@ -536,40 +550,36 @@ export class GoodWallet {
       lastBlock,
     })
 
-    try {
-      const limit = pRateLimit({ concurrency: 5, interval: 1000, rate: 3 })
+    const limit = pRateLimit({ concurrency: 5, interval: 1000, rate: 3 })
 
-      const ps = steps.map(fromBlock => {
-        let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
+    const ps = steps.map(fromBlock => {
+      let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
 
-        // await callback to finish processing events before updating lastEventblock
-        // we pass toBlock as null so the request naturally requests until the last block a node has,
-        // this is to prevent errors where some nodes for some reason still dont have the last block
-        toBlock = Math.min(toBlock, lastBlock)
+      // await callback to finish processing events before updating lastEventblock
+      // we pass toBlock as null so the request naturally requests until the last block a node has,
+      // this is to prevent errors where some nodes for some reason still dont have the last block
+      toBlock = Math.min(toBlock, lastBlock)
 
-        return limit(async () => {
-          log.debug('executing sync tx step:', { fromBlock, toBlock })
+      return limit(async () => {
+        log.debug('executing sync tx step:', { fromBlock, toBlock })
 
-          const events = await Promise.all([
-            this.pollSendEvents(toBlock, fromBlock),
-            this.pollReceiveEvents(toBlock, fromBlock),
-            this.pollOTPLEvents(toBlock, fromBlock),
-          ]).then(flatten)
+        const events = await Promise.all([
+          this.pollSendEvents(toBlock, fromBlock),
+          this.pollReceiveEvents(toBlock, fromBlock),
+          this.pollOTPLEvents(toBlock, fromBlock),
+        ]).then(flatten)
 
-          this._notifyEvents(events, fromBlock)
-          log.debug('DONE executing sync tx step:', { fromBlock, toBlock })
-          return events
-        })
+        this._notifyEvents(events, fromBlock)
+        log.debug('DONE executing sync tx step:', { fromBlock, toBlock })
+        return events
       })
+    })
 
-      // eslint-disable-next-line no-await-in-loop
-      await Promise.all(ps)
-      log.debug('sync tx from blockchain finished successfully')
+    // eslint-disable-next-line no-await-in-loop
+    await Promise.all(ps)
+    log.debug('sync tx from blockchain finished successfully')
 
-      return lastBlock
-    } catch (e) {
-      log.error('syncTxWithBlockchain failed', e.message, e, { startBlock, lastBlock, networkId: this.networkId })
-    }
+    return lastBlock
   }
 
   async pollSendEvents(toBlock, from = null) {

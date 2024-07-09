@@ -20,7 +20,6 @@ class IpfsStorage {
   _post(formData) {
     const headers = {
       Accept: 'application/json',
-      'Content-Type': 'multipart/form-data',
     }
     if (isMobileNative) {
       headers.origin = 'wallet.gooddollar.org'

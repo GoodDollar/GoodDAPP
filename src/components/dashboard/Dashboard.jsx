@@ -336,7 +336,7 @@ const Dashboard = props => {
   const payload = useFlagWithPayload('claim-feature')
 
   const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
-  const { supportedCountries, enabled: welcomeOfferActive, promoUrl, offerAmount } = showWelcomeOffer || {}
+  const { supportedCountries, enabled: welcomeOfferActive, promoUrl, offerAmount, webOnly } = showWelcomeOffer || {}
 
   const { securityEnabled, securityDialog } = useSecurityDialog()
 
@@ -542,13 +542,15 @@ const Dashboard = props => {
       return
     }
 
-    const country = await retry(fetch('https://get.geojs.io/v1/ip/country.json'), 3, 2000)
-      .then(_ => _.json())
-      .then(_ => _.country)
+    const country = await retry(
+      async () => (await fetch('https://get.geojs.io/v1/ip/country.json')).json(),
+      3,
+      2000,
+    ).then(data => data.country)
 
     const isEligible = supportedCountries.split(',').includes(country)
 
-    if (isWeb && welcomeOfferActive && isEligible) {
+    if (((webOnly && isWeb) || !webOnly) && welcomeOfferActive && isEligible) {
       fireEvent(MIGRATION_INVITED)
 
       showDialog({

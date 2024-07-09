@@ -9,6 +9,7 @@ import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import { withStyles } from '../../../lib/styles'
 import { WalletV2Continue } from '../../common/buttons/TaskButton'
 import WelcomeBilly from '../../../assets/welcome_offer.png'
+import CheckBox from '../../common/buttons/CheckBox'
 
 const mapStylesToProps = ({ theme }) => ({
   container: {
@@ -45,7 +46,7 @@ const mapStylesToProps = ({ theme }) => ({
   },
   rewardText: {
     color: '#00AEFF',
-    fontWeight: 700,
+    fontWeight: '700',
     fontSize: 16,
   },
   rewardContainer: {
@@ -55,12 +56,12 @@ const mapStylesToProps = ({ theme }) => ({
   },
   rewardAmountText: {
     fontSize: 36,
-    fontWeight: 800,
+    fontWeight: '800',
     color: '#00AEFF',
   },
   rewardAmountCurrency: {
     fontSize: 24,
-    fontWeight: 700,
+    fontWeight: '700',
     color: '#00AEFF',
   },
   description: {
@@ -70,6 +71,9 @@ const mapStylesToProps = ({ theme }) => ({
   },
   descriptionText: {
     paddingVertical: 12,
+  },
+  boldText: {
+    fontWeight: '700',
   },
 })
 
@@ -96,20 +100,19 @@ const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
         </View>
         <Text style={styles.descriptionText}>
           {t`Test out the new GoodWallet! For a limited time, you are eligible for `}{' '}
-          <b>{dialogProps.offerAmount} G$</b>{' '}
+          <Text style={styles.boldText}>{dialogProps.offerAmount} G$</Text>{' '}
           {t`bonus once you’ve made your first claim in the new GoodWallet. 
 
 Make sure you use the same login method you use here! 
 Not sure about your login method? You can see it in your Profile. `}
         </Text>
       </View>
-      <View marginTop={40} marginBottom="24">
-        <label style={{ marginBottom: 24, display: 'flex', alignItems: 'center' }}>
-          <input type="checkbox" onClick={() => setDontShow(prev => !prev)} style={{ width: 24, height: 24 }} />
+      <View marginBottom={24}>
+        <CheckBox onClick={() => setDontShow(prev => !prev)} value={dontShowAgain}>
           <Text style={[styles.descriptionText, { paddingLeft: 8, userSelect: 'none' }]}>
             {t`Dont show this offer again`}
           </Text>
-        </label>
+        </CheckBox>
         <WalletV2Continue
           buttonText={t`CONTINUE`}
           dontShowAgain={dontShowAgain}

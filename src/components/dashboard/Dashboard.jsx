@@ -336,7 +336,14 @@ const Dashboard = props => {
   const payload = useFlagWithPayload('claim-feature')
 
   const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
-  const { supportedCountries, enabled: welcomeOfferActive, promoUrl, offerAmount, webOnly } = showWelcomeOffer || {}
+  const {
+    offerAmount,
+    promoUrl,
+    supportedCountries,
+    enabled: welcomeOfferActive,
+    webOnly,
+    whitelist,
+  } = showWelcomeOffer || {}
 
   const { securityEnabled, securityDialog } = useSecurityDialog()
 
@@ -548,7 +555,7 @@ const Dashboard = props => {
       2000,
     ).then(data => data.country)
 
-    const isEligible = supportedCountries.split(',').includes(country)
+    const isEligible = supportedCountries.split(',').includes(country) || whitelist.includes(goodWallet.account)
 
     if (((webOnly && isWeb) || !webOnly) && welcomeOfferActive && isEligible) {
       fireEvent(MIGRATION_INVITED)

@@ -5788,6 +5788,7 @@ __metadata:
     "@mtourj/react-native-keyboard-aware-scroll-view": ^1.0.9
     "@react-native-async-storage/async-storage": 1.18.2
     "@react-native-community/blur": ^4.3.2
+    "@react-native-community/checkbox": ^0.5.17
     "@react-native-community/clipboard": ^1.5.1
     "@react-native-community/eslint-config": ^3.2.0
     "@react-native-community/netinfo": ^6.0.2
@@ -7822,6 +7823,20 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 4f7ed6a3bb58cd53346bb7d5755bb2733e8401fdae86334fde4f2fa0c554734e9bb52175c1f9ef1d99766aeb7a4991ac5dfe428c92da518d0353a1a6e5c3d39c
+  languageName: node
+  linkType: hard
+
+"@react-native-community/checkbox@npm:^0.5.17":
+  version: 0.5.17
+  resolution: "@react-native-community/checkbox@npm:0.5.17"
+  peerDependencies:
+    react: "*"
+    react-native: ">= 0.62"
+    react-native-windows: ">=0.62"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 98cddff11b976a1f712bfc4d7de946d5e102108bedc016bbcb668b3917757dd5092b5b93f651f740508dd8437ba3a0ce5ca15cef3ebf7bcfc15a490b0b7d0d6b
   languageName: node
   linkType: hard
 

@@ -6651,9 +6651,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.1.47-beta.36c24955":
-  version: 0.1.47-beta.36c24955
-  resolution: "@gooddollar/good-design@npm:0.1.47-beta.36c24955"
+"@gooddollar/good-design@npm:0.1.47-beta.1a2fae0":
+  version: 0.1.47-beta.1a2fae0
+  resolution: "@gooddollar/good-design@npm:0.1.47-beta.1a2fae0"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6692,7 +6692,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: 9adb49f8455be16db996d454bc437d633d8021e14048050631822c740f57aa0930d2cae270495ba27872f9b0c1e5714a86525c7620c87356b779b73483b892a5
+  checksum: 93c738bf0265463713ee677f75b177964fecdf4d965c18597a7fd2b3096e18e5cd1e2b421dacb15288bd50501559e3a6e85aa547496a21625f4c9dfb10e2fa28
   languageName: node
   linkType: hard
 
@@ -6731,12 +6731,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.1.47-beta.36c24955
+    "@gooddollar/good-design": 0.1.47-beta.1a2fae0
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.44
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.2.22-beta.36c24955
+    "@gooddollar/web3sdk-v2": 0.2.22-beta.1a2fae0
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7041,9 +7041,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.2.22-beta.36c24955":
-  version: 0.2.22-beta.36c24955
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.22-beta.36c24955"
+"@gooddollar/web3sdk-v2@npm:0.2.22-beta.1a2fae0":
+  version: 0.2.22-beta.1a2fae0
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.22-beta.1a2fae0"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7093,7 +7093,7 @@ __metadata:
     "@react-native-async-storage/async-storage": 1.17.10
     react-native: "*"
     react-native-web: "*"
-  checksum: 7b5e2976748a10a1254b754e8c00b4f6cbc0d9f6f9098948f3a43837a535cef159a14aba6f50d7ff4892e495f34232ccefb59a8844c4595ed943ebfac8b2e65b
+  checksum: 1060c9bfdff6af97a63fc5fc65094133eb08fcc49fa9dd77d76e0deeea62efb7b86c719ffba39a35e81215d8455c4581b6298fb6f0e954c13a1cea9cb52baede
   languageName: node
   linkType: hard
 

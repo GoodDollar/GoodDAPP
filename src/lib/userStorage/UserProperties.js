@@ -58,11 +58,17 @@ export default class UserProperties {
 
     this.ready = (async () => {
       const localProps = await AsyncStorage.getItem('localProps')
+      const localLogMethod = await AsyncStorage.getItem('logMethod')
 
       this.local = assign({}, localProps)
       this.throttlePersist = throttle(() => this.persist(), 5000, { leading: true, trailing: true })
 
       await withMutex(mutex, () => this._syncFromRemote())
+
+      if (localLogMethod) {
+        this.safeSet('logMethod', localLogMethod)
+        await AsyncStorage.removeItem('logMethod')
+      }
 
       return this.data
     })()
@@ -201,12 +207,13 @@ export default class UserProperties {
   // eslint-disable-next-line require-await
   async persist() {
     const { data, lastStored, storage } = this
-    const propsUpdated = shallowEqual(data, lastStored)
 
-    log.debug('persist called:', { data, lastStored, propsUpdated })
+    const propsNotUpdated = shallowEqual(data, lastStored)
+
+    log.debug('persist called:', { data, lastStored, propsNotUpdated })
 
     // no need deep check as lastStored is just a shallow copy
-    if (propsUpdated) {
+    if (propsNotUpdated) {
       log.debug('persist: props unchanged, skipping')
       return
     }

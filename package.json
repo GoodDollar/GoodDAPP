@@ -154,6 +154,7 @@
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
     "multiformats": "^9.6.4",
+    "native-base": "3.4.28",
     "node-libs-react-native": "^1.2.1",
     "numeral": "^2.0.6",
     "p-ratelimit": "^1.0.1",

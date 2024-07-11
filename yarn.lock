@@ -6868,6 +6868,7 @@ __metadata:
     moment: ^2.29.4
     moment-duration-format: ^2.3.2
     multiformats: ^9.6.4
+    native-base: 3.4.28
     node-libs-react-native: ^1.2.1
     node-pre-gyp: ^0.14.0
     node-xml-lite: 0.0.7
@@ -36814,7 +36815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"native-base@npm:^3.4.28":
+"native-base@npm:3.4.28, native-base@npm:^3.4.28":
   version: 3.4.28
   resolution: "native-base@npm:3.4.28"
   dependencies:

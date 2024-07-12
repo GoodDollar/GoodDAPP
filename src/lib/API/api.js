@@ -553,10 +553,16 @@ export class APIService {
 
     for (;;) {
       const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
-        const { result: events } = await this.sharedClient.get('/api', {
-          params,
-          baseURL,
-        })
+        const options = { baseURL, params }
+
+        if (baseURL.includes('tatum')) {
+          options.headers = {
+            accept: 'application/json',
+            'x-api-key': Config.tatumApiKey,
+          }
+        }
+
+        const { result: events } = await this.sharedClient.get('/api', options)
 
         if (!isArray(events)) {
           log.warn('Failed to fetch OTP events from explorer', { events, params, chainId, baseURL })
@@ -615,7 +621,12 @@ export class APIService {
 
     const pageSize = 50 // default page size by Tatum
     const params = { ...query, chain, addresses: address, offset: 0 }
-    const options = { baseURL: Config.tatumApiUrl, params }
+
+    const options = {
+      baseURL: Config.tatumApiUrl,
+      params,
+      headers: { accept: 'application/json', 'x-api-key': Config.tatumApiKey },
+    }
 
     if (from) {
       params.blockFrom = from
@@ -654,6 +665,13 @@ export class APIService {
     for (;;) {
       const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
         const options = { baseURL, params }
+
+        if (baseURL.includes('tatum')) {
+          options.headers = {
+            accept: 'application/json',
+            'x-api-key': Config.tatumApiKey,
+          }
+        }
 
         const { result } = await this.sharedClient.get(url, options)
         if (!isArray(result)) {

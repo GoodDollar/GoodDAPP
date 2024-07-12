@@ -137,7 +137,7 @@ class SoftwareWalletProvider {
     const endpoints = uniq(httpWeb3provider.split(',')).map(endpoint => {
       let options = {} // opts for each url separately
       let provider = endpoint
-      const backend = ['infura', 'pokt'].find(server => endpoint.includes(server))
+      const backend = ['infura', 'pokt', 'tatum'].find(server => endpoint.includes(server))
 
       switch (backend) {
         case 'infura':
@@ -153,6 +153,14 @@ class SoftwareWalletProvider {
                 { name: 'Origin', value: publicUrl },
               ],
             }
+          }
+          break
+        case 'tatum':
+          options = {
+            headers: [
+              { name: 'Content-Type', value: 'application/json' },
+              { name: 'x-api-key', value: Config.tatumApiKey },
+            ],
           }
           break
         default:

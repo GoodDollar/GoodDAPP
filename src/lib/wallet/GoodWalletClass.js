@@ -1712,7 +1712,7 @@ export class GoodWallet {
         gas = await tx.estimateGas().then(cost => (Number(cost) + 40000).toFixed(0))
 
         //hotfix for receiving too low amount of gas for claim tx
-        if (type === 'claim' && gas < 10000) {
+        if (type === 'claim' && gas < 100000) {
           gas = undefined
         }
       } catch (e) {

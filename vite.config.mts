@@ -46,7 +46,7 @@ export default defineConfig({
       workbox: {
         skipWaiting: false,
         clientsClaim: true,
-        globPatterns: ['assets/*.{js,css,ico,png,svg,gif,html}', 'facetec/**/*.*', 'torus/*.*'],
+        globPatterns: ['assets/*.{js,css,ico,png,svg,gif,html}', 'facetec/**/*.*', 'torus/**/*.*'],
         // navigateFallbackDenylist: [
         //   // Exclude URLs starting with /_, as they're likely an API call
         //   // new RegExp('^/_'),
@@ -130,21 +130,27 @@ export default defineConfig({
       ],
       globals: { process: true, Buffer: true, global: true },
     }),
-    sentryVitePlugin({
-      debug: false,
-      telemetry: false,
-      release: {
-        name: `${version}+${sentryEnv}`,
-        deploy: {
-          env: sentryEnv,
+    {
+      apply: 'build',
+      config: sentryVitePlugin({
+        sourcemaps: {
+          assets: [],
         },
-      },
-      org: 'gooddollar',
-      project: 'gooddapp',
+        debug: false,
+        telemetry: false,
+        release: {
+          name: `${version}+${sentryEnv}`,
+          deploy: {
+            env: sentryEnv,
+          },
+        },
+        org: 'gooddollar',
+        project: 'gooddapp',
 
-      // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-    }),
+        // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+      }),
+    },
 
     !process.env.CI && analyzer({ analyzerMode: 'static' }),
   ],

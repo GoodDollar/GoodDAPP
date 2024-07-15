@@ -351,7 +351,7 @@
     "vite-bundle-analyzer": "^0.7.0",
     "vite-plugin-dynamic-import": "^1.5.0",
     "vite-plugin-node-polyfills": "^0.16.0",
-    "vite-plugin-pwa": "^0.17.5",
+    "vite-plugin-pwa": "^0.20.0",
     "vite-plugin-static-copy": "^1.0.0",
     "vite-plugin-svgr": "^4.2.0",
     "web-encoding": "^1.1.5"

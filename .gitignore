@@ -116,3 +116,4 @@ service-worker.js
 dev-dist
 .continueignore
 .yalc
+yalc.lock

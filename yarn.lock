@@ -6651,9 +6651,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.1.47-beta.1a2fae0":
-  version: 0.1.47-beta.1a2fae0
-  resolution: "@gooddollar/good-design@npm:0.1.47-beta.1a2fae0"
+"@gooddollar/good-design@npm:0.1.50-beta.ba70dfad":
+  version: 0.1.50-beta.ba70dfad
+  resolution: "@gooddollar/good-design@npm:0.1.50-beta.ba70dfad"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6663,6 +6663,7 @@ __metadata:
     "@magiklabs/react-sdk": ^1.0.8
     "@react-native-clipboard/clipboard": ^1.14.1
     "@uniswap/sdk-core": ^3.1.0
+    async-await-mutex-lock: ^1.0.11
     buffer: ^6.0.3
     country-data: ^0.0.31
     ethers: 5.7.2
@@ -6692,7 +6693,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: 93c738bf0265463713ee677f75b177964fecdf4d965c18597a7fd2b3096e18e5cd1e2b421dacb15288bd50501559e3a6e85aa547496a21625f4c9dfb10e2fa28
+  checksum: 9af3dc838a3d5b4b6bb0dc56609688e94d42599c96e121ec6de4919995392661d92f196f3ac451bbf743eb0a9d5cdff570f7cc5290c18c1c7e8f15dca7d77995
   languageName: node
   linkType: hard
 
@@ -6731,12 +6732,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.1.47-beta.1a2fae0
+    "@gooddollar/good-design": 0.1.50-beta.ba70dfad
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.44
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.2.22-beta.1a2fae0
+    "@gooddollar/web3sdk-v2": 0.2.24-beta.ba70dfad
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7041,9 +7042,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.2.22-beta.1a2fae0":
-  version: 0.2.22-beta.1a2fae0
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.22-beta.1a2fae0"
+"@gooddollar/web3sdk-v2@npm:0.2.24-beta.ba70dfad":
+  version: 0.2.24-beta.ba70dfad
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.24-beta.ba70dfad"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7093,7 +7094,7 @@ __metadata:
     "@react-native-async-storage/async-storage": 1.17.10
     react-native: "*"
     react-native-web: "*"
-  checksum: 1060c9bfdff6af97a63fc5fc65094133eb08fcc49fa9dd77d76e0deeea62efb7b86c719ffba39a35e81215d8455c4581b6298fb6f0e954c13a1cea9cb52baede
+  checksum: a60d3235d02ac6e3e2bd8f50621afc6aee0bb63559e6f10916d17bc039199aaa777fd6449a8d9fe5b1882e32d15444ea2cf304ff568a1908b03657cf238c69a0
   languageName: node
   linkType: hard
 
@@ -17677,6 +17678,13 @@ __metadata:
   version: 2.0.0
   resolution: "astral-regex@npm:2.0.0"
   checksum: 876231688c66400473ba505731df37ea436e574dd524520294cc3bbc54ea40334865e01fa0d074d74d036ee874ee7e62f486ea38bc421ee8e6a871c06f011766
+  languageName: node
+  linkType: hard
+
+"async-await-mutex-lock@npm:^1.0.11":
+  version: 1.0.11
+  resolution: "async-await-mutex-lock@npm:1.0.11"
+  checksum: 90dcedd4c9846109ac157ddf33087130b90b31d310469cfe19cf0f068497f8aa199196a36d35b8086dcffc44cd8cdb16f7da879141cbc1520f049931711ee20c
   languageName: node
   linkType: hard
 

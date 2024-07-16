@@ -395,7 +395,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
       ? {}
       : {
           web3Provider,
-          env,
+          env: 'staging', //TEMP!!: just for testing on feature-branche
           config: {
             pollingInterval: 15000,
             networks: [Mainnet, Fuse, Celo],

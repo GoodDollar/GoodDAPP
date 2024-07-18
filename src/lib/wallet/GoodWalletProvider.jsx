@@ -8,6 +8,7 @@ import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
 
+import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -240,7 +241,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         global.wallet = wallet
 
         if (logMethod) {
-          await storage.userProperties.safeSet('logMethod', logMethod)
+          await AsyncStorage.setItem('logMethod', logMethod)
         }
 
         setWalletAndStorage({
@@ -384,6 +385,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   let env = Config.network.split('-')[0] === 'development' ? 'fuse' : Config.network.split('-')[0]
   if (['fuse', 'staging', 'production'].includes(env) === false) {
     env = 'fuse'
+  }
+
+  if (Config.GoodIdFeatureBranch) {
+    env = 'staging'
   }
 
   // disable goodweb3provider for tests

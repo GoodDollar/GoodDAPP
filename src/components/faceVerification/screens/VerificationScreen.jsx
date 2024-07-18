@@ -141,7 +141,8 @@ const FaceVerification = ({ screenProps, navigation }) => {
         userStorage.userProperties.set('fv2', true)
       }
 
-      screenProps.navigateTo('Claim', { isValid: true })
+      //go to goodid to complete certificates
+      screenProps.navigateTo('GoodIdOnboard', { isValid: true })
     },
     [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow],
   )

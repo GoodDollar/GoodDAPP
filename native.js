@@ -2,12 +2,12 @@ import { AppRegistry } from 'react-native'
 import React from 'react'
 import 'react-native-crypto'
 import WebviewCrypto from 'react-native-webview-crypto'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 import 'react-native-gesture-handler'
 
 import env from './src/config/env'
 import App from './src/mainApp/AppHolder'
 import { name as appName } from './app.json'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import './src/lib/utils/deepLinking'
 import withHotCodePush from './src/lib/hoc/withHotCodePush'

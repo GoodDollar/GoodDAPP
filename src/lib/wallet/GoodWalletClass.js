@@ -1621,7 +1621,7 @@ export class GoodWallet {
         log.info('verifyHasGas using faucet...')
 
         const toptx = this.faucetContract.methods.topWallet(this.account)
-        const ok = await this.sendTransaction(toptx, undefined, {
+        const ok = await this.sendTransaction(toptx, undefined, undefined, {
           isVerifyHasGas: true,
           gas: await toptx.estimateGas().catch(e => Math.min(170000, (nativeBalance / this.gasPrice).toFixed(0))),
         })

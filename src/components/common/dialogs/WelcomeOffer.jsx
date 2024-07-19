@@ -95,7 +95,7 @@ const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
 
         <Text style={styles.rewardText}>{t`Welcome Reward After First Claim`}</Text>
         <View style={styles.rewardContainer}>
-          <Text style={[styles.rewardAmountText, { fontWeight: 'bold' }]}>{`200`}</Text>
+          <Text style={[styles.rewardAmountText, { fontWeight: 'bold' }]}>{dialogProps.offerAmount}</Text>
           <Text style={styles.rewardAmountCurrency}>{`G$`}</Text>
         </View>
         <Text style={styles.descriptionText}>

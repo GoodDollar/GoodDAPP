@@ -373,28 +373,22 @@ export class APIService {
 
   // eslint-disable-next-line require-await
   async getTokenTxs(token, address, chainId, fromBlock = null, allPages = true) {
-    if (chainId === NETWORK_ID.FUSE) {
-      const explorerQuery = { action: 'tokentx', contractaddress: token }
+    const explorerQuery = { action: 'tokentx', contractaddress: token }
 
-      return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages)
-    }
-
-    const tatumQuery = { tokenAddress: token, transactionTypes: 'fungible' }
-
-    return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
+    return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages)
   }
 
   // eslint-disable-next-line require-await
   async getNativeTxs(address, chainId, fromBlock = null, allPages = true) {
-    if (chainId === NETWORK_ID.FUSE) {
-      const explorerQuery = { action: 'txlist' }
+    const explorerQuery = { action: 'txlist' }
+    return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages).catch(e => {
+      if (chainId !== NETWORK_ID.FUSE) {
+        const tatumQuery = { transactionTypes: 'native' }
+        return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
+      }
 
-      return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages)
-    }
-
-    const tatumQuery = { transactionTypes: 'native' }
-
-    return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
+      throw e
+    })
   }
 
   async getChains(): AxiosPromise<any> {
@@ -674,6 +668,7 @@ export class APIService {
         }
 
         const { result } = await this.sharedClient.get(url, options)
+
         if (!isArray(result)) {
           log.warn('Failed to fetch transactions from explorer', { result, params, chainId, baseURL })
           throw new Error('Failed to fetch transactions from explorer')

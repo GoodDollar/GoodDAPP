@@ -762,7 +762,7 @@ export class GoodWallet {
    * @returns {Promise<TransactionReceipt>|Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|*>}
    */
   claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
-    return this.sendTransaction(this.UBIContract.methods.claim(), callbacks, 'claim')
+    return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
   }
 
   async checkEntitlement(): Promise<number> {
@@ -1621,7 +1621,7 @@ export class GoodWallet {
         log.info('verifyHasGas using faucet...')
 
         const toptx = this.faucetContract.methods.topWallet(this.account)
-        const ok = await this.sendTransaction(toptx, undefined, undefined, {
+        const ok = await this.sendTransaction(toptx, undefined, {
           isVerifyHasGas: true,
           gas: await toptx.estimateGas().catch(e => Math.min(170000, (nativeBalance / this.gasPrice).toFixed(0))),
         })
@@ -1706,7 +1706,6 @@ export class GoodWallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = defaultPromiEvents,
-    type = undefined,
     { gas: setgas, gasPrice, isVerifyHasGas }: GasValues = {
       gas: undefined,
       gasPrice: undefined,
@@ -1720,11 +1719,6 @@ export class GoodWallet {
       //estimate gas and add 40k for non deterministic writes (required for example when GOOD minting happens)
       try {
         gas = await tx.estimateGas().then(cost => (Number(cost) + 40000).toFixed(0))
-
-        //hotfix for receiving too low amount of gas for claim tx
-        if (type === 'claim' && gas < 100000) {
-          gas = undefined
-        }
       } catch (e) {
         if (e.message.toLowerCase().includes('revert')) {
           log.warn('sendTransaction gas estimate reverted:', e.message, e, {

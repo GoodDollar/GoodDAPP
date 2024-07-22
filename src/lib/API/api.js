@@ -372,10 +372,17 @@ export class APIService {
   }
 
   // eslint-disable-next-line require-await
-  async getTokenTxs(token, address, chainId, fromBlock = null, allPages = true) {
-    const explorerQuery = { action: 'tokentx', contractaddress: token }
+  async getTokenTxs(tokenAddress, address, chainId, fromBlock = null, allPages = true) {
+    const explorerQuery = { action: 'tokentx', contractaddress: tokenAddress }
 
-    return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages)
+    return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages).catch(e => {
+      if (chainId !== NETWORK_ID.FUSE) {
+        const tatumQuery = { tokenAddress, transactionTypes: 'fungible' }
+        return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
+      }
+
+      throw e
+    })
   }
 
   // eslint-disable-next-line require-await
@@ -549,13 +556,6 @@ export class APIService {
       const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
         const options = { baseURL, params }
 
-        if (baseURL.includes('tatum')) {
-          options.headers = {
-            accept: 'application/json',
-            'x-api-key': Config.tatumApiKey,
-          }
-        }
-
         const { result: events } = await this.sharedClient.get('/api', options)
 
         if (!isArray(events)) {
@@ -659,13 +659,6 @@ export class APIService {
     for (;;) {
       const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
         const options = { baseURL, params }
-
-        if (baseURL.includes('tatum')) {
-          options.headers = {
-            accept: 'application/json',
-            'x-api-key': Config.tatumApiKey,
-          }
-        }
 
         const { result } = await this.sharedClient.get(url, options)
 

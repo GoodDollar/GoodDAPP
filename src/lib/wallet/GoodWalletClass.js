@@ -513,16 +513,9 @@ export class GoodWallet {
 
     const getOTPL = hash => API.getOTPLEvents(account, networkId, otpAddress, startBlock, currentBlock, hash)
 
-    txEvents = await API.getTokenTxs(tokenAddress, account, networkId, startBlock)
-      .then(results => results.map(result => ({ ...result, transactionHash: result.transactionHash || result.hash })))
-      .catch(e => {
-        if (networkId !== 122) {
-          const tatumQuery = { tokenAddress, transactionTypes: 'fungible' }
-          return this.getTatumTxs(account, networkId, tatumQuery, startBlock)
-        }
-
-        throw e
-      })
+    txEvents = await API.getTokenTxs(tokenAddress, account, networkId, startBlock).then(results =>
+      results.map(result => ({ ...result, transactionHash: result.transactionHash || result.hash })),
+    )
 
     if (otpAddress) {
       withdrawEvents = await getOTPL(withdrawHash)

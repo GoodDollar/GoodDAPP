@@ -54,7 +54,7 @@ export class MultipleHttpProvider extends HttpProvider {
         return await this._sendRequest(payload)
       } catch (exception) {
         // log error to analytics if last peer failed, ie all rpcs failed
-        if (isConnectionError(exception) && !loggedProviders.has(provider) && peers[peers.length - 1] === item) {
+        if (!isTxError(exception) && !loggedProviders.has(provider) && peers[peers.length - 1] === item) {
           loggedProviders.set(provider, true)
 
           const { message: originalMessage } = exception
@@ -80,11 +80,7 @@ export class MultipleHttpProvider extends HttpProvider {
     }
 
     const onFailed = error => {
-      if (!isTxError(error.message) && !isConnectionError(error)) {
-        log.error('Failed with last unknown error', error.message, error)
-      } else {
-        log.warn('Failed with last error', error.message, error, payload.id)
-      }
+      log.warn('Failed RPC call', error.message, error, payload.id)
 
       callback(error, null)
     }

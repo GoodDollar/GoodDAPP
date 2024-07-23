@@ -339,7 +339,7 @@ const Dashboard = props => {
   const {
     offerAmount,
     promoUrl,
-    supportedCountries,
+    supportedCountries = '',
     enabled: welcomeOfferActive,
     webOnly,
     whitelist,

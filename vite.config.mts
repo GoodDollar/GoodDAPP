@@ -134,27 +134,25 @@ export default defineConfig({
       globals: { process: true, Buffer: true, global: true },
     }),
     {
-      apply: 'build',
-      config:
-        process.env.SENTRY_AUTH_TOKEN &&
-        sentryVitePlugin({
-          sourcemaps: {
-            assets: [],
+      ...sentryVitePlugin({
+        sourcemaps: {
+          assets: [],
+        },
+        debug: false,
+        telemetry: false,
+        release: {
+          name: `${version}+${sentryEnv}`,
+          deploy: {
+            env: sentryEnv,
           },
-          debug: false,
-          telemetry: false,
-          release: {
-            name: `${version}+${sentryEnv}`,
-            deploy: {
-              env: sentryEnv,
-            },
-          },
-          org: 'gooddollar',
-          project: 'gooddapp',
+        },
+        org: 'gooddollar',
+        project: 'gooddapp',
 
-          // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-          authToken: process.env.SENTRY_AUTH_TOKEN,
-        }),
+        // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+      }),
+      apply: 'build', // required for bug with pwa https://github.com/getsentry/sentry-javascript-bundler-plugins/issues/460
     },
 
     !process.env.CI && analyzer({ analyzerMode: 'static' }),

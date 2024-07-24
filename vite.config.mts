@@ -104,6 +104,9 @@ export default defineConfig({
       ],
     }),
     svgLoader({
+      svgrOptions: {
+        plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
+      },
       include: '**/*.svg',
       exclude: ['**/*.svg?url'],
     }),
@@ -132,24 +135,26 @@ export default defineConfig({
     }),
     {
       apply: 'build',
-      config: sentryVitePlugin({
-        sourcemaps: {
-          assets: [],
-        },
-        debug: false,
-        telemetry: false,
-        release: {
-          name: `${version}+${sentryEnv}`,
-          deploy: {
-            env: sentryEnv,
+      config:
+        process.env.SENTRY_AUTH_TOKEN &&
+        sentryVitePlugin({
+          sourcemaps: {
+            assets: [],
           },
-        },
-        org: 'gooddollar',
-        project: 'gooddapp',
+          debug: false,
+          telemetry: false,
+          release: {
+            name: `${version}+${sentryEnv}`,
+            deploy: {
+              env: sentryEnv,
+            },
+          },
+          org: 'gooddollar',
+          project: 'gooddapp',
 
-        // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-      }),
+          // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+          authToken: process.env.SENTRY_AUTH_TOKEN,
+        }),
     },
 
     !process.env.CI && analyzer({ analyzerMode: 'static' }),

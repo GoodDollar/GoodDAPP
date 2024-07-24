@@ -31,7 +31,6 @@
     "test:android": "npm run animation:assets && ENVFILE=.env.test detox build -c android.emu.debug && detox test -c android.emu.debug",
     "coverage": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider\" REACT_APP_ENV=test jest --coverage --forceExit",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
-    "bundlesize:check": "bundlesize",
     "flow": "flow",
     "backend": "npm run start --prefix node_modules/@gooddollar/goodcontracts/",
     "lint": "eslint ./src --ext .js,.jsx --max-warnings=0",
@@ -278,6 +277,7 @@
     "@lingui/macro": "^3.13.0",
     "@react-native-community/eslint-config": "^3.2.0",
     "@sentry/vite-plugin": "^2.10.3",
+    "@svgr/plugin-svgo": "^8.1.0",
     "@tsconfig/react-native": "^3.0.2",
     "@types/fast-text-encoding": "^1",
     "@types/jest": "^29.2.1",
@@ -301,7 +301,6 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-import-meta": "^2.2.1",
     "babel-plugin-transform-vite-meta-env": "^1.0.3",
-    "bundlesize": "^0.18.0",
     "coveralls": "^3.0.3",
     "deprecated-react-native-prop-types": "^5.0.0",
     "detox": "^17.6.1",
@@ -388,8 +387,7 @@
     "react-native-card-flip@^1.0.7": "patch:react-native-card-flip@npm%3A1.0.7#./.yarn/patches/react-native-card-flip-npm-1.0.7-64320a3ab5.patch",
     "react-native-modal-dropdown@^1.0.2": "patch:react-native-modal-dropdown@npm%3A1.0.2#./.yarn/patches/react-native-modal-dropdown-npm-1.0.2-1bfc5979be.patch",
     "jest-environment-jsdom@^29.7.0": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
-    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
-    "vite-plugin-svgr@^4.2.0": "patch:vite-plugin-svgr@npm%3A4.2.0#./.yarn/patches/vite-plugin-svgr-npm-4.2.0-e0c6a7a1f0.patch"
+    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch"
   },
   "husky": {
     "hooks": {
@@ -402,12 +400,6 @@
       "git add"
     ]
   },
-  "bundlesize": [
-    {
-      "path": "./build/static/js/*.js",
-      "maxSize": "4 MB"
-    }
-  ],
   "auto-changelog": {
     "tagPattern": "^v[\\.0-9]+$"
   },

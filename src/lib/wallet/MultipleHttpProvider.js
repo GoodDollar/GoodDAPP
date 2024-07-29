@@ -10,7 +10,7 @@ const { providers } = Web3
 const { HttpProvider } = providers
 const log = logger.child({ from: 'MultipleHttpProvider' })
 
-const isTxError = message => isDuplicateTxError(message) || message?.search(/reverted|gas/i) >= 0
+const isTxError = message => isDuplicateTxError(message) || String(message)?.search(/reverted|gas/i) >= 0
 
 export class MultipleHttpProvider extends HttpProvider {
   static loggedProviders = new Map()

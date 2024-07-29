@@ -1,4 +1,4 @@
-import DirectWebSDK from '@toruslabs/customauth'
+import { CustomAuth } from '@toruslabs/customauth'
 import { defaults } from 'lodash'
 
 // should be non-arrow function to be invoked with new
@@ -13,7 +13,7 @@ function Torus(Config, options) {
   const torusOptions = defaults({}, options, { baseUrl, redirectPathName })
 
   // as i remember baseUrl is web only - please re-check this
-  return new DirectWebSDK(torusOptions)
+  return new CustomAuth(torusOptions)
 }
 
 export default Torus

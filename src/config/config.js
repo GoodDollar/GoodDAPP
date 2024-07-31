@@ -32,7 +32,7 @@ export const fuseNetwork = {
   defaultPublicRpc: 'https://rpc.fuse.io/',
   explorerName: 'fusescan',
   network_id: 122,
-  gasPrice: 10, // in gwei
+  gasPrice: 20, // in gwei
   g$Decimals: 2,
 }
 

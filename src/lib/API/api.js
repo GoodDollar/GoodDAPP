@@ -536,6 +536,8 @@ export class APIService {
 
     const sender32 = padLeft(sender, 64)
 
+    const fromBlock = chainId === 1 ? currentBlock - 500 : from
+
     const params = {
       module: 'logs',
       action: 'getLogs',
@@ -548,7 +550,7 @@ export class APIService {
 
       // required for fuse explorer, optional for celoscan
       topic0_1_opr: 'and',
-      fromBlock: from,
+      fromBlock: fromBlock,
       toBlock: currentBlock,
     }
 

@@ -6005,7 +6005,7 @@ __metadata:
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.44
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": ^0.2.21
+    "@gooddollar/web3sdk-v2": ^0.2.30
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -6309,9 +6309,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:^0.2.21":
-  version: 0.2.21
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.21"
+"@gooddollar/web3sdk-v2@npm:^0.2.30":
+  version: 0.2.30
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.30"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -6356,9 +6356,10 @@ __metadata:
     wagmi: ^1.3.8
   peerDependencies:
     "@react-native-async-storage/async-storage": 1.17.10
+    "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 26d590e73ef48718df56160854ed6dc2a1d46e12d1fcc9c1d2f478d691ff177eae276ff6a6866765197da35000cb0fe814eb3eb014a4fc80cf222318c96798e6
+  checksum: ac016a5231664f7fd453437fa931937b853ea609074192116cf1357d955334668e8ee298c43ac36aa3c8daa1f418455a18eff35c160a2dd26d6eee57971f870d
   languageName: node
   linkType: hard
 

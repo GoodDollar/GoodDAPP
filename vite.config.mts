@@ -46,7 +46,7 @@ export default defineConfig({
       workbox: {
         skipWaiting: false,
         clientsClaim: true,
-        globPatterns: ['assets/*.{js,css,ico,png,svg,gif,html}', 'facetec/**/*.*', 'torus/**/*.*', 'index.html'],
+        globPatterns: ['assets/*.{js,css,ico,png,svg,gif,html}', 'facetec/**/*.*', 'torus/**/*.*'],
         // navigateFallbackDenylist: [
         //   // Exclude URLs starting with /_, as they're likely an API call
         //   // new RegExp('^/_'),

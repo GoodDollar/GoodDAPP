@@ -32,7 +32,7 @@ export const fuseNetwork = {
   defaultPublicRpc: 'https://rpc.fuse.io/',
   explorerName: 'fusescan',
   network_id: 122,
-  gasPrice: 10, // in gwei
+  gasPrice: 11, // in gwei
   g$Decimals: 2,
 }
 
@@ -221,7 +221,7 @@ const Config = {
   networkId,
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
-  defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
+  defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 11),
   defaultTxGas: parseInt(env.REACT_APP_DEFAULT_TX_GAS || 1000000),
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),

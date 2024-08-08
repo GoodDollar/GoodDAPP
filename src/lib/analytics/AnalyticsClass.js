@@ -427,7 +427,7 @@ export class AnalyticsClass {
   // @private
   getDebouncedFireEvent = memoize(uniqueId => debounce(this.fireEvent, 500, { leading: true }))
 
-  filteredNetworkErrors = ['failed to fetch', 'Network request failed', 'Network Error']
+  filteredNetworkErrors = /failed to fetch|network request failed|network error/i
 
   // @private
   onErrorLogged(args) {
@@ -455,7 +455,7 @@ export class AnalyticsClass {
         }
       }
 
-      if (isString(logMessage) && !logMessage.includes('axios') && !filteredNetworkErrors.includes(eMsg)) {
+      if (isString(logMessage) && !logMessage.includes('axios') && !filteredNetworkErrors.test(eMsg)) {
         const unique = `${eMsg} ${logMessage} (${logContext.from})`
         const debouncedFireEvent = this.getDebouncedFireEvent(unique)
 
@@ -481,7 +481,7 @@ export class AnalyticsClass {
         errorToPassIntoLog = cloneErrorObject(errorObj)
         errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
       } else {
-        errorToPassIntoLog = new Error(logMessage)
+        errorToPassIntoLog = new Error(`${logMessage}: ${eMsg}`)
       }
 
       const sentryPayload = {

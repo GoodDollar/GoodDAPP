@@ -54,7 +54,7 @@ export class MultipleHttpProvider extends HttpProvider {
         return await this._sendRequest(payload)
       } catch (exception) {
         // log error to analytics if last peer failed, ie all rpcs failed
-        if (!isTxError(exception) && !loggedProviders.has(provider) && peers[peers.length - 1] === item) {
+        if (!isTxError(exception?.message) && !loggedProviders.has(provider) && peers[peers.length - 1] === item) {
           loggedProviders.set(provider, true)
 
           const { message: originalMessage } = exception

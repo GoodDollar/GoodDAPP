@@ -4,6 +4,7 @@ import { OnboardController } from '@gooddollar/good-design'
 import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
+import Config from '../../config/config'
 
 const GoodIdOnboardImpl = ({ screenProps, styles }) => {
   // isValid is result from FV
@@ -27,6 +28,7 @@ const GoodIdOnboardImpl = ({ screenProps, styles }) => {
         onFV={navigateToFV}
         onSkip={onSkip}
         onDone={onSkip}
+        isDev={Config.env !== 'production'}
       />
     </View>
   )

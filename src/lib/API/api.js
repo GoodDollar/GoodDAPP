@@ -372,29 +372,30 @@ export class APIService {
   }
 
   // eslint-disable-next-line require-await
-  async getTokenTxs(token, address, chainId, fromBlock = null, allPages = true) {
-    if (chainId === NETWORK_ID.FUSE) {
-      const explorerQuery = { action: 'tokentx', contractaddress: token }
+  async getTokenTxs(tokenAddress, address, chainId, fromBlock = null, allPages = true) {
+    const explorerQuery = { action: 'tokentx', contractaddress: tokenAddress }
 
-      return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages)
-    }
+    return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages).catch(e => {
+      if (chainId !== NETWORK_ID.FUSE) {
+        const tatumQuery = { tokenAddress, transactionTypes: 'fungible' }
+        return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
+      }
 
-    const tatumQuery = { tokenAddress: token, transactionTypes: 'fungible' }
-
-    return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
+      throw e
+    })
   }
 
   // eslint-disable-next-line require-await
   async getNativeTxs(address, chainId, fromBlock = null, allPages = true) {
-    if (chainId === NETWORK_ID.FUSE) {
-      const explorerQuery = { action: 'txlist' }
+    const explorerQuery = { action: 'txlist' }
+    return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages).catch(e => {
+      if (chainId !== NETWORK_ID.FUSE) {
+        const tatumQuery = { transactionTypes: 'native' }
+        return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
+      }
 
-      return this.getExplorerTxs(address, chainId, explorerQuery, fromBlock, allPages)
-    }
-
-    const tatumQuery = { transactionTypes: 'native' }
-
-    return this.getTatumTxs(address, chainId, tatumQuery, fromBlock, allPages)
+      throw e
+    })
   }
 
   async getChains(): AxiosPromise<any> {
@@ -535,6 +536,8 @@ export class APIService {
 
     const sender32 = padLeft(sender, 64)
 
+    const fromBlock = chainId === 1 ? currentBlock - 500 : from
+
     const params = {
       module: 'logs',
       action: 'getLogs',
@@ -547,16 +550,15 @@ export class APIService {
 
       // required for fuse explorer, optional for celoscan
       topic0_1_opr: 'and',
-      fromBlock: from,
+      fromBlock: fromBlock,
       toBlock: currentBlock,
     }
 
     for (;;) {
       const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
-        const { result: events } = await this.sharedClient.get('/api', {
-          params,
-          baseURL,
-        })
+        const options = { baseURL, params }
+
+        const { result: events } = await this.sharedClient.get('/api', options)
 
         if (!isArray(events)) {
           log.warn('Failed to fetch OTP events from explorer', { events, params, chainId, baseURL })
@@ -615,7 +617,12 @@ export class APIService {
 
     const pageSize = 50 // default page size by Tatum
     const params = { ...query, chain, addresses: address, offset: 0 }
-    const options = { baseURL: Config.tatumApiUrl, params }
+
+    const options = {
+      baseURL: Config.tatumApiUrl,
+      params,
+      headers: { accept: 'application/json', 'x-api-key': Config.tatumApiKey },
+    }
 
     if (from) {
       params.blockFrom = from
@@ -656,6 +663,7 @@ export class APIService {
         const options = { baseURL, params }
 
         const { result } = await this.sharedClient.get(url, options)
+
         if (!isArray(result)) {
           log.warn('Failed to fetch transactions from explorer', { result, params, chainId, baseURL })
           throw new Error('Failed to fetch transactions from explorer')

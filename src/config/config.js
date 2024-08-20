@@ -32,7 +32,7 @@ export const fuseNetwork = {
   defaultPublicRpc: 'https://rpc.fuse.io/',
   explorerName: 'fusescan',
   network_id: 122,
-  gasPrice: 10, // in gwei
+  gasPrice: 11, // in gwei
   g$Decimals: 2,
 }
 
@@ -221,7 +221,7 @@ const Config = {
   networkId,
   isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
-  defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 10),
+  defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 11),
   defaultTxGas: parseInt(env.REACT_APP_DEFAULT_TX_GAS || 1000000),
   verifyCaptchaUrl: env.REACT_APP_VERIFY_CAPTCHA_URL || 'https://verify.goodworker.workers.dev',
   ...(env.REACT_APP_TEST_CLAIM_NOTIFICATION === 'true' ? notifyOptsTest :  notifyOpts),
@@ -229,6 +229,7 @@ const Config = {
   showAllChainsEth: isDeltaApp && env.REACT_APP_FORCE_ALL_CHAINS_ETH === 'true',
   posthogApiKey: env.REACT_APP_POSTHOG_KEY,
   tatumApiUrl: env.REACT_APP_TATUM_API_URL || 'https://api.tatum.io/v3',
+  tatumApiKey: env.REACT_APP_TATUM_KEY,
   posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
   fvTypeformUrl: 'https://gooddollar.typeform.com/to/Prgnwkrz',
   gasFeeNotionUrl: 'https://www.notion.so/gooddollar/Why-does-it-say-I-m-Out-of-Gas-d92e5e20b6144dfbb12979e266e72959',

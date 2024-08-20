@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "2.40.1-1",
+  "version": "2.45.0",
   "engines": {
     "node": "18.x",
     "npm": "9.x"
@@ -31,7 +31,6 @@
     "test:android": "npm run animation:assets && ENVFILE=.env.test detox build -c android.emu.debug && detox test -c android.emu.debug",
     "coverage": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider\" REACT_APP_ENV=test jest --coverage --forceExit",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
-    "bundlesize:check": "bundlesize",
     "flow": "flow",
     "backend": "npm run start --prefix node_modules/@gooddollar/goodcontracts/",
     "lint": "eslint ./src --ext .js,.jsx --max-warnings=0",
@@ -77,12 +76,12 @@
     "@ethersproject/wallet": "^5.7.0",
     "@expo/react-native-action-sheet": "^3.9.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
-    "@gooddollar/good-design": "0.1.50-beta.ba70dfad",
+    "@gooddollar/good-design": "0.1.56-beta.80712d00",
     "@gooddollar/goodcontracts": "^2.6.2",
     "@gooddollar/goodprotocol": "^2.0.24",
-    "@gooddollar/react-native-facetec": "^1.0.44",
+    "@gooddollar/react-native-facetec": "1.0.44",
     "@gooddollar/react-native-side-menu": "^2.0.2",
-    "@gooddollar/web3sdk-v2": "0.2.24-beta.ba70dfad",
+    "@gooddollar/web3sdk-v2": "0.2.32-beta.80712d00",
     "@hcaptcha/react-hcaptcha": "^1.6.0",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
     "@lingui/react": "^3.13.0",
@@ -90,6 +89,7 @@
     "@mtourj/react-native-keyboard-aware-scroll-view": "^1.0.9",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/blur": "^4.3.2",
+    "@react-native-community/checkbox": "^0.5.17",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/geolocation": "3.1.0",
     "@react-native-community/netinfo": "^6.0.2",
@@ -106,7 +106,7 @@
     "@textile/threaddb": "^0.1.0",
     "@textile/threads-client": "^2.1.2",
     "@textile/threads-id": "^0.5.1",
-    "@toruslabs/customauth": "^18.0.0",
+    "@toruslabs/customauth": "^19.0.3",
     "@toruslabs/customauth-react-native-sdk": "^4.0.1",
     "@tradle/react-native-http": "^2.0.1",
     "@usedapp/core": "1.2.6",
@@ -280,6 +280,7 @@
     "@lingui/macro": "^3.13.0",
     "@react-native-community/eslint-config": "^3.2.0",
     "@sentry/vite-plugin": "^2.10.3",
+    "@svgr/plugin-svgo": "^8.1.0",
     "@tsconfig/react-native": "^3.0.2",
     "@types/fast-text-encoding": "^1",
     "@types/jest": "^29.2.1",
@@ -303,7 +304,6 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-import-meta": "^2.2.1",
     "babel-plugin-transform-vite-meta-env": "^1.0.3",
-    "bundlesize": "^0.18.0",
     "coveralls": "^3.0.3",
     "deprecated-react-native-prop-types": "^5.0.0",
     "detox": "^17.6.1",
@@ -353,7 +353,7 @@
     "vite-bundle-analyzer": "^0.7.0",
     "vite-plugin-dynamic-import": "^1.5.0",
     "vite-plugin-node-polyfills": "^0.16.0",
-    "vite-plugin-pwa": "^0.17.5",
+    "vite-plugin-pwa": "^0.20.0",
     "vite-plugin-static-copy": "^1.0.0",
     "vite-plugin-svgr": "^4.2.0",
     "web-encoding": "^1.1.5"
@@ -390,8 +390,7 @@
     "react-native-card-flip@^1.0.7": "patch:react-native-card-flip@npm%3A1.0.7#./.yarn/patches/react-native-card-flip-npm-1.0.7-64320a3ab5.patch",
     "react-native-modal-dropdown@^1.0.2": "patch:react-native-modal-dropdown@npm%3A1.0.2#./.yarn/patches/react-native-modal-dropdown-npm-1.0.2-1bfc5979be.patch",
     "jest-environment-jsdom@^29.7.0": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
-    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
-    "vite-plugin-svgr@^4.2.0": "patch:vite-plugin-svgr@npm%3A4.2.0#./.yarn/patches/vite-plugin-svgr-npm-4.2.0-e0c6a7a1f0.patch"
+    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch"
   },
   "husky": {
     "hooks": {
@@ -404,12 +403,6 @@
       "git add"
     ]
   },
-  "bundlesize": [
-    {
-      "path": "./build/static/js/*.js",
-      "maxSize": "4 MB"
-    }
-  ],
   "auto-changelog": {
     "tagPattern": "^v[\\.0-9]+$"
   },

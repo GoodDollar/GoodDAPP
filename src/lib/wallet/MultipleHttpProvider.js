@@ -10,7 +10,7 @@ const { providers } = Web3
 const { HttpProvider } = providers
 const log = logger.child({ from: 'MultipleHttpProvider' })
 
-const isTxError = message => isDuplicateTxError(message) || message?.search(/reverted|gas/i) >= 0
+const isTxError = message => isDuplicateTxError(message) || String(message)?.search(/reverted|gas/i) >= 0
 
 export class MultipleHttpProvider extends HttpProvider {
   static loggedProviders = new Map()
@@ -53,19 +53,21 @@ export class MultipleHttpProvider extends HttpProvider {
         log.trace('Sending request to peer', { payload })
         return await this._sendRequest(payload)
       } catch (exception) {
-        if (isConnectionError(exception) && !loggedProviders.has(provider)) {
+        // log error to analytics if last peer failed, ie all rpcs failed
+        if (!isTxError(exception?.message) && !loggedProviders.has(provider) && peers[peers.length - 1] === item) {
           loggedProviders.set(provider, true)
 
           const { message: originalMessage } = exception
-          const errorMessage = 'Failed to connect RPC' // so in analytics all errors are grouped under same message
+          const errorMessage = 'Failed all RPCs' // so in analytics all errors are grouped under same message
 
           // log.exception bypass network error filtering
-          log.exception('HTTP Provider failed to send:', errorMessage, exception, { provider, originalMessage })
+          log.exception('MultiHttpProvider:', errorMessage, exception, { provider, originalMessage })
         } else if (isRateLimitError(exception)) {
+          log.warn('MultiHttpProvider rate limit error', exception.message, exception, { provider })
           endpoints.splice(endpoints.indexOf(item, 1))
           setTimeout(() => endpoints.push(item), 60000)
         } else {
-          log.warn('HTTP Provider failed to send:', exception.message, exception, { provider })
+          log.warn('MultiHttpProvider failed to send:', exception.message, exception, { provider })
         }
 
         throw exception
@@ -78,11 +80,7 @@ export class MultipleHttpProvider extends HttpProvider {
     }
 
     const onFailed = error => {
-      if (!isTxError(error.message) && !isConnectionError(error)) {
-        log.error('Failed with last unknown error', error.message, error)
-      } else {
-        log.warn('Failed with last error', error.message, error, payload.id)
-      }
+      log.warn('Failed RPC call', error.message, error, payload.id)
 
       callback(error, null)
     }

@@ -145,8 +145,6 @@
     "lottie-ios": "^3.4.0",
     "lottie-react-native": "^5",
     "lottie-web": "^5.12.2",
-    "mixpanel-browser": "^2.45.0",
-    "mixpanel-react-native": "^2.1.0",
     "mnid": "^0.1.3",
     "mobile-device-detect": "^0.4.3",
     "moment": "^2.29.4",

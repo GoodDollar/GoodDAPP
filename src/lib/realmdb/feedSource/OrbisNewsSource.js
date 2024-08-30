@@ -1,12 +1,38 @@
 import { IpfsStorage, OrbisCachedFeed } from '@gooddollar/web3sdk-v2'
+import moment from 'moment'
+
 import Config from '../../../config/config'
 import { FeedSource } from '../feed'
 import { FeedItemType } from '../../userStorage/FeedStorage'
-import NewsSource from './NewsSource'
+
 const { EVENT_TYPE_NEWS } = FeedItemType
 
 export default class OrbisNewsSource extends FeedSource {
   orbisFeed = new OrbisCachedFeed({ tag: 'publishWallet', context: Config.orbisFeedContext }, new IpfsStorage())
+
+  static formatCeramicPost(ceramicPost) {
+    const date = moment(ceramicPost.published).utc().format()
+
+    return {
+      _id: ceramicPost.id,
+      id: ceramicPost.id,
+      createdDate: date,
+      date,
+      displayType: EVENT_TYPE_NEWS,
+      status: ceramicPost.hidden ? 'deleted' : 'published',
+      type: EVENT_TYPE_NEWS,
+      data: {
+        reason: ceramicPost.content,
+        counterPartyFullName: ceramicPost.title,
+        subtitle: ceramicPost.title,
+        picture: ceramicPost.picture,
+        readMore: true,
+        link: ceramicPost.link,
+        sponsoredLink: ceramicPost.sponsored_link,
+        sponsoredLogo: ceramicPost.sponsored_logo,
+      },
+    }
+  }
 
   async syncFromRemote() {
     const { log } = this
@@ -26,10 +52,9 @@ export default class OrbisNewsSource extends FeedSource {
   /** @private */
   async _loadFeed() {
     const { log, Feed } = this
-    const { formatCeramicPost } = NewsSource
 
     const ceramicPosts = await this.orbisFeed.getPosts(0, 1000)
-    const formattedCeramicPosts = ceramicPosts.map(formatCeramicPost)
+    const formattedCeramicPosts = ceramicPosts.map(this.formatCeramicPost)
 
     log.debug('orbis fetched posts', ceramicPosts.length, { ceramicPosts })
 

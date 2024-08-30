@@ -54,7 +54,7 @@ export default class OrbisNewsSource extends FeedSource {
     const { log, Feed } = this
 
     const ceramicPosts = await this.orbisFeed.getPosts(0, 1000)
-    const formattedCeramicPosts = ceramicPosts.map(this.formatCeramicPost)
+    const formattedCeramicPosts = ceramicPosts.map(OrbisNewsSource.formatCeramicPost)
 
     log.debug('orbis fetched posts', ceramicPosts.length, { ceramicPosts })
 

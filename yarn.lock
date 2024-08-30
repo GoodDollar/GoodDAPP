@@ -6003,7 +6003,7 @@ __metadata:
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
-    "@gooddollar/react-native-facetec": 1.0.44
+    "@gooddollar/react-native-facetec": ^1.0.45
     "@gooddollar/react-native-side-menu": ^2.0.2
     "@gooddollar/web3sdk-v2": ^0.2.30
     "@hcaptcha/react-hcaptcha": ^1.6.0
@@ -6130,8 +6130,6 @@ __metadata:
     metro: 0.80.5
     metro-core: ^0.80.5
     metro-react-native-babel-preset: ^0.77.0
-    mixpanel-browser: ^2.45.0
-    mixpanel-react-native: ^2.1.0
     mnid: ^0.1.3
     mobile-device-detect: ^0.4.3
     moment: ^2.29.4
@@ -6290,13 +6288,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:1.0.44":
-  version: 1.0.44
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.44"
+"@gooddollar/react-native-facetec@npm:^1.0.45":
+  version: 1.0.45
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.45"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: 56ec8a5b96a0fc2877841fb84afa8cf9ad88674992b8c1cba38567844289776b4bb2a06419fc7ef53b642ce2f30547b73e85b93bb39c8a06aabbeafddd7ebadf
+  checksum: 2685a97fbf44409377c0a85e4836f1db0ad6fa84b624d0cd418dfe7a4306f09f95001ce3ec3258ef8a8c65ab6b762dac2213b822adf495dc665cff036a89a850
   languageName: node
   linkType: hard
 

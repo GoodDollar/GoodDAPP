@@ -33,7 +33,7 @@ export default class OrbisNewsSource extends FeedSource {
 
     log.debug('orbis fetched posts', ceramicPosts.length, { ceramicPosts })
 
-    // replacing the whole news feed with the new one posts from Ceramic
+    // replacing the whole news feed with the new one posts from Orbis
     const existingItems = await Feed.find({ type: EVENT_TYPE_NEWS }).toArray()
     const allIds = formattedCeramicPosts.map(_ => _.id)
     const toDelete = existingItems.filter(_ => allIds.includes(_.id) === false).map(_ => _.id)

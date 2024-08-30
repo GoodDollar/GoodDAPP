@@ -166,7 +166,6 @@ const Config = {
     env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
-  mixpanelKey: env.REACT_APP_MIXPANEL_KEY,
   httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'random',
   httpProviderRetries: Number(env.REACT_APP_WEB3_RPC_RETRIES || 1),
   web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',

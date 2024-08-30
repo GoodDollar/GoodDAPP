@@ -68,8 +68,6 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@amplitude/react-native": "^2.5.0",
-    "@ceramicnetwork/http-client": "^5.2.0",
-    "@ceramicnetwork/stream-tile": "^5.1.0",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/shims": "^5.7.0",
     "@ethersproject/units": "^5.7.0",
@@ -80,7 +78,7 @@
     "@gooddollar/goodprotocol": "^2.0.24",
     "@gooddollar/react-native-facetec": "^1.0.45",
     "@gooddollar/react-native-side-menu": "^2.0.2",
-    "@gooddollar/web3sdk-v2": "^0.2.30",
+    "@gooddollar/web3sdk-v2": "^0.2.32",
     "@hcaptcha/react-hcaptcha": "^1.6.0",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
     "@lingui/react": "^3.13.0",

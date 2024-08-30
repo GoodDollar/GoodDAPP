@@ -211,6 +211,7 @@ const Config = {
   debugUserAgent: env.REACT_APP_DEBUG_USER_AGENT || false,
   showGoodDollarPrice: env.REACT_APP_SHOW_GOODDOLLAR_PRICE !== false,
   ceramicNodeURL: env.REACT_APP_CERAMIC_NODE_URL || 'https://ceramic-clay.3boxlabs.com',
+  orbisFeedContext: env.REACT_APP_ORBIS_FEED_CONTEXT || 'kjzl6cwe1jw147bfd2hn7f3j2sdsq6708xnb3a217iz1m18a35v25kgxna3s0os',
   ceramicIndex: env.REACT_APP_CERAMIC_INDEX,
   ceramicLiveIndex: env.REACT_APP_CERAMIC_LIVE_INDEX,
   ceramicBatchSize: (env.REACT_APP_CERAMIC_BATCH_SIZE || 5),

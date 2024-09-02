@@ -9,6 +9,8 @@ import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
 import GoodWalletSvg from '../../assets/goodWalletSplash.svg'
+import { useDeprecationDialog } from '../browserSupport/components/DeprecationDialog'
+import { retry } from '../../lib/utils/async'
 
 // utils
 import Config from '../../config/config'
@@ -40,6 +42,20 @@ export const resetLastSplash = async () => {
 const Splash = ({ animation, isLoggedIn }) => {
   const [checked, setChecked] = useState(false)
   const [shouldAnimate, setShouldAnimate] = useState(isLoggedIn !== true || isMobileNative)
+  const { showDeprecationDialog } = useDeprecationDialog()
+
+  useEffect(() => {
+    ;(async () => {
+      const country = await retry(
+        async () => (await fetch('https://get.geojs.io/v1/ip/country.json')).json(),
+        3,
+        2000,
+      ).then(data => data.country)
+      if (country === 'GB') {
+        showDeprecationDialog()
+      }
+    })()
+  }, [showDeprecationDialog])
 
   // const onPoweredByPress = useCallback(() => openLink(Config.poweredByUrl), [])
 

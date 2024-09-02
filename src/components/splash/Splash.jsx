@@ -9,13 +9,13 @@ import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
 import GoodWalletSvg from '../../assets/goodWalletSplash.svg'
-import { useDeprecationDialog } from '../browserSupport/components/DeprecationDialog'
+import { shouldShowDeprecationDialog, useDeprecationDialog } from '../browserSupport/components/DeprecationDialog'
 import { retry } from '../../lib/utils/async'
 
 // utils
 import Config from '../../config/config'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
-import { isMobile, isMobileNative } from '../../lib/utils/platform'
+import { isAndroidNative, isMobile, isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 const { version } = Config
@@ -46,12 +46,23 @@ const Splash = ({ animation, isLoggedIn }) => {
 
   useEffect(() => {
     ;(async () => {
+      if (!isAndroidNative) {
+        return
+      }
+
+      const shouldShow = shouldShowDeprecationDialog()
+
+      if (!shouldShow) {
+        return
+      }
+
       const country = await retry(
         async () => (await fetch('https://get.geojs.io/v1/ip/country.json')).json(),
         3,
         2000,
       ).then(data => data.country)
-      if (country === 'GB') {
+
+      if (country === 'GP') {
         showDeprecationDialog()
       }
     })()

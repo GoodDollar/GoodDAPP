@@ -1,6 +1,8 @@
 // libraries
 import React, { useCallback } from 'react'
 
+import { retry } from '../../../lib/utils/async'
+import { isAndroidNative } from '../../../lib/utils/platform'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import { useDialog } from '../../../lib/dialog/useDialog'
 
@@ -8,38 +10,42 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { openLink } from '../../../lib/utils/linking'
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 
-const STORAGE_KEY = 'deprecationDialogShownCount'
-const RESET_THRESHOLD = 0.1 // Reset when probability drops to 10%
+const STORAGE_KEY = 'deprecationDialogNextShow'
+const DAY = 1000 * 60 * 60 * 24
 
-const onCloseDeprecationDialog = () => {
-  const count = parseInt(localStorage.getItem(STORAGE_KEY)) || 0
-  localStorage.setItem(STORAGE_KEY, (count + 1).toString())
-}
+export const shouldShowDeprecationDialog = async () => {
+  if (!isAndroidNative) {
+    return false
+  }
 
-export const shouldShowDeprecationDialog = () => {
-  const count = parseInt(localStorage.getItem(STORAGE_KEY)) || 0
+  const { count, last, country } = (await AsyncStorage.getItem(STORAGE_KEY)) || {
+    count: 0,
+    last: 0,
+    country: undefined,
+  }
 
-  // Always show for the first 3 visits
-  if (count < 3) {
+  let userCountry = country
+  if (!userCountry) {
+    userCountry = await retry(
+      async () => (await fetch('https://get.geojs.io/v1/ip/country.json')).json(),
+      3,
+      2000,
+    ).then(data => data.country)
+    AsyncStorage.setItem(STORAGE_KEY, { count, last, country: userCountry })
+  }
+
+  if (userCountry === 'IL' && Date.now() > last + DAY * 2 ** count) {
+    AsyncStorage.setItem(STORAGE_KEY, { count: count + 1, last: Date.now(), country: userCountry })
     return true
   }
 
-  // we gradually decrease the probability of showing the dialog
-  const probability = 1 / (count - 2)
-
-  // Reset if the probability drops below the threshold
-  if (probability < RESET_THRESHOLD) {
-    localStorage.setItem(STORAGE_KEY, '0')
-    return true
-  }
-
-  return Math.random() < probability
+  return false
 }
 
 const DeprecationDialog = () => {
   const goToWallet = () => {
-    onCloseDeprecationDialog()
     openLink('https://wallet.gooddollar.org', '_blank')
   }
 
@@ -69,7 +75,6 @@ export const useDeprecationDialog = () => {
       content: <DeprecationDialog />,
       showButtons: false,
       showCloseButtons: true,
-      onDismiss: onCloseDeprecationDialog,
     })
   }, [showDialog])
 

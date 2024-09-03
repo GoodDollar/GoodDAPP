@@ -37,7 +37,7 @@ export const shouldShowDeprecationDialog = async () => {
   }
 
   if (userCountry === 'GB' && Date.now() > last + BACKOFF * 2 ** count) {
-    AsyncStorage.setItem(STORAGE_KEY, { count: count + 1, last: Date.now(), country: userCountry })
+    AsyncStorage.setItem(STORAGE_KEY, { count: count === 5 ? 1 : count + 1, last: Date.now(), country: userCountry })
     return true
   }
 

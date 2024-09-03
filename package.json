@@ -74,7 +74,7 @@
     "@ethersproject/wallet": "^5.7.0",
     "@expo/react-native-action-sheet": "^3.9.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
-    "@gooddollar/good-design": "^0.1.55",
+    "@gooddollar/good-design": "^0.1.56",
     "@gooddollar/goodcontracts": "^2.6.2",
     "@gooddollar/goodprotocol": "^2.0.24",
     "@gooddollar/react-native-facetec": "^1.0.45",

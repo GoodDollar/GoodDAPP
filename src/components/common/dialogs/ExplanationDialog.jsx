@@ -45,7 +45,6 @@ const ExplanationDialog = ({
   text,
   imageSource,
   image: ImageComponent,
-  imageHeight = 74,
   buttons,
   children,
   buttonsContainerStyle = defaultCustomStyle,

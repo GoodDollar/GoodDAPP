@@ -63,6 +63,7 @@ const DeprecationDialog = () => {
           action: goToWallet,
         },
       ]}
+      buttonsContainerStyle={{ justifyContent: 'center' }}
     />
   )
 }

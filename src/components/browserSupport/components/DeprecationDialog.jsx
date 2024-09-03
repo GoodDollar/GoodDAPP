@@ -13,7 +13,7 @@ import { openLink } from '../../../lib/utils/linking'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 
 const STORAGE_KEY = 'deprecationDialogNextShow'
-const DAY = 1000 * 60 * 60 * 24
+const BACKOFF = 1000 * 60 * 60 * 12
 
 export const shouldShowDeprecationDialog = async () => {
   if (!isAndroidNative) {
@@ -36,7 +36,7 @@ export const shouldShowDeprecationDialog = async () => {
     AsyncStorage.setItem(STORAGE_KEY, { count, last, country: userCountry })
   }
 
-  if (userCountry === 'IL' && Date.now() > last + DAY * 2 ** count) {
+  if (userCountry === 'GB' && Date.now() > last + BACKOFF * 2 ** count) {
     AsyncStorage.setItem(STORAGE_KEY, { count: count + 1, last: Date.now(), country: userCountry })
     return true
   }

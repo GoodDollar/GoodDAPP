@@ -52,7 +52,7 @@ const DeprecationDialog = () => {
   return (
     <ExplanationDialog
       title={'UK Users!'}
-      text={`Following September 12, 2024, support for the GoodWallet on Android in the UK will be limited. As all GoodWallet users, UK-based users can use the web-app version of GoodWallet through a compatible web browser at https://wallet.gooddollar.org`}
+      text={`Following September 12, 2024, \n support for the GoodWallet on Android in the UK will be limited. \n As all GoodWallet users, UK-based users can use the web-app version of GoodWallet through a compatible web browser at https://wallet.gooddollar.org`}
       textStyle={{
         fontSize: normalizeText(16),
         marginVertical: getDesignRelativeHeight(25, false),
@@ -64,6 +64,7 @@ const DeprecationDialog = () => {
         },
       ]}
       buttonsContainerStyle={{ justifyContent: 'center' }}
+      buttonText={{ fontSize: normalizeText(10) }}
     />
   )
 }

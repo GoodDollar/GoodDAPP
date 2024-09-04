@@ -6966,7 +6966,7 @@ __metadata:
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": 1.0.44
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.2.32-beta.5779254c
+    "@gooddollar/web3sdk-v2": 0.2.32-beta.16b891c4
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7272,9 +7272,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.2.32-beta.5779254c":
-  version: 0.2.32-beta.5779254c
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.32-beta.5779254c"
+"@gooddollar/web3sdk-v2@npm:0.2.32-beta.16b891c4":
+  version: 0.2.32-beta.16b891c4
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.32-beta.16b891c4"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7310,8 +7310,6 @@ __metadata:
     dexie-react-hooks: ^1.1.7
     ethers: 5.7.2
     eventemitter3: ^4.0.7
-    mixpanel-browser: ^2.45.0
-    mixpanel-react-native: ^2.1.0
     moment: 2.29.4
     multiformats: 9.9.0
     posthog-react-native: 2.8.1
@@ -7325,7 +7323,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 785d91fd926a6e5c1b688fc5047a2c681b56ecb20183f89871f8d1a662e360f929d8e7d9d14c682096e08a2f5ec405595ef565fc82795a2e37646cab7bd2c3eb
+  checksum: bf18ab86a299e3201fb7dd0946c5d5fd62b0c19553a717afae37eb98b6ae2abd478dca30c1f89664db59bfbed2f4bc5894fe6cd44f57d1ef9878e376bf80a850
   languageName: node
   linkType: hard
 

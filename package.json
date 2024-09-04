@@ -81,7 +81,7 @@
     "@gooddollar/goodprotocol": "^2.0.24",
     "@gooddollar/react-native-facetec": "1.0.44",
     "@gooddollar/react-native-side-menu": "^2.0.2",
-    "@gooddollar/web3sdk-v2": "0.2.32-beta.5779254c",
+    "@gooddollar/web3sdk-v2": "0.2.32-beta.16b891c4",
     "@hcaptcha/react-hcaptcha": "^1.6.0",
     "@indexeddbshim/indexeddbshim": "^6.5.0",
     "@lingui/react": "^3.13.0",

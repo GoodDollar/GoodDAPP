@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
+import { useGoodUILanguage } from '@gooddollar/good-design'
 
 import logger from '../lib/logger/js-logger'
 import AsyncStorage from '../lib/utils/asyncStorage'
@@ -134,6 +135,7 @@ export const LanguageContext = React.createContext({
 
 const LanguageProvider = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState(null)
+  const { setLanguage: setGoodIdLanguage } = useGoodUILanguage()
 
   const setLanguage = useCallback(
     async language => {
@@ -146,6 +148,7 @@ const LanguageProvider = ({ children }) => {
 
       await I18n.dynamicActivate(locale)
       setCurrentLanguage(locale)
+      setGoodIdLanguage(locale)
     },
     [setCurrentLanguage],
   )

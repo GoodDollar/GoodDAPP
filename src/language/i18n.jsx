@@ -135,7 +135,7 @@ export const LanguageContext = React.createContext({
 
 const LanguageProvider = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState(null)
-  const { setLanguage: setGoodIdLanguage } = useGoodUILanguage()
+  const { setLanguage: setGoodUILanguage } = useGoodUILanguage()
 
   const setLanguage = useCallback(
     async language => {
@@ -148,7 +148,7 @@ const LanguageProvider = ({ children }) => {
 
       await I18n.dynamicActivate(locale)
       setCurrentLanguage(locale)
-      setGoodIdLanguage(locale)
+      setGoodUILanguage(locale)
     },
     [setCurrentLanguage],
   )

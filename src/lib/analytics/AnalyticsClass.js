@@ -38,7 +38,6 @@ export class AnalyticsClass {
       'sentryDSN',
       'sentryReplaySampleRate',
       'amplitudeKey',
-      'mixpanelKey',
       'version',
       'env',
       'sentryReplayEnabled',
@@ -55,7 +54,6 @@ export class AnalyticsClass {
       sentryReplaySampleRate,
       sentryReplayEnabled,
       amplitudeKey,
-      mixpanelKey,
       version,
       network,
       logger,
@@ -64,15 +62,14 @@ export class AnalyticsClass {
     } = this
 
     const apisDetected = apisFactory()
-    let { amplitude, sentry, googleAnalytics, mixpanel } = apisDetected
+    let { amplitude, sentry, googleAnalytics } = apisDetected
 
     const isSentryEnabled = !!(sentry && sentryDSN)
     const isAmplitudeEnabled = !!(amplitude && amplitudeKey)
     const isGoogleEnabled = !!googleAnalytics
-    const isMixpanelEnabled = !!(mixpanel && mixpanelKey)
 
     assign(apis, apisDetected)
-    assign(this, { isSentryEnabled, isAmplitudeEnabled, isMixpanelEnabled, isGoogleEnabled })
+    assign(this, { isSentryEnabled, isAmplitudeEnabled, isGoogleEnabled })
 
     const params = DeepLinking.params
 
@@ -100,25 +97,6 @@ export class AnalyticsClass {
     // make sure all users will have the new signedup prop
     if (tags?.isLoggedIn) {
       onceTags.signedup = true
-    }
-
-    if (isMixpanelEnabled) {
-      logger.info('preinitializing Mixpanel with license key')
-
-      try {
-        this.apis.mixpanel = await mixpanel.init(mixpanelKey) //need to overwrite mixpanel with the initialized object
-
-        this.isMixpanelEnabled = true
-        logger.info('License sent to Mixpanel', { success: true })
-
-        this.apis.mixpanel.identify()
-        this.apis.mixpanel.setUserPropsOnce(onceTags)
-        this.apis.mixpanel.setUserProps(allTags)
-      } catch (e) {
-        logger.warn('License sent to Mixpanel', { success: false })
-
-        this.isMixpanelEnabled = false
-      }
     }
 
     if (isAmplitudeEnabled) {
@@ -185,12 +163,8 @@ export class AnalyticsClass {
   }
 
   identifyWith = (identifier, email = null) => {
-    const { apis, logger, isAmplitudeEnabled, isMixpanelEnabled, isSentryEnabled, isGoogleEnabled } = this
-    const { amplitude, sentry, mixpanel, googleAnalytics } = apis
-
-    if (isMixpanelEnabled && identifier) {
-      mixpanel.identify(identifier)
-    }
+    const { apis, logger, isAmplitudeEnabled, isSentryEnabled, isGoogleEnabled } = this
+    const { amplitude, sentry, googleAnalytics } = apis
 
     if (isAmplitudeEnabled && identifier) {
       amplitude.setUserId(identifier)
@@ -218,7 +192,6 @@ export class AnalyticsClass {
       {
         isSentryEnabled,
         isAmplitudeEnabled,
-        isMixpanelEnabled,
       },
     )
 
@@ -228,7 +201,7 @@ export class AnalyticsClass {
   // eslint-disable-next-line require-await
   identifyOnUserSignup = async email => {
     const { logger } = this
-    const { isSentryEnabled, isAmplitudeEnabled, isMixpanelEnabled } = this
+    const { isSentryEnabled, isAmplitudeEnabled } = this
 
     this.setUserEmail(email)
 
@@ -238,7 +211,6 @@ export class AnalyticsClass {
       {
         isSentryEnabled,
         isAmplitudeEnabled,
-        isMixpanelEnabled,
       },
     )
 
@@ -246,14 +218,10 @@ export class AnalyticsClass {
   }
 
   fireEvent = (event: string, eventData: any = {}) => {
-    const { isAmplitudeEnabled, isMixpanelEnabled, apis, logger, chainId, posthog } = this
-    const { amplitude, googleAnalytics, mixpanel } = apis
+    const { isAmplitudeEnabled, apis, logger, chainId, posthog } = this
+    const { amplitude, googleAnalytics } = apis
     const data = { chainId, ...eventData }
     const disabledEvents = posthog ? posthog.getFeatureFlagPayload('disabled-events') || [] : []
-
-    if (isMixpanelEnabled) {
-      mixpanel.track(event, data)
-    }
 
     if (isAmplitudeEnabled && !disabledEvents.find(ev => event.search('^' + ev + '$') === 0)) {
       if (!amplitude.logEvent(event, data)) {
@@ -326,12 +294,8 @@ export class AnalyticsClass {
   }
 
   setUserProps = (props, once = false) => {
-    const { isAmplitudeEnabled, isSentryEnabled, isMixpanelEnabled, apis } = this
-    const { amplitude, sentry, mixpanel } = apis
-
-    if (isMixpanelEnabled) {
-      once ? mixpanel.setUserPropsOnce(props) : mixpanel.setUserProps(props)
-    }
+    const { isAmplitudeEnabled, isSentryEnabled, apis } = this
+    const { amplitude, sentry } = apis
 
     if (isAmplitudeEnabled) {
       if (once) {

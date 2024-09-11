@@ -14,8 +14,8 @@ import normalizeText from '../../../lib/utils/normalizeText'
 
 const defaultCustomStyle = {}
 
-const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, style = defaultCustomStyle }) => {
-  const { buttonText, textModeButtonText, textModeButton } = styles
+const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, buttonText, style = defaultCustomStyle }) => {
+  const { buttonText: buttonTextDefault, textModeButtonText, textModeButton } = styles
   const { hideDialog } = useDialog()
 
   const isTextMode = mode === 'text'
@@ -28,7 +28,7 @@ const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, style = d
     <CustomButton
       onPress={handleActionPress}
       mode={mode}
-      textStyle={[buttonText, isTextMode && textModeButtonText]}
+      textStyle={[buttonText ?? buttonTextDefault, isTextMode && textModeButtonText]}
       style={[isTextMode && textModeButton, style]}
     >
       {text}
@@ -45,7 +45,6 @@ const ExplanationDialog = ({
   text,
   imageSource,
   image: ImageComponent,
-  imageHeight = 74,
   buttons,
   children,
   buttonsContainerStyle = defaultCustomStyle,
@@ -55,6 +54,7 @@ const ExplanationDialog = ({
   textStyle = defaultCustomStyle,
   labelStyle = defaultCustomStyle,
   imageStyle = defaultCustomStyle,
+  buttonText = defaultCustomStyle,
 }) => {
   const hasImage = imageSource || ImageComponent
 
@@ -103,7 +103,7 @@ const ExplanationDialog = ({
       {!isEmpty(buttons) && (
         <View style={[styles.buttonsContainer, buttonsContainerStyle]}>
           {buttons.map(buttonProps => (
-            <ExplanationButton key={buttonProps.text} styles={styles} {...buttonProps} />
+            <ExplanationButton key={buttonProps.text} styles={styles} buttonText={buttonText} {...buttonProps} />
           ))}
         </View>
       )}

@@ -69,6 +69,7 @@ import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialo
 import { useSecurityDialog } from '../security/securityDialog'
 import { useFeatureFlagOrDefault, useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
 import { GoodIdOnboard } from '../goodid/GoodIdOnboard'
+import { ClaimPage } from '../goodid/Claim'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -1343,6 +1344,7 @@ export default createStackNavigator({
   Delete: WrappedDashboard,
   Claim,
   GoodIdOnboard,
+  ClaimPage,
   Receive,
   Who: {
     screen: Who,

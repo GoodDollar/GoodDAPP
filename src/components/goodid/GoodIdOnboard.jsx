@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import { View } from 'react-native'
-import { OnboardController } from '@gooddollar/good-design'
+import { GoodIdProvider, OnboardController } from '@gooddollar/good-design'
 import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
@@ -17,19 +17,21 @@ const GoodIdOnboardImpl = ({ screenProps, styles }) => {
 
   // passing isValid=true to Claim screen will automatically trigger the claim
   const onSkip = useCallback(() => {
-    navigateTo('Claim', { isValid })
+    navigateTo('ClaimPage', { isValid })
   }, [navigateTo])
 
   return (
     <View style={styles.wrapper}>
-      <OnboardController
-        account={goodWallet.account}
-        withNavBar={false}
-        onFV={navigateToFV}
-        onSkip={onSkip}
-        onDone={onSkip}
-        isDev={Config.env !== 'production'}
-      />
+      <GoodIdProvider>
+        <OnboardController
+          account={goodWallet.account}
+          withNavBar={false}
+          onFV={navigateToFV}
+          onSkip={onSkip}
+          onDone={onSkip}
+          isDev={Config.env !== 'production'}
+        />
+      </GoodIdProvider>
     </View>
   )
 }

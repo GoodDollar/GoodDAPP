@@ -3,7 +3,6 @@ import React, { Fragment } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { WalletChatProvider } from 'react-native-wallet-chat'
-import { NativeBaseProvider, theme as NBTheme } from '@gooddollar/good-design'
 
 import { SimpleStoreDialog } from '../components/common/dialogs/CustomDialog'
 import LoadingIndicator from '../components/common/view/LoadingIndicator'
@@ -32,18 +31,16 @@ export const App = () => {
   const wrapperProps = isMobile ? {} : { style: styles.safeAreaView }
   log.debug({ Config })
   return (
-    <NativeBaseProvider theme={NBTheme}>
-      <PaperProvider theme={theme}>
-        <AppWrapper {...wrapperProps}>
-          <WalletChatProvider>
-            <AppContext>
-              <SimpleStoreDialog />
-              <LoadingIndicator />
-              <RouterSelector />
-            </AppContext>
-          </WalletChatProvider>
-        </AppWrapper>
-      </PaperProvider>
-    </NativeBaseProvider>
+    <PaperProvider theme={theme}>
+      <AppWrapper {...wrapperProps}>
+        <WalletChatProvider>
+          <AppContext>
+            <SimpleStoreDialog />
+            <LoadingIndicator />
+            <RouterSelector />
+          </AppContext>
+        </WalletChatProvider>
+      </AppWrapper>
+    </PaperProvider>
   )
 }

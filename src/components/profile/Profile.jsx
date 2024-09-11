@@ -2,7 +2,7 @@
 import React, { useCallback } from 'react'
 import { Text as NText, View } from 'react-native'
 import { t } from '@lingui/macro'
-import { GoodIdDetails } from '@gooddollar/good-design'
+import { GoodIdDetails, GoodIdProvider } from '@gooddollar/good-design'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, Wrapper } from '../common'
@@ -84,7 +84,9 @@ const ProfileWrapper = ({ screenProps, styles }) => {
               {' '}
               GoodID{' '}
             </NText>
-            <GoodIdDetails account={goodWallet.account} isVerified={goodWallet.isVerified} />
+            <GoodIdProvider>
+              <GoodIdDetails account={goodWallet.account} isVerified={goodWallet.isVerified} />
+            </GoodIdProvider>
           </View>
         </View>
       </Section>

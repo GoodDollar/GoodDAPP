@@ -36,6 +36,12 @@ export const fuseNetwork = {
   g$Decimals: 2,
 }
 
+const goodIdExplorerUrls = {
+  CELO: env.REACT_APP_GOODID_CELO_EXPLORER ?? '',
+  FUSE: env.REACT_APP_GOODID_FUSE_EXPLORER ?? '',
+  MAINNET: env.REACT_APP_GOODID_MAINNET_EXPLORER ?? '',
+}
+
 const ethereum = {
   '1': {
     network_id: 1,
@@ -127,6 +133,7 @@ const Config = {
   ethereum,
   publicUrl,
   alchemyKey,
+  goodIdExplorerUrls,
   supportUrl: env.REACT_APP_SUPPORT_URL || 'https://t.me/+jay3UR6_rEwxNjY0',
   newVersionUrl: env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: forceLogLevel || env.REACT_APP_LOG_LEVEL || 'debug',

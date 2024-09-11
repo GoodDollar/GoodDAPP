@@ -6625,9 +6625,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@file:.yalc/@gooddollar/good-design::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
-  version: 0.1.58-beta.26046a30
-  resolution: "@gooddollar/good-design@file:.yalc/@gooddollar/good-design#.yalc/@gooddollar/good-design::hash=90ce95&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+"@gooddollar/good-design@npm:0.1.58-beta.b84f3c42":
+  version: 0.1.58-beta.b84f3c42
+  resolution: "@gooddollar/good-design@npm:0.1.58-beta.b84f3c42"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6669,7 +6669,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: de75ea6e311fc47e9a99ed724a00d24da1c02b173889df84eb0ae1eb243ac39fbe9d31dd12070dcfa21a67ef2251e47e88b9917a1bcf020c03a8c7179738d96c
+  checksum: 2553f478619d2b7345ee2d58421435c6c365d6f4e6756c6dd283ef3b105e335ee775fa71bf38e1513b2a76a699130a4b11e6cf1639ed0977b40c9911cc7886a2
   languageName: node
   linkType: hard
 
@@ -6728,12 +6728,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": "file:.yalc/@gooddollar/good-design"
+    "@gooddollar/good-design": 0.1.58-beta.b84f3c42
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.45
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": "file:.yalc/@gooddollar/web3sdk-v2"
+    "@gooddollar/web3sdk-v2": 0.2.32-beta.b84f3c42
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7037,9 +7037,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@file:.yalc/@gooddollar/web3sdk-v2::locator=%40gooddollar%2Fgooddapp%40workspace%3A.":
-  version: 0.2.32-beta.26046a30
-  resolution: "@gooddollar/web3sdk-v2@file:.yalc/@gooddollar/web3sdk-v2#.yalc/@gooddollar/web3sdk-v2::hash=fe82e3&locator=%40gooddollar%2Fgooddapp%40workspace%3A."
+"@gooddollar/web3sdk-v2@npm:0.2.32-beta.b84f3c42":
+  version: 0.2.32-beta.b84f3c42
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.32-beta.b84f3c42"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7090,7 +7090,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: ccca31056d25ccf2e0ad0893c31da89162e0a91617ed3f644e1fac49b022f7a763db1ac14c544d2850e2c71cbbc35c807941a6fa9ebd2974030fc36e777fa96d
+  checksum: 03d513db6a2e0dcdf0300acea4f2d55a5644ecd4567538d10286d01f89fee41f7185143287f3f3f5a9dac8fe2dfe99f88f140561262927b60608c1bf572b975a
   languageName: node
   linkType: hard
 

@@ -34,6 +34,7 @@ const GoodIdOnboardImpl = ({ screenProps, styles }) => {
           onDone={onSkip}
           onExit={onExit}
           isDev={Config.env !== 'production'}
+          isWallet={true}
         />
       </GoodIdProvider>
     </View>

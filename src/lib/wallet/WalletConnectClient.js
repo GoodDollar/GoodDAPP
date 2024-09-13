@@ -462,7 +462,7 @@ export const useWalletConnectSession = () => {
         case 122:
           delete message.maxFeePerGas
           delete message.maxPriorityFeePerGas
-          message.gasPrice = 1e10
+          message.gasPrice = 11e9
           break
         case 42220:
           delete message.gasPrice

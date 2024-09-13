@@ -2,7 +2,6 @@ import React, { useCallback, useContext } from 'react'
 import { View } from 'react-native'
 import { GoodIdProvider, OnboardController } from '@gooddollar/good-design'
 import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
 
@@ -20,15 +19,20 @@ const GoodIdOnboardImpl = ({ screenProps, styles }) => {
     navigateTo('ClaimPage', { isValid })
   }, [navigateTo])
 
+  const onExit = useCallback(() => {
+    navigateTo('Home')
+  }, [navigateTo])
+
   return (
     <View style={styles.wrapper}>
       <GoodIdProvider>
         <OnboardController
           account={goodWallet.account}
-          withNavBar={false}
+          withNavBar
           onFV={navigateToFV}
           onSkip={onSkip}
           onDone={onSkip}
+          onExit={onExit}
           isDev={Config.env !== 'production'}
         />
       </GoodIdProvider>
@@ -39,10 +43,10 @@ const getStylesFromProps = ({ theme }) => {
   return {
     wrapper: {
       alignItems: 'center',
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 3),
     },
   }
 }
 
 export const GoodIdOnboard = withStyles(getStylesFromProps)(GoodIdOnboardImpl)
-GoodIdOnboard.navigationOptions = { title: 'GoodID' }
+
+GoodIdOnboard.navigationOptions = { title: 'GoodID', navigationBarHidden: true }

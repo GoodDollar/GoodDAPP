@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios'
-import { find, isArray, shuffle } from 'lodash'
+import { find, isArray, isString, shuffle } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { padLeft } from 'web3-utils'
@@ -449,11 +449,14 @@ export class APIService {
     }
 
     const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
-      const { result } = await this.sharedClient.get('/api', {
+      let { result } = await this.sharedClient.get('/api', {
         params,
         baseURL,
       })
 
+      if (isString(result)) {
+        result = JSON.parse(result)
+      }
       if (!isArray(result)) {
         log.warn('Failed to fetch contract ABI', { result, params, chainId, baseURL })
         throw new Error('Failed to fetch contract ABI')

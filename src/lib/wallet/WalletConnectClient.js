@@ -855,7 +855,7 @@ export const useWalletConnectSession = () => {
       const onError = e => {
         log.info('tx error:', { e })
         setPending(pendingTxs.filter(_ => _.txHash !== txHash))
-        connector.rejectRequest({ error: e.message, id: payload.id })
+        rejectRequest(connector, payload.id, payload.topic, e.message)
         txHash && AsyncStorage.removeItem(`GD_WALLETCONNECT_PENDING_${txHash}`)
       }
       const txPromisEvent = wallet.sendRawTransaction(params, web3, { onError, onReceipt, onTransactionHash })

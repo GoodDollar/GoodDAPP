@@ -449,20 +449,21 @@ export class APIService {
     }
 
     const apis = shuffle(explorer.split(',')).map(baseURL => async () => {
-      let { result } = await this.sharedClient.get('/api', {
+      const { result } = await this.sharedClient.get('/api', {
         params,
         baseURL,
       })
 
+      let parsedResult = result
       if (isString(result)) {
-        result = JSON.parse(result)
+        parsedResult = JSON.parse(result)
       }
-      if (!isArray(result)) {
-        log.warn('Failed to fetch contract ABI', { result, params, chainId, baseURL })
+      if (!isArray(parsedResult)) {
+        log.warn('Failed to fetch contract ABI', { parsedResult, result, params, chainId, baseURL })
         throw new Error('Failed to fetch contract ABI')
       }
 
-      return result
+      return parsedResult
     })
 
     const result = await fallback(apis)

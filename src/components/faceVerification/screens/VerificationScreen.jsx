@@ -143,7 +143,7 @@ const FaceVerification = ({ screenProps, navigation }) => {
 
       screenProps.navigateTo('Claim', { isValid: true })
     },
-    [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow],
+    [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow, userStorage],
   )
 
   // calculating retries allowed for FV session

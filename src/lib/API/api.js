@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios'
-import { find, isArray, shuffle } from 'lodash'
+import { find, isArray, isString, shuffle } from 'lodash'
 
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { padLeft } from 'web3-utils'
@@ -454,12 +454,16 @@ export class APIService {
         baseURL,
       })
 
-      if (!isArray(result)) {
-        log.warn('Failed to fetch contract ABI', { result, params, chainId, baseURL })
+      let parsedResult = result
+      if (isString(result)) {
+        parsedResult = JSON.parse(result)
+      }
+      if (!isArray(parsedResult)) {
+        log.warn('Failed to fetch contract ABI', { parsedResult, result, params, chainId, baseURL })
         throw new Error('Failed to fetch contract ABI')
       }
 
-      return result
+      return parsedResult
     })
 
     const result = await fallback(apis)

@@ -570,6 +570,11 @@ const Dashboard = props => {
           borderRadius: 16,
           maxWidth: 343,
           padding: 16,
+          ...Platform.select({
+            web: {
+              alignSelf: 'center',
+            },
+          }),
         },
         onDismiss: dismissOffer,
         showButtons: false,

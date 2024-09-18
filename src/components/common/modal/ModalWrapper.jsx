@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Platform, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { isMobileOnly } from '../../../lib/utils/platform'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import { withStyles } from '../../../lib/styles'
@@ -55,7 +55,6 @@ const ModalWrapper = (props: any) => {
                 showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '',
                 showTooltipArrow && styles.noneShadow,
                 innerContentStyle,
-                { ...Platform.select({ web: { alignSelf: 'center' } }) },
               ]}
             >
               {children}

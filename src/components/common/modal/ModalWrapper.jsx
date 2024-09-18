@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { Platform, ScrollView, View } from 'react-native'
 import { isMobileOnly } from '../../../lib/utils/platform'
 import { getShadowStyles } from '../../../lib/utils/getStyles'
 import { withStyles } from '../../../lib/styles'
@@ -25,6 +25,8 @@ const ModalWrapper = (props: any) => {
     itemType,
     showTooltipArrow,
     isMinHeight = true,
+    withWaveBorder,
+    innerContentStyle,
   } = props
 
   return (
@@ -38,17 +40,22 @@ const ModalWrapper = (props: any) => {
             isMinHeight && styles.minHeightBlock,
           ]}
         >
-          <ModalLeftBorder
-            showTooltipArrow={showTooltipArrow}
-            borderColor={leftBorderColor}
-            style={[showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}
-          />
+          {withWaveBorder ? (
+            <ModalLeftBorder
+              showTooltipArrow={showTooltipArrow}
+              borderColor={leftBorderColor}
+              style={[showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}
+            />
+          ) : null}
+
           <ModalContents style={showTooltipArrow && styles.shadow}>
             {showCloseButtons && onClose ? <ModalCloseButton onClose={onClose} /> : null}
             <ModalInnerContents
               style={[
                 showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '',
                 showTooltipArrow && styles.noneShadow,
+                innerContentStyle,
+                { ...Platform.select({ web: { alignSelf: 'center' } }) },
               ]}
             >
               {children}

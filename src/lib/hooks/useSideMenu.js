@@ -132,7 +132,7 @@ export default (props = {}) => {
       {
         icon: 'faq',
         size: 18,
-        name: t`Help & Feedback`,
+        name: t`Help & Documentation`,
         action: () => {
           slideOut()
           openLink(supportUrl)

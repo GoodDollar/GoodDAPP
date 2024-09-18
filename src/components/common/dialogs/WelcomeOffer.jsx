@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { noop } from 'lodash'
 
 import { t } from '@lingui/macro'
-import { Image, Text, View } from 'react-native'
+import { Image, Platform, Pressable, Text, View } from 'react-native'
 
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+import Section from '../layout/Section'
 
 import { withStyles } from '../../../lib/styles'
 import { WalletV2Continue } from '../../common/buttons/TaskButton'
 import WelcomeBilly from '../../../assets/welcome_offer.png'
-import CheckBox from '../../common/buttons/CheckBox'
 
 const mapStylesToProps = ({ theme }) => ({
   container: {
@@ -19,6 +19,8 @@ const mapStylesToProps = ({ theme }) => ({
   title: {
     color: theme.colors.lightGdBlue,
     fontSize: 30,
+    marginBottom: 0,
+    marginTop: 24,
   },
   text: {
     fontSize: 16,
@@ -35,14 +37,11 @@ const mapStylesToProps = ({ theme }) => ({
     alignItems: 'center',
   },
   imageContainer: {
-    paddingVertical: 12,
+    paddingVertical: 24,
   },
   image: {
     width: 121,
     height: 91,
-  },
-  titleContainer: {
-    paddingVertical: 12,
   },
   rewardText: {
     color: '#00AEFF',
@@ -70,58 +69,77 @@ const mapStylesToProps = ({ theme }) => ({
     fontSize: 16,
   },
   descriptionText: {
-    paddingVertical: 12,
+    margin: 0,
+    textAlign: 'left',
+    alignItems: 'flex-start',
+  },
+  list: {
+    paddingLeft: 10,
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   boldText: {
     fontWeight: '700',
   },
+  dismissButton: {
+    textAlign: 'center',
+    marginTop: 24,
+  },
+  dismissButtonText: {
+    color: '#8499BB',
+    fontSize: 12,
+    fontWeight: '500',
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    ...Platform.select({
+      web: {
+        textUnderlinePosition: 'under',
+      },
+    }),
+  },
 })
 
-const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
-  const [dontShowAgain, setDontShow] = useState(false)
+const listItems = [
+  'See thousands of cryptocurrencies across dozens of blockchain networks',
+  'Claim from all chains at once',
+  'Seamlessly send and receive crypto',
+]
 
-  return (
-    <ExplanationDialog
-      {...dialogProps}
-      title={t`Special Offer: Try the new GoodWallet`}
-      titleStyle={styles.title}
-      containerStyle={styles.container}
-      resizeMode={false}
-    >
-      <View style={styles.innerContainer}>
-        <View style={styles.imageContainer}>
-          <Image source={WelcomeBilly} resizeMode={'contain'} style={styles.image} />
-        </View>
-
-        <Text style={styles.rewardText}>{t`Welcome Reward After First Claim`}</Text>
-        <View style={styles.rewardContainer}>
-          <Text style={[styles.rewardAmountText, { fontWeight: 'bold' }]}>{dialogProps.offerAmount}</Text>
-          <Text style={styles.rewardAmountCurrency}>{`G$`}</Text>
-        </View>
-        <Text style={styles.descriptionText}>
-          {t`Test out the new GoodWallet! For a limited time, you are eligible for `}{' '}
-          <Text style={styles.boldText}>{dialogProps.offerAmount} G$</Text>{' '}
-          {t`bonus once you’ve made your first claim in the new GoodWallet. 
-
-Make sure you use the same login method you use here! 
-Not sure about your login method? You can see it in your Profile. `}
-        </Text>
+const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => (
+  <ExplanationDialog
+    {...dialogProps}
+    title={'The New \n GoodWallet is here!'}
+    titleStyle={styles.title}
+    containerStyle={styles.container}
+    resizeMode={false}
+  >
+    <View style={styles.innerContainer}>
+      <View style={styles.imageContainer}>
+        <Image source={WelcomeBilly} resizeMode={'contain'} style={styles.image} />
       </View>
-      <View marginBottom={24}>
-        <CheckBox onClick={() => setDontShow(prev => !prev)} value={dontShowAgain}>
-          <Text style={[styles.descriptionText, { paddingLeft: 8, userSelect: 'none' }]}>
-            {t`Dont show this offer again`}
-          </Text>
-        </CheckBox>
-        <WalletV2Continue
-          buttonText={t`CONTINUE`}
-          dontShowAgain={dontShowAgain}
-          onDismiss={onDismiss}
-          promoUrl={dialogProps.promoUrl}
-        />
-      </View>
-    </ExplanationDialog>
-  )
-}
+      <Section.Stack style={styles.descriptionText}>
+        <Section.Text style={styles.descriptionText}>{t`The New GoodWallet allows you to:`}</Section.Text>
+        {listItems.map(item => (
+          <Section.Text key={item} style={styles.list}>
+            <Section.Text style={{ marginRight: 8 }}>{`\u2022`}</Section.Text>
+            <Section.Text style={styles.descriptionText}>{item}</Section.Text>
+          </Section.Text>
+        ))}
+      </Section.Stack>
+    </View>
+    <View style={{ marginTop: 24, marginBottom: 8 }}>
+      <WalletV2Continue
+        buttonText={t`TAKE ME TO THE NEW GOODWALLET`}
+        onDismiss={onDismiss}
+        promoUrl={dialogProps.promoUrl}
+      />
+      <Pressable style={styles.dismissButton}>
+        <Text style={[styles.dismissButtonText]}>{t`No thanks, I’ll keep using this GoodWallet`}</Text>
+      </Pressable>
+    </View>
+  </ExplanationDialog>
+)
 
 export default withStyles(mapStylesToProps)(WelcomeOffer)

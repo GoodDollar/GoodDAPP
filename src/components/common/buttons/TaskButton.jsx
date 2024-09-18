@@ -51,7 +51,7 @@ export const WalletV2Continue = ({ buttonText, dontShowAgain, onDismiss, promoUr
       styles={{ ...(!isWeb && { width: 250 }) }}
       style={{ minWidth: 70, height: 40, minHeight: 32 }}
       color={theme.colors.primary}
-      textStyle={{ fontSize: 16, color: theme.colors.white }}
+      textStyle={{ fontSize: 15, color: theme.colors.white }}
       onPress={goToWalletV2}
       textColor={theme.colors.white}
       withoutDone

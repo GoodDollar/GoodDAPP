@@ -144,7 +144,7 @@ const FaceVerification = ({ screenProps, navigation }) => {
       //go to goodid to complete certificates
       screenProps.navigateTo('GoodIdOnboard', { isValid: true })
     },
-    [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow],
+    [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow, userStorage],
   )
 
   // calculating retries allowed for FV session

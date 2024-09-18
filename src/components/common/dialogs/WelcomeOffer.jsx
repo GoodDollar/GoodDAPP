@@ -135,7 +135,7 @@ const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => (
         onDismiss={onDismiss}
         promoUrl={dialogProps.promoUrl}
       />
-      <Pressable style={styles.dismissButton}>
+      <Pressable style={styles.dismissButton} onPress={onDismiss}>
         <Text style={[styles.dismissButtonText]}>{t`No thanks, I’ll keep using this GoodWallet`}</Text>
       </Pressable>
     </View>

@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { assign, get, isError, isObject } from 'lodash'
 
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 import API from '../../../lib/API'
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/js-logger'
@@ -9,7 +10,6 @@ import { unexpectedErrorMessage } from '../sdk/FaceTecSDK.constants'
 
 import { hideRedBoxIfNonCritical } from '../utils/redBox'
 import { type FaceVerificationPayload, type FaceVerificationResponse } from './typings'
-
 class FaceVerificationApi {
   rootApi: typeof API
 
@@ -53,14 +53,19 @@ class FaceVerificationApi {
     const { rootApi, logger } = this
 
     try {
-      const issuerResponse = await this.wrapApiCall(rootApi.issueSessionToken())
-      const sessionId = get(issuerResponse, 'sessionToken')
+      let { createdAt = 0, sessionId } = (await AsyncStorage.getItem('facetecSessionToken')) || {}
+      if (createdAt <= Date.now() - 1000 * 60 * 60) {
+        const issuerResponse = await this.wrapApiCall(rootApi.issueSessionToken())
+        sessionId = get(issuerResponse, 'sessionToken')
 
-      if (!sessionId) {
-        throw new Error('FaceTec API response is empty')
+        if (!sessionId) {
+          throw new Error('FaceTec API response is empty')
+        }
+
+        logger.info('Session token was issued', { sessionId })
+        AsyncStorage.setItem('facetecSessionToken', { createdAt: Date.now(), sessionId })
       }
-
-      logger.info('Session token was issued', { sessionId })
+      logger.info('Session token', { sessionId })
 
       return sessionId
     } catch (exception) {

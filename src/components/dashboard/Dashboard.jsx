@@ -558,8 +558,8 @@ const Dashboard = props => {
     const isEligible = supportedCountries.split(',').includes(country) || whitelist.includes(goodWallet.account)
     const logMethod = userStorage?.userProperties.get('logMethod')
     const url = promoUrl + `?login=${logMethod}`
-    const webonly2 = false
-    if (((webOnly && isWeb) || !webonly2) && welcomeOfferActive && isEligible) {
+
+    if (((webOnly && isWeb) || !webOnly) && welcomeOfferActive && isEligible) {
       fireEvent(MIGRATION_INVITED)
 
       showDialog({

@@ -556,15 +556,24 @@ const Dashboard = props => {
     ).then(data => data.country)
 
     const isEligible = supportedCountries.split(',').includes(country) || whitelist.includes(goodWallet.account)
-
-    if (((webOnly && isWeb) || !webOnly) && welcomeOfferActive && isEligible) {
+    const logMethod = userStorage?.userProperties.get('logMethod')
+    const url = promoUrl + `?login=${logMethod}`
+    const webonly2 = false
+    if (((webOnly && isWeb) || !webonly2) && welcomeOfferActive && isEligible) {
       fireEvent(MIGRATION_INVITED)
 
       showDialog({
-        content: <WelcomeOffer onDismiss={dismissOffer} promoUrl={promoUrl} offerAmount={offerAmount} />,
+        content: <WelcomeOffer onDismiss={dismissOffer} promoUrl={url} offerAmount={offerAmount} />,
         titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
+        innerContentStyle: {
+          borderRadius: 16,
+          maxWidth: 343,
+          padding: 16,
+        },
         onDismiss: dismissOffer,
         showButtons: false,
+        showCloseButtons: false,
+        withWaveBorder: false,
       })
     }
   }, [welcomeOfferActive])

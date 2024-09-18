@@ -31,11 +31,13 @@ export type DialogProps = {
   onDismiss?: () => void,
   showButtons?: boolean,
   showCloseButtons?: boolean,
+  innerContentStyle?: any,
   title?: string,
   type?: string,
   visible?: boolean,
   buttons?: DialogButtonProps[],
   isMinHeight?: boolean,
+  withWaveBorder?: boolean,
 }
 
 /**
@@ -68,9 +70,11 @@ const CustomDialog = ({
   buttons,
   showAtBottom,
   buttonsContainerStyle,
+  innerContentStyle,
   titleStyle,
   fullHeight = false,
   isMinHeight = true,
+  withWaveBorder = true,
 }: DialogProps) => {
   const globalToggleState = useContext(GlobalTogglesContext)
   const dialogState = useContext(DialogContext)
@@ -114,6 +118,8 @@ const CustomDialog = ({
         itemType={'custom'}
         isMinHeight={isMinHeight}
         fullHeight={fullHeight}
+        withWaveBorder={withWaveBorder}
+        innerContentStyle={innerContentStyle}
       >
         <React.Fragment>
           {!!title && (

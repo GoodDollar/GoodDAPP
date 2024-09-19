@@ -245,11 +245,6 @@ const Claim = props => {
   const [availableDistribution, setAvailableDistribution] = useState(0)
   const [claimCycleTime, setClaimCycleTime] = useState('00:00:00')
 
-  const [totalFundsStaked, setTotalFundsStaked] = useState()
-  const [interestPending, setInterestPending] = useState()
-
-  const [interestCollected, setInterestCollected] = useState()
-
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
@@ -270,16 +265,11 @@ const Claim = props => {
         await _retry(async () => {
           const promises = [goodWallet.getClaimScreenStatsFuse()]
 
-          if (all) {
-            promises.push(goodWallet.getClaimScreenStatsMainnet())
-          }
-
-          const [fuseData, mainnetData] = await Promise.all(promises)
+          const [fuseData] = await Promise.all(promises)
 
           log.info('gatherStats:', {
             all,
             fuseData,
-            mainnetData,
           })
 
           const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
@@ -295,9 +285,6 @@ const Claim = props => {
             setTotalClaimed(claimAmount)
             setActiveClaimers(activeClaimers)
             setAvailableDistribution(distribution)
-            setTotalFundsStaked(mainnetData.totalFundsStaked)
-            setInterestPending(mainnetData.pendingInterest)
-            setInterestCollected(mainnetData.interestCollected)
           }
         })
       } catch (exception) {
@@ -315,8 +302,6 @@ const Claim = props => {
       setTotalClaimed,
       setActiveClaimers,
       setAvailableDistribution,
-      setTotalFundsStaked,
-      setInterestCollected,
       updateTimer,
       showErrorDialog,
       goToRoot,
@@ -745,24 +730,6 @@ const Claim = props => {
               symbol={'G$'}
             />
           </Section.Row>
-          <Section.Row style={styles.statsRow}>
-            <GrayBox
-              title={'Total funds\nstaked'}
-              value={formatWithAbbreviations(totalFundsStaked)}
-              symbol={'DAI'}
-              style={styles.leftGrayBox}
-            />
-            <GrayBox
-              title={'Last Interest\nCollected'}
-              value={formatWithAbbreviations(interestCollected)}
-              symbol={'$'}
-            />
-          </Section.Row>
-          {Config.env === 'development' && (
-            <Section.Row style={[styles.statsRow]}>
-              <GrayBox title={'Pending Interest'} value={formatWithAbbreviations(interestPending)} symbol={'$'} />
-            </Section.Row>
-          )}
         </Section.Stack>
       )}
       <Section.Stack style={styles.footerWrapper}>

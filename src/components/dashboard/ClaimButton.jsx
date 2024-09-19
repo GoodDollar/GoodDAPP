@@ -4,6 +4,7 @@ import CardFlip from 'react-native-card-flip'
 
 import { noop } from 'lodash'
 import { t } from '@lingui/macro'
+import { ActivityIndicator } from 'react-native-web'
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
@@ -129,7 +130,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
     </Text>
     {/* for some reason passing styles.countDownTimer doesnt work */}
     <Section.Row style={styles.countDownTimer}>
-      {nextClaim &&
+      {nextClaim !== '00:00:00' ? (
         nextClaim.split('').map((value, index) => (
           <Text
             key={index}
@@ -142,7 +143,10 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
           >
             {value}
           </Text>
-        ))}
+        ))
+      ) : (
+        <ActivityIndicator style={{ marginTop: 5 }} size="large" />
+      )}
     </Section.Row>
   </View>
 )

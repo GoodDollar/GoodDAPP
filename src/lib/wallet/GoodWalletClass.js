@@ -837,15 +837,20 @@ export class GoodWallet {
     if (fromBlock == null) {
       const step = 50000
       fromBlock = await this.web3Mainnet.eth.getBlockNumber()
-      while (events.length === 0) {
-        fromBlock -= step
-        // eslint-disable-next-line no-await-in-loop, no-loop-func
-        events = await retryCall(() => {
-          return this.GoodReserve.getPastEvents('UBIMinted', {
-            fromBlock,
-            toBlock: fromBlock + step,
+      try {
+        while (events.length === 0) {
+          fromBlock -= step
+          // eslint-disable-next-line no-await-in-loop, no-loop-func
+          events = await retryCall(() => {
+            return this.GoodReserve.getPastEvents('UBIMinted', {
+              fromBlock,
+              toBlock: fromBlock + step,
+            })
           })
-        })
+        }
+      } catch (e) {
+        log.debug('getLastUBIEvent failed:', e.message, e)
+        throw e
       }
     } else {
       events = await retryCall(() => {
@@ -871,14 +876,17 @@ export class GoodWallet {
       })
 
       let [[stakeResult], ubiEvent] = await Promise.all([
-        retryCall(() => this.multicallMainnet.all([gainCalls])),
-        retryCall(() => this.getLastUBIEvent()),
-      ]).catch(e => {
-        log.warn('multicallMainnet / getBlockNumber failed:', e.message, e)
-        throw e
-      })
+        retryCall(() => this.multicallMainnet.all([gainCalls])).catch(e => {
+          log.warn('multicallMainnet failed:', e.message, e)
+          return null
+        }),
+        retryCall(() => this.getLastUBIEvent(), 1).catch(e => {
+          log.warn('getLastUBIEvent failed:', e.message, e)
+          return null
+        }),
+      ])
 
-      const interestCollected = ubiEvent.returnValues.interestReceived / 1e18
+      const interestCollected = ubiEvent?.returnValues.interestReceived / 1e18
       log.debug('getInterestCollected:', { stakeResult, ubiEvent, interestCollected })
 
       const result = { interestCollected }

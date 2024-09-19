@@ -39,7 +39,7 @@ export const fuseNetwork = {
 const ethereum = {
   '1': {
     network_id: 1,
-    httpWeb3provider: `https://1rpc.io/eth,https://eth-pokt.nodies.app,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    httpWeb3provider: `https://1rpc.io/eth,https://eth-pokt.nodies.app,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
     explorerAPI: 'https://api.etherscan.io',
@@ -47,7 +47,7 @@ const ethereum = {
   },
   '3': {
     network_id: 1,
-    httpWeb3provider: `https://1rpc.io/eth,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    httpWeb3provider: `https://1rpc.io/eth,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
     explorerAPI: 'https://api.etherscan.io',
@@ -56,7 +56,7 @@ const ethereum = {
   },
   '5': {
     network_id: 1,
-    httpWeb3provider: `https://1rpc.io/eth,https://eth-rpc.gateway.pokt.network,https://cloudflare-eth.com,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
+    httpWeb3provider: `https://1rpc.io/eth,https://eth-rpc.gateway.pokt.network,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
     explorerAPI: 'https://api.etherscan.io',

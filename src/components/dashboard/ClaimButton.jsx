@@ -1,10 +1,9 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react'
-import { View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
 
 import { noop } from 'lodash'
 import { t } from '@lingui/macro'
-import { ActivityIndicator } from 'react-native-web'
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
@@ -146,6 +145,8 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
         ))
       ) : (
         <ActivityIndicator style={{ marginTop: 5 }} size="large" />
+
+        // <></>
       )}
     </Section.Row>
   </View>

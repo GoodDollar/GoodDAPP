@@ -6,6 +6,7 @@ import { noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
+import Config from '../../../config/config'
 
 const getStylesFromProps = ({ theme }) => ({
   inQueue: {
@@ -61,7 +62,7 @@ const ClaimButton = withStyles(getStylesFromProps)(({
     <PushButton
       disabled={isPending}
       canContinue={canContinue}
-      routeName="GoodIdOnboard"
+      routeName={Config.env === 'production' ? 'Claim' : 'GoodIdOnboard'}
       testID="claim_button"
       screenProps={screenProps}
       style={[styles.claimButton, isPending ? styles.inQueue : undefined, style]}

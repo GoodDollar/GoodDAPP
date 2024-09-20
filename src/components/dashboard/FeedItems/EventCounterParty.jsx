@@ -24,7 +24,8 @@ const EventContent = ({
   let [name = '', displayAddress = ''] = description?.split(' ') ?? []
 
   const viewInExplorer = useCallback(() => {
-    goToExplorer(endpointAddress, chain, 'address')
+    const isUBIPool = name.includes('RedTent')
+    goToExplorer(endpointAddress, chain, 'address', isUBIPool)
   }, [endpointAddress])
 
   return (

@@ -37,9 +37,10 @@ export const fuseNetwork = {
 }
 
 const goodIdExplorerUrls = {
-  CELO: env.REACT_APP_GOODID_CELO_EXPLORER ?? '',
-  FUSE: env.REACT_APP_GOODID_FUSE_EXPLORER ?? '',
+  CELO: env.REACT_APP_GOODID_CELO_EXPLORER ?? 'https://api.celoscan.io/api?apikey=WIX677MWRWNYWXTRCFKBK2NZAB2XHYBQ3K&',
+  FUSE: env.REACT_APP_GOODID_FUSE_EXPLORER ?? 'https://explorer.fuse.org/api?&',
   MAINNET: env.REACT_APP_GOODID_MAINNET_EXPLORER ?? '',
+  GOODCOLLECTIVE: env.REACT_APP_GOOD_GOODCOLLECTIVE_EXPLORER
 }
 
 const ethereum = {
@@ -102,9 +103,12 @@ const ethereum = {
     startBlock: 18000000,    
     gasPrice: 5,
     g$Decimals: 18,
+
     defaultPublicRpc: 'https://forno.celo.org/',
   },
 }
+
+const UBIPoolAddresses = env.REACT_APP_UBIPOOL_ADDRESSES
 
 const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute
@@ -134,6 +138,7 @@ const Config = {
   publicUrl,
   alchemyKey,
   goodIdExplorerUrls,
+  UBIPoolAddresses,
   supportUrl: env.REACT_APP_SUPPORT_URL || 'https://t.me/+jay3UR6_rEwxNjY0',
   newVersionUrl: env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: forceLogLevel || env.REACT_APP_LOG_LEVEL || 'debug',

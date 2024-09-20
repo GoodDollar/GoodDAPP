@@ -911,7 +911,11 @@ export class UserStorage {
 
     const counterPartyAddress = data.address || receiptEvent?.from || receiptEvent?.to
 
-    if (!isAddress(data.displayName) && !data.displayName.startsWith('0x')) {
+    // for simplicity sake, we handle UBIPool only in formatting
+    if (data.address.startsWith('0x') && Config.UBIPoolAddresses.includes(data.address)) {
+      const addressTruncated = truncateMiddle(data.address, 11)
+      data.displayName = `RedTent (` + addressTruncated + ')'
+    } else if (!isAddress(data.displayName) && !data.displayName.startsWith('0x')) {
       const address = receiptEvent?.name === 'UBIClaimed' ? receiptEvent.eventSource : counterPartyAddress
       const addressTruncated = truncateMiddle(address, 11)
       const displayName = data.displayName.length < 16 ? data.displayName : data.displayName.substring(0, 15) + '...'
@@ -928,6 +932,7 @@ export class UserStorage {
       to,
       customName,
       counterPartyFullName,
+      counterPartySmallAvatar,
       from,
       receiptEvent,
       data,

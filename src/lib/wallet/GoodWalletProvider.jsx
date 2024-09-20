@@ -390,6 +390,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     env = 'fuse'
   }
 
+  if (Config.GoodIdFeatureBranch) {
+    env = 'staging'
+  }
+
   // disable goodweb3provider for tests
   const Provider = Config.env === 'test' ? React.Fragment : GoodWeb3Provider
 

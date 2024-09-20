@@ -108,7 +108,7 @@ export default defineConfig({
         plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
       },
       include: '**/*.svg',
-      exclude: ['**/*.svg?url'],
+      exclude: ['**/*.svg?url', '**/good-design/**/*.svg'],
     }),
     flowPlugin(),
     react({

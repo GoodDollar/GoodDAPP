@@ -36,6 +36,13 @@ export const fuseNetwork = {
   g$Decimals: 2,
 }
 
+const goodIdExplorerUrls = {
+  CELO: env.REACT_APP_GOODID_CELO_EXPLORER ?? 'https://api.celoscan.io/api?apikey=WIX677MWRWNYWXTRCFKBK2NZAB2XHYBQ3K&',
+  FUSE: env.REACT_APP_GOODID_FUSE_EXPLORER ?? 'https://explorer.fuse.org/api?&',
+  MAINNET: env.REACT_APP_GOODID_MAINNET_EXPLORER ?? '',
+  GOODCOLLECTIVE: env.REACT_APP_GOOD_GOODCOLLECTIVE_EXPLORER
+}
+
 const ethereum = {
   '1': {
     network_id: 1,
@@ -96,9 +103,12 @@ const ethereum = {
     startBlock: 18000000,    
     gasPrice: 5,
     g$Decimals: 18,
+
     defaultPublicRpc: 'https://forno.celo.org/',
   },
 }
+
+const UBIPoolAddresses = env.REACT_APP_UBIPOOL_ADDRESSES
 
 const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute
@@ -127,6 +137,8 @@ const Config = {
   ethereum,
   publicUrl,
   alchemyKey,
+  goodIdExplorerUrls,
+  UBIPoolAddresses,
   supportUrl: env.REACT_APP_SUPPORT_URL || 'https://t.me/+jay3UR6_rEwxNjY0',
   newVersionUrl: env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: forceLogLevel || env.REACT_APP_LOG_LEVEL || 'debug',
@@ -233,6 +245,7 @@ const Config = {
   posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
   fvTypeformUrl: 'https://gooddollar.typeform.com/to/Prgnwkrz',
   gasFeeNotionUrl: 'https://www.notion.so/gooddollar/Why-does-it-say-I-m-Out-of-Gas-d92e5e20b6144dfbb12979e266e72959',
+  GoodIdFeatureBranch: env.REACT_APP_GOODID_FEATURE_BRANCH === 'true'
 }
 
 global.config = Config

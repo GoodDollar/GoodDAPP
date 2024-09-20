@@ -309,7 +309,10 @@ const Claim = props => {
     ],
   )
 
-  const handleFaceVerification = useCallback(() => navigate('FaceVerificationIntro', { from: 'Claim' }), [navigate])
+  const handleFaceVerification = useCallback(() => {
+    const nextStep = Config.env === 'production' ? 'FaceVerificationIntro' : 'GoodIdOnboard'
+    navigate(nextStep, { from: 'Claim' })
+  }, [navigate])
 
   const onClaimError = useCallback(
     e => {

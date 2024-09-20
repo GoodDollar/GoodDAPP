@@ -16,7 +16,14 @@ import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
-import { fireEvent, GOTO_TAB_FEED, MIGRATION_INVITED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
+import {
+  fireEvent,
+  GOTO_TAB_FEED,
+  MIGRATION_DENIED,
+  MIGRATION_INVITED,
+  SCROLL_FEED,
+  SWITCH_NETWORK,
+} from '../../lib/analytics/analytics'
 import {
   GoodWalletContext,
   TokenContext,
@@ -534,18 +541,25 @@ const Dashboard = props => {
     }
   }, [isCitizen])
 
-  const dismissOffer = useCallback(async () => {
-    const today = moment().format('YYYY-MM-DD')
-    await AsyncStorage.setItem('shownOfferToday', today)
-    hideDialog()
-  }, [hideDialog])
+  const dismissOffer = useCallback(
+    async (denied = false) => {
+      if (denied) {
+        fireEvent(MIGRATION_DENIED)
+      }
+
+      const today = moment().format('YYYY-MM-DD')
+      await AsyncStorage.setItem('shownOfferToday', today)
+      hideDialog()
+    },
+    [hideDialog],
+  )
 
   useEffect(async () => {
-    const dontShowAgain = await AsyncStorage.getItem('dontShowWelcomeOffer')
+    await AsyncStorage.removeItem('dontShowWelcomeOffer')
     const shownOfferToday = await AsyncStorage.getItem('shownOfferToday')
     const today = moment().format('YYYY-MM-DD')
 
-    if (dontShowAgain || shownOfferToday === today) {
+    if (shownOfferToday === today) {
       return
     }
 

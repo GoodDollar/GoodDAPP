@@ -5,7 +5,6 @@ import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 import { t } from '@lingui/macro'
-import { WalletChatWidget } from 'react-native-wallet-chat'
 import moment from 'moment'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -334,8 +333,6 @@ const Dashboard = props => {
 
   const { currentNetwork } = useSwitchNetwork()
 
-  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat')
-
   const isBridgeActive = useFeatureFlagOrDefault('micro-bridge')
 
   const sendReceiveEnabled = useFeatureFlagOrDefault('send-receive-feature')
@@ -358,7 +355,7 @@ const Dashboard = props => {
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && isBridgeActive !== false
 
-  const { goodWallet, web3Provider } = useContext(GoodWalletContext)
+  const { goodWallet } = useContext(GoodWalletContext)
 
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
@@ -980,20 +977,6 @@ const Dashboard = props => {
                       />
                     </TouchableOpacity>
                   </Animated.View>
-                  {walletChatEnabled && (
-                    <WalletChatWidget
-                      connectedWallet={
-                        web3Provider
-                          ? {
-                              walletName: 'GoodWalletV2',
-                              account: goodWallet.account,
-                              chainId: goodWallet.networkId,
-                              provider: web3Provider,
-                            }
-                          : undefined
-                      }
-                    />
-                  )}
                 </Animated.View>
                 {headerLarge && (
                   <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>

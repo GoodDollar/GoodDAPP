@@ -1,10 +1,9 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Platform, TouchableOpacity, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { get, isNil } from 'lodash'
 import { t } from '@lingui/macro'
-import { ChatWithOwner } from 'react-native-wallet-chat'
-import { useFeatureFlagOrDefault } from '../../../lib/hooks/useFeatureFlags'
+
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -15,8 +14,6 @@ import TopImage, { getImageByType } from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import useProfile from '../../../lib/userStorage/useProfile'
-import { Icon } from '../../common'
-import { isTransferTx } from '../../../lib/wallet/utils'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty, { EventSelfParty } from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
@@ -35,8 +32,6 @@ const FeedModalItem = (props: FeedEventProps) => {
   const buttonPress = useCallback(() => onPress(item.id), [item, onPress])
   const { avatar: selfAvatar, email } = useProfile()
 
-  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat')
-
   const itemType = item.displayType || item.type
 
   const eventSettings = getEventSettingsByType(theme, itemType)
@@ -46,8 +41,6 @@ const FeedModalItem = (props: FeedEventProps) => {
   const avatar = get(item, 'data.endpoint.avatar')
   const sellerWebsite = get(item, 'data.sellerWebsite', '')
   const chainId = item.chainId || '122'
-  const ownerAddress = item?.data?.endpoint?.address
-  const isTransfer = isTransferTx(itemType)
 
   return (
     <ModalWrapper
@@ -127,24 +120,6 @@ const FeedModalItem = (props: FeedEventProps) => {
                   { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginRight: 15 },
                 ]}
               >
-                {walletChatEnabled && isTransfer && !eventSettings.withoutAmount && ownerAddress?.length > 0 && (
-                  <TouchableOpacity>
-                    <ChatWithOwner
-                      ownerAddress={ownerAddress}
-                      render={
-                        <Icon
-                          style={{
-                            marginRight: 10,
-                            marginTop: 5,
-                          }}
-                          name="chat"
-                          size={25}
-                          color="gray80Percent"
-                        />
-                      }
-                    />
-                  </TouchableOpacity>
-                )}
                 <EventIcon type={itemType} showAnim={!topImageExists} />
               </View>
             </View>

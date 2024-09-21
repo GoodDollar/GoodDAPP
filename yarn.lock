@@ -6618,9 +6618,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.1.58-beta.9fb694c7":
-  version: 0.1.58-beta.9fb694c7
-  resolution: "@gooddollar/good-design@npm:0.1.58-beta.9fb694c7"
+"@gooddollar/good-design@npm:0.1.58-beta.ac2b3a4d":
+  version: 0.1.58-beta.ac2b3a4d
+  resolution: "@gooddollar/good-design@npm:0.1.58-beta.ac2b3a4d"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6662,7 +6662,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: dbf778ac206be345ae93fa0e4aca643ede93e07cf07893fb4cba52f61af539c93c824971cb2d27f231c9247f557d282c922108fc3b6d469d19bca1454961af72
+  checksum: 67b37bbc181660fcf83efd5886f84685551621c3373407cb578b7bca5b772089585e610b5806560a6f4c14c09494cbaaa2a4c00a8a2db823b644b4b2eb88d5da
   languageName: node
   linkType: hard
 
@@ -6721,12 +6721,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.1.58-beta.9fb694c7
+    "@gooddollar/good-design": 0.1.58-beta.ac2b3a4d
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.45
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.2.32-beta.9fb694c7
+    "@gooddollar/web3sdk-v2": 0.2.32-beta.ac2b3a4d
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -6934,7 +6934,6 @@ __metadata:
     react-native-v8: ">=0.65.2-patch.0 <0.66.0"
     react-native-vector-icons: ^10.0.3
     react-native-version-check: ^3.4.3
-    react-native-wallet-chat: ^0.2.18
     react-native-web: ^0.17.5
     react-native-web-linear-gradient: ^1.0.5
     react-native-web-lottie: ^1.2.0
@@ -7030,9 +7029,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.2.32-beta.9fb694c7":
-  version: 0.2.32-beta.9fb694c7
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.32-beta.9fb694c7"
+"@gooddollar/web3sdk-v2@npm:0.2.32-beta.ac2b3a4d":
+  version: 0.2.32-beta.ac2b3a4d
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.32-beta.ac2b3a4d"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7083,7 +7082,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: bf0d7ba4692e82d4ee18e9359b6c97d8a814fbfe72218e45b7d9f3277af4545359324f1a508aee92414417b256ae4f5bee1c8d761235fa06556e7583ccb95763
+  checksum: 51e42d7d95dbddc954b331fc9c7d5bfeec80fac706777b995f99afae4a41ec2f296dcc780613214cd55dc7b39c25fd6f347026159f69ba14ffc55798d778f028
   languageName: node
   linkType: hard
 
@@ -14412,31 +14411,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native-vector-icons@npm:^6.4.6":
-  version: 6.4.13
-  resolution: "@types/react-native-vector-icons@npm:6.4.13"
-  dependencies:
-    "@types/react": "*"
-    "@types/react-native": ^0.70
-  checksum: e954807f7229a84ba6aa15c6952a987e0b45406e501131c0d73fdaa3fe634301d466e22eec8bb23d9c509eb39043fae9cad4ca685b125dc4d6d603dc46b789f7
-  languageName: node
-  linkType: hard
-
 "@types/react-native@npm:^0.65.2":
   version: 0.65.36
   resolution: "@types/react-native@npm:0.65.36"
   dependencies:
     "@types/react": ^17
   checksum: 5554f0b4e9c006f3078e7043a7239d01334918a9a5cbe751523219da9d965abf4dfa1fc33c1e474d621173071a51429dc0191b382935a4035dd4d017ae3d79ea
-  languageName: node
-  linkType: hard
-
-"@types/react-native@npm:^0.70":
-  version: 0.70.14
-  resolution: "@types/react-native@npm:0.70.14"
-  dependencies:
-    "@types/react": "*"
-  checksum: 6df79ca70fe0643229dc23ad5121b4bdc80347a10ea8b352e89a97dda6e6f234c5a035e1d88debd3452f91964b95e7cc9a157105c9e09d93cadd28fd079394ba
   languageName: node
   linkType: hard
 
@@ -21806,7 +21786,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.5, classnames@npm:^2.3.1, classnames@npm:^2.3.2":
+"classnames@npm:^2.2.5, classnames@npm:^2.3.1":
   version: 2.3.2
   resolution: "classnames@npm:2.3.2"
   checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
@@ -38804,7 +38784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"opencollective-postinstall@npm:^2.0.1, opencollective-postinstall@npm:^2.0.3":
+"opencollective-postinstall@npm:^2.0.1":
   version: 2.0.3
   resolution: "opencollective-postinstall@npm:2.0.3"
   bin:
@@ -42267,25 +42247,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-elements@npm:^3.4.3":
-  version: 3.4.3
-  resolution: "react-native-elements@npm:3.4.3"
-  dependencies:
-    "@types/react-native-vector-icons": ^6.4.6
-    color: ^3.1.2
-    deepmerge: ^4.2.2
-    hoist-non-react-statics: ^3.3.2
-    lodash.isequal: ^4.5.0
-    opencollective-postinstall: ^2.0.3
-    react-native-ratings: 8.0.4
-    react-native-size-matters: ^0.3.1
-  peerDependencies:
-    react-native-safe-area-context: ">= 3.0.0"
-    react-native-vector-icons: ">7.0.0"
-  checksum: e055c18b85527366d7b9e76139828fe3d006a7a8c11f81b165e43b4175c0d4b15eef6308679dd596d33f0813a512c27cb993d6ca49e00c56fcb15a0918d96c6c
-  languageName: node
-  linkType: hard
-
 "react-native-fetch-api@npm:^3.0.0":
   version: 3.0.0
   resolution: "react-native-fetch-api@npm:3.0.0"
@@ -42606,18 +42567,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-ratings@npm:8.0.4":
-  version: 8.0.4
-  resolution: "react-native-ratings@npm:8.0.4"
-  dependencies:
-    lodash: ^4.17.15
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: e420dab914a4941722482719e46f8837b51927a11d9861e2f581bac651910ea08419e9a1a2dd4aa072520439c119d6894f0d8d763db3dcc28a15b73072b9eb76
-  languageName: node
-  linkType: hard
-
 "react-native-recaptcha-that-works@npm:^1.1.0":
   version: 1.2.0
   resolution: "react-native-recaptcha-that-works@npm:1.2.0"
@@ -42711,15 +42660,6 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 30bcc2d650eec423f0d508b1b11bcfa849a5c69a79e0b0ead08b3076a2d8dee0ed07fc8dccf0a4656f6e1675d60bf452d3712926506077a7f8a4d534afa38182
-  languageName: node
-  linkType: hard
-
-"react-native-size-matters@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "react-native-size-matters@npm:0.3.1"
-  peerDependencies:
-    react-native: "*"
-  checksum: f8fa7f301d97dae96df029771445648b4778562c982b3d0625ae78cb397b35efd0e2b482b240531dad68fde0d18cc23f5181a3904259c6e1ff155823ac34996d
   languageName: node
   linkType: hard
 
@@ -42924,22 +42864,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-wallet-chat@npm:^0.2.18":
-  version: 0.2.18
-  resolution: "react-native-wallet-chat@npm:0.2.18"
-  dependencies:
-    "@stablelib/random": ^1.0.2
-    classnames: ^2.3.2
-    ethers: 5.7.2
-    react-native-elements: ^3.4.3
-    react-native-webview: 12.0.2
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 1c81ce7f22e2fa7c390fd70758eb05d9d6890197a4f117357235ea0b1fa62664c8fee02dd60983e07bfcaa32e1ab0f5bfc767d6b46fd90c44c2d08176fdf4b22
-  languageName: node
-  linkType: hard
-
 "react-native-web-clipboard@npm:^0.1.1":
   version: 0.1.1
   resolution: "react-native-web-clipboard@npm:0.1.1"
@@ -43015,7 +42939,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-webview@npm:12.0.2, react-native-webview@npm:^12.0.2":
+"react-native-webview@npm:^12.0.2":
   version: 12.0.2
   resolution: "react-native-webview@npm:12.0.2"
   dependencies:

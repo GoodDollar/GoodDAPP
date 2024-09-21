@@ -2,7 +2,6 @@
 import React, { Fragment } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { WalletChatProvider } from 'react-native-wallet-chat'
 
 import { SimpleStoreDialog } from '../components/common/dialogs/CustomDialog'
 import LoadingIndicator from '../components/common/view/LoadingIndicator'
@@ -33,13 +32,11 @@ export const App = () => {
   return (
     <PaperProvider theme={theme}>
       <AppWrapper {...wrapperProps}>
-        <WalletChatProvider>
-          <AppContext>
-            <SimpleStoreDialog />
-            <LoadingIndicator />
-            <RouterSelector />
-          </AppContext>
-        </WalletChatProvider>
+        <AppContext>
+          <SimpleStoreDialog />
+          <LoadingIndicator />
+          <RouterSelector />
+        </AppContext>
       </AppWrapper>
     </PaperProvider>
   )

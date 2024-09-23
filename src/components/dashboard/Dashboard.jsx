@@ -567,7 +567,7 @@ const Dashboard = props => {
       2000,
     ).then(data => data.country)
 
-    const isEligible = supportedCountries.split(',').includes(country) || whitelist.includes(goodWallet.account)
+    const isEligible = supportedCountries?.split(',')?.includes(country) || whitelist?.includes(goodWallet.account)
     const logMethod = userStorage?.userProperties.get('logMethod')
     const url = promoUrl + `?login=${logMethod}`
 

@@ -6618,9 +6618,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.1.58-beta.ac2b3a4d":
-  version: 0.1.58-beta.ac2b3a4d
-  resolution: "@gooddollar/good-design@npm:0.1.58-beta.ac2b3a4d"
+"@gooddollar/good-design@npm:0.1.58-beta.b6b260b1":
+  version: 0.1.58-beta.b6b260b1
+  resolution: "@gooddollar/good-design@npm:0.1.58-beta.b6b260b1"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6651,7 +6651,7 @@ __metadata:
     react-native-image-picker: ^7.1.2
     react-native-mask-input: ^1.2.2
     react-native-safe-area-context: ^3.3.2
-    react-native-svg: ^12.1.1
+    react-native-svg: 13.14.0
     react-native-svg-uri: ^1.2.3
     react-native-svg-web: ^1.0.9
     react-native-web: 0.17.7
@@ -6662,7 +6662,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: 67b37bbc181660fcf83efd5886f84685551621c3373407cb578b7bca5b772089585e610b5806560a6f4c14c09494cbaaa2a4c00a8a2db823b644b4b2eb88d5da
+  checksum: cc3140977ec4782dd5b55cb3da988454c1107a14b89b8570515a7718ac35300be30832b9ae1457eafba220741188fd285979e7845b72a61f68d918ab65368edd
   languageName: node
   linkType: hard
 
@@ -6721,12 +6721,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.1.58-beta.ac2b3a4d
+    "@gooddollar/good-design": 0.1.58-beta.b6b260b1
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.45
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.2.32-beta.ac2b3a4d
+    "@gooddollar/web3sdk-v2": 0.2.32-beta.b6b260b1
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7029,9 +7029,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.2.32-beta.ac2b3a4d":
-  version: 0.2.32-beta.ac2b3a4d
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.32-beta.ac2b3a4d"
+"@gooddollar/web3sdk-v2@npm:0.2.32-beta.b6b260b1":
+  version: 0.2.32-beta.b6b260b1
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.32-beta.b6b260b1"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7082,7 +7082,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 51e42d7d95dbddc954b331fc9c7d5bfeec80fac706777b995f99afae4a41ec2f296dcc780613214cd55dc7b39c25fd6f347026159f69ba14ffc55798d778f028
+  checksum: 3f57e8cdc40d47de32356f46dbcb04c9d60bc21b00c68275e6cab9899bb6a59c0b0614aba9beb123d76b366ed6129cb724fa3cb06af5dbb4a008480b34d81772
   languageName: node
   linkType: hard
 
@@ -42713,20 +42713,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-svg@npm:^12.1.1":
-  version: 12.5.1
-  resolution: "react-native-svg@npm:12.5.1"
-  dependencies:
-    css-select: ^5.1.0
-    css-tree: ^1.1.3
-  peerDependencies:
-    react: "*"
-    react-native: ">=0.50.0"
-  checksum: e51a4eccb205c433c088087500b9da6a2956b2f5937ca18211243d033c2f57c9e720167222c394aa660fa070c417ea120ba9542cc3a6b178d0017895b7d35d2e
-  languageName: node
-  linkType: hard
-
-"react-native-svg@npm:^13.9.0":
+"react-native-svg@npm:13.14.0, react-native-svg@npm:^13.9.0":
   version: 13.14.0
   resolution: "react-native-svg@npm:13.14.0"
   dependencies:

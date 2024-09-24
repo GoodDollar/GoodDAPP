@@ -70,6 +70,7 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
           onSwitchChain={switchNetwork}
           withNewsFeed={false}
           onSuccess={onClaimSuccess}
+          onUpgrade={onUpgrade}
         >
           <NewsFeedProvider env={'qa'} limit={1}>
             <ClaimWizard
@@ -78,7 +79,6 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
               withSignModals
               supportedChains={[SupportedChains.CELO, SupportedChains.FUSE]}
               onNews={noop}
-              onUpgrade={onUpgrade}
               isDev={Config.env !== 'production'}
             />
           </NewsFeedProvider>

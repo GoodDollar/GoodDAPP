@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useContext, useEffect, useMemo } from 'react'
-import { Platform, View } from 'react-native'
+import { ActivityIndicator, Image, Platform, View } from 'react-native'
 import { t } from '@lingui/macro'
 import useFVRedirect from '../standalone/hooks/useFVRedirect'
 
@@ -15,6 +15,7 @@ import useCameraSupport from '../../browserSupport/hooks/useCameraSupport'
 import usePermissions from '../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 import useEnrollmentIdentifier from '../hooks/useEnrollmentIdentifier'
+import { useWalletData } from '../../../lib/wallet/GoodWalletProvider'
 
 // utils
 import logger from '../../../lib/logger/js-logger'
@@ -35,9 +36,12 @@ import AsyncStorage from '../../../lib/utils/asyncStorage'
 
 // assets
 import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
+
 import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
+import BillyVerifies from '../../../assets/billy-verifies.png'
 import useProfile from '../../../lib/userStorage/useProfile'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
+
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const WalletDeletedPopupText = ({ styles }) => (
@@ -55,6 +59,48 @@ const WalletDeletedPopupText = ({ styles }) => (
       </Text>
     </View>
   </View>
+)
+
+const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
+  <Wrapper>
+    <Section style={styles.topContainer} grow>
+      <View style={styles.mainContent}>
+        <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
+          {firstName && `${firstName},`}
+          <Section.Text fontWeight="bold" textTransform="none" color="#00AEFF" fontSize={30} lineHeight={30}>
+            {firstName ? `\n` : ''}
+            {t`It’s time to update
+  your Face Verification!`}
+            {`\n`}
+          </Section.Text>
+        </Section.Title>
+        <Section>
+          <Section.Text textAlign="left" fontSize={18} lineHeight={25} letterSpacing={0.18}>
+            {t`Every so often, it's necessary to double-check that you're still you. You’ll go through the same verification process you went through when you first signed up for GoodDollar.`}
+          </Section.Text>
+          <Section.Text textAlign="left" fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
+            {t`You’ll be able to claim once this process is complete.`}
+          </Section.Text>
+        </Section>
+        <View style={styles.illustration}>
+          <Image source={BillyVerifies} resizeMode="center" style={{ width: 160, height: 160, marginLeft: 'auto' }} />
+        </View>
+        <Section.Text
+          fontWeight="bold"
+          fontSize={18}
+          lineHeight={26}
+          textDecorationLine="underline"
+          style={styles.learnMore}
+          onPress={onLearnMore}
+        >
+          {t`Learn More`}
+        </Section.Text>
+        <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
+          {t`Continue`}
+        </CustomButton>
+      </View>
+    </Section>
+  </Wrapper>
 )
 
 const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
@@ -98,6 +144,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { showDialog } = useDialog()
 
   const { isDelta, firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
+  const { isCitizen } = useWalletData()
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
@@ -194,6 +241,26 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     )
   }
 
+  if (disposing !== false) {
+    return (
+      <View display="flex" justifyContent="center">
+        <ActivityIndicator size="large" />
+      </View>
+    )
+  }
+
+  if (isCitizen) {
+    return (
+      <IntroReVerification
+        styles={styles}
+        firstName={userName}
+        onLearnMore={openPrivacy}
+        onVerify={handleVerifyClick}
+        ready={false === disposing}
+      />
+    )
+  }
+
   return (
     <Intro
       styles={styles}
@@ -223,19 +290,23 @@ const getStylesFromProps = ({ theme }) => ({
   mainContent: {
     flexGrow: 1,
     justifyContent: 'space-between',
+    paddingHorizontal: '32',
     width: '100%',
   },
   mainTitle: {
     marginTop: getDesignRelativeHeight(isBrowser ? 16 : 8),
   },
   mainText: {
-    marginTop: getDesignRelativeHeight(isSmallDevice ? 12 : theme.sizes.defaultDouble),
+    marginTop: getDesignRelativeHeight(20),
   },
   illustration: {
     marginTop: getDesignRelativeHeight(20),
     marginBottom: getDesignRelativeHeight(31),
-    width: '100%',
     alignItems: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: 160,
+    height: 160,
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),

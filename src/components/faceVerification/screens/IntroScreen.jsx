@@ -2,12 +2,13 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react'
 import { ActivityIndicator, Image, Platform, View } from 'react-native'
 import { t } from '@lingui/macro'
+import { useIdentityExpiryDate } from '@gooddollar/web3sdk-v2'
+
 import useFVRedirect from '../standalone/hooks/useFVRedirect'
 
 // components
 import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../common'
-import WaitForCompleted from '../components/WaitForCompleted'
 
 // hooks
 import useOnPress from '../../../lib/hooks/useOnPress'
@@ -15,7 +16,8 @@ import useCameraSupport from '../../browserSupport/hooks/useCameraSupport'
 import usePermissions from '../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 import useEnrollmentIdentifier from '../hooks/useEnrollmentIdentifier'
-import { useWalletData } from '../../../lib/wallet/GoodWalletProvider'
+
+import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
 
 // utils
 import logger from '../../../lib/logger/js-logger'
@@ -143,8 +145,11 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { fullName } = useProfile()
   const { showDialog } = useDialog()
 
-  const { isDelta, firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
-  const { isCitizen } = useWalletData()
+  const { account: externalAccount, isDelta, firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
+  const goodWallet = useWallet()
+  const { account } = goodWallet ?? {}
+  const [expiryDate, , state] = useIdentityExpiryDate(externalAccount || account)
+
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
@@ -223,25 +228,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
   useFVLoginInfoCheck(navigation)
 
-  useEffect(() => {
-    if (isFVFlow && isFVFlowReady && !disposing && enrollmentIdentifier) {
-      handleVerifyClick()
-    }
-  }, [isFVFlow, isFVFlowReady, disposing, enrollmentIdentifier])
-
-  if (isFVFlow) {
-    return (
-      <Wrapper>
-        <Section style={styles.topContainer} grow>
-          <View style={styles.mainContent}>
-            <WaitForCompleted />
-          </View>
-        </Section>
-      </Wrapper>
-    )
-  }
-
-  if (disposing !== false) {
+  if (state === 'pending') {
     return (
       <View display="flex" justifyContent="center">
         <ActivityIndicator size="large" />
@@ -249,7 +236,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     )
   }
 
-  if (isCitizen) {
+  if (expiryDate?.formattedExpiryTimestamp) {
     return (
       <IntroReVerification
         styles={styles}

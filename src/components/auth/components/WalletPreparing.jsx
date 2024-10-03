@@ -22,7 +22,7 @@ const WalletPreparing = ({ theme, styles, activeStep = 1 }) => (
         fontWeight="bold"
         textTransform="uppercase"
       >
-        {t`Preparing the wallet`}
+        {t`Almost Ready`}
       </Text>
       <Text
         color={'darkIndigo'}
@@ -33,8 +33,7 @@ const WalletPreparing = ({ theme, styles, activeStep = 1 }) => (
         fontWeight="bold"
         style={{ marginTop: getDesignRelativeHeight(15) }}
       >
-        {t`We're Preparing 
-        Your Wallet`}
+        {t`Preparing Your Wallet`}
       </Text>
       <Text
         color={'darkIndigo'}

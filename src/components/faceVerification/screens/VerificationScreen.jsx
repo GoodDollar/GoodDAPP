@@ -142,7 +142,7 @@ const FaceVerification = ({ screenProps, navigation }) => {
         userStorage.userProperties.set('fv2', true)
       }
 
-      const nextStep = Config.env === 'production' ? 'Claim' : 'GoodIdOnboard'
+      const nextStep = Config.env !== 'development' ? 'Claim' : 'GoodIdOnboard'
 
       //go to goodid to complete certificates
       screenProps.navigateTo(nextStep, { isValid: true })

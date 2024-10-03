@@ -5,7 +5,8 @@ import { concat, noop, uniqBy } from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import Mutex from 'await-mutex'
 import { t } from '@lingui/macro'
-import { WalletChatWidget } from 'react-native-wallet-chat'
+import moment from 'moment'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { normalizeByLength } from '../../lib/utils/normalizeText'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -14,7 +15,14 @@ import { openLink } from '../../lib/utils/linking'
 import { getRouteParams, lazyScreens, withNavigationOptions } from '../../lib/utils/navigation'
 import { decimalsToFixed, supportsG$, supportsG$UBI, toMask } from '../../lib/wallet/utils'
 import { formatWithAbbreviations, formatWithFixedValueDigits } from '../../lib/utils/formatNumber'
-import { fireEvent, GOTO_TAB_FEED, SCROLL_FEED, SWITCH_NETWORK } from '../../lib/analytics/analytics'
+import {
+  fireEvent,
+  GOTO_TAB_FEED,
+  MIGRATION_DENIED,
+  MIGRATION_INVITED,
+  SCROLL_FEED,
+  SWITCH_NETWORK,
+} from '../../lib/analytics/analytics'
 import {
   GoodWalletContext,
   TokenContext,
@@ -56,6 +64,7 @@ import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
 import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
 import { IconButton, Text } from '../../components/common'
+import { retry } from '../../lib/utils/async'
 
 import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
@@ -65,6 +74,8 @@ import { FVNavigationBar } from '../faceVerification/standalone/AppRouter'
 import useGiveUpDialog from '../faceVerification/standalone/hooks/useGiveUpDialog'
 import { useSecurityDialog } from '../security/securityDialog'
 import { useFeatureFlagOrDefault, useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
+import { GoodIdOnboard } from '../goodid/GoodIdOnboard'
+import { ClaimPage } from '../goodid/Claim'
 import { PAGE_SIZE } from './utils/feed'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import Amount from './Amount'
@@ -83,10 +94,10 @@ import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
 import SendLinkSummary from './SendLinkSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
+import WelcomeOffer from './../../components/common/dialogs/WelcomeOffer'
 
 import GoodDollarPriceInfo from './GoodDollarPriceInfo/GoodDollarPriceInfo'
 import Settings from './Settings'
-
 const log = logger.child({ from: 'Dashboard' })
 const { isDeltaApp } = Config
 
@@ -301,7 +312,7 @@ const Dashboard = props => {
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const [topInfoHeight] = useState(new Animated.Value(240))
   const [balanceTopAnimValue] = useState(new Animated.Value(0))
-  const { isDialogShown, showDialog, showErrorDialog } = useDialog()
+  const { hideDialog, isDialogShown, showDialog, showErrorDialog } = useDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog(showErrorDialog)
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
@@ -322,22 +333,29 @@ const Dashboard = props => {
 
   const { currentNetwork } = useSwitchNetwork()
 
-  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat')
-
   const isBridgeActive = useFeatureFlagOrDefault('micro-bridge')
 
   const sendReceiveEnabled = useFeatureFlagOrDefault('send-receive-feature')
   const dashboardButtonsEnabled = useFeatureFlagOrDefault('dashboard-buttons')
+  const showWelcomeOffer = useFlagWithPayload('show-welcome-offer')
   const payload = useFlagWithPayload('claim-feature')
 
   const { message: claimDisabledMessage, enabled: claimEnabled } = payload || {}
+  const {
+    offerAmount,
+    promoUrl,
+    supportedCountries = '',
+    enabled: welcomeOfferActive,
+    webOnly,
+    whitelist,
+  } = showWelcomeOffer || {}
 
   const { securityEnabled, securityDialog } = useSecurityDialog()
 
   const ubiEnabled = !isDeltaApp || supportsG$UBI(currentNetwork)
   const bridgeEnabled = ubiEnabled && isBridgeActive !== false
 
-  const { goodWallet, web3Provider } = useContext(GoodWalletContext)
+  const { goodWallet } = useContext(GoodWalletContext)
 
   useInviteCode(true) // register user to invites contract if he has invite code
   useRefundDialog(screenProps)
@@ -520,6 +538,62 @@ const Dashboard = props => {
       onGiveUp()
     }
   }, [isCitizen])
+
+  const dismissOffer = useCallback(
+    async (denied = false) => {
+      if (denied) {
+        fireEvent(MIGRATION_DENIED)
+      }
+
+      const today = moment().format('YYYY-MM-DD')
+      await AsyncStorage.setItem('shownOfferToday', today)
+      hideDialog()
+    },
+    [hideDialog],
+  )
+
+  useEffect(async () => {
+    await AsyncStorage.removeItem('dontShowWelcomeOffer')
+    const shownOfferToday = await AsyncStorage.getItem('shownOfferToday')
+    const today = moment().format('YYYY-MM-DD')
+
+    if (shownOfferToday === today) {
+      return
+    }
+
+    const country = await retry(
+      async () => (await fetch('https://get.geojs.io/v1/ip/country.json')).json(),
+      3,
+      2000,
+    ).then(data => data.country)
+
+    const isEligible = supportedCountries?.split(',')?.includes(country) || whitelist?.includes(goodWallet.account)
+    const logMethod = userStorage?.userProperties.get('logMethod')
+    const url = promoUrl + `?login=${logMethod}`
+
+    if (((webOnly && isWeb) || !webOnly) && welcomeOfferActive && isEligible) {
+      fireEvent(MIGRATION_INVITED)
+
+      showDialog({
+        content: <WelcomeOffer onDismiss={dismissOffer} promoUrl={url} offerAmount={offerAmount} />,
+        titleStyle: { paddingTop: 0, marginTop: 0, minHeight: 'auto' },
+        innerContentStyle: {
+          borderRadius: 16,
+          maxWidth: 343,
+          padding: 16,
+          ...Platform.select({
+            web: {
+              alignSelf: 'center',
+            },
+          }),
+        },
+        onDismiss: dismissOffer,
+        showButtons: false,
+        showCloseButtons: false,
+        withWaveBorder: false,
+      })
+    }
+  }, [welcomeOfferActive])
 
   const animateClaim = useCallback(() => {
     if (!entitlement || !supportsG$UBI(currentNetwork)) {
@@ -903,20 +977,6 @@ const Dashboard = props => {
                       />
                     </TouchableOpacity>
                   </Animated.View>
-                  {walletChatEnabled && (
-                    <WalletChatWidget
-                      connectedWallet={
-                        web3Provider
-                          ? {
-                              walletName: 'GoodWalletV2',
-                              account: goodWallet.account,
-                              chainId: goodWallet.networkId,
-                              provider: web3Provider,
-                            }
-                          : undefined
-                      }
-                    />
-                  )}
                 </Animated.View>
                 {headerLarge && (
                   <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
@@ -1025,7 +1085,6 @@ const Dashboard = props => {
           ))}
         </Section.Row>
       </Section>
-
       <FeedList
         data={feedRef.current}
         handleFeedSelection={handleFeedSelection}
@@ -1295,6 +1354,8 @@ export default createStackNavigator({
   Home: WrappedDashboard,
   Delete: WrappedDashboard,
   Claim,
+  GoodIdOnboard,
+  ClaimPage,
   Receive,
   Who: {
     screen: Who,

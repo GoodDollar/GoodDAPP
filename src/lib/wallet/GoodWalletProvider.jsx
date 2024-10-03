@@ -7,7 +7,9 @@ import { Mainnet } from '@usedapp/core'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
+import { usePostHog } from 'posthog-react-native'
 
+import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import logger from '../logger/js-logger'
 import GoodWalletLogin from '../login/GoodWalletLoginClass'
@@ -63,6 +65,7 @@ export const GoodWalletContext = React.createContext({
   login: undefined,
   isLoggedInJWT: undefined,
   dailyUBI: undefined,
+  dailyAltUBI: undefined,
   isCitizen: false,
   switchNetwork: undefined,
   web3Provider: undefined,
@@ -88,6 +91,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [dailyUBI, setDailyUBI] = useState('0')
   const [isCitizen, setIsCitizen] = useState()
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
+  const posthog = usePostHog()
 
   const db = getDB()
 
@@ -222,7 +226,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
           await doLogin(wallet, storage, false)
         }
 
-        if (isLoggedInRouter || (seedOrWeb3 && Config.env !== 'test')) {
+        if (isLoggedInRouter) {
           await storage.initRegistered()
 
           if (loginAndWatch) {
@@ -240,7 +244,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         global.wallet = wallet
 
         if (logMethod) {
-          await storage.userProperties.safeSet('logMethod', logMethod)
+          await AsyncStorage.setItem('logMethod', logMethod)
         }
 
         setWalletAndStorage({
@@ -258,7 +262,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
         throw e
       }
     },
-    [setWalletAndStorage, isLoggedInRouter],
+    [setWalletAndStorage, isLoggedInRouter, posthog],
   )
 
   // react to initial set of wallet in initWalletAndStorage
@@ -386,6 +390,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     env = 'fuse'
   }
 
+  if (Config.GoodIdFeatureBranch) {
+    env = 'staging'
+  }
+
   // disable goodweb3provider for tests
   const Provider = Config.env === 'test' ? React.Fragment : GoodWeb3Provider
 
@@ -482,6 +490,7 @@ export const useWalletData = () => {
 
   return {
     dailyUBI,
+    dailyAltUBI: 0,
     balance,
     totalBalance,
     celoBalance,

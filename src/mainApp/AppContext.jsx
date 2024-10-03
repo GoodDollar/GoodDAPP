@@ -1,5 +1,8 @@
 import React from 'react'
 import { PostHogProvider } from 'posthog-react-native'
+import { GoodIdContextProvider } from '@gooddollar/web3sdk-v2'
+
+import { NativeBaseProvider, theme as NBTheme } from '@gooddollar/good-design'
 
 import { GlobalTogglesContextProvider } from '../lib/contexts/togglesContext'
 import { DialogContextProvider } from '../lib/dialog/dialogContext'
@@ -13,9 +16,13 @@ const AppContext = ({ children }) => (
     autocapture={false}
   >
     <GlobalTogglesContextProvider>
-      <DialogContextProvider>
-        <GoodWalletProvider>{children}</GoodWalletProvider>
-      </DialogContextProvider>
+      <GoodIdContextProvider>
+        <DialogContextProvider>
+          <GoodWalletProvider>
+            <NativeBaseProvider theme={NBTheme}>{children}</NativeBaseProvider>
+          </GoodWalletProvider>
+        </DialogContextProvider>
+      </GoodIdContextProvider>
     </GlobalTogglesContextProvider>
   </PostHogProvider>
 )

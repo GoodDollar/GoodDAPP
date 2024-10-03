@@ -24,7 +24,8 @@ const EventContent = ({
   let [name = '', displayAddress = ''] = description?.split(' ') ?? []
 
   const viewInExplorer = useCallback(() => {
-    goToExplorer(endpointAddress, chain, 'address')
+    const isUBIPool = name.includes('RedTent')
+    goToExplorer(endpointAddress, chain, 'address', isUBIPool)
   }, [endpointAddress])
 
   return (
@@ -114,7 +115,7 @@ const EventCounterParty = ({
   let displayText = itemSubtitle && subtitle ? itemSubtitle : selectDisplaySource
 
   const ubiDisplayRegex = /GoodDollar \(0x..\.{3}....\)/
-  const endpointAddress = displayText.match(ubiDisplayRegex)
+  const endpointAddress = displayText?.match(ubiDisplayRegex)
     ? goodWallet.UBIContract._address
     : get(feedItem, 'data.endpoint.address')
 

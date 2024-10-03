@@ -140,7 +140,10 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
   const isSign = method.includes('sign')
 
   // eslint-disable-next-line prettier/prettier
-  const { balance, gasRequired } = useMemo(() => mapValues(pick(gasStatus, 'balance', 'gasRequired'), _ => _ / 1e18), [gasStatus])
+  const { balance, gasRequired } = useMemo(
+    () => mapValues(pick(gasStatus, 'balance', 'gasRequired'), _ => _ / 1e18),
+    [gasStatus],
+  )
 
   return (
     <View style={styles.infoView}>
@@ -182,7 +185,9 @@ export const ContractCall = ({ styles, txJson, explorer, method }) => {
         <React.Fragment key={name}>
           <Text style={styles.labelText}>{name}</Text>
           <Text fontSize={12} textAlign={'left'}>
-            {['gas', 'gasPrice', 'gasLimit', 'value'].includes(name) ? Number(value) : value}
+            {['gas', 'gasPrice', 'gasLimit', 'value', 'maxFeePerGas', 'maxPriorityFeePerGas'].includes(name)
+              ? Number(value)
+              : value}
             <Launch explorer={explorer} address={value} />
           </Text>
         </React.Fragment>

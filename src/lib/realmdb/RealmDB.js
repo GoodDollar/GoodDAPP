@@ -17,7 +17,7 @@ import type { FeedCategory } from '../userStorage/FeedCategory'
 import { FeedCategories } from '../userStorage/FeedCategory'
 import type { TransactionDetails } from '../userStorage/FeedStorage'
 import { retry } from '../utils/async'
-import NewsSource from './feedSource/NewsSource'
+import OrbisNewsSource from './feedSource/OrbisNewsSource'
 import TransactionsSource from './feedSource/TransactionsSource'
 import { makeCategoryMatcher } from './feed'
 import NativeTxsSource from './feedSource/NativeTxsSource'
@@ -83,7 +83,7 @@ class RealmDB implements DB, ProfileDB {
       : []),
     {
       // poll ceramic feed once per some time interval
-      source: NewsSource,
+      source: OrbisNewsSource,
       syncInterval: Config.ceramicPollInterval,
     },
   ]

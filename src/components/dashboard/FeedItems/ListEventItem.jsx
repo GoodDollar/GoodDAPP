@@ -3,9 +3,7 @@ import React, { useCallback } from 'react'
 import { Image, Linking, Platform, Pressable, TouchableOpacity, View } from 'react-native'
 import { get } from 'lodash'
 import { t } from '@lingui/macro'
-import { ChatWithOwner } from 'react-native-wallet-chat'
 
-import { useFeatureFlagOrDefault } from '../../../lib/hooks/useFeatureFlags'
 import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -20,7 +18,6 @@ import logger from '../../../lib/logger/js-logger'
 import { fireEvent, GOTO_SPONSOR } from '../../../lib/analytics/analytics'
 import { FeedItemType } from '../../../lib/userStorage/FeedStorage'
 import { NetworkLogo } from '../../../lib/constants/network'
-import { isTransferTx } from '../../../lib/wallet/utils'
 import goToExplorer from '../utils/goToExplorer'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
@@ -149,18 +146,14 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
 
-  const walletChatEnabled = useFeatureFlagOrDefault('wallet-chat')
   const mainColor = eventSettings.color
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
   const avatar = get(feed, 'data.endpoint.avatar')
   const chainId = feed.chainId || '122'
-  const ownerAddress = feed?.data?.endpoint?.address
-  const isBridge = feed?.data?.endpoint?.isBridge
-  const txHash = feed.data?.receiptHash || feed.id
 
-  const isTransfer = !isBridge && isTransferTx(itemType)
+  const txHash = feed.data?.receiptHash || feed.id
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -241,28 +234,6 @@ const ListEvent = ({ item: feed, theme, index, styles }: FeedEventProps) => {
               )}
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              {walletChatEnabled &&
-                isTransfer &&
-                !eventSettings.withoutAmount &&
-                ownerAddress?.length > 0 &&
-                walletChatEnabled && (
-                  <TouchableOpacity>
-                    <ChatWithOwner
-                      ownerAddress={ownerAddress}
-                      render={
-                        <Icon
-                          style={{
-                            marginRight: 10,
-                            marginTop: 5,
-                          }}
-                          name="chat"
-                          size={25}
-                          color="gray80Percent"
-                        />
-                      }
-                    />
-                  </TouchableOpacity>
-                )}
               <EventIcon
                 style={styles.typeIcon}
                 animStyle={styles.typeAnimatedIcon}

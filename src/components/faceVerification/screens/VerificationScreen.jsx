@@ -3,6 +3,7 @@ import React, { useCallback, useContext, useMemo } from 'react'
 import { identity } from 'lodash'
 import Instructions from '../components/Instructions'
 
+import Config from '../../../config/config'
 import { useUserStorage, useWallet } from '../../../lib/wallet/GoodWalletProvider'
 import logger from '../../../lib/logger/js-logger'
 import { FVFlowContext } from '../standalone/context/FVFlowContext'
@@ -141,9 +142,12 @@ const FaceVerification = ({ screenProps, navigation }) => {
         userStorage.userProperties.set('fv2', true)
       }
 
-      screenProps.navigateTo('Claim', { isValid: true })
+      const nextStep = Config.env !== 'development' ? 'Claim' : 'GoodIdOnboard'
+
+      //go to goodid to complete certificates
+      screenProps.navigateTo(nextStep, { isValid: true })
     },
-    [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow],
+    [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow, userStorage],
   )
 
   // calculating retries allowed for FV session

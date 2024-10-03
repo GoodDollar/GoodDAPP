@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react'
-import { View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
 
 import { noop } from 'lodash'
@@ -129,7 +129,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
     </Text>
     {/* for some reason passing styles.countDownTimer doesnt work */}
     <Section.Row style={styles.countDownTimer}>
-      {nextClaim &&
+      {nextClaim !== '00:00:00' ? (
         nextClaim.split('').map((value, index) => (
           <Text
             key={index}
@@ -142,7 +142,12 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
           >
             {value}
           </Text>
-        ))}
+        ))
+      ) : (
+        <ActivityIndicator style={{ marginTop: 5 }} size="large" />
+
+        // <></>
+      )}
     </Section.Row>
   </View>
 )

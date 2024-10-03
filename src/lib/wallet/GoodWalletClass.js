@@ -52,6 +52,7 @@ import { ExceptionCategory } from '../exceptions/utils'
 import { tryJson } from '../utils/string'
 import API from '../API'
 import { delay, retry } from '../utils/async'
+import AsyncStorage from '../utils/asyncStorage'
 import { generateShareLink } from '../share'
 import logger from '../logger/js-logger'
 import WalletFactory from './WalletFactory'
@@ -66,8 +67,6 @@ import {
   WITHDRAW_STATUS_UNKNOWN,
 } from './utils'
 
-import { query as pricesQuery } from './queries/reservePrices'
-import { query as interestQuery } from './queries/interestReceived'
 import { MultipleHttpProvider } from './MultipleHttpProvider'
 
 const log = logger.child({ from: 'GoodWalletV2' })
@@ -209,9 +208,7 @@ export class GoodWallet {
     }
 
     this.mainnetNetwork = (() => {
-      const network = first(this.config.network.split('-'))
-
-      return network === 'development' ? 'fuse-mainnet' : `${network}-mainnet`
+      return 'production-mainnet'
     })()
 
     const mainnetNetworkId = get(ContractsAddress, this.mainnetNetwork + '.networkId', 122)
@@ -240,6 +237,7 @@ export class GoodWallet {
           network,
           networkId,
           mainnetNetworkId,
+          mainnetEndpoints,
         })
 
         const defaultGasPrice = Config.ethereum[networkId].gasPrice ?? 1
@@ -309,6 +307,33 @@ export class GoodWallet {
         // BuyGDClone Contract
         this.BuyGDClone = addContract(BuyGDCloneABI, 'BuyGDFactoryV2')
 
+        this.GoodReserve = new this.web3Mainnet.eth.Contract(
+          [
+            {
+              inputs: [],
+              name: 'currentPriceDAI',
+              outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                { indexed: true, internalType: 'uint256', name: 'day', type: 'uint256' },
+                { indexed: true, internalType: 'address', name: 'interestToken', type: 'address' },
+                { indexed: false, internalType: 'uint256', name: 'interestReceived', type: 'uint256' },
+                { indexed: false, internalType: 'uint256', name: 'gdInterestMinted', type: 'uint256' },
+                { indexed: false, internalType: 'uint256', name: 'gdExpansionMinted', type: 'uint256' },
+                { indexed: false, internalType: 'uint256', name: 'gdUbiTransferred', type: 'uint256' },
+              ],
+              name: 'UBIMinted',
+              type: 'event',
+            },
+          ],
+          ContractsAddress[this.mainnetNetwork].GoodReserveCDai,
+          { from: this.account },
+        )
+
         // debug print contracts addresses
         {
           const { network, networkId } = this
@@ -373,14 +398,28 @@ export class GoodWallet {
         const startBlock = this.lastEventsBlock
         const currentBlock = await this.getBlockNumber()
 
-        const lastBlock = await this.syncTxFromExplorer(startBlock, currentBlock).catch(e => {
-          log.error('syncTxFromExplorer failed', e.message, e, {
-            networkId: this.networkId,
-            startBlock,
+        const lastBlock = await this.syncTxFromExplorer(startBlock, currentBlock)
+          .catch(e => {
+            // we only log error if also the fallback syncTxWithBlockchain fail
+            log.warn('syncTxFromExplorer failed', e.message, e, {
+              networkId: this.networkId,
+              startBlock,
+            })
+
+            return this.syncTxWithBlockchain(startBlock)
+          })
+          .catch(e => {
+            log.error('syncTx failed both explorer and rpc', e.message, e, {
+              startBlock,
+              lastBlock,
+              networkId: this.networkId,
+            })
           })
 
-          return this.syncTxWithBlockchain(startBlock)
-        })
+        if (!lastBlock) {
+          log.info('pollEvents failed:', { startBlock, lastBlock })
+          return
+        }
         this.lastEventsBlock = lastBlock
         lastBlockCallback(lastBlock)
 
@@ -511,40 +550,36 @@ export class GoodWallet {
       lastBlock,
     })
 
-    try {
-      const limit = pRateLimit({ concurrency: 5, interval: 1000, rate: 3 })
+    const limit = pRateLimit({ concurrency: 5, interval: 1000, rate: 3 })
 
-      const ps = steps.map(fromBlock => {
-        let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
+    const ps = steps.map(fromBlock => {
+      let toBlock = fromBlock + POKT_MAX_EVENTSBLOCKS
 
-        // await callback to finish processing events before updating lastEventblock
-        // we pass toBlock as null so the request naturally requests until the last block a node has,
-        // this is to prevent errors where some nodes for some reason still dont have the last block
-        toBlock = Math.min(toBlock, lastBlock)
+      // await callback to finish processing events before updating lastEventblock
+      // we pass toBlock as null so the request naturally requests until the last block a node has,
+      // this is to prevent errors where some nodes for some reason still dont have the last block
+      toBlock = Math.min(toBlock, lastBlock)
 
-        return limit(async () => {
-          log.debug('executing sync tx step:', { fromBlock, toBlock })
+      return limit(async () => {
+        log.debug('executing sync tx step:', { fromBlock, toBlock })
 
-          const events = await Promise.all([
-            this.pollSendEvents(toBlock, fromBlock),
-            this.pollReceiveEvents(toBlock, fromBlock),
-            this.pollOTPLEvents(toBlock, fromBlock),
-          ]).then(flatten)
+        const events = await Promise.all([
+          this.pollSendEvents(toBlock, fromBlock),
+          this.pollReceiveEvents(toBlock, fromBlock),
+          this.pollOTPLEvents(toBlock, fromBlock),
+        ]).then(flatten)
 
-          this._notifyEvents(events, fromBlock)
-          log.debug('DONE executing sync tx step:', { fromBlock, toBlock })
-          return events
-        })
+        this._notifyEvents(events, fromBlock)
+        log.debug('DONE executing sync tx step:', { fromBlock, toBlock })
+        return events
       })
+    })
 
-      // eslint-disable-next-line no-await-in-loop
-      await Promise.all(ps)
-      log.debug('sync tx from blockchain finished successfully')
+    // eslint-disable-next-line no-await-in-loop
+    await Promise.all(ps)
+    log.debug('sync tx from blockchain finished successfully')
 
-      return lastBlock
-    } catch (e) {
-      log.error('syncTxWithBlockchain failed', e.message, e, { startBlock, lastBlock, networkId: this.networkId })
-    }
+    return lastBlock
   }
 
   async pollSendEvents(toBlock, from = null) {
@@ -783,9 +818,8 @@ export class GoodWallet {
     async () => {
       try {
         const priceResult = await retryCall(async () => {
-          const result = await API.graphQuery(pricesQuery)
-          const { closePriceDAI } = get(result, 'data.reserveHistories[0]')
-          return Number(closePriceDAI)
+          const price = await this.GoodReserve.methods.currentPriceDAI().call()
+          return Number(price / 1e18)
         })
         return priceResult
       } catch (e) {
@@ -797,6 +831,40 @@ export class GoodWallet {
     { leading: true },
   )
 
+  getLastUBIEvent = async () => {
+    let fromBlock = await AsyncStorage.getItem('lastUBIEventBlock')
+    let events = []
+    if (fromBlock == null) {
+      const step = 50000
+      fromBlock = await this.web3Mainnet.eth.getBlockNumber()
+      try {
+        while (events.length === 0) {
+          fromBlock -= step
+          // eslint-disable-next-line no-await-in-loop, no-loop-func
+          events = await retryCall(() => {
+            return this.GoodReserve.getPastEvents('UBIMinted', {
+              fromBlock,
+              toBlock: fromBlock + step,
+            })
+          })
+        }
+      } catch (e) {
+        log.debug('getLastUBIEvent failed:', e.message, e)
+        throw e
+      }
+    } else {
+      events = await retryCall(() => {
+        return this.GoodReserve.getPastEvents('UBIMinted', {
+          fromBlock,
+          toBlock: 'latest',
+        })
+      })
+    }
+    const lastEvent = last(events)
+    AsyncStorage.setItem('lastUBIEventBlock', lastEvent.blockNumber)
+    return lastEvent
+  }
+
   // throttle querying blockchain/thegraph to once an hour
   getClaimScreenStatsMainnet = throttle(
     async () => {
@@ -807,18 +875,21 @@ export class GoodWallet {
         return { currentGains: stakingContract.methods.currentGains(true, true) }
       })
 
-      let [[stakeResult], reserveHistories] = await Promise.all([
-        retryCall(() => this.multicallMainnet.all([gainCalls])),
-        retryCall(() => API.graphQuery(interestQuery)),
-      ]).catch(e => {
-        log.warn('multicallMainnet / getBlockNumber failed:', e.message, e)
-        throw e
-      })
+      let [[stakeResult], ubiEvent] = await Promise.all([
+        retryCall(() => this.multicallMainnet.all([gainCalls])).catch(e => {
+          log.warn('multicallMainnet failed:', e.message, e)
+          return null
+        }),
+        retryCall(() => this.getLastUBIEvent(), 1).catch(e => {
+          log.warn('getLastUBIEvent failed:', e.message, e)
+          return null
+        }),
+      ])
 
-      const { interestReceivedDAI } = get(reserveHistories, 'data.reserveHistories[0]', {})
-      log.debug('getInterestCollected:', { stakeResult, reserveHistories, interestReceivedDAI })
+      const interestCollected = ubiEvent?.returnValues.interestReceived / 1e18
+      log.debug('getInterestCollected:', { stakeResult, ubiEvent, interestCollected })
 
-      const result = { interestCollected: interestReceivedDAI }
+      const result = { interestCollected }
       if (stakeResult) {
         stakeResult = stakeResult.map(({ currentGains }) => [
           parseInt(currentGains[3]) / 1e8,

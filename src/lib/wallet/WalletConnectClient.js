@@ -7,9 +7,9 @@ import abiDecoder from 'abi-decoder'
 import { Core } from '@walletconnect/core'
 import { Web3Wallet } from '@walletconnect/web3wallet'
 import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/utils'
-
 import Web3 from 'web3'
 import { bindAll, first, last, maxBy, defaults, sortBy, sample } from 'lodash'
+
 import AsyncStorage from '../utils/asyncStorage'
 import { delay } from '../utils/async'
 import api from '../../lib/API/api'
@@ -86,7 +86,10 @@ export const useChainsList = () => {
       const mainnets = data.filter(
         _ => _.name.toLowerCase().includes('test') === false && highlights.includes(_.chainId) === false,
       )
-      const main = sortBy(data.filter(_ => highlights.includes(_.chainId)), _ => highlights.indexOf(_.chainId))
+      const main = sortBy(
+        data.filter(_ => highlights.includes(_.chainId)),
+        _ => highlights.indexOf(_.chainId),
+      )
       const final = main.concat(sortBy(mainnets, 'name'), sortBy(testnets, 'name'))
       setChains(final)
     })
@@ -201,8 +204,8 @@ export const useWalletConnectSession = () => {
           if (!result) {
             return {}
           }
-          const abi = JSON.parse(result)
-          abiDecoder.addABI(abi)
+
+          abiDecoder.addABI(result)
           const decoded = abiDecoder.decodeMethod(tx.data)
           log.info('decoded:', { decoded })
 
@@ -459,7 +462,7 @@ export const useWalletConnectSession = () => {
         case 122:
           delete message.maxFeePerGas
           delete message.maxPriorityFeePerGas
-          message.gasPrice = 1e10
+          message.gasPrice = 11e9
           break
         case 42220:
           delete message.gasPrice
@@ -820,10 +823,7 @@ export const useWalletConnectSession = () => {
 
     log.debug('reconnecting v1:', { session, chainId })
     if (session && !activeConnector) {
-      return connect(
-        session,
-        session.chainId,
-      )
+      return connect(session, session.chainId)
     }
   }, [activeConnector, connect])
 
@@ -855,7 +855,7 @@ export const useWalletConnectSession = () => {
       const onError = e => {
         log.info('tx error:', { e })
         setPending(pendingTxs.filter(_ => _.txHash !== txHash))
-        connector.rejectRequest({ error: e.message, id: payload.id })
+        rejectRequest(connector, payload.id, payload.topic, e.message)
         txHash && AsyncStorage.removeItem(`GD_WALLETCONNECT_PENDING_${txHash}`)
       }
       const txPromisEvent = wallet.sendRawTransaction(params, web3, { onError, onReceipt, onTransactionHash })
@@ -945,41 +945,53 @@ export const useWalletConnectSession = () => {
     const sessions = cachedV2Connector.getActiveSessions()
     log.debug('v2 init active sessions:', { sessions })
 
-    cachedV2Connector.events.removeAllListeners('session_proposal')
-    cachedV2Connector.events.removeAllListeners('session_request')
-    cachedV2Connector.events.removeAllListeners('session_ping')
-    cachedV2Connector.events.removeAllListeners('session_update')
-    cachedV2Connector.events.removeAllListeners('session_event')
-    cachedV2Connector.events.removeAllListeners('session_delete')
-
-    cachedV2Connector.on('session_proposal', event => handleSessionRequest(cachedV2Connector, event))
-    cachedV2Connector.on('session_request', event => {
+    const onSessionProposal = event => handleSessionRequest(cachedV2Connector, event)
+    const onSessionRequest = event => {
       const sessionv2 = cachedV2Connector.getActiveSessions()[event.topic]
       log.debug('WC2Events&Sessions -- v2 incoming session_request:', { event, sessionv2 })
       setV2Session(sessionv2, event) //set latest request as the active session, required for switchchain
       handleCallRequest(cachedV2Connector, event)
-    })
-    cachedV2Connector.on('session_ping', event => log.debug('WC2Events&Sessions -- v2 incoming session_ping:', event))
-    cachedV2Connector.on('session_event', event => log.debug('WC2Events&Sessions -- v2 incoming session_event:', event))
-    cachedV2Connector.on('session_delete', event => {
+    }
+    const onSessionPing = event => log.debug('WC2Events&Sessions -- v2 incoming session_ping:', event)
+    const onSessionEvent = event => log.debug('WC2Events&Sessions -- v2 incoming session_event:', event)
+    const onSessionDelete = event => {
       log.debug('WC2Events&Sessions -- session delete:', { cachedV2Connector, event })
       handleSessionDisconnect(cachedV2Connector, event)
-    })
-
-    cachedV2Connector.on('session_expire', ({ topic }) => {
+    }
+    const onSessionExpire = ({ topic }) => {
       log.debug('WC2Events&Sessions -- session expire:', { cachedV2Connector, topic })
       cachedV2Connector.extend({ topic }).catch(e => {
         log.debug('Wc2Events&Sessions -- session extend failed:', e.message, e, { cachedV2Connector, topic })
         cachedV2Connector.disconnectSession({ topic, reason: 'Failed to extend session' })
       })
-    })
+    }
 
-    cachedV2Connector.on('session_update', ({ topic, params }) => {
+    const onSessionUpdate = ({ topic, params }) => {
       log.info('Wc2Events&Sessions -- session update received -->', { topic, params })
-    })
+    }
+
+    cachedV2Connector.on('session_proposal', onSessionProposal)
+    cachedV2Connector.on('session_request', onSessionRequest)
+    cachedV2Connector.on('session_ping', onSessionPing)
+    cachedV2Connector.on('session_event', onSessionEvent)
+    cachedV2Connector.on('session_delete', onSessionDelete)
+    cachedV2Connector.on('session_expire', onSessionExpire)
+
+    cachedV2Connector.on('session_update', onSessionUpdate)
 
     if (!v2session) {
       reconnectV2()
+    }
+
+    return () => {
+      cachedV2Connector.off('session_proposal', onSessionProposal)
+      cachedV2Connector.off('session_request', onSessionRequest)
+      cachedV2Connector.off('session_ping', onSessionPing)
+      cachedV2Connector.off('session_event', onSessionEvent)
+      cachedV2Connector.off('session_delete', onSessionDelete)
+      cachedV2Connector.off('session_expire', onSessionExpire)
+
+      cachedV2Connector.off('session_update', onSessionUpdate)
     }
   }, [
     isInitialized,

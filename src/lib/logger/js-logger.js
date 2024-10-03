@@ -5,8 +5,8 @@ import { assign, isError, isString, noop, toArray } from 'lodash'
 import Config from '../../config/config'
 import { addLoggerMonitor } from './monitor'
 
-const connectionErrorRegex = /((connection|network) (error|timeout)|invalid json rpc|too many requests)/i
-const rateLimitErrorRegex = /too many requests|Failed to validate quota usage/i
+const connectionErrorRegex = /((connection|network) (error|timeout)|invalid json rpc)/i
+const rateLimitErrorRegex = /too many|quota|limit/i
 
 export const isConnectionError = error => {
   const isException = isError(error)

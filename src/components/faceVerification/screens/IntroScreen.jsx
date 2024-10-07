@@ -68,7 +68,7 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
         <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
-          {firstName && `${firstName},`}
+          {firstName ? `${firstName},` : ``}
           <Section.Text fontWeight="bold" textTransform="none" color="#00AEFF" fontSize={30} lineHeight={30}>
             {firstName ? `\n` : ''}
             {t`It’s time to update
@@ -110,7 +110,7 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
         <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
-          {firstName && `${firstName},`}
+          {firstName ? `${firstName},` : ``}
           <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
             {firstName ? `\n` : ''}
             {t`Verify you are a real live person`}
@@ -148,7 +148,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { account: externalAccount, isDelta, firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const goodWallet = useWallet()
   const { account } = goodWallet ?? {}
-  const [expiryDate, , state] = useIdentityExpiryDate(externalAccount || account)
+  const [lastAuthenticated, , state] = useIdentityExpiryDate(externalAccount || account)
 
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()
@@ -236,7 +236,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     )
   }
 
-  if (expiryDate?.formattedExpiryTimestamp) {
+  if (!lastAuthenticated?.isZero()) {
     return (
       <IntroReVerification
         styles={styles}

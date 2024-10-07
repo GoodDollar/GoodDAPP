@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'

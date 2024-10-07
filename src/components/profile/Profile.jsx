@@ -56,21 +56,21 @@ const ProfileWrapper = ({ screenProps, styles }) => {
         <ProfileDataTable profile={profile} showCustomFlag />
 
         <Section grow justifyContent="flex-end" style={{ width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}>
-          {logMethod && (
+          {logMethod ? (
             <Section.Row>
               <IdentifierRow title="LoginM" text={logMethod} />
             </Section.Row>
-          )}
+          ) : null}
         </Section>
 
-        <View padding="0">
-          <View padding="0">
+        <View>
+          <View>
             <NText
               style={{
                 backgroundColor: '#00AEFF20',
                 color: '#00AEFF',
                 fontFamily: 'Montserrat',
-                fontWeight: 700,
+                fontWeight: '700',
                 fontSize: 24,
                 paddingTop: 16,
                 paddingBottom: 16,

@@ -310,7 +310,7 @@ const Claim = props => {
   )
 
   const handleFaceVerification = useCallback(() => {
-    const nextStep = Config.env === 'production' ? 'FaceVerificationIntro' : 'GoodIdOnboard'
+    const nextStep = Config.env !== 'development' ? 'FaceVerificationIntro' : 'GoodIdOnboard'
     navigate(nextStep, { from: 'Claim' })
   }, [navigate])
 

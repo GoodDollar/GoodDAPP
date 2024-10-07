@@ -14,7 +14,7 @@ import { useDialog } from '../../lib/dialog/useDialog'
 import TaskDialog from '../common/dialogs/TaskDialog'
 
 import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 
 export const LoadingAnimation = ({ success, speed = 3 }) => (
@@ -62,10 +62,15 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
     navigateTo('GoodIdOnboard')
   }, [navigateTo])
 
+  const onExit = useCallback(() => {
+    navigateTo('Home')
+  }, [navigateTo])
+
   return (
     <View style={styles.wrapper}>
       <GoodIdProvider>
         <ClaimProvider
+          activePoolAddresses={Config.UBIPoolAddresses}
           explorerEndPoints={Config.goodIdExplorerUrls}
           onSwitchChain={switchNetwork}
           withNewsFeed={false}
@@ -79,7 +84,9 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
               withSignModals
               supportedChains={[SupportedChains.CELO, SupportedChains.FUSE]}
               onNews={noop}
+              onExit={onExit}
               isDev={Config.env !== 'production'}
+              withNavBar={true}
             />
           </NewsFeedProvider>
         </ClaimProvider>
@@ -92,10 +99,9 @@ const getStylesFromProps = ({ theme }) => {
   return {
     wrapper: {
       alignItems: 'center',
-      marginTop: getDesignRelativeHeight(theme.sizes.default * 3),
     },
   }
 }
 
 export const ClaimPage = withStyles(getStylesFromProps)(ClaimPageWrapper)
-ClaimPage.navigationOptions = { title: 'GoodID' }
+ClaimPage.navigationOptions = { title: 'Claim', navigationBarHidden: true }

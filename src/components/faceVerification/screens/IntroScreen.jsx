@@ -148,7 +148,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { account: externalAccount, isDelta, firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
   const goodWallet = useWallet()
   const { account } = goodWallet ?? {}
-  const [lastAuthenticated, , state] = useIdentityExpiryDate(externalAccount || account)
+  const [expiryDate, , state] = useIdentityExpiryDate(externalAccount || account)
 
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()
@@ -236,7 +236,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     )
   }
 
-  if (!lastAuthenticated?.isZero()) {
+  if (!expiryDate?.lastAuthenticated?.isZero()) {
     return (
       <IntroReVerification
         styles={styles}

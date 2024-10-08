@@ -19,7 +19,9 @@ const AppContext = ({ children }) => (
       <GoodIdContextProvider>
         <DialogContextProvider>
           <GoodWalletProvider>
-            <NativeBaseProvider theme={NBTheme}>{children}</NativeBaseProvider>
+            <NativeBaseProvider config={{ suppressColorAccessibilityWarning: true }} theme={NBTheme}>
+              {children}
+            </NativeBaseProvider>
           </GoodWalletProvider>
         </DialogContextProvider>
       </GoodIdContextProvider>

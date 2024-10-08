@@ -98,6 +98,7 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     wrapper: {
+      flex: 1,
       alignItems: 'center',
     },
   }

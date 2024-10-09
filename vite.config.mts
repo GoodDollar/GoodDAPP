@@ -47,6 +47,7 @@ export default defineConfig({
         skipWaiting: false,
         clientsClaim: true,
         globPatterns: ['assets/*.{js,css,ico,png,svg,gif,html}', 'facetec/**/*.*', 'torus/**/*.*'],
+
         // navigateFallbackDenylist: [
         //   // Exclude URLs starting with /_, as they're likely an API call
         //   // new RegExp('^/_'),
@@ -188,6 +189,7 @@ export default defineConfig({
         manualChunks: {
           // reduce main chunk size so sourcemaps enabled doesnt OOM
           lodash: ['lodash'],
+          'native-base': ['native-base'],
           web3: ['web3', 'web3-core', 'web3-eth', 'web3-utils'],
           ethers: ['ethers', 'ethereumjs-tx', 'ethereumjs-util', 'ethereumjs-account', 'ethereumjs-wallet'],
           threaddb: ['@textile/threaddb', '@textile/threads-client', '@textile/threads-id'],

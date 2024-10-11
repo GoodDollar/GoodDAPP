@@ -42,6 +42,8 @@ const ProfileWrapper = ({ screenProps, styles }) => {
 
   const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
 
+  const onGoToClaim = useCallback(() => screenProps.push('GoodIdOnboard'), [screenProps])
+
   return (
     <Wrapper withMaxHeight={false}>
       <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
@@ -88,7 +90,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
               GoodID{' '}
             </NText>
             <GoodIdProvider>
-              <GoodIdDetails {...{ isVerified, account }} />
+              <GoodIdDetails {...{ isVerified, account, onGoToClaim }} />
             </GoodIdProvider>
           </View>
         </View>

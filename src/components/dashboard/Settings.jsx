@@ -67,13 +67,14 @@ const PrivacyOption = ({ title, value, field, setPrivacy }) => {
     </RadioButton.Group>
   )
 }
-const supportedCountryCodes = ['US', 'GB', 'ES', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID', 'AR']
+const supportedCountryCodes = ['US', 'GB', 'ES', 'AR', 'FR', 'IT', 'KR', 'BR', 'UA', 'TR', 'VN', 'CN', 'IN', 'ID']
 type CountryCode = $ElementType<typeof supportedCountryCodes, number>
 
 const countryCodeToLocale: { [key: CountryCode]: string } = {
   US: 'en',
   GB: 'en-gb',
   ES: 'es',
+  AR: 'es-419',
   FR: 'fr',
   IT: 'it',
   KR: 'ko',
@@ -84,13 +85,13 @@ const countryCodeToLocale: { [key: CountryCode]: string } = {
   CN: 'zh',
   IN: 'hi',
   ID: 'id',
-  AR: 'es-419',
 }
 
 const languageCustomLabels: { [key: CountryCode]: string } = {
   US: 'English-US',
   GB: 'English-UK',
   ES: 'Spanish',
+  AR: 'Latin-Spanish',
   FR: 'French',
   IT: 'Italian',
   KR: 'Korean',
@@ -102,7 +103,6 @@ const languageCustomLabels: { [key: CountryCode]: string } = {
   CN: 'Chinese-Simplified',
   IN: 'Hindi',
   ID: 'Indonesian',
-  AR: 'Latin-Spanish',
 }
 
 const getKeyByValue = (object, value) => {

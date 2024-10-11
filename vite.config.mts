@@ -190,7 +190,6 @@ export default defineConfig({
           // reduce main chunk size so sourcemaps enabled doesnt OOM
           lodash: ['lodash'],
           'native-base': ['native-base'],
-          '@gooddollar/good-design': ['@gooddollar/good-design'],
           web3: ['web3', 'web3-core', 'web3-eth', 'web3-utils'],
           ethers: ['ethers', 'ethereumjs-tx', 'ethereumjs-util', 'ethereumjs-account', 'ethereumjs-wallet'],
           threaddb: ['@textile/threaddb', '@textile/threads-client', '@textile/threads-id'],

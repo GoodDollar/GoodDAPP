@@ -243,7 +243,7 @@ const Config = {
   tatumApiUrl: env.REACT_APP_TATUM_API_URL || 'https://api.tatum.io/v3',
   tatumApiKey: env.REACT_APP_TATUM_KEY,
   posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
-  fvTypeformUrl: 'https://gooddollar.typeform.com/to/Prgnwkrz',
+  fvTypeformUrl: 'https://docs.gooddollar.org/frequently-asked-questions/troubleshooting#passing-face-verification',
   gasFeeNotionUrl: 'https://www.notion.so/gooddollar/Why-does-it-say-I-m-Out-of-Gas-d92e5e20b6144dfbb12979e266e72959',
   GoodIdFeatureBranch: env.REACT_APP_GOODID_FEATURE_BRANCH === 'true'
 }

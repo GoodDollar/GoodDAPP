@@ -1,9 +1,11 @@
 // @flow
-import React from 'react'
+import React, { useContext } from 'react'
 import { Animated, Platform, View } from 'react-native'
 import { noop } from 'lodash'
-
 import { t } from '@lingui/macro'
+
+import { useFlagWithPayload } from '../../../lib/hooks/useFeatureFlags'
+import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 import Config from '../../../config/config'
@@ -51,6 +53,10 @@ const ClaimButton = withStyles(getStylesFromProps)(({
   const isPending = false
   const canContinue = () => true
 
+  const { goodWallet } = useContext(GoodWalletContext)
+  const payload = useFlagWithPayload('uat-goodid-flow')
+  const { whitelist } = payload
+
   // if there's no status the first time then get it
   // otherwise just return true.
   // in case we already have status then button is disabled if pending so its ok to return true here.
@@ -62,7 +68,7 @@ const ClaimButton = withStyles(getStylesFromProps)(({
     <PushButton
       disabled={isPending}
       canContinue={canContinue}
-      routeName={Config.env !== 'development' ? 'Claim' : 'GoodIdOnboard'}
+      routeName={Config.env === 'development' || whitelist.includes(goodWallet.account) ? 'GoodIdOnboard' : 'Claim'}
       testID="claim_button"
       screenProps={screenProps}
       style={[styles.claimButton, isPending ? styles.inQueue : undefined, style]}

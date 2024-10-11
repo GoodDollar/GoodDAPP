@@ -1,6 +1,8 @@
 import React, { useCallback, useContext } from 'react'
 import { View } from 'react-native'
 import { GoodIdProvider, OnboardController } from '@gooddollar/good-design'
+
+import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
 import { GoodWalletContext } from '../../lib/wallet/GoodWalletProvider'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
@@ -9,6 +11,8 @@ const GoodIdOnboardImpl = ({ screenProps, styles }) => {
   // isValid is result from FV
   const { navigateTo, isValid } = screenProps
   const { goodWallet } = useContext(GoodWalletContext)
+  const payload = useFlagWithPayload('uat-goodid-flow')
+  const { whitelist } = payload ?? {}
 
   const navigateToFV = useCallback(() => {
     navigateTo('FaceVerificationIntro')
@@ -33,7 +37,7 @@ const GoodIdOnboardImpl = ({ screenProps, styles }) => {
           onSkip={onSkip}
           onDone={onSkip}
           onExit={onExit}
-          isDev={Config.env !== 'production'}
+          isDev={Config.env === 'development' || whitelist.includes(goodWallet.account)}
           isWallet={true}
         />
       </GoodIdProvider>

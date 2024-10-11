@@ -248,9 +248,11 @@ const Claim = props => {
   const advanceClaimsCounter = useClaimCounter()
   const [, , collectInviteBounty] = useInviteBonus()
 
-  const payload = useFlagWithPayload('next-tasks')
+  const nextTasks = useFlagWithPayload('next-tasks')
+  const uat = useFlagWithPayload('uat-goodid-flow')
 
-  const { tasks } = payload
+  const { tasks } = nextTasks
+  const { whitelist } = uat || {}
 
   // format number of people who did claim today
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
@@ -310,7 +312,8 @@ const Claim = props => {
   )
 
   const handleFaceVerification = useCallback(() => {
-    const nextStep = Config.env !== 'development' ? 'FaceVerificationIntro' : 'GoodIdOnboard'
+    const nextStep =
+      Config.env === 'development' || whitelist.includes(goodWallet.account) ? 'GoodIdOnboard' : 'FaceVerificationIntro'
     navigate(nextStep, { from: 'Claim' })
   }, [navigate])
 

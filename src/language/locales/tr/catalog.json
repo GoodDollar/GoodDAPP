@@ -1,6 +1,10 @@
 {
   "'Could not send magic-link email. Please try again.": "'Could not send magic-link email. Please try again.",
+<<<<<<< HEAD
   "* If pending, remind them to claim their UBI so that you can receive your G$ reward.": "* If pending, remind them to claim their UBI so that you can receive your G$ reward.",
+=======
+  "* If pending, remind them to claim their UBI so that you can receive your G$ reward.": "",
+>>>>>>> 743d4c607bf1cc1a5475fde717055ff1302e79ac
   "* the transaction may take": "* the transaction may take",
   "* the transaction may take\na few seconds to complete": "* the transaction may take\na few seconds to complete",
   "* works from any device": "* works from any device",
@@ -27,7 +31,11 @@
   "All": "All",
   "All your information at a glance to easily import GoodDollar to MetaMask": "All your information at a glance to easily import GoodDollar to MetaMask",
   "Allow": "Allow",
+<<<<<<< HEAD
   "Almost Ready": "Almost Ready",
+=======
+  "Almost Ready": "",
+>>>>>>> 743d4c607bf1cc1a5475fde717055ff1302e79ac
   "An unexpected issue during the face verification API call": "An unexpected issue during the face verification API call",
   "Approve": "Approve",
   "Ask your inviter to get verified by Claiming his first G$s": "Ask your inviter to get verified by Claiming his first G$s",
@@ -143,7 +151,11 @@
   "GoodDollar is a payment system with a built-in small basic income based on blockchain technology.": "GoodDollar is a payment system with a built-in small basic income based on blockchain technology.",
   "GoodDollars are transferred": "GoodDollars are transferred",
   "GoodWallet might not work correctly on this browser\nFor the best experience, use Chrome, Safari or your phone's native browser": "GoodWallet might not work correctly on this browser\nFor the best experience, use Chrome, Safari or your phone's native browser",
+<<<<<<< HEAD
   "Help & Documentation": "Help & Documentation",
+=======
+  "Help & Documentation": "",
+>>>>>>> 743d4c607bf1cc1a5475fde717055ff1302e79ac
   "Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.": "Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.",
   "Hi {firstName},\nyour wallet was recovered successfully": "Hi {firstName},\nyour wallet was recovered successfully",
   "Hip hip hooray!\nWe have a new version :)": "Hip hip hooray!\nWe have a new version :)",
@@ -229,7 +241,11 @@
   "News": "News",
   "Next": "Next",
   "Next time\nyou can sign in\nfrom any device\nusing your": "Next time\nyou can sign in\nfrom any device\nusing your",
+<<<<<<< HEAD
   "No thanks, I’ll keep using this GoodWallet": "No thanks, I’ll keep using this GoodWallet",
+=======
+  "No thanks, I’ll keep using this GoodWallet": "",
+>>>>>>> 743d4c607bf1cc1a5475fde717055ff1302e79ac
   "Not Verified": "Not Verified",
   "Not enough balance to execute transaction. Balance: {balance} Required: {gasRequired}": "Not enough balance to execute transaction. Balance: {balance} Required: {gasRequired}",
   "Note:": "Note:",
@@ -274,7 +290,11 @@
   "Please wait": "Please wait",
   "Please wait\nThis might take a few seconds": "Please wait\nThis might take a few seconds",
   "Please wait until your verification is completed": "Please wait until your verification is completed",
+<<<<<<< HEAD
   "Preparing Your Wallet": "Preparing Your Wallet",
+=======
+  "Preparing Your Wallet": "",
+>>>>>>> 743d4c607bf1cc1a5475fde717055ff1302e79ac
   "Privacy Policy": "Privacy Policy",
   "Privacy Policy & Terms": "Privacy Policy & Terms",
   "Processing Payment Link...": "Processing Payment Link...",
@@ -347,12 +367,20 @@
   "Switch chain": "Switch chain",
   "Switch to {0}": "Switch to {0}",
   "Switch to {targetNetwork}": "Switch to {targetNetwork}",
+<<<<<<< HEAD
   "TAKE ME TO THE NEW GOODWALLET": "TAKE ME TO THE NEW GOODWALLET",
+=======
+  "TAKE ME TO THE NEW GOODWALLET": "",
+>>>>>>> 743d4c607bf1cc1a5475fde717055ff1302e79ac
   "Terms of Use": "Terms of Use",
   "Thanks to your awesome feedback we were able to improve our wallet. We hope now you’ll enjoy it even more.": "Thanks to your awesome feedback we were able to improve our wallet. We hope now you’ll enjoy it even more.",
   "Thanks, we verified your phone.": "Thanks, we verified your phone.",
   "The G$ was sent successfully": "The G$ was sent successfully",
+<<<<<<< HEAD
   "The New GoodWallet allows you to:": "The New GoodWallet allows you to:",
+=======
+  "The New GoodWallet allows you to:": "",
+>>>>>>> 743d4c607bf1cc1a5475fde717055ff1302e79ac
   "The backup phrase has been copied to the clipboard": "The backup phrase has been copied to the clipboard",
   "The community is depending on you!": "The community is depending on you!",
   "The payment could not be canceled at this time. Please try again.": "The payment could not be canceled at this time. Please try again.",
@@ -363,7 +391,11 @@
   "There was a problem sending {token}. Check payment details.": "There was a problem sending {token}. Check payment details.",
   "This browser doesn't support\ncamera access on iOS devices. Sorry!": "This browser doesn't support\ncamera access on iOS devices. Sorry!",
   "This delay is to prevent misuse, thanks for understanding!": "This delay is to prevent misuse, thanks for understanding!",
+<<<<<<< HEAD
   "This is what people will see when you send or receive transactions. You can change it at any time in your Profile.": "This is what people will see when you send or receive transactions. You can change it at any time in your Profile.",
+=======
+  "This is what people will see when you send or receive transactions. You can change it at any time in your Profile.": "",
+>>>>>>> 743d4c607bf1cc1a5475fde717055ff1302e79ac
   "This might take a few seconds...": "This might take a few seconds...",
   "This transaction failed": "This transaction failed",
   "This transaction might fail to save gas we recommend not to execute it": "This transaction might fail to save gas we recommend not to execute it",

@@ -70,6 +70,7 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
     <View style={styles.wrapper}>
       <GoodIdProvider>
         <ClaimProvider
+          activePoolAddresses={Config.UBIPoolAddresses}
           explorerEndPoints={Config.goodIdExplorerUrls}
           onSwitchChain={switchNetwork}
           withNewsFeed={false}
@@ -97,6 +98,7 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     wrapper: {
+      flex: 1,
       alignItems: 'center',
     },
   }

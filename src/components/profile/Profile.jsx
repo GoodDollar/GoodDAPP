@@ -33,6 +33,9 @@ const ProfileWrapper = ({ screenProps, styles }) => {
 
   const logMethod = userStorage?.userProperties.get('logMethod')
 
+  const { account } = goodWallet
+  const isVerified = goodWallet.isVerified(account)
+
   const { fullName } = profile
 
   const handleAvatarPress = useCallback(() => screenProps.push(`ViewAvatar`), [screenProps])
@@ -85,7 +88,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
               GoodID{' '}
             </NText>
             <GoodIdProvider>
-              <GoodIdDetails account={goodWallet.account} isVerified={goodWallet.isVerified} />
+              <GoodIdDetails {...{ isVerified, account }} />
             </GoodIdProvider>
           </View>
         </View>

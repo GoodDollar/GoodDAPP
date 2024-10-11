@@ -1,6 +1,8 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 
 import { identity } from 'lodash'
+
+import { useFlagWithPayload } from '../../../lib/hooks/useFeatureFlags'
 import Instructions from '../components/Instructions'
 
 import Config from '../../../config/config'
@@ -35,6 +37,9 @@ const FaceVerification = ({ screenProps, navigation }) => {
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
   const { isFVFlow } = useContext(FVFlowContext)
+  const payload = useFlagWithPayload('uat-goodid-flow')
+  const { whitelist } = payload ?? {}
+
   const { faceIdentifier: enrollmentIdentifier, chainId, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
 
   // Redirects to the error screen, passing exception
@@ -142,7 +147,8 @@ const FaceVerification = ({ screenProps, navigation }) => {
         userStorage.userProperties.set('fv2', true)
       }
 
-      const nextStep = Config.env !== 'development' ? 'Claim' : 'GoodIdOnboard'
+      const nextStep =
+        Config.env === 'development' || whitelist.includes(goodWallet.account) ? 'GoodIdOnboard' : 'Claim'
 
       //go to goodid to complete certificates
       screenProps.navigateTo(nextStep, { isValid: true })

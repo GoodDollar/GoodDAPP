@@ -277,7 +277,7 @@ const getStylesFromProps = ({ theme }) => ({
   mainContent: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    paddingHorizontal: '32',
+    paddingHorizontal: 32,
     width: '100%',
   },
   mainTitle: {

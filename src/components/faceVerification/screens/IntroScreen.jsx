@@ -22,7 +22,12 @@ import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
 // utils
 import logger from '../../../lib/logger/js-logger'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
-import { getDesignRelativeHeight, getDesignRelativeWidth, isSmallDevice } from '../../../lib/utils/sizes'
+import {
+  getDesignRelativeHeight,
+  getDesignRelativeWidth,
+  isMediumDevice,
+  isSmallDevice,
+} from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
 import { iosSupportedWeb, isBrowser, isEmulator, isIOSWeb, isWebView } from '../../../lib/utils/platform'
 import { openLink } from '../../../lib/utils/linking'
@@ -76,7 +81,7 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
             {`\n`}
           </Section.Text>
         </Section.Title>
-        <Section>
+        <Section style={styles.mainText}>
           <Section.Text textAlign="left" fontSize={18} lineHeight={25} letterSpacing={0.18}>
             {t`Every so often, it's necessary to double-check that you're still you. You’ll go through the same verification process you went through when you first signed up for GoodDollar.`}
           </Section.Text>
@@ -84,8 +89,8 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
             {t`You’ll be able to claim once this process is complete.`}
           </Section.Text>
         </Section>
-        <View style={styles.illustration}>
-          <Image source={BillyVerifies} resizeMode="center" style={{ width: 160, height: 160, marginLeft: 'auto' }} />
+        <View style={styles.illustrationContainer}>
+          <Image source={BillyVerifies} style={styles.image} />
         </View>
         <Section.Text
           fontWeight="bold"
@@ -130,7 +135,7 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
         >
           {t`Learn More`}
         </Section.Text>
-        <View style={styles.illustration}>
+        <View style={styles.illustrationContainer}>
           <FashionShootSVG />
         </View>
         <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
@@ -233,7 +238,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   if (state === 'pending') {
     return (
       <View display="flex" justifyContent="center">
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" style={{ marginTop: 10 }} />
       </View>
     )
   }
@@ -270,36 +275,65 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     flexShrink: 0,
+
     paddingBottom: getDesignRelativeHeight(isSmallDevice ? 10 : theme.sizes.defaultDouble),
-    paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+
+    paddingLeft: Platform.select({
+      web: !isMediumDevice ? getDesignRelativeWidth(theme.sizes.default) : 5,
+    }),
     paddingRight: getDesignRelativeWidth(theme.sizes.default),
-    paddingTop: getDesignRelativeHeight(isSmallDevice ? 10 : theme.sizes.defaultDouble),
+    paddingTop: getDesignRelativeHeight(isMediumDevice ? 10 : theme.sizes.defaultDouble),
     marginBottom: theme.paddings.bottomPadding,
   },
   mainContent: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    paddingHorizontal: 32,
+    paddingHorizontal: Platform.select({
+      web: !isMediumDevice ? 32 : 0,
+    }),
     width: '100%',
   },
   mainTitle: {
     marginTop: getDesignRelativeHeight(isBrowser ? 16 : 8),
   },
   mainText: {
-    marginTop: getDesignRelativeHeight(20),
+    marginTop: Platform.select({
+      web: !isSmallDevice ? getDesignRelativeHeight(20) : 0,
+    }),
   },
-  illustration: {
+  illustrationContainer: {
     marginTop: getDesignRelativeHeight(20),
-    marginBottom: getDesignRelativeHeight(31),
+
+    marginBottom: Platform.select({
+      web: !isMediumDevice ? getDesignRelativeHeight(31) : 0,
+    }),
     alignItems: 'center',
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: 160,
-    height: 160,
+    ...Platform.select({
+      web: {
+        width: !isMediumDevice ? 160 : 120,
+        height: !isMediumDevice ? 160 : 120,
+      },
+      default: {
+        width: 120,
+        height: 120,
+      },
+    }),
+  },
+  image: {
+    ...Platform.select({
+      web: { resizeMode: 'center', width: !isMediumDevice ? 160 : 120, height: !isMediumDevice ? 160 : 120 },
+      android: { resizeMode: 'contain', width: 120, height: 120 },
+    }),
+    marginLeft: 'auto',
   },
   descriptionContainer: {
-    paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
-    paddingVertical: getDesignRelativeHeight(isSmallDevice ? 8 : 14),
+    paddingHorizontal: Platform.select({
+      web: !isSmallDevice ? getDesignRelativeHeight(theme.sizes.defaultHalf) : 0,
+    }),
+
+    paddingVertical: getDesignRelativeHeight(isMediumDevice ? 8 : 14),
   },
   descriptionUnderline: {
     display: Platform.select({ web: 'block', default: 'flex' }),
@@ -307,6 +341,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   button: {
     width: '100%',
+    marginTop: 20,
   },
   bottomSeparator: {
     marginBottom: getDesignRelativeHeight(isSmallDevice ? theme.sizes.defaultDouble : 25),

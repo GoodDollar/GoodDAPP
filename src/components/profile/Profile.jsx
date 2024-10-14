@@ -6,6 +6,8 @@ import { GoodIdDetails, GoodIdProvider } from '@gooddollar/good-design'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, Wrapper } from '../common'
+import Config from '../../config/config'
+import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
 
 import UserAvatar from '../common/view/UserAvatar'
 import { withStyles } from '../../lib/styles'
@@ -28,6 +30,9 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const profile = usePublicProfile()
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
+
+  const payload = useFlagWithPayload('uat-goodid-flow')
+  const { whitelist } = payload ?? {}
 
   // const [faceRecordId, setRecordId] = useState()
 
@@ -89,9 +94,11 @@ const ProfileWrapper = ({ screenProps, styles }) => {
               {' '}
               GoodID{' '}
             </NText>
-            <GoodIdProvider>
-              <GoodIdDetails {...{ isVerified, account, onGoToClaim }} />
-            </GoodIdProvider>
+            {Config.env === 'development' || whitelist?.includes(account) ? (
+              <GoodIdProvider>
+                <GoodIdDetails {...{ isVerified, account, onGoToClaim }} />
+              </GoodIdProvider>
+            ) : null}
           </View>
         </View>
       </Section>

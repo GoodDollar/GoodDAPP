@@ -55,7 +55,7 @@ const ClaimButton = withStyles(getStylesFromProps)(({
 
   const { goodWallet } = useContext(GoodWalletContext)
   const payload = useFlagWithPayload('uat-goodid-flow')
-  const { whitelist } = payload
+  const { whitelist } = payload ?? {}
 
   // if there's no status the first time then get it
   // otherwise just return true.

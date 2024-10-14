@@ -40,7 +40,7 @@ const goodIdExplorerUrls = {
   CELO: env.REACT_APP_GOODID_CELO_EXPLORER ?? 'https://api.celoscan.io/api?apikey=WIX677MWRWNYWXTRCFKBK2NZAB2XHYBQ3K&',
   FUSE: env.REACT_APP_GOODID_FUSE_EXPLORER ?? 'https://explorer.fuse.org/api?&',
   MAINNET: env.REACT_APP_GOODID_MAINNET_EXPLORER ?? '',
-  GOODCOLLECTIVE: env.REACT_APP_GOOD_GOODCOLLECTIVE_EXPLORER
+  GOODCOLLECTIVE: env.REACT_APP_GOOD_GOODCOLLECTIVE_EXPLORER ?? ''
 }
 
 const ethereum = {
@@ -108,7 +108,7 @@ const ethereum = {
   },
 }
 
-const UBIPoolAddresses = env.REACT_APP_UBIPOOL_ADDRESSES
+const UBIPoolAddresses = env.REACT_APP_UBIPOOL_ADDRESSES ?? ''
 
 const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute

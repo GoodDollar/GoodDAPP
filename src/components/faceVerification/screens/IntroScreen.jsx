@@ -150,6 +150,8 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { account } = goodWallet ?? {}
   const [expiryDate, , state] = useIdentityExpiryDate(externalAccount || account)
 
+  const isReverify = expiryDate?.lastAuthenticated?.isZero() === false
+
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
@@ -220,11 +222,11 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
 
     AsyncStorage.setItem('hasStartedFV', 'true')
 
-    if (enrollmentIdentifier && (!isFVFlow || isFVFlowReady)) {
-      fireEvent(FV_INTRO)
+    if (enrollmentIdentifier && state !== 'pending' && (!isFVFlow || isFVFlowReady)) {
+      fireEvent(FV_INTRO, { reverify: isReverify })
       checkDisposalState()
     }
-  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigateTo, checkDisposalState])
+  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigateTo, isReverify, state, checkDisposalState])
 
   useFVLoginInfoCheck(navigation)
 
@@ -236,7 +238,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     )
   }
 
-  if (!expiryDate?.lastAuthenticated?.isZero()) {
+  if (isReverify) {
     return (
       <IntroReVerification
         styles={styles}

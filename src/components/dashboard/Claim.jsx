@@ -313,7 +313,9 @@ const Claim = props => {
 
   const handleFaceVerification = useCallback(() => {
     const nextStep =
-      Config.env === 'development' || whitelist.includes(goodWallet.account) ? 'GoodIdOnboard' : 'FaceVerificationIntro'
+      Config.env === 'development' || whitelist?.includes(goodWallet.account)
+        ? 'GoodIdOnboard'
+        : 'FaceVerificationIntro'
     navigate(nextStep, { from: 'Claim' })
   }, [navigate])
 

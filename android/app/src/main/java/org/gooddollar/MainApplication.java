@@ -2,6 +2,10 @@ package org.gooddollar;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.BroadcastReceiver; 
+import android.content.Intent; 
+import android.content.IntentFilter;
+import android.os.Build; 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.microsoft.codepush.react.CodePush;
@@ -50,6 +54,16 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
+  }
+
+  //ref: https://stackoverflow.com/a/78982370
+  @Override
+  public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+      if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
+          return super.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED);
+      } else {
+          return super.registerReceiver(receiver, filter);
+      }
   }
 
   /**

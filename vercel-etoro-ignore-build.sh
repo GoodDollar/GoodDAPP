@@ -3,7 +3,7 @@
 # this is for vercel to prevent builds of feature branches. it is used in settings/git/ignored build step
 echo "VERCEL_GIT_COMMIT_REF: $VERCEL_GIT_COMMIT_REF"
 
-if [[ "$VERCEL_GIT_COMMIT_REF" == "next" ]] ; then
+if [[ "$VERCEL_GIT_COMMIT_REF" == "dontbuild" ]] ; then
   # Proceed with the build
     echo "✅ - Build can proceed"
   exit 1;

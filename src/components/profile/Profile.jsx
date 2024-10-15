@@ -50,7 +50,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const onGoToClaim = useCallback(() => screenProps.push('GoodIdOnboard'), [screenProps])
 
   return (
-    <Wrapper withMaxHeight={false}>
+    <Wrapper withMaxHeight={Config.env === 'development' || whitelist?.includes(account) ? false : true}>
       <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
         <RoundIconButton
           label={'Edit'}
@@ -72,35 +72,35 @@ const ProfileWrapper = ({ screenProps, styles }) => {
             </Section.Row>
           ) : null}
         </Section>
-
-        <View>
+        {Config.env === 'development' || whitelist?.includes(account) ? (
           <View>
-            <NText
-              style={{
-                backgroundColor: '#00AEFF20',
-                color: '#00AEFF',
-                fontFamily: 'Montserrat',
-                fontWeight: '700',
-                fontSize: 24,
-                paddingTop: 16,
-                paddingBottom: 16,
-                paddingLeft: 8,
-                paddingRight: 8,
-                width: '100%',
-                textAlign: 'center',
-                marginBottom: 24,
-              }}
-            >
-              {' '}
-              GoodID{' '}
-            </NText>
-            {Config.env === 'development' || whitelist?.includes(account) ? (
+            <View>
+              <NText
+                style={{
+                  backgroundColor: '#00AEFF20',
+                  color: '#00AEFF',
+                  fontFamily: 'Montserrat',
+                  fontWeight: '700',
+                  fontSize: 24,
+                  paddingTop: 16,
+                  paddingBottom: 16,
+                  paddingLeft: 8,
+                  paddingRight: 8,
+                  width: '100%',
+                  textAlign: 'center',
+                  marginBottom: 24,
+                }}
+              >
+                {' '}
+                GoodID{' '}
+              </NText>
+
               <GoodIdProvider>
                 <GoodIdDetails {...{ isVerified, account, onGoToClaim }} />
               </GoodIdProvider>
-            ) : null}
+            </View>
           </View>
-        </View>
+        ) : null}
       </Section>
       <View style={styles.userDataWrapper}>
         <UserAvatar

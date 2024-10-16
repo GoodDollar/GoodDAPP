@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Text as NText, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { GoodIdDetails, GoodIdProvider } from '@gooddollar/good-design'
@@ -31,10 +31,10 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
 
+  const [faceRecordId, setRecordId] = useState()
+
   const payload = useFlagWithPayload('uat-goodid-flow')
   const { whitelist } = payload ?? {}
-
-  // const [faceRecordId, setRecordId] = useState()
 
   const logMethod = userStorage?.userProperties.get('logMethod')
 
@@ -48,6 +48,15 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
 
   const onGoToClaim = useCallback(() => screenProps.push('GoodIdOnboard'), [screenProps])
+
+  useEffect(() => {
+    if (userStorage) {
+      const isFV2 = userStorage.userProperties.get('fv2')
+      userStorage.getFaceIdentifiers().then(_ => {
+        setRecordId(isFV2 ? _.v2Identifier.slice(0, 42) : _.v1Identifier)
+      })
+    }
+  }, [userStorage])
 
   return (
     <Wrapper withMaxHeight={Config.env === 'development' || whitelist?.includes(account) ? false : true}>
@@ -66,6 +75,9 @@ const ProfileWrapper = ({ screenProps, styles }) => {
         <ProfileDataTable profile={profile} showCustomFlag />
 
         <Section grow justifyContent="flex-end" style={{ width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}>
+          <Section.Row>
+            <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
+          </Section.Row>
           {logMethod ? (
             <Section.Row>
               <IdentifierRow title="LoginM" text={logMethod} />

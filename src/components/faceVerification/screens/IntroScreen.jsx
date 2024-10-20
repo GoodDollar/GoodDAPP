@@ -116,26 +116,32 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
       <View style={styles.mainContent}>
         <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
           {firstName ? `${firstName},` : ``}
-          <Section.Text fontWeight="regular" textTransform="none" fontSize={24} lineHeight={30}>
+          <Section.Text fontWeight="bold" color="#00AEFF" textTransform="none" fontSize={24} lineHeight={30}>
             {firstName ? `\n` : ''}
-            {t`Verify you are a real live person`}
+            {t`You are almost there!`}
             {`\n`}
           </Section.Text>
         </Section.Title>
-        <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
-          {t`Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any third party`}
+        <Section.Text
+          fontSize={18}
+          lineHeight={25}
+          letterSpacing={0.18}
+          fontWeight="700"
+        >{t`To claim G$, you need to be a unique human and prove it with your camera.`}</Section.Text>
+        <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
+          {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
         </Section.Text>
         <Section.Text
           fontWeight="bold"
           fontSize={18}
           lineHeight={26}
           textDecorationLine="underline"
-          style={styles.learnMore}
+          color="#00AEFF"
           onPress={onLearnMore}
         >
           {t`Learn More`}
         </Section.Text>
-        <View style={styles.illustrationContainer}>
+        <View style={styles.illustrationContainer} marginTop={0}>
           <FashionShootSVG />
         </View>
         <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>

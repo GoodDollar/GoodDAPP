@@ -176,7 +176,7 @@ const Config = {
   faceVerificationMaxAttemptsAllowed: Number(env.REACT_APP_FACE_VERIFICATION_ATTEMPTS || 3),
   faceVerificationPrivacyUrl:
     env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
-    'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
+    'https://docs.gooddollar.org/about-the-protocol/sybil-resistance',
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
   httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'random',
   httpProviderRetries: Number(env.REACT_APP_WEB3_RPC_RETRIES || 1),

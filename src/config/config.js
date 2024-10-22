@@ -245,7 +245,8 @@ const Config = {
   posthogHost: isWeb ? "https://vercelrp.gooddollar.org/ingest" : "https://app.posthog.com", //reverse proxy using vercel
   fvTypeformUrl: 'https://docs.gooddollar.org/frequently-asked-questions/troubleshooting#passing-face-verification',
   gasFeeNotionUrl: 'https://www.notion.so/gooddollar/Why-does-it-say-I-m-Out-of-Gas-d92e5e20b6144dfbb12979e266e72959',
-  GoodIdFeatureBranch: env.REACT_APP_GOODID_FEATURE_BRANCH === 'true'
+  GoodIdFeatureBranch: env.REACT_APP_GOODID_FEATURE_BRANCH === 'true',
+  feedContext: env.REACT_APP_FEEDCONTEXT_PROD
 }
 
 global.config = Config

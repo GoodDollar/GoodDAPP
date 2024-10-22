@@ -17,6 +17,15 @@ import { withStyles } from '../../lib/styles'
 
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 
+export const feedConfig = {
+  production: {
+    feedFilter: {
+      context: Config.feedContext,
+      tag: 'publishDapp',
+    },
+  },
+}
+
 export const LoadingAnimation = ({ success, speed = 3 }) => (
   <View style={{ alignItems: 'center' }}>
     <SpinnerCheckMark
@@ -77,7 +86,10 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
           onSuccess={onClaimSuccess}
           onUpgrade={onUpgrade}
         >
-          <NewsFeedProvider env={'qa'} limit={1}>
+          <NewsFeedProvider
+            {...(Config.env !== 'development' ? { feedFilter: feedConfig.production.feedFilter } : { env: 'qa' })}
+            limit={1}
+          >
             <ClaimWizard
               account={goodWallet.account}
               chainId={goodWallet.networkId}

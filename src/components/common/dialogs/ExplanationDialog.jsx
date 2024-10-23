@@ -43,6 +43,7 @@ const ExplanationDialog = ({
   label,
   title,
   text,
+  customText = undefined,
   imageSource,
   image: ImageComponent,
   buttons,
@@ -94,11 +95,12 @@ const ExplanationDialog = ({
           )}
         </View>
       )}
-      {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
+      {label ? <Text style={[styles.label, labelStyle]}>{label}</Text> : null}
       <Text fontSize={24} fontWeight="bold" fontFamily={theme.fonts.slab} style={[styles.title, titleStyle]}>
         {title}
       </Text>
-      {text && <Text style={[styles.description, textStyle]}>{text}</Text>}
+      {text ? <Text style={[styles.description, textStyle]}>{text}</Text> : null}
+      {customText ? customText : null}
       {children}
       {!isEmpty(buttons) && (
         <View style={[styles.buttonsContainer, buttonsContainerStyle]}>

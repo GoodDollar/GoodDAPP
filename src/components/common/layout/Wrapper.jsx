@@ -70,7 +70,7 @@ const getStylesFromProps = ({ theme }) => {
       ...styles.container,
       maxHeight: theme.sizes.maxContentHeightForTabletAndDesktop,
       ...Platform.select({
-        web: { overflowY: 'auto', overflowX: 'auto' },
+        web: { overflowY: 'auto' },
       }),
     }
   }

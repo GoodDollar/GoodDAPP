@@ -1,6 +1,7 @@
 // libraries
 import React, { useCallback } from 'react'
 
+import { useFeatureFlagWithPayload } from 'posthog-react-native'
 import { retry } from '../../../lib/utils/async'
 import { isAndroidNative } from '../../../lib/utils/platform'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
@@ -71,6 +72,7 @@ const DeprecationDialog = () => {
 
 export const useDeprecationDialog = () => {
   const { showDialog } = useDialog()
+  const deprecationEnabled = useFeatureFlagWithPayload('gw-deprecation-dialog')
 
   const showDeprecationDialog = useCallback(() => {
     showDialog({
@@ -80,5 +82,5 @@ export const useDeprecationDialog = () => {
     })
   }, [showDialog])
 
-  return { showDeprecationDialog }
+  return { showDeprecationDialog, deprecationEnabled }
 }

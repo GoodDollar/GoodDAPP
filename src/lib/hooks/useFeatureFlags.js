@@ -12,6 +12,8 @@ const defaultFeatureFlags = {
   'micro-bridge': true,
   'send-receive-feature': true,
   'dashboard-buttons': true,
+  'goodid-newsfeed': false,
+  'gw-deprecation-dialog': false,
 }
 
 const defaultFlagsWithPayload = {

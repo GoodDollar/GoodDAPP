@@ -41,13 +41,13 @@ export const resetLastSplash = async () => {
 const Splash = ({ animation, isLoggedIn }) => {
   const [checked, setChecked] = useState(false)
   const [shouldAnimate, setShouldAnimate] = useState(isLoggedIn !== true || isMobileNative)
-  const { showDeprecationDialog } = useDeprecationDialog()
+  const { showDeprecationDialog, deprecationEnabled } = useDeprecationDialog()
 
   useEffect(() => {
     ;(async () => {
       const shouldShow = await shouldShowDeprecationDialog()
 
-      if (!shouldShow) {
+      if (!deprecationEnabled || !shouldShow) {
         return
       }
 

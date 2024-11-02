@@ -6648,9 +6648,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.1.58-beta.f2e0636f":
-  version: 0.1.58-beta.f2e0636f
-  resolution: "@gooddollar/good-design@npm:0.1.58-beta.f2e0636f"
+"@gooddollar/good-design@npm:0.1.60-beta.6bdc3f93":
+  version: 0.1.60-beta.6bdc3f93
+  resolution: "@gooddollar/good-design@npm:0.1.60-beta.6bdc3f93"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6694,7 +6694,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: c457e9a0b556f69e3d245b22f54be0cc5e3b92d7865cf89f05c376a800d3372761b8c70dc386d895ab62f692a09b5d46647bb6924579d02fc671aa44f8d8aa28
+  checksum: a3a64ccae68d95932d12d94cf60e5044c1648db8cced7e5ce87945cb54e3fc7a4cabe924a7f35e4514bcac82f2d553f030d233d906865225c4f04584046c50d8
   languageName: node
   linkType: hard
 
@@ -6705,9 +6705,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/goodcollective-sdk@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@gooddollar/goodcollective-sdk@npm:1.2.0"
+"@gooddollar/goodcollective-sdk@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@gooddollar/goodcollective-sdk@npm:1.2.1"
   dependencies:
     "@gooddollar/goodcollective-contracts": ^1.2.0
     "@superfluid-finance/sdk-core": ^0.6.12
@@ -6716,7 +6716,7 @@ __metadata:
     graphql: ^16.7.1
   peerDependencies:
     ethers: ^5.*
-  checksum: c9edfccc1b636a58a36b6a2dc3a711e5e3343fa4757c3b967e7efde461db46914f923ea0ee0a5cfbb35d0d0c0fd006af58e616cadc343032a38cc7e1a2611960
+  checksum: 5637adb5ee8651e8a0b0dc37984ec27fefe73d427116bb1498b19de6ce440d391be209184a68c323f3b2a2ab09f1cd6bd88d0b0e99c1572b2e4815167cb31caf
   languageName: node
   linkType: hard
 
@@ -6753,12 +6753,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.1.58-beta.f2e0636f
+    "@gooddollar/good-design": 0.1.60-beta.6bdc3f93
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.45
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.2.35-beta.f2e0636f
+    "@gooddollar/web3sdk-v2": 0.2.35-beta.6bdc3f93
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7062,9 +7062,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.2.35-beta.f2e0636f":
-  version: 0.2.35-beta.f2e0636f
-  resolution: "@gooddollar/web3sdk-v2@npm:0.2.35-beta.f2e0636f"
+"@gooddollar/web3sdk-v2@npm:0.2.35-beta.6bdc3f93":
+  version: 0.2.35-beta.6bdc3f93
+  resolution: "@gooddollar/web3sdk-v2@npm:0.2.35-beta.6bdc3f93"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7074,7 +7074,7 @@ __metadata:
     "@gooddollar/bridge-app": ^1.5.0
     "@gooddollar/bridge-contracts": ^1.0.17
     "@gooddollar/goodcollective-contracts": ^1.2.0
-    "@gooddollar/goodcollective-sdk": ^1.2.0
+    "@gooddollar/goodcollective-sdk": ^1.2.1
     "@gooddollar/goodprotocol": ^2.0.24
     "@orbisclub/orbis-sdk": ^0.4.87
     "@react-native-community/geolocation": 3.1.0
@@ -7115,7 +7115,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 9805ac74435dd8853fc98a0512b657e20476ef0d5533136235538f3b4adf08b6c9fcda26acfeb8aa48813ec08c7ac8fa0871cbbfdf304942ad324969783bd254
+  checksum: e83f091c969194017f729703abf3c0e81544bad8737c084fdb5fc846096619451d72b6c5da3a2d7a05418763bcd2737460d13d354c46d7b7fbe7c909660726ee
   languageName: node
   linkType: hard
 

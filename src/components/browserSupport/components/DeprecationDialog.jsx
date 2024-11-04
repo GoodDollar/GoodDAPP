@@ -1,38 +1,20 @@
 // libraries
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Platform, Text } from 'react-native'
 import { t } from '@lingui/macro'
 
-import { isAndroidNative } from '../../../lib/utils/platform'
+import { isWeb } from '../../../lib/utils/platform'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import { useDialog } from '../../../lib/dialog/useDialog'
-
-// utils
+import DeepLinking from '../../../lib/utils/deepLinking'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { openLink } from '../../../lib/utils/linking'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-
-const STORAGE_KEY = 'deprecationDialogNextShow'
-const BACKOFF = 1000 * 60 * 60 * 12
-
-export const shouldShowDeprecationDialog = async () => {
-  if (!isAndroidNative) {
-    return false
-  }
-
-  const { count, last } = (await AsyncStorage.getItem(STORAGE_KEY)) || {
-    count: 0,
-    last: 0,
-  }
-
-  if (Date.now() > last + BACKOFF * 2 ** count) {
-    AsyncStorage.setItem(STORAGE_KEY, { count: count === 5 ? 1 : count + 1, last: Date.now() })
-    return true
-  }
-
-  return false
-}
+import { useFlagWithPayload } from '../../../lib/hooks/useFeatureFlags'
+import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
+import { DEPRECATION_MODAL, fireEvent } from '../../../lib/analytics/analytics'
+import { retry } from '../../../lib/utils/async'
 
 const DeprecationCopy = () => (
   <Text
@@ -82,15 +64,45 @@ const DeprecationDialog = () => {
 }
 
 export const useDeprecationDialog = () => {
+  const showDeprecationModal = useFlagWithPayload('show-deprecation-modal')
+  const { supportedCountries, enabled: isActive, webOnly, whitelist } = showDeprecationModal || {}
   const { showDialog } = useDialog()
+  const { params } = DeepLinking
+
+  const { goodWallet } = useContext(GoodWalletContext)
 
   const showDeprecationDialog = useCallback(() => {
     showDialog({
       content: <DeprecationDialog />,
       showButtons: false,
-      showCloseButtons: true,
+      showCloseButtons: false,
     })
   }, [showDialog])
 
-  return { showDeprecationDialog }
+  const showModalIfActive = async () => {
+    if (params.isV1 !== undefined) {
+      AsyncStorage.setItem('dontShowDeprecationModal', Date.now() + 30 * 24 * 60 * 60 * 1000)
+      return
+    }
+    const until = await AsyncStorage.getItem('dontShowDeprecationModal')
+    if (Date.now() <= until) {
+      return
+    }
+    const country = await retry(
+      async () => (await fetch('https://get.geojs.io/v1/ip/country.json')).json(),
+      3,
+      2000,
+    ).then(data => data.country)
+
+    const isEligible = supportedCountries?.split(',')?.includes(country) || whitelist?.includes(goodWallet?.account)
+    if (((webOnly && isWeb) || !webOnly) && isActive && isEligible) {
+      fireEvent(DEPRECATION_MODAL)
+
+      showDeprecationDialog()
+    }
+  }
+
+  useEffect(() => {
+    showModalIfActive()
+  }, [showDeprecationModal])
 }

@@ -22,7 +22,7 @@ const DeprecationCopy = () => (
       fontSize: normalizeText(18),
       textAlign: 'center',
       fontWeight: 'bold',
-      marginBottom: 12,
+      ...Platform.select({ web: { marginBottom: 14 }, android: { marginBottom: getDesignRelativeHeight(32, false) } }),
     }}
     {...Platform.select({ android: { marginVertical: getDesignRelativeHeight(25, false) } })}
   >
@@ -40,7 +40,7 @@ const DeprecationDialog = () => {
     <ExplanationDialog
       title={'The New GoodWallet!'}
       customText={<DeprecationCopy />}
-      containerStyle={{ height: '80%' }}
+      containerStyle={{ ...Platform.select({ web: { height: '80%' } }) }}
       titleStyle={{ fontWeight: 'normal', margin: 0 }}
       textStyle={{
         fontSize: normalizeText(16),
@@ -80,6 +80,8 @@ export const useDeprecationDialog = () => {
   }, [showDialog])
 
   const showModalIfActive = async () => {
+    showDeprecationDialog()
+
     if (params.isV1 !== undefined) {
       AsyncStorage.setItem('dontShowDeprecationModal', Date.now() + 30 * 24 * 60 * 60 * 1000)
       return

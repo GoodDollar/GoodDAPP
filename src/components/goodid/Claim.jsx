@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react'
 import { ClaimProvider, ClaimWizard, GoodIdProvider } from '@gooddollar/good-design'
 import { NewsFeedProvider, SupportedChains } from '@gooddollar/web3sdk-v2'
-import { noop } from 'lodash'
+import { isEmpty, noop } from 'lodash'
 import { Platform, View } from 'react-native'
 import { t } from '@lingui/macro'
 import moment from 'moment'
@@ -43,11 +43,16 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
   const { switchNetwork } = useSwitchNetwork()
   const { showDialog } = useDialog()
 
-  const payload = useFlagWithPayload('next-tasks')
+  const nxTasks = useFlagWithPayload('next-tasks')
+  const feedEnabled = useFlagWithPayload('goodid-newsfeed')
 
-  const { tasks } = payload
+  const { tasks } = nxTasks
 
   const onClaimSuccess = useCallback(async () => {
+    if (isEmpty(tasks)) {
+      return
+    }
+
     const today = moment().format('YYYY-MM-DD')
     const shownTasksToday = await AsyncStorage.getItem('shownTasksToday')
 
@@ -82,7 +87,7 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
           activePoolAddresses={Config.UBIPoolAddresses}
           explorerEndPoints={Config.goodIdExplorerUrls}
           onSwitchChain={switchNetwork}
-          withNewsFeed={false}
+          withNewsFeed={feedEnabled}
           onSuccess={onClaimSuccess}
           onUpgrade={onUpgrade}
         >

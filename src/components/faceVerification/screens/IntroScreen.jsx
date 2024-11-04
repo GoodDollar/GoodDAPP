@@ -69,7 +69,7 @@ const WalletDeletedPopupText = ({ styles }) => (
 )
 
 const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
-  <Wrapper>
+  <Wrapper withMaxHeight={false}>
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
         <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
@@ -111,7 +111,7 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
 )
 
 const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
-  <Wrapper>
+  <Wrapper withMaxHeight={false}>
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
         <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>

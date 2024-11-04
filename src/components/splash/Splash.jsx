@@ -9,7 +9,7 @@ import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import WavesBackground from '../common/view/WavesBackground'
 import GoodWalletSvg from '../../assets/goodWalletSplash.svg'
-import { shouldShowDeprecationDialog, useDeprecationDialog } from '../browserSupport/components/DeprecationDialog'
+import { useDeprecationDialog } from '../browserSupport/components/DeprecationDialog'
 
 // utils
 import Config from '../../config/config'
@@ -41,19 +41,7 @@ export const resetLastSplash = async () => {
 const Splash = ({ animation, isLoggedIn }) => {
   const [checked, setChecked] = useState(false)
   const [shouldAnimate, setShouldAnimate] = useState(isLoggedIn !== true || isMobileNative)
-  const { showDeprecationDialog, deprecationEnabled } = useDeprecationDialog()
-
-  useEffect(() => {
-    ;(async () => {
-      const shouldShow = await shouldShowDeprecationDialog()
-
-      if (!deprecationEnabled || !shouldShow) {
-        return
-      }
-
-      showDeprecationDialog()
-    })()
-  }, [showDeprecationDialog])
+  useDeprecationDialog()
 
   // const onPoweredByPress = useCallback(() => openLink(Config.poweredByUrl), [])
 

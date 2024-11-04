@@ -80,8 +80,6 @@ export const useDeprecationDialog = () => {
   }, [showDialog])
 
   const showModalIfActive = async () => {
-    showDeprecationDialog()
-
     if (params.isV1 !== undefined) {
       AsyncStorage.setItem('dontShowDeprecationModal', Date.now() + 30 * 24 * 60 * 60 * 1000)
       return

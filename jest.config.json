@@ -5,7 +5,7 @@
   "transform": {
     "^.+\\.jsx?$": "babel-jest",
     "^.+\\.mjs$": "babel-jest",
-    "\\.(css|jpg|png|gql|svg|webp)(\\?.*)?$": "<rootDir>/scripts/fileTransform.js"
+    "\\.(css|jpg|png|gql|svg|webp|gif)(\\?.*)?$": "<rootDir>/scripts/fileTransform.js"
   },
   "transformIgnorePatterns": [
     "<rootDir>/node_modules/@gooddollar/react-native-facetec/web/sdk",
@@ -35,11 +35,12 @@
     "<rootDir>/src/.*/.*(android|ios|native).js"
   ],
   "moduleNameMapper": {
-    "\\.(css|jpg|png|gql|svg|webp)(\\?.*)$": "<rootDir>/empty-module.js",
+    "\\.(css|jpg|png|gql|svg|webp|gif)(\\?.*)$": "<rootDir>/empty-module.js",
     "^react-native$": "react-native-web",
     "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js",
     "lottie-react-native": "react-native-web-lottie",
     "^react-native-linear-gradient$": "react-native-web-linear-gradient",
+    "^@react-native-clipboard/clipboard$": "react-native-web-clipboard",
     "^multiformats$": "<rootDir>/node_modules/multiformats/cjs/src/index.js",
     "^multiformats/(.*)/(.*)": "<rootDir>/node_modules/multiformats/cjs/src/$1/$2.js",
     "^multiformats/(.*)": "<rootDir>/node_modules/multiformats/cjs/src/$1.js",

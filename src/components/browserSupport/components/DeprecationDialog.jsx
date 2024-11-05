@@ -33,7 +33,7 @@ the New GoodWallet using a web browser https://goodwallet.xyz/`}
 
 const DeprecationDialog = () => {
   const goToWallet = () => {
-    openLink('https://goodwallet.xyz', '_blank')
+    openLink('https://goodwallet.xyz', '_self')
   }
 
   return (

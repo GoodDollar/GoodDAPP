@@ -132,6 +132,7 @@ type PromiEvents = {
 type GasValues = {
   gas?: number,
   gasPrice?: number,
+  maxFeePerGas: number,
 }
 
 const defaultPromiEvents: PromiEvents = {
@@ -1714,10 +1715,11 @@ export class GoodWallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = defaultPromiEvents,
-    { gas: setgas, gasPrice, isVerifyHasGas }: GasValues = {
+    { gas: setgas, gasPrice, isVerifyHasGas, maxFeePerGas }: GasValues = {
       gas: undefined,
       gasPrice: undefined,
       isVerifyHasGas: false,
+      maxFeePerGas: this.gasPrice + 5e9,
     },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
@@ -1765,7 +1767,7 @@ export class GoodWallet {
     }
 
     const res = new Promise((res, rej) => {
-      tx.send({ gas, gasPrice, chainId: this.networkId })
+      tx.send({ gasLimit: gas, maxFeePerGas, chainId: this.networkId, type: '0x2' })
         .on('transactionHash', h => {
           log.debug('got txhash', h)
           onTransactionHash && onTransactionHash(h)
@@ -1775,7 +1777,6 @@ export class GoodWallet {
           res(r)
           this._notifyReceipt(r.transactionHash) // although receipt will be received by polling, we do this anyways immediately
           this.notifyBalanceChanged()
-
           onReceipt && onReceipt(r)
         })
         .on('confirmation', c => {

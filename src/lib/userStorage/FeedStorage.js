@@ -10,7 +10,6 @@ import { retry } from '../utils/async'
 import Config from '../../config/config'
 import logger from '../../lib/logger/js-logger'
 import { fireEvent, REWARD_RECEIVED } from '../analytics/analytics'
-import API from '../../lib/API'
 import { type UserStorage } from './UserStorageClass'
 import { FeedCategories } from './FeedCategory'
 import type { FeedFilter } from './UserStorage'
@@ -554,7 +553,6 @@ export class FeedStorage {
 
   async getCounterParty(feedEvent) {
     const addressField = getEventDirection(feedEvent)
-    const chainId = feedEvent.chainId ?? this.wallet.networkId
 
     log.debug('getCounterParty:', feedEvent.data.receiptEvent, feedEvent.id, feedEvent.txType)
 
@@ -569,7 +567,10 @@ export class FeedStorage {
     const isBridgeOrBuy = [TxType.TX_BRIDGE_IN, TxType.TX_BRIDGE_OUT, TxType.TX_BUYGD].includes(feedEvent.txType)
 
     if (isContract !== '0x' && !isBridgeOrBuy) {
-      feedEvent.data.counterPartyFullName = await API.getContractName(address, chainId)
+      feedEvent.data.counterPartyFullName = await this.wallet.getContractName(address).catch(e => {
+        log.error('getCounterParty: getContractName failed', e.message, e)
+        return 'Unknown Contract'
+      })
     }
 
     let profile = await this._readProfileCache(address)

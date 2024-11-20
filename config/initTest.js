@@ -21,6 +21,11 @@ jest.mock("react-native-localize", () => {
   };
 });
 
+jest.mock("react-native-svg", () => {
+  return {    
+  };
+});
+
 jest.mock('react-native-vector-icons/lib/NativeRNVectorIcons', () => {
   return {}
 })

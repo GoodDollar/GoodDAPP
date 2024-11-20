@@ -97,7 +97,7 @@
     "@react-native-firebase/app": "^12.8.0",
     "@react-navigation/core": "^3.5.1",
     "@react-navigation/web": "^1.0.0-alpha.9",
-    "@sentry/browser": "^7.86.0",
+    "@sentry/browser": "^7.119.1",
     "@sentry/react-native": "^3.2.3",
     "@snapshot-labs/snapshot.js": "^0.4.25",
     "@textile/crypto": "^4.1.1",

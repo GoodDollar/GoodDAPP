@@ -110,7 +110,7 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
   </Wrapper>
 )
 
-const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
+const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, onDeny }) => (
   <Wrapper withMaxHeight={false}>
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
@@ -127,7 +127,7 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
           lineHeight={25}
           letterSpacing={0.18}
           fontWeight="700"
-        >{t`To claim G$, you need to be a unique human and prove it with your camera.`}</Section.Text>
+        >{t`To continue, you need to be a unique human and prove it with your camera.`}</Section.Text>
         <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
           {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
         </Section.Text>
@@ -144,9 +144,19 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
         <View style={styles.illustrationContainer} marginTop={0}>
           <FashionShootSVG />
         </View>
-        <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
-          {t`OK, VERIFY ME`}
-        </CustomButton>
+        <View>
+          <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
+            {t`I'M OVER 18, CONTINUE`}
+          </CustomButton>
+          <CustomButton
+            style={[styles.button]}
+            onPress={() => onDeny(`not 18 or didn't accept`)}
+            disabled={!ready}
+            mode="outlined"
+          >
+            {t`I Don't agree Or I'M NOT OVER 18`}
+          </CustomButton>
+        </View>
       </View>
     </Section>
   </Wrapper>
@@ -160,7 +170,6 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const goodWallet = useWallet()
   const { account } = goodWallet ?? {}
   const [expiryDate, , state] = useIdentityExpiryDate(externalAccount || account)
-
   const isReverify = expiryDate?.lastAuthenticated?.isZero() === false
 
   const { goToRoot, navigateTo, push } = screenProps
@@ -169,6 +178,13 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const userName = useMemo(
     () => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''),
     [isFVFlow, firstName, fullName],
+  )
+
+  const onDeny = useCallback(
+    reason => {
+      return isFVFlow ? fvRedirect(false, reason) : goToRoot()
+    },
+    [isFVFlow],
   )
 
   const [disposing, checkDisposalState] = useDisposingState(
@@ -182,14 +198,14 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
         }
 
         const dialogData = showQueueDialog(WalletDeletedPopupText, true, {
-          onDismiss: isFVFlow ? () => fvRedirect(false, 'Wait 24 hours') : goToRoot,
+          onDismiss: () => onDeny('Wait 24 hours'),
           imageSource: Wait24HourSVG,
         })
 
         showDialog(dialogData)
       },
     },
-    [enrollmentIdentifier],
+    [enrollmentIdentifier, onDeny],
   )
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
@@ -267,6 +283,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       firstName={userName}
       onLearnMore={openPrivacy}
       onVerify={handleVerifyClick}
+      onDeny={onDeny}
       ready={false === disposing}
     />
   )

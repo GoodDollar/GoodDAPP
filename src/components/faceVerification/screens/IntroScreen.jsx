@@ -25,6 +25,7 @@ import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
+  isLargeDevice,
   isMediumDevice,
   isSmallDevice,
 } from '../../../lib/utils/sizes'
@@ -144,8 +145,8 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, onDeny }) => (
         <View style={styles.illustrationContainer} marginTop={0}>
           <FashionShootSVG />
         </View>
-        <View>
-          <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
+        <View style={{ marginTop: 50 }}>
+          <CustomButton style={styles.button} onPress={onVerify} disabled={!ready}>
             {t`I'M OVER 18, CONTINUE`}
           </CustomButton>
           <CustomButton
@@ -372,6 +373,9 @@ const getStylesFromProps = ({ theme }) => ({
   learnMore: {
     color: theme.colors.primary,
     marginTop: getDesignRelativeHeight(isSmallDevice ? theme.sizes.defaultDouble : 20),
+  },
+  buttonContainer: {
+    marginTop: !isLargeDevice ? 50 : 0,
   },
 })
 

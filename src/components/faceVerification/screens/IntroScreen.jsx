@@ -188,26 +188,23 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     [isFVFlow],
   )
 
-  const [disposing, checkDisposalState] = useDisposingState(
-    {
-      requestOnMounted: false,
-      enrollmentIdentifier,
-      fvSigner,
-      onComplete: isDisposing => {
-        if (!isDisposing) {
-          return
-        }
+  const [disposing, checkDisposalState] = useDisposingState({
+    requestOnMounted: false,
+    enrollmentIdentifier,
+    fvSigner,
+    onComplete: isDisposing => {
+      if (!isDisposing) {
+        return
+      }
 
-        const dialogData = showQueueDialog(WalletDeletedPopupText, true, {
-          onDismiss: () => onDeny('Wait 24 hours'),
-          imageSource: Wait24HourSVG,
-        })
+      const dialogData = showQueueDialog(WalletDeletedPopupText, true, {
+        onDismiss: () => onDeny('Wait 24 hours'),
+        imageSource: Wait24HourSVG,
+      })
 
-        showDialog(dialogData)
-      },
+      showDialog(dialogData)
     },
-    [enrollmentIdentifier, onDeny],
-  )
+  })
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
   const openFaceVerification = useCallback(() => push('FaceVerification'), [push])

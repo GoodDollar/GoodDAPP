@@ -84,7 +84,7 @@ const ClaimPageWrapper = ({ screenProps, styles }) => {
     <View style={styles.wrapper}>
       <GoodIdProvider>
         <ClaimProvider
-          activePoolAddresses={Config.UBIPoolAddresses}
+          activePoolAddresses={Config.UBIPoolAddresses.split(',')}
           explorerEndPoints={Config.goodIdExplorerUrls}
           onSwitchChain={switchNetwork}
           withNewsFeed={feedEnabled}

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { t } from '@lingui/macro'
+import { get } from 'lodash'
+import moment from 'moment'
 
 import Text from '../../common/view/Text'
 import { Section } from '../../common'
@@ -13,6 +15,8 @@ import FVErrorTwinSVG from '../../../assets/FaceVerification/FVErrorTwin.svg'
 import { fireEvent, FV_DUPLICATEERROR } from '../../../lib/analytics/analytics'
 
 const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) => {
+  const expiration = get(exception, 'response.enrollmentResult.duplicate.expiration')
+
   useEffect(() => {
     if (!exception) {
       return
@@ -35,17 +39,23 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
       </Section.Title>
       <Section style={styles.errorSection}>
         <View style={styles.descriptionWrapper}>
-          <Text>
-            <Text fontSize={18} lineHeight={25} fontWeight="bold">
-              {t`You can open ONLY ONE account 
+          <Text fontSize={18} lineHeight={25} fontWeight="bold">
+            {t`You can open ONLY ONE account 
                   per person. `}
-            </Text>
-            <Text fontSize={18} lineHeight={25}>
-              {t`If this is your only active 
-                  account - please contact our support`}
-            </Text>
+          </Text>
+          <Text fontSize={18} lineHeight={25}>
+            {t`If this is your only active 
+                  account - please contact our support.`}
           </Text>
         </View>
+        {expiration && (
+          <View marginTop={20}>
+            <Text fontSize={18} lineHeight={25} fontWeight="bold">
+              {t`The conflicting identity will expire on ${moment(expiration).format('l')}. 
+              You will be able to get verified then.`}
+            </Text>
+          </View>
+        )}
       </Section>
       <Section.Row justifyContent="space-evenly">
         <View style={styles.errorImage}>

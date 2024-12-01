@@ -26,7 +26,12 @@ const ErrorButtons = ({ styles, screenProps, navigation, onRetry, reachedMax }) 
           </CustomButton>
         </View>
       ) : (
-        <GiveUpButton navigation={navigation} />
+        <View>
+          <GiveUpButton navigation={navigation} />
+          <CustomButton onPress={onRetry} style={styles.actionsSpace}>
+            TRY AGAIN
+          </CustomButton>
+        </View>
       )}
     </View>
   )

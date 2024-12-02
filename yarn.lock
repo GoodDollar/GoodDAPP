@@ -6648,9 +6648,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.4.1-beta.beeff9d3":
-  version: 0.4.1-beta.beeff9d3
-  resolution: "@gooddollar/good-design@npm:0.4.1-beta.beeff9d3"
+"@gooddollar/good-design@npm:0.4.1-beta.94decddc":
+  version: 0.4.1-beta.94decddc
+  resolution: "@gooddollar/good-design@npm:0.4.1-beta.94decddc"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6680,7 +6680,6 @@ __metadata:
     react-native-fs: ^2.20.0
     react-native-image-picker: 5.3.1
     react-native-mask-input: ^1.2.2
-    react-native-paper: 3.12.0
     react-native-safe-area-context: ^3.3.2
     react-native-svg: 13.14.0
     react-native-svg-transformer: ^1.5.0
@@ -6694,7 +6693,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: b83b0da8e8d6ce2131063b8f4d4dcea3b36884961b4577118589eacb18ee1dfba56ef905d02ecc40f1625e37a048a98e552754ca2d5e169571998795d33a3433
+  checksum: 19f20a4b3bebae62cb582aca6a4e901e57f1137111c2a5ef37d0d4ce68cf7cbc6118ff59c354922e952945d12b968fd6d1f0fb4058b695c606f6962ad5862627
   languageName: node
   linkType: hard
 
@@ -6753,12 +6752,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.4.1-beta.beeff9d3
+    "@gooddollar/good-design": 0.4.1-beta.94decddc
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.45
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.4.1-beta.beeff9d3
+    "@gooddollar/web3sdk-v2": 0.4.1-beta.94decddc
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7062,9 +7061,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.4.1-beta.beeff9d3":
-  version: 0.4.1-beta.beeff9d3
-  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.beeff9d3"
+"@gooddollar/web3sdk-v2@npm:0.4.1-beta.94decddc":
+  version: 0.4.1-beta.94decddc
+  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.94decddc"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7115,7 +7114,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: d2909a0aee38970cc88c162f421993d0dac3a4fe5688f5f8a39026d9c57904170b135dc2003e0bf5a2ecbcbc55dedec439088470c7502e19357feb5e161daf3a
+  checksum: d3678801ca1d5198630d4fba544771de4ed278db55d95154ea75621d015eed97bb76d1e16484aa0cbc5a9b9c1c0d42e9b8ce4c879a165f77c80dd2b886be9ef3
   languageName: node
   linkType: hard
 
@@ -42287,7 +42286,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-paper@npm:3.12.0, react-native-paper@npm:^3.4.0":
+"react-native-paper@npm:^3.4.0":
   version: 3.12.0
   resolution: "react-native-paper@npm:3.12.0"
   dependencies:

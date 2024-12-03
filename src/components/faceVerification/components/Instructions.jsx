@@ -61,10 +61,11 @@ const Instructions = ({ styles, onDismiss = noop, ready, fvStarted = false }) =>
             </View>
           ) : (
             <View style={styles.warnDescriptionWrapper}>
-              <Text style={styles.warnText}>{t`Notice: do not continue if this is not your account`}</Text>
+              <Text style={styles.warnText}>{t`Notice:
+               Face verifying for someone else's use is against the terms & service policy.`}</Text>
               <Text
                 style={styles.warnText}
-              >{t`Doing this for someone else may result in lose of funds, and your account being blocked`}</Text>
+              >{t`Doing so may result in a loss of funds and/or your account being blocked.`}</Text>
             </View>
           )}
         </View>
@@ -160,7 +161,7 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(isLargeDevice ? 22 : 20),
     lineHeight: isLargeDevice ? 36 : 34,
     fontWeight: 'bold',
-    color: 'red',
+    color: theme.colors.red,
   },
   textB: {
     textAlign: 'left',

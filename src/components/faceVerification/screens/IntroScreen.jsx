@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useContext, useEffect, useMemo } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ActivityIndicator, Image, Platform, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { useIdentityExpiryDate } from '@gooddollar/web3sdk-v2'
@@ -49,6 +49,7 @@ import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.
 import BillyVerifies from '../../../assets/billy-verifies.png'
 import useProfile from '../../../lib/userStorage/useProfile'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
+import CheckBox from '../../common/buttons/CheckBox'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -111,57 +112,62 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
   </Wrapper>
 )
 
-const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, onDeny }) => (
-  <Wrapper withMaxHeight={false}>
-    <Section style={styles.topContainer} grow>
-      <View style={styles.mainContent}>
-        <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
-          {firstName ? `${firstName},` : ``}
-          <Section.Text fontWeight="bold" color="#00AEFF" textTransform="none" fontSize={24} lineHeight={30}>
-            {firstName ? `\n` : ''}
-            {t`You are almost there!`}
-            {`\n`}
+const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => {
+  const [ageConfirmed, setAgeConfirmed] = useState(false)
+  return (
+    <Wrapper withMaxHeight={false}>
+      <Section style={styles.topContainer} grow>
+        <View style={styles.mainContent}>
+          <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
+            {firstName ? `${firstName},` : ``}
+            <Section.Text fontWeight="bold" color="#00AEFF" textTransform="none" fontSize={24} lineHeight={30}>
+              {firstName ? `\n` : ''}
+              {t`You are almost there!`}
+              {`\n`}
+            </Section.Text>
+          </Section.Title>
+          <Section.Text
+            fontSize={18}
+            lineHeight={25}
+            letterSpacing={0.18}
+            fontWeight="700"
+          >{t`To continue, you need to be a unique human and prove it with your camera.`}</Section.Text>
+          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
+            {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
           </Section.Text>
-        </Section.Title>
-        <Section.Text
-          fontSize={18}
-          lineHeight={25}
-          letterSpacing={0.18}
-          fontWeight="700"
-        >{t`To continue, you need to be a unique human and prove it with your camera.`}</Section.Text>
-        <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
-          {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
-        </Section.Text>
-        <Section.Text
-          fontWeight="bold"
-          fontSize={18}
-          lineHeight={26}
-          textDecorationLine="underline"
-          color="#00AEFF"
-          onPress={onLearnMore}
-        >
-          {t`Learn More`}
-        </Section.Text>
-        <View style={styles.illustrationContainer} marginTop={0}>
-          <FashionShootSVG />
-        </View>
-        <View style={{ marginTop: 50 }}>
-          <CustomButton style={styles.button} onPress={onVerify} disabled={!ready}>
-            {t`I'M OVER 18, CONTINUE`}
-          </CustomButton>
-          <CustomButton
-            style={[styles.button]}
-            onPress={() => onDeny(`not 18 or didn't accept`)}
-            disabled={!ready}
-            mode="outlined"
+          <Section.Text
+            fontWeight="bold"
+            fontSize={18}
+            lineHeight={26}
+            textDecorationLine="underline"
+            color="#00AEFF"
+            onPress={onLearnMore}
           >
-            {t`I Don't agree Or I'M NOT OVER 18`}
-          </CustomButton>
+            {t`Learn More`}
+          </Section.Text>
+          <View style={styles.illustrationContainer} marginTop={0}>
+            <FashionShootSVG />
+          </View>
+          <View style={{ marginTop: 50 }}>
+            <View style={{ alignItems: 'center' }}>
+              <CheckBox
+                onClick={v => {
+                  setAgeConfirmed(v)
+                }}
+                value={ageConfirmed}
+              >
+                <Text>I confirm I&apos;m over 18 years of age</Text>
+              </CheckBox>
+            </View>
+            <CustomButton style={styles.button} onPress={onVerify} disabled={!ageConfirmed} loading={!ready}>
+              {t`OK, Verify me`}
+            </CustomButton>
+          </View>
         </View>
-      </View>
-    </Section>
-  </Wrapper>
-)
+      </Section>
+    </Wrapper>
+  )
+}
 
 const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { fullName } = useProfile()

@@ -25,15 +25,9 @@ const AgeCheckError = ({ styles, displayTitle, onRetry, nav, exception }) => {
   return (
     <Section style={styles.descriptionContainer} justifyContent="space-evenly">
       <Section.Title fontWeight="medium" textTransform="none" color="red">
-        {displayTitle}
-        {(displayTitle ? `,\n` : '') +
-          t`Unfortunately,
-            it seems your are under 18`}
+        {t`You must be 18 years or older to get verified`}
       </Section.Title>
-      <Section.Row justifyContent="space-evenly">
-        <View style={styles.halfIllustration}>
-          <FaceVerificationErrorSmiley />
-        </View>
+      <Section.Row justifyContent="space-around">
         <View style={styles.halfIllustration}>
           <FaceVerificationErrorSmiley />
         </View>
@@ -42,7 +36,7 @@ const AgeCheckError = ({ styles, displayTitle, onRetry, nav, exception }) => {
         <Separator width={2} />
         <View style={styles.descriptionWrapper}>
           <Text color="primary" fontWeight="bold" fontSize={18} lineHeight={25}>
-            {t`Only persons 18 years or older can use our service`}
+            {t`It seems your are under 18 years of age`}
           </Text>
           <Text color="primary" fontSize={18} lineHeight={25}>
             {t`If you think this is a mistake

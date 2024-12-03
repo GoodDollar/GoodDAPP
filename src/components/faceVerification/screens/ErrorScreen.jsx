@@ -91,7 +91,12 @@ const ErrorScreen = ({ styles, screenProps, navigation }) => {
           isFVFlow={isFVFlow}
           reachedMax={reachedMax}
         />
-        <ErrorButtons onRetry={onRetry} navigation={navigation} reachedMax={reachedMax} />
+        <ErrorButtons
+          onRetry={onRetry}
+          navigation={navigation}
+          reachedMax={reachedMax}
+          invert={ErrorViewComponent === AgeCheckError}
+        />
       </View>
     </Wrapper>
   )

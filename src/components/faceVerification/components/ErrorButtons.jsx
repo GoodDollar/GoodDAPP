@@ -11,17 +11,17 @@ import { withStyles } from '../../../lib/styles'
 
 const { fvTypeformUrl } = Config
 
-const ErrorButtons = ({ styles, screenProps, navigation, onRetry, reachedMax }) => {
+const ErrorButtons = ({ styles, screenProps, navigation, onRetry, reachedMax, invert = false }) => {
   const onContactSupport = useCallback(() => openLink(fvTypeformUrl), [])
 
   return (
     <View style={styles.buttonsContainer}>
       {!reachedMax ? (
-        <View>
-          <CustomButton onPress={onRetry} style={styles.actionsSpace}>
+        <View style={{ flex: 1 }}>
+          <CustomButton onPress={onRetry} style={styles.actionsSpace} mode={invert ? 'outlined' : undefined}>
             TRY AGAIN
           </CustomButton>
-          <CustomButton onPress={onContactSupport} mode="outlined">
+          <CustomButton onPress={onContactSupport} mode={invert ? undefined : 'outlined'}>
             {t`CONTACT SUPPORT`}
           </CustomButton>
         </View>
@@ -42,6 +42,7 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   actionsSpace: {
+    marginTop: 10, //native design fix
     marginBottom: getDesignRelativeHeight(16),
   },
 })

@@ -362,6 +362,7 @@
     "uint8arrays": "^3.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-native-web": "^0.17.5",
     "metro": "0.80.5",
     "metro-cache": "0.80.5",
     "metro-config": "0.80.5",

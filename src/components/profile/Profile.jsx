@@ -75,9 +75,11 @@ const ProfileWrapper = ({ screenProps, styles }) => {
         <ProfileDataTable profile={profile} showCustomFlag />
 
         <Section grow justifyContent="flex-end" style={{ width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}>
-          <Section.Row>
-            <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
-          </Section.Row>
+          {Config.env === 'development' || whitelist?.includes(account) ? (
+            <Section.Row>
+              <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
+            </Section.Row>
+          ) : null}
           {logMethod ? (
             <Section.Row>
               <IdentifierRow title="LoginM" text={logMethod} />

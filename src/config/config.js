@@ -108,7 +108,7 @@ const ethereum = {
   },
 }
 
-const UBIPoolAddresses = env.REACT_APP_UBIPOOL_ADDRESSES ?? ''
+const UBIPoolAddresses = env.REACT_APP_UBIPOOL_ADDRESSES ? JSON.parse(env.REACT_APP_UBIPOOL_ADDRESSES) : {}
 
 const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute

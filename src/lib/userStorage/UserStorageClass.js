@@ -912,7 +912,7 @@ export class UserStorage {
     const counterPartyAddress = data.address || receiptEvent?.from || receiptEvent?.to
 
     // for simplicity sake, we handle UBIPool only in formatting
-    if (data?.address?.startsWith('0x') && Config.UBIPoolAddresses.includes(data?.address)) {
+    if (data?.address?.startsWith('0x') && Object.values(Config.UBIPoolAddresses).includes(data?.address)) {
       const addressTruncated = truncateMiddle(data.address, 11)
       data.displayName = `RedTent (` + addressTruncated + ')'
     } else if (!isAddress(data.displayName) && !data.displayName.startsWith('0x')) {

@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import React, { useCallback, useEffect } from 'react'
+import { Linking, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { get } from 'lodash'
 import moment from 'moment'
-
 import Text from '../../common/view/Text'
 import { Section } from '../../common'
 
@@ -15,6 +14,10 @@ import FVErrorTwinSVG from '../../../assets/FaceVerification/FVErrorTwin.svg'
 import { fireEvent, FV_DUPLICATEERROR } from '../../../lib/analytics/analytics'
 
 const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) => {
+  const onLearnMore = useCallback(() => {
+    Linking.openURL('https://docs.gooddollar.org/frequently-asked-questions/troubleshooting#help-it-says-i-have-a-twin')
+  }, [])
+
   const expiration = get(exception, 'response.enrollmentResult.duplicate.expiration')
 
   useEffect(() => {
@@ -51,8 +54,19 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
         {expiration && (
           <View marginTop={20}>
             <Text fontSize={18} lineHeight={25} fontWeight="bold">
-              {t`The conflicting identity will expire on ${moment(expiration).format('l')}. 
-              You will be able to get verified then.`}
+              {t`The existing account with your identity will expire on ${moment(expiration).format('l')}.
+               After this expiry, you may create a new account or verify a different wallet.`}
+            </Text>
+            <Text
+              color="primary"
+              fontWeight="bold"
+              fontSize={18}
+              lineHeight={26}
+              textDecorationLine="underline"
+              style={styles.learnMore}
+              onPress={onLearnMore}
+            >
+              {t`Learn More`}
             </Text>
           </View>
         )}

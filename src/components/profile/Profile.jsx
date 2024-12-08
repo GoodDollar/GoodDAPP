@@ -47,7 +47,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
 
   const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
 
-  const onGoToClaim = useCallback(() => screenProps.push('GoodIdOnboard'), [screenProps])
+  const onGoToClaim = useCallback(() => screenProps.push('ClaimPage'), [screenProps])
 
   useEffect(() => {
     if (userStorage) {

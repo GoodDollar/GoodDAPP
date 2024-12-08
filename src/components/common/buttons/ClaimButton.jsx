@@ -68,7 +68,7 @@ const ClaimButton = withStyles(getStylesFromProps)(({
     <PushButton
       disabled={isPending}
       canContinue={canContinue}
-      routeName={Config.env === 'development' || whitelist?.includes(goodWallet.account) ? 'GoodIdOnboard' : 'Claim'}
+      routeName={Config.env === 'development' || whitelist?.includes(goodWallet.account) ? 'ClaimPage' : 'Claim'}
       testID="claim_button"
       screenProps={screenProps}
       style={[styles.claimButton, isPending ? styles.inQueue : undefined, style]}

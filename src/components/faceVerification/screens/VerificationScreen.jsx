@@ -147,8 +147,7 @@ const FaceVerification = ({ screenProps, navigation }) => {
         userStorage.userProperties.set('fv2', true)
       }
 
-      const nextStep =
-        Config.env === 'development' || whitelist.includes(goodWallet.account) ? 'GoodIdOnboard' : 'Claim'
+      const nextStep = Config.env === 'development' || whitelist.includes(goodWallet.account) ? 'ClaimPage' : 'Claim'
 
       //go to goodid to complete certificates
       screenProps.navigateTo(nextStep, { isValid: true })

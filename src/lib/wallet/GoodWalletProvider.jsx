@@ -8,6 +8,7 @@ import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
 import { usePostHog } from 'posthog-react-native'
+import usePromise from 'react-use-promise'
 
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
@@ -25,6 +26,8 @@ import Section from '../../components/common/layout/Section'
 import Text from '../../components/common/view/Text'
 import { setChainId } from '../analytics/analytics'
 import { withStyles } from '../styles'
+import { supportedCountries } from '../utils/supportedCountries'
+import { useFlagWithPayload } from '../hooks/useFeatureFlags'
 import { GoodWallet } from './GoodWalletClass'
 import { JsonRpcProviderWithSigner } from './JsonRpcWithSigner'
 import { decimalsToFixed, getTokensList, isNativeToken, supportedNetworks, supportsG$, supportsG$UBI } from './utils'
@@ -67,6 +70,7 @@ export const GoodWalletContext = React.createContext({
   dailyUBI: undefined,
   dailyAltUBI: undefined,
   isCitizen: false,
+  hasGoodIdEnabled: false,
   switchNetwork: undefined,
   web3Provider: undefined,
 })
@@ -90,8 +94,14 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [balance, setBalance] = useState({ totalBalance: '0', balance: '0', fuseBalance: '0', celoBalance: '0' })
   const [dailyUBI, setDailyUBI] = useState('0')
   const [isCitizen, setIsCitizen] = useState()
+  const [hasGoodIdEnabled, setHasGoodIdEnabled] = useState(false)
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
   const posthog = usePostHog()
+  const { countries, whitelist } = useFlagWithPayload('uat-goodid-flow') ?? {}
+  const [isEligible] = usePromise(
+    () => supportedCountries(countries, whitelist, goodWallet?.account),
+    [countries, whitelist, goodWallet?.account],
+  )
 
   const db = getDB()
 
@@ -370,6 +380,12 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     }
   }, [login])
 
+  useEffect(() => {
+    if (isEligible) {
+      setHasGoodIdEnabled(true)
+    }
+  }, [isEligible])
+
   let contextValue = {
     userStorage,
     goodWallet,
@@ -381,6 +397,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
     ...balance,
     dailyUBI,
     isCitizen,
+    hasGoodIdEnabled,
     switchNetwork,
     web3Provider,
   }

@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 
 import { identity } from 'lodash'
+import usePromise from 'react-use-promise'
 
 import { useFlagWithPayload } from '../../../lib/hooks/useFeatureFlags'
 import Instructions from '../components/Instructions'
@@ -29,6 +30,7 @@ import {
 import { tryUntil } from '../../../lib/utils/async'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
+import { supportedCountries } from '../../../lib/utils/supportedCountries'
 
 const log = logger.child({ from: 'FaceVerification' })
 
@@ -36,9 +38,10 @@ const FaceVerification = ({ screenProps, navigation }) => {
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
-  const { isFVFlow } = useContext(FVFlowContext)
+  const { account, isFVFlow } = useContext(FVFlowContext)
   const payload = useFlagWithPayload('uat-goodid-flow')
-  const { whitelist } = payload ?? {}
+  const { countries, whitelist } = payload ?? {}
+  const [isEligible] = usePromise(() => supportedCountries(countries, whitelist, account))
 
   const { faceIdentifier: enrollmentIdentifier, chainId, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
 
@@ -147,12 +150,12 @@ const FaceVerification = ({ screenProps, navigation }) => {
         userStorage.userProperties.set('fv2', true)
       }
 
-      const nextStep = Config.env === 'development' || whitelist.includes(goodWallet.account) ? 'ClaimPage' : 'Claim'
+      const nextStep = Config.env === 'development' || isEligible ? 'ClaimPage' : 'Claim'
 
       //go to goodid to complete certificates
       screenProps.navigateTo(nextStep, { isValid: true })
     },
-    [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow, userStorage],
+    [screenProps, resetAttempts, exceptionHandler, goodWallet, isFVFlow, userStorage, isEligible],
   )
 
   // calculating retries allowed for FV session

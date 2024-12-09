@@ -64,7 +64,6 @@ import WalletConnect from '../walletconnect/WalletConnectScan'
 import useRefundDialog from '../refund/hooks/useRefundDialog'
 import GoodActionBar from '../appNavigation/actionBar/components/GoodActionBar'
 import { IconButton, Text } from '../../components/common'
-import { retry } from '../../lib/utils/async'
 
 import GreenCircle from '../../assets/ellipse46.svg'
 import { useInviteCode } from '../invite/useInvites'
@@ -561,13 +560,8 @@ const Dashboard = props => {
       return
     }
 
-    const country = await retry(
-      async () => (await fetch('https://get.geojs.io/v1/ip/country.json')).json(),
-      3,
-      2000,
-    ).then(data => data.country)
+    const isEligible = await supportedCountries(supportedCountries, whitelist, goodWallet.account)
 
-    const isEligible = supportedCountries?.split(',')?.includes(country) || whitelist?.includes(goodWallet.account)
     const logMethod = userStorage?.userProperties.get('logMethod')
     const url = promoUrl + `?login=${logMethod}`
 

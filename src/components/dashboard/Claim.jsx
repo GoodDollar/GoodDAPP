@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
 import { assign, noop } from 'lodash'
@@ -10,7 +10,7 @@ import { retry } from '../../lib/utils/async'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
 
-import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { GoodWalletContext, useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -224,6 +224,7 @@ const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
   const goodWallet = useWallet()
+  const { hasGoodIdEnabled } = useContext(GoodWalletContext)
   const { dailyUBI: entitlement, isCitizen } = useWalletData()
   const decimalsEntitlement = goodWallet.toDecimals(entitlement || '0')
   const { appState } = useAppState()
@@ -249,10 +250,8 @@ const Claim = props => {
   const [, , collectInviteBounty] = useInviteBonus()
 
   const nextTasks = useFlagWithPayload('next-tasks')
-  const uat = useFlagWithPayload('uat-goodid-flow')
 
   const { tasks } = nextTasks
-  const { whitelist } = uat || {}
 
   // format number of people who did claim today
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
@@ -312,10 +311,7 @@ const Claim = props => {
   )
 
   const handleFaceVerification = useCallback(() => {
-    const nextStep =
-      Config.env === 'development' || whitelist?.includes(goodWallet.account)
-        ? 'GoodIdOnboard'
-        : 'FaceVerificationIntro'
+    const nextStep = Config.env === 'development' || hasGoodIdEnabled ? 'GoodIdOnboard' : 'FaceVerificationIntro'
     navigate(nextStep, { from: 'Claim' })
   }, [navigate])
 

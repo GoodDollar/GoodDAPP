@@ -40,6 +40,7 @@ import { PushButton } from '../appNavigation/PushButton'
 import { isWeb, useNativeDriverForAnimation } from '../../lib/utils/platform'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
+import { supportedCountries as getSupportedCountries } from '../../lib/utils/supportedCountries'
 
 import ClaimButton from '../common/buttons/ClaimButton'
 import TabButton from '../common/buttons/TabButton'
@@ -560,7 +561,7 @@ const Dashboard = props => {
       return
     }
 
-    const isEligible = await supportedCountries(supportedCountries, whitelist, goodWallet.account)
+    const isEligible = await getSupportedCountries(supportedCountries, whitelist, goodWallet.account)
 
     const logMethod = userStorage?.userProperties.get('logMethod')
     const url = promoUrl + `?login=${logMethod}`

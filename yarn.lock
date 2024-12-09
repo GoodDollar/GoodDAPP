@@ -6648,9 +6648,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.4.1-beta.d2294fe5":
-  version: 0.4.1-beta.d2294fe5
-  resolution: "@gooddollar/good-design@npm:0.4.1-beta.d2294fe5"
+"@gooddollar/good-design@npm:0.4.1-beta.85c16f51":
+  version: 0.4.1-beta.85c16f51
+  resolution: "@gooddollar/good-design@npm:0.4.1-beta.85c16f51"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6693,7 +6693,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: 1e69d7c49f9f7e3ee0e57b617262706bbec6993f79565c7cda88c02db29bd939f6e1f26e4c8d148bc0c4f18d40daaba107ff769dbcaa56a54935611b860845e5
+  checksum: 99758951c825685d4647b1a5f45b361600cac79f8dce25b58adfe42032123480f8e0742b17a57f9a0882b8b3767b8b042cb335a500251c3dde7eee5f2feec83c
   languageName: node
   linkType: hard
 
@@ -6752,12 +6752,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.4.1-beta.d2294fe5
+    "@gooddollar/good-design": 0.4.1-beta.85c16f51
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.45
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.4.1-beta.d2294fe5
+    "@gooddollar/web3sdk-v2": 0.4.1-beta.85c16f51
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7061,9 +7061,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.4.1-beta.d2294fe5":
-  version: 0.4.1-beta.d2294fe5
-  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.d2294fe5"
+"@gooddollar/web3sdk-v2@npm:0.4.1-beta.85c16f51":
+  version: 0.4.1-beta.85c16f51
+  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.85c16f51"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7114,7 +7114,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 72befba4c6dc9b21821121c84f623ae8bbc4ab8c4bd703ab52acb2dc7e19e86369e45e7290280203057c2b2c883bc56446cad13533d27d29846b3fcdf03fac02
+  checksum: ccbe12e6bc6e070031cb5a3fdb40e27e2231115d7606a985d75d53221ff4f433094d6667fd9e7cf2121dc1d9c7503a59a1ff3a95bb7971632ad4bd5807ee35e6
   languageName: node
   linkType: hard
 

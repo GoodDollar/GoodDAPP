@@ -12,7 +12,7 @@ import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { openLink } from '../../../lib/utils/linking'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { useFlagWithPayload } from '../../../lib/hooks/useFeatureFlags'
-import { GoodWalletContext } from '../../../lib/wallet/GoodWalletProvider'
+import { GoodWalletContext, useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
 import { DEPRECATION_MODAL, fireEvent } from '../../../lib/analytics/analytics'
 import { retry } from '../../../lib/utils/async'
 
@@ -32,8 +32,11 @@ the New GoodWallet using a web browser https://goodwallet.xyz/`}
 )
 
 const DeprecationDialog = () => {
+  const userStorage = useUserStorage()
+
   const goToWallet = () => {
-    openLink('https://goodwallet.xyz', '_self')
+    const logMethod = userStorage?.userProperties.get('logMethod')
+    openLink(`https://goodwallet.xyz?login=${logMethod}`, '_self')
   }
 
   return (

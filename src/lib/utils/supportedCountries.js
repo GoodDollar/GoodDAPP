@@ -5,7 +5,7 @@ export const supportedCountries = async (supportedCountries = '', whitelist = []
     .then(data => data.country)
     .catch(() => false)
 
-  const isEligible = supportedCountries?.split(',')?.includes(country) || whitelist?.toLowerCase().includes(account)
+  const isEligible = supportedCountries?.split(',')?.includes(country) || whitelist?.includes(account)
 
   return isEligible
 }

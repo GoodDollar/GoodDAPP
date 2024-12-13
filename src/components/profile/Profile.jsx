@@ -72,7 +72,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
         <ProfileDataTable profile={profile} showCustomFlag />
 
         <Section grow justifyContent="flex-end" style={{ width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}>
-          {Config.env === 'development' || hasGoodIdEnabled ? (
+          {!hasGoodIdEnabled ? (
             <Section.Row>
               <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
             </Section.Row>

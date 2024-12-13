@@ -6648,9 +6648,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.4.1-beta.aee5e623":
-  version: 0.4.1-beta.aee5e623
-  resolution: "@gooddollar/good-design@npm:0.4.1-beta.aee5e623"
+"@gooddollar/good-design@npm:0.4.1-beta.7adae806":
+  version: 0.4.1-beta.7adae806
+  resolution: "@gooddollar/good-design@npm:0.4.1-beta.7adae806"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6693,7 +6693,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: 95cb2c52be1c7a06466b6ceb6455ce74f46eeef5baecd75d2eedf83af89c0436899d83642ae317b28c862c1cb56af10a58b879994d058d2f564b5b37ae101cf0
+  checksum: 948ee9011e009425cf56ecbff5e7209916be207f7d8c7f8d051607a12aec9ed8b4352b26f01b929a4c8fb0bb7579a550e1f5b63736f3cf59ad1c73cfc2aada6d
   languageName: node
   linkType: hard
 
@@ -6752,7 +6752,7 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.4.1-beta.aee5e623
+    "@gooddollar/good-design": 0.4.1-beta.7adae806
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.46

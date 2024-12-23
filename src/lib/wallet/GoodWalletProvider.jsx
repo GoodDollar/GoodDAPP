@@ -97,10 +97,10 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [hasGoodIdEnabled, setHasGoodIdEnabled] = useState(false)
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
   const posthog = usePostHog()
-  const { countries, whitelist } = useFlagWithPayload('uat-goodid-flow') ?? {}
+  const { enabled = false, countries = '', whitelist = [] } = useFlagWithPayload('uat-goodid-flow') ?? {}
   const [isEligible] = usePromise(
-    () => supportedCountries(countries, whitelist, goodWallet?.account),
-    [countries, whitelist, goodWallet?.account],
+    () => supportedCountries(countries, whitelist, goodWallet?.account, enabled),
+    [countries, whitelist, goodWallet?.account, enabled],
   )
 
   const db = getDB()

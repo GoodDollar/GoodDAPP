@@ -40,8 +40,11 @@ const FaceVerification = ({ screenProps, navigation }) => {
   const userStorage = useUserStorage()
   const { account, isFVFlow } = useContext(FVFlowContext)
   const payload = useFlagWithPayload('uat-goodid-flow')
-  const { countries, whitelist } = payload ?? {}
-  const [isEligible] = usePromise(() => supportedCountries(countries, whitelist, account))
+  const { enabled = false, countries = '', whitelist = [] } = payload ?? {}
+  const [isEligible] = usePromise(
+    () => supportedCountries(countries, whitelist, account, enabled),
+    [countries, whitelist, account, enabled],
+  )
 
   const { faceIdentifier: enrollmentIdentifier, chainId, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
 

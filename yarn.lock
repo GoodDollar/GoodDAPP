@@ -6880,6 +6880,7 @@ __metadata:
     lottie-ios: ^3.4.0
     lottie-react-native: ^5
     lottie-web: ^5.12.2
+    lz-string: ^1.5.0
     metro: 0.80.5
     metro-core: ^0.80.5
     metro-react-native-babel-preset: ^0.77.0
@@ -35455,6 +35456,15 @@ __metadata:
   version: 2.2.1
   resolution: "ltgt@npm:2.2.1"
   checksum: 7e3874296f7538bc8087b428ac4208008d7b76916354b34a08818ca7c83958c1df10ec427eeeaad895f6b81e41e24745b18d30f89abcc21d228b94f6961d50a2
+  languageName: node
+  linkType: hard
+
+"lz-string@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "lz-string@npm:1.5.0"
+  bin:
+    lz-string: bin/bin.js
+  checksum: 1ee98b4580246fd90dd54da6e346fb1caefcf05f677c686d9af237a157fdea3fd7c83a4bc58f858cd5b10a34d27afe0fdcbd0505a47e0590726a873dc8b8f65d
   languageName: node
   linkType: hard
 

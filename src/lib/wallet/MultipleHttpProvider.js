@@ -53,21 +53,24 @@ export class MultipleHttpProvider extends HttpProvider {
         log.trace('Sending request to peer', { payload })
         return await this._sendRequest(payload)
       } catch (exception) {
+        const error = exception?.error ? JSON.stringify(exception?.error) : exception?.message
+        const notTxError = !isTxError(error)
+
         // log error to analytics if last peer failed, ie all rpcs failed
-        if (!isTxError(exception?.message) && !loggedProviders.has(provider) && peers[peers.length - 1] === item) {
+        if (notTxError && !loggedProviders.has(provider) && peers[peers.length - 1] === item) {
           loggedProviders.set(provider, true)
 
           const { message: originalMessage } = exception
           const errorMessage = 'Failed all RPCs' // so in analytics all errors are grouped under same message
 
           // log.exception bypass network error filtering
-          log.exception('MultiHttpProvider:', errorMessage, exception, { provider, originalMessage })
+          log.exception('MultiHttpProvider:', errorMessage, exception, { error, provider, originalMessage })
         } else if (isRateLimitError(exception)) {
           log.warn('MultiHttpProvider rate limit error', exception.message, exception, { provider })
           endpoints.splice(endpoints.indexOf(item, 1))
           setTimeout(() => endpoints.push(item), 60000)
-        } else {
-          log.warn('MultiHttpProvider failed to send:', exception.message, exception, { provider })
+        } else if (notTxError) {
+          log.warn('MultiHttpProvider failed to send:', exception.message, exception, { error, provider })
         }
 
         throw exception
@@ -86,17 +89,24 @@ export class MultipleHttpProvider extends HttpProvider {
     }
 
     // if not connection issue - stop fallback, throw error
-    const onFallback = error => {
-      const { message, code } = error
-
-      const txError = isTxError(message)
+    const onFallback = exception => {
+      const { message, code, error } = exception
+      const errorMessage = error ? JSON.stringify(error) : message
+      const txError = isTxError(errorMessage)
       const conError = isConnectionError(message)
 
       // retry if not tx issue and network error or if rpc responded with error (error.error)
-      const willFallback = !txError && !!(code || error.error || !message || conError)
+      const willFallback = !txError && !!(code || error || !message || conError)
 
       if (!willFallback) {
-        log.warn('send: got error without fallback', { message, error, willFallback, txError, conError })
+        log.warn('send: got error without fallback', {
+          message,
+          exception,
+          errorMessage,
+          willFallback,
+          txError,
+          conError,
+        })
       }
 
       return willFallback

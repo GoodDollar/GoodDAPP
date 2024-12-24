@@ -27,7 +27,7 @@ on:
 jobs:
   codepush:
     name: Hot Code Push
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     # hot push is for hotfix commits to PROD only
     # manual PROD releases and release commits are going through the full flow
     if: |

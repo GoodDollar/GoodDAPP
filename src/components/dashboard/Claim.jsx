@@ -9,6 +9,7 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
+import ClaimCelebration from '../../assets/Claim/claim-footer-celebration.svg'
 
 import { GoodWalletContext, useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
@@ -230,6 +231,8 @@ const Claim = props => {
   const { appState } = useAppState()
   const userStorage = useUserStorage()
   const { userProperties } = userStorage || {}
+  const holiday = moment().format('MM-DD')
+  const isHoliday = holiday >= '12-24' || holiday <= '01-01'
 
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(decimalsEntitlement)) || 0)
   const { isValid } = screenState
@@ -737,12 +740,18 @@ const Claim = props => {
         </Section.Stack>
       )}
       <Section.Stack style={styles.footerWrapper}>
-        <ClaimSvg
-          height={getDesignRelativeHeight(85, false)}
-          width={getMaxDeviceWidth()}
-          style={styles.footerImage}
-          viewBox="0 0 360.002 85"
-        />
+        {isHoliday ? (
+          <View style={{ width: '100%' }}>
+            <ClaimCelebration style={{ width: '100%', height: 230, objectFit: 'contain' }} />
+          </View>
+        ) : (
+          <ClaimSvg
+            height={getDesignRelativeHeight(85, false)}
+            width={getMaxDeviceWidth()}
+            style={styles.footerImage}
+            viewBox="0 0 360.002 85"
+          />
+        )}
       </Section.Stack>
     </WrapperClaim>
   )

@@ -328,7 +328,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-s3@npm:^3.550.0":
+"@aws-sdk/client-s3@npm:3.572.0":
   version: 3.572.0
   resolution: "@aws-sdk/client-s3@npm:3.572.0"
   dependencies:
@@ -6648,9 +6648,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.4.1-beta.ee30c9a4":
-  version: 0.4.1-beta.ee30c9a4
-  resolution: "@gooddollar/good-design@npm:0.4.1-beta.ee30c9a4"
+"@gooddollar/good-design@npm:0.4.1-beta.5d99a18f":
+  version: 0.4.1-beta.5d99a18f
+  resolution: "@gooddollar/good-design@npm:0.4.1-beta.5d99a18f"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6693,7 +6693,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: 3b0353f4d0a6bc68842b3c660951d4bf980774bc67ac657eaba49bb0f0b2aea4eb8df8412f4fe1ebacf307bf679bb6425d4a555784eeb49b372bf04f46551ad3
+  checksum: c154e39e0055976259c05c0e3b874e3deef86aa0492941c97acb59731d76fced8f2fd4ec86695077d4515a94caf07b89e947afb5cca8a00a3a558d74e73d67b3
   languageName: node
   linkType: hard
 
@@ -6752,12 +6752,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.4.1-beta.ee30c9a4
+    "@gooddollar/good-design": 0.4.1-beta.5d99a18f
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.46
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.4.1-beta.ee30c9a4
+    "@gooddollar/web3sdk-v2": 0.4.1-beta.5d99a18f
     "@hcaptcha/react-hcaptcha": ^1.6.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7061,13 +7061,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.4.1-beta.ee30c9a4":
-  version: 0.4.1-beta.ee30c9a4
-  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.ee30c9a4"
+"@gooddollar/web3sdk-v2@npm:0.4.1-beta.5d99a18f":
+  version: 0.4.1-beta.5d99a18f
+  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.5d99a18f"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
-    "@aws-sdk/client-s3": ^3.550.0
+    "@aws-sdk/client-s3": 3.572.0
     "@ceramicnetwork/http-client": ^2.32.0
     "@ceramicnetwork/stream-tile": ^2.31.0
     "@gooddollar/bridge-app": ^1.5.0
@@ -7114,7 +7114,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 949276cbc9974be40d97e07840aac8d7a610485db5532e1c55e6a2c35477d1c91791d770218f1b1a9a411bd9eef45efa08ec853e9b3e5980265e1fa1abe837b8
+  checksum: e9aa29d532d0ea04fc593ee48e0da9b5cf24b66aad1794e51b208096358b161b1750d1545953b6bbb8c9db128e84f7bb783f9c75df0149dcc851b865df582b3e
   languageName: node
   linkType: hard
 

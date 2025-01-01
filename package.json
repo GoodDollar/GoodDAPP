@@ -7,7 +7,7 @@
   },
   "scripts": {
     "web": "npm run lingui:compile && NODE_OPTIONS=\"--openssl-legacy-provider\" vite",
-    "goodid": "export REACT_APP_INDEXJS='./src/index.fv.jsx' && NODE_OPTIONS=\"--openssl-legacy-provider\" vite",
+    "goodid": "REACT_APP_INDEXJS='./src/index.fv.jsx' NODE_OPTIONS=\"--openssl-legacy-provider\" vite",
     "android": "npm run lingui:compile && ENVFILE=.env; npm run copy:gdfont && npm run animation:assets && NODE_OPTIONS=\"--openssl-legacy-provider\" react-native run-android",
     "ios": "npm run lingui:compile && ENVFILE=.env; npm run animation:assets && NODE_OPTIONS=\"--openssl-legacy-provider\" react-native run-ios",
     "start:native": "react-native start",

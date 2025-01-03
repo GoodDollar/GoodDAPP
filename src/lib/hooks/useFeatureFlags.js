@@ -30,10 +30,12 @@ const defaultFlagsWithPayload = {
       },
       {
         enabled: true,
-        tag: 'Recap',
-        description: 'Read our annual recap to learn what the GoodDollar community has achieved in 2023.',
-        url: 'https://x.com/gooddollarorg/status/1741704879117045845?s=20',
-        buttonText: 'Go to recap',
+        tag: 'Faces',
+        taskHeader: 'What are your thoughts on Segmented Basic Income?',
+        description:
+          'Learn more about GoodOffers and explore the exciting opportunities coming up for GoodDollar members!',
+        url: 'https://x.com/gooddollarorg/status/1851985741724676309',
+        buttonText: 'Discover GoodOffers',
         showButtons: false,
       },
     ],

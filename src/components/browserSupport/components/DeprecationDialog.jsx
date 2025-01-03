@@ -1,35 +1,16 @@
 // libraries
 import React, { useCallback, useContext, useEffect } from 'react'
-import { Platform, Text } from 'react-native'
-import { t } from '@lingui/macro'
 
 import { isWeb } from '../../../lib/utils/platform'
-import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+import WelcomeOffer from '../../common/dialogs/WelcomeOffer'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import DeepLinking from '../../../lib/utils/deepLinking'
-import normalizeText from '../../../lib/utils/normalizeText'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { openLink } from '../../../lib/utils/linking'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { useFlagWithPayload } from '../../../lib/hooks/useFeatureFlags'
 import { GoodWalletContext, useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
 import { DEPRECATION_MODAL, fireEvent } from '../../../lib/analytics/analytics'
 import { retry } from '../../../lib/utils/async'
-
-const DeprecationCopy = () => (
-  <Text
-    style={{
-      fontSize: normalizeText(18),
-      textAlign: 'center',
-      fontWeight: 'bold',
-      ...Platform.select({ web: { marginBottom: 14 }, android: { marginBottom: getDesignRelativeHeight(32, false) } }),
-    }}
-    {...Platform.select({ android: { marginVertical: getDesignRelativeHeight(25, false) } })}
-  >
-    {t`To continue using GoodWallet, please access 
-the New GoodWallet using a web browser https://goodwallet.xyz/`}
-  </Text>
-)
 
 const DeprecationDialog = () => {
   const userStorage = useUserStorage()
@@ -39,31 +20,7 @@ const DeprecationDialog = () => {
     openLink(`https://goodwallet.xyz?login=${logMethod}`, '_self')
   }
 
-  return (
-    <ExplanationDialog
-      title={'The New GoodWallet!'}
-      customText={<DeprecationCopy />}
-      containerStyle={{ ...Platform.select({ web: { height: '80%' } }) }}
-      titleStyle={{ fontWeight: 'normal', margin: 0 }}
-      textStyle={{
-        fontSize: normalizeText(16),
-
-        marginVertical: {
-          ...Platform.select({
-            android: getDesignRelativeHeight(25, false),
-          }),
-        },
-      }}
-      buttons={[
-        {
-          text: `Launch GoodWallet in browser`,
-          action: goToWallet,
-        },
-      ]}
-      buttonsContainerStyle={{ justifyContent: 'center' }}
-      buttonText={{ fontSize: 14, fontWeight: 'bold' }}
-    />
-  )
+  return <WelcomeOffer onDismiss={goToWallet} />
 }
 
 export const useDeprecationDialog = () => {
@@ -98,6 +55,7 @@ export const useDeprecationDialog = () => {
     ).then(data => data.country)
 
     const isEligible = supportedCountries?.split(',')?.includes(country) || whitelist?.includes(goodWallet?.account)
+
     if (((webOnly && isWeb) || !webOnly) && isActive && isEligible) {
       fireEvent(DEPRECATION_MODAL)
 

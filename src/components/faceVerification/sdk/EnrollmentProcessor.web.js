@@ -16,6 +16,8 @@ export class EnrollmentProcessor {
 
   lastMessage = null
 
+  lastResponse = null
+
   enrollmentIdentifier = null
 
   v1Identifier = null
@@ -51,7 +53,7 @@ export class EnrollmentProcessor {
   async onFaceTecSDKCompletelyDone() {
     const FaceTecSDK = await this.FaceTecSDK
     const { FaceTecSessionStatus, getFriendlyDescriptionForFaceTecSessionStatus } = FaceTecSDK
-    const { subscriber, isSuccess, lastMessage, lastResult } = this
+    const { subscriber, isSuccess, lastMessage, lastResult, lastResponse = {} } = this
     const { status } = lastResult || {}
     let latestMessage = lastMessage
 
@@ -65,7 +67,7 @@ export class EnrollmentProcessor {
     }
 
     // calling completion callback
-    subscriber.onSessionCompleted(isSuccess, lastResult, latestMessage)
+    subscriber.onSessionCompleted(isSuccess, lastResult, latestMessage, lastResponse)
   }
 
   /**
@@ -159,7 +161,7 @@ export class EnrollmentProcessor {
     // setting lastMessage from exception's message
     // if response was sent - it will contain message from server
     this.lastMessage = message
-
+    this.lastResponse = response
     if (response) {
       // if error response was sent
       const { enrollmentResult } = response

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 
 import { identity } from 'lodash'
 import usePromise from 'react-use-promise'
@@ -35,6 +35,7 @@ import { supportedCountries } from '../../../lib/utils/supportedCountries'
 const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps, navigation }) => {
+  const [fvStarted, setFVStarted] = useState()
   const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
   const goodWallet = useWallet()
   const userStorage = useUserStorage()
@@ -197,6 +198,7 @@ const FaceVerification = ({ screenProps, navigation }) => {
     }
 
     fireEvent(FV_START)
+    setFVStarted(true)
     startVerification()
   }, [startVerification, enrollmentIdentifier])
 
@@ -210,7 +212,7 @@ const FaceVerification = ({ screenProps, navigation }) => {
   // othwerise page will stuck on 'loading' "GOT IT" button
   useFVLoginInfoCheck(navigation)
 
-  return <Instructions onDismiss={verifyFace} ready={initialized} />
+  return <Instructions onDismiss={verifyFace} ready={initialized} fvStarted={fvStarted} />
 }
 
 export default FaceVerification

@@ -40,7 +40,7 @@ const FaceVerification = ({ screenProps, navigation }) => {
   const userStorage = useUserStorage()
   const { account, isFVFlow } = useContext(FVFlowContext)
   const payload = useFlagWithPayload('uat-goodid-flow')
-  const { enabled = false, countries = '', whitelist = [] } = payload ?? {}
+  const { enabled = false, countries = '', whitelist = undefined } = payload ?? {}
   const [isEligible] = usePromise(
     () => supportedCountries(countries, whitelist, account, enabled),
     [countries, whitelist, account, enabled],

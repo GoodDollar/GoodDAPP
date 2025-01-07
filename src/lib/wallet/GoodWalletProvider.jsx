@@ -8,6 +8,7 @@ import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { t } from '@lingui/macro'
 import { usePostHog } from 'posthog-react-native'
+
 import usePromise from 'react-use-promise'
 
 import AsyncStorage from '../utils/asyncStorage'
@@ -97,7 +98,8 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
   const [hasGoodIdEnabled, setHasGoodIdEnabled] = useState(false)
   const [shouldLoginAndWatch] = usePropsRefs([disableLoginAndWatch === false])
   const posthog = usePostHog()
-  const { enabled = false, countries = '', whitelist = [] } = useFlagWithPayload('uat-goodid-flow') ?? {}
+  const { enabled = false, countries = '', whitelist = undefined } = useFlagWithPayload('uat-goodid-flow') ?? {}
+
   const [isEligible] = usePromise(
     () => supportedCountries(countries, whitelist, goodWallet?.account, enabled),
     [countries, whitelist, goodWallet?.account, enabled],

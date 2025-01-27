@@ -2,7 +2,7 @@ import React from 'react'
 import { noop } from 'lodash'
 
 import { t } from '@lingui/macro'
-import { Image, Platform, Pressable, Text, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import Section from '../layout/Section'
@@ -122,22 +122,19 @@ const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => (
       <Section.Stack style={styles.descriptionText}>
         <Section.Text style={styles.descriptionText}>{t`The New GoodWallet allows you to:`}</Section.Text>
         {listItems.map(item => (
-          <Section.Text key={item} style={styles.list}>
-            <Section.Text style={{ marginRight: 8 }}>{`\u2022`}</Section.Text>
-            <Section.Text style={styles.descriptionText}>{item}</Section.Text>
+          <Section.Text key={item} style={[styles.list, { textAlign: 'left' }]}>
+            <Section.Text>{`\u2022  `}</Section.Text>
+            <Section.Text style={[styles.descriptionText, { marginLeft: 8 }]}>{item}</Section.Text>
           </Section.Text>
         ))}
+        <Section.Text style={{ fontStyle: 'italic', marginTop: 32, textAlign: 'left' }}>
+          The New GoodWallet is only available using a web browser, so you may be asked to open the link in your
+          preferred browser.
+        </Section.Text>
       </Section.Stack>
     </View>
     <View style={{ marginTop: 24, marginBottom: 8 }}>
-      <WalletV2Continue
-        buttonText={t`TAKE ME TO THE NEW GOODWALLET`}
-        onDismiss={onDismiss}
-        promoUrl={dialogProps.promoUrl}
-      />
-      <Pressable style={styles.dismissButton} onPress={() => onDismiss(true)}>
-        <Text style={[styles.dismissButtonText]}>{t`No thanks, I’ll keep using this GoodWallet`}</Text>
-      </Pressable>
+      <WalletV2Continue buttonText={t`TAKE ME TO THE NEW GOODWALLET`} onDismiss={onDismiss} />
     </View>
   </ExplanationDialog>
 )

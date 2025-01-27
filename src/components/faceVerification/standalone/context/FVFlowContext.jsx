@@ -1,6 +1,6 @@
 // @flow
 import React, { createContext, useEffect, useRef } from 'react'
-
+import { decompressFromEncodedURIComponent } from 'lz-string'
 import useFVFlow from '../hooks/useFVFlow'
 import DeepLinking from '../../../../lib/utils/deepLinking'
 
@@ -28,6 +28,10 @@ export const FVFlowContext = createContext({
 const FVFlowProvider = props => {
   const unsupportedCopyUrl = DeepLinking.link
 
+  const params = useRef(DeepLinking.params).current
+
+  // new version compresses params to support large signatures
+  const decompressed = JSON.parse(decompressFromEncodedURIComponent(params.lz) || '{}')
   const {
     sig,
     nonce,
@@ -38,7 +42,8 @@ const FVFlowProvider = props => {
     account,
     chain,
     isDelta,
-  } = useRef(DeepLinking.params).current
+  } = { ...params, ...decompressed }
+
   const { jwt, error } = useFVFlow(sig, nonce, faceIdentifier, account)
 
   useEffect(() => {

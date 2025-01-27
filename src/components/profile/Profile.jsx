@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Text as NText, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { GoodIdDetails, GoodIdProvider } from '@gooddollar/good-design'
@@ -7,7 +7,6 @@ import { GoodIdDetails, GoodIdProvider } from '@gooddollar/good-design'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, Wrapper } from '../common'
 import Config from '../../config/config'
-import { useFlagWithPayload } from '../../lib/hooks/useFeatureFlags'
 
 import UserAvatar from '../common/view/UserAvatar'
 import { withStyles } from '../../lib/styles'
@@ -15,7 +14,7 @@ import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import RoundIconButton from '../common/buttons/RoundIconButton'
 import { usePublicProfile } from '../../lib/userStorage/useProfile'
 import { theme } from '../theme/styles'
-import { useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
+import { GoodWalletContext, useUserStorage, useWallet } from '../../lib/wallet/GoodWalletProvider'
 import IdentifierRow from '../common/view/IdentifierRow'
 
 import EditProfile from './EditProfile'
@@ -30,11 +29,9 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   const profile = usePublicProfile()
   const userStorage = useUserStorage()
   const goodWallet = useWallet()
+  const { hasGoodIdEnabled } = useContext(GoodWalletContext)
 
   const [faceRecordId, setRecordId] = useState()
-
-  const payload = useFlagWithPayload('uat-goodid-flow')
-  const { whitelist } = payload ?? {}
 
   const logMethod = userStorage?.userProperties.get('logMethod')
 
@@ -47,7 +44,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
 
   const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
 
-  const onGoToClaim = useCallback(() => screenProps.push('GoodIdOnboard'), [screenProps])
+  const onGoToClaim = useCallback(() => screenProps.push('ClaimPage'), [screenProps])
 
   useEffect(() => {
     if (userStorage) {
@@ -59,7 +56,7 @@ const ProfileWrapper = ({ screenProps, styles }) => {
   }, [userStorage])
 
   return (
-    <Wrapper withMaxHeight={Config.env === 'development' || whitelist?.includes(account) ? false : true}>
+    <Wrapper withMaxHeight={Config.env === 'development' || hasGoodIdEnabled ? false : true}>
       <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
         <RoundIconButton
           label={'Edit'}
@@ -75,16 +72,18 @@ const ProfileWrapper = ({ screenProps, styles }) => {
         <ProfileDataTable profile={profile} showCustomFlag />
 
         <Section grow justifyContent="flex-end" style={{ width: '100%', paddingLeft: 0, paddingRight: 0, margin: 0 }}>
-          <Section.Row>
-            <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
-          </Section.Row>
+          {!hasGoodIdEnabled ? (
+            <Section.Row>
+              <IdentifierRow title="FaceId" address={faceRecordId} withCopy />
+            </Section.Row>
+          ) : null}
           {logMethod ? (
             <Section.Row>
               <IdentifierRow title="LoginM" text={logMethod} />
             </Section.Row>
           ) : null}
         </Section>
-        {Config.env === 'development' || whitelist?.includes(account) ? (
+        {Config.env === 'development' || hasGoodIdEnabled ? (
           <View>
             <View>
               <NText

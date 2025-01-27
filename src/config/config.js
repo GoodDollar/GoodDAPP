@@ -108,7 +108,7 @@ const ethereum = {
   },
 }
 
-const UBIPoolAddresses = env.REACT_APP_UBIPOOL_ADDRESSES ?? ''
+const UBIPoolAddresses = env.REACT_APP_UBIPOOL_ADDRESSES ? JSON.parse(env.REACT_APP_UBIPOOL_ADDRESSES) : {}
 
 const notifyOptsTest = {
   notificationSchedule: 'minute', // repeat in each minute
@@ -231,7 +231,6 @@ const Config = {
   graphQlUrl: env.REACT_APP_GRAPHQL_URL || 'https://api.thegraph.com/subgraphs/name/gooddollar',
   chainIdUrl: env.REACT_APP_CHAINID_URL || 'https://chainid.network',
   networkId,
-  isFVFlow: env.REACT_APP_BUILD_TARGET === 'FV',
   estimateGasPrice: env.REACT_APP_ESTIMATE_GAS_PRICE === 'true',
   defaultGasPrice: parseInt(env.REACT_APP_DEFAULT_GAS_PRICE || 11),
   defaultTxGas: parseInt(env.REACT_APP_DEFAULT_TX_GAS || 1000000),

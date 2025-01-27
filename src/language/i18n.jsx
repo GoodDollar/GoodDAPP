@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { I18nProvider } from '@lingui/react'
 import { i18n } from '@lingui/core'
 import { Helmet } from 'react-helmet'
-import { useGoodUILanguage } from '@gooddollar/good-design'
+import { GoodUIi18nProvider, useGoodUILanguage } from '@gooddollar/good-design'
 
 import logger from '../lib/logger/js-logger'
 import AsyncStorage from '../lib/utils/asyncStorage'
@@ -171,4 +171,9 @@ const LanguageProvider = ({ children }) => {
   )
 }
 
-export default LanguageProvider
+const WrappedProvider = ({ children }) => (
+  <GoodUIi18nProvider>
+    <LanguageProvider>{children}</LanguageProvider>
+  </GoodUIi18nProvider>
+)
+export default WrappedProvider

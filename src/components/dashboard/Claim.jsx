@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
 import { assign, noop } from 'lodash'
@@ -9,8 +9,9 @@ import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../../lib/utils/async'
 
 import ClaimSvg from '../../assets/Claim/claim-footer.svg'
+import ClaimCelebration from '../../assets/Claim/claim-footer-celebration.svg'
 
-import { useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
+import { GoodWalletContext, useUserStorage, useWallet, useWalletData } from '../../lib/wallet/GoodWalletProvider'
 import logger from '../../lib/logger/js-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/exceptions/utils'
 import { useDialog } from '../../lib/dialog/useDialog'
@@ -224,11 +225,14 @@ const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const { goToRoot, screenState, push: navigate } = screenProps
   const goodWallet = useWallet()
+  const { hasGoodIdEnabled } = useContext(GoodWalletContext)
   const { dailyUBI: entitlement, isCitizen } = useWalletData()
   const decimalsEntitlement = goodWallet.toDecimals(entitlement || '0')
   const { appState } = useAppState()
   const userStorage = useUserStorage()
   const { userProperties } = userStorage || {}
+  const holiday = moment().format('MM-DD')
+  const isHoliday = holiday >= '12-24' || holiday <= '01-01'
 
   const [dailyUbi, setDailyUbi] = useState((entitlement && parseInt(decimalsEntitlement)) || 0)
   const { isValid } = screenState
@@ -249,10 +253,8 @@ const Claim = props => {
   const [, , collectInviteBounty] = useInviteBonus()
 
   const nextTasks = useFlagWithPayload('next-tasks')
-  const uat = useFlagWithPayload('uat-goodid-flow')
 
   const { tasks } = nextTasks
-  const { whitelist } = uat || {}
 
   // format number of people who did claim today
   const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
@@ -312,10 +314,7 @@ const Claim = props => {
   )
 
   const handleFaceVerification = useCallback(() => {
-    const nextStep =
-      Config.env === 'development' || whitelist?.includes(goodWallet.account)
-        ? 'GoodIdOnboard'
-        : 'FaceVerificationIntro'
+    const nextStep = Config.env === 'development' || hasGoodIdEnabled ? 'GoodIdOnboard' : 'FaceVerificationIntro'
     navigate(nextStep, { from: 'Claim' })
   }, [navigate])
 
@@ -741,12 +740,18 @@ const Claim = props => {
         </Section.Stack>
       )}
       <Section.Stack style={styles.footerWrapper}>
-        <ClaimSvg
-          height={getDesignRelativeHeight(85, false)}
-          width={getMaxDeviceWidth()}
-          style={styles.footerImage}
-          viewBox="0 0 360.002 85"
-        />
+        {isHoliday ? (
+          <View style={{ width: '100%' }}>
+            <ClaimCelebration style={{ width: '100%', height: 230, objectFit: 'contain' }} />
+          </View>
+        ) : (
+          <ClaimSvg
+            height={getDesignRelativeHeight(85, false)}
+            width={getMaxDeviceWidth()}
+            style={styles.footerImage}
+            viewBox="0 0 360.002 85"
+          />
+        )}
       </Section.Stack>
     </WrapperClaim>
   )

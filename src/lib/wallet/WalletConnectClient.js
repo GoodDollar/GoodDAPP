@@ -121,7 +121,7 @@ const getWeb3 = async (chainDetails, retry = 5) => {
 }
 
 const getChainRpc = chainDetails => {
-  const rpc = sample((chainDetails.rpc || chainDetails.rpcUrls).filter(_ => _.startsWith('https')))
+  const rpc = sample((chainDetails.rpc || chainDetails.rpcUrls).filter(_ => _.startsWith('https') && !_.includes('${')))
   return rpc.replace('${INFURA_API_KEY}', Config.infuraKey)
 }
 

@@ -3,6 +3,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { ActivityIndicator, Image, Platform, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { useIdentityExpiryDate } from '@gooddollar/web3sdk-v2'
+import moment from 'moment'
 
 import useFVRedirect from '../standalone/hooks/useFVRedirect'
 
@@ -88,7 +89,7 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
             {t`Every so often, it's necessary to double-check that you're still you. You’ll go through the same verification process you went through when you first signed up for GoodDollar.`}
           </Section.Text>
           <Section.Text textAlign="left" fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
-            {t`You’ll be able to claim once this process is complete.`}
+            {t`You’ll be able to continue once this process is complete.`}
           </Section.Text>
         </Section>
         <View style={styles.illustrationContainer}>
@@ -112,7 +113,7 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
   </Wrapper>
 )
 
-const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => {
+const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, authPeriod }) => {
   const [ageConfirmed, setAgeConfirmed] = useState(false)
   return (
     <Wrapper withMaxHeight={false}>
@@ -131,9 +132,13 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => {
             lineHeight={25}
             letterSpacing={0.18}
             fontWeight="700"
-          >{t`To continue, you need to be a unique human and prove it with your camera.`}</Section.Text>
+          >{t`To continue, you need to prove you are a unique human.`}</Section.Text>
           <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
             {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
+          </Section.Text>
+          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
+            {t`This wallet address will be connected to your identity until ${moment().add(authPeriod, 'days').format('l')}.
+            If you’d prefer to verify a different wallet address, please use a different wallet.`}
           </Section.Text>
           <Section.Text
             fontWeight="bold"
@@ -178,6 +183,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { account } = goodWallet ?? {}
   const [expiryDate, , state] = useIdentityExpiryDate(externalAccount || account)
   const isReverify = expiryDate?.lastAuthenticated?.isZero() === false
+  const authPeriod = expiryDate?.authPeriod?.toNumber() || 360
 
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()
@@ -289,6 +295,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       onVerify={handleVerifyClick}
       onDeny={onDeny}
       ready={false === disposing}
+      authPeriod={authPeriod}
     />
   )
 }
@@ -316,7 +323,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     justifyContent: 'space-between',
     paddingHorizontal: Platform.select({
-      web: !isMediumDevice ? 32 : 0,
+      web: !isMediumDevice ? 8 : 0,
     }),
     width: '100%',
   },

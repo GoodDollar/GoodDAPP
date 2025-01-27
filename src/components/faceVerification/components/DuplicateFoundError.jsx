@@ -36,26 +36,24 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
             {displayTitle}
           </Section.Title>
         )}
-        {(displayTitle ? `,\n` : '') +
-          t`Unfortunately we found 
-            your twin...`}
+        {(displayTitle ? `,\n` : '') + t`We found your twin...`}
       </Section.Title>
       <Section style={styles.errorSection}>
         <View style={styles.descriptionWrapper}>
-          <Text fontSize={18} lineHeight={25} fontWeight="bold">
-            {t`You can open ONLY ONE account 
+          <Text fontSize={16} lineHeight={25} fontWeight="bold">
+            {t`You can verify ONLY ONE wallet address 
                   per person. `}
           </Text>
           <Text fontSize={18} lineHeight={25}>
             {t`If this is your only active 
-                  account - please contact our support.`}
+                  account - please contact support.`}
           </Text>
         </View>
         {expiration && (
           <View marginTop={20}>
-            <Text fontSize={18} lineHeight={25} fontWeight="bold">
-              {t`The existing account with your identity will expire on ${moment(expiration).format('l')}.
-               After this expiry, you may create a new account or verify a different wallet.`}
+            <Text fontSize={16} lineHeight={25} fontWeight="bold">
+              {t`The existing identity will expire on ${moment(expiration).format('l')}.
+               After this expiry, you may verify a different wallet address.`}
             </Text>
             <Text
               color="primary"

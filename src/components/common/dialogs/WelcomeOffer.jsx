@@ -4,6 +4,7 @@ import { noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { Image, Platform, View } from 'react-native'
 
+import { openLink } from '@gooddollar/web3sdk-v2'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import Section from '../layout/Section'
 
@@ -107,36 +108,53 @@ const listItems = [
   'Seamlessly send and receive crypto',
 ]
 
-const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => (
-  <ExplanationDialog
-    {...dialogProps}
-    title={'The New \n GoodWallet is here!'}
-    titleStyle={styles.title}
-    containerStyle={styles.container}
-    resizeMode={false}
-  >
-    <View style={styles.innerContainer}>
-      <View style={styles.imageContainer}>
-        <Image source={WelcomeBilly} resizeMode={'contain'} style={styles.image} />
-      </View>
-      <Section.Stack style={styles.descriptionText}>
-        <Section.Text style={styles.descriptionText}>{t`The New GoodWallet allows you to:`}</Section.Text>
-        {listItems.map(item => (
-          <Section.Text key={item} style={[styles.list, { textAlign: 'left' }]}>
-            <Section.Text>{`\u2022  `}</Section.Text>
-            <Section.Text style={[styles.descriptionText, { marginLeft: 8 }]}>{item}</Section.Text>
+const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
+  const openFaqLink = () => {
+    openLink('https://help.gooddollar.org/en/articles/5732921-what-is-the-new-goodwallet', '_blank')
+  }
+
+  return (
+    <ExplanationDialog
+      {...dialogProps}
+      title={'The New \n GoodWallet is here!'}
+      titleStyle={styles.title}
+      containerStyle={styles.container}
+      resizeMode={false}
+    >
+      <View style={styles.innerContainer}>
+        <View style={styles.imageContainer}>
+          <Image source={WelcomeBilly} resizeMode={'contain'} style={styles.image} />
+        </View>
+        <Section.Stack style={styles.descriptionText}>
+          <Section.Text style={styles.descriptionText}>{t`The New GoodWallet allows you to:`}</Section.Text>
+          {listItems.map(item => (
+            <Section.Text key={item} style={[styles.list, { textAlign: 'left' }]}>
+              <Section.Text>{`\u2022  `}</Section.Text>
+              <Section.Text style={[styles.descriptionText, { marginLeft: 8 }]}>{item}</Section.Text>
+            </Section.Text>
+          ))}
+          <Section.Text
+            style={{ marginTop: 16 }}
+            fontSize={16}
+            numberOfLines={1}
+            textDecorationLine="underline"
+            onPress={openFaqLink}
+            ellipsizeMode="middle"
+            textAlign="left"
+          >
+            For more on the New GoodWallet, check the FAQ here.
           </Section.Text>
-        ))}
-        <Section.Text style={{ fontStyle: 'italic', marginTop: 32, textAlign: 'left' }}>
-          The New GoodWallet is only available using a web browser, so you may be asked to open the link in your
-          preferred browser.
-        </Section.Text>
-      </Section.Stack>
-    </View>
-    <View style={{ marginTop: 24, marginBottom: 8 }}>
-      <WalletV2Continue buttonText={t`TAKE ME TO THE NEW GOODWALLET`} onDismiss={onDismiss} />
-    </View>
-  </ExplanationDialog>
-)
+          <Section.Text style={{ fontStyle: 'italic', marginTop: 32, textAlign: 'left' }}>
+            The New GoodWallet is only available using a web browser, so you may be asked to open the link in your
+            preferred browser.
+          </Section.Text>
+        </Section.Stack>
+      </View>
+      <View style={{ marginTop: 24, marginBottom: 8 }}>
+        <WalletV2Continue buttonText={t`TAKE ME TO THE NEW GOODWALLET`} onDismiss={onDismiss} />
+      </View>
+    </ExplanationDialog>
+  )
+}
 
 export default withStyles(mapStylesToProps)(WelcomeOffer)

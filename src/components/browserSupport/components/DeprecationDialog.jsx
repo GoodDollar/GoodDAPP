@@ -25,7 +25,7 @@ const DeprecationDialog = () => {
 
 export const useDeprecationDialog = () => {
   const showDeprecationModal = useFlagWithPayload('show-deprecation-modal')
-  const { supportedCountries, enabled: isActive, webOnly, whitelist } = showDeprecationModal || {}
+  const { excludedCountries, enabled: isActive, webOnly, whitelist } = showDeprecationModal || {}
   const { showDialog } = useDialog()
   const { params } = DeepLinking
 
@@ -54,7 +54,7 @@ export const useDeprecationDialog = () => {
       2000,
     ).then(data => data.country)
 
-    const isEligible = supportedCountries?.split(',')?.includes(country) || whitelist?.includes(goodWallet?.account)
+    const isEligible = !excludedCountries?.split(',')?.includes(country) || whitelist?.includes(goodWallet?.account)
 
     if (((webOnly && isWeb) || !webOnly) && isActive && isEligible) {
       fireEvent(DEPRECATION_MODAL)

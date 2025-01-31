@@ -6648,9 +6648,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.4.1-beta.523b9c2b":
-  version: 0.4.1-beta.523b9c2b
-  resolution: "@gooddollar/good-design@npm:0.4.1-beta.523b9c2b"
+"@gooddollar/good-design@npm:0.4.1-beta.398200b3":
+  version: 0.4.1-beta.398200b3
+  resolution: "@gooddollar/good-design@npm:0.4.1-beta.398200b3"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6693,29 +6693,29 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: a34453b594b715281518b1bf180ce5714a646657adf146ebb1c50e4f9ed7aec327ee5f3c0584e8007534e6983a77881b9a9cf1f650a62e565835a65304d60ae0
+  checksum: 4be6376d6c8d6c672cc72f5603291343bac277cb000c41b2475ddd8a8920ed706d0bde6666bd0b6d1d52b65c8bd2f650fbcd581f2d724ba8a83b2195140e4c6a
   languageName: node
   linkType: hard
 
-"@gooddollar/goodcollective-contracts@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@gooddollar/goodcollective-contracts@npm:1.2.0"
-  checksum: a4acf64ebcaebc6621d90d0c599075a629aa5e2f91c720874d6aa5520d87043f617d2030c5fdf422eb018b9436b6bcd29c6c826a147c1da2a56f937ddd3a8c5d
+"@gooddollar/goodcollective-contracts@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@gooddollar/goodcollective-contracts@npm:1.3.0"
+  checksum: 898b599d6631d2adb9dcb7221db879eaa119116b4899480d101e6ef2629c0d31335c8206f2319bf5c4ecf598d7cda6c10906fb18ae3b41150181e5b988b8a98c
   languageName: node
   linkType: hard
 
-"@gooddollar/goodcollective-sdk@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "@gooddollar/goodcollective-sdk@npm:1.2.1"
+"@gooddollar/goodcollective-sdk@npm:^1.3.3":
+  version: 1.3.3
+  resolution: "@gooddollar/goodcollective-sdk@npm:1.3.3"
   dependencies:
-    "@gooddollar/goodcollective-contracts": ^1.2.0
+    "@gooddollar/goodcollective-contracts": ^1.3.0
     "@superfluid-finance/sdk-core": ^0.6.12
     "@web3-storage/w3up-client": ^15.0.0
     ethereum-multicall: ^2.24.0
     graphql: ^16.7.1
   peerDependencies:
     ethers: ^5.*
-  checksum: 5637adb5ee8651e8a0b0dc37984ec27fefe73d427116bb1498b19de6ce440d391be209184a68c323f3b2a2ab09f1cd6bd88d0b0e99c1572b2e4815167cb31caf
+  checksum: aab1f58619ccd022bf86094d34288a4905f32dde667bdc3b97b24d722c9fd8514071dc52c18e7b9ed45fd716280fa235f519799cfd41e3a8b5c2bf8554dce74f
   languageName: node
   linkType: hard
 
@@ -6752,12 +6752,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.4.1-beta.523b9c2b
+    "@gooddollar/good-design": 0.4.1-beta.398200b3
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.24
     "@gooddollar/react-native-facetec": ^1.0.46
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.4.1-beta.523b9c2b
+    "@gooddollar/web3sdk-v2": 0.4.1-beta.398200b3
     "@hcaptcha/react-hcaptcha": ^1.11.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -7062,9 +7062,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.4.1-beta.523b9c2b":
-  version: 0.4.1-beta.523b9c2b
-  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.523b9c2b"
+"@gooddollar/web3sdk-v2@npm:0.4.1-beta.398200b3":
+  version: 0.4.1-beta.398200b3
+  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.398200b3"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7073,8 +7073,8 @@ __metadata:
     "@ceramicnetwork/stream-tile": ^2.31.0
     "@gooddollar/bridge-app": ^1.5.0
     "@gooddollar/bridge-contracts": ^1.0.17
-    "@gooddollar/goodcollective-contracts": ^1.2.0
-    "@gooddollar/goodcollective-sdk": ^1.2.1
+    "@gooddollar/goodcollective-contracts": ^1.3.0
+    "@gooddollar/goodcollective-sdk": ^1.3.3
     "@gooddollar/goodprotocol": ^2.0.24
     "@orbisclub/orbis-sdk": ^0.4.87
     "@react-native-community/geolocation": 3.1.0
@@ -7115,7 +7115,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: a997ed2f8fbc9500181138429c48a565f5e357f84b6faf9d33bdf62e8efafa9bf4ddffe48250885650756367ae4b23912585bfb087d2b0f5657177e817f5285f
+  checksum: ff026b9c6fcc75cccd445e632e85d31e8a9f065da8cbf3c2cdff8dd9c26d375b0e65bc889defa7466bf65669b02cd02be39696db6a651d5001358583c58202a3
   languageName: node
   linkType: hard
 

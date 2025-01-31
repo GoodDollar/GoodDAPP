@@ -97,7 +97,7 @@ const ethereum = {
   '42220': {
     httpWeb3provider: celoRpc,
     explorer: 'https://celoscan.io',
-    explorerAPI: 'https://api.celoscan.io,https://explorer.celo.org/mainnet',
+    explorerAPI: 'https://api.celoscan.io,https://celo.blockscout.com/api',
     explorerName: 'celoscan',
     network_id: 42220,
     startBlock: 18000000,    

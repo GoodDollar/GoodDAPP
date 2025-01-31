@@ -4,10 +4,10 @@ import { noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { Image, Platform, View } from 'react-native'
 
-import { openLink } from '@gooddollar/web3sdk-v2'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import Section from '../layout/Section'
 
+import { openLink } from '../../../lib/utils/linking'
 import { withStyles } from '../../../lib/styles'
 import { WalletV2Continue } from '../../common/buttons/TaskButton'
 import WelcomeBilly from '../../../assets/welcome_offer.png'

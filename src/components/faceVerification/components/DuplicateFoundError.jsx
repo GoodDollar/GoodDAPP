@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import React, { useCallback, useEffect } from 'react'
+import { Linking, View } from 'react-native'
 import { t } from '@lingui/macro'
-
+import { get } from 'lodash'
+import moment from 'moment'
 import Text from '../../common/view/Text'
 import { Section } from '../../common'
 
@@ -13,6 +14,12 @@ import FVErrorTwinSVG from '../../../assets/FaceVerification/FVErrorTwin.svg'
 import { fireEvent, FV_DUPLICATEERROR } from '../../../lib/analytics/analytics'
 
 const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) => {
+  const onLearnMore = useCallback(() => {
+    Linking.openURL('https://docs.gooddollar.org/frequently-asked-questions/troubleshooting#help-it-says-i-have-a-twin')
+  }, [])
+
+  const expiration = get(exception, 'response.enrollmentResult.duplicate.expiration')
+
   useEffect(() => {
     if (!exception) {
       return
@@ -29,23 +36,38 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) 
             {displayTitle}
           </Section.Title>
         )}
-        {(displayTitle ? `,\n` : '') +
-          t`Unfortunately we found 
-            your twin...`}
+        {(displayTitle ? `,\n` : '') + t`We found your twin...`}
       </Section.Title>
       <Section style={styles.errorSection}>
         <View style={styles.descriptionWrapper}>
-          <Text>
-            <Text fontSize={18} lineHeight={25} fontWeight="bold">
-              {t`You can open ONLY ONE account 
+          <Text fontSize={16} lineHeight={25} fontWeight="bold">
+            {t`You can verify ONLY ONE wallet address 
                   per person. `}
-            </Text>
-            <Text fontSize={18} lineHeight={25}>
-              {t`If this is your only active 
-                  account - please contact our support`}
-            </Text>
+          </Text>
+          <Text fontSize={18} lineHeight={25}>
+            {t`If this is your only active 
+                  account - please contact support.`}
           </Text>
         </View>
+        {expiration && (
+          <View marginTop={20}>
+            <Text fontSize={16} lineHeight={25} fontWeight="bold">
+              {t`The existing identity will expire on ${moment(expiration).format('l')}.
+               After this expiry, you may verify a different wallet address.`}
+            </Text>
+            <Text
+              color="primary"
+              fontWeight="bold"
+              fontSize={18}
+              lineHeight={26}
+              textDecorationLine="underline"
+              style={styles.learnMore}
+              onPress={onLearnMore}
+            >
+              {t`Learn More`}
+            </Text>
+          </View>
+        )}
       </Section>
       <Section.Row justifyContent="space-evenly">
         <View style={styles.errorImage}>

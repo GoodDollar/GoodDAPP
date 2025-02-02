@@ -16,13 +16,13 @@ const useGiveUpDialog = (navigation, type) => {
   const fvRedirect = useFVRedirect()
   const { isFVFlow } = useContext(FVFlowContext)
   const { navigate } = navigation
-  const { fvTypeformUrl } = Config
+  const { fvTypeformUrl, showFVSurvey } = Config
 
   const onReasonChosen = useCallback(
     (reason = undefined) => {
       const data = pickBy({ reason }, negate(isUndefined))
 
-      if (reason !== 'closed') {
+      if (reason && reason !== 'closed') {
         AsyncStorage.removeItem('hasStartedFV')
         fireEvent(FV_GIVEUP, { data, surveyType: type })
       }
@@ -43,14 +43,16 @@ const useGiveUpDialog = (navigation, type) => {
   )
 
   const onGiveUp = useCallback(() => {
-    showDialog({
-      content: <GiveUpDialog onReasonChosen={onReasonChosen} type={type} />,
-      isMinHeight: false,
-      showButtons: false,
-      showCloseButtons: false,
+    showFVSurvey
+      ? showDialog({
+          content: <GiveUpDialog onReasonChosen={onReasonChosen} type={type} />,
+          isMinHeight: false,
+          showButtons: false,
+          showCloseButtons: false,
 
-      onDismiss: onReasonChosen,
-    })
+          onDismiss: onReasonChosen,
+        })
+      : onReasonChosen()
   }, [showDialog, onReasonChosen])
 
   return { onGiveUp }

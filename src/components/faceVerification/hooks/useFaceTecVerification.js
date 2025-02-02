@@ -125,6 +125,8 @@ export default (options = null) => {
         name = 'DuplicateFoundError'
       } else if (/face.+n.t\s+match/.test(message)) {
         name = 'NotMatchError'
+      } else if (/age check failed/.test(message)) {
+        name = 'AgeCheckError'
       } else {
         // the following code is needed to categorize exceptions
         // then we could display specific error messages

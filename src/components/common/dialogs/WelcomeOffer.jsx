@@ -110,7 +110,7 @@ const listItems = [
 
 const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
   const openFaqLink = () => {
-    openLink('https://help.gooddollar.org/en/articles/5732921-what-is-the-new-goodwallet', '_blank')
+    openLink('https://docs.gooddollar.org/wallet-and-products/new-goodwallet', '_blank')
   }
 
   return (

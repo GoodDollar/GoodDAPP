@@ -1,10 +1,30 @@
 import React from 'react'
+import { View } from 'react-native'
+import { CheckBox as WebCheckBox } from 'react-native-web'
+import RNCheckBox from '@react-native-community/checkbox'
+import { isMobileNative } from '../../../lib/utils/platform'
+import { withStyles } from '../../../lib/styles'
 
-const CheckBox = ({ onClick, children }) => (
-  <label style={{ marginBottom: 24, display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
-    <input type="checkbox" onClick={onClick} style={{ width: 24, height: 24 }} />
+const CheckBoxComponent = isMobileNative ? RNCheckBox : WebCheckBox
+const CheckBox = ({ onClick, value, styles, children }) => (
+  <View style={styles.container}>
+    <CheckBoxComponent value={value} onValueChange={onClick} style={styles.checkbox} />
     {children}
-  </label>
+  </View>
 )
 
-export default CheckBox
+const mapStylesToProps = () => ({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+  },
+})
+
+export default withStyles(mapStylesToProps)(CheckBox)
+
+// export default CheckBox

@@ -9,6 +9,7 @@ import NotMatchError from '../components/NotMatchError'
 import GeneralError from '../components/GeneralError'
 import UnrecoverableError from '../components/UnrecoverableError'
 import SwitchToAnotherDevice from '../components/SwitchToAnotherDevice'
+import AgeCheckError from '../components/AgeCheckError'
 
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
@@ -55,7 +56,7 @@ const ErrorScreen = ({ styles, screenProps, navigation }) => {
     return getFirstWord(fullName)
   }, [profile])
 
-  const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
+  const onRetry = useCallback(() => screenProps.navigateTo('FaceVerification'), [screenProps])
 
   useEffectOnce(() => {
     // determining error component to display
@@ -90,13 +91,19 @@ const ErrorScreen = ({ styles, screenProps, navigation }) => {
           isFVFlow={isFVFlow}
           reachedMax={reachedMax}
         />
-        <ErrorButtons onRetry={onRetry} navigation={navigation} reachedMax={reachedMax} />
+        <ErrorButtons
+          onRetry={onRetry}
+          navigation={navigation}
+          reachedMax={reachedMax}
+          invert={ErrorViewComponent === AgeCheckError}
+        />
       </View>
     </Wrapper>
   )
 }
 
 ErrorScreen.kindOfTheIssue = {
+  AgeCheckError,
   NotMatchError,
   UnrecoverableError,
   DuplicateFoundError,

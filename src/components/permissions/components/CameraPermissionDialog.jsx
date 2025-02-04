@@ -10,7 +10,7 @@ export default ({ onDismiss }) => {
   return (
     <ExplanationDialog
       title={t`Enable camera access 
-      to claim G$'s`}
+      to get verified`}
       image={illustration}
       imageHeight={128}
       buttons={[

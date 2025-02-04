@@ -12,7 +12,7 @@ import { CustomButton, Section, Wrapper } from '../../common'
 import { getDesignRelativeHeight, getDesignRelativeWidth, isLargeDevice } from '../../../lib/utils/sizes'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
-import { isBrowser } from '../../../lib/utils/platform'
+import { isBrowser, isMobile } from '../../../lib/utils/platform'
 
 // assets
 import illustration from '../../../assets/FRInstructions.png'
@@ -32,26 +32,42 @@ const Dot = () => (
   </Text>
 )
 
-const Instructions = ({ styles, onDismiss = noop, ready }) => (
+const Instructions = ({ styles, onDismiss = noop, ready, fvStarted = false }) => (
   <Wrapper>
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
         <Image source={illustration} resizeMode="contain" style={styles.illustration} />
         <View style={styles.descriptionContainer}>
-          <View style={styles.descriptionWrapper}>
-            <Text style={styles.text}>
-              <Dot />
-              {t`Hold Your Camera at Eye Level`}
-            </Text>
-            <Text style={styles.text}>
-              <Dot />
-              {t`Light Your Face Evenly`}
-            </Text>
-            <Text style={styles.text}>
-              <Dot />
-              {t`Avoid Smiling & Back Light`}
-            </Text>
-          </View>
+          {!fvStarted ? (
+            <View style={styles.descriptionWrapper}>
+              {!isMobile && (
+                <Text style={styles.text}>
+                  <Dot />
+                  {t`Face Directly In Front of the Camera`}
+                </Text>
+              )}
+              <Text style={styles.text}>
+                <Dot />
+                {t`Hold Your Camera at Eye Level`}
+              </Text>
+              <Text style={styles.text}>
+                <Dot />
+                {t`Light Your Face Evenly`}
+              </Text>
+              <Text style={styles.text}>
+                <Dot />
+                {t`Avoid Smiling & Back Light`}
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.warnDescriptionWrapper}>
+              <Text style={styles.warnText}>{t`Notice:
+               Face verifying for someone else's use is against the terms & service policy.`}</Text>
+              <Text
+                style={styles.warnText}
+              >{t`Doing so may result in a loss of funds and/or your account being blocked.`}</Text>
+            </View>
+          )}
         </View>
         <CustomButton
           loading={!ready}
@@ -123,6 +139,10 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
   },
+  warnDescriptionWrapper: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
   descriptionWrapperB: {
     backgroundColor: theme.colors.darkGray,
     borderRadius: 8,
@@ -135,6 +155,13 @@ const getStylesFromProps = ({ theme }) => ({
     textAlign: 'left',
     fontSize: normalize(isLargeDevice ? 22 : 20),
     lineHeight: isLargeDevice ? 36 : 34,
+  },
+  warnText: {
+    // textAlign: 'center',
+    fontSize: normalize(isLargeDevice ? 22 : 20),
+    lineHeight: isLargeDevice ? 36 : 34,
+    fontWeight: 'bold',
+    color: theme.colors.red,
   },
   textB: {
     textAlign: 'left',

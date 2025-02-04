@@ -1,8 +1,9 @@
 // libraries
-import React, { useCallback, useContext, useEffect, useMemo } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ActivityIndicator, Image, Platform, View } from 'react-native'
 import { t } from '@lingui/macro'
 import { useIdentityExpiryDate } from '@gooddollar/web3sdk-v2'
+import moment from 'moment'
 
 import useFVRedirect from '../standalone/hooks/useFVRedirect'
 
@@ -25,6 +26,7 @@ import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
+  isLargeDevice,
   isMediumDevice,
   isSmallDevice,
 } from '../../../lib/utils/sizes'
@@ -48,6 +50,7 @@ import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.
 import BillyVerifies from '../../../assets/billy-verifies.png'
 import useProfile from '../../../lib/userStorage/useProfile'
 import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
+import CheckBox from '../../common/buttons/CheckBox'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -86,7 +89,7 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
             {t`Every so often, it's necessary to double-check that you're still you. You’ll go through the same verification process you went through when you first signed up for GoodDollar.`}
           </Section.Text>
           <Section.Text textAlign="left" fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
-            {t`You’ll be able to claim once this process is complete.`}
+            {t`You’ll be able to continue once this process is complete.`}
           </Section.Text>
         </Section>
         <View style={styles.illustrationContainer}>
@@ -110,47 +113,66 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
   </Wrapper>
 )
 
-const Intro = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
-  <Wrapper withMaxHeight={false}>
-    <Section style={styles.topContainer} grow>
-      <View style={styles.mainContent}>
-        <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
-          {firstName ? `${firstName},` : ``}
-          <Section.Text fontWeight="bold" color="#00AEFF" textTransform="none" fontSize={24} lineHeight={30}>
-            {firstName ? `\n` : ''}
-            {t`You are almost there!`}
-            {`\n`}
+const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, authPeriod }) => {
+  const [ageConfirmed, setAgeConfirmed] = useState(false)
+  return (
+    <Wrapper withMaxHeight={false}>
+      <Section style={styles.topContainer} grow>
+        <View style={styles.mainContent}>
+          <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
+            {firstName ? `${firstName},` : ``}
+            <Section.Text fontWeight="bold" color="#00AEFF" textTransform="none" fontSize={24} lineHeight={30}>
+              {firstName ? `\n` : ''}
+              {t`You are almost there!`}
+              {`\n`}
+            </Section.Text>
+          </Section.Title>
+          <Section.Text
+            fontSize={18}
+            lineHeight={25}
+            letterSpacing={0.18}
+            fontWeight="700"
+          >{t`To continue, you need to prove you are a unique human.`}</Section.Text>
+          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
+            {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
           </Section.Text>
-        </Section.Title>
-        <Section.Text
-          fontSize={18}
-          lineHeight={25}
-          letterSpacing={0.18}
-          fontWeight="700"
-        >{t`To claim G$, you need to be a unique human and prove it with your camera.`}</Section.Text>
-        <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
-          {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
-        </Section.Text>
-        <Section.Text
-          fontWeight="bold"
-          fontSize={18}
-          lineHeight={26}
-          textDecorationLine="underline"
-          color="#00AEFF"
-          onPress={onLearnMore}
-        >
-          {t`Learn More`}
-        </Section.Text>
-        <View style={styles.illustrationContainer} marginTop={0}>
-          <FashionShootSVG />
+          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
+            {t`This wallet address will be connected to your identity until ${moment().add(authPeriod, 'days').format('l')}.
+            If you’d prefer to verify a different wallet address, please use a different wallet.`}
+          </Section.Text>
+          <Section.Text
+            fontWeight="bold"
+            fontSize={18}
+            lineHeight={26}
+            textDecorationLine="underline"
+            color="#00AEFF"
+            onPress={onLearnMore}
+          >
+            {t`Learn More`}
+          </Section.Text>
+          <View style={styles.illustrationContainer} marginTop={0}>
+            <FashionShootSVG />
+          </View>
+          <View style={{ marginTop: 50 }}>
+            <View style={{ alignItems: 'center' }}>
+              <CheckBox
+                onClick={v => {
+                  setAgeConfirmed(v)
+                }}
+                value={ageConfirmed}
+              >
+                <Text>I confirm I&apos;m over 18 years of age</Text>
+              </CheckBox>
+            </View>
+            <CustomButton style={styles.button} onPress={onVerify} disabled={!ageConfirmed} loading={!ready}>
+              {t`OK, Verify me`}
+            </CustomButton>
+          </View>
         </View>
-        <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
-          {t`OK, VERIFY ME`}
-        </CustomButton>
-      </View>
-    </Section>
-  </Wrapper>
-)
+      </Section>
+    </Wrapper>
+  )
+}
 
 const IntroScreen = ({ styles, screenProps, navigation }) => {
   const { fullName } = useProfile()
@@ -160,8 +182,8 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const goodWallet = useWallet()
   const { account } = goodWallet ?? {}
   const [expiryDate, , state] = useIdentityExpiryDate(externalAccount || account)
-
   const isReverify = expiryDate?.lastAuthenticated?.isZero() === false
+  const authPeriod = expiryDate?.authPeriod?.toNumber() || 360
 
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()
@@ -171,26 +193,30 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     [isFVFlow, firstName, fullName],
   )
 
-  const [disposing, checkDisposalState] = useDisposingState(
-    {
-      requestOnMounted: false,
-      enrollmentIdentifier,
-      fvSigner,
-      onComplete: isDisposing => {
-        if (!isDisposing) {
-          return
-        }
-
-        const dialogData = showQueueDialog(WalletDeletedPopupText, true, {
-          onDismiss: isFVFlow ? () => fvRedirect(false, 'Wait 24 hours') : goToRoot,
-          imageSource: Wait24HourSVG,
-        })
-
-        showDialog(dialogData)
-      },
+  const onDeny = useCallback(
+    reason => {
+      return isFVFlow ? fvRedirect(false, reason) : goToRoot()
     },
-    [enrollmentIdentifier],
+    [isFVFlow],
   )
+
+  const [disposing, checkDisposalState] = useDisposingState({
+    requestOnMounted: false,
+    enrollmentIdentifier,
+    fvSigner,
+    onComplete: isDisposing => {
+      if (!isDisposing) {
+        return
+      }
+
+      const dialogData = showQueueDialog(WalletDeletedPopupText, true, {
+        onDismiss: () => onDeny('Wait 24 hours'),
+        imageSource: Wait24HourSVG,
+      })
+
+      showDialog(dialogData)
+    },
+  })
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
   const openFaceVerification = useCallback(() => push('FaceVerification'), [push])
@@ -267,7 +293,9 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
       firstName={userName}
       onLearnMore={openPrivacy}
       onVerify={handleVerifyClick}
+      onDeny={onDeny}
       ready={false === disposing}
+      authPeriod={authPeriod}
     />
   )
 }
@@ -295,7 +323,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     justifyContent: 'space-between',
     paddingHorizontal: Platform.select({
-      web: !isMediumDevice ? 32 : 0,
+      web: !isMediumDevice ? 8 : 0,
     }),
     width: '100%',
   },
@@ -355,6 +383,9 @@ const getStylesFromProps = ({ theme }) => ({
   learnMore: {
     color: theme.colors.primary,
     marginTop: getDesignRelativeHeight(isSmallDevice ? theme.sizes.defaultDouble : 20),
+  },
+  buttonContainer: {
+    marginTop: !isLargeDevice ? 50 : 0,
   },
 })
 

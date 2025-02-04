@@ -33,7 +33,7 @@ export const isAndroidNative = Platform.OS === 'android'
 
 export const isMobileNative = isIOSNative || isAndroidNative
 
-export const isMobileOnlyNative = isMobileNative && isTablet === false
+export const isMobileOnlyNative = isMobileNative && !isTablet
 
 export const isMobile = isMobileNative || isMobileWeb
 

@@ -17,7 +17,7 @@ export class ProcessingSubscriber {
     return this._promise
   }
 
-  onSessionCompleted(isSuccess, lastResult, lastMessage) {
+  onSessionCompleted(isSuccess, lastResult, lastMessage, lastResponse = {}) {
     const { logger, _resolve, _reject } = this
     const logRecord = { isSuccess, lastMessage }
 
@@ -33,7 +33,7 @@ export class ProcessingSubscriber {
     }
 
     const exception = new Error(lastMessage)
-
+    exception.response = lastResponse
     if (lastResult) {
       exception.code = lastResult.status
     }

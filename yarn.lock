@@ -6768,7 +6768,7 @@ __metadata:
     "@metamask/eth-sig-util": ^4.0.1
     "@mtourj/react-native-keyboard-aware-scroll-view": ^1.0.9
     "@react-native-async-storage/async-storage": 1.18.2
-    "@react-native-community/blur": ^4.3.2
+    "@react-native-community/blur": ^4.4.1
     "@react-native-community/checkbox": ^0.5.17
     "@react-native-community/clipboard": ^1.5.1
     "@react-native-community/eslint-config": ^3.2.0
@@ -9713,13 +9713,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/blur@npm:^4.3.2":
-  version: 4.3.2
-  resolution: "@react-native-community/blur@npm:4.3.2"
+"@react-native-community/blur@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "@react-native-community/blur@npm:4.4.1"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 4f7ed6a3bb58cd53346bb7d5755bb2733e8401fdae86334fde4f2fa0c554734e9bb52175c1f9ef1d99766aeb7a4991ac5dfe428c92da518d0353a1a6e5c3d39c
+  checksum: 1e47144b0c00dce562e72ea9f6c3e93d3bb392ec0ea001ce37ff801d9a496c9801927033ee4800bf92ea2ece9de0abe596715add3b7afe3c5d1533e260f5e09e
   languageName: node
   linkType: hard
 

@@ -177,6 +177,9 @@ const Config = {
   faceVerificationPrivacyUrl:
     env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
     'https://docs.gooddollar.org/about-the-protocol/sybil-resistance',
+  faceVerificationConnectGuide:
+    env.REACT_APP_FACE_VERIFICATION_GUIDE ||
+    'https://docs.gooddollar.org/frequently-asked-questions/troubleshooting#delete-my-wallet-account',
   amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
   httpProviderStrategy: env.REACT_APP_WEB3_RPC_STRATEGY || 'random',
   httpProviderRetries: Number(env.REACT_APP_WEB3_RPC_RETRIES || 1),

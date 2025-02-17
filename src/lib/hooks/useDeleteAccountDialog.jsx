@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
-
+import { useIdentityExpiryDate } from '@gooddollar/web3sdk-v2'
+import moment from 'moment'
 import { t } from '@lingui/macro'
 import logger from '../logger/js-logger'
 
@@ -13,11 +14,15 @@ const log = logger.child({ from: 'useDeleteAccountDialog' })
 
 export default showErrorDialog => {
   const userStorage = useUserStorage()
+  const [expiryDate] = useIdentityExpiryDate(userStorage.wallet.account)
+  const authPeriod = expiryDate?.authPeriod?.toNumber() || 360
+  const expiration = moment().add(authPeriod, 'days').format('l')
+
   return useCallback(() => {
     const deleteHandler = async () => {
       showErrorDialog('', '', {
         title: t`ARE YOU SURE?`,
-        content: <DeleteAccountDialog icon="loading" />,
+        content: <DeleteAccountDialog icon="loading" expiryDate={expiration} />,
         showButtons: false,
       })
 
@@ -46,7 +51,7 @@ export default showErrorDialog => {
 
     showErrorDialog('', '', {
       title: 'ARE YOU SURE?',
-      content: <DeleteAccountDialog />,
+      content: <DeleteAccountDialog expiryDate={expiration} />,
       buttons: [
         { text: 'Cancel', onPress: dismiss => dismiss(), mode: 'text', color: theme.colors.lighterGray },
         {

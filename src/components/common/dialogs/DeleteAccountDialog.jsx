@@ -1,10 +1,11 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { Linking, Text, TouchableOpacity, View } from 'react-native'
 
 import { t } from '@lingui/macro'
 import IconWrapper from '../modal/IconWrapper'
 import LoadingIcon from '../modal/LoadingIcon'
 
+import config from '../../../config/config'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { theme } from '../../theme/styles'
 import ExplanationDialog from './ExplanationDialog'
@@ -19,11 +20,42 @@ const MessageTextComponent = () => (
   </Text>
 )
 
-const DeleteAccountDialog = ({ icon = 'trash' }) => (
+const IdentityTextComponent = ({ expiryDate }) => {
+  return (
+    <View>
+      <Text
+        style={{
+          color: theme.colors.darkGray,
+          fontSize: normalizeText(16),
+          alignSelf: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}
+      >
+        {t`To prevent fraud, you will not be able to verify another wallet until this wallet address verification expires on: ${expiryDate}`}
+        {`\n`}
+        {`\n`}
+        {t`If you wish to continue claiming with another wallet you can either export this wallet private key or connect another wallet to your identity by following the guide under 'Learn More'`}
+      </Text>
+      <TouchableOpacity onPress={() => Linking.openURL(config.faceVerificationConnectGuide)}>
+        <Text
+          style={{
+            color: theme.colors.lightBlue,
+            fontSize: normalizeText(18),
+            alignSelf: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            textDecoration: 'underline',
+          }}
+        >{t`Learn More`}</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
+const DeleteAccountDialog = ({ icon = 'trash', expiryDate }) => (
   <ExplanationDialog
     image={icon === 'trash' ? TrashIcon : LoadingIcon}
     label={<MessageTextComponent />}
-    text={t`For security reasons, it might take up to 48 hours for your data to be completely removed.`}
     textStyle={{
       fontSize: normalizeText(16),
       color: theme.colors.lighterGray,
@@ -31,7 +63,9 @@ const DeleteAccountDialog = ({ icon = 'trash' }) => (
       textAlign: 'center',
     }}
     labelStyle={{ textAlign: 'center', lineHeight: normalizeText(18) }}
-  />
+  >
+    <IdentityTextComponent expiryDate={expiryDate} />
+  </ExplanationDialog>
 )
 
 export default DeleteAccountDialog

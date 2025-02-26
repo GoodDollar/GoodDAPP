@@ -5537,7 +5537,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethereumjs/util@npm:^8.0.0, @ethereumjs/util@npm:^8.0.3, @ethereumjs/util@npm:^8.0.5":
+"@ethereumjs/util@npm:8.0.5":
   version: 8.0.5
   resolution: "@ethereumjs/util@npm:8.0.5"
   dependencies:
@@ -5545,17 +5545,6 @@ __metadata:
     "@ethereumjs/rlp": ^4.0.1
     ethereum-cryptography: ^1.1.2
   checksum: 318386785295b4584289b1aa576d2621392b3a918d127890db62d3f74184f3377694dd9e951e19bfb9ab80e8dc9e38e180236cac2651dead26097d10963731f9
-  languageName: node
-  linkType: hard
-
-"@ethereumjs/util@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "@ethereumjs/util@npm:8.1.0"
-  dependencies:
-    "@ethereumjs/rlp": ^4.0.1
-    ethereum-cryptography: ^2.0.0
-    micro-ftch: ^0.3.1
-  checksum: 9ae5dee8f12b0faf81cd83f06a41560e79b0ba96a48262771d897a510ecae605eb6d84f687da001ab8ccffd50f612ae50f988ef76e6312c752897f462f3ac08d
   languageName: node
   linkType: hard
 
@@ -6772,7 +6761,7 @@ __metadata:
     "@react-native-community/checkbox": ^0.5.17
     "@react-native-community/clipboard": ^1.5.1
     "@react-native-community/eslint-config": ^3.2.0
-    "@react-native-community/geolocation": 3.1.0
+    "@react-native-community/geolocation": ^3.4.0
     "@react-native-community/netinfo": ^6.0.2
     "@react-native-community/push-notification-ios": ^1.10.1
     "@react-native-community/toolbar-android": ^0.2.1
@@ -6790,7 +6779,7 @@ __metadata:
     "@textile/threads-client": ^2.1.2
     "@textile/threads-id": ^0.5.1
     "@toruslabs/customauth": ^19.0.3
-    "@toruslabs/customauth-react-native-sdk": ^4.0.1
+    "@toruslabs/react-native-web-browser": ^1.1.0
     "@tradle/react-native-http": ^2.0.1
     "@tsconfig/react-native": ^3.0.2
     "@types/fast-text-encoding": ^1
@@ -6809,6 +6798,7 @@ __metadata:
     "@walletconnect/react-native-compat": ^2.2.1
     "@walletconnect/utils": ^2.10.1
     "@walletconnect/web3wallet": 1.12.0
+    "@web3auth/react-native-sdk": ^7
     FormData: ^0.10.1
     abi-decoder: ^1.2.0
     abortcontroller-polyfill: ^1.7.3
@@ -6926,6 +6916,7 @@ __metadata:
     react-native-contacts: ^5.0.7
     react-native-crypto: ^2.2.0
     react-native-device-info: ^10.12.0
+    react-native-encrypted-storage: ^4.0.3
     react-native-fs: ^2.18.0
     react-native-gesture-handler: ^1.10.3
     react-native-get-random-values: ^1.9.0
@@ -9944,6 +9935,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: defc42ed11d0a3cc697d5db56c17cc19af2ca35b32674dc7323b40a458f5066b051191e5dc58c367f2643a0ed70b47e8eb2ac87ab1566e642ca0cbab1a1f09a9
+  languageName: node
+  linkType: hard
+
+"@react-native-community/geolocation@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "@react-native-community/geolocation@npm:3.4.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 4a1a334de5b8345ee5ca9af987718a4cdd0b401b6d024268330c98736eccd0bebf45fd1d4cb396558f429a4670e5b29da0b5b7ebd4e51ca12972d4b08b55d4bc
   languageName: node
   linkType: hard
 
@@ -13215,21 +13216,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@toruslabs/constants@npm:^13.2.0":
+  version: 13.4.0
+  resolution: "@toruslabs/constants@npm:13.4.0"
+  peerDependencies:
+    "@babel/runtime": 7.x
+  checksum: 2459aa3c3e94deec5bbd3debbdc50e79690777c32ffc70a2a6960b49688cdfd6410a75ce4665e097427e3b495d4a235093dd45928c637f47cb7e59f06c6948fa
+  languageName: node
+  linkType: hard
+
 "@toruslabs/constants@npm:^14.0.0":
   version: 14.0.0
   resolution: "@toruslabs/constants@npm:14.0.0"
   peerDependencies:
     "@babel/runtime": 7.x
   checksum: 2a68a5b5eae9fc21795ced6bcc6b8dcf70d7da77a40232420312666c2358b297be29127003dabe4eef53e150930871f2ff79dc6efb4772a460841b73174bbb1e
-  languageName: node
-  linkType: hard
-
-"@toruslabs/customauth-react-native-sdk@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@toruslabs/customauth-react-native-sdk@npm:4.0.1"
-  peerDependencies:
-    react-native: "*"
-  checksum: dbdac33d4ae23d336ed95bcf8ed53b95b4212e368f6bf7184c2820b3613cf040b56bbf6fa0fd86b0bd53f3876d8260265049ec5e59397733d7bd4f835c1fe61f
   languageName: node
   linkType: hard
 
@@ -13453,6 +13454,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@toruslabs/openlogin-utils@npm:^8.2.1":
+  version: 8.2.1
+  resolution: "@toruslabs/openlogin-utils@npm:8.2.1"
+  dependencies:
+    "@toruslabs/constants": ^13.2.0
+    base64url: ^3.0.1
+    color: ^4.2.3
+  peerDependencies:
+    "@babel/runtime": 7.x
+  checksum: 01e170f95bdb91078a047025ea8e75c3ca1d215e36e8533bc513749daca209c082ef5a20af301b9802e0e19917334e3e1047706a08d65002fe50f8e8db0e3ef2
+  languageName: node
+  linkType: hard
+
 "@toruslabs/openlogin@npm:^3.1.0":
   version: 3.2.1
   resolution: "@toruslabs/openlogin@npm:3.2.1"
@@ -13466,6 +13480,18 @@ __metadata:
   peerDependencies:
     "@babel/runtime": 7.x
   checksum: fdb6a26f979af54e620802b87c9b1824cbc4aee0d2527e8bd25bb71f4d2c159cffb32e487a47fa5e23ee9c47b1e9409d538bef1350ef930094e3e54c47e8addd
+  languageName: node
+  linkType: hard
+
+"@toruslabs/react-native-web-browser@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@toruslabs/react-native-web-browser@npm:1.1.0"
+  dependencies:
+    compare-urls: ^3.0.0
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 1e9b92317dec054a647bca305fefb9b87293e1a93e4bd1b1c6769bd92c448b5d9a889a94c8657ccbff36931c58693959931b2e16d5e1b34e4885c933d8c6156b
   languageName: node
   linkType: hard
 
@@ -16471,6 +16497,26 @@ __metadata:
   peerDependencies:
     "@babel/runtime": ^7.x
   checksum: 55bf9c259244d31d27fb46891c221617d64eacabf4ee9fe9750ae7c76f068921f373d07986dfb8adb47a16d47944e66933100f6c27d593720f4673a4a64c3cfb
+  languageName: node
+  linkType: hard
+
+"@web3auth/react-native-sdk@npm:^7":
+  version: 7.0.1
+  resolution: "@web3auth/react-native-sdk@npm:7.0.1"
+  dependencies:
+    "@toruslabs/constants": ^14.0.0
+    "@toruslabs/http-helpers": ^7.0.0
+    "@toruslabs/openlogin-utils": ^8.2.1
+    "@toruslabs/session-manager": ^1.0.0
+    buffer: ^6.0.3
+    lodash.clonedeep: ^4.5.0
+    lodash.merge: ^4.6.2
+    loglevel: ^1.9.1
+    react-native-url-polyfill: ^2.0.0
+  peerDependencies:
+    "@babel/runtime": ^7.x
+    react-native: "*"
+  checksum: a4379dc39864274246db9eba18439d5f54ec4938fd3d05353f5cbde7e26df0b26f57a6c56fc8ff51700bf7261a7e1fa59f4b39f1134d4428e24ff18c8b5fdc04
   languageName: node
   linkType: hard
 
@@ -22156,7 +22202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-string@npm:^1.6.0":
+"color-string@npm:^1.6.0, color-string@npm:^1.9.0":
   version: 1.9.1
   resolution: "color-string@npm:1.9.1"
   dependencies:
@@ -22182,6 +22228,16 @@ __metadata:
     color-convert: ^1.9.3
     color-string: ^1.6.0
   checksum: f81220e8b774d35865c2561be921f5652117638dcda7ca4029262046e37fc2444ac7bbfdd110cf1fd9c074a4ee5eda8f85944ffbdda26186b602dd9bb05f6400
+  languageName: node
+  linkType: hard
+
+"color@npm:^4.2.3":
+  version: 4.2.3
+  resolution: "color@npm:4.2.3"
+  dependencies:
+    color-convert: ^2.0.1
+    color-string: ^1.9.0
+  checksum: 0579629c02c631b426780038da929cca8e8d80a40158b09811a0112a107c62e10e4aad719843b791b1e658ab4e800558f2e87ca4522c8b32349d497ecb6adeb4
   languageName: node
   linkType: hard
 
@@ -22332,6 +22388,15 @@ __metadata:
   version: 1.0.1
   resolution: "commondir@npm:1.0.1"
   checksum: 59715f2fc456a73f68826285718503340b9f0dd89bfffc42749906c5cf3d4277ef11ef1cca0350d0e79204f00f1f6d83851ececc9095dc88512a697ac0b9bdcb
+  languageName: node
+  linkType: hard
+
+"compare-urls@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "compare-urls@npm:3.0.0"
+  dependencies:
+    normalize-url: ^6.0.1
+  checksum: 7aa8fd013810b20283d760cfd50c65bbc61ced69e2995878b9b32685763825be4d6d07d758d008122cca1bcbba399409da4181160d098c087c3cbda20be9ffa6
   languageName: node
   linkType: hard
 
@@ -36449,13 +36514,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"micro-ftch@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "micro-ftch@npm:0.3.1"
-  checksum: 0e496547253a36e98a83fb00c628c53c3fb540fa5aaeaf718438873785afd193244988c09d219bb1802984ff227d04938d9571ef90fe82b48bd282262586aaff
-  languageName: node
-  linkType: hard
-
 "microevent.ts@npm:~0.1.1":
   version: 0.1.1
   resolution: "microevent.ts@npm:0.1.1"
@@ -42093,6 +42151,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-encrypted-storage@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "react-native-encrypted-storage@npm:4.0.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 9d2999c58559f1e4f66d1baf2c3edeff96cf42027900850d94c6bbea24ac9715047ce69bf6e8a73b68aff4508cf35dd88ac494ad5905933286ef3b75cd123e30
+  languageName: node
+  linkType: hard
+
 "react-native-fetch-api@npm:^3.0.0":
   version: 3.0.0
   resolution: "react-native-fetch-api@npm:3.0.0"
@@ -42669,6 +42737,17 @@ __metadata:
   peerDependencies:
     react-native: "*"
   checksum: 24ef81493a642b9359c1e8048de4da84fb554ffcf35677f9d8b11956d700faa4b9ac9d74f56aee67dd8d8b4ef6d9879e7431848785880ada657f8bec0211b00a
+  languageName: node
+  linkType: hard
+
+"react-native-url-polyfill@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "react-native-url-polyfill@npm:2.0.0"
+  dependencies:
+    whatwg-url-without-unicode: 8.0.0-3
+  peerDependencies:
+    react-native: "*"
+  checksum: 1a2e1030a62fd093764b5330ce0ff34d72246e581dd2892cddc347d8621931aeb2c9ea3e054960484a1259230e8461e569e1890f1ff452d3c5c0adef70190fc3
   languageName: node
   linkType: hard
 

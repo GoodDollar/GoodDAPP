@@ -113,7 +113,8 @@ export class GoogleStrategy extends AbstractLoginStrategy {
           typeOfLogin: 'google',
 
           // for mainnet torus uses a different verifier
-          verifier: config.env === 'production' ? 'google' : 'google-shubs', // old testnet verifier
+          verifier: config.torusNetwork === 'mainnet' ? 'google' : 'google-shubs', // old testnet verifier
+          // verifier: config.torusNetwork === 'mainnet' ? 'google' : torusGoogleAuth0, // old testnet verifier
           jwtParams,
         },
       ],

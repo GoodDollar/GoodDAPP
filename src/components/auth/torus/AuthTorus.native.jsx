@@ -2,6 +2,7 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { t } from '@lingui/macro'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { AccessToken, LoginManager, Profile, Settings } from 'react-native-fbsdk-next'
 
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/js-logger'
@@ -172,11 +173,29 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
           }
           break
         case 'facebook':
+          {
+            await LoginManager.logOut()
+            const signInResult = await LoginManager.logInWithPermissions(['public_profile', 'email'])
+
+            torusUser.idToken = (await AccessToken.getCurrentAccessToken())?.accessToken
+            const profile = await Profile.getCurrentProfile()
+            torusUser.userIdentifier = profile?.userID
+            torusUser.name = profile?.name
+            log.info('Facebook Login', { torusUser, signInResult, profile })
+            if (!torusUser.idToken) {
+              throw new Error('No ID token found')
+            }
+            const response = await fetch(`https://graph.facebook.com/me?fields=email&access_token=${torusUser.idToken}`)
+            const { email } = await response.json()
+            torusUser.email = email
+          }
           break
         default:
           break
       }
-      torusUser = await handleTorusResponse(provider, torusUser)
+      const result = await handleTorusResponse(provider, torusUser)
+      torusUser = result.torusUser
+      log.info('torus succes:', { torusUser })
     } catch (e) {
       log.error('login failed', e.message, e, { provider })
       showErrorDialog(t`We were unable to load the wallet. Please try again`)
@@ -243,6 +262,9 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
 
   useEffect(() => {
     if (sdkInitialized) {
+      Settings.setAppID(config.facebookAppId)
+      Settings.initializeSDK()
+
       GoogleSignin.configure({
         webClientId: config.googleClientId,
       })

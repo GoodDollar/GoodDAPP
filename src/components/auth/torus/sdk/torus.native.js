@@ -16,7 +16,7 @@ class Torus {
   async init() {}
 
   // eslint-disable-next-line require-await
-  async triggerLogin(loginOptions) {
+  async triggerAggregateLogin(loginOptions) {
     const { options, torusInstance } = this
 
     const nodeDetailManagerInstance = new NodeDetailManager({
@@ -28,9 +28,7 @@ class Torus {
       const verifierParams = {
         verify_params: [{ verifier_id: userIdentifier, idtoken: idToken }],
         verifier_id: userIdentifier,
-      }
-      if (loginOptions.subVerifierDetailsArray) {
-        verifierParams.sub_verifier_ids = [loginOptions.subVerifierDetailsArray[0].verifier]
+        sub_verifier_ids: [loginOptions.subVerifierDetailsArray[0].verifier],
       }
 
       // console.log('Web3Auth JS core connect:', { verifierParams, verifier })
@@ -66,8 +64,42 @@ class Torus {
   }
 
   // eslint-disable-next-line require-await
-  async triggerAggregateLogin(loginOptions) {
-    return this.triggerLogin(loginOptions)
+  async triggerLogin(loginOptions) {
+    const { options, torusInstance } = this
+
+    const nodeDetailManagerInstance = new NodeDetailManager({
+      network: options.network,
+    })
+
+    return async (idToken, userIdentifier) => {
+      const verifier = loginOptions.verifier
+      const { torusNodeEndpoints, torusIndexes } = await nodeDetailManagerInstance.getNodeDetails({
+        verifier,
+        verifierId: userIdentifier,
+      })
+
+      // console.log(
+      //   'Web3Auth JS core retrieve:',
+      //   JSON.stringify({
+      //     endpoints: torusNodeEndpoints,
+      //     indexes: torusIndexes,
+      //     verifier,
+      //     verifierParams,
+      //     hashedIdToken,
+      //   }),
+      // )
+
+      const torusKey = await torusInstance.retrieveShares(
+        torusNodeEndpoints,
+        torusIndexes,
+        verifier,
+        { verifier_id: userIdentifier },
+        idToken,
+      )
+
+      // console.log({ torusKey })
+      return torusKey.finalKeyData
+    }
   }
 }
 

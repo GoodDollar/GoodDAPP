@@ -184,6 +184,7 @@
     "react-native-contacts": "^5.0.7",
     "react-native-crypto": "^2.2.0",
     "react-native-device-info": "^10.12.0",
+    "react-native-fbsdk-next": "^13.4.1",
     "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-get-random-values": "^1.9.0",

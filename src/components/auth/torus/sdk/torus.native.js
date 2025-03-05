@@ -1,50 +1,73 @@
-import DirectNativeSDK from '@toruslabs/customauth-react-native-sdk'
-import { defaults, get } from 'lodash'
-
-import { isAndroidNative } from '../../../../lib/utils/platform'
+import { NodeDetailManager } from '@toruslabs/fetch-node-details'
+import { keccak256, Torus as TorusSDK } from '@toruslabs/torus.js'
+import { defaults } from 'lodash'
 
 class Torus {
   constructor(Config, options) {
-    const { torusRedirectUrl } = Config
-    const redirectUri = 'gooddollar://org.gooddollar/redirect'
-    const browserRedirectUri = `${torusRedirectUrl}/torus/scripts.html`
-
-    this.options = defaults({}, options, { redirectUri, browserRedirectUri })
+    this.options = defaults({}, options)
+    this.torusInstance = new TorusSDK({
+      clientId: options.web3AuthClientId,
+      enableOneKey: false,
+      network: options.network,
+      legacyMetadataHost: 'https://metadata.tor.us',
+    })
   }
 
-  // eslint-disable-next-line require-await
-  async init() {
-    const { options } = this
-
-    return DirectNativeSDK.init(options)
-  }
+  async init() {}
 
   // eslint-disable-next-line require-await
   async triggerLogin(loginOptions) {
-    const options = this._configureLogin(loginOptions)
+    const { options, torusInstance } = this
 
-    return DirectNativeSDK.triggerLogin(options)
+    const nodeDetailManagerInstance = new NodeDetailManager({
+      network: options.network,
+    })
+
+    return async (idToken, userIdentifier) => {
+      const verifier = loginOptions.verifierIdentifier || loginOptions.verifier
+      const verifierParams = {
+        verify_params: [{ verifier_id: userIdentifier, idtoken: idToken }],
+        verifier_id: userIdentifier,
+      }
+      if (loginOptions.subVerifierDetailsArray) {
+        verifierParams.sub_verifier_ids = [loginOptions.subVerifierDetailsArray[0].verifier]
+      }
+
+      // console.log('Web3Auth JS core connect:', { verifierParams, verifier })
+
+      const { torusNodeEndpoints, torusIndexes } = await nodeDetailManagerInstance.getNodeDetails({
+        verifier,
+        verifierId: userIdentifier,
+      })
+      const hashedIdToken = keccak256(Buffer.from(idToken, 'utf8'))
+
+      // console.log(
+      //   'Web3Auth JS core retrieve:',
+      //   JSON.stringify({
+      //     endpoints: torusNodeEndpoints,
+      //     indexes: torusIndexes,
+      //     verifier,
+      //     verifierParams,
+      //     hashedIdToken,
+      //   }),
+      // )
+
+      const torusKey = await torusInstance.retrieveShares(
+        torusNodeEndpoints,
+        torusIndexes,
+        verifier,
+        verifierParams,
+        hashedIdToken.slice(2),
+      )
+
+      // console.log({ torusKey })
+      return torusKey.finalKeyData
+    }
   }
 
   // eslint-disable-next-line require-await
   async triggerAggregateLogin(loginOptions) {
-    const subOptions = get(loginOptions, 'subVerifierDetailsArray', [])
-    const subVerifierDetailsArray = subOptions.map(this._configureLogin)
-    const options = { ...loginOptions, subVerifierDetailsArray }
-
-    return DirectNativeSDK.triggerAggregateLogin(options)
-  }
-
-  _configureLogin(loginOptions) {
-    if (!isAndroidNative) {
-      return loginOptions
-    }
-
-    return {
-      ...loginOptions,
-      preferCustomTabs: true,
-      allowedBrowsers: ['com.android.chrome', 'com.google.android.apps.chrome', 'com.android.chrome.beta'],
-    }
+    return this.triggerLogin(loginOptions)
   }
 }
 

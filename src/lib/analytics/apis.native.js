@@ -75,6 +75,9 @@ class AmplitudeWrapper {
 
 export default () => {
   const amplitude = new AmplitudeWrapper(Amplitude.getInstance(), Identify)
-  const googleAnalytics = new GoogleWrapper(FireBaseAnalytics())
+
+  // disabling firebaseanalytics for trying deploying without google-services.json
+  new GoogleWrapper(FireBaseAnalytics())
+  const googleAnalytics = undefined
   return { sentry, amplitude, googleAnalytics }
 }

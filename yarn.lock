@@ -6761,7 +6761,7 @@ __metadata:
     "@react-native-community/checkbox": ^0.5.17
     "@react-native-community/clipboard": ^1.5.1
     "@react-native-community/eslint-config": ^3.2.0
-    "@react-native-community/geolocation": ^3.4.0
+    "@react-native-community/geolocation": 3.1.0
     "@react-native-community/netinfo": ^6.0.2
     "@react-native-community/push-notification-ios": ^1.10.1
     "@react-native-community/toolbar-android": ^0.2.1
@@ -9937,16 +9937,6 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: defc42ed11d0a3cc697d5db56c17cc19af2ca35b32674dc7323b40a458f5066b051191e5dc58c367f2643a0ed70b47e8eb2ac87ab1566e642ca0cbab1a1f09a9
-  languageName: node
-  linkType: hard
-
-"@react-native-community/geolocation@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "@react-native-community/geolocation@npm:3.4.0"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 4a1a334de5b8345ee5ca9af987718a4cdd0b401b6d024268330c98736eccd0bebf45fd1d4cb396558f429a4670e5b29da0b5b7ebd4e51ca12972d4b08b55d4bc
   languageName: node
   linkType: hard
 

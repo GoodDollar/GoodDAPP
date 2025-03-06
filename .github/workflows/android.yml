@@ -66,6 +66,7 @@ jobs:
           echo "adding secrets to .env.$env_name file"
           echo "$SENTRYRC" > android/sentry.properties
           echo "REACT_APP_CODE_PUSH_KEY=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> .env.$env_name
+          echo "REACT_APP_AUTH0_DOMAIN=$(grep -Po '(?<=^REACT_APP_AUTH0_DOMAIN=)\S+' .env.$env_name)" >> $GITHUB_ENV
       - name: Code push release
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`
@@ -157,6 +158,7 @@ jobs:
           echo $env_name
           echo "APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.$env_name)" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> $GITHUB_ENV
+          echo "REACT_APP_AUTH0_DOMAIN=$(grep -Po '(?<=^REACT_APP_AUTH0_DOMAIN=)\S+' .env.$env_name)" >> $GITHUB_ENV
           cat .env.$env_name
           echo "adding secrets to .env.$env_name file"
           echo "$SENTRYRC" > android/sentry.properties

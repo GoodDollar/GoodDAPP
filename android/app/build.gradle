@@ -151,6 +151,7 @@ println semVersion
 println buildNumber
 
 def releasePassword = System.getenv('RELEASE_ANDROID_PASSPHRASE')
+def auth0Domain = System.getenv('REACT_APP_AUTH0_DOMAIN') ? System.getenv('REACT_APP_AUTH0_DOMAIN').replace('https://','') : 'gooddollar.eu.auth0.com'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -174,7 +175,7 @@ android {
             'torusRedirectScheme': 'gooddollar',
             'torusRedirectHost': 'org.gooddollar',
             'torusRedirectPathPrefix': '/redirect',
-            'auth0Domain': "auth0.gooddollar.org",
+            'auth0Domain': auth0Domain,
             'auth0Scheme': "org.gooddollar.auth0"         
         ]
 

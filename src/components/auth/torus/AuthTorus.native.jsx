@@ -194,7 +194,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         case 'auth0-pwdless-sms':
           {
             const auth0 = new Auth0({
-              domain: config.auth0Domain,
+              domain: config.auth0Domain.replace('https://', ''),
               clientId: config.auth0SMSClientId,
             })
             log.info('Auth0 settings:', {
@@ -215,6 +215,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
         default:
           break
       }
+      setActiveStep(2)
       const result = await handleTorusResponse(provider, torusUser)
       torusUser = result.torusUser
       log.info('torus succes:', { torusUser })

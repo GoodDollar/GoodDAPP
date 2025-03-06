@@ -151,11 +151,11 @@ println semVersion
 println buildNumber
 
 def releasePassword = System.getenv('RELEASE_ANDROID_PASSPHRASE')
+def auth0Domain = System.getenv('REACT_APP_AUTH0_DOMAIN') ? System.getenv('REACT_APP_AUTH0_DOMAIN').replace('https://','') : 'gooddollar.eu.auth0.com'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     defaultConfig {
         applicationId "org.gooddollar"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -174,8 +174,11 @@ android {
         manifestPlaceholders = [
             'torusRedirectScheme': 'gooddollar',
             'torusRedirectHost': 'org.gooddollar',
-            'torusRedirectPathPrefix': '/redirect'
+            'torusRedirectPathPrefix': '/redirect',
+            'auth0Domain': auth0Domain,
+            'auth0Scheme': "org.gooddollar.auth0"         
         ]
+
     }
     splits {
         abi {
@@ -267,8 +270,6 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:4.9.0"
     api "com.squareup.okhttp3:logging-interceptor:4.9.0"
     api "com.squareup.okhttp3:okhttp-urlconnection:4.9.0"
-    implementation project(':customauth-react-native-sdk')
-
 
     // Add v8-android - prebuilt libv8android.so into APK
     implementation "androidx.annotation:annotation:1.1.0"

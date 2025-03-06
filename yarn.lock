@@ -5537,7 +5537,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethereumjs/util@npm:^8.0.0, @ethereumjs/util@npm:^8.0.3, @ethereumjs/util@npm:^8.0.5":
+"@ethereumjs/util@npm:8.0.5":
   version: 8.0.5
   resolution: "@ethereumjs/util@npm:8.0.5"
   dependencies:
@@ -5545,17 +5545,6 @@ __metadata:
     "@ethereumjs/rlp": ^4.0.1
     ethereum-cryptography: ^1.1.2
   checksum: 318386785295b4584289b1aa576d2621392b3a918d127890db62d3f74184f3377694dd9e951e19bfb9ab80e8dc9e38e180236cac2651dead26097d10963731f9
-  languageName: node
-  linkType: hard
-
-"@ethereumjs/util@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "@ethereumjs/util@npm:8.1.0"
-  dependencies:
-    "@ethereumjs/rlp": ^4.0.1
-    ethereum-cryptography: ^2.0.0
-    micro-ftch: ^0.3.1
-  checksum: 9ae5dee8f12b0faf81cd83f06a41560e79b0ba96a48262771d897a510ecae605eb6d84f687da001ab8ccffd50f612ae50f988ef76e6312c752897f462f3ac08d
   languageName: node
   linkType: hard
 
@@ -6772,12 +6761,13 @@ __metadata:
     "@react-native-community/checkbox": ^0.5.17
     "@react-native-community/clipboard": ^1.5.1
     "@react-native-community/eslint-config": ^3.2.0
-    "@react-native-community/geolocation": 3.1.0
+    "@react-native-community/geolocation": ^3.4.0
     "@react-native-community/netinfo": ^6.0.2
     "@react-native-community/push-notification-ios": ^1.10.1
     "@react-native-community/toolbar-android": ^0.2.1
     "@react-native-firebase/analytics": 16.7
     "@react-native-firebase/app": ^12.8.0
+    "@react-native-google-signin/google-signin": ^13.2.0
     "@react-navigation/core": ^3.5.1
     "@react-navigation/web": ^1.0.0-alpha.9
     "@sentry/browser": ^7.86.0
@@ -6790,7 +6780,8 @@ __metadata:
     "@textile/threads-client": ^2.1.2
     "@textile/threads-id": ^0.5.1
     "@toruslabs/customauth": ^19.0.3
-    "@toruslabs/customauth-react-native-sdk": ^4.0.1
+    "@toruslabs/fetch-node-details": ^14.2.0
+    "@toruslabs/torus.js": 14.0.1
     "@tradle/react-native-http": ^2.0.1
     "@tsconfig/react-native": ^3.0.2
     "@types/fast-text-encoding": ^1
@@ -6917,6 +6908,7 @@ __metadata:
     react-meta-tags: ^1.0.1
     react-native: 0.65
     react-native-animatable: ^1.4.0
+    react-native-auth0: 4.0.0
     react-native-camera: ^3.42.0
     react-native-card-flip: ^1.0.7
     react-native-code-push: ^7.0.4
@@ -6926,6 +6918,7 @@ __metadata:
     react-native-contacts: ^5.0.7
     react-native-crypto: ^2.2.0
     react-native-device-info: ^10.12.0
+    react-native-fbsdk-next: ^13.4.1
     react-native-fs: ^2.18.0
     react-native-gesture-handler: ^1.10.3
     react-native-get-random-values: ^1.9.0
@@ -9947,6 +9940,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/geolocation@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "@react-native-community/geolocation@npm:3.4.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 4a1a334de5b8345ee5ca9af987718a4cdd0b401b6d024268330c98736eccd0bebf45fd1d4cb396558f429a4670e5b29da0b5b7ebd4e51ca12972d4b08b55d4bc
+  languageName: node
+  linkType: hard
+
 "@react-native-community/netinfo@npm:^6.0.2":
   version: 6.2.1
   resolution: "@react-native-community/netinfo@npm:6.2.1"
@@ -10008,6 +10011,23 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 2db6cdf2c1a42e73ab7bc701a47bb06f8d32e40fd07cd3d3d15cb4f8c9daa39c486df1d7e3b43d4cc4d696d7ec4c0a49b472301934637e5819f486e0f2ec9023
+  languageName: node
+  linkType: hard
+
+"@react-native-google-signin/google-signin@npm:^13.2.0":
+  version: 13.2.0
+  resolution: "@react-native-google-signin/google-signin@npm:13.2.0"
+  peerDependencies:
+    expo: ">=50.0.0"
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 2d299b33c47c19976aa6b01837e1f40254b682f35fb3b94664389a071a90b42f49c6a759c52a7145e2cdc06e19f736081dd75a2dd9781d44175db54a6d7355cc
   languageName: node
   linkType: hard
 
@@ -13224,12 +13244,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toruslabs/customauth-react-native-sdk@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@toruslabs/customauth-react-native-sdk@npm:4.0.1"
+"@toruslabs/constants@npm:^14.2.0":
+  version: 14.2.0
+  resolution: "@toruslabs/constants@npm:14.2.0"
   peerDependencies:
-    react-native: "*"
-  checksum: dbdac33d4ae23d336ed95bcf8ed53b95b4212e368f6bf7184c2820b3613cf040b56bbf6fa0fd86b0bd53f3876d8260265049ec5e59397733d7bd4f835c1fe61f
+    "@babel/runtime": 7.x
+  checksum: f0c58db7e77a28e36deb881c9726a247bc3ba9d8c3159146f3a8bc80109a7f769e2c0ef2b1663c31718c7e5228ec217b063b2fa2fc38a4a3ac8161ed431189dc
   languageName: node
   linkType: hard
 
@@ -13293,6 +13313,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@toruslabs/fetch-node-details@npm:^14.2.0":
+  version: 14.2.0
+  resolution: "@toruslabs/fetch-node-details@npm:14.2.0"
+  dependencies:
+    "@toruslabs/constants": ^14.2.0
+    "@toruslabs/fnd-base": ^14.2.0
+    "@toruslabs/http-helpers": ^7.0.0
+    loglevel: ^1.9.2
+  peerDependencies:
+    "@babel/runtime": 7.x
+  checksum: 8c04098809c5d8906c3efba3d1e3324c9114b8aec0d4322cb4764a2c5b56ceadfab1c75032d694066c134b425760e400c36d6a36ff9f27ecd08ee7f136a49c4b
+  languageName: node
+  linkType: hard
+
 "@toruslabs/fnd-base@npm:^14.0.0":
   version: 14.0.0
   resolution: "@toruslabs/fnd-base@npm:14.0.0"
@@ -13301,6 +13335,17 @@ __metadata:
   peerDependencies:
     "@babel/runtime": 7.x
   checksum: d5180162d886301bffca09b503a33f46eb0ffe2182175917c1fba8333fadaa5b95bf03b02c188b420ed2f5b13ee3b450880bf8616a89a27c2b73f1d5581259fd
+  languageName: node
+  linkType: hard
+
+"@toruslabs/fnd-base@npm:^14.2.0":
+  version: 14.2.0
+  resolution: "@toruslabs/fnd-base@npm:14.2.0"
+  dependencies:
+    "@toruslabs/constants": ^14.2.0
+  peerDependencies:
+    "@babel/runtime": 7.x
+  checksum: 121894226b8b81ef88789b0511baa3978e9e2188cbf5bc06f13cb7220bc850947e647e9d68cf29c131b2a38ac1cd99714a93069a5b5a5aba9b1d042313ce1796
   languageName: node
   linkType: hard
 
@@ -13527,7 +13572,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toruslabs/torus.js@npm:^14.0.1":
+"@toruslabs/torus.js@npm:14.0.1, @toruslabs/torus.js@npm:^14.0.1":
   version: 14.0.1
   resolution: "@toruslabs/torus.js@npm:14.0.1"
   dependencies:
@@ -35281,6 +35326,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"loglevel@npm:^1.9.2":
+  version: 1.9.2
+  resolution: "loglevel@npm:1.9.2"
+  checksum: 896c67b90a507bfcfc1e9a4daa7bf789a441dd70d95cd13b998d6dd46233a3bfadfb8fadb07250432bbfb53bf61e95f2520f9b11f9d3175cc460e5c251eca0af
+  languageName: node
+  linkType: hard
+
 "long@npm:^5.0.0":
   version: 5.2.3
   resolution: "long@npm:5.2.3"
@@ -36446,13 +36498,6 @@ __metadata:
   bin:
     metro: src/cli.js
   checksum: 6b10750ae3749c3fce6d4b7a00153d295e31a5038c990e5f01eec4443600f525d9d3baf2762614cb64bebd0fd269fbd8f58f268709927a4700a421415dc16339
-  languageName: node
-  linkType: hard
-
-"micro-ftch@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "micro-ftch@npm:0.3.1"
-  checksum: 0e496547253a36e98a83fb00c628c53c3fb540fa5aaeaf718438873785afd193244988c09d219bb1802984ff227d04938d9571ef90fe82b48bd282262586aaff
   languageName: node
   linkType: hard
 
@@ -40874,6 +40919,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier-quick@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "prettier-quick@npm:0.0.5"
+  checksum: 31b6117dfa5e9e5585949e7c358faddbbe07320eba4e87d7db0ae943861288a8e703a9da81c1da0395233f49297489376876ef84324d06e37f7beae4a07bd89c
+  languageName: node
+  linkType: hard
+
 "prettier@npm:^2.3.1":
   version: 2.8.8
   resolution: "prettier@npm:2.8.8"
@@ -41974,6 +42026,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-auth0@npm:4.0.0":
+  version: 4.0.0
+  resolution: "react-native-auth0@npm:4.0.0"
+  dependencies:
+    base-64: ^0.1.0
+    jwt-decode: ^3.1.2
+    prettier-quick: ^0.0.5
+    prop-types: ^15.8.1
+    url: ^0.11.0
+  peerDependencies:
+    expo: ">=48.0.0"
+    react: ^16.11.0 || ^17 || ^18
+    react-native: ">=0.65.0 <1.0.x"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 16d529d0aacfde12e9dab992d23bcf662dbc437e89e6a64eed89d7634d3c9f34d8bcf5737ba65f9cb6fbe1d07f532cf991d13f59b034ef6b2b4997bfc547f2bd
+  languageName: node
+  linkType: hard
+
 "react-native-camera@npm:^3.42.0":
   version: 3.44.3
   resolution: "react-native-camera@npm:3.44.3"
@@ -42090,6 +42162,19 @@ __metadata:
   peerDependencies:
     react-native: "*"
   checksum: dc3a4ada40f0de960f652f1e7962c5f2b538695cad5ad11ca85a6ab445a7f01a7123dceeb7ead234dd110a54935cb9c10fccc648cfd0d6f157041e9299075f74
+  languageName: node
+  linkType: hard
+
+"react-native-fbsdk-next@npm:^13.4.1":
+  version: 13.4.1
+  resolution: "react-native-fbsdk-next@npm:13.4.1"
+  peerDependencies:
+    expo: ">=47.0.0"
+    react-native: ">=0.63.3"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: e8f0f470009485c48e17279b1dfe8e6f94303de52394ce579fb888518a694b79f741a060d957b097534003abb07827e03955203b55101c333ba07bf8f5d307b1
   languageName: node
   linkType: hard
 

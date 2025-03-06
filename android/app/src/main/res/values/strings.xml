@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">GoodDollar</string>
     <string moduleConfig="true" name="CodePushDeploymentKey">@string/REACT_APP_CODE_PUSH_KEY</string>
+    <string name="facebook_app_id">@string/REACT_APP_FACEBOOK_APP_ID</string>
+    <string name="facebook_client_token">1234</string>
+    <string name="fb_login_protocol_scheme">fb@string/REACT_APP_FACEBOOK_APP_ID</string>
+
 </resources>

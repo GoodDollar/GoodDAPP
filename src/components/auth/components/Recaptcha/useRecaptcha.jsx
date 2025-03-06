@@ -3,7 +3,6 @@ import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } fr
 import { t } from '@lingui/macro'
 import { useDialog } from '../../../../lib/dialog/useDialog'
 import logger from '../../../../lib/logger/js-logger'
-import Config from '../../../../config/config'
 import Recaptcha from '.'
 
 const log = logger.child({ from: 'useRecaptcha' })
@@ -19,7 +18,7 @@ const useRecaptcha = options => {
 
   const reCaptchaRef = useRef()
   const { showErrorDialog } = useDialog()
-  const isEnabled = Config.env !== 'development' && enabled
+  const isEnabled = enabled
   const [isValidRecaptcha, setValidRecaptcha] = useState(false)
 
   const onRecaptchaSuccess = useCallback(() => {
@@ -31,7 +30,7 @@ const useRecaptcha = options => {
   const launchCaptcha = useCallback(() => {
     const { current: captcha } = reCaptchaRef
 
-    log.debug('recaptcha launch', { captcha })
+    log.debug('recaptcha launch', { captcha, isEnabled })
 
     // If recaptcha has already been passed successfully, trigger torus right away
     if (!isEnabled || (captcha && captcha.hasPassedCheck())) {

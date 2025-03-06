@@ -160,6 +160,7 @@ const Config = {
   disableClaim: env.REACT_APP_DISABLE_CLAIM === 'true',
   googleClientId: env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: env.REACT_APP_FACEBOOK_APP_ID,
+  facebookClientToken: env.REACT_APP_FACEBOOK_CLIENT_TOKEN,
   authSuccessDelay: Number(env.REACT_APP_SUCCESS_DELAY || 2000),
   auth0ClientId: env.REACT_APP_AUTH0_CLIENT_ID,
   auth0SMSClientId: env.REACT_APP_AUTH0_SMS_CLIENT_ID,

@@ -144,6 +144,7 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           env_name="${{ env.ENV }}"
+          auth0_domain=$(grep -Po '(?<=^REACT_APP_AUTH0_DOMAIN=)\S+' .env.$env_name)
           if [[ $env_name == "development" ]]; then
            vercel_env_name="development"
            vercel pull --yes --environment=$vercel_env_name --token=${{ secrets.VERCEL_TOKEN }}
@@ -158,7 +159,7 @@ jobs:
           echo $env_name
           echo "APPCENTER_TOKEN=$(grep -Po '(?<=^APPCENTER_ANDROID_TOKEN=)\S+' .env.$env_name)" >> $GITHUB_ENV
           echo "APPCENTER_CODEPUSH_TOKEN=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> $GITHUB_ENV
-          echo "REACT_APP_AUTH0_DOMAIN=$(grep -Po '(?<=^REACT_APP_AUTH0_DOMAIN=)\S+' .env.$env_name)" >> $GITHUB_ENV
+          echo "REACT_APP_AUTH0_DOMAIN=$auth0_domain" >> $GITHUB_ENV
           cat .env.$env_name
           echo "adding secrets to .env.$env_name file"
           echo "$SENTRYRC" > android/sentry.properties

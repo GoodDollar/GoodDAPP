@@ -155,7 +155,6 @@ def releasePassword = System.getenv('RELEASE_ANDROID_PASSPHRASE')
 android {
     ndkVersion rootProject.ext.ndkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     defaultConfig {
         applicationId "org.gooddollar"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -174,8 +173,11 @@ android {
         manifestPlaceholders = [
             'torusRedirectScheme': 'gooddollar',
             'torusRedirectHost': 'org.gooddollar',
-            'torusRedirectPathPrefix': '/redirect'
+            'torusRedirectPathPrefix': '/redirect',
+            'auth0Domain': "auth0.gooddollar.org",
+            'auth0Scheme': "org.gooddollar.auth0"         
         ]
+
     }
     splits {
         abi {

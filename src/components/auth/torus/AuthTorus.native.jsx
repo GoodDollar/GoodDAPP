@@ -3,6 +3,7 @@ import React, { useCallback, useContext, useEffect } from 'react'
 import { t } from '@lingui/macro'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { AccessToken, LoginManager, Profile, Settings } from 'react-native-fbsdk-next'
+import Auth0 from 'react-native-auth0'
 
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/js-logger'
@@ -190,6 +191,27 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
             torusUser.email = email
           }
           break
+        case 'auth0-pwdless-sms':
+          {
+            const auth0 = new Auth0({
+              domain: config.auth0Domain,
+              clientId: config.auth0SMSClientId,
+            })
+            log.info('Auth0 settings:', {
+              domain: config.auth0Domain,
+              clientId: config.auth0SMSClientId,
+            })
+            const auth = await auth0.webAuth.authorize()
+            torusUser.idToken = auth.idToken
+            const userInfo = await auth0.auth.userInfo({ token: auth.accessToken })
+            torusUser.userIdentifier = userInfo.name //remove + for torus unique id
+            torusUser.mobile = userInfo.name
+            log.info('Auth0 Login', { auth, userInfo, torusUser })
+            if (!torusUser.idToken) {
+              throw new Error('No ID token found')
+            }
+          }
+          break
         default:
           break
       }
@@ -263,6 +285,7 @@ const AuthTorus = ({ screenProps, navigation, styles }) => {
   useEffect(() => {
     if (sdkInitialized) {
       Settings.setAppID(config.facebookAppId)
+      Settings.setClientToken(config.facebookClientToken)
       Settings.initializeSDK()
 
       GoogleSignin.configure({

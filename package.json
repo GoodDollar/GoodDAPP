@@ -176,6 +176,7 @@
     "react-meta-tags": "^1.0.1",
     "react-native": "0.65",
     "react-native-animatable": "^1.4.0",
+    "react-native-auth0": "4.0.0",
     "react-native-camera": "^3.42.0",
     "react-native-card-flip": "^1.0.7",
     "react-native-code-push": "^7.0.4",

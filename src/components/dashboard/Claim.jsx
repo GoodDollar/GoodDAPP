@@ -267,16 +267,16 @@ const Claim = props => {
     async (all = false) => {
       try {
         await _retry(async () => {
-          const promises = [goodWallet.getClaimScreenStatsFuse()]
+          const promises = [goodWallet.getClaimScreenStats()]
 
-          const [fuseData] = await Promise.all(promises)
+          const [claimData] = await Promise.all(promises)
 
           log.info('gatherStats:', {
             all,
-            fuseData,
+            claimData,
           })
 
-          const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = fuseData
+          const { nextClaim, entitlement, activeClaimers, claimers, claimAmount, distribution } = claimData
           setDailyUbi(Number(entitlement))
           setClaimCycleTime(moment(nextClaim).format('HH:mm:ss'))
 

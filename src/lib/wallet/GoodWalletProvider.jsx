@@ -109,7 +109,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
   const updateWalletData = useCallback(
     async goodWallet => {
-      const { tokenContract, UBIContract, identityContract, account, networkId, multicallFuse } = goodWallet
+      const { tokenContract, UBIContract, identityContract, account, networkId, multicallCurrent } = goodWallet
       const calls = []
 
       if (supportsG$(networkId) && tokenContract) {
@@ -137,7 +137,7 @@ export const GoodWalletProvider = ({ children, disableLoginAndWatch = false }) =
 
       // entitelment is separate because it depends on msg.sender
       const [[{ balance = 0 }, ...results]] = await (calls.length
-        ? multicallFuse.all([calls]).catch(onFallback)
+        ? multicallCurrent.all([calls]).catch(onFallback)
         : onFallback())
       const { ubi = 0 } = first(results) || {}
       const { isCitizen = false } = last(results) || {}

@@ -52,6 +52,7 @@ const makeWeb3Provider = wallet =>
     new JsonRpcProviderWithSigner(
       new Web3Provider(wallet.wallet.currentProvider), // this will also use our multiplehttpprovider
       wallet.wallet.eth.accounts.wallet[0].privateKey,
+      wallet.networkId,
     ),
   )
 

@@ -261,7 +261,8 @@
     "web3": "^1.7.5",
     "web3-core-method": "1.6.0",
     "webpack-bundle-analyzer": "^4.5.0",
-    "websocket": "^1.0.31"
+    "websocket": "^1.0.31",
+    "xhr2-cookies": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

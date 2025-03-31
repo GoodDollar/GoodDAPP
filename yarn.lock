@@ -6969,6 +6969,7 @@ __metadata:
     web3-core-method: 1.6.0
     webpack-bundle-analyzer: ^4.5.0
     websocket: ^1.0.31
+    xhr2-cookies: ^1.1.0
   languageName: unknown
   linkType: soft
 
@@ -22167,17 +22168,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookiejar@npm:^2.1.1, cookiejar@npm:^2.1.4":
+  version: 2.1.4
+  resolution: "cookiejar@npm:2.1.4"
+  checksum: c4442111963077dc0e5672359956d6556a195d31cbb35b528356ce5f184922b99ac48245ac05ed86cf993f7df157c56da10ab3efdadfed79778a0d9b1b092d5b
+  languageName: node
+  linkType: hard
+
 "cookiejar@npm:^2.1.2":
   version: 2.1.3
   resolution: "cookiejar@npm:2.1.3"
   checksum: 88259983ebc52ceb23cdacfa48762b6a518a57872eff1c7ed01d214fff5cf492e2660d7d5c04700a28f1787a76811df39e8639f8e17670b3cf94ecd86e161f07
-  languageName: node
-  linkType: hard
-
-"cookiejar@npm:^2.1.4":
-  version: 2.1.4
-  resolution: "cookiejar@npm:2.1.4"
-  checksum: c4442111963077dc0e5672359956d6556a195d31cbb35b528356ce5f184922b99ac48245ac05ed86cf993f7df157c56da10ab3efdadfed79778a0d9b1b092d5b
   languageName: node
   linkType: hard
 
@@ -51368,6 +51369,15 @@ __metadata:
     url-set-query: ^1.0.0
     xhr: ^2.0.4
   checksum: fd8186f33e8696dabcd1ad2983f8125366f4cd799c6bf30aa8d942ac481a7e685a5ee8c38eeee6fca715a7084b432a3a326991375557dc4505c928d3f7b0f0a8
+  languageName: node
+  linkType: hard
+
+"xhr2-cookies@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "xhr2-cookies@npm:1.1.0"
+  dependencies:
+    cookiejar: ^2.1.1
+  checksum: 6a9fc45f3490cc53e6a308bd7164dab07ecb94f6345e78951ed4a1e8f8c4c7707a1b039a6b4ef7c9d611d9465d6f94d7d4260c43bc34eed8d6f9210a775eb719
   languageName: node
   linkType: hard
 

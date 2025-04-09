@@ -467,8 +467,7 @@ export const useWalletConnectSession = () => {
         case 42220:
           delete message.gasPrice
           message.maxPriorityFeePerGas = 1e8
-          message.maxFeePerGas = 25e9
-          message.chainId = '0xe4ec'
+          message.maxFeePerGas = 26e9
           break
         default: {
           const gasPrice = await wallet.fetchGasPrice()

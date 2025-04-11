@@ -3,11 +3,15 @@ import { JsonRpcProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
 import { toUtf8String } from '@ethersproject/strings'
 export class JsonRpcProviderWithSigner extends JsonRpcProvider {
-  constructor(jsonRpcProvider, privateKey: string) {
+  _customNetwork: number
+
+  constructor(jsonRpcProvider, privateKey: string, network) {
     super()
 
     this.signer = new Wallet(privateKey, this)
     this.jsonRpcProvider = jsonRpcProvider
+
+    this._customNetwork = network
   }
 
   // eslint-disable-next-line require-await
@@ -18,6 +22,7 @@ export class JsonRpcProviderWithSigner extends JsonRpcProvider {
   async send(method: string, params: []): Promise<any> {
     const { jsonRpcProvider, signer } = this
     const [transaction, data] = params || []
+
     switch (method) {
       case 'eth_sendTransaction': {
         const signedTransaction = await this.send('eth_signTransaction', [transaction])
@@ -30,6 +35,10 @@ export class JsonRpcProviderWithSigner extends JsonRpcProvider {
         if (!nonce) {
           nonce = await signer.getTransactionCount()
           nonce = `0x${nonce.toString(16)}`
+        }
+
+        if (transaction) {
+          txData.chainId = this._customNetwork
         }
 
         return signer.signTransaction({ ...txData, nonce, gasLimit: gas || gasLimit })

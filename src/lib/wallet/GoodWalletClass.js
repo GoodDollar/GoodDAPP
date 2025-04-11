@@ -3,7 +3,6 @@
 import GoodDollarABI from '@gooddollar/goodprotocol/artifacts/abis/IGoodDollar.min.json'
 import IdentityABI from '@gooddollar/goodprotocol/artifacts/abis/IdentityV2.min.json'
 import cERC20ABI from '@gooddollar/goodprotocol/artifacts/abis/cERC20.min.json'
-import SimpleStakingABI from '@gooddollar/goodprotocol/artifacts/abis/SimpleStakingV2.min.json'
 import UBIABI from '@gooddollar/goodprotocol/artifacts/abis/UBIScheme.min.json'
 import GOODToken from '@gooddollar/goodprotocol/artifacts/abis/GReputation.min.json'
 import ContractsAddress from '@gooddollar/goodprotocol/releases/deployment.json'
@@ -52,7 +51,6 @@ import { ExceptionCategory } from '../exceptions/utils'
 import { tryJson } from '../utils/string'
 import API from '../API'
 import { delay, retry } from '../utils/async'
-import AsyncStorage from '../utils/asyncStorage'
 import { generateShareLink } from '../share'
 import logger from '../logger/js-logger'
 import WalletFactory from './WalletFactory'
@@ -195,7 +193,7 @@ export class GoodWallet {
 
   isPollEvents: boolean = true
 
-  web3Mainnet: Web3
+  web3Celo: Web3
 
   constructor(walletConfig: {} = {}) {
     this.config = walletConfig
@@ -207,20 +205,23 @@ export class GoodWallet {
       this.config = walletConfig
     }
 
-    this.mainnetNetwork = (() => {
-      return 'production-mainnet'
+    const reserveNetwork = (() => {
+      if (this.config.network === 'fuse') {
+        return 'development-celo'
+      }
+      return this.config.network.split('-')[0] + '-celo'
     })()
 
-    const mainnetNetworkId = get(ContractsAddress, this.mainnetNetwork + '.networkId', 122)
-    const { httpWeb3provider: endpoints } = Config.ethereum[mainnetNetworkId]
+    const reserveNetworkId = get(ContractsAddress, reserveNetwork + '.networkId', 122)
+    const { httpWeb3provider: endpoints } = Config.ethereum[reserveNetworkId]
 
-    const mainnetEndpoints = uniq(endpoints.split(',')).map(provider => ({ provider, options: {} }))
-    const mainnetProviderOpts = {
+    const celoEndpoints = uniq(endpoints.split(',')).map(provider => ({ provider, options: {} }))
+    const celoProviderOpts = {
       strategy: Config.httpProviderStrategy,
       retries: Config.httpProviderRetries,
     }
 
-    this.web3Mainnet = new Web3(new MultipleHttpProvider(mainnetEndpoints, mainnetProviderOpts))
+    this.web3Celo = new Web3(new MultipleHttpProvider(celoEndpoints, celoProviderOpts))
 
     const network = this.config.network
     const networkId = get(ContractsAddress, network + '.networkId', 122)
@@ -233,11 +234,11 @@ export class GoodWallet {
         assign(this, { network, networkId })
 
         log.info('GoodWallet initial wallet created.', {
-          mainnetNetwork: this.mainnetNetwork,
           network,
           networkId,
-          mainnetNetworkId,
-          mainnetEndpoints,
+          celoEndpoints,
+          reserveNetwork,
+          reserveNetworkId,
         })
 
         const defaultGasPrice = Config.ethereum[networkId].gasPrice ?? 1
@@ -256,8 +257,7 @@ export class GoodWallet {
             .catch(noop)
         }
 
-        this.multicallFuse = new MultiCall(this.wallet, MultiCalls[this.networkId])
-        this.multicallMainnet = new MultiCall(this.web3Mainnet, MultiCalls[mainnetNetworkId])
+        this.multicallCurrent = new MultiCall(this.wallet, MultiCalls[this.networkId])
 
         log.info('GoodWallet setting up contracts:')
 
@@ -307,30 +307,30 @@ export class GoodWallet {
         // BuyGDClone Contract
         this.BuyGDClone = addContract(BuyGDCloneABI, 'BuyGDFactoryV2')
 
-        this.GoodReserve = new this.web3Mainnet.eth.Contract(
+        this.GoodReserve = new this.web3Celo.eth.Contract(
           [
             {
-              inputs: [],
-              name: 'currentPriceDAI',
+              inputs: [{ internalType: 'bytes32', name: 'exchangeId', type: 'bytes32' }],
+              name: 'currentPrice',
               outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
               stateMutability: 'view',
               type: 'function',
             },
             {
-              anonymous: false,
-              inputs: [
-                { indexed: true, internalType: 'uint256', name: 'day', type: 'uint256' },
-                { indexed: true, internalType: 'address', name: 'interestToken', type: 'address' },
-                { indexed: false, internalType: 'uint256', name: 'interestReceived', type: 'uint256' },
-                { indexed: false, internalType: 'uint256', name: 'gdInterestMinted', type: 'uint256' },
-                { indexed: false, internalType: 'uint256', name: 'gdExpansionMinted', type: 'uint256' },
-                { indexed: false, internalType: 'uint256', name: 'gdUbiTransferred', type: 'uint256' },
+              inputs: [],
+              name: 'getExchangeIds',
+              outputs: [
+                {
+                  internalType: 'bytes32[]',
+                  name: 'exchangeIds',
+                  type: 'bytes32[]',
+                },
               ],
-              name: 'UBIMinted',
-              type: 'event',
+              stateMutability: 'view',
+              type: 'function',
             },
           ],
-          ContractsAddress[this.mainnetNetwork].GoodReserveCDai,
+          ContractsAddress[reserveNetwork].MentoExchangeProvider || '0x558eC7E55855FAC9403De3ADB3aa1e588234A92C',
           { from: this.account },
         )
 
@@ -338,14 +338,11 @@ export class GoodWallet {
         {
           const { network, networkId } = this
           const contractAddresses = ContractsAddress[network]
-          const mainnetAddresses = ContractsAddress[this.mainnetNetwork]
 
           log.debug('GoodWallet initialized with addresses', {
             networkId,
-            mainnetNetworkId,
             network,
             contractAddresses,
-            mainnetAddresses,
           })
         }
 
@@ -775,9 +772,9 @@ export class GoodWallet {
   }
 
   /**
-   * use multicall to get many stats
+   * use multicall to get many stats from current active network
    */
-  async getClaimScreenStatsFuse() {
+  async getClaimScreenStats() {
     const calls = [
       {
         periodStart: this.UBIContract.methods.periodStart(),
@@ -789,7 +786,7 @@ export class GoodWallet {
     ]
 
     // entitelment is separate because it depends on msg.sender
-    const [[[res]], entitlement] = await Promise.all([this.multicallFuse.all([calls]), this.checkEntitlement()])
+    const [[[res]], entitlement] = await Promise.all([this.multicallCurrent.all([calls]), this.checkEntitlement()])
 
     // fetch prev day claimers
     const prevDayClaimers = await this.UBIContract.methods.getClaimerCount(Number(res.currentDay) - 1).call()
@@ -818,7 +815,8 @@ export class GoodWallet {
     async () => {
       try {
         const priceResult = await retryCall(async () => {
-          const price = await this.GoodReserve.methods.currentPriceDAI().call()
+          const ids = await this.GoodReserve.methods.getExchangeIds().call()
+          const price = await this.GoodReserve.methods.currentPrice(ids[0]).call()
           return Number(price / 1e18)
         })
         return priceResult
@@ -826,81 +824,6 @@ export class GoodWallet {
         log.warn('getReservePriceDAI failed:', e.message, e)
         throw e
       }
-    },
-    1000 * 60 * 60,
-    { leading: true },
-  )
-
-  getLastUBIEvent = async () => {
-    let fromBlock = await AsyncStorage.getItem('lastUBIEventBlock')
-    let events = []
-    if (fromBlock == null) {
-      const step = 50000
-      fromBlock = await this.web3Mainnet.eth.getBlockNumber()
-      try {
-        while (events.length === 0) {
-          fromBlock -= step
-          // eslint-disable-next-line no-await-in-loop, no-loop-func
-          events = await retryCall(() => {
-            return this.GoodReserve.getPastEvents('UBIMinted', {
-              fromBlock,
-              toBlock: fromBlock + step,
-            })
-          })
-        }
-      } catch (e) {
-        log.debug('getLastUBIEvent failed:', e.message, e)
-        throw e
-      }
-    } else {
-      events = await retryCall(() => {
-        return this.GoodReserve.getPastEvents('UBIMinted', {
-          fromBlock,
-          toBlock: 'latest',
-        })
-      })
-    }
-    const lastEvent = last(events)
-    AsyncStorage.setItem('lastUBIEventBlock', lastEvent.blockNumber)
-    return lastEvent
-  }
-
-  // throttle querying blockchain/thegraph to once an hour
-  getClaimScreenStatsMainnet = throttle(
-    async () => {
-      const stakingContracts = get(ContractsAddress, `${this.mainnetNetwork}.StakingContractsV3`, [])
-      let gainCalls = stakingContracts.map(([addr, rewards]) => {
-        const stakingContract = new this.web3Mainnet.eth.Contract(SimpleStakingABI.abi, addr, { from: this.account })
-
-        return { currentGains: stakingContract.methods.currentGains(true, true) }
-      })
-
-      let [[stakeResult], ubiEvent] = await Promise.all([
-        retryCall(() => this.multicallMainnet.all([gainCalls])).catch(e => {
-          log.warn('multicallMainnet failed:', e.message, e)
-          return null
-        }),
-        retryCall(() => this.getLastUBIEvent(), 1).catch(e => {
-          log.warn('getLastUBIEvent failed:', e.message, e)
-          return null
-        }),
-      ])
-
-      const interestCollected = ubiEvent?.returnValues.interestReceived / 1e18
-      log.debug('getInterestCollected:', { stakeResult, ubiEvent, interestCollected })
-
-      const result = { interestCollected }
-      if (stakeResult) {
-        stakeResult = stakeResult.map(({ currentGains }) => [
-          parseInt(currentGains[3]) / 1e8,
-          parseInt(currentGains[4]) / 1e8,
-        ])
-
-        result.totalFundsStaked = stakeResult.reduce((prev, cur) => prev + cur[0], 0)
-        result.pendingInterest = stakeResult.reduce((prev, cur) => prev + cur[1], 0)
-      }
-
-      return result
     },
     1000 * 60 * 60,
     { leading: true },
@@ -1372,7 +1295,7 @@ export class GoodWallet {
     )
 
     // entitelment is separate because it depends on msg.sender
-    const [[result]] = await retryCall(() => this.multicallFuse.all([[calls]]))
+    const [[result]] = await retryCall(() => this.multicallCurrent.all([[calls]]))
 
     return result
   }
@@ -1504,7 +1427,7 @@ export class GoodWallet {
   }
 
   async getUserInvites() {
-    const { invitesContract, account, multicallFuse } = this
+    const { invitesContract, account, multicallCurrent } = this
     const { methods } = invitesContract
 
     const callsMap = {
@@ -1515,7 +1438,7 @@ export class GoodWallet {
 
     // entitelment is separate because it depends on msg.sender
     const calls = mapValues(callsMap, method => methods[method](account))
-    const [[result]] = await retryCall(() => multicallFuse.all([[calls]]))
+    const [[result]] = await retryCall(() => multicallCurrent.all([[calls]]))
 
     result.totalPendingBounties = Number(result.totalPendingBounties)
     return result

@@ -101,7 +101,7 @@ const ethereum = {
     explorerName: 'celoscan',
     network_id: 42220,
     startBlock: 18000000,    
-    gasPrice: 25,
+    gasPrice: 25.001,
     g$Decimals: 18,
 
     defaultPublicRpc: 'https://forno.celo.org/',

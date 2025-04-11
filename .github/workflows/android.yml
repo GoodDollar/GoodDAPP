@@ -58,6 +58,7 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           env_name="${{ env.ENV }}"
+          auth0_domain=$(grep -Po '(?<=^REACT_APP_AUTH0_DOMAIN=)\S+' .env.$env_name)
           vercel_env_name="production"
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           cat .vercel/.env.$vercel_env_name.local >> .env.$env_name
@@ -66,7 +67,7 @@ jobs:
           echo "adding secrets to .env.$env_name file"
           echo "$SENTRYRC" > android/sentry.properties
           echo "REACT_APP_CODE_PUSH_KEY=$(grep -Po '(?<=^APPCENTER_CODEPUSH_TOKEN=)\S+' .env.$env_name)" >> .env.$env_name
-          echo "REACT_APP_AUTH0_DOMAIN=$(grep -Po '(?<=^REACT_APP_AUTH0_DOMAIN=)\S+' .env.$env_name)" >> $GITHUB_ENV
+          echo "REACT_APP_AUTH0_DOMAIN=$auth0_domain" >> $GITHUB_ENV
       - name: Code push release
         run: |
           BUILD_VERSION=`node -pe "require('./package.json')['version']"`

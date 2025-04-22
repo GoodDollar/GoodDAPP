@@ -138,8 +138,9 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, authPeriod }) 
             {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
           </Section.Text>
           <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
-            {t`This wallet address will be connected to your identity until ${connectedUntil}.
-            If you’d prefer to verify a different wallet address, please use a different wallet.`}
+            {t`This wallet address will be connected to your identity until`}
+            {` ${connectedUntil}. `}
+            {t`If you’d prefer to verify a different wallet address, please use a different wallet.`}
           </Section.Text>
           <Section.Text
             fontWeight="bold"

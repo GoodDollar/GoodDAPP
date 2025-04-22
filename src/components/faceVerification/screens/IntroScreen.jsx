@@ -115,6 +115,7 @@ const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }
 
 const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, authPeriod }) => {
   const [ageConfirmed, setAgeConfirmed] = useState(false)
+  const connectedUntil = useMemo(() => moment().add(authPeriod, 'days').format('l'), [authPeriod])
   return (
     <Wrapper withMaxHeight={false}>
       <Section style={styles.topContainer} grow>
@@ -137,7 +138,7 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, authPeriod }) 
             {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
           </Section.Text>
           <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
-            {t`This wallet address will be connected to your identity until ${moment().add(authPeriod, 'days').format('l')}.
+            {t`This wallet address will be connected to your identity until ${connectedUntil}.
             If you’d prefer to verify a different wallet address, please use a different wallet.`}
           </Section.Text>
           <Section.Text

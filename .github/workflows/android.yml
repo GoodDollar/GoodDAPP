@@ -193,6 +193,7 @@ jobs:
           keystore_alias: 'release-alias'
           keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
       - name: Deploy to Google Play Store
+        if: ${{ env.ENV == 'prod' }}
         id: upload_production
         uses: KevinRohn/github-action-upload-play-store@v1.0.0
         with:

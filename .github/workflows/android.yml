@@ -199,6 +199,6 @@ jobs:
         with:
           service_account_json: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           package_name: 'org.gooddollar'
-          aab_file_path: './build/outputs/bundle/release/app-release.aab'
+          aab_file_path: './android/app/build/outputs/bundle/release/app-release.aab'
           track: 'production'
           release_status: 'completed'

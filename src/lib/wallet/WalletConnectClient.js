@@ -26,7 +26,7 @@ let cachedConnector
 let cachedV2Connector
 let chainsCache = []
 const cachedWeb3 = {}
-const highlights = [122, 42220, 1, 100, 56, 137, 42161, 43114, 10, 250, 25, 2222, 8217, 1284, 1666600000]
+const highlights = [122, 42220, 1, 100, 56, 137, 42161, 43114, 10, 250, 25, 2222, 8217, 1284, 8453, 1666600000]
 
 bindAll(wc2Re, 'test')
 
@@ -102,7 +102,6 @@ const getWeb3 = async (chainDetails, retry = 5) => {
   const rpc = getChainRpc(chainDetails)
   const web3 = cachedWeb3[rpc]
   if (web3 || retry === 0) {
-    log.debug('found working rpc:', { rpc, chainDetails, retry })
     return web3
   }
 
@@ -440,12 +439,7 @@ export const useWalletConnectSession = () => {
   )
 
   const getFeeEstimates = async web3 => {
-    const { result } = await web3.currentProvider._sendRequest({
-      id: 1,
-      jsonRpc: '2.0',
-      method: 'eth_feeHistory',
-      params: ['0x5', 'latest', [10]], // last 5 blocks, 10th percentile
-    })
+    const result = await web3.eth.getFeeHistory('0x5', 'latest', [10])
 
     const baseFees = result.baseFeePerGas.map(hex => parseInt(hex, 16))
     const rewards = result.reward.map(r => parseInt(r[0], 16)) // 10th percentile

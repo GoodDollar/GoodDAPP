@@ -439,6 +439,26 @@ export const useWalletConnectSession = () => {
     [chain, chains],
   )
 
+  const getFeeEstimates = async web3 => {
+    const { result } = await web3.currentProvider._sendRequest({
+      id: 1,
+      jsonRpc: '2.0',
+      method: 'eth_feeHistory',
+      params: ['0x5', 'latest', [10]], // last 5 blocks, 10th percentile
+    })
+
+    const baseFees = result.baseFeePerGas.map(hex => parseInt(hex, 16))
+    const rewards = result.reward.map(r => parseInt(r[0], 16)) // 10th percentile
+
+    const latestBaseFee = baseFees[baseFees.length - 1]
+    const minPriorityFee = Math.min(...rewards)
+
+    return {
+      baseFee: Math.floor(latestBaseFee * 1.1), // in wei
+      priorityFee: minPriorityFee, // in wei
+    }
+  }
+
   const handleTxRequest = useCallback(
     async (message, payload, connector) => {
       const { method, params } = getMethodAndParams(payload)
@@ -470,14 +490,17 @@ export const useWalletConnectSession = () => {
           message.maxFeePerGas = 26e9
           break
         default: {
-          const gasPrice = await wallet.fetchGasPrice()
-          let gasField = message.maxFeePerGas ? 'maxFeePerGas' : 'gasPrice'
-          if (message[gasField]) {
-            message[gasField] = web3Utils.toBN(message[gasField]).gt(web3Utils.toBN(gasPrice))
-              ? gasPrice
-              : message[gasField]
+          const { baseFee, priorityFee } = await getFeeEstimates(web3).catch(e => {
+            logger.warn('failed fetching gas estimates', e)
+            return {}
+          })
+          let gasField = message.maxFeePerGas || baseFee ? 'maxFeePerGas' : 'gasPrice'
+          if (gasField === 'maxFeePerGas') {
+            message[gasField] = message[gasField] || String(baseFee)
+            message['maxPriorityFeePerGas'] = message['maxPriorityFeePerGas'] || String(priorityFee)
           } else {
-            message[gasField] = gasPrice
+            const gasPrice = await web3.eth.getGasPrice()
+            message[gasField] = message[gasField] || String(gasPrice)
           }
         }
       }

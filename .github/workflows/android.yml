@@ -192,11 +192,12 @@ jobs:
           keystore_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
           keystore_alias: 'release-alias'
           keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
-      - name: Deploy to App Center
-        run: |
-          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
-          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-      - name: Distribute to stores - PROD only
-        if: ${{ env.ENV == 'prod' }}
-        run: |
-          npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+      - name: Deploy to Google Play Store
+        id: upload_production
+        uses: KevinRohn/github-action-upload-play-store@v1.0.0
+        with:
+          service_account_json: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          package_name: 'org.gooddollar'
+          aab_file_path: './build/outputs/bundle/release/app-release.aab'
+          track: 'production'
+          release_status: 'completed'

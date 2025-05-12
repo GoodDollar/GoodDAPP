@@ -4,24 +4,26 @@ import { noop } from 'lodash'
 import { t } from '@lingui/macro'
 import { Image, Platform, View } from 'react-native'
 
-import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import Section from '../layout/Section'
 
 import { openLink } from '../../../lib/utils/linking'
 import { withStyles } from '../../../lib/styles'
-import { WalletV2Continue } from '../../common/buttons/TaskButton'
+import { WalletV2Continue } from '../buttons/TaskButton'
 import WelcomeBilly from '../../../assets/welcome_offer.png'
+import ExplanationDialog from './ExplanationDialog'
 
 const mapStylesToProps = ({ theme }) => ({
   container: {
     marginTop: 0,
     marginBottom: 0,
+    textAlign: 'center',
   },
   title: {
     color: theme.colors.lightGdBlue,
     fontSize: 30,
     marginBottom: 0,
     marginTop: 24,
+    textAlign: 'center',
   },
   text: {
     fontSize: 16,
@@ -68,6 +70,7 @@ const mapStylesToProps = ({ theme }) => ({
     paddingVertical: 12,
     color: '#525252',
     fontSize: 16,
+    textAlign: 'left',
   },
   descriptionText: {
     margin: 0,
@@ -102,21 +105,15 @@ const mapStylesToProps = ({ theme }) => ({
   },
 })
 
-const listItems = [
-  'See thousands of cryptocurrencies across dozens of blockchain networks',
-  'Claim from all chains at once',
-  'Seamlessly send and receive crypto',
-]
-
-const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
+const MigrationDialog = ({ styles, onDismiss = noop, ...dialogProps }) => {
   const openFaqLink = () => {
-    openLink('https://docs.gooddollar.org/wallet-and-products/new-goodwallet', '_blank')
+    openLink('https://ubi.gd/4kjBQgD', '_blank')
   }
 
   return (
     <ExplanationDialog
       {...dialogProps}
-      title={'The New \n GoodWallet is here!'}
+      title={'You’re being redirected to the New GoodWallet!'}
       titleStyle={styles.title}
       containerStyle={styles.container}
       resizeMode={false}
@@ -126,13 +123,15 @@ const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
           <Image source={WelcomeBilly} resizeMode={'contain'} style={styles.image} />
         </View>
         <Section.Stack style={styles.descriptionText}>
-          <Section.Text style={styles.descriptionText}>{t`The New GoodWallet allows you to:`}</Section.Text>
-          {listItems.map(item => (
-            <Section.Text key={item} style={[styles.list, { textAlign: 'left' }]}>
-              <Section.Text>{`\u2022  `}</Section.Text>
-              <Section.Text style={[styles.descriptionText, { marginLeft: 8 }]}>{item}</Section.Text>
-            </Section.Text>
-          ))}
+          <Section.Text style={styles.description}>
+            {t`The version of the GoodWallet you’re currently using is`}{' '}
+            <Section.Text style={styles.boldText}>{t`being replaced with an upgraded experience`}</Section.Text>.
+          </Section.Text>
+          <Section.Text style={styles.description}>
+            {t`By`} <Section.Text style={styles.boldText}>{t`June 30, 2025`}</Section.Text>,{' '}
+            {t`everyone will be using the`} <Section.Text style={styles.boldText}>{t`New GoodWallet`}</Section.Text> —
+            {t` a faster, multi-chain wallet built for the future — as the old version will no longer be supported.`}
+          </Section.Text>
           <Section.Text
             style={{ marginTop: 16 }}
             fontSize={16}
@@ -142,7 +141,7 @@ const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
             ellipsizeMode="middle"
             textAlign="left"
           >
-            For more on the New GoodWallet, check the FAQ here.
+            For more on the New GoodWallet, check here.
           </Section.Text>
           <Section.Text style={{ fontStyle: 'italic', marginTop: 32, textAlign: 'left' }}>
             The New GoodWallet is only available using a web browser, so you may be asked to open the link in your
@@ -157,4 +156,4 @@ const WelcomeOffer = ({ styles, onDismiss = noop, ...dialogProps }) => {
   )
 }
 
-export default withStyles(mapStylesToProps)(WelcomeOffer)
+export default withStyles(mapStylesToProps)(MigrationDialog)

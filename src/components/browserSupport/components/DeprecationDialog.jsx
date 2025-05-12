@@ -2,7 +2,7 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 
 import { isWeb } from '../../../lib/utils/platform'
-import WelcomeOffer from '../../common/dialogs/WelcomeOffer'
+import MigrationDialog from '../../common/dialogs/MigrationDialog'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import DeepLinking from '../../../lib/utils/deepLinking'
 import { openLink } from '../../../lib/utils/linking'
@@ -20,7 +20,7 @@ const DeprecationDialog = () => {
     openLink(`https://goodwallet.xyz?login=${logMethod}`, '_self')
   }
 
-  return <WelcomeOffer onDismiss={goToWallet} />
+  return <MigrationDialog onDismiss={goToWallet} />
 }
 
 export const useDeprecationDialog = () => {

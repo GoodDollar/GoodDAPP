@@ -334,7 +334,7 @@ export class GoodWallet {
               type: 'function',
             },
           ],
-          ContractsAddress[reserveNetwork].MentoExchangeProvider || '0x558eC7E55855FAC9403De3ADB3aa1e588234A92C',
+          ContractsAddress[reserveNetwork]?.MentoExchangeProvider || '0x558eC7E55855FAC9403De3ADB3aa1e588234A92C',
           { from: this.account },
         )
 

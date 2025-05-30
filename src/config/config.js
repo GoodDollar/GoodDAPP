@@ -37,7 +37,7 @@ export const fuseNetwork = {
 }
 
 const goodIdExplorerUrls = {
-  CELO: env.REACT_APP_GOODID_CELO_EXPLORER ?? 'https://api.celoscan.io/api?apikey=WIX677MWRWNYWXTRCFKBK2NZAB2XHYBQ3K&',
+  CELO: env.REACT_APP_GOODID_CELO_EXPLORER ?? 'https://celo.blockscout.com/api?&',
   FUSE: env.REACT_APP_GOODID_FUSE_EXPLORER ?? 'https://explorer.fuse.org/api?&',
   MAINNET: env.REACT_APP_GOODID_MAINNET_EXPLORER ?? '',
   GOODCOLLECTIVE: env.REACT_APP_GOOD_GOODCOLLECTIVE_EXPLORER ?? ''
@@ -49,7 +49,7 @@ const ethereum = {
     httpWeb3provider: `https://1rpc.io/eth,https://eth-pokt.nodies.app,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
-    explorerAPI: 'https://api.etherscan.io',
+    explorerAPI: 'https://api.etherscan.io/v2/api?chainid=1&',
     explorerName: 'etherscan',
   },
   '3': {
@@ -57,7 +57,7 @@ const ethereum = {
     httpWeb3provider: `https://1rpc.io/eth,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
-    explorerAPI: 'https://api.etherscan.io',
+    explorerAPI: 'https://api.etherscan.io/v2/api?chainid=1&',
     explorerName: 'etherscan',
     gasPrice: 1,
   },
@@ -66,7 +66,7 @@ const ethereum = {
     httpWeb3provider: `https://1rpc.io/eth,https://eth-rpc.gateway.pokt.network,https://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     websocketWeb3Provider: `wss://eth-mainnet.alchemyapi.io/v2/${alchemyKey}`,
     explorer: 'https://etherscan.io',
-    explorerAPI: 'https://api.etherscan.io',
+    explorerAPI: 'https://api.etherscan.io/v2/api?chainid=1&',
     explorerName: 'etherscan',
   },
 
@@ -97,7 +97,7 @@ const ethereum = {
   '42220': {
     httpWeb3provider: celoRpc,
     explorer: 'https://celoscan.io',
-    explorerAPI: 'https://api.celoscan.io,https://celo.blockscout.com/api',
+    explorerAPI: 'https://celo.blockscout.com/api',
     explorerName: 'celoscan',
     network_id: 42220,
     startBlock: 18000000,    

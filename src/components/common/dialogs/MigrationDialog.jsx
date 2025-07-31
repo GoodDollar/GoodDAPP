@@ -110,6 +110,14 @@ const MigrationDialog = ({ styles, onDismiss = noop, ...dialogProps }) => {
     openLink('https://ubi.gd/4kjBQgD', '_blank')
   }
 
+  const openGoodDapp = () => {
+    openLink('https://ubi.gd/4ocVyx1 ', '_blank')
+  }
+
+  const openGuide = () => {
+    openLink('https://ubi.gd/3UDrtJv', '_blank')
+  }
+
   return (
     <ExplanationDialog
       {...dialogProps}
@@ -124,13 +132,19 @@ const MigrationDialog = ({ styles, onDismiss = noop, ...dialogProps }) => {
         </View>
         <Section.Stack style={styles.descriptionText}>
           <Section.Text style={styles.description}>
-            {t`The version of the GoodWallet you’re currently using is`}{' '}
-            <Section.Text style={styles.boldText}>{t`being replaced with an upgraded experience`}</Section.Text>.
+            {t`The version of the GoodWallet you’re currently using is`}
+            {` `}
+            <Section.Text style={styles.boldText}>{t`being replaced with an upgraded experience`}</Section.Text>
+            {t`.`}
           </Section.Text>
           <Section.Text style={styles.description}>
-            {t`By`} <Section.Text style={styles.boldText}>{t`June 30, 2025`}</Section.Text>,{' '}
-            {t`everyone will be using the`} <Section.Text style={styles.boldText}>{t`New GoodWallet`}</Section.Text> —
-            {t` a faster, multi-chain wallet built for the future — as the old version will no longer be supported.`}
+            {t`By`}
+            {` `}
+            <Section.Text style={styles.boldText}>{t`August, 2025`}</Section.Text>
+            {t`, everyone will be using the`}
+            {` `}
+            <Section.Text style={styles.boldText}>{t`New GoodWallet`}</Section.Text>
+            {t` - a faster, multi-chain wallet built for the future - as the old version will no longer be supported.`}
           </Section.Text>
           <Section.Text
             style={{ marginTop: 16 }}
@@ -143,9 +157,23 @@ const MigrationDialog = ({ styles, onDismiss = noop, ...dialogProps }) => {
           >
             For more on the New GoodWallet, check here.
           </Section.Text>
+          <Section.Text style={{ marginTop: 16, color: '#525252', fontSize: 16, textAlign: 'left' }}>
+            {t`If you’re a woman in Nigeria or Colombia, you can still qualify for more G$ UBI by `}
+            {` `}
+            <Section.Text style={{ textDecorationLine: 'underline' }} onPress={openGoodDapp}>
+              {t`claiming directly through the GoodDapp.`}
+            </Section.Text>
+            <Section.Text>
+              {` `}
+              {t`Guide on how to do it`}
+              {` `}
+            </Section.Text>
+            <Section.Text style={{ textDecorationLine: 'underline' }} onPress={openGuide}>
+              {t`here.`}
+            </Section.Text>
+          </Section.Text>
           <Section.Text style={{ fontStyle: 'italic', marginTop: 32, textAlign: 'left' }}>
-            The New GoodWallet is only available using a web browser, so you may be asked to open the link in your
-            preferred browser.
+            {t`The New GoodWallet is only available using a web browser, so you may be asked to open the link in your preferred browser.`}
           </Section.Text>
         </Section.Stack>
       </View>

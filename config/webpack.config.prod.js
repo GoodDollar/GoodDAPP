@@ -148,7 +148,7 @@ module.exports = {
             comparisons: false,
             // Disabled because of an issue with Terser breaking valid code:
             // https://github.com/facebook/create-react-app/issues/5250
-            // Pending futher investigation:
+            // Pending further investigation:
             // https://github.com/terser-js/terser/issues/120
             inline: 2,
           },
@@ -193,7 +193,7 @@ module.exports = {
       chunks: 'all',
       name: true,
     },
-    // Keep the runtime chunk seperated to enable long term caching
+    // Keep the runtime chunk separated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
     runtimeChunk: true,
   },

@@ -82,7 +82,7 @@ module.exports = {
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
   entry: [
-    // Include an alternative clie nt for WebpackDevServer. A client's job is to
+    // Include an alternative client for WebpackDevServer. A client's job is to
     // connect to WebpackDevServer by a socket and get notified about changes.
     // When you save a file, the client will either apply hot updates (in case
     // of CSS changes), or refresh the page (in case of JS changes). When you
@@ -121,7 +121,7 @@ module.exports = {
       chunks: 'all',
       name: false,
     },
-    // Keep the runtime chunk seperated to enable long term caching
+    // Keep the runtime chunk separated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
     runtimeChunk: true,
   },

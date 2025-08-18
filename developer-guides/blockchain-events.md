@@ -95,7 +95,7 @@ data: encoded ABI to be called after G$ transfer
 fee: fee being charged for the transaction (in wei).
      And transferred to the GoodDollarReserve contract.
 burned: fee being charged for the transaction (in wei).
-        And burned if transaction was successfull.
+        And burned if transaction was successful.
 ```
 
 #### OwnershipTransferred\(address indexed previousOwner, address indexed newOwner\)
@@ -104,9 +104,9 @@ burned: fee being charged for the transaction (in wei).
 * **where:**  At contract deployment step, previous owner is set to `0x0`. And at the end of the migration process, ownership is transferred to the `GoodDollarReserve` contract. 
 
 ```yaml
-previosOwner: address of the previous owner.
+previousOwner: address of the previous owner.
               The one who requested the ownership transfer.
-newOwner: addres of the new owner.
+newOwner: address of the new owner.
 ```
 
 #### MinterAdded\(address indexed account\)
@@ -175,9 +175,9 @@ account: the address of the contract's signer to be removed.
 * **where:** At contract deployment step, previous owner is set to `0x0`. And at the end of the migration process, ownership is transferred to `RedemptionFunctional` contract.
 
 ```yaml
-previosOwner: address of the previous owner.
+previousOwner: address of the previous owner.
               The one who requested the ownership transfer.
-newOwner: addres of the new owner.
+newOwner: address of the new owner.
 ```
 
 ### Identity
@@ -238,7 +238,7 @@ amount: the amount of G$s being deposited.
 
 ```yaml
 from: address that generated the deposit to be withdrawn.
-to: address that excecuted the withdraw.
+to: address that executed the withdraw.
 hash: identifier for the amount being withdrawn.
 amount: the mount of G$s being withdrawn.
 ```
@@ -249,9 +249,9 @@ amount: the mount of G$s being withdrawn.
 * **where:** At deployment, ownership is transferred to the deployer account.
 
 ```yaml
-previosOwner: address of the previous owner.
+previousOwner: address of the previous owner.
               The one who requested the ownership transfer.
-newOwner: addres of the new owner.
+newOwner: address of the new owner.
 ```
 
 #### PaymentCancel\(address indexed from, bytes32 hash, uint256 amount\)
@@ -283,8 +283,8 @@ total: amount of G$s being claimed.
 * **where:** At deployment, ownership is transferred to the deployer account.
 
 ```yaml
-previosOwner: address of the previous owner.
+previousOwner: address of the previous owner.
               The one who requested the ownership transfer.
-newOwner: addres of the new owner.
+newOwner: address of the new owner.
 ```
 

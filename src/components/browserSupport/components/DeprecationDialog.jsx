@@ -7,7 +7,6 @@ import { useDialog } from '../../../lib/dialog/useDialog'
 import DeepLinking from '../../../lib/utils/deepLinking'
 import { openLink } from '../../../lib/utils/linking'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-import { useFlagWithPayload } from '../../../lib/hooks/useFeatureFlags'
 import { GoodWalletContext, useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
 import { DEPRECATION_MODAL, fireEvent } from '../../../lib/analytics/analytics'
 import { retry } from '../../../lib/utils/async'
@@ -24,7 +23,7 @@ const DeprecationDialog = () => {
 }
 
 export const useDeprecationDialog = () => {
-  const showDeprecationModal = useFlagWithPayload('show-deprecation-modal')
+  const showDeprecationModal = true
   const { excludedCountries, enabled: isActive, webOnly, whitelist } = showDeprecationModal || {}
   const { showDialog } = useDialog()
   const { params } = DeepLinking

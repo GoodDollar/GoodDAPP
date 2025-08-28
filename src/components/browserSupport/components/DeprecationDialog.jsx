@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 
 import MigrationDialog from '../../common/dialogs/MigrationDialog'
 import { useDialog } from '../../../lib/dialog/useDialog'
@@ -8,6 +8,7 @@ import { openLink } from '../../../lib/utils/linking'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
 import { DEPRECATION_MODAL, fireEvent } from '../../../lib/analytics/analytics'
+import { FVFlowContext } from '../../faceVerification/standalone/context/FVFlowContext'
 
 const DeprecationDialog = () => {
   const userStorage = useUserStorage()
@@ -24,6 +25,7 @@ export const useDeprecationDialog = () => {
   const showDeprecationModal = true
   const { showDialog } = useDialog()
   const { params } = DeepLinking
+  const { isFVFlow } = useContext(FVFlowContext)
 
   const showDeprecationDialog = useCallback(() => {
     showDialog({
@@ -44,8 +46,10 @@ export const useDeprecationDialog = () => {
     }
 
     // if (((webOnly && isWeb) || !webOnly) && isActive && isEligible) {
-    fireEvent(DEPRECATION_MODAL)
-    showDeprecationDialog()
+    if (!isFVFlow) {
+      fireEvent(DEPRECATION_MODAL)
+      showDeprecationDialog()
+    }
 
     // }
   }

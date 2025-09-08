@@ -16,7 +16,7 @@ on:
           - dev
           - qa
           - prod
-        
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:
@@ -26,18 +26,18 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 20
       - name: Set Default env
-        run: |              
+        run: |
           echo "TARGET_BRANCH=goodid/${{ github.event.inputs.release }}" >> $GITHUB_ENV
           echo "SOURCE_BRANCH=master" >> $GITHUB_ENV
       - name: Set env - QA
         if: ${{ github.event.inputs.release == 'qa' }}
-        run: |              
+        run: |
           echo "SOURCE_BRANCH=staging" >> $GITHUB_ENV
       - name: Set env - PROD
         if: ${{ github.event.inputs.release == 'prod' }}
-        run: |              
+        run: |
           echo "SOURCE_BRANCH=next" >> $GITHUB_ENV
       - uses: actions/checkout@v2
         with:

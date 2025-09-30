@@ -78,7 +78,7 @@
     "@gooddollar/good-design": "0.4.1-beta.04ed25b3",
     "@gooddollar/goodcontracts": "^2.6.2",
     "@gooddollar/goodprotocol": "^2.0.32",
-    "@gooddollar/react-native-facetec": "^1.0.48",
+    "@gooddollar/react-native-facetec": "^1.0.50",
     "@gooddollar/react-native-side-menu": "^2.0.2",
     "@gooddollar/web3sdk-v2": "0.4.1-beta.04ed25b3",
     "@hcaptcha/react-hcaptcha": "^1.11.0",

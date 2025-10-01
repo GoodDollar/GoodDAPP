@@ -6595,9 +6595,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/good-design@npm:0.4.1-beta.68af1158":
-  version: 0.4.1-beta.68af1158
-  resolution: "@gooddollar/good-design@npm:0.4.1-beta.68af1158"
+"@gooddollar/good-design@npm:0.4.1-beta.04ed25b3":
+  version: 0.4.1-beta.04ed25b3
+  resolution: "@gooddollar/good-design@npm:0.4.1-beta.04ed25b3"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/runtime": ^7.18.9
@@ -6640,7 +6640,7 @@ __metadata:
     react-use-promise: ^0.5.0
     react-use-wizard: ^2.3.0
     require-from-string: ^2.0.2
-  checksum: b5c15ebb8fdbf77654762fd20ae939086be400dd504e839c2ed8376010512fb8bbc2f74acde478b734cffa1938618074b8958a6a2444a9c7725368c4ac79083b
+  checksum: bc731ca1b749fa3e1be1264c738e54c17162101c51088999ead449f377b71cd622e0a385248da24ae3671dcca5c7fcdada7d95fb1427c437e777bae1c2448f83
   languageName: node
   linkType: hard
 
@@ -6699,12 +6699,12 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@expo/react-native-action-sheet": ^3.9.0
     "@fingerprintjs/fingerprintjs-pro": ^3.8.1
-    "@gooddollar/good-design": 0.4.1-beta.68af1158
+    "@gooddollar/good-design": 0.4.1-beta.04ed25b3
     "@gooddollar/goodcontracts": ^2.6.2
     "@gooddollar/goodprotocol": ^2.0.32
-    "@gooddollar/react-native-facetec": ^1.0.46
+    "@gooddollar/react-native-facetec": ^1.0.50
     "@gooddollar/react-native-side-menu": ^2.0.2
-    "@gooddollar/web3sdk-v2": 0.4.1-beta.68af1158
+    "@gooddollar/web3sdk-v2": 0.4.1-beta.04ed25b3
     "@hcaptcha/react-hcaptcha": ^1.11.0
     "@indexeddbshim/indexeddbshim": ^6.5.0
     "@lingui/cli": ^3.13.0
@@ -6980,13 +6980,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:^1.0.46":
-  version: 1.0.46
-  resolution: "@gooddollar/react-native-facetec@npm:1.0.46"
+"@gooddollar/react-native-facetec@npm:^1.0.50":
+  version: 1.0.50
+  resolution: "@gooddollar/react-native-facetec@npm:1.0.50"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: 5552dbe277af248c56456c2cf880400b6a7d3b034324944ea04fc8c8eb847bc2fc6e3924a66342a2538fcc405845dc365ebc5156ab9e7c875361a64e59b5e005
+  checksum: d51d30e6bb0d017cba9c0fe705fd9b872b5e7d2330ce7b15ca7278dd05d01c148118708b9ff227bd6f7940fb430a16f6c6d5cb6465437b6c71b1ff2559e66bc1
   languageName: node
   linkType: hard
 
@@ -6999,9 +6999,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/web3sdk-v2@npm:0.4.1-beta.68af1158":
-  version: 0.4.1-beta.68af1158
-  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.68af1158"
+"@gooddollar/web3sdk-v2@npm:0.4.1-beta.04ed25b3":
+  version: 0.4.1-beta.04ed25b3
+  resolution: "@gooddollar/web3sdk-v2@npm:0.4.1-beta.04ed25b3"
   dependencies:
     "@amplitude/analytics-browser": ^1.6.4
     "@amplitude/analytics-react-native": ^0.7.0
@@ -7052,7 +7052,7 @@ __metadata:
     "@usedapp/core": "*"
     react-native: "*"
     react-native-web: "*"
-  checksum: 23b8b2b5aedddfaccd1fb6e9babdd8376aa7223e0e566b7c6e477fba90a8bf3a03c3c3357228b3123b141a32d1f1e4873f48fed596cdeb93d0af7a58094ca988
+  checksum: 1716814be01504aa0994a81ab5438036e07dd01e1f2fe6142a465bc1d8977d4aacb3b482eb7be8dfbcdf75d0b0219ee4cb6f4272d47e29c93c5ca20a895fa293
   languageName: node
   linkType: hard
 

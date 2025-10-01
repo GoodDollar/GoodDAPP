@@ -365,19 +365,23 @@ const Claim = props => {
       }
     }
 
+    const isDivviDone = (await AsyncStorage.getItem('GD_divvi')) || false
     try {
       if (Config.disableClaim) {
         throw new Error('Come back later')
       }
 
-      receipt = await goodWallet.claim({
-        onTransactionHash: hash => {
-          txHash = hash
+      receipt = await goodWallet.claim(
+        {
+          onTransactionHash: hash => {
+            txHash = hash
 
-          // first enQueueTX needs to happen just as we receive the txhash, so it writes the "pending" record to db
-          // actually when claiming it is not important to have the pending status record in the DB, so its removed for now
+            // first enQueueTX needs to happen just as we receive the txhash, so it writes the "pending" record to db
+            // actually when claiming it is not important to have the pending status record in the DB, so its removed for now
+          },
         },
-      })
+        !isDivviDone,
+      )
     } catch (exception) {
       const { message } = exception
 
@@ -391,7 +395,14 @@ const Claim = props => {
       log.warn('SendClaimTx error:', message, exception)
       receipt = await getTxReceiptByHash()
     }
-
+    if (receipt && !isDivviDone && goodWallet.networkId === 42220) {
+      API.submitReferral({ txHash: receipt.transactionHash, chainId: 42220 })
+        .then(_ => {
+          log.debug('divvi success', _.data)
+          AsyncStorage.safeSet('GD_divvi', true)
+        })
+        .catch(e => log.error('divvi failed', e.message, e))
+    }
     return receipt
   }, [goodWallet])
 

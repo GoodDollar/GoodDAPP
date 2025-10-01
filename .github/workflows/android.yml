@@ -48,7 +48,7 @@ jobs:
           cache: 'yarn'
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.7.x'
+          python-version: '3.13.x'
       - name: Cache & install dependencies
         run: yarn --immutable
       - name: add .env secrets
@@ -192,11 +192,11 @@ jobs:
           keystore_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
           keystore_alias: 'release-alias'
           keystore_alias_password: ${{secrets.RELEASE_ANDROID_PASSPHRASE}}
-      - name: Deploy to App Center
-        run: |
-          echo "deploying to ${{ env.APPCENTER_NAME }} ${{ env.INPUT_APK_PATH }}"
-          npx appcenter distribute release --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --group "Collaborators" --file "${{ env.UNIVERSAL_APK_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')" --debug
-      - name: Distribute to stores - PROD only
+      - name: Deploy to Google Play Store
         if: ${{ env.ENV == 'prod' }}
-        run: |
-          npx appcenter distribute stores publish --token "${{ env.APPCENTER_TOKEN }}" --app "${{ env.APPCENTER_NAME }}" --store "${{ env.APPCENTER_STORE }}" --file "${{ env.ANDROID_BUNDLE_PATH }}" --release-notes "$(git log -1 --pretty=format:'%h %s')"
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: org.gooddollar
+          releaseFiles: ./android/app/build/outputs/bundle/release/app-release.aab
+          track: production

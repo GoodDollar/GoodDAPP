@@ -1,16 +1,14 @@
 // libraries
 import React, { useCallback, useContext, useEffect } from 'react'
 
-import { isWeb } from '../../../lib/utils/platform'
-import WelcomeOffer from '../../common/dialogs/WelcomeOffer'
+import MigrationDialog from '../../common/dialogs/MigrationDialog'
 import { useDialog } from '../../../lib/dialog/useDialog'
 import DeepLinking from '../../../lib/utils/deepLinking'
 import { openLink } from '../../../lib/utils/linking'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-import { useFlagWithPayload } from '../../../lib/hooks/useFeatureFlags'
-import { GoodWalletContext, useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
+import { useUserStorage } from '../../../lib/wallet/GoodWalletProvider'
 import { DEPRECATION_MODAL, fireEvent } from '../../../lib/analytics/analytics'
-import { retry } from '../../../lib/utils/async'
+import { FVFlowContext } from '../../faceVerification/standalone/context/FVFlowContext'
 
 const DeprecationDialog = () => {
   const userStorage = useUserStorage()
@@ -20,16 +18,14 @@ const DeprecationDialog = () => {
     openLink(`https://goodwallet.xyz?login=${logMethod}`, '_self')
   }
 
-  return <WelcomeOffer onDismiss={goToWallet} />
+  return <MigrationDialog onDismiss={goToWallet} />
 }
 
 export const useDeprecationDialog = () => {
-  const showDeprecationModal = useFlagWithPayload('show-deprecation-modal')
-  const { excludedCountries, enabled: isActive, webOnly, whitelist } = showDeprecationModal || {}
+  const showDeprecationModal = true
   const { showDialog } = useDialog()
   const { params } = DeepLinking
-
-  const { goodWallet } = useContext(GoodWalletContext)
+  const { isFVFlow } = useContext(FVFlowContext)
 
   const showDeprecationDialog = useCallback(() => {
     showDialog({
@@ -48,19 +44,14 @@ export const useDeprecationDialog = () => {
     if (Date.now() <= until) {
       return
     }
-    const country = await retry(
-      async () => (await fetch('https://get.geojs.io/v1/ip/country.json')).json(),
-      3,
-      2000,
-    ).then(data => data.country)
 
-    const isEligible = !excludedCountries?.split(',')?.includes(country) || whitelist?.includes(goodWallet?.account)
-
-    if (((webOnly && isWeb) || !webOnly) && isActive && isEligible) {
+    // if (((webOnly && isWeb) || !webOnly) && isActive && isEligible) {
+    if (!isFVFlow) {
       fireEvent(DEPRECATION_MODAL)
-
       showDeprecationDialog()
     }
+
+    // }
   }
 
   useEffect(() => {

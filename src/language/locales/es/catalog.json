@@ -374,7 +374,7 @@
   "This might take a few seconds...": "Esto puede tardar unos segundos...",
   "This transaction failed": "Esta transacción ha fallado",
   "This transaction might fail to save gas we recommend not to execute it": "Esta transacción podría fallar al ahorrar gas que recomendamos no ejecutarlo",
-  "This wallet address will be connected to your identity until {0}.\nIf you’d prefer to verify a different wallet address, please use a different wallet.": "",
+  "This wallet address will be connected to your identity until {connectedUntil}.\nIf you’d prefer to verify a different wallet address, please use a different wallet.": "",
   "To continue please switch chains": "Para continuar, por favor cambia de blockchain",
   "To continue, you need to prove you are a unique human.": "",
   "To prevent fraud, you will not be able to verify another wallet until this wallet address verification expires on: {expiryDate}": "",

@@ -692,6 +692,21 @@ export class APIService {
 
     return txs
   }
+
+  /**
+   * Posts an attribution event to the tracking API
+   *
+   * @param params - The parameters for the attribution event
+   * @param params.txHash - The transaction hash
+   * @param params.chainId - The chain ID
+   * @param params.baseUrl - The base URL for the API endpoint (optional)
+   * @returns A promise that resolves to the response from the API
+   * @throws {Error} Client error (4xx) - When the request fails due to client-side issues
+   * @throws {Error} Server error (5xx) - When the request fails due to server-side issues, client should retry the request
+   */
+  submitReferral({ txHash, chainId, baseUrl = 'https://api.divvi.xyz/submitReferral' }): AxiosPromise<any> {
+    return this.sharedClient.post(baseUrl, { txHash, chainId }, { auth: false })
+  }
 }
 
 const api = new APIService()

@@ -41,6 +41,7 @@ const FVFlowProvider = props => {
     firstName,
     account,
     chain,
+    chainId,
     isDelta,
   } = { ...params, ...decompressed }
 
@@ -63,7 +64,7 @@ const FVFlowProvider = props => {
         isFVFlow: true, // when we render this provider we are always in fvflow
         fvFlowError: error,
         isFVFlowReady: !!jwt,
-        chainId: chain,
+        chainId: chain || chainId,
         rdu,
         cbu,
         isWebView,

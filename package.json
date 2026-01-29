@@ -337,6 +337,7 @@
     "metro": "0.80.5",
     "metro-core": "^0.80.5",
     "metro-react-native-babel-preset": "^0.77.0",
+    "node-gyp": "^12.2.0",
     "node-pre-gyp": "^0.14.0",
     "node-xml-lite": "0.0.7",
     "pn": "^1.1.0",
@@ -395,7 +396,8 @@
     "react-native-card-flip@^1.0.7": "patch:react-native-card-flip@npm%3A1.0.7#./.yarn/patches/react-native-card-flip-npm-1.0.7-64320a3ab5.patch",
     "react-native-modal-dropdown@^1.0.2": "patch:react-native-modal-dropdown@npm%3A1.0.2#./.yarn/patches/react-native-modal-dropdown-npm-1.0.2-1bfc5979be.patch",
     "jest-environment-jsdom@^29.7.0": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
-    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch"
+    "jest-environment-jsdom@^26.6.2": "patch:jest-environment-jsdom@npm%3A29.7.0#./.yarn/patches/jest-environment-jsdom-npm-29.7.0-0b72dd0e0b.patch",
+    "node-gyp": ">=10.0.0"
   },
   "husky": {
     "hooks": {

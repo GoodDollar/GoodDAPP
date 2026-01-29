@@ -46392,9 +46392,9 @@ __metadata:
   linkType: hard
 
 "svelte@npm:^3.49.0":
-  version: 3.58.0
-  resolution: "svelte@npm:3.58.0"
-  checksum: 10/fe6f61efbbcc925f72aab2439447ccf6f4d9a8983e3f6ce8e255fe6f4fbeb2cd07e07e8e53fdeac4b4e8c9ea6b0be8d74dfd42fc0cba72de611294e221946a1d
+  version: 3.59.2
+  resolution: "svelte@npm:3.59.2"
+  checksum: 10/a477fd1835bdc83bc6dec4d479a6696aed74a4e7866315e0d117f848c7674a86aee38ec7e0dece3dce0ab2c0b2b4c60e4a121544ddcb5300e4cb697f196fdab0
   languageName: node
   linkType: hard
 

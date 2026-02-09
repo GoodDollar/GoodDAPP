@@ -1,5 +1,6 @@
 "use client"
 
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from "react-native"
 import { useRef, useEffect, useState, useCallback } from "react"
 import { FaceOverlay } from "./face-overlay"
 import { StatusFeedback } from "./status-feedback"
@@ -287,43 +288,101 @@ export function FaceCapture({ onCapture }: FaceCaptureProps) {
 
   if (error) {
     return (
-      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-muted flex items-center justify-center">
-        <div className="text-center p-6">
-          <p className="text-destructive font-medium">{error}</p>
-          <button onClick={() => window.location.reload()} className="mt-4 text-sm text-primary underline">
-            Try again
-          </button>
-        </div>
-      </div>
+      <View style={styles.container}>
+        <View style={styles.centered}>
+          <Text style={styles.error}>{error}</Text>
+          <TouchableOpacity onPress={() => window.location.reload()} style={styles.tryAgain}>
+            <Text style={styles.tryAgainText}>Try again</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     )
   }
 
   return (
-    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black">
+    <View style={styles.container}>
       <video
         ref={videoRef}
         autoPlay
         playsInline
         muted
-        className="absolute inset-0 h-full w-full object-cover scale-x-[-1]"
+        style={styles.video}
       />
 
-      <canvas ref={canvasRef} className="hidden" />
+      <canvas ref={canvasRef} style={styles.hiddenCanvas} />
 
       <FaceOverlay status={status} />
 
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="text-center space-y-3">
-            <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-white text-sm">{loadingMessage}</p>
-          </div>
-        </div>
+        <View style={styles.loadingOverlay}>
+          <View style={styles.loadingInner}>
+            <ActivityIndicator size="small" color="#fff" />
+            <Text style={styles.loadingText}>{loadingMessage}</Text>
+          </View>
+        </View>
       )}
 
       {countdown !== null && <CountdownOverlay count={countdown} />}
 
       {!isLoading && <StatusFeedback status={status} isCapturing={isCapturing} />}
-    </div>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    position: "relative",
+    width: "100%",
+    aspectRatio: 3 / 4,
+    overflow: "hidden",
+    borderRadius: 16,
+    backgroundColor: "#000",
+  },
+  video: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover" as any,
+    transform: [{ scaleX: -1 } as any],
+  },
+  hiddenCanvas: {
+    display: "none",
+  },
+  loadingOverlay: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  loadingInner: {
+    alignItems: "center",
+    gap: 8,
+  },
+  loadingText: {
+    color: "#fff",
+    fontSize: 14,
+  },
+  centered: {
+    padding: 24,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  error: {
+    color: "#ff6b6b",
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  tryAgain: {
+    marginTop: 12,
+  },
+  tryAgainText: {
+    color: "#60a5fa",
+    textDecorationLine: "underline",
+  },
+})

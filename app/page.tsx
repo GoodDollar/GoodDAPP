@@ -1,9 +1,17 @@
 import { FaceCaptureApp } from "@/components/face-capture/face-capture-app"
+import { View, StyleSheet } from "react-native"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <View style={styles.container}>
       <FaceCaptureApp />
-    </main>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    minHeight: "100vh",
+    backgroundColor: "var(--background)",
+  },
+})

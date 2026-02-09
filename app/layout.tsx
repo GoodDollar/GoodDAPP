@@ -1,11 +1,7 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-// import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-
-// const _geist = Geist({ subsets: ["latin"] })
-// const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Face Capture - AI-Powered Facial Detection",
@@ -44,12 +40,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased`}>
-          {/* <script
-          src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"
-          strategy="beforeInteractive"
-
-        /> */}
+      <body style={{ margin: 0, fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial" }}>
+        {/* media scripts intentionally omitted for react-native-web usage */}
         {children}
         <Analytics />
       </body>

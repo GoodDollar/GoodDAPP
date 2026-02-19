@@ -39,27 +39,38 @@ export type ValidationStatus =
   | "LOOKING_RIGHT"
   | "LOOKING_UP"
   | "LOOKING_DOWN"
+  | "TOO_DARK" // Added TOO_DARK status
 
 // Thresholds
-const FACE_TOO_CLOSE_THRESHOLD = 0.35
-const FACE_TOO_FAR_THRESHOLD = 0.15
+const FACE_TOO_CLOSE_THRESHOLD = 0.24// Increased from 0.35 to require closer face
+const FACE_TOO_FAR_THRESHOLD = 0.22
 const EYE_ASPECT_RATIO_THRESHOLD = 0.21
 const INDIVIDUAL_EYE_THRESHOLD = 0.16
 const YAW_THRESHOLD = 17
 const PITCH_THRESHOLD = 13
+const TOO_DARK_THRESHOLD = 60 // Average pixel brightness threshold (0-255)
 
 // Face position thresholds (as percentage of frame)
 const FACE_CENTER_X_MIN = 0.45
 const FACE_CENTER_X_MAX = 0.55
 const FACE_CENTER_Y_MIN = 0.25
-const FACE_CENTER_Y_MAX = 0.55
+const FACE_CENTER_Y_MAX = 0.60
+
+// Contrast thresholds (new)
+const MICHELSON_CONTRAST_THRESHOLD = 0.25 // (Imax - Imin) / (Imax + Imin)
+const RMS_CONTRAST_THRESHOLD = 30 // RMS contrast in same luminance units (0-255)
 
 /**
  * Main validation function that checks all conditions
  * Updated to accept width/height numbers instead of canvas element
  */
 let logged = false
-export function validateFrame(result: FaceDetectionResult | null, imgW: number, imgH: number): ValidationStatus {
+export function validateFrame(
+  result: FaceDetectionResult | null,
+  imgW: number,
+  imgH: number,
+  imageData: ImageData, // Added imageData for lighting check
+): ValidationStatus {
   // Check for face detection
   if (!result || result.faces.length === 0) {
     return "NO_FACE"
@@ -78,6 +89,11 @@ export function validateFrame(result: FaceDetectionResult | null, imgW: number, 
       face.keypoints.map((_) => _.name),
     )
   logged = true
+
+  // Check lighting
+  const lightingStatus = checkLighting(imageData)
+  if (lightingStatus !== "GOOD_PHOTO") return lightingStatus
+
   // Check face cutoff
   if (isFaceCutoff(keypoints, imgW, imgH)) {
     return "FACE_CUTOFF"
@@ -141,6 +157,7 @@ function checkFaceDistance(keypoints: Keypoint[], imgW: number): ValidationStatu
   const eyeDistance =
     Math.sqrt(Math.pow(rightEyeOuter.x - leftEyeOuter.x, 2) + Math.pow(rightEyeOuter.y - leftEyeOuter.y, 2)) / imgW
 
+    console.log("[v0] Eye distance:", eyeDistance.toFixed(3), FACE_TOO_CLOSE_THRESHOLD, FACE_TOO_FAR_THRESHOLD)
   if (eyeDistance > FACE_TOO_CLOSE_THRESHOLD) {
     return "FACE_TOO_CLOSE"
   }
@@ -358,6 +375,56 @@ function checkHeadOrientation(keypoints: Keypoint[]): ValidationStatus {
   if (pitchDeviation < PITCH_THRESHOLD) {
     if (pitchRatio < 0.42) return "LOOKING_DOWN"
     return "LOOKING_UP"
+  }
+
+  return "GOOD_PHOTO"
+}
+
+/**
+ * Check if there is enough lighting by calculating average pixel brightness and contrast.
+ */
+function checkLighting(imageData: ImageData): ValidationStatus {
+  const data = imageData.data
+  let totalBrightness = 0
+  const pixelCount = data.length / 4 // Each pixel has R, G, B, A
+
+  // First pass: compute luminance per pixel and accumulate
+  // We avoid storing all luminances to limit memory; compute sum and sum of squares on the fly.
+  let sumSquares = 0
+
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i]
+    const g = data[i + 1]
+    const b = data[i + 2]
+    // Calculate luminance (perceived brightness)
+    const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+    totalBrightness += lum
+    sumSquares += lum * lum
+  }
+
+  const averageBrightness = totalBrightness / pixelCount
+  // RMS contrast = sqrt(E[x^2] - (E[x])^2)
+  const meanSquare = sumSquares / pixelCount
+  const rmsContrast = Math.sqrt(Math.max(0, meanSquare - averageBrightness * averageBrightness))
+
+  console.log(
+    "[v0] Lighting - Avg:",
+    averageBrightness.toFixed(2),
+    "RMS:",
+    rmsContrast.toFixed(2),
+    "Thresh(avg/mi/rms):",
+    TOO_DARK_THRESHOLD,
+    RMS_CONTRAST_THRESHOLD,
+  )
+
+  // Decide TOO_DARK if average brightness too low OR contrast too low
+  if (averageBrightness < TOO_DARK_THRESHOLD) {
+    return "TOO_DARK"
+  }
+
+  if (rmsContrast < RMS_CONTRAST_THRESHOLD) {
+    return "TOO_DARK"
   }
 
   return "GOOD_PHOTO"

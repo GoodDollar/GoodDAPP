@@ -1,6 +1,6 @@
 "use client"
 
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from "react-native"
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from "react-native" // Added Platform
 import { useRef, useEffect, useState, useCallback } from "react"
 import { FaceOverlay } from "./face-overlay"
 import { StatusFeedback } from "./status-feedback"
@@ -204,6 +204,17 @@ export function FaceCapture({ onCapture }: FaceCaptureProps) {
     isProcessingRef.current = true
 
     try {
+      // Draw video frame to canvas to get ImageData for lighting check
+      const context = canvas.getContext("2d")
+      if (!context) {
+        isProcessingRef.current = false
+        return
+      }
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      context.drawImage(video, 0, 0, canvas.width, canvas.height)
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+
       const faces = await detector.estimateFaces(video, {
         flipHorizontal: false,
       })
@@ -215,10 +226,12 @@ export function FaceCapture({ onCapture }: FaceCaptureProps) {
         })),
       }
 
+      // Pass imageData to validateFrame for lighting check
       const validationStatus = validateFrame(
         result,
         video.videoWidth,
         video.videoHeight,
+        imageData, // Pass imageData here
       )
       console.log({validationStatus})
       setStatus(validationStatus)
@@ -345,7 +358,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     objectFit: "cover" as any,
-    transform: [{ scaleX: -1 } as any],
+    transform: "scaleX(-1)",
+
   },
   hiddenCanvas: {
     display: "none",

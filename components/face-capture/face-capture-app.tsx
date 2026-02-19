@@ -1,5 +1,6 @@
 "use client"
 
+import { View, Text, StyleSheet } from "react-native"
 import { useState } from "react"
 import { FaceCapture } from "./face-capture"
 import { CapturedPhoto } from "./captured-photo"
@@ -17,24 +18,64 @@ export function FaceCaptureApp() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="w-full max-w-lg space-y-6">
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-2">
-            <Camera className="w-6 h-6 text-primary" />
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Face Capture</h1>
-          <p className="text-muted-foreground text-sm">
+    <View style={styles.container}>
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <View style={styles.iconContainer}>
+            <Camera size={24} color="#3b82f6" />
+          </View>
+          <Text style={styles.title}>Face Capture</Text>
+          <Text style={styles.subtitle}>
             Position your face within the oval and follow the instructions
-          </p>
-        </div>
+          </Text>
+        </View>
 
         {capturedImage ? (
           <CapturedPhoto imageData={capturedImage} onRetake={handleRetake} />
         ) : (
           <FaceCapture onCapture={handleCapture} />
         )}
-      </div>
-    </div>
+      </View>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    minHeight: "100vh",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 16,
+    backgroundColor: "#fff",
+  },
+  content: {
+    width: "100%",
+    maxWidth: 450,
+    gap: 24,
+  },
+  header: {
+    alignItems: "center",
+    gap: 8,
+  },
+  iconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "rgba(59, 130, 246, 0.1)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 8,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "700",
+    letterSpacing: -0.02,
+    color: "#1f2937",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: "#6b7280",
+    textAlign: "center",
+  },
+})

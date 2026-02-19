@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { View, StyleSheet } from "react-native"
 import type { ValidationStatus } from "@/lib/face-validation"
 
 interface FaceOverlayProps {
@@ -11,66 +11,130 @@ export function FaceOverlay({ status }: FaceOverlayProps) {
   const isGood = status === "GOOD_PHOTO"
 
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <View style={styles.container}>
       {/* Dark overlay with cutout */}
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <svg style={styles.svg} viewBox="0 0 100 100" preserveAspectRatio="none">
         <defs>
           <mask id="face-cutout">
             <rect x="0" y="0" width="100" height="100" fill="white" />
-            <ellipse cx="50" cy="45" rx="28" ry="38" fill="black" />
+            {/* Make oval a little larger: rx from 28 to 30, ry from 38 to 40 */}
+            <ellipse cx="50" cy="45" rx="30" ry="40" fill="black" />
           </mask>
         </defs>
         <rect x="0" y="0" width="100" height="100" fill="rgba(0, 0, 0, 0.6)" mask="url(#face-cutout)" />
       </svg>
 
       {/* Oval guide */}
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <svg style={styles.svg} viewBox="0 0 100 100" preserveAspectRatio="none">
         <ellipse
           cx="50"
           cy="45"
-          rx="28"
-          ry="38"
+          rx="30" // Make oval a little larger: rx from 28 to 30
+          ry="40" // Make oval a little larger: ry from 38 to 40
           fill="none"
           stroke={isGood ? "#22c55e" : "#ffffff"}
           strokeWidth="0.5"
           strokeDasharray={isGood ? "0" : "2 2"}
-          className={cn("transition-all duration-300", isGood && "drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]")}
+          style={{
+            transition: "all 300ms ease",
+            filter: isGood ? "drop-shadow(0 0 8px rgba(34,197,94,0.5))" : "none",
+          }}
         />
       </svg>
 
       {/* Corner guides */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className={cn("relative w-[56%] h-[76%] -translate-y-[6%]", "transition-colors duration-300")}>
+      <View style={styles.cornerContainer}>
+        <View style={[styles.cornerBox, !isGood && styles.cornerBoxInactive]}>
           {/* Top left corner */}
-          <div
-            className={cn(
-              "absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 rounded-tl-xl",
-              isGood ? "border-green-500" : "border-white/50",
-            )}
-          />
+          <View style={[styles.cornerTL, isGood ? styles.cornerGood : styles.cornerDefault]} />
           {/* Top right corner */}
-          <div
-            className={cn(
-              "absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 rounded-tr-xl",
-              isGood ? "border-green-500" : "border-white/50",
-            )}
-          />
+          <View style={[styles.cornerTR, isGood ? styles.cornerGood : styles.cornerDefault]} />
           {/* Bottom left corner */}
-          <div
-            className={cn(
-              "absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 rounded-bl-xl",
-              isGood ? "border-green-500" : "border-white/50",
-            )}
-          />
+          <View style={[styles.cornerBL, isGood ? styles.cornerGood : styles.cornerDefault]} />
           {/* Bottom right corner */}
-          <div
-            className={cn(
-              "absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 rounded-br-xl",
-              isGood ? "border-green-500" : "border-white/50",
-            )}
-          />
-        </div>
-      </div>
-    </div>
+          <View style={[styles.cornerBR, isGood ? styles.cornerGood : styles.cornerDefault]} />
+        </View>
+      </View>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    pointerEvents: "none",
+  },
+  svg: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: "100%",
+    height: "100%",
+  },
+  cornerContainer: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cornerBox: {
+    position: "relative",
+    width: "56%",
+    height: "76%",
+    transform: "translateY(6%)",
+  },
+  cornerBoxInactive: {},
+  cornerTL: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 24,
+    height: 24,
+    borderTopWidth: 2,
+    borderLeftWidth: 2,
+    borderTopLeftRadius: 8,
+  },
+  cornerTR: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 24,
+    height: 24,
+    borderTopWidth: 2,
+    borderRightWidth: 2,
+    borderTopRightRadius: 8,
+  },
+  cornerBL: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: 24,
+    height: 24,
+    borderBottomWidth: 2,
+    borderLeftWidth: 2,
+    borderBottomLeftRadius: 8,
+  },
+  cornerBR: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    width: 24,
+    height: 24,
+    borderBottomWidth: 2,
+    borderRightWidth: 2,
+    borderBottomRightRadius: 8,
+  },
+  cornerGood: {
+    borderColor: "#22c55e",
+  },
+  cornerDefault: {
+    borderColor: "rgba(255, 255, 255, 0.5)",
+  },
+})

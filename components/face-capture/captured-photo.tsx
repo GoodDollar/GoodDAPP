@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Platform } from "react-native"
 import { CheckCircle2, RefreshCw, Download } from "lucide-react"
 
 interface CapturedPhotoProps {
@@ -17,33 +17,105 @@ export function CapturedPhoto({ imageData, onRetake }: CapturedPhotoProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <View style={styles.container}>
       {/* Success message */}
-      <div className="flex items-center justify-center gap-2 text-green-600">
-        <CheckCircle2 className="w-5 h-5" />
-        <span className="font-medium">Photo captured successfully!</span>
-      </div>
+      <View style={styles.successMessage}>
+        <CheckCircle2 size={20} color="#16a34a" />
+        <Text style={styles.successText}>Photo captured successfully!</Text>
+      </View>
 
       {/* Captured image */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border-2 border-green-500">
-        <img
-          src={imageData || "/placeholder.svg"}
-          alt="Captured face"
-          className="h-full w-full object-cover scale-x-[-1]"
+      <View style={styles.imageWrapper}>
+        <Image
+          source={{ uri: imageData || "/placeholder.svg" }}
+          style={styles.image}
         />
-      </div>
+      </View>
 
       {/* Actions */}
-      <div className="flex gap-3">
-        <Button variant="outline" onClick={onRetake} className="flex-1 bg-transparent">
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Retake
-        </Button>
-        <Button onClick={handleDownload} className="flex-1">
-          <Download className="w-4 h-4 mr-2" />
-          Download
-        </Button>
-      </div>
-    </div>
+      <View style={styles.actionsContainer}>
+        <TouchableOpacity style={styles.buttonOutline} onPress={onRetake}>
+          <RefreshCw size={16} color="#666" />
+          <Text style={styles.buttonOutlineText}>Retake</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonPrimary} onPress={handleDownload}>
+          <Download size={16} color="#fff" />
+          <Text style={styles.buttonPrimaryText}>Download</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    gap: 16,
+  },
+  successMessage: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  successText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#16a34a",
+  },
+  imageWrapper: {
+    position: "relative",
+    aspectRatio: 3 / 4,
+    width: "100%",
+    overflow: "hidden",
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: "#22c55e",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+    transform: Platform.select({
+      web: "scaleX(-1)",
+      default: [{ scaleX: -1 }],
+    }),
+  },
+  actionsContainer: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  buttonOutline: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    backgroundColor: "transparent",
+    gap: 8,
+  },
+  buttonOutlineText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#333",
+  },
+  buttonPrimary: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: "#3b82f6",
+    gap: 8,
+  },
+  buttonPrimaryText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#fff",
+  },
+})

@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { View, Text, StyleSheet, Platform } from "react-native" // Added Platform
 import {
   type AlertCircle,
   CheckCircle2,
@@ -121,20 +121,56 @@ export function StatusFeedback({ status, isCapturing }: StatusFeedbackProps) {
   const config = statusConfig[status]
   const Icon = config.icon
 
+  const getBackgroundColor = () => {
+    switch (config.type) {
+      case "success":
+        return "rgba(34, 197, 94, 0.9)"
+      case "warning":
+        return "rgba(251, 191, 36, 0.9)"
+      case "error":
+        return "rgba(239, 68, 68, 0.9)"
+    }
+  }
+
   return (
-    <div className="absolute bottom-0 inset-x-0 p-4">
-      <div
-        className={cn(
-          "flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-medium",
-          "backdrop-blur-md transition-all duration-300",
-          config.type === "success" && "bg-green-500/90 text-white",
-          config.type === "warning" && "bg-amber-500/90 text-white",
-          config.type === "error" && "bg-red-500/90 text-white",
-        )}
-      >
-        <Icon className="w-5 h-5 shrink-0" />
-        <span>{isCapturing && status === "GOOD_PHOTO" ? "Hold still..." : config.message}</span>
-      </div>
-    </div>
+    <View style={styles.container}>
+      <View style={[styles.feedback, { backgroundColor: getBackgroundColor() }]}>
+        <Icon size={20} color="#fff" />
+        <Text style={styles.feedbackText}>
+          {isCapturing && status === "GOOD_PHOTO" ? "Hold still..." : config.message}
+        </Text>
+      </View>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  feedback: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    ...Platform.select({
+      web: {
+        backdropFilter: "blur(10px)",
+      } as React.CSSProperties,
+      default: {}, // backdropFilter is a web-specific CSS property
+    }),
+  },
+  feedbackText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#fff",
+  },
+})

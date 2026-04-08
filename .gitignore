@@ -117,3 +117,5 @@ dev-dist
 .continueignore
 .yalc
 yalc.lock
+.codex
+codex-resume

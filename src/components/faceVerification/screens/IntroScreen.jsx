@@ -179,6 +179,29 @@ const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, authPeriod }) 
   )
 }
 
+const WarningBlock = ({ styles }) => (
+  <View style={styles.warningBlock}>
+    <View style={styles.blockHeader}>
+      <Icon name="info" color="orange" size={14} style={styles.blockHeaderIcon} />
+      <Text color="orange" textAlign="left" fontWeight="bold" fontSize={22} lineHeight={24}>
+        {t`Don’t lose your free daily money!`}
+      </Text>
+    </View>
+
+    <Section.Text color="red" textAlign="left" fontSize={16} lineHeight={22} letterSpacing={0.17}>
+      {t`Only complete this verification for yourself.
+If someone asks you to verify for them, ignore the request.`}
+    </Section.Text>
+    <Section.Text
+      fontWeight="bold"
+      color="red"
+      fontSize={16}
+      textAlign="left"
+      style={styles.warningBottomText}
+    >{t`You can lose the money you receive from your daily G$ claim.`}</Section.Text>
+  </View>
+)
+
 const shortenWalletAddress = walletAddress =>
   walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : t`Wallet unavailable`
 
@@ -275,26 +298,7 @@ const IntroFVFlowOverview = ({ styles, ready, onNext, authPeriod, walletAddress 
               </View>
             </View>
 
-            <View style={styles.warningBlock}>
-              <View style={styles.blockHeader}>
-                <Icon name="info" color="orange" size={14} style={styles.blockHeaderIcon} />
-                <Text color="orange" textAlign="left" fontWeight="bold" fontSize={22} lineHeight={24}>
-                  {t`Stay safe`}
-                </Text>
-              </View>
-
-              <Section.Text color="red" textAlign="left" fontSize={16} lineHeight={20} letterSpacing={0.17}>
-                {t`Only complete this verification for yourself.
-If someone asks you to verify for them, ignore the request.`}
-              </Section.Text>
-              <Section.Text
-                fontWeight="bold"
-                color="red"
-                fontSize={16}
-                textAlign="left"
-                style={{ paddingTop: 16 }}
-              >{t`You will lose money that is freely distributed every day.`}</Section.Text>
-            </View>
+            <WarningBlock styles={styles} />
           </View>
 
           <CustomButton style={styles.button} onPress={onNext} disabled={!ready}>
@@ -357,26 +361,7 @@ const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onL
           </View>
 
           <View style={styles.standaloneBlocks}>
-            <View style={styles.warningBlock}>
-              <View style={styles.blockHeader}>
-                <Icon name="info" color="orange" size={14} style={styles.blockHeaderIcon} />
-                <Text color="orange" textAlign="left" fontWeight="bold" fontSize={22} lineHeight={24}>
-                  {t`Stay safe`}
-                </Text>
-              </View>
-
-              <Section.Text color="red" textAlign="left" fontSize={16} lineHeight={22} letterSpacing={0.17}>
-                {t`Only complete this verification for yourself.
-If someone asks you to verify for them, ignore the request.`}
-              </Section.Text>
-              <Section.Text
-                fontWeight="bold"
-                color="red"
-                fontSize={16}
-                textAlign="left"
-                style={{ paddingTop: 16 }}
-              >{t`You will lose money that is freely distributed every day.`}</Section.Text>
-            </View>
+            <WarningBlock styles={styles} />
           </View>
 
           <View style={styles.standaloneConsentWrapper}>

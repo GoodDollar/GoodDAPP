@@ -310,9 +310,10 @@ const IntroFVFlowOverview = ({ styles, ready, onNext, authPeriod, walletAddress 
   )
 }
 
-const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onLearnMore }) => {
+const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onLearnMore, walletAddress, lastVerified }) => {
   const [ageConfirmed, setAgeConfirmed] = useState(false)
   const [goodDollarOnlyConfirmed, setGoodDollarOnlyConfirmed] = useState(false)
+  const shortenedWallet = useMemo(() => shortenWalletAddress(walletAddress), [walletAddress])
 
   return (
     <Wrapper withMaxHeight={false}>
@@ -361,21 +362,47 @@ const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onL
           </View>
 
           <View style={styles.standaloneBlocks}>
+            {isReverify && walletAddress ? (
+              <View style={styles.walletBlock}>
+                <View style={styles.blockHeader}>
+                  <Icon name="lock" color="primary" size={14} style={styles.blockHeaderIcon} />
+                  <Text color="primary" textAlign="left" fontWeight="bold" fontSize={14} lineHeight={18}>
+                    {t`WALLET LINKED`}
+                  </Text>
+                </View>
+
+                <Section.Text textAlign="left" fontSize={16} lineHeight={22} letterSpacing={0.17}>
+                  {t`This wallet`}
+                  {` (${shortenedWallet}) `}
+                  {t`will be linked to your verified identity.`}
+                </Section.Text>
+
+                {lastVerified ? (
+                  <Text
+                    color="gray100Percent"
+                    textAlign="left"
+                    fontWeight="bold"
+                    fontSize={14}
+                    lineHeight={18}
+                    style={styles.validUntil}
+                  >
+                    {t`Last verified:`}
+                    {` ${lastVerified}`}
+                  </Text>
+                ) : null}
+              </View>
+            ) : null}
             <WarningBlock styles={styles} />
           </View>
 
           <View style={styles.standaloneConsentWrapper}>
-            {!isReverify ? (
-              <>
-                <CheckBox onClick={v => setAgeConfirmed(v)} value={ageConfirmed}>
-                  <Text textAlign="left" style={styles.standaloneConsentText}>
-                    {t`I am 18+ and I'm verifying my own identity.`}
-                  </Text>
-                </CheckBox>
+            <CheckBox onClick={v => setAgeConfirmed(v)} value={ageConfirmed}>
+              <Text textAlign="left" style={styles.standaloneConsentText}>
+                {t`I am 18+ and I'm verifying my own identity.`}
+              </Text>
+            </CheckBox>
 
-                <View style={styles.standaloneConsentSpace} />
-              </>
-            ) : null}
+            <View style={styles.standaloneConsentSpace} />
 
             <CheckBox onClick={v => setGoodDollarOnlyConfirmed(v)} value={goodDollarOnlyConfirmed}>
               <Text textAlign="left" style={styles.standaloneConsentText}>
@@ -386,7 +413,7 @@ const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onL
             <CustomButton
               style={styles.button}
               onPress={onVerify}
-              disabled={(!isReverify && !ageConfirmed) || !goodDollarOnlyConfirmed}
+              disabled={!ageConfirmed || !goodDollarOnlyConfirmed}
               loading={!ready}
             >
               {t`Verify Me`}
@@ -409,8 +436,18 @@ const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onL
   )
 }
 
-const IntroFVFlow = ({ styles, firstName, isReverify, ready, onVerify, onLearnMore, authPeriod, walletAddress }) => {
-  const [showActionScreen, setShowActionScreen] = useState(false)
+const IntroFVFlow = ({
+  styles,
+  firstName,
+  isReverify,
+  ready,
+  onVerify,
+  onLearnMore,
+  authPeriod,
+  walletAddress,
+  lastVerified,
+}) => {
+  const [showActionScreen, setShowActionScreen] = useState(isReverify)
 
   if (!showActionScreen) {
     return (
@@ -432,6 +469,8 @@ const IntroFVFlow = ({ styles, firstName, isReverify, ready, onVerify, onLearnMo
       ready={ready}
       onVerify={onVerify}
       onLearnMore={onLearnMore}
+      walletAddress={walletAddress}
+      lastVerified={lastVerified}
     />
   )
 }
@@ -446,6 +485,10 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const [expiryDate, , state] = useIdentityExpiryDate(externalAccount || account)
   const isReverify = expiryDate?.lastAuthenticated?.isZero() === false
   const authPeriod = expiryDate?.authPeriod?.toNumber() || 360
+  const lastVerified = useMemo(() => {
+    const ts = expiryDate?.lastAuthenticated
+    return ts && !ts.isZero() ? moment.unix(ts.toNumber()).format('l') : null
+  }, [expiryDate])
 
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()
@@ -548,6 +591,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
         ready={false === disposing}
         authPeriod={authPeriod}
         walletAddress={externalAccount || account}
+        lastVerified={lastVerified}
       />
     )
   }

@@ -488,7 +488,7 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
   const lastVerified = useMemo(() => {
     const ts = expiryDate?.lastAuthenticated
     return ts && !ts.isZero() ? moment.unix(ts.toNumber()).format('l') : null
-  }, [expiryDate])
+  }, [expiryDate?.lastAuthenticated])
 
   const { goToRoot, navigateTo, push } = screenProps
   const fvRedirect = useFVRedirect()

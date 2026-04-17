@@ -5,55 +5,51 @@ import { t } from '@lingui/macro'
 import { useIdentityExpiryDate } from '@gooddollar/web3sdk-v2'
 import moment from 'moment'
 
-import useFVRedirect from '../standalone/hooks/useFVRedirect'
+import useFVRedirect from '../hooks/useFVRedirect'
 
 // components
-import Text from '../../common/view/Text'
-import { CustomButton, Section, Wrapper } from '../../common'
+import Text from '../../../common/view/Text'
+import { CustomButton, Section, Wrapper } from '../../../common'
 
 // hooks
-import useOnPress from '../../../lib/hooks/useOnPress'
-import useCameraSupport from '../../browserSupport/hooks/useCameraSupport'
-import usePermissions from '../../permissions/hooks/usePermissions'
-import useDisposingState from '../hooks/useDisposingState'
-import useEnrollmentIdentifier from '../hooks/useEnrollmentIdentifier'
+import useOnPress from '../../../../lib/hooks/useOnPress'
+import useCameraSupport from '../../../browserSupport/hooks/useCameraSupport'
+import usePermissions from '../../../permissions/hooks/usePermissions'
+import useDisposingState from '../../hooks/useDisposingState'
+import useEnrollmentIdentifier from '../../hooks/useEnrollmentIdentifier'
 
-import { useWallet } from '../../../lib/wallet/GoodWalletProvider'
+import { useWallet } from '../../../../lib/wallet/GoodWalletProvider'
 
 // utils
-import logger from '../../../lib/logger/js-logger'
-import { getFirstWord } from '../../../lib/utils/getFirstWord'
+import logger from '../../../../lib/logger/js-logger'
 import {
   getDesignRelativeHeight,
   getDesignRelativeWidth,
-  isLargeDevice,
   isMediumDevice,
   isSmallDevice,
-} from '../../../lib/utils/sizes'
-import { withStyles } from '../../../lib/styles'
-import { iosSupportedWeb, isBrowser, isEmulator, isIOSWeb, isWebView } from '../../../lib/utils/platform'
-import { openLink } from '../../../lib/utils/linking'
-import Config from '../../../config/config'
-import { Permissions } from '../../permissions/types'
-import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
-import { useDialog } from '../../../lib/dialog/useDialog'
-import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../lib/analytics/analytics'
-import { FVFlowContext } from '../standalone/context/FVFlowContext'
-import useFaceTecSDK from '../hooks/useFaceTecSDK'
-import { UnsupportedWebview } from '../../browserSupport/components/UnsupportedBrowser'
-import AsyncStorage from '../../../lib/utils/asyncStorage'
+} from '../../../../lib/utils/sizes'
+import { withStyles } from '../../../../lib/styles'
+import { iosSupportedWeb, isBrowser, isEmulator, isIOSWeb, isWebView } from '../../../../lib/utils/platform'
+import { openLink } from '../../../../lib/utils/linking'
+import Config from '../../../../config/config'
+import { Permissions } from '../../../permissions/types'
+import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
+import { useDialog } from '../../../../lib/dialog/useDialog'
+import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
+import { FVFlowContext } from '../context/FVFlowContext'
+import useFaceTecSDK from '../../hooks/useFaceTecSDK'
+import { UnsupportedWebview } from '../../../browserSupport/components/UnsupportedBrowser'
+import AsyncStorage from '../../../../lib/utils/asyncStorage'
 
 // assets
-import Wait24HourSVG from '../../../assets/Claim/wait24Hour.svg'
+import Wait24HourSVG from '../../../../assets/Claim/wait24Hour.svg'
 
-import FashionShootSVG from '../../../assets/FaceVerification/FashionPhotoshoot.svg'
-import BillyVerifies from '../../../assets/billy-verifies.png'
-import BillySecurity from '../../../assets/billy-security.png'
-import GDLogoSVG from '../../../assets/FaceVerification/gdlogo.svg'
-import useProfile from '../../../lib/userStorage/useProfile'
-import useFVLoginInfoCheck from '../standalone/hooks/useFVLoginInfoCheck'
-import CheckBox from '../../common/buttons/CheckBox'
-import Icon from '../../common/view/Icon'
+import BillyVerifies from '../../../../assets/billy-verifies.png'
+import BillySecurity from '../../../../assets/billy-security.png'
+import GDLogoSVG from '../../../../assets/FaceVerification/gdlogo.svg'
+import useFVLoginInfoCheck from '../hooks/useFVLoginInfoCheck'
+import CheckBox from '../../../common/buttons/CheckBox'
+import Icon from '../../../common/view/Icon'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -62,7 +58,7 @@ const WalletDeletedPopupText = ({ styles }) => (
     <View style={styles.title}>
       <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
         {t`New Wallet?`}
-        {t`You’ll need to wait 24 hours`}
+        {t`You'll need to wait 24 hours`}
       </Text>
     </View>
     <View style={styles.paddingVertical20}>
@@ -74,117 +70,15 @@ const WalletDeletedPopupText = ({ styles }) => (
   </View>
 )
 
-const IntroReVerification = ({ styles, firstName, ready, onVerify, onLearnMore }) => (
-  <Wrapper withMaxHeight={false}>
-    <Section style={styles.topContainer} grow>
-      <View style={styles.mainContent}>
-        <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
-          {firstName ? `${firstName},` : ``}
-          <Section.Text fontWeight="bold" textTransform="none" color="#00AEFF" fontSize={30} lineHeight={30}>
-            {firstName ? `\n` : ''}
-            {t`It’s time to update
-  your Face Verification!`}
-            {`\n`}
-          </Section.Text>
-        </Section.Title>
-        <Section style={styles.mainText}>
-          <Section.Text textAlign="left" fontSize={18} lineHeight={25} letterSpacing={0.18}>
-            {t`Every so often, it's necessary to double-check that you're still you. You’ll go through the same verification process you went through when you first signed up for GoodDollar.`}
-          </Section.Text>
-          <Section.Text textAlign="left" fontSize={18} lineHeight={25} letterSpacing={0.18} style={styles.mainText}>
-            {t`You’ll be able to continue once this process is complete.`}
-          </Section.Text>
-        </Section>
-        <View style={styles.illustrationContainer}>
-          <Image source={BillyVerifies} style={styles.image} />
-        </View>
-        <Section.Text
-          fontWeight="bold"
-          fontSize={18}
-          lineHeight={26}
-          textDecorationLine="underline"
-          style={styles.learnMore}
-          onPress={onLearnMore}
-        >
-          {t`Learn More`}
-        </Section.Text>
-        <CustomButton style={[styles.button]} onPress={onVerify} disabled={!ready}>
-          {t`Continue`}
-        </CustomButton>
-      </View>
-    </Section>
-  </Wrapper>
-)
-
-const Intro = ({ styles, firstName, ready, onVerify, onLearnMore, authPeriod }) => {
-  const [ageConfirmed, setAgeConfirmed] = useState(false)
-  const connectedUntil = useMemo(() => moment().add(authPeriod, 'days').format('l'), [authPeriod])
-  return (
-    <Wrapper withMaxHeight={false}>
-      <Section style={styles.topContainer} grow>
-        <View style={styles.mainContent}>
-          <Section.Title fontWeight="bold" textTransform="none" style={styles.mainTitle}>
-            {firstName ? `${firstName},` : ``}
-            <Section.Text fontWeight="bold" color="#00AEFF" textTransform="none" fontSize={24} lineHeight={30}>
-              {firstName ? `\n` : ''}
-              {t`You are almost there!`}
-              {`\n`}
-            </Section.Text>
-          </Section.Title>
-          <Section.Text
-            fontSize={18}
-            lineHeight={25}
-            letterSpacing={0.18}
-            fontWeight="700"
-          >{t`To continue, you need to prove you are a unique human.`}</Section.Text>
-          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
-            {t`Your image is only used to ensure you’re you and prevent duplicate accounts.`}
-          </Section.Text>
-          <Section.Text fontSize={18} lineHeight={25} letterSpacing={0.18}>
-            {t`This wallet address will be connected to your identity until`}
-            {` ${connectedUntil}. `}
-            {t`If you’d prefer to verify a different wallet address, please use a different wallet.`}
-          </Section.Text>
-          <Section.Text
-            fontWeight="bold"
-            fontSize={18}
-            lineHeight={26}
-            textDecorationLine="underline"
-            color="#00AEFF"
-            onPress={onLearnMore}
-          >
-            {t`Learn More`}
-          </Section.Text>
-          <View style={styles.illustrationContainer} marginTop={0}>
-            <FashionShootSVG />
-          </View>
-          <View style={{ marginTop: 50 }}>
-            <View style={{ alignItems: 'center' }}>
-              <CheckBox
-                onClick={v => {
-                  setAgeConfirmed(v)
-                }}
-                value={ageConfirmed}
-              >
-                <Text>I confirm I&apos;m over 18 years of age</Text>
-              </CheckBox>
-            </View>
-            <CustomButton style={styles.button} onPress={onVerify} disabled={!ageConfirmed} loading={!ready}>
-              {t`OK, Verify me`}
-            </CustomButton>
-          </View>
-        </View>
-      </Section>
-    </Wrapper>
-  )
-}
+const shortenWalletAddress = walletAddress =>
+  walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : t`Wallet unavailable`
 
 const WarningBlock = ({ styles }) => (
   <View style={styles.warningBlock}>
     <View style={styles.blockHeader}>
       <Icon name="info" color="orange" size={14} style={styles.blockHeaderIcon} />
       <Text color="orange" textAlign="left" fontWeight="bold" fontSize={22} lineHeight={24}>
-        {t`Don’t lose your free daily money!`}
+        {t`Don't lose your free daily money!`}
       </Text>
     </View>
 
@@ -201,9 +95,6 @@ If someone asks you to verify for them, ignore the request.`}
     >{t`You can lose the money you receive from your daily G$ claim.`}</Section.Text>
   </View>
 )
-
-const shortenWalletAddress = walletAddress =>
-  walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : t`Wallet unavailable`
 
 const IntroFVFlowOverview = ({ styles, ready, onNext, authPeriod, walletAddress }) => {
   const connectedUntil = useMemo(() => moment().add(authPeriod, 'days').format('l'), [authPeriod])
@@ -310,9 +201,18 @@ const IntroFVFlowOverview = ({ styles, ready, onNext, authPeriod, walletAddress 
   )
 }
 
-const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onLearnMore }) => {
+const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onLearnMore, lastAuthenticated, walletAddress }) => {
   const [ageConfirmed, setAgeConfirmed] = useState(false)
   const [goodDollarOnlyConfirmed, setGoodDollarOnlyConfirmed] = useState(false)
+
+  const lastVerifiedDate = useMemo(() => {
+    if (!lastAuthenticated || lastAuthenticated.isZero()) {
+      return null
+    }
+    return moment.unix(lastAuthenticated.toNumber()).format('l')
+  }, [lastAuthenticated])
+
+  const shortenedWallet = useMemo(() => shortenWalletAddress(walletAddress), [walletAddress])
 
   return (
     <Wrapper withMaxHeight={false}>
@@ -361,21 +261,48 @@ const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onL
           </View>
 
           <View style={styles.standaloneBlocks}>
+            {isReverify && (
+              <View style={styles.walletBlock}>
+                <View style={styles.blockHeader}>
+                  <Icon name="lock" color="primary" size={14} style={styles.blockHeaderIcon} />
+                  <Text color="primary" textAlign="left" fontWeight="bold" fontSize={14} lineHeight={18}>
+                    {t`WALLET LINKED`}
+                  </Text>
+                </View>
+
+                <Section.Text textAlign="left" fontSize={16} lineHeight={22} letterSpacing={0.17}>
+                  {t`This wallet`}
+                  {` (${shortenedWallet}) `}
+                  {t`is linked to your verified identity.`}
+                </Section.Text>
+
+                {lastVerifiedDate && (
+                  <Text
+                    color="gray100Percent"
+                    textAlign="left"
+                    fontWeight="bold"
+                    fontSize={14}
+                    lineHeight={18}
+                    style={styles.validUntil}
+                  >
+                    {t`Last verified:`}
+                    {` ${lastVerifiedDate}`}
+                  </Text>
+                )}
+              </View>
+            )}
+
             <WarningBlock styles={styles} />
           </View>
 
           <View style={styles.standaloneConsentWrapper}>
-            {!isReverify ? (
-              <>
-                <CheckBox onClick={v => setAgeConfirmed(v)} value={ageConfirmed}>
-                  <Text textAlign="left" style={styles.standaloneConsentText}>
-                    {t`I am 18+ and I'm verifying my own identity.`}
-                  </Text>
-                </CheckBox>
+            <CheckBox onClick={v => setAgeConfirmed(v)} value={ageConfirmed}>
+              <Text textAlign="left" style={styles.standaloneConsentText}>
+                {t`I am 18+ and I'm verifying my own identity.`}
+              </Text>
+            </CheckBox>
 
-                <View style={styles.standaloneConsentSpace} />
-              </>
-            ) : null}
+            <View style={styles.standaloneConsentSpace} />
 
             <CheckBox onClick={v => setGoodDollarOnlyConfirmed(v)} value={goodDollarOnlyConfirmed}>
               <Text textAlign="left" style={styles.standaloneConsentText}>
@@ -386,7 +313,7 @@ const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onL
             <CustomButton
               style={styles.button}
               onPress={onVerify}
-              disabled={(!isReverify && !ageConfirmed) || !goodDollarOnlyConfirmed}
+              disabled={!ageConfirmed || !goodDollarOnlyConfirmed}
               loading={!ready}
             >
               {t`Verify Me`}
@@ -409,8 +336,8 @@ const IntroFVFlowAction = ({ styles, firstName, isReverify, ready, onVerify, onL
   )
 }
 
-const IntroFVFlow = ({ styles, firstName, isReverify, ready, onVerify, onLearnMore, authPeriod, walletAddress }) => {
-  const [showActionScreen, setShowActionScreen] = useState(false)
+const IntroFVFlow = ({ styles, firstName, isReverify, ready, onVerify, onLearnMore, authPeriod, walletAddress, lastAuthenticated }) => {
+  const [showActionScreen, setShowActionScreen] = useState(isReverify) // Skip Overview for reverify users
 
   if (!showActionScreen) {
     return (
@@ -432,34 +359,32 @@ const IntroFVFlow = ({ styles, firstName, isReverify, ready, onVerify, onLearnMo
       ready={ready}
       onVerify={onVerify}
       onLearnMore={onLearnMore}
+      lastAuthenticated={lastAuthenticated}
+      walletAddress={walletAddress}
     />
   )
 }
 
 const IntroScreen = ({ styles, screenProps, navigation }) => {
-  const { fullName } = useProfile()
   const { showDialog } = useDialog()
 
-  const { account: externalAccount, isDelta, firstName, isFVFlow, isFVFlowReady } = useContext(FVFlowContext)
+  const { account: externalAccount, firstName } = useContext(FVFlowContext)
   const goodWallet = useWallet()
   const { account } = goodWallet ?? {}
   const [expiryDate, , state] = useIdentityExpiryDate(externalAccount || account)
   const isReverify = expiryDate?.lastAuthenticated?.isZero() === false
   const authPeriod = expiryDate?.authPeriod?.toNumber() || 360
+  const lastAuthenticated = expiryDate?.lastAuthenticated
 
-  const { goToRoot, navigateTo, push } = screenProps
+  const { push } = screenProps
   const fvRedirect = useFVRedirect()
   const { faceIdentifier: enrollmentIdentifier, v1FaceIdentifier: fvSigner } = useEnrollmentIdentifier()
-  const userName = useMemo(
-    () => (firstName ? (isFVFlow ? firstName : getFirstWord(fullName)) : ''),
-    [isFVFlow, firstName, fullName],
-  )
 
   const onDeny = useCallback(
     reason => {
-      return isFVFlow ? fvRedirect(false, reason) : goToRoot()
+      return fvRedirect(false, reason)
     },
-    [isFVFlow],
+    [fvRedirect],
   )
 
   const [disposing, checkDisposalState] = useDisposingState({
@@ -488,24 +413,22 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     onAllowed: openFaceVerification,
     onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
     onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
-    navigate: navigateTo,
+    navigate: screenProps.navigateTo,
   })
 
   const [, checkForCameraSupport] = useCameraSupport({
     checkOnMounted: false,
     onSupported: requestCameraPermissions,
     onUnsupported: () => {
-      requestCameraPermissions({ ignoreMountedState: true }) // we let the user try anyways. we add ignoreMOuntedState because when showing the unsupportedbrowser popup it unmounts
+      requestCameraPermissions({ ignoreMountedState: true })
     },
     unsupportedPopup: UnsupportedWebview,
-    onCheck: () => !isDelta || (!isWebView && (!isIOSWeb || iosSupportedWeb)),
+    onCheck: () => !isWebView && (!isIOSWeb || iosSupportedWeb),
   })
 
   const handleVerifyClick = useCallback(async () => {
     const isDeviceEmulated = await isEmulator
 
-    // if cypress is running - just redirect to FR as we're skipping
-    // zoom component (which requires camera access) in this case
     if (isDeviceEmulated) {
       openFaceVerification()
       return
@@ -514,18 +437,18 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     checkForCameraSupport()
   }, [checkForCameraSupport])
 
-  useFaceTecSDK({ initOnMounted: true }) // early initialize
+  useFaceTecSDK({ initOnMounted: true })
 
   useEffect(() => {
-    log.debug({ enrollmentIdentifier, userName, isFVFlow, isFVFlowReady })
+    log.debug({ enrollmentIdentifier, firstName })
 
     AsyncStorage.setItem('hasStartedFV', 'true')
 
-    if (enrollmentIdentifier && state !== 'pending' && (!isFVFlow || isFVFlowReady)) {
+    if (enrollmentIdentifier && state !== 'pending') {
       fireEvent(FV_INTRO, { reverify: isReverify })
       checkDisposalState()
     }
-  }, [enrollmentIdentifier, isFVFlow, isFVFlowReady, navigateTo, isReverify, state, checkDisposalState])
+  }, [enrollmentIdentifier, firstName, isReverify, state, checkDisposalState])
 
   useFVLoginInfoCheck(navigation)
 
@@ -537,47 +460,36 @@ const IntroScreen = ({ styles, screenProps, navigation }) => {
     )
   }
 
-  if (isFVFlow) {
-    return (
-      <IntroFVFlow
-        styles={styles}
-        firstName={userName}
-        isReverify={isReverify}
-        onLearnMore={openPrivacy}
-        onVerify={handleVerifyClick}
-        ready={false === disposing}
-        authPeriod={authPeriod}
-        walletAddress={externalAccount || account}
-      />
-    )
-  }
-
-  if (isReverify) {
-    return (
-      <IntroReVerification
-        styles={styles}
-        firstName={userName}
-        onLearnMore={openPrivacy}
-        onVerify={handleVerifyClick}
-        ready={false === disposing}
-      />
-    )
-  }
-
   return (
-    <Intro
+    <IntroFVFlow
       styles={styles}
-      firstName={userName}
+      firstName={firstName}
+      isReverify={isReverify}
       onLearnMore={openPrivacy}
       onVerify={handleVerifyClick}
-      onDeny={onDeny}
       ready={false === disposing}
       authPeriod={authPeriod}
+      walletAddress={externalAccount || account}
+      lastAuthenticated={lastAuthenticated}
     />
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  wrapper: {
+    paddingHorizontal: theme.sizes.defaultDouble,
+  },
+  title: {
+    paddingVertical: theme.sizes.default,
+  },
+  paddingVertical20: {
+    paddingVertical: 20,
+  },
+  textStyle: {
+    textAlign: 'left',
+    fontSize: 16,
+    lineHeight: 22,
+  },
   topContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -611,58 +523,9 @@ const getStylesFromProps = ({ theme }) => ({
       web: !isSmallDevice ? getDesignRelativeHeight(20) : 0,
     }),
   },
-  illustrationContainer: {
-    marginTop: getDesignRelativeHeight(20),
-
-    marginBottom: Platform.select({
-      web: !isMediumDevice ? getDesignRelativeHeight(31) : 0,
-    }),
-    alignItems: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    ...Platform.select({
-      web: {
-        width: !isMediumDevice ? 160 : 120,
-        height: !isMediumDevice ? 160 : 120,
-      },
-      default: {
-        width: 120,
-        height: 120,
-      },
-    }),
-  },
-  image: {
-    ...Platform.select({
-      web: { resizeMode: 'center', width: !isMediumDevice ? 160 : 120, height: !isMediumDevice ? 160 : 120 },
-      android: { resizeMode: 'contain', width: 120, height: 120 },
-    }),
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  descriptionContainer: {
-    paddingHorizontal: Platform.select({
-      web: !isSmallDevice ? getDesignRelativeHeight(theme.sizes.defaultHalf) : 0,
-    }),
-
-    paddingVertical: getDesignRelativeHeight(isMediumDevice ? 8 : 14),
-  },
-  descriptionUnderline: {
-    display: Platform.select({ web: 'block', default: 'flex' }),
-    paddingTop: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
-  },
   button: {
     width: '100%',
     marginTop: 20,
-  },
-  bottomSeparator: {
-    marginBottom: getDesignRelativeHeight(isSmallDevice ? theme.sizes.defaultDouble : 25),
-  },
-  learnMore: {
-    color: theme.colors.primary,
-    marginTop: getDesignRelativeHeight(isSmallDevice ? theme.sizes.defaultDouble : 20),
-  },
-  buttonContainer: {
-    marginTop: !isLargeDevice ? 50 : 0,
   },
   standaloneTitle: {
     marginTop: getDesignRelativeHeight(isBrowser ? 6 : 2),
@@ -746,9 +609,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   warningBottomText: {
     marginTop: 8,
-  },
-  reportLink: {
-    marginTop: 10,
   },
   standaloneConsentWrapper: {
     marginTop: 16,

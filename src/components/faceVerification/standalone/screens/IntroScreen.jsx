@@ -107,7 +107,7 @@ const IntroFVFlowOverview = ({ styles, ready, onNext, authPeriod, walletAddress 
               {t`Verify your unique identity.`}
             </Section.Title>
             <Section.Text
-              style={(styles.standaloneSubtitle, { textAlign: 'center', paddingTop: 8 })}
+              style={[styles.standaloneSubtitle, { textAlign: 'center', paddingTop: 8 }]}
               textAlign="left"
               fontSize={16}
               lineHeight={22}

@@ -33,7 +33,7 @@ exports[`FaceVerification IntroScreen (standalone) matches snapshot for new user
             Verify your unique identity.
           </div>
           <div
-            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-1j4bhhx r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-1j4bhhx r-lineHeight-qvk6io r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
             dir="auto"
             style={
               {

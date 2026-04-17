@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FaceVerification IntroScreen matches snapshot 1`] = `
+exports[`FaceVerification IntroScreen (standalone) matches snapshot for new user (isReverify === false) 1`] = `
 <div
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-87ditf r-overflowX-lltvgl r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-pm9dpa r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
     data-name="viewWrapper"
     style={
       {
@@ -14,45 +14,219 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1q142lx r-justifyContent-1777fci r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1q142lx r-justifyContent-1h0z5md r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
     >
       <div
-        className="css-view-1dbjc4n r-flexGrow-16y2uox r-justifyContent-1wtj0ep r-width-13qz1uu"
+        className="css-view-1dbjc4n r-flexGrow-16y2uox r-paddingHorizontal-1pn2ns4 r-width-13qz1uu"
       >
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-          dir="auto"
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginBottom-p1pxzi"
         >
-          
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406 r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+          <gdlogo.svg
+            height={52}
+            width={52}
+          />
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-zz5t5d r-fontWeight-b88u0q r-lineHeight-37tt59 r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            dir="auto"
           >
-            
-            Verify you are a real live person
-            
-
-          </span>
+            Verify your unique identity.
+          </div>
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-1j4bhhx r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            dir="auto"
+            style={
+              {
+                "paddingTop": "8px",
+              }
+            }
+          >
+            Identity verification confirms you're a unique person verified on GoodDollar and enables actions like
+          </div>
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            dir="auto"
+            style={
+              {
+                "fontWeight": "bold",
+              }
+            }
+          >
+            Claiming daily G$.
+          </div>
         </div>
         <div
-          className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-letterSpacing-1j4bhhx r-lineHeight-qvk6io r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
-          dir="auto"
+          className="css-view-1dbjc4n r-borderBottomColor-9yaewc r-borderBottomWidth-qklmqi r-marginTop-1mnahxq r-paddingBottom-1mdbw0j"
         >
-          Your image is only used to prevent the creation of duplicate accounts and will never be transferred to any third party
+          <div
+            className="css-view-1dbjc4n r-backgroundColor-1810zj7 r-borderColor-4ng6rq r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-1slz7xr"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-5oul0u"
+            >
+              <div
+                className="css-text-901oao r-fontWeight-1it3c9n r-marginRight-1kb76zh r-userSelect-lrvibr"
+                dir="auto"
+                style={
+                  {
+                    "color": "rgba(0,175,255,1.00)",
+                    "fontFamily": "gooddollar",
+                    "fontSize": "14px",
+                    "fontStyle": "normal",
+                  }
+                }
+              >
+                
+              </div>
+              <div
+                className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                WALLET LINKED
+              </div>
+            </div>
+            <div
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-quivpo r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              This wallet
+               (0x5dfF...E35F) 
+              will be linked to your verified identity.
+            </div>
+            <div
+              className="css-text-901oao r-color-1mtiv16 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-knv0ih r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              Valid until:
+               4/12/2027
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-backgroundColor-rni88n r-borderRadius-1dzdj1l r-flexDirection-18u37iz r-marginTop-1wzrnnt r-padding-xyw6el"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-9ehwb8 r-borderRadius-t23y2h r-height-h0d30l r-justifyContent-1777fci r-marginRight-zso239 r-marginTop-1bymd8e r-width-1iww7jx"
+            >
+              <div
+                className="css-text-901oao r-fontSize-1b43r93 r-fontWeight-1it3c9n r-userSelect-lrvibr"
+                dir="auto"
+                style={
+                  {
+                    "color": "rgba(0,195,174,1.00)",
+                    "fontFamily": "gooddollar",
+                    "fontStyle": "normal",
+                  }
+                }
+              >
+                
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-flex-13awgt0"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Privacy Protected
+              </div>
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-quivpo r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+                style={
+                  {
+                    "paddingTop": "8px",
+                  }
+                }
+              >
+                Your photo is used only to verify that you're a unique person. It is not used to identify you personally and is never public.
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-alignItems-1habvwh r-backgroundColor-rni88n r-borderRadius-1dzdj1l r-flexDirection-18u37iz r-marginTop-1wzrnnt r-padding-xyw6el"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1ezuwe6 r-borderRadius-t23y2h r-height-h0d30l r-justifyContent-1777fci r-marginRight-zso239 r-marginTop-1bymd8e r-width-1iww7jx"
+            >
+              <div
+                className="css-text-901oao r-color-1q5uqvh r-fontSize-1b43r93 r-fontWeight-1it3c9n r-userSelect-lrvibr"
+                dir="auto"
+                style={
+                  {
+                    "fontFamily": "gooddollar",
+                    "fontStyle": "normal",
+                  }
+                }
+              >
+                
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n r-flex-13awgt0"
+            >
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Periodic verification
+              </div>
+              <div
+                className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-quivpo r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+                style={
+                  {
+                    "paddingTop": "8px",
+                  }
+                }
+              >
+                Verification is required from time to time to maintain your verified status and prevent fraud.
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-backgroundColor-1al0hgb r-borderLeftColor-ehzoik r-borderLeftWidth-ms8t9i r-borderRadius-1q9bdsx r-marginTop-1wzrnnt r-padding-1slz7xr"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-5oul0u"
+            >
+              <div
+                className="css-text-901oao r-fontSize-1b43r93 r-fontWeight-1it3c9n r-marginRight-1kb76zh r-userSelect-lrvibr"
+                dir="auto"
+                style={
+                  {
+                    "color": "rgba(248,175,64,1.00)",
+                    "fontFamily": "gooddollar",
+                    "fontStyle": "normal",
+                  }
+                }
+              >
+                
+              </div>
+              <div
+                className="css-text-901oao r-color-1myaa16 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Don't lose your free daily money!
+              </div>
+            </div>
+            <div
+              className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-quivpo r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              Only complete this verification for yourself.
+If someone asks you to verify for them, ignore the request.
+            </div>
+            <div
+              className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-knv0ih r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              You can lose the money you receive from your daily G$ claim.
+            </div>
+          </div>
         </div>
         <div
-          className="css-text-901oao r-color-1q5uqvh r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-1ddef8g r-textTransform-3twk1y"
-          dir="auto"
-          onClick={[Function]}
-        >
-          Learn More
-        </div>
-        <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-marginBottom-p1pxzi r-marginTop-1mnahxq r-width-13qz1uu"
-        >
-          <FashionPhotoshoot.svg />
-        </div>
-        <div
-          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
+          className="css-view-1dbjc4n r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
           style={
             {
               "WebkitAlignItems": "stretch",
@@ -77,6 +251,7 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
               "borderTopWidth": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
+              "marginTop": "20px",
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
@@ -129,11 +304,473 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
                     className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
                     dir="auto"
                   >
-                    OK, VERIFY ME
+                    Get Started
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FaceVerification IntroScreen (standalone) matches snapshot for reverify user (isReverify === true) 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-maxHeight-pm9dpa r-overflowY-1rnoaur r-padding-edyy15 r-position-bnwqim r-width-13qz1uu"
+    data-name="viewWrapper"
+    style={
+      {
+        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-display-6koalj r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1q142lx r-justifyContent-1h0z5md r-marginBottom-p1pxzi r-paddingBottom-1mdbw0j r-paddingHorizontal-1e081e0 r-paddingLeft-gy4na3 r-paddingRight-9aemit r-paddingTop-wk8lta r-paddingVertical-1yzf0co"
+    >
+      <div
+        className="css-view-1dbjc4n r-flexGrow-16y2uox r-paddingHorizontal-1pn2ns4 r-width-13qz1uu"
+      >
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginBottom-p1pxzi"
+        >
+          <gdlogo.svg
+            height={52}
+            width={52}
+          />
+          <div
+            className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-1mnahxq r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            dir="auto"
+          >
+            
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406 r-color-5lpn66 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            >
+              
+              Quick identity check-in.
+              
+
+            </span>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-marginTop-1mnahxq r-paddingHorizontal-1e081e0 r-paddingVertical-1yzf0co"
+          >
+            <div
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-1it3c9n r-letterSpacing-1j4bhhx r-lineHeight-qvk6io r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              Every so often, it's necessary to double-check that you're still you.
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci r-marginBottom-p1pxzi r-marginTop-1mnahxq r-width-13qz1uu"
+        >
+          <div
+            className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+            style={
+              {
+                "height": "260px",
+                "width": "260px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+              style={
+                {
+                  "backgroundImage": "url(""billy-security.png"")",
+                }
+              }
+              suppressHydrationWarning={true}
+            />
+            <img
+              alt=""
+              className="css-accessibilityImage-9pa8cd"
+              draggable={false}
+              src=""billy-security.png""
+            />
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-borderBottomColor-9yaewc r-borderBottomWidth-qklmqi r-marginTop-1mnahxq r-paddingBottom-1mdbw0j"
+        >
+          <div
+            className="css-view-1dbjc4n r-backgroundColor-1810zj7 r-borderColor-4ng6rq r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-1slz7xr"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-5oul0u"
+            >
+              <div
+                className="css-text-901oao r-color-1q5uqvh r-fontSize-1b43r93 r-fontWeight-1it3c9n r-marginRight-1kb76zh r-userSelect-lrvibr"
+                dir="auto"
+                style={
+                  {
+                    "fontFamily": "gooddollar",
+                    "fontStyle": "normal",
+                  }
+                }
+              >
+                
+              </div>
+              <div
+                className="css-text-901oao r-color-1q5uqvh r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                WALLET LINKED
+              </div>
+            </div>
+            <div
+              className="css-text-901oao r-color-cddv6f r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-quivpo r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              This wallet
+               (0x5dfF...E35F) 
+              will be linked to your verified identity.
+            </div>
+            <div
+              className="css-text-901oao r-color-1mtiv16 r-fontFamily-vnw8o6 r-fontSize-1b43r93 r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-knv0ih r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              Last verified:
+               4/16/2026
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-backgroundColor-1al0hgb r-borderLeftColor-ehzoik r-borderLeftWidth-ms8t9i r-borderRadius-1q9bdsx r-marginTop-1wzrnnt r-padding-1slz7xr"
+          >
+            <div
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-5oul0u"
+            >
+              <div
+                className="css-text-901oao r-color-1myaa16 r-fontSize-1b43r93 r-fontWeight-1it3c9n r-marginRight-1kb76zh r-userSelect-lrvibr"
+                dir="auto"
+                style={
+                  {
+                    "fontFamily": "gooddollar",
+                    "fontStyle": "normal",
+                  }
+                }
+              >
+                
+              </div>
+              <div
+                className="css-text-901oao r-color-1myaa16 r-fontFamily-vnw8o6 r-fontSize-hiw28u r-fontWeight-b88u0q r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+                dir="auto"
+              >
+                Don't lose your free daily money!
+              </div>
+            </div>
+            <div
+              className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-quivpo r-lineHeight-qvk6io r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              Only complete this verification for yourself.
+If someone asks you to verify for them, ignore the request.
+            </div>
+            <div
+              className="css-text-901oao r-color-11zaip3 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-knv0ih r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              You can lose the money you receive from your daily G$ claim.
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n r-marginTop-1wzrnnt r-paddingTop-tskmnb"
+        >
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+          >
+            <div
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1472mwg r-marginRight-1kb76zh r-userSelect-lrvibr r-width-lrsllp"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-1awa8pu r-borderRadius-1jkafct r-borderStyle-1phboty r-borderWidth-d045u9 r-height-1pi2tsx r-justifyContent-1777fci r-width-13qz1uu"
+              />
+              <input
+                checked={false}
+                className="r-bottom-1p0dtai r-cursor-1ei5mc7 r-height-1pi2tsx r-left-1d2f490 r-margin-crgep1 r-opacity-orgf3d r-padding-t60dpp r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu"
+                onChange={[Function]}
+                type="checkbox"
+              />
+            </div>
+            <div
+              className="css-text-901oao r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-1j4bhhx r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              I am 18+ and I'm verifying my own identity.
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-height-1or9b2r"
+          />
+          <div
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+          >
+            <div
+              className="css-view-1dbjc4n r-cursor-1loqt21 r-height-1472mwg r-marginRight-1kb76zh r-userSelect-lrvibr r-width-lrsllp"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-1awa8pu r-borderRadius-1jkafct r-borderStyle-1phboty r-borderWidth-d045u9 r-height-1pi2tsx r-justifyContent-1777fci r-width-13qz1uu"
+              />
+              <input
+                checked={false}
+                className="r-bottom-1p0dtai r-cursor-1ei5mc7 r-height-1pi2tsx r-left-1d2f490 r-margin-crgep1 r-opacity-orgf3d r-padding-t60dpp r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu"
+                onChange={[Function]}
+                type="checkbox"
+              />
+            </div>
+            <div
+              className="css-text-901oao r-color-cddv6f r-flex-13awgt0 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-1it3c9n r-letterSpacing-1j4bhhx r-lineHeight-hbpseb r-textAlign-fdjqy7 r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+              dir="auto"
+            >
+              I understand this verification confirms I am a unique person verified on GoodDollar, and sharing my identity or wallet with others may result in a loss of funds.
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n r-borderStyle-1phboty r-display-6koalj r-justifyContent-1777fci r-marginBottom-p1pxzi r-padding-t60dpp r-paddingLeft-gy4na3 r-paddingRight-9aemit r-width-13qz1uu"
+            style={
+              {
+                "WebkitAlignItems": "stretch",
+                "WebkitBoxAlign": "stretch",
+                "alignItems": "stretch",
+                "backgroundColor": "rgba(23,53,102,0.40)",
+                "borderBottomColor": "rgba(0,175,255,1.00)",
+                "borderBottomLeftRadius": "50px",
+                "borderBottomRightRadius": "50px",
+                "borderBottomWidth": "0px",
+                "borderLeftColor": "rgba(0,175,255,1.00)",
+                "borderLeftWidth": "0px",
+                "borderRightColor": "rgba(0,175,255,1.00)",
+                "borderRightWidth": "0px",
+                "borderTopColor": "rgba(0,175,255,1.00)",
+                "borderTopLeftRadius": "50px",
+                "borderTopRightRadius": "50px",
+                "borderTopWidth": "0px",
+                "marginLeft": "0px",
+                "marginRight": "0px",
+                "marginTop": "20px",
+                "minHeight": "44px",
+                "minWidth": "64px",
+                "msFlexAlign": "stretch",
+              }
+            }
+          >
+            <div
+              aria-disabled={true}
+              className="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x r-position-bnwqim"
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              style={
+                {
+                  "WebkitAlignSelf": "stretch",
+                  "alignSelf": "stretch",
+                  "borderBottomLeftRadius": "50px",
+                  "borderBottomRightRadius": "50px",
+                  "borderTopLeftRadius": "50px",
+                  "borderTopRightRadius": "50px",
+                  "msFlexItemAlign": "stretch",
+                  "msGridRowAlign": "stretch",
+                }
+              }
+              tabIndex="-1"
+            >
+              <div
+                className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+                style={
+                  {
+                    "WebkitAlignSelf": "stretch",
+                    "alignSelf": "stretch",
+                    "msFlexItemAlign": "stretch",
+                    "msGridRowAlign": "stretch",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr"
+                >
+                  <div
+                    className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz"
+                  >
+                    <div
+                      className="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-justifyContent-1777fci r-marginRight-1kb76zh"
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          {
+                            "height": "23px",
+                            "opacity": 1,
+                            "width": "23px",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-justifyContent-1777fci r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+                        >
+                          <div
+                            className="css-view-1dbjc4n"
+                            style={
+                              {
+                                "WebkitTransform": "rotate(45deg)",
+                                "height": "23px",
+                                "transform": "rotate(45deg)",
+                                "width": "23px",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-overflow-1udh08x"
+                              style={
+                                {
+                                  "height": "11.5px",
+                                  "width": "23px",
+                                }
+                              }
+                            >
+                              <div
+                                className="css-view-1dbjc4n"
+                                style={
+                                  {
+                                    "WebkitTransform": "translateY(0px) rotate(-165deg)",
+                                    "height": "23px",
+                                    "transform": "translateY(0px) rotate(-165deg)",
+                                    "width": "23px",
+                                  }
+                                }
+                              >
+                                <div
+                                  className="css-view-1dbjc4n r-overflow-1udh08x"
+                                  style={
+                                    {
+                                      "height": "11.5px",
+                                      "width": "23px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    className="css-view-1dbjc4n"
+                                    style={
+                                      {
+                                        "borderBottomColor": "rgba(255,255,255,1.00)",
+                                        "borderBottomLeftRadius": "11.5px",
+                                        "borderBottomRightRadius": "11.5px",
+                                        "borderBottomWidth": "2.3px",
+                                        "borderLeftColor": "rgba(255,255,255,1.00)",
+                                        "borderLeftWidth": "2.3px",
+                                        "borderRightColor": "rgba(255,255,255,1.00)",
+                                        "borderRightWidth": "2.3px",
+                                        "borderTopColor": "rgba(255,255,255,1.00)",
+                                        "borderTopLeftRadius": "11.5px",
+                                        "borderTopRightRadius": "11.5px",
+                                        "borderTopWidth": "2.3px",
+                                        "height": "23px",
+                                        "width": "23px",
+                                      }
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-justifyContent-1777fci r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+                        >
+                          <div
+                            className="css-view-1dbjc4n"
+                            style={
+                              {
+                                "WebkitTransform": "rotate(45deg)",
+                                "height": "23px",
+                                "transform": "rotate(45deg)",
+                                "width": "23px",
+                              }
+                            }
+                          >
+                            <div
+                              className="css-view-1dbjc4n r-overflow-1udh08x"
+                              style={
+                                {
+                                  "height": "11.5px",
+                                  "top": "11.5px",
+                                  "width": "23px",
+                                }
+                              }
+                            >
+                              <div
+                                className="css-view-1dbjc4n"
+                                style={
+                                  {
+                                    "WebkitTransform": "translateY(-11.5px) rotate(345deg)",
+                                    "height": "23px",
+                                    "transform": "translateY(-11.5px) rotate(345deg)",
+                                    "width": "23px",
+                                  }
+                                }
+                              >
+                                <div
+                                  className="css-view-1dbjc4n r-overflow-1udh08x"
+                                  style={
+                                    {
+                                      "height": "11.5px",
+                                      "width": "23px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    className="css-view-1dbjc4n"
+                                    style={
+                                      {
+                                        "borderBottomColor": "rgba(255,255,255,1.00)",
+                                        "borderBottomLeftRadius": "11.5px",
+                                        "borderBottomRightRadius": "11.5px",
+                                        "borderBottomWidth": "2.3px",
+                                        "borderLeftColor": "rgba(255,255,255,1.00)",
+                                        "borderLeftWidth": "2.3px",
+                                        "borderRightColor": "rgba(255,255,255,1.00)",
+                                        "borderRightWidth": "2.3px",
+                                        "borderTopColor": "rgba(255,255,255,1.00)",
+                                        "borderTopLeftRadius": "11.5px",
+                                        "borderTopRightRadius": "11.5px",
+                                        "borderTopWidth": "2.3px",
+                                        "height": "23px",
+                                        "width": "23px",
+                                      }
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="css-text-901oao r-alignItems-1awozwy r-color-jwli3a r-display-6koalj r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-majxgm r-justifyContent-1777fci r-letterSpacing-oxtfae r-lineHeight-qvk6io r-minHeight-1ceczpf r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-tsynxw"
+                      dir="auto"
+                    >
+                      Verify Me
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-text-901oao r-color-1mtiv16 r-cursor-1loqt21 r-fontFamily-vnw8o6 r-fontSize-ubezar r-fontWeight-b88u0q r-lineHeight-qvk6io r-marginTop-1s2bzr4 r-textAlign-q4m81j r-textDecorationLine-13wfysu r-textTransform-3twk1y"
+            dir="auto"
+            onClick={[Function]}
+          >
+            How verification works
           </div>
         </div>
       </div>

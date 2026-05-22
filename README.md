@@ -1,4 +1,4 @@
-
+# cbowCryptex
 # GoodDollar DApp
 We use [<img valign="middle" src="/bugsnag_logo.svg?raw=true&sanitize=1" width="100px"/>](https://bugsnag.com)
 [<img valign="middle" src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg?raw=true&sanitize=1" width="100px"/>](https://vercel.com/?utm_source=gooddollar&utm_campaign=oss)
@@ -28,7 +28,6 @@ $ npm run web:local
 ```bash
 npx sentry-wizard -i reactNative -p ios android
 ```
-
 
 ## Testing
 

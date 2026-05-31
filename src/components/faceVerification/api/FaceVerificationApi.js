@@ -54,7 +54,9 @@ class FaceVerificationApi {
 
     try {
       let { createdAt = 0, sessionId } = (await AsyncStorage.getItem('facetecSessionToken')) || {}
-      if (createdAt <= Date.now() - 1000 * 60 * 60) {
+
+      // facetec tokens are valid for 30 minutes, but let's request a new one if the current is older than 15 minutes
+      if (createdAt <= Date.now() - 1000 * 60 * 15) {
         const issuerResponse = await this.wrapApiCall(rootApi.issueSessionToken())
         sessionId = get(issuerResponse, 'sessionToken')
 

@@ -64,19 +64,21 @@ const App = () => {
             autocapture={false}
           >
             {Config.isMaintenanceMode && (
-              <View style={{ flex: 1, backgroundColor: '#fff' }}>
+              <View style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
                 <Text>Offline for maintenance. Try again later.</Text>
               </View>
             )}
-            <GoodWeb3Provider {...props}>
-              <GlobalTogglesContextProvider>
-                <DialogContextProvider>
-                  <SimpleStoreDialog />
-                  <LoadingIndicator />
-                  <AppRouter />
-                </DialogContextProvider>
-              </GlobalTogglesContextProvider>
-            </GoodWeb3Provider>
+            {!Config.isMaintenanceMode && (
+              <GoodWeb3Provider {...props}>
+                <GlobalTogglesContextProvider>
+                  <DialogContextProvider>
+                    <SimpleStoreDialog />
+                    <LoadingIndicator />
+                    <AppRouter />
+                  </DialogContextProvider>
+                </GlobalTogglesContextProvider>
+              </GoodWeb3Provider>
+            )}
           </PostHogProvider>
         </Fragment>
       </AppWrapper>

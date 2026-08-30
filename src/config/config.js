@@ -250,7 +250,9 @@ const Config = {
   gasFeeNotionUrl: 'https://www.notion.so/gooddollar/Why-does-it-say-I-m-Out-of-Gas-d92e5e20b6144dfbb12979e266e72959',
   GoodIdFeatureBranch: env.REACT_APP_GOODID_FEATURE_BRANCH === 'true',
   feedContext: env.REACT_APP_FEEDCONTEXT_PROD,
-  showFVSurvey: env.REACT_APP_SHOW_FV_SURVEY ?? env.REACT_APP_BUILD_TARGET !== 'FV' // default false for FV flow
+  showFVSurvey: env.REACT_APP_SHOW_FV_SURVEY ?? env.REACT_APP_BUILD_TARGET !== 'FV', // default false for FV flow
+  isMaintenanceMode: env.REACT_APP_IS_MAINTENANCE_MODE === 'true',
+  
 }
 
 global.config = Config

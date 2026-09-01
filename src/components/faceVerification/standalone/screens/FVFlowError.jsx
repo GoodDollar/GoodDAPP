@@ -14,7 +14,7 @@ import { openLink } from '../../../../lib/utils/linking'
 
 import withStyles from '../theme/withStyles'
 
-const DOCS_URL = 'https://doc.gooddollar/sdk/identity'
+const DOCS_URL = 'https://docs.gooddollar.org/products-and-sdks/identity-sybil-resistance'
 const openDocs = () => openLink(DOCS_URL, '_blank')
 
 const FVFlowError = ({ styles }) => {

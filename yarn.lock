@@ -6825,7 +6825,7 @@ __metadata:
     jwt-decode: "npm:^3.1.2"
     lint-staged: "npm:^8.1.6"
     loadjs: "npm:^3.6.1"
-    lodash: "npm:^4.17.21"
+    lodash: "npm:^4.17.23"
     lottie-ios: "npm:^3.4.0"
     lottie-react-native: "npm:^5"
     lottie-web: "npm:^5.12.2"
@@ -34718,6 +34718,13 @@ __metadata:
   version: 4.17.3
   resolution: "lodash@npm:4.17.3"
   checksum: 10/ca7ef09a542130b980e25ee7e2e1244fe8fbcc1c0f7e2641e9e9fd4037cf04326398693aea5a42d6d9d6fc554ab8abb3a8f92b4a79455772c73fc6acf60c1d50
+  languageName: node
+  linkType: hard
+
+"lodash@npm:^4.17.23":
+  version: 4.17.23
+  resolution: "lodash@npm:4.17.23"
+  checksum: 10/82504c88250f58da7a5a4289f57a4f759c44946c005dd232821c7688b5fcfbf4a6268f6a6cdde4b792c91edd2f3b5398c1d2a0998274432cff76def48735e233
   languageName: node
   linkType: hard
 

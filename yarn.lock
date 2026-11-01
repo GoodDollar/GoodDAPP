@@ -6702,7 +6702,7 @@ __metadata:
     "@gooddollar/good-design": "npm:0.4.1-beta.04ed25b3"
     "@gooddollar/goodcontracts": "npm:^2.6.2"
     "@gooddollar/goodprotocol": "npm:^2.0.32"
-    "@gooddollar/react-native-facetec": "npm:^1.2.0"
+    "@gooddollar/react-native-facetec": "npm:^1.2.1"
     "@gooddollar/react-native-side-menu": "npm:^2.0.2"
     "@gooddollar/web3sdk-v2": "npm:0.4.1-beta.04ed25b3"
     "@hcaptcha/react-hcaptcha": "npm:^1.11.0"
@@ -6981,13 +6981,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gooddollar/react-native-facetec@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@gooddollar/react-native-facetec@npm:1.2.0"
+"@gooddollar/react-native-facetec@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@gooddollar/react-native-facetec@npm:1.2.1"
   peerDependencies:
     react: ^16.14.0
     react-native: ^0.61.5
-  checksum: 10/9ba03b43c5388acfa543be70c245fe1449f2d89a2ba5b4805d1b5d8de66adae5a6ff84a7fbd9fa91c68b7bea269b7563931f76499cd23ab32d7c4e6ac1656f6e
+  checksum: 10/a7a9fa5cd1c93a8e33d3fee1e744051343399988fe3d14ce6f8d1a706696a2597a767644c61810f717a1fbe89314dcc3994aa7f3c5ae974cac895bc41d951890
   languageName: node
   linkType: hard
 
